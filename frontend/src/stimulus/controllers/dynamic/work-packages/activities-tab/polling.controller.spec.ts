@@ -164,13 +164,16 @@ describe('Activities tab polling controller', () => {
     });
 
     it('keeps polling after an error without an HTTP status', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const networkError = new Error('network hiccup');
       await renderPolling();
-      request.mockRejectedValue(new Error('network hiccup'));
+      request.mockRejectedValue(networkError);
 
       resolveContext(pluginContext());
       await vi.advanceTimersByTimeAsync(20000);
 
       expect(request).toHaveBeenCalledTimes(2);
+      expect(consoleError).toHaveBeenCalledWith('Error updating activities list:', networkError);
     });
   });
 });

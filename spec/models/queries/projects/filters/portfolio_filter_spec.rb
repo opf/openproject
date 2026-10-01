@@ -97,7 +97,7 @@ RSpec.describe Queries::Projects::Filters::PortfolioFilter do
       end
     end
 
-    context "without EE", without_ee: %i[portfolio_management] do
+    context "without EE" do
       it "is false" do
         instance = described_class.create!(name: :portfolio, operator: "=", values: [])
 

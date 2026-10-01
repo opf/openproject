@@ -47,14 +47,13 @@
           end
         )
         modal_footer.with_component(
-          Primer::Beta::Button.new(
+          OpPrimer::SpinnerButtonComponent.new(
             scheme: :primary,
             tag: :a,
             hidden: true,
             data: { "admin--jira-projects-target": "spinnerButton" }
           )
-        ) do |spinner_button|
-          spinner_button.with_trailing_visual_icon(icon: :sync, animation: :rotate, style: "min-width: 2rem")
+        ) do
           I18n.t(:"admin.jira.run.wizard.select_projects.button_select")
         end
       end

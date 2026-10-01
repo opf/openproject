@@ -91,4 +91,27 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
       expect(days_input["hidden"]).to eq("hidden")
     end
   end
+
+  # `inDialog` reaches the angular picker as a JSON-encoded data attribute.
+  describe "dialog_id" do
+    context "when given" do
+      let(:dialog_id) { "my-dialog" }
+
+      it "attaches both pickers to the dialog so the calendar is not clipped by it" do
+        expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                              "data-in-dialog": '"my-dialog"',
+                                              visible: :all
+        expect(rendered_form).to have_element "opce-range-date-picker",
+                                              "data-in-dialog": '"my-dialog"',
+                                              visible: :all
+      end
+    end
+
+    context "when not given" do
+      it "leaves the pickers without a dialog target" do
+        expect(rendered_form).to have_element "opce-basic-single-date-picker", visible: :all
+        expect(rendered_form).to have_no_element "data-in-dialog": /.*/, visible: :all
+      end
+    end
+  end
 end

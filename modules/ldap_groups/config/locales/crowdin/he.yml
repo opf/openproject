@@ -23,12 +23,10 @@ he:
       ldap_groups/synchronized_filter:
         one: LDAP Group synchronization filter
         two: LDAP Group synchronization filters
-        many: LDAP Group synchronization filters
         other: LDAP Group synchronization filters
       ldap_groups/synchronized_group:
         one: Synchronized LDAP group
         two: Synchronized LDAP groups
-        many: Synchronized LDAP groups
         other: Synchronized LDAP groups
   ee:
     upsell:

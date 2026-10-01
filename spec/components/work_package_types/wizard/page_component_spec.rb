@@ -30,10 +30,11 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
 
-  let(:source) { create(:type, name: "Phase") }
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
 
   before { login_as(create(:admin)) }
@@ -61,15 +62,24 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
   end
 
   describe "sidebar step markers" do
-    it "marks the current and pending steps, and completed steps by reuse mode" do
-      link_configuration(type, source:, aspect: TypeVariant::DEFAULTS)
+    it "marks completed steps with a check, the current step as a draft, and pending steps as a circle" do
+      variant = create(:type_variant, type:)
 
-      render_inline(described_class.new(type:, current_step: :workflows))
+      render_inline(described_class.new(type:, current_step: :workflows, variant:))
 
-      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-pencil")
-      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-link")
-      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-dot-fill")
+      expect(find_test_selector("wizard-step-details")).to have_css(".octicon-check-circle-fill")
+      expect(find_test_selector("wizard-step-defaults")).to have_css(".octicon-check-circle-fill")
+      expect(find_test_selector("wizard-step-workflows")).to have_css(".octicon-issue-draft")
       expect(find_test_selector("wizard-step-pdf")).to have_css(".octicon-circle")
+    end
+
+    it "gives the intro Start step no status marker" do
+      variant = create(:type_variant, type:)
+
+      render_inline(described_class.new(type:, current_step: :workflows, variant:))
+
+      expect(find_test_selector("wizard-step-start"))
+        .to have_no_css(".octicon-check-circle-fill, .octicon-issue-draft, .octicon-circle")
     end
   end
 
@@ -87,7 +97,7 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
 
     context "when the type has been created" do
       it "points the close (X) and cancel actions to the type's edit page" do
-        edit_href = url_helpers.edit_type_details_path(type_id: type.id)
+        edit_href = url_helpers.type_settings_path(type_id: type.id)
 
         render_inline(described_class.new(type:, current_step: :defaults))
 
@@ -116,10 +126,9 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
     end
 
     context "when the wizard is reached from a project's settings" do
-      before do
-        vc_test_controller.instance_variable_set(:@project, project)
-        render_inline(described_class.new(type: trail_type, current_step: :details))
-      end
+      let(:variant_scope_project) { project }
+
+      before { render_inline(described_class.new(type: trail_type, current_step: :details)) }
 
       it "leads back through the project" do
         expect(page).to have_link("Apollo", href: project_overview_path(project.id))
@@ -130,8 +139,6 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component, with_f
         expect(page).to have_no_link("Administration")
       end
 
-      # types_path would resolve to an administration URL carrying the project as a query
-      # parameter, which is a dead link for the caller.
       it "cancels back to the project's own list of types" do
         expect(page).to have_css("a[href='#{project_settings_work_packages_types_path(project)}']")
       end

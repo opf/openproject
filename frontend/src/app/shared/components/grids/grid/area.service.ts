@@ -469,7 +469,7 @@ export class GridAreaService {
   }
 
   public get widgetResources() {
-    return (this.resource && this.resource.widgets) || [];
+    return this.resource?.widgets || [];
   }
 
   private rowWidgets(row:number) {

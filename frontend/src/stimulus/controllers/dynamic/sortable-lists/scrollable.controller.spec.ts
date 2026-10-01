@@ -31,7 +31,7 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type ScrollableControllerType from './scrollable.controller';
 import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
 }));
 
@@ -72,8 +72,13 @@ describe('Sortable lists scrollable controller', () => {
       busy: false,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
-      ownerListElementOf: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
+      freezeDragBatch: vi.fn(() => 1),
+      markDragBatch: vi.fn(),
+      dragPermittedDestinations: vi.fn(() => null),
+      ownerDestinationOf: vi.fn(() => null),
+      dragRefused: vi.fn(() => false),
+      externalDragItems: vi.fn((item:HTMLElement) => [item]),
     };
   }
 

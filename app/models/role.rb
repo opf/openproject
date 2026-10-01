@@ -29,6 +29,10 @@
 #++
 
 class Role < ApplicationRecord
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "role"
+
   # Built-in roles
   NON_BUILTIN = 0
   BUILTIN_NON_MEMBER = 1
@@ -61,9 +65,12 @@ class Role < ApplicationRecord
     end
   end
 
-  has_many :workflows, dependent: :delete_all do
+  has_many :workflow_status_transitions,
+           class_name: "Workflows::StatusTransition",
+           inverse_of: :role,
+           dependent: :delete_all do
     def copy_from_role(source_role)
-      Workflow.copy(nil, source_role, nil, proxy_association.owner)
+      Workflows::StatusTransition.copy(nil, source_role, nil, proxy_association.owner)
     end
   end
 
@@ -152,6 +159,10 @@ class Role < ApplicationRecord
     builtin != NON_BUILTIN
   end
 
+  def visible?
+    HIDDEN_ROLE_TYPES.exclude?(type)
+  end
+
   # Return true if the role is a project member role
   def member?
     !builtin?
@@ -176,7 +187,7 @@ class Role < ApplicationRecord
   end
 
   def deletable?
-    members.none? && !builtin?
+    !builtin?
   end
 
   private

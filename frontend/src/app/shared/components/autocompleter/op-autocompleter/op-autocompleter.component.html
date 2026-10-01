@@ -133,6 +133,17 @@
          />
       </ng-template>
     }
+
+    @if (notFoundTemplate) {
+      <ng-template
+        ng-notfound-tmp
+        let-search="searchTerm"
+      >
+        <ng-container [ngTemplateOutlet]="notFoundTemplate"
+          [ngTemplateOutletContext]="{ search:search }"
+         />
+      </ng-template>
+    }
   </ng-select>
 </div>
 

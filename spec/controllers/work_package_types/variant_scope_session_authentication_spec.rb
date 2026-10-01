@@ -35,8 +35,7 @@ require "spec_helper"
 # ApplicationController#user_setup fills in — so they resolve User.current whether or not
 # user_setup ran, and a controller authorizing ahead of it passes them while redirecting every
 # real signed-in administrator to the login page.
-RSpec.describe "Project-scoped variant screens for a session-authenticated user", # rubocop:disable RSpec/DescribeClass
-               with_flag: { type_variants: true } do
+RSpec.describe "Project-scoped variant screens for a session-authenticated user" do # rubocop:disable RSpec/DescribeClass
   shared_let(:project) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:ours) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
@@ -48,7 +47,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
 
   describe WorkPackageTypes::DetailsTabController do
     it "renders the tab rather than bouncing to the login page" do
-      get :edit, params: { in_project_id: project.identifier, type_id: type.id, variant_id: ours.id }
+      get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: ours.id }
 
       expect(response).to have_http_status(:ok)
     end
@@ -56,7 +55,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
     it "still hides a variant the project does not own" do
       theirs = create(:project_owned_type_variant, type:, project: create(:project))
 
-      get :edit, params: { in_project_id: project.identifier, type_id: type.id, variant_id: theirs.id }
+      get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: theirs.id }
 
       expect(response).to have_http_status(:not_found)
     end
@@ -65,7 +64,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
       before { session[:user_id] = create(:user, member_with_permissions: { project => %i[view_project] }).id }
 
       it "is refused rather than served" do
-        get :edit, params: { in_project_id: project.identifier, type_id: type.id, variant_id: ours.id }
+        get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: ours.id }
 
         expect(response).not_to have_http_status(:ok)
       end
@@ -74,7 +73,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
 
   describe WorkPackageTypes::CreationWizardController do
     it "opens the first step rather than bouncing to the login page" do
-      get :new, params: { in_project_id: project.identifier, type_id: type.id }
+      get :new, params: { project_id: project.identifier, type_id: type.id }
 
       expect(response).to have_http_status(:ok)
     end
@@ -82,7 +81,7 @@ RSpec.describe "Project-scoped variant screens for a session-authenticated user"
 
   describe WorkPackageTypes::PdfExportTemplateController do
     it "renders the tab, whose template lookup follows the variant" do
-      get :edit, params: { in_project_id: project.identifier, type_id: type.id, variant_id: ours.id }
+      get :edit, params: { project_id: project.identifier, type_id: type.id, variant_id: ours.id }
 
       expect(response).to have_http_status(:ok)
     end

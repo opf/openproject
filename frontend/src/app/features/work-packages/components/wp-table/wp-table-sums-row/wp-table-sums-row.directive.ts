@@ -42,6 +42,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpTableSumsRow]',
   host: {
     '[class.-hidden]': 'isHidden',
@@ -58,6 +59,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
   public isHidden = true;

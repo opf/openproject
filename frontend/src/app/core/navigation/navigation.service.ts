@@ -41,8 +41,11 @@ export class NavigationService {
 
   constructor() {
     if ('navigation' in window) {
-      window.navigation.addEventListener('navigate', (event:NavigateEvent) => {
-        this.handleURLChange(event.destination.url);
+      // `navigate` fires before the navigation commits (it exists so callers can
+      // intercept/defer it), so window.location isn't updated yet when it fires.
+      // `navigatesuccess` fires only once the navigation has actually committed.
+      window.navigation.addEventListener('navigatesuccess', () => {
+        this.handleURLChange(document.location.href);
       });
     } else {
       // Browser does not support navigation API, use a slower setInterval

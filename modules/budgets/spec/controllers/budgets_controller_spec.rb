@@ -185,6 +185,68 @@ RSpec.describe BudgetsController do
       end
     end
 
+    context "when the referenced principal is a placeholder user" do
+      let(:placeholder) { create(:placeholder_user, member_with_permissions: { project => [] }) }
+
+      context "with a rate in the project" do
+        let!(:hourly_rate) { create(:hourly_rate, principal: placeholder, project:, rate: 100.0, valid_from: Time.zone.today) }
+
+        it "calculates costs based on that rate" do
+          get :update_labor_budget_item,
+              format: :json,
+              params: { project_id: project.id, user_id: placeholder.id, hours: "2",
+                        fixed_date: Time.zone.today.to_s, element_id: }
+
+          expect(response.parsed_body["#{element_id}_cost_value"]).to eq("200.00")
+        end
+      end
+
+      context "with only a default rate" do
+        let!(:default_rate) { create(:default_hourly_rate, principal: placeholder, rate: 50.0, valid_from: Time.zone.today) }
+
+        it "falls back to the default rate" do
+          get :update_labor_budget_item,
+              format: :json,
+              params: { project_id: project.id, user_id: placeholder.id, hours: "2",
+                        fixed_date: Time.zone.today.to_s, element_id: }
+
+          expect(response.parsed_body["#{element_id}_cost_value"]).to eq("100.00")
+          expect(response.parsed_body["#{element_id}_cost_hint"]).to eq("")
+        end
+      end
+
+      context "with a rate that only takes effect after the budget's fixed date" do
+        let!(:default_rate) { create(:default_hourly_rate, principal: placeholder, rate: 50.0, valid_from: Time.zone.today) }
+        let(:fixed_date) { 1.week.ago.to_date }
+
+        it "says that no rate applies rather than only showing zero" do
+          get :update_labor_budget_item,
+              format: :json,
+              params: { project_id: project.id, user_id: placeholder.id, hours: "2",
+                        fixed_date: fixed_date.to_s, element_id: }
+
+          expect(response.parsed_body["#{element_id}_cost_value"]).to eq("0.00")
+          expect(response.parsed_body["#{element_id}_cost_hint"])
+            .to eq(I18n.t("budgets.labor_budget_items.no_rate_at_fixed_date",
+                          date: ApplicationController.helpers.format_date(fixed_date)))
+        end
+      end
+    end
+
+    context "when the referenced principal is a group" do
+      let(:group) { create(:group, member_with_permissions: { project => [] }) }
+
+      it "budgets it with zero and no missing rate hint" do
+        get :update_labor_budget_item,
+            format: :json,
+            params: { project_id: project.id, user_id: group.id, hours: "2",
+                      fixed_date: Time.zone.today.to_s, element_id: }
+
+        expect(response.parsed_body["#{element_id}_cost_value"]).to eq("0.00")
+        expect(response.parsed_body["#{element_id}_cost_hint"]).to eq("")
+      end
+    end
+
     context "when the referenced user is not a project member" do
       let!(:hourly_rate) { create(:hourly_rate, user: non_member, project:, rate: 100.0, valid_from: Time.zone.today) }
 

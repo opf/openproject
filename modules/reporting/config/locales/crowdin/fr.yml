@@ -22,8 +22,15 @@
 ---
 fr:
   activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Les lignes et les colonnes doivent, ensemble, couvrir exactement les critères de regroupement de la requête.
     models:
       cost_query:
+        one: Rapport de coûts
+        other: Rapports de coûts
+      cost_report:
         one: Rapport de coûts
         other: Rapports de coûts
   button_save_report_as: Enregistrer le rapport sous...

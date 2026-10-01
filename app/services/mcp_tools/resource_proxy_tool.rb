@@ -41,6 +41,7 @@ module McpTools
 
       def resource_annotations
         annotations read_only: true, idempotent: true, destructive: false
+        input_schema additionalProperties: false
       end
     end
 

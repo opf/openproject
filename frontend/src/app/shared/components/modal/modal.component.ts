@@ -72,7 +72,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
    * @returns {boolean}
    */
   public onClose():boolean {
-    this.afterFocusOn && this.afterFocusOn.focus();
+    this.afterFocusOn?.focus();
     return true;
   }
 

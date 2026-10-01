@@ -75,7 +75,7 @@ RSpec.describe "version create", :js do
       it "I can create a version with a custom field value including validation" do
         visit project_settings_versions_path(project)
 
-        click_on "Version"
+        page.find_test_selector("versions-create-button").click
 
         expect(page).to have_text("New version")
 

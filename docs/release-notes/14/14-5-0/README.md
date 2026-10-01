@@ -116,7 +116,7 @@ In this release, the dynamic bootstrapping of Angular components has been remove
 - Feature: Meetings: Disable by default &quot;Send out invitation emails upon creation&quot; \[[#56275](https://community.openproject.org/wp/56275)\]
 - Feature: Create 14.5 release teaser \[[#56535](https://community.openproject.org/wp/56535)\]
 - Feature: Make Project List and header view turbo aware \[[#56557](https://community.openproject.org/wp/56557)\]
-- Feature: Release custom field columns/filters in project lists to Community Edition \[[#56573](https://community.openproject.org/wp/56573)\]
+- Feature: Release custom field columns/filters in project lists to Community edition \[[#56573](https://community.openproject.org/wp/56573)\]
 - Feature: Include multiple 24px icons to our library \[[#56647](https://community.openproject.org/wp/56647)\]
 - Feature: Enlarge meeting history pop-up / reduce scrolling \[[#56814](https://community.openproject.org/wp/56814)\]
 - Feature: Move some actions in the Notification center into the SubHeader \[[#56864](https://community.openproject.org/wp/56864)\]

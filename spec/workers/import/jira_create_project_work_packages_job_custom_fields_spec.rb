@@ -256,7 +256,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   end
 
   describe "single-select list field (com.atlassian.jira.plugin.system.customfieldtypes:select)" do
-    # contextGroups populated as JiraFetchCustomFields would after editmeta.
+    # contextGroups as Import::JiraFetchCustomFieldJob persists them.
     let!(:jira_field) do
       create(:jira_field, jira_import:,
                           origin_id: "customfield_10264",
@@ -885,9 +885,10 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
   end
 
   describe "option lists whose allowed values are missing from the Jira field contexts" do
-    # editmeta only reports the options an issue's edit screen currently offers, so contextGroups
-    # can be absent altogether or lack options that issues still carry. The options actually used
-    # by the imported issues must be recovered so their values survive the import.
+    # contextGroups can be absent altogether or lack options that issues still carry: a field may
+    # match no context, its options may be disabled in Jira, and on Jira DC older than 9.3 they are
+    # read off an edit screen, which reports none for a field that sits on no screen. The options
+    # actually used by the imported issues must be recovered so their values survive the import.
     let!(:jira_issue) do
       create(:jira_issue, jira_import:,
                           origin_id: "10200",
@@ -1289,6 +1290,87 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       Import::JiraCreateCustomFieldsJob.perform_now(jira_import.id)
 
       expect { import_both_projects }.not_to change(WorkPackageCustomField, :count)
+    end
+
+    def op_project(jira_project)
+      Import::JiraOpenProjectReference.find_by!(jira_entity_class: "Import::JiraProject",
+                                                jira_entity_id: jira_project.id.to_s).op_leg
+    end
+
+    # The registry resolves a project's custom fields from the (project, issue type) pairs that
+    # carry a value, which has to stay the union over that project's issues.
+    def registry_with_job
+      Import::JiraCreateCustomFieldsJob.new.tap do |job|
+        job.instance_variable_set(:@jira_import, jira_import)
+        job.instance_variable_set(:@system_user, User.system)
+      end
+    end
+
+    def per_issue_union(job, registry, jira_project)
+      Import::JiraIssue
+        .where(jira_import:, jira_project_id: jira_project.id)
+        .flat_map { |jira_issue| job.send(:custom_fields_for_issue, registry, jira_issue) }
+        .uniq
+    end
+
+    it "resolves the same custom fields for a project as the union over its issues" do
+      job = registry_with_job
+      registry = job.send(:build_custom_field_registry)
+
+      expect(job.send(:custom_fields_for_project, registry, jira_project))
+        .to match_array(per_issue_union(job, registry, jira_project))
+      expect(job.send(:custom_fields_for_project, registry, second_jira_project))
+        .to match_array(per_issue_union(job, registry, second_jira_project))
+    end
+
+    context "when one project carries no value for the field" do
+      let!(:second_jira_issue) do
+        create(:jira_issue, jira_import:,
+                            origin_id: "10201",
+                            jira_project: second_jira_project,
+                            payload: issue_payload.deep_dup.tap do |payload|
+                              payload["id"] = "10201"
+                              payload["key"] = "SECOND-1"
+                              payload["fields"]["project"] = { "id" => "10013", "key" => "SECOND" }
+                              payload["fields"].delete("customfield_10264")
+                            end)
+      end
+
+      # The context applies to every project, so resolving by context alone would hand the field
+      # to a project whose issues never carry it.
+      it "resolves it only for the project whose issues use it" do
+        job = registry_with_job
+        registry = job.send(:build_custom_field_registry)
+
+        expect(job.send(:custom_fields_for_project, registry, jira_project)).to eq([WorkPackageCustomField.sole])
+        expect(job.send(:custom_fields_for_project, registry, second_jira_project)).to be_empty
+      end
+
+      it "matches the union over the issues of each project" do
+        job = registry_with_job
+        registry = job.send(:build_custom_field_registry)
+
+        expect(job.send(:custom_fields_for_project, registry, second_jira_project))
+          .to match_array(per_issue_union(job, registry, second_jira_project))
+      end
+    end
+
+    it "enables the custom field without reading the issues" do
+      Import::JiraFetchCustomFieldJob.new.tap do |job|
+        job.send(:prepare_jira_import_ivars, jira_import.id)
+        index = Import::JiraCustomField::IssueValueIndex.scan(jira_import)
+        Import::JiraCustomField::IssueValueIndex.serialize(index).each do |origin_id, issue_values|
+          Import::JiraField.where(jira_import:, origin_id:).update_all(issue_values:)
+        end
+      end
+      Import::JiraCreateCustomFieldsJob.perform_now(jira_import.id)
+      Import::JiraIssue.where(jira_import:).delete_all
+
+      import_both_projects
+
+      custom_field = WorkPackageCustomField.sole
+      expect(WorkPackage.count).to eq(0)
+      expect(op_project(jira_project).work_package_custom_fields).to include(custom_field)
     end
 
     context "with a hierarchy field", with_ee: [:custom_field_hierarchies] do

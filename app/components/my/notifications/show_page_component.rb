@@ -69,10 +69,6 @@ module My
       def project_setting_url(project_id)
         @project_setting_url_builder.call(project_id)
       end
-
-      def date_alerts_available?
-        EnterpriseToken.allows_to?(:date_alerts)
-      end
     end
   end
 end

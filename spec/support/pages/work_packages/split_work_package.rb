@@ -70,12 +70,10 @@ module Pages
     protected
 
     def path(tab = "overview")
-      state = "#{work_package.id}/#{tab}"
-
       if project
-        project_work_packages_path(project, "details/#{state}")
+        details_project_work_packages_path(project, work_package.id, tab)
       else
-        details_work_packages_path(state)
+        details_work_packages_path(work_package.id, tab)
       end
     end
 

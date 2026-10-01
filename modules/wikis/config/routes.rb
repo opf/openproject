@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
         resource :oauth_client, controller: "/wikis/admin/oauth_clients", only: %i[new create] do
           patch :update, on: :member
+          get :show_redirect_uri
+          post :finish_setup
         end
       end
     end

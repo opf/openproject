@@ -49,6 +49,16 @@ RSpec.describe "Help menu items", :js do
         expect(page).to have_link(I18n.t("homescreen.links.user_guides"))
       end
     end
+
+    context "on mobile" do
+      include_context "with mobile screen size"
+
+      it "shows the help button" do
+        visit home_path
+
+        expect(page).to have_test_selector("header-help-button")
+      end
+    end
   end
 
   context "when force_help_link is set" do

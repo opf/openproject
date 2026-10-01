@@ -43,7 +43,8 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
       activity_journal_projection_statement(:parent_id, "message_parent_id"),
       projection_statement(forums_table, :id, "forum_id"),
       projection_statement(forums_table, :name, "forum_name"),
-      projection_statement(forums_table, :project_id, "project_id")
+      projection_statement(forums_table, :project_id, "project_id"),
+      projection_statement(projects_table, :identifier, "project_identifier")
     ]
   end
 
@@ -62,15 +63,15 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_type(event)
-    event["parent_id"].blank? ? "message" : "reply"
+    event["message_parent_id"].blank? ? "message" : "reply"
   end
 
   def event_path(event)
-    url_helpers.project_forum_topic_path(*url_helper_parameter(event))
+    url_helpers.project_forum_topic_path(url_helper_parameter(event))
   end
 
   def event_url(event)
-    url_helpers.project_forum_topic_url(*url_helper_parameter(event))
+    url_helpers.project_forum_topic_url(url_helper_parameter(event))
   end
 
   private
@@ -80,19 +81,19 @@ class Activities::MessageActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    is_reply = event["parent_id"].present?
+    parent_id = event["message_parent_id"]
 
-    if is_reply
+    if parent_id.present?
       {
-        project_id: event["project_id"],
-        forum: event["forum_id"],
-        id: event["parent_id"],
+        project_id: event["project_identifier"],
+        forum_id: event["forum_id"],
+        id: parent_id,
         r: event["journable_id"],
         anchor: "message-#{event['journable_id']}"
       }
     else
       {
-        project_id: event["project_id"],
+        project_id: event["project_identifier"],
         forum_id: event["forum_id"],
         id: event["journable_id"]
       }

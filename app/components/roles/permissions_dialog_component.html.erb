@@ -1,0 +1,106 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Dialog.new(
+        id: dialog_id,
+        title: t("roles.permissions_dialog.title", name: role.name),
+        size: :large,
+        test_selector: TEST_SELECTOR
+      )
+    ) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% dialog.with_body(mb: 3) do %>
+    <% if grouped_permissions.empty? %>
+      <%= render(
+            Primer::Beta::Text.new(
+              tag: :p,
+              color: :subtle,
+              test_selector: "#{TEST_SELECTOR}-blankslate"
+            )
+          ) do %>
+        <%= t("roles.permissions_dialog.no_permissions") %>
+      <% end %>
+    <% end %>
+
+    <% grouped_permissions.each do |mod, permissions| %>
+      <%= render(
+            OpenProject::Common::BorderBoxListComponent.new(
+              container: module_list_id(mod),
+              collapsible: true,
+              header_padding: :condensed,
+              mb: 3,
+              test_selector: "#{TEST_SELECTOR}-module"
+            )
+          ) do |list| %>
+        <% list.with_header(
+             title: module_title(mod),
+             count: permissions.size,
+             count_label: t("roles.permissions_dialog.permission_count", count: permissions.size)
+           ) %>
+
+        <% permissions.each do |permission| %>
+          <% list.with_item do %>
+            <%= render(Primer::Beta::Text.new(tag: :div, font_weight: :semibold)) do %>
+              <%= permission_label(permission) %>
+              <% if implicit?(permission) %>
+                <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) do %>
+                  <%= t("roles.permissions_dialog.implicit_permission") %>
+                <% end %>
+              <% end %>
+            <% end %>
+
+            <% if permission_description(permission) %>
+              <%= render(Primer::Beta::Text.new(tag: :div, color: :subtle, font_size: :small)) do %>
+                <%= permission_description(permission) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% dialog.with_footer(show_divider: true) do %>
+    <% if editable? %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: edit_role_path(role),
+              test_selector: "#{TEST_SELECTOR}-edit"
+            )
+          ) do %>
+        <%= t("roles.permissions_dialog.edit_permissions") %>
+      <% end %>
+    <% end %>
+
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_close) } %>
+  <% end %>
+<% end %>

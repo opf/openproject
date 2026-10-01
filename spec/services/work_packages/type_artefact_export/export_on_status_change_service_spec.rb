@@ -228,7 +228,7 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
-    context "when the project resolves the type to a variant", with_flag: { type_variants: true } do
+    context "when the project resolves the type to a variant" do
       shared_let(:variant) { create(:type_variant, type:, variant_name: "Signed deliverable") }
 
       shared_let(:variant_project) do

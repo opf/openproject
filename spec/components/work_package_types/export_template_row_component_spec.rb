@@ -33,6 +33,8 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
   let(:template) do

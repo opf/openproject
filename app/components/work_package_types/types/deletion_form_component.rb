@@ -62,7 +62,7 @@ module WorkPackageTypes
       end
 
       def dialog_id
-        DeletionDialogComponent::DIALOG_ID
+        VariantDeletionDialogComponent::DIALOG_ID
       end
     end
   end

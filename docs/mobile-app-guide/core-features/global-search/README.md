@@ -19,7 +19,7 @@ Work is ongoing to also make **meetings** available through global search.
 
 ![View of the supported search criteria in the app](global_search-search_supported.png)
 
-### What you can do
+## What you can do
 
 With global search you can:
 

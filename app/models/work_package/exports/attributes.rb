@@ -30,16 +30,17 @@
 
 module WorkPackage::Exports
   module Attributes
-    def allowed_to_view_project_phases?(project)
-      User.current.allowed_in_project?(:view_project_phases, project) && project.phases.active.any?
+    mattr_accessor :attribute_visibility_checks, default: {}
+
+    def self.add_attribute_visibility_check(*attribute_names, &check)
+      attribute_names.each { |name| attribute_visibility_checks[name.to_sym] = check }
     end
 
     def allowed_to_view_attribute?(obj, attribute_name)
-      if attribute_name.to_sym == :project_phase && obj.is_a?(WorkPackage)
-        allowed_to_view_project_phases?(obj.project)
-      else
-        true
-      end
+      return true unless obj.is_a?(WorkPackage)
+
+      check = attribute_visibility_checks[attribute_name.to_sym]
+      check.nil? || check.call(obj)
     end
   end
 end

@@ -194,6 +194,23 @@ RSpec.describe "Meetings", "Index", :js do
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
         end
 
+        context 'and the "Meeting status" filter' do
+          before do
+            yesterdays_meeting.update!(state: :closed)
+            meeting.update!(state: :in_progress)
+          end
+
+          it "narrows the past meetings down to the selected statuses" do
+            meetings_page.open_filters
+            meetings_page.set_filter("state", "Meeting status", "is (OR)", ["In progress", "Closed"])
+
+            wait_for_network_idle
+
+            meetings_page.expect_meetings_listed(meeting, yesterdays_meeting)
+            meetings_page.expect_meetings_not_listed(ongoing_meeting)
+          end
+        end
+
         it "keeps the past filter selected when changing advanced filters (Regression #61875)" do
           meetings_page.set_sidebar_filter "My meetings"
           meetings_page.set_quick_filter upcoming: false
@@ -254,23 +271,6 @@ RSpec.describe "Meetings", "Index", :js do
             yesterdays_meeting
           )
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
-        end
-      end
-
-      context "when the time filter is removed via the all filters form" do
-        before do
-          meetings_page.set_quick_filter upcoming: true
-        end
-
-        it "re-applies the upcoming quick filter automatically" do
-          meetings_page.expect_quick_filter_selected "Upcoming"
-
-          meetings_page.open_filters
-          meetings_page.remove_filter "time"
-
-          wait_for_network_idle
-
-          meetings_page.expect_quick_filter_selected "Upcoming"
         end
       end
 
@@ -459,6 +459,45 @@ RSpec.describe "Meetings", "Index", :js do
     it 'does not show the "Project" quick filter' do
       meetings_page.visit!
       expect(page).to have_no_button I18n.t(:label_project), exact: true
+    end
+
+    context 'with the "Title" filter' do
+      shared_let(:ux_meeting) do
+        create(:meeting,
+               :author_participates,
+               project:,
+               title: "UX Design Daily",
+               start_time: business_day_at_noon + 4.hours)
+      end
+      shared_let(:series) do
+        create(:recurring_meeting,
+               project:,
+               title: "UX Research Sync",
+               start_time: business_day_at_noon + 5.hours)
+      end
+      shared_let(:occurrence) do
+        create(:recurring_meeting_occurrence,
+               recurring_meeting: series,
+               title: "Renamed occurrence",
+               start_time: business_day_at_noon + 5.hours)
+      end
+
+      before do
+        meetings_page.visit!
+        meetings_page.set_sidebar_filter "All meetings"
+      end
+
+      it "matches the meeting title as well as the title of the meeting series" do
+        meetings_page.set_title_filter "ux"
+
+        meetings_page.expect_meetings_listed(ux_meeting, occurrence)
+        meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+
+        meetings_page.set_title_filter "research"
+
+        meetings_page.expect_meetings_listed(occurrence)
+        meetings_page.expect_meetings_not_listed(ux_meeting)
+      end
     end
 
     include_examples "sidebar filtering", context: :project

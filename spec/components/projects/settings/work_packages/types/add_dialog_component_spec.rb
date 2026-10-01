@@ -31,8 +31,7 @@
 require "rails_helper"
 
 RSpec.describe Projects::Settings::WorkPackages::Types::AddDialogComponent,
-               type: :component,
-               with_flag: { type_variants: true } do
+               type: :component do
   shared_let(:epic) { create(:type, name: "Epic") }
   shared_let(:design) { create(:type_variant, type: epic, variant_name: "Design") }
   shared_let(:bug) { create(:type, name: "Bug") }

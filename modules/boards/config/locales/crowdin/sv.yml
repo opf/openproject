@@ -3,8 +3,8 @@ sv:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Tavla
+        other: Tavlor
   boards:
     board_type_attributes:
       assignee: Tilldelad till

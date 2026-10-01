@@ -74,6 +74,7 @@ function newSegment(vp:TimelineViewParameters,
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>',
   standalone: false,
@@ -82,6 +83,7 @@ function newSegment(vp:TimelineViewParameters,
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
   elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

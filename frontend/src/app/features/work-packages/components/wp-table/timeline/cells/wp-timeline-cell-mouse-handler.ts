@@ -111,6 +111,7 @@ export function registerWorkPackageMouseHandler(this:void,
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels);
 
     bodyTarget.on('mousemove.timelinecell', createMouseMoveFn(direction));
+    bodyTarget.on('keydown.timelinecell', consumeEscape);
     bodyTarget.on('keyup.timelinecell', keyPressFn);
     bodyTarget.on('mouseup.timelinecell', () => deactivate(direction, false));
   }
@@ -123,6 +124,14 @@ export function registerWorkPackageMouseHandler(this:void,
 
       applyRendererMoveChanges(dayUnderCursor, days, direction);
     };
+  }
+
+  // Cancellation happens on keyup; the keydown half would otherwise clear
+  // the row selection first.
+  function consumeEscape(kev:KeyboardEvent) {
+    if (kev.key === 'Escape') {
+      kev.preventDefault();
+    }
   }
 
   function keyPressFn(kev:KeyboardEvent) {
@@ -189,6 +198,7 @@ export function registerWorkPackageMouseHandler(this:void,
         deactivate(direction, false);
       };
 
+      bodyTarget.on('keydown.timelinecell', consumeEscape);
       bodyTarget.on('keyup.timelinecell', keyPressFn);
     };
   }

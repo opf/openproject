@@ -32,9 +32,54 @@ require "spec_helper"
 
 RSpec.describe "types routes" do
   it do
-    expect(post("/types/move/123")).to route_to(controller: "work_package_types/types",
-                                                action: "move",
-                                                id: "123")
+    expect(put("/types/123/move")).to route_to(controller: "work_package_types/types",
+                                               action: "move",
+                                               id: "123")
+  end
+
+  describe "form configuration groups (mounted on the form page)" do
+    let(:key) { "b) > 10.000 / 20.000 Nutzende" }
+    let(:query) { Rack::Utils.build_query(key:) }
+
+    it "carries the group key as a query param rather than a path segment" do
+      expect(delete("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#destroy", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(patch("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#update", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(get("/forms/42/group/edit?#{query}"))
+        .to route_to("form_configurations/groups#edit", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(put("/forms/42/group/move?#{query}&move_to=higher"))
+        .to route_to("form_configurations/groups#move", form_configuration_id: "42", key:, move_to: "higher")
+    end
+
+    it do
+      expect(patch("/forms/42/group/update_query?#{query}"))
+        .to route_to("form_configurations/groups#update_query", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(put("/forms/42/group/drop?#{query}"))
+        .to route_to("form_configurations/groups#drop", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(post("/forms/42/group/cancel_edit?#{query}"))
+        .to route_to("form_configurations/groups#cancel_edit", form_configuration_id: "42", key:)
+    end
+
+    it do
+      expect(post("/forms/42/group/add_group"))
+        .to route_to("form_configurations/groups#add_group", form_configuration_id: "42")
+    end
   end
 
   describe "workflow tab (mounted on the type edit page)" do
@@ -73,11 +118,6 @@ RSpec.describe "types routes" do
     it do
       expect(get("/types/42/workflow/copy/new"))
         .to route_to("workflows/copies#new", type_id: "42")
-    end
-
-    it do
-      expect(post("/types/42/workflow/copy/from_variant"))
-        .to route_to("workflows/copies/from_variants#create", type_id: "42")
     end
 
     it do

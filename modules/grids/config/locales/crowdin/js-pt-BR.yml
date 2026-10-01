@@ -35,13 +35,13 @@ pt-BR:
         project_timeline:
           accessible_date_range: "%{start} até %{end}"
           accessible_gate: 'Marco de fase %{name}: %{date}'
-          accessible_milestone: 'Milestone %{name}: %{date}'
+          accessible_milestone: 'Marco %{name}: %{date}'
           accessible_phase: 'Fase %{name}: %{date}'
           accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
           sprint_status:
-            active: Active
-            completed: Completed
-            in_planning: In planning
+            active: Ativo
+            completed: Concluído
+            in_planning: Em planejamento
           tooltip_type_gate: Controle de fase
           tooltip_type_milestone: Marco
           tooltip_type_phase: Fase

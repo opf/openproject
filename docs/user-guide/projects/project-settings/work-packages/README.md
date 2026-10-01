@@ -77,7 +77,7 @@ Here, you can:
 - Manage an existing custom field by clicking on its name.
 - Enable or disable the custom field for the project. If a custom field is globally enabled in the system administration, it will appear automatically in all projects.
 
-- View which work package types the custom field is already enabled for. Custom fields will only be active for the work package types displayed under **Contained in type** column. You can add a custom field to additional work package types by [adding them to the respective work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on).
+- View which work package types the custom field is already enabled for. Custom fields will only be active for the work package types displayed under **Contained in type** column. You can add a custom field to additional work package types by [adding them to the respective work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/form-configuration).
 
 **Create a new work package custom field** by clicking the **+ Custom field** button in the top right corner.
 

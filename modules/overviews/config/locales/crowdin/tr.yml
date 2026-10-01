@@ -3,8 +3,8 @@ tr:
   activerecord:
     models:
       grids/overview:
-        one: Overview
-        other: Overviews
+        one: Genel Bakış
+        other: Genel Bakış
   overviews:
     label_dashboard: Gösterge paneli
     label_home: "%{workspace_type} ev"

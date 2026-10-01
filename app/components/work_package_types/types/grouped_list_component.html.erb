@@ -27,10 +27,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: { controller: "generic-drag-and-drop" }) do %>
-  <%= flex_layout(data: drop_target_config) do |container| %>
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <%= flex_layout(
+        role: :list,
+        aria: { label: t(:label_type_plural) },
+        data: list_data
+      ) do |container| %>
     <% types.each do |root| %>
-      <% container.with_row(mt: 3, data: draggable_item_config(root)) do %>
+      <% container.with_row(
+           id: "sortable-type-#{root.id}",
+           role: :listitem,
+           mt: 3,
+           data: item_data(root)
+         ) do %>
         <%= render(
               OpenProject::Common::BorderBoxListComponent.new(
                 container: "op-types-group-#{root.id}",
@@ -41,11 +50,12 @@ See COPYRIGHT and LICENSE files for more details.
           <% list.with_header(
                collapsed: collapsed?(root),
                show_drag_handle: reorderable?(root),
+               drag_handle_arguments: { data: { sortable_lists__item_target: "handle" } },
                count: variants_count(root)
              ) do |header| %>
             <% header.with_title do %>
               <%= render(Primer::Beta::Text.new(tag: :span, pl: 1)) { helpers.icon_for_type(root) } %>
-              <%= render(Primer::Beta::Text.new(tag: :a, href: edit_type_details_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
+              <%= render(Primer::Beta::Text.new(tag: :a, href: type_settings_path(type_id: root.id), color: :accent, font_weight: :bold)) { root.name } %>
             <% end %>
             <% add_default_label(header, root) %>
             <% header.with_menu(menu_id: menu_id(root), src: menu_src(root)) %>
@@ -97,6 +107,8 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   <% end %>
+  <%= helpers.pagination_links_full(
+        types,
+        params: { controller: "/work_package_types/types", action: "index", id: nil, **context_args }
+      ) %>
 <% end %>
-
-<%= helpers.pagination_links_full(types) %>

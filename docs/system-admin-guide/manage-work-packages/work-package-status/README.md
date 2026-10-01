@@ -18,7 +18,7 @@ The status field can be configured under _Administration ->_ _Work packages_ -> 
 
 ![Work package status overview in OpenProject administration](openproject_system_guide_create_wp_status_overview.png)
 
-To learn about the options for configuring the transition from one status to another navigate to [Manage work package workflows](../work-package-workflows).
+To learn about the options for configuring the transition from one status to another navigate to [Manage work package workflows](../work-package-types/workflows).
 
 ## Create a new work package status
 
@@ -66,4 +66,4 @@ When you decide to set the new status as default status please note the followin
 ![Edit work package status in OpenProject administration](openproject_system_guide_edit_new_wp_status.png)
 
 > [!NOTE]
-> A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.
+> A new status needs to be activated in the [work package workflows](../work-package-types/workflows) in order to appear in the status drop down of a work package.

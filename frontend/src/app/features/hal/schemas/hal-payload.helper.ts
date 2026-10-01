@@ -79,7 +79,7 @@ export class HalPayloadHelper {
     }
 
     nonLinkProperties.forEach((property) => {
-      if (resource.hasOwnProperty(property) || resource[property]) {
+      if (Object.hasOwn(resource, property) || resource[property]) {
         if (Array.isArray(resource[property])) {
           payload[property] = (resource[property] as HalResource[]).map((element) => {
             if (element instanceof HalResource) {

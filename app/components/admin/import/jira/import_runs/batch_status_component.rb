@@ -31,48 +31,20 @@
 module Admin::Import::Jira::ImportRuns
   class BatchStatusComponent < Primer::Component
     include OpPrimer::ComponentHelpers
+    include Admin::Import::Jira::ImportRunsHelper
+
+    JOB_PRIORITY_FOR_IN_PROGRESS_STAGE = Hash.new(999).merge(running: 0, discarded: 1)
 
     STAGES = [
-      {
-        number: 1,
-        title: "Fetch Jira configuration",
-        icon: :gear
-      },
-      {
-        number: 2,
-        title: "Fetch project issues",
-        icon: :project
-      },
-      {
-        number: 3,
-        title: "Fetch users and custom fields",
-        icon: :people
-      },
-      {
-        number: 4,
-        title: "Create users, groups and memberships",
-        icon: :"person-add"
-      },
-      {
-        number: 5,
-        title: "Create jira member project role",
-        icon: :tools
-      },
-      {
-        number: 6,
-        title: "Create projects",
-        icon: :"op-include-projects"
-      },
-      {
-        number: 7,
-        title: "Create work packages",
-        icon: :"op-work-packages"
-      },
-      {
-        number: 8,
-        title: "Download attachments",
-        icon: :paperclip
-      }
+      { number: 1, icon: :gear },
+      { number: 2, icon: :project },
+      { number: 3, icon: :people },
+      { number: 4, icon: :"person-add" },
+      { number: 5, icon: :tools },
+      { number: 6, icon: :"op-include-projects" },
+      { number: 7, icon: :versions },
+      { number: 8, icon: :"op-work-packages" },
+      { number: 9, icon: :paperclip }
     ].freeze
 
     def initialize(batch:)
@@ -80,7 +52,7 @@ module Admin::Import::Jira::ImportRuns
       @batch = batch
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def call
       return if @batch.blank?
 
@@ -89,16 +61,24 @@ module Admin::Import::Jira::ImportRuns
         STAGES.each do |stage|
           stage_jobs = batch_jobs[Array("stage_#{stage[:number]}")] || []
           stage_jobs_count = stage_jobs.count
+          job_count_by_status = stage_jobs.each_with_object(Hash.new(0)) do |job, hash|
+            hash[job.status] += 1
+          end
+          stage_in_progress = job_count_by_status[:running] > 0 || job_count_by_status[:queued] > 0
+          stage_discarded = job_count_by_status[:discarded] > 0 && job_count_by_status[:running] == 0
+          stage_succeeded = job_count_by_status.keys == [:succeeded] && job_count_by_status[:succeeded] > 0
           flex.with_row do
             render(Primer::Beta::BorderBox.new) do |box|
               box.with_header(display: :flex, align_items: :center, justify_content: :space_between) do
                 concat(render(Primer::Box.new(display: :flex, align_items: :center, style: "gap: 8px;")) do
                   concat(render(Primer::Beta::Counter.new(count: stage[:number])))
                   concat(render(Primer::Beta::Octicon.new(icon: stage[:icon], color: :muted)))
-                  concat(render(Primer::Beta::Text.new(font_weight: :bold)) { stage[:title] })
+                  concat(render(Primer::Beta::Text.new(font_weight: :bold)) do
+                    I18n.t(:"admin.jira.run.wizard.stages.#{stage[:number]}.title")
+                  end)
                   if stage_jobs_count > 0
                     concat(render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do
-                      "#{stage_jobs_count} jobs"
+                      I18n.t(:"admin.jira.run.wizard.parts.jobs", count: stage_jobs_count)
                     end)
                   end
                 end)
@@ -107,89 +87,109 @@ module Admin::Import::Jira::ImportRuns
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
                       bar.with_item(percentage: 0)
                     end)
-
-                  elsif stage_jobs.all? { |j| j.status == :succeeded }
+                  elsif stage_succeeded
                     concat(render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)))
-                    concat(render(Primer::Beta::Text.new(color: :success)) { "Completed" })
+                    concat(render(Primer::Beta::Text.new(color: :success)) do
+                      I18n.t(:"admin.jira.run.wizard.stage_succeeded_label")
+                    end)
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
                       bar.with_item(percentage: 100)
                     end)
-                  elsif stage_jobs.any? { |j| j.status == :discarded }
-                    concat(render(Primer::Beta::Octicon.new(icon: :"x-circle-fill", color: :danger)))
-                    concat(render(Primer::Beta::Text.new(color: :muted, mr: 3)) { "Error" })
-                    concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
-                      bar.with_item(bg: :danger_emphasis, percentage: 50)
-                    end)
-                  else
+                  elsif stage_in_progress
                     concat(render(Primer::Beta::Spinner.new(size: :small, style: "margin-bottom: -2px; margin-right: 5px")))
-                    concat(render(Primer::Beta::Text.new(color: :muted, mr: 3)) { "In progress" })
+                    concat(render(Primer::Beta::Text.new(color: :muted)) do
+                      "#{I18n.t(:"admin.jira.run.wizard.stage_in_progress_label")}: " \
+                        "#{job_count_by_status[:succeeded]}/#{stage_jobs_count}"
+                    end)
                     concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
-                      bar.with_item(percentage: 50)
+                      bar.with_item(percentage: job_count_by_status[:succeeded] * 100 / stage_jobs_count)
+                    end)
+                  elsif stage_discarded
+                    concat(render(Primer::Beta::Octicon.new(**job_status_icon(:discarded))))
+                    concat(render(Primer::Beta::Text.new(color: :muted)) do
+                      "#{I18n.t(:"admin.jira.run.wizard.stage_discarded_label")}: " \
+                        "#{job_count_by_status[:succeeded]}/#{stage_jobs_count}"
+                    end)
+                    concat(render(Primer::Beta::ProgressBar.new(size: :default, style: "min-width: 300px;")) do |bar|
+                      bar.with_item(bg: :danger_emphasis, percentage: job_count_by_status[:succeeded] * 100 / stage_jobs_count)
                     end)
                   end
                 end)
               end
-              stage_jobs.each do |job|
-                box.with_row do
-                  render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
-                end
-                if job.status == :discarded
+              if stage_discarded
+                stage_jobs.find_all { |job| job.status == :discarded }.each do |job|
+                  box.with_row do
+                    render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
+                  end
                   box.with_row(style: "background-color: #FFEBE9;") do
                     flex_layout(style: "gap: 16px;") do |flex|
                       flex.with_row do
-                        concat(render(Primer::Beta::Text.new(color: :danger, font_weight: :bold)) { "Error: " })
-                        concat(render(Primer::Beta::Text.new) { job.error.to_s })
-                      end
-
-                      full_backtrace = job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)
-                      if full_backtrace.present?
-                        app_backtrace = Rails.backtrace_cleaner.clean(full_backtrace)
-                        flex.with_row(style: "background-color: #F6F8FA;", p: 3, border: true, border_radius: 2) do
-                          render(Primer::Alpha::UnderlinePanels.new(label: "Test navigation")) do |component|
-                            component.with_tab(selected: true, id: "tab-1") do |tab|
-                              tab.with_text { "Application Trace" }
-                              tab.with_panel(p: 3) do
-                                flex_layout(style: "gap: 16px;") do |flex|
-                                  flex.with_row do
-                                    app_backtrace.each_with_index do |item, index|
-                                      concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
-                                        render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
-                                          render(Primer::Beta::Text.new) { item }
-                                      end)
+                        render(Primer::OpenProject::CollapsibleSection.new(collapsed: true)) do |section|
+                          section.with_title(font_size: :small) do
+                            concat(render(Primer::Beta::Text.new(color: :danger, font_weight: :bold)) do
+                              "#{I18n.t(:"admin.jira.run.wizard.stage_job_error")}: "
+                            end)
+                            concat(render(Primer::Beta::Text.new) { job.error.to_s })
+                          end
+                          section.with_collapsible_content do
+                            full_backtrace = job.executions.order(created_at: :desc).limit(1).pick(:error_backtrace)
+                            full_backtrace_html_id_prefix = "job-#{job.id}-full-trace"
+                            if full_backtrace.present?
+                              app_backtrace = Rails.backtrace_cleaner.clean(full_backtrace)
+                              app_backtrace_html_id_prefix = "job-#{job.id}-application-trace"
+                              render(Primer::Beta::BorderBox.new(style: "background-color: #F6F8FA;", p: 3, border: true,
+                                                                 border_radius: 2)) do |box|
+                                box.with_row do
+                                  # TODO: set label to useful for screen readers text.
+                                  render(Primer::Alpha::UnderlinePanels.new(label: "")) do |component|
+                                    component.with_tab(selected: true, id: "#{app_backtrace_html_id_prefix}-tab") do |tab|
+                                      tab.with_text { I18n.t(:"admin.jira.run.wizard.application_trace") }
+                                      tab.with_panel(p: 3) do
+                                        flex_layout(style: "gap: 16px;") do |flex|
+                                          flex.with_row do
+                                            app_backtrace.each_with_index do |item, index|
+                                              concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
+                                                render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
+                                                  render(Primer::Beta::Text.new) { item }
+                                              end)
+                                            end
+                                          end
+                                          flex.with_row do
+                                            render(
+                                              Primer::Beta::ClipboardCopyButton.new(
+                                                id: "#{app_backtrace_html_id_prefix}-copy-button",
+                                                aria: { label: I18n.t(:"admin.jira.run.wizard.copy_application_trace") },
+                                                value: [job.error.to_s, *app_backtrace].join("\n")
+                                              )
+                                            )
+                                          end
+                                        end
+                                      end
                                     end
-                                  end
-                                  flex.with_row do
-                                    render(
-                                      Primer::Beta::ClipboardCopyButton.new(
-                                        id: "clipboard-button1231231",
-                                        aria: { label: "Copy backtrace" },
-                                        value: app_backtrace.join("\n")
-                                      )
-                                    )
-                                  end
-                                end
-                              end
-                            end
-                            component.with_tab(selected: false, id: "tab-2") do |tab|
-                              tab.with_text { "Full Trace" }
-                              tab.with_panel do
-                                flex_layout(style: "gap: 16px;") do |flex|
-                                  flex.with_row do
-                                    full_backtrace.each_with_index do |item, index|
-                                      concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
-                                        render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
-                                          render(Primer::Beta::Text.new) { item }
-                                      end)
+                                    component.with_tab(selected: false, id: "#{full_backtrace_html_id_prefix}-tab") do |tab|
+                                      tab.with_text { I18n.t(:"admin.jira.run.wizard.full_trace") }
+                                      tab.with_panel(p: 3) do
+                                        flex_layout(style: "gap: 16px;") do |flex|
+                                          flex.with_row do
+                                            full_backtrace.each_with_index do |item, index|
+                                              concat(render(Primer::Box.new(display: :flex, style: "gap: 8px;")) do
+                                                render(Primer::Beta::Text.new(font_weight: :semibold)) { "#{index + 1}. " } +
+                                                  render(Primer::Beta::Text.new) { item }
+                                              end)
+                                            end
+                                          end
+                                          flex.with_row do
+                                            render(
+                                              Primer::Beta::ClipboardCopyButton.new(
+                                                id: "#{full_backtrace_html_id_prefix}-copy-button",
+                                                aria: { label: I18n.t(:"admin.jira.run.wizard.copy_full_trace") },
+                                                value: [job.error.to_s, *full_backtrace].join("\n")
+                                              )
+                                            )
+                                          end
+                                        end
+                                      end
                                     end
-                                  end
-                                  flex.with_row do
-                                    render(
-                                      Primer::Beta::ClipboardCopyButton.new(
-                                        id: "clipboard-button1231231",
-                                        aria: { label: "Copy backtrace" },
-                                        value: full_backtrace.join("\n")
-                                      )
-                                    )
                                   end
                                 end
                               end
@@ -201,11 +201,32 @@ module Admin::Import::Jira::ImportRuns
                   end
                 end
               end
+              if stage_in_progress
+                sorted_stage_jobs = stage_jobs.sort_by { |job| JOB_PRIORITY_FOR_IN_PROGRESS_STAGE[job.status] }
+                sorted_stage_jobs.first(4).each do |job|
+                  box.with_row do
+                    render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job:))
+                  end
+                end
+                if stage_jobs_count > 4
+                  if stage_jobs_count == 5
+                    box.with_row do
+                      render(Admin::Import::Jira::ImportRuns::JobStatusComponent.new(job: sorted_stage_jobs[4]))
+                    end
+                  else
+                    box.with_row do
+                      render(Primer::Beta::Text.new(color: :muted)) do
+                        I18n.t(:"admin.jira.run.wizard.stages.#{stage[:number]}.rest_line_text",
+                               projects_number: stage_jobs_count - 4)
+                      end
+                    end
+                  end
+                end
+              end
             end
           end
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

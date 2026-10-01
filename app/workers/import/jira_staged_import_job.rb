@@ -30,35 +30,17 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    class FinishCallbackJob < ApplicationJob
-      def perform(batch, context)
-        jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
-
-        case context[:event]
-        when :finish
-          if jira_import.in_state?(:import_aborting)
-            jira_import.transition_to!(:import_error)
-          end
-        end
-      end
-    end
-
-    class DiscardCallbackJob < ApplicationJob
-      def perform(batch, context)
-        jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
-        case context[:event]
-        when :discard
-          jira_import.transition_to!(:import_error) unless jira_import.in_state?(:import_aborting, :import_error)
-        end
-      end
-    end
-
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    def perform(batch, context)
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
+    def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
 
-      case context[:event]
-      when :success
+      if batch.succeeded?
+        # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
+        if jira_import.in_state?(:import_aborting)
+          jira_import.transition_to!(:import_error)
+          return
+        end
+
         if batch.properties[:stage].nil?
           batch.enqueue(stage: 1) do
             Import::JiraFetchIssueTypesJob.set(good_job_labels: ["stage_1"]).perform_later(jira_import.id)
@@ -71,6 +53,7 @@ module Import
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).pluck(:id).each do |id|
               Import::JiraFetchProjectIssuesJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
+              Import::JiraFetchProjectVersionsJob.set(good_job_labels: ["stage_2"]).perform_later(jira_import.id, id)
             end
           end
         elsif batch.properties[:stage] == 2
@@ -98,23 +81,33 @@ module Import
           batch.enqueue(stage: 7) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_7"])
-                                                      .perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectVersionsJob
+                .set(good_job_labels: ["stage_7"])
+                .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 7
           batch.enqueue(stage: 8) do
             Import::JiraProject.where(jira_import_id: jira_import.id,
                                       origin_id: jira_import.project_ids).find_each do |jira_project|
-              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_8"])
-                                                                .perform_later(jira_import.id, jira_project.id)
+              Import::JiraCreateProjectWorkPackagesJob.set(good_job_labels: ["stage_8"])
+                .perform_later(jira_import.id, jira_project.id)
             end
           end
         elsif batch.properties[:stage] == 8
+          batch.enqueue(stage: 9) do
+            Import::JiraProject.where(jira_import_id: jira_import.id,
+                                      origin_id: jira_import.project_ids).find_each do |jira_project|
+              Import::JiraCreateProjectWorkPackageAttachmentsJob.set(good_job_labels: ["stage_9"])
+                .perform_later(jira_import.id, jira_project.id)
+            end
+          end
+        elsif batch.properties[:stage] == 9
           jira_import.transition_to!(:imported)
         end
+      elsif batch.discarded?
+        jira_import.transition_to!(:import_error)
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
   end
 end

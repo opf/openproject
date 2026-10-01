@@ -2,17 +2,19 @@
 fa:
   activerecord:
     attributes:
+      placeholder_user:
+        user_filter: معیارهای فیلتر
       resource_allocation:
         allocated_hours: ساعت‌ها
         allocated_time: زمان تخصیص‌یافته
         date_range: تاریخ‌ها
         end_date: تاریخ پایان
         entity: موجودیت
-        filter_name: نام فیلتر منبع
+        placeholder_or_user: مسئول
+        placeholder_user: کاربر فرضی
         principal: مسئول انجام
         start_date: تاریخ شروع
         state: حالت
-        user_filter: فیلتر کاربر
       resource_planner:
         date_range: تاریخ‌ها
         default_view_class_name: نمای پیش‌فرض
@@ -21,12 +23,17 @@ fa:
         name: نام
         public: عمومی
         start_date: تاریخ شروع
+      work_package:
+        allocated_principals: منابع تخصیص‌یافته
+        allocated_time: تخصیص‌یافته
     errors:
       models:
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: باید بعد از تاریخ شروع باشد.
+            principal:
+              not_a_member: عضو پروژه بسته کاری نیست.
         resource_planner:
           attributes:
             end_date:
@@ -57,6 +64,9 @@ fa:
       resource_work_package_timeline:
         one: خط زمانی بسته‌های کاری
         other: خطوط زمانی بسته‌های کاری
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: پنهان — کاربر تخصیص‌یافته به‌دلیل نداشتن مجوزهای لازم قابل مشاهده نیست.
   button_next: بعدی
   ee:
     features:
@@ -70,8 +80,12 @@ fa:
   permission_allocate_user_resources_explanation: به کاربران اجازه می‌دهد تخصیص منابع را در برنامه‌ریز منابع ایجاد، به‌روزرسانی و حذف کنند. این شامل تخصیص کاربران یا فیلتر کاربران و تنظیم زمان و بازهٔ تاریخ تخصیص است.
   permission_assign_users_to_generic_allocations: اختصاص کاربران به تخصیص‌های عمومی
   permission_assign_users_to_generic_allocations_explanation: به کاربران اجازه می‌دهد در نمای Staffing کاربران واقعی را به تخصیص‌های عمومی منابع (مبتنی بر فیلتر) که هنوز کاربر ندارند اختصاص دهند. اجازهٔ ایجاد یا ویرایش تخصیص‌ها را نمی‌دهد.
+  permission_manage_public_global_resource_planners: مدیریت برنامه‌ریزهای عمومی و سراسری منابع
+  permission_manage_public_global_resource_planners_explanation: به کاربران اجازه می‌دهد برنامه‌ریزهای سراسری منابع خود را منتشر کنند و برنامه‌ریزهای سراسری منابعی را که کاربران دیگر به‌صورت عمومی به اشتراک گذاشته‌اند مدیریت کنند. این مجوز اجازه مشاهده برنامه‌ریزهای سراسری منابعی را که به‌صورت عمومی به اشتراک گذاشته نشده‌اند نمی‌دهد.
   permission_manage_public_resource_planners: مدیریت برنامه‌ریزهای منابع عمومی
   permission_manage_public_resource_planners_explanation: به کاربران اجازه می‌دهد برنامه‌ریز منابع عمومی ایجاد و مدیریت کنند؛ شامل مشاهده، ایجاد، مدیریت و انتشار برنامه‌ریزهای خودشان. اجازهٔ مشاهدهٔ برنامه‌ریزهای خصوصی سایر کاربران را نمی‌دهد.
+  permission_view_global_resource_planners: مشاهده برنامه‌ریزهای سراسری منابع
+  permission_view_global_resource_planners_explanation: به کاربران اجازه می‌دهد به بخش برنامه‌ریز سراسری منابع دسترسی داشته باشند؛ جایی که منابع و تخصیص‌ها از چند پروژه می‌توانند با هم برنامه‌ریزی شوند. همچنین امکان ایجاد و مدیریت برنامه‌ریزهای سراسری منابع خود و مشاهده موارد عمومی را فراهم می‌کند. کاربران فقط پروژه‌ها، منابع و تخصیص‌هایی را می‌بینند که مجاز به مشاهده آن‌ها هستند.
   permission_view_resource_planners: مشاهدهٔ برنامه‌ریزهای منابع
   permission_view_resource_planners_explanation: به کاربران اجازهٔ دسترسی به برنامه‌ریز منابع را می‌دهد. آن‌ها می‌توانند برنامه‌ریز خود را ایجاد و مدیریت و برنامه‌ریزهای عمومی را مشاهده کنند، اما برنامه‌ریزهای خصوصی سایر کاربران را نمی‌بینند.
   plugin_openproject_resource_management:
@@ -87,14 +101,12 @@ fa:
       make_public: عمومی‌کردن
       unfavorite: حذف از موارد دلخواه
     allocate_resource_dialog:
-      kind:
-        filter:
-          caption: برای ایجاد یک منبع جایگزین، معیارهای فیلتر را بر اساس ویژگی‌های کاربر تعیین کنید.
-          label: معیارهای فیلتر
-        label: نوع تخصیص
-        principal:
-          caption: ساعت‌ها را برای یک کاربر مشخص تخصیص دهید.
-          label: کاربر
+      criteria:
+        empty: هیچ معیاری تعیین نشده است.
+        label: معیارها
+      missing_working_hours:
+        none: کاربر انتخاب‌شده برای این تاریخ‌ها هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین فاقد ظرفیت در نظر گرفته می‌شود.
+        partial: کاربر انتخاب‌شده برای %{dates} هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین آن روزها فاقد ظرفیت در نظر گرفته می‌شوند.
       outside_dates:
         description: تاریخ‌های انتخاب‌شدهٔ منبع، %{resource_dates}، خارج از بازهٔ تاریخ‌های بستهٔ کاری، %{work_package_dates}، هستند.
       overbooking:
@@ -128,6 +140,7 @@ fa:
       title: اختصاص %{filter_name}
     blankslate:
       desc: برای شروع برنامه‌ریزی ظرفیت این پروژه، یک برنامه‌ریز منابع ایجاد کنید.
+      global_desc: برای شروع برنامه‌ریزی ظرفیت در چند پروژه، یک برنامه‌ریز منابع ایجاد کنید.
       title: هنوز برنامه‌ریز منابعی وجود ندارد
     configure_view_dialog:
       delete_confirmation: آیا مطمئنید می‌خواهید این نما را حذف کنید؟ این عمل قابل بازگشت نیست.
@@ -140,11 +153,17 @@ fa:
           caption: فهرستی سفارشی از مواردی که به‌صورت دستی اضافه و حذف می‌کنید. امکان فیلترکردن وجود ندارد.
           label: انتخاب دستی
       title: پیکربندی نما
+    create_placeholder_user_dialog:
+      submit: ایجاد
+      title: ایجاد کاربر فرضی
     edit_allocation_dialog:
       submit: ذخیره
       success_message: تخصیص منبع به‌روزرسانی شد.
       title: ویرایش تخصیص
     favorite_caption: این نما را به موارد دلخواه اضافه کنید تا در بخش بالایی منوی کناری نمایش داده شود.
+    filters:
+      resource_management_enabled: مدیریت منابع فعال است
+    global_public_caption: این نما را برای همه افرادی که اجازه مشاهده برنامه‌ریزهای سراسری منابع را دارند عمومی کنید. این کار بر قابل‌مشاهده‌بودن بسته‌های کاری اثر نمی‌گذارد؛ آن همچنان به مجوزهای هر کاربر بستگی دارد.
     label_edit_resource_planner: ویرایش برنامه‌ریز منابع
     label_new_resource_planner: برنامه‌ریز منابع جدید
     label_resource_planner: برنامه‌ریز منابع
@@ -189,13 +208,16 @@ fa:
         add: افزودن
         allocate: تخصیص
         settings: پیکربندی نما
+      undisclosed:
+        tooltip: شما مجوز مشاهده این منبع تخصیص‌یافته را ندارید
+        work_package: بسته کاری برای شما قابل مشاهده نیست
     user_allocations_dialog:
       allocate_work_package: تخصیص بستهٔ کاری
       blank: هیچ بستهٔ کاری‌ای به این کاربر تخصیص داده نشده است.
-      other_work_packages:
-        one: ۱ بستهٔ کاری دیگر
-        other: "%{count} بستهٔ کاری دیگر"
+      blank_in_timeframe: این کاربر در بازه زمانی انتخاب‌شده هیچ بسته کاری تخصیص‌یافته‌ای ندارد.
+      hidden_work_package: بسته کاری برای شما قابل مشاهده نیست
       title: میزان استفاده
+      total_time: در مجموع %{hours}
     user_card_list:
       add_user_dialog:
         title: افزودن کاربر

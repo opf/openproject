@@ -45,10 +45,12 @@ export class CurrentProjectService {
   }
 
   public get inProjectContext():boolean {
+    this.detect();
     return this.currentId !== null;
   }
 
   public get path():string|null {
+    this.detect();
     if (this.currentIdentifier) {
       return this.PathHelper.projectPath(this.currentIdentifier);
     }
@@ -57,6 +59,7 @@ export class CurrentProjectService {
   }
 
   public get apiv3Path():string|null {
+    this.detect();
     if (this.currentId) {
       return this.apiV3Service.projects.id(this.currentId).toString();
     }
@@ -65,19 +68,28 @@ export class CurrentProjectService {
   }
 
   public get id():string|null {
+    this.detect();
     return this.currentId;
   }
 
   public get name():string|null {
+    this.detect();
     return this.currentName;
   }
 
   public get identifier():string|null {
+    this.detect();
     return this.currentIdentifier;
   }
 
   /**
    * Detect the current project from its meta tag.
+   *
+   * Called by every getter, not just the turbo:render/turbo:load listener in
+   * app.module.ts: a custom element's connectedCallback (and thus an Angular
+   * component's ngOnInit) can run synchronously during Turbo's DOM swap, before
+   * turbo:render/turbo:load are dispatched - reading the cached fields directly
+   * there would return the previous page's project.
    */
   public detect() {
     const element = getMetaElement('current_project');

@@ -28,13 +28,18 @@
 
 import {
   captureRowPositions,
+  isOrderableItem,
+  itemAcceptsDestination,
+  itemMobility,
   reorderRows,
+  sortableItemMobilityAttribute,
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
   resolveListAppendPreviousItemId,
   resolveItemPosition,
   resolveItemLabel,
   resolveItemType,
+  resolveItemElement,
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
@@ -84,7 +89,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'), showMoreRow(), itemRow('2'), itemRow('3'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '3', rowsContainer: list })).toEqual('2');
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['3']) }, rowsContainer: list })).toEqual('2');
     });
 
     it('returns null when the list has no other items', () => {
@@ -92,7 +97,7 @@ describe('sortable lists DOM helpers', () => {
 
       list.append(itemRow('1'));
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: '1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, rowsContainer: list })).toBeNull();
     });
 
     it('returns null for an empty list nested inside an outer item, not the outer item\'s id', () => {
@@ -108,7 +113,42 @@ describe('sortable lists DOM helpers', () => {
       list.append(placeholder);
       outerItem.append(list);
 
-      expect(resolveListAppendPreviousItemId({ sourceItemId: 'field-1', rowsContainer: list })).toBeNull();
+      expect(resolveListAppendPreviousItemId({ excludedItems: { type: 'work_package', ids: new Set(['field-1']) }, rowsContainer: list })).toBeNull();
+    });
+
+    it('appends after the last row not in the excluded set', () => {
+      // rows: A, B, C — excluded {B, C} → append lands after A.
+      const rowsContainer = listElement();
+
+      rowsContainer.append(itemRow('A'), itemRow('B'), itemRow('C'));
+
+      expect(resolveListAppendPreviousItemId({
+        excludedItems: { type: 'work_package', ids: new Set(['B', 'C']) },
+        rowsContainer,
+      })).toBe('A');
+    });
+  });
+
+  describe('resolveItemElement', () => {
+    it('does not descend into a nested list for a wrapper row', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const nested = listElement();
+      nested.append(itemRow('9'));
+      wrapper.append(nested);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBeNull();
+    });
+
+    it('resolves the item a row wraps directly', () => {
+      const list = listElement();
+      const wrapper = document.createElement('li');
+      const item = itemRow('1');
+      wrapper.append(item);
+      list.append(wrapper);
+
+      expect(resolveItemElement(wrapper, list)).toBe(item);
     });
   });
 
@@ -269,6 +309,69 @@ describe('sortable lists DOM helpers', () => {
     });
   });
 
+  describe('aria-rowindex upkeep', () => {
+    afterEach(() => {
+      document.body.replaceChildren();
+    });
+
+    function indexedRow(id:string, rowindex:number):HTMLDivElement {
+      const row = divItemRow(id);
+      row.setAttribute('role', 'row');
+      row.setAttribute('aria-rowindex', String(rowindex));
+      return row;
+    }
+
+    function rowIndices(rowsContainer:HTMLElement):(string|null)[] {
+      return Array.from(rowsContainer.children).map((row) => row.getAttribute('aria-rowindex'));
+    }
+
+    it('renumbers aria-rowindex in DOM order after a reorder, keeping the page offset', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b, c] = [indexedRow('a', 5), indexedRow('b', 6), indexedRow('c', 7)];
+
+      rowsContainer.append(a, b, c);
+      reorderRows({ rows: [c], rowsContainer, previousItemId: null });
+
+      expect(itemIdOrder(rowsContainer)).toEqual(['c', 'a', 'b']);
+      expect(rowIndices(rowsContainer)).toEqual(['5', '6', '7']);
+    });
+
+    it('leaves rows without aria-rowindex untouched', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      reorderRows({ rows: [three], rowsContainer: list, previousItemId: null });
+
+      expect(rowIndices(list)).toEqual([null, null, null]);
+    });
+
+    it('skips rows that carry no index, such as truncation markers', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b] = [indexedRow('a', 2), indexedRow('b', 3)];
+      const marker = showMoreRow();
+
+      rowsContainer.append(a, b, marker);
+      reorderRows({ rows: [b], rowsContainer, previousItemId: null });
+
+      expect(rowIndices(rowsContainer)).toEqual(['2', '3', null]);
+    });
+
+    it('renumbers after a rollback restores the original order, keeping the page offset', () => {
+      const rowsContainer = document.createElement('div');
+      const [a, b, c] = [indexedRow('a', 5), indexedRow('b', 6), indexedRow('c', 7)];
+
+      rowsContainer.append(a, b, c);
+      document.body.append(rowsContainer);
+      const rollback = captureRowPositions([c]);
+      reorderRows({ rows: [c], rowsContainer, previousItemId: null });
+      restoreRowPositions(rollback);
+
+      expect(itemIdOrder(rowsContainer)).toEqual(['a', 'b', 'c']);
+      expect(rowIndices(rowsContainer)).toEqual(['5', '6', '7']);
+    });
+  });
+
   describe('rowsRemainAt', () => {
     afterEach(() => {
       document.body.replaceChildren();
@@ -355,6 +458,63 @@ describe('sortable lists DOM helpers', () => {
 
       expect(rowsRemainAt(optimistic)).toBe(false);
     });
+  });
+});
+
+describe('itemMobility', () => {
+  function itemWith(mobility?:string):HTMLElement {
+    const item = document.createElement('li');
+    item.setAttribute('data-sortable-lists--item-id-value', '1');
+
+    if (mobility !== undefined) {
+      item.setAttribute(sortableItemMobilityAttribute, mobility);
+    }
+
+    return item;
+  }
+
+  it('defaults a missing attribute to free', () => {
+    expect(itemMobility(itemWith())).toBe('free');
+  });
+
+  it.each(['fixed', 'confined', 'free'])('reads the recognised value %s', (value) => {
+    expect(itemMobility(itemWith(value))).toBe(value);
+  });
+
+  // A typo must not hand the user a draggable, selectable card that only
+  // fails once the request comes back.
+  it('falls back to fixed for an unrecognised value', () => {
+    expect(itemMobility(itemWith('movable'))).toBe('fixed');
+  });
+
+  it('treats an empty attribute as unrecognised', () => {
+    expect(itemMobility(itemWith(''))).toBe('fixed');
+  });
+
+  it('derives orderable from the union', () => {
+    expect(isOrderableItem(itemWith('free'))).toBe(true);
+    expect(isOrderableItem(itemWith('confined'))).toBe(true);
+    expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+  });
+});
+
+describe('itemAcceptsDestination', () => {
+  const sprint1 = { type: 'sprint', id: '1' };
+  const sprint2 = { type: 'sprint', id: '2' };
+
+  function item(mobility:'fixed'|'confined'|'free' = 'free'):HTMLElement {
+    const element = document.createElement('li');
+    element.setAttribute(sortableItemMobilityAttribute, mobility);
+    return element;
+  }
+
+  it('answers for one item which destinations it accepts', () => {
+    const ownerDestinationOf = () => sprint1;
+
+    expect(itemAcceptsDestination(item(), sprint2, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('fixed'), sprint1, ownerDestinationOf)).toBe(false);
+    expect(itemAcceptsDestination(item('confined'), sprint1, ownerDestinationOf)).toBe(true);
+    expect(itemAcceptsDestination(item('confined'), sprint2, ownerDestinationOf)).toBe(false);
   });
 });
 

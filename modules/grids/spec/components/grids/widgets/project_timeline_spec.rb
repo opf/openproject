@@ -240,7 +240,10 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
   describe "#sprints_data" do
     let!(:sprint) { create(:sprint, project:, start_date: Time.zone.today, finish_date: Time.zone.today + 14.days) }
 
-    subject(:data) { JSON.parse(component.sprints_data) }
+    subject(:data) do
+      render_inline(component)
+      JSON.parse(component.sprints_data)
+    end
 
     context "without view_sprints permission" do
       it { expect(data).to eq([]) }
@@ -265,7 +268,8 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
           "startDate" => sprint.start_date.iso8601,
           "endDate" => sprint.finish_date.iso8601,
           "status" => sprint.status,
-          "row" => 0
+          "row" => 0,
+          "href" => Rails.application.routes.url_helpers.project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
         )
       end
 

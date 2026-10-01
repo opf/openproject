@@ -66,7 +66,7 @@ fa:
             host:
               authorization_header_missing: به‌طور کامل راه‌اندازی نشده است. نمونه Nextcloud هدر «Authorization» را دریافت نمی‌کند که برای مجوزدهی مبتنی بر Bearer Token در درخواست‌های API لازم است. پیکربندی HTTP Server را دوباره بررسی کنید.
               cannot_be_connected_to: قابل دسترسی نبود. مطمئن شوید Host در دسترس است و برنامه OpenProject Integration نصب شده باشد.
-              minimal_nextcloud_version_not_met: does not meet minimal version requirements (must be Nextcloud %{minimal_version} or higher, but %{detected_version} was detected)
+              minimal_nextcloud_version_not_met: حداقل الزامات نسخه را برآورده نمی‌کند (باید Nextcloud %{minimal_version} یا بالاتر باشد، اما نسخه %{detected_version} شناسایی شد)
               not_nextcloud_server: سرور Nextcloud نیست
               op_application_not_installed: به نظر می‌رسد برنامه «OpenProject integration» نصب نشده است. ابتدا آن را نصب و دوباره تلاش کنید.
             password:
@@ -151,7 +151,7 @@ fa:
         error: خطای غیرمنتظره‌ای رخ داد. برای اطلاعات بیشتر لاگ‌های OpenProject را بررسی کنید یا با مدیر تماس بگیرید
         folder_id_collision: چند فضای ذخیره‌سازی پروژه تلاش می‌کنند پوشه پروژه %{folder} را مدیریت کنند. همگام‌سازی آن رد شد.
         forbidden: OpenProject نتوانست به منبع درخواستی دسترسی پیدا کند. پیکربندی مجوزها در ارائه‌دهنده فضای ذخیره‌سازی را بررسی کنید.
-        invalid_response: OpenProject could not process the response received from the Storage Provider. Please check OpenProject logs for more information or contact an administrator.
+        invalid_response: OpenProject نتوانست پاسخ دریافت‌شده از ارائه‌دهنده فضای ذخیره‌سازی را پردازش کند. برای اطلاعات بیشتر گزارش‌های OpenProject را بررسی کنید یا با مدیر سامانه تماس بگیرید.
         unauthorized: OpenProject نتوانست با ارائه‌دهنده فضای ذخیره‌سازی احراز هویت کند. مطمئن شوید به آن دسترسی دارید.
       models:
         copy_project_folders_service:
@@ -412,14 +412,13 @@ fa:
       empty_project_folder_validation: برای ادامه، انتخاب یک پوشه الزامی است.
       existing_manual_folder: می‌توانید یک پوشهٔ موجود را به‌عنوان پوشهٔ ریشهٔ این پروژه تعیین کنید. با این حال مجوزها به‌صورت خودکار مدیریت نمی‌شوند و مدیر باید به‌صورت دستی اطمینان دهد کاربران مرتبط دسترسی دارند. پوشهٔ انتخاب‌شده می‌تواند توسط چند پروژه استفاده شود.
       host: نشانی میزبان فضای ذخیره‌سازی را همراه با https:// وارد کنید. طول آن نباید بیشتر از ۲۵۵ نویسه باشد.
-      managed_project_folders_application_password_caption: برای فعال‌کردن پوشه‌های مدیریت‌شدهٔ خودکار، این مقدار را از %{provider_type_link} کپی کنید.
+      managed_project_folders_application_password_caption_html: 'برای فعال‌کردن پوشه‌های مدیریت‌شده خودکار، این مقدار را از اینجا کپی کنید: [%{integration}](provider_settings).'
       name: برای فضای ذخیره‌سازی یک نام تعیین کنید تا کاربران بتوانند چند فضای ذخیره‌سازی را از یکدیگر تشخیص دهند.
       new_storage_html: برای اطلاعات بیشتر، مستندات ما دربارهٔ [راه‌اندازی فضای ذخیره‌سازی فایل %{provider_name}](docs_url) را مطالعه کنید.
       nextcloud:
-        application_link_text: برنامهٔ «Integration OpenProject»
         integration: مدیریت Nextcloud / OpenProject
-        oauth_configuration: این مقادیر را از %{application_link_text} کپی کنید.
-        provider_configuration: پیش از راه‌اندازی مطمئن شوید در نمونهٔ Nextcloud خود دسترسی مدیریتی دارید و %{application_link_text} نصب شده است.
+        oauth_configuration_html: این مقادیر را از [مدیریت Nextcloud / OpenProject](application_link) کپی کنید.
+        provider_configuration_html: پیش از انجام تنظیمات، مطمئن شوید در نمونه Nextcloud خود دسترسی مدیریتی دارید و [برنامه «Integration OpenProject»](application_link) نصب شده است.
         storage_audience: شناسهٔ کلاینتی که نمونهٔ Nextcloud برای ارتباط با ارائه‌دهندهٔ هویت استفاده می‌کند.
         storage_audience_placeholder: مثلاً nextcloud
         token_exchange_scope: scopeهایی که هنگام Token Exchange باید درخواست شوند؛ هر مورد را با یک فاصله از دیگری جدا کنید.
@@ -428,27 +427,24 @@ fa:
       not_logged_into_storage: برای انتخاب پوشهٔ پروژه، ابتدا وارد شوید.
       oauth_application_details_html: پس از بستن این پنجره، مقدار رمز کلاینت دیگر قابل مشاهده نخواهد بود. این مقادیر را در [تنظیمات یکپارچه‌سازی OpenProject در Nextcloud](oauth_application_details_link) کپی کنید.
       one_drive:
-        application_link_text: پرتال Azure
         copy_redirect_uri: کپی URI بازگشت
-        documentation_link_text: مستندات فضای ذخیره‌سازی فایل OneDrive
-        drive_id: شناسه را طبق مراحل توضیح‌داده‌شده در %{drive_id_link_text} از درایو موردنظر کپی کنید.
+        drive_id_html: شناسه را از درایو موردنظر طبق مراحل [مستندات فضای ذخیره‌سازی فایل OneDrive](drive_id_guide) کپی کنید.
         integration: OneDrive
         missing_client_id_for_redirect_uri: برای ایجاد URI، مقادیر OAuth را وارد کنید.
         oauth_client_redirect_uri: این مقدار را به‌عنوان یک Web redirect URI جدید در بخش Redirect URIs کپی کنید.
         oauth_client_secret: اگر در Client credentials هیچ Application client secretی وجود ندارد، یک مورد جدید ایجاد کنید.
-        oauth_configuration: این مقادیر را از برنامهٔ موردنظر در %{application_link_text} کپی کنید.
-        provider_configuration: پیش از راه‌اندازی مطمئن شوید در %{application_link_text} دسترسی مدیریتی دارید؛ در غیر این صورت با مدیر Microsoft تماس بگیرید. در پرتال همچنین باید یک برنامهٔ Azure ثبت کنید یا برای احراز هویت از برنامهٔ موجود استفاده کنید.
-        tenant_id: شناسهٔ Directory (tenant) را از برنامهٔ موردنظر و بخش App registrations در %{application_link_text} کپی کنید.
+        oauth_configuration_html: این مقادیر را از برنامه موردنظر در [پرتال Azure](application_link) کپی کنید.
+        provider_configuration_html: پیش از انجام تنظیمات، مطمئن شوید در [پرتال Azure](application_link) دسترسی مدیریتی دارید یا با مدیر Microsoft خود تماس بگیرید. همچنین باید در پرتال یک برنامه Azure ثبت کنید یا از یک برنامه موجود برای احراز هویت استفاده کنید.
+        tenant_id_html: شناسه Directory (tenant) را از برنامه موردنظر و بخش App registrations در [پرتال Azure](application_link) کپی کنید.
         tenant_id_placeholder: نام یا UUID
       setting_up_additional_storages: برای راه‌اندازی فضاهای ذخیره‌سازی فایل بیشتر، مراجعه کنید به
       setting_up_additional_storages_non_admin: مدیران می‌توانند از مسیر مدیریت / فضاهای ذخیره‌سازی فایل، فضاهای ذخیره‌سازی بیشتری راه‌اندازی کنند.
       setting_up_storages: برای راه‌اندازی فضای ذخیره‌سازی فایل، مراجعه کنید به
       setting_up_storages_non_admin: مدیران می‌توانند از مسیر مدیریت / فضاهای ذخیره‌سازی فایل، فضای ذخیره‌سازی راه‌اندازی کنند.
       sharepoint:
-        application_link_text: سایت SharePoint
         integration: مدیریت SharePoint / OpenProject
-        oauth_configuration: این مقادیر را از برنامهٔ موردنظر در %{application_link_text} کپی کنید.
-        provider_configuration: پیش از راه‌اندازی مطمئن شوید در %{application_link_text} دسترسی مدیریتی دارید؛ در غیر این صورت با مدیر Microsoft تماس بگیرید. در پرتال همچنین باید یک برنامهٔ Azure ثبت کنید یا برای احراز هویت از برنامهٔ موجود استفاده کنید.
+        oauth_configuration_html: این مقادیر را از برنامه موردنظر در [سایت SharePoint](application_link) کپی کنید.
+        provider_configuration_html: پیش از انجام تنظیمات، مطمئن شوید در [سایت SharePoint](application_link) دسترسی مدیریتی دارید یا با مدیر Microsoft خود تماس بگیرید. همچنین باید در پرتال یک برنامه Azure ثبت کنید یا از یک برنامه موجود برای احراز هویت استفاده کنید.
       type: 'پیش از راه‌اندازی مطمئن شوید در نمونهٔ Nextcloud خود دسترسی مدیریتی دارید و برنامهٔ زیر نصب شده است:'
       type_link_text: "«Integration OpenProject»"
     label_active: فعال
@@ -487,7 +483,7 @@ fa:
       connected: متصل
       connected_no_permissions: نقش کاربر هیچ مجوزی برای فضای ذخیره‌سازی ندارد
       not_connectable: قابل اتصال نیست. فضای ذخیره‌سازی به ورود از طریق یک ارائه‌دهندهٔ SSO نیاز دارد، اما کاربر از طریق SSO وارد نشده است.
-      not_connected: متصل نیست. کاربر باید از طریق %{link} وارد فضای ذخیره‌سازی شود.
+      not_connected_html: متصل نیست. کاربر باید از طریق [این لینک](storage_login) به فضای ذخیره‌سازی وارد شود.
       not_connected_sso: هنوز متصل نشده است؛ پس از مشاهدهٔ فایل‌ها، SSO باید به‌طور خودکار اتصال را برقرار کند.
     members_no_results: هیچ عضوی برای نمایش نیست.
     no_results: هنوز هیچ فضای ذخیره‌سازی راه‌اندازی نشده است.

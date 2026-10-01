@@ -199,6 +199,27 @@ RSpec.describe "API v3 Work package form resource" do
               it_behaves_like "having no errors"
             end
 
+            describe "labels", with_flag: :work_package_labels do
+              let(:label) { create(:label) }
+              let(:params) do
+                valid_params.merge(_links: { labels: [{ href: api_v3_paths.label(label.id) }] })
+              end
+
+              include_context "with post request"
+
+              it_behaves_like "having no errors"
+
+              it "echoes the pending labels back" do
+                expect(last_response.body)
+                  .to be_json_eql(api_v3_paths.label(label.id).to_json)
+                        .at_path("_embedded/payload/_links/labels/0/href")
+              end
+
+              it "does not persist them" do
+                expect(Labeling.where(labelable: work_package)).not_to exist
+              end
+            end
+
             context "for invalid content" do
               before do
                 allow(User).to receive(:current).and_return current_user
@@ -819,7 +840,7 @@ RSpec.describe "API v3 Work package form resource" do
                 before do
                   project.work_package_custom_fields << custom_field
                   project.save!
-                  work_package.type.default_variant.custom_fields << custom_field
+                  work_package.type.default_variant.custom_field_ids |= [custom_field.id]
                   work_package.save!
 
                   login_as(current_user)

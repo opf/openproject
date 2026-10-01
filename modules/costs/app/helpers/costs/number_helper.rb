@@ -27,6 +27,7 @@
 #++
 
 module Costs::NumberHelper
+  DECIMAL_SEPARATORS = /[.,]/
   # Turns a string representing a number in the current locale
   # to a string representing a number in en (without delimiters).
   def parse_number_string(value)
@@ -78,6 +79,44 @@ module Costs::NumberHelper
     BigDecimal(DurationConverter.parse(value).to_s)
   rescue ChronicDuration::DurationParseError, ArgumentError
     0.0
+  end
+
+  # Turns a string representing a decimal number into a string using "." as the
+  # decimal separator, accepting both "." and "," in either role.
+  #
+  # Unlike #parse_number_string the result does not depend on the current
+  # locale, so "1,50" and "1.50" both mean one and a half wherever they are
+  # typed. Where both separators appear the rightmost one is the decimal
+  # separator; a lone separator is only decimal when one or two digits follow
+  # it, so "1.234" stays one thousand two hundred and thirty four.
+  def parse_decimal_string(value)
+    return value unless value.is_a?(String) && value.present?
+
+    digits = value.strip.gsub(/[\s’˙]/, "")
+    return digits unless digits.match?(DECIMAL_SEPARATORS)
+
+    separator = decimal_separator_in(digits)
+    return digits.delete(".,") if separator.nil?
+
+    whole, _, fraction = digits.rpartition(separator)
+    "#{whole.delete('.,')}.#{fraction}"
+  end
+
+  # Turns a string representing a decimal number in either separator style into
+  # a BigDecimal. Returns 0.0 for strings that cannot be parsed.
+  def parse_decimal_string_to_number(value)
+    BigDecimal(parse_decimal_string(value))
+  rescue TypeError, ArgumentError
+    0.0
+  end
+
+  def decimal_separator_in(value)
+    separators = value.scan(DECIMAL_SEPARATORS).uniq
+
+    return value[/[.,](?=[^.,]*\z)/] if separators.size > 1
+    return nil if value.count(separators.first) > 1
+
+    value.match?(/[.,]\d{1,2}\z/) ? separators.first : nil
   end
 
   # Output currency value without unit

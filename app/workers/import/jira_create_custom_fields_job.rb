@@ -34,7 +34,7 @@ module Import
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
 
     def text
-      "Create custom fields"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     # Creates the OP custom fields for the whole import run, before the per-project jobs fan out.
@@ -44,6 +44,7 @@ module Import
       @system_user = User.system
 
       build_custom_field_registry
+      store_custom_field_mapping
     end
   end
 end

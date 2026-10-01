@@ -111,6 +111,7 @@ fr:
       zero: Aucun problème BCF
   bim:
     error_direct_upload_failed: Échec de l'envoi direct.
+    error_direct_upload_file_too_large: Le modèle IFC est trop volumineux (la taille maximale est de %{size} octets).
     label_bim: BIM
   export:
     format:

@@ -101,7 +101,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   }
 
   public isResourceValue():boolean {
-    return !!(this.values && this.values.allowedValues);
+    return !!this.values?.allowedValues;
   }
 
   public loadedAllowedValues():boolean {

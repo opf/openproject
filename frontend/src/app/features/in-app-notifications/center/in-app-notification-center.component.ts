@@ -30,7 +30,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnIn
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { StateService } from '@uirouter/angular';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
   INotification,
@@ -59,7 +58,6 @@ export class InAppNotificationCenterComponent implements OnInit {
   readonly storeService = inject(IanCenterService);
   readonly bellService = inject(IanBellService);
   readonly urlParams = inject(UrlParamsService);
-  readonly state = inject(StateService);
   readonly apiV3 = inject(ApiV3Service);
   readonly pathService = inject(PathHelperService);
   readonly colorsService = inject(ColorsService);

@@ -42,6 +42,13 @@ RSpec.describe "Meeting notifications", :js do
            member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings manage_agendas] })
   end
 
+  # Meetings default to a now-based start time and occurrences may not be
+  # rescheduled into the past, so the edited times below must stay on the same
+  # day as "now". Freeze early in the day to keep that true around midnight.
+  around do |example|
+    travel_to(Time.zone.today.beginning_of_day + 8.hours) { example.run }
+  end
+
   before do
     login_as(user)
   end
@@ -97,8 +104,7 @@ RSpec.describe "Meeting notifications", :js do
     include_examples "notification checkbox behaviour"
 
     it "sets and toggles the calendar updates state" do
-      # a time comfortably away from the now-based default start time, so editing is a real change
-      edit_start_time = 4.hours.from_now.strftime("%H:00")
+      edit_start_time = "12:00"
 
       # check if the default is set correctly
       expect(meeting.notify).to be false
@@ -263,9 +269,8 @@ RSpec.describe "Meeting notifications", :js do
     end
 
     it "can set and toggle the calendar updates state for the template and occurrences" do
-      # times comfortably away from the now-based default start time, so each edit is a real change
-      template_start_time = 4.hours.from_now.strftime("%H:00")
-      occurrence_start_time = 5.hours.from_now.strftime("%H:00")
+      template_start_time = "12:00"
+      occurrence_start_time = "13:00"
 
       template_page.visit!
 

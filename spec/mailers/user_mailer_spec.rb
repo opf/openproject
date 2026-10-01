@@ -105,22 +105,41 @@ RSpec.describe UserMailer do
   end
 
   describe "#backup_ready" do
-    before do
-      described_class.backup_ready(recipient).deliver_now
-    end
-
-    it_behaves_like "mail is sent" do
-      it "has the expected subject" do
-        expect(deliveries.first.subject)
-          .to eql I18n.t("mail_subject_backup_ready")
+    context "without missing attachments" do
+      before do
+        described_class.backup_ready(recipient).deliver_now
       end
 
-      it "includes the url to the instance" do
-        expect(deliveries.first.body.encoded)
-          .to match Regexp.union(
-            /Your requested backup is ready. You can download it here/,
-            /#{Setting.protocol}:\/\/#{Setting.host_name}/
-          )
+      it_behaves_like "mail is sent" do
+        it "has the expected subject" do
+          expect(deliveries.first.subject)
+            .to eql I18n.t("mail_subject_backup_ready")
+        end
+
+        it "includes the url to the instance" do
+          expect(deliveries.first.body.encoded)
+            .to match Regexp.union(
+              /Your requested backup is ready. You can download it here/,
+              /#{Setting.protocol}:\/\/#{Setting.host_name}/
+            )
+        end
+
+        it "does not mention missing attachments" do
+          expect(deliveries.first.body.encoded).not_to include "could not be read"
+        end
+      end
+    end
+
+    context "with missing attachments" do
+      before do
+        described_class.backup_ready(recipient, missing_attachments_count: 2).deliver_now
+      end
+
+      it_behaves_like "mail is sent" do
+        it "mentions the missing attachments" do
+          expect(deliveries.first.body.encoded)
+            .to include(I18n.t(:mail_body_backup_ready_incomplete, file_count: I18n.t(:label_x_files, count: 2)).strip)
+        end
       end
     end
   end

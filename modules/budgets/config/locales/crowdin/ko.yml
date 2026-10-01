@@ -58,6 +58,8 @@ ko:
   attributes:
     budget: 예산
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: "%{date}에 시간당 요금 없음"
     widgets:
       budget_by_cost_type:
         blankslate:

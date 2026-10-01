@@ -4,7 +4,12 @@
       header_padding:,
       collapsible:
     ) do |list| %>
-  <% list.with_header(title: "Reorderable section", count: true, show_drag_handle: true) %>
+  <% list.with_header(
+       title: "Reorderable section",
+       count: true,
+       show_drag_handle: true,
+       drag_handle_arguments: { data: { sortable_lists__item_target: "handle" } }
+     ) %>
   <% list.with_item do %>
     <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, ml: -2)) do |row| %>
       <% row.with_column(style: "width: 1.5rem") { render(Primer::OpenProject::DragHandle.new) } %>

@@ -115,9 +115,9 @@ export class DomAutoscrollService {
     cancelAnimationFrame(this.windowAnimationFrame);
   }
 
-  public setScroll(e:any) {
-    for (let i = 0; i < this.elements.length; i++) {
-      if (this.elements[i] === e.target) {
+  public setScroll(e:Event) {
+    for (const element of this.elements) {
+      if (element === e.target) {
         this.scrolling = true;
         break;
       }

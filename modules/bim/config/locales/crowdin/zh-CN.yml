@@ -107,6 +107,7 @@ zh-CN:
       zero: 无 BCF 问题
   bim:
     error_direct_upload_failed: 直接上传失败。
+    error_direct_upload_file_too_large: IFC 模型过大（最大大小为 %{size} 字节）。
     label_bim: BIM
   export:
     format:

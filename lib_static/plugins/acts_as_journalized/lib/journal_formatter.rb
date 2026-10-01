@@ -118,6 +118,7 @@ module JournalFormatter
     return if formatter.nil?
 
     if formatter.permission_granted?(config[:view_permission], key: field)
+      # OG: html_safe after I18n interpolates already-escaped content_tag values.
       formatter.render(field, values, options)&.html_safe # rubocop:disable Rails/OutputSafety
     else
       render_permission_denied_message(options)

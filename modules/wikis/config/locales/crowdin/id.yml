@@ -59,8 +59,6 @@ id:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
@@ -85,6 +83,10 @@ id:
         confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
         label_oauth_client_id: OAuth Client ID
         replace_oauth_client: Replace XWiki OAuth application
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Last check: %{datetime}'
@@ -106,8 +108,11 @@ id:
         name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
         name_placeholder: XWiki knowledge base
         new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: General information
           oauth_configuration: OAuth configuration

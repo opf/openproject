@@ -21,22 +21,22 @@ sv:
               error_phone_number_format: måste vara av formatet + XX XXXXXXXXX
     models:
       two_factor_authentication/backup_code:
-        one: Backup code
-        other: Backup codes
+        one: Reservkod
+        other: Reservkoder
       two_factor_authentication/device:
-        one: 2FA device
-        other: 2FA devices
+        one: 2FA enhet
+        other: 2FA enheter
       two_factor_authentication/device/sms:
-        one: Mobile phone
-        other: Mobile phones
+        one: Mobiltelefon
+        other: Mobiltelefoner
       two_factor_authentication/device/totp:
-        one: Authenticator application
-        other: Authenticator applications
+        one: Autentiseringsprogram
+        other: Autentiseringsprogram
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn
   button_continue: Fortsätt
-  button_make_active: Activate
+  button_make_active: Aktivera
   button_make_default: Markera som standard
   button_otp_by_sms: SMS
   button_otp_by_voice: Röstsamtal
@@ -64,7 +64,7 @@ sv:
       no_devices_for_user: Ingen 2FA enhet har registrerats för den här användaren.
       only_sms_allowed: Endast SMS-leverans kan ställas in för andra användare.
       self_edit_forbidden: Du kan inte redigera din egen 2FA enheter här. Gå till Mitt konto > Två faktor autentisering i stället.
-      self_edit_path_html: To add or modify your own 2FA devices, please go to the [Two-factor authentication on your account page](self_edit_link)
+      self_edit_path_html: För att lägga till eller ändra dina egna 2FA-enheter går du till [Tvåfaktorsautentisering på din kontosida](self_edit_link)
       text_2fa_disabled: Användaren konfigurerade inte en 2FA-enhet via deras 'Mitt konto'
       text_2fa_enabled: Vid varje inloggning kommer användaren att bli ombedd att ange en OTP-token från sin standard 2FA-enhet.
     backup_codes:
@@ -80,8 +80,8 @@ sv:
       singular: Reservkod
     channel_unavailable: Leveranskanal %{channel} är inte tillgänglig.
     devices:
-      2fa_from_input_html: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn_html: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input_html: Ange koden från <strong>%{device_name}</strong> för att verifiera din identitet.
+      2fa_from_webauthn_html: Använd WebAuthn-enheten <strong>%{device_name}</strong>. Om den är USB-baserad ska du ansluta den och vidröra den. Klicka sedan på inloggningsknappen.
       add_new: Lägg till ny 2FA enhet
       button_complete_registration: Slutför 2FA registreringen
       cannot_delete_default: Kan inte ta bort standardenheten
@@ -137,7 +137,7 @@ sv:
     error_no_device: Ingen registrerad 2FA enhet hittades för den här användaren, trots att det krävs för den här instansen.
     error_no_matching_strategy: Ingen matchande 2FA strategi tillgänglig för den här användaren. Vänligen kontakta din administratör.
     forced_registration:
-      required_to_add_device: The administrator has enforced two-factor authentication for this instance. To sign in, please add a two factor authentication method.
+      required_to_add_device: Administratören har gjort tvåfaktorsautentisering obligatorisk för den här instansen. Lägg till en metod för tvåfaktorsautentisering för att logga in.
     label_2fa_disabled: Tvåfaktorsautentisering är inaktiverad
     label_2fa_enabled: Tvåfaktorsautentisering är aktiv
     label_default_device: 2FA standardenhet
@@ -159,7 +159,7 @@ sv:
       active_session_notice: 'Ditt konto har en aktiv cookie giltigt till %{expires_on}. Med denna cookie kan du under tiden logga in utan en andra faktor till ditt konto.
 
         '
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Ta bort alla ihågkomna 2FA-sessioner.
       cookie_removed: Alla sparade 2FA sessioner har tagits bort.
       dont_ask_again: Skapa en cookie för att komma ihåg 2FA autentisering på den här klienten för %{days} dagar.
       label: Kom ihåg
@@ -186,7 +186,7 @@ sv:
       sns: Amazon SNS
       totp: Autentiseringsprogram
       webauthn: WebAuthn
-    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: För att aktivera tvåfaktorsautentisering använder du knappen nedan för att registrera en ny 2FA-enhet. Om du redan har en enhet måste du göra den till standard.
     text_2fa_enabled: Vid varje inloggning, blir du ombedd att ange ett OTP-token från din standard 2FA-enhet.
     text_otp_delivery_message_sms: Engångslösenordet för %{app_title} är %{token}
     text_otp_delivery_message_voice: 'Engångslösenordet för %{app_title} är: %{pause} %{token}. %{pause} jag upprepar: %{pause} %{token}'

@@ -74,6 +74,7 @@ class CustomField < ApplicationRecord
             uniqueness: { case_sensitive: false, scope: :type }
 
   validate :validate_field_format_inclusion
+  validate :validate_value_bounds
   validate :validate_default_value
   validate :validate_regex
 
@@ -81,7 +82,13 @@ class CustomField < ApplicationRecord
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :min_length,
             numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length },
-            unless: Proc.new { |cf| cf.max_length.blank? }
+            if: -> { max_length.to_i.positive? }
+
+  validates :min_value, :max_value, absence: true, unless: :numeric_bounds_possible?
+  validates :min_value, :max_value,
+            numericality: true,
+            allow_nil: true,
+            if: :numeric_bounds_possible?
 
   validates :multi_value, absence: true, unless: :multi_value_possible?
   validates :allow_non_open_versions, absence: true, unless: :allow_non_open_versions_possible?
@@ -134,6 +141,25 @@ class CustomField < ApplicationRecord
     unless allowed.include?(field_format)
       errors.add(:field_format, :inclusion)
     end
+  end
+
+  def validate_value_bounds
+    return unless numeric_bounds_possible?
+
+    validate_integer_value_bounds if field_format == "int"
+    validate_value_bound_order
+  end
+
+  def validate_integer_value_bounds
+    { min_value:, max_value: }.each do |attribute, bound|
+      errors.add(attribute, :not_an_integer) if bound.present? && (bound % 1) != 0
+    end
+  end
+
+  def validate_value_bound_order
+    return unless min_value.present? && max_value.present?
+
+    errors.add(:min_value, :smaller_than_or_equal_to_max_value) if min_value > max_value
   end
 
   def validate_default_value
@@ -283,7 +309,7 @@ class CustomField < ApplicationRecord
   end
 
   def self.custom_field_attribute?(attribute_name)
-    attribute_name.to_s =~ /custom_field_\d+/
+    /custom_field_\d+/.match?(attribute_name.to_s)
   end
 
   # to move in project_custom_field
@@ -376,8 +402,20 @@ class CustomField < ApplicationRecord
   end
 
   def multi_value_possible?
-    OpenProject::CustomFieldFormat.find_by(name: field_format)&.multi_value_possible?
+    format_definition&.multi_value_possible?
   end
+
+  def numeric_bounds_possible?
+    format_definition&.numeric_bounds_possible? || false
+  end
+
+  def length_limits_possible?
+    format_definition&.length_limits_possible? || false
+  end
+
+  def min_bound = typed_bound(min_value)
+
+  def max_bound = typed_bound(max_value)
 
   def allow_non_open_versions_possible?
     version?
@@ -494,5 +532,15 @@ class CustomField < ApplicationRecord
     AttributeHelpText
       .where(attribute_name:)
       .destroy_all
+  end
+
+  def format_definition
+    OpenProject::CustomFieldFormat.find_by(name: field_format)
+  end
+
+  def typed_bound(bound)
+    return if bound.nil?
+
+    field_format == "int" ? bound.to_i : bound
   end
 end

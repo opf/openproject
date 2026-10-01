@@ -56,7 +56,7 @@ nl:
         presenter: Presentator
         title: Titel
       meeting_outcome:
-        kind: Kind
+        kind: Soort
       meeting_participant:
         attended: Deelgenomen
         invited: Uitgenodigd
@@ -226,7 +226,7 @@ nl:
   label_meeting_index_later: Next week and later
   label_meeting_index_this_week: Later this week
   label_meeting_index_today: Vandaag
-  label_meeting_index_tomorrow: Tomorrow
+  label_meeting_index_tomorrow: Morgen
   label_meeting_last_updated: Laatst bijgewerkt
   label_meeting_minutes: Minuten
   label_meeting_more:
@@ -250,21 +250,21 @@ nl:
   label_meeting_state_agenda_created: Agenda aangemaakt
   label_meeting_state_cancelled: Geannuleerd
   label_meeting_state_closed: Gesloten
-  label_meeting_state_draft: Draft
+  label_meeting_state_draft: Concept
   label_meeting_state_in_progress: In behandeling
   label_meeting_state_open: Open
   label_meeting_state_planned: Gepland
   label_meeting_state_skipped: Overgeslagen
-  label_meeting_template: Template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
-  label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
+  label_meeting_template: Sjabloon
+  label_meeting_template_create: Sjabloon aanmaken
+  label_meeting_template_delete: Sjabloon verwijderen
+  label_meeting_template_edit: Sjabloon bewerken
+  label_meeting_template_new: Nieuw sjabloon
+  label_meeting_template_sharing: Delen
+  label_meeting_template_sharing_descendants: Met subprojecten
+  label_meeting_template_sharing_none: Alleen met dit project
+  label_meeting_template_sharing_system: Met alle projecten
+  label_meeting_templates: Sjablonen
   label_my_meetings: Mijn vergaderingen
   label_notify: Verzenden voor revisie
   label_past_invitations: Vorige uitnodigingen
@@ -295,7 +295,7 @@ nl:
   label_recurring_meeting_series_end_now: Serie nu beëindigen
   label_recurring_meeting_show_more: Toon meer
   label_recurring_meeting_view: Bekijk vergaderreeksen
-  label_section_rename: Rename section
+  label_section_rename: Sectie hernoemen
   label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
   label_series_backlog: Series backlog
   label_series_backlog_clear_title: Clear series backlog?
@@ -388,12 +388,12 @@ nl:
         body: The meeting '%{title}' has been updated by %{actor}.
         header: Meeting '%{title}' has been updated
         new_date_time: Nieuwe datum/tijd
-        new_location: New location
+        new_location: Nieuwe locatie
         new_title: New title
         old_date_time: Oude datum/tijd
-        old_location: Old location
+        old_location: Oude locatie
         old_title: Old title
-        removed_participants: Removed
+        removed_participants: Verwijderd
         summary: Meeting '%{title}' has been updated by %{actor}
     export:
       minutes:
@@ -477,13 +477,13 @@ nl:
         search_for_members: Projectleden zoeken
         template: Deze deelnemers worden automatisch uitgenodigd voor alle toekomstige vergaderingen wanneer deze worden aangemaakt.
     presentation_mode:
-      button_present: Present
+      button_present: Aanwezig
       current_item: Current item
       exit: Exit presentation
-      next: Next
+      next: Volgende
       no_items: No agenda items
       no_items_flash: There are no agenda items to present.
-      previous: Previous
+      previous: Vorige
       title: Presentation Mode
       total_items: "%{current} of %{total}"
     types:
@@ -579,7 +579,7 @@ nl:
       title: Verwijder serie van vergaderingen
     end_after:
       iterations: After a number of occurrences
-      never: Never
+      never: Nooit
       specific_date: After a specific date
     end_series_dialog:
       title: Vergaderreeks beëindigen
@@ -589,15 +589,15 @@ nl:
       title: Vergaderreeks geëindigd
     frequency:
       every_weekday: Elke %{day_of_the_week}
-      monthly_day_of_month: Day of month
+      monthly_day_of_month: Dag van de maand
       monthly_nth_weekday: Monthly on a weekday
       working_days: Elke werkdag
       x_daily:
-        one: Every day
-        other: Every %{count} days
+        one: Elke dag
+        other: Elke %{count} dagen
       x_monthly:
-        one: Every month
-        other: Every %{count} months
+        one: Elke maand
+        other: Elke %{count} maanden
       x_weekly:
         one: Every week
         other: Every %{count} weeks

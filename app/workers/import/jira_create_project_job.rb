@@ -34,7 +34,7 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create project '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
     def perform(jira_import_id, jira_project_id)
@@ -57,7 +57,7 @@ module Import
 
     private
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
       project_key = jira_project.payload.fetch("key")
       project_keys = jira_project.payload.fetch("projectKeys")
@@ -95,6 +95,5 @@ module Import
 
       raise service_call.message
     end
-    # rubocop:enable Metrics/AbcSize
   end
 end

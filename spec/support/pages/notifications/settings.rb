@@ -103,12 +103,6 @@ module Pages
         select_box.select time
       end
 
-      def expect_no_date_alert_setting(label)
-        expect(page).to have_no_css(
-          "select[data-test-selector='global-notification-type-op-reminder-settings-#{label.underscore}-alerts']"
-        )
-      end
-
       def edit_project(project)
         within_test_selector "project-specific-settings-list", text: project.name do
           within_test_selector("project-specific-settings-list--action-menu") do
@@ -156,14 +150,6 @@ module Pages
       def disable_project_date_alert(label)
         within_test_selector "project-specific-settings-form" do
           enable_date_alert label, false
-        end
-      end
-
-      def expect_no_project_date_alert_setting(label)
-        within_test_selector "project-specific-settings-form" do
-          expect(page).to have_no_css(
-            "select[data-test-selector='op-reminder-settings-#{label.underscore}-alerts']"
-          )
         end
       end
 

@@ -36,6 +36,7 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'display-field',
   template: '<span #displayFieldContainer></span>',
   changeDetection: ChangeDetectionStrategy.OnPush,

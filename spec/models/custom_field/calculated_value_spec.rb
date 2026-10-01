@@ -819,7 +819,7 @@ RSpec.describe CustomField::CalculatedValue, with_ee: %i[calculated_values weigh
       current_user { user }
 
       it_behaves_like "invalid formula",
-                      "The attribute int, float cannot be used because it leads to a circular reference; " \
+                      "The attribute float, int cannot be used because it leads to a circular reference; " \
                       "one attribute depends on the other."
     end
 

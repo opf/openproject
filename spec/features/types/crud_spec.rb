@@ -43,43 +43,14 @@ RSpec.describe "Types", :js do
     login_as(admin)
   end
 
-  it "crud" do
-    index_page.visit!
-
-    index_page.click_new
-
-    # Error messages if something was wrong
-    fill_in "Name", with: existing_type.name
-    select existing_type.name, from: "Copy workflow from"
-
-    click_on "Save"
-
-    expect(page).to have_css(".FormControl-inlineValidation", text: "has already been taken.", wait: 12)
-
-    # Values are retained
-    expect(page).to have_field("Name", with: existing_type.name)
-    expect(page).to have_field("Copy workflow from", with: existing_type.id)
-
-    # Successful creation
-    fill_in "Name", with: "A new type"
-
-    click_on "Save"
-
-    expect(page).to have_content I18n.t(:notice_successful_create)
-
-    # Workflow should be copied over from the source type.
-    new_type = Type.find_by!(name: "A new type")
-    expect(
-      Workflow.exists?(type_variant_id: new_type.default_variant.id,
-                       old_status_id: existing_workflow.old_status_id,
-                       new_status_id: existing_workflow.new_status_id)
-    ).to be true
+  it "renames and deletes a type from the index" do
+    new_type = create(:type, name: "A new type")
 
     index_page.visit!
 
     index_page.expect_listed(existing_type, "A new type")
 
-    index_page.click_edit("A new type")
+    visit edit_type_details_path(type_id: new_type.id)
 
     fill_in "Name", with: "Renamed type"
 
@@ -99,24 +70,17 @@ RSpec.describe "Types", :js do
     index_page.expect_listed(existing_type)
   end
 
-  it "lists types when the feature flag is disabled", with_flag: { type_variants: false } do
-    create(:type, name: "Phase")
-
-    index_page.visit!
-
-    expect(page).to have_text("Phase")
-  end
-
-  it "creates a type with editable core settings", with_flag: { type_variants: true } do
+  it "creates a type with editable core settings" do
     index_page.visit!
     index_page.click_new
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     expect(page).to have_no_select("Parent type")
     expect(page).to have_field("Is milestone", disabled: false)
     expect(page).to have_field("Displayed in roadmap by default", disabled: false)
   end
 
-  describe "the Details tab", with_flag: { type_variants: true } do
+  describe "the Details tab" do
     it "keeps the core settings editable" do
       visit edit_type_details_path(type_id: existing_type.id)
 
@@ -140,7 +104,7 @@ RSpec.describe "Types", :js do
       expect(page).to have_field("Name")
       expect(page).to have_no_text("This is an internal name only visible to administrators")
 
-      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      visit edit_type_variant_details_path(type_id: existing_type.id, variant_id: variant.id)
       expect(page).to have_text("This is an internal name only visible to administrators")
       expect(page).to have_text("it will appear as #{existing_type.name} to all members")
     end
@@ -159,7 +123,7 @@ RSpec.describe "Types", :js do
     context "and I attempt to delete the type" do
       before do
         index_page.visit!
-        index_page.delete existing_type.name
+        index_page.delete_expecting_refusal existing_type.name
         wait_for_network_idle
       end
 

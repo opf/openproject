@@ -29,7 +29,7 @@
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import { Controller } from '@hotwired/stimulus';
 import {
-  isSortableItemData,
+  isItemFromRoot,
   type RootAwareChild,
   type SortableListsRoot,
 } from './drag-and-drop';
@@ -75,9 +75,7 @@ export default class ScrollableController extends Controller<HTMLElement> implem
       element: this.element,
       canScroll: ({ source }) => {
         const { root } = this;
-        return root != null
-          && isSortableItemData(source.data)
-          && source.data.rootElement === root.element;
+        return root != null && isItemFromRoot(root.element, source.data);
       },
       getAllowedAxis: () => this.allowedAxis,
       getConfiguration: () => ({ maxScrollSpeed: this.maxScrollSpeed }),

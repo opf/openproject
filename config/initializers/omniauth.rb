@@ -28,7 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "omniauth/rails_csrf_protection"
+
 OmniAuth.config.logger = Rails.logger
+# Disable GET as an allowed request method to prevent CVE-2015-9284
+OmniAuth.config.allowed_request_methods = %i[post]
 
 OmniAuth.config.on_failure = Proc.new do |env|
   OmniAuthLoginController.action(:failure).call(env)

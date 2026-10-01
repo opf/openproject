@@ -76,6 +76,14 @@ module Settings
       Settings::Definition[name].allowed
     end
 
+    # Checks if a setting's definition is marked as secret
+    #
+    # @param name [Symbol] The name of the setting
+    # @return [Boolean] `true` if the setting is secret, `false` otherwise
+    def setting_secret?(name)
+      Settings::Definition[name].secret?
+    end
+
     # Checks if a setting is disabled.
     #
     # Any non-writable setting set by environment variables will be considered

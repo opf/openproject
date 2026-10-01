@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "Enabling a work package type in all projects", :skip_csrf,
-               type: :rails_request, with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:one) { create(:project, name: "Foundry") }

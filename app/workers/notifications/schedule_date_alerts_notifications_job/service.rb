@@ -40,8 +40,6 @@ class Notifications::ScheduleDateAlertsNotificationsJob::Service
   end
 
   def call
-    return unless EnterpriseToken.allows_to?(:date_alerts)
-
     users_at_1am_with_notification_settings.find_each do |user|
       Notifications::CreateDateAlertsNotificationsJob.perform_later(user)
     end

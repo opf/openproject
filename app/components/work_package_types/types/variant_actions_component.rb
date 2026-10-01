@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Types
     class VariantActionsComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def self.menu_id(variant)
         "variant-#{variant.id}-action-menu"
@@ -55,6 +56,7 @@ module WorkPackageTypes
       def variant_actions(menu)
         configure_action(menu)
         default_action(menu)
+        convert_action(menu)
         menu.with_divider
 
         delete_action(menu)
@@ -63,7 +65,7 @@ module WorkPackageTypes
       def configure_action(menu)
         menu.with_item(
           label: t(:button_configure),
-          href: edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
+          href: variant_settings_path(nil, variant)
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)
         end
@@ -78,6 +80,18 @@ module WorkPackageTypes
           remove_default_action(menu)
         else
           make_default_action(menu)
+        end
+      end
+
+      def convert_action(menu)
+        return unless variant.project_owned?
+
+        menu.with_item(
+          label: t("types.index.convert_to_global"),
+          href: convert_to_global_dialog_type_variant_path(type_id: variant.type_id, id: variant.id),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"stack-check")
         end
       end
 

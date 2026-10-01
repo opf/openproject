@@ -140,7 +140,7 @@ export class UploadProgressComponent extends UntilDestroyedMixin implements OnIn
   }
 
   public get fileName():string {
-    return this.file && this.file.name;
+    return this.file?.name;
   }
 
   private updateProgress(evt:HttpProgressEvent) {

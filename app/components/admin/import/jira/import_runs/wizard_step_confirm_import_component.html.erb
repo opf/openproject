@@ -171,7 +171,7 @@ See COPYRIGHT and LICENSE files for more details.
             )
             concat(
               render(
-                Primer::Beta::Button.new(
+                OpPrimer::SpinnerButtonComponent.new(
                   scheme: :danger,
                   tag: :a,
                   size: :medium,
@@ -179,8 +179,7 @@ See COPYRIGHT and LICENSE files for more details.
                   disabled: true,
                   data: { turbo_stream: true }
                 )
-              ) do |button|
-                button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              ) do
                 I18n.t(:"admin.jira.run.wizard.button_abort")
               end
             )
@@ -202,12 +201,11 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Alpha::Stack.new(direction: :horizontal)) do
             concat(
               render(
-                Primer::Beta::Button.new(
+                OpPrimer::SpinnerButtonComponent.new(
                   scheme: :primary,
                   disabled: true
                 )
-              ) do |button|
-                button.with_leading_visual_icon(icon: :sync, animation: :rotate)
+              ) do
                 I18n.t(:"admin.jira.run.wizard.sections.confirm_import.button_importing")
               end
             )

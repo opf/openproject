@@ -37,12 +37,13 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include ResourceAllocations::ScheduleSummary
+      include ResourceManagement::PlannerRoutes
 
       # `body_id`/`form_id`/`footer ids default to the allocate wizard's so the
       # create and edit flows are unchanged. The Staffing flow hosts the same
       # confirmation in its own dialog by passing its ids, a custom `form_url`
       # and the plain `hidden_fields` to carry through a confirmed resubmit.
-      def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
+      def initialize(allocation:, project:, form_values:, overbooked_ranges: [],
                      working_schedules: [], filters: nil, view: nil,
                      body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
                      form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
@@ -50,7 +51,6 @@ module ResourceAllocations
         super
         @allocation = allocation
         @project = project
-        @allocation_kind = allocation_kind
         @form_values = form_values
         @overbooked_ranges = overbooked_ranges
         @working_schedules = working_schedules
@@ -81,9 +81,9 @@ module ResourceAllocations
         return @form_url if @form_url
 
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
+          allocation_path(@project, @allocation, resource_planner_view_id: @view&.id)
         else
-          project_resource_allocations_path(@project, resource_planner_view_id: @view&.id)
+          allocations_path(@project, resource_planner_view_id: @view&.id)
         end
       end
 

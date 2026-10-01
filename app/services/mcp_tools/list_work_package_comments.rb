@@ -42,8 +42,8 @@ module McpTools
       required: %i[work_package_id],
       properties: {
         work_package_id: {
-          type: :number,
-          description: "The ID of the work package whose comments shall be listed."
+          type: %w[string number],
+          description: "The identifier of the work package whose comments shall be listed."
         }
       }
     )
@@ -57,7 +57,7 @@ module McpTools
     end
 
     def base_scope(work_package_id:)
-      work_package = WorkPackage.visible(current_user).find_by(id: work_package_id)
+      work_package = WorkPackage.visible(current_user).find_by_display_id(work_package_id)
       return Failure("Can't find given work package.") if work_package.nil?
 
       Success(

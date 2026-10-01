@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,8 +29,8 @@
 #++
 
 class DefaultHourlyRate < Rate
-  validates_uniqueness_of :valid_from, scope: :user_id
-  validates_presence_of :user_id, :valid_from
+  validates :valid_from, uniqueness: { scope: :user_id }
+  validates :user_id, :valid_from, presence: true
   validate :change_of_user_only_on_first_creation
   before_save :convert_valid_from_to_date
 
@@ -43,10 +45,8 @@ class DefaultHourlyRate < Rate
     user.default_rate_at(reference_date - 1)
   end
 
-  def self.at_for_user(date, user_id)
-    user_id = user_id.id if user_id.is_a?(User)
-
-    where(["user_id = ? and valid_from <= ?", user_id, date]).order(Arel.sql("valid_from DESC")).first
+  def self.at_for_user(date, principal)
+    for_principal(principal).in_effect_at(date).newest_first.first
   end
 
   private
@@ -70,17 +70,17 @@ class DefaultHourlyRate < Rate
 
     next_rate = self.next
     # and entries from all projects that need updating
-    entries = o.orphaned_child_entries(valid_from, (next_rate.valid_from if next_rate))
+    entries = o.orphaned_child_entries(valid_from, next_rate&.valid_from)
 
     o.update_entries(entries)
   end
 
   def rate_updated
     # FIXME: This might be extremely slow. Consider using an implementation like in HourlyRateObserver
-    unless valid_from_changed?
+    unless saved_change_to_valid_from?
       # We have not moved a rate, maybe just changed the rate value
 
-      return unless rate_changed?
+      return unless saved_change_to_rate?
 
       # Only the rate value was changed so just update the currently assigned entries
       return rate_created
@@ -106,9 +106,7 @@ class DefaultHourlyRate < Rate
       return date1 || date2 if date1.nil? || date2.nil?
 
       if date2 < date1
-        date_tmp = date2
-        date2 = date1
-        date1 = date_tmp
+        date2, date1 = date1, date2
       end
       [date1, date2]
     end

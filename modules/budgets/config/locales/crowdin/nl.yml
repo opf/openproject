@@ -47,8 +47,8 @@ nl:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget:
-        one: Budget
-        other: Budgets
+        one: Begroting
+        other: Begrotingen
       labor_budget_item:
         one: Planned labor cost
         other: Planned labor costs
@@ -61,6 +61,8 @@ nl:
   attributes:
     budget: Begroting
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:

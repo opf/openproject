@@ -42,6 +42,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { DEFAULT_TIMESTAMP } from './wp-view-baseline.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -60,7 +61,6 @@ export class WorkPackageViewAdditionalElementsService {
   readonly schemaCache = inject(SchemaCacheService);
   readonly wpRelations = inject(WorkPackageRelationsService);
 
-
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
     const workPackageIds = rows.map((el) => el.id!);
@@ -73,15 +73,17 @@ export class WorkPackageViewAdditionalElementsService {
       this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
     ]).then((wpResults:string[][]) => {
-      this.loadAdditional(wpResults.flat());
+      const timestamps = query.timestamps;
+
+      this.loadAdditional(wpResults.flat(), timestamps[0] === DEFAULT_TIMESTAMP ? undefined : timestamps);
     });
   }
 
-  private loadAdditional(wpIds:string[]) {
+  private loadAdditional(wpIds:string[], timestamps?:string[]) {
     this
       .apiV3Service
       .work_packages
-      .requireAll(wpIds)
+      .requireAll(wpIds, timestamps)
       .then(() => {
         this.querySpace.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       })

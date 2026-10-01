@@ -33,14 +33,18 @@ module Types
     include OpPrimer::ComponentHelpers
     include ApplicationHelper
     include TabsHelper
+    include WorkPackageTypes::VariantRoutes
 
-    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil)
+    attr_reader :description
+
+    def initialize(type:, variant: nil, tabs: nil, additional_breadcrumb_items: [], title: nil, description: nil)
       super
       @type = type
       @variant = variant
       @tabs = tabs
       @additional_breadcrumb_items = additional_breadcrumb_items
       @title = title
+      @description = description
     end
 
     def title
@@ -75,7 +79,7 @@ module Types
     # The type's own screen is administration's, so from a project this leads to that project's
     # list of types instead.
     def variant_breadcrumb_href
-      return edit_type_details_path(type_id: @type.id) if scope_project.nil?
+      return variant_settings_path(nil, @type.default_variant) if scope_project.nil?
 
       project_settings_work_packages_types_path(scope_project)
     end
@@ -86,7 +90,7 @@ module Types
       text = variant_or_type_name
       return [text] if @additional_breadcrumb_items.blank?
 
-      [{ href: edit_type_details_path(**(@variant&.path_args || { type_id: @type.id })), text: }]
+      [{ href: variant_settings_path(scope_project, @variant || @type.default_variant), text: }]
     end
   end
 end

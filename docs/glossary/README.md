@@ -132,7 +132,7 @@ OpenProject can be installed either [on-premises](#on-premises) (available for b
 
 ### Community edition
 
-Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/).
+The Community edition is the free and open source edition of OpenProject. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/).
 
 ### Connection validation
 
@@ -182,7 +182,7 @@ In addition to those overview dashboard options, you can create a [custom query]
 
 ### Date alerts
 
-Date alerts in OpenProject are an [Enterprise add-on](#enterprise-add-on) and defined as a feature to generate automatic and customized [notifications](#notifications) regarding a work package's due date or start date. You can find the date alerts feature in your notification center, symbolized by a little bell on the right upper side of your instance. [Read more about the date alerts feature in our user guide](../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/).
+Date alerts in OpenProject generate automatic and customized [notifications](#notifications) regarding a work package's start or finish date. You can find the date alerts feature in your notification center, symbolized by a little bell in the upper-right corner of your instance. [Read more about the date alerts feature in our user guide](../user-guide/notifications/notification-settings/#date-alerts) or in [this article on deadline management with OpenProject](https://www.openproject.org/blog/deadline-management-date-alert/).
 
 You can also set [work package reminders](#reminder) to be notified about a work package at a certain date and time.
 
@@ -261,8 +261,7 @@ The OpenProject Jira Migrator is a guided wizard that supports organizations in 
 **More information on migration from Jira to OpenProject**
 
 - [Watch a short video and learn more about the Jira Migrator in our documentation](../installation-and-operations/jira-migration/).
-- [Read our blog article about importing basic custom fields](https://www.openproject.org/blog/jira-migrator-custom-fields).
-- [Learn more about switching from Atlassian Data Center to OpenProject](https://www.openproject.org/alternative-atlassian-jira-data-center/).
+- [Learn more about switching from Jira to OpenProject](https://www.openproject.org/project-management-software-alternatives/best-jira-alternative/).
 
 ## L
 
@@ -293,7 +292,7 @@ OpenProject offers a Meetings [module](#module) that allows project members to o
 
 Migration refers to the process of transferring data, projects, or entire systems from one software or environment to another. In OpenProject, this can include moving from other project management tools, switching between installations, or transitioning between hosting environments.
 
-A common use case is migrating from proprietary tools such as Jira to OpenProject. To support this, OpenProject provides tools such as the [Jira migrator](../installation-and-operations/jira-migration/) or [excel synchronization](#excel-synchronization).
+A common use case is migrating from proprietary tools such as Jira to OpenProject. To support this, OpenProject provides tools such as the [Jira migrator](../installation-and-operations/jira-migration/).
 
 - [See our blog articles on migrations](https://www.openproject.org/blog/tags/migrations/)
 
@@ -342,7 +341,7 @@ linked to a work package. [Read more about OpenProject's OneDrive integration](.
 
 ### On-premises
 
-OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community Edition](#community-edition) is free of charge.
+OpenProject on-premises is a self-hosted version of OpenProject. As opposed to the Cloud version, you install, run and maintain the hardware locally and manage the software application there. The on-premises [Community edition](#community-edition) is free of charge.
 
 **More information on OpenProject on-premises**
 
@@ -480,7 +479,7 @@ In OpenProject, you can set work packages in relation to each other. Some relati
 
 ### Reminder
 
-OpenProject offers different types of reminders so that you can lean back and never forget a task. One is the [date alert](#date-alerts) (Enterprise add-on), which generates automatic and customized [notifications](#notifications) regarding a work package's due date or start date.
+OpenProject offers different types of reminders so that you can lean back and never forget a task. One is the [date alert](#date-alerts), which generates automatic and customized [notifications](#notifications) regarding a work package's start or finish date.
 
 OpenProject also allows you to set **work package reminders**: Simply activate the clock icon on top of a work package and choose from different options, e.g. to be reminded the next day (at 9 am) or in one week. You can also set a custom date. [Read more about work package reminders in OpenProject](../user-guide/work-packages/edit-work-package/#work-package-reminders).
 
@@ -598,7 +597,7 @@ To make it easier for project managers to work with work package hierarchies, Op
 
 ### Workflow
 
-A workflow in OpenProject is defined as the allowed transitions between status for a [role](#role) and a type, i.e. which status changes can a certain role implement depending on the [work package type](#work-package-type). Workflows can be defined in the admin settings. For example, you might only want developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](../system-admin-guide/manage-work-packages/work-package-workflows/#manage-work-package-workflows).
+A workflow in OpenProject is defined as the allowed transitions between status for a [role](#role) and a type, i.e. which status changes can a certain role implement depending on the [work package type](#work-package-type). Workflows can be defined in the admin settings. For example, you might only want developers to be able to set the status "developed". [Read more about work package workflows in OpenProject](../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ### Work package
 

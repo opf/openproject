@@ -38,6 +38,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 
 @Component({
   templateUrl: './wp-table-configuration-relation-selector.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-table-configuration-relation-selector',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

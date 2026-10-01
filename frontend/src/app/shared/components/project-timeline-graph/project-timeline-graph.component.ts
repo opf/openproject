@@ -31,7 +31,6 @@ import {
   Component,
   DestroyRef,
   ElementRef,
-  ViewChild,
   ViewEncapsulation,
   afterNextRender,
   computed,
@@ -39,6 +38,7 @@ import {
   inject,
   input,
   signal,
+  viewChild,
 } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
@@ -51,6 +51,7 @@ import {
 } from './project-timeline-item.builder';
 import type { AccessibleProjectTimelineItem, ProjectPhaseData, ProjectMilestoneData, ProjectSprintData, ProjectTimelineItem } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
+import { ProjectTimelineTooltipPopover } from './project-timeline-tooltip.popover';
 
 export type { ProjectTimelineItem } from './project-timeline-item.builder';
 
@@ -64,7 +65,7 @@ export type { ProjectTimelineItem } from './project-timeline-item.builder';
   providers: [ProjectTimelineItemBuilder, ProjectTimelineTooltipBuilder],
 })
 export class ProjectTimelineGraphComponent {
-  @ViewChild('container') containerRef!:ElementRef<HTMLDivElement>;
+  readonly containerRef = viewChild.required<ElementRef<HTMLDivElement>>('container');
 
   readonly phasesData = input.required<string>();
   readonly milestonesData = input.required<string>();
@@ -92,12 +93,14 @@ export class ProjectTimelineGraphComponent {
 
   private timeline:Timeline | null = null;
   private itemsDataset:DataSet<ProjectTimelineItem> | null = null;
+  private tooltipPopover:ProjectTimelineTooltipPopover | null = null;
 
   protected readonly ready = signal(false);
 
   constructor() {
     afterNextRender(() => this.initTimeline(this.phases(), this.milestones(), this.sprints()));
     inject(DestroyRef).onDestroy(() => {
+      this.tooltipPopover?.destroy();
       this.timeline?.destroy();
       this.timeline = null;
     });
@@ -117,7 +120,7 @@ export class ProjectTimelineGraphComponent {
     this.itemsDataset = new DataSet(items);
 
     this.timeline = new Timeline(
-      this.containerRef.nativeElement,
+      this.containerRef().nativeElement,
       this.itemsDataset as unknown as DataSet<DataItem>,
       new DataSet(groups),
       {
@@ -133,23 +136,22 @@ export class ProjectTimelineGraphComponent {
         zoomMin: 7 * 24 * 60 * 60 * 1000, // 7 days minimum zoom
         zoomMax: 50 * 365 * 24 * 60 * 60 * 1000, // 50 years maximum zoom
         onInitialDrawComplete: () => this.revealTimeline(),
+        showTooltips: false,
+        // Still required with showTooltips: false: Item#getTitle() calls the template
+        // to build the content ProjectTimelineTooltipPopover renders.
         // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
-        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip), overflowMethod: 'cap' } as any,
+        tooltip: { template: this.tooltip.tooltipTemplate.bind(this.tooltip) } as any,
       },
     );
 
-    this.timeline.on('click', (props:{ item:string | null }) => {
-      if (!props.item) return;
-      const item = this.itemsDataset!.get(props.item);
-      if (item?.itemType === 'milestone' && item.workPackageId) {
-        window.location.href = this.pathHelper.workPackagePath(String(item.workPackageId));
-      }
-    });
+    this.tooltipPopover = new ProjectTimelineTooltipPopover(this.timeline, this.containerRef().nativeElement, this.tooltip);
+    this.timeline.on('click', ({ item }:{ item:string | null }) => this.openItem(item));
   }
 
   private updateTimeline(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):void {
     const { items, groups } = this.itemBuilder.buildData(phases, milestones, sprints);
     this.itemsDataset = new DataSet(items);
+    this.tooltipPopover?.hide();
     this.timeline!.setData({ items: this.itemsDataset as unknown as DataSet<DataItem>, groups: new DataSet(groups) });
   }
 
@@ -161,6 +163,28 @@ export class ProjectTimelineGraphComponent {
       cluster: { maxItems: 1, clusterCriteria: this.shouldCluster.bind(this) },
     });
     this.ready.set(true);
+  }
+
+  protected highlightAccessibleItem(id:string):void {
+    this.timeline?.setSelection(id);
+    this.timeline?.focus(id, { zoom: false });
+  }
+
+  protected clearAccessibleItemHighlight():void {
+    this.timeline?.setSelection([]);
+  }
+
+  private openItem(id:string | null):void {
+    if (!id) return;
+
+    const item = this.itemsDataset!.get(id);
+    if (!item) return;
+
+    if (item.itemType === 'milestone' && item.workPackageId) {
+      Turbo.visit(this.pathHelper.workPackagePath(String(item.workPackageId)));
+    } else if (item.itemType === 'sprint' && item.href) {
+      Turbo.visit(item.href);
+    }
   }
 
   private shouldCluster(a:ProjectTimelineItem, b:ProjectTimelineItem):boolean {

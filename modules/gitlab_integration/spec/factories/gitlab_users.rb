@@ -31,7 +31,6 @@ FactoryBot.define do
     sequence(:gitlab_id)
     sequence(:gitlab_username) { |n| "user_#{n}" }
     gitlab_name { "User #{gitlab_username}" }
-    gitlab_email { "[REDACTED]" }
     gitlab_avatar_url { "https://gitlab.com/#{gitlab_username}_avatar.jpg" }
   end
 end

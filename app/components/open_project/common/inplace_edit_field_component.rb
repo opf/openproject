@@ -213,11 +213,21 @@ module OpenProject
         @required = if @system_arguments.key?(:required)
                       @system_arguments[:required]
                     elsif custom_field?
-                      # For custom fields, check the is_required attribute
-                      custom_field&.is_required || false
+                      custom_field_required?
                     else
                       false
                     end
+      end
+
+      ##
+      # Custom fields can be required for two reasons:
+      # 1. The custom field is required globally (CustomField#is_required)
+      # 2. The custom field is marked as required in the form configuration of the type/variant in this project
+      def custom_field_required?
+        return false if custom_field.nil?
+        return custom_field.is_required unless model.respond_to?(:custom_field_required?)
+
+        model.custom_field_required?(custom_field)
       end
 
       def custom_field?

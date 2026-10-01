@@ -104,6 +104,13 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
         identifier,
         href,
         uploadFiles,
+      )
+      .pipe(
+        tap(() => {
+          if (isNewResource(resource)) {
+            this.syncNewResourceAttachments(resource);
+          }
+        }),
       );
   }
 
@@ -148,6 +155,15 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
 
     const attachments = resource.attachments as { href?:string };
     return attachments?.href || null;
+  }
+
+  private syncNewResourceAttachments(resource:HalResource):void {
+    const ids = this.query.getValue().collections[HAL_NEW_RESOURCE_ID]?.ids ?? [];
+    const attachments = ids
+      .map((id) => this.query.getEntity(id))
+      .filter((attachment):attachment is IAttachment => !!attachment);
+
+    resource.attachments = { elements: attachments.map((attachment) => attachment._links.self) };
   }
 
   private uploadAttachments(href:string, files:IUploadFile[]):Observable<IAttachment[]> {

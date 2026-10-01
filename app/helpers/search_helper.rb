@@ -29,6 +29,9 @@
 #++
 
 module SearchHelper
+  VOID_HTML_ELEMENTS = %w[area base br col embed hr img input link meta param source track wbr].freeze
+  private_constant :VOID_HTML_ELEMENTS
+
   def highlight_tokens(text, tokens, text_on_not_found: false)
     split_text = text_split_by_token(text, tokens)
 
@@ -63,7 +66,7 @@ module SearchHelper
     highlight_tokens(last_journal(event).try(:notes), tokens) or
       highlight_tokens(attachment_fulltexts(event), tokens) or
       highlight_tokens(attachment_filenames(event), tokens) or
-      highlight_and_abbreviate_html(event.event_description, tokens)
+      highlight_and_abbreviate_html(event_description_for_search(event, tokens), tokens)
   end
 
   # This is an enhanced version of `highlight_tokens`.
@@ -71,9 +74,7 @@ module SearchHelper
   # Lastly, abbreviates the output and returns the final result as HTML.
   def highlight_and_abbreviate_html(event_description, tokens)
     html = OpenProject::TextFormatting::Renderer.format_text(event_description)
-    highlighted_html = highlight_tokens_in_html(html, tokens)
-    # This html_safe call is fine, as coming from our html pipeline
-    abbreviated_html(highlighted_html).html_safe # rubocop:disable Rails/OutputSafety
+    abbreviated_html(highlight_tokens_in_html(html, tokens))
   end
 
   def highlight_tokens_in_html(html, tokens) # rubocop:disable Metrics/AbcSize
@@ -212,7 +213,10 @@ module SearchHelper
     abbreviated_words
   end
 
-  # Similar to `abbreviated_text`, but considers HTML tags and keeps them intact
+  # Similar to `abbreviated_text`, but considers HTML tags and keeps them intact.
+  #
+  # Uses content_tag/h/safe_join instead of marking Nokogiri#to_html + html_safe.
+  # Tags come from the sanitizing formatter plus our highlight spans; text is escaped by h().
   def abbreviated_html(html, max_length: 1200)
     doc = Nokogiri::HTML::DocumentFragment.parse(html)
     text_length = 0
@@ -230,7 +234,27 @@ module SearchHelper
       break if text_length >= max_length
     end
 
-    doc.to_html
+    nodes_to_safe_html(doc)
+  end
+
+  def nodes_to_safe_html(node) # rubocop:disable Metrics/AbcSize
+    case node
+    when Nokogiri::XML::DocumentFragment
+      safe_join(node.children.filter_map { nodes_to_safe_html(it) })
+    when Nokogiri::XML::Text
+      h(node.content)
+    when Nokogiri::XML::Element
+      attributes = node.attributes.to_h { |name, attr| [name, attr.value] }
+      if VOID_HTML_ELEMENTS.include?(node.name)
+        tag(node.name, attributes)
+      else
+        content_tag(
+          node.name,
+          safe_join(node.children.filter_map { nodes_to_safe_html(it) }),
+          attributes
+        )
+      end
+    end
   end
 
   def process_text_node(content, current_length, max_length)
@@ -249,5 +273,14 @@ module SearchHelper
     modified_text = " #{modified_text}" if original_text.start_with?(" ") && !modified_text.start_with?(" ")
     modified_text = "#{modified_text} " if original_text.end_with?(" ") && !modified_text.end_with?(" ")
     modified_text
+  end
+
+  # Events may expose a token-aware description so the snippet only shows the parts that matched
+  def event_description_for_search(event, tokens)
+    if event.respond_to?(:searchable_content)
+      event.searchable_content(tokens)
+    else
+      event.event_description
+    end
   end
 end

@@ -91,7 +91,7 @@ module Redmine
             words_del = 0
           end
         end
-        words.join(" ")
+        safe_join(words, " ")
       end
 
       def additions

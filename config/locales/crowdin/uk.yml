@@ -66,6 +66,8 @@ uk:
 
       '
     login_with_auth_provider: або ввійдіть у свій існуючий обліковий запис
+    omniauth_direct_login_continue: Продовжити вхід
+    omniauth_direct_login_redirecting: Перенаправляємо вас до вашого постачальника послуг ідентифікації…
     omniauth_login: Увійдіть, щоб активувати свій обліковий запис.
     signup_title: Створіть обліковий запис у %{app_title}
     signup_with_external_account: Реєстрація за допомогою стороннього облікового запису
@@ -83,6 +85,21 @@ uk:
         prompt: Запит
         types: Типи пакетів робіт
         usage_scope: Область
+      ai/text_transform_run:
+        action: Дія
+        cancel_requested: Запит на скасування
+        error_message: Повідомлення про помилку
+        finished_at: Завершення
+        input: Ввід
+        status: Статус
+        system_prompt: Системна підказка
+        user: Користувач
+        uuid: UUID
+      ai/text_transform_run_event:
+        kind: Вид
+        payload: Корисне навантаження
+        run: Запуск
+        seq: Порядковий номер
       announcements:
         show_until: Показувати до
       attachment:
@@ -125,7 +142,9 @@ uk:
         is_for_all: Для всіх проєктів
         is_required: Обов'язкове поле
         max_length: Максимальна довжина
+        max_value: Максимальне значення
         min_length: Мінімальна довжина
+        min_value: Мінімальне значення
         multi_value: Дозволити вибір
         possible_values: Можливі значення
         regexp: Регулярний вираз
@@ -159,6 +178,21 @@ uk:
         company: Компанія
       favorite:
         favorited: Об’єкт
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: Кількість стовпців
         page: Сторінка
@@ -197,12 +231,28 @@ uk:
         onthefly: Автоматичне створення користувачів
         port: Порт
         tls_certificate_string: Сертифікат SSL сервера LDAP
+      llm_capability_verdict:
+        capability: Capability
+        model_id: Model
+        state: State
+      llm_connection:
+        api_format: API format
+        api_key: API key
+        base_url: Host URL
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        llm_features_enabled: Enable LLMs for this instance
+      llm_model:
+        admin_context_window: Context window
+        display_name: Display name
+        external: Model name
       mcp_configuration:
         description: Опис
         enabled: Увімкнено
         title: Заголовок
       member:
         blocked: Заблоковано
+        principal_type: Тип учасника
         roles: Роль
       notification:
         read_ian: Читайте в додатку
@@ -215,6 +265,7 @@ uk:
         position: Позиція
       persisted_query:
         filters: Фільтри
+        group_bys: 'Групування результатів:'
         name: Назва
         orders: Порядок
         selects: Вибране
@@ -353,6 +404,7 @@ uk:
       token/named:
         token_name: Ім’я маркера
       type:
+        allow_project_variants: Дозволити варіанти для проєкту
         color: Колір
         is_in_roadmap: За умовчанням відображається в дорожній карті
         is_milestone: Це віха
@@ -361,18 +413,15 @@ uk:
       type/configuration_link:
         source: Вихідний тип
       type_variant:
-        attribute_groups: Form
+        attribute_groups: Форма
         default_work_package_description: Стандартний текст опису
-        defaults_source: Джерело стандартних значень
         enabled_in_new_projects: Активовано в нових проєктах
-        form_configuration_source: Form source
+        linked_aspects: Успадкована конфігурація
         patterns: Шаблони
-        pdf_export_source: Джерело експорту в PDF
-        project_attributes_source: Джерело атрибутів проєкту
         project_types: Проєкти, у яких використовується цей варіант
         variant: Варіант
         variant_name: Назва
-        workflows_source: Джерело робочих процесів
+        workflow: Робочий процес
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
@@ -420,6 +469,13 @@ uk:
         time_zone: Часовий пояс
         warn_on_leaving_unsaved: Попереджати мене, коли залишив робочий пакет із незбереженими змінами
         workdays: Робочі дні
+      user_resource:
+        description: Опис
+        name: Назва
+        user_filter: Фільтр користувача
+      user_resource_detail:
+        description: Опис
+        user_filter: Фільтр користувача
       user_working_hours:
         availability_factor: Коефіцієнт доступності
         days: Робочі дні
@@ -470,8 +526,9 @@ uk:
           title: Робочі дні
           true: включати неробочі дні
         journal_internal: Внутрішній журнал
+        labels: Labels
         notify: Сповіщати
-        observed_in_versions: Observed in versions
+        observed_in_versions: Спостерігається у версіях
         parent: Джерело
         parent_issue: Батьківський об’єкт
         parent_work_package: Батьківський об’єкт
@@ -498,6 +555,10 @@ uk:
         work_package: Робочий пакет
       work_package_version:
         kind: Вид
+      workflow:
+        description: Опис
+        name: Назва
+        type_variants: Типи та варіанти, що використовують цей робочий процес
     errors:
       messages:
         accepted: повинні бути прийняті.
@@ -547,8 +608,8 @@ uk:
         is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
         ldap_managed: Цей відділ синхронізується з LDAP, і його не можна змінити вручну.
         less_than_or_equal_to: має бути меншим або рівним %{count}
-        migration_failed: 'The variant could not be switched for project ''%{project}'': %{reason}'
-        migration_target_invalid: The selected variant must be another variant of the same type that every affected project can use.
+        migration_failed: 'Не вдалося змінити варіант для проєкту «%{project}»: %{reason}'
+        migration_target_invalid: Вибраний варіант має бути іншим варіантом того самого типу, який можна використовувати в усіх проєктах, яких стосується ця зміна.
         not_a_date: не є дійсною датою.
         not_a_datetime: не є дійсним датою.
         not_a_number: не є числом
@@ -570,6 +631,7 @@ uk:
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
+        smaller_than_or_equal_to_max_value: має бути менше або дорівнювати максимальному значенню.
         ssrf_filtered: порушує політику SSRF цього екземпляра OpenProject.
         status_transition_invalid: неприпустимий, оскільки для ролей поточного користувача немає дійсного переходу від старого статусу до нового.
         system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
@@ -591,6 +653,10 @@ uk:
         user_in_ldap_managed_department: Цей користувач належить до відділу, що синхронізується з LDAP, тому його не можна перемістити.
         wrong_length: неправильна довжина (повинна бути %{count} символів).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: This action is not available.
         attachment:
           attributes:
             content_type:
@@ -655,6 +721,16 @@ uk:
           general_consent: Будь ласка, прийміть правила й умови використання.
         favorite:
           already_favorited: уже додано у вибране.
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: кінцеве значення має бути більше початкового значення.
           outside: знаходиться за межами сітки.
@@ -672,11 +748,41 @@ uk:
               not_unique: уже використовується. Виберіть інше ім’я.
         jira:
           invalid_protocol: Укажіть дійсний протокол (http або https)
+        label:
+          attributes:
+            name:
+              blank: Поле назви не може бути порожнім.
+              format: "%{message}"
+              taken: Мітка з цією назвою вже існує. Виберіть іншу назву.
+              too_long: 'Назва занадто довга (макс. кількість символів: %{count}).'
         ldap_auth_source:
           attributes:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'Наданий сертифікат SSL неприпустимий: %{additional_message}'
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+            api_key:
+              invalid_api_key: was rejected by the LLM server.
+            base:
+              singleton: Only one LLM connection can be active.
+            base_url:
+              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
+              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
+              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
+              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
+              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+            custom_headers:
+              invalid: must map header names to plain text values.
+            llm_features_enabled:
+              requires_connection: cannot be turned on before a connection has been configured.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Не вдалося зберегти, тому що зустріч була оновлена кимось іншим в цей час. Будь ласка, перезавантажте сторінку.
         member:
@@ -727,7 +833,6 @@ uk:
             types:
               cannot_assign_multiple_variants_of_parent: На рівні проєкту можна ввімкнути лише один варіант типу
               cannot_assign_variant_and_parent: 'Неможливо призначити варіант і його батьківський об’єкт '
-              cannot_assign_variants_yet: Зараз на рівні проєкту не можна вмикати варіанти. Активуйте прапорець функції, щоб випробувати варіанти.
               in_use_by_work_packages: 'як і раніше використовуються робочі пакети: %{types}'
               switch_target_blank: Виберіть варіант, на який потрібно перемкнутися
               switch_target_identical: Цільовий тип має відрізнятися від типу, що використовується в проєкті зараз
@@ -749,7 +854,7 @@ uk:
         project_type:
           attributes:
             variant:
-              must_be_owned_by_the_project: must not be a variant another project owns.
+              must_be_owned_by_the_project: не може бути варіантом, який належить іншому проєкту.
               must_belong_to_the_type: має бути варіантом типу, який використовується в проєкті.
         queries/filters/base:
           attributes:
@@ -822,7 +927,7 @@ uk:
               hours_per_day_are_missing: Потрібно визначити кількість годин на день.
               hours_per_day_is_out_of_bounds: Кількість годин на день не може перевищувати 24
               journal_aggregation_time_minutes_is_out_of_bounds: Період агрегації має становити від %{min} до %{max} хв.
-              password_login_requires_sso_provider: Password login restrictions require at least one available SSO provider.
+              password_login_requires_sso_provider: Для обмежень щодо входу за допомогою пароля необхідний принаймні один доступний провайдер SSO.
               previous_working_day_changes_unprocessed: Попередні зміни конфігурації робочих днів ще не застосовано.
               working_days_are_missing: Принаймні один день тижня має бути визначено як робочий.
         status:
@@ -840,41 +945,26 @@ uk:
               blank: Укажіть ім’я маркера
               format: "%{message}"
               in_use: Це ім’я маркера вже використовується; виберіть інше
+        type:
+          attributes:
+            base:
+              in_use_by_work_packages: Цей тип не можна видалити, доки його використовують пакети робіт.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: Використовується недійсний атрибут пакета робіт.
-              attribute_unknown_name: 'Використовується недійсний атрибут пакета робіт: %{attribute}'
-              duplicate_group: Назва групи «%{group}» використовується більше ніж раз. Назви груп мають бути унікальними.
-              group_without_name: Ім’я групи не може бути порожнім.
-              query_invalid: 'Вбудований запит «%{group}» недійсний: %{details}'
             base:
-              borrowed_by_variants: Не можна видалити, оскільки відповідну конфігурацію повторно використовують %{names}.
               is_default_variant: Стандартну конфігурацію типу не можна видалити.
+              project_variants_not_allowed: Цей тип не дозволяє створювати варіанти всередині проєктів.
               restrict_dependent_destroy:
                 has_many: Не можна видалити, поки використовується в проєктах.
-            defaults_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             enabled_in_new_projects:
-              not_available_to_project_owned_variant: cannot be set on a variant a project owns.
+              not_available_to_project_owned_variant: не можна встановити для варіанта, що належить проєкту.
               taken: уже налаштовано для іншої конфігурації такого типу.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
             variant:
               must_belong_to_the_type: має бути варіантом цього типу.
-            workflows_source_id:
-              must_be_available_to_the_variant: must be a configuration this project can use.
-              would_create_cycle: зв’яже ці конфігурації в цикл.
+            workflow:
+              not_available_to_this_variant: має бути робочим процесом, який може використовувати цей проєкт.
         user:
           attributes:
             base:
@@ -1010,6 +1100,16 @@ uk:
         few: Дії з перетворення тексту
         many: Дії з перетворення тексту
         other: Дії з перетворення тексту
+      ai/text_transform_run:
+        one: Запуск перетворення тексту
+        few: Запуски перетворення тексту
+        many: Запуски перетворення тексту
+        other: Запуски перетворення тексту
+      ai/text_transform_run_event:
+        one: Подія запуску перетворення тексту
+        few: Події запуску перетворення тексту
+        many: Події запуску перетворення тексту
+        other: Події запуску перетворення тексту
       announcement:
         one: Оголошення
         few: Оголошення
@@ -1165,6 +1265,11 @@ uk:
         few: Налаштування експорту
         many: Налаштування експорту
         other: Налаштування експорту
+      form_configuration:
+        one: Form
+        few: Forms
+        many: Forms
+        other: Forms
       forum:
         one: Форум
         few: Форуми
@@ -1588,7 +1693,29 @@ uk:
     banners:
       environment_configured_readonly: Ці значення налаштовуються за допомогою змінних середовища, і їх не можна змінити тут.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
+      color_groups:
+        base_colors: Основні кольори
+        main_menu: Головне бічне меню
+        top_header_colors: Кольори верхнього заголовка
       color_theme: Колірна тема
+      color_theme_caption: Використовуйте одну з тем OpenProject, що встановлені за замовчуванням, або створіть власну тему зі своїми кольорами, вибравши опцію «Власна тема».
       color_theme_custom: "(Власний)"
       colors:
         accent-color: Акцент
@@ -1597,12 +1724,17 @@ uk:
         main-menu-bg-selected-background: Головне меню в разі вибору
         primary-button-color: Основна кнопка
       custom_colors: Кольори за власними вподобаннями
+      default_colors:
+        description: Визначте палітру кольорів, що використовуватимуться в інших частинах програми. Ці кольори будуть доступні, наприклад, під час вибору кольору для позначення статусу чи типу.
+      edit_color: Редагувати колір %{color}
       fonts:
         file_is_invalid: не є дійсним файлом шрифту TTF.
         file_too_large: завеликий (максимальний розмір – %{count} МБ).
       instructions:
         accent-color: Колір для посилань та інших елементів, які має бути виділено.
+        header-bg-color: Колір фону заголовка додатка за промовчанням.
         main-menu-bg-color: Колір фону меню зліва.
+        main-menu-bg-selected-background: Колір фону пунктів меню при їх виборі.
         primary-button-color: Насичений акцентний колір використовується для більшості важливих кнопок на екрані.
       manage_colors: Редагувати параметри вибору кольору
       tab_branding: Брендування
@@ -1610,7 +1742,11 @@ uk:
       tab_interface: Інтерфейс
       tab_pdf_export_font: Шрифт для експорту в PDF
       tab_pdf_export_styles: Стилі експорту PDF
-      theme_warning: Змінення теми перезапише ваш власний стиль. У такому разі дизайн буде втрачено. Справді продовжити?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Додати маркер підтримки версії Enterprise
       book_now: Забронювати зараз
@@ -1670,6 +1806,7 @@ uk:
         ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         ssrf_block_doc_link: Перегляньте [документацію](docs_url).
         ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        unsupported_endpoint: У ira API немає кінцевої точки за адресою %{path} (статус %{status})
       columns:
         added: Додано
         creator: Автор
@@ -1711,6 +1848,43 @@ uk:
           button_edit_configuration: Змінити конфігурацію
           button_import_run: Цикл імпорту
           description: Ви можете переносити різні набори даних у різних циклах імпорту. Цикл імпорту можна скасувати відразу після виконання в режимі перевірки, але не після завершення.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Ви намагаєтесь імпортувати проєкт з ідентифікатором, який уже використовується: %{taken_identifier}. Будь ласка, оновіть ідентифікатор проєкту в Jira, а потім натисніть на кнопку «Повторити спробу».'
         remove_error: Цикл імпорту Jira не можна видалити, поки він виконується
         side_panel:
@@ -1721,7 +1895,7 @@ uk:
           finalizing: Завершення
           finalizing_done: Завершено
           finalizing_error: Помилка під час завершення
-          import_aborting: Aborting
+          import_aborting: Переривання
           import_error: Помилка під час імпорту
           import_scope: Вибір обсягу
           imported: Режим перевірки
@@ -1736,16 +1910,20 @@ uk:
           revert_error: Помилка під час скасування внесених змін
           reverted: Внесені зміни скасовано
           reverting: Скасування внесених змін
-        step_not_available: This action is not available for the current state of the import run.
+        step_not_available: Ця дія недоступна для поточного статусу процесу імпорту.
         title: Цикл імпорту
         wizard:
-          button_abort: Abort
+          application_trace: Application trace
+          button_abort: Перервати
           button_retry: Повторити спробу
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Я розумію, що цю дію не можна відмінити
             confirm_button: Зрозуміло
             description: Якщо ви схвалите цей імпорт, то більше не зможете його скасувати. Усі імпортовані дані буде остаточно збережено в системі.
             title: Схвалити цей імпорт?
+          full_trace: Full trace
           groups:
             configuration:
               title: Налаштуйте імпорт
@@ -1764,6 +1942,11 @@ uk:
               few: "%{count} задачі"
               many: "%{count} задач"
               other: "%{count} задачі"
+            jobs:
+              one: 1 job
+              few: "%{count} jobs"
+              many: "%{count} jobs"
+              other: "%{count} jobs"
             projects:
               one: 1 проєкт
               few: "%{count} проєкти"
@@ -1795,14 +1978,14 @@ uk:
             title: Остаточно скасувати цей імпорт?
           sections:
             confirm_import:
-              button_importing: Importing data
-              button_revert: Revert import
+              button_importing: Імпорт даних
+              button_revert: Скасувати імпорт
               button_start: Почати імпорт
               caption: Перегляньте налаштування імпорту й запустіть його
               caption_done: Завершено
               caption_done_info: Усі дані імпортовано
               description: Ви збираєтеся запустити імпорт із наведеними далі налаштуваннями.
-              info_importing: The import is now in progress. Closing this tab will not stop it, and you can always revisit the status of the import by opening the run.
+              info_importing: Здійснюється імпорт. Закриття цієї вкладки не зупинить процес. Ви завжди можете перевірити статус імпорту, відкривши відповідний запуск.
               label_available_data: Дані, які імпортуватимуться
               label_import_data: Зараз імпортується
               label_progress: Виконується імпорт…
@@ -1823,7 +2006,7 @@ uk:
               button_done: Схвалити імпорт
               button_revert: Скасувати імпорт
               caption: Перегляньте дані про цикл імпорту або скасуйте внесені зміни
-              info: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
+              info: Імпортовані дані зараз перебувають у режимі перевірки. Натисніть «Схвалити імпорт», щоб застосувати зміни, або «Скасувати імпорт», щоб скасувати всі зміни, внесені під час цього запуску.
               label_finalize_import: Схвалити імпорт
               label_finalizing: Схвалення імпорту…
               label_finalizing_done: Імпорт схвалено.
@@ -1865,6 +2048,7 @@ uk:
                 issues: Задачі
                 permissions: Дозволи
                 project_ids: Ідентифікатори проєктів
+                project_versions: Project versions
                 projects: Проєкти
                 relations: Зв’язки між задачами
                 schemes: Схеми
@@ -1872,7 +2056,7 @@ uk:
                 users: Залучені користувачі й групи
                 workflows: Робочі процеси на рівні проєктів
               label_coming_later: З’явиться пізніше
-              label_coming_soon: З’явиться незабаром (у 3 кв. 2026 р.)
+              label_coming_soon: Coming soon
               label_import: Виберіть проєкти, які ви хочете імпортувати.
               label_info: 'Зверніть увагу: цей інструмент доступний лише в бета-версії і не може імпортувати всі типи даних. Ось короткий опис вмісту, доступного для імпорту в хост-екземплярі Jira, а також даних, які інструмент може перенести прямо зараз.'
               label_progress: Отримання даних
@@ -1886,6 +2070,38 @@ uk:
             filter_projects: Фільтрувати за текстом
             info: В обсяг імпорту можна включити лише ті проєкти, учасником яких є власник маркера Jira.
             title: Виберіть проєкти для імпорту
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Інтерфейс Jira API повернув статус помилки «%{status}». Перевірте URL-адресу свого екземпляра Jira й маркер API.
         connection_error: 'Помилка з’єднання: %{message}'
@@ -1904,6 +2120,128 @@ uk:
       caption_with_maximum: 'Дії користувача над пакетом робіт (зміни опису, статусу чи значень або написання коментарів) групуються, якщо їх було виконано протягом цього періоду. Це налаштування також керує сповіщеннями й затримками [вебхука](webhook_link). Максимальне значення — %{max} хв.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: Я розумію, що цю дію не можна буде скасувати
+        description_html: Це призведе до видалення мітки <strong>%{name}</strong> зі всіх пакетів робіт у всіх проєктах.
+        heading: Видалити цю мітку?
+        title: Видалити цю мітку?
+      dialog_component:
+        create_title: Створити мітку
+        rename_title: Перейменувати «%{name}»
+      index:
+        description: Усі користувачі, які мають право редагувати пакети робіт, можуть вільно додавати до них наявні теги або миттєво створювати нові. Це стосується всіх тегів, створених користувачами в усіх проєктах.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} пакет робіт"
+          few: "%{count} пакети робіт"
+          many: "%{count} пакетів робіт"
+          other: "%{count} пакета робіт"
+      sub_header_component:
+        button_add: Мітка
+        label_add: Додати мітку
+        search_placeholder: Введіть текст для пошуку
+      table_component:
+        blank_slate:
+          description: Тут показуватимуться мітки, створені користувачами для пакетів робіт.
+          title: Міток ще немає
+        headers:
+          name: Мітка
+          usage: Де використовується
+        no_matches:
+          description: Спробуйте інший пошуковий запит.
+          title: За цим запитом не знайдено жодної мітки
+    llm_connections:
+      delete_api_key:
+        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
+        heading: Remove the stored API key?
+        menu_label: Remove API key
+        success: The API key has been removed.
+        title: Remove API key
+      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
+      disconnect:
+        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
+        heading: Disconnect from the LLM server?
+        keeps_models: The model list, including any models you added manually, is kept.
+        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
+        menu_label: Disconnect
+        success: OpenProject has disconnected from the LLM server.
+        title: Disconnect
+      form:
+        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
+        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
+        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
+        api_key_placeholder_stored: API key stored
+        api_key_remove: Remove key
+        base_url_caption: The base URL of the server, for example https://example.com/v1.
+        button_connect: Connect
+        label_connecting: Contacting the LLM server…
+        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
+        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
+        server_group: Server
+      show:
+        description: Connect OpenProject to an LLM server so that AI features can use it.
+        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+      tabs:
+        connection: Connection
+        models: Models
+      update:
+        disabled: Saved. LLM features are switched off for this instance.
+        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
+        success: Successfully connected to the LLM server.
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: The model will no longer be offered to AI features.
+        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        heading: Remove %{model}?
+        success: "%{model} has been removed."
+        title: Remove model
+      edit:
+        description: Edit how OpenProject uses this model.
+      form:
+        context_window: Context window
+        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
+        context_window_known: Leave blank to use %{value}, %{source}.
+        display_name_caption: An optional friendly name shown instead of the model id.
+        external_id_caption: The model name exactly as the server expects it.
+        model_type: Model type
+        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
+        model_type_chat: Chat model
+        model_type_embedding: Embedding model
+        model_type_unspecified: Not specified
+        state_inherited: Inherit from server (%{state})
+        state_supported: Supported
+        state_unsupported: Not supported
+      index:
+        add_model: Model
+        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
+        blank_title: No models available
+        context_window: Context window
+        description: Reported by the server on %{fetched_at}.
+        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
+        filter_label: Filter models
+        identifier: Model
+        kind: Type
+        refresh: Refresh models
+        source: Source
+        source_discovered: Server
+        source_discovered_description: Reported by the server
+        source_manual: Manual
+        source_manual_description: Added manually by an administrator
+        source_withdrawn: Withdrawn
+        source_withdrawn_description: No longer reported by the server
+        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+      new:
+        description: Name a model this server can use but does not advertise, and describe what it can do.
+        title: Add a model
+      refresh:
+        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
+        success: The model list has been refreshed.
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: Протокол контексту моделі дає змогу агентам ШІ надавати користувачам інструменти й ресурси, доступні в цьому екземплярі OpenProject. Ця функція досі доступна лише в бета-версії.
@@ -1934,6 +2272,14 @@ uk:
       update:
         failure: Не вдалось оновити конфігурацію MCP.
         success: Конфігурацію MCP оновлено.
+    members:
+      index:
+        blank_description: За поточним фільтром не знайдено жодного членства.
+        blank_title: Немає членств
+        filter_label: Пошук користувачів
+        inheritance_source: "%{type} %{name}"
+        inherited_via: "(джерело: %{source})"
+        title: Членства
     plugins:
       no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
       no_results_title_text: Зараз немає встановлених плагінів.
@@ -2109,6 +2455,43 @@ uk:
         page_header:
           description: Виберіть класичні числові ідентифікатори пакетів робіт або семантичні із зазначенням проєкту (до ідентифікатора пакета робіт додається префікс з ідентифікатором проєкту).
         success_banner: Формат ідентифікаторів пакетів робіт успішно оновлено.
+    text_transform_actions:
+      delete_dialog_component:
+        description: Користувачі більше не зможуть виконувати цю дію в редакторі форматованого тексту.
+        heading: Справді видалити дію «%{label}»?
+        title: Видалити дію перетворення тексту
+      form:
+        injects_type_template_caption: Якщо цей прапорець встановлено, шаблон опису типу пакета робіт автоматично додається до підказки. Підказка має містити інструкції щодо того, як працювати з цим шаблоном.
+        label_caption: Це назва, яку бачитимуть користувачі в редакторі.
+        select_types: Виберіть типи
+        types_caption: Додайте типи пакетів робіт, для яких ця дія має бути доступною. Усі наявні варіанти будуть включені автоматично.
+        usage_scope_caption: 'Ви можете вибрати, де буде доступна ця дія: усюди (зокрема в коментарях, вікі-сторінках і користувацьких полях), для всіх типів пакетів робіт або лише для певних типів.'
+      index:
+        description: Дії з перетворення тексту дають користувачам змогу за допомогою LLM писати, упорядковувати та перевіряти текст скрізь, де використовується редактор форматованого тексту, зокрема в описах пакетів робіт, коментарях і вікі-сторінках. Ви можете створювати нові дії за допомогою власних промптів та інструкцій.
+        label_add_action: Дія
+        label_aria_add_action: Додати дію з перетворення тексту
+      index_component:
+        blank_slate:
+          description: Додайте дію, щоб побачити її тут
+          title: Наразі не налаштовано жодних дій з перетворення тексту
+        disabled_warning: Дії з перетворення тексту вимкнені. Наведені нижче дії будуть недоступні скрізь.
+        label_disable_all: Вимкнути все
+        label_enable_all: Увімкнути все
+        title: Дії
+      new:
+        title: Нова дія з перетворення тексту
+      row_component:
+        label_actions: Меню дій
+        label_toggle: Перемикач %{label}
+        scope_specific_work_package_types:
+          one: "%{count} тип пакетів робіт"
+          few: "%{count} типи пакетів робіт"
+          many: "%{count} типів пакетів робіт"
+          other: "%{count} типа пакетів робіт"
+      usage_scopes:
+        all_work_package_types: Усі типи пакетів робіт
+        everywhere: Скрізь
+        specific_work_package_types: Конкретні типи пакетів робіт
     workflows:
       blankslate:
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
@@ -2119,6 +2502,11 @@ uk:
         ignore: Ігнорувати зміни
         save: Зберегти зміни й продовжити
         title: Зберегти зміни перед продовженням?
+      read_only:
+        edit_action: Edit workflow
+        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+
+          '
       role_selector:
         label: 'Роль: %{role}'
         no_role: Виберіть роль
@@ -2152,7 +2540,16 @@ uk:
           assignee: Додаткові переходи, доступні для виконавця пакета робіт.
           author: Додаткові переходи, доступні для автора пакета робіт.
         menu_label: Показані переходи
+      workflow_button: Workflow
+  ai:
+    text_transform:
+      errors:
+        connection_failed: Не вдалося встановити з’єднання зі службою ШІ.
+        not_available: ШІ-асистент недоступний.
+        timeout: Служба ШІ не відповіла вчасно.
+        upstream_error: Сервіс ШІ повернув помилку.
   announcements:
+    content: Content
     is_active: наразі відображається
     is_inactive: наразі не відображається
     show_until: Показувати до
@@ -2214,10 +2611,6 @@ uk:
       not_found:
         reminder: Нагадування, яке ви шукаєте, не вдалося знайти. Можливо, його видалено.
         work_package: Пакет робіт, який ви шукаєте, не можна знайти або його видалено.
-      render:
-        context_not_parsable: Контексті не посилання на ресурс.
-        context_object_not_found: Не можу знайти ресурс з урахуванням контексту.
-        unsupported_context: Даний ресурс не підтримується як контекст.
       unable_to_create_attachment: Не вдалося створити вкладення
       unable_to_create_attachment_permissions: Вкладення не вдалося зберегти через відсутність дозволів на файлову систему
       user:
@@ -2364,6 +2757,7 @@ uk:
     label_delete_token: Видалити маркер резервного копіювання
     label_reset_token: Скинути маркер резервного копіювання
     label_token_users: Наведені нижче користувачі мають активні маркери резервного копіювання
+    missing_attachments_notice_html: "<br/> <b>%{file_count} не вдалося прочитати</b>, тому їх було виключено з цієї резервної копії. Архів було перейменовано, додавши суфікс «-incomplete», щоб вказати на відсутність деяких вкладень.\n"
     reset_token:
       action_create: Створити
       action_reset: Скинути
@@ -2656,6 +3050,9 @@ uk:
       min_max:
         all: 0 означає відсутність обмежень
         project: 0 означає відсутність обмежень
+      min_max_value:
+        all: Якщо обмежень немає, залиште поле порожнім
+        project: Якщо обмежень немає, залиште поле порожнім
       multi_select:
         all: Це дає змогу користувачу присвоїти користувацькому полю кілька значень.
         project: Це дає змогу користувачу присвоїти атрибуту кілька значень.
@@ -2958,7 +3355,6 @@ uk:
       custom_actions: Користувацькі дії
       custom_field_hierarchies: Ієрархії
       customize_life_cycle: Налаштування життєвого циклу
-      date_alerts: Оповіщення про дати
       define_custom_style: Користувацька тема й логотип
       edit_attribute_groups: Редагування груп атрибутів
       gantt_pdf_export: Експорт діаграми Ґантта в PDF
@@ -3037,14 +3433,12 @@ uk:
         description: Користувацькі поля типу «Ієрархія» дають змогу впорядковувати ієрархічні структури в пакети робіт і проєкти, використовуючи багаторівневі розкривні списки.
       customize_life_cycle:
         description: Створюйте й упорядковуйте етапи й проєкту, відмінні від тих, що передбачено плануванням циклу проєкту PM2.
-      date_alerts:
-        description: Завдяки оповіщенням про дати ви завжди знатимете про заплановані дати початку або завершення, тож ніколи не пропускатимете важливі терміни й не забуватимете про них.
       define_custom_style:
         description: Персоналізуйте свій екземпляр OpenProject за допомогою власного логотипа й кольорів.
         more_info: 'Примітка: вибраний логотип буде загальнодоступний.'
         title: Користувацький колір теми й логотип
       edit_attribute_groups:
-        description: 'Customize the form with these additional add-ons:'
+        description: 'Налаштуйте форму за допомогою цих додаткових доповнень:'
         features:
           groups: Додати нові розділи атрибутів
           related: Додати таблицю зв’язаних пакетів робіт
@@ -3331,6 +3725,118 @@ uk:
       selected: Вибрано
     include_sub_items: Включити піделементи
     no_results_text: Немає результатів
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        few: "%{count} types"
+        many: "%{count} types"
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+        panel_label: Form to copy
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit form
+        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+
+          '
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        one: This form is used by 1 type. Changes apply to it.
+        few: This form is used by %{count} types. Changes apply to all of them.
+        many: This form is used by %{count} types. Changes apply to all of them.
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This form is used by 1 type or variant.
+        few: This form is used by %{count} types and variants.
+        many: This form is used by %{count} types and variants.
+        other: This form is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
     show:
       no_results_title_text: На даний момент на форумі немає публікацій.
@@ -3423,16 +3929,16 @@ uk:
     blocks:
       community: Спільнота OpenProject
       new_features:
-        '17_8':
+        '17_9':
           new_features_list:
-            line_0: дії на основі ШІ з пакетами робіт, коментарями й звʼязками з MCP-сервером (у тарифному плані Professional);
-            line_1: можливість використовувати кілька цільових версій для пакетів робіт;
-            line_2: загальні ліміти й обмеження для записів часу (у тарифному плані Professional);
-            line_3: покращення в межах Agile, повʼязані з масовим редагуванням і перетягуванням карток беклогів у зовнішні додатки;
-            line_4: макроси Wiki, доступні в більшій кількості текстових редакторів;
-            line_5: удосконалений пошук ідентифікаторів пакетів робіт;
-            line_6: відображення зв’язків у таблицях пакетів робіт (випущено для спільноти).
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, такі як:
+            line_0: Створення пакетів робіт безпосередньо в розділі «Документи».
+            line_1: Пошук і фільтрування пакетів робіт серед невиконаних завдань.
+            line_2: Можливість вибирати, чи зберігати нащадків під час видалення пакета робіт.
+            line_3: Використання сервера MCP для обліку робочого часу, пошуку пакетів робіт за їхнім ID тощо (тарифний план Professional).
+            line_4: Запис запланованого робочого навантаження у годинах, днях, тижнях або місяцях.
+            line_5: Відстеження прогресу імпорту під час використання Jira Migrator.
+            line_6: Нагадування про дати у версії Community Edition.
+          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, зокрема:
 
             '
         header: Читайте про нові функції і оновлення продуктів.
@@ -3472,12 +3978,14 @@ uk:
       budget_deleted: Бюджет видалено
       import:
         changed_with_diff: Поле «%{field}» змінено (%{link})
+        csv: from CSV
         deleted_with_diff: Поле «%{field}» видалено (%{link})
         field_changed: Значення в полі «%{field}» змінено з «%{old_value}» на «%{new_value}»
         field_removed: Поле «%{field}» видалено
         field_set: Для поля «%{field}» вибрано значення «%{value}»
         field_updated: Поле «%{field}» оновлено
         header: зміни вніс (внесла) %{author}
+        migrated: з Jira
         set_with_diff: Поле «%{field}» налаштовано (%{link})
       meeting_cancelled: "(скасовано)"
       meeting_deleted: "(видалено)"
@@ -3496,7 +4004,7 @@ uk:
         progress_calculation_adjusted_from_disabled_mode: Обчислення прогресу автоматично <a href="%{href}" target="_blank">переведено в режим на основі робіт</a>, і його результати скориговано відповідно до оновленої версії</a>.
         scheduling_mode_adjusted: Режим планування автоматично змінюється з оновленням версії.
         sprint_migration: Версію «%{version_name}» скопійовано як спринт.
-        stale_target_versions_removed: Outdated target version automatically removed. It had been incorrectly re-added when multiple target versions were enabled.
+        stale_target_versions_removed: Застарілу цільову версію було автоматично видалено. Її було помилково додано знову, коли було ввімкнено кілька цільових версій.
         target_versions_repaired: Перед увімкненням підтримки кількох цільових версій виконується автоматична синхронізація полів «Версія» і «Цільові версії».
         totals_removed_from_childless_work_packages: Результати обчислення обсягу й прогресу виконання роботи автоматично вилучено з небатьківських пакетів робіт з <a href="%{href}" target="_blank">оновленням версії</a>. Це завдання з технічного обслуговування, і його можна ігнорувати.
       total_percent_complete_mode_changed_to_simple_average: Значення атрибута «Робота» дочірніх пакетів робіт ігноруються.
@@ -3672,10 +4180,10 @@ uk:
   label_copy_target: Ціль
   label_copy_workflow_from: Копіювати робочий процес з
   label_copy_workflow_from_role: Копіювати в інші ролі
-  label_copy_workflow_from_type: Копіювати в інший тип
   label_core_build: Збірка ядра
   label_core_version: Версія ядра
   label_created_by: Створено %{user}
+  label_criteria: Критерій
   label_current_status: Поточний статус
   label_current_version: Поточна версія
   label_custom_comment: Коментар до атрибута «%{name}»
@@ -3699,8 +4207,6 @@ uk:
   label_custom_field_default_type: Порожній тип
   label_custom_field_new: Нове спеціальне поле
   label_custom_field_plural: Індивідуальні поля
-  label_custom_logo: Користувацький логотип для ПК
-  label_custom_logo_mobile: Користувацький логотип для мобільного
   label_custom_pdf_export_settings: Налаштування експорту PDF
   label_custom_style: Дизайн
   label_custom_style_description: Виберіть, як OpenProject виглядає для вас із темами, виберіть ваші кольори за замовчуванням для використання в застосунку та як виглядатимуть експорти.
@@ -3724,6 +4230,7 @@ uk:
   label_deleted_custom_field: "(видалено спеціальне поле)"
   label_deleted_custom_item: "(видалений елемент)"
   label_deleted_custom_option: "(параметр видалення)"
+  label_deleted_version: "(видалена версія)"
   label_departments: Організація
   label_departments_description_html: 'Визначте структуру своєї компанії, створюючи відділи й підвідділи в ієрархічному порядку. Це дасть змогу відобразити лінії підпорядкованості й підтримувати чіткий упорядкований огляд вашої організації в OpenProject. Ви також можете імпортувати наявну організаційну структуру за допомогою [синхронізації відділів з LDAP](ldap_docs_article).
 
@@ -3793,6 +4300,7 @@ uk:
   label_float: З плаваючою крапкою
   label_folder: Папка
   label_follows: слідкувати
+  label_form_configuration_plural: Forms
   label_formula: Формула
   label_forum_new: Новий форум
   label_forum_plural: Форуми
@@ -3862,6 +4370,7 @@ uk:
   label_journal_diff: Опис Порівняння
   label_jump_to_a_project: Перейти до проекту...
   label_keyword_plural: Ключові слова
+  label_label_plural: Мітки
   label_language: Мова
   label_language_based: На основі мови користувача
   label_languages: Мови
@@ -3917,7 +4426,6 @@ uk:
   label_message_new: Нове повідомлення
   label_message_plural: Повідомлення
   label_message_posted: Повідомлення додано
-  label_min_max_length: Мінімальна - максимальна довжина
   label_minute_plural: хвилини
   label_missing_api_access_key: Відсутній ключ доступу до API
   label_missing_feeds_access_key: Відсутній ключ доступу RSS
@@ -4251,6 +4759,8 @@ uk:
   label_wiki_start: Початкова сторінка
   label_wiki_toc: Зміст
   label_wiki_toc_empty: Зміст пустий, оскільки немає заголовків.
+  label_with_criteria: З критеріями
+  label_without_criteria: Без критеріїв
   label_work: Робота
   label_work_package: Робочий пакет
   label_work_package_attachments: Додатки до робочого пакету
@@ -4400,6 +4910,42 @@ uk:
     update:
       failure: 'Неможливо зберегти змінений список: %{errors}'
       success: Змінений список збережено
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Tool calling
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Structured output
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: the figure published for this model
+      server: reported by the server
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: supported
+      unknown: not verified
+      unsupported: not supported
   macro_execution_error: Помилка виконання макросу %{macro_name}
   macro_unavailable: Макрос %{macro_name} не може бути відображений.
   macro_unknown: Невідомий або непідтримуваний макрос.
@@ -4507,6 +5053,7 @@ uk:
   mail_body_account_information: Інформація по Вашому обліковому запису
   mail_body_account_information_external: Ви можете використовувати ваш %{value} обліковий запис для входу.
   mail_body_backup_ready: 'Запитана вами резервна копія готова. Її можна завантажити тут:'
+  mail_body_backup_ready_incomplete: "%{file_count} не вдалося прочитати, тому їх було виключено з цієї резервної копії. Завантажений архів було перейменовано, додавши суфікс «-incomplete», щоб вказати на відсутність деяких вкладень.\n"
   mail_body_backup_token_info: Попередній маркер більше не дійсний.
   mail_body_backup_token_reset_admin_info: Маркер резервного копіювання для користувача «%{user}» скинуто.
   mail_body_backup_token_reset_user_info: Ваш маркер резервного копіювання скинуто.
@@ -4653,9 +5200,11 @@ uk:
       aggregation: Агрегація
       ai: Штучний інтелект (ШІ)
       api_and_webhooks: API та вебгуки
+      llm_connection: LLM settings
       mail_notification: Email сповіщення
       mails_and_notifications: Електронні листи й сповіщення
       mcp_configurations: Model Context Protocol (MCP)
+      text_transform_actions: Дії з перетворення тексту
     quick_add:
       label: Додати…
   more_actions: Додаткові функції
@@ -4841,6 +5390,7 @@ uk:
   notice_account_already_activated: Обліковий запис вже активовано.
   notice_account_invalid_credentials: Неправильне ім’я користувача або пароль
   notice_account_invalid_credentials_or_blocked: Неправильне ім'я користувача або пароль або ваш обліковий запис заблокований через багаторазових невдалих спроб входу. Якщо це так, то вона буде автоматично розблокована протягом короткого часу.
+  notice_account_invalid_credentials_sso_hint: Якщо для вашого облікового запису налаштовано єдиний вхід, використовуйте свого провайдера ідентифікації для входу.
   notice_account_invalid_token: Недійсний маркер активації
   notice_account_lost_email_sent: Електронний лист з інструкціями щодо зміни паролю було надіслано до вас.
   notice_account_new_password_forced: Потрібен новий пароль.
@@ -5099,8 +5649,6 @@ uk:
       not_found: "— не знайдено."
       respond_to?: не реалізує потрібний метод.
       rules:
-        copy_workflow_from:
-          workflow_missing: не має власного робочого процесу.
         custom_field:
           format_not_supported: формат «%{field_format}» не підтримується.
         item:
@@ -5120,7 +5668,6 @@ uk:
     or: або
     rules:
       blueprint: Структура шаблону
-      copy_workflow_from: Тип копії робочого процесу
       depth: Глибина
       enabled: Увімкнено
       item: Об’єкт
@@ -5149,11 +5696,18 @@ uk:
     prev: Попереднє
     prev_page: Попередня сторінка
   pdf_generator:
+    budgets_table:
+      cost_per_unit: Витрати на одиницю
+      description: Опис
+      labor: Витрати на оплату праці
+      material: Витрати на одиницю
+      sum: Сума
+      total: Усього
     dialog:
       footer_center:
         caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
-        default_hint_project_name: When left blank, defaults to the project name.
-        default_hint_subject: When left blank, defaults to the work package's subject.
+        default_hint_project_name: Якщо поле залишити порожнім, за промовчанням буде вказано назву проєкту.
+        default_hint_subject: Якщо поле залишити порожнім, за промовчанням буде вказано тему пакету робіт.
         label: Текст нижнього колонтитула
       footer_right:
         caption: Цей текст з’явиться на кожній сторінці в правій частині нижнього колонтитула.
@@ -5163,6 +5717,12 @@ uk:
         label: Перенесення
       hyphenation_language:
         label: Мова й поділ слів на склади
+      include_budget:
+        caption: Включити бюджети проєкту із зазначенням статей витрат на одиницю та витрат на оплату праці.
+        label: Бюджети проєкту
+      include_lifecycle:
+        caption: Включити етапи проєкту та відповідні діапазони дат.
+        label: Життєвий цикл проєкту
       page_orientation:
         caption: Виберіть орієнтацію сторінок у PDF-документі.
         label: Орієнтація сторінки
@@ -5182,7 +5742,7 @@ uk:
       caption: Деталі пакета робіт, представлені у вигляді артефакту PMflex.
       label: Артефакт PMflex
     template_attributes:
-      caption: All the attributes present in the current form using the default template.
+      caption: Усі атрибути, наявні в поточній формі, що використовують шаблон за промовчанням.
       label: Атрибути й опис
     template_contract:
       caption: Деталі пакета робіт відформатовано в типовій для Німеччини формі договору.
@@ -5238,6 +5798,7 @@ uk:
   permission_export_projects: Експорт проєктів
   permission_export_work_packages: Експорт робочих пакетів
   permission_header_for_project_module_work_package_tracking: Пакети робіт і діаграми Ґанта
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: Запрошення учасників електронною поштою
   permission_invite_members_by_email_explanation: 'Дозвольте запрошувати нових користувачів електронною поштою. Запрошені користувачі отримають лист із посиланням для встановлення пароля й активації облікового запису. На це налаштування впливає дозвіл на керування користувачами.
 
@@ -5256,7 +5817,7 @@ uk:
     '
   permission_manage_placeholder_user: Створення, редагування та видалення прототипів користувачів
   permission_manage_project_activities: Управління проектною діяльністю
-  permission_manage_project_variants: Manage the project's own type variants
+  permission_manage_project_variants: Управління варіантами типів проєкту
   permission_manage_public_bcf_queries: Керування загальнодоступними запитами BCF
   permission_manage_public_project_queries: Керування списками загальнодоступних проєктів
   permission_manage_public_queries: Керуйте переглядами громадськості
@@ -5310,6 +5871,16 @@ uk:
   permission_work_package_assigned: Стати виконавцем / відповідальним
   permission_work_package_assigned_explanation: Робочі пакети можуть бути призначені користувачам і групам, які володіють цією роллю у відповідному проекті
   placeholder_users:
+    criteria:
+      activate: Активувати критерії фільтрації
+      activate_caption: 'Це дозволяє додати набір фільтрів до цього прототипа користувача для визначення можливих користувачів, що відповідають заданим критеріям.
+
+        '
+      enable: Фільтрувати користувачів за критеріями
+      enable_caption: Опишіть тип користувача, якого позначає цей заповнювач, для рекомендації відповідних користувачів.
+      matching_users: Користувачі, які відповідають критеріям фільтру
+      no_matching_users: Немає користувачів, що б відповідали цим критеріям.
+      show_all_matching_users: Показати всіх (%{count}) користувачів, що відповідають критеріям
     delete_tooltip: Видалити прототип користувача
     deletion_info:
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
@@ -5567,15 +6138,15 @@ uk:
           type_label: Тип
           type_placeholder: Виберіть тип
         add_type: Додати тип
-        add_variant: Add a project-specific variant
-        base_type_in_use: Base type used in this project
+        add_variant: Додати варіант для проєкту
+        base_type_in_use: Базовий тип, що використовується в цьому проєкті
         empty_state:
           description: Додайте тип, щоб користувачі могли створювати пакети робіт такого типу в цьому проєкті.
           title: У цьому проєкті немає активних типів
         form:
           enable_type_in_project: Дозволити тип «%{type}»?
         no_results_title_text: Наразі немає доступних типів.
-        project_specific_variant: Project-specific variant
+        project_specific_variant: Варіант для проєкту
         remove_from_project: Вилучити з проєкту
         switch:
           apply: Застосувати
@@ -5605,12 +6176,13 @@ uk:
           target_label: Варіант
           title: "%{type}: змінити варіант"
         type_not_found: Не вдалося знайти вибраний тип.
-        use_in_project: Use in this project
-        variant_in_use: Variant in this project
-        variant_label: Variant
+        use_in_project: Використовувати в цьому проєкті
+        variant_in_use: Варіант у цьому проєкті
+        variant_label: Варіант
+        variants_not_allowed: Цей тип не дозволяє створювати варіанти всередині проєктів.
       versions:
         no_results_content_text: Створіть нову версію
-        no_results_title_text: Наразі не існує версій для проекту.
+        no_results_title_text: Для цього проєкту не знайдено версій, що відповідають критеріям фільтра.
         show_work_packages: Показати пакети робіт
         work_packages_graph: Графік робочих пакетів
       work_package_priorities:
@@ -5620,6 +6192,7 @@ uk:
     wizard:
       create_artifact_storage_error: Не вдалося зберегти артефакт у файловому сховищі
       create_artifact_work_package_error: Не вдалося створити пакет робіт артефакту
+      no_custom_fields_html: Для цього проєкту не ввімкнено жодних атрибутів, що необхідні для роботи майстра. Увімкніть хоча б один атрибут у <a href="%{link}">налаштуваннях проєкту</a>.
       no_help_text: Для цього атрибута не визначено текст довідки.
       progress_label: "%{current} з %{total}"
       sections: Розділи
@@ -5778,11 +6351,64 @@ uk:
     warnings:
       cannot_annotate: Цей файл не може бути анотований.
   roles:
+    delete_dialog:
+      confirm: Ви справді хочете видалити цю роль?
+      entry_projects:
+        one: "(Проєкт: %{projects})"
+        few: "(Проєкти: %{projects})"
+        many: "(Проєкти: %{projects})"
+        other: "(Проєкти: %{projects})"
+      entry_projects_truncated:
+        one: "(Проєкти: %{projects} і ще 1)"
+        few: "(Проєкти: %{projects} і ще %{count})"
+        many: "(Проєкти: %{projects} і ще %{count})"
+        other: "(Проєкти: %{projects} і ще %{count})"
+      heading:
+        one: 'Ця роль досі присвоєна 1 учаснику:'
+        few: 'Ця роль досі присвоєна %{count} учасникам:'
+        many: 'Ця роль досі присвоєна %{count} учасникам:'
+        other: 'Ця роль досі присвоєна %{count} учаснику:'
+      heading_unused: Ви справді хочете видалити роль «%{name}»?
+      losing_project_access:
+        one: 1 із цих користувачів втратить доступ до проєктів, де ця роль була єдиною. Ви справді хочете видалити цю роль?
+        other: "%{count} із цих користувачів втратять доступ до проєктів, де ця роль була єдиною. Ви справді хочете видалити цю роль?"
+        zero: Жоден із цих користувачів не втратить доступ до своїх проєктів. Ви справді хочете видалити цю роль?
+      show_memberships: Показати всіх учасників із цією роллю
+      summary: "%{users} в %{projects}"
+      summary_projects:
+        one: 1 проєкт
+        few: "%{count} проєкти"
+        many: "%{count} проєктів"
+        other: "%{count} проєкти"
+      summary_users:
+        one: 1 користувач
+        few: "%{count} користувача"
+        many: "%{count} користувачів"
+        other: "%{count} користувача"
+      title: Видалити роль
     edit:
       default_for_new_projects_warning: 'Відповідно до налаштувань, ця роль за умовчанням надається користувачам, які створюють проєкт, але не є адміністраторами. Не вилучайте вказані далі права, інакше автори не зможуть завершити налаштування новостворених проєктів:'
+    index:
+      filter_label: Шукати ролі
+      types:
+        all: Усі ролі
+        global: Глобальні ролі
+        project: Ролі в проєкті
     permissions:
       section_check_all_label: Призначити всі дозволи модуля «%{module}»
       section_uncheck_all_label: Скасувати призначення всіх дозволів модуля «%{module}»
+    permissions_dialog:
+      edit_permissions: Редагувати дозволи ролі
+      implicit_permission: Надається завжди
+      no_permissions: Ця роль не надає жодних дозволів.
+      permission_count:
+        one: 1 дозвіл
+        few: "%{count} дозволи"
+        many: "%{count} дозволів"
+        other: "%{count} дозволи"
+      preview_action: Переглянути дозволи
+      preview_aria_label: Переглянути дозволи для ролі %{role}
+      title: Дозволи для «%{name}»
     report:
       matrix_caption: Матриця дозволів для модуля «%{module}»
       matrix_check_all_label: Призначити всі дозволи модуля «%{module}» усім ролям
@@ -5804,6 +6430,7 @@ uk:
   setting_after_login_default_redirect_url_example_html: 'Налаштуйте шлях, який за замовчуванням використовуватиметься для переспрямування користувачів після входу, якщо зворотне посилання не надано. Якщо не налаштувати його, користувачі переспрямовуватимуться на головну сторінку. <br/>Приклад: %{example_code}
 
     '
+  setting_ai_text_transform_actions_enabled: Увімкнути дії з перетворення тексту
   setting_allowed_link_protocols: Дозволені протоколи для посилань
   setting_allowed_link_protocols_text_html: Дозвольте відображення цих протоколів у вигляді посилань в описах пакетів робіт, довгих текстових полях і коментарях. Наприклад, %{tel_code} або %{element_code}. Вводьте по одному протоколу в рядок. <br/> Протоколи %{http_code}, %{https_code} і %{mailto_code} завжди дозволені.
   setting_antivirus_scan_action: Дія із зараженим файлом
@@ -5883,7 +6510,7 @@ uk:
   setting_default_language: Мова за замовчуванням
   setting_default_projects_modules: Включені по замовчуванню модулі для нових проектів
   setting_default_projects_public: Нові проекти є загальнодоступними
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Вмикати функцію Wiki для нових проєктів за промовчанням
   setting_diff_max_lines_displayed: Відображається максимальна кількість рядків diff
   setting_disable_password_login: Вимкнути автентифікацію за допомогою пароля
   setting_display_subprojects_work_packages: Дисплей підпроекти пакети робіт на основні проекти за замовчуванням
@@ -5931,14 +6558,14 @@ uk:
   setting_password_active_rules: Вимоги до пароля
   setting_password_count_former_banned: Кількість останніх використаних паролів, заборонених для повторного використання
   setting_password_days_valid: Кількість днів, після чого змінюється пароль
-  setting_password_login: Password login
-  setting_password_login_all: Allow for everyone
-  setting_password_login_all_caption: Anyone with an internal password can sign in with it, including users linked to an identity provider.
-  setting_password_login_bypass_principal_ids: Users and groups who may still use a password
-  setting_password_login_except_sso: Disallow for SSO users
-  setting_password_login_except_sso_caption: Users linked to an identity provider cannot sign in with their internal password. Other users can continue using it.
-  setting_password_login_none: Disallow for everyone
-  setting_password_login_none_caption_html: The password form is hidden. Only users and groups listed below can sign in with a password via %{internal_login_link}.
+  setting_password_login: Вхід за допомогою пароля
+  setting_password_login_all: Дозволити для всіх
+  setting_password_login_all_caption: Будь-хто, хто має внутрішній пароль, може увійти за його допомогою, у тому числі користувачі, що привʼязані до провайдера ідентифікації.
+  setting_password_login_bypass_principal_ids: Користувачі та групи, які, можливо, досі використовують пароль
+  setting_password_login_except_sso: Заборонити для користувачів із SSO
+  setting_password_login_except_sso_caption: Користувачі, прив’язані до провайдера ідентифікації, не можуть увійти за допомогою свого внутрішнього пароля. Інші користувачі можуть і надалі ним користуватися.
+  setting_password_login_none: Заборонити для всіх
+  setting_password_login_none_caption_html: Поле для введення пароля приховано. Лише користувачі та групи, перелічені нижче, можуть здійснювати вхід за допомогою пароля через %{internal_login_link}.
   setting_password_min_length: Мінімальна довжина
   setting_per_page_options: Кількість записів на сторінку
   setting_percent_complete_on_status_closed: "% Завершення, коли статус закрито"
@@ -6001,6 +6628,7 @@ uk:
   setting_start_of_week: Тиждень починається
   setting_sys_api_description: Веб-сервіс управління сховищем забезпечує інтеграцію та авторизацію користувача для доступу до сховищ.
   setting_sys_api_enabled: Увімкнути веб-службу керування сховищем
+  setting_sys_api_key: API key
   setting_time_format: Час
   setting_total_percent_complete_mode: Обчислення підсумків ієрархів «% завершення»
   setting_total_percent_complete_mode_simple_average: Середнє арифметичне
@@ -6075,13 +6703,13 @@ uk:
       omniauth_direct_login_hint_html: 'Якщо цей параметр увімкнено, запити на вхід переспрямовуватимуться налаштованому постачальнику omniauth. Спадний список і сторінку входу буде вимкнено. <br/> <strong>Примітка.</strong> Якщо цей параметр увімкнено й вхід за допомогою пароля дозволено, користувачі зможуть входити зі сторінки входу <code>%{internal_path}</code>.
 
         '
-      password_login_bypass_principal_ids_hint: 'Even when password login in disabled, these users and groups will be able to use their password to sign in. This is useful, for example, if the identity provider becomes unavailable. If you include a group, access will be extended to all users in that group.
+      password_login_bypass_principal_ids_hint: 'Навіть якщо вхід за допомогою пароля вимкнено, ці користувачі та групи зможуть використовувати свої паролі для входу. Це корисно, наприклад, у разі, якщо провайдер ідентифікації стає недоступним. Якщо ви додасте групу, доступ буде надано всім користувачам цієї групи.
 
         '
-      password_login_configured_by_environment: 'The following settings are configured through the environment and cannot be edited here:
+      password_login_configured_by_environment: 'Зазначені нижче параметри налаштовуються на рівні середовища і не можуть бути змінені тут:
 
         '
-      password_login_requires_sso_provider: 'Password login restrictions are unavailable because no SSO provider is currently enabled. Configure and enable an SSO provider before changing these settings.
+      password_login_requires_sso_provider: 'Обмеження щодо входу за паролем недоступні, оскільки наразі не активовано жодного провайдера SSO. Перш ніж змінити ці налаштування, слід налаштувати й активувати провайдера SSO.
 
         '
       registration: Реєстрація
@@ -6355,13 +6983,14 @@ uk:
         <br>
         <strong>Примітка</strong>: успадковані значення (напр., значення дочірніх елементів або зв’язки) не зміняться.
     index:
+      could_not_be_moved: Не вдалося перемістити статус.
       headers:
-        excluded_from_totals: Виключено з підсумків
         is_closed: Закрито
-        is_default: За замовчуванням
         is_readonly: Лише для перегляду
+      no_filter_results_title_text: За поточним фільтром не знайдено жодного статусу.
       no_results_content_text: Додати новий статус
       no_results_title_text: Наразі немає статусів робочих пакетів.
+      status_actions: Дії зі статусом
   support:
     array:
       sentence_connector: і
@@ -6410,12 +7039,6 @@ uk:
 
     '
   text_custom_field_possible_values_info: По одному значенню в кожному рядку
-  text_custom_logo_instructions: 'Логотип автоматично масштабується відповідно до розміру заголовка. Щоб отримати найкращий результат, завантажте зображення з білим логотипом на прозорому фоні розміром 130×47 пікселів. Відступи на зображені можуть бути будь-які.
-
-    '
-  text_custom_logo_mobile_instructions: 'Логотип автоматично масштабується відповідно до розміру заголовка. Щоб отримати найкращий результат, завантажте зображення з білим логотипом на прозорому фоні розміром 130×33 пікселі. Відступи на зображені можуть бути будь-які.
-
-    '
   text_custom_touch_icon_instructions: 'Це значок, який відображається на вашому мобільному пристрої або планшеті, коли ви створюєте закладку на робочому столі. Це має бути квадратний файл зображення 180 на 180 пікселів у форматі PNG. Переконайтеся, що фон зображення не прозорий, інакше воно буде матиме поганий вигляд на iOS.
 
     '
@@ -6567,23 +7190,95 @@ uk:
     getting_started: Починаємо
     help_and_support: Допомога та підтримка
   total_progress: Загальний прогрес
+  tree_view:
+    label_empty_sub_tree: Немає елементів
   types:
+    comparison:
+      action: Порівняти варіанти
+      blankslate:
+        description: Додайте другий варіант цього типу, щоб побачити, чим вони відрізняються.
+        title: Поки що немає чого порівнювати
+      description: Порівняйте варіанти цього типу з батьківським типом.
+      labels:
+        duplicate: Можливий дублікат
+        duplicate_of: Налаштовано точно так само, як %{names}
+        duplicate_of_more:
+          one: "%{names} і ще 1"
+          few: "%{names} і ще %{count}"
+          many: "%{names} і ще %{count}"
+          other: "%{names} і ще %{count}"
+        parent_type: Батьківський тип
+        same_as_type: Як і в батьківському типі
+      rows:
+        form:
+          fields: Поля
+          groups: Розділи
+          required: З яких обов’язкові
+          same_as_base: Як і в батьківському типі
+        scope:
+          availability: Доступно для
+          enabled_in_new_projects: Активовано в нових проєктах
+          projects: Проєкти
+        workflows:
+          roles: Залучені ролі
+          same_as_base: Як і в батьківському типі
+          statuses: Статуси
+          transitions: Переходи
+      sections:
+        configuration: Огляд конфігурації
+        form: Форма
+        scope: Область
+        workflows: Робочі процеси
+      title: Порівняти варіанти
+      title_for_type: Порівняти варіанти для %{name}
+      values:
+        global: Усі проєкти
+        inheriting_from: Спадкування від
+        project_specific: Повʼязані з конкретними проєктами ([%{project}](project_url))
+        same_as_base: Як і в батьківському типі
     creation_wizard:
-      add_variant: Add a variant to %{name}
+      add_variant: Додати варіант для об’єкта «%{name}»
       create_type: Створити тип
       create_variant: Створити варіант
+      descriptions:
+        defaults: Choose if project members should be able to name work packages as they want or if the titles should be automatically generated.
+        form_configuration: These are the fields that a project member sees when creating or editing a work package of this type.
+        pdf: Configure how PDF exports of work packages of this type should look.
+        project_attributes: You can choose to make certain project attributes visible in all work packages of this type.
+        projects: In which projects should this type be available?
       fields:
         variant_name_caption: Дає назву цій конфігурації типу «%{type}». Пакети робіт і далі використовують тип «%{type}».
       finish: Завершити
       placeholder_description: Цей крок стане доступним незабаром.
       progress_label: Крок %{number} з %{total}
+      start:
+        inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
+        inherit_title: Use the same settings as the type
+        manual_description: You can configure this page freely as you wish or copy over configuration from another type.
+        manual_title: Manual configuration
+        reuse_heading: Reuse existing type configuration
+        reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
+        reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
+        reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
+        submit: Start
+        type:
+          description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
+          heading: Create a new type
+          lead_html: You are about to create a new type in your instance.
+          step_by_step: You will configure a new type step-by-step in the following pages.
+        variant:
+          description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
+          heading: Create a new variant
+          lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
+          step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
         defaults: Стандартні
         details: Деталі
-        form_configuration: Form
+        form_configuration: Форма
         pdf: Генерування PDF-файлу
         project_attributes: Атрибути проєкту
         projects: Проєкти
+        start: Start
         workflows: Робочі процеси
       success: Успішно створено.
     edit:
@@ -6610,10 +7305,11 @@ uk:
             work_package: Пакет робіт
           label_with_context: "%{attribute_context}: %{attribute_label}"
       details:
+        allow_project_variants_caption: Адміністратори проєкту, які мають права на управління варіантами, можуть розширювати або змінювати цей тип у межах проєкту.
         inherited_from_type_html: Успадковано від типу <b>%{type}</b>.
         tab: Деталі
         type_color_text: Вибраний колір використовується для виділення різних типів на діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений.
-        variant_name_caption_html: This is an internal name only visible to administrators. Variants replace the original parent type, so if this variant is used in a project, it will appear as <b>%{type}</b> to all members.
+        variant_name_caption_html: Це внутрішня назва, яку бачать лише адміністратори. Варіанти замінюють вихідний батьківський тип, тому якщо цей варіант використовується в проєкті, учасники бачитимуть його як <b>%{type}</b>.
       export_configuration:
         artefact_export:
           attachment:
@@ -6639,20 +7335,21 @@ uk:
           label: Шаблони експорту PDF
         tab: Згенерувати PDF
         templates:
-          readonly_error: Cannot be changed while linked to a source type.
+          readonly_error: Не можна змінити, поки пов'язано з типом джерела.
           section_title: Шаблони експорту PDF
           settings:
-            edit_link: Edit settings
-            reset_to_default: Reset to default
-            title: 'Settings: %{template}'
+            edit_link: Редагувати налаштування
+            reset_to_default: Відновити налаштування за промовчанням
+            title: 'Налаштування: %{template}'
       form_configuration:
         add_attribute_group: Розділ
         add_query_group: Таблиця пов’язаних робочих пакетів
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
-        builtin_field: Вбудоване поле
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
-        confirm_reset: Are you sure you want to reset the form?
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
+        confirm_reset: Ви справді хочете скинути форму?
         custom_field: Користувацьке поле
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
@@ -6667,33 +7364,49 @@ uk:
         group_actions: Дії з розділом
         group_name_label: Назва розділу
         inactive_attributes_heading: Неактивні атрибути
-        invalid_attribute_groups: The form payload is invalid.
+        invalid_attribute_groups: Дані форми є недійсними.
         invalid_query: Конфігурація вбудованого запиту недійсна.
         label_group: Розділ
         no_inactive_attributes: Немає неактивних атрибутів
-        not_found: The requested form item could not be found.
+        not_found: Не вдалося знайти потрібний елемент форми.
         query_group_label: Таблиця пов’язаних робочих пакетів
         remove_attribute: Вилучити з розділу
         rename_group: Перейменувати розділ
+        required:
+          already_required_globally: Це користувацьке поле є обов’язковим для всіх типів.
+          for_variant: Обов’язкове для цього типу
+          globally: Обов'язкове
+          globally_hint: Змініть це у користувацькому полі
+          mark: Обов’язкове для цього типу
+          not_a_custom_field: Обов’язковим для заповнення лише для одного типу може бути лише користувацьке поле.
+          unmark: Не є обовʼязковим для цього типу
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
-        reset_title: Reset form
+        reset_title: Скинути форму
         reset_to_defaults: Скинути форму
         row_actions: Дії з рядком
-        tab: Form
+        tab: Форма
         untitled_group: Безіменна група
+      overview:
+        configuration_mode: Режим конфігурації
+        mode:
+          always_manual: Завжди вручну
+          inheriting_from_html: Успадкування від %{source_name}
+          manual: Налаштовано вручну
+        settings: Налаштування
+        tab: Огляд
       project_attributes:
         actions:
           label_disable_all: Вимкнути все
           label_enable_all: Увімкнути все
         blankslate:
           inherited:
-            description: This type does not have any project attributes associated with it.
-            title: No project attributes configured
+            description: Немає атрибутів проєкту, пов’язаних із цим типом.
+            title: Немає налаштованих атрибутів проєкту
           manual:
-            description: Once you [create project attributes](administration_url), they will be visible here and can be added to a type.
-            title: No project attributes available
+            description: Коли ви [створите атрибути проєкту](administration_url), вони з’являться тут і їх можна буде додати в тип.
+            title: Немає доступних атрибутів проєкту
         description: Виберіть атрибути проєктів, які потрібно ввімкнути для цього типу пакетів робіт. У пакетах робіт цього типу ввімкнені атрибути відображаються на окремій вкладці, де їх можуть переглядати й редагувати користувачі з відповідними дозволами.
         disabled: Вимкнено
         exclusions:
@@ -6723,88 +7436,62 @@ uk:
             description_html: Скопіювавши дані з вихідного типу «%{source_name}», ви перезапишете поточні налаштування, що може вплинути на наявні дані пакетів робіт цього типу.
             title: Скопіювати конфігурацію?
           dialog:
-            description: Copy the configuration from a source type and use it as a one-time base. The configuration stays manual and does not inherit later changes of the source.
-            source_label: Source type
+            description: Скопіюйте конфігурацію з типу джерела та використовуйте її як одноразову основу. Конфігурація залишається ручною і не успадковує подальші зміни джерела.
+            source_label: Тип джерела
             source_placeholder: Вибрати тип або варіант
             submit: Зберегти й скопіювати
             title: Скопіювати конфігурацію
           invalid_source: Конфігурацію неможливо скопіювати з вибраного вихідного типу. Будь ласка, виберіть інший.
           success: Конфігурацію скопійовано.
-        dependents:
-          blank:
-            description: No other type or variant inherits from this configuration
-            title: No dependent types
-          description:
-            one: The following configuration is inherited by 1 other type or variant. Any changes you make here will also affect the dependent.
-            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            other: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-          dialog:
-            description: These types and variants inherit the configuration of this section. A change you make here applies to all of them.
-            direct_heading: Direct dependents
-            indirect_heading: Dependents through other types
-            title: Dependent types
-            variant_of_html: Variant of %{type_name}
-            variant_of_via_html: Variant of %{type_name}, inheriting via %{source_name}
-            via_html: Inheriting via %{source_name}
-          title:
-            one: 1 dependent type
-            few: "%{count} dependent types"
-            many: "%{count} dependent types"
-            other: "%{count} dependent types"
-          view: View dependent types
         exclusions:
-          not_inherited: This configuration is not inherited, so there is nothing to exclude. Edit the configuration directly instead.
+          not_inherited: Ця конфігурація не спадкується, тому виключати нічого не потрібно. Натомість відредагуйте безпосередньо конфігурацію.
           unknown_aspect: Невідомий розділ конфігурації «%{aspect}».
         inherited:
-          change_source: Change source type
-          configure_manually: Configure manually
+          configure_manually: Налаштувати вручну
           confirm_dialog:
-            change_source:
-              description_html: By changing the source type to %{source_name} you will overwrite the current settings and might affect existing information on the work packages of this type.
-              heading: Change source type?
-              title: Change source type
-            check_box: I understand that this will override the current settings
+            check_box: Я розумію, що поточні налаштування буде перезаписано
             from_manual:
-              description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-              heading: Switch configuration mode?
-              title: Switch configuration mode
-          description: This configuration is inherited from the source type [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: This configuration is inherited from the source type %{source_name}%{source_suffix}.
+              description: Усі поточні налаштування буде перезаписано, що може вплинути на наявні дані пакетів робіт цього типу.
+              heading: Змінити режим конфігурації?
+              title: Змінити режим конфігурації
           dialog:
-            description: Inherit this configuration from a source type. Any new configuration added to the source also applies here.
-            source_label: Source type
-            source_placeholder: Select a type or variant
-            submit: Switch
-            title: Inherit from another type
-          invalid_source: The configuration cannot be inherited from the selected type. Please select a different source type.
-          success: The configuration mode was switched.
-          title: Inherited configuration
+            description: Успадкувати цю конфігурацію від вихідного типу. Будь-яка нова конфігурація, додана до джерела, застосовується також і тут.
+            source_label: Вихідний тип
+            source_placeholder: Виберіть тип або варіант
+            submit: Перемкнути
+            title: Успадкувати з іншого типу
+          invalid_source: Конфігурацію неможливо успадкувати з вибраного вихідного типу. Будь ласка, виберіть інший.
+          mode_description: This variant will use the same settings as the type ([%{source_name}](source_url)). Any changes there will automatically reflect here.
+          mode_description_unlinked: This variant will use the same settings as the type. Any changes there will automatically reflect here.
+          mode_label: Use the same settings as the type
+          success: Режим конфігурації змінено.
+          title: Успадкована конфігурація
         manual:
           confirm_dialog:
-            check_box: I understand that this will override the current settings
-            description: All the current selected settings will be overridden and might affect existing information on the work packages of this type.
-            heading: Switch configuration mode?
-            title: Switch configuration mode
-          copy_from_type: Copy from another type
-          description: No settings are inherited. You can still copy the settings from another type one time.
+            check_box: Я розумію, що поточні налаштування буде перезаписано
+            description: Усі поточні налаштування буде перезаписано, що може вплинути на наявні дані пакетів робіт цього типу.
+            heading: Змінити режим конфігурації?
+            title: Змінити режим конфігурації
+          description: Налаштування не успадковуються. Ви все одно можете один раз скопіювати налаштування з іншого типу.
           dialog:
-            submit: Switch
-            title: Configure manually
-          inherit_from_type: Inherit from another type
-          invalid_mode: The selected mode is not available for this configuration. Please choose a different mode.
+            submit: Перемкнути
+            title: Налаштувати вручну
+          inherit_from_type: Успадковувати
+          invalid_mode: Вибраний режим недоступний для цієї конфігурації. Будь ласка, виберіть інший.
+          mode_description: Manually configure this page. Changes to the parent type will no longer affect it.
+          mode_label: Configure this page manually
           modes:
             copy:
-              caption: Start with a one-time copy of the settings that this configuration inherits now.
-              label: Copy inherited settings
+              caption: Почніть з одноразового копіювання налаштувань, які ця конфігурація зараз успадковує.
+              label: Скопіювати успадковані налаштування
             default:
-              caption: Use the default settings for new types.
-              label: Default settings
+              caption: Використовувати налаштування за промовчанням для нових типів.
+              label: Налаштування за промовчанням
             empty:
-              caption: Set everything up from scratch, beginning from a blank configuration.
-              label: Empty
-          success: The configuration mode was switched.
-          title: Manual configuration
+              caption: Почніть із порожньої конфігурації і налаштуйте все з нуля.
+              label: Пусто
+          success: Режим конфігурації змінено.
+          title: Ручна конфігурація
         parent_suffix: " (батьківський об’єкт)"
       variants:
         blankslate:
@@ -6812,23 +7499,47 @@ uk:
 
             '
           title: Немає варіантів для цього типу
-        created_in_html: Created in %{project}
+        created_in_html: Створено в проєкті «%{project}»
         delete:
-          description: The projects using this variant will be switched to the variant you choose below before this variant is deleted.
-          title: Delete %{name}
+          description: Проєкти, у яких використовується цей варіант, будуть переведені на варіант, який ви виберете нижче, до того, як цей варіант буде видалено.
+          title: Видалити %{name}
         filter: Фільтрувати за текстом
         filter_no_results: Немає варіантів, які відповідають фільтру
         global_section:
-          description: These variants are available across all projects.
-          title: Variants
+          description: Ці варіанти доступні у всіх проєктах.
+          title: Глобальні варіанти
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Ці варіанти доступні лише в рамках тих проєктів, у яких вони були створені.
+          title: Варіанти для проєкту
       workflow:
         tab: Робочі процеси
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Додати варіант для об’єкта «%{name}»
       add_variant_action: Додати варіант
+      convert_to_global: Перетворити на глобальний варіант
+      convert_to_global_dialog:
+        confirm: Перетворити
+        text: 'У результаті цей варіант, створений для конкретного проєкту, стане глобальним і буде доступним для всіх проєктів. Адміністратор проєкту більше не зможе його редагувати.
+
+          '
+        workflow_text: 'Робочий процес «%{name}» належить до цього проєкту і також набуває глобального статусу.
+
+          '
+      convert_to_global_notice: "%{name} тепер є глобальним."
+      convert_to_global_rename:
+        confirm: Перетворити
+        text: Глобальний варіант із цією назвою вже існує. Будь ласка, виберіть іншу назву.
+        title: Виберіть іншу назву для цього варіанту
+      delete:
+        description: Цей тип буде видалено назавжди. Цю дію неможливо скасувати.
+        description_with_variants: Цей тип і всі його варіанти буде видалено назавжди. Цю дію неможливо скасувати.
+        heading: Видалити тип «%{name}»?
+        projects:
+          one: 'Цей тип буде видалено з 1 проєкту:'
+          few: 'Цей тип буде видалено з %{count} проєктів:'
+          many: 'Цей тип буде видалено з %{count} проєктів:'
+          other: 'Цей тип буде видалено з %{count} проєктів:'
+        title: Видалити тип
       description: 'Кожну область конфігурації на рівні типів і варіантів можна налаштувати окремо, обмежити на основі іншого типу або повністю зв’язати з вихідним об’єктом.
 
         '
@@ -6840,15 +7551,22 @@ uk:
       no_results_content_text: Створіть новий тип
       no_results_title_text: Наразі немає типів.
       project_variants_count:
-        one: 1 project-specific variant
-        few: "%{count} project-specific variants"
-        many: "%{count} project-specific variants"
-        other: "%{count} project-specific variants"
+        one: 1 варіант для проєкту
+        few: "%{count} варіанти для проєкту"
+        many: "%{count} варіантів для проєкту"
+        other: "%{count} варіанти для проєкту"
       remove_default: Не активувати в нових проєктах
       remove_default_notice: Обʼєкт «%{name}» більше не активується в нових проєктах.
       type_label: Тип
       variant_label: Варіант
     milestone_indicator: Віха
+    patterns:
+      formats:
+        hierarchy_default: Default (label and short)
+        hierarchy_label: Label only
+        hierarchy_short: Short only
+        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Ігнорувати це попередження.
     message: Ви можете зіткнутися з помилками та погіршити досвід роботи на цій сторінці.
@@ -7039,6 +7757,12 @@ uk:
   version_status_locked: Заблоковано
   version_status_open: відкрити
   versions:
+    filter_status_labels:
+      closed: Закрито
+      locked: Заблоковано
+      open: Відкрито
+    index:
+      filter_label: Пошук версій
     overview:
       no_results_title_text: Наразі для цієї версії не призначено робочих пакетів.
       work_packages_in_archived_projects: Доступ до цієї версії надано в архівних проєктах, які досі містять пакети робіт, призначені цій версії. Їх враховано, але вони не відображаються в пов’язаних поданнях.
@@ -7225,6 +7949,13 @@ uk:
       confirm_deletion: Я розумію, що вибрані пакети робіт і всі пов’язані з ними дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
+      descendants_choice:
+        heading: Видалити також усіх нащадків?
+        question: Ви намагаєтеся видалити пакети робіт, які мають нащадків. Видалити їх також?
+        self_only_caption: Це не призведе до видалення нащадків, але усуне ієрархічні зв’язки.
+        self_only_label: Видалити лише вибрані пакети робіт
+        with_descendants_caption: Це призведе до видалення всіх доступних вам дочірніх пакетів робіт. На наступному кроці ви зможете переглянути повний список.
+        with_descendants_label: Видалити вибрані пакети робіт та їхніх нащадків
       description: Справді видалити вибрані пакети робіт і всі пов’язані з ними дані?
       description_with_all_descendants: Справді видалити вибрані пакети робіт разом зі всіма їх нащадками?
       description_with_descendants: Справді видалити вибрані пакети робіт разом зі всіма нащадками, наведеними нижче?
@@ -7297,6 +8028,13 @@ uk:
       confirm_deletion: Я розумію, що пакет робіт і всі пов’язані з ним дані буде видалено.
       confirm_descendants_deletion: Я розумію, що також видаляться всі нащадки, наведені вище.
       cross_project_warning_html: 'Буде видалено пакети робіт із таких проєктів: %{projects}'
+      descendants_choice:
+        heading: Видалити також усіх нащадків?
+        question: Цей пакет робіт має нащадків. Видалити їх також?
+        self_only_caption: Це не призведе до видалення нащадків, але усуне ієрархічні зв’язки.
+        self_only_label: Видалити тільки цей пакет робіт
+        with_descendants_caption: Це призведе до видалення всіх доступних вам дочірніх пакетів робіт. На наступному кроці ви зможете переглянути повний список.
+        with_descendants_label: Видалити цей пакет робіт і його нащадків
       description: Справді видалити обʼєкт «%{name}»?
       heading: Видалити цей пакет робіт остаточно?
       hidden_descendants_only_warning:
@@ -7320,6 +8058,151 @@ uk:
         few: Є %{count} нащадки, для видалення яких ви не маєте необхідних дозволів у проєктах %{projects}. Вони залишаться, але відповідні ієрархічні зв’язки буде вилучено.
         many: Є %{count} нащадків, для видалення яких ви не маєте необхідних дозволів у проєктах %{projects}. Вони залишаться, але відповідні ієрархічні зв’язки буде вилучено.
         other: Є %{count} нащадка, для видалення яких ви не маєте необхідних дозволів у проєктах %{projects}. Вони залишаться, але відповідні ієрархічні зв’язки буде вилучено.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            one: 1 line checked, no problems found
+            few: "%{count} lines checked, no problems found"
+            many: "%{count} lines checked, no problems found"
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            one: View the imported work package
+            few: View the %{count} imported work packages
+            many: View the %{count} imported work packages
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            one: 1 problem.
+            few: "%{count} problems, all shown."
+            many: "%{count} problems, all shown."
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          one: 1 line
+          few: "%{count} lines"
+          many: "%{count} lines"
+          other: "%{count} lines"
+        x_problems:
+          one: 1 problem
+          few: "%{count} problems"
+          many: "%{count} problems"
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'Типи пакетів робіт або їх нащадків не ввімкнено в цільовому проєкті. Увімкніть типи, яких бракує, якщо не хочете, щоб вони зазнали змін. Інакше виберіть у цільовому проєкті доступний тип зі списку.
 
@@ -7356,21 +8239,22 @@ uk:
       many: "%{count} нащадки робочого пакета"
       other: "%{count} нащадки робочого пакета"
   workflows:
+    change:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
+      title: Змінити робочий процес
     copies:
       form:
-        mode:
-          from_role:
-            caption: Скопіюйте поточний робочий процес в одну або кілька ролей у межах одного типу пакетів робіт. Якщо у вибраної ролі вже є робочий процес, поточний буде перезаписано.
-            label: Копіювати в інші ролі
-          from_type:
-            caption: Скопіюйте поточний робочий процес в інший тип пакетів робіт. Якщо вибраний тип уже має робочий процес, поточний буде перезаписано. Це впливає на всі ролі.
-            label: Копіювати в інший тип
-        source_role_id:
-          label: Вихідна роль
         target_role_ids:
           label: Цільові ролі
-        target_variant_ids:
-          label: Цільові типи
       from_roles:
         create:
           notice:
@@ -7378,16 +8262,17 @@ uk:
             few: Робочий процес успішно скопійовано в %{count} ролі.
             many: Робочий процес успішно скопійовано в %{count} ролей.
             other: Робочий процес успішно скопійовано в %{count} ролі.
-      from_variants:
-        create:
-          notice:
-            one: Робочий процес успішно скопійовано в тип «%{type_name}».
-            few: Робочий процес успішно скопійовано в %{count} типи.
-            many: Робочий процес успішно скопійовано в %{count} типів.
-            other: Робочий процес успішно скопійовано в %{count} типу.
       new:
-        title: Скопіювати робочий процес типу «%{source_type}»
+        dialog_title: Copy workflow of "%{source}"
     form:
+      copy_from:
+        caption: Новий робочий процес починається з копії переходів статусу цього робочого процесу.
+        label: Скопіювати із
+        placeholder: Виберіть робочий процес…
+      description:
+        caption: Додайте короткий опис того, де та як використовуватиметься цей робочий процес.
+        label: Опис
+      edit_title: Редагувати робочий процес
       matrix_caption: Матриця робочого процесу
       matrix_caption_assignee: Матриця робочого процесу для виконавця
       matrix_caption_author: Матриця робочого процесу для автора
@@ -7396,12 +8281,101 @@ uk:
       matrix_check_uncheck_all_in_row_label_html: Перемикач зміни статусу <em>%{old_status}</em> на всі нові статуси
       matrix_checkbox_label: Дозволити зміну статусу «%{old_status}» на «%{new_status}»
       matrix_uncheck_all_label: Заборонити всі зміни
+      name:
+        caption: Виберіть назву, яка допоможе вам пізніше впізнати цей робочий процес в інших місцях.
+        label: Назва робочого процесу
+      new_title: Створити робочий процес
     index:
+      actions:
+        create: Робочий процес
+        edit: Редагувати переходи
+        menu: Дії для %{name}
+        rename: Редагувати назву й опис
+      blank_slate:
+        description: Створіть робочий процес, щоб визначити переходи між статусами, які може використовувати тип або варіант.
+        filtered_description: За поточними фільтрами не знайдено жодного робочого процесу.
+        filtered_title: Відповідних робочих процесів не знайдено
+        title: Немає робочих процесів
+      columns:
+        name: Назва робочого процесу
+        projects: Проєкти
+        roles: Ролі
+        types_and_variants: Типи та варіанти
+      description: Усі іменовані набори переходів між статусами у цьому екземплярі, а також типи та варіанти, що їх використовують.
+      filters:
+        name: Робочий процес
+        name_placeholder: Фільтрувати за назвою або описом робочого процесу…
+        projects_placeholder: Фільтрувати проєкти…
+      projects_count:
+        one: 1 проєкт
+        few: "%{count} проєкти"
+        many: "%{count} проєктів"
+        other: "%{count} проєкти"
+      roles_count:
+        one: 1 роль
+        few: "%{count} ролі"
+        many: "%{count} ролей"
+        other: "%{count} ролі"
       type_filter:
         label: Фільтрувати за назвою типу…
+      types_and_variants_count: "%{types} (у т. ч. %{variants})"
+      types_count:
+        one: 1 тип
+        few: "%{count} типи"
+        many: "%{count} типів"
+        other: "%{count} типу"
+      variants_count:
+        one: 1 варіант
+        few: "%{count} варіанти"
+        many: "%{count} варіантів"
+        other: "%{count} варіанта"
+    name:
+      fallback: Робочий процес
+      implicit: "%{name} workflow"
     page_headers:
       index_component:
         description: Налаштуйте переходи статусів для кожного типу пакета робіт.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
+    start:
+      copy:
+        caption: Start with an existing workflow, change it as you wish and save it as a new workflow.
+        label: Start with a copy of an existing workflow
+        missing: Select the workflow to copy, or start from scratch instead.
+        panel_label: Workflow to copy
+      label: Starting point
+      scratch:
+        caption: Start with a blank workflow and build it manually.
+        label: Start from scratch
+      title: Configure a new workflow
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The workflow %{name} is used in the following types and variants.
+        title: Workflow used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: Наразі жоден тип чи варіант ще не використовує цей робочий процес.
+      used_by_types:
+        one: Цей робочий процес використовується 1 типом. Зміни застосовуються до нього.
+        few: Цей робочий процес використовується %{count} типами. Зміни застосовуються до всіх них.
+        many: Цей робочий процес використовується %{count} типами. Зміни застосовуються до всіх них.
+        other: Цей робочий процес використовується %{count} типу. Зміни застосовуються до всіх них.
+      used_by_variants:
+        one: Цей робочий процес використовується 1 типом або варіантом.
+        few: Цей робочий процес використовується %{count} типами або варіантами.
+        many: Цей робочий процес використовується %{count} типами або варіантами.
+        other: Цей робочий процес використовується %{count} типу або варіанту.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing workflow for this type with a pre-defined set of status transitions for a set of roles.
+          label: Use an existing workflow
+        new:
+          caption: Manually define a new workflow for this type by choosing which status transitions are allowed for which roles.
+          label: Configure a new workflow
   working_days:
     change_button: Змінити робочі дні
     dialog:

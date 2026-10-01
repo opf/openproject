@@ -219,7 +219,7 @@ describe('HalResource', () => {
     });
 
     it('should have enumerable properties', () => {
-      expect(resource.propertyIsEnumerable('property')).toBeTruthy();
+      expect(Object.prototype.propertyIsEnumerable.call(resource, 'property')).toBeTruthy();
     });
 
     describe('when a property is changed', () => {

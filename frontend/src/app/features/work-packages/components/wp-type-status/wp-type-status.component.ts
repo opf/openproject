@@ -30,6 +30,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-type-status',
   templateUrl: './wp-type-status.html',
   standalone: false,

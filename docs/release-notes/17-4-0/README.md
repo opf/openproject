@@ -69,7 +69,7 @@ You can now copy workflow settings from one role to other roles, using a dedicat
 
 ![Overlay in the OpenProject workflow settings: Copy workflow of "Task" to other roles, user can select multiple roles](openproject-17-4-workflow-copy-to-roles.png)
 
-[See our system admin guide to learn about work package workflows in OpenProject](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+[See our system admin guide to learn about work package workflows in OpenProject](../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ### New widget for upcoming meetings on Project Overview and Home page
 

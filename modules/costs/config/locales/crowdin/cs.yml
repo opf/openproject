@@ -72,6 +72,10 @@ cs:
           attributes:
             project_ids:
               blank: Prosím vyberte projekt.
+        rate:
+          attributes:
+            principal:
+              invalid: must be a user or a placeholder user.
         time_entry:
           attributes:
             entity:
@@ -225,6 +229,7 @@ cs:
   label_costlog: Logované jednotkové náklady
   label_costs: Náklady
   label_costs_per_page: Náklady na stránku
+  label_current: Current
   label_current_default_rate: Aktuální výchozí sazba
   label_date_on: ''
   label_day: Den
@@ -251,6 +256,8 @@ cs:
   label_next_week: Příští týden
   label_next_workweek: Příští pracovní týden
   label_no: Ne
+  label_no_default_rate: No default rate set
+  label_no_project_rate: No rate set for this project
   label_no_time: Není zaznamenán žádný čas
   label_option_plural: Možnosti
   label_overall_costs: Celkové náklady
@@ -262,6 +269,7 @@ cs:
   label_show: Zobrazit
   label_specific_day: Den %{day}
   label_specific_month: Měsíc %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Ukončeno
   label_time: Čas
@@ -271,6 +279,7 @@ cs:
   label_today_capitalized: Dnes
   label_units: Jednotky nákladu
   label_until: do
+  label_using_current_default_rate: Using current default rate
   label_valid_from: Platné od
   label_view_mode_switcher: Změnit zobrazení
   label_work_package_filter_add: Přidat filtr pracovního balíčku
@@ -290,6 +299,10 @@ cs:
   permission_edit_rates: Upravit sazby
   permission_log_costs: Jednotkové náklady na knihu
   permission_log_own_costs: Knihovní jednotkové náklady
+  permission_manage_default_hourly_rates: Manage default hourly rates
+  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+
+    '
   permission_view_cost_entries: Zobrazit rezervované náklady
   permission_view_cost_rates: Zobrazit nákladové sazby
   permission_view_hourly_rates: Zobrazit všechny hodinové sazby
@@ -327,6 +340,11 @@ cs:
   text_destroy_cost_entries_question: "%{cost_entries} byl nahlášen k pracovním balíčkům, které se chystáte odstranit. Co chcete udělat?"
   text_destroy_time_and_cost_entries: Odstranit nahlášené hodiny a náklady
   text_destroy_time_and_cost_entries_question: "%{hours} hodin, %{cost_entries} byly nahlášeny v pracovních balíčcích, které se chystáte odstranit. Co chcete udělat?"
+  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
+  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
+  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
+  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
+  text_no_project_rate: This project will use the current default rate.
   text_reassign_time_and_cost_entries: 'Přiřadit k tomuto pracovnímu balíčku nahlášené hodiny a náklady:'
   text_warning_hidden_elements: Některé položky mohly být z agregace vyloučeny.
   total_times:

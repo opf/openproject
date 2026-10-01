@@ -78,6 +78,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
   readonly turboRequests = inject(TurboRequestsService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;

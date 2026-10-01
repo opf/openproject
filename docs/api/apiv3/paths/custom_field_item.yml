@@ -5,6 +5,8 @@ get:
   operationId: get_custom_field_item
   description: |-
     Retrieves a single custom field item specified by its unique identifier.
+  tags:
+    - Custom Fields
   parameters:
     - name: id
       description: The custom field item's unique identifier

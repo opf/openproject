@@ -27,30 +27,55 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <% html_title t(:label_edit), @page.title %>
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title_content(@page.title)
-    header.with_breadcrumbs(
-      breadcrumb_for_page(@project, @page)
-    )
-  end
-%>
-<%= primer_form_with(
-      model: @page,
-      scope: :page,
-      url: { action: "update", id: @page.slug.presence || @old_title },
-      method: :put,
-      data: { turbo: false }
-    ) do |f| %>
-  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |layout| %>
-    <% layout.with_main do %>
-      <%= render WikiPages::Form.new(f, create: false) %>
-    <% end %>
-    <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
-      <%= render WikiPages::AttachmentsSidePanelComponent.new(@page) %>
+
+<% form_identifier = "wiki-page-form" %>
+
+<%= render(StepWizard::PageLayoutComponent.new) do |layout| %>
+  <%= layout.with_page_header do %>
+    <%= render Primer::OpenProject::PageHeader.new do |header|
+          header.with_title_content(@page.title)
+          header.with_breadcrumbs(
+            breadcrumb_for_page(@project, @page)
+          )
+
+          header.with_action_icon_button(
+            tag: :a,
+            icon: :x,
+            mobile_icon: :x,
+            label: t(:button_cancel),
+            size: :medium,
+            href: wiki_page_cancel_href(@page, @project),
+            aria: { label: t(:button_cancel) },
+            title: t(:button_cancel)
+          )
+        end %>
+  <% end %>
+
+  <%= layout.with_wizard_content do %>
+    <%= primer_form_with(
+          model: @page,
+          scope: :page,
+          url: { action: "update", id: @page.slug.presence || @old_title },
+          method: :put,
+          html: { id: form_identifier },
+          data: { turbo: false }
+        ) do |f| %>
+      <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg, first_in_source: :main)) do |layout| %>
+        <% layout.with_main do %>
+          <%= render WikiPages::Form.new(f, create: false) %>
+        <% end %>
+        <% layout.with_sidebar(col_placement: :end, row_placement: :end) do %>
+          <%= render WikiPages::AttachmentsSidePanelComponent.new(@page) %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
+
+  <%= layout.with_footer do %>
+    <%= render(WikiPages::FormFooterComponent.new(page: @page, project: @project, form_identifier:, create: false)) %>
+  <% end %>
 <% end %>
+
 <% content_for :header_tags do %>
   <%= robot_exclusion_tag %>
 <% end %>

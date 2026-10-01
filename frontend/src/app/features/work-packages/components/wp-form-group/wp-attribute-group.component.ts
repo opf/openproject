@@ -37,6 +37,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-attribute-group',
   templateUrl: './wp-attribute-group.template.html',
   styleUrls: ['./wp-attribute-group.component.sass'],

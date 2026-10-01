@@ -217,7 +217,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe "#type_variant", with_flag: { type_variants: true } do
+  describe "#type_variant" do
     shared_let(:type) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
@@ -381,7 +381,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "time entries" do
-      subject { TimeEntry.find_by(work_package_id: work_package.id) }
+      subject { TimeEntry.find_by(entity: work_package) }
 
       it { is_expected.to be_nil }
     end

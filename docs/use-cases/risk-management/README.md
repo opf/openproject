@@ -115,7 +115,7 @@ Do not use `Rejected` merely because mitigation has been completed; use `Mitigat
 Review risks in `New`, `Evaluated` and `Mitigation planned` regularly. Check assumptions and early warning indicators, update likelihood and impact when evidence changes, follow up overdue actions and schedule the next review.
 
 > [!TIP]
-> OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts-enterprise-add-on). OpenProject will then notify participating users as the date approaches. Date alerts are an Enterprise add-on.
+> OpenProject does not provide a dedicated `Next review date` field. To schedule a risk review, use the risk's finish date as the review date and enable [date alerts](../../user-guide/notifications/notification-settings/#date-alerts). OpenProject will then notify participating users as the date approaches.
 
 Use comments for review notes and decisions. The activity history provides a chronological audit trail. For status reporting and lessons learned, include risks in `Mitigation done`, `Occurred` and `Rejected` as separate outcome groups.
 
@@ -184,7 +184,7 @@ The example configuration uses the following statuses:
 5. `Occurred`: the uncertain event has happened; create or link an issue for resolution and execute the applicable contingency actions.
 6. `Rejected`: the entry is a duplicate, is outside the project scope or was determined not to represent a relevant project risk.
 
-Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+Configure these statuses under [work package statuses](../../system-admin-guide/manage-work-packages/work-package-status/) and the permitted transitions under [work package workflows](../../system-admin-guide/manage-work-packages/work-package-types/workflows/).
 
 ![Workflow transition configuration for the Risk work package type in OpenProject administration](openproject_system_admin_risk_workflow.png)
 

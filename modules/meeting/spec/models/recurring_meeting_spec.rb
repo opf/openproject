@@ -497,6 +497,30 @@ RSpec.describe RecurringMeeting,
     end
   end
 
+  describe "#last_historic_schedule" do
+    let(:series) { create(:recurring_meeting) }
+
+    it "is nil while no schedule ended" do
+      expect(series.last_historic_schedule).to be_nil
+    end
+
+    it "is the one that ended most recently" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "first@example.com")
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series, uid: "second@example.com")
+
+      expect(series.reload.last_historic_schedule.uid).to eq "second@example.com"
+      expect(series.historic_schedules.map(&:uid))
+        .to eq ["first@example.com", "second@example.com"]
+    end
+
+    it "keeps every schedule that ended, as an audit log" do
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
+      create(:recurring_meeting_historic_schedule, recurring_meeting: series)
+
+      expect(series.reload.historic_schedules.count).to eq 2
+    end
+  end
+
   describe "#occurrence_count_until_end_date" do
     it "counts the remaining occurrences up to the end date" do
       series = build(:recurring_meeting,

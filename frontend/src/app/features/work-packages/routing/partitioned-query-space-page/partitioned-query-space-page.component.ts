@@ -41,20 +41,20 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { ComponentType } from '@angular/cdk/overlay';
-import { Ng2StateDeclaration } from '@uirouter/angular';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { UIRouterGlobals } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
   inputs?:Record<string, any>;
-  outputs?:Record<string, Function>;
+  outputs?:Record<string, EventHandler>;
 }
 
 export interface ToolbarButtonComponentDefinition extends DynamicComponentDefinition {
@@ -86,7 +86,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   readonly opModalService = inject(OpModalService);
 
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly urlParams = inject(UrlParamsService);
 
   readonly configuration = inject(ConfigurationService);
 
@@ -109,10 +109,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Do we currently have query props ? */
   showToolbarSaveButton:boolean;
 
-  /** Listener callbacks */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  removeTransitionSubscription:Function;
-
   /** Determine when query is initially loaded */
   showToolbar = false;
 
@@ -133,22 +129,22 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   ngOnInit():void {
     super.ngOnInit();
 
-    this.showToolbarSaveButton = !!this.$state.params.query_props;
-    this.setPartition(this.$state.current);
-    this.removeTransitionSubscription = this.$transitions.onSuccess({}, (transition):any => {
-      const params = transition.params('to');
-      const toState = transition.to();
-      this.showToolbarSaveButton = !!params.query_props;
-      this.setPartition(toState);
+    this.showToolbarSaveButton = !!this.urlParams.get('query_props');
+    this.setPartition();
+    this.urlParams.changed$
+      .pipe(this.untilDestroyed())
+      .subscribe(():void => {
+        this.showToolbarSaveButton = !!this.urlParams.get('query_props');
+        this.setPartition();
 
-      const query = this.querySpace.query.value;
-      if (query && this.shouldUpdateHtmlTitle()) {
-        // Update the title if we're in the list state alone
-        this.titleService.setFirstPart(this.queryTitle(query));
-      }
+        const query = this.querySpace.query.value;
+        if (query && this.shouldUpdateHtmlTitle()) {
+          // Update the title if we're in the list state alone
+          this.titleService.setFirstPart(this.queryTitle(query));
+        }
 
-      this.cdRef.detectChanges();
-    });
+        this.cdRef.detectChanges();
+      });
 
     // Load the query. If it hasn't been loaded before, do that visibly.
     this.loadInitialQuery();
@@ -188,11 +184,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
-   *
-   * @param state The current or entering state
    */
-  protected setPartition(state:Ng2StateDeclaration):void {
-    this.currentPartition = (state.data?.partition) ? state.data.partition : '-split';
+  protected setPartition():void {
+    this.currentPartition = '-split';
   }
 
   protected setupInformationLoadedListener():void {
@@ -209,7 +203,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
   }
 

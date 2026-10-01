@@ -69,6 +69,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       result = pipeline.call(text, context)
       output = result[:output].to_s
 
+      # OG: html_safe after SanitizationFilter is a valid use-case.
       context[:plain_text] ? output : output.html_safe # rubocop:disable Rails/OutputSafety
     end
 

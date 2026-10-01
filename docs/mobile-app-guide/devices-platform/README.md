@@ -29,6 +29,5 @@ For details and platform-specific notes, see:
 
 | Page | Description |
 | --- | --- |
-|[**Tablet support**](tablet-support) | Guidance and known differences when using the app on tablets.
- |
+|[**Tablet support**](tablet-support) | Guidance and known differences when using the app on tablets.|
 |[**Desktop support**](desktop-support) | Guidance for teams using the app on desktop-sized devices. |

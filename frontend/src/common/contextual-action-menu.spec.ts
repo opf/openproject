@@ -37,6 +37,7 @@ import type AnchoredPositionElement from '@openproject/primer-view-components/ap
 // Side-effect import: the type-only import above is elided, and it is loading
 // the module that registers `<anchored-position>`.
 import '@openproject/primer-view-components/app/components/primer/anchored_position';
+import { nextFrame } from 'core-common/testing/timing';
 import { CONTEXTUAL_ALIGN, CONTEXTUAL_SIDE, ContextualActionMenu } from './contextual-action-menu';
 
 // The real <action-menu> custom element is registered by the Primer bundle,
@@ -52,8 +53,6 @@ interface FakeMenu {
 }
 
 describe('ContextualActionMenu', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   // The card sits at a known place well inside the viewport, so the pointer
   // offsets below are unambiguous and no viewport clamping muddies them.
   const CARD_LEFT = 100;
