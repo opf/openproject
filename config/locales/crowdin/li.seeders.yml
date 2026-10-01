@@ -151,7 +151,7 @@ li:
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteitelies veur vandaag
                 item_3:
                   name: Never
             parent_child:
@@ -283,7 +283,7 @@ li:
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteitelies veur vandaag
                 item_3:
                   name: Never
           project-overview:

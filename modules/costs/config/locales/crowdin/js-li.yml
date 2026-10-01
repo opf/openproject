@@ -22,15 +22,15 @@
 ---
 li:
   js:
-    button_log_costs: Log unit costs
-    label_hour: hour
-    label_hours: hours
+    button_log_costs: Registreer koste per eenheid
+    label_hour: oor
+    label_hours: ore
     myTimeTracking:
-      noSpecificTime: No specific time
+      noSpecificTime: Gen specifieke tied
     text_are_you_sure: Are you sure?
     work_packages:
       properties:
-        overallCosts: Overall costs
-        spentUnits: Spent units
+        overallCosts: Totale koste
+        spentUnits: Einhede oetgegaeve
       property_groups:
-        costs: Costs
+        costs: Koste

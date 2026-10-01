@@ -203,7 +203,7 @@ li:
       navigation:
         next: Next period
         previous: Previous period
-        today: Today
+        today: Vandaag
       subheader:
         add: Add
         allocate: Allocate

@@ -2,8 +2,8 @@
 li:
   js:
     calendar:
-      create_new: Create new calendar
-      label_calendar_plural: Calendars
-      title: Calendar
-      too_many: There are %{count} work packages in total, but only %{max} can be shown.
-      unsaved_title: Unnamed calendar
+      create_new: Creëer nieje kalender
+      label_calendar_plural: Kalenders
+      title: Kalender
+      too_many: D'r zien in totaal %{count} werkpakkette, maar allein %{max} kin waere getoeënd.
+      unsaved_title: Kalender zonger naam

@@ -99,7 +99,7 @@ li:
   label_week_reporting: Week (Spent)
   label_work_package_attributes: Work package attributes
   label_year_reporting: Year (Spent)
-  label_yes: 'Yes'
+  label_yes: Jao
   load_query_question: Report will have %{size} table cells and may take some time to render. Do you still want to try rendering it?
   permission_save_cost_reports: Save public cost reports
   permission_save_private_cost_reports: Save private cost reports

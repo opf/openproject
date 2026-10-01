@@ -30,11 +30,11 @@ li:
         logged_by: Logged by
         overridden_costs: Overridden costs
         spent: Spent
-        spent_on: Date
+        spent_on: Datum
         work_package: Work package
       cost_type:
         default: Cost type by default
-        for_all_projects: For all projects
+        for_all_projects: Veur alle projekte
         rates: Rates
         unit: Unit name
         unit_plural: Pluralized unit name
@@ -42,16 +42,16 @@ li:
         rate: Rate
       time_entry:
         activity: Activity
-        comments: Comment
+        comments: Commentaar
         end_time: Finish time
         entity: Logged for
         entity_gid: Logged for
         entity_id: Logged for
         hours: Hours
-        project: Project
+        project: Projek
         spent_on: Date
         start_time: Start time
-        subject: Subject
+        subject: Onderwerp
         time: Time
         user: User
         work_package: Work package
@@ -131,9 +131,9 @@ li:
       validation:
         start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
   attributes:
-    comment: Comment
-    cost_type: Cost type
-    costs: Costs
+    comment: Commentaar
+    cost_type: Kost soort
+    costs: Koste
     current_rate: Current rate
     fixed_date: Fixed date
     hours: Hours
@@ -162,7 +162,7 @@ li:
   cost_types:
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Actieve projekte
       cost_type_projects:
         for_all_projects_blank_slate:
           description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
@@ -205,12 +205,12 @@ li:
   label_between: between
   label_cost: Cost
   label_cost_filter_add: Add cost entry filter
-  label_cost_plural: Costs
+  label_cost_plural: Koste
   label_cost_type_plural: Cost types
   label_cost_type_specific: 'Cost type #%{id}: %{name}'
   label_costlog: Logged unit costs
-  label_costs: Costs
-  label_costs_per_page: Costs per page
+  label_costs: Koste
+  label_costs_per_page: Koste per pagina
   label_current: Current
   label_current_default_rate: Current default rate
   label_date_on: 'on'
@@ -258,7 +258,7 @@ li:
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_time_entry_restrictions: Limits
   label_timer_since: Started at %{time}
-  label_today_capitalized: Today
+  label_today_capitalized: Vandaag
   label_units: Cost units
   label_until: until
   label_using_current_default_rate: Using current default rate
@@ -266,7 +266,7 @@ li:
   label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter
   label_workweek: Work week
-  label_yes: 'Yes'
+  label_yes: Jao
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.
   notice_something_wrong: Something went wrong. Please try again.

@@ -10,7 +10,7 @@ li:
       webhooks/webhook:
         enabled: Enabled
         events: Events
-        projects: Enabled projects
+        projects: Ingeschakelde projekte
         secret: Signature secret
         url: Payload URL
     models:
@@ -21,7 +21,7 @@ li:
         one: Webhook
         other: Webhooks
   plugin_openproject_webhooks:
-    description: Provides a plug-in API to support OpenProject webhooks for better 3rd party integration.
+    description: Gaef een plugin API um OpenProject webhooks baeter te ondersteune veur 3rd party integratie.
     name: OpenProject Webhooks
   webhooks:
     outgoing:
@@ -51,16 +51,16 @@ li:
 
           '
         project_ids:
-          all: All projects
+          all: Alle projekte
           description: Select for which projects this webhook should be executed for.
           selected: Selected projects only
-          title: Enabled projects
+          title: Ingeschakelde projekte
         secret:
           description: 'If set, this secret value is used by OpenProject to sign the webhook payload.
 
             '
         selected_project_ids:
-          title: Selected projects
+          title: Geselecteerde projekte
       label_add_new: Add new webhook
       label_edit: Edit webhook
       label_x_events:

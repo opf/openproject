@@ -84,7 +84,7 @@ li:
         label: Label
         prompt: Prompt
         types: Work package types
-        usage_scope: Scope
+        usage_scope: Reikwiedte
       ai/text_transform_run:
         action: Action
         cancel_requested: Cancel requested
@@ -139,7 +139,7 @@ li:
         formula: Formula
         has_comment: Add a comment text field
         is_filter: Used as a filter
-        is_for_all: For all projects
+        is_for_all: Veur alle projekte
         is_required: Required
         max_length: Maximum length
         max_value: Maximum value
@@ -162,7 +162,7 @@ li:
         enabled: Active
         owner: Owner
         redirect_uri: Redirect URI
-        scopes: Scopes
+        scopes: Reikwiedtes
         secret: Client secret
         uid: Client ID
       emoji_reaction:
@@ -178,6 +178,21 @@ li:
         company: Company
       favorite:
         favorited: Item
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: Number of columns
         page: Page
@@ -199,7 +214,7 @@ li:
         jira: Jira
         jira_import: Jira Migrator
       jira_import:
-        projects: Projects
+        projects: Projekte
       journal:
         cause_type: Cause type
         notes: Notes
@@ -216,6 +231,21 @@ li:
         onthefly: Automatic user creation
         port: Port
         tls_certificate_string: LDAP server SSL certificate
+      llm_capability_verdict:
+        capability: Capability
+        model_id: Model
+        state: State
+      llm_connection:
+        api_format: API format
+        api_key: API key
+        base_url: Host URL
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        llm_features_enabled: Enable LLMs for this instance
+      llm_model:
+        admin_context_window: Context window
+        display_name: Display name
+        external: Model name
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -254,7 +284,7 @@ li:
         enabled_modules: Enabled modules
         identifier: Identifier
         latest_activity_at: Latest activity at
-        parent: Subproject of
+        parent: Subprojek van
         portfolio: Portfolio
         program: Program
         project_creation_wizard_assignee_custom_field: Assignee when submitted
@@ -263,7 +293,7 @@ li:
         project_creation_wizard_send_confirmation_email: Confirmation email
         project_creation_wizard_status_when_submitted: Status when submitted
         project_creation_wizard_work_package_comment: Work package comment
-        project_creation_wizard_work_package_type: Work package type
+        project_creation_wizard_work_package_type: Werkpakket type
         project_types: Types
         public_value:
           false: private
@@ -287,7 +317,7 @@ li:
         type_variant: Work package type variant
         types: Types
         versions: Versions
-        work_packages: Work Packages
+        work_packages: Werkpakkette
         workspace_type: Workspace type
       project/phase:
         date_range: Date range
@@ -378,7 +408,7 @@ li:
         color: Color
         is_in_roadmap: Displayed in roadmap by default
         is_milestone: Is milestone
-        project_types: Projects
+        project_types: Projekte
         variants: Variants
       type/configuration_link:
         source: Source type
@@ -502,7 +532,7 @@ li:
         parent: Parent
         parent_issue: Parent
         parent_work_package: Parent
-        priority: Priority
+        priority: Prioriteit
         progress: "% Complete"
         readonly: Read only
         relatable: Relatable to
@@ -513,7 +543,7 @@ li:
         shared_with_users: Shared with
         spent_hours: Spent time
         spent_time: Spent time
-        subproject: Subproject
+        subproject: Subprojek
         target_version: Target version
         target_versions: Target versions
         time_entries: Log time
@@ -534,7 +564,7 @@ li:
         accepted: must be accepted.
         after: must be after %{date}.
         after_or_equal_to: must be after or equal to %{date}.
-        after_today: must be in the future.
+        after_today: mot in de toekoms zien.
         before: must be before %{date}.
         before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
@@ -685,6 +715,16 @@ li:
           general_consent: Please accept the terms and conditions.
         favorite:
           already_favorited: has already been favorited.
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: end value needs to be larger than the start value.
           outside: is outside of the grid.
@@ -714,6 +754,29 @@ li:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'The provided SSL certificate is invalid: %{additional_message}'
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+            api_key:
+              invalid_api_key: was rejected by the LLM server.
+            base:
+              singleton: Only one LLM connection can be active.
+            base_url:
+              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
+              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
+              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
+              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
+              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+            custom_headers:
+              invalid: must map header names to plain text values.
+            llm_features_enabled:
+              requires_connection: cannot be turned on before a connection has been configured.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Unable to save because the meeting was updated by someone else in the meantime. Please reload the page.
         member:
@@ -781,7 +844,7 @@ li:
         project_custom_field_project_mapping:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: Astebleef, selecteer een projek.
         project_type:
           attributes:
             variant:
@@ -882,12 +945,6 @@ li:
               in_use_by_work_packages: This type cannot be deleted while work packages still use it.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               is_default_variant: The default configuration of a type cannot be deleted.
               project_variants_not_allowed: This type does not allow creation of variants inside projects.
@@ -1128,6 +1185,9 @@ li:
       export_setting:
         one: Export setting
         other: Export settings
+      form_configuration:
+        one: Form
+        other: Forms
       forum:
         one: Forum
         other: Forums
@@ -1144,8 +1204,8 @@ li:
         one: Health report
         other: Health reports
       issue_priority:
-        one: Priority
-        other: Priorities
+        one: Prioriteit
+        other: Prioriteite
       ldap_auth_source:
         one: LDAP connection
         other: LDAP connections
@@ -1198,10 +1258,10 @@ li:
         one: Principal
         other: Principals
       project:
-        one: Project
-        other: Projects
+        one: Projek
+        other: Projekte
       project/phase:
-        one: Project phase
+        one: Projek fase
         other: Project phases
       project/phase_definition:
         one: Project phase definition
@@ -1219,8 +1279,8 @@ li:
         one: Project list role
         other: Project list roles
       project_role:
-        one: Project role
-        other: Project roles
+        one: Projek rol
+        other: Projek rolle
       query:
         one: Custom query
         other: Custom queries
@@ -1258,8 +1318,8 @@ li:
         one: Setting
         other: Settings
       status:
-        one: Work package status
-        other: Work package statuses
+        one: Werkpakket status
+        other: Werkpakket statusse
       system_user:
         one: System user
         other: System users
@@ -1321,8 +1381,8 @@ li:
         one: Wiki page
         other: Wiki pages
       work_package:
-        one: Work package
-        other: Work packages
+        one: Werkpakket
+        other: Werkpakkette
       work_package_custom_field:
         one: Work package custom field
         other: Work package custom fields
@@ -1367,11 +1427,11 @@ li:
       changeset: Changesets
       message: Forums
       news: News
-      project_details: Project details
+      project_details: Projek details
       subproject: Include subprojects
       time_entry: Spent time
       wiki_edit: Wiki
-      work_package: Work packages
+      work_package: Werkpakkette
     item:
       added_by_on: added by %{user} on %{datetime}
       added_on: added on %{datetime}
@@ -1382,7 +1442,7 @@ li:
       deleted_by_on: deleted by %{user} on %{datetime}
       deleted_on: deleted on %{datetime}
       parent_no_longer: No longer subproject of
-      parent_without_of: Subproject
+      parent_without_of: Subprojek
       removed_by_on: removed by %{user} on %{datetime}
       removed_on: removed on %{datetime}
       time_entry:
@@ -1609,13 +1669,13 @@ li:
           open_history: Open the run history
           run_status: Run status
         status:
-          configuring: Select scope
+          configuring: Selecteer reikwiedte
           finalizing: Finalizing
           finalizing_done: Completed
           finalizing_error: Error during finalizing
           import_aborting: Aborting
           import_error: Error during import
-          import_scope: Select scope
+          import_scope: Selecteer reikwiedte
           imported: Review mode
           importing: In progress
           initial: Start
@@ -1674,8 +1734,8 @@ li:
               one: 1 user
               other: "%{count} users"
             work_packages:
-              one: 1 work package
-              other: "%{count} work packages"
+              one: 1 Werkpakket
+              other: "%{count} werkpakkette"
           revert_dialog:
             confirm: I understand that this reversion will delete data permanently
             description: This will delete all imported objects (including whole projects).
@@ -1730,15 +1790,15 @@ li:
                   label: Users & groups
                   subtitle: 'Involved in imported projects '
                 work_packages:
-                  label: Work packages
+                  label: Werkpakkette
                   subtitle: With attachments
               title: Import run results
             import_scope:
-              button_continue: Continue
-              button_select: Select projects
+              button_continue: Doorgaon
+              button_select: Selecteer projek
               button_select_projects: Select projects to import
               caption: Choose what you want to import into OpenProject
-              caption_done: Completed
+              caption_done: Aafgeslaote
               caption_done_description:
                 one: 1 project selected as scope
                 other: "%{count} projects selected as scope"
@@ -1800,7 +1860,7 @@ li:
               title: Create project versions
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
-              title: Create work packages
+              title: Creëer werkpakkette
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
               title: Download attachments
@@ -1835,8 +1895,8 @@ li:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} werkpakket"
+          other: "%{count} werkpakkette"
       sub_header_component:
         button_add: Label
         label_add: Add label
@@ -1851,6 +1911,97 @@ li:
         no_matches:
           description: Try a different search term.
           title: No labels match your search
+    llm_connections:
+      delete_api_key:
+        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
+        heading: Remove the stored API key?
+        menu_label: Remove API key
+        success: The API key has been removed.
+        title: Remove API key
+      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
+      disconnect:
+        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
+        heading: Disconnect from the LLM server?
+        keeps_models: The model list, including any models you added manually, is kept.
+        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
+        menu_label: Disconnect
+        success: OpenProject has disconnected from the LLM server.
+        title: Disconnect
+      form:
+        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
+        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
+        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
+        api_key_placeholder_stored: API key stored
+        api_key_remove: Remove key
+        base_url_caption: The base URL of the server, for example https://example.com/v1.
+        button_connect: Connect
+        label_connecting: Contacting the LLM server…
+        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
+        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
+        server_group: Server
+      show:
+        description: Connect OpenProject to an LLM server so that AI features can use it.
+        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+      tabs:
+        connection: Connection
+        models: Models
+      update:
+        disabled: Saved. LLM features are switched off for this instance.
+        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
+        success: Successfully connected to the LLM server.
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: The model will no longer be offered to AI features.
+        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        heading: Remove %{model}?
+        success: "%{model} has been removed."
+        title: Remove model
+      edit:
+        description: Edit how OpenProject uses this model.
+      form:
+        context_window: Context window
+        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
+        context_window_known: Leave blank to use %{value}, %{source}.
+        display_name_caption: An optional friendly name shown instead of the model id.
+        external_id_caption: The model name exactly as the server expects it.
+        model_type: Model type
+        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
+        model_type_chat: Chat model
+        model_type_embedding: Embedding model
+        model_type_unspecified: Not specified
+        state_inherited: Inherit from server (%{state})
+        state_supported: Supported
+        state_unsupported: Not supported
+      index:
+        add_model: Model
+        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
+        blank_title: No models available
+        context_window: Context window
+        description: Reported by the server on %{fetched_at}.
+        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
+        filter_label: Filter models
+        identifier: Model
+        kind: Type
+        refresh: Refresh models
+        source: Source
+        source_discovered: Server
+        source_discovered_description: Reported by the server
+        source_manual: Manual
+        source_manual_description: Added manually by an administrator
+        source_withdrawn: Withdrawn
+        source_withdrawn_description: No longer reported by the server
+        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+      new:
+        description: Name a model this server can use but does not advertise, and describe what it can do.
+        title: Add a model
+      refresh:
+        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
+        success: The model list has been refreshed.
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -2089,10 +2240,10 @@ li:
         label_actions: Action menu
         label_toggle: Toggle %{label}
         scope_specific_work_package_types:
-          one: "%{count} work package type"
-          other: "%{count} work package types"
+          one: "%{count} werkpakket type"
+          other: "%{count} werkpakket types"
       usage_scopes:
-        all_work_package_types: All work package types
+        all_work_package_types: Alle werkpakket type
         everywhere: Everywhere
         specific_work_package_types: Specific work package types
     workflows:
@@ -2148,6 +2299,7 @@ li:
         timeout: The AI service did not respond in time.
         upstream_error: The AI service returned an error.
   announcements:
+    content: Content
     is_active: currently displayed
     is_inactive: currently not displayed
     show_until: Show until
@@ -2247,7 +2399,7 @@ li:
     body: Body
     category: Category
     color: Color
-    comment: Comment
+    comment: Commentaar
     comments: Comment
     content: Content
     created_at: Created on
@@ -2281,7 +2433,7 @@ li:
     id: ID
     is_default: Default value
     is_for_all: For all projects
-    issue: Work package
+    issue: Werkpakket
     jira: Jira
     journal: Journal
     journal_notes: Comment
@@ -2297,7 +2449,7 @@ li:
     options: Options
     password: Password
     principal: User or group
-    priority: Priority
+    priority: Prioriteit
     project: Project
     project_ids: Project IDs
     project_phase: Project phase
@@ -2335,8 +2487,8 @@ li:
     values: Values
     version: Version
     visible: Visible
-    work_package: Work package
-    work_package_id: Work package
+    work_package: Werkpakket
+    work_package_id: Werkpakket
   authentication:
     login_and_registration: Login and registration
   background_jobs:
@@ -2410,12 +2562,12 @@ li:
   button_configure: Configure
   button_configure_menu_entry: Configure menu item
   button_confirm: Confirm
-  button_continue: Continue
+  button_continue: Doorgaon
   button_copy: Copy
   button_copy_link_to_clipboard: Copy link to clipboard
   button_copy_to_clipboard: Copy to clipboard
   button_create: Create
-  button_create_and_continue: Create and continue
+  button_create_and_continue: Aanmake en doorgaon
   button_decline: Decline
   button_delete: Delete
   button_delete_menu_entry: Delete menu item
@@ -2864,7 +3016,7 @@ li:
   description_query_sort_criteria_attribute: Sort attribute
   description_query_sort_criteria_direction: Sort direction
   description_search: Searchfield
-  description_select_work_package: Select work package
+  description_select_work_package: Selecteer werkpakket
   description_selected_columns: Selected Columns
   description_sub_work_package: Sub work package of current
   description_toc_toggle: Show/Hide table of contents
@@ -3157,7 +3309,7 @@ li:
     time_entry: Timelog edited
     title:
       project_html: 'Project: %{name}'
-      subproject_html: 'Subproject: %{name}'
+      subproject_html: 'Subprojek: %{name}'
     wiki_page: Wiki page edited
     work_package_closed: Work Package closed
     work_package_edit: Work Package edited
@@ -3277,6 +3429,108 @@ li:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+        panel_label: Form to copy
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit form
+        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+
+          '
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        one: This form is used by 1 type. Changes apply to it.
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This form is used by 1 type or variant.
+        other: This form is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -3286,11 +3540,11 @@ li:
   general_first_day_of_week: '7'
   general_pdf_encoding: ISO-8859-1
   general_text_No: 'No'
-  general_text_Yes: 'Yes'
+  general_text_Yes: Jao
   general_text_false: 'false'
   general_text_no: 'no'
   general_text_true: 'true'
-  general_text_yes: 'yes'
+  general_text_yes: jao
   global_search:
     overwritten_tabs:
       all: All
@@ -3558,7 +3812,7 @@ li:
   label_board_plural: Boards
   label_boolean: Boolean
   label_boolean_false: is no
-  label_boolean_true: is yes
+  label_boolean_true: is jao
   label_branch: Branch
   label_browse: Browse
   label_builtin: Built-in
@@ -3736,6 +3990,7 @@ li:
   label_float: Float
   label_folder: Folder
   label_follows: follows
+  label_form_configuration_plural: Forms
   label_formula: Formula
   label_forum_new: New forum
   label_forum_plural: Forums
@@ -4092,7 +4347,7 @@ li:
   label_spent_time: Spent time
   label_start_to_end: start to end
   label_start_to_start: start to start
-  label_starts_with: starts with
+  label_starts_with: begint mit
   label_statistics: Statistics
   label_status: Status
   label_status_plural: Statuses
@@ -4103,9 +4358,9 @@ li:
   label_string: Text
   label_subitems: Subitems
   label_subject_or_id: Subject or ID
-  label_subproject: Subproject
+  label_subproject: Subprojek
   label_subproject_add: Add subproject
-  label_subproject_plural: Subprojects
+  label_subproject_plural: Subprojekte
   label_subtask_plural: Subtasks
   label_summary: Summary
   label_system: System
@@ -4124,11 +4379,11 @@ li:
   label_time_entry_activity_plural: Spent time activities
   label_time_entry_plural: Spent time
   label_title: Title
-  label_today: today
-  label_today_as_date: Select today as date.
-  label_today_as_due_date: Select today as finish date.
-  label_today_as_start_date: Select today as start date.
-  label_today_capitalized: Today
+  label_today: vandaag
+  label_today_as_date: Selecteer vandaag as datum.
+  label_today_as_due_date: Selecteer vandaag as ind datum.
+  label_today_as_start_date: Selecteer vandaag as start datum.
+  label_today_capitalized: Vandaag
   label_token_version: Token Version
   label_top_menu: Top Menu
   label_topic_plural: Topics
@@ -4162,11 +4417,11 @@ li:
   label_version_edit: Edit version
   label_version_new: New version
   label_version_plural: Versions
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_hierarchy: With project hierarchy
+  label_version_sharing_descendants: Mit subprojekte
+  label_version_sharing_hierarchy: Mit projek hiërarchie
   label_version_sharing_none: Not shared
-  label_version_sharing_system: With all projects
-  label_version_sharing_tree: With project tree
+  label_version_sharing_system: Mit alle projekte
+  label_version_sharing_tree: Mit projekstructuur
   label_versions_and_categories: Versions and categories
   label_videos: Videos
   label_view_all_revisions: View all revisions
@@ -4249,16 +4504,16 @@ li:
     other: "%{count} projects"
     zero: no projects
   label_x_work_packages:
-    one: 1 work package
+    one: 1 Werkpakket
     other: "%{count} work packages"
-    zero: No work packages
+    zero: Gen werkpakket
   label_x_working_days:
     one: 1 working day
     other: "%{count} working days"
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
-  label_yesterday: yesterday
+  label_yesterday: gister
   label_zen_mode: Zen mode
   ldap_auth_sources:
     attribute_texts:
@@ -4339,6 +4594,42 @@ li:
     update:
       failure: 'The modified list cannot be saved: %{errors}'
       success: The modified list has been saved
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Tool calling
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Structured output
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: the figure published for this model
+      server: reported by the server
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: supported
+      unknown: not verified
+      unsupported: not supported
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
   macro_unknown: Unknown or unsupported macro.
@@ -4347,7 +4638,7 @@ li:
       errors:
         invalid_type: No type found with name '%{type}' in project '%{project}'.
         no_project_context: Calling create_work_package_link macro from outside project context.
-      link_name: New work package
+      link_name: Nie werkpakket
     errors:
       missing_or_invalid_parameter: Missing or invalid macro parameter.
     include_wiki_page:
@@ -4384,7 +4675,7 @@ li:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: To access this work package, you will need to create and activate an account on %{instance}.
         enterprise_text: Share work packages with users who are not members of the project.
-        open_work_package: Open work package
+        open_work_package: Äöpen werkpakket
         subject: Work package %{id} was shared with you
         summary:
           group: "%{user} shared a work package with the group %{group} you are a member of"
@@ -4582,6 +4873,7 @@ li:
       aggregation: Aggregation
       ai: Artificial Intelligence (AI)
       api_and_webhooks: API and webhooks
+      llm_connection: LLM settings
       mail_notification: Email notifications
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
@@ -4731,7 +5023,7 @@ li:
         submit_button: Update preferences
         title: Non-participating
         work_package_commented: All new comments
-        work_package_created: New work packages
+        work_package_created: Nieje werkpakkette
         work_package_prioritized: All priority changes
         work_package_processed: All status changes
         work_package_scheduled: All date changes
@@ -4913,7 +5205,7 @@ li:
       new: New OAuth application
       non_confidential: Non confidential
       plural: OAuth applications
-      scopes: Scopes
+      scopes: Reikwiedtes
       singular: OAuth application
     authorization_dialog:
       authorize: Authorize
@@ -5555,7 +5847,7 @@ li:
         show_work_packages: Show work packages
         work_packages_graph: Work packages graph
       work_package_priorities:
-        new_label: New priority
+        new_label: Nieje prioriteit
     status:
       button_edit: Edit status
     wizard:
@@ -5589,7 +5881,7 @@ li:
     member_of_group: Assignee's group
     name_or_identifier: Name or identifier
     only_subproject_id: Only subproject
-    shared_with_me: Shared with me
+    shared_with_me: Gedeild mit mich
     shared_with_user: Shared with users
     subproject_id: Including subproject
   reactions:
@@ -6574,7 +6866,7 @@ li:
         scope:
           availability: Available to
           enabled_in_new_projects: Active in new projects
-          projects: Projects
+          projects: Projekte
         workflows:
           roles: Roles involved
           same_as_base: Same as parent type
@@ -6583,7 +6875,7 @@ li:
       sections:
         configuration: Configuration overview
         form: Form
-        scope: Scope
+        scope: Reikwiedte
         workflows: Workflows
       title: Compare variants
       title_for_type: Compare variants of %{name}
@@ -6703,6 +6995,8 @@ li:
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
         delete_group: Delete section
@@ -6733,7 +7027,6 @@ li:
           globally_hint: Change this on the custom field
           mark: Require in this type
           not_a_custom_field: Only a custom field can be made required for a single type.
-          not_available_when_linked: This configuration is inherited. Configure it manually to change what is required.
           unmark: Do not require in this type
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
@@ -7559,6 +7852,12 @@ li:
       other: "%{count} work package descendants"
   workflows:
     change:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
       select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow

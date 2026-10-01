@@ -35,7 +35,7 @@ li:
       two_factor_authentication/device/webauthn:
         one: WebAuthn
         other: WebAuthn
-  button_continue: Continue
+  button_continue: Doorgaon
   button_make_active: Activate
   button_make_default: Mark as default
   button_otp_by_sms: SMS
