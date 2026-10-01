@@ -59,6 +59,12 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
     end
   end
 
+  shared_let(:labeling_rows) do
+    [work_package, work_package_parent].map do |wp|
+      create(:labeling, labelable: wp, label: create(:label))
+    end
+  end
+
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
@@ -182,6 +188,31 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
       enabled, disabled = subject
       expect(detect(enabled, :"custom_field_#{cf.id}")).to be_nil
       expect(detect(disabled, :"custom_field_#{cf.id}")&.label).to eq(cf.name)
+    end
+
+    context "when the labels feature is enabled", with_flag: { work_package_labels: true } do
+      it "returns the label tokens as enabled" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+        expect(detect(enabled, :parent_labels)&.label).to eq(WorkPackage.human_attribute_name(:labels))
+      end
+
+      it "resolves the label names" do
+        enabled, = subject
+
+        expect(detect(enabled, :labels).call(work_package, nil)).to eq(work_package.labels.first.name)
+        expect(detect(enabled, :parent_labels).call(work_package_parent, nil)).to eq(work_package_parent.labels.first.name)
+      end
+    end
+
+    context "when the labels feature is disabled", with_flag: { work_package_labels: false } do
+      it "does not return the label tokens" do
+        enabled, disabled = subject
+
+        expect(detect(enabled + disabled, :labels)).to be_nil
+        expect(detect(enabled + disabled, :parent_labels)).to be_nil
+      end
     end
 
     context "when defining an instance date format", with_settings: { date_format: "%d.%m.%Y" } do
