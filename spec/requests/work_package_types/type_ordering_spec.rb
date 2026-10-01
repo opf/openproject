@@ -198,6 +198,23 @@ RSpec.describe "Type ordering", :skip_csrf,
     expect(response.body).to have_field("move_to", type: :hidden, with: "higher")
   end
 
+  it "responds with not found when dropping an unknown type", :aggregate_failures do
+    put move_type_path(0, page: 2, per_page: 2),
+        params: drag_params,
+        as: :json,
+        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+    expect(response).to have_http_status(:not_found)
+    expect_order("A", "B", "C", "D", "E")
+  end
+
+  it "responds with not found when moving an unknown type by direction", :aggregate_failures do
+    put move_type_path(0, page: 2, per_page: 2), params: { move_to: "highest" }, as: :turbo_stream
+
+    expect(response).to have_http_status(:not_found)
+    expect_order("A", "B", "C", "D", "E")
+  end
+
   context "without admin permission" do
     current_user { create(:user) }
 
