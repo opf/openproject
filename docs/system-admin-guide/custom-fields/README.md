@@ -159,6 +159,16 @@ When using multi-select custom fields, you can add as many options as required. 
 
 ![Select multiple custom field values in a work package](system-guide-custom-field-work-package.png)
 
+## Display list options as checkboxes or radio buttons
+
+For custom fields of type **List** you can choose how the options are presented in forms with the **Display as** setting:
+
+- **Dropdown** (default) - the options are offered in a select field.
+- **Checkboxes** - all options are listed inline as checkboxes. Only available when _Allow multi-select_ is checked.
+- **Radio buttons** - all options are listed inline as radio buttons. Only available when _Allow multi-select_ is not checked.
+
+The setting only changes how the field is edited. Stored values, filters and the API representation of the values stay the same. Inline options are best suited for lists with a handful of options.
+
 ## Assign a custom field to a work package type and project
 
 > [!IMPORTANT]
