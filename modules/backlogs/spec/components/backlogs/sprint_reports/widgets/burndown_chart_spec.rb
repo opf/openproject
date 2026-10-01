@@ -77,11 +77,27 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
                 ["projection", "Remaining story points (projection)"]])
     end
 
-    it "sends points as x/y pairs with UTC timestamps" do
+    it "sends points as x/y pairs" do
       first = chart_data["series"].first["data"].first
 
       expect(first["x"]).to eq (monday.in_time_zone + 9.hours).utc.iso8601(3)
       expect(first["y"]).to eq 10.0
+    end
+
+    # Remaining comes back from Ticks already in UTC, so it would read the same either way. The
+    # guideline is placed at day ends in the viewer's zone, which is the only place the payload's
+    # conversion does any work -- and a zoned offset would still parse on the far side, so nothing
+    # but this would notice it going missing.
+    context "with a viewer east of UTC" do
+      current_user do
+        create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Kolkata" })
+      end
+
+      it "sends the guideline's day ends as UTC instants rather than zoned ones" do
+        guideline = chart_data["series"].find { |series| series["id"] == "guideline" }
+
+        expect(guideline["data"].second["x"]).to eq "2026-10-12T18:29:59.999Z"
+      end
     end
 
     it "sends the step, without which the chart cannot name a tick's period" do
