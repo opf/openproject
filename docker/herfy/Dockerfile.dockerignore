@@ -1,0 +1,6 @@
+*
+!lib/herfy
+!lib/tasks/herfy_control_center.rake
+!config/initializers/zz_herfy_control_center.rb
+!modules/openid_connect/lib/open_project/openid_connect/engine.rb
+!config/initializers/zz_enterprise_unlocked.rb

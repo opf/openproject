@@ -1,0 +1,42 @@
+# Builds the Herfy OpenProject image and rolls it out to an EXISTING Cloud Run service.
+# Create the service once with the command in docker/herfy/README.md, then point a trigger
+# (branch herfy/control-center-login or main) at this file.
+steps:
+  - name: gcr.io/cloud-builders/docker
+    id: Build
+    entrypoint: bash
+    env: ['DOCKER_BUILDKIT=1']
+    args:
+      - -c
+      - |
+        docker build -f docker/herfy/Dockerfile \
+          --build-arg OPENPROJECT_TAG=$_OPENPROJECT_TAG \
+          --build-arg ENTERPRISE_UNLOCK=$_ENTERPRISE_UNLOCK \
+          -t "$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA" .
+  - name: gcr.io/cloud-builders/docker
+    id: Push
+    args: [push, '$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA']
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    id: Deploy
+    entrypoint: gcloud
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - --platform=managed
+      - --image=$_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+      - --region=$_DEPLOY_REGION
+      - --quiet
+images:
+  - $_AR_HOSTNAME/$_AR_PROJECT_ID/$_AR_REPOSITORY/$_SERVICE_NAME:$COMMIT_SHA
+options:
+  logging: CLOUD_LOGGING_ONLY
+substitutions:
+  _AR_HOSTNAME: us-central1-docker.pkg.dev
+  _AR_PROJECT_ID: herfy-production
+  _AR_REPOSITORY: cloud-run-source-deploy
+  _SERVICE_NAME: openproject
+  _DEPLOY_REGION: us-central1
+  _OPENPROJECT_TAG: '17'
+  _ENTERPRISE_UNLOCK: 'true'
