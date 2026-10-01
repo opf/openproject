@@ -30,7 +30,7 @@
 
 module CustomField::OrderStatements
   ORDER_JOIN_METHOD_BY_FIELD_FORMAT = OpenProject::MultiKeyHash.expand(
-    %w[string date bool link] => :join_for_order_by_string_sql,
+    %w[string date datetime bool link] => :join_for_order_by_string_sql,
     "int" => :join_for_order_by_int_sql,
     "float" => :join_for_order_by_float_sql,
     "calculated_value" => :join_for_order_by_calculated_value_sql,

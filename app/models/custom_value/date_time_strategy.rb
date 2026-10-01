@@ -28,34 +28,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+# Values are persisted in UTC as "YYYY-MM-DD HH:MM:SS". That layout compares correctly as a
+# string against the timestamps the date and datetime filter operators render, which keeps
+# the text-typed custom_values.value column usable for filtering and sorting without casts.
+class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
 
-RSpec.describe WorkPackageCustomField do
-  describe ".summable" do
-    let!(:list_custom_field) do
-      create(:list_wp_custom_field)
-    end
-    let!(:int_custom_field) do
-      create(:integer_wp_custom_field)
-    end
-    let!(:float_custom_field) do
-      create(:float_wp_custom_field)
-    end
+  STORAGE_FORMAT = "%Y-%m-%d %H:%M:%S"
+  STORAGE_PATTERN = /\A\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\z/
 
-    context "with a summable field" do
-      it "contains the custom_field" do
-        expect(described_class.summable)
-          .to contain_exactly(int_custom_field, float_custom_field)
-      end
+  def typed_value
+    return if value.blank?
+
+    parse(value)
+  end
+
+  def formatted_value
+    format_time(typed_value) || value.to_s
+  end
+
+  def parse_value(val)
+    parse(val)&.strftime(STORAGE_FORMAT) || val
+  end
+
+  def validate_type_of_value
+    :not_a_datetime unless parse(value)
+  end
+
+  private
+
+  def parse(val)
+    case val
+    when Time, DateTime, ActiveSupport::TimeWithZone
+      val.to_time.utc.change(usec: 0)
+    when String
+      parse_string(val.strip)
     end
   end
 
-  describe ".usable_as_custom_action" do
-    let!(:string_custom_field) { create(:string_wp_custom_field) }
-    let!(:datetime_custom_field) { create(:datetime_wp_custom_field) }
+  def parse_string(str)
+    return if str.blank?
 
-    it "excludes datetime custom fields, which have no custom action strategy" do
-      expect(described_class.usable_as_custom_action).to contain_exactly(string_custom_field)
-    end
+    time = if STORAGE_PATTERN.match?(str)
+             ::DateTime.strptime(str, STORAGE_FORMAT).to_time
+           else
+             User.current.time_zone.iso8601(str)
+           end
+
+    time.utc.change(usec: 0)
+  rescue ArgumentError
+    nil
   end
 end

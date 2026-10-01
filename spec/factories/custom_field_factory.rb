@@ -119,6 +119,10 @@ FactoryBot.define do
       field_format { "date" }
     end
 
+    trait :datetime do
+      field_format { "datetime" }
+    end
+
     trait :list do
       transient do
         default_option { nil }
@@ -281,6 +285,7 @@ FactoryBot.define do
       %w[
         boolean
         date
+        datetime
         float
         hierarchy multi_hierarchy
         integer
