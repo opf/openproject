@@ -110,6 +110,23 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
       it { is_expected.to be_nil }
     end
 
+    context "when the query string is a number beyond the 64-bit integer range" do
+      let(:query_string) { "2608049472608049476767" }
+
+      it { is_expected.to be_nil }
+
+      context "when matching against the sequence_number",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it { is_expected.to be_nil }
+      end
+
+      context "when matching against the id" do
+        let(:query_string) { "#2608049472608049476767" }
+
+        it { is_expected.to be_nil }
+      end
+    end
+
     context "when the query string is an exact semantic identifier" do
       let!(:exact_work_package)  { create(:work_package) }
       let!(:prefix_work_package) { create(:work_package) }
@@ -161,6 +178,32 @@ RSpec.describe Queries::WorkPackages::Selects::ExactMatchSelect do
           let(:query_string) { "COM-5" }
 
           it { is_expected.to be_nil }
+        end
+      end
+    end
+  end
+
+  describe "sorting a query by exact match" do
+    current_user { create(:admin) }
+
+    let(:query) do
+      build(:query, user: current_user, project: nil, show_hierarchies: false).tap do |query|
+        query.add_filter(:typeahead, "**", "2608049472608049476767")
+        query.sort_criteria = [%w[exact_match desc]]
+      end
+    end
+
+    before { create(:work_package) }
+
+    context "when the typeahead term is a number beyond the 64-bit integer range" do
+      it "returns no results instead of raising" do
+        expect(query.results.work_packages).to be_empty
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
+        it "returns no results instead of raising" do
+          expect(query.results.work_packages).to be_empty
         end
       end
     end
