@@ -108,13 +108,7 @@ class CustomActions::Actions::CustomField < CustomActions::Actions::Base
   private
 
   def set_custom_field_value(work_package)
-    resolved_values = if custom_field.list?
-                        CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids: values)
-                      else
-                        values
-                      end
-
-    work_package.send(custom_field.attribute_setter, resolved_values)
+    work_package.send(custom_field.attribute_setter, values)
   end
 
   def validate_custom_field(work_package)

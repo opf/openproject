@@ -721,10 +721,14 @@ RSpec.describe CustomActions::Actions::CustomField do
 
         let(:mapping) { create(:legacy_option_mapping, custom_field:, hierarchical_item: migrated_item) }
 
-        it "resolves the legacy id to the migrated item id before assigning it" do
-          action_instance = described_class.for(custom_field.attribute_name).new
-          action_instance.values = [mapping.custom_option_id]
+        let(:action_instance) { described_class.for(custom_field.attribute_name).new([mapping.custom_option_id]) }
 
+        it "holds the migrated item, so the admin form shows it" do
+          expect(action_instance.values).to eq([migrated_item.id])
+          expect(action_instance.value_objects).to contain_exactly(value: migrated_item.id, label: "Kept")
+        end
+
+        it "assigns the migrated item" do
           action_instance.apply(work_package)
 
           expect(work_package.custom_value_for(custom_field).value).to eq(migrated_item.id.to_s)

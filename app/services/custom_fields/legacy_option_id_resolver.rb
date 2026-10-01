@@ -29,9 +29,11 @@
 #++
 
 module CustomFields
-  # Legacy custom option ids and migrated item ids cannot collide: the migration
-  # advances hierarchical_items' sequence past every custom option id that ever
-  # existed, so an id at or below that watermark is always a legacy one.
+  # Within a list field, legacy custom option ids and item ids cannot collide: the
+  # migration advances hierarchical_items' sequence past every custom option id
+  # ever issued, so every item of a list field has a higher id than any of its
+  # former options. Items of other fields may share an option id, hence the lookup
+  # by custom field.
   class LegacyOptionIdResolver
     class << self
       def resolve(custom_field:, id:)
