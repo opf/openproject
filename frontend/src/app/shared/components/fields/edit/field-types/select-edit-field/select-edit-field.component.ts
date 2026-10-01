@@ -42,6 +42,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { EditFieldComponent } from '../../edit-field.component';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface ValueOption {
   name:string;
@@ -66,7 +67,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public appendTo:any = null;
 
-  public referenceOutputs:Record<string, Function> = {
+  public referenceOutputs:Record<string, EventHandler> = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onAddNew: (value:HalResource) => this.onNewValueAdded(value),

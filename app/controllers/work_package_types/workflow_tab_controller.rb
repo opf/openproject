@@ -36,8 +36,6 @@ module WorkPackageTypes
       :types
     end
 
-    administration_only! :configure_dialog, :configure, :create
-
     def edit
       @current_tab = params[:tab] || "always"
       @roles = Workflows::StatusTransition.selected_roles(params[:role_ids])
@@ -58,15 +56,18 @@ module WorkPackageTypes
     end
 
     def start_dialog
-      respond_with_dialog start_dialog_component(url: start_type_workflow_path(**dialog_args))
+      respond_with_dialog start_dialog_component(url: start_variant_workflow_path(variant_scope_project, @variant,
+                                                                                  **dialog_params))
     end
 
     def configure_dialog
-      respond_with_dialog start_dialog_component(url: configure_type_workflow_path(**dialog_args))
+      respond_with_dialog start_dialog_component(url: configure_variant_workflow_path(@variant, **dialog_params))
     end
 
     def configure
-      return reject_missing_copy_source(configure_type_workflow_path(**dialog_args)) if copying_without_a_source?
+      if copying_without_a_source?
+        return reject_missing_copy_source(configure_variant_workflow_path(@variant, **dialog_params))
+      end
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
       close_dialog_via_turbo_stream(confirm_dialog_id) if params[:confirmed]
@@ -84,7 +85,9 @@ module WorkPackageTypes
     end
 
     def start
-      return reject_missing_copy_source(start_type_workflow_path(**dialog_args)) if copying_without_a_source?
+      if copying_without_a_source?
+        return reject_missing_copy_source(start_variant_workflow_path(variant_scope_project, @variant, **dialog_params))
+      end
       return confirm_new_workflow if new_workflow_needs_confirmation?
 
       service_call = start_workflow
@@ -108,7 +111,7 @@ module WorkPackageTypes
         missing_statuses:,
         hidden_fields: { workflow_id: workflow.id, confirmed: true },
         form_arguments: {
-          action: change_type_workflow_path(**@variant.path_args.merge(back_url:).compact),
+          action: change_variant_workflow_path(variant_scope_project, @variant, **dialog_params),
           method: :patch,
           data: { turbo: false }
         }
@@ -158,8 +161,11 @@ module WorkPackageTypes
     def start_dialog_id = NamedReferences::NameFormComponent.dialog_id(::Workflow)
 
     def new_workflow_resume_path
-      path = action_name == "start" ? :start_type_workflow_path : :configure_type_workflow_path
-      public_send(path, **dialog_args)
+      if action_name == "start"
+        start_variant_workflow_path(variant_scope_project, @variant, **dialog_params)
+      else
+        configure_variant_workflow_path(@variant, **dialog_params)
+      end
     end
 
     def copy_source
@@ -174,7 +180,7 @@ module WorkPackageTypes
     def assign_and_redirect(workflow)
       assign(workflow)
 
-      redirect_to back_url || edit_type_workflow_path(**@variant.path_args), status: :see_other
+      redirect_to back_url || edit_variant_workflow_path(variant_scope_project, @variant), status: :see_other
     end
 
     def return_to(workflow)
@@ -182,7 +188,7 @@ module WorkPackageTypes
 
       uri = URI.parse(back_url)
       uri.query = Rack::Utils.parse_nested_query(uri.query.to_s)
-                             .merge("started_id" => workflow.id).to_query
+                             .merge("started_workflow_id" => workflow.id).to_query
       uri.to_s
     end
 
@@ -226,7 +232,7 @@ module WorkPackageTypes
       )
     end
 
-    def dialog_args = @variant.path_args.merge(back_url:).compact
+    def dialog_params = { back_url: }.compact
 
     def provisional_name = Workflow.implicit_name(@variant.composite_name, project: @variant.project)
 
@@ -241,7 +247,7 @@ module WorkPackageTypes
                                                model_class: ::Workflow,
                                                copy_from_id:,
                                                ask_copy_source: false,
-                                               url: type_workflow_path(**dialog_args))
+                                               url: variant_workflow_path(@variant, **dialog_params))
     end
 
     def workflow_params
@@ -254,7 +260,7 @@ module WorkPackageTypes
                                                           model_class: ::Workflow,
                                                           copy_from_id: params.dig(:workflow, :copy_from_id).presence,
                                                           ask_copy_source: false,
-                                                          url: type_workflow_path(**dialog_args)),
+                                                          url: variant_workflow_path(@variant, **dialog_params)),
         status: :unprocessable_entity
       )
       respond_with_turbo_streams

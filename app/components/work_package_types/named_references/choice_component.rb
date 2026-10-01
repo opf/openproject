@@ -33,6 +33,7 @@ module WorkPackageTypes
     class ChoiceComponent < ApplicationComponent
       include Translatable
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:, model_class:, back_url: nil)
         super(variant)
@@ -95,7 +96,7 @@ module WorkPackageTypes
 
       def record_id = variant[model_class.variant_reflection.foreign_key]
 
-      def started_id = helpers.params[:started_id].presence&.to_i
+      def started_id = helpers.params[:"started_#{model_class.variant_reflection.foreign_key}"].presence&.to_i
 
       def candidates
         @candidates ||= begin
@@ -106,9 +107,7 @@ module WorkPackageTypes
       end
 
       def dialog_path(action)
-        url_helpers.polymorphic_path([:type, model_class.model_name.singular_route_key.to_sym],
-                                     action:,
-                                     **variant.path_args.merge(back_url:).compact)
+        variant_reference_path(helpers.variant_scope_project, variant, model_class, action:, **{ back_url: }.compact)
       end
     end
   end

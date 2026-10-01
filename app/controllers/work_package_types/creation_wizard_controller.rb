@@ -33,6 +33,7 @@ module WorkPackageTypes
   class CreationWizardController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
     include OpTurbo::ComponentStream
 
     layout "no_menu"
@@ -42,6 +43,7 @@ module WorkPackageTypes
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
     before_action :set_back_url
+    before_action :set_started_form_configuration_id
 
     def show; end
 
@@ -52,8 +54,6 @@ module WorkPackageTypes
 
         @variant = @type.variants.new(project: variant_scope_project)
       else
-        return render_404 if variant_scope_project # a type itself is created in administration
-
         @type = Type.new
       end
 
@@ -63,7 +63,6 @@ module WorkPackageTypes
 
     def create
       return create_variant if params[:type_id]
-      return render_404 if variant_scope_project # a type itself is created in administration
 
       create_type
     end
@@ -89,6 +88,7 @@ module WorkPackageTypes
 
       if service_call.success?
         reuse_existing_workflow
+        reuse_default_form
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
@@ -110,6 +110,19 @@ module WorkPackageTypes
     def reusable_workflow(started_id)
       candidates = Workflow.global.where.not(id: started_id).in_display_order
       candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
+    end
+
+    def reuse_default_form
+      default = ::FormConfiguration.default_form
+      variant = @type.default_variant
+
+      if default
+        started_id = variant.form_configuration_id
+        variant.update!(form_configuration: default)
+        ::FormConfiguration.find(started_id).destroy!
+      else
+        @started_form_configuration_id = variant.form_configuration_id
+      end
     end
 
     def create_variant
@@ -189,10 +202,12 @@ module WorkPackageTypes
     def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
 
     def naming_dialog(workflow)
+      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: :workflows, **carried_params)
+
       NamedReferences::NameDialogComponent.new(record: workflow,
                                                model_class: ::Workflow,
                                                ask_copy_source: false,
-                                               url: type_creation_wizard_path(**variant_path_args, step: :workflows))
+                                               url:)
     end
 
     def naming_params = params.expect(workflow: %i[name description]).to_h.symbolize_keys
@@ -214,10 +229,11 @@ module WorkPackageTypes
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:, back_url: @back_url), status: :see_other
+        redirect_to variant_creation_wizard_path(variant_scope_project, wizard_variant, step:, **carried_params),
+                    status: :see_other
       else
         flash[:notice] = t("types.creation_wizard.success")
-        redirect_back_or_default(finished_path, status: :see_other)
+        redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
       end
     end
 
@@ -227,17 +243,15 @@ module WorkPackageTypes
       @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
     end
 
-    # types_path carries no project, so naming it while scoped would append the project as a query
-    # parameter and land on a screen the caller cannot open.
-    def finished_path
-      return types_path if variant_scope_project.nil?
+    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
 
-      project_settings_work_packages_types_path(variant_scope_project)
+    def set_started_form_configuration_id
+      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
     end
 
     # @variant is the type itself while a type is being created until there is a variant to be used
-    def variant_path_args
-      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    def wizard_variant
+      adding_variant? ? @variant : @type.default_variant
     end
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?

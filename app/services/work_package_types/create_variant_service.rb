@@ -38,13 +38,14 @@ module WorkPackageTypes
     def instance_class = TypeVariant
 
     def instance(_params)
-      type.variants.new(workflow: base_workflow, linked_aspects: TypeVariant::ASPECTS.dup)
+      base = type.default_variant
+
+      type.variants.new(workflow: base.workflow,
+                        form_configuration: base.form_configuration,
+                        required_attributes: base.required_attributes,
+                        linked_aspects: TypeVariant::ASPECTS.dup)
     end
 
     def default_contract_class = CreateVariantContract
-
-    private
-
-    def base_workflow = type.default_variant.workflow
   end
 end

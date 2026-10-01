@@ -272,7 +272,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
                           footer_text: "Attempted override" }
 
           expect(response).to redirect_to(
-            edit_type_pdf_export_template_index_path(type_id: wp_type.id, variant_id: linked_variant.id)
+            edit_type_variant_pdf_export_template_index_path(type_id: wp_type.id, variant_id: linked_variant.id)
           )
           expect(flash[:alert]).to eq(I18n.t("types.edit.export_configuration.templates.readonly_error"))
         end

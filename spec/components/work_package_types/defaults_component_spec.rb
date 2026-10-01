@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::DefaultsComponent, type: :component do
+  include_context "with variant scope"
+
   let(:variant) { create(:type).default_variant }
   let(:subject_configuration_form_data) { nil }
 

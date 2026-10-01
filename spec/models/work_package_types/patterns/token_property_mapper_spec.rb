@@ -62,7 +62,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:string_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
   shared_let(:custom_field_not_on_type) do
@@ -72,7 +72,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:boolean_custom_field) do
     create(:boolean_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", false)
       work_package.save!
@@ -82,7 +82,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:date_custom_field) do
     create(:date_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", "2025-10-03T13:37:00Z")
       work_package.save!
@@ -92,7 +92,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
   shared_let(:mult_list_custom_field) do
     create(:multi_list_wp_custom_field).tap do |custom_field|
       project.work_package_custom_fields << custom_field
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
       work_package.send(:"custom_field_#{custom_field.id}=", custom_field.possible_values.take(2))
       work_package.save!
@@ -101,7 +101,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
 
   shared_let(:not_activated_custom_field) do
     create(:string_wp_custom_field).tap do |custom_field|
-      work_package.type.default_variant.custom_fields << custom_field
+      work_package.type.default_variant.custom_field_ids |= [custom_field.id]
     end
   end
 
@@ -288,7 +288,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
                                      short: "IV").value!
 
           project.work_package_custom_fields << custom_field
-          work_package.type.default_variant.custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)
           work_package.save!
@@ -323,7 +323,7 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42).value!
 
           project.work_package_custom_fields << custom_field
-          work_package.type.default_variant.custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)
           work_package.save!

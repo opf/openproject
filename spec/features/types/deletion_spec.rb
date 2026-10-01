@@ -34,16 +34,14 @@ RSpec.describe "Deleting a work package type", :js do
   shared_let(:admin) { create(:admin) }
 
   let(:dialog_id) { WorkPackageTypes::Types::TypeDeletionDialogComponent::DIALOG_ID }
+  let(:index_page) { Pages::Types::Index.new }
 
   before { login_as(admin) }
 
   def click_delete(type)
     visit types_path
 
-    within("[data-draggable-id='#{type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_delete)
-    end
+    index_page.within_actions_menu(type) { |menu| menu.find(:menuitem, "Delete").click }
   end
 
   # The dialog arrives over a turbo stream, and a click lands nowhere until the native

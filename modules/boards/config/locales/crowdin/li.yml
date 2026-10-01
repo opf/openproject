@@ -3,14 +3,14 @@ li:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Bord
+        other: Borde
   boards:
     board_type_attributes:
-      assignee: Assignee
-      basic: Basic
+      assignee: Toegewezene
+      basic: Basis
       status: Kanban
-      subproject: Subproject
+      subproject: Subprojek
       subtasks: Parent-child
       version: Version
     board_type_descriptions:

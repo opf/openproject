@@ -44,6 +44,7 @@ class BasicDataSeeder < CompositeSeeder
       ::BasicData::StatusSeeder,
       ::BasicData::TypeSeeder,
       ::BasicData::WorkflowSeeder,
+      ::BasicData::DefaultFormConfigurationSeeder,
       ::BasicData::PrioritySeeder,
       ::BasicData::SettingSeeder,
       ::BasicData::ProjectCustomFieldSectionSeeder,

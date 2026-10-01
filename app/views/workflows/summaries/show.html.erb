@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <% cell = count > 0 ? count : content_tag(:span, "", class: "icon-close icon-context icon-button") %>
                   <td>
                     <% if variant %>
-                      <%= link_to(cell, edit_type_workflow_path(**variant.path_args, role_ids: [role]), title: t(:button_edit)) %>
+                      <%= link_to(cell, edit_variant_workflow_path(nil, variant, role_ids: [role]), title: t(:button_edit)) %>
                     <% else %>
                       <%= cell %>
                     <% end %>

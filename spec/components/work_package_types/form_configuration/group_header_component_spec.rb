@@ -6,9 +6,15 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupHeaderComponent, type: 
   let(:variant) { create(:type).default_variant }
   let(:group) { { key: "details", name: "Details", type: :attribute } }
 
+  def editor_context(readonly: false, exclusions: nil)
+    WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil).tap do |context|
+      allow(context).to receive_messages(readonly?: readonly, exclusions:)
+    end
+  end
+
   def render_header(readonly:)
-    render_inline(described_class.new(group:, variant:, ee_available: true, first: true, last: true,
-                                      edit_mode: false, readonly:))
+    render_inline(described_class.new(group:, context: editor_context(readonly:), ee_available: true, first: true,
+                                      last: true, edit_mode: false))
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do

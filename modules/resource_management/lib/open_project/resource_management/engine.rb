@@ -36,7 +36,10 @@ module OpenProject::ResourceManagement
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    patches %i[PlaceholderUser WorkPackage]
+    include_module "PlaceholderUsers::Allocatable", into: "PlaceholderUser"
+    include_module "PlaceholderUsers::RestrictDeletionWhenAllocated", into: "PlaceholderUsers::DeleteContract"
+    include_module "Users::ResourceAllocations", into: "User"
+    include_module "WorkPackages::ResourceAllocations", into: "WorkPackage"
 
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
                                                             principal_assigned_by_id]

@@ -54,23 +54,21 @@ RSpec.describe "The overview of a work package type",
   it "reports how each setting is configured" do
     link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
-    visit type_settings_path(**variant.path_args)
+    visit type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
     within("#overview-details") { expect(page).to have_text("Always manual") }
     within("#overview-workflow") { expect(page).to have_text("Always manual") }
-    within("#overview-form_configuration") { expect(page).to have_text("Manually configured") }
+    within("#overview-form_configuration") { expect(page).to have_text("Always manual") }
     within("#overview-defaults") do
       expect(page).to have_text("Inheriting from Bug")
-      expect(page).to have_link("Bug",
-                                href: edit_type_defaults_path(type_id: type.id,
-                                                              variant_id: type.default_variant.id))
+      expect(page).to have_link("Bug", href: edit_type_defaults_path(type_id: type.id))
     end
   end
 
   it "drops the variants tab from a named variant" do
-    visit type_settings_path(**variant.path_args)
+    visit type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
-    expect(page).to have_link("Details", href: edit_type_details_path(**variant.path_args))
+    expect(page).to have_link("Details", href: edit_type_variant_details_path(type_id: type.id, variant_id: variant.id))
     expect(page).to have_no_link("Variants")
   end
 
@@ -81,12 +79,14 @@ RSpec.describe "The overview of a work package type",
       create(:user, member_with_permissions: { project => %i[manage_project_variants] })
     end
 
+    let(:owned_in_project) { { project_id: project, type_id: type.id, variant_id: owned.id } }
+
     before { login_as(project_admin) }
 
     it "drops the tabs administration keeps to itself" do
-      visit type_settings_path(**owned.path_args)
+      visit project_type_variant_settings_path(**owned_in_project)
 
-      expect(page).to have_link("Details", href: edit_type_details_path(**owned.path_args))
+      expect(page).to have_link("Details", href: edit_project_type_variant_details_path(**owned_in_project))
       expect(page).to have_no_link("Projects")
       expect(page).to have_no_link("Variants")
     end
@@ -94,7 +94,7 @@ RSpec.describe "The overview of a work package type",
     it "names a source of administration's without a link the project cannot follow" do
       link_configuration(owned, aspect: TypeVariant::DEFAULTS)
 
-      visit type_settings_path(**owned.path_args)
+      visit project_type_variant_settings_path(**owned_in_project)
 
       within("#overview-defaults") do
         expect(page).to have_text("Inheriting from Bug")

@@ -68,7 +68,7 @@ Once you’re logged in, you can start using key mobile workflows, including:
 
 - View and edit **work packages**
 - **Comment** and reply to discussions
-- Organise your work in your own **home dashboard**
+- Organize your work in your own **home dashboard**
 - Check all your work **projects** and spaces
 - Create and track **meetings** quickly
 - **Log time** and run focus **timers**

@@ -13,7 +13,7 @@ li:
         authentication_methods:
           oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
+        token_exchange_scope: XWiki Reikwiedte
         url: Instance URL
         wiki_audience: XWiki Audience
     errors:

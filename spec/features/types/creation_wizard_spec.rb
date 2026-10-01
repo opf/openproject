@@ -102,6 +102,7 @@ RSpec.describe "Type creation wizard", :js do
     expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
+    expect(page).to have_css("[data-test-selector='form_configuration-choice-new']:checked", visible: :all)
     click_on I18n.t(:button_continue)
     expect_step_saved(:form_configuration)
 
@@ -180,8 +181,8 @@ RSpec.describe "Type creation wizard", :js do
       expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
       expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")
       expect(page).to have_current_path(
-        type_creation_wizard_path(type_id: bug_type.id, variant_id: variant.id, step: :details,
-                                  back_url: type_variants_path(type_id: bug_type.id))
+        type_variant_creation_wizard_path(type_id: bug_type.id, variant_id: variant.id, step: :details,
+                                          back_url: type_variants_path(type_id: bug_type.id))
       )
     end
 

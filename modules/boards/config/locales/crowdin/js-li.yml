@@ -46,14 +46,14 @@ li:
         action_type:
           assignee: assignee
           status: status
-          subproject: subproject
+          subproject: subprojek
           subtasks: parent-child
           version: version
         board_type_title:
           assignee: Assignee
           basic: Basic
           status: Status
-          subproject: Subproject
+          subproject: Subprojek
           subtasks: Parent-child
           version: Version
         free: basic

@@ -144,7 +144,7 @@ RSpec.describe WorkPackageTypes::BuildProjectVariantsJob do
       built = applied_variant(narrowing_project)
 
       expect(built.variant_name).to eq("Regression - Website Relaunch")
-      expect(built.source_for(TypeVariant::FORM_CONFIGURATION)).to eq(type.default_variant)
+      expect(built.form_configuration).to eq(type.default_variant.form_configuration)
       expect(built.custom_fields).to contain_exactly(kept_field)
     end
   end

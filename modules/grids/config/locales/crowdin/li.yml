@@ -6,7 +6,7 @@ li:
         column_count: Number of columns
         page: Page
         row_count: Number of rows
-        scope: Scope
+        scope: Reikwiedte
         widgets: Widgets
     errors:
       models:

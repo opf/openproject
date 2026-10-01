@@ -31,6 +31,7 @@
 class Workflows::CopiesController < ApplicationController
   include WorkPackageTypes::AddressesVariant
   include ::WorkPackageTypes::ConfiguredInScope
+  include ::WorkPackageTypes::VariantRoutes
   include OpTurbo::ComponentStream
 
   before_action :set_source_variant
@@ -61,7 +62,7 @@ class Workflows::CopiesController < ApplicationController
     if standalone?
       workflow_copy_from_role_path(workflow, source_role_id: @source_role&.id)
     else
-      type_workflow_copy_from_role_path(**@source_variant.path_args, source_role_id: @source_role&.id)
+      variant_workflow_copy_from_role_path(variant_scope_project, @source_variant, source_role_id: @source_role&.id)
     end
   end
 

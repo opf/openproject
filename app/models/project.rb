@@ -199,6 +199,7 @@ class Project < ApplicationRecord
          :assignable_parents,
          :available_custom_fields,
          :available_templates,
+         :self_and_ancestors_of,
          :visible,
          :with_settings
 

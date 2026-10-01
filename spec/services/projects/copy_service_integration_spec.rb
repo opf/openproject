@@ -193,7 +193,7 @@ RSpec.describe(
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
-          expect(copied.source_for(:form_configuration)).to eq(owned_variant.source_for(:form_configuration))
+          expect(copied.form_configuration).to eq(owned_variant.form_configuration)
         end
 
         it "lets the copy reference the same workflow" do
@@ -1203,7 +1203,7 @@ RSpec.describe(
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
               source.work_package_custom_fields << cf
-              work_package.type.default_variant.custom_fields << cf
+              work_package.type.default_variant.custom_field_ids |= [cf.id]
             end
           end
 

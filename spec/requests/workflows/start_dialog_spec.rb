@@ -79,7 +79,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
     it "marks the workflow the type uses when a variant is the one starting" do
       variant = create(:type_variant, type:, variant_name: "Mobile")
 
-      get start_dialog_type_workflow_path(type_id: type.id, variant_id: variant.id), headers: turbo
+      get start_dialog_type_variant_workflow_path(type_id: type.id, variant_id: variant.id), headers: turbo
 
       expect(copy_source_labels)
         .to include("#{type.default_variant.workflow.name} #{same_as_type}")
@@ -108,7 +108,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
     it "names the workflow after the type and returns to the step" do
       expect { start(start: "scratch") }.to change(Workflow, :count).by(1)
 
-      expect(response).to redirect_to(%r{/creation_wizard\?started_id=#{assigned.id}&step=workflows})
+      expect(response).to redirect_to(%r{/creation_wizard\?started_workflow_id=#{assigned.id}&step=workflows})
       expect(assigned.name).to eq("Bug workflow (2)")
       expect(transitions_of(assigned)).to be_empty
     end
@@ -176,7 +176,7 @@ RSpec.describe "Choosing where a new workflow starts", :skip_csrf, type: :rails_
       it "starts from scratch once that loss is confirmed" do
         expect { start(start: "scratch", confirmed: "true") }.to change(Workflow, :count).by(1)
 
-        expect(response).to redirect_to(%r{/creation_wizard\?started_id=#{assigned.id}&step=workflows})
+        expect(response).to redirect_to(%r{/creation_wizard\?started_workflow_id=#{assigned.id}&step=workflows})
         expect(transitions_of(assigned)).to be_empty
       end
 

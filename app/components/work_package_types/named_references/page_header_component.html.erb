@@ -28,7 +28,14 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title { record.name } %>
+  <% header.with_title do %>
+    <%= record.name %>
+    <% if record.marked_default? %>
+      <%= render(Primer::Beta::Label.new(ml: 2, test_selector: test_selector("default-label"))) do %>
+        <%= reference_translate("default.label") %>
+      <% end %>
+    <% end %>
+  <% end %>
   <% header.with_description { record.description } if record.description.present? %>
   <% header.with_breadcrumbs(breadcrumbs) %>
 
@@ -50,16 +57,29 @@ See COPYRIGHT and LICENSE files for more details.
       <% item.with_leading_visual_icon(icon: :pencil) %>
     <% end %>
 
-    <% menu.with_divider %>
+    <% if mark_default? %>
+      <% menu.with_item(
+           label: reference_translate("default.mark"),
+           href: helpers.polymorphic_path([:mark_default, record]),
+           form_arguments: { method: :patch },
+           test_selector: test_selector("mark-default-action")
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :star) %>
+      <% end %>
+    <% end %>
 
-    <% menu.with_item(
-         scheme: :danger,
-         label: t(:button_delete),
-         href: helpers.polymorphic_path(record),
-         form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
-         test_selector: test_selector("delete-action")
-       ) do |item| %>
-      <% item.with_leading_visual_icon(icon: :trash) %>
+    <% unless record.marked_default? %>
+      <% menu.with_divider %>
+
+      <% menu.with_item(
+           scheme: :danger,
+           label: t(:button_delete),
+           href: helpers.polymorphic_path(record),
+           form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
+           test_selector: test_selector("delete-action")
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :trash) %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

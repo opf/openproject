@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Turbo from '@hotwired/turbo';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 

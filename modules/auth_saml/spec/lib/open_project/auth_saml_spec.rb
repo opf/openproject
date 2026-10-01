@@ -44,4 +44,14 @@ RSpec.describe OpenProject::AuthSaml do
       end
     end
   end
+
+  describe "registered strategy", with_ee: %i[sso_auth_providers] do
+    let!(:provider) { create(:saml_provider, slug: "my-saml") }
+
+    subject { OpenProject::Plugins::AuthPlugin.find_provider_by_name("my-saml") }
+
+    it "redirects the form action to the IdP SSO service URL" do
+      expect(subject[:form_action_url]).to eq "https://example.com/sso"
+    end
+  end
 end

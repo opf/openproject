@@ -412,6 +412,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_type_plural,
             parent: :admin_work_packages
 
+  menu.push :form_configurations,
+            { controller: "/form_configurations/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_form_configuration_plural,
+            parent: :admin_work_packages
+
   menu.push :workflows,
             { controller: "/workflows/index", action: "index" },
             if: ->(_) { User.current.admin? },
@@ -522,6 +528,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
+
+  menu.push :llm_connection,
+            { controller: "/admin/llm_connections", action: :show },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
+            caption: I18n.t("menus.admin.llm_connection"),
+            parent: :ai
 
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },

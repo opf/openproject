@@ -32,6 +32,7 @@ module WorkPackageTypes
   module ConfigurationLinks
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "configuration-link-confirm-dialog"
 
@@ -51,7 +52,7 @@ module WorkPackageTypes
       def heading = t("types.edit.reuse_mode.inherited.confirm_dialog.from_manual.heading")
 
       def switch_path
-        type_configuration_link_switch_path(**variant.path_args, aspect:)
+        variant_configuration_link_switch_path(helpers.variant_scope_project, variant, aspect)
       end
     end
   end
