@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
-  let(:list_field) { create(:list_wp_custom_field) }
+  let(:list_field) { create(:list_wp_custom_field, was_list: true) }
   let(:legacy_item) { create(:legacy_list_item, custom_field: list_field) }
   let(:legacy_id) { legacy_item.legacy_option_id.to_s }
   let(:item_id) { legacy_item.id.to_s }
@@ -108,7 +108,7 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
   end
 
   context "with a project query" do
-    let(:list_field) { create(:list_project_custom_field) }
+    let(:list_field) { create(:list_project_custom_field, was_list: true) }
     let(:query) { create(:project_query) }
 
     before do
@@ -125,7 +125,7 @@ RSpec.describe CustomFields::ConvertLegacyOptionIdsJob do
   end
 
   context "with a user query" do
-    let(:list_field) { create(:user_custom_field, :list) }
+    let(:list_field) { create(:user_custom_field, :list, was_list: true) }
     let(:query) { create(:user_query) }
 
     before do

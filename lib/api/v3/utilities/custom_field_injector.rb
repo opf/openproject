@@ -270,18 +270,18 @@ module API
           }
         end
 
-        # A list field's href accepts both its current namespace and the retired
+        # A former list field's href accepts both its current namespace and the retired
         # /api/v3/custom_options one, so bookmarked filters and forms built before
         # the migration keep resolving. LegacyOptionIdResolver is a no-op for an id
         # that already names an item, so this never double-translates.
         def parse_custom_field_hrefs(hrefs, custom_field, property, expected_namespace)
-          namespace = custom_field.list? ? Array(expected_namespace) + ["custom_options"] : expected_namespace
+          namespace = custom_field.was_list? ? Array(expected_namespace) + ["custom_options"] : expected_namespace
 
           ids = hrefs.filter_map do |href|
             ::API::Utilities::ResourceLinkParser.parse_id(href, property:, expected_version: "3", expected_namespace: namespace)
           end
 
-          return ids unless custom_field.list?
+          return ids unless custom_field.was_list?
 
           ::CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids:)
         end
