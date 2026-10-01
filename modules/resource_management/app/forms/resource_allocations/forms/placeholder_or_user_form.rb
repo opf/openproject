@@ -86,7 +86,12 @@ module ResourceAllocations
         filters = []
         filters << { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
+        filters << candidate_filter if model.staffed?
         filters
+      end
+
+      def candidate_filter
+        { name: "candidate_of_placeholder", operator: "=", values: [model.placeholder_user_id.to_s] }
       end
     end
   end
