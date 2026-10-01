@@ -28,14 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::ResourceManagement::Patches::WorkPackagePatch
+module WorkPackages::ResourceAllocations
   extend ActiveSupport::Concern
 
   included do
     has_many :allocated_resource_allocations,
              -> { allocated },
              class_name: "ResourceAllocation",
-             as: :entity
+             as: :entity,
+             dependent: nil,
+             inverse_of: :entity
   end
 
   class_methods do
