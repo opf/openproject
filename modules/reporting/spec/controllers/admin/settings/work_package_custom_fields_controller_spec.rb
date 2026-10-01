@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFieldsController do
+RSpec.describe Admin::Settings::WorkPackageCustomFieldsController do
   let!(:custom_field) { create(:work_package_custom_field) }
   let!(:custom_field_permanent) { create(:work_package_custom_field) }
   let(:attribute) { custom_field.column_name }
@@ -40,9 +40,9 @@ RSpec.describe CustomFieldsController do
   let(:query) { report.query }
 
   before do
-    allow(@controller).to receive(:authorize)
-    allow(@controller).to receive(:check_if_login_required)
-    allow(@controller).to receive(:require_admin)
+    allow(controller).to receive(:authorize)
+    allow(controller).to receive(:check_if_login_required)
+    allow(controller).to receive(:require_admin)
   end
 
   def filter_for(name)
