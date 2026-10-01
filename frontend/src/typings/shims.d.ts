@@ -69,12 +69,12 @@ declare global {
   }
 
   interface JQuery {
-    tablesorter:any;
+    tablesorter(options:object):JQuery;
   }
 
   interface JQueryStatic {
-    metadata:any;
-    tablesorter:any;
+    metadata:unknown;
+    tablesorter:{ language:Record<string, string> };
   }
 }
 

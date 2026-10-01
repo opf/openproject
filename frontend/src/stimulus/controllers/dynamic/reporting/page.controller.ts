@@ -207,7 +207,6 @@ export default class PageController extends Controller {
     jQuery.metadata = undefined;
 
     // Override the default texts to enable translations
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     jQuery.tablesorter.language = {
       sortAsc: I18n.t('js.sort.sorted_asc'),
       sortDesc: I18n.t('js.sort.sorted_dsc'),
@@ -218,7 +217,6 @@ export default class PageController extends Controller {
       nextNone: I18n.t('js.sort.activate_no'),
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     jQuery('#sortable-table')
       .not('.tablesorter')
       .tablesorter({

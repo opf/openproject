@@ -26,8 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrimerIconButtonComponent } from './icon-button.component';
 

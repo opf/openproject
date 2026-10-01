@@ -26,8 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import PageController from './page.controller';
 
 describe('Reporting PageController serialization', () => {
