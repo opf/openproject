@@ -11,7 +11,7 @@ Rails.application.config.after_initialize do
   next unless Herfy::ControlCenter::Provisioner.configured?
 
   begin
-    Herfy::ControlCenter::Provisioner.call
+    Herfy::ControlCenter::Provisioner.call(force: false)
   rescue StandardError => e
     Rails.logger.error("[herfy] control center provider provisioning failed: #{e.class}: #{e.message}")
   end
