@@ -51,6 +51,56 @@ RSpec.describe ResourceAllocations::UpdateService, type: :model do
     expect(resource_allocation.allocated_time).to eq(16)
   end
 
+  context "for the user who assigned the principal" do
+    shared_let(:previous_assigner) { create(:user) }
+    shared_let(:other_member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+    before { resource_allocation.update_column(:principal_assigned_by_id, previous_assigner.id) }
+
+    it "records the acting user when the principal changes" do
+      result = described_class.new(user: owner, model: resource_allocation).call(principal: other_member)
+
+      expect(result).to be_success
+      expect(resource_allocation.reload.principal_assigned_by).to eq(owner)
+    end
+
+    it "keeps the previous assigner when the principal stays the same" do
+      result = described_class.new(user: owner, model: resource_allocation).call(allocated_time: 16)
+
+      expect(result).to be_success
+      expect(resource_allocation.reload.principal_assigned_by).to eq(previous_assigner)
+    end
+  end
+
+  context "when re-staffing a staffed allocation" do
+    shared_let(:placeholder) { create(:placeholder_user) }
+    shared_let(:other_member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+    before { resource_allocation.update_column(:placeholder_user_id, placeholder.id) }
+
+    it "assigns the picked user and keeps the placeholder" do
+      result = described_class.new(user: owner, model: resource_allocation).call(placeholder_or_user: other_member)
+
+      expect(result).to be_success
+      resource_allocation.reload
+      expect(resource_allocation.principal).to eq(other_member)
+      expect(resource_allocation.placeholder_user).to eq(placeholder)
+      expect(resource_allocation.principal_assigned_by).to eq(owner)
+    end
+  end
+
+  context "when the assignee has been deleted" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    before { resource_allocation.update_column(:principal_id, deleted_user.id) }
+
+    it "updates the allocation and keeps the deleted user" do
+      expect(service_call).to be_success
+      expect(resource_allocation.reload.allocated_time).to eq(16)
+      expect(resource_allocation.principal).to eq(deleted_user)
+    end
+  end
+
   context "when attempting to change the entity" do
     let(:other_work_package) { create(:work_package, project:) }
 

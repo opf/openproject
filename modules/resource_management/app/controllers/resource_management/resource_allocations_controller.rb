@@ -410,9 +410,16 @@ module ::ResourceManagement
     # the mismatch by name, and the form warns about it while the dialog is open.
     def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
+      # The current assignee is kept even when no longer visible, such as a deleted user.
+      return @resource_allocation.principal if current_principal_id?(placeholder_or_user_id)
 
       User.visible(current_user).find_by(id: placeholder_or_user_id) ||
         PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
+    end
+
+    def current_principal_id?(placeholder_or_user_id)
+      @resource_allocation&.principal_id.present? &&
+        @resource_allocation.principal_id.to_s == placeholder_or_user_id.to_s
     end
 
     def preselected_work_package
