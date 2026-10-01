@@ -131,7 +131,7 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
       variant = WorkPackageTypes::CreateVariantService.new(user: admin, type: other_type)
                                                       .call(variant_name: "Hardware").result
 
-      visit type_creation_wizard_path(**variant.path_args, step: :form_configuration)
+      visit type_variant_creation_wizard_path(type_id: other_type.id, variant_id: variant.id, step: :form_configuration)
 
       expect_chosen("existing")
       expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
