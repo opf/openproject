@@ -14,6 +14,12 @@ module OpenProject
           binding
         end
 
+        def copyright_header
+          body = Rails.root.join("COPYRIGHT_short").readlines.map { |line| "// #{line}".rstrip }
+
+          ["//-- copyright", *body, "//++"].join("\n")
+        end
+
         ##
         # Convert a dash and underscore plugin name
         # to an importable module name.

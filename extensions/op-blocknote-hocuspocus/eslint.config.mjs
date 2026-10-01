@@ -32,6 +32,8 @@ import tseslint from "typescript-eslint";
 import json from "@eslint/json";
 import { defineConfig } from "eslint/config";
 import stylistic from "@stylistic/eslint-plugin";
+import headers from "eslint-plugin-headers";
+import { copyrightHeaderOptions } from "../../frontend/copyright.mjs";
 
 export default defineConfig([
   {
@@ -39,10 +41,11 @@ export default defineConfig([
   },
   tseslint.configs.recommended,
   {
-    files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
+    files: ["**/*.{js,mjs,cjs,ts,tsx,mts,cts}"],
     plugins: {
       js,
       '@stylistic': stylistic,
+      headers,
     },
     extends: ["js/recommended"],
     languageOptions: { globals: globals.node },
@@ -55,6 +58,7 @@ export default defineConfig([
       }],
       "@stylistic/semi": ["warn", "always"],
       "@stylistic/indent": ["warn", 2],
+      "headers/header-format": ["error", copyrightHeaderOptions],
     }
   },
   {
