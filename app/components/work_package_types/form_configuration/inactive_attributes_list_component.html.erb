@@ -31,7 +31,8 @@
                 Primer::OpenProject::DragHandle.new(
                   classes: "attribute-handle",
                   "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
-                  test_selector: "type-form-configuration-attribute-handle-#{attribute[:key]}"
+                  test_selector: "type-form-configuration-attribute-handle-#{attribute[:key]}",
+                  data: { sortable_lists__item_target: "handle" }
                 )
               )
             end
