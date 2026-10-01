@@ -29,7 +29,7 @@
 #++
 
 require "spec_helper"
-require Rails.root.join("db/migrate/20260922120000_convert_custom_field_activations_to_variants.rb")
+require Rails.root.join("db/migrate/20261001120000_convert_custom_field_activations_to_variants.rb")
 
 RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
   shared_let(:build_number) { create(:integer_wp_custom_field, name: "Build Number") }

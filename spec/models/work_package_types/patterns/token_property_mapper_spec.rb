@@ -284,7 +284,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value",
                                      short: "IV").value!
 
-          project.work_package_custom_fields << custom_field
           work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)
@@ -319,7 +318,6 @@ RSpec.describe WorkPackageTypes::Patterns::TokenPropertyMapper do
           contract_class = CustomFields::Hierarchy::InsertWeightedItemContract
           item = service.insert_item(contract_class:, parent: custom_field.hierarchy_root, label: "Item Value", weight: 42).value!
 
-          project.work_package_custom_fields << custom_field
           work_package.type.default_variant.custom_field_ids |= [custom_field.id]
 
           work_package.send(:"custom_field_#{custom_field.id}=", item.id)

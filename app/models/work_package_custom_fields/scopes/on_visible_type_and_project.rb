@@ -51,22 +51,21 @@ module WorkPackageCustomFields::Scopes
         visible_projects = reach(projects, user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
 
+        form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
+        exclusion = TypeVariant.excluded_custom_field_condition("fca.custom_field_id", excluded)
+
         where(<<~SQL.squish)
           EXISTS (
             SELECT 1
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN project_types pt
               ON pt.project_id = vp.id
-            #{source_join}
-            JOIN custom_fields_types cft
-              ON cft.type_variant_id = #{source_variant_id}
-             AND cft.custom_field_id = custom_fields.id
+            #{form_join}
+            JOIN form_configuration_attributes fca
+              ON fca.form_configuration_id = #{form_configuration_id}
+             AND fca.custom_field_id = custom_fields.id
+             AND fca.form_configuration_group_id IS NOT NULL
              AND #{exclusion}
-            LEFT JOIN custom_fields_projects cfp
-              ON cfp.project_id = vp.id
-             AND cfp.custom_field_id = custom_fields.id
-            WHERE custom_fields.is_for_all = TRUE
-               OR cfp.custom_field_id IS NOT NULL
           )
         SQL
       end

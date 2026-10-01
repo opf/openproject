@@ -56,18 +56,18 @@ module Projects::Scopes
         ids = Array(custom_field_ids).map { Integer(it) }
         return nil if ids.empty?
 
-        source_join, source_variant_id, excluded =
-          TypeVariant::FormConfigurationSql.remap("pt.variant_id")
-        exclusion = TypeVariant.excluded_custom_field_condition("cft.custom_field_id", excluded)
+        form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
+        exclusion = TypeVariant.excluded_custom_field_condition("fca.custom_field_id", excluded)
 
         <<~SQL.squish
           EXISTS (
             SELECT 1
             FROM project_types pt
-            #{source_join}
-            JOIN custom_fields_types cft
-              ON cft.type_variant_id = #{source_variant_id}
-             AND cft.custom_field_id IN (#{ids.join(', ')})
+            #{form_join}
+            JOIN form_configuration_attributes fca
+              ON fca.form_configuration_id = #{form_configuration_id}
+             AND fca.form_configuration_group_id IS NOT NULL
+             AND fca.custom_field_id IN (#{ids.join(', ')})
              AND #{exclusion}
             WHERE pt.project_id = projects.id
           )

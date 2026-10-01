@@ -533,7 +533,7 @@ RSpec.describe "API v3 Work package resource",
               "as the custom field is no longer on the type" do
         before do
           create_customizable_journal(journal: original_journal, custom_field:, value: "Original value")
-          custom_field.type_variants = []
+          custom_field.form_configurations.each { it.custom_field_ids -= [custom_field.id] }
         end
 
         it "does not embed the custom fields in the attributesByTimestamp" do
