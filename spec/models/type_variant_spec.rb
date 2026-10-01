@@ -82,6 +82,22 @@ RSpec.describe TypeVariant do
     end
   end
 
+  describe ".created_by_migration" do
+    subject(:authored) { create(:type_variant, type: bug, variant_name: "Hardware") }
+
+    let!(:converted) do
+      create(:type_variant, type: bug, variant_name: "Converted", created_by_migration: true)
+    end
+
+    it "is false for a variant a user authored" do
+      expect(authored).not_to be_created_by_migration
+    end
+
+    it "lists only the variants a data migration created" do
+      expect(described_class.created_by_migration).to contain_exactly(converted)
+    end
+  end
+
   describe "resolving an aspect" do
     let(:base) { bug.default_variant }
     let(:leaf) { create(:type_variant, type: bug, variant_name: "Hardware") }

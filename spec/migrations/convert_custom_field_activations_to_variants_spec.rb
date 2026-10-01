@@ -84,6 +84,10 @@ RSpec.describe ConvertCustomFieldActivationsToVariants, type: :model do
     it "leaves the field flagged for all projects alone" do
       expect(applied_variant(first).custom_fields).to include everywhere
     end
+
+    it "marks the variant as one the migration created" do
+      expect(applied_variant(first)).to be_created_by_migration
+    end
   end
 
   describe "a shape only one project has" do
