@@ -40,6 +40,7 @@ module API
           "int" => "Integer",
           "float" => "Float",
           "date" => "Date",
+          "datetime" => "DateTime",
           "bool" => "Boolean",
           "user" => "User",
           "version" => "Version",
@@ -319,8 +320,11 @@ module API
 
             value = send(custom_field.attribute_getter)
 
-            if custom_field.field_format == "text"
+            case custom_field.field_format
+            when "text"
               ::API::Decorators::Formattable.new(value, object: self)
+            when "datetime"
+              ::API::V3::Utilities::DateTimeFormatter.format_datetime(value, allow_nil: true)
             else
               value
             end
@@ -329,8 +333,12 @@ module API
 
         def property_value_setter_for(custom_field)
           ->(fragment:, **) {
-            value = if fragment && custom_field.field_format == "text"
-                      fragment["raw"]
+            value = case custom_field.field_format
+                    when "text"
+                      fragment && fragment["raw"]
+                    when "datetime"
+                      fragment.presence && ::API::V3::Utilities::DateTimeFormatter
+                                             .parse_datetime(fragment, custom_field.attribute_name(:camel_case))
                     else
                       fragment
                     end

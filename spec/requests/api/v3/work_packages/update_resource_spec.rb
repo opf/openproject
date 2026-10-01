@@ -952,6 +952,41 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
+      context "with a datetime custom field" do
+        let(:custom_field) { create(:datetime_wp_custom_field) }
+        let(:cf_path) { custom_field.attribute_name(:camel_case) }
+        let(:params) { valid_params.merge(cf_path => value) }
+
+        before do
+          work_package.project.work_package_custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+        end
+
+        context "with an ISO 8601 value carrying an offset" do
+          let(:value) { "2026-10-01T14:30:00+02:00" }
+
+          include_context "patch request"
+
+          it "stores and responds with the value in UTC", :aggregate_failures do
+            expect(response).to have_http_status(:ok)
+            expect(subject.body).to be_json_eql("2026-10-01T12:30:00.000Z".to_json).at_path(cf_path)
+            expect(work_package.reload.typed_custom_value_for(custom_field)).to eq(Time.utc(2026, 10, 1, 12, 30))
+          end
+        end
+
+        context "with a value that is not a datetime" do
+          let(:value) { "yesterday" }
+
+          include_context "patch request"
+
+          it "responds with a format error" do
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(subject.body).to be_json_eql("urn:openproject-org:api:v3:errors:PropertyFormatError".to_json)
+                                      .at_path("errorIdentifier")
+          end
+        end
+      end
+
       describe "update with read-only attributes" do
         describe "single read-only violation" do
           context "created and updated" do
