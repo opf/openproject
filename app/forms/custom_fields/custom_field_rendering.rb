@@ -110,7 +110,11 @@ module CustomFields::CustomFieldRendering
   # - hierarchy should not use a flat list
 
   def single_value_custom_field_input(builder, custom_field)
-    input_class_name = SINGLE_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
+    input_class_name = if custom_field.display_as_radio_buttons?
+                         "CustomFields::Inputs::RadioButtonList"
+                       else
+                         SINGLE_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
+                       end
 
     if input_class_name
       input_class_name.constantize.new(builder, **form_arguments(custom_field))
@@ -120,7 +124,11 @@ module CustomFields::CustomFieldRendering
   end
 
   def multi_value_custom_field_input(builder, custom_field)
-    input_class_name = MULTI_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
+    input_class_name = if custom_field.display_as_checkboxes?
+                         "CustomFields::Inputs::CheckBoxList"
+                       else
+                         MULTI_VALUE_INPUT_CLASS_NAMES[custom_field.field_format]
+                       end
 
     if input_class_name
       input_class_name.constantize.new(builder, **form_arguments(custom_field))
