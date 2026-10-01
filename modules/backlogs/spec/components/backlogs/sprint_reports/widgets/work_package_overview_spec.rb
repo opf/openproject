@@ -68,8 +68,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         changed_after_start: changed,
         completed:,
         unfinished:,
-        reference_start: Timestamp.new(sprint.started_at),
-        reference_finish: Timestamp.now,
+        start_timestamp: Timestamp.new(sprint.started_at),
+        finish_timestamp: Timestamp.now,
         done_status_ids: [1, 2]
       )
     end

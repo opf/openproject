@@ -65,7 +65,7 @@ RSpec.describe Sprints::WorkPackageBreakdown do
     travel_to(Time.zone.local(2024, 6, 20, 12, 0)) { example.run }
   end
 
-  describe "#reference_start and #reference_finish" do
+  describe "#start_timestamp and #finish_timestamp" do
     let(:sprint) do
       create(:sprint, project:,
                       start_date: 10.days.ago.to_date,
@@ -73,11 +73,11 @@ RSpec.describe Sprints::WorkPackageBreakdown do
                       started_at: 7.days.ago)
     end
 
-    it "wraps the sprint's reference dates as timestamps" do
-      dates = Sprints::ReferenceDates.new(sprint)
+    it "wraps the sprint's timeframe as timestamps" do
+      timeframe = Sprints::Timeframe.new(sprint)
 
-      expect(breakdown.reference_start).to eq Timestamp.new(dates.start)
-      expect(breakdown.reference_finish).to eq Timestamp.new(dates.finish)
+      expect(breakdown.start_timestamp).to eq Timestamp.new(timeframe.effective_start)
+      expect(breakdown.finish_timestamp).to eq Timestamp.new(timeframe.effective_finish)
     end
   end
 

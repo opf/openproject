@@ -45,7 +45,7 @@ module Sprints
     # A sprint running longer than a year says nothing a reader can act on, and an hourly
     # series over it would not render. Sprints::Burndown draws nothing rather than trying.
     def too_long_to_chart?
-      charted_until > reference_dates.start.to_date + 1.year
+      charted_until > timeframe.effective_start.to_date + 1.year
     end
 
     # The story points still open, sampled up to now.
@@ -77,19 +77,19 @@ module Sprints
     def non_working_intervals
       return [] if too_long_to_chart?
 
-      @non_working_intervals ||= Day.non_working_intervals(from: reference_dates.start.to_date, to: charted_until)
+      @non_working_intervals ||= Day.non_working_intervals(from: timeframe.effective_start.to_date, to: charted_until)
     end
 
     def step
-      (reference_dates.start.to_date..charted_until).count > HOURLY_STEP_LIMIT ? :day : :hour
+      (timeframe.effective_start.to_date..charted_until).count > HOURLY_STEP_LIMIT ? :day : :hour
     end
 
     private
 
     attr_reader :sprint, :project, :user
 
-    def reference_dates
-      @reference_dates ||= ReferenceDates.new(sprint)
+    def timeframe
+      @timeframe ||= Timeframe.new(sprint)
     end
 
     def zone
@@ -97,13 +97,13 @@ module Sprints
     end
 
     def ticks
-      @ticks ||= WorkPackages::JournalTimeline::Ticks.build(from: reference_dates.start,
-                                                            to: [Time.zone.now, reference_dates.finish].min,
+      @ticks ||= WorkPackages::JournalTimeline::Ticks.build(from: timeframe.effective_start,
+                                                            to: timeframe.observed_until,
                                                             step:, zone:)
     end
 
     def charted_until
-      [reference_dates.finish, reference_dates.scheduled_finish].max.to_date
+      [timeframe.effective_finish, timeframe.planned_finish].max.to_date
     end
 
     def story_points_per_tick
@@ -122,7 +122,7 @@ module Sprints
 
     def projecting?
       sprint.started_at? && !sprint.completed_at? && remaining.any? &&
-        remaining.last.at < reference_dates.scheduled_finish
+        remaining.last.at < timeframe.planned_finish
     end
 
     # Spends the value across the working days left, leaving non working days flat. A series
@@ -130,7 +130,7 @@ module Sprints
     # share of the value and the whole days after it each carry more to still reach zero on time.
     def decline_from(origin)
       from = origin.at.in_time_zone(zone)
-      days = days_until_scheduled_finish(from)
+      days = days_until_planned_finish(from)
       shares = days.map { available_share(it, from) }
 
       return [origin] if shares.sum.zero?
@@ -158,13 +158,13 @@ module Sprints
       (from.end_of_day - from) / 1.day.to_i
     end
 
-    def days_until_scheduled_finish(from)
-      scheduled_days.select { it.date >= from.to_date }
+    def days_until_planned_finish(from)
+      planned_days.select { it.date >= from.to_date }
     end
 
-    def scheduled_days
-      @scheduled_days ||= Day.from_range(from: reference_dates.start.in_time_zone(zone).to_date,
-                                         to: reference_dates.scheduled_finish.to_date).to_a
+    def planned_days
+      @planned_days ||= Day.from_range(from: timeframe.effective_start.in_time_zone(zone).to_date,
+                                       to: timeframe.planned_finish.to_date).to_a
     end
   end
 end
