@@ -23,33 +23,31 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  # Within a list field, legacy custom option ids and item ids cannot collide: the
-  # migration advances hierarchical_items' sequence past every custom option id
-  # ever issued, so every item of a list field has a higher id than any of its
-  # former options. Items of other fields may share an option id, hence the lookup
-  # among the field's own items.
-  class LegacyOptionIdResolver
-    class << self
-      def resolve(custom_field:, id:)
-        resolve_all(custom_field:, ids: [id]).first
-      end
+require "spec_helper"
+require Rails.root.join("db/migrate/20261002090000_add_was_list_to_custom_fields")
 
-      def resolve_all(custom_field:, ids:)
-        return ids unless custom_field.was_list?
+RSpec.describe AddWasListToCustomFields, type: :model do
+  let(:conn) { ActiveRecord::Base.connection }
 
-        items = CustomField::Hierarchy::Item
-                  .where(parent: custom_field.hierarchy_root, legacy_option_id: ids)
-                  .pluck(:legacy_option_id, :id)
-                  .to_h
+  def was_list?(custom_field)
+    conn.select_value("SELECT was_list FROM custom_fields WHERE id = #{custom_field.id}")
+  end
 
-        ids.map { |id| items[id.to_i]&.to_s || id }
-      end
+  it "flags the fields that were option lists, and only those", with_ee: [:custom_field_hierarchies] do
+    list = create(:list_wp_custom_field)
+    hierarchy = create(:hierarchy_wp_custom_field)
+
+    ActiveRecord::Migration.suppress_messages do
+      described_class.migrate(:down)
+      described_class.migrate(:up)
     end
+
+    expect(was_list?(list)).to be(true)
+    expect(was_list?(hierarchy)).to be(false)
   end
 end

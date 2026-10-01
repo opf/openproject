@@ -34,7 +34,7 @@ module CustomActions::Actions::Strategies::AssociatedCustomField
 
   # Actions saved before list options became hierarchy items still store option ids.
   def values=(values)
-    values = CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids: Array(values)) if custom_field.list?
+    values = CustomFields::LegacyOptionIdResolver.resolve_all(custom_field:, ids: Array(values)) if custom_field.was_list?
 
     super
   end

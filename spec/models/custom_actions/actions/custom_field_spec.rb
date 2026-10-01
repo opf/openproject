@@ -711,7 +711,7 @@ RSpec.describe CustomActions::Actions::CustomField do
       end
 
       context "for a list custom field carrying a legacy option id", with_ee: [:custom_field_hierarchies] do
-        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:custom_field) { create(:list_wp_custom_field, was_list: true) }
         let(:root) { custom_field.hierarchy_root }
         let(:migrated_item) { create(:legacy_list_item, custom_field:, label: "Kept") }
 

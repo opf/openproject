@@ -23,33 +23,20 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  # Within a list field, legacy custom option ids and item ids cannot collide: the
-  # migration advances hierarchical_items' sequence past every custom option id
-  # ever issued, so every item of a list field has a higher id than any of its
-  # former options. Items of other fields may share an option id, hence the lookup
-  # among the field's own items.
-  class LegacyOptionIdResolver
-    class << self
-      def resolve(custom_field:, id:)
-        resolve_all(custom_field:, ids: [id]).first
-      end
+class AddWasListToCustomFields < ActiveRecord::Migration[8.1]
+  def change
+    add_column :custom_fields, :was_list, :boolean,
+               default: false,
+               null: false,
+               comment: "Former option list, whose items may still be referenced by legacy custom option ids."
 
-      def resolve_all(custom_field:, ids:)
-        return ids unless custom_field.was_list?
-
-        items = CustomField::Hierarchy::Item
-                  .where(parent: custom_field.hierarchy_root, legacy_option_id: ids)
-                  .pluck(:legacy_option_id, :id)
-                  .to_h
-
-        ids.map { |id| items[id.to_i]&.to_s || id }
-      end
+    reversible do |direction|
+      direction.up { execute "UPDATE custom_fields SET was_list = true WHERE field_format = 'list'" }
     end
   end
 end

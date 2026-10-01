@@ -121,6 +121,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
           let(:item) { create(:legacy_list_item, custom_field: list_wp_custom_field) }
 
           before do
+            list_wp_custom_field.update!(was_list: true)
             instance.values = [item.legacy_option_id]
           end
 
