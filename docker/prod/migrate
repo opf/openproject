@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+OUTPUT=$(echo "\dt" | psql `echo $DATABASE_URL | cut -d? -f1` 2>&1)
+
+if [[ "$OUTPUT" = "No relations found." ]]; then
+	echo "Initialising database"
+	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:structure:load
+else
+	echo "Executing database migrations..."
+	bundle exec rake db:migrate
+fi

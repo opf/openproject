@@ -28,17 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module PlaceholderUsers::Allocatable
+  extend ActiveSupport::Concern
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
+  included do
+    has_many :resource_allocations,
+             dependent: :restrict_with_error,
+             inverse_of: :placeholder_user
 
-      provider.update!(available: false)
-
-      expect(Setting.omniauth_direct_login_provider).to be_blank
-    end
+    scope :allocatable, ->(user = User.current) {
+      if user.allowed_in_any_project?(:allocate_user_resources)
+        with_criteria
+      else
+        none
+      end
+    }
   end
 end
