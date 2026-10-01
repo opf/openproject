@@ -88,6 +88,23 @@ RSpec.shared_examples_for "custom_field contract" do
     it_behaves_like "contract is valid"
   end
 
+  context "for a multi-select list field displayed as radio buttons" do
+    let(:custom_field_field_format) { "list" }
+    let(:custom_field_possible_values) { %w[low high] }
+    let(:custom_field_multi_value) { true }
+    let(:custom_field_display_as) { "radio_buttons" }
+
+    it_behaves_like "contract is invalid", display_as: :radio_buttons_require_single_value
+  end
+
+  context "for a single-select list field displayed as checkboxes" do
+    let(:custom_field_field_format) { "list" }
+    let(:custom_field_possible_values) { %w[low high] }
+    let(:custom_field_display_as) { "checkboxes" }
+
+    it_behaves_like "contract is invalid", display_as: :checkboxes_require_multi_value
+  end
+
   context "for a calculated field", with_ee: %i[calculated_values] do
     let(:custom_field_field_format) { "calculated_value" }
     let(:custom_field_is_required) { false }

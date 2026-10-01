@@ -185,10 +185,15 @@ class CustomField < ApplicationRecord
   end
 
   def validate_display_as_matches_multi_value
+    error = display_as_multi_value_mismatch
+    errors.add(:display_as, error) if error
+  end
+
+  def display_as_multi_value_mismatch
     if display_as == "checkboxes" && !multi_value?
-      errors.add(:display_as, :checkboxes_require_multi_value)
+      :checkboxes_require_multi_value
     elsif display_as == "radio_buttons" && multi_value?
-      errors.add(:display_as, :radio_buttons_require_single_value)
+      :radio_buttons_require_single_value
     end
   end
 

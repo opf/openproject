@@ -30,5 +30,20 @@
 
 module CustomFields
   class SetAttributesService < ::BaseServices::SetAttributes
+    private
+
+    def set_attributes(params)
+      super
+
+      reset_display_as_after_multi_value_toggle
+    end
+
+    # Toggling "Allow multi-select" falls back to the dropdown instead of failing on a
+    # display setting the admin did not touch. Conflicting values set together still fail validation.
+    def reset_display_as_after_multi_value_toggle
+      return unless model.multi_value_changed? && !model.display_as_changed?
+
+      model.display_as = nil if model.display_as_multi_value_mismatch
+    end
   end
 end
