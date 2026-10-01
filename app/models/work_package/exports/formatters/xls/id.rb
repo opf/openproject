@@ -27,12 +27,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 module WorkPackage::Exports
   module Formatters
     module XLS
-      class Costs < ::Exports::Formatters::Default
-        def self.apply?(name, export_format)
-          %i[material_costs labor_costs overall_costs].include?(name.to_sym) && export_format == :xls
+      class Id < ::WorkPackage::Exports::Formatters::Id
+        def self.apply?(attribute, export_format)
+          attribute.to_sym == :id && export_format == :xls
         end
 
         def format_value(value, _options = {})
@@ -40,16 +41,9 @@ module WorkPackage::Exports
         end
 
         def format_options
-          { number_format: number_format_string }
-        end
+          return {} if Setting::WorkPackageIdentifier.semantic?
 
-        def number_format_string
-          # [$CUR] makes sure we have an actually working currency format with arbitrary currencies
-          curr = "[$CUR]".gsub "CUR", ERB::Util.h(Setting.costs_currency)
-          format = ERB::Util.h Setting.costs_currency_format
-          number = "#,##0.00"
-
-          format.gsub("%n", number).gsub("%u", curr)
+          { number_format: integer_format }
         end
       end
     end

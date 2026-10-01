@@ -29,7 +29,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
   it "performs a successful export" do
     expect(rows.count).to eq(1)
-    expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false"]
+    expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false]
   end
 
   context "with project description containing html" do
@@ -39,7 +39,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
     it "performs a successful export" do
       expect(rows.count).to eq(1)
-      expect(sheet.row(1)).to eq [project.name, "This is an html description.", "Off track", "false"]
+      expect(sheet.row(1)).to eq [project.name, "This is an html description.", "Off track", false]
     end
   end
 
@@ -49,7 +49,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
     it "performs a successful export" do
       expect(rows.count).to eq(1)
       expect(sheet.row(1)).to eq [project.name, project.description,
-                                  "Off track", project.status_explanation, "false"]
+                                  "Off track", project.status_explanation, false]
     end
   end
 
@@ -58,8 +58,25 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
     it "performs a successful export" do
       expect(rows.count).to eq(1)
-      expect(sheet.row(1)).to eq [project.name, project.description, "Off track",
-                                  "false", project.id.to_s, project.identifier]
+      expect(sheet.row(1).to_a).to eq [project.name, project.description, "Off track",
+                                       false, project.id, project.identifier]
+    end
+  end
+
+  context "with typed columns" do
+    let(:query_columns) { %w[name id created_at] }
+
+    it "writes them as native values with a matching cell format" do
+      name, id, created_at = sheet.row(1).to_a
+
+      expect(name).to eq(project.name)
+      expect(id).to eq(project.id)
+      expect(created_at).to be_a(DateTime)
+      expect(created_at.strftime("%Y-%m-%d %H:%M:%S"))
+        .to eq(project.created_at.in_time_zone(User.current.time_zone).strftime("%Y-%m-%d %H:%M:%S"))
+
+      expect(sheet.row(1).format(1).number_format).to eq("0")
+      expect(sheet.row(1).format(2).number_format).to eq(Exports::Formatters::XLS::DateFormat.datetime)
     end
   end
 
@@ -79,8 +96,8 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         custom_values = global_project_custom_fields.map do |cf|
           case cf
           when bool_cf
-            "true"
-          when text_cf
+            true
+          when text_cf, int_cf, float_cf, date_cf
             project.typed_custom_value_for(cf)
           when not_used_string_cf
             nil
@@ -89,8 +106,8 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           end
         end
 
-        expect(sheet.row(1))
-          .to eq [project.name, project.description, "Off track", "false", *custom_values]
+        expect(sheet.row(1).to_a)
+          .to eq [project.name, project.description, "Off track", false, *custom_values]
 
         # The column for the project-level-disabled custom field is blank
         expect(sheet.row(1)[header.index(not_used_string_cf.name)]).to be_nil
@@ -109,8 +126,10 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         custom_values = global_project_custom_fields.map do |cf|
           case cf
           when bool_cf
-            "true"
-          when text_cf
+            true
+          # numeric and date custom values are exported typed so that excel can
+          # sort and calculate on them
+          when text_cf, int_cf, float_cf, date_cf
             project.typed_custom_value_for(cf)
           when not_used_string_cf
             nil
@@ -119,8 +138,8 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           end
         end
 
-        expect(sheet.row(1))
-          .to eq [project.name, project.description, "Off track", "false", *custom_values]
+        expect(sheet.row(1).to_a)
+          .to eq [project.name, project.description, "Off track", false, *custom_values]
       end
     end
 
@@ -131,7 +150,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
         expect(header).to eq %w[Name Description Status Public]
 
         expect(sheet.row(1))
-          .to eq [project.name, project.description, "Off track", "false"]
+          .to eq [project.name, project.description, "Off track", false]
       end
     end
   end
@@ -149,7 +168,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           project.name,
           project.description,
           "Off track",
-          "false",
+          false,
           "Comment visible to members",
           "Comment visible to admins"
         ]
@@ -164,7 +183,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           project.name,
           project.description,
           "Off track",
-          "false",
+          false,
           "Comment visible to members"
         ]
       end
@@ -180,7 +199,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
           project.name,
           project.description,
           "Off track",
-          "false"
+          false
         ]
       end
     end
@@ -201,7 +220,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
       context "and an active phase" do
         it "renders the phase's date range in the row" do
           expect(header).to eq %w[Name Description Status Public Initiation]
-          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", "01/05/2026 - 01/20/2026"]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false, "01/05/2026 - 01/20/2026"]
         end
       end
 
@@ -210,7 +229,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
         it "renders an empty value while keeping the phase column" do
           expect(header).to eq %w[Name Description Status Public Initiation]
-          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false, nil]
         end
       end
 
@@ -231,7 +250,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
         it "renders each definition's own date range and leaves the ones without an active phase empty" do
           expect(header).to eq %w[Name Description Status Public Execution Initiation Closing]
-          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false",
+          expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false,
                                       "02/01/2026 - 02/10/2026", "01/05/2026 - 01/20/2026", nil]
         end
       end
@@ -240,7 +259,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
     context "without view_project_phases permission anywhere" do
       it "omits the phase column entirely" do
         expect(header).to eq %w[Name Description Status Public]
-        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false"]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false]
       end
     end
 
@@ -254,7 +273,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
       it "renders an empty value for the project where the user lacks the permission" do
         expect(header).to eq %w[Name Description Status Public Initiation]
-        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", "false", nil]
+        expect(sheet.row(1)).to eq [project.name, project.description, "Off track", false, nil]
       end
     end
   end
