@@ -30,10 +30,10 @@
 
 require "spec_helper"
 
-RSpec.describe Sprints::ReferenceDates do
-  subject(:reference_dates) { described_class.new(sprint) }
+RSpec.describe Sprints::Timeframe do
+  subject(:timeframe) { described_class.new(sprint) }
 
-  context "when the sprint has been started but not completed, before the scheduled finish" do
+  context "when the sprint has been started but not completed, before the planned finish" do
     let(:sprint) do
       build_stubbed(:sprint,
                     start_date: 10.days.ago.to_date,
@@ -42,15 +42,23 @@ RSpec.describe Sprints::ReferenceDates do
     end
 
     it "starts at the actual start timestamp" do
-      expect(reference_dates.start).to eq sprint.started_at
+      expect(timeframe.effective_start).to eq sprint.started_at
     end
 
-    it "finishes at the scheduled finish date" do
-      expect(reference_dates.finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    it "finishes at the planned finish date" do
+      expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    end
+
+    it "reports the planned start" do
+      expect(timeframe.planned_start).to eq sprint.start_date.in_time_zone.beginning_of_day
+    end
+
+    it "has been observed only up to now, the finish still being ahead" do
+      expect(timeframe.observed_until).to be_within(1.second).of(Time.zone.now)
     end
   end
 
-  context "when the sprint has been started but not completed, after the scheduled finish has passed" do
+  context "when the sprint has been started but not completed, after the planned finish has passed" do
     let(:sprint) do
       build_stubbed(:sprint,
                     start_date: 20.days.ago.to_date,
@@ -59,11 +67,11 @@ RSpec.describe Sprints::ReferenceDates do
     end
 
     it "runs up to now rather than the stale planned finish date" do
-      expect(reference_dates.finish).to be_within(1.second).of(Time.zone.now)
+      expect(timeframe.effective_finish).to be_within(1.second).of(Time.zone.now)
     end
 
-    it "still reports the planned date as the scheduled finish" do
-      expect(reference_dates.scheduled_finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    it "still reports the planned finish" do
+      expect(timeframe.planned_finish).to eq sprint.finish_date.in_time_zone.end_of_day
     end
   end
 
@@ -77,7 +85,11 @@ RSpec.describe Sprints::ReferenceDates do
     end
 
     it "finishes at the completion timestamp rather than the current time" do
-      expect(reference_dates.finish).to eq sprint.completed_at
+      expect(timeframe.effective_finish).to eq sprint.completed_at
+    end
+
+    it "has been observed only up to the completion, which is already past" do
+      expect(timeframe.observed_until).to eq sprint.completed_at
     end
   end
 
@@ -91,7 +103,7 @@ RSpec.describe Sprints::ReferenceDates do
     end
 
     it "finishes at the completion timestamp rather than the current time" do
-      expect(reference_dates.finish).to eq sprint.completed_at
+      expect(timeframe.effective_finish).to eq sprint.completed_at
     end
   end
 
@@ -101,11 +113,18 @@ RSpec.describe Sprints::ReferenceDates do
     end
 
     it "falls back to the beginning of the planned start date" do
-      expect(reference_dates.start).to eq sprint.start_date.in_time_zone.beginning_of_day
+      expect(timeframe.effective_start).to eq sprint.start_date.in_time_zone.beginning_of_day
     end
 
     it "falls back to the end of the planned finish date" do
-      expect(reference_dates.finish).to eq sprint.finish_date.in_time_zone.end_of_day
+      expect(timeframe.effective_finish).to eq sprint.finish_date.in_time_zone.end_of_day
+    end
+
+    # Nothing has happened yet, so the interval between the two runs backwards and yields no
+    # samples rather than inventing them.
+    it "has been observed up to now, which is before it even starts" do
+      expect(timeframe.observed_until).to be_within(1.second).of(Time.zone.now)
+      expect(timeframe.observed_until).to be < timeframe.effective_start
     end
   end
 end
