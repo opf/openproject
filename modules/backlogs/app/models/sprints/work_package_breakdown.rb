@@ -42,15 +42,15 @@ module Sprints
     end
 
     def initially_planned
-      @initially_planned ||= snapshot_block(start_timestamp)
+      @initially_planned ||= snapshot_block(reference_start)
     end
 
     def completed
-      @completed ||= snapshot_block(finish_timestamp, done: true)
+      @completed ||= snapshot_block(reference_finish, done: true)
     end
 
     def unfinished
-      @unfinished ||= snapshot_block(finish_timestamp, done: false)
+      @unfinished ||= snapshot_block(reference_finish, done: false)
     end
 
     def changed_after_start
@@ -67,11 +67,11 @@ module Sprints
       end
     end
 
-    def start_timestamp
+    def reference_start
       Timestamp.new(timeframe.effective_start)
     end
 
-    def finish_timestamp
+    def reference_finish
       Timestamp.new(timeframe.effective_finish)
     end
 
@@ -94,11 +94,11 @@ module Sprints
     end
 
     def start_points
-      @start_points ||= sprint_work_packages_at(start_timestamp).pluck(:id, :story_points).to_h
+      @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
     end
 
     def finish_points
-      @finish_points ||= sprint_work_packages_at(finish_timestamp).pluck(:id, :story_points).to_h
+      @finish_points ||= sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
     end
 
     def snapshot_block(timestamp, done: nil)
