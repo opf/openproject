@@ -3596,10 +3596,9 @@ en:
       title: "Configure a new form"
     tab:
       read_only:
+        banner_html: >
+          You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
         edit_action: "Edit form"
-        text_html: >
-          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
-          custom fields as required.
     usage:
       dialog:
         button: "View dependent types"
@@ -7158,7 +7157,7 @@ en:
         project_attributes: "Project attributes"
         projects: "Projects"
         start: "Start"
-        workflows: "Workflows"
+        workflows: "Workflow"
       success: "Created successfully."
     edit:
       breadcrumb_variant: "Variant: %{name}"
@@ -7391,7 +7390,7 @@ en:
           description: "These variants are only available within the projects in which they were created."
           title: "Project-specific variants"
       workflow:
-        tab: "Workflows"
+        tab: "Workflow"
     index:
       add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
