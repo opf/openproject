@@ -177,8 +177,8 @@ Just like in math class, some operations happen before others. Multiplication ha
 
 When a formula mixes several symbols, they are calculated in this order, from first to last. Symbols on the same line have equal priority and are calculated left to right:
 
-1. `-` in front of a value, and `%` after a number
-2. `^` 
+1. `-` (in front of a value)
+2. `%` (after a number), `^`
 3. `*`, `/`, `%`
 4. `+`, `-`
 5. `<`, `>`, `<=`, `>=`, `=`, `==`, `<>`, `!=`
@@ -197,7 +197,8 @@ When a formula mixes several symbols, they are calculated in this order, from fi
 | `%` (after a number) | Turns a number into a percentage | `7 + 1%` → `7.01` |
 | `^` | Raises a number to a power | `9 ^ 0.5` → `3.0`<br>`2 ^ 3 ^ 2` → `64` (calculated left to right) |
 
-Note: `%` after a number simply divides it by 100, so `1%` is `0.01` and `7 + 1%` gives `7.01`, not 1% of 7. To add 1% of a value, write `7 * (1 + 1%)` → `7.07`.
+> [!NOTE]
+> `%` after a number simply divides it by 100, so `1%` is `0.01` and `7 + 1%` gives `7.01`, not 1% of 7. To add 1% of a value, write `7 * (1 + 1%)` → `7.07`.
 
 ##### Useful built-in calculations
 
