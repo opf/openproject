@@ -370,6 +370,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_departments,
             parent: :users_and_permissions
 
+  menu.push :members,
+            { controller: "/admin/members" },
+            if: ->(_) { User.current.admin? },
+            caption: :"admin.members.index.title",
+            parent: :users_and_permissions
+
   menu.push :roles,
             { controller: "/roles" },
             if: ->(_) { User.current.admin? },
@@ -404,6 +410,18 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_type_plural,
+            parent: :admin_work_packages
+
+  menu.push :form_configurations,
+            { controller: "/form_configurations/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_form_configuration_plural,
+            parent: :admin_work_packages
+
+  menu.push :workflows,
+            { controller: "/workflows/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_workflow_plural,
             parent: :admin_work_packages
 
   menu.push :statuses,
@@ -479,6 +497,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "op-custom-fields",
             html: { class: "custom_fields" }
 
+  menu.push :labels,
+            { controller: "/admin/labels", action: :index },
+            after: :custom_fields,
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            caption: :label_label_plural,
+            icon: "tag"
+
   menu.push :custom_actions,
             { controller: "/custom_actions" },
             if: ->(_) { User.current.admin? },
@@ -503,6 +528,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
+
+  menu.push :llm_connection,
+            { controller: "/admin/llm_connections", action: :show },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
+            caption: I18n.t("menus.admin.llm_connection"),
+            parent: :ai
 
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },
@@ -796,6 +827,7 @@ Redmine::MenuManager.map :project_menu do |menu|
           User.current.allowed_in_project?(:select_custom_fields, project)
       }
     },
+    work_packages_import: { caption: :"work_packages.import.menu_title" },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
     time_and_costs: {

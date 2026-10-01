@@ -121,10 +121,19 @@ module ResourceAllocations
     end
 
     def utilization_ratio(range)
-      capacity = WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
+      capacity = capacity_minutes_within(range)
       return if capacity.zero?
 
       ((booked_minutes_within(range).to_f / capacity) * 100).round
+    end
+
+    # The minutes the user works within the given range, before anything booked
+    # against them. A user without a working schedule reads zero here, where
+    # their capacity is unknown rather than absent.
+    def capacity_minutes_within(range)
+      @capacity_minutes_within ||= {}
+      @capacity_minutes_within[range] ||=
+        WorkingTimeCalendar.new(user: @user, range:, global_non_working_days: @global_non_working_days).total
     end
 
     # Minutes already booked against the user within the given range. Allocations

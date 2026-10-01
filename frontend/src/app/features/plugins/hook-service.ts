@@ -26,15 +26,43 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
+import type { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import type { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import type { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import type { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
+import type { WorkPackageAction } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
+import type { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import type { WidgetRegistration } from 'core-app/shared/components/grids/grid/grid.component';
+
+type ResourceChangesetClass = new (...params:ConstructorParameters<typeof ResourceChangeset>) => ResourceChangeset;
+
+export interface HookSignatures {
+  attributeGroupComponent:(group:GroupDescriptor, workPackage:WorkPackageResource) => Type<unknown>|null;
+  gridWidgets:() => WidgetRegistration[];
+  halResourceChangesetClass:(resource:HalResource) => ResourceChangesetClass|null;
+  prependedAttributeGroups:(workPackage:WorkPackageResource) => Type<unknown>|undefined;
+  workPackageAttachmentListComponent:(workPackage:WorkPackageResource) => Type<unknown>;
+  workPackageAttachmentUploadComponent:(workPackage:WorkPackageResource) => Type<unknown>;
+  workPackageBulkContextMenu:() => WorkPackageAction;
+  workPackageNewInitialization:(change:WorkPackageChangeset) => void;
+  workPackageSingleContextMenu:() => WorkPackageAction;
+  workPackageTableContextMenu:() => WorkPackageAction;
+}
+
+type HookCallback = (...params:never[]) => unknown;
+
+type CustomHookId<K extends string> = K extends keyof HookSignatures ? never : K;
 
 @Injectable({
   providedIn: 'root',
 })
 export class HookService {
-  private hooks:Record<string, Function[]> = {};
+  private hooks:Record<string, HookCallback[]> = {};
 
-  public register(id:string, callback:Function) {
+  public register<K extends keyof HookSignatures>(id:K, callback:HookSignatures[K]):void;
+  public register<K extends string>(id:CustomHookId<K>, callback:HookCallback):void;
+  public register(id:string, callback:HookCallback) {
     if (!callback) {
       return;
     }
@@ -46,12 +74,18 @@ export class HookService {
     this.hooks[id].push(callback);
   }
 
-  public call(id:string, ...params:any[]):any[] {
+  public call<K extends keyof HookSignatures>(
+    id:K,
+    ...params:Parameters<HookSignatures[K]>
+  ):NonNullable<ReturnType<HookSignatures[K]>>[];
+
+  public call<K extends string>(id:CustomHookId<K>, ...params:unknown[]):unknown[];
+  public call(id:string, ...params:unknown[]):unknown[] {
     const results = [];
 
     if (this.hooks[id]) {
-      for (let x = 0; x < this.hooks[id].length; x++) {
-        const result = this.hooks[id][x](...params);
+      for (const hook of this.hooks[id] as ((...params:unknown[]) => unknown)[]) {
+        const result = hook(...params);
 
         if (result) {
           results.push(result);

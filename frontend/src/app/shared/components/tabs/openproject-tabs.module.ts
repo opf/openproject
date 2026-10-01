@@ -28,7 +28,6 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UIRouterModule } from '@uirouter/angular';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
@@ -41,7 +40,6 @@ import { IconModule } from 'core-app/shared/components/icon/icon.module';
     FocusModule,
     IconModule,
     AttributeHelpTextModule,
-    UIRouterModule,
   ],
   exports: [
     ScrollableTabsComponent,

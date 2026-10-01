@@ -36,6 +36,7 @@ import {
 import { BreadcrumbsContent } from 'core-app/spot/components/breadcrumbs/breadcrumbs-content';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-breadcrumbs',
   templateUrl: './breadcrumbs.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

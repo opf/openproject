@@ -26,21 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 export const uiStateLinkClass = '__ui-state-link';
-export const checkedClassName = '-checked';
-export const pressedClassName = '-pressed';
 
 export class UiStateLinkBuilder {
   constructor(
-    public readonly $state:StateService,
     public readonly keepTab:KeepTabService,
     public readonly currentProject:CurrentProjectService,
     public readonly pathHelper:PathHelperService,
+    public readonly urlParams:UrlParamsService,
   ) {
   }
 
@@ -73,17 +71,9 @@ export class UiStateLinkBuilder {
       const projectIdentifier = this.currentProject.identifier;
       href = this.pathHelper.genericWorkPackagePath(projectIdentifier, idForHref, this.keepTab.currentShowTab) + window.location.search;
     } else {
-      // Param key must match the route declaration in split-view-routes.template.ts
-      // (`:tabIdentifier`). A mismatch makes $state.href return null, which
-      // surfaces as the literal string "null" in the rendered href.
       const tabIdentifier = this.keepTab.currentDetailsTab;
-      href = this.$state.href(
-        'work-packages.partitioned.list.details.tabs',
-        {
-          workPackageId: idForHref,
-          tabIdentifier,
-        },
-      );
+      const basePath = this.urlParams.basePathWithoutDetails();
+      href = `${basePath}/details/${idForHref}/${tabIdentifier}${window.location.search}`;
     }
 
     a.href = href;

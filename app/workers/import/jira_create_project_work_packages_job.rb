@@ -120,7 +120,6 @@ module Import
 
     def update_custom_fields_in_type(type, new_custom_fields)
       variant = type.default_variant
-      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
       groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
@@ -219,7 +218,7 @@ module Import
       row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
       status_params = statuses.to_h { |status| [status.id.to_s, row] }
       call = Workflows::BulkUpdateService
-                .new(role: @project_role, variant: type.default_variant, tab: "always")
+                .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
                 .call(status_params)
       raise call.message if call.failure?
     end

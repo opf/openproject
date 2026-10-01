@@ -1,0 +1,48 @@
+# Schema: LabelModel
+---
+type: object
+properties:
+  id:
+    type: integer
+    description: Label id
+    readOnly: true
+    exclusiveMinimum: 0
+  name:
+    type: string
+    description: Label name
+    readOnly: true
+    minLength: 1
+    maxLength: 255
+  createdAt:
+    type: string
+    format: date-time
+    description: The time the label was created
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: The time the label was last updated
+    readOnly: true
+  _links:
+    type: object
+    required:
+    - self
+    properties:
+      self:
+        allOf:
+        - "$ref": "./link.yml"
+        - description: |-
+            This label
+
+            **Resource**: Label
+          readOnly: true
+example:
+  _type: Label
+  _links:
+    self:
+      href: "/api/v3/labels/1"
+      title: Bug
+  id: 1
+  name: Bug
+  createdAt: '2014-08-29T12:40:53.373Z'
+  updatedAt: '2014-08-29T12:40:53.373Z'

@@ -88,7 +88,7 @@ RSpec.describe "Top menu items", :js do
 
       it "visits the reporting page" do
         click_link_in_open_menu(reporting_item)
-        expect(page).to have_current_path(url_for(controller: "/cost_reports", action: "index", project_id: nil, only_path: true))
+        expect(page).to have_current_path(reporting_cost_reports_path)
       end
     end
 

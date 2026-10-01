@@ -37,6 +37,7 @@ import {
 import { TodayLineElement } from './wp-timeline.today-line';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-static-elements',
   template: '<div class="wp-table-timeline--static-elements"></div>',
   standalone: false,
@@ -45,6 +46,7 @@ import { TodayLineElement } from './wp-timeline.today-line';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineStaticElements implements OnInit {
   states = inject(States);
   workPackageTimelineTableController = inject(WorkPackageTimelineTableController);

@@ -38,24 +38,6 @@ declare namespace api {
    * API v3
    */
   namespace v3 {
-    interface Result {
-      _links:any;
-      _embedded:any;
-      _type:string;
-    }
-
-    interface Collection extends Result {
-      total:number;
-      pageSize:number;
-      count:number;
-      offset:number;
-      groups:any;
-      totalSums:any;
-    }
-
-    interface Duration extends String {
-    }
-
     interface Formattable {
       format?:string;
       raw:string;
@@ -74,15 +56,3 @@ interface Function {
   _type:string;
 }
 
-declare let Factory:any;
-
-declare namespace op {
-  interface QueryParams {
-    offset?:number;
-    pageSize?:number;
-    filters?:any[];
-    groupBy?:string;
-    showSums?:boolean;
-    sortBy?:any[];
-  }
-}

@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe "The variant switch dialog",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:epic) { create(:type, name: "Epic") }

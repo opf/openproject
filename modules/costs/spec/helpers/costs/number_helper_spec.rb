@@ -239,4 +239,69 @@ RSpec.describe Costs::NumberHelper do
       expect(helper.parse_hours_string_to_number("")).to eq(0.0)
     end
   end
+
+  describe "#parse_decimal_string" do
+    expectations = {
+      "1,50" => "1.50",
+      "1.50" => "1.50",
+      "0,05" => "0.05",
+      "12,5" => "12.5",
+      "95" => "95",
+      "1.234,50" => "1234.50",
+      "1,234.50" => "1234.50",
+      "1 234,50" => "1234.50",
+      "1.234" => "1234",
+      "1,234" => "1234",
+      "1.234.567,89" => "1234567.89"
+    }.freeze
+
+    subject(:parsed) { helper.parse_decimal_string(input) }
+
+    # The whole point of this helper is that the outcome does not depend on the
+    # locale the number happens to be typed in.
+    %i[en de].each do |locale|
+      context "in the #{locale} locale" do
+        around do |example|
+          I18n.with_locale(locale) { example.run }
+        end
+
+        expectations.each do |given, expected|
+          context "with #{given.inspect}" do
+            let(:input) { given }
+
+            it { is_expected.to eq(expected) }
+          end
+        end
+      end
+    end
+
+    context "with a value that is not a number" do
+      let(:input) { "nope" }
+
+      it "passes it through so the model validation rejects it" do
+        expect(parsed).to eq("nope")
+        expect(HourlyRate.new(rate: parsed)).not_to be_valid
+      end
+    end
+
+    context "with a blank or non-string value" do
+      it "returns the value untouched" do
+        expect(helper.parse_decimal_string(nil)).to be_nil
+        expect(helper.parse_decimal_string("")).to eq("")
+        expect(helper.parse_decimal_string(5)).to eq(5)
+      end
+    end
+  end
+
+  describe "#parse_decimal_string_to_number" do
+    it "converts either separator style into a BigDecimal" do
+      expect(helper.parse_decimal_string_to_number("1,50")).to eq(BigDecimal("1.50"))
+      expect(helper.parse_decimal_string_to_number("1.50")).to eq(BigDecimal("1.50"))
+    end
+
+    it "returns 0.0 for unparseable values" do
+      expect(helper.parse_decimal_string_to_number("garbage")).to eq(0.0)
+      expect(helper.parse_decimal_string_to_number(nil)).to eq(0.0)
+    end
+  end
 end

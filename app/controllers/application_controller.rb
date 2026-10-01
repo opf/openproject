@@ -50,6 +50,7 @@ class ApplicationController < ActionController::Base
   include Accounts::UserLogin
   include Accounts::Authorization
   include Accounts::EnterpriseGuard
+  include Accounts::FeatureFlagGuard
   include Accounts::SessionLifetime
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper

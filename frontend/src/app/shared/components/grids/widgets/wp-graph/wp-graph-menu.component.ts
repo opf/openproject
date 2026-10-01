@@ -31,6 +31,7 @@ import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/w
 import { WidgetWpSetMenuComponent } from 'core-app/shared/components/grids/widgets/menu/wp-set-menu.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-wp-graph-menu',
   templateUrl: '../menu/widget-menu.component.html',
   standalone: false,

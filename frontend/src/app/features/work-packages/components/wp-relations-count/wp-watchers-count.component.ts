@@ -36,6 +36,7 @@ import { WorkPackageWatchersService } from 'core-app/features/work-packages/comp
 
 @Component({
   templateUrl: './wp-relations-count.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-watchers-count',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

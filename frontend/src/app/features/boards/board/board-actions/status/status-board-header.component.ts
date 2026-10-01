@@ -43,6 +43,7 @@ import { StatusResource } from 'core-app/features/hal/resources/status-resource'
 export class StatusBoardHeaderComponent {
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('resource') public status:StatusResource;
 
   text = {

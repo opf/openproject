@@ -41,6 +41,7 @@ import { EditFieldService, IEditFieldType } from 'core-app/shared/components/fie
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'edit-form-portal',
   templateUrl: './edit-form-portal.component.html',
   standalone: false,
@@ -61,6 +62,7 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   @Input() editFieldHandler:EditFieldHandler;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onEditFieldReady = new EventEmitter<void>();
 
   public handler:EditFieldHandler;

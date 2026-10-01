@@ -30,10 +30,8 @@
 
 module WorkPackageTypes
   class ConfigurationCopiesController < BaseTabController
-    include TypeVariantsFeature
     include OpTurbo::ComponentStream
 
-    before_action :require_type_variants_feature
     before_action :require_supported_aspect
 
     current_menu_item do

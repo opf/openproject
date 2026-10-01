@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -58,7 +60,7 @@ module OpenProject
       lock_name = "mutex_on_#{entry.class.name}_#{entry.id}"
       lock_name << "_#{suffix}" if suffix
 
-      options[:transaction] ||= true
+      options.with_defaults!(transaction: true)
       ActiveRecord::Base.transaction do
         with_advisory_lock(entry.class, lock_name, options, &)
       end

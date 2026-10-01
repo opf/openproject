@@ -37,9 +37,11 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relation-row',
   templateUrl: './wp-relation-row.template.html',
   standalone: false,
@@ -134,7 +136,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public get relationReady() {
-    return this.relatedWorkPackage && this.relatedWorkPackage.$loaded;
+    return this.relatedWorkPackage?.$loaded;
   }
 
   public startDescriptionEdit() {
@@ -235,6 +237,15 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
   }
 
   public highlightingClassForWpType():string {
-    return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
+    return Highlighting.typeClass(this.relatedWorkPackage.type.id!);
+  }
+
+  public get relatedWorkPackagePath():string {
+    const relatedProject = this.relatedWorkPackage.project as ProjectResource;
+    return this.PathHelper.genericWorkPackagePath(
+      relatedProject.identifier,
+      this.relatedWorkPackage.displayId,
+      'relations',
+    );
   }
 }

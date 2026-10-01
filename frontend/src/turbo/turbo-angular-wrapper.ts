@@ -29,7 +29,6 @@
 import { skip } from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import type { ApplicationRef } from '@angular/core';
-import { runBootstrap } from 'core-app/app.module';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 
 export interface AngularTurboBridgeOptions {
@@ -37,23 +36,36 @@ export interface AngularTurboBridgeOptions {
   // a spec can pass its own `EventTarget` to drive synthetic `turbo:load`
   // events in isolation.
   target?:EventTarget;
-  // Aborts the `turbo:load` subscription so a spec (or future caller) can tear
-  // the bridge down between cases.
+  // The event source for the `pageshow` listener below. Defaults to the global
+  // `window`; a spec can pass its own `EventTarget` to drive a synthetic
+  // `pageshow` event in isolation.
+  windowTarget?:EventTarget;
+  // Aborts both subscriptions so a spec (or future caller) can tear the
+  // bridge down between cases.
   signal?:AbortSignal;
   // Resolves the Angular plugin context carrying the `appRef`. Defaults to the
   // real `window.OpenProject` lookup; injected so specs need no global.
   getPluginContext?:() => Promise<OpenProjectPluginContext>;
-  // Re-bootstraps the root application onto a fresh `appBaseSelector`. Defaults
-  // to `app.module`'s `runBootstrap`.
+  // Re-bootstraps a dynamic Angular root after teardown, if the new page has one.
+  // No page renders one anymore (every Angular island is its own scoped custom
+  // element with its own connect/disconnect lifecycle), so this defaults to a
+  // no-op; kept as an injection point for a future page that might need one.
   bootstrap?:(appRef:ApplicationRef) => void;
+  // Issues a Turbo visit to force a real render. Defaults to the global
+  // `Turbo.visit` (provided by `@hotwired/turbo-rails`); injected so specs
+  // don't need to touch the real Turbo session.
+  visit?:(location:string, options:{ action:'replace' }) => void;
 }
 
 export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
   const {
     target = document,
+    windowTarget = window,
     signal,
     getPluginContext = () => window.OpenProject.getPluginContext(),
-    bootstrap = runBootstrap,
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    bootstrap = () => {},
+    visit = (location, visitOptions) => Turbo.visit(location, visitOptions),
   } = options;
 
   // When turbo:load fires, the angular application needs to be rebootstrapped.
@@ -76,8 +88,30 @@ export function addTurboAngularWrapper(options:AngularTurboBridgeOptions = {}) {
 
           // Run bootstrap again to initialize the new application
           bootstrap(appRef);
+
+          // Re-flag every subsequent page too, not just the very first one bootstrapModule()
+          // ran on - spec/support/angular.rb#expect_angular_frontend_initialized polls for this
+          // class on whatever page a test navigates to via Turbo, not just the entry page.
+          document.body.classList.add('__ng2-bootstrap-has-run');
         });
     });
 
-  signal?.addEventListener('abort', () => subscription.unsubscribe(), { once: true });
+  // Chrome's Back/Forward Cache can resume a frozen page on browser back/
+  // forward entirely outside Turbo's own visit pipeline: no turbo:visit, no
+  // turbo:load, nothing re-renders even though the URL bar changes. The page
+  // is just the frozen snapshot from before the user navigated away.
+  // `pageshow`'s `persisted` flag is the standard way to detect this. Forcing
+  // a real Turbo visit here makes it go through turbo:load (and thus the
+  // rebuild above) like any other navigation would.
+  const pageshowSubscription = fromEvent<PageTransitionEvent>(windowTarget, 'pageshow')
+    .subscribe((event) => {
+      if (event.persisted) {
+        visit(window.location.href, { action: 'replace' });
+      }
+    });
+
+  signal?.addEventListener('abort', () => {
+    subscription.unsubscribe();
+    pageshowSubscription.unsubscribe();
+  }, { once: true });
 }

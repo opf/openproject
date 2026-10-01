@@ -31,22 +31,21 @@
 require "spec_helper"
 
 RSpec.describe "The overview of a work package type",
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Hardware") }
 
   before { login_as admin }
 
-  it "serves the overview of a type" do
+  it "redirects a type to its details tab, since only variants have an overview" do
     get type_settings_path(type_id: type.id)
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
   end
 
   it "serves the overview of a named variant" do
-    get type_settings_path(**variant.path_args)
+    get type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
     expect(response).to have_http_status(:ok)
   end
@@ -59,20 +58,6 @@ RSpec.describe "The overview of a work package type",
     expect(response).not_to have_http_status(:ok)
   end
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    it "hands the landing page back to the details tab" do
-      get type_settings_path(type_id: type.id)
-
-      expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
-    end
-
-    it "hands a named variant's landing page back to its details tab" do
-      get type_settings_path(**variant.path_args)
-
-      expect(response).to redirect_to(edit_type_details_path(**variant.path_args))
-    end
-  end
-
   context "when a project owns the variant" do
     shared_let(:project) { create(:project) }
     shared_let(:owned) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
@@ -83,17 +68,9 @@ RSpec.describe "The overview of a work package type",
     before { login_as project_admin }
 
     it "serves the overview to a member who may manage the project's variants" do
-      get type_settings_path(**owned.path_args)
+      get project_type_variant_settings_path(project_id: project, type_id: type.id, variant_id: owned.id)
 
       expect(response).to have_http_status(:ok)
-    end
-
-    context "when the variants feature is disabled", with_flag: { type_variants: false } do
-      it "has no such page" do
-        get type_settings_path(**owned.path_args)
-
-        expect(response).to have_http_status(:not_found)
-      end
     end
   end
 end

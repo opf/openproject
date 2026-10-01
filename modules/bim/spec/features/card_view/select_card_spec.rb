@@ -111,8 +111,7 @@ RSpec.describe "Selecting cards in the card view (regression #31962)",
   describe "opening" do
     it "the full screen view via double click" do
       cards.open_full_screen_by_doubleclick(work_package1)
-      expect(page).to have_css(".work-packages--details--subject",
-                               text: work_package1.subject)
+      expect(page).to have_heading(work_package1.subject, level: 2, exact_text: true)
     end
 
     it "the split screen of the selected WP" do

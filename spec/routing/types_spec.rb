@@ -37,48 +37,48 @@ RSpec.describe "types routes" do
                                                 id: "123")
   end
 
-  describe "form configuration groups (mounted on the type edit page)" do
+  describe "form configuration groups (mounted on the form page)" do
     let(:key) { "b) > 10.000 / 20.000 Nutzende" }
     let(:query) { Rack::Utils.build_query(key:) }
 
     it "carries the group key as a query param rather than a path segment" do
-      expect(delete("/types/42/form_configuration/group?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#destroy", type_id: "42", key:)
+      expect(delete("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#destroy", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(patch("/types/42/form_configuration/group?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#update", type_id: "42", key:)
+      expect(patch("/forms/42/group?#{query}"))
+        .to route_to("form_configurations/groups#update", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(get("/types/42/form_configuration/group/edit?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#edit", type_id: "42", key:)
+      expect(get("/forms/42/group/edit?#{query}"))
+        .to route_to("form_configurations/groups#edit", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(put("/types/42/form_configuration/group/move?#{query}&move_to=higher"))
-        .to route_to("work_package_types/form_configuration_groups_tab#move", type_id: "42", key:, move_to: "higher")
+      expect(put("/forms/42/group/move?#{query}&move_to=higher"))
+        .to route_to("form_configurations/groups#move", form_configuration_id: "42", key:, move_to: "higher")
     end
 
     it do
-      expect(patch("/types/42/form_configuration/group/update_query?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#update_query", type_id: "42", key:)
+      expect(patch("/forms/42/group/update_query?#{query}"))
+        .to route_to("form_configurations/groups#update_query", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(put("/types/42/form_configuration/group/drop?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#drop", type_id: "42", key:)
+      expect(put("/forms/42/group/drop?#{query}"))
+        .to route_to("form_configurations/groups#drop", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(post("/types/42/form_configuration/group/cancel_edit?#{query}"))
-        .to route_to("work_package_types/form_configuration_groups_tab#cancel_edit", type_id: "42", key:)
+      expect(post("/forms/42/group/cancel_edit?#{query}"))
+        .to route_to("form_configurations/groups#cancel_edit", form_configuration_id: "42", key:)
     end
 
     it do
-      expect(post("/types/42/form_configuration/group/add_group"))
-        .to route_to("work_package_types/form_configuration_groups_tab#add_group", type_id: "42")
+      expect(post("/forms/42/group/add_group"))
+        .to route_to("form_configurations/groups#add_group", form_configuration_id: "42")
     end
   end
 
@@ -118,11 +118,6 @@ RSpec.describe "types routes" do
     it do
       expect(get("/types/42/workflow/copy/new"))
         .to route_to("workflows/copies#new", type_id: "42")
-    end
-
-    it do
-      expect(post("/types/42/workflow/copy/from_variant"))
-        .to route_to("workflows/copies/from_variants#create", type_id: "42")
     end
 
     it do

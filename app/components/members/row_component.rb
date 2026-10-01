@@ -30,6 +30,8 @@
 
 module Members
   class RowComponent < ::RowComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    include RolesHelper
+
     property :principal
     delegate :project, to: :table
 
@@ -119,11 +121,11 @@ module Members
 
     def roles_label
       project_roles = member.roles.grep(ProjectRole).uniq.sort
-      label = h project_roles.collect(&:name).join(", ")
+      label = role_names_with_permissions_preview(project_roles)
 
       if principal&.admin?
-        label << tag(:br) if project_roles.any?
-        label << I18n.t(:label_member_all_admin)
+        label += tag(:br) if project_roles.any?
+        label += h I18n.t(:label_member_all_admin)
       end
 
       label

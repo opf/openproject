@@ -54,7 +54,7 @@ RSpec.describe "form configuration", :js, :selenium do
 
       before do
         login_as(admin)
-        visit edit_type_form_configuration_path(type)
+        visit edit_form_configuration_path(type.default_variant.form_configuration)
       end
 
       def persisted_group_order
@@ -104,9 +104,7 @@ RSpec.describe "form configuration", :js, :selenium do
 
         # Test the actual type backend
         variant.reload
-        expect(variant.attribute_groups.count).to eq 1
-        expect(variant.attribute_groups.first.key).to eq :__empty
-        expect(variant.attribute_groups.first.attributes).to be_empty
+        expect(variant.attribute_groups).to be_empty
 
         # Visit work package with that type
         wp_page.visit!
@@ -273,7 +271,7 @@ RSpec.describe "form configuration", :js, :selenium do
         let!(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
 
         before do
-          visit edit_type_form_configuration_path(type)
+          visit edit_form_configuration_path(type.default_variant.form_configuration)
         end
 
         it "shows field format labels beside attributes" do
@@ -308,7 +306,7 @@ RSpec.describe "form configuration", :js, :selenium do
       it "keeps a saved custom group when canceling rename" do
         form.add_attribute_group("Saved custom group")
 
-        visit edit_type_form_configuration_path(type)
+        visit edit_form_configuration_path(type.default_variant.form_configuration)
 
         group_key = form.send(:find_group, "Saved custom group")["data-group-key"]
         form.send(:open_group_menu, "Saved custom group")
@@ -327,7 +325,7 @@ RSpec.describe "form configuration", :js, :selenium do
       it "renames and deletes a group whose name contains special characters (Regression INTERNAL-963)" do
         form.add_attribute_group("b) > 10.000 / 20.000 Nutzende")
 
-        visit edit_type_form_configuration_path(type)
+        visit edit_form_configuration_path(type.default_variant.form_configuration)
 
         form.rename_group("b) > 10.000 / 20.000 Nutzende", "b) > 20.000 / 30.000 Nutzende")
         expect(persisted_group_order).to include("b) > 20.000 / 30.000 Nutzende")
@@ -377,7 +375,7 @@ RSpec.describe "form configuration", :js, :selenium do
           expect(page).to have_text(I18n.t("button_delete"))
         end
 
-        find("body").click
+        form.close_menu(first_row_menu_id)
 
         last_row_menu_id = form.open_attribute_menu(details_order.last)
 
@@ -405,89 +403,67 @@ RSpec.describe "form configuration", :js, :selenium do
       it "reorders and deletes groups via group actions" do
         expected_order = persisted_group_order
         moving_group = expected_order.second
-        initial_updated_at = variant.updated_at
 
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_group)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_group_order).to eq(expected_order)
+        wait_for { persisted_group_order }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_bottom"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_group)
         expected_order << moving_group
-        expect(persisted_group_order).to eq(expected_order)
+        wait_for { persisted_group_order }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_group)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_group_order).to eq(expected_order)
+        wait_for { persisted_group_order }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_top"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_group)
         expected_order.unshift(moving_group)
-        expect(persisted_group_order).to eq(expected_order)
+        wait_for { persisted_group_order }.to eq(expected_order)
 
         deleted_group = expected_order.last
-        initial_updated_at = variant.updated_at
         accept_confirm I18n.t("types.edit.form_configuration.confirm_delete_group") do
           form.invoke_group_action(deleted_group, I18n.t("button_delete"))
         end
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(deleted_group)
-        expect(persisted_group_order).to eq(expected_order)
+        wait_for { persisted_group_order }.to eq(expected_order)
       end
 
       it "reorders and deletes attribute rows via row actions" do
         expected_order = persisted_attribute_order(:details)
         moving_attribute = expected_order.second
-        initial_updated_at = variant.updated_at
 
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_down"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index + 1] = expected_order[index + 1], expected_order[index]
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_bottom"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
         expected_order << moving_attribute
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         index = expected_order.index(moving_attribute)
         expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_top"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
         expected_order.unshift(moving_attribute)
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
 
-        initial_updated_at = variant.updated_at
         form.invoke_attribute_action(moving_attribute, I18n.t("button_delete"))
-        wait_for { variant.reload.updated_at }.not_to eq(initial_updated_at)
         expected_order.delete(moving_attribute)
-        expect(persisted_attribute_order(:details)).to eq(expected_order)
+        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
       end
     end
 
@@ -502,7 +478,7 @@ RSpec.describe "form configuration", :js, :selenium do
         custom_field
 
         login_as(admin)
-        visit edit_type_form_configuration_path(type)
+        visit edit_form_configuration_path(type.default_variant.form_configuration)
       end
 
       it "shows the field" do
@@ -530,7 +506,7 @@ RSpec.describe "form configuration", :js, :selenium do
         custom_field
 
         login_as(admin)
-        visit edit_type_form_configuration_path(type)
+        visit edit_form_configuration_path(type.default_variant.form_configuration)
 
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
@@ -609,7 +585,7 @@ RSpec.describe "form configuration", :js, :selenium do
   describe "without EE token", with_ee: false do
     it "hides protected group actions" do
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       expect(page).to have_no_test_selector("type-form-configuration-add-button")
 
@@ -626,7 +602,7 @@ RSpec.describe "form configuration", :js, :selenium do
       variant.save!
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       expect(page).to have_no_test_selector("type-form-configuration-query-actions-Subtasks")
     end
@@ -635,7 +611,7 @@ RSpec.describe "form configuration", :js, :selenium do
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     it "shows protected group actions" do
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       menu_id = form.send(:open_group_menu, "Details")
       within "##{menu_id}" do
@@ -651,13 +627,13 @@ RSpec.describe "form configuration", :js, :selenium do
       subscription =
         ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*, payload|
           payload => { controller:, action: }
-          if controller == "WorkPackageTypes::FormConfigurationGroupsTabController" && action == "create"
+          if controller == "FormConfigurations::GroupsController" && action == "create"
             call_count += 1
           end
         end
 
       login_as(admin)
-      visit edit_type_form_configuration_path(type)
+      visit edit_form_configuration_path(type.default_variant.form_configuration)
 
       form.expect_group("details", "Details")
       form.add_attribute_group("New Group")

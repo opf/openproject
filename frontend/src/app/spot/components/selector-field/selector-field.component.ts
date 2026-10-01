@@ -34,6 +34,7 @@ import {
 } from '@angular/forms';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-selector-field',
   templateUrl: './selector-field.component.html',
   standalone: false,

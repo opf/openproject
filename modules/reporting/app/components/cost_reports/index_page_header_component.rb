@@ -32,6 +32,7 @@ module CostReports
   class IndexPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
     include Widget::ReportingWidget::RenderWidgetInstanceMethods
+    include OpTurbo::Streamable
 
     def initialize(query:, project: nil)
       super
@@ -70,6 +71,12 @@ module CostReports
 
     def show_export_button?
       @user.allowed_in_any_work_package?(:export_work_packages, in_project: @project)
+    end
+
+    def export_path(format)
+      report_location = @query.persisted? ? { action: :show, id: @query.id } : { action: :index }
+
+      url_for({ controller: "cost_reports", **report_location, format:, project_id: @project, **@query.to_query_params })
     end
 
     def module_path

@@ -35,23 +35,31 @@ module ResourceAllocations
     end
 
     attribute :principal
-    attribute :principal_explicit
+    attribute :placeholder_user
     attribute :state
     attribute :start_date
     attribute :end_date
     attribute :allocated_time
-    attribute :user_filter
-    attribute :filter_name
 
     validate :user_allowed_to_allocate
+    validate :principal_must_be_member
 
     private
 
+    # The permission lives on the project of the allocated work package, which is
+    # also how a global planner resolves it. A missing project means no reachable
+    # entity, so there is nothing to authorise against.
     def user_allowed_to_allocate
-      return if model.project.nil?
-      return if user.allowed_in_project?(:allocate_user_resources, model.project)
+      return if model.project && user.allowed_in_project?(:allocate_user_resources, model.project)
 
       errors.add :base, :error_unauthorized
+    end
+
+    def principal_must_be_member
+      return if model.principal.nil? || model.project.nil?
+      return if Principal.in_project(model.project).exists?(id: model.principal_id)
+
+      errors.add :principal, :not_a_member
     end
   end
 end

@@ -1,0 +1,154 @@
+name: Check AI involvement section
+
+# Uses pull_request_target rather than pull_request so that the job has a
+# writable token on pull requests from forks. Nothing from the pull request is
+# ever checked out or executed: the checkout below takes the base branch, and
+# the description is passed from the event payload via an environment variable.
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers] needed for a writable token on fork PRs
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+      - ready_for_review
+
+permissions:
+  contents: read # to fetch code (actions/checkout)
+  pull-requests: write # to comment on the PR
+
+concurrency:
+  # Editing a description fires several events in quick succession and only the
+  # latest state matters. Keyed on the pull request number rather than the head
+  # branch, as two forks can have a branch of the same name.
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  ai-involvement-check:
+    # Automation PRs (dependabot, copilot, the release merge PRs opened by
+    # openprojectci) are skipped as they do not fill in the PR template.
+    if: >-
+      github.event.pull_request.user.type != 'Bot'
+      && github.event.pull_request.user.login != 'openprojectci'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      # The label is synced on every pull request. The warning comment and the
+      # failing check are limited to contributor pull requests, i.e. those cut
+      # from a fork, once they are ready for review.
+      ENFORCE: >-
+        ${{ github.event.pull_request.head.repo.full_name != github.repository
+        && github.event.pull_request.draft == false }}
+
+    steps:
+      # No ref: under pull_request_target this checks out the base branch, so the
+      # script cannot be tampered with by the pull request it is checking.
+      - name: Checkout the check script
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          sparse-checkout: script/ci/ai_involvement_check.sh
+          sparse-checkout-cone-mode: false
+
+      - name: Verify the AI involvement section is filled out
+        id: ai-involvement-check
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: printf '%s' "$PR_BODY" | ./script/ci/ai_involvement_check.sh
+
+      # The description is the source of truth: the label matching the stated
+      # level is added and any other "ai:" label removed, including all of them
+      # when no single level is stated. A failure here must not skip the comment
+      # below, nor turn the check red on pull requests it is not enforced on.
+      - name: Sync the AI involvement label
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          LEVEL: ${{ steps.ai-involvement-check.outputs.level }}
+        run: |
+          case "$LEVEL" in
+            None/Assisted) wanted='ai: None/Assisted 👤' ;;
+            Collaborative) wanted='ai: Collaborative 💻' ;;
+            Directed) wanted='ai: Directed 🪄' ;;
+            Autonomous) wanted='ai: Autonomous 🤖' ;;
+            *) wanted='' ;;
+          esac
+
+          readarray -t current < <(gh pr view "$PR_URL" --json labels --jq '.labels[].name | select(startswith("ai: "))')
+
+          args=()
+          present=false
+          for label in "${current[@]}"; do
+            if [ "$label" = "$wanted" ]; then
+              present=true
+            else
+              args+=(--remove-label "$label")
+            fi
+          done
+          if [ -n "$wanted" ] && [ "$present" = false ]; then
+            args+=(--add-label "$wanted")
+          fi
+
+          if [ "${#args[@]}" -gt 0 ]; then
+            gh pr edit "$PR_URL" "${args[@]}"
+          fi
+
+      - name: Compose the comment
+        id: comment
+        env:
+          STATUS: ${{ steps.ai-involvement-check.outputs.status }}
+          SELECTED_LEVELS: ${{ steps.ai-involvement-check.outputs.selected_levels }}
+        run: |
+          file="$RUNNER_TEMP/ai-involvement-comment.md"
+          echo "file=$file" >> "$GITHUB_OUTPUT"
+          : > "$file"
+
+          case "$STATUS" in
+            section_missing)
+              cat > "$file" <<'EOM'
+          > [!WARNING]
+          > This pull request description has no `AI involvement` section.
+
+          Please add it back from the
+          [pull request template](https://github.com/opf/openproject/blob/dev/.github/pull_request_template.md)
+          and self-assess how much AI drove this PR.
+          EOM
+              ;;
+            level_missing)
+              cat > "$file" <<'EOM'
+          > [!WARNING]
+          > The `AI involvement` section of this pull request is not filled out.
+
+          Please uncomment the one line that fits by deleting its surrounding `<!--` and `-->`
+          markers.
+          EOM
+              ;;
+            multiple_levels)
+              {
+                printf '> [!WARNING]\n> The `AI involvement` section states more than one level:\n> %s\n\n' "$SELECTED_LEVELS"
+                cat <<'EOM'
+          This is not multiple-choice. Please keep only the line that fits and comment out
+          or delete the others.
+          EOM
+              } > "$file"
+              ;;
+          esac
+
+      # The comment is removed once the section is filled out, and only posted
+      # on contributor pull requests.
+      - name: Sync the comment
+        if: env.ENFORCE == 'true' || steps.ai-involvement-check.outputs.status == 'ok'
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3
+        with:
+          header: ai-involvement-comment
+          path: ${{ steps.comment.outputs.file }}
+          delete: ${{ steps.ai-involvement-check.outputs.status == 'ok' }}
+
+      - name: Fail if the AI involvement section is not filled out
+        if: env.ENFORCE == 'true' && steps.ai-involvement-check.outputs.status != 'ok'
+        run: |
+          echo "The 'AI involvement' section of the pull request description is not filled out."
+          echo "See the comment on the pull request for what to change."
+          exit 1

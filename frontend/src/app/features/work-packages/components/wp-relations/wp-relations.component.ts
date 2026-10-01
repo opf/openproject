@@ -38,6 +38,7 @@ import { type FrameElement, renderStreamMessage, type TurboSubmitEndEvent } from
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './wp-relations.template.html',

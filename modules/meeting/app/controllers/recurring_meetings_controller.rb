@@ -303,7 +303,8 @@ class RecurringMeetingsController < ApplicationController
         [total, 0].max
       end
 
-    @count = [show_more_limit_param(limit: params[:limit]), @max_count].compact.min
+    initial_limit = @direction == "past" ? SHOW_MORE_PAST_DEFAULT_LIMIT : SHOW_MORE_DEFAULT_LIMIT
+    @count = [show_more_limit_param(limit: params[:limit], initial_limit:), @max_count].compact.min
   end
 
   def planned_occurrence(recurrence_start_time)

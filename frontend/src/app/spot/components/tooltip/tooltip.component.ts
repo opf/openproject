@@ -35,6 +35,7 @@ import {
 import SpotDropAlignmentOption from '../../drop-alignment-options';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-tooltip',
   templateUrl: './tooltip.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

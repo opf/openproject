@@ -40,10 +40,14 @@ RSpec.describe TypesHelper do
     before do
       helper.instance_variable_set(:@type, type)
       helper.instance_variable_set(:@variant, addressed_variant)
+      without_partial_double_verification do
+        allow(helper).to receive(:variant_scope_project).and_return(nil)
+      end
     end
 
-    context "with the type_variants feature enabled", with_flag: { type_variants: true } do
+    context "when the tabs are built for a type" do
       context "when no variant is addressed" do
+        let(:type) { create(:type) }
         let(:addressed_variant) { nil }
 
         it "offers the variants tab right after the defaults tab" do
@@ -90,14 +94,6 @@ RSpec.describe TypesHelper do
         it "offers the projects tab" do
           expect(tab_names).to include("projects")
         end
-      end
-    end
-
-    context "with the type_variants feature disabled", with_flag: { type_variants: false } do
-      let(:addressed_variant) { nil }
-
-      it "omits the variants tab" do
-        expect(tab_names).not_to include("variants")
       end
     end
   end

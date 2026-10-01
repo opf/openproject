@@ -33,6 +33,8 @@
 // Pragmatic postpones the drag start and throttles drag updates by one
 // animation frame, so every step awaits a frame before returning.
 
+import { nextFrame } from 'core-common/testing/timing';
+
 export interface Point {
   x:number;
   y:number;
@@ -62,12 +64,6 @@ export function towardsEdgeOf(element:Element, edge:'top'|'bottom'|'left'|'right
     default:
       return center;
   }
-}
-
-function nextFrame():Promise<void> {
-  return new Promise((resolve) => {
-    requestAnimationFrame(() => resolve());
-  });
 }
 
 export class NativeDragSimulation {

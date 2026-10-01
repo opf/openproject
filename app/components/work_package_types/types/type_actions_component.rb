@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Types
     class TypeActionsComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def self.menu_id(type)
         "type-#{type.id}-action-menu"
@@ -57,6 +58,7 @@ module WorkPackageTypes
         menu.with_divider
 
         add_variant_action(menu)
+        compare_variants_action(menu) if comparable?
         duplicate_action(menu)
         menu.with_divider
 
@@ -70,8 +72,17 @@ module WorkPackageTypes
 
       def add_variant_action(menu)
         menu.with_item(label: t("types.index.add_variant_action"),
-                       href: new_creation_wizard_types_path(type_id: type.id, back_url: types_path)) do |item|
+                       href: new_variant_creation_wizard_path(nil, type, back_url: types_path)) do |item|
           item.with_leading_visual_icon(icon: :plus)
+        end
+      end
+
+      def comparable? = type.variants.non_default_variants.exists?
+
+      def compare_variants_action(menu)
+        menu.with_item(label: t("types.comparison.action"),
+                       href: comparison_type_variants_path(type_id: type.id)) do |item|
+          item.with_leading_visual_icon(icon: :"git-compare")
         end
       end
 
@@ -129,8 +140,8 @@ module WorkPackageTypes
         menu.with_item(
           label: t(:button_delete),
           scheme: :danger,
-          href: type_path(type),
-          form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } }
+          href: deletion_dialog_type_path(type),
+          content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end

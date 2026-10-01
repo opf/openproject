@@ -1,0 +1,65 @@
+# Schema: HourlyRateCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This collection of hourly rates.
+                  **Resource**: HourlyRateCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of hourly rates visible to the requesting user, ordered by `validFrom` descending.
+              Project rates and default rates are told apart by the presence of the `project` link.
+            items:
+              $ref: './hourly_rate_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: /api/v3/principals/42/hourly_rates
+  _embedded:
+    elements:
+      - _type: HourlyRate
+        id: 1
+        validFrom: '2025-01-01'
+        rate: 50.0
+        _links:
+          self:
+            href: /api/v3/principals/42/hourly_rates/1
+          principal:
+            href: /api/v3/users/42
+            title: Jane Doe
+          project:
+            href: /api/v3/projects/7
+            title: Customer Portal
+      - _type: HourlyRate
+        id: 2
+        validFrom: '2024-01-01'
+        rate: 30.0
+        _links:
+          self:
+            href: /api/v3/principals/42/hourly_rates/2
+          principal:
+            href: /api/v3/users/42
+            title: Jane Doe

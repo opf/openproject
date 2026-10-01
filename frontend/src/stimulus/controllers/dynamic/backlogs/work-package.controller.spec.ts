@@ -27,7 +27,7 @@
 //++
 
 import { Application } from '@hotwired/stimulus';
-
+import { nextFrame } from 'core-common/testing/timing';
 import type WorkPackageControllerType from './work-package.controller';
 
 interface WorkPackageNavigation {
@@ -36,8 +36,6 @@ interface WorkPackageNavigation {
 }
 
 describe('Backlogs work package controller', () => {
-  const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-
   let application:Application;
   let fixture:HTMLElement;
   let WorkPackageController:typeof WorkPackageControllerType;
@@ -68,18 +66,26 @@ describe('Backlogs work package controller', () => {
     vi.restoreAllMocks();
   });
 
+  // The card is wrapped in its row, matching production: `data-batch-selected`
+  // is written on the row (the <li>), never on the card itself (see
+  // sortable-lists/selection.ts). This controller only ever touches the card
+  // (`this.element`), so wrapping it here is what makes "leaves batch
+  // membership alone" below a meaningful assertion instead of one that would
+  // pass unchanged even if the two elements were confused.
   function renderWorkPackage() {
     fixture.innerHTML = `
-      <article
-        data-controller="backlogs--work-package"
-        data-backlogs--work-package-id-value="42"
-        data-backlogs--work-package-display-id-value="SP-42"
-        data-backlogs--work-package-split-url-value="/projects/demo/backlogs/details/SP-42"
-        data-backlogs--work-package-full-url-value="/work_packages/42"
-        tabindex="0"
-      >
-        Work package
-      </article>
+      <li>
+        <article
+          data-controller="backlogs--work-package"
+          data-backlogs--work-package-id-value="42"
+          data-backlogs--work-package-display-id-value="SP-42"
+          data-backlogs--work-package-split-url-value="/projects/demo/backlogs/details/SP-42"
+          data-backlogs--work-package-full-url-value="/work_packages/42"
+          tabindex="0"
+        >
+          Work package
+        </article>
+      </li>
     `;
 
     return fixture.querySelector<HTMLElement>('[data-controller="backlogs--work-package"]')!;
@@ -113,6 +119,7 @@ describe('Backlogs work package controller', () => {
     expect(event.defaultPrevented).toBe(true);
     expect(navigation.openSplitPane).toHaveBeenCalledTimes(1);
     expect(navigation.openFullPane).not.toHaveBeenCalled();
+    expect(workPackage.hasAttribute('aria-current')).toBe(false);
   });
 
   it('opens the full pane when Shift+Enter is pressed', async () => {
@@ -139,13 +146,12 @@ describe('Backlogs work package controller', () => {
     expect(navigation.openFullPane).not.toHaveBeenCalled();
   });
 
-  it('marks the card as selected immediately on click, before the pane opens', async () => {
+  it('does not mark a card as current merely because it was clicked', async () => {
     const workPackage = renderWorkPackage();
 
     await nextFrame();
     workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    expect(workPackage.hasAttribute('data-selected')).toBe(true);
     expect(workPackage.hasAttribute('aria-current')).toBe(false);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
   });
@@ -169,31 +175,81 @@ describe('Backlogs work package controller', () => {
     }
   });
 
-  it('marks the card as selected when Enter opens the split pane', async () => {
-    const workPackage = renderWorkPackage();
+  // The pressed state is visual only — data-activating, never ARIA — so
+  // every user gets synchronous feedback regardless of batch selection
+  // being enabled for them.
+  describe('activation feedback', () => {
+    it('shows pressed feedback synchronously on click, before any navigation', async () => {
+      const workPackage = renderWorkPackage();
 
-    await nextFrame();
-    keydown(workPackage, 'Enter');
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    expect(workPackage.hasAttribute('data-selected')).toBe(true);
-    expect(navigation.openSplitPane).toHaveBeenCalledTimes(1);
+      expect(workPackage.hasAttribute('data-activating')).toBe(true);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+      expect(navigation.openSplitPane).not.toHaveBeenCalled();
+    });
+
+    it('shows pressed feedback synchronously on Enter', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      keydown(workPackage, 'Enter');
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(true);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+    });
+
+    it('clears pressed feedback when the visit lands on the card', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('turbo:visit', {
+        detail: { url: '/projects/demo/backlogs/details/SP-42' },
+      }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(workPackage.getAttribute('aria-current')).toBe('true');
+    });
+
+    it('clears pressed feedback when the visit lands elsewhere', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      document.dispatchEvent(new CustomEvent('turbo:visit', {
+        detail: { url: '/projects/demo/backlogs' },
+      }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(workPackage.hasAttribute('aria-current')).toBe(false);
+    });
+
+    it('clears pressed feedback when a double-click cancels the pending click', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      workPackage.dispatchEvent(new MouseEvent('dblclick', { bubbles: true }));
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+      expect(navigation.openFullPane).toHaveBeenCalledTimes(1);
+    });
+
+    it('clears pressed feedback when the card disconnects', async () => {
+      const workPackage = renderWorkPackage();
+
+      await nextFrame();
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      fixture.remove();
+      await nextFrame();
+
+      expect(workPackage.hasAttribute('data-activating')).toBe(false);
+    });
   });
 
-  it('clears the selection of other work packages when a card is selected', async () => {
-    const workPackage = renderWorkPackage();
-    const other = document.createElement('article');
-    other.setAttribute('data-controller', 'backlogs--work-package');
-    fixture.appendChild(other);
-
-    await nextFrame();
-    other.setAttribute('data-selected', '');
-    workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-
-    expect(other.hasAttribute('data-selected')).toBe(false);
-    expect(workPackage.hasAttribute('data-selected')).toBe(true);
-  });
-
-  it('syncs selection and aria-current from the visited URL', async () => {
+  it('marks the card as current when the URL points at it', async () => {
     const workPackage = renderWorkPackage();
 
     await nextFrame();
@@ -202,13 +258,37 @@ describe('Backlogs work package controller', () => {
     }));
 
     expect(workPackage.getAttribute('aria-current')).toBe('true');
-    expect(workPackage.hasAttribute('data-selected')).toBe(true);
+  });
 
+  it('unmarks the card as current once the URL moves elsewhere', async () => {
+    const workPackage = renderWorkPackage();
+
+    await nextFrame();
+    document.dispatchEvent(new CustomEvent('turbo:visit', {
+      detail: { url: '/projects/demo/backlogs/details/SP-42' },
+    }));
     document.dispatchEvent(new CustomEvent('turbo:visit', {
       detail: { url: '/projects/demo/backlogs' },
     }));
 
     expect(workPackage.hasAttribute('aria-current')).toBe(false);
-    expect(workPackage.hasAttribute('data-selected')).toBe(false);
+  });
+
+  it('leaves batch membership alone when the URL changes', async () => {
+    const workPackage = renderWorkPackage();
+    const row = workPackage.parentElement!;
+
+    await nextFrame();
+    row.setAttribute('data-batch-selected', '');
+
+    document.dispatchEvent(new CustomEvent('turbo:visit', {
+      detail: { url: '/projects/demo/backlogs/details/SP-42' },
+    }));
+    expect(row.hasAttribute('data-batch-selected')).toBe(true);
+
+    document.dispatchEvent(new CustomEvent('turbo:visit', {
+      detail: { url: '/projects/demo/backlogs' },
+    }));
+    expect(row.hasAttribute('data-batch-selected')).toBe(true);
   });
 });

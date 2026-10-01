@@ -53,6 +53,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
   beforeEach(() => {
     originalOpenProject = window.OpenProject;
     window.OpenProject = new OpenProject();
+    vi.spyOn(window, 'confirm').mockReturnValue(false);
     TestBed.configureTestingModule({});
     service = TestBed.inject(GlobalEditFormChangesTrackerService);
   });
@@ -61,6 +62,7 @@ describe('GlobalEditFormChangesTrackerService', () => {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     service['abortController'].abort();
     window.OpenProject = originalOpenProject;
+    vi.restoreAllMocks();
   });
 
   it('should be created', () => {

@@ -1,0 +1,199 @@
+# /api/v3/principals/{id}/hourly_rates/{rate_id}
+---
+get:
+  summary: View an hourly rate
+  operationId: view_principal_hourly_rate
+  tags:
+    - Hourly rates
+  description: |-
+    Returns a single hourly rate of the given principal.
+
+    **Required permissions:**
+    - Reaching a principal's rates at all requires `view_hourly_rates` in at least one project,
+      unless the principal is the requesting user.
+    - A project rate additionally requires `view_hourly_rates` in the project it applies in, or
+      `view_own_hourly_rate` there when the rate belongs to the requesting user.
+    - A default rate belongs to no project and is readable as soon as the principal's rates are reachable.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Principal id.
+      schema:
+        type: integer
+      example: 42
+    - name: rate_id
+      in: path
+      required: true
+      description: Hourly rate id.
+      schema:
+        type: integer
+      example: 1
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/hourly_rate_model.yml"
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the principal or the rate does not exist, or the requesting user may not see it.
+
+patch:
+  summary: Update an hourly rate
+  operationId: update_principal_hourly_rate
+  tags:
+    - Hourly rates
+  description: |-
+    Updates `validFrom` or `rate` of the given hourly rate.
+
+    The `project` link can only be written when creating a rate. A rate can neither be moved from one
+    project to another, nor be turned from a project rate into a default rate or the other way around.
+
+    Changing a rate recalculates the costs of time entries and budgets already booked in the period
+    the rate covers.
+
+    **Required permissions:**
+    - A project rate requires `edit_hourly_rates` in the rate's project, or `edit_own_hourly_rate`
+      in it when the rate is the requesting user's own.
+    - A default rate requires the global `manage_default_hourly_rates` permission.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Principal id.
+      schema:
+        type: integer
+      example: 42
+    - name: rate_id
+      in: path
+      required: true
+      description: Hourly rate id.
+      schema:
+        type: integer
+      example: 1
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../components/schemas/hourly_rate_model.yml"
+        example:
+          rate: 120
+  responses:
+    "200":
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/hourly_rate_model.yml"
+    "400":
+      $ref: "../components/responses/invalid_request_body.yml"
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `edit_hourly_rates` or `edit_own_hourly_rate` in the rate's project,
+        or `manage_default_hourly_rates` globally for a default rate.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the principal or the rate does not exist, or the requesting user may not see it.
+    "406":
+      $ref: "../components/responses/missing_content_type.yml"
+    "415":
+      $ref: "../components/responses/unsupported_media_type.yml"
+    "422":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Validation failed.
+      description: |-
+        Returned if the request body contains invalid parameters, or if it tries to write the
+        `project` link, which is read-only once the rate exists.
+
+delete:
+  summary: Delete an hourly rate
+  operationId: delete_principal_hourly_rate
+  tags:
+    - Hourly rates
+  description: |-
+    Deletes the given hourly rate. The costs of time entries and budgets booked in the period the
+    rate covered are recalculated with the rate that takes over.
+
+    **Required permissions:**
+    - A project rate requires `edit_hourly_rates` in the rate's project, or `edit_own_hourly_rate`
+      in it when the rate is the requesting user's own.
+    - A default rate requires the global `manage_default_hourly_rates` permission.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Principal id.
+      schema:
+        type: integer
+      example: 42
+    - name: rate_id
+      in: path
+      required: true
+      description: Hourly rate id.
+      schema:
+        type: integer
+      example: 1
+  responses:
+    "204":
+      description: |-
+        No Content.
+        The rate was deleted successfully.
+    "403":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** `edit_hourly_rates` or `edit_own_hourly_rate` in the rate's project,
+        or `manage_default_hourly_rates` globally for a default rate.
+    "404":
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the principal or the rate does not exist, or the requesting user may not see it.

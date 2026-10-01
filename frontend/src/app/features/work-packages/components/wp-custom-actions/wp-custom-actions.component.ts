@@ -34,6 +34,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-custom-actions',
   templateUrl: './wp-custom-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

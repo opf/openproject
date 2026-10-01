@@ -37,7 +37,7 @@ export class HierarchyQueryLinkHelperService {
 
 
   public addHref(link:HTMLAnchorElement, resource:HalResource):void {
-    if (resource && resource.id) {
+    if (resource?.id) {
       const wpID = resource.id.toString();
       const props = {
         c: ['id', 'subject', 'type', 'status', 'estimatedTime', 'remainingTime', 'percentageDone'],

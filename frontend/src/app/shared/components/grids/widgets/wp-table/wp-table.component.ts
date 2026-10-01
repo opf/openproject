@@ -44,6 +44,7 @@ import {
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-wp-table',
   templateUrl: './wp-table.component.html',
   styleUrls: ['./wp-table.component.sass'],

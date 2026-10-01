@@ -155,23 +155,24 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
       end
     end
 
-    context "when the type is linked", with_flag: { type_variants: true } do
+    context "when the variant is linked to its base" do
       let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
-      let(:source) { create(:type).default_variant }
-      let(:link) { variant }
+      let(:base) { type.default_variant }
+      let(:link) { create(:type_variant, type:) }
       let(:params) do
         {
           type_id: type.id,
+          variant_id: link.id,
           project_custom_field_type_mapping: {
-            variant_id: variant.id,
+            variant_id: link.id,
             custom_field_section_id: project_custom_field_section.id
           }
         }
       end
 
       before do
-        source.project_custom_fields << project_custom_field
-        link_configuration(variant, source:, aspect:)
+        base.project_custom_fields << project_custom_field
+        link_configuration(link, aspect:)
       end
 
       describe "PUT disable_all_of_section" do
@@ -182,7 +183,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
 
           expect(response).to have_http_status(:ok)
           expect(excluded_configuration_elements(link, aspect:)).to contain_exactly(project_custom_field.attribute_name)
-          expect(variant.own_project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
+          expect(link.own_project_custom_field_type_mappings.map(&:custom_field_id)).to be_empty
         end
       end
 
@@ -194,7 +195,7 @@ RSpec.describe WorkPackageTypes::ProjectAttributesTabController do
 
           expect(response).to have_http_status(:ok)
           expect(excluded_configuration_elements(link, aspect:)).to be_empty
-          expect(variant.project_custom_field_type_mappings.map(&:custom_field_id))
+          expect(link.project_custom_field_type_mappings.map(&:custom_field_id))
             .to contain_exactly(project_custom_field.id)
         end
       end

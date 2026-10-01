@@ -156,4 +156,16 @@ describe('HookService', () => {
       shouldBehaveLikeResultWithElements(validId, 2);
     });
   });
+
+  describe('known hooks', () => {
+    it('rejects callbacks and arguments that break the hook signature', () => {
+      // @ts-expect-error gridWidgets callbacks return widget registrations
+      service.register('gridWidgets', () => 123);
+
+      // @ts-expect-error prependedAttributeGroups is called with a work package
+      service.call('prependedAttributeGroups', 'not a work package');
+
+      expect(service.call('gridWidgets')).toEqual([123]);
+    });
+  });
 });

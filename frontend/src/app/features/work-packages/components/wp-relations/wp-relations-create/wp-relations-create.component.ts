@@ -35,6 +35,7 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { WorkPackageRelationsService } from '../wp-relations.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-create',
   templateUrl: './wp-relation-create.template.html',
   standalone: false,

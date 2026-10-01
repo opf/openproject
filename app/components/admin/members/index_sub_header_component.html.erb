@@ -1,0 +1,24 @@
+<%= render(Primer::OpenProject::SubHeader.new(collapsed_search: filter_input_value.blank?, data: sub_header_data_attributes)) do |subheader| %>
+  <% subheader.with_filter_input(
+       name: "any_name_attribute",
+       id: filter_input_id,
+       label: t("admin.members.index.filter_label"),
+       visually_hide_label: true,
+       value: filter_input_value,
+       placeholder: t("admin.members.index.filter_label"),
+       leading_visual: { icon: :search, size: :small },
+       show_clear_button: true,
+       clear_button_id:,
+       data: filter_input_data_attributes
+     ) %>
+
+  <%# One slot holding all three panels: SubHeader hides quick filters on small screens
+      and demands an "all filters" fallback button as soon as there is more than one. %>
+  <% subheader.with_quick_filter do %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, flex_wrap: :wrap, classes: "gap-2")) do %>
+      <%= render(Admin::Members::PrincipalTypeFilterComponent.new(query:)) %>
+      <%= render(Admin::Members::ProjectFilterComponent.new(query:)) %>
+      <%= render(Admin::Members::RoleFilterComponent.new(query:)) %>
+    <% end %>
+  <% end %>
+<% end %>

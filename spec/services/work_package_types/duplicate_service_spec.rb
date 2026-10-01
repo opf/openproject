@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::DuplicateService do
   shared_let(:admin) { create(:admin) }
   shared_let(:color) { create(:color) }
 
@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
 
     expect(copy_variant.attribute_groups.map(&:key)).to include("custom group")
     expect(copy_variant.default_work_package_description).to eq("The source description")
-    expect(copy_variant.own_workflows).to be_present
+    expect(copy_variant.workflow.status_transitions).to be_present
   end
 
   context "when a copy with the default name already exists" do
@@ -100,18 +100,6 @@ RSpec.describe WorkPackageTypes::DuplicateService, with_flag: { type_variants: t
 
     expect(copy.position).to eq(source.reload.position + 1)
     expect(later_sibling.reload.position).to be > copy.position
-  end
-
-  context "when the source has a linked aspect" do
-    shared_let(:link_target) { create(:type, name: "Shared config") }
-
-    before { link_configuration(source, source: link_target, aspect: TypeVariant::WORKFLOWS) }
-
-    it "replicates the link on the copy's base variant" do
-      copy = service_call.result
-
-      expect(copy.default_variant.source_for(TypeVariant::WORKFLOWS)).to eq(link_target.default_variant)
-    end
   end
 
   context "with project assignments" do

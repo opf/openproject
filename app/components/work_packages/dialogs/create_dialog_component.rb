@@ -35,13 +35,16 @@ module WorkPackages::Dialogs
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    attr_reader :work_package, :project
+    attr_reader :work_package, :project, :submit_url, :refresh_url, :keep_open_on_success
 
-    def initialize(work_package:, project:)
+    def initialize(work_package:, project:, submit_url: nil, refresh_url: nil, keep_open_on_success: true)
       super
 
       @work_package = work_package
       @project = project
+      @submit_url = submit_url
+      @refresh_url = refresh_url
+      @keep_open_on_success = keep_open_on_success
     end
   end
 end

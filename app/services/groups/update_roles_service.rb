@@ -54,6 +54,8 @@ module Groups
                     .sanitize(update_roles_cte,
                               member_id: member.id,
                               project_id: member.project_id,
+                              entity_type: member.entity_type,
+                              entity_id: member.entity_id,
                               role_ids: member.role_ids,
                               user_ids:)
 
@@ -69,6 +71,8 @@ module Groups
           FROM #{Member.table_name}
           WHERE user_id IN (:user_ids)
           AND project_id IS NOT DISTINCT FROM :project_id
+          AND entity_type IS NOT DISTINCT FROM :entity_type
+          AND entity_id IS NOT DISTINCT FROM :entity_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (

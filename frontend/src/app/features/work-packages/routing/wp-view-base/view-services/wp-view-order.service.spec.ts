@@ -85,7 +85,6 @@ describe('WorkPackageViewOrderService', () => {
       id: '123',
       _links: { self: { href: 'test' } },
     } as Record<string, unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-argument
     querySpace.query.putValue(mockQuery as any);
   });
 
@@ -103,12 +102,10 @@ describe('WorkPackageViewOrderService', () => {
       const order = ['1', '2', '3'];
       const wpId = '2';
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.spyOn(service as any, 'update');
 
       service.remove(order, wpId);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).update).toHaveBeenCalledWith({ [wpId]: -1 });
     });
   });

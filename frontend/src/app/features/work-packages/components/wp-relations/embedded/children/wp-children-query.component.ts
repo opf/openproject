@@ -45,6 +45,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-children-query',
   templateUrl: '../wp-relation-query.html',
   providers: [

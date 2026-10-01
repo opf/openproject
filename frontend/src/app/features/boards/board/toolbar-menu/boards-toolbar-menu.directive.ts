@@ -34,11 +34,11 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { Board } from 'core-app/features/boards/board/board';
 import { BoardConfigurationModalComponent } from 'core-app/features/boards/board/configuration-modal/board-configuration.modal';
 import { BoardService } from 'core-app/features/boards/board/board.service';
-import { StateService } from '@uirouter/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { selectableTitleIdentifier, triggerEditingEvent } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[boardsToolbarMenu]',
   standalone: false,
 })
@@ -46,7 +46,6 @@ export class BoardsToolbarMenuDirective extends OpContextMenuTrigger {
   readonly opModalService = inject(OpModalService);
   readonly boardService = inject(BoardService);
   readonly Notifications = inject(ToastService);
-  readonly State = inject(StateService);
   readonly injector = inject(Injector);
   readonly I18n = inject(I18nService);
   readonly http = inject(HttpClient);

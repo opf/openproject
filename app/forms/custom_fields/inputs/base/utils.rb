@@ -58,7 +58,7 @@ module CustomFields::Inputs::Base::Utils
   end
 
   def required?
-    @custom_field.is_required?
+    options.fetch(:required) { @custom_field.is_required? }
   end
 
   def test_selector

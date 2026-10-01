@@ -39,6 +39,7 @@ import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/c
 import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-grid',
   template: `
     <wp-card-view opSortableLists
@@ -51,7 +52,6 @@ import { WorkPackageViewOutputs } from 'core-app/features/work-packages/routing/
       [showStatusButton]="true"
       [orientation]="gridOrientation"
       (onMoved)="switchToManualSorting()"
-      (selectionChanged)="selectionChanged.emit($event)"
       (itemClicked)="itemClicked.emit($event)"
       (stateLinkClicked)="stateLinkClicked.emit($event)"
       [showEmptyResultsBox]="true"
@@ -86,8 +86,6 @@ export class WorkPackagesGridComponent implements WorkPackageViewOutputs, OnInit
   @Input() public resizerClass = '';
 
   @Input() public resizerStorageKey = '';
-
-  @Output() selectionChanged = new EventEmitter<string[]>();
 
   @Output() itemClicked = new EventEmitter<{ workPackageId:string, double:boolean }>();
 

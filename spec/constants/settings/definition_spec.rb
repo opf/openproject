@@ -1060,6 +1060,41 @@ RSpec.describe Settings::Definition, :settings_reset do
     end
   end
 
+  describe "#secret?" do
+    context "when secret is true" do
+      let(:instance) do
+        described_class.new "bogus",
+                            default: "value",
+                            secret: true
+      end
+
+      it "returns true" do
+        expect(instance).to be_secret
+      end
+    end
+
+    context "when secret is not given" do
+      let(:instance) do
+        described_class.new "bogus",
+                            default: "value"
+      end
+
+      it "returns false" do
+        expect(instance).not_to be_secret
+      end
+    end
+
+    context "when secret is true for a non-string setting" do
+      it "raises an ArgumentError" do
+        expect do
+          described_class.new "bogus",
+                              default: { "password" => "value" },
+                              secret: true
+        end.to raise_error(ArgumentError, /Only string settings can be secret/)
+      end
+    end
+  end
+
   describe ".add_value_override" do
     before do
       described_class.add "bogus_override_test",

@@ -218,7 +218,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
                          projects: [project, project2])
     create(:workflow, type:, old_status: status, new_status:, role: mover_role)
     create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
-    type2.default_variant.custom_fields << required_cf
+    type2.default_variant.custom_field_ids |= [required_cf.id]
 
     visit new_move_work_packages_path(ids: work_packages.map(&:id))
 
@@ -247,6 +247,34 @@ RSpec.describe "Moving a work package through Rails view", :js do
     notes_editor.expect_value "Keep this note"
   end
 
+  describe "searching the target project by its identifier" do
+    let(:target_project) { project2 }
+    let(:control_project) { project }
+
+    before do
+      context_menu.open_for work_package
+      context_menu.choose "Move to another project"
+    end
+
+    def search_project(query)
+      search_autocomplete page.find_test_selector("new_project_id"),
+                          query:,
+                          results_selector: "body"
+    end
+
+    it_behaves_like "a project picker searchable by identifier"
+
+    it "selects the project found by its identifier" do
+      dropdown = search_project(target_project.identifier)
+
+      wait_for_turbo_stream do
+        dropdown.find(".ng-option", text: target_project.name).click
+      end
+
+      expect_current_autocompleter_value(page.find_test_selector("new_project_id"), target_project.name)
+    end
+  end
+
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
     let(:work_packages) { [work_package, work_package2] }
     let(:work_package2_status) { create(:status, is_readonly: true) }
@@ -254,7 +282,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     before do
       loading_indicator_saveguard
       # Select all work packages
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
 
       context_menu.open_for work_package2
       context_menu.choose "Bulk change of project"

@@ -417,6 +417,33 @@ RSpec.describe "API v3 Work package resource",
           .at_path("_embedded/elements/0/_meta/timestamp")
       end
 
+      describe "update links" do
+        context "when last timestamp is current" do
+          it "has the update links" do
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with one timestamp in the past" do
+          let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with two timestamps in the past" do
+          let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+      end
+
       context "when a custom value changes" do
         before do
           custom_value

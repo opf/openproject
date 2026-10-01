@@ -32,28 +32,16 @@ module WorkPackageTypes
   module Wizard
     class PdfStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:)
         super(variant)
       end
 
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseMode::SectionComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PDF_EXPORT
-                 )) +
-            render(WorkPackageTypes::ExportConfigurationComponent.new(
-                     model,
-                     readonly: model.linked?(TypeVariant::PDF_EXPORT)
-                   ))
-        end
-      end
-
       private
 
       def reload_url
-        type_creation_wizard_path(**model.path_args, step: :pdf)
+        variant_creation_wizard_path(helpers.variant_scope_project, model, step: :pdf)
       end
     end
   end

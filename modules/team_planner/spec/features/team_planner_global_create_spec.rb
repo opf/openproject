@@ -80,6 +80,18 @@ RSpec.describe "Team Planner",
       end
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               member_with_permissions: { user => %w[view_team_planner manage_team_planner] })
+      end
+
+      delegate :search_project, to: :team_planner
+    end
+
     context "when missing a required field" do
       describe "title" do
         before do

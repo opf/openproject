@@ -29,84 +29,41 @@
 require_relative "../spec_helper"
 
 RSpec.describe "hourly rates on a member", :js do
-  let(:project) { build(:project) }
-  let(:user) do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) do
     create(:admin, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
   end
+
   let(:member) { Member.find_by(project:, principal: user) }
 
-  def view_rates
-    visit edit_user_path(user, tab: "rates")
-  end
-
-  def view_project_members
-    visit project_members_path(project)
+  before do
+    login_as(user)
   end
 
   def expect_current_rate_in_members_table(amount)
-    view_project_members
+    visit project_members_path(project)
 
     expect(page).to have_css("#member-#{member.id} .currency", text: amount)
   end
 
-  def add_rate(rate:, date:)
-    expect(page).to have_css(".add-row-button")
-    sleep(0.1)
-    all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
-    sleep(0.1)
-    click_link_or_button "Add rate"
-
-    datepicker = Components::BasicDatepicker.new
-    datepicker.expect_visible
-    datepicker.set_date(date.strftime("%Y-%m-%d"))
-
-    within "tr[id^='user_new_rate_attributes_']" do
-      fill_in "Rate", with: rate
+  context "without any rate" do
+    it "falls back to zero" do
+      expect_current_rate_in_members_table("0.00 €")
     end
   end
 
-  def change_rate_date(from:, to:)
-    input = find("table.rates .date input[data-value='#{from.strftime('%Y-%m-%d')}']")
-    input.click
-    datepicker = Components::BasicDatepicker.new
-    datepicker.expect_visible
-    datepicker.set_date(to.strftime("%Y-%m-%d"))
-  end
+  context "with rates taking effect on different dates" do
+    before do
+      create(:hourly_rate, principal: user, project:, valid_from: 5.days.ago, rate: 20)
+      create(:hourly_rate, principal: user, project:, valid_from: Date.current, rate: 10)
+    end
 
-  before do
-    project.save!
+    it "displays the rate in effect today and links to the rate history" do
+      expect_current_rate_in_members_table("10.00 €")
 
-    login_as(user)
-  end
+      click_link("10.00 €")
 
-  it "displays always the currently active rate" do
-    expect_current_rate_in_members_table("0.00 €")
-
-    click_link("0.00 €")
-    SeleniumHubWaiter.wait
-
-    add_rate(date: Date.current, rate: 10)
-
-    click_button "Save"
-
-    expect_current_rate_in_members_table("10.00 €")
-
-    SeleniumHubWaiter.wait
-    click_link("10.00 €")
-
-    add_rate(date: 3.days.ago, rate: 20)
-
-    click_button "Save"
-
-    expect_current_rate_in_members_table("10.00 €")
-
-    SeleniumHubWaiter.wait
-    click_link("10.00 €")
-
-    change_rate_date(from: Date.current, to: 5.days.ago)
-
-    click_button "Save"
-
-    expect_current_rate_in_members_table("20.00 €")
+      expect(page).to have_current_path(projects_hourly_rate_path(project_id: project, id: user))
+    end
   end
 end

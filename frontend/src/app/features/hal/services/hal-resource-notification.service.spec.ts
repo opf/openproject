@@ -29,7 +29,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { StateService } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceNotificationService } from './hal-resource-notification.service';
@@ -40,7 +39,6 @@ describe('HalResourceNotificationService', () => {
       providers: [
         HalResourceNotificationService,
         { provide: States, useValue: new States() },
-        { provide: StateService, useValue: {} },
         { provide: SchemaCacheService, useValue: {} },
         provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),

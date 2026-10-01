@@ -41,8 +41,10 @@ import { Observable } from 'rxjs';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import * as Turbo from '@hotwired/turbo';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,
@@ -108,7 +110,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
         } else {
           url.searchParams.delete('query_props');
         }
-        window.history.pushState({}, '', url);
+        Turbo.session.history.push(url);
 
         this.boardFilters.filters.putValue(filterHash);
       });

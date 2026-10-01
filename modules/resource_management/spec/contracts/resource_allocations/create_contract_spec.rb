@@ -51,8 +51,8 @@ RSpec.describe ResourceAllocations::CreateContract do
       expect(contract.writable?(:entity)).to be(true)
     end
 
-    it "allows principal, state, dates, allocated_time, and user_filter" do
-      %i[principal principal_explicit state start_date end_date allocated_time user_filter].each do |attr|
+    it "allows principal, placeholder_user, state, dates and allocated_time" do
+      %i[principal placeholder_user state start_date end_date allocated_time].each do |attr|
         expect(contract.writable?(attr)).to be(true), "expected #{attr} to be writable"
       end
     end

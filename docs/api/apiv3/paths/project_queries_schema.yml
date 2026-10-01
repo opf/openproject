@@ -41,3 +41,4 @@ get:
     This endpoint is deprecated and replaced by ['/api/v3/workspaces/{id}/queries/schema`](https://www.openproject.org/docs/api/endpoints/queries/#view-schema-for-workspace-queries)
   operationId: View_schema_for_project_queries
   summary: View schema for project queries
+  deprecated: true

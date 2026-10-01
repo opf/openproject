@@ -44,6 +44,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { GroupDescriptor } from 'core-app/features/work-packages/components/wp-single-view/wp-single-view.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relation-query',
   templateUrl: '../wp-relation-query.html',
   providers: [

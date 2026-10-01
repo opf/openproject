@@ -30,21 +30,18 @@
 
 require "spec_helper"
 
-# Every screen a project reaches is rendered by administration's own components, which name their
-# routes without knowing which of the two addresses they are on. The project rides on the request:
-# it is a segment of the route being generated, so it is filled in from the path already being
-# served. Two things break that, and neither shows up as a failed status code — a route with no
-# such segment, which takes the project as a query parameter and points at a different screen, and
-# a route on the type collection, which has nothing in the request to match and so falls back to
-# administration's address.
+# Every screen a project reaches is rendered by the same components as administration's, which pick
+# the route family from the scope they are rendered in. One that picks administration's instead
+# still renders fine, and only leads the project member to a screen they cannot open.
 RSpec.describe "The URLs a project's variant screens generate",
                :skip_csrf,
-               type: :rails_request,
-               with_flag: { type_variants: true } do
+               type: :rails_request do
   shared_let(:project) { create(:project) }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:ours) { create(:project_owned_type_variant, type:, project:, variant_name: "Ours") }
   shared_let(:actor) { create(:user, member_with_permissions: { project => %i[manage_project_variants] }) }
+
+  let(:ours_in_project) { { project_id: project, type_id: type.id, variant_id: ours.id } }
 
   before { login_as actor }
 
@@ -59,41 +56,35 @@ RSpec.describe "The URLs a project's variant screens generate",
     variant_urls = rendered_urls.grep(%r{/types/})
     expect(variant_urls).not_to be_empty, "expected #{screen} to link somewhere"
 
-    administration = variant_urls.reject { |url| url.include?("in-project/#{project.identifier}") }
+    administration = variant_urls.reject { |url| URI(url).path.start_with?("/projects/#{project.identifier}/") }
     expect(administration).to be_empty,
                               "#{screen} points at administration:\n  #{administration.join("\n  ")}"
-
-    dangling = rendered_urls.grep(/[?&]in_project_id=/)
-    expect(dangling).to be_empty,
-                        "#{screen} carries the project as a query parameter:\n  #{dangling.join("\n  ")}"
   end
 
   {
-    "configuration overview" => :type_settings_path,
-    "details" => :edit_type_details_path,
-    "defaults" => :edit_type_defaults_path,
-    "form configuration" => :edit_type_form_configuration_path,
-    "project attributes" => :edit_type_project_attributes_path,
-    "export configuration" => :edit_type_pdf_export_template_index_path,
-    "workflow" => :edit_type_workflow_path
+    "configuration overview" => :project_type_variant_settings_path,
+    "details" => :edit_project_type_variant_details_path,
+    "defaults" => :edit_project_type_variant_defaults_path,
+    "form configuration" => :edit_project_type_variant_form_configuration_path,
+    "project attributes" => :edit_project_type_variant_project_attributes_path,
+    "export configuration" => :edit_project_type_variant_pdf_export_template_index_path,
+    "workflow" => :edit_project_type_variant_workflow_path
   }.each do |name, helper|
     it "keeps the project in every URL on the #{name} tab" do
-      get send(helper, in_project_id: project, type_id: type.id, variant_id: ours.id)
+      get send(helper, **ours_in_project)
 
       expect_every_url_scoped_to_the_project("the #{name} tab")
     end
   end
 
-  # The first step posts to the type collection, where no segment of the request matches.
   it "keeps the project in every URL on the wizard's first step" do
-    get new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
+    get new_creation_wizard_project_type_variants_path(project_id: project, type_id: type.id)
 
     expect_every_url_scoped_to_the_project("the wizard's first step")
   end
 
   it "keeps the project in every URL on a later wizard step" do
-    get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                  step: "defaults")
+    get project_type_variant_creation_wizard_path(**ours_in_project, step: "defaults")
 
     expect_every_url_scoped_to_the_project("the wizard's defaults step")
   end

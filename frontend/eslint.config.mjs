@@ -218,12 +218,33 @@ export default defineConfig([
     rules: {
       ...vitest.configs.recommended.rules,
 
-      // vitest expect(...) is always any
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-
       // Allow more than one class definitions per file (test components)
       'max-classes-per-file': 'off',
+    },
+  },
+  {
+    files: ['**/*.spec.ts', '**/testing/**/*.ts', 'src/stimulus/test-helpers.ts', 'src/test-*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+    },
+  },
+  {
+    // esbuild follows imports past the tsconfig exclude, so the import site
+    // is the boundary keeping test helpers out of the production bundle.
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: ['**/*.spec.ts', '**/testing/**', 'src/stimulus/test-helpers.ts', 'src/test-*.ts'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        patterns: [{
+          regex: '(^|/)testing/|(^|/)test-helpers$',
+          message: 'Test helpers may only be imported from specs and other test helpers.',
+        }],
+      }],
     },
   },
   {

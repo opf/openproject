@@ -69,7 +69,7 @@ RSpec.describe PlaceholderUsersController do
 
         expect(response).to be_successful
         expect(response).to render_template "placeholder_users/index"
-        expect(assigns(:placeholder_users)).to be_present
+        expect(assigns(:query).results).to be_present
         expect(assigns(:groups)).not_to be_present
       end
     end
@@ -126,22 +126,7 @@ RSpec.describe PlaceholderUsersController do
           expect(ActionMailer::Base.deliveries.empty?).to be_truthy
         end
 
-        context "when user chose to directly create the next placeholder user" do
-          let(:params) do
-            {
-              placeholder_user: {
-                name: "UX Developer"
-              },
-              continue: true
-            }
-          end
-
-          it "redirects to the new page" do
-            expect(response).to redirect_to(new_placeholder_user_url)
-          end
-        end
-
-        context "when user chose to NOT directly create the next placeholder user" do
+        context "with valid params" do
           let(:params) do
             {
               placeholder_user: {

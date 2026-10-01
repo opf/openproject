@@ -38,20 +38,22 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%= error_messages_for "page" %>
 
-<%= labelled_tabular_form_for @page, url: { id: @page, action: "update_parent_page" } do |f| %>
-  <% options_for_select = wiki_page_options_for_select(@parent_pages) %>
-  <div class='form--field'>
-    <%= f.select :parent_id,
-                 options_for_select,
-                 { label: WikiPage.human_attribute_name(:parent_title), include_blank: false, container_class: "-wide" },
-                 {
-                   size: options_for_select.size + 1,
-                   style: "height:unset",
-                   data: {
-                     controller: "select-autosize",
-                     select_autosize_size_limit_value: 8
-                   }
-                 } %>
-  </div>
-  <%= submit_tag t(:button_save), class: "button -primary" %>
+<%= primer_form_with(model: @page, url: { id: @page, action: "update_parent_page" }) do |f| %>
+  <%= render_inline_form(f) do |form|
+        form.select_list(
+          name: :parent_id,
+          input_width: :large,
+          label: WikiPage.human_attribute_name(:parent_title)
+        ) do |list|
+          helpers.wiki_page_options_for_select(model.wiki.pages).each do |label, value|
+            list.option(
+              label:,
+              value:,
+              selected: model.parent_id == value
+            )
+          end
+        end
+
+        form.submit(name: :submit, label: helpers.t(:button_submit), scheme: :primary)
+      end %>
 <% end %>

@@ -39,6 +39,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-fold-toggle-view-button',
   standalone: false,
 })

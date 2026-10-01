@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
           project: @project,
           form_id: FORM_ID,
           dialog_id: DIALOG_ID,
-          url: project_resource_planner_path(@project, @resource_planner),
+          url: planner_path(@resource_planner),
           method: :patch,
           include_default_view: false
         )

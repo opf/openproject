@@ -35,6 +35,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { firstValueFrom } from 'rxjs';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-wp-table-menu',
   templateUrl: '../menu/widget-menu.component.html',
   standalone: false,

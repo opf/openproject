@@ -40,7 +40,7 @@ export function homescreenOnboardingTourSteps():OnboardingStep[] {
     {
       containerClass: '-dark -hidden-arrow',
       onBeforeStart() {
-        window.location.href = `${window.location.origin}/projects/demo-project/work_packages/?start_onboarding_tour=true`;
+        window.location.href = `${window.location.origin}/projects/demo-project/work_packages?start_onboarding_tour=true`;
       },
     },
   ];

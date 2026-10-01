@@ -33,6 +33,7 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     def initialize(variant:, readonly: false)
       super
@@ -64,7 +65,7 @@ module WorkPackageTypes
       {
         draggable_id: template.id,
         draggable_type: "template",
-        drop_url: drop_type_pdf_export_template_path(**@variant.path_args, id: template.id),
+        drop_url: drop_variant_pdf_export_template_path(helpers.variant_scope_project, @variant, template.id),
         test_selector: "pdf-export-template-row-#{template.id}"
       }
     end

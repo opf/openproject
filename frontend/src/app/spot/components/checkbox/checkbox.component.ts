@@ -35,6 +35,7 @@ import {
 export type SpotCheckboxState = true|false|null;
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-checkbox',
   templateUrl: './checkbox.component.html',
   providers: [{

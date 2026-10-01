@@ -85,6 +85,19 @@ RSpec.describe "Calendar",
       end
     end
 
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:target_project) { project }
+      let(:control_project) do
+        create(:project,
+               name: "Unrelated Control Project",
+               identifier: "unrelated-control-project",
+               enabled_module_names: %w[work_package_tracking calendar_view],
+               member_with_permissions: { user => %w[view_calendar manage_calendars] })
+      end
+
+      delegate :search_project, to: :calendars_page
+    end
+
     context "when missing a required field" do
       describe "title" do
         before do
