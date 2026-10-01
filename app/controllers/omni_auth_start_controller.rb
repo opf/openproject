@@ -60,7 +60,7 @@ class OmniAuthStartController < ApplicationController
     form_action_origin = origin_from_url(provider[:form_action_url])
 
     if form_action_origin.nil?
-      render_incomplete_provider(provider) if form_action_origin.nil?
+      render_incomplete_provider(provider)
     else
       append_content_security_policy_directives(form_action: [form_action_origin])
     end
