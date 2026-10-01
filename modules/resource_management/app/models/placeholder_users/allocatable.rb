@@ -32,6 +32,10 @@ module PlaceholderUsers::Allocatable
   extend ActiveSupport::Concern
 
   included do
+    has_many :resource_allocations,
+             dependent: :restrict_with_error,
+             inverse_of: :placeholder_user
+
     scope :allocatable, ->(user = User.current) {
       if user.allowed_in_any_project?(:allocate_user_resources)
         with_criteria
