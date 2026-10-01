@@ -39,8 +39,8 @@ export interface IEditFieldType extends IFieldType<EditFieldComponent> {
   providedIn: 'root',
 })
 export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
-  public getClassForSchema(resourceType:string, fieldName:string, schema:IFieldSchema):IEditFieldType {
-    const displayAs = (schema.options as { displayAs?:string }|undefined)?.displayAs;
+  public getClassForSchema(resourceType:string, fieldName:string, schema:IFieldSchema, allowInlineOptions = true):IEditFieldType {
+    const displayAs = allowInlineOptions ? (schema.options as { displayAs?:string }|undefined)?.displayAs : undefined;
     const displayAsClass = displayAs ? this.classes[displayAs] : undefined;
 
     return displayAsClass ?? this.getSpecificClassFor(resourceType, fieldName, schema.type);

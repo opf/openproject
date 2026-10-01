@@ -90,7 +90,12 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
       this.change = this.injector.get<ResourceChangeset>(OpEditingPortalChangesetToken);
     }
 
-    this.componentClass = this.editField.getClassForSchema(this.change.pristineResource._type, this.handler.fieldName, this.schema);
+    this.componentClass = this.editField.getClassForSchema(
+      this.change.pristineResource._type,
+      this.handler.fieldName,
+      this.schema,
+      this.allowsInlineOptions,
+    );
     this.fieldInjector = createLocalInjector(this.injector, this.change, this.handler, this.schema);
 
     if (this.handler instanceof HalResourceEditFieldHandler) {
@@ -102,6 +107,10 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
         .pipe(takeUntil(this.handler.onDestroy))
         .subscribe(() => this.cdRef.detectChanges());
     }
+  }
+
+  private get allowsInlineOptions():boolean {
+    return !(this.handler instanceof HalResourceEditFieldHandler) || this.handler.form.allowsInlineOptions;
   }
 
   ngOnDestroy() {
