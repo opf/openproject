@@ -43,7 +43,7 @@ Typical examples:
 - Authentication or authorization approach
 - Service boundaries or modularization
 - Communication patterns (events vs REST, sync vs async)
-- Deployment or hosting strategy
+- Frontend rendering approach (server-rendered vs. single-page app)
 
 If unsure: **create an ADR**. It is better to document one decision too many than one too few.
 
