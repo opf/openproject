@@ -2783,6 +2783,10 @@ en:
     plural: "Custom actions"
 
   custom_fields:
+    no_results_title_text: There are currently no custom fields.
+    overview:
+      heading: "Settings moved"
+      description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
     admin:
       custom_field_projects:
         is_for_all_blank_slate:
@@ -2884,9 +2888,6 @@ en:
       job_title: "Job title"
       none: "None"
 
-    tab:
-      no_results_content_text: Create a new custom field
-      no_results_title_text: There are currently no custom fields.
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
       you can add them to this project.

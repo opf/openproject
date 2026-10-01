@@ -27,13 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_custom_field_plural) -%>
-
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_custom_field_plural) }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) }, t(:label_custom_field_plural)])
-  end
-%>
-
-<%= render(CustomFields::OverviewComponent.new) %>
+<%= render(OpPrimer::InsetBoxComponent.new(border: false)) do |box| %>
+  <% box.with_title(tag: :h3) { t("custom_fields.overview.heading") } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("custom_fields.overview.description") } %>
+  <ul>
+    <% sections.each do |label, custom_field_class| %>
+      <li>
+        <%= render(Primer::Beta::Link.new(href: index_path(custom_field_class), underline: true)) do %>
+          <%= t(label) %>
+          <%= render(Primer::Beta::Octicon.new(:"link-external", ml: 1, size: :small)) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
