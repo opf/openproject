@@ -7239,6 +7239,7 @@ en:
         invalid_attribute_groups: "The form payload is invalid."
         invalid_query: "The embedded query configuration is invalid."
         label_group: "Section"
+        move_failed: "The move could not be saved. Please reload the page and try again."
         no_inactive_attributes: "No inactive attributes"
         not_found: "The requested form item could not be found."
         query_group_label: "Related work packages table"

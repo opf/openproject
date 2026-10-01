@@ -40,14 +40,14 @@ module WorkPackageTypes
         @row_key = row_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         return move_row(params[:move_to].to_sym) if move_requested?
         return drop_row(target_id: params[:target_id], position: params[:position]) if drop_requested?
 
         failure_with_message(I18n.t("types.edit.form_configuration.not_found"))
       end
-
-      private
 
       def move_row(move_to)
         row = find_row(@row_key)

@@ -38,7 +38,9 @@ module WorkPackageTypes
         @group_key = group_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         group = find_group(@group_key)
         return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless group
 

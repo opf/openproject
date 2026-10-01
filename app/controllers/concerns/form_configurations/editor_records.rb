@@ -28,30 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
+module FormConfigurations
+  module EditorRecords
+    private
 
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
-      end
-
-      private
-
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
-
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
-
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
-        end
-      end
+    def reconcile_editor_records
+      ::WorkPackageTypes::FormConfiguration::ReconcileEditorRecordsService.new(@form_configuration).call
     end
   end
 end

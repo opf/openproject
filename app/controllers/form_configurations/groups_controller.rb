@@ -32,10 +32,12 @@ module FormConfigurations
   class GroupsController < ApplicationController
     include TypesHelper
     include OpTurbo::ComponentStream
+    include FormConfigurations::EditorRecords
     include WorkPackageTypes::FormConfigurationComponentStreams
 
     before_action :require_admin
     before_action :load_form_configuration
+    before_action :reconcile_editor_records
 
     TEMPORARY_GROUP_KEY = "__new_form_configuration_group__"
 

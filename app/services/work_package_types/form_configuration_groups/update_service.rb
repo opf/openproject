@@ -38,7 +38,9 @@ module WorkPackageTypes
         @group_key = group_key
       end
 
-      def perform
+      private
+
+      def perform_locked
         group = find_group(@group_key)
         return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless group
 
@@ -50,8 +52,6 @@ module WorkPackageTypes
           call.result = group if call.success?
         end
       end
-
-      private
 
       def perform_update(group, groups)
         return move_group(groups, move_to: params[:move_to], position: params[:position]) if move_requested?

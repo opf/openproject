@@ -192,4 +192,16 @@ RSpec.describe FormConfiguration do
       expect(Query.find_by(id: query.id)).to be_nil
     end
   end
+
+  describe "#reload" do
+    it "drops the memoized attribute group objects" do
+      form = create(:form_configuration)
+      group = create(:form_configuration_group, form_configuration: form, label: "Details")
+      expect(form.attribute_groups.map(&:key)).to eq(["Details"])
+
+      group.update!(label: "Specifics")
+
+      expect(form.reload.attribute_groups.map(&:key)).to eq(["Specifics"])
+    end
+  end
 end

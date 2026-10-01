@@ -29,29 +29,11 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
-
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
-      end
-
-      private
-
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
-
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
-
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
-        end
-      end
+  module FormConfiguration
+    module SortableTypes
+      GROUP = "group"
+      ATTRIBUTE = "attribute"
+      INACTIVE_ATTRIBUTE = "inactive_attribute"
     end
   end
 end

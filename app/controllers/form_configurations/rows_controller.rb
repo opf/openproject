@@ -32,10 +32,12 @@ module FormConfigurations
   class RowsController < ApplicationController
     include TypesHelper
     include OpTurbo::ComponentStream
+    include FormConfigurations::EditorRecords
     include WorkPackageTypes::FormConfigurationComponentStreams
 
     before_action :require_admin
     before_action :load_form_configuration
+    before_action :reconcile_editor_records
 
     def move
       respond_to_row_update(row_update_service.call(move_to: params[:move_to]))
