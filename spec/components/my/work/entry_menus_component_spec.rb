@@ -40,18 +40,17 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
   let(:date) { Date.new(2026, 10, 5) }
   let(:time_entries) { [create(:time_entry, user:, entity: work_package, spent_on: date, hours: 2)] }
   let(:allocation_minutes) { 360 }
-  let(:allocation_event) do
+  let(:scheduled_entry) do
     allocation = build_stubbed(:resource_allocation, entity: work_package, principal: user)
-    entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date,
-                                                    minutes: allocation_minutes)
-
-    FullCalendar::ResourceAllocationEvent.from_scheduled_entry(entry, visible: true)
+    ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: allocation_minutes)
   end
+  let(:allocations) { instance_double(ResourceAllocations::AllocatedTimeFor, items: [scheduled_entry], visible?: true) }
+  let(:event_id) { FullCalendar::ResourceAllocationEvent.id_for(scheduled_entry) }
 
   current_user { user }
 
   subject(:rendered_component) do
-    render_inline(described_class.new(time_entries:, allocations: [allocation_event]))
+    render_inline(described_class.new(time_entries:, allocations:))
   end
 
   it "renders the menu of each time entry under the id of its calendar event" do
@@ -59,7 +58,7 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
   end
 
   it "renders the menu of each allocation under the id of its calendar event" do
-    expect(rendered_component).to have_css("[data-my-work-menu-for='#{allocation_event.id}'] action-menu")
+    expect(rendered_component).to have_css("[data-my-work-menu-for='#{event_id}'] action-menu")
   end
 
   it "keeps the menus out of sight without hiding them" do
@@ -75,7 +74,7 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
     let(:allocation_minutes) { 120 }
 
     it "renders no menu for it" do
-      expect(rendered_component).to have_no_css("[data-my-work-menu-for='#{allocation_event.id}']")
+      expect(rendered_component).to have_no_css("[data-my-work-menu-for='#{event_id}']")
     end
   end
 end
