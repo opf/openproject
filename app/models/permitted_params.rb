@@ -306,7 +306,6 @@ class PermittedParams
                                                 :templated,
                                                 :status_code,
                                                 :status_explanation,
-                                                work_package_custom_field_ids: [],
                                                 enabled_module_names: [],
                                                 custom_comments: {})
 

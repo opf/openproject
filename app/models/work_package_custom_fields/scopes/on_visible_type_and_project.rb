@@ -43,9 +43,16 @@ module WorkPackageCustomFields::Scopes
       #
       # Pass +project:+ to restrict the check to a single known project instead of
       # scanning all projects visible to the user.
-      def on_visible_type_and_project(user = User.current, project: nil)
-        visible_projects = Project.visible(user)
+      #
+      # Pass +projects:+ to substitute a narrower reach than every project the user can see,
+      # which callers exposing work package data need: seeing a project does not entail seeing
+      # its work packages.
+      def on_visible_type_and_project(user = User.current, project: nil, projects: nil)
+        visible_projects = reach(projects, user)
         visible_projects = visible_projects.where(id: project.id) if project&.persisted?
+
+        form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join("pt.variant_id")
+        exclusion = TypeVariant.excluded_custom_field_condition("fca.custom_field_id", excluded)
 
         where(<<~SQL.squish)
           EXISTS (
@@ -53,20 +60,24 @@ module WorkPackageCustomFields::Scopes
             FROM (#{visible_projects.select(:id).to_sql}) vp
             JOIN project_types pt
               ON pt.project_id = vp.id
-            JOIN type_variants variant_form
-              ON variant_form.id = pt.variant_id
+            #{form_join}
             JOIN form_configuration_attributes fca
-              ON fca.form_configuration_id = variant_form.form_configuration_id
+              ON fca.form_configuration_id = #{form_configuration_id}
              AND fca.custom_field_id = custom_fields.id
              AND fca.form_configuration_group_id IS NOT NULL
-             AND ('#{TypeVariant::CUSTOM_FIELD_ELEMENT_PREFIX}' || custom_fields.id) <> ALL (variant_form.form_configuration_excluded_elements)
-            LEFT JOIN custom_fields_projects cfp
-              ON cfp.project_id = vp.id
-             AND cfp.custom_field_id = custom_fields.id
-            WHERE custom_fields.is_for_all = TRUE
-               OR cfp.custom_field_id IS NOT NULL
+             AND #{exclusion}
           )
         SQL
+      end
+
+      private
+
+      def reach(projects, user)
+        case projects
+        when nil then Project.visible(user)
+        when ActiveRecord::Relation then projects
+        else Project.where(id: projects)
+        end
       end
     end
   end

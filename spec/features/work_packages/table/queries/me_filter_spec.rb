@@ -145,7 +145,6 @@ RSpec.describe "filter me value", :js do
       create(:project,
              types: [type_task],
              public: true,
-             work_package_custom_fields: [custom_field],
              members: project_members)
     end
 

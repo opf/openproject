@@ -35,7 +35,7 @@ RSpec.describe "Projects::Settings::WorkPackages page titles", type: :rails_requ
   shared_let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %i[edit_project manage_types manage_categories select_custom_fields]
+             project => %i[edit_project manage_types manage_categories]
            })
   end
 

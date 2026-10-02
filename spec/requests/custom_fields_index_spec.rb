@@ -28,12 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class DeleteService < ::BaseServices::Delete
-      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
-      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
-      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
+require "spec_helper"
+
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
+
+  current_user { create(:admin) }
+
+  # The work package tab is the default one.
+  it "lists the work package custom fields and the types configuring them" do
+    get custom_fields_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
+  end
+
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get custom_fields_path
+
+      expect(response.body).to include("Used in projects")
+      expect(response.body).to include("1 project")
+    end
+
+    it "does not count an archived project, matching the reminder on the field itself" do
+      reaching.update_columns(active: false)
+
+      get custom_fields_path
+
+      expect(response.body).to include("no projects")
     end
   end
 end

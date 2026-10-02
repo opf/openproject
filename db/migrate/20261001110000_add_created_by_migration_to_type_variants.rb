@@ -28,9 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :custom_fields_project do
-    custom_field
-    project
+# We want to remember temporarily which of the type variants we created
+# through a migration.
+class AddCreatedByMigrationToTypeVariants < ActiveRecord::Migration[8.1]
+  def change
+    add_column :type_variants, :created_by_migration, :boolean, null: false, default: false
   end
 end
