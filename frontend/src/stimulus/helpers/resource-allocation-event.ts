@@ -45,8 +45,8 @@ export interface ResourceAllocationEvent {
   classNames:string[];
   allocationId:number;
   hours:number;
-  dueDate:string;
-  formattedDueDate:string;
+  finishBy:string;
+  formattedFinishBy:string;
   typeId?:number;
   workPackageId?:string;
   workPackageFormattedId?:string;
@@ -95,11 +95,11 @@ export function renderAllocationCard(
     <div class="te-entry-card">
       <div class="te-entry-card--duration">${displayDuration(allocation.hours)}</div>
       ${renderWorkPackage(allocation, pathHelperService)}
-      <div class="te-entry-card--due ${allocation.dueDate === day ? 'te-entry-card--due-attention' : ''}">
+      <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
         ${icon(calendarIconData)}
-        ${allocation.dueDate === today
-          ? I18n.t('js.resource_management.my_work.due_today')
-          : I18n.t('js.resource_management.my_work.due_on', { date: allocation.formattedDueDate })}
+        ${allocation.finishBy === today
+          ? I18n.t('js.resource_management.my_work.finish_today')
+          : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
       </div>
       <div class="te-entry-card--icon">${icon(opPersonAssignedIconData)}</div>
     </div>`;

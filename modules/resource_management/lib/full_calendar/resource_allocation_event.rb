@@ -30,6 +30,8 @@
 
 module FullCalendar
   class ResourceAllocationEvent < Event
+    include Redmine::I18n
+
     attr_accessor :scheduled_entry, :visible
 
     class << self
@@ -65,9 +67,13 @@ module FullCalendar
     end
 
     def additional_attributes
+      allocation = scheduled_entry.allocation
+
       {
-        allocationId: scheduled_entry.allocation.id,
-        hours: (scheduled_entry.minutes / 60.0).round(2)
+        allocationId: allocation.id,
+        hours: (scheduled_entry.minutes / 60.0).round(2),
+        finishBy: allocation.end_date.iso8601,
+        formattedFinishBy: format_date(allocation.end_date)
       }.merge(visible ? work_package_attributes : {})
     end
 
