@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Sprints::Scopes::NotCompleted
+module Sprints::Scopes::Completed
   extend ActiveSupport::Concern
 
   class_methods do
-    def not_completed
-      where.not(status: "completed")
+    def completed
+      where(status: "completed")
     end
   end
 end

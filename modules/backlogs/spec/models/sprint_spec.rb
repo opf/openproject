@@ -46,7 +46,6 @@ RSpec.describe Sprint do
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:project) }
-    it { is_expected.to validate_inclusion_of(:status).in_array(described_class.statuses.keys) }
 
     it "allows nil start and finish dates" do
       sprint.start_date = nil
@@ -128,8 +127,8 @@ RSpec.describe Sprint do
     end
   end
 
-  describe "enums" do
-    it "has status enum with correct values" do
+  describe "statuses" do
+    it "has the correct values" do
       expect(described_class.statuses.keys).to contain_exactly("in_planning", "active", "completed")
     end
 
@@ -149,17 +148,17 @@ RSpec.describe Sprint do
       expect(completed_sprint.status).to eq("completed")
     end
 
-    it "persists the derived status" do
-      expect(in_planning_sprint.reload.status).to eq("in_planning")
-      expect(active_sprint.reload.status).to eq("active")
-      expect(completed_sprint.reload.status).to eq("completed")
+    it "stores the same status in the generated column" do
+      expect(described_class.where(id: in_planning_sprint.id).pick(:status)).to eq("in_planning")
+      expect(described_class.where(id: active_sprint.id).pick(:status)).to eq("active")
+      expect(described_class.where(id: completed_sprint.id).pick(:status)).to eq("completed")
     end
 
     it "follows timestamp updates" do
       in_planning_sprint.update!(started_at: Time.zone.now)
 
       expect(in_planning_sprint.status).to eq("active")
-      expect(in_planning_sprint.reload.status).to eq("active")
+      expect(described_class.where(id: in_planning_sprint.id).pick(:status)).to eq("active")
     end
 
     it "falls back to the earlier status when a timestamp is cleared" do
@@ -168,10 +167,8 @@ RSpec.describe Sprint do
       expect(completed_sprint.status).to eq("active")
     end
 
-    it "ignores a status written without the matching timestamp" do
-      in_planning_sprint.update!(status: "completed")
-
-      expect(in_planning_sprint.reload.status).to eq("in_planning")
+    it "rejects assigning the status of a persisted sprint" do
+      expect { in_planning_sprint.status = "completed" }.to raise_error(ActiveRecord::ReadonlyAttributeError)
     end
 
     it "scopes by the derived status" do

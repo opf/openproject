@@ -53,8 +53,13 @@ class Sprint < ApplicationRecord
 
   delegate :allow_multiple_active_sprints?, to: :project, allow_nil: true
 
-  scopes :assignable,
+  STATUSES = %w[in_planning active completed].index_with(&:itself).with_indifferent_access.freeze
+
+  scopes :active,
+         :assignable,
+         :completed,
          :for_project,
+         :in_planning,
          :not_completed,
          :order_by_activity,
          :order_by_date,
@@ -62,15 +67,7 @@ class Sprint < ApplicationRecord
          :visible,
          :native_to_sprint_source
 
-  enum :status,
-       {
-         in_planning: "in_planning",
-         active: "active",
-         completed: "completed"
-       },
-       default: "in_planning",
-       validate: true,
-       instance_methods: false
+  attr_readonly :status
 
   validates :name, :project, presence: true
   validates :start_date, :finish_date, presence: true, if: :active?
@@ -80,16 +77,18 @@ class Sprint < ApplicationRecord
 
   validate :validate_only_one_active_sprint, if: -> { active? && !allow_multiple_active_sprints? }
 
-  # `status` is a database generated column derived from the timestamps and is never written.
-  # The setters mirror that derivation so the in-memory value stays correct without a reload.
-  def started_at=(value)
-    super
-    self.status = derived_status
-  end
+  def self.statuses = STATUSES
 
-  def completed_at=(value)
-    super
-    self.status = derived_status
+  # `status` is a database generated column. The reader mirrors its expression so the
+  # value is correct in memory without a reload.
+  def status
+    if completed_at?
+      "completed"
+    elsif started_at?
+      "active"
+    else
+      "in_planning"
+    end
   end
 
   def in_planning? = status == "in_planning"
@@ -137,16 +136,6 @@ class Sprint < ApplicationRecord
   def to_s = name
 
   private
-
-  def derived_status
-    if completed_at?
-      "completed"
-    elsif started_at?
-      "active"
-    else
-      "in_planning"
-    end
-  end
 
   def validate_only_one_active_sprint
     return unless self.class.for_project(project).active.where.not(id:).exists?
