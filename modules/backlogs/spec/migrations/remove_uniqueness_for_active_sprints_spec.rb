@@ -48,7 +48,7 @@ RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
         create(:project, sprint_sharing: "no_sharing", allow_multiple_active_sprints: true)
       end
 
-      shared_let(:sprints) { create_list(:sprint, 2, project:, status: "active") }
+      shared_let(:sprints) { create_list(:sprint, 2, :active, project:) }
 
       it "raises an error describing which projects need cleanup" do
         expect { migrate }.to raise_error(RuntimeError, /Cannot roll back/)

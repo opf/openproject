@@ -35,8 +35,8 @@ RSpec.describe Backlogs::Sprints::StartService do
   shared_let(:status1) { create(:status) }
   shared_let(:status2) { create(:status) }
   let(:project) { create(:project, types: [type_task]) }
-  let(:status) { "in_planning" }
-  let(:sprint) { create(:sprint, project:, status:) }
+  let(:status) { :in_planning }
+  let(:sprint) { create(:sprint, status, project:) }
   let(:user) { create(:admin) }
   let(:instance) { described_class.new(user:, model: sprint) }
 
@@ -134,7 +134,7 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when another active sprint exists in the project" do
-    let!(:active_sprint) { create(:sprint, project:, status: "active") }
+    let!(:active_sprint) { create(:sprint, :active, project:) }
 
     it "fails contract validation without creating a board", :aggregate_failures do
       expect(result).not_to be_success
@@ -166,7 +166,7 @@ RSpec.describe Backlogs::Sprints::StartService do
       # practice. This simulates the model-level backstop still catching a conflict
       # that appears right before persist, e.g. if this service were ever bypassed.
       allow(instance).to receive(:persist).and_wrap_original do |original, *args|
-        create(:sprint, project:, status: "active")
+        create(:sprint, :active, project:)
         original.call(*args)
       end
     end
@@ -181,7 +181,7 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when the sprint is already active" do
-    let(:status) { "active" }
+    let(:status) { :active }
 
     it "fails contract validation", :aggregate_failures do
       expect(result).not_to be_success
@@ -191,7 +191,7 @@ RSpec.describe Backlogs::Sprints::StartService do
   end
 
   context "when the sprint is already completed" do
-    let(:status) { "completed" }
+    let(:status) { :completed }
 
     it "fails contract validation", :aggregate_failures do
       expect(result).not_to be_success

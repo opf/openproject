@@ -75,8 +75,8 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
   end
 
   context "when in_planning and active sprints exist" do
-    let!(:planning_sprint) { create(:sprint, project:, name: "Planning Sprint", status: "in_planning") }
-    let!(:active_sprint) { create(:sprint, project:, name: "Active Sprint", status: "active") }
+    let!(:planning_sprint) { create(:sprint, project:, name: "Planning Sprint") }
+    let!(:active_sprint) { create(:sprint, :active, project:, name: "Active Sprint") }
 
     it "submits sprint list data" do
       render_component
@@ -91,7 +91,7 @@ RSpec.describe Backlogs::MoveToSprintDialogComponent, type: :component do
   end
 
   context "when a completed sprint exists" do
-    let!(:completed_sprint) { create(:sprint, project:, name: "Old Sprint", status: "completed") }
+    let!(:completed_sprint) { create(:sprint, :completed, project:, name: "Old Sprint") }
 
     it "does not list the completed sprint" do
       render_component

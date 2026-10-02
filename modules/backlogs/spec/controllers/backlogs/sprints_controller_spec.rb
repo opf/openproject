@@ -357,7 +357,7 @@ RSpec.describe Backlogs::SprintsController do
 
     describe "POST #start" do
       let!(:sprint) { create(:sprint, project:) }
-      let(:service_result) { ServiceResult.success(result: sprint.tap { it.status = "active" }) }
+      let(:service_result) { ServiceResult.success(result: sprint.tap { it.started_at = Time.zone.now }) }
       let(:service) { instance_double(Backlogs::Sprints::StartService, call: service_result) }
       let(:request_params) { { project_id: project.id, sprint_id: sprint.id } }
 
@@ -434,7 +434,7 @@ RSpec.describe Backlogs::SprintsController do
       context "when board creation succeeds" do
         let(:board) { create(:board_grid_with_query, project:, linked: sprint) }
         let(:service_result) do
-          started_sprint = sprint.tap { it.status = "active" }
+          started_sprint = sprint.tap { it.started_at = Time.zone.now }
           allow(started_sprint).to receive(:task_board_for).with(project).and_return(board)
 
           ServiceResult.success(
@@ -481,7 +481,7 @@ RSpec.describe Backlogs::SprintsController do
       end
 
       context "when another sprint is already active" do
-        let!(:active_sprint) { create(:sprint, project:, status: "active") }
+        let!(:active_sprint) { create(:sprint, :active, project:) }
         let(:service_result) do
           ServiceResult.failure(
             result: sprint,
@@ -510,7 +510,7 @@ RSpec.describe Backlogs::SprintsController do
       end
 
       context "when the sprint is already active" do
-        let!(:sprint) { create(:sprint, project:, status: "active") }
+        let!(:sprint) { create(:sprint, :active, project:) }
         let(:service_result) { ServiceResult.failure }
 
         it "redirects back with the default start failure message", :aggregate_failures do
@@ -524,11 +524,11 @@ RSpec.describe Backlogs::SprintsController do
     end
 
     describe "POST #finish" do
-      let!(:sprint) { create(:sprint, project:, status: "active") }
+      let!(:sprint) { create(:sprint, :active, project:) }
       let(:request_params) { { project_id: project.id, sprint_id: sprint.id } }
       let(:service_result) do
         ServiceResult.success(
-          result: sprint.tap { |finished_sprint| finished_sprint.status = "completed" }
+          result: sprint.tap { |finished_sprint| finished_sprint.completed_at = Time.zone.now }
         )
       end
       let(:service) { instance_double(Backlogs::Sprints::FinishService, call: service_result) }
@@ -543,7 +543,7 @@ RSpec.describe Backlogs::SprintsController do
       context "when the sprint is rendered in a receiving project" do
         let(:source_project) { create(:project, sprint_sharing: "share_all_projects") }
         let(:project) { create(:project, sprint_sharing: "receive_shared") }
-        let!(:sprint) { create(:sprint, project: source_project, status: "active") }
+        let!(:sprint) { create(:sprint, :active, project: source_project) }
         let(:source_permissions) { %i[view_sprints start_complete_sprint] }
 
         before do
@@ -628,7 +628,7 @@ RSpec.describe Backlogs::SprintsController do
       end
 
       context "when the sprint is already completed" do
-        let!(:sprint) { create(:sprint, project:, status: "completed") }
+        let!(:sprint) { create(:sprint, :completed, project:) }
         let(:service_result) { ServiceResult.failure }
 
         it "redirects back with the default finish failure message", :aggregate_failures do

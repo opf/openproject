@@ -287,7 +287,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
             select sprint.name, from: "list_id"
 
             # Before saving the selection, simulate that another user completed the sprint
-            sprint.completed!
+            sprint.update!(completed_at: Time.zone.now)
 
             click_button "Move"
           end

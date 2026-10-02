@@ -47,6 +47,11 @@ module Backlogs::Sprints
 
     private
 
+    # `status` is derived from the timestamps by the model and never written.
+    def changed_by_user
+      super - ["status"]
+    end
+
     def user_authorized_for_sprint_attributes
       return unless model.project
       return unless sprint_attributes_changed?
