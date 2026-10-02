@@ -90,7 +90,7 @@ module Import
       issues = issues_and_total["issues"]
       issues_and_total["total"]
       issues_upsert_data = issues.map do |payload|
-        Rails.logger.debug "Fetched issue '#{payload['key']}'"
+        Rails.logger.debug { "Fetched issue '#{payload['key']}'" }
         {
           payload:,
           jira_project_id:,

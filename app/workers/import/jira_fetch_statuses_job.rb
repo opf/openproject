@@ -47,7 +47,7 @@ module Import
 
     def fetch_data
       statuses_upsert_data = @jira_client.statuses.map do |status|
-        Rails.logger.debug "Fetched status '#{status['name']}'"
+        Rails.logger.debug { "Fetched status '#{status['name']}'" }
         {
           payload: status,
           origin_id: status.fetch("id"),

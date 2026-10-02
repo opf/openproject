@@ -73,7 +73,7 @@ module Import
         field.fetch("custom", false) && used_custom_field_ids.include?(field.fetch("id"))
       end
       fields_upsert_data = used_fields.map do |payload|
-        Rails.logger.debug "Fetched custom field '#{payload['name']}'"
+        Rails.logger.debug { "Fetched custom field '#{payload['name']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

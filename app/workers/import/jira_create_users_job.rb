@@ -75,6 +75,7 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def import_user(jira_user)
       Rails.logger.debug "Creating user"
       # A retried run re-processes every Jira user. Without this the OP user created by the
@@ -174,6 +175,7 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.origin_id)
       Rails.logger.warn "Login '#{user_attrs[:login]}' already taken, using '#{unique_login}' instead"
@@ -203,7 +205,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def import_user_group(group_name, jira_user)
-      Rails.logger.debug "Creating group '#{group_name}'"
+      Rails.logger.debug { "Creating group '#{group_name}'" }
       call = Groups::CreateService
                .new(user: User.system, contract_class: EmptyContract)
                .call(name: group_name)

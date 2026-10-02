@@ -36,6 +36,7 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       Rails.logger.info "Creating project role started"
       jira_import = Import::JiraImport.find(jira_import_id)

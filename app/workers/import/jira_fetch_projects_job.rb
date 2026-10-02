@@ -47,7 +47,7 @@ module Import
 
     def fetch_data
       projects_upsert_data = @jira_client.projects.map do |payload|
-        Rails.logger.debug "Fetched project '#{payload['key']}'"
+        Rails.logger.debug { "Fetched project '#{payload['key']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

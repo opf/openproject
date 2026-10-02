@@ -73,6 +73,7 @@ module Import
       nil # JobIteration skips the job when no enumerator is returned
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(revert_step, jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
@@ -94,6 +95,7 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def delete_projects
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
@@ -126,6 +128,7 @@ module Import
         end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def delete_users
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
@@ -145,6 +148,7 @@ module Import
         end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def delete_groups
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)
@@ -163,6 +167,7 @@ module Import
         end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def delete_project_roles
       Import::JiraOpenProjectReference
         .where(jira_import_id: @jira_import.id, uses_existing: false)

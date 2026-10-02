@@ -43,6 +43,7 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       Rails.logger.info "Fetching meta data for selected projects started"
       jira_import = Import::JiraImport.find(jira_import_id)
@@ -77,7 +78,7 @@ module Import
     end
 
     def collect_project_metadata(client, project_id)
-      Rails.logger.debug "Fetching meta data for project '#{project_id}'"
+      Rails.logger.debug { "Fetching meta data for project '#{project_id}'" }
       project_statuses = client.project_statuses(project_id)
       project_issue_type_ids = project_statuses.pluck("id")
       project_status_ids = project_statuses.flat_map { |type| type["statuses"].map { |status| status["id"] } }

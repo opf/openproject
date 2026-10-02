@@ -92,7 +92,7 @@ module Import
     def each_iteration(versions_and_total, jira_import_id, jira_project_id)
       versions = versions_and_total["versions"]
       versions_upsert_data = versions.map do |payload|
-        Rails.logger.debug "Fetched project version '#{payload['name']}'"
+        Rails.logger.debug { "Fetched project version '#{payload['name']}'" }
         {
           payload:,
           jira_project_id:,
