@@ -30,15 +30,30 @@
 
 require "spec_helper"
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
+RSpec.describe PlaceholderUsers::DeleteService do
+  let(:placeholder_user) { create(:placeholder_user) }
+  let(:actor) { create(:admin) }
 
-      provider.update!(available: false)
+  subject(:result) { described_class.new(model: placeholder_user, user: actor).call }
 
-      expect(Setting.omniauth_direct_login_provider).to be_blank
+  context "when the placeholder user is used in a resource allocation" do
+    before { create(:resource_allocation, placeholder_user:, principal: nil) }
+
+    it "keeps the placeholder user active and does not schedule its deletion" do
+      expect { result }.not_to have_enqueued_job(Principals::DeleteJob)
+
+      expect(result).to be_failure
+      expect(result.errors.details[:base]).to include(error: :used_in_resource_allocations)
+      expect(placeholder_user.reload).to be_active
+    end
+  end
+
+  context "when the placeholder user is not used in any resource allocation" do
+    it "schedules its deletion" do
+      expect { result }.to have_enqueued_job(Principals::DeleteJob).with(placeholder_user)
+
+      expect(result).to be_success
+      expect(placeholder_user.reload.status).to eq("deleted")
     end
   end
 end

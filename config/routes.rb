@@ -277,14 +277,13 @@ Rails.application.routes.draw do
 
   resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
-      post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
       get :menu
       get :deletion_dialog
-      put :drop
+      put :move
       post :duplicate
     end
   end
