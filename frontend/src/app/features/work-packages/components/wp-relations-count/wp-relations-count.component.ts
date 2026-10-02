@@ -34,6 +34,7 @@ import { WorkPackageRelationsService } from 'core-app/features/work-packages/com
 
 @Component({
   templateUrl: './wp-relations-count.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-count',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

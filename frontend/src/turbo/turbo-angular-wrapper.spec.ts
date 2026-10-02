@@ -74,6 +74,25 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     expect(bootstrap).toHaveBeenCalledWith(appRef);
   });
 
+  it('re-flags the page as bootstrapped on the second turbo:load, not just the first', async () => {
+    const appRef = makeAppRef([]);
+    const bootstrap = vi.fn();
+    const getPluginContext = () => Promise.resolve({ appRef } as OpenProjectPluginContext);
+
+    document.body.classList.remove('__ng2-bootstrap-has-run');
+
+    addTurboAngularWrapper({
+      target, signal: controller.signal, getPluginContext, bootstrap,
+    });
+
+    target.dispatchEvent(new Event('turbo:load')); // initial load — already bootstrapped
+    await flush();
+    target.dispatchEvent(new Event('turbo:load')); // navigation — must re-flag
+    await flush();
+
+    expect(document.body.classList.contains('__ng2-bootstrap-has-run')).toBe(true);
+  });
+
   it('tears down every existing root component before re-bootstrapping', async () => {
     // Hold the mocks as locals so the assertions never reference an unbound
     // method off the fake (eslint @typescript-eslint/unbound-method).

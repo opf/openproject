@@ -61,4 +61,21 @@ RSpec.describe PlaceholderUser do
       expect(described_class.allocatable(bystander)).to be_empty
     end
   end
+
+  describe "#destroy" do
+    let(:placeholder_user) { create(:placeholder_user) }
+
+    it "is prevented while the placeholder user is used in a resource allocation" do
+      allocation = create(:resource_allocation, placeholder_user:, principal: nil)
+
+      expect(placeholder_user.destroy).to be(false)
+      expect(placeholder_user.errors.details[:base]).to include(error: :"restrict_dependent_destroy.has_many",
+                                                                record: anything)
+      expect(allocation.reload.placeholder_user).to eq(placeholder_user)
+    end
+
+    it "succeeds when the placeholder user is not used in any resource allocation" do
+      expect(placeholder_user.destroy).to be_destroyed
+    end
+  end
 end

@@ -3,6 +3,7 @@ li:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Hours
@@ -28,6 +29,8 @@ li:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -114,7 +117,7 @@ li:
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
         hidden_work: Other allocations
         schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
+        schedule_change: wies %{date}, dan %{schedule}
         schedule_note: This user works %{schedule}.
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?
@@ -203,7 +206,7 @@ li:
       navigation:
         next: Next period
         previous: Previous period
-        today: Today
+        today: Vandaag
       subheader:
         add: Add
         allocate: Allocate
@@ -243,7 +246,7 @@ li:
       working_hours:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
-        schedule_change_compact: until %{date}, %{schedule}
+        schedule_change_compact: wies %{date}, %{schedule}
     user_timeline:
       blank:
         add_user: Add user
@@ -287,8 +290,8 @@ li:
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
+          one: "%{count} gebroeker"
+          other: "%{count} gebroekers"
         unassigned: Unassigned
       allocation_placeholder: "—"
       blank:

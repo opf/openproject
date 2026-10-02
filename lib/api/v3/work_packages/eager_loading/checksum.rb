@@ -81,7 +81,7 @@ module API
             end
 
             def checksum_associations
-              %i[status author responsible assigned_to priority category type budget]
+              %i[status author responsible assigned_to priority category type]
             end
 
             def md5_checksum_table_name(association_name)

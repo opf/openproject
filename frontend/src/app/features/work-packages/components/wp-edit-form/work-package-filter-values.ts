@@ -199,9 +199,9 @@ export class WorkPackageFilterValues {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[attributeName] : change[attributeName];
     const current = Array.isArray(value) ? value : [value];
 
-    for (let i = 0; i < filter.values.length; i++) {
-      for (let j = 0; j < current.length; j++) {
-        if (compareByHrefOrString(current[j], filter.values[i])) {
+    for (const filterValue of filter.values) {
+      for (const currentValue of current) {
+        if (compareByHrefOrString(currentValue, filterValue)) {
           return true;
         }
       }

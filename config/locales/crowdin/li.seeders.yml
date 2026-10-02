@@ -147,13 +147,13 @@ li:
               name: Basic board
               lists:
                 item_0:
-                  name: Wish list
+                  name: Winselies
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteitelies veur vandaag
                 item_3:
-                  name: Never
+                  name: Noeïts
             parent_child:
               name: Work breakdown structure
           project-overview:
@@ -283,7 +283,7 @@ li:
                 item_1:
                   name: Short list
                 item_2:
-                  name: Priority list for today
+                  name: Prioriteitelies veur vandaag
                 item_3:
                   name: Never
           project-overview:

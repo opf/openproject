@@ -49,6 +49,7 @@ import {
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineHeaderController implements OnInit {
   readonly I18n = inject(I18nService);
   readonly wpTimelineService = inject(WorkPackageViewTimelineService);

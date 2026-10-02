@@ -1,7 +1,7 @@
 ---
 li:
   plugin_openproject_recaptcha:
-    description: This module provides recaptcha checks during login.
+    description: Deze module zörg veur recaptcha controles tiedes ut aanmelde.
     name: OpenProject ReCaptcha
   recaptcha:
     button_please_wait: Please wait ...
@@ -13,7 +13,7 @@ li:
         '
       response_limit: Response limit for HCaptcha
       response_limit_text: The maximum number of characters to treat the HCaptcha response as valid.
-      secret_key: Secret key
+      secret_key: Geheime sleutel
       secret_key_text: Enter the secret key you created on the reCAPTCHA admin console.
       type: Use reCAPTCHA
       type_disabled: Disable reCAPTCHA

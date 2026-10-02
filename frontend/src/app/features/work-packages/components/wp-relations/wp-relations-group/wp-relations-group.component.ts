@@ -31,6 +31,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBindi
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-relations-group',
   templateUrl: './wp-relations-group.template.html',
   standalone: false,
@@ -54,6 +55,7 @@ export class WorkPackageRelationsGroupComponent {
 
   @Input() public groupByWorkPackageType:boolean;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onToggleGroupBy = new EventEmitter<undefined>();
 
   @ViewChild('wpRelationGroupByToggler') readonly toggleElement:ElementRef<HTMLButtonElement>;

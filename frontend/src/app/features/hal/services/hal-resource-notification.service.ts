@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injectable, Injector, inject } from '@angular/core';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
@@ -43,8 +42,6 @@ export class HalResourceNotificationService {
   injector = inject(Injector);
 
   protected readonly I18n = inject(I18nService);
-
-  protected readonly $state = inject(StateService);
 
   protected readonly halResourceService = inject(HalResourceService);
 

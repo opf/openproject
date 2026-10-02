@@ -178,6 +178,21 @@ zh-CN:
         company: 公司
       favorite:
         favorited: 条目
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: 列数
         page: 页
@@ -216,6 +231,21 @@ zh-CN:
         onthefly: 自动创建用户
         port: 端口
         tls_certificate_string: LDAP 服务器 SSL 证书
+      llm_capability_verdict:
+        capability: Capability
+        model_id: Model
+        state: State
+      llm_connection:
+        api_format: API format
+        api_key: API key
+        base_url: Host URL
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        llm_features_enabled: Enable LLMs for this instance
+      llm_model:
+        admin_context_window: Context window
+        display_name: Display name
+        external: Model name
       mcp_configuration:
         description: 描述
         enabled: 已启用
@@ -256,7 +286,7 @@ zh-CN:
         latest_activity_at: 最近一次活动
         parent: 父项目
         portfolio: 项目组合
-        program: 项目群
+        program: 计划
         project_creation_wizard_assignee_custom_field: 提交时的受理人
         project_creation_wizard_enabled: 项目启动请求
         project_creation_wizard_notification_text: 通知文本
@@ -684,6 +714,16 @@ zh-CN:
           general_consent: 请接受条款与条件。
         favorite:
           already_favorited: 已经被收藏。
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: 结束值需要大于起始值。
           outside: 不在网格内。
@@ -713,6 +753,29 @@ zh-CN:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 提供的 SSL 证书无效：%{additional_message}
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+            api_key:
+              invalid_api_key: was rejected by the LLM server.
+            base:
+              singleton: Only one LLM connection can be active.
+            base_url:
+              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
+              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
+              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
+              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
+              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+            custom_headers:
+              invalid: must map header names to plain text values.
+            llm_features_enabled:
+              requires_connection: cannot be turned on before a connection has been configured.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: 无法保存，因为会议已被其他人同时更新。请重新加载页面。
         member:
@@ -881,12 +944,6 @@ zh-CN:
               in_use_by_work_packages: 无法删除此类型，因为工作包仍在使用。
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: 使用的工作包特性无效。
-              attribute_unknown_name: 使用的工作包特性无效：%{attribute}
-              duplicate_group: 群组名称 '%{group}' 被多次使用。群组名称必须唯一。
-              group_without_name: 群组名称不能为空。
-              query_invalid: 嵌入式查询 '%{group}' 无效：%{details}
             base:
               is_default_variant: 无法删除类型的默认配置。
               project_variants_not_allowed: 此类型不允许在项目中创建变体。
@@ -1090,6 +1147,8 @@ zh-CN:
         other: 导出
       export_setting:
         other: 导出设置
+      form_configuration:
+        other: Forms
       forum:
         other: 论坛
       global_role:
@@ -1303,6 +1362,23 @@ zh-CN:
     banners:
       environment_configured_readonly: 这些值通过环境变量配置，无法在此处编辑。
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: 基本色
         main_menu: 主侧边菜单
@@ -1335,7 +1411,11 @@ zh-CN:
       tab_interface: 界面
       tab_pdf_export_font: PDF 导出字体
       tab_pdf_export_styles: PDF 导出样式
-      theme_warning: 更改主题将覆盖您的自定义样式。设计将会丢失。您确定要继续吗？
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: 上传企业版支持令牌
       book_now: 立即预订
@@ -1437,6 +1517,43 @@ zh-CN:
           button_edit_configuration: 编辑配置
           button_import_run: 导入运行
           description: 每次导入运行都可以导入不同的数据集。可以在审核模式后立即撤消导入运行，但不能在完成后撤消。
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 您尝试导入的项目所使用的标识符 %{taken_identifier} 已经用过。请在 Jira 中更新项目标识符，然后点击“重试”。
         remove_error: 无法移除正在运行的 Jira 导入运行
         side_panel:
@@ -1465,13 +1582,17 @@ zh-CN:
         step_not_available: 此操作对导入运行的当前状态不可用。
         title: 导入运行
         wizard:
+          application_trace: Application trace
           button_abort: 中止
           button_retry: 重试
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: 我明白此操作无法撤消
             confirm_button: 明白了
             description: 一旦批准，此次导入将不再可逆。所有导入的数据将成为永久数据。
             title: 批准这次导入？
+          full_trace: Full trace
           groups:
             configuration:
               title: 配置导入
@@ -1487,6 +1608,8 @@ zh-CN:
           parts:
             issues:
               other: "%{count} 个问题"
+            jobs:
+              other: "%{count} jobs"
             projects:
               other: "%{count} 个项目"
             statuses:
@@ -1570,6 +1693,7 @@ zh-CN:
                 issues: 问题
                 permissions: 权限
                 project_ids: 项目标识符
+                project_versions: Project versions
                 projects: 项目
                 relations: 问题之间的关系
                 schemes: 方案
@@ -1577,7 +1701,7 @@ zh-CN:
                 users: 参与的用户和组
                 workflows: 项目级工作流
               label_coming_later: 稍后推出
-              label_coming_soon: 即将推出（2026 年第三季度）
+              label_coming_soon: Coming soon
               label_import: 选择要导入的项目。
               label_info: 请注意，此导入工具仍处于测试阶段，不能导入所有类型的数据。以下是主机 Jira 实例提供的导入摘要，以及此工具目前能够导入的内容。
               label_progress: 正在获取数据
@@ -1591,6 +1715,38 @@ zh-CN:
             filter_projects: 按文本筛选
             info: 只有 Jira 令牌所有者为成员的项目才能被选作导入范围。
             title: 选择要导入的项目
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API 返回错误状态 %{status}。请检查您的 Jira 实例 URL 和 API 令牌。
         connection_error: 连接错误：%{message}
@@ -1637,6 +1793,97 @@ zh-CN:
         no_matches:
           description: 尝试其他搜索词。
           title: 没有标签与您的搜索匹配
+    llm_connections:
+      delete_api_key:
+        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
+        heading: Remove the stored API key?
+        menu_label: Remove API key
+        success: The API key has been removed.
+        title: Remove API key
+      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
+      disconnect:
+        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
+        heading: Disconnect from the LLM server?
+        keeps_models: The model list, including any models you added manually, is kept.
+        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
+        menu_label: Disconnect
+        success: OpenProject has disconnected from the LLM server.
+        title: Disconnect
+      form:
+        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
+        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
+        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
+        api_key_placeholder_stored: API key stored
+        api_key_remove: Remove key
+        base_url_caption: The base URL of the server, for example https://example.com/v1.
+        button_connect: Connect
+        label_connecting: Contacting the LLM server…
+        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
+        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
+        server_group: Server
+      show:
+        description: Connect OpenProject to an LLM server so that AI features can use it.
+        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+      tabs:
+        connection: Connection
+        models: Models
+      update:
+        disabled: Saved. LLM features are switched off for this instance.
+        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
+        success: Successfully connected to the LLM server.
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: The model will no longer be offered to AI features.
+        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        heading: Remove %{model}?
+        success: "%{model} has been removed."
+        title: Remove model
+      edit:
+        description: Edit how OpenProject uses this model.
+      form:
+        context_window: Context window
+        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
+        context_window_known: Leave blank to use %{value}, %{source}.
+        display_name_caption: An optional friendly name shown instead of the model id.
+        external_id_caption: The model name exactly as the server expects it.
+        model_type: Model type
+        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
+        model_type_chat: Chat model
+        model_type_embedding: Embedding model
+        model_type_unspecified: Not specified
+        state_inherited: Inherit from server (%{state})
+        state_supported: Supported
+        state_unsupported: Not supported
+      index:
+        add_model: Model
+        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
+        blank_title: No models available
+        context_window: Context window
+        description: Reported by the server on %{fetched_at}.
+        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
+        filter_label: Filter models
+        identifier: Model
+        kind: Type
+        refresh: Refresh models
+        source: Source
+        source_discovered: Server
+        source_discovered_description: Reported by the server
+        source_manual: Manual
+        source_manual_description: Added manually by an administrator
+        source_withdrawn: Withdrawn
+        source_withdrawn_description: No longer reported by the server
+        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+      new:
+        description: Name a model this server can use but does not advertise, and describe what it can do.
+        title: Add a model
+      refresh:
+        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
+        success: The model list has been refreshed.
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: Model Context Protocol 允许 AI 智能体向其用户提供此 OpenProject 实例所公开的工具和资源。此功能仍处于测试阶段。
@@ -1923,10 +2170,6 @@ zh-CN:
           author: 对工作包作者可用的其他过渡。
         menu_label: 显示的过渡
       workflow_button: Workflow
-      workflow_selector:
-        prefix: Workflow
-        same_as_type: "(same as type)"
-        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -1935,6 +2178,7 @@ zh-CN:
         timeout: AI 服务未及时响应。
         upstream_error: AI 服务返回错误。
   announcements:
+    content: Content
     is_active: 当前已显示
     is_inactive: 当前未显示
     show_until: 显示截至日期
@@ -2330,9 +2574,9 @@ zh-CN:
     template_heading: 选择项目组合模板以使用最常见的项目管理方法，或从头开始创建项目组合。
   create_program:
     blank_template:
-      description: 从头开始。手动添加项目群特性、成员和模块。
-      label: 空白项目群
-    template_heading: 选择项目群模板以使用最常见的项目管理方法，或从头开始创建项目群。
+      description: 从头开始。手动添加计划特性、成员和模块。
+      label: 空白计划
+    template_heading: 选择计划模板以使用最常见的项目管理方法，或从头开始创建计划。
   create_project:
     attributes_heading: 填写此必填信息以处理您的项目。
     blank_description: 未提供描述。
@@ -2791,7 +3035,7 @@ zh-CN:
       plan_title: 企业 %{plan} 附加组件
       plans_title: 企业计划
       portfolio_management:
-        description: 通过将项目组织成项目组合与项目群，使项目与您的战略目标保持一致。
+        description: 通过将项目组织成项目组合与计划，使项目与您的战略目标保持一致。
       project_creation_wizard:
         description: 生成分步向导，帮助项目经理填写项目启动请求。
       project_list_sharing:
@@ -2872,6 +3116,7 @@ zh-CN:
   error_no_default_work_package_status: 没有定义默认的工作包状态。请检查您的配置 （转到"管理-> 工作包状态"）。
   error_no_type_in_project: 没有类型与此项目关联。请检查的项目设置。
   error_omniauth_invalid_auth: 从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 通过外部身份验证提供程序注册超时。请再试一次。
   error_password_change_failed: 试图更改密码时发生错误。
   error_pdf_date_range_too_long: 所选工作包日期范围超出允许的 PDF 导出限制。请将范围缩减至最多 %{years} 年。
@@ -3039,6 +3284,103 @@ zh-CN:
       selected: 已选择
     include_sub_items: 包含子条目
     no_results_text: 无结果
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+        panel_label: Form to copy
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit form
+        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+
+          '
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This form is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
     show:
       no_results_title_text: 论坛中目前无发贴。
@@ -3174,6 +3516,7 @@ zh-CN:
       budget_deleted: 预算已删除
       import:
         changed_with_diff: "“%{field}”已更改 (%{link})"
+        csv: from CSV
         deleted_with_diff: "“%{field}”已删除 (%{link})"
         field_changed: "“%{field}”已从 %{old_value} 更改为 %{new_value}"
         field_removed: "“%{field}”已移除"
@@ -3197,7 +3540,7 @@ zh-CN:
           '
         progress_calculation_adjusted: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
         progress_calculation_adjusted_from_disabled_mode: 进度计算自动<a href="%{href}" target="_blank">设置为基于工时的模式，并随版本更新而调整</a>。
-        scheduling_mode_adjusted: 随版本更新自动适配调度模式。
+        scheduling_mode_adjusted: 随版本更新自动适配安排模式。
         sprint_migration: 版本 '%{version_name}' 已复制为冲刺。
         stale_target_versions_removed: 过时的目标版本已自动移除。此前在启用了多个目标版本时，该版本被错误地重新添加。
         target_versions_repaired: 在启用多个目标版本之前，目标版本会自动与 Version（版本）字段同步。
@@ -3402,8 +3745,6 @@ zh-CN:
   label_custom_field_default_type: 空类型
   label_custom_field_new: 新的自定义字段
   label_custom_field_plural: 自定义字段
-  label_custom_logo: 自定义徽标桌面版
-  label_custom_logo_mobile: 自定义徽标移动版
   label_custom_pdf_export_settings: 自定义 PDF 导出设置
   label_custom_style: 设计
   label_custom_style_description: 选择主题来定制OpenProject的外观，选择应用中的默认颜色以及导出的样式。
@@ -3497,6 +3838,7 @@ zh-CN:
   label_float: 浮点数
   label_folder: 文件夹
   label_follows: 跟踪
+  label_form_configuration_plural: Forms
   label_formula: 公式
   label_forum_new: 新论坛
   label_forum_plural: 论坛
@@ -4095,6 +4437,42 @@ zh-CN:
     update:
       failure: 无法保存修改后的列表： %{errors}
       success: 已保存修改后的列表
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Tool calling
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Structured output
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: the figure published for this model
+      server: reported by the server
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: supported
+      unknown: not verified
+      unsupported: not supported
   macro_execution_error: 执行宏 %{macro_name} 出错
   macro_unavailable: 无法显示宏 %{macro_name} 。
   macro_unknown: 未知或不支持的宏。
@@ -4328,6 +4706,7 @@ zh-CN:
       aggregation: 聚合
       ai: 人工智能 (AI)
       api_and_webhooks: API 和 Webhook
+      llm_connection: LLM settings
       mail_notification: 电子邮件通知
       mails_and_notifications: 电子邮件和通知
       mcp_configurations: Model Context Protocol (MCP)
@@ -4921,6 +5300,7 @@ zh-CN:
   permission_export_projects: 导出项目
   permission_export_work_packages: 导出工作包
   permission_header_for_project_module_work_package_tracking: 工作包和甘特图
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: 通过电子邮件邀请成员
   permission_invite_members_by_email_explanation: '允许用户通过电子邮件邀请新会员。邀请用户将收到一封包含链接的电子邮件来设置密码并激活他们的帐户。 依赖于管理会员的权限
 
@@ -5049,11 +5429,11 @@ zh-CN:
         颜色可用于高亮显示表中的工作包。
   program:
     count:
-      one: 1 个项目群
-      other: "%{count} 个项目群"
-      zero: 0 个项目群
+      one: 1 个计划
+      other: "%{count} 个计划"
+      zero: 0 个计划
     filters:
-      name: 项目群的一部分
+      name: 计划的一部分
   project:
     archive:
       archived: 已存档
@@ -5232,8 +5612,8 @@ zh-CN:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
       subitems:
         no_template: 没有预定义模板
-        program_template_caption: 选择一个模板项目群，作为此类型的新子条目的默认设置。
-        program_template_label: 项目群模板
+        program_template_caption: 选择一个模板计划，作为此类型的新子条目的默认设置。
+        program_template_label: 计划模板
         project_template_caption: 选择一个模板项目，作为此类型的新子条目的默认设置。
         project_template_label: 项目模板
         template_section: '选择创建新的子条目时使用的模板。
@@ -5707,6 +6087,7 @@ zh-CN:
   setting_start_of_week: 一周起始日
   setting_sys_api_description: 存储库管理网页服务提供了集成的，用户授权的存储库访问。
   setting_sys_api_enabled: 启用版本库管理 web 服务
+  setting_sys_api_key: API key
   setting_time_format: 时间
   setting_total_percent_complete_mode: 计算 完成% 层次结构总数
   setting_total_percent_complete_mode_simple_average: 简单平均值
@@ -6119,12 +6500,6 @@ zh-CN:
 
     '
   text_custom_field_possible_values_info: 每个值一行
-  text_custom_logo_instructions: '徽标会自动缩放以适应页眉。为获得最佳效果，请上传一个位于透明的 130×47 像素图像上的白色徽标。您可以根据自己的喜好在图像内添加间距。
-
-    '
-  text_custom_logo_mobile_instructions: '徽标会自动缩放以适应页眉。为获得最佳效果，请上传一个位于透明的 130×33 像素图像上的白色徽标。您可以根据自己的喜好在图像内添加间距。
-
-    '
   text_custom_touch_icon_instructions: '这是当您在主屏幕上放置书签时，显示在手机或平板电脑中的图标。它是大小为 180x180 像素的正方形 PNG 图像文件。请确保图像的背景不是透明的，否则在 iOS 上看起来会很糟糕。
 
     '
@@ -6430,6 +6805,8 @@ zh-CN:
         blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
         blankslate_title: 还没有群组
         confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         confirm_reset: 确定要重置表单吗？
         custom_field: 自定义字段
         delete_group: 删除小节
@@ -6460,7 +6837,6 @@ zh-CN:
           globally_hint: 在自定义字段上更改此项
           mark: 在此类型中为必选项
           not_a_custom_field: 对于单一类型，仅可将自定义字段设为必选。
-          not_available_when_linked: 此配置为继承而来。如需更改必选项，请手动进行配置。
           unmark: 在此类型中不是必选项
         reset_description: '此操作会将特性重置为其默认群组，并禁用所有自定义字段。
 
@@ -7062,7 +7438,7 @@ zh-CN:
       mode:
         automatic: 自动
         manual: 手动
-        title: 调度模式
+        title: 安排模式
       show_relations: 显示关系
       tabs:
         aria_label: 日期选择器标签
@@ -7103,6 +7479,136 @@ zh-CN:
         other: 由于缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
       undeletable_descendants_warning_html:
         other: 由于在 %{projects} 中缺乏必要的权限，您无法删除 %{count} 个后代。这些后代将被保留，但其中的任何层级关系都将被移除。
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          other: "%{count} lines"
+        x_problems:
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: '目标项目中未启用这些工作包或其后代的类型。如果您希望工作包类型保持不变，请在目标项目中启用缺少的类型。否则，请从列表中选择目标项目中的可用类型。
 
@@ -7137,11 +7643,17 @@ zh-CN:
       other: "%{count} 个子工作包"
   workflows:
     change:
-      title: Change workflow
-      workflow:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow
         placeholder: Select a workflow…
+      title: Change workflow
     copies:
       form:
         target_role_ids:
@@ -7211,6 +7723,10 @@ zh-CN:
     page_headers:
       index_component:
         description: 为每个工作包类型配置状态过渡。
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
     start:
       copy:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.

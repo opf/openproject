@@ -27,9 +27,10 @@
 //++
 
 import { fireEvent } from '@testing-library/dom';
-import { EventEmitter, Injector, Type } from '@angular/core';
+import {
+  createEnvironmentInjector, EnvironmentInjector, EventEmitter, Injector, Type,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { StateService } from '@uirouter/core';
 import { firstValueFrom, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -72,8 +73,11 @@ import { WorkPackageViewSortByService } from 'core-app/features/work-packages/ro
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
+import { OpTableActionsService } from 'core-app/features/work-packages/components/wp-table/table-actions/table-actions.service';
+import { OpContextMenuTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/actions/context-menu-table-action';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
@@ -81,6 +85,12 @@ import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
 import { WorkPackageTable } from '../wp-fast-table';
 import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from './work-package-fixture';
+import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
+import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
+import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
@@ -89,9 +99,18 @@ export interface TableHarnessOptions {
   /** Renders the table grouped by `groupBy` (default `status`) with one header row per group. */
   groups?:GroupFixture[];
   groupBy?:string;
+  showHierarchies?:boolean;
   configuration?:WorkPackageTableConfigurationObject;
+  /** Keeps production defaults for every setting but the extra columns the harness cannot build. */
+  productionDefaults?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
+  /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
+  editing?:{ formWritable?:boolean };
+  /** The application-wide resource cache; pass one instance to tables that share a page. */
+  states?:States;
+  /** Shows the timeline side through the query, as a saved Gantt view does. */
+  timelineVisible?:boolean;
 }
 
 export interface TableHarness {
@@ -108,12 +127,19 @@ export interface TableHarness {
   nextRender():Promise<RenderedWorkPackage[]>;
   rows():HTMLTableRowElement[];
   row(workPackageId:string):HTMLTableRowElement;
+  timelineRow(workPackageId:string):HTMLElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
+  /** Fresh lookup; group headers are replaced on every collapse toggle. */
+  groupHeader(index:number):HTMLTableRowElement;
+  rowIds():string[];
+  /** Work-package entries of the rendered state, in order, as `[workPackageId, hidden]`. */
+  renderedState():[string, boolean][];
   click(workPackageId:string, init?:MouseEventInit):void;
   /** Tells the registered drag member a drag of the given row has begun. */
   dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
+  addRelationRow(workPackageId:string, afterId:string):HTMLTableRowElement;
   destroy():Promise<void>;
 }
 
@@ -125,17 +151,27 @@ const harnessConfiguration:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+const unbuildableColumns:WorkPackageTableConfigurationObject = {
+  actionsColumnEnabled: false,
+  columnMenuEnabled: false,
+  dragAndDropEnabled: false,
+};
+
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  TestBed.configureTestingModule({ providers: harnessProviders(dragService, options.dragAction) });
-
-  const injector = TestBed.inject(Injector);
-  const querySpace = TestBed.inject(IsolatedQuerySpace);
-  const states = TestBed.inject(States);
+  const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
+  injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+  const querySpace = injector.get(IsolatedQuerySpace);
+  const states = injector.get(States);
   const dom = buildDom();
 
   const groupBy = options.groupBy ?? 'status';
-  const query = buildQuery(options.columns ?? ['id', 'subject'], options.groups ? groupBy : null);
+  const query = buildQuery(
+    options.columns ?? ['id', 'subject'],
+    options.groups ? groupBy : null,
+    options.showHierarchies ?? false,
+    options.timelineVisible ?? false,
+  );
   querySpace.query.putValue(query);
   querySpace.groups.putValue((options.groups ?? []).map((group, index) => buildGroup(group, groupBy, index)));
   initializeViewServices(injector, query);
@@ -147,7 +183,9 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     dom.tbody,
     dom.timelineBody,
     {} as WorkPackageTimelineTableController,
-    new WorkPackageTableConfiguration({ ...harnessConfiguration, ...options.configuration }),
+    new WorkPackageTableConfiguration(
+      { ...(options.productionDefaults ? unbuildableColumns : harnessConfiguration), ...options.configuration },
+    ),
   );
 
   const outputs:WorkPackageViewOutputs = {
@@ -157,6 +195,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
 
   let fixtures = options.workPackages;
+  let destroyed = false;
 
   const nextRender = () => firstValueFrom(
     querySpace.tableRendered.values$().pipe(skip(querySpace.tableRendered.hasValue() ? 1 : 0), take(1)),
@@ -168,14 +207,16 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     container: dom.container,
     injector,
     querySpace,
-    selection: TestBed.inject(WorkPackageViewSelectionService),
-    focus: TestBed.inject(WorkPackageViewFocusService),
+    selection: injector.get(WorkPackageViewSelectionService),
+    focus: injector.get(WorkPackageViewFocusService),
     outputs,
 
     render(workPackages = fixtures) {
       fixtures = workPackages;
       const resources = workPackages.map(buildWorkPackage);
-      resources.forEach((wp) => states.workPackages.get(wp.id!).putValue(wp));
+      resources.forEach((wp) => {
+        [...wp.getAncestors(), wp].forEach((resource) => states.workPackages.get(resource.id!).putValue(resource));
+      });
 
       const rendered = nextRender();
       querySpace.results.putValue({ elements: resources } as WorkPackageCollectionResource);
@@ -198,8 +239,34 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
+    timelineRow(workPackageId) {
+      const row = dom.timelineBody.querySelector<HTMLElement>(`.wp-timeline-cell[data-work-package-id="${workPackageId}"]`);
+      if (!row) {
+        throw new Error(`No rendered timeline row for work package ${workPackageId}`);
+      }
+      return row;
+    },
+
     groupHeaderOf(row) {
       return locatePredecessorBySelector(row, `.${rowGroupClassName}`) as HTMLTableRowElement|null;
+    },
+
+    groupHeader(index) {
+      const header = dom.tbody.querySelector<HTMLTableRowElement>(`tr.${rowGroupClassName}[data-group-index="${index}"]`);
+      if (!header) {
+        throw new Error(`No rendered group header ${index}`);
+      }
+      return header;
+    },
+
+    rowIds() {
+      return this.rows().map((row) => row.dataset.workPackageId!);
+    },
+
+    renderedState() {
+      return (querySpace.tableRendered.value ?? [])
+        .filter(({ workPackageId }) => workPackageId !== null)
+        .map(({ workPackageId, hidden }):[string, boolean] => [workPackageId!, hidden]);
     },
 
     click(workPackageId, init = {}) {
@@ -218,13 +285,29 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       });
     },
 
+    addRelationRow(workPackageId, afterId) {
+      const row = this.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
+      row.dataset.classIdentifier = `wp-relation-row-${afterId}-to-${workPackageId}`;
+      this.row(afterId).after(row);
+      const rendered = [...table.renderedRows];
+      const index = rendered.findIndex((entry) => entry.classIdentifier === this.row(afterId).dataset.classIdentifier);
+      rendered.splice(index + 1, 0, { classIdentifier: row.dataset.classIdentifier, workPackageId, hidden: false });
+      querySpace.tableRendered.putValue(rendered);
+      return row;
+    },
+
     // The table redraws in a requestAnimationFrame followed by a setTimeout;
-    // wait those out so a pending redraw cannot fire into a reset TestBed.
+    // wait those out so a pending redraw cannot fire into a destroyed injector.
     async destroy() {
+      if (destroyed) {
+        return;
+      }
+      destroyed = true;
       await nextFrame();
       await nextTask();
       querySpace.stopAllSubscriptions.next();
       dom.wrapper.remove();
+      injector.destroy();
     },
   };
 }
@@ -249,9 +332,26 @@ class FakeDragAndDropService {
   }
 }
 
-function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial<TableDragActionService> = {}) {
+/** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
+class FakeEditingPortalService {
+  create(container:HTMLElement):Promise<EditFieldHandler> {
+    const input = document.createElement('input');
+    container.appendChild(input);
+    return Promise.resolve({
+      $onUserActivate: new Subject<void>(),
+      focus: () => input.focus(),
+      deactivate: () => input.remove(),
+    } as unknown as EditFieldHandler);
+  }
+}
+
+function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
+  const editable = !!options.editing;
+  const formWritable = options.editing?.formWritable ?? true;
+  const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+
   return [
-    States,
+    { provide: States, useValue: options.states ?? new States() },
     IsolatedQuerySpace,
     ActionsService,
     WorkPackageViewSelectionService,
@@ -271,14 +371,23 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useFactory: (states:States) => ({
         work_packages: {
           cache: { current: (_id:string, fallback:unknown) => fallback },
-          id: (id:string) => ({ get: () => of(states.workPackages.get(id).value) }),
+          id: (id:string) => ({
+            get: () => of(states.workPackages.get(id).value),
+            requireAndStream: () => of(states.workPackages.get(id).value),
+          }),
         },
       }),
       deps: [States],
     },
     {
       provide: SchemaCacheService,
-      useValue: { of: () => ({ ofProperty: () => undefined, mappedName: (attribute:string) => attribute }) },
+      useValue: {
+        of: () => ({
+          ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
+          mappedName: (attribute:string) => attribute,
+          isAttributeEditable: (attribute:string) => editable && attribute === 'subject',
+        }),
+      },
     },
     { provide: I18nService, useValue: { t: (key:string) => key, locale: 'en' } },
     { provide: HalResourceService, useValue: {} },
@@ -287,25 +396,41 @@ function harnessProviders(dragService:FakeDragAndDropService, dragAction:Partial
       useValue: {
         typedState: () => ({ hasValue: () => false, value: undefined }),
         stopEditing: () => undefined,
+        changeFor: () => ({
+          schema: { ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(formWritable) : null) },
+          getForm: () => Promise.resolve(),
+          reset: () => undefined,
+        }),
       },
     },
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
+    { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    {
+      provide: OpTableActionsService,
+      useFactory: () => {
+        const actions = new OpTableActionsService();
+        actions.setActions((injector, workPackage) => new OpContextMenuTableAction(injector, workPackage));
+        return actions;
+      },
+    },
     { provide: BannersService, useValue: { eeShowBanners: false } },
-    { provide: PathHelperService, useValue: {} },
+    { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
     { provide: CausedUpdatesService, useValue: { add: () => undefined } },
-    { provide: StateService, useValue: { current: { name: 'work-packages.partitioned.list' }, href: () => '' } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },
     { provide: KeepTabService, useValue: { currentDetailsTab: 'overview', currentShowTab: 'activity' } },
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
-    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined } },
+    { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
+    { provide: CopyToClipboardService, useValue: {} },
+    { provide: CurrentProjectService, useValue: { id: null, identifier: null } },
     { provide: WorkPackageInlineCreateService, useValue: { newInlineWorkPackageCreated: new Subject<string>() } },
     { provide: DragAndDropService, useValue: dragService },
     {
       provide: TableDragActionsRegistryService,
       useFactory: (querySpace:IsolatedQuerySpace, injector:Injector) => ({
-        get: () => Object.assign(new TableDragActionService(querySpace, injector), dragAction),
+        get: () => Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
       }),
       deps: [IsolatedQuerySpace, Injector],
     },
@@ -333,16 +458,16 @@ function buildDom() {
   };
 }
 
-function buildQuery(columns:string[], groupBy:string|null):QueryResource {
+function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
   return {
     id: null,
     columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
     sortBy: [],
     groupBy: groupBy ? { id: groupBy, name: groupBy, href: `/api/v3/queries/group_bys/${groupBy}` } : null,
-    showHierarchies: false,
+    showHierarchies,
     highlightingMode: 'inline',
     highlightedAttributes: [],
-    timelineVisible: false,
+    timelineVisible,
     timelineZoomLevel: 'days',
     timelineLabels: undefined,
   } as unknown as QueryResource;

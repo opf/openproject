@@ -63,12 +63,12 @@ RSpec.describe WorkPackageCustomFields::Scopes::Visible do
     shared_let(:linked_variant) { create(:type_variant, type: linked_type, variant_name: "Linked") }
     shared_let(:linked_project) { create(:project, types: [linked_type]) }
     shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [linked_type.default_variant])
+      create(:integer_wp_custom_field, projects: [linked_project], types: [linked_type.default_variant])
     end
 
     before do
       linked_project.project_types.find_by(type: linked_type).update!(variant: linked_variant)
-      linked_variant.link!(TypeVariant::FORM_CONFIGURATION)
+      link_configuration(linked_variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     context "for a non-privileged user" do

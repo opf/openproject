@@ -205,12 +205,6 @@ module Type::Attributes
   end
 
   ##
-  # Returns the active custom_field_attributes
-  def active_custom_field_attributes
-    custom_field_ids.map { |id| "custom_field_#{id}" }
-  end
-
-  ##
   # Returns whether the custom field is active in the given project.
   def custom_field_in_project?(attribute, project)
     custom_fields_in_project = RequestStore.fetch(:"custom_field_in_project_#{project.id}") do

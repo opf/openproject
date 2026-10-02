@@ -46,7 +46,7 @@ jobs:
         cp ./docker/pullpreview/docker-compose.yml ./docker-compose.pullpreview.yml
         cp ./docker/pullpreview/Caddyfile ./Caddyfile
         cp ./docker/prod/Dockerfile ./Dockerfile
-    - uses: pullpreview/action@0dc5a741255c0afdd5a9e23e9264d6376652ec8e # v6
+    - uses: pullpreview/action@7ef9914ea29854d3e9cd60a0cec35ce3f060855a # v6
       with:
         # allows to ssh to the instance using our GitHub ssh key
         admins: "crohr,HDinger,machisuji,oliverguenther,ulferts,wielinde,cbliard,@collaborators/push"

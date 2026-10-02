@@ -107,6 +107,7 @@ export class DraggableAutocompleteComponent implements OnInit, AfterViewInit {
   @Input() formControlId = 'op-draggable-autocomplete-container';
 
   /** Output when autocompleter changes values or items removed */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onChange = new EventEmitter<DraggableOption[]>();
 
   /** List of items still available for selection */

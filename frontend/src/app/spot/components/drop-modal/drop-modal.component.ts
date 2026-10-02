@@ -35,6 +35,7 @@ import { debounce } from 'lodash-es';
 import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-drop-modal',
   templateUrl: './drop-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

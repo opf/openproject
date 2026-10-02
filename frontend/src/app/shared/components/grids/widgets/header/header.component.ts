@@ -31,6 +31,7 @@ import { GridAreaService } from 'core-app/shared/components/grids/grid/area.serv
 import { GridDragAndDropService } from 'core-app/shared/components/grids/grid/drag-and-drop.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.sass'],
@@ -45,6 +46,7 @@ export class WidgetHeaderComponent {
 
   @Input() editable = true;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRenamed = new EventEmitter<string>();
 
   public renamed(name:string) {

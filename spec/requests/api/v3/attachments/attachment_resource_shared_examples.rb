@@ -155,6 +155,14 @@ RSpec.shared_examples "it supports direct uploads" do
                 expect(fields["key"]).to end_with "cat.png"
               end
 
+              it "only grants write access to the staging location, not the attachment's final location" do
+                fields = link["form_fields"]
+                staging_key = "uploads/direct_uploads/attachment/#{json['id']}/cat.png"
+
+                expect(fields["key"]).to eq staging_key
+                expect(Base64.decode64(fields["policy"])).to include %(["starts-with","$key","#{staging_key}"])
+              end
+
               it "also includes the content type and the necessary policy in the form fields" do
                 fields = link["form_fields"]
 

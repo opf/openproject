@@ -32,9 +32,12 @@ module Admin::Settings
   class UserCustomFieldsController < ::Admin::SettingsController
     include CustomFields::SharedActions
     include CustomFields::AttributeHelpTextActions
+    include ::CustomFields::AdminRoutes
     include OpTurbo::ComponentStream
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::UserCustomFields::ComponentStreams
+
+    helper_method :delete_option_path
 
     menu_item :user_custom_fields_settings
 

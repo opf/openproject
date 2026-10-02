@@ -29,8 +29,9 @@
 #++
 
 module WorkPackageTypes
-  # The admin routes carry an optional `variants/:variant_id` under a type. Reading the pair back
-  # is the inverse of TypeVariant#path_args, and every controller mounted there needs it.
+  # A type's configuration routes address its base variant, or a named one under
+  # `variants/:variant_id`. Reading that back is the inverse of VariantRoutes, and every
+  # controller mounted there needs it.
   module AddressesVariant
     extend ActiveSupport::Concern
 

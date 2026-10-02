@@ -42,7 +42,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import {
   Highlighting,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import {
   WorkPackageViewSelectionService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -64,7 +63,7 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { EMPTY, fromEvent, merge } from 'rxjs';
+import { fromEvent, merge } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
@@ -79,6 +78,7 @@ import { matchesRoutingId } from 'core-app/features/work-packages/helpers/work-p
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-card',
   styleUrls: ['./wp-single-card.component.sass'],
   templateUrl: './wp-single-card.component.html',
@@ -116,6 +116,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   @Input() public showAsGhost = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<WorkPackageResource>();
 
   @Output() stateLinkClicked = new EventEmitter<{ workPackageId:string, requestedState:string }>();
@@ -128,8 +129,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   readonly pathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
-  readonly $state = inject(StateService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly wpTableSelection = inject(WorkPackageViewSelectionService);
 
   readonly selectionGestures = inject(WorkPackageViewSelectionGesturesService);
@@ -164,28 +163,16 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   combinedDateDisplayField = CombinedDateDisplayField;
 
   ngOnInit():void {
-    // Update selection state
-    // Use merge instead of combineLatest: params$ only emits on uiRouter transitions and
-    // may never emit on pages that don't use uiRouter (e.g. boards). With merge, any
-    // emission from either source triggers re-evaluation of the selection state.
-    // turbo:frame-load is included so that URL-based detection updates when the split
-    // view opens or closes via Turbo frame navigation.
+    // Update selection state. turbo:frame-load is included so that URL-based detection
+    // updates when the split view opens or closes via Turbo frame navigation.
     merge(
       this.wpTableSelection.live$(),
-      this.uiRouterGlobals.params$ ?? EMPTY,
       fromEvent(document, 'turbo:frame-load'),
     )
       .pipe(
         this.untilDestroyed(),
         map(() => {
           if (this.selectedWhenOpen) {
-            // In uiRouter views, use the route param directly.
-            const wpIdFromRoute = this.uiRouterGlobals.params.workPackageId as string|undefined;
-            if (wpIdFromRoute) {
-              return matchesRoutingId(this.workPackage, wpIdFromRoute);
-            }
-
-            // In non-router views (e.g. Team Planner, Calendar):
             // Use URL-based detection so that closing the split view (which changes the URL
             // but does not clear the selection service) correctly deselects the card.
             const routingId = this.urlParams.currentDetailsRouteParams()?.routingId;
@@ -213,7 +200,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
     const stateToEmit = detail ? 'split' : 'show';
 
-    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards);
+    this.selectionGestures.replace(wp.id!, this.cardView.renderedCards, this.classIdentifier(wp));
     this.wpTableFocus.updateFocus(wp.id!);
     this.stateLinkClicked.emit({ workPackageId: wp.id!, requestedState: stateToEmit });
     event.preventDefault();

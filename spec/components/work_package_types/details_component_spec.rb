@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::DetailsComponent, type: :component do
+  include_context "with variant scope"
+
   shared_let(:bug) { create(:type, name: "Bug") }
 
   current_user { create(:admin) }

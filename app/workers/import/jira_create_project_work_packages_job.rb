@@ -44,19 +44,20 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create work_packages for '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
         total = issues.count
-        position = issues.where(id: ..cursor).count
-        (position.to_f / total * 100).round(2)
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 
@@ -119,7 +120,6 @@ module Import
 
     def update_custom_fields_in_type(type, new_custom_fields)
       variant = type.default_variant
-      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
       groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 

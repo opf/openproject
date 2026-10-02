@@ -36,7 +36,6 @@ import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-patte
 export class UrlParamsService {
   private navigation = inject(NavigationService);
 
-
   public get(key:string):string|null {
     return this.searchParams.get(key);
   }
@@ -82,6 +81,11 @@ export class UrlParamsService {
   public splitCreatePath(url = window.location.pathname):string {
     const basePath = this.basePathWithoutDetails(url);
     return /\/(work_packages|gantt)$/.test(basePath) ? `${basePath}/create_new` : `${basePath}/details/new`;
+  }
+
+  /** Whether the split-create form (see splitCreatePath) is the page currently open. */
+  public isCreatePaneOpen(pathname = window.location.pathname):boolean {
+    return pathname.endsWith('/create_new') || pathname.endsWith('/details/new');
   }
 
   /** Raw URL-changed signal, for callers that need to react to more than one pattern at once. */

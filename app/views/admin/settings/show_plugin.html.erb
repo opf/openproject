@@ -40,9 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<div id="settings">
-  <%= styled_form_tag({ controller: "/admin/settings", action: "update_plugin" }) do %>
-    <%= render partial: @partial, locals: { settings: @settings } %>
-    <%= styled_submit_tag t(:button_apply), class: "-primary" %>
-  <% end %>
-</div>
+<%=
+  render partial: @partial,
+         locals: { settings: @settings, update_url: admin_settings_show_plugin_path(id: @plugin.id) }
+%>

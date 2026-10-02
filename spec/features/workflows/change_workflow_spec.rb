@@ -69,6 +69,133 @@ RSpec.describe "Choosing the workflow a type uses", :js do
     within_test_selector("workflow-selector") { expect(page).to have_text("Standard flow") }
   end
 
+  describe "picking a workflow that lacks statuses the current one uses" do
+    let(:status_closed) { create(:status, name: "Closed") }
+    let(:other_role) { create(:project_role) }
+    let(:confirm_dialog) { find_test_selector("change-workflow-confirm-dialog") }
+
+    before do
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_b, new_status: status_closed)
+      create(:status_transition, workflow: variant.workflow, role: other_role, old_status: status_b, new_status: status_closed)
+      create(:status_transition,
+             workflow: variant.workflow, role: create(:work_package_role), old_status: status_b, new_status: status_closed)
+    end
+
+    it "lists the statuses that get lost and assigns only once confirmed" do
+      previous = variant.workflow
+      visit edit_type_workflow_path(type_id: type.id)
+
+      switch_workflow_to "Standard flow"
+
+      within(confirm_dialog) do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The following statuses don’t exist in the workflow you have selected (\"Standard flow\"):")
+
+        within_test_selector("change-workflow-missing-statuses") do
+          expect(page).to have_text("Closed")
+          expect(page).to have_no_text("In progress")
+        end
+
+        expect(page).to have_text("Existing work packages with these statuses will not be affected.")
+        click_on I18n.t(:button_cancel)
+      end
+
+      expect(page).to have_no_test_selector("change-workflow-confirm-dialog")
+      expect(variant.reload.workflow).to eq(previous)
+
+      switch_workflow_to "Standard flow"
+      within(confirm_dialog) { click_on I18n.t(:button_confirm) }
+
+      expect(page).to have_text(I18n.t(:notice_successful_update))
+      expect(variant.reload.workflow).to eq(shared_workflow)
+    end
+
+    it "says every transition goes when the picked workflow has none, without listing the statuses" do
+      create(:named_workflow, name: "Empty flow")
+      visit edit_type_workflow_path(type_id: type.id)
+
+      switch_workflow_to "Empty flow"
+
+      within(confirm_dialog) do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The workflow you have selected (\"Empty flow\") has no transitions. " \
+                                  "All status transitions of Bug will be removed.")
+        expect(page).to have_no_test_selector("change-workflow-missing-statuses")
+
+        click_on I18n.t(:button_confirm)
+      end
+
+      expect(page).to have_text(I18n.t(:notice_successful_update))
+      expect(variant.reload.workflow.name).to eq("Empty flow")
+    end
+  end
+
+  describe "creating a workflow that lacks statuses the current one uses" do
+    let(:status_closed) { create(:status, name: "Closed") }
+    let(:confirm_dialog) { find_test_selector("change-workflow-confirm-dialog") }
+
+    before do
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_a, new_status: status_b)
+      create(:status_transition, workflow: variant.workflow, role:, old_status: status_b, new_status: status_closed)
+    end
+
+    it "asks before a blank workflow replaces the current one, and creates it only once confirmed" do
+      previous = variant.workflow
+      visit edit_type_workflow_path(type_id: type.id)
+
+      open_workflow_create_dialog
+
+      within(confirm_dialog) do
+        expect(page).to have_text("Use a different workflow for Bug?")
+        expect(page).to have_text("The new workflow has no transitions. All status transitions of Bug will be removed.")
+        expect(page).to have_no_test_selector("change-workflow-missing-statuses")
+        click_on I18n.t(:button_cancel)
+      end
+
+      expect(variant.reload.workflow).to eq(previous)
+
+      open_workflow_create_dialog
+      within(confirm_dialog) { click_on I18n.t(:button_confirm) }
+
+      within_dialog I18n.t("workflows.form.new_title") do
+        fill_in "Workflow name", with: "Bug specific flow"
+        click_on I18n.t(:button_create)
+      end
+
+      expect(page).to have_current_path(%r{/workflows/\d+/edit})
+      expect(variant.reload.workflow.name).to eq("Bug specific flow")
+      expect(variant.workflow.status_transitions).to be_empty
+    end
+
+    it "asks before copying a workflow that is missing statuses" do
+      visit edit_type_workflow_path(type_id: type.id)
+
+      open_workflow_create_dialog(start: "copy") do
+        select_autocomplete(find_test_selector("workflow-copy-source"),
+                            query: "Standard",
+                            results_selector: "#workflow-dialog")
+      end
+
+      within(confirm_dialog) do
+        expect(page).to have_text("The following statuses don’t exist in the workflow you have selected (\"Standard flow\"):")
+        within_test_selector("change-workflow-missing-statuses") do
+          expect(page).to have_text("Closed")
+          expect(page).to have_no_text("In progress")
+        end
+        click_on I18n.t(:button_confirm)
+      end
+
+      within_dialog I18n.t("workflows.form.new_title") do
+        fill_in "Workflow name", with: "Copied flow"
+        click_on I18n.t(:button_create)
+      end
+
+      expect(variant.reload.workflow.status_transitions.pluck(:old_status_id, :new_status_id))
+        .to contain_exactly([status_a.id, status_b.id])
+    end
+  end
+
   it "asks for the name before it creates, then opens the workflow's own page" do
     visit edit_type_workflow_path(type_id: type.id)
 
@@ -125,7 +252,7 @@ RSpec.describe "Choosing the workflow a type uses", :js do
     shared_let(:theirs) { create(:project_owned_workflow, project: other_project, name: "Foundry flow") }
 
     let(:tab_path) do
-      edit_type_workflow_path(in_project_id: project, type_id: type.id, variant_id: owned_variant.id)
+      edit_project_type_variant_workflow_path(project_id: project, type_id: type.id, variant_id: owned_variant.id)
     end
 
     before { login_as project_admin }

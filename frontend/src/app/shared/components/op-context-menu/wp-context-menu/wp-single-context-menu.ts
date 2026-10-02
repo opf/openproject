@@ -27,7 +27,6 @@
 //++
 
 import { AfterViewInit, Directive, ElementRef, inject, Injector, Input, OnDestroy } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -50,7 +49,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
@@ -66,14 +65,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   private currentTimer:TimeEntryResource|null = null;
 
   readonly HookService = inject(HookService);
-  readonly $state = inject(StateService);
+  readonly urlParams = inject(UrlParamsService);
   readonly injector = inject(Injector);
   readonly PathHelper = inject(PathHelperService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly turboRequests = inject(TurboRequestsService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly authorisationService = inject(AuthorisationService);
-  readonly currentProject = inject(CurrentProjectService);
   readonly timeEntryService = inject(TimeEntryTimerService);
   protected copyToClipboardService = inject(CopyToClipboardService);
   protected deviceService = inject(DeviceService);
@@ -131,11 +129,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         }
         break;
       case 'delete': {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
-        const backUrl = currentBaseRoute
-          ? this.$state.href(currentBaseRoute)
-          : this.PathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+        const backUrl = this.urlParams.basePathWithoutDetails();
         void this.turboRequests.request(
           this.PathHelper.workPackagesBulkDeleteDialogPath([this.workPackage.id!], backUrl),
           { method: 'GET' },

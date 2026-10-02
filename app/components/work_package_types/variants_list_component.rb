@@ -32,6 +32,7 @@ module WorkPackageTypes
   class VariantsListComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     FRAME_ID = "type-variants-list"
 
@@ -77,7 +78,7 @@ module WorkPackageTypes
       }
     end
 
-    def add_variant_path = new_creation_wizard_types_path(type_id: type.id, back_url: variants_path)
+    def add_variant_path = new_variant_creation_wizard_path(nil, type, back_url: variants_path)
 
     def comparison_path = comparison_type_variants_path(type_id: type.id)
 

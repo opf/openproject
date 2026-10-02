@@ -6,15 +6,15 @@ li:
         dn: DN
         group: Department
         ldap_auth_source: LDAP connection
-        users_count: Members
+        users_count: Leeje
       ldap_departments/synchronized_tree:
-        base_dn: Base DN
+        base_dn: Basis DN
         guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
+        ldap_auth_source: LDAP verbinding
+        name: Naam
         ou_name_attribute: OU name attribute
         structure_filter_string: Organizational unit filter
-        sync_users: Sync users
+        sync_users: Gebroekers synchronisere
         user_filter_string: User filter
     errors:
       models:
@@ -26,8 +26,8 @@ li:
         one: Synchronized department
         other: Synchronized departments
       ldap_departments/synchronized_tree:
-        one: LDAP department synchronization
-        other: LDAP department synchronizations
+        one: LDAP aafdeiling synchronisatie
+        other: LDAP aafdeiling synchronisaties
   ee:
     upsell:
       ldap_departments:
@@ -71,9 +71,9 @@ li:
           '
         ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
         sections:
-          connection: LDAP connection
+          connection: LDAP verbinding
           structure: Organizational units
-          users: Users
+          users: Gebroekers
         structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
         sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
 

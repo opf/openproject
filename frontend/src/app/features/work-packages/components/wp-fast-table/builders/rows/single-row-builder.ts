@@ -242,7 +242,7 @@ export class SingleRowBuilder {
   protected isColumnBeingEdited(workPackage:WorkPackageResource, column:QueryColumn) {
     const form = this.workPackageTable.editing.forms[workPackage.id!];
 
-    return form && form.activeFields[column.id];
+    return form?.activeFields[column.id];
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResource, row:HTMLTableRowElement):[HTMLTableRowElement, boolean] {
@@ -251,7 +251,10 @@ export class SingleRowBuilder {
 
     if (change && !change.isEmpty()) {
       // Try to find an old instance of this row
-      const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
+      const oldRow = locateTableRowByIdentifier(
+        this.classIdentifier(workPackage),
+        this.workPackageTable.tableAndTimelineContainer,
+      );
 
       change.changedAttributes.forEach((attribute:string) => {
         const oldCell = oldRow?.querySelector<HTMLTableCellElement>(`.${tdClassName}.${attribute}`);

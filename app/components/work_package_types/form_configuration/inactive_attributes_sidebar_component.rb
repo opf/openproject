@@ -33,9 +33,9 @@ module WorkPackageTypes
     class InactiveAttributesSidebarComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, inactive_attributes:)
+      def initialize(context:, inactive_attributes:)
         super
-        @variant = variant
+        @context = context
         @inactive_attributes = inactive_attributes
       end
     end

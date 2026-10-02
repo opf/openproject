@@ -26,7 +26,7 @@ fr:
       project:
         allow_multiple_active_sprints: Autoriser plusieurs sprints actifs
         backlog_excluded_types: Types de lots de travaux exclus
-        estimation_unit: Unit
+        estimation_unit: Unité
         sprint_sharing: Partage de sprint
         statuses_considered_closed: Statuts considérés comme fermés
       sprint:
@@ -138,7 +138,7 @@ fr:
       show:
         blankslate_description: Définissez les dates de début et de fin du sprint afin de générer un graphique burndown.
         blankslate_title: Aucune donnée de burndown disponible
-    estimation_unit: Units
+    estimation_unit: Unités
     excluded_work_package_types_caption: 'Choisissez les types de lots de travaux à masquer dans le backlog. Les éléments des types sélectionnés n''apparaîtront pas automatiquement dans le backlog, ce qui permet de le concentrer sur le travail pertinent pour votre équipe. Par exemple, des types comme les epics ou les jalons, gérés à un niveau supérieur, peuvent être masqués afin de conserver dans le backlog les éléments sur lesquels l''équipe peut agir.
 
       '
@@ -349,16 +349,16 @@ fr:
       sprints: Sprints
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Unité
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: Le nombre de lots de travaux sera utilisé comme unité par défaut dans les graphiques. Certains rapports de sprint ne seront pas affichés.
+            label: Aucun
           story_points:
-            caption: The cards and charts will display story points.
+            caption: Les cartes et les tableaux afficheront les story points.
             label: Story points
           time:
-            caption: The cards and charts will display work time estimates.
+            caption: Les cartes et graphiques afficheront les estimations du temps de travail.
             label: Work time estimate
       backlog_sharing:
         options:

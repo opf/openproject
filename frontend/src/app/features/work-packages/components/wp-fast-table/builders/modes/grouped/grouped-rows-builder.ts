@@ -139,7 +139,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   private getGroupData() {
     return this.groups.map((group:GroupObject, index:number) => {
       group.index = index;
-      if (group._links && group._links.valueLink) {
+      if (group._links?.valueLink) {
         group.href = group._links.valueLink;
       }
       group.identifier = groupIdentifier(group);

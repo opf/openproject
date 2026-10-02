@@ -13,7 +13,7 @@ keywords: resource management, capacity planning, resource planner, staffing, al
 
 The **Resource management** module in OpenProject enables project managers to plan work based on people's availability, skills and capacity. Instead of only planning *what* needs to be done, you can also plan *who* should do the work and *when*.
 
-Within a project, you can create one or more **resource planners** to organise work packages, allocate work to users and monitor team capacity using different planner views.
+Within a project, you can create one or more **resource planners** to organize work packages, allocate work to users and monitor team capacity using different planner views.
 
 ## Resource management module
 
@@ -35,14 +35,14 @@ The navigation sidebar contains:
 - all public resource planners
 - your private resource planners
 
-Favourite resource planners are marked with a star icon.
+Favorite resource planners are marked with a star icon.
 
 The main content area lists all existing resource planners in the project, including their names, number of work packages and members, and start and finish dates. Select a planner name to open it.
 
 Select the **More** menu (...) at the end of a planner row to:
 
 - edit the planner
-- add or remove it from your favourites
+- add or remove it from your favorites
 - make it public or private
 - delete it
 
@@ -51,7 +51,7 @@ Select the **More** menu (...) at the end of a planner row to:
 
 ## Resource planners
 
-A **resource planner** defines how resources are displayed within a project. Each planner can contain one or more **planner views**, allowing you to analyse the same project data from different perspectives.
+A **resource planner** defines how resources are displayed within a project. Each planner can contain one or more **planner views**, allowing you to analyze the same project data from different perspectives.
 
 You can create multiple resource planners for different teams, departments, planning periods or scenarios.
 
@@ -71,7 +71,7 @@ In the form that opens, specify the following details:
 
   Depending on the selected [planner view](#planner-views), you will specify additional settings in the next step.
 - **Public** checkbox
-- **Favourite** checkbox
+- **Favorite** checkbox
 
 Select **Next**.
 
@@ -114,7 +114,7 @@ You can update:
 - date range
 - default view
 - public visibility
-- favourite status
+- favorite status
 
 You can also:
 
@@ -224,7 +224,7 @@ Each row provides work package-specific actions in the **More** menu (...), incl
 - **Add user group**
 - **Add filter criteria**
 
-Use the **Configure view** icon to customise the displayed columns.
+Use the **Configure view** icon to customize the displayed columns.
 
 ![Work packages list displaying allocations in a table](resource-management-work-packages-list.png)
 
@@ -247,7 +247,7 @@ Use the **Configure view** icon to choose which user attributes are displayed on
 
 Use this view to quickly identify users with the required skills and available capacity.
 
-![Users card list displaying user information, utilisation and skills](resource-management-users-card-list.png)
+![Users card list displaying user information, utilization and skills](resource-management-users-card-list.png)
 
 ## Allocate work
 
@@ -289,7 +289,8 @@ Specify:
 
 Select **Allocate**.
 
-The new allocation is immediately displayed in the planner. Allocated hours and utilisation are updated automatically. 
+The new allocation is immediately displayed in the planner. Allocated hours and utilization are updated automatically. 
+
 > [!TIP]
 > If the selected user is over-allocated, a warning message is displayed.
 

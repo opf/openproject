@@ -178,6 +178,21 @@ ko:
         company: 회사
       favorite:
         favorited: 항목
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: 열 수
         page: 페이지
@@ -216,6 +231,21 @@ ko:
         onthefly: 자동 사용자 생성
         port: 포트
         tls_certificate_string: LDAP 서버 SSL 인증서
+      llm_capability_verdict:
+        capability: Capability
+        model_id: Model
+        state: State
+      llm_connection:
+        api_format: API format
+        api_key: API key
+        base_url: Host URL
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        llm_features_enabled: Enable LLMs for this instance
+      llm_model:
+        admin_context_window: Context window
+        display_name: Display name
+        external: Model name
       mcp_configuration:
         description: 설명
         enabled: 활성화됨
@@ -684,6 +714,16 @@ ko:
           general_consent: 이용 약관에 동의해 주세요.
         favorite:
           already_favorited: "- 이미 즐겨찾기에 추가되었습니다."
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: 종료 값은 시작 값보다 커야 합니다.
           outside: "- 그리드의 외부에 있습니다."
@@ -713,6 +753,29 @@ ko:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: '제공된 SSL 인증서가 유효하지 않습니다: %{additional_message}'
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+            api_key:
+              invalid_api_key: was rejected by the LLM server.
+            base:
+              singleton: Only one LLM connection can be active.
+            base_url:
+              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
+              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
+              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
+              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
+              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+            custom_headers:
+              invalid: must map header names to plain text values.
+            llm_features_enabled:
+              requires_connection: cannot be turned on before a connection has been configured.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: 그 사이에 다른 사람이 미팅을 업데이트했기 때문에 저장할 수 없습니다. 페이지를 다시 로드하세요.
         member:
@@ -881,12 +944,6 @@ ko:
               in_use_by_work_packages: 작업 패키지가 계속 사용하는 동안에는 이 유형을 삭제할 수 없습니다.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: 잘못된 작업 패키지 특성이 사용되었습니다.
-              attribute_unknown_name: '잘못된 작업 패키지 특성이 사용되었습니다: %{attribute}'
-              duplicate_group: 그룹 이름 '%{group}'이(가) 두 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다.
-              group_without_name: 그룹 이름은 비워둘 수 없습니다.
-              query_invalid: '포함된 쿼리 ''%{group}''이(가) 잘못되었습니다: %{details}'
             base:
               is_default_variant: 유형의 기본 구성은 삭제할 수 없습니다.
               project_variants_not_allowed: 이 유형은 프로젝트 내에서 변형 생성을 허용하지 않습니다.
@@ -1090,6 +1147,8 @@ ko:
         other: 내보내기
       export_setting:
         other: 내보내기 설정
+      form_configuration:
+        other: Forms
       forum:
         other: 포럼
       global_role:
@@ -1303,6 +1362,23 @@ ko:
     banners:
       environment_configured_readonly: 이러한 값은 환경 변수를 통해 구성되며 여기에서 편집할 수 없습니다.
     custom_styles:
+      branding:
+        desktop:
+          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
+          title: Custom desktop logos
+        mobile:
+          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
+          title: Custom mobile logos
+        modes:
+          dark:
+            description: The app header will be black. We recommend a white logo on transparent background.
+            name: Dark mode logo
+          light:
+            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            name: Light mode logo
+          light_high_contrast:
+            description: The app header will be grey. We recommend a black logo on transparent background.
+            name: High contrast mode logo
       color_groups:
         base_colors: 기본 색상
         main_menu: 기본 사이드 메뉴
@@ -1335,7 +1411,11 @@ ko:
       tab_interface: 인터페이스
       tab_pdf_export_font: PDF 내보내기 글꼴
       tab_pdf_export_styles: PDF 내보내기 스타일
-      theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
+      theme_warning:
+        confirmation: I understand that this action cannot be reversed
+        description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
+        heading: Change color theme?
+        title: Change color theme
     enterprise:
       add_token: Enterprise edition 지원 토큰을 업로드하세요.
       book_now: 지금 예약
@@ -1437,6 +1517,43 @@ ko:
           button_edit_configuration: 구성 편집
           button_import_run: 가져오기 실행
           description: 가져오기를 실행할 때마다 다른 데이터 세트를 가져올 수 있습니다. 검토 모드에서 가져오기 실행은 직후에 실행 취소할 수 있지만 마무리한 후에는 실행 취소할 수 없습니다.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: '이미 사용된 식별자가 있는 프로젝트를 가져오려고 합니다: %{taken_identifier}. Jira에서 프로젝트 식별자를 업데이트한 후에 ''다시 시도''를 클릭하세요.'
         remove_error: 실행되는 동안에는 Jira 가져오기 실행을 제거할 수 없습니다
         side_panel:
@@ -1465,13 +1582,17 @@ ko:
         step_not_available: 현재 상태의 가져오기 실행에서는 이 작업을 사용할 수 없습니다.
         title: 가져오기 실행
         wizard:
+          application_trace: Application trace
           button_abort: 중단
           button_retry: 다시 시도
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: 이 작업을 취소할 수 없음을 이해합니다.
             confirm_button: 이해함
             description: 승인된 후에는 이 가져오기를 더 이상 되돌릴 수 없습니다. 가져온 모든 데이터는 영구적으로 저장됩니다.
             title: 이 가져오기를 승인하시겠습니까?
+          full_trace: Full trace
           groups:
             configuration:
               title: 가져오기 구성
@@ -1487,6 +1608,8 @@ ko:
           parts:
             issues:
               other: "%{count}개 이슈"
+            jobs:
+              other: "%{count} jobs"
             projects:
               other: "%{count}개 프로젝트"
             statuses:
@@ -1570,6 +1693,7 @@ ko:
                 issues: 이슈
                 permissions: 권한
                 project_ids: 프로젝트 식별자
+                project_versions: Project versions
                 projects: 프로젝트
                 relations: 이슈 간의 관계
                 schemes: 스키마
@@ -1577,7 +1701,7 @@ ko:
                 users: 참여 사용자 및 그룹
                 workflows: 프로젝트 수준 워크플로
               label_coming_later: 추후 제공 예정
-              label_coming_soon: 곧 제공 예정(2026년 3분기)
+              label_coming_soon: Coming soon
               label_import: 가져올 프로젝트를 선택합니다.
               label_info: 이 가져오기 도구는 베타 버전이며 일부 유형의 데이터를 가져올 수 없다는 점에 유의하세요. 호스트 Jira 인스턴스에서 가져오기용으로 제공하는 항목과 이 도구에서 현재 가져올 수 있는 항목에 대한 요약은 다음과 같습니다.
               label_progress: 데이터를 가져오는 중
@@ -1591,6 +1715,38 @@ ko:
             filter_projects: 텍스트로 필터링
             info: Jira 토큰 소유자가 멤버인 프로젝트만 가져오기 범위로 선택할 수 있습니다.
             title: 가져올 프로젝트 선택
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API가 오류 상태 %{status}을(를) 반환했습니다. Jira 인스턴스 URL 및 API 토큰을 확인하세요.
         connection_error: '연결 오류: %{message}'
@@ -1637,6 +1793,97 @@ ko:
         no_matches:
           description: 다른 검색어를 사용해 보세요.
           title: 검색 조건과 일치하는 레이블 없음
+    llm_connections:
+      delete_api_key:
+        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
+        heading: Remove the stored API key?
+        menu_label: Remove API key
+        success: The API key has been removed.
+        title: Remove API key
+      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
+      disconnect:
+        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
+        heading: Disconnect from the LLM server?
+        keeps_models: The model list, including any models you added manually, is kept.
+        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
+        menu_label: Disconnect
+        success: OpenProject has disconnected from the LLM server.
+        title: Disconnect
+      form:
+        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
+        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
+        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
+        api_key_placeholder_stored: API key stored
+        api_key_remove: Remove key
+        base_url_caption: The base URL of the server, for example https://example.com/v1.
+        button_connect: Connect
+        label_connecting: Contacting the LLM server…
+        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
+        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
+        server_group: Server
+      show:
+        description: Connect OpenProject to an LLM server so that AI features can use it.
+        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+      tabs:
+        connection: Connection
+        models: Models
+      update:
+        disabled: Saved. LLM features are switched off for this instance.
+        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
+        success: Successfully connected to the LLM server.
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: The model will no longer be offered to AI features.
+        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        heading: Remove %{model}?
+        success: "%{model} has been removed."
+        title: Remove model
+      edit:
+        description: Edit how OpenProject uses this model.
+      form:
+        context_window: Context window
+        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
+        context_window_known: Leave blank to use %{value}, %{source}.
+        display_name_caption: An optional friendly name shown instead of the model id.
+        external_id_caption: The model name exactly as the server expects it.
+        model_type: Model type
+        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
+        model_type_chat: Chat model
+        model_type_embedding: Embedding model
+        model_type_unspecified: Not specified
+        state_inherited: Inherit from server (%{state})
+        state_supported: Supported
+        state_unsupported: Not supported
+      index:
+        add_model: Model
+        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
+        blank_title: No models available
+        context_window: Context window
+        description: Reported by the server on %{fetched_at}.
+        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
+        filter_label: Filter models
+        identifier: Model
+        kind: Type
+        refresh: Refresh models
+        source: Source
+        source_discovered: Server
+        source_discovered_description: Reported by the server
+        source_manual: Manual
+        source_manual_description: Added manually by an administrator
+        source_withdrawn: Withdrawn
+        source_withdrawn_description: No longer reported by the server
+        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+      new:
+        description: Name a model this server can use but does not advertise, and describe what it can do.
+        title: Add a model
+      refresh:
+        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
+        success: The model list has been refreshed.
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: 모델 컨텍스트 프로토콜을 통해 AI 에이전트는 이 OpenProject 인스턴스에 의해 노출된 도구와 리소스를 사용자에게 제공할 수 있습니다. 이 기능은 아직 베타 버전입니다.
@@ -1919,10 +2166,6 @@ ko:
           author: 작업 패키지의 작성자가 사용할 수 있는 추가 전환입니다.
         menu_label: 표시된 전환
       workflow_button: Workflow
-      workflow_selector:
-        prefix: Workflow
-        same_as_type: "(same as type)"
-        title: Select workflow
   ai:
     text_transform:
       errors:
@@ -1931,6 +2174,7 @@ ko:
         timeout: AI 서비스가 제때 응답하지 않았습니다.
         upstream_error: AI 서비스가 오류를 반환했습니다.
   announcements:
+    content: Content
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
     show_until: 표시 기한
@@ -2890,6 +3134,7 @@ ko:
   error_no_default_work_package_status: 기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요("관리 -> 작업 패키지 상태"로 이동).
   error_no_type_in_project: 이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요.
   error_omniauth_invalid_auth: ID 공급자로부터 반환된 인증 정보가 잘못되었습니다. 관리자에게 문의하여 추가적인 도움을 받으세요.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요.
   error_password_change_failed: 암호를 변경하려는 중에 오류가 발생했습니다.
   error_pdf_date_range_too_long: 선택한 작업 패키지 날짜 범위는 허용되는 PDF 내보내기 제한을 초과합니다. 범위를 최대 %{years}년으로 좁혀주세요.
@@ -3055,6 +3300,103 @@ ko:
       selected: 선택됨
     include_sub_items: 하위 항목 포함
     no_results_text: 결과 없음
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        other: "%{count} types"
+      variants_count:
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+        panel_label: Form to copy
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit form
+        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+
+          '
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        other: This form is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -3190,6 +3532,7 @@ ko:
       budget_deleted: 예산이 삭제되었습니다
       import:
         changed_with_diff: "%{field} 변경됨(%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} 삭제됨(%{link})"
         field_changed: "%{field}이(가) %{old_value}에서 %{new_value}(으)로 변경됨"
         field_removed: "%{field} 제거됨"
@@ -3418,8 +3761,6 @@ ko:
   label_custom_field_default_type: 빈 유형
   label_custom_field_new: 새 사용자 지정 필드
   label_custom_field_plural: 사용자 정의 필드
-  label_custom_logo: 사용자 지정 로고 데스크톱
-  label_custom_logo_mobile: 사용자 지정 로고 모바일
   label_custom_pdf_export_settings: 사용자 지정 PDF 내보내기 설정
   label_custom_style: 디자인
   label_custom_style_description: 테마를 사용하여 OpenProject의 모양을 선택하고, 앱에서 사용할 기본 색상 및 내보내기의 모양을 선택하세요.
@@ -3513,6 +3854,7 @@ ko:
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
+  label_form_configuration_plural: Forms
   label_formula: 공식
   label_forum_new: 새 포럼
   label_forum_plural: 포럼
@@ -4112,6 +4454,42 @@ ko:
     update:
       failure: '수정된 목록을 저장할 수 없습니다: %{errors}'
       success: 수정된 목록이 저장되었습니다
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Tool calling
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Structured output
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: the figure published for this model
+      server: reported by the server
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: supported
+      unknown: not verified
+      unsupported: not supported
   macro_execution_error: 매크로 %{macro_name} 실행 중에 오류 발생
   macro_unavailable: 매크로 %{macro_name}은(는) 표시할 수 없습니다.
   macro_unknown: 알 수 없거나 지원되지 않는 매크로.
@@ -4348,6 +4726,7 @@ ko:
       aggregation: 집계
       ai: 인공 지능(AI)
       api_and_webhooks: API 및 webhook
+      llm_connection: LLM settings
       mail_notification: 이메일 알림
       mails_and_notifications: 이메일 및 알림
       mcp_configurations: 모델 컨텍스트 프로토콜(MCP)
@@ -4941,6 +5320,7 @@ ko:
   permission_export_projects: 프로젝트 내보내기
   permission_export_work_packages: 작업 패키지 내보내기
   permission_header_for_project_module_work_package_tracking: 작업 패키지 및 Gantt 차트
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: 이메일로 멤버 초대
   permission_invite_members_by_email_explanation: '사용자가 이메일로 새로운 멤버를 초대할 수 있습니다. 초대된 사용자는 암호를 설정하고 계정을 활성화하는 링크가 포함된 이메일을 받게 됩니다. 멤버를 관리하는 권한에 따라 다릅니다
 
@@ -5728,6 +6108,7 @@ ko:
   setting_start_of_week: '주의 시작:'
   setting_sys_api_description: 리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다.
   setting_sys_api_enabled: 리포지토리 관리 웹 서비스 사용
+  setting_sys_api_key: API key
   setting_time_format: 시간
   setting_total_percent_complete_mode: 완료 % 계층 합계 계산
   setting_total_percent_complete_mode_simple_average: 단순 평균
@@ -6139,12 +6520,6 @@ ko:
 
     '
   text_custom_field_possible_values_info: 각 값당 한 줄
-  text_custom_logo_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×47px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
-  text_custom_logo_mobile_instructions: '로고는 헤더에 맞게 자동으로 크기가 조정됩니다. 최상의 결과를 위해 투명한 130×33px 이미지에 흰색 로고를 업로드하세요. 이미지 내부에 원하는 만큼 간격을 추가할 수 있습니다.
-
-    '
   text_custom_touch_icon_instructions: '홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 정사각형 180x180 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
     '
@@ -6450,6 +6825,8 @@ ko:
         blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
         blankslate_title: 아직 그룹 없음
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         confirm_reset: 양식을 재설정하시겠습니까?
         custom_field: 사용자 지정 필드
         delete_group: 섹션 삭제
@@ -6480,7 +6857,6 @@ ko:
           globally_hint: 사용자 지정 필드에서 이 항목을 변경하세요
           mark: 이 유형에서 필요
           not_a_custom_field: 단일 유형에 대해서는 사용자 지정 필드만 필수로 지정할 수 있습니다.
-          not_available_when_linked: 이 구성은 상속됩니다. 필요한 사항을 변경하려면 수동으로 구성하세요.
           unmark: 이 유형에서 필요하지 않음
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
@@ -7123,6 +7499,136 @@ ko:
         other: 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다.
       undeletable_descendants_warning_html:
         other: "%{projects}에서 필요한 권한이 없으므로 %{count}개 하위 항목을 삭제할 수 없습니다. 이러한 하위 항목은 유지되지만, 계층적 관계는 모두 제거됩니다."
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          other: "%{count} lines"
+        x_problems:
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: '작업 패키지 또는 해당 하위 항목의 유형이 대상 프로젝트에서 활성화되어 있지 않습니다. 유형을 변경하지 않으려면 대상 프로젝트에서 누락된 유형을 활성화하세요. 그렇지 않으면 목록에서 대상 프로젝트의 사용 가능한 유형을 선택하세요.
 
@@ -7157,11 +7663,17 @@ ko:
       other: "%{count}개 작업 패키지 하위 항목"
   workflows:
     change:
-      title: Change workflow
-      workflow:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
         caption: The type uses the status transitions of the workflow you pick here.
         label: Workflow
         placeholder: Select a workflow…
+      title: Change workflow
     copies:
       form:
         target_role_ids:
@@ -7231,6 +7743,10 @@ ko:
     page_headers:
       index_component:
         description: 각 작업 패키지 유형에 대한 상태 전환을 구성합니다.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
     start:
       copy:
         caption: Start with an existing workflow, change it as you wish and save it as a new workflow.

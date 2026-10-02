@@ -26,8 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment */
-
 import ExpandableTextController from './expandable-text.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 

@@ -62,10 +62,9 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest<HTMLTableRowElement>(this.rowSelector);
-    const wpId = element?.dataset.workPackageId;
 
-    if (wpId) {
-      this.openContextMenu(view.workPackageTable, evt, wpId);
+    if (element?.dataset.workPackageId) {
+      this.openContextMenu(view.workPackageTable, evt, element);
     }
 
     return false;

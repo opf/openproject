@@ -44,10 +44,8 @@ describe('keepTab service', () => {
     TestBed.configureTestingModule({
       providers: [
         KeepTabService,
-        /* eslint-disable @typescript-eslint/no-unsafe-assignment */
         { provide: PathHelperService, useValue: pathHelper },
         { provide: CurrentProjectService, useValue: currentProject },
-        /* eslint-enable @typescript-eslint/no-unsafe-assignment */
       ],
     });
 

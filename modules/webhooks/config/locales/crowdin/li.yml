@@ -8,9 +8,9 @@ li:
         response_code: Response code
         url: Payload URL
       webhooks/webhook:
-        enabled: Enabled
-        events: Events
-        projects: Enabled projects
+        enabled: Ingeschakeldj
+        events: Gebeurtenisse
+        projects: Ingeschakelde projekte
         secret: Signature secret
         url: Payload URL
     models:
@@ -21,7 +21,7 @@ li:
         one: Webhook
         other: Webhooks
   plugin_openproject_webhooks:
-    description: Provides a plug-in API to support OpenProject webhooks for better 3rd party integration.
+    description: Gaef een plugin API um OpenProject webhooks baeter te ondersteune veur 3rd party integratie.
     name: OpenProject Webhooks
   webhooks:
     outgoing:
@@ -30,10 +30,10 @@ li:
         time: Delivery time
         title: Recent deliveries
       events:
-        comment: Comment
-        created: Created
-        internal_comment: Internal comment
-        updated: Updated
+        comment: Commentaar
+        created: Aangemak
+        internal_comment: Intern commentaar
+        updated: Beejgewerk
       explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
@@ -51,22 +51,22 @@ li:
 
           '
         project_ids:
-          all: All projects
+          all: Alle projekte
           description: Select for which projects this webhook should be executed for.
           selected: Selected projects only
-          title: Enabled projects
+          title: Ingeschakelde projekte
         secret:
           description: 'If set, this secret value is used by OpenProject to sign the webhook payload.
 
             '
         selected_project_ids:
-          title: Selected projects
+          title: Geselecteerde projekte
       label_add_new: Add new webhook
       label_edit: Edit webhook
       label_x_events:
-        one: 1 event
+        one: 1 gebeurtenis
         other: "%{count} events"
-        zero: No events
+        zero: Gen gebeurtenisse
       no_results_table: No webhooks have been defined yet.
       status:
         disabled: Webhook is disabled

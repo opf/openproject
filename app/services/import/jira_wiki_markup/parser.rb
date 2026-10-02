@@ -41,6 +41,8 @@ module Import
         :) :( :P :D ;)
       ].freeze
 
+      INLINE_QUOTE_PATTERN = /\{quote\}(.*?)\{quote\}/
+
       EMOTICON_REGEX = Regexp.new(
         EMOTICON_KEYS.sort_by { |k| -k.length }.map { |k| Regexp.escape(k) }.join("|")
       )
@@ -76,7 +78,7 @@ module Import
           line = lines[index]
           node, index = parse_block_line(line, lines, index)
 
-          blocks << node if node
+          blocks.concat(Array.wrap(node)) if node
         end
 
         blocks
@@ -88,7 +90,7 @@ module Import
           return send(handler, lines, index, match) if match
         end
 
-        [N::Paragraph.new(children: parse_inline(line)), index + 1]
+        split_quote_line(line, index) || [N::Paragraph.new(children: parse_inline(line)), index + 1]
       end
 
       def block_patterns
@@ -152,20 +154,16 @@ module Import
       end
 
       def handle_inline_quote_start(lines, index, match)
-        content = match[1]
-        # Check if this is an inline quote (content on same line) that spans to next line
-        if index + 1 < lines.length && lines[index + 1].match?(/\A\{quote\}\s*\z/)
-          # Single line inline quote: {quote}content\n{quote}
-          [N::BlockQuote.new(children: parse_inline(content)), index + 2]
+        remaining = match[1]
+        if remaining.include?("{quote}")
+          split_quote_line(lines[index], index)
         else
-          # Not a recognized pattern, treat as paragraph
-          [N::Paragraph.new(children: parse_inline(lines[index])), index + 1]
+          consume_quote_block(lines, index, first_line_content: remaining)
         end
       end
 
       def handle_quote_block(lines, index, _match)
-        node, new_index = consume_quote_block(lines, index)
-        [node, new_index]
+        consume_quote_block(lines, index)
       end
 
       def handle_inline_panel_block(lines, index, match)
@@ -190,7 +188,7 @@ module Import
 
       def render_panel_content(content, params, index)
         title = params["title"]
-        output = if title
+        output = if title.present?
                    "**#{title}**\n#{content}"
                  else
                    content
@@ -276,19 +274,33 @@ module Import
         [N::NoformatBlock.new(params:, content:), new_index]
       end
 
-      def consume_quote_block(lines, start)
-        i = start + 1
-        inner_lines = []
+      def consume_quote_block(lines, start, first_line_content: nil)
+        content, new_index = consume_delimited_block(lines, start, "quote", first_line_content:)
+        parsed_lines = content.empty? ? [] : content.split("\n", -1).map { |quote_line| parse_inline(quote_line) }
+        [N::MultiLineBlockQuote.new(lines: parsed_lines), new_index]
+      end
 
-        while i < lines.length
-          break if lines[i].match?(/\A\{quote\}\s*\z/)
+      # Jira treats {quote} as a block macro even mid-line: it ends the current
+      # paragraph, quotes its content, and resumes a new paragraph afterwards.
+      def split_quote_line(line, index)
+        return unless line.match?(INLINE_QUOTE_PATTERN)
 
-          inner_lines << lines[i]
-          i += 1
+        nodes = []
+        rest = line
+
+        while (match = rest.match(INLINE_QUOTE_PATTERN))
+          append_paragraph(nodes, match.pre_match)
+          nodes << N::MultiLineBlockQuote.new(lines: [parse_inline(match[1])])
+          rest = match.post_match
         end
+        append_paragraph(nodes, rest)
 
-        parsed_lines = inner_lines.map { |l| parse_inline(l) }
-        [N::MultiLineBlockQuote.new(lines: parsed_lines), i + 1]
+        [nodes, index + 1]
+      end
+
+      def append_paragraph(nodes, text)
+        stripped = text.strip
+        nodes << N::Paragraph.new(children: parse_inline(stripped)) if stripped.present?
       end
 
       def consume_panel_block(lines, start, params)
@@ -312,6 +324,8 @@ module Import
           flat_items << item
           i += 1
         end
+
+        return [N::Paragraph.new(children: parse_inline(lines[start])), start + 1] if flat_items.empty?
 
         [build_list_tree(flat_items, 0, 0, flat_items.length), i]
       end
@@ -566,7 +580,7 @@ module Import
         return [nil, {}] if raw.nil?
 
         parts = raw.split("|")
-        first = parts.shift.strip
+        first = parts.shift.to_s.strip
 
         if first.include?("=")
           params = parse_macro_params(raw)

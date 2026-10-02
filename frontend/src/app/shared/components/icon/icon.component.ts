@@ -49,7 +49,9 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class OpIconComponent {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('icon-classes') iconClasses:string;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('icon-title') iconTitle = '';
 }

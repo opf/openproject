@@ -177,7 +177,7 @@ export class DragAndDropTransformer {
 
         const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
 
-        const el = locateTableRow(wpId);
+        const el = locateTableRow(wpId, this.table.tableAndTimelineContainer);
         await this.withRowAtTarget(el, targetId, edge, async () => {
           if (el) {
             await this.actionService.handleDrop(workPackage, el);
@@ -219,7 +219,7 @@ export class DragAndDropTransformer {
     }
 
     const { parentNode, nextSibling } = el;
-    const targetRow = targetId ? locateTableRow(targetId) : null;
+    const targetRow = targetId ? locateTableRow(targetId, this.table.tableAndTimelineContainer) : null;
 
     if (targetRow) {
       this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
@@ -245,7 +245,7 @@ export class DragAndDropTransformer {
    */
   private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
     const siblingId = this.siblingIdFor(intent);
-    const siblingRow = siblingId ? locateTableRow(siblingId) : null;
+    const siblingRow = siblingId ? locateTableRow(siblingId, this.table.tableAndTimelineContainer) : null;
 
     if (!isInsideCollapsedGroup(siblingRow)) {
       return { targetId: intent.targetId, edge: intent.edge };

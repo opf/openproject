@@ -1,12 +1,12 @@
 ---
 li:
   label_calendar: Calendar
-  label_calendar_plural: Calendars
-  label_new_calendar: New calendar
-  permission_manage_calendars: Manage calendars
-  permission_share_calendars: Subscribe to iCalendars
-  permission_view_calendar: View calendars
+  label_calendar_plural: Kalenders
+  label_new_calendar: Nieje kalender
+  permission_manage_calendars: Kalenders behiere
+  permission_share_calendars: Abonnaere op iCalendars
+  permission_view_calendar: Bekiek kalenders
   plugin_openproject_calendar:
-    description: Provides calendar views.
-    name: OpenProject Calendar
-  project_module_calendar_view: Calendars
+    description: Gaef kalender weergaves.
+    name: OpenProject Kalender
+  project_module_calendar_view: Kalenders

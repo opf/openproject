@@ -94,7 +94,7 @@ export class WorkPackageSchemaProxy extends SchemaProxy {
   }
 
   public get isMilestone():boolean {
-    return this.schema.hasOwnProperty('date');
+    return Object.hasOwn(this.schema, 'date');
   }
 
   public mappedName(property:string):string {

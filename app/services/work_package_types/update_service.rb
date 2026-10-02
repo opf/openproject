@@ -44,10 +44,6 @@ module WorkPackageTypes
         return result if result.failure?
       end
 
-      # Only a configuration has a form to keep in sync, and only the form says which custom
-      # fields are active. Renaming a variant or saving its defaults says nothing about either.
-      set_active_custom_fields if form_configuration_changed && model.is_a?(TypeVariant)
-
       super
     end
 
@@ -99,20 +95,6 @@ module WorkPackageTypes
       model.errors.add(:attribute_groups, I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
 
       ServiceResult.failure(result: model, errors: model.errors)
-    end
-
-    ##
-    # Syncs attribute group settings for custom fields with enabled custom fields
-    # for this type. If a custom field is not in a group, it is removed from the
-    # custom_field_ids list.
-    def set_active_custom_fields
-      model.custom_field_ids = model.attribute_groups
-                                  .flat_map(&:members)
-                                  .filter_map do |attr|
-                                    if CustomField.custom_field_attribute?(attr)
-                                      attr.delete_prefix("custom_field_").to_i
-                                    end
-                                  end.uniq
     end
   end
 end

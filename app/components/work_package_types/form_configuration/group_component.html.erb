@@ -36,13 +36,12 @@ See COPYRIGHT and LICENSE files for more details.
         render(
           WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
             group: @group,
-            variant: @variant,
+            context: @context,
             ee_available: ee_available?,
             first: first?,
             last: last?,
             edit_mode: edit_mode?,
-            form_model: @form_model,
-            readonly: readonly?
+            form_model: @form_model
           )
         )
       end
@@ -54,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
               group: @group,
               ee_available: ee_available?,
               readonly: readonly?,
-              exclusions: @exclusions
+              exclusions:
             )
           )
         end
@@ -87,11 +86,9 @@ See COPYRIGHT and LICENSE files for more details.
             render(
               WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
                 attribute:,
-                variant: @variant,
+                context: @context,
                 index:,
-                total_count: attributes.length,
-                readonly: readonly?,
-                exclusions: @exclusions
+                total_count: attributes.length
               )
             )
           end

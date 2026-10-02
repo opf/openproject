@@ -97,14 +97,14 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to add one" do
       expect(page).to have_link(
         "Add a project-specific variant",
-        href: new_creation_wizard_types_path(in_project_id: project, type_id: bug.id)
+        href: new_creation_wizard_project_type_variants_path(project, bug)
       )
     end
 
     it "links the name of the variant it owns" do
       expect(page).to have_link(
         "Internal review",
-        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: project_type_variant_settings_path(project, bug, ours)
       )
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to configure the one it owns" do
       expect(page).to have_link(
         "Edit",
-        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: ours.id)
+        href: project_type_variant_settings_path(project, bug, ours)
       )
     end
 
@@ -138,7 +138,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
 
     it "offers to delete the one it owns" do
       expect(page).to have_css(
-        "form[action='#{type_variant_path(in_project_id: project, type_id: bug.id, id: ours.id)}']",
+        "form[action='#{project_type_variant_path(project, bug, ours)}']",
         visible: :all
       )
     end
@@ -164,7 +164,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers to add a project-specific variant from the type's menu as well as the last row" do
       expect(header_of(bug.default_variant)).to have_link(
         "Add a project-specific variant",
-        href: new_creation_wizard_types_path(in_project_id: project, type_id: bug.id)
+        href: new_creation_wizard_project_type_variants_path(project, bug)
       )
       expect(group(bug.default_variant)).to have_link("Add a project-specific variant", count: 2)
     end
@@ -172,7 +172,7 @@ RSpec.describe Projects::Settings::WorkPackages::Types::ListComponent,
     it "offers no action on a global variant" do
       expect(page).to have_no_link(
         "Edit",
-        href: type_settings_path(in_project_id: project, type_id: bug.id, variant_id: global.id)
+        href: project_type_variant_settings_path(project, bug, global)
       )
     end
   end

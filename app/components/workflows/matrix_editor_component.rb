@@ -32,6 +32,7 @@ module Workflows
   class MatrixEditorComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include WorkPackageTypes::VariantRoutes
 
     # The dirty-state controller's root. Other controllers reach it as a Stimulus outlet.
     STATE_ID = "workflow_matrix"
@@ -62,7 +63,7 @@ module Workflows
     def administration_tab? = variant_tab? && variant.project_id.nil?
 
     def create_workflow_dialog_path
-      url_helpers.configure_dialog_type_workflow_path(**variant.path_args)
+      configure_dialog_variant_workflow_path(variant)
     end
 
     def state_data

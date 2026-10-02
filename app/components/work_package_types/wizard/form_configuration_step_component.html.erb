@@ -28,7 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: model, aspect: TypeVariant::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::NamedReferences::ChoiceComponent.new(variant: model, model_class: ::FormConfiguration, back_url: @back_url)) %>
   <%= render(WorkPackageTypes::Wizard::StepDescriptionComponent.new(step: :form_configuration)) %>
-  <%= render(WorkPackageTypes::FormConfigurationComponent.new(variant: model, form_attributes: helpers.form_configuration_groups(model), no_filter_query:)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context:)) %>
+  <%= render(WorkPackageTypes::FormConfigurationComponent.new(context:, form_attributes: helpers.form_configuration_groups(context), no_filter_query:)) %>
 <% end %>
