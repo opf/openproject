@@ -96,6 +96,17 @@ RSpec.describe "Backlog filter panel", :js do
         expect(page).to have_no_button(completed_sprint.name)
       end
     end
+
+    it "treats numeric and duplicate ids in the URL as the same applied filter" do
+      visit project_backlogs_backlog_path(project, sprint_ids: [sprint_a.id, sprint_a.id.to_s].to_json)
+      backlogs_page.expect_sprint(sprint_a)
+      backlogs_page.expect_no_sprint(sprint_b)
+
+      backlogs_page.within_filter_panel(:sprint) do
+        expect(page).to have_element(role: "option", "aria-selected": "true", text: sprint_a.name)
+        expect(page).to have_button(I18n.t(:button_apply), disabled: true)
+      end
+    end
   end
 
   describe "bucket filter including inbox" do
@@ -126,6 +137,42 @@ RSpec.describe "Backlog filter panel", :js do
       backlogs_page.expect_inbox_items(items: inbox_wp)
       backlogs_page.expect_backlog_bucket(bucket_a)
       backlogs_page.expect_no_backlog_bucket(bucket_b)
+    end
+  end
+
+  describe "apply and clear buttons" do
+    def expect_buttons(apply:, clear:)
+      expect(page).to have_button(I18n.t(:button_apply), disabled: !apply)
+      expect(page).to have_button(I18n.t(:button_clear), disabled: !clear)
+    end
+
+    it "reflects the active button states and resets it when the panel is closed" do
+      backlogs_page.apply_sprint_filter(sprint_b)
+
+      # Checking different values will adjust the apply/clear button disabled states
+      backlogs_page.within_filter_panel(:sprint) do
+        expect_buttons(apply: false, clear: true)
+
+        click_on sprint_a.name, role: "option"
+        expect_buttons(apply: true, clear: true)
+
+        click_on sprint_a.name, role: "option"
+        expect_buttons(apply: false, clear: true)
+
+        click_on sprint_b.name, role: "option"
+        expect_buttons(apply: true, clear: false)
+
+        find("[role='option']", text: sprint_b.name).send_keys(:escape)
+      end
+
+      expect(page).to have_no_element(:dialog, open: true)
+
+      # Reopening the filters panel resets the item selection and the apply/clear button disabled states
+      backlogs_page.within_filter_panel(:sprint) do
+        expect(page).to have_element(role: "option", "aria-selected": "true", text: sprint_b.name)
+        expect(page).to have_no_element(role: "option", "aria-selected": "true", text: sprint_a.name)
+        expect_buttons(apply: false, clear: true)
+      end
     end
   end
 
