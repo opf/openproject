@@ -122,7 +122,7 @@ export class WorkPackagesListService {
       .find(queryData, queryParams.query_id, projectIdentifier);
 
     return stream.pipe(
-      catchError((error) => {
+      catchError((error:ErrorResource) => {
         // Load a default query
         const queryProps = this.UrlParamsHelper.buildV3GetQueryFromJsonParams(decodedProps);
         return from(this.handleQueryLoadingError(error, queryProps, queryParams.query_id, projectIdentifier));
@@ -336,7 +336,7 @@ export class WorkPackagesListService {
     return this.save(query);
   }
 
-  public toggleStarred(query:QueryResource):Promise<any> {
+  public toggleStarred(query:QueryResource):Promise<unknown> {
     const promise = this
       .apiV3Service
       .queries

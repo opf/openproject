@@ -229,8 +229,9 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
+    const tab = this.i18n.t(`js.work_packages.tabs.${tabName}`);
     this.focusAnchorLabel = this.i18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.i18n.t(`js.work_packages.tabs.${tabName}`),
+      tab,
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });

@@ -175,7 +175,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return this.updateRelation(relation, params);
   }
 
-  public updateRelation(relation:RelationResource, params:Record<string, any>) {
+  public updateRelation(relation:RelationResource, params:Record<string, unknown>) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResource) => {
         this.insertIntoStates(savedRelation);

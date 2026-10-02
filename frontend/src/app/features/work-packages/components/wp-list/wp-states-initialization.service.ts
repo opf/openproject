@@ -114,7 +114,7 @@ export class WorkPackageStatesInitializationService {
    * @param form
    */
   public updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
-    const schema:QuerySchemaResource = form.schema as any;
+    const schema = form.schema as QuerySchemaResource;
 
     schema.filtersSchemas.elements.forEach((schema) => {
       this.states.schemas.get(schema.href!).putValue(schema);

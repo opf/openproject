@@ -31,6 +31,7 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
@@ -66,7 +67,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayWatchButton = false;
 
-  public watchers:any;
+  public watchers:HalResource[];
 
   public text = {
     fullView: {
@@ -116,7 +117,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
     // watchers
     if (wp.watchers) {
-      this.watchers = (wp.watchers as any).elements;
+      this.watchers = wp.watchers.elements;
     }
   }
 }

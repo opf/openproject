@@ -206,7 +206,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
         this.userInputs.showRelationTypesForm = false;
         this.cdRef.detectChanges();
       })
-      .catch((error:any) => this.notificationService.handleRawError(error, this.workPackage));
+      .catch((error:unknown) => this.notificationService.handleRawError(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {
@@ -232,7 +232,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
 
         this.notificationService.showSave(this.relatedWorkPackage);
       })
-      .catch((err:any) => this.notificationService.handleRawError(err,
+      .catch((err:unknown) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
   }
 

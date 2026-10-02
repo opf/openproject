@@ -29,6 +29,7 @@
 import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
@@ -54,10 +55,10 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
    * whose order depends on the 'commentsSortedInDescendingOrder' property.
    */
   protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    const aggregated:any[] = []; const
-      promises:Promise<any>[] = [];
+    const aggregated:HalResource[][] = []; const
+      promises:Promise<void>[] = [];
 
-    const add = function (data:any) {
+    const add = function (data:CollectionResource) {
       aggregated.push(data.elements);
     };
 
@@ -69,7 +70,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
     return Promise.all(promises).then(() => this.sortedActivityList(aggregated));
   }
 
-  protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
+  protected sortedActivityList(activities:HalResource[][], attr = 'createdAt'):HalResource[] {
     const sorted = sortBy(activities.flat(), attr);
 
     if (this.isReversed) {

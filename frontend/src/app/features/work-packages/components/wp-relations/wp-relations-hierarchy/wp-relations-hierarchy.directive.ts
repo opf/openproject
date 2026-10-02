@@ -70,7 +70,7 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
 
   public canAddRelation:boolean;
 
-  public childrenQueryProps:any;
+  public childrenQueryProps:{ filters:string, 'columns[]':string[], showHierarchies:boolean };
 
   public text = {
     parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),
