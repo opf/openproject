@@ -174,8 +174,10 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.root = root;
   }
 
-  disconnectRoot():void {
-    this.root = undefined;
+  disconnectRoot(root?:SortableListsRoot):void {
+    if (root === undefined || this.root === root) {
+      this.root = undefined;
+    }
   }
 
   // Re-establish the Pragmatic DnD registration from controller state. Called

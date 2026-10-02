@@ -87,8 +87,10 @@ export default class ScrollableController extends Controller<HTMLElement> implem
     this.root = root;
   }
 
-  disconnectRoot():void {
-    this.root = undefined;
+  disconnectRoot(root?:SortableListsRoot):void {
+    if (root === undefined || this.root === root) {
+      this.root = undefined;
+    }
   }
 
   private get allowedAxis():AutoScrollAllowedAxis {

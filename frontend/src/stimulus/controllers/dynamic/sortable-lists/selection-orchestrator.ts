@@ -28,6 +28,7 @@
 
 import { BatchSelection, type SelectionAnchor, type SelectionKey } from 'core-common/batch-selection';
 import { announce } from '@primer/live-region-element';
+import { type ListTopology } from './drag-and-drop';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
@@ -49,16 +50,12 @@ import { isSelectAllShortcut } from 'core-common/selection-shortcuts';
 /**
  * What the orchestrator needs from whatever hosts it.
  */
-export interface SelectionHost {
-  readonly rootElement:HTMLElement;
+export interface SelectionHost extends ListTopology {
   readonly busy:boolean;
   readonly announcementScope:string;
   readonly descriptionId:string;
   // The consumer decides which element inside a row holds the tab stop.
   focusItem(itemElement:HTMLElement):void;
-  // Must be the container moves use, so ranges and moves agree on what a
-  // list's rows are.
-  ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
 }
 
 export type ActionScope =
@@ -109,7 +106,7 @@ export class SelectionOrchestrator {
   }
 
   private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
-    const candidate = resolveCandidate(this.host.rootElement, itemElement);
+    const candidate = resolveCandidate(this.host, itemElement);
     if (!candidate?.orderable) {
       return { kind: 'refused', items: [] };
     }
@@ -212,7 +209,7 @@ export class SelectionOrchestrator {
   // Backlogs cards carry tabindex — and at the item otherwise, which keeps
   // it bounded to the row for a host nested deeper than the item.
   private candidateForGesture(target:EventTarget|null):SelectionCandidate|null {
-    const candidate = resolveCandidate(this.host.rootElement, target);
+    const candidate = resolveCandidate(this.host, target);
     if (!candidate) {
       return null;
     }
@@ -317,7 +314,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    const candidate = resolveCandidate(this.host.rootElement, target);
+    const candidate = resolveCandidate(this.host, target);
     if (!candidate) {
       return;
     }
@@ -412,7 +409,7 @@ export class SelectionOrchestrator {
       this.host.rootElement,
       anchor,
       candidate,
-      this.host.ownerRowsContainer(candidate.itemElement),
+      this.host.ownerList(candidate.itemElement)?.rowsContainer ?? null,
     );
 
     if (range.ok) {
@@ -500,7 +497,7 @@ export class SelectionOrchestrator {
     // Matched on type as well as id: ids collide across source tables.
     const element = orderedItemElements(this.host.rootElement)
       .find((item) => resolveItemId(item) === anchor.id && resolveItemType(item) === anchor.type);
-    const candidate = element ? resolveCandidate(this.host.rootElement, element) : null;
+    const candidate = element ? resolveCandidate(this.host, element) : null;
 
     if (candidate) {
       this.selection.rebindAnchor(candidate.listKey);

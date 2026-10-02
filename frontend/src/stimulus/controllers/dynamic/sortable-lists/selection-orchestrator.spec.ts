@@ -30,10 +30,37 @@ import { usePlatform } from 'core-common/testing/platform';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import type { SelectionHost } from './selection-orchestrator';
+import { type ListTopology, sortableListData } from './drag-and-drop';
 import { selectionTranslations } from './testing/selection-translations';
 
 // No Stimulus application, no outlets, no controller lifecycle: the host
 // port lets selection be driven over a plain DOM.
+// Mirrors the root: the nearest list element that belongs to this root,
+// with the Box list's <ul> as its rows container when it has one.
+function topologyFor(root:HTMLElement):ListTopology {
+  const rootSelector = '[data-controller~="sortable-lists"]';
+  return {
+    rootElement: root,
+    owns: (element) => element.closest(rootSelector) === root,
+    ownerList: (element) => {
+      const list = element.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
+      if (list?.closest(rootSelector) !== root) {
+        return null;
+      }
+      const identity = {
+        type: list.getAttribute('data-sortable-lists--list-type-value') ?? '',
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      };
+      return {
+        element: list,
+        identity,
+        listData: sortableListData({ type: identity.type, listId: identity.id }),
+        rowsContainer: list.querySelector<HTMLElement>(':scope > ul') ?? list,
+      };
+    },
+  };
+}
+
 describe('SelectionOrchestrator', () => {
   // Imported dynamically, after the mock above registers: spec files share
   // one module registry (the runner does not isolate them), so a static
@@ -57,15 +84,11 @@ describe('SelectionOrchestrator', () => {
 
   function hostFor(element:HTMLElement):SelectionHost {
     return {
-      rootElement: element,
+      ...topologyFor(element),
       get busy() { return busy; },
       announcementScope: 'js.sortable_lists.selection',
       descriptionId: 'selection-description',
       focusItem: (item) => { focused = item; },
-      ownerRowsContainer: (item) => {
-        const list = item.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
-        return list ? (list.querySelector<HTMLElement>(':scope > ul') ?? list) : null;
-      },
     };
   }
 

@@ -27,6 +27,8 @@
 //++
 
 import { selectionKey } from 'core-common/batch-selection';
+import { type ListTopology, sortableListData } from './drag-and-drop';
+import { listKey } from './list-dom';
 import {
   applySelectionPresentation,
   batchSelectedAttribute,
@@ -39,6 +41,32 @@ import {
   resolveCandidate,
   resolveRangeItems,
 } from './selection';
+
+// Mirrors the root: the nearest list element that belongs to this root,
+// with the Box list's <ul> as its rows container when it has one.
+function topologyFor(root:HTMLElement):ListTopology {
+  const rootSelector = '[data-controller~="sortable-lists"]';
+  return {
+    rootElement: root,
+    owns: (element) => element.closest(rootSelector) === root,
+    ownerList: (element) => {
+      const list = element.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
+      if (list?.closest(rootSelector) !== root) {
+        return null;
+      }
+      const identity = {
+        type: list.getAttribute('data-sortable-lists--list-type-value') ?? '',
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      };
+      return {
+        element: list,
+        identity,
+        listData: sortableListData({ type: identity.type, listId: identity.id }),
+        rowsContainer: list.querySelector<HTMLElement>(':scope > ul') ?? list,
+      };
+    },
+  };
+}
 
 describe('sortable-lists selection adapter', () => {
   let root:HTMLElement;
@@ -84,7 +112,7 @@ describe('sortable-lists selection adapter', () => {
   };
 
   const itemFor = (id:string) => root.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
-  const candidateFor = (id:string) => resolveCandidate(root, itemFor(id))!;
+  const candidateFor = (id:string) => resolveCandidate(topologyFor(root), itemFor(id))!;
 
   // A trailing item in sprint 7 that hosts a list of its own, the nested
   // topology a section-and-fields consumer renders.
@@ -106,14 +134,14 @@ describe('sortable-lists selection adapter', () => {
   };
 
   it('resolves a candidate from a descendant of the item', () => {
-    const candidate = resolveCandidate(root, itemFor('1').querySelector('span'));
+    const candidate = resolveCandidate(topologyFor(root), itemFor('1').querySelector('span'));
 
     expect(candidate).toEqual({
       type: 'work_package',
       itemElement: itemFor('1'),
       focusHost: itemFor('1'),
       id: '1',
-      listKey: 'sprint:7',
+      listKey: listKey({ type: 'sprint', id: '7' }),
       orderable: true,
     });
   });
@@ -121,7 +149,7 @@ describe('sortable-lists selection adapter', () => {
   it('keys the list by its type and id, not its DOM id', () => {
     itemFor('1').closest('[data-controller~="sortable-lists--list"]')!.id = 'inbox_project_4';
 
-    expect(candidateFor('1').listKey).toBe('sprint:7');
+    expect(candidateFor('1').listKey).toBe(listKey({ type: 'sprint', id: '7' }));
   });
 
   // The focus host is also the boundary the interactive-descendant check
@@ -132,7 +160,7 @@ describe('sortable-lists selection adapter', () => {
     card.tabIndex = 0;
     itemFor('2').appendChild(card);
 
-    expect(resolveCandidate(root, card)!.focusHost).toBe(card);
+    expect(resolveCandidate(topologyFor(root), card)!.focusHost).toBe(card);
   });
 
   it('does not take a nested item\'s focus target as the focus host', () => {
@@ -149,11 +177,11 @@ describe('sortable-lists selection adapter', () => {
   it('does not resolve a truncation marker as a candidate', () => {
     const marker = root.querySelector<HTMLElement>('[data-sortable-lists-prev-item-id]')!;
 
-    expect(resolveCandidate(root, marker)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), marker)).toBeNull();
   });
 
   it('does not resolve anything outside the root', () => {
-    expect(resolveCandidate(root, document.body)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), document.body)).toBeNull();
   });
 
   it('refuses to resolve a candidate that declares no type', () => {
@@ -162,7 +190,7 @@ describe('sortable-lists selection adapter', () => {
     untyped.setAttribute('data-sortable-lists--item-id-value', '99');
     root.querySelector('ul')!.appendChild(untyped);
 
-    expect(resolveCandidate(root, untyped)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), untyped)).toBeNull();
   });
 
   // An independently nested root is an ownership boundary.
@@ -181,7 +209,7 @@ describe('sortable-lists selection adapter', () => {
     root.appendChild(nested);
     const inner = nested.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="90"]')!;
 
-    expect(resolveCandidate(root, inner)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), inner)).toBeNull();
     expect(orderedItemElements(root)).not.toContain(inner);
   });
 
@@ -196,25 +224,25 @@ describe('sortable-lists selection adapter', () => {
   });
 
   it('resolves an ascending range within one list', () => {
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '1', listKey: listKey({ type: 'sprint', id: '7' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('2'), rowsContainerFor(itemFor('2')))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
   });
 
   it('resolves a descending range within one list', () => {
-    const anchor = { type: 'work_package', id: '2', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '2', listKey: listKey({ type: 'sprint', id: '7' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('1'), rowsContainerFor(itemFor('1')))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
   });
 
   it('rejects a range that would cross a truncation marker', () => {
-    const anchor = { type: 'work_package', id: '2', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '2', listKey: listKey({ type: 'sprint', id: '7' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('3'), rowsContainerFor(itemFor('3')))).toEqual({ ok: false, reason: 'unavailable' });
   });
 
   it('rejects a range that would cross a list boundary', () => {
-    const anchor = { type: 'work_package', id: '3', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '3', listKey: listKey({ type: 'sprint', id: '7' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('4'), rowsContainerFor(itemFor('4')))).toEqual({ ok: false, reason: 'crossList' });
   });
@@ -225,7 +253,7 @@ describe('sortable-lists selection adapter', () => {
     decoy.setAttribute('data-sortable-lists--item-id-value', '1');
     decoy.setAttribute('data-sortable-lists--item-type-value', 'decoy');
     root.querySelector('ul')!.prepend(decoy);
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '1', listKey: listKey({ type: 'sprint', id: '7' }) };
     const candidate = candidateFor('2');
 
     expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
@@ -245,14 +273,14 @@ describe('sortable-lists selection adapter', () => {
       </div>
     `;
     itemFor('1').after(hostRow);
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '1', listKey: listKey({ type: 'sprint', id: '7' }) };
     const candidate = candidateFor('2');
 
     expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
   });
 
   it('rejects a range whose anchor id was never a row in this list', () => {
-    const anchor = { type: 'work_package', id: '99', listKey: 'sprint:7' };
+    const anchor = { type: 'work_package', id: '99', listKey: listKey({ type: 'sprint', id: '7' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('2'), rowsContainerFor(itemFor('2')))).toEqual({ ok: false, reason: 'unavailable' });
   });
@@ -260,7 +288,7 @@ describe('sortable-lists selection adapter', () => {
   // Refused, not trimmed to the movable cards — and with its own reason,
   // since expanding the list can never resolve a locked card.
   it('refuses a range that would include a non-movable card', () => {
-    const anchor = { type: 'work_package', id: '4', listKey: 'sprint:8' };
+    const anchor = { type: 'work_package', id: '4', listKey: listKey({ type: 'sprint', id: '8' }) };
 
     expect(resolveRangeItems(root, anchor, candidateFor('5'), rowsContainerFor(itemFor('5')))).toEqual({ ok: false, reason: 'locked' });
   });
@@ -286,8 +314,8 @@ describe('sortable-lists selection adapter', () => {
       const wrappedItemFor = (id:string) => wrappingRoot.querySelector<HTMLElement>(
         `[data-sortable-lists--item-id-value="${id}"]`,
       )!;
-      const anchor = { type: 'work_package', id: '20', listKey: 'sprint:20' };
-      const candidate = resolveCandidate(wrappingRoot, wrappedItemFor('22'))!;
+      const anchor = { type: 'work_package', id: '20', listKey: listKey({ type: 'sprint', id: '20' }) };
+      const candidate = resolveCandidate(topologyFor(wrappingRoot), wrappedItemFor('22'))!;
 
       expect(resolveRangeItems(wrappingRoot, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: true, items: [{ type: 'work_package', id: '20' }, { type: 'work_package', id: '21' }, { type: 'work_package', id: '22' }] });
     } finally {
@@ -305,8 +333,8 @@ describe('sortable-lists selection adapter', () => {
     strayItem.setAttribute('data-sortable-lists--item-type-value', 'work_package');
     list.appendChild(strayItem);
 
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
-    const candidate = resolveCandidate(root, strayItem)!;
+    const anchor = { type: 'work_package', id: '1', listKey: listKey({ type: 'sprint', id: '7' }) };
+    const candidate = resolveCandidate(topologyFor(root), strayItem)!;
 
     expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
   });

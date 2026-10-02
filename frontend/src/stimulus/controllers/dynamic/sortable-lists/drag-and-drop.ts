@@ -100,6 +100,23 @@ export interface SortableListData extends Record<string|symbol, unknown> {
   rowsContainer:HTMLElement|null;
 }
 
+// A list the root owns: its element, the destination a drop into it reaches,
+// its declared data and the container whose direct children are its rows.
+export interface OwnedList {
+  element:HTMLElement;
+  identity:DestinationIdentity;
+  listData:SortableListData;
+  rowsContainer:HTMLElement;
+}
+
+// The one rule for which list holds an element. Ownership stops at the
+// nearest root: an independently nested root is an ownership boundary.
+export interface ListTopology {
+  readonly rootElement:HTMLElement;
+  owns(element:Element):boolean;
+  ownerList(element:Element):OwnedList|null;
+}
+
 // Implemented by the sortable-lists root controller and handed to list/item
 // controllers via outlet callbacks, so children read shared state through a
 // typed reference instead of walking the DOM.
@@ -129,7 +146,11 @@ export interface SortableListsRoot {
 export interface RootAwareChild {
   readonly element:Element;
   connectRoot(root:SortableListsRoot):void;
-  disconnectRoot():void;
+  // With `root`, clears the reference only when that root handed it out, so
+  // a foreign root's outlet-disconnected callback cannot strip a child of
+  // its own root; without, clears unconditionally (the child's own
+  // disconnect).
+  disconnectRoot(root?:SortableListsRoot):void;
   reregister():void;
 }
 
