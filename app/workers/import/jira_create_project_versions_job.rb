@@ -31,9 +31,13 @@
 module Import
   class JiraCreateProjectVersionsJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
+    include Import::JiraJobUtils
 
     on_complete do
-      Rails.logger.info "Creating project versions finished"
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
+                          "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:version") do
+        Rails.logger.debug "Creating project versions finished"
+      end
     end
 
     def text
@@ -55,31 +59,35 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      Rails.logger.info "Creating project versions started"
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      @jira_import.jira
-      jira_project = Import::JiraProject.find(jira_project_id)
+      jira_project = jira_project(jira_project_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:version") do
+        Rails.logger.debug "Creating project versions started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        @jira_import.jira
 
-      @project = JiraOpenProjectReference.find_by!(
-        jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s
-      ).op_leg
+        @project = JiraOpenProjectReference.find_by!(
+          jira_entity_id: jira_project.id,
+          jira_entity_class: jira_project.class.to_s
+        ).op_leg
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraVersion.where(jira_import_id:, jira_project_id:),
-        cursor: cursor
-      )
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraVersion.where(jira_import_id:, jira_project_id:),
+          cursor: cursor
+        )
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_version, jira_import_id, jira_project_id)
       payload = jira_version.payload
       jira_version_name = payload.fetch("name")
-      Rails.logger.tagged("jira_import_id:#{jira_import_id}",
-                          "jira_project_id:#{jira_project_id}",
-                          "jira_version_name:#{jira_version_name}") do
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project_key(jira_project_id)}", "jira_object_type:version",
+                          "jira_object_id_or_name:#{jira_version_name}") do
         Rails.logger.debug "Creating project version"
         ActiveRecord::Base.transaction do
           version = Version.create!(

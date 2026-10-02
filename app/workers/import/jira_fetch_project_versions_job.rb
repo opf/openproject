@@ -52,9 +52,12 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      Rails.logger.info "Fetching project versions started"
+      jira_project = jira_project(jira_project_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:version") do
+        Rails.logger.debug "Fetching project versions started"
+      end
       prepare_jira_import_ivars(jira_import_id)
-      jira_project = Import::JiraProject.find(jira_project_id)
 
       cursor ||= @jira_import.get_job_cursor(self)
       start_at = cursor&.dig("start_at") || 0
@@ -77,7 +80,13 @@ module Import
 
           @jira_import.set_job_cursor(self, new_cursor)
 
-          Rails.logger.info "Fetched #{start_at + versions.size} of #{total} project versions"
+          # This loop body runs later, inside the Enumerator's own Fiber, once build_enumerator has
+          # already returned and the tagged block above has already closed - so it needs its own
+          # full set of tags rather than nesting inside (and inheriting from) that one.
+          Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                              "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:version") do
+            Rails.logger.debug { "Fetched #{start_at + versions.size} of #{total} project versions" }
+          end
 
           yielder.yield(
             versions_and_total,
@@ -91,16 +100,22 @@ module Import
 
     def each_iteration(versions_and_total, jira_import_id, jira_project_id)
       versions = versions_and_total["versions"]
-      versions_upsert_data = versions.map do |payload|
-        Rails.logger.debug { "Fetched project version '#{payload['name']}'" }
-        {
-          payload:,
-          jira_project_id:,
-          origin_id: payload.fetch("id"),
-          jira_import_id:,
-          created_at: @created_at,
-          updated_at: @updated_at
-        }
+      versions_upsert_data = Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                                                 "jira_project_id:#{jira_project_key(jira_project_id)}",
+                                                 "jira_object_type:version") do
+        versions.map do |payload|
+          Rails.logger.tagged("jira_object_id_or_name:#{payload['name']}") do
+            Rails.logger.debug "Fetched project version"
+          end
+          {
+            payload:,
+            jira_project_id:,
+            origin_id: payload.fetch("id"),
+            jira_import_id:,
+            created_at: @created_at,
+            updated_at: @updated_at
+          }
+        end
       end
       Import::JiraVersion.upsert_all(versions_upsert_data, unique_by: %i[jira_import_id origin_id])
     end

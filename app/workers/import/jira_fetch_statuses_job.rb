@@ -37,17 +37,22 @@ module Import
     end
 
     def perform(jira_import_id)
-      Rails.logger.info "Fetching statuses started"
-      prepare_jira_import_ivars(jira_import_id)
-      fetch_data
-      Rails.logger.info "Fetching statuses finished"
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_object_type:status") do
+        Rails.logger.debug "Fetching statuses started"
+        prepare_jira_import_ivars(jira_import_id)
+        fetch_data
+        Rails.logger.debug "Fetching statuses finished"
+      end
     end
 
     private
 
     def fetch_data
       statuses_upsert_data = @jira_client.statuses.map do |status|
-        Rails.logger.debug { "Fetched status '#{status['name']}'" }
+        Rails.logger.tagged("jira_object_id_or_name:#{status['name']}") do
+          Rails.logger.debug "Fetched status"
+        end
         {
           payload: status,
           origin_id: status.fetch("id"),
