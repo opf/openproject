@@ -129,10 +129,14 @@ RSpec.describe "Work package filtering",
       end
 
       aggregate_failures "Anybody visible can be shared a work package, member or not" do
-        filters.expect_filter_value_by("Shared with user",
-                                       "is (OR)",
-                                       [user_without_project_access.name],
-                                       "sharedWithUser")
+        filters.add_filter_by("Shared with user",
+                              "is (OR)",
+                              [user_without_project_access.name],
+                              "sharedWithUser")
+
+        wp_table.ensure_work_package_not_listed!(shared_work_package, non_shared_work_package)
+
+        filters.remove_filter("sharedWithUser")
       end
 
       aggregate_failures "a user the work package is shared with, but who is no project member" do
