@@ -73,13 +73,12 @@ body:has(.type-form-configuration-page)
     width: var(--base-size-16)
     min-height: var(--control-small-size)
 
-  &--drag-handle,
-  &--actions
+  &--drag-handle
     align-self: flex-start
-    justify-self: end
 
-  &--actions-button
-    margin-top: 0
+  &--drag-handle,
+  &--row-alignment-spacer
+    margin-left: calc(-1 * var(--base-size-8))
 
   @media screen and (max-width: $breakpoint-md)
     &--main-inner

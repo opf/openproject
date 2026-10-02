@@ -18,19 +18,17 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
   end
 
-  it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
+  it "renders the drag handle in editable mode", :aggregate_failures do
     render_inline(described_class.new(attribute:, context: editor_context, total_count: 2))
 
     expect(page).to have_test_selector("type-form-configuration-attribute-handle-assignee")
-    expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
     expect(page).to have_text("Assignee")
   end
 
-  it "omits the handle and actions menu when readonly", :aggregate_failures do
+  it "omits the handle when readonly", :aggregate_failures do
     render_inline(described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2))
 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
-    expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
     expect(page).to have_text("Assignee")
   end
 
@@ -79,16 +77,26 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
   end
 
-  it "offers the four shared move items", :aggregate_failures do
-    render_inline(described_class.new(attribute:, context: editor_context, total_count: 3))
+  describe "the row menu" do
+    it "is the actions menu in editable mode", :aggregate_failures do
+      row = described_class.new(attribute:, context: editor_context, total_count: 2)
 
-    expect(page).to have_css("[data-sortable-lists--item-target='moveItem']", count: 4, visible: :all)
-    expect(page).to have_no_link("Move up", visible: :all)
-  end
+      expect(row.menu?).to be(true)
+      expect(row.menu_arguments.dig(:button_arguments, :aria, :label)).to eq("Row actions")
+      expect(row.menu_arguments[:menu_id]).to eq("form-configuration-attribute-menu-assignee")
+    end
 
-  it "offers no move items for the only attribute" do
-    render_inline(described_class.new(attribute:, context: editor_context, total_count: 1))
+    it "is present for a custom field attribute when readonly" do
+      attribute.merge!(key: "custom_field_5", is_cf: true)
+      row = described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2)
 
-    expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
+      expect(row.menu?).to be(true)
+    end
+
+    it "is absent for a built-in attribute when readonly" do
+      row = described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2)
+
+      expect(row.menu?).to be(false)
+    end
   end
 end

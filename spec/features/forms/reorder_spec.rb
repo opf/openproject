@@ -123,6 +123,17 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
       editor.expect_attributes("Details", :priority, :date, :category)
     end
 
+    it "shows a section's empty state only while it has no attributes" do
+      editor.expect_empty_state("Spare")
+
+      moving { editor.drag_attribute(:category, to_group: "Spare") }
+      editor.expect_no_empty_state("Spare")
+      editor.expect_attributes("Spare", :category)
+
+      moving { editor.drag_attribute(:category, to_group: "Details") }
+      editor.expect_empty_state("Spare")
+    end
+
     it "reorders rows within a group by dragging" do
       moving { editor.drag_attribute_beside(:date, above: :priority) }
       editor.expect_attributes("Details", :date, :priority, :category)
@@ -197,7 +208,7 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
   end
 
   context "with more groups than fit the window", with_ee: %i[edit_attribute_groups] do
-    include_context "with mobile screen size", 1280, 520
+    include_context "with mobile screen size", 1280, 800
 
     before do
       6.times { create(:form_configuration_group, form_configuration: form, label: "Filler #{it}") }
