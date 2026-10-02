@@ -5,7 +5,7 @@
   [attr.aria-required]="required">
   <legend class="sr-only" [textContent]="schema.name"></legend>
   @if (!required) {
-    <label class="form--label-with-check-box">
+    <label class="form--label-with-radio-button">
       <div class="form--radio-button-container">
         <input type="radio"
           class="form--radio-button"
@@ -18,7 +18,7 @@
     </label>
   }
   @for (option of availableOptions; track option.href) {
-    <label class="form--label-with-check-box">
+    <label class="form--label-with-radio-button">
       <div class="form--radio-button-container">
         <input type="radio"
           class="form--radio-button"
