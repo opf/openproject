@@ -178,7 +178,7 @@ export abstract class BoardActionService {
    * Add a single action query
    */
   addColumnWithActionAttribute(board:Board, value:HalResource):Promise<Board> {
-    const params:any = {
+    const params = {
       name: value.name,
     };
 

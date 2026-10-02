@@ -62,7 +62,7 @@ export abstract class ApiV3Collection<
           if (response instanceof CollectionResource) {
             response.elements?.forEach(this.touch.bind(this));
           } else if (response instanceof HalResource) {
-            this.touch(response as any);
+            this.touch(response as unknown as T);
           }
         },
       ),
