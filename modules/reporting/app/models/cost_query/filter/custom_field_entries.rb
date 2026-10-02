@@ -69,7 +69,7 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
       # Treat list CFs values as string options again, since
       # aggregation of groups are made by the values as well
       # and otherwise, it won't work as a filter.
-      custom_field.possible_values.map { |item| [item.label, item.label] }
+      CostQuery::CustomFieldMixin.item_paths(custom_field).map { |path| [path, path] }
     else
       custom_field.possible_values
     end
