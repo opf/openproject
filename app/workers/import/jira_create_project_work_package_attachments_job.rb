@@ -30,6 +30,10 @@
 
 module Import
   class JiraCreateProjectWorkPackageAttachmentsJob < ProgressableJob
+    on_complete do
+      Rails.logger.info "Downloading work package attachments finished"
+    end
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -51,6 +55,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Downloading work package attachments started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
@@ -88,6 +93,7 @@ module Import
             attachments = jira_issue.payload.dig("fields", "attachment") || []
             attachments.each do |attachment|
               Rails.logger.tagged("attachment_filename:#{attachment['filename']}") do
+                Rails.logger.debug "Downloading attachment"
                 key = attachment.dig("author", "key")
                 Rails.logger.tagged("author:#{key}") do
                   author = find_user(key)
@@ -125,6 +131,7 @@ module Import
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
+          Rails.logger.error "Attachment creation failed: #{call.message}"
           raise call.message
         end
 
@@ -136,8 +143,8 @@ module Import
       jira_project_for_log = project.slice(:identifier)
       jira_issue_for_log = work_package.slice(:identifier)
       attachment_for_log = attachment.slice("id", "size", "self", "content", "filename", "mimeType")
-      Rails.logger.error(
-        "Error during jira import attachment creation. Error: #{e}. Jira Project: #{jira_project_for_log} " \
+      Rails.logger.warn(
+        "Could not create jira import attachment, skipping it. Error: #{e}. Jira Project: #{jira_project_for_log} " \
         "Jira Issue: #{jira_issue_for_log}. Attachment: #{attachment_for_log}. Backtrace: #{app_backtrace}. "
       )
     end
@@ -163,6 +170,7 @@ module Import
       return if service_call.success?
 
       if service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error service_call.message
         raise service_call.message
       end
     end

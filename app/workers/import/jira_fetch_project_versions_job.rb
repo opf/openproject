@@ -52,6 +52,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Fetching project versions started"
       prepare_jira_import_ivars(jira_import_id)
       jira_project = Import::JiraProject.find(jira_project_id)
 
@@ -76,6 +77,8 @@ module Import
 
           @jira_import.set_job_cursor(self, new_cursor)
 
+          Rails.logger.info "Fetched #{start_at + versions.size} of #{total} project versions"
+
           yielder.yield(
             versions_and_total,
             new_cursor
@@ -89,6 +92,7 @@ module Import
     def each_iteration(versions_and_total, jira_import_id, jira_project_id)
       versions = versions_and_total["versions"]
       versions_upsert_data = versions.map do |payload|
+        Rails.logger.debug "Fetched project version '#{payload['name']}'"
         {
           payload:,
           jira_project_id:,

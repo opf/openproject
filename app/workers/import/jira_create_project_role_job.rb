@@ -37,6 +37,7 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Creating project role started"
       jira_import = Import::JiraImport.find(jira_import_id)
       service_call = Roles::CreateService.new(user: User.system).call(
         name: "JiraMember",
@@ -52,8 +53,10 @@ module Import
                           jira_import:,
                           uses_existing: false)
       elsif service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error service_call.message
         raise service_call.message
       end
+      Rails.logger.info "Creating project role finished"
     end
   end
 end

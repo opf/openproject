@@ -40,6 +40,7 @@ module Import
     def perform(jira_import_id, jira_project_id)
       Journal::NotificationConfiguration.with(false) do
         Journal::EventConfiguration.with(false) do
+          Rails.logger.info "Creating project started"
           @jira_import = Import::JiraImport.find(jira_import_id)
           @jira_id = @jira_import.jira.id
           @system_user = User.system
@@ -51,6 +52,7 @@ module Import
           OpenProject::Mutex.with_advisory_lock(@jira_import, lock_key) do
             create_project(jira_project)
           end
+          Rails.logger.info "Creating project finished"
         end
       end
     end
@@ -59,6 +61,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def create_project(jira_project)
+      Rails.logger.debug "Creating project"
       project_key = jira_project.payload.fetch("key")
       project_keys = jira_project.payload.fetch("projectKeys")
       service_call = Projects::CreateService
@@ -90,9 +93,12 @@ module Import
 
       if (error = service_call.errors.find { |e| e.attribute == :identifier && e.type == :taken }) && error.present?
         taken_identifier = error.options[:value]
-        raise I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
+        message = I18n.t(:"admin.jira.run.project_identifier_taken", taken_identifier:)
+        Rails.logger.error message
+        raise message
       end
 
+      Rails.logger.error service_call.message
       raise service_call.message
     end
   end

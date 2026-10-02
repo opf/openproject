@@ -32,6 +32,10 @@ module Import
   class JiraCreateProjectVersionsJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
 
+    on_complete do
+      Rails.logger.info "Creating project versions finished"
+    end
+
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
@@ -52,6 +56,7 @@ module Import
     end
 
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Creating project versions started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       @jira_import.jira
       jira_project = Import::JiraProject.find(jira_project_id)
@@ -75,6 +80,7 @@ module Import
       Rails.logger.tagged("jira_import_id:#{jira_import_id}",
                           "jira_project_id:#{jira_project_id}",
                           "jira_version_name:#{jira_version_name}") do
+        Rails.logger.debug "Creating project version"
         ActiveRecord::Base.transaction do
           version = Version.create!(
             project_id: @project.id,
