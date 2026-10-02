@@ -43,12 +43,15 @@ module Import
     end
 
     def perform(jira_import_id)
+      Rails.logger.info "Fetching instance meta data started"
       jira_import = Import::JiraImport.find(jira_import_id)
       jira = jira_import.jira
       @client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
       jira_import.update!(available: collect_metadata)
       jira_import.transition_to!(:instance_meta_done)
+      Rails.logger.info "Fetching instance meta data finished"
     rescue StandardError => e
+      Rails.logger.error "Fetching instance meta data failed: #{e.message}"
       jira_import&.transition_to!(:instance_meta_error, error: e.message, error_backtrace: e.backtrace)
     end
 
@@ -73,6 +76,7 @@ module Import
 
     def collect_projects
       @client.projects.filter_map do |project|
+        Rails.logger.debug "Fetched project '#{project['key']}'"
         next unless project_browsable?(project["key"])
 
         { "id" => project["id"], "key" => project["key"], "name" => project["name"] }
@@ -84,6 +88,7 @@ module Import
       true
     rescue Import::JiraClient::ApiError => e
       if e.status == 400
+        Rails.logger.warn "Project '#{project_key}' is not browsable (#{e.message}), excluding it from instance meta data"
         false
       else
         raise e
