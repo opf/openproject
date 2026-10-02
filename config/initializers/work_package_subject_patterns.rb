@@ -41,7 +41,7 @@ Rails.application.config.to_prepare do
     add(:remaining_time, ->(wp) { wp.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
     add(:finish_date, ->(wp) { wp.due_date }, ns::Formatters::DateFormatter, label: :due_date)
     add(:labels, ->(wp) { wp.labels }, ns::Formatters::ArrayFormatter,
-        label: :labels, enabled: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
+        label: :labels, enabled_fn: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
     add(:observed_in_versions, ->(wp) { wp.observed_in_versions }, ns::Formatters::ArrayFormatter, label: :observed_in_versions)
     add(:priority, ->(wp) { wp.priority }, label: :priority)
     add(:start_date, ->(wp) { wp.start_date }, ns::Formatters::DateFormatter, label: :start_date)
@@ -60,7 +60,7 @@ Rails.application.config.to_prepare do
     add(:parent_remaining_time, ->(parent) { parent.remaining_hours }, ns::Formatters::DurationFormatter, label: :remaining_hours)
     add(:parent_finish_date, ->(parent) { parent.due_date }, ns::Formatters::DateFormatter, label: :due_date)
     add(:parent_labels, ->(parent) { parent.labels }, ns::Formatters::ArrayFormatter,
-        label: :labels, enabled: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
+        label: :labels, enabled_fn: -> { OpenProject::FeatureDecisions.work_package_labels_active? })
     add(:parent_observed_in_versions,
         ->(parent) { parent.observed_in_versions },
         ns::Formatters::ArrayFormatter,
