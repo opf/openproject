@@ -151,6 +151,26 @@ describe('AiActionsService', () => {
   };
 
   describe('run', () => {
+    it('ignores a second selection while a run is active on the same editor', async () => {
+      const first = service.run(fixGrammar, editor, existingWorkPackage);
+      const second = service.run({ ...fixGrammar, id: 2, label: 'Make concise' }, editor, existingWorkPackage);
+
+      const create = await nextRequest('/api/v3/ai_text_transform_runs');
+      await second;
+      expect(httpMock.match(() => true)).toEqual([]);
+      expect(create.request.body).toMatchObject({ actionId: 1 });
+
+      create.flush(runResource('run-6', 'queued', []), { status: 202, statusText: 'Accepted' });
+      (await nextRequest('run-6?after=0')).flush(runResource('run-6', 'succeeded', [
+        { seq: 1, kind: 'completed', payload: { text: 'Done' } },
+      ]));
+
+      await first;
+      expect(editor.inserted).toBe('Done');
+      expect(editor.readOnlyLocks).toEqual([]);
+      expect(toasts.filter((t) => t.type === 'success')).toHaveLength(1);
+    });
+
     it('leaves the content untouched and reports an error when the run completes without text', async () => {
       const promise = service.run(fixGrammar, editor, existingWorkPackage);
 

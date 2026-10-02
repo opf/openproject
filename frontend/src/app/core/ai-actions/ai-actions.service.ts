@@ -101,6 +101,8 @@ export class AiActionsService {
 
   requestTimeout = REQUEST_TIMEOUT;
 
+  private busyEditors = new WeakSet<IEditorWithContent>();
+
   async actionsFor(resource:IEditorContextResource|undefined, field:string|undefined):Promise<IAiTextTransformAction[]> {
     const path = this.listPath(resource, field);
 
@@ -121,10 +123,11 @@ export class AiActionsService {
   async run(action:IAiTextTransformAction, editor:IEditorWithContent, resource:IEditorContextResource|undefined):Promise<void> {
     const context = this.runContext(resource);
 
-    if (context === null) {
+    if (context === null || this.busyEditors.has(editor)) {
       return;
     }
 
+    this.busyEditors.add(editor);
     const state:IRunState = {
       deadline: Date.now() + RUN_TIMEOUT, runId: null, editorGone: false, cancelRequested: false,
     };
@@ -156,6 +159,7 @@ export class AiActionsService {
         this.toast.addError(this.errorMessage(error));
       }
     } finally {
+      this.busyEditors.delete(editor);
       this.toast.remove(notice);
       if (!state.editorGone) {
         editor.disableReadOnlyMode(READ_ONLY_LOCK);
