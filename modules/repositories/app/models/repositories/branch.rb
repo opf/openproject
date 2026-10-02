@@ -35,5 +35,9 @@ module Repositories
     belongs_to :provider
     belongs_to :repository_user, class_name: "Repositories::User", optional: true
     belongs_to :work_package
+
+    def web_url = provider.branch_url(self)
+
+    def new_merge_request_url = provider.new_merge_request_url(self)
   end
 end
