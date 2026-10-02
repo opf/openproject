@@ -48,6 +48,20 @@
       height: 100%
       color: var(--fgColor-default)
 
+  // A card without a type (its work package is not visible) has no --hl-color.
+  .te-stack--allocation
+    --allocation-border-color: hsl(from var(--hl-color, var(--borderColor-emphasis)) h s calc(l - 15))
+    background: var(--bgColor-muted)
+    border: 1px dashed var(--allocation-border-color)
+    border-top: 4px solid var(--allocation-border-color)
+    border-radius: 6px
+    box-shadow: var(--shadow-resting-medium)
+    overflow: hidden
+
+    .fc-event-main
+      height: 100%
+      color: var(--fgColor-default)
+
   +te-entry-card
 
   .te-entry-card

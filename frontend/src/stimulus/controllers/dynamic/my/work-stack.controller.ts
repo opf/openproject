@@ -42,8 +42,10 @@ import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
+import { renderAllocationCard, type ResourceAllocationEvent } from 'core-stimulus/helpers/resource-allocation-event';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
+const ALLOCATION_CLASS_NAME = 'te-stack--allocation';
 
 // The stack is a timeGrid abused as a stacked bar chart, so these bound an axis of hours
 // logged rather than clock times, and the scale ratio compresses a day that exceeds them.
@@ -68,7 +70,9 @@ export default class MyWorkStackController extends Controller {
   static values = {
     mode: String,
     timeEntries: Array,
+    allocations: Array,
     initialDate: String,
+    today: String,
     canCreate: Boolean,
     locale: String,
     workingDays: Array,
@@ -81,7 +85,9 @@ export default class MyWorkStackController extends Controller {
   declare readonly hasStackTarget:boolean;
   declare readonly modeValue:string;
   declare readonly timeEntriesValue:TimeEntryEvent[];
+  declare readonly allocationsValue:ResourceAllocationEvent[];
   declare readonly initialDateValue:string;
+  declare readonly todayValue:string;
   declare readonly canCreateValue:boolean;
   declare readonly localeValue:string;
   declare readonly workingDaysValue:number[];
@@ -162,7 +168,7 @@ export default class MyWorkStackController extends Controller {
       slotLabelInterval: `${LABEL_INTERVAL_HOURS}:00:00`,
       slotLabelFormat: (info:VerboseFormattingArg) => displayDuration((MAX_HOUR - info.date.hour) / this.scaleRatio),
       businessHours: { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
-      events: (_fetchInfo, successCallback) => successCallback(this.buildTimeEntryEvents()),
+      events: (_fetchInfo, successCallback) => successCallback(this.buildEvents()),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
       eventClick: (info) => this.handleEventClick(info.event.extendedProps, info.jsEvent),
       selectable: this.canCreateValue,
@@ -174,20 +180,32 @@ export default class MyWorkStackController extends Controller {
     this.observeResize();
   }
 
-  private buildTimeEntryEvents():EventInput[] {
+  private buildEvents():EventInput[] {
     const stackTops:Record<string, number> = {};
-
-    return this.stackOrder().map((entry) => {
-      const day = this.dayOf(entry);
+    const stack = (day:string, entryHours:number):[number, number] => {
       const endHour = stackTops[day] ?? MAX_HOUR;
-      const hours = Math.max(entry.hours * this.scaleRatio, MIN_BAR_HOURS);
+      const hours = Math.max(entryHours * this.scaleRatio, MIN_BAR_HOURS);
       // A day made up of many tiny entries can outgrow the axis once they are floored.
       const startHour = Math.max(endHour - hours, 0);
 
       stackTops[day] = startHour;
 
-      return this.timeEntryEvent(entry, day, startHour, endHour);
+      return [startHour, endHour];
+    };
+
+    const timeEntries = this.stackOrder().map((entry) => {
+      const day = this.dayOf(entry);
+
+      return this.timeEntryEvent(entry, day, ...stack(day, entry.hours));
     });
+
+    const allocations = this.allocationsValue.map((allocation) => {
+      const day = this.dayOf(allocation);
+
+      return this.allocationEvent(allocation, day, ...stack(day, allocation.hours));
+    });
+
+    return [...timeEntries, ...allocations];
   }
 
   // Each bar is stacked on top of the one before it, so the entries are laid out in the
@@ -208,7 +226,7 @@ export default class MyWorkStackController extends Controller {
 
   // The server builds an event's start from spent_on in the entry's own time zone and
   // serializes it with that offset, so the date part never depends on where it is read.
-  private dayOf(entry:TimeEntryEvent):string {
+  private dayOf(entry:{ start:string }):string {
     return entry.start.slice(0, 10);
   }
 
@@ -238,16 +256,40 @@ export default class MyWorkStackController extends Controller {
     };
   }
 
+  private allocationEvent(
+    allocation:ResourceAllocationEvent,
+    day:string,
+    startHour:number,
+    endHour:number,
+  ):EventInput {
+    return {
+      id: allocation.id,
+      groupId: allocation.groupId,
+      title: allocation.title,
+      start: this.slotTime(day, startHour),
+      end: this.slotTime(day, endHour),
+      classNames: [
+        ALLOCATION_CLASS_NAME,
+        ...(allocation.typeId ? [Highlighting.resourceClass('type', allocation.typeId)] : []),
+      ],
+      extendedProps: { allocation, day },
+    };
+  }
+
   private eventContent(props:Record<string, unknown>):{ domNodes:Node[] }|undefined {
     const entry = props.entry as TimeEntryEvent|undefined;
-
-    if (!entry) {
-      return undefined;
-    }
+    const allocation = props.allocation as ResourceAllocationEvent|undefined;
 
     const wrapper = document.createElement('div');
     wrapper.classList.add('fc-event-main-frame');
-    render(renderTimeEntryCard(entry, this.pathHelperService), wrapper);
+
+    if (entry) {
+      render(renderTimeEntryCard(entry, this.pathHelperService), wrapper);
+    } else if (allocation) {
+      render(renderAllocationCard(allocation, props.day as string, this.todayValue, this.pathHelperService), wrapper);
+    } else {
+      return undefined;
+    }
 
     return { domNodes: [wrapper] };
   }
@@ -279,10 +321,10 @@ export default class MyWorkStackController extends Controller {
     );
   }
 
-  private calculateDateSums():Record<string, number> {
+  private calculateDateSums(entries:{ start:string, hours:number }[] = this.timeEntriesValue):Record<string, number> {
     const sums:Record<string, number> = {};
 
-    this.timeEntriesValue.forEach((entry) => {
+    entries.forEach((entry) => {
       const day = this.dayOf(entry);
       sums[day] = (sums[day] || 0) + entry.hours;
     });
@@ -291,7 +333,8 @@ export default class MyWorkStackController extends Controller {
   }
 
   private setRatio():void {
-    const maxHours = Math.max(...Object.values(this.calculateDateSums()), 0);
+    const stacked = this.calculateDateSums([...this.timeEntriesValue, ...this.allocationsValue]);
+    const maxHours = Math.max(...Object.values(stacked), 0);
 
     if (maxHours > MAX_HOUR - MIN_HOUR) {
       this.scaleRatio = this.smallerSuitableRatio((MAX_HOUR - MIN_HOUR) / maxHours);
