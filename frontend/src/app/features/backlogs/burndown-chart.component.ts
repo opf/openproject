@@ -328,12 +328,10 @@ export class BurndownChartComponent {
     return this.timezoneService.formattedDatetime(new Date(roundedToMinute).toISOString());
   }
 
-  // Remaining is a sum of whole story points, while the two projected series divide them
-  // across working days and would otherwise read to full float precision.
+  // The guideline and the projection value is simplified to a single digit value, Remaining is left
+  // unchanged since it has no factional story points to begin with.
   private tooltipLabel(item:TooltipItem<'line'>):string {
-    const value = this.seriesId(item.datasetIndex) === 'remaining'
-      ? item.formattedValue
-      : (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
+    const value = (item.parsed.y ?? 0).toLocaleString(undefined, { maximumFractionDigits: 1 });
 
     return `${item.dataset.label ?? ''}: ${value}`;
   }

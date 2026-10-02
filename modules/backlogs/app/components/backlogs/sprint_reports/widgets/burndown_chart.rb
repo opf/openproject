@@ -68,8 +68,11 @@ module Backlogs
             .map { |id, points| { id:, label: t("backlogs.burndown_chart.series.#{id}"), data: points_for(points) } }
         end
 
+        # Both coordinates are cut to what the chart can read: milliseconds, and a thousandth of a
+        # story point. The guideline and the projection divide a sum across the working days left,
+        # so without the rounding they would go out carrying every digit that division produced into the JSON.
         def points_for(points)
-          points.map { { x: it.at.utc.iso8601(3), y: it.value } }
+          points.map { { x: it.at.utc.iso8601(3), y: it.value.round(3) } }
         end
 
         def non_working_intervals

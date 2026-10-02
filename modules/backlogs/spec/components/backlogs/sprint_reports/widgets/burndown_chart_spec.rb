@@ -83,6 +83,14 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(first["y"]).to eq 10.0
     end
 
+    # 10 points over 9.625 days of capacity, the first Monday counting only from 09:00. The
+    # division behind that does not terminate, so an unrounded payload would carry it in full.
+    it "rounds a value the series arrived at by division" do
+      guideline = chart_data["series"].find { |series| series["id"] == "guideline" }
+
+      expect(guideline["data"].second["y"]).to eq 9.351
+    end
+
     # Remaining comes back from Ticks already in UTC, so it would read the same either way. The
     # guideline is placed at day ends in the viewer's zone, which is the only place the payload's
     # conversion does any work -- and a zoned offset would still parse on the far side, so nothing
