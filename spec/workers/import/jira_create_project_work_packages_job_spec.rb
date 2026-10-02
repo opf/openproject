@@ -344,6 +344,72 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           expect(work_package.target_versions).to be_empty
         end
       end
+
+      context "when an issue's resolution is set" do
+        let(:jira_issue_payload) do
+          super().tap do |payload|
+            payload["fields"]["status"]["name"] = "Done"
+            payload["fields"]["resolution"] = { "name" => "Fixed" }
+          end
+        end
+
+        it "appends the resolution value to the status" do
+          expect { create_work_packages }.to change(Status, :count).by(1)
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.name).to eq("Done - Fixed")
+        end
+
+        context "when the status with resolution already exists" do
+          let!(:existing_status) { create(:status, name: "Done - Fixed") }
+
+          it "does not create a new status" do
+            expect { create_work_packages }.not_to change(Status, :count)
+
+            work_package = WorkPackage.find("DPPP-6")
+            expect(work_package.status.name).to eq("Done - Fixed")
+          end
+        end
+      end
+
+      context "when an issue's resolutiondate is set" do
+        let(:jira_issue_payload) do
+          super().tap do |payload|
+            payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+          end
+        end
+
+        it "stores the resolutiondate as a custom field" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          cf = WorkPackageCustomField.find_by!(name: "Resolution Date")
+          resolution_date = work_package.send(cf.attribute_getter)
+          expect(resolution_date).to eq(Date.new(2026, 9, 12))
+        end
+      end
+
+      context "when only some issues have a resolutiondate" do
+        let!(:jira_issue2) do
+          payload = jira_issue_payload.deep_dup
+          payload["id"] = "10406"
+          payload["key"] = "DPPP-7"
+          payload["fields"]["resolutiondate"] = "2026-09-12T12:18:05.851+0000"
+          create(:jira_issue, jira_import:, origin_id: "10406", jira_project:, payload:)
+        end
+
+        it "adds the Resolution Date field to all work packages' type" do
+          create_work_packages
+
+          cf = WorkPackageCustomField.find_by!(name: "Resolution Date")
+          wp_without_date = WorkPackage.find("DPPP-6")
+          wp_with_date = WorkPackage.find("DPPP-7")
+
+          expect(wp_without_date.type.default_variant.custom_field_ids).to include(cf.id)
+          expect(wp_without_date.send(cf.attribute_getter)).to be_nil
+          expect(wp_with_date.send(cf.attribute_getter)).to eq(Date.new(2026, 9, 12))
+        end
+      end
     end
   end
 

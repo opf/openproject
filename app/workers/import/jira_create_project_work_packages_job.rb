@@ -78,6 +78,8 @@ module Import
         jira_entity_class: jira_project.class.to_s
       ).op_leg
 
+      setup_resolution_date_cf(jira_project)
+
       cursor ||= @jira_import.get_job_cursor(self)
       enumerator_builder.active_record_on_records(
         Import::JiraIssue.where(jira_import_id:, jira_project_id:),
@@ -97,6 +99,7 @@ module Import
               status = create_status(jira_issue)
               update_workflows(type)
               new_custom_fields = new_custom_fields_in_type(jira_issue, type, @custom_field_registry)
+              new_custom_fields += new_resolution_date_cfs_for_type(type)
               update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
               priority = create_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
               raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
@@ -177,16 +180,74 @@ module Import
 
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
-      uses_existing = true
-      if status.blank?
-        is_closed = issue_status.dig("statusCategory", "key") == "done"
-        status = Status.create!(name: issue_status["name"], is_closed: is_closed)
-        uses_existing = false
-      end
+      resolution = jira_issue.payload["fields"]["resolution"]
+      status, uses_existing = find_or_create_status(issue_status, resolution)
+
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
       create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
       status
+    end
+
+    def find_or_create_status(issue_status, resolution)
+      status_name = status_name(issue_status, resolution)
+
+      status = Status.where("LOWER(name) = LOWER(?)", status_name).first
+      return [status, true] if status.present?
+
+      is_closed = issue_status.dig("statusCategory", "key") == "done"
+      [Status.create!(name: status_name, is_closed: is_closed), false]
+    end
+
+    def status_name(issue_status, resolution)
+      return issue_status["name"] if resolution.blank?
+
+      "#{issue_status['name']} - #{resolution['name']}"
+    end
+
+    def setup_resolution_date_cf(jira_project)
+      has_resolution_dates = Import::JiraIssue
+                               .where(jira_import_id: @jira_import.id, jira_project_id: jira_project.id)
+                               .where("payload #>> '{fields,resolutiondate}' IS NOT NULL")
+                               .exists?
+      return unless has_resolution_dates
+
+      @resolution_date_cf = WorkPackageCustomField.find_by(name: "Resolution Date") || create_resolution_date_cf
+    end
+
+    def new_resolution_date_cfs_for_type(type)
+      return [] unless @resolution_date_cf
+      return [] if type.default_variant.custom_field_ids.include?(@resolution_date_cf.id)
+
+      [@resolution_date_cf]
+    end
+
+    def create_resolution_date_cf
+      service_call = CustomFields::CreateService
+                        .new(user: @system_user)
+                        .call(type: "WorkPackageCustomField",
+                              name: "Resolution Date",
+                              field_format: "date",
+                              is_required: false,
+                              is_for_all: false)
+
+      unless service_call.success?
+        raise I18n.t(
+          "admin.jira.errors.custom_field_creation_failed",
+          name: "Resolution date",
+          message: service_call.message
+        )
+      end
+
+      service_call.result
+    end
+
+    def resolution_date_cf_attrs(jira_issue)
+      return {} unless @resolution_date_cf
+
+      raw = jira_issue.payload.dig("fields", "resolutiondate")
+      return {} if raw.blank?
+
+      { @resolution_date_cf.attribute_getter => Time.zone.parse(raw).to_date }
     end
 
     def create_priority(jira_issue)
@@ -228,6 +289,7 @@ module Import
       [author, assigned_to].uniq.compact.each { |member| create_member(project, member) }
 
       custom_field_attrs = collect_custom_field_attributes(custom_field_registry, jira_issue)
+                             .merge(resolution_date_cf_attrs(jira_issue))
 
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
       remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
