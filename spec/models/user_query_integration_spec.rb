@@ -298,7 +298,7 @@ RSpec.describe UserQuery, "integration" do
       reloaded = described_class.find(query.id)
 
       expect(reloaded.filters.size).to eq(2)
-      cf_filter = reloaded.filters.detect { |f| f.is_a?(Queries::Filters::Shared::CustomFields::ListOptional) }
+      cf_filter = reloaded.filters.detect { |f| f.is_a?(Queries::Filters::Shared::CustomFields::Hierarchy) }
       expect(cf_filter).not_to be_nil
       expect(cf_filter.custom_field).to eq(job_title_cf)
       expect(cf_filter.values).to eq([developer_option.id.to_s])

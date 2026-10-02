@@ -31,13 +31,25 @@
 require "spec_helper"
 
 RSpec.describe Queries::Filters::Strategies::CfHierarchy do
-  let(:filter) { instance_double(Queries::Filters::Base, operator: operator_symbol) }
+  let(:custom_field) { build_stubbed(:list_wp_custom_field, was_list: false) }
+  let(:filter) { instance_double(Queries::Filters::Shared::CustomFields::Hierarchy, custom_field:, operator: operator_symbol) }
+  let(:operator_symbol) { "=" }
 
   subject(:strategy) { described_class.new(filter) }
 
-  describe ".supported_operators" do
-    it "adds emptiness on top of the hierarchy operators" do
-      expect(described_class.supported_operators).to include("*", "!*")
+  describe "#supported_operator_classes" do
+    subject(:symbols) { strategy.supported_operator_classes.map(&:symbol) }
+
+    it "offers the list operators and the descendants one" do
+      expect(symbols).to eq(%w[= &= ! eq_with_descendants * !*])
+    end
+
+    context "for a former option list, which holds no descendants" do
+      let(:custom_field) { build_stubbed(:list_wp_custom_field, was_list: true) }
+
+      it "leaves out the descendants operator" do
+        expect(symbols).to eq(%w[= &= ! * !*])
+      end
     end
   end
 
@@ -59,6 +71,15 @@ RSpec.describe Queries::Filters::Strategies::CfHierarchy do
 
       it "maps to the operator that also counts the empty string as absent" do
         expect(operator).to eq(Queries::Operators::NoneOrBlank)
+      end
+    end
+
+    context "when a former option list is filtered by descendants" do
+      let(:custom_field) { build_stubbed(:list_wp_custom_field, was_list: true) }
+      let(:operator_symbol) { "eq_with_descendants" }
+
+      it "is not supported" do
+        expect(operator).to be_nil
       end
     end
   end

@@ -29,17 +29,17 @@
 #++
 
 module Queries::Filters::Strategies
-  # See CfString.
-  class CfHierarchy < Hierarchy
-    self.supported_operators = Hierarchy.supported_operators + ["*", "!*"]
+  class CfHierarchy < CfListOptional
+    self.supported_operators = %w[= &= ! eq_with_descendants * !*]
+
+    def supported_operators
+      filter.custom_field.nestable? ? super : super - %w[eq_with_descendants]
+    end
 
     private
 
     def operator_map
-      super.dup.merge(
-        "*" => ::Queries::Operators::AllAndNonBlank,
-        "!*" => ::Queries::Operators::NoneOrBlank
-      )
+      super.merge("eq_with_descendants" => ::Queries::Operators::CustomFields::Hierarchies::EqualsWithDescendants)
     end
   end
 end

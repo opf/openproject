@@ -47,16 +47,16 @@ module Queries::Filters::Strategies
 
     def operator
       operator_map
-        .slice(*self.class.supported_operators)[filter.operator]
+        .slice(*supported_operators)[filter.operator]
     end
 
     def valid_values!; end
 
     def supported_operator_classes
       operator_map
-        .slice(*self.class.supported_operators)
+        .slice(*supported_operators)
         .map(&:last)
-        .sort_by { |o| self.class.supported_operators.index o.symbol.to_s }
+        .sort_by { |o| supported_operators.index o.symbol.to_s }
     end
 
     def default_operator_class

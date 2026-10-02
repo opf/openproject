@@ -97,11 +97,7 @@ module Queries::Filters::Shared::CustomFieldFilter
       when "version"
         ::Queries::Filters::Shared::CustomFields::ListOptional
       when "list", "weighted_item_list"
-        if custom_field.nestable?
-          ::Queries::Filters::Shared::CustomFields::Hierarchy
-        else
-          ::Queries::Filters::Shared::CustomFields::ListOptional
-        end
+        ::Queries::Filters::Shared::CustomFields::Hierarchy
       when "bool"
         ::Queries::Filters::Shared::CustomFields::Bool
       else
