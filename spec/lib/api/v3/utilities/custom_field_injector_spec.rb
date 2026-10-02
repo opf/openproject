@@ -170,6 +170,19 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
+    describe "datetime custom field" do
+      let(:path) { cf_path }
+      let(:field_format) { "datetime" }
+
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "DateTime" }
+        let(:name) { custom_field.name }
+        let(:required) { true }
+        let(:writable) { true }
+        let(:has_default) { false }
+      end
+    end
+
     describe "float custom field" do
       let(:path) { cf_path }
       let(:custom_field) { build(:custom_field, field_format: "float", min_value: 0.1234, max_value: 10.25) }
@@ -667,6 +680,41 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         let(:value) { Date.current }
         let(:json_value) { value.to_date.iso8601 }
         let(:expected_setter) { json_value }
+      end
+    end
+
+    context "for datetime custom field" do
+      let(:field_format) { "datetime" }
+
+      it_behaves_like "injects property custom field" do
+        let(:value) { Time.utc(2026, 10, 1, 12, 30) }
+        let(:json_value) { "2026-10-01T12:30:00.000Z" }
+        let(:expected_setter) { DateTime.iso8601(json_value) }
+      end
+
+      context "when value is nil" do
+        let(:value) { nil }
+
+        it "renders null" do
+          expect(subject).to be_json_eql(nil.to_json).at_path(cf_path)
+        end
+
+        it "unsets the value on writing null" do
+          allow(represented).to receive(custom_field.attribute_setter)
+          modified_class.new(represented, current_user: nil).from_json({ cf_path => nil }.to_json)
+
+          expect(represented).to have_received(custom_field.attribute_setter).with(nil)
+        end
+      end
+
+      it "rejects a value that is not an ISO 8601 datetime" do
+        expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => "chicken" }.to_json) }
+          .to raise_error(API::Errors::PropertyFormatError)
+      end
+
+      it "rejects a date without a time of day" do
+        expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => "2026-10-01" }.to_json) }
+          .to raise_error(API::Errors::PropertyFormatError)
       end
     end
 

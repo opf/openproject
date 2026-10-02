@@ -35,6 +35,9 @@ import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resou
 import { groupName } from './grouped-rows-helpers';
 import { ProjectPhaseDisplayField } from 'core-app/shared/components/fields/display/field-types/project-phase-display-field.module';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+
+const ISO_UTC_DATETIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/;
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;
@@ -42,6 +45,8 @@ export function groupClassNameFor(group:GroupObject) {
 
 export class GroupHeaderBuilder {
   @LazyInject() public I18n:I18nService;
+
+  @LazyInject() public timezoneService:TimezoneService;
 
   public text:{ collapse:string, expand:string };
 
@@ -66,8 +71,7 @@ export class GroupHeaderBuilder {
     }
 
     const leadingIcon = this.leadingIcon(group);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const groupTitle = escape((groupName(group)));
+    const groupTitle = escape(this.groupTitle(group));
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
@@ -89,6 +93,16 @@ export class GroupHeaderBuilder {
     `;
 
     return row;
+  }
+
+  private groupTitle(group:GroupObject):string {
+    const name = groupName(group) as unknown;
+
+    if (typeof name === 'string' && ISO_UTC_DATETIME.test(name)) {
+      return this.timezoneService.formattedDatetime(name);
+    }
+
+    return name as string;
   }
 
   /**

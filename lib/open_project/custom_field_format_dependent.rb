@@ -32,14 +32,14 @@ module OpenProject
       allowNonOpenVersions: [:only, %w[version]],
       defaultBool: [:only, %w[bool]],
       defaultLongText: [:only, %w[text]],
-      defaultText: [:except, %w[list bool date text user version hierarchy calculated_value]],
+      defaultText: [:except, %w[list bool date datetime text user version hierarchy calculated_value]],
       enterpriseBanner: [:only, %w[hierarchy]],
       formula: [:only, %w[calculated_value]],
-      length: [:except, %w[list bool date user version link hierarchy calculated_value]],
+      length: [:except, %w[list bool date datetime user version link hierarchy calculated_value]],
       multiSelect: [:only, %w[list user version hierarchy]],
       possibleValues: [:only, %w[list]],
-      regexp: [:except, %w[list bool date user version hierarchy calculated_value]],
-      searchable: [:except, %w[bool date float int user version hierarchy calculated_value]],
+      regexp: [:except, %w[list bool date datetime user version hierarchy calculated_value]],
+      searchable: [:except, %w[bool date datetime float int user version hierarchy calculated_value]],
       textOrientation: [:only, %w[text]]
     }.freeze
 
