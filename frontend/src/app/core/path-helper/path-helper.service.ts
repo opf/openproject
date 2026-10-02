@@ -457,8 +457,8 @@ export class PathHelperService {
     return `${this.staticBase}/time_entries/${timeEntryId}`;
   }
 
-  public myWorkRefresh(date:string, viewMode:string, mode:string) {
-    return `${this.staticBase}/my/work/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}`;
+  public myWorkRefresh(date:string, viewMode:string, mode:string, entries:string) {
+    return `${this.staticBase}/my/work/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}&entries=${entries}`;
   }
 
   public previewCustomFieldRoleAssignmentDialog(customFieldId:number, roleId:number) {

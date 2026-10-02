@@ -77,6 +77,12 @@ module My
         DurationConverter.output(time_entry.hours_for_calculation, format: :hours_and_minutes)
       end
 
+      def type
+        concat(render(Primer::Beta::Octicon.new(icon: :clock, mr: 1)))
+
+        TimeEntry.model_name.human
+      end
+
       def subject
         return "--" unless time_entry.entity.is_a?(WorkPackage)
 
@@ -96,10 +102,6 @@ module My
         end
       end
 
-      def activity
-        time_entry.activity&.name
-      end
-
       def scheme
         if time_entry.ongoing?
           :info
@@ -107,8 +109,6 @@ module My
           super
         end
       end
-
-      delegate :comments, to: :time_entry
 
       private
 
