@@ -83,10 +83,7 @@ RSpec.describe API::V3::Queries::Schemas::SharedWithUserFilterDependencyRepresen
     end
   end
 
-  describe "caching" do
+  it_behaves_like "filter dependency caching" do
     let(:operator) { Queries::Operators::EqualsOr }
-    let(:other_project) { build_stubbed(:project) }
-
-    it_behaves_like "filter dependency caching"
   end
 end
