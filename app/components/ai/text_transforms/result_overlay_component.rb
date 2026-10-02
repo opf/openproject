@@ -30,11 +30,15 @@
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): the AI result popover. Rendered once per page and driven by
-    # its Stimulus controller, which runs the chosen action through the run API (AI-136).
-    class ResultPopoverComponent < ApplicationComponent
+    # Demo only (AI-126): the AI result pane. Wraps Primer::Alpha::Overlay without changing it;
+    # its Stimulus controller runs the chosen action through the run API (AI-136) and owns the
+    # feature-specific dragging and resizing.
+    class ResultOverlayComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include API::V3::Utilities::PathHelper
+
+      OVERLAY_ID = "ai-text-transform-result"
+      ANCHOR_ID = "ai-text-transform-result-anchor"
 
       def self.visible_for?(user)
         user.logged? &&
@@ -46,24 +50,24 @@ module AI
 
       def controller_data
         {
-          controller: "ai-text-transform-popover",
-          ai_text_transform_popover_runs_url_value: api_v3_paths.ai_text_transform_runs,
-          ai_text_transform_popover_render_url_value: helpers.ai_text_transform_preview_path,
-          ai_text_transform_popover_editor_gone_value: label(:editor_gone),
-          ai_text_transform_popover_selection_gone_value: label(:selection_gone),
-          ai_text_transform_popover_context_document_value: label(:context_description),
-          ai_text_transform_popover_context_selection_value: label(:context_selection),
-          ai_text_transform_popover_copied_value: label(:copied),
-          ai_text_transform_popover_copy_value: label(:copy)
+          controller: "ai-text-transform-result-overlay",
+          ai_text_transform_result_overlay_runs_url_value: api_v3_paths.ai_text_transform_runs,
+          ai_text_transform_result_overlay_render_url_value: helpers.ai_text_transform_preview_path,
+          ai_text_transform_result_overlay_editor_gone_value: label(:editor_gone),
+          ai_text_transform_result_overlay_selection_gone_value: label(:selection_gone),
+          ai_text_transform_result_overlay_context_document_value: label(:context_description),
+          ai_text_transform_result_overlay_context_selection_value: label(:context_selection),
+          ai_text_transform_result_overlay_copied_value: label(:copied),
+          ai_text_transform_result_overlay_copy_value: label(:copy)
         }
       end
 
       def target(name)
-        { ai_text_transform_popover_target: name }
+        { ai_text_transform_result_overlay_target: name }
       end
 
       def action(name)
-        { action: "click->ai-text-transform-popover##{name}" }
+        { action: "click->ai-text-transform-result-overlay##{name}" }
       end
 
       def label(key)

@@ -47,13 +47,13 @@ const MIN_HEIGHT = 240;
 const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
- * Demo (AI-126): the AI result popover. It runs the action chosen in the editor's AI menu
- * on the whole description, shows the text while it streams in and replaces the editor
- * content on request. The popover can be dragged by its header or the grip.
+ * Demo (AI-126): the AI result pane, a wrapper around Primer::Alpha::Overlay. It runs the action
+ * chosen in the editor's AI menu, shows the text while it streams in and replaces the editor content
+ * on request. Dragging and resizing are feature code on this wrapper; the overlay itself is unchanged.
  */
-export default class AiTextTransformPopoverController extends Controller<HTMLElement> {
+export default class AiTextTransformResultOverlayController extends Controller<HTMLElement> {
   static targets = [
-    'handle', 'grip', 'resize', 'title', 'context', 'output', 'stopped', 'failed', 'failedMessage',
+    'overlay', 'handle', 'grip', 'resize', 'title', 'context', 'output', 'stopped', 'failed', 'failedMessage',
     'generatingFooter', 'doneFooter', 'errorFooter', 'copyLabel',
   ];
 
@@ -68,6 +68,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     copy: String,
   };
 
+  declare readonly overlayTarget:HTMLElement;
   declare readonly handleTarget:HTMLElement;
   declare readonly gripTarget:HTMLElement;
   declare readonly resizeTargets:HTMLElement[];
@@ -111,17 +112,20 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   private readonly onResizeDown = (event:PointerEvent) => this.beginResize(event);
   private readonly onResizeMove = (event:PointerEvent) => this.resize(event);
   private readonly onResizeUp = () => this.endResize();
+  private readonly onToggle = (event:Event) => this.toggled(event as ToggleEvent);
 
   connect():void {
     window.addEventListener(AI_TEXT_TRANSFORM_START_EVENT, this.onStart);
     [this.handleTarget, this.gripTarget].forEach((el) => el.addEventListener('pointerdown', this.onPointerDown));
     this.resizeTargets.forEach((el) => el.addEventListener('pointerdown', this.onResizeDown));
+    this.overlayTarget.addEventListener('toggle', this.onToggle);
   }
 
   disconnect():void {
     window.removeEventListener(AI_TEXT_TRANSFORM_START_EVENT, this.onStart);
     [this.handleTarget, this.gripTarget].forEach((el) => el.removeEventListener('pointerdown', this.onPointerDown));
     this.resizeTargets.forEach((el) => el.removeEventListener('pointerdown', this.onResizeDown));
+    this.overlayTarget.removeEventListener('toggle', this.onToggle);
     this.endDrag();
     this.endResize();
     this.stopRun();
@@ -132,13 +136,9 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   }
 
   // Closing while the text is generating cancels the run, afterwards it discards the result.
-  async dismiss():Promise<void> {
-    if (this.client?.running) {
-      await this.client.cancel();
-    }
-    this.stopRun();
-    this.clearSelectionMarker();
-    this.element.hidden = true;
+  // The cleanup runs in toggled(), so the overlay header's own close button takes the same path.
+  dismiss():void {
+    this.hideOverlay();
   }
 
   async retry():Promise<void> {
@@ -166,7 +166,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     } else {
       wrapper.dispatchEvent(new CustomEvent('op:ckeditor:replaceDocument', { detail: this.result }));
     }
-    this.element.hidden = true;
+    this.hideOverlay();
   }
 
   async copy():Promise<void> {
@@ -188,7 +188,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     this.input = detail.input;
     this.titleTarget.textContent = detail.label;
     this.contextTarget.textContent = detail.scope === 'selection' ? this.contextSelectionValue : this.contextDocumentValue;
-    this.element.hidden = false;
+    this.showOverlay();
     await this.run();
   }
 
@@ -259,10 +259,36 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     });
 
     if (run.status === 'cancelled') {
-      this.stopRun();
-      this.clearSelectionMarker();
-      this.element.hidden = true;
+      this.hideOverlay();
     }
+  }
+
+  private get overlayOpen():boolean {
+    return this.overlayTarget.matches(':popover-open');
+  }
+
+  private showOverlay():void {
+    if (!this.overlayOpen) {
+      this.overlayTarget.showPopover();
+    }
+  }
+
+  private hideOverlay():void {
+    if (this.overlayOpen) {
+      this.overlayTarget.hidePopover();
+    }
+  }
+
+  private toggled(event:ToggleEvent):void {
+    if (event.newState !== 'closed') {
+      return;
+    }
+
+    if (this.client?.running) {
+      void this.client.cancel();
+    }
+    this.stopRun();
+    this.clearSelectionMarker();
   }
 
   private show(state:PopoverState):void {
@@ -364,7 +390,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
       return;
     }
 
-    const rect = this.element.getBoundingClientRect();
+    const rect = this.overlayTarget.getBoundingClientRect();
     this.dragOffset = { x: event.clientX - rect.left, y: event.clientY - rect.top };
     window.addEventListener('pointermove', this.onPointerMove);
     window.addEventListener('pointerup', this.onPointerUp);
@@ -376,15 +402,23 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
       return;
     }
 
-    const rect = this.element.getBoundingClientRect();
+    const rect = this.overlayTarget.getBoundingClientRect();
     const maxLeft = window.innerWidth - rect.width - EDGE_MARGIN;
     const maxTop = window.innerHeight - EDGE_MARGIN * 6;
     const left = Math.min(Math.max(EDGE_MARGIN, event.clientX - this.dragOffset.x), Math.max(EDGE_MARGIN, maxLeft));
     const top = Math.min(Math.max(EDGE_MARGIN, event.clientY - this.dragOffset.y), maxTop);
 
-    this.element.style.setProperty('left', `${left}px`, 'important');
-    this.element.style.setProperty('right', 'auto', 'important');
-    this.element.style.setProperty('top', `${top}px`);
+    this.pin(left, top);
+  }
+
+  // anchored-position re-anchors on every window or document resize and writes plain inline
+  // top/left/right/bottom; once the user moved the pane, these win over that.
+  private pin(left:number, top:number):void {
+    const { style } = this.overlayTarget;
+    style.setProperty('left', `${left}px`, 'important');
+    style.setProperty('top', `${top}px`, 'important');
+    style.setProperty('right', 'auto', 'important');
+    style.setProperty('bottom', 'auto', 'important');
   }
 
   private endDrag():void {
@@ -396,12 +430,10 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
   // Resizing pins the popover to explicit coordinates first, so a right or bottom handle
   // grows it in place and a left handle moves the left edge only.
   private beginResize(event:PointerEvent):void {
-    const rect = this.element.getBoundingClientRect();
+    const rect = this.overlayTarget.getBoundingClientRect();
     const edge = (event.currentTarget as HTMLElement).dataset.edge ?? 'bottom-right';
     this.resizeStart = { x: event.clientX, y: event.clientY, left: rect.left, width: rect.width, height: rect.height, edge };
-    this.element.style.setProperty('left', `${rect.left}px`, 'important');
-    this.element.style.setProperty('right', 'auto', 'important');
-    this.element.style.setProperty('top', `${rect.top}px`);
+    this.pin(rect.left, rect.top);
     window.addEventListener('pointermove', this.onResizeMove);
     window.addEventListener('pointerup', this.onResizeUp);
     event.preventDefault();
@@ -413,7 +445,7 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     }
 
     const { edge, left, width, height, x, y } = this.resizeStart;
-    const rect = this.element.getBoundingClientRect();
+    const rect = this.overlayTarget.getBoundingClientRect();
     const dx = event.clientX - x;
     const dy = event.clientY - y;
     const fromLeft = edge.endsWith('left');
@@ -422,16 +454,16 @@ export default class AiTextTransformPopoverController extends Controller<HTMLEle
     if (fromLeft) {
       const maxWidth = left + width - EDGE_MARGIN;
       const newWidth = Math.min(Math.max(MIN_WIDTH, width - dx), maxWidth);
-      this.element.style.setProperty('left', `${left + width - newWidth}px`, 'important');
-      this.element.style.width = `${newWidth}px`;
+      this.overlayTarget.style.setProperty('left', `${left + width - newWidth}px`, 'important');
+      this.overlayTarget.style.width = `${newWidth}px`;
     } else {
       const maxWidth = window.innerWidth - left - EDGE_MARGIN;
-      this.element.style.width = `${Math.min(Math.max(MIN_WIDTH, width + dx), maxWidth)}px`;
+      this.overlayTarget.style.width = `${Math.min(Math.max(MIN_WIDTH, width + dx), maxWidth)}px`;
     }
 
     if (vertical) {
       const maxHeight = window.innerHeight - rect.top - EDGE_MARGIN;
-      this.element.style.height = `${Math.min(Math.max(MIN_HEIGHT, height + dy), maxHeight)}px`;
+      this.overlayTarget.style.height = `${Math.min(Math.max(MIN_HEIGHT, height + dy), maxHeight)}px`;
     }
   }
 

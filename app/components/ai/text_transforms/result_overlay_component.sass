@@ -1,30 +1,27 @@
-// Demo only (AI-126). Primer's popover is a static anchored box with a caret; the fixed
-// placement below the application header, the caret-less border, dragging and resizing are custom.
-.op-ai-result-popover
-  // Primer adds .left-0 and .right-0 with !important, so the placement needs it too.
-  // The controller overrides both inline (with priority) while the popover is dragged.
+// Demo only (AI-126). Wraps Primer::Alpha::Overlay without restyling it globally: every rule
+// is scoped to this feature. Dragging and resizing live in the wrapper's Stimulus controller.
+.op-ai-result-overlay--anchor
+  position: fixed
   top: calc(var(--header-height) + 8px)
-  right: 16px !important
-  left: auto !important
-  z-index: 600
-  width: min(480px, calc(100vw - 32px))
+  right: 16px
+  width: 0
+  height: 0
+  pointer-events: none
+
+.op-ai-result-overlay
   min-width: 320px
   max-width: calc(100vw - 32px)
 
-  &--message.Popover-message
-    width: 100%
-    max-width: none
-    height: 100%
+  &::backdrop
+    background: transparent
 
-    &::before,
-    &::after
-      display: none
-
-  &--layout
+  > .Overlay
     height: 100%
     max-height: calc(100vh - var(--header-height) - 32px)
+    display: flex
+    flex-direction: column
 
-  &--header,
+  &--handle,
   &--grip
     cursor: grab
     user-select: none
@@ -33,9 +30,13 @@
     display: inline-flex
     line-height: 1
 
+  &--footer
+    width: 100%
+
   &--body
-    overflow-y: auto
+    flex: 1 1 auto
     min-height: 8rem
+    overflow-y: auto
 
   &--resize
     position: absolute
