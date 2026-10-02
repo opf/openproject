@@ -31,7 +31,7 @@
 # Commits every write for real so threads, locks and workers see each
 # other's rows. Use only for genuine concurrency specs: all tables are
 # truncated afterwards, so stop workers first and expect no fixtures.
-RSpec.shared_context "with real database commits", use_transactional_fixtures: false do
+RSpec.shared_context "with real database commits" do
   self.use_transactional_tests = false
 
   around do |example|
