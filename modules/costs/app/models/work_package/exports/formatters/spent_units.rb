@@ -27,23 +27,23 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module WorkPackage::Exports
+  module Formatters
+    class SpentUnits < ::Exports::Formatters::Default
+      def self.apply?(name, _export_format)
+        %i[costs_by_type spent_units].include?(name.to_sym)
+      end
 
-module Projects::Costs
-  extend ActiveSupport::Concern
+      def format(work_package, **)
+        cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
+        values = cost_helper.summarized_cost_entries.map do |cost_type, volume|
+          type_unit = volume.to_d == BigDecimal("1.0") ? cost_type.unit : cost_type.unit_plural
+          "#{volume} #{type_unit}"
+        end
+        return nil if values.empty?
 
-  included do
-    has_many :rates, class_name: "HourlyRate" # rubocop:disable Rails/HasManyOrHasOneDependent
-    has_many :cost_types_projects, dependent: :delete_all
-    has_many :cost_types, through: :cost_types_projects
-  end
-
-  def costs_enabled?
-    module_enabled?(:costs)
-  end
-
-  def cost_types_available?
-    return @cost_types_available if defined?(@cost_types_available)
-
-    @cost_types_available = CostType.available_for_project(self).active.exists?
+        values.join(", ")
+      end
+    end
   end
 end
