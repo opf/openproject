@@ -43,7 +43,7 @@ import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullca
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
 import {
-  remainingHours,
+  remainingAllocations,
   renderAllocationCard,
   type ResourceAllocationEvent,
 } from 'core-stimulus/helpers/resource-allocation-event';
@@ -213,9 +213,7 @@ export default class MyWorkStackController extends Controller {
   }
 
   private remainingAllocations():ResourceAllocationEvent[] {
-    return this.allocationsValue
-      .map((allocation) => ({ ...allocation, hours: remainingHours(allocation, this.timeEntriesValue) }))
-      .filter((allocation) => allocation.hours > 0);
+    return remainingAllocations(this.allocationsValue, this.timeEntriesValue);
   }
 
   // Each bar is stacked on top of the one before it, so the entries are laid out in the

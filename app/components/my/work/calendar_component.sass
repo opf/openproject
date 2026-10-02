@@ -31,21 +31,38 @@
       &.te-entry-card-ongoing
         +te-entry-card-ongoing
 
-      // The calendar places an entry on a time axis, so the clock reads as noise here.
-      .te-entry-card--icon
-        display: none
-
       .fc-event-main
         padding: 0
 
       &.fc-timegrid-event-short, &.fc-daygrid-block-event
         +te-entry-card-condensed
 
+    .calendar-allocation-event
+      +te-allocation-event
+      user-select: none
+      color: var(--body-font-color)
+      padding: 4px
+      line-height: var(--text-body-lineHeight-small)
+      font-size: var(--text-body-size-small)
+
+      +te-entry-card
+
+      .fc-event-main
+        padding: 0
+
+      &.fc-daygrid-block-event
+        +te-entry-card-condensed
+
+      // The global FullCalendar styles colour every all-day event through #content-wrapper.
+      &.fc-daygrid-event
+        background: var(--bgColor-muted) !important
+        border-color: var(--allocation-border-color) !important
+
     .fc-popover
       background: var(--fc-page-bg-color) !important
 
     // event in the the all day area
-    .fc-daygrid-event
+    .fc-daygrid-event:not(.calendar-allocation-event)
       background: var(--body-background) !important
 
     .fc-timegrid-more-link

@@ -27,7 +27,7 @@
 //++
 
 import { ActionEvent, Controller } from '@hotwired/stimulus';
-import { Calendar, EventApi, EventContentArg } from '@fullcalendar/core';
+import { Calendar, EventApi, EventContentArg, EventInput } from '@fullcalendar/core';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -45,6 +45,11 @@ import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
+import {
+  remainingAllocations,
+  renderAllocationCard,
+  type ResourceAllocationEvent,
+} from 'core-stimulus/helpers/resource-allocation-event';
 
 interface AdditionalDialogCloseData {
   spent_on?:string;
@@ -63,7 +68,9 @@ export default class MyWorkController extends Controller {
     mode: String,
     viewMode: String,
     timeEntries: Array,
+    allocations: Array,
     initialDate: String,
+    today: String,
     canCreate: Boolean,
     locale: String,
     canEdit: Boolean,
@@ -81,7 +88,9 @@ export default class MyWorkController extends Controller {
   declare readonly hasCalendarTarget:boolean;
   declare readonly modeValue:string;
   declare readonly timeEntriesValue:TimeEntryEvent[];
+  declare readonly allocationsValue:ResourceAllocationEvent[];
   declare readonly initialDateValue:string;
+  declare readonly todayValue:string;
   declare readonly canCreateValue:boolean;
   declare readonly canEditValue:boolean;
   declare readonly allowTimesValue:boolean;
@@ -135,7 +144,7 @@ export default class MyWorkController extends Controller {
       locales: allLocales,
       locale: this.localeValue,
       timeZone: this.timeZoneValue,
-      events: this.timeEntriesValue,
+      events: [...this.timeEntriesValue, ...this.allocationEvents()],
       headerToolbar: false,
       height: '100%',
       initialDate: this.initialDateValue,
@@ -155,6 +164,14 @@ export default class MyWorkController extends Controller {
       hiddenDays: this.hiddenDays(),
       firstDay: this.startOfWeekValue,
       eventClassNames(info) {
+        if (info.event.extendedProps.allocationId) {
+          return [
+            'calendar-allocation-event',
+            ...(info.event.extendedProps.typeId ? [`__hl_type_${info.event.extendedProps.typeId}`] : []),
+            'ellipsis',
+          ];
+        }
+
         const classes = [
           'calendar-time-entry-event',
           `__hl_type_${info.event.extendedProps.typeId}`,
@@ -259,6 +276,10 @@ export default class MyWorkController extends Controller {
         this.calendar.setOption('defaultTimedEventDuration', this.DEFAULT_TIMED_EVENT_DURATION);
       },
       eventClick: (info) => {
+        if (info.event.extendedProps.allocationId) {
+          return;
+        }
+
         // A link in the card leads somewhere of its own, and the click can land on an icon
         // inside it rather than on the anchor.
         if ((info.jsEvent.target as HTMLElement).closest('a[href]')) {
@@ -275,7 +296,18 @@ export default class MyWorkController extends Controller {
     this.calendar.render();
   }
 
+  allocationEvents():EventInput[] {
+    return remainingAllocations(this.allocationsValue, this.timeEntriesValue)
+      .map((allocation) => ({ ...allocation, editable: false }));
+  }
+
   createEventContent(info:EventContentArg) {
+    if (info.event.extendedProps.allocationId) {
+      const allocation = { ...info.event.extendedProps, title: info.event.title } as ResourceAllocationEvent;
+
+      return renderAllocationCard(allocation, info.event.startStr.slice(0, 10), this.todayValue, this.pathHelperService);
+    }
+
     const entry = { ...info.event.extendedProps, id: info.event.id } as TimeEntryCard;
 
     // While the event is being resized the serialized duration and time range describe
@@ -299,10 +331,14 @@ export default class MyWorkController extends Controller {
   addTotalFooter() {
     if (!this.calendar) return;
 
-    renderFooterTotals(document, (day) => renderDayTotal(this.calculateTotalHours(day), 0, this.workingHoursValue[day] || 0));
+    renderFooterTotals(document, (day) => renderDayTotal(
+      this.calculateTotalHours(day),
+      this.calculateTotalHours(day, true),
+      this.workingHoursValue[day] || 0,
+    ));
   }
 
-  calculateTotalHours(dayStr:string):number {
+  calculateTotalHours(dayStr:string, allocated = false):number {
     // Calculate total hours for this day
     let totalHours = 0;
 
@@ -313,7 +349,7 @@ export default class MyWorkController extends Controller {
       // Format event date for comparison
       const eventDateStr = toMoment(eventStart, this.calendar).format('YYYY-MM-DD');
 
-      if (eventDateStr === dayStr && event.extendedProps?.hours) {
+      if (eventDateStr === dayStr && !!event.extendedProps.allocationId === allocated && event.extendedProps?.hours) {
         totalHours += event.extendedProps.hours as number;
       }
     });

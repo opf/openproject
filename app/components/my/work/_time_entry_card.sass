@@ -72,6 +72,17 @@
     display: flex
     color: var(--fgColor-muted)
 
+// For the event element of an allocation, which each view names for itself. A card
+// without a type (its work package is not visible) has no --hl-color.
+=te-allocation-event
+  --allocation-border-color: hsl(from var(--hl-color, var(--borderColor-emphasis)) h s calc(l - 15))
+  background: var(--bgColor-muted)
+  border: 1px dashed var(--allocation-border-color)
+  border-top: 4px solid var(--allocation-border-color)
+  border-radius: 6px
+  box-shadow: var(--shadow-resting-medium)
+  overflow: hidden
+
 // For a card with no room for more than a single row.
 =te-entry-card-condensed
   .te-entry-card

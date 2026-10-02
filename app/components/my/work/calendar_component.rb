@@ -35,7 +35,6 @@ module My
       include OpPrimer::ComponentHelpers
       include ScheduledHours
 
-      # TODO: display the allocations in the calendar
       options time_entries: [],
               allocations: [],
               entries: :all,
@@ -50,7 +49,9 @@ module My
           "my--work-mode-value" => mode,
           "my--work-view-mode-value" => "calendar",
           "my--work-time-entries-value" => time_entries_json,
+          "my--work-allocations-value" => allocations.to_json,
           "my--work-initial-date-value" => date.iso8601,
+          "my--work-today-value" => User.current.today.iso8601,
           "my--work-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
           "my--work-can-edit-value" => User.current.allowed_in_any_project?(:edit_own_time_entries),
           "my--work-allow-times-value" => TimeEntry.can_track_start_and_end_time?,

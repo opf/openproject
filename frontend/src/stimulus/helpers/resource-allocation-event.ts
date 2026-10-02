@@ -71,6 +71,15 @@ export function remainingHours(
   return Math.max(Math.round((allocation.hours - logged) * 100) / 100, 0);
 }
 
+export function remainingAllocations(
+  allocations:ResourceAllocationEvent[],
+  timeEntries:Pick<TimeEntryEvent, 'start'|'hours'|'ongoing'|'workPackageId'>[],
+):ResourceAllocationEvent[] {
+  return allocations
+    .map((allocation) => ({ ...allocation, hours: remainingHours(allocation, timeEntries) }))
+    .filter((allocation) => allocation.hours > 0);
+}
+
 const icon = (data:Parameters<typeof toDOMString>[0]) => unsafeHTML(toDOMString(data, 'small', {
   'aria-hidden': 'true',
   class: 'octicon',
