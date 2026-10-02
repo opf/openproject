@@ -101,6 +101,19 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
     expect(Sprint.order_by_activity.completed).to eq([completed_sprint_a, completed_sprint_b])
   end
 
+  it "breaks ties by name with numbers naturally" do
+    sprint10 = create(:sprint, project:, status: :completed,
+                               name: "Sprint 10",
+                               start_date: Date.new(2025, 8, 1),
+                               finish_date: Date.new(2025, 8, 31))
+    sprint2 = create(:sprint, project:, status: :completed,
+                              name: "Sprint 2",
+                              start_date: Date.new(2025, 8, 1),
+                              finish_date: Date.new(2025, 8, 31))
+
+    expect(Sprint.order_by_activity.completed.where(id: [sprint10, sprint2])).to eq([sprint2, sprint10])
+  end
+
   it "breaks ties within the same status, dates, and name by id ascending" do
     duplicate_a = create(:sprint, project:, status: :completed,
                                   name: "Duplicate",

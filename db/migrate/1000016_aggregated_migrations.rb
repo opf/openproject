@@ -37,7 +37,7 @@ class AggregatedMigrations < SquashedMigration
   extensions Extensions::BtreeGist,
              Extensions::PgTrgm,
              Extensions::Unaccent,
-             Extensions::VersionNameCollation
+             Extensions::VersionsNameCollation
 
   tables Tables::Projects,
          Tables::Colors,

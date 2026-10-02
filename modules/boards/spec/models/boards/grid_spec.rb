@@ -91,6 +91,18 @@ RSpec.describe Boards::Grid do
     end
   end
 
+  describe "order by name" do
+    let(:project) { create(:project) }
+
+    it "orders numbers naturally" do
+      board10 = create(:board_grid, project:, name: "Board 10")
+      board2 = create(:board_grid, project:, name: "Board 2")
+      board1 = create(:board_grid, project:, name: "Board 1")
+
+      expect(described_class.order(:name)).to eq([board1, board2, board10])
+    end
+  end
+
   describe "#destroy" do
     context "with an associated query" do
       let(:project) { create(:project) }

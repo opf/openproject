@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -25,48 +27,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module Boards
-  class Menu < Submenu
-    attr_reader :view_type, :project
 
-    def initialize(project: nil, params: nil)
-      @project = project
-      @params = params
+require_relative "base"
 
-      super(view_type: nil, project:, params:)
-    end
+class Extensions::VersionsNameCollation < Extensions::Base
+  creation_sql <<~SQL.squish
+    CREATE COLLATION IF NOT EXISTS versions_name (provider = icu, locale = "und-u-kn-true")
+  SQL
+  extension "encoding"
+  module_text <<~MESSAGE
 
-    def global_queries
-      Boards::Grid.includes(:project)
-                  .references(:project)
-                  .where(project: @project)
-                  .order(:name)
-                  .pluck(:id, :name)
-                  .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
-    end
+    \e[31mERROR:\e[0m Failed to create an ICU collation with current database encoding.
+    You need to change the database encoding before proceeding.
 
-    def starred_queries
-      []
-    end
+    Please check the instructions on how to do it:
+    https://www.openproject.org/docs/installation-and-operations/misc/changing-database-encoding/
 
-    def default_queries
-      []
-    end
-
-    def custom_queries
-      []
-    end
-
-    def selected?(query_params)
-      query_params[:id].to_s == params[:id]
-    end
-
-    def query_params(id)
-      { id: }
-    end
-
-    def query_path(query_params)
-      project_work_package_board_path(project, query_params)
-    end
-  end
+  MESSAGE
 end
