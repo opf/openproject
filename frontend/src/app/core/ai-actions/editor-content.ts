@@ -44,8 +44,6 @@ export interface IEditorWithContent {
   };
 }
 
-// Replaces the whole document through the model so the editor records the
-// change as a single undo step. editor.setData() would drop the undo stack.
 export function replaceEditorContent(editor:IEditorWithContent, markdown:string):void {
   const viewFragment = editor.data.processor.toView(markdown);
   const modelFragment = editor.data.toModel(viewFragment);

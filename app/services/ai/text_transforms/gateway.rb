@@ -36,8 +36,6 @@ module AI
       end
 
       class << self
-        # A block rather than a class, so that code reloading in development
-        # keeps resolving the registering module's current class.
         attr_accessor :factory
 
         def build
