@@ -27,7 +27,7 @@
 //++
 
 import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
-import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
+import { ComponentPortal, ComponentType, DomPortalOutlet } from '@angular/cdk/portal';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   ExternalQueryConfigurationComponent,
@@ -35,7 +35,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
 
-export type Class = new(...args:any[]) => any;
+export type Class = ComponentType<unknown>;
 
 @Injectable()
 export class ExternalQueryConfigurationService {
@@ -101,7 +101,7 @@ export class ExternalQueryConfigurationService {
    * This allows callers to pass data into the newly created modal.
    *
    */
-  private injectorFor(data:any) {
+  private injectorFor(data:Partial<QueryConfigurationLocals>) {
     // Pass the service because otherwise we're getting a cyclic dependency between the portal
     // host service and the bound portal
     data.service = this;

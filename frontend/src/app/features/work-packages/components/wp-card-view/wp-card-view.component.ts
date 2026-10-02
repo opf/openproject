@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild, OnDestroy, inject, ProviderToken } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -224,7 +224,10 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
     this.cardDragDrop.init(this);
 
     // Register event handlers for the cards
-    const registry = this.injector.get<any>(WorkPackageViewHandlerToken, CardViewHandlerRegistry);
+    const registry = this.injector.get(
+      WorkPackageViewHandlerToken as ProviderToken<CardViewHandlerRegistry|typeof CardViewHandlerRegistry>,
+      CardViewHandlerRegistry,
+    );
     if (registry instanceof CardViewHandlerRegistry) {
       registry.attachTo(this);
     } else {

@@ -27,8 +27,9 @@
 //++
 
 import { InjectionToken } from '@angular/core';
+import type { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 
-export const OpContextMenuLocalsToken = new InjectionToken<any>('CONTEXT_MENU_LOCALS');
+export const OpContextMenuLocalsToken = new InjectionToken<OpContextMenuLocalsMap>('CONTEXT_MENU_LOCALS');
 
 export interface OpContextMenuItem {
   disabled?:boolean;
@@ -49,6 +50,7 @@ export interface OpContextMenuLocalsMap {
   showAnchorRight?:boolean;
   contextMenuId?:string;
   label?:string;
+  service?:OPContextMenuService;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   [key:string]:any;
 }

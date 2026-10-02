@@ -61,7 +61,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
 
   public availableInlineHighlightedAttributes:HalResource[] = [];
 
-  public selectedAttributes:any[] = [];
+  public selectedAttributes:HalResource[] = [];
 
   public availableRowHighlightedAttributes:{ name:string; value:HighlightingMode }[] = [];
 

@@ -83,8 +83,8 @@ export class WorkPackageContextMenuHelperService {
     },
   ];
 
-  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
-    const singularPermittedActions:any[] = [];
+  public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:WorkPackageAction[], allowSplitScreenActions:boolean):WorkPackageAction[] {
+    const singularPermittedActions:WorkPackageAction[] = [];
 
     let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
@@ -146,15 +146,15 @@ export class WorkPackageContextMenuHelperService {
     return bulkPermittedActions;
   }
 
-  public getBulkActionLink(action:any, workPackages:any) {
+  public getBulkActionLink(action:WorkPackageAction, workPackages:WorkPackageResource[]) {
     const workPackageIdParams = {
-      'ids[]': workPackages.map((wp:any) => wp.id),
+      'ids[]': workPackages.map((wp) => wp.id),
     };
     const serializedIdParams = this.UrlParamsHelper.buildQueryString(workPackageIdParams);
 
-    const linkAndQueryString = action.href.split('?');
+    const linkAndQueryString = action.href!.split('?');
     const link = linkAndQueryString.shift();
-    const queryParts = linkAndQueryString.concat(new Array(serializedIdParams));
+    const queryParts = linkAndQueryString.concat(new Array<string>(serializedIdParams!));
 
     return `${link}?${queryParts.join('&')}`;
   }
@@ -247,7 +247,7 @@ export class WorkPackageContextMenuHelperService {
     return allowedActions;
   }
 
-  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
+  public getPermittedActions(workPackages:WorkPackageResource[], permittedActionConstants:WorkPackageAction[], allowSplitScreenActions:boolean):WorkPackageAction[] {
     if (workPackages.length === 1) {
       return this.getPermittedActionLinks(workPackages[0], permittedActionConstants, allowSplitScreenActions);
     }

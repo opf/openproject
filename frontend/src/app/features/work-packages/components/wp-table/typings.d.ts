@@ -26,4 +26,4 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-type IGroupCellsMap = Record<string, WorkPackageTimelineCell[]>;
+type IGroupCellsMap = Record<string, import('core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cell').WorkPackageTimelineCell[]>;
