@@ -3116,7 +3116,6 @@ zh-CN:
   error_no_default_work_package_status: 没有定义默认的工作包状态。请检查您的配置 （转到"管理-> 工作包状态"）。
   error_no_type_in_project: 没有类型与此项目关联。请检查的项目设置。
   error_omniauth_invalid_auth: 从身份提供程序返回的身份验证信息无效。请联系您的管理员获取更多帮助。
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 通过外部身份验证提供程序注册超时。请再试一次。
   error_password_change_failed: 试图更改密码时发生错误。
   error_pdf_date_range_too_long: 所选工作包日期范围超出允许的 PDF 导出限制。请将范围缩减至最多 %{years} 年。

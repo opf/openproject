@@ -48,14 +48,14 @@ li:
           status: status
           subproject: subprojek
           subtasks: parent-child
-          version: versie
+          version: version
         board_type_title:
-          assignee: Toegewezene
+          assignee: Assignee
           basic: Basic
           status: Status
           subproject: Subprojek
           subtasks: Parent-child
-          version: Versie
+          version: Version
         free: basic
         free_text: 'Start from scratch with a blank board. Manually add cards and columns to this board.
 
@@ -83,7 +83,7 @@ li:
       text_hidden_list_warning: Not all lists are displayed because you lack the permission. Contact your admin for more information.
       version:
         close_version: Close version
-        closed: Geslaote
+        closed: Closed
         edit_version: Edit version
         is_closed: Version is closed. No items can be added to this version.
         is_locked: Version is locked. No items can be added to this version.

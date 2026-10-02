@@ -13,7 +13,7 @@ li:
           no_results: No documents yet.
           title: Documents
         members:
-          title: Leeje
+          title: Members
         missing_permission: You don't have the necessary permissions to view this widget.
         news:
           title: News
@@ -25,7 +25,7 @@ li:
           title: Favorite projects
         project_status:
           at_risk: At risk
-          discontinued: Stop gezatte
+          discontinued: Discontinued
           finished: Finished
           not_set: Not set
           not_started: Not started

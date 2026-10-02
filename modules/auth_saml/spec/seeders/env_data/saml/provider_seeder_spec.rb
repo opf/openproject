@@ -63,8 +63,7 @@ RSpec.describe EnvData::Saml::ProviderSeeder, :settings_reset do
             OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL: "['mail', 'urn:oid:2.5.4.42', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']",
             OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN: "['mail', 'urn:oid:2.5.4.42', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress']",
             OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
-            OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME: "['urn:oid:2.5.4.4', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname']",
-            OPENPROJECT_SAML_SAML_ADDITIONAL__FORM__ACTION__URLS: "['https://broker.example.com/login', 'https://idp.example.com']"
+            OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME: "['urn:oid:2.5.4.4', 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname']"
           } do
     it "uses those variables" do
       expect { seeder.seed! }.to change(Saml::Provider, :count).by(1)
@@ -82,7 +81,6 @@ RSpec.describe EnvData::Saml::ProviderSeeder, :settings_reset do
       expect(provider.mapping_mail).to eq "mail\nurn:oid:2.5.4.42\nhttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
       expect(provider.mapping_firstname).to eq "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"
       expect(provider.mapping_lastname).to eq "urn:oid:2.5.4.4\nhttp://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"
-      expect(provider.additional_form_action_urls).to eq %w[https://broker.example.com/login https://idp.example.com]
     end
 
     context "when provider already exists with that name" do

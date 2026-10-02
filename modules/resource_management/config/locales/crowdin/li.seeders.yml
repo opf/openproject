@@ -14,7 +14,7 @@ li:
             work_package_timeline:
               name: Work package timeline
             user_card:
-              name: Team leeje
+              name: Team members
             user_timeline:
               name: Team timeline
             generic_allocation:

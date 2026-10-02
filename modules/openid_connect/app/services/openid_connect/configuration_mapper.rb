@@ -55,7 +55,6 @@ module OpenIDConnect
         "limit_self_registration" => options["limit_self_registration"],
         "use_graph_api" => options["use_graph_api"],
         "acr_values" => options["acr_values"],
-        "additional_form_action_urls" => options["additional_form_action_urls"],
         "scope" => extract_scope(options["scope"]),
         "authorization_endpoint" => extract_url(options, "authorization_endpoint"),
         "token_endpoint" => extract_url(options, "token_endpoint"),

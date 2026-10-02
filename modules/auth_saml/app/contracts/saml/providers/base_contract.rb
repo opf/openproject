@@ -56,9 +56,6 @@ module Saml
                 url: { schemes: %w[http https] },
                 if: -> { model.idp_sso_service_url_changed? }
 
-      attribute :additional_form_action_urls
-      validates :additional_form_action_urls, url_list: true
-
       attribute :idp_slo_service_url
       validates :idp_slo_service_url,
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },

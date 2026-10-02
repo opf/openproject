@@ -182,7 +182,7 @@ li:
             rename_project_folder:
               conflict: OpenProject could not rename the project folder to %{current_path} as a folder with the same name already exists
               forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} is neet gevonge."
+              not_found: "%{current_path} wasn't found."
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that your Nextcloud instance is reachable and check OpenProject worker logs for more information
@@ -221,7 +221,7 @@ li:
             rename_project_folder:
               conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
               forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} is neet gevonge."
+              not_found: "%{current_path} wasn't found."
             set_folders_permissions:
               permission_not_set: could not set permissions on %{path}.
           error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information
@@ -235,14 +235,14 @@ li:
     admin:
       side_panel:
         health_notifications_component:
-          sync_now: Sync noo
+          sync_now: Sync now
           sync_queued: Synchronization queued.
     buttons:
-      done_continue: Vaerdig, doorgaon
+      done_continue: Done, continue
       open_storage: Open file storage
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Opslaon en doorgaon
+      save_and_continue: Save and continue
       select_folder: Select folder
     configuration_checks:
       oauth_client_incomplete:

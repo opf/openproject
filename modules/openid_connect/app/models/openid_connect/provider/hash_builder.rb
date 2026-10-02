@@ -58,8 +58,7 @@ module OpenIDConnect
         attribute_map:,
         post_logout_redirect_uri:,
         claims:,
-        acr_values:,
-        additional_form_action_urls:
+        acr_values:
       }
        .merge(provider_specific_to_h)
        .compact_blank

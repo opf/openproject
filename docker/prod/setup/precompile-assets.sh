@@ -20,8 +20,6 @@ else
     rm -rf "$APP_PATH/node_modules/" "$APP_PATH/frontend/node_modules/"
     # Remove angular cache
     rm -rf "$APP_PATH/frontend/.angular"
-    # Clean cache in root
-    rm -rf /root/.npm
     rm -f "$APP_PATH/log/production.log"
   fi
 fi

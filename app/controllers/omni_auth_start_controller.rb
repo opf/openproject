@@ -57,12 +57,12 @@ class OmniAuthStartController < ApplicationController
   private
 
   def ensure_form_action_appended!(provider)
-    form_action_origins = Array(provider[:form_action_urls]).filter_map { |url| origin_from_url(url) }
+    form_action_origin = origin_from_url(provider[:form_action_url])
 
-    if form_action_origins.empty?
+    if form_action_origin.nil?
       render_incomplete_provider(provider)
     else
-      append_content_security_policy_directives(form_action: form_action_origins)
+      append_content_security_policy_directives(form_action: [form_action_origin])
     end
   end
 
@@ -74,14 +74,14 @@ class OmniAuthStartController < ApplicationController
   def developer_provider(name)
     return if name.to_s != "developer" || Rails.env.production?
 
-    { name: "developer", form_action_urls: [root_url] }
+    { name: "developer", form_action_url: root_url }
   end
 
   def render_incomplete_provider(provider)
     render_error(
       status: 500,
       message: I18n.t(:error_omniauth_provider_incomplete, provider: provider[:display_name].presence || provider[:name]),
-      exception: "OmniAuth provider #{provider[:name].inspect} has no valid :form_action_urls"
+      exception: "OmniAuth provider #{provider[:name].inspect} has no valid :form_action_url"
     )
   end
 

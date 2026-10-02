@@ -12,7 +12,7 @@ li:
       status: Kanban
       subproject: Subprojek
       subtasks: Parent-child
-      version: Versie
+      version: Version
     board_type_descriptions:
       assignee: 'Board with automated columns based on assigned users. Ideal for dispatching work packages.
 
@@ -35,9 +35,9 @@ li:
     board_types:
       action: Action board (%{attribute})
       free: Basic
-    label_board: Bord
-    label_board_type: Type bord
-    label_boards: Borde
+    label_board: Board
+    label_board_type: Board type
+    label_boards: Boards
     label_create_new_board: Create new board
   ee:
     upsell:
@@ -48,4 +48,4 @@ li:
   plugin_openproject_boards:
     description: Provides board views.
     name: OpenProject Boards
-  project_module_board_view: Borde
+  project_module_board_view: Boards

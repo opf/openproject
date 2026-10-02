@@ -66,16 +66,6 @@ module OpenIDConnect
           required: false,
           input_width: :large
         )
-        f.text_area(
-          name: :additional_form_action_urls,
-          rows: 3,
-          label: OpenIDConnect::Provider.human_attribute_name(:additional_form_action_urls),
-          caption: I18n.t("authentication.instructions.additional_form_action_urls"),
-          disabled: provider.seeded_from_env?,
-          required: false,
-          input_width: :large,
-          value: provider.additional_form_action_urls.join("\n")
-        )
         f.check_box(
           name: :limit_self_registration,
           label: OpenIDConnect::Provider.human_attribute_name(:limit_self_registration),

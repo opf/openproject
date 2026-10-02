@@ -51,17 +51,7 @@ RSpec.describe OpenProject::AuthSaml do
     subject { OpenProject::Plugins::AuthPlugin.find_provider_by_name("my-saml") }
 
     it "redirects the form action to the IdP SSO service URL" do
-      expect(subject[:form_action_urls]).to eq ["https://example.com/sso"]
-    end
-
-    context "with additional form action URLs" do
-      let!(:provider) do
-        create(:saml_provider, slug: "my-saml", additional_form_action_urls: ["https://broker.example.com/login"])
-      end
-
-      it "lists them after the IdP SSO service URL" do
-        expect(subject[:form_action_urls]).to eq %w[https://example.com/sso https://broker.example.com/login]
-      end
+      expect(subject[:form_action_url]).to eq "https://example.com/sso"
     end
   end
 end

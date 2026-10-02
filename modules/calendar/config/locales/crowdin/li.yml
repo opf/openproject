@@ -7,6 +7,6 @@ li:
   permission_share_calendars: Abonnaere op iCalendars
   permission_view_calendar: Bekiek kalenders
   plugin_openproject_calendar:
-    description: Gaef kalender weergaves.
-    name: OpenProject Kalender
+    description: Provides calendar views.
+    name: OpenProject Calendar
   project_module_calendar_view: Kalenders

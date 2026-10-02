@@ -18,7 +18,7 @@ li:
       success: The job completed successfully.
     redirect: You are being redirected.
     redirect_errors: Due to these errors, you will not be redirected automatically.
-    redirect_link: Klik heej um door te gaon.
+    redirect_link: Please click here to continue.
     title: Background job status
   label_job_status_plural: Job statuses
   plugin_openproject_job_status:

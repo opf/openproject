@@ -3134,7 +3134,6 @@ ko:
   error_no_default_work_package_status: 기본 작업 패키지 상태가 정의되지 않았습니다. 구성을 확인하세요("관리 -> 작업 패키지 상태"로 이동).
   error_no_type_in_project: 이 프로젝트에 유형이 연결되어 있지 않습니다. 프로젝트 설정을 확인하세요.
   error_omniauth_invalid_auth: ID 공급자로부터 반환된 인증 정보가 잘못되었습니다. 관리자에게 문의하여 추가적인 도움을 받으세요.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 외부 인증 공급자를 통한 등록이 시간 초과되었습니다. 다시 시도하세요.
   error_password_change_failed: 암호를 변경하려는 중에 오류가 발생했습니다.
   error_pdf_date_range_too_long: 선택한 작업 패키지 날짜 범위는 허용되는 PDF 내보내기 제한을 초과합니다. 범위를 최대 %{years}년으로 좁혀주세요.

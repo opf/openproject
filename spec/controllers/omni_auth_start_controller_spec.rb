@@ -65,7 +65,7 @@ RSpec.describe OmniAuthStartController do
       end
 
       context "when it declares a form action URL" do
-        let(:plugin_provider) { { name: "my-plugin", form_action_urls: "https://idp.example.com/sso/login" } }
+        let(:plugin_provider) { { name: "my-plugin", form_action_url: "https://idp.example.com/sso/login" } }
 
         it "renders the form" do
           get :show, params: { provider: "my-plugin" }

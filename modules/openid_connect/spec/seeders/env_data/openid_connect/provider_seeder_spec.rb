@@ -61,8 +61,7 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT: "/realms/master/protocol/openid-connect/token",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT: "/realms/master/protocol/openid-connect/userinfo",
             OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT: "https://keycloak.local/realms/master/protocol/openid-connect/logout",
-            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_JWKS__URI: "https://keycloak.local/realms/master/protocol/openid-connect/certs",
-            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ADDITIONAL__FORM__ACTION__URLS: "['https://broker.example.com/login', 'https://idp.example.com']"
+            OPENPROJECT_OPENID__CONNECT_KEYCLOAK_JWKS__URI: "https://keycloak.local/realms/master/protocol/openid-connect/certs"
           } do
     it "uses those variables" do
       expect { seeder.seed! }.to change(OpenIDConnect::Provider, :count).by(1)
@@ -79,7 +78,6 @@ RSpec.describe EnvData::OpenIDConnect::ProviderSeeder, :settings_reset do
       expect(provider.userinfo_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/userinfo"
       expect(provider.end_session_endpoint).to eq "https://keycloak.local/realms/master/protocol/openid-connect/logout"
       expect(provider.jwks_uri).to eq "https://keycloak.local/realms/master/protocol/openid-connect/certs"
-      expect(provider.additional_form_action_urls).to eq %w[https://broker.example.com/login https://idp.example.com]
       expect(provider.seeded_from_env?).to be true
     end
 

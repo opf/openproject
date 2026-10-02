@@ -136,14 +136,6 @@ RSpec.describe OpenIDConnect::ConfigurationMapper, type: :model do
     end
   end
 
-  describe "additional_form_action_urls" do
-    subject { result["additional_form_action_urls"] }
-
-    let(:configuration) { { additional_form_action_urls: ["https://idp.example.com/login"] } }
-
-    it { is_expected.to eq ["https://idp.example.com/login"] }
-  end
-
   describe "claims" do
     subject { result["claims"] }
 

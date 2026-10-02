@@ -3550,7 +3550,6 @@ ru:
   error_no_default_work_package_status: Пакету работ не может быть присвоен статус по умолчанию. Пожалуйста, проверьте конфигурацию («Администрирование –> Статус пакета работ»).
   error_no_type_in_project: Тип не связан с этим проектом. Пожалуйста, проверьте параметры проекта.
   error_omniauth_invalid_auth: Информация аутентификации, полученная от поставщика идентификационных данных, является недействительной. Пожалуйста, обратитесь к администратору за дальнейшей помощью.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Время регистрации через провайдера истекло. Пожалуйста, попробуйте еще раз.
   error_password_change_failed: Произошла ошибка при попытке изменить пароль.
   error_pdf_date_range_too_long: Выбранный диапазон дат пакета работ превышает допустимый лимит экспорта в PDF. Пожалуйста, сократите диапазон до %{years} лет.

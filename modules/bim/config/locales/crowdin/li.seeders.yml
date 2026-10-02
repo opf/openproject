@@ -7,44 +7,44 @@ li:
     bim:
       priorities:
         item_0:
-          name: Lieëg
+          name: Low
         item_1:
           name: Normaal
         item_2:
-          name: Hoeëg
+          name: High
         item_3:
-          name: Kritisch
+          name: Critical
       statuses:
         item_0:
-          name: Nie
+          name: New
         item_1:
-          name: In behandeling
+          name: In progress
         item_2:
-          name: Opgelos
+          name: Resolved
         item_3:
-          name: Geslaote
+          name: Closed
       time_entry_activities:
         item_0:
-          name: Behier
+          name: Management
         item_1:
-          name: Specificatie
+          name: Specification
         item_2:
-          name: Ander
+          name: Other
       types:
         item_0:
-          name: Taak
+          name: Task
         item_1:
-          name: Mielpaol
+          name: Milestone
         item_2:
-          name: Fase
+          name: Phase
         item_3:
-          name: Probleem
+          name: Issue
         item_4:
-          name: Opmerking
+          name: Remark
         item_5:
-          name: Verzeuk
+          name: Request
         item_6:
-          name: Konflict
+          name: Clash
       global_queries:
         item_0:
           name: 'Embedded table: Children'
@@ -105,7 +105,7 @@ li:
             item_1:
               name: Milestones
             item_2:
-              name: Take
+              name: Tasks
             item_3:
               name: Team planner
           boards:
@@ -115,7 +115,7 @@ li:
             widgets:
               item_0:
                 options:
-                  name: Welkom
+                  name: Welcome
               item_1:
                 options:
                   name: Getting started
@@ -141,13 +141,13 @@ li:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Leeje
+                  name: Members
               item_5:
                 options:
-                  name: Werkpakkette
+                  name: Work packages
               item_6:
                 options:
-                  name: Mielpäöl
+                  name: Milestones
         demo-planning-constructing-project:
           name: "(Demo) Planning & constructing"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
@@ -252,20 +252,20 @@ li:
                 item_0:
                   subject: Developing first draft
                   description: |-
-                    ## Doel
+                    ## Goal
 
-                    *    Maak een broekbaar euverzich van de resultate
-                    *    Kiek nao wat d’r gedaon is en vat de resultate same
-                    *    Communiceer alle relevante resultate mit de klant
-                    *    Bring de fundamentele randveurweerde van ’t projek in kaart
+                    *   Create a useful overview of the results
+                    *   Check what has been done and summarize the results
+                    *   Communicate all the relevant results with the customer
+                    *   Identify the fundamental boundary conditions of the project
 
-                    ## Umsjrieving
+                    ## Description
 
-                    *    Idder onderwerp krieg zien eige euverzich, det gebroek wuurd es ’n catalogus van de resultate
-                    *    Dit euverzich informeert alle deilnimmers euver de genómme beslissinge
-                    *    …
+                    *   Each topic gets its own overview which will be used as a catalogue of results
+                    *   This overview informs all participants about the decisions made
+                    *   ...
                 item_1:
-                  subject: Resultate samenvatte
+                  subject: Summarize results
                   description: |-
                     ## Goal
 
@@ -321,7 +321,7 @@ li:
                     *   Get the team together
                     *   ...
                 item_1:
-                  subject: Fundamentj
+                  subject: Foundation
                   description: |-
                     ## Goal
 
@@ -391,7 +391,7 @@ li:
                     *   Finishing the facade
                     *   ...
                 item_6:
-                  subject: Hoesverwerming partieke
+                  subject: House warming party
                   description: |-
                     ## Goal
 
@@ -417,18 +417,18 @@ li:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Projek plan
+              name: Project plan
             item_1:
-              name: Mielpäöl
+              name: Milestones
             item_2:
-              name: Take
+              name: Tasks
             item_3:
               name: Team planner
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welkom
+                  name: Welcome
               item_1:
                 options:
                   name: Getting started

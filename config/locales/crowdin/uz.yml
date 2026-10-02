@@ -3260,7 +3260,6 @@ uz:
   error_no_default_work_package_status: No default work package status is defined. Please check your configuration (Go to "Administration -> Work package statuses").
   error_no_type_in_project: No type is associated to this project. Please check the Project settings.
   error_omniauth_invalid_auth: The authentication information returned from the identity provider was invalid. Please contact your administrator for further help.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: The registration via an external authentication provider timed out. Please try again.
   error_password_change_failed: An error occurred when trying to change the password.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

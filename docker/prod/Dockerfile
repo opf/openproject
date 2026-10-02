@@ -3,7 +3,7 @@ ARG DEBIAN_BASE="trixie"
 # Add SBOM scan context for intermediate steps
 ARG BUILDKIT_SBOM_SCAN_CONTEXT=true
 ARG BUILDKIT_SBOM_SCAN_STAGE=true
-FROM ruby:${RUBY_VERSION}-slim-trixie AS runtime-base
+FROM ruby:${RUBY_VERSION}-slim-${DEBIAN_BASE} AS runtime-base
 LABEL maintainer="operations@openproject.com"
 
 ARG NODE_VERSION="24.19.0"
@@ -27,7 +27,6 @@ ENV PGVERSION="17"
 ENV PGVERSION_CHOICES="13 15 17"
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 ENV PATH="$PGBIN:$PATH"
-ENV BUNDLE_WITHOUT="development:test"
 
 # RAILS
 # Set a default key base, ensure to provide a secure value in production environments!
@@ -70,6 +69,14 @@ ARG NPM_VERSION="11.19.0"
 COPY ./docker/prod/setup/preinstall-build.sh ./docker/prod/setup/preinstall-build.sh
 RUN ./docker/prod/setup/preinstall-build.sh
 
+# Node dependencies only depend on the package manifests, so they stay cached
+# across source changes. node_modules are copied into app-build below.
+FROM build-base AS node-deps
+COPY package.json package-lock.json .npmrc ./
+COPY frontend/package.json frontend/package-lock.json frontend/.npmrc ./frontend/
+COPY frontend/patches ./frontend/patches
+RUN --mount=type=cache,target=/root/.npm,sharing=locked   npm ci --ignore-scripts &&   cd frontend && npm ci
+
 FROM build-base AS app-build
 
 # stuff required for gems
@@ -85,12 +92,16 @@ COPY lib ./lib
 COPY ./docker/prod/setup/bundle-install.sh ./vendor/
 RUN bash vendor/bundle-install.sh && rm vendor/bundle-install.sh
 
+COPY --from=node-deps /app/node_modules ./node_modules
+COPY --from=node-deps /app/frontend/node_modules ./frontend/node_modules
+
 COPY . .
 
 # Copy lock file again as the updated version was overriden by COPY just now.
 # `COPY . .` also restores the CI vendor/bundle cache over the installed bundle, so
 # the superseded gem versions bundle-install.sh pruned are back and need pruning again.
-RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
+RUN --mount=type=cache,target=/root/.npm,sharing=locked \
+  cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
   bundle clean --force && \
   ./docker/prod/setup/precompile-assets.sh
 

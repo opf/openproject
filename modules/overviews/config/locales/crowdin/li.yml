@@ -3,9 +3,9 @@ li:
   activerecord:
     models:
       grids/overview:
-        one: Euverzich
-        other: Euverzichte
+        one: Overview
+        other: Overviews
   overviews:
-    label_dashboard: Behierpaneel
-    label_home: "%{workspace_type} thoes"
-    label_overview: Euverzich
+    label_dashboard: Dashboard
+    label_home: "%{workspace_type} home"
+    label_overview: Overview

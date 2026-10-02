@@ -3258,7 +3258,6 @@ sv:
   error_no_default_work_package_status: Inget standardvärde för status för arbetspaket har definieras. Vänligen kontrollera din konfiguration (gå till "Administration-> arbetspaket status").
   error_no_type_in_project: Ingen typ associerad till detta projekt. Kontrollera projektinställningarna.
   error_omniauth_invalid_auth: Autentiseringsinformationen som returnerades från identitetsleverantören var ogiltig. Kontakta administratören för ytterligare hjälp.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Registrering via en extern autentiseringstjänst svarade inte. Försök igen.
   error_password_change_failed: Ett fel inträffade när lösenordet skulle ändras.
   error_pdf_date_range_too_long: Det valda arbetspaketets datumintervall överskrider den tillåtna gränsen för PDF-export. Begränsa intervallet till högst %{years} år.
