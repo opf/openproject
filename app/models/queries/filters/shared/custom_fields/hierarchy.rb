@@ -38,7 +38,7 @@ module Queries
 
           def autocomplete_options
             items = allowed_values.map do |name, id|
-              path = name.split(" / ")
+              path = custom_field.nestable? ? name.split(" / ") : [name]
               { name: path.last, id:, depth: path.length - 1 }
             end
 
@@ -61,6 +61,7 @@ module Queries
           def value_objects
             CustomField::Hierarchy::Item
               .where(id: @values)
+              .order(:position_cache)
               .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
           end
         end

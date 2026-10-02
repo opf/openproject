@@ -110,7 +110,7 @@ module Queries::Filters::Shared
         when "datetime"
           :datetime
         when "list", "weighted_item_list"
-          custom_field.nestable? ? :hierarchy : :string
+          :hierarchy
         else
           :string
         end
@@ -141,10 +141,21 @@ module Queries::Filters::Shared
       protected
 
       def condition
+        return customized_condition if operator_strategy.respond_to?(:sql_for_customized)
+
         [
           custom_field_context.where_subselect_conditions,
           type_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
         ].compact.join(" AND ")
+      end
+
+      def customized_condition
+        operator_strategy.sql_for_customized(
+          values_replaced,
+          custom_field.id,
+          Arel.sql(custom_field_context.customized_type),
+          Arel.sql("#{model.table_name}.id")
+        )
       end
 
       def type_strategy_class

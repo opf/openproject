@@ -63,5 +63,25 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
     it "pre-selects nothing when there are no values" do
       expect(filter_for([]).autocomplete_options[:model]).to eq([])
     end
+
+    context "for a former option list" do
+      let!(:custom_field) { create(:user_custom_field, :list, name: "Team", possible_values: ["Frontend / UI"]) }
+
+      it "keeps a label containing the path separator whole, at the first level" do
+        expect(filter_for([]).autocomplete_options[:items]).to include(include(name: "Frontend / UI", depth: 0))
+      end
+    end
+  end
+
+  describe "#value_objects" do
+    let!(:designer) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "Designer", before: developer.sort_order).value!
+    end
+
+    it "lists the items in the order of the list, as the filter summary reads them" do
+      expect(filter_for([developer.id.to_s, designer.id.to_s]).value_objects.map(&:name))
+        .to eq(%w[Designer Developer])
+    end
   end
 end
