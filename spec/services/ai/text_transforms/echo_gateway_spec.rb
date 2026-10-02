@@ -68,7 +68,9 @@ RSpec.describe AI::TextTransforms::EchoGateway do
   end
 
   describe "AI::TextTransforms::Gateway.build" do
-    it "hands out the null gateway by default" do
+    it "falls back to the null gateway when no module registered one" do
+      allow(AI::TextTransforms::Gateway).to receive(:factory).and_return(nil)
+
       expect(AI::TextTransforms::Gateway.build).to be_a(AI::TextTransforms::NullGateway)
     end
 

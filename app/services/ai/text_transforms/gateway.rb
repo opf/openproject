@@ -35,8 +35,16 @@ module AI
         def ready? = ready
       end
 
-      def self.build
-        EchoGateway.enabled? ? EchoGateway.new : NullGateway.new
+      class << self
+        # A block rather than a class, so that code reloading in development
+        # keeps resolving the registering module's current class.
+        attr_accessor :factory
+
+        def build
+          return EchoGateway.new if EchoGateway.enabled?
+
+          factory&.call || NullGateway.new
+        end
       end
     end
   end
