@@ -52,9 +52,9 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/styled-components": "^5.1.36",
-    "@blocknote/core": "^0.51.3",
-    "@blocknote/mantine": "^0.51.3",
-    "@blocknote/react": "^0.51.3",
+    "@blocknote/core": "^0.54.2",
+    "@blocknote/mantine": "^0.54.2",
+    "@blocknote/react": "^0.54.2",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/browser-playwright": "^4.1.11",
     "@vitest/coverage-v8": "^4.1.10",
@@ -75,9 +75,9 @@
     "vitest-browser-react": "^2.3.0"
   },
   "peerDependencies": {
-    "@blocknote/core": ">=0.51.3",
-    "@blocknote/mantine": ">=0.51.3",
-    "@blocknote/react": ">=0.51.3"
+    "@blocknote/core": ">=0.54.2",
+    "@blocknote/mantine": ">=0.54.2",
+    "@blocknote/react": ">=0.54.2"
   },
   "peerDependenciesMeta": {
     "@blocknote/mantine": { "optional": true },

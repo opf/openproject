@@ -1,12 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
+import { placeCaretAtOffset } from '../../../helpers/editorHelpers';
 
 async function setupEditorWithSurroundingText() {
   const editor = page.getByRole('textbox');
   await userEvent.click(editor);
   await userEvent.type(editor, 'beforeTAIL');
-  await userEvent.keyboard('{Home}{ArrowRight>6}');
+  await placeCaretAtOffset(6);
   return editor;
 }
 

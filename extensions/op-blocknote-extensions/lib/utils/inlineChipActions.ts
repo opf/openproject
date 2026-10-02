@@ -166,17 +166,21 @@ export function promoteInlineChipToBlockAt(
     props: { wpid, size, displayId },
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
-  if (contentBefore.length > 0) {
-    editor.updateBlock(blockId, { content: contentBefore });
-    const [insertedBlock] = editor.insertBlocks([blockNode], blockId, 'after');
-    if (!insertedBlock?.id) return;
-    placeAfterContent(editor, insertedBlock.id, contentAfter);
-  } else {
-    const [insertedBlock] = editor.insertBlocks([blockNode], blockId, 'before');
-    editor.removeBlocks([blockId]);
-    if (!insertedBlock?.id) return;
-    placeAfterContent(editor, insertedBlock.id, contentAfter);
-  }
+  // One transaction, or undo strands the document half-converted: chip gone, no card.
+  const containerBlockId = blockId;
+  editor.transact(() => {
+    if (contentBefore.length > 0) {
+      editor.updateBlock(containerBlockId, { content: contentBefore });
+      const [insertedBlock] = editor.insertBlocks([blockNode], containerBlockId, 'after');
+      if (!insertedBlock?.id) return;
+      placeAfterContent(editor, insertedBlock.id, contentAfter);
+    } else {
+      const [insertedBlock] = editor.insertBlocks([blockNode], containerBlockId, 'before');
+      editor.removeBlocks([containerBlockId]);
+      if (!insertedBlock?.id) return;
+      placeAfterContent(editor, insertedBlock.id, contentAfter);
+    }
+  });
 }
 
 function placeAfterContent(

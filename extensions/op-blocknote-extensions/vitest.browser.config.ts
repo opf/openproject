@@ -18,7 +18,6 @@ export default defineConfig({
       '@primer/octicons-react',
       'i18next',
       'react-i18next',
-      'yjs',
       'msw/browser',
       'react',
       'react-dom',

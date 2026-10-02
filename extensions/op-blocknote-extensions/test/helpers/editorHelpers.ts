@@ -147,3 +147,47 @@ export async function insertInlineWorkPackageViaHashWithTextBefore(before:string
   await insertWorkPackageViaHash(`${before}#`);
   await expect.element(page.getByText('#123')).toBeVisible();
 }
+
+function caretOffset():number | null {
+  const selection = document.getSelection();
+  if (selection?.anchorNode == null) return null;
+  return selection.anchorOffset;
+}
+
+const caretPlacementTimeout = 2000;
+const keyPressSettleTimeout = 100;
+
+async function waitForCaret(reached:(at:number | null) => boolean, timeout:number):Promise<boolean> {
+  const deadline = Date.now() + timeout;
+  for (;;) {
+    if (reached(caretOffset())) return true;
+    if (Date.now() >= deadline) return false;
+    await new Promise((resolve) => { setTimeout(resolve, 10); });
+  }
+}
+
+// BlockNote 0.54 drops caret keys that arrive before the editor has settled, so a
+// batched `{Home}{ArrowRight>N}` loses presses. Each key is repeated until the caret
+// has actually moved, and the whole placement is bounded by time, not by a press count.
+export async function placeCaretAtOffset(offset:number) {
+  const deadline = Date.now() + caretPlacementTimeout;
+
+  while (caretOffset() !== 0) {
+    if (Date.now() >= deadline) {
+      throw new Error(`Caret did not reach the start of the block: at ${caretOffset()}`);
+    }
+    await userEvent.keyboard('{Home}');
+    await waitForCaret((at) => at === 0, keyPressSettleTimeout);
+  }
+
+  for (let at = caretOffset(); at !== offset; at = caretOffset()) {
+    if (at === null || at > offset) {
+      throw new Error(`Caret overshot while moving to offset ${offset}: now at ${at}`);
+    }
+    if (Date.now() >= deadline) {
+      throw new Error(`Caret did not reach offset ${offset}: at ${at}`);
+    }
+    await userEvent.keyboard('{ArrowRight}');
+    await waitForCaret((now) => now !== null && now > at, keyPressSettleTimeout);
+  }
+}
