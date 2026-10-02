@@ -29,10 +29,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-env:
-  DOCKER_BUILDKIT: 1
-  CI_RETRY_COUNT: 3
-
 jobs:
   setup:
     name: Setup
