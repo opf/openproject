@@ -12,6 +12,7 @@
   // anchored-position carries align="end" for its anchoring, which browsers also read as the
   // legacy alignment attribute and so right-align the whole pane.
   text-align: start
+  width: min(640px, calc(100vw - 32px))
   min-width: 320px
   max-width: calc(100vw - 32px)
 
@@ -26,7 +27,10 @@
     right: auto !important
     bottom: auto !important
 
+  // The pane's size is set on the outer element (initially and by resizing); the inner
+  // Primer box follows it instead of its fixed size class width.
   > .Overlay
+    width: 100%
     height: 100%
     max-height: calc(100vh - var(--header-height) - 32px)
     display: flex
