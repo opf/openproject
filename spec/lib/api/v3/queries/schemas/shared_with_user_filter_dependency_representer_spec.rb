@@ -87,38 +87,6 @@ RSpec.describe API::V3::Queries::Schemas::SharedWithUserFilterDependencyRepresen
     let(:operator) { Queries::Operators::EqualsOr }
     let(:other_project) { build_stubbed(:project) }
 
-    before do
-      # fill the cache
-      instance.to_json
-
-      allow(instance)
-        .to receive(:to_hash)
-              .and_call_original
-    end
-
-    it "is cached" do
-      instance.to_json
-
-      expect(instance)
-        .not_to have_received(:to_hash)
-    end
-
-    it "busts the cache on a different operator" do
-      instance.send(:operator=, Queries::Operators::EqualsAll)
-
-      instance.to_json
-
-      expect(instance)
-        .to have_received(:to_hash)
-    end
-
-    it "busts the cache on changes to the locale" do
-      I18n.with_locale(:de) do
-        instance.to_json
-      end
-
-      expect(instance)
-        .to have_received(:to_hash)
-    end
+    it_behaves_like "filter dependency caching"
   end
 end
