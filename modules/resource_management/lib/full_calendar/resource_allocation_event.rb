@@ -37,12 +37,16 @@ module FullCalendar
     class << self
       # A scheduled entry is one allocation's share of a single day, so an allocation
       # spanning several days becomes one event per day, grouped by the allocation.
+      def id_for(scheduled_entry)
+        "#{scheduled_entry.allocation.id}-#{scheduled_entry.allocated_on.iso8601}"
+      end
+
       def from_scheduled_entry(scheduled_entry, visible:)
         allocation = scheduled_entry.allocation
         date = scheduled_entry.allocated_on
 
         event = new(
-          id: "#{allocation.id}-#{date.iso8601}",
+          id: id_for(scheduled_entry),
           group_id: allocation.id,
           starts_at: date,
           ends_at: date,

@@ -122,6 +122,15 @@ RSpec.describe "My page my spent time widget", :js, with_settings: { start_of_we
     expect(TimeEntry.where(user:, spent_on: thursday)).to exist
   end
 
+  it "opens an existing entry for editing through its menu" do
+    first(".te-stack--time-entry").click
+    click_link "Edit time entry"
+
+    time_logging_modal.is_visible true
+    time_logging_modal.expect_work_package(work_package)
+    time_logging_modal.has_field_with_value "spent_on", monday.iso8601
+  end
+
   it "validates that a work package is set" do
     select_day(thursday)
 

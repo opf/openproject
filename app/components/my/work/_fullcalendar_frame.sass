@@ -34,6 +34,15 @@
   // FullCalendar defaults to its own grey, a different colour from the container border.
   --fc-border-color: var(--borderColor-default)
 
+  // FullCalendar shades a focused event, and a card keeps focus once its context menu
+  // closes. Only keyboard focus is marked, the way Primer marks it.
+  .fc-event:focus:not(.fc-event-selected)::after
+    background: none
+
+  .fc-event:focus-visible
+    outline: 2px solid var(--focus-outlineColor)
+    outline-offset: 2px
+
   .fc-scrollgrid
     border-width: 0
 

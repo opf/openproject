@@ -42,6 +42,7 @@ import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
+import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
 import {
   remainingAllocations,
   renderAllocationCard,
@@ -100,10 +101,12 @@ export default class MyWorkStackController extends Controller {
   declare readonly timeZoneValue:string;
 
   private calendar:Calendar;
+  private entryMenus = new EntryMenus(this.element);
   private scaleRatio = 1;
   private resizeObserver:ResizeObserver;
   private lastWidth = 0;
   private boundListener = this.dialogCloseListener.bind(this);
+  private reloadView = () => reloadMyWorkView(this.element);
 
   initialize() {
     useAngularServices(this);
@@ -115,10 +118,13 @@ export default class MyWorkStackController extends Controller {
     }
 
     document.addEventListener('dialog:close', this.boundListener);
+    document.addEventListener(WORK_PACKAGE_UPDATED_EVENT, this.reloadView);
   }
 
   disconnect():void {
     document.removeEventListener('dialog:close', this.boundListener);
+    document.removeEventListener(WORK_PACKAGE_UPDATED_EVENT, this.reloadView);
+    this.entryMenus.destroy();
 
     if (this.resizeObserver) {
       this.resizeObserver.disconnect();
@@ -174,6 +180,7 @@ export default class MyWorkStackController extends Controller {
       businessHours: { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
       events: (_fetchInfo, successCallback) => successCallback(this.buildEvents()),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
+      eventClick: (info) => this.openEntryMenu(info.event.id, info.jsEvent, info.el),
       selectable: this.canCreateValue,
       select: (info) => this.newTimeEntry(info.startStr.slice(0, 10), this.selectedHours(info.start, info.end)),
     });
@@ -304,6 +311,16 @@ export default class MyWorkStackController extends Controller {
     }
 
     return { domNodes: [wrapper] };
+  }
+
+  // FullCalendar renders the event element itself as a bare <a>, so only a link that
+  // actually leads somewhere, the stop button of a running timer, keeps its own click.
+  private openEntryMenu(eventId:string, jsEvent:MouseEvent, invoker:HTMLElement):void {
+    if ((jsEvent.target as HTMLElement).closest('a[href]')) {
+      return;
+    }
+
+    this.entryMenus.open(eventId, jsEvent, invoker);
   }
 
   // A selection spans slots on an axis of hours logged, so its length is the duration to
