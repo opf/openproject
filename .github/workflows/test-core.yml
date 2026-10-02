@@ -20,7 +20,6 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
 
 # github.head_ref is only availabe in PR context and if it is absent then github.run_id
 # is used . And github.run_id is unique for each workflow run. So, this option makes
@@ -162,6 +161,9 @@ jobs:
     name: Features
     needs: setup
     if: github.repository_owner == 'opf'
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on:
       labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
     timeout-minutes: 30
