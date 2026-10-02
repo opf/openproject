@@ -28,17 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Users::ResourceAllocations
+  extend ActiveSupport::Concern
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
-
-      provider.update!(available: false)
-
-      expect(Setting.omniauth_direct_login_provider).to be_blank
-    end
+  included do
+    has_many :resource_allocations,
+             foreign_key: :principal_id,
+             dependent: :nullify,
+             inverse_of: :principal
   end
 end

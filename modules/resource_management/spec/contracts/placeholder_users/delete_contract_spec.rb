@@ -29,16 +29,30 @@
 #++
 
 require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.describe AuthProvider do
-  describe "#available=" do
-    it "unsets the direct login provider when disabled" do
-      provider = create(:oidc_provider)
-      Setting.omniauth_direct_login_provider = provider.slug
+RSpec.describe PlaceholderUsers::DeleteContract do
+  include_context "ModelContract shared context"
 
-      provider.update!(available: false)
+  let(:placeholder_user) { create(:placeholder_user) }
+  let(:current_user) { build_stubbed(:admin) }
+  let(:contract) { described_class.new(placeholder_user, current_user) }
 
-      expect(Setting.omniauth_direct_login_provider).to be_blank
-    end
+  context "when the placeholder user is not used in any resource allocation" do
+    before { create(:resource_allocation) }
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "when the placeholder user is requested by an unstaffed resource allocation" do
+    before { create(:resource_allocation, placeholder_user:, principal: nil) }
+
+    it_behaves_like "contract is invalid", base: :used_in_resource_allocations
+  end
+
+  context "when the placeholder user is requested by a staffed resource allocation" do
+    before { create(:resource_allocation, placeholder_user:) }
+
+    it_behaves_like "contract is invalid", base: :used_in_resource_allocations
   end
 end

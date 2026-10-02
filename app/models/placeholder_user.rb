@@ -43,11 +43,6 @@ class PlaceholderUser < Principal
     serialize :user_filter, coder: Queries::Serialization::Filters.new(-> { UserQuery })
   end
 
-  has_many :resource_allocations,
-           class_name: "ResourceAllocation",
-           dependent: :restrict_with_error,
-           inverse_of: :placeholder_user
-
   scopes :visible
 
   # A cleared filter is stored as NULL, which `<>` excludes as intended.

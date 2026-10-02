@@ -86,4 +86,67 @@ RSpec.describe OpenProject::OpenIDConnect do
       end
     end
   end
+
+  describe "registered strategy", with_ee: %i[sso_auth_providers] do
+    subject { OpenProject::Plugins::AuthPlugin.find_provider_by_name(provider.slug)[:form_action_url] }
+
+    context "with a stored authorization endpoint" do
+      let!(:provider) { create(:oidc_provider) }
+
+      it { is_expected.to eq("https://keycloak.local/realms/master/protocol/openid-connect/auth") }
+    end
+
+    context "with a relative authorization endpoint" do
+      let!(:provider) do
+        create(:oidc_provider,
+               host: "keycloak.local",
+               authorization_endpoint: "/realms/master/protocol/openid-connect/auth",
+               issuer: "https://other.local/realms/master")
+      end
+
+      it { is_expected.to eq("https://keycloak.local/realms/master/protocol/openid-connect/auth") }
+    end
+
+    context "with a relative authorization endpoint over http without a port" do
+      let!(:provider) do
+        create(:oidc_provider,
+               host: "keycloak.local",
+               scheme: "http",
+               authorization_endpoint: "/realms/master/protocol/openid-connect/auth")
+      end
+
+      it "uses the default port of the strategy" do
+        expect(subject).to eq("http://keycloak.local:443/realms/master/protocol/openid-connect/auth")
+      end
+    end
+
+    context "with a Microsoft Entra provider for the common tenant without discovered endpoints" do
+      let!(:provider) do
+        create(:oidc_provider,
+               oidc_provider: "microsoft_entra",
+               authorization_endpoint: nil,
+               host: nil,
+               issuer: OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
+      end
+
+      it { is_expected.to eq("https://login.microsoftonline.com/common/oauth2/authorize") }
+    end
+
+    context "with a Microsoft Entra provider for a tenant without discovered endpoints" do
+      let!(:provider) do
+        create(:oidc_provider, oidc_provider: "microsoft_entra", tenant: "my-tenant", authorization_endpoint: nil, host: nil)
+      end
+
+      it { is_expected.to eq("https://login.microsoftonline.com/my-tenant/oauth2/v2.0/authorize") }
+    end
+
+    context "with a Google provider without discovered endpoints" do
+      let!(:provider) do
+        create(:oidc_provider_google,
+               options: { "oidc_provider" => "google", "client_id" => "identifier", "client_secret" => "secret" })
+      end
+
+      it { is_expected.to eq("https://accounts.google.com/o/oauth2/auth") }
+    end
+  end
 end

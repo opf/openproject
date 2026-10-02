@@ -58,9 +58,12 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
     end
   end
 
-  context "with a resource allocation requested or reviewed by the principal" do
+  context "with a resource allocation requested, reviewed or staffed by the principal" do
     let!(:requested_allocation) { create(:resource_allocation, requested_by: principal) }
     let!(:reviewed_allocation) { create(:resource_allocation, reviewed_by: principal) }
+    let!(:staffed_allocation) do
+      create(:resource_allocation, :with_user_filter, principal: create(:user), principal_assigned_by: principal)
+    end
 
     it "rewrites requested_by to the deleted user placeholder" do
       job
@@ -72,6 +75,12 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
       job
 
       expect(reviewed_allocation.reload.reviewed_by).to eq deleted_user
+    end
+
+    it "rewrites principal_assigned_by to the deleted user placeholder" do
+      job
+
+      expect(staffed_allocation.reload.principal_assigned_by).to eq deleted_user
     end
   end
 end
