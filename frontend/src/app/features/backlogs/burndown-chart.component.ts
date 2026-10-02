@@ -154,9 +154,13 @@ function seriesRank(key:SeriesKey|undefined):number {
 }
 
 function legendStyle(key:SeriesKey|undefined):Partial<LegendItem> {
-  const style = SERIES_STYLE[key ?? 'remaining'];
+  if (key === undefined) {
+    return {};
+  }
 
-  return { pointStyle: style.swatch, lineDash: style.borderDash, lineWidth: style.borderWidth };
+  const { swatch, borderDash, borderWidth } = SERIES_STYLE[key];
+
+  return { pointStyle: swatch, lineDash: borderDash, lineWidth: borderWidth };
 }
 
 // The projection continues the remaining series, so the two share a color.
