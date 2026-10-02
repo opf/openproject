@@ -169,6 +169,8 @@ For custom fields of type **List** you can choose how the options are presented 
 
 The setting only changes how the field is edited. Stored values, filters and the API representation of the values stay the same. Inline options are best suited for lists with a handful of options.
 
+If you later turn _Allow multi-select_ on or off, **Display as** falls back to **Dropdown**. The work package table always uses the dropdown, since its cells are too narrow for inline options.
+
 ## Assign a custom field to a work package type and project
 
 > [!IMPORTANT]
