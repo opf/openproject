@@ -27,10 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_administration), t(:label_custom_field_plural)) -%>
+<% html_title t(:label_administration), t(:label_custom_field_plural) -%>
 
-<%= render CustomFields::IndexPageHeaderComponent.new(tabs: custom_fields_tabs) %>
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_custom_field_plural) }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) }, t(:label_custom_field_plural)])
+  end
+%>
 
-<%= render(CustomFields::FormatSubHeaderComponent.new(customizable_name: @tab.delete_suffix("CustomField"))) %>
-
-<%= render_tabs custom_fields_tabs %>
+<%= render(CustomFields::OverviewComponent.new) %>

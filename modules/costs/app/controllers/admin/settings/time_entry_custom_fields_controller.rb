@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,37 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches
-  module CustomFieldsControllerPatch
-    # A saved cost report may filter or group by the custom field being
-    # deleted, which would leave it referring to something that no longer
-    # exists.
-    def destroy
-      remove_custom_field_from_cost_reports(@custom_field.id)
-    rescue StandardError => e
-      Rails.logger.error "Failed to remove custom_field #{@custom_field.id} from cost reports. " \
-                         "#{e.class}: #{e.message}"
-    ensure
-      super
-    end
+module Admin
+  module Settings
+    class TimeEntryCustomFieldsController < CustomFieldsBaseController
+      menu_item :time_entry_custom_fields
 
-    private
+      protected
 
-    def remove_custom_field_from_cost_reports(id)
-      attribute = "cf_#{id}"
-
-      CostReport.includes(:query).find_each do |report|
-        remove_dimension_and_filter(report, attribute)
+      def custom_field_class
+        TimeEntryCustomField
       end
-    end
 
-    def remove_dimension_and_filter(report, attribute)
-      return unless report.uses_dimension?(attribute) || report.query.uses_filter?(attribute)
+      def custom_field_page_title
+        t(:label_time_entry_custom_field_plural)
+      end
 
-      report.remove_dimension(attribute)
-      report.query.remove_filter(attribute)
-      report.query.save!(validate: false)
-      report.save!(validate: false)
+      def section_label
+        t(:project_module_costs)
+      end
     end
   end
 end

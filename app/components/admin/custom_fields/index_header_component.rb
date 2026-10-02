@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,37 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches
-  module CustomFieldsControllerPatch
-    # A saved cost report may filter or group by the custom field being
-    # deleted, which would leave it referring to something that no longer
-    # exists.
-    def destroy
-      remove_custom_field_from_cost_reports(@custom_field.id)
-    rescue StandardError => e
-      Rails.logger.error "Failed to remove custom_field #{@custom_field.id} from cost reports. " \
-                         "#{e.class}: #{e.message}"
-    ensure
-      super
-    end
-
-    private
-
-    def remove_custom_field_from_cost_reports(id)
-      attribute = "cf_#{id}"
-
-      CostReport.includes(:query).find_each do |report|
-        remove_dimension_and_filter(report, attribute)
+module Admin
+  module CustomFields
+    class IndexHeaderComponent < ApplicationComponent
+      def initialize(title:, section_label:, index_path:)
+        super
+        @title = title
+        @section_label = section_label
+        @index_path = index_path
       end
-    end
 
-    def remove_dimension_and_filter(report, attribute)
-      return unless report.uses_dimension?(attribute) || report.query.uses_filter?(attribute)
+      attr_reader :title
 
-      report.remove_dimension(attribute)
-      report.query.remove_filter(attribute)
-      report.query.save!(validate: false)
-      report.save!(validate: false)
+      def breadcrumb_items
+        [{ href: admin_index_path, text: t(:label_administration) },
+         { href: @index_path, text: @section_label },
+         @title]
+      end
     end
   end
 end

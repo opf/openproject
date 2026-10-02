@@ -54,7 +54,7 @@ RSpec.describe "User custom fields edit", :js do
     new_cf_page.expect_and_dismiss_flash(message: "Successful creation.")
 
     cf = CustomField.last
-    expect(page).to have_current_path(edit_custom_field_path(cf))
+    expect(page).to have_current_path(edit_admin_settings_work_package_custom_field_path(cf))
 
     # Edit again
     expect(page).to have_no_field("custom_field_custom_options_attributes_0_value")

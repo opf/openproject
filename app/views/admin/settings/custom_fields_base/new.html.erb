@@ -26,11 +26,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t(:label_custom_field_plural) }
-    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
 
-    helpers.render_tab_header_nav(header, @tabs, test_selector: "custom-fields--tab-nav")
+<% html_title t(:label_administration), t(:label_custom_field_new) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
+    header.with_title do
+      concat t(:label_custom_field_new)
+      concat render(Primer::Beta::Text.new(color: :muted)) { " (#{label_for_custom_field_format(@custom_field.field_format)})" }
+    end
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: index_path, text: section_label },
+       { href: index_path, text: custom_field_page_title },
+       nested_breadcrumb_element(label_for_custom_field_format(@custom_field.field_format), t(:label_custom_field_new))],
+      selected_item_font_weight: :normal
+    )
   end
 %>
+
+<%= render CustomFields::DetailsComponent.new(@custom_field, form_url: index_path) %>
