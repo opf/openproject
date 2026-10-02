@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,11 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :gitlab_user do
-    sequence(:gitlab_id)
-    sequence(:username) { |n| "user_#{n}" }
-    name { "User #{username}" }
-    avatar_url { "https://gitlab.com/#{username}_avatar.jpg" }
+class RemoveGitlabPrefixFromGitlabUsers < ActiveRecord::Migration[8.1]
+  def change
+    rename_column :gitlab_users, :gitlab_name, :name
+    rename_column :gitlab_users, :gitlab_username, :username
+    rename_column :gitlab_users, :gitlab_avatar_url, :avatar_url
   end
 end
