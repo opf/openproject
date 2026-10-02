@@ -101,6 +101,8 @@ jobs:
         key: assets-${{ github.sha }}
     - name: Build
       run: bin/ci setup-tests
+    - name: APIv3 specification (OpenAPI 3.0)
+      run: bin/ci ./script/api/validate_spec
     - name: Report cache info
       if: ${{ always() }}
       run: |
@@ -131,18 +133,6 @@ jobs:
         path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         fail-on-cache-miss: true
-    - name: Restore NPM cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/node
-        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        fail-on-cache-miss: true
-    - name: Restore ANGULAR cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/angular
-        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        fail-on-cache-miss: true
     - name: Restore DATABASE cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
@@ -161,8 +151,6 @@ jobs:
           runtime-logs-units-
     - name: Restore CI image from cache
       run: docker load -i tmp/ci-cache/docker/image.tar
-    - name: APIv3 specification (OpenAPI 3.0)
-      run: bin/ci ./script/api/validate_spec
     - name: Unit tests
       run: bin/ci run-units
     - name: Report cache info
@@ -193,18 +181,6 @@ jobs:
       with:
         path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
-        fail-on-cache-miss: true
-    - name: Restore NPM cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/node
-        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
-        fail-on-cache-miss: true
-    - name: Restore ANGULAR cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/angular
-        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         fail-on-cache-miss: true
     - name: Restore DATABASE cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
