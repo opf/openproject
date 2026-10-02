@@ -1,10 +1,9 @@
-
 name: "openproject-ci"
 
 services:
   # Note: not using a database container since it adds 1min to pull and start it on CI
   app:
-    image: openproject/ci:v1
+    image: openproject-ci
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
@@ -16,7 +15,7 @@ services:
         - RUBY_VERSION
     environment:
       CI_JOBS: "${CI_JOBS}"
-      RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-4}"
+      RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
     tmpfs:

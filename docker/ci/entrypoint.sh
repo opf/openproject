@@ -130,7 +130,7 @@ frontend_stuff() {
 	execute_quiet "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
 }
 
-setup_tests() {
+setup-tests() {
 	echo "Preparing environment for running tests..."
 	for i in $(seq 1 $JOBS); do
 		folder="$CAPYBARA_DOWNLOADED_FILE_DIR/$i"
@@ -159,14 +159,13 @@ setup_tests() {
 	wait_for_background
 }
 
-run_units() {
+run-units() {
 	shopt -s extglob globstar nullglob
 	reset_dbs
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_units.log {,modules/*/}spec/{!(features)/**/,}*_spec.rb"
-	cleanup
 }
 
-run_features() {
+run-features() {
 	shopt -s globstar nullglob
 	run_background start_hocuspocus
 	reset_dbs
@@ -185,39 +184,21 @@ run_features() {
 			exit 1
 		fi
 	fi
-
-	cleanup
 }
 
-run_all() {
+run-all() {
 	shopt -s globstar nullglob
 	reset_dbs
 	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_all.log {,modules/*/}spec/**/*_spec.rb"
-	cleanup
 }
 
-export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup_tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run_units run_features run_all
+export -f cleanup execute execute_quiet run_psql create_db_cluster reset_dbs setup-tests setup_hocuspocus start_hocuspocus backend_stuff frontend_stuff run-units run-features run-all
 
-if [ "$1" == "setup-tests" ]; then
+while [[ "$1" =~ ^(setup-tests|run-units|run-features|run-all)$ ]]; do
+	"$1"
 	shift
-	setup_tests
-fi
+done
 
-if [ "$1" == "run-units" ]; then
-	shift
-	run_units
-fi
-
-if [ "$1" == "run-features" ]; then
-	shift
-	run_features
-fi
-
-if [ "$1" == "run-all" ]; then
-	shift
-	run_all
-fi
-
-if [ ! -z "$1" ] ; then
+if [ -n "$1" ] ; then
 	exec "$@"
 fi
