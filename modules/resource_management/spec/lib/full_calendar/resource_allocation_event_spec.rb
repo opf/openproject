@@ -35,11 +35,13 @@ RSpec.describe FullCalendar::ResourceAllocationEvent do
   let(:type) { build_stubbed(:type) }
   let(:work_package) { build_stubbed(:work_package, project:, type:, subject: "Fix the thing") }
   let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
-  let(:scheduled_entry) { ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, minutes: 150) }
   let(:date) { Date.new(2026, 10, 5) }
+  let(:scheduled_entry) do
+    ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 150)
+  end
   let(:visible) { true }
 
-  subject(:json) { described_class.from_scheduled_entry(scheduled_entry, date:, visible:).as_json }
+  subject(:json) { described_class.from_scheduled_entry(scheduled_entry, visible:).as_json }
 
   it "is an all-day event on the scheduled date" do
     expect(json).to include("allDay" => true, "start" => date.as_json, "end" => date.as_json)
