@@ -5055,6 +5055,13 @@ en:
       confirmation_required: "You need to enter your account password to confirm this change."
       title: "Confirm your password to continue"
     work:
+      actions:
+        assign_to_me: "Assign work package to me"
+        delete_time_entry: "Delete time entry"
+        edit_time_entry: "Edit time entry"
+        log_time_from_allocation: "Log time from allocation"
+        open_project: "Open project"
+        open_work_package: "Open work package"
       entries_filter:
         all: "All entries"
         allocated: "Allocations only"
