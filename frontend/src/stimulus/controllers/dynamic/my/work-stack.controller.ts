@@ -241,9 +241,14 @@ export default class MyWorkStackController extends Controller {
   }
 
   private addTotalFooter():void {
-    const dateSums = this.calculateDateSums();
+    const logged = this.calculateDateSums();
+    const allocated = this.calculateDateSums(this.remainingAllocations());
 
-    renderFooterTotals(this.element, (day) => renderDayTotal(dateSums[day] || 0, this.workingHoursValue[day] || 0));
+    renderFooterTotals(this.element, (day) => renderDayTotal(
+      logged[day] || 0,
+      allocated[day] || 0,
+      this.workingHoursValue[day] || 0,
+    ));
 
     // The footer is appended after FullCalendar has laid the view out, so without this the
     // slots keep the full height and run underneath it.
