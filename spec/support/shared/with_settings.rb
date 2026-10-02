@@ -41,13 +41,15 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context "with settings reset" do
+  let(:definitions_snapshot) { instance_variable_get(:@definitions_snapshot) }
+
   # Snapshot per-Definition mutable state once, captured early enough that
   # legitimate boot-time mutations (e.g. the 2FA plugin's TokenStrategyManager
   # populating `active_strategies`) are part of the baseline. Definition
   # objects are mutated in place by `override_value`, so a shallow `@all.dup`
   # doesn't restore them — both copies point at the same mutated object.
-  shared_let(:definitions_snapshot) do
-    Settings::Definition.all.transform_values do |definition|
+  before(:context) do
+    @definitions_snapshot = Settings::Definition.all.transform_values do |definition|
       {
         definition: definition,
         value: definition.instance_variable_get(:@value).deep_dup,
