@@ -69,7 +69,9 @@ export interface Band {
   width:number;
 }
 
-const BAND_OPACITY = 1;
+// The end of the fade at which the bands are fully shown. How solid they look at that point is
+// the colour's own business, its alpha included.
+const SHOWN_OPACITY = 1;
 
 interface Fade {
   from:number;
@@ -170,7 +172,7 @@ export const NonWorkingDaysPlugin:Plugin = {
 
   // Toggling runs through an update, so the fade starts here and the draw only paints it.
   afterUpdate(chart:Chart, _args, options:NonWorkingDaysPluginOptions) {
-    const to = bandsShown(chart, options) ? BAND_OPACITY : 0;
+    const to = bandsShown(chart, options) ? SHOWN_OPACITY : 0;
     const previous = fades.get(chart);
 
     if (!previous) {
@@ -195,7 +197,7 @@ export const NonWorkingDaysPlugin:Plugin = {
       return;
     }
 
-    const settled = bandsShown(chart, options) ? BAND_OPACITY : 0;
+    const settled = bandsShown(chart, options) ? SHOWN_OPACITY : 0;
     const opacity = opacityNow(chart, fades.get(chart) ?? { from: settled, to: settled, startedAt: 0 });
 
     if (opacity <= 0) {
