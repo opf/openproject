@@ -110,7 +110,7 @@ RSpec.describe "Type creation wizard", :js do
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes)
 
-    expect(page).to have_heading("Workflows")
+    expect(page).to have_heading("Workflow")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
     within_dialog I18n.t("workflows.form.edit_title") do
