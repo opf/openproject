@@ -33,7 +33,7 @@ jobs:
   setup:
     name: Setup
     if: github.repository_owner == 'opf'
-    runs-on:
+    runs-on: &runs-on
       labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
     timeout-minutes: 10
     steps:
@@ -108,27 +108,29 @@ jobs:
     name: Units
     needs: setup
     if: github.repository_owner == 'opf'
-    runs-on:
-      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
+    runs-on: *runs-on
     timeout-minutes: 10
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Restore DOCKER cache
+    - &restore-docker-cache
+      name: Restore DOCKER cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/docker
         key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
         fail-on-cache-miss: true
-    - name: Restore GEM cache
+    - &restore-gem-cache
+      name: Restore GEM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         fail-on-cache-miss: true
-    - name: Restore DATABASE cache
+    - &restore-database-cache
+      name: Restore DATABASE cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: |
@@ -160,34 +162,16 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    runs-on:
-      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
+    runs-on: *runs-on
     timeout-minutes: 30
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
-    - name: Restore DOCKER cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/docker
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
-        fail-on-cache-miss: true
-    - name: Restore GEM cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: tmp/ci-cache/bundle
-        key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
-        fail-on-cache-miss: true
-    - name: Restore DATABASE cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
-      with:
-        path: |
-          db/structure.sql
-          config/database.yml
-        key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
-        fail-on-cache-miss: true
+    - *restore-docker-cache
+    - *restore-gem-cache
+    - *restore-database-cache
     - name: Restore ASSETS cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
