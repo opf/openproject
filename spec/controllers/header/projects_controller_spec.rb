@@ -59,9 +59,10 @@ RSpec.describe Header::ProjectsController do
       expect(response).to have_http_status(:ok)
     end
 
-    it "includes visible active projects" do
+    it "includes only root-level visible projects, not deeper descendants" do
       make_request
-      expect(assigns(:projects)).to include(parent_project, child_project, other_project)
+      expect(assigns(:projects)).to include(parent_project, other_project)
+      expect(assigns(:projects)).not_to include(child_project)
     end
 
     it "renders without layout" do
@@ -69,58 +70,74 @@ RSpec.describe Header::ProjectsController do
       expect(response).to render_template(layout: false)
     end
 
-    it "keeps ordinary parent projects collapsed by default" do
+    it "keeps ordinary parent projects collapsed, with a deferred children path instead of loaded children" do
       make_request
 
       parent_node = assigns(:tree).find { |node| node[:project] == parent_project }
       expect(parent_node[:expanded]).to be(false)
+      expect(parent_node[:children]).to be_empty
+      expect(parent_node[:deferred_children_path]).to be_present
     end
 
-    context "when an invisible project is between two visible projects" do
-      shared_let(:invisible_project) { create(:private_project, name: "Invisible", parent: parent_project) }
-      shared_let(:visible_grandchild) { create(:project, name: "Visible Grandchild", parent: invisible_project) }
+    it "does not add a deferred children path to leaf root projects" do
+      make_request
+
+      other_node = assigns(:tree).find { |node| node[:project] == other_project }
+      expect(other_node[:deferred_children_path]).to be_nil
+    end
+
+    context "when a root project's only subprojects are invisible to the current user" do
+      shared_let(:root_with_hidden_child) { create(:project, name: "Root With Hidden Child") }
+      shared_let(:hidden_child) { create(:private_project, name: "Hidden Child", parent: root_with_hidden_child) }
 
       before do
-        create(:member, principal: current_user, project: visible_grandchild, roles: [role])
+        create(:member, principal: current_user, project: root_with_hidden_child, roles: [role])
       end
 
-      it "nests the grandchild below its nearest visible ancestor", :aggregate_failures do
+      it "does not add a deferred children path (no expand arrow with nothing behind it)" do
         make_request
 
-        tree = assigns(:tree)
-        parent_node = tree.find { |node| node[:project] == parent_project }
-
-        expect(assigns(:projects)).to include(visible_grandchild)
-        expect(assigns(:projects)).not_to include(invisible_project)
-        expect(response.body).not_to include("Invisible")
-        expect(tree.pluck(:project)).not_to include(visible_grandchild)
-        expect(parent_node[:children].pluck(:project)).to include(visible_grandchild)
-        expect(parent_node[:expanded]).to be(true)
+        node = assigns(:tree).find { |n| n[:project] == root_with_hidden_child }
+        expect(node[:deferred_children_path]).to be_nil
       end
     end
 
-    context "when a hidden project sits mid-way in a visible chain" do
-      shared_let(:visible_root) { create(:project, name: "Root Visible") }
-      shared_let(:visible_mid)  { create(:project, name: "Mid Visible", parent: visible_root) }
-      shared_let(:hidden_middle) { create(:private_project, name: "Hidden Middle", parent: visible_mid) }
-      shared_let(:visible_leaf) { create(:project, name: "Leaf Visible", parent: hidden_middle) }
-
-      before do
-        create(:member, principal: current_user, project: visible_root, roles: [role])
-        create(:member, principal: current_user, project: visible_mid,  roles: [role])
-        create(:member, principal: current_user, project: visible_leaf, roles: [role])
+    context "when a root project's only subprojects are archived" do
+      shared_let(:root_with_archived_child) { create(:project, name: "Root With Archived Child") }
+      shared_let(:archived_child) do
+        create(:project, name: "Archived Child", parent: root_with_archived_child, active: false)
       end
 
-      it "expands every visible ancestor down to the grafted leaf", :aggregate_failures do
+      before do
+        create(:member, principal: current_user, project: root_with_archived_child, roles: [role])
+      end
+
+      it "does not add a deferred children path (no expand arrow with nothing behind it)" do
         make_request
 
-        tree = assigns(:tree)
-        root_node = tree.find { |node| node[:project] == visible_root }
-        mid_node = root_node[:children].find { |node| node[:project] == visible_mid }
+        node = assigns(:tree).find { |n| n[:project] == root_with_archived_child }
+        expect(node[:deferred_children_path]).to be_nil
+      end
+    end
 
-        expect(root_node[:expanded]).to be(true)
-        expect(mid_node[:expanded]).to be(true)
-        expect(mid_node[:children].pluck(:project)).to include(visible_leaf)
+    context "when a visible project's parent is invisible" do
+      shared_let(:hidden_root) { create(:private_project, name: "Hidden Root") }
+      shared_let(:promoted_project) { create(:project, name: "Promoted", parent: hidden_root) }
+
+      before do
+        create(:member, principal: current_user, project: promoted_project, roles: [role])
+      end
+
+      it "promotes the visible project to the top level instead of hiding it", :aggregate_failures do
+        make_request
+
+        expect(promoted_project.parent_id).to be_present
+        expect(assigns(:projects)).to include(promoted_project)
+        expect(assigns(:projects)).not_to include(hidden_root)
+        expect(response.body).not_to include("Hidden Root")
+
+        promoted_node = assigns(:tree).find { |node| node[:project] == promoted_project }
+        expect(promoted_node).to be_present
       end
     end
 
@@ -241,10 +258,155 @@ RSpec.describe Header::ProjectsController do
       end
     end
 
+    context "when a visible project's sibling isn't loaded yet" do
+      shared_let(:sibling_project) { create(:project, name: "Alpha Sibling", parent: parent_project) }
+
+      subject(:make_request) { get :index, params: { current_project_id: child_project.id } }
+
+      before do
+        create(:member, principal: current_user, project: sibling_project, roles: [role])
+      end
+
+      it "includes the sibling alongside the current project, with the parent fully loaded", :aggregate_failures do
+        make_request
+
+        expect(assigns(:projects)).to include(child_project, sibling_project, parent_project)
+
+        parent_node = assigns(:tree).find { |node| node[:project] == parent_project }
+        expect(parent_node[:children].pluck(:project)).to contain_exactly(child_project, sibling_project)
+        expect(parent_node[:deferred_children_path]).to be_nil
+      end
+    end
+
+    context "when siblings exist at multiple levels of the ancestor chain" do
+      shared_let(:top_root) { create(:project, name: "Root Multi") }
+      shared_let(:root_sibling) { create(:project, name: "Root Multi Sibling", parent: top_root) }
+      shared_let(:mid_parent) { create(:project, name: "Mid Parent", parent: top_root) }
+      shared_let(:mid_sibling) { create(:project, name: "Mid Sibling", parent: mid_parent) }
+      shared_let(:leaf_project) { create(:project, name: "Leaf Project", parent: mid_parent) }
+
+      subject(:make_request) { get :index, params: { current_project_id: leaf_project.id } }
+
+      before do
+        [top_root, root_sibling, mid_parent, mid_sibling, leaf_project].each do |project|
+          create(:member, principal: current_user, project:, roles: [role])
+        end
+      end
+
+      it "includes siblings at every level, not just the immediate parent", :aggregate_failures do
+        make_request
+
+        expect(assigns(:projects)).to include(top_root, root_sibling, mid_parent, mid_sibling, leaf_project)
+
+        root_node = assigns(:tree).find { |node| node[:project] == top_root }
+        expect(root_node[:children].pluck(:project)).to contain_exactly(mid_parent, root_sibling)
+        expect(root_node[:deferred_children_path]).to be_nil
+
+        mid_node = root_node[:children].find { |node| node[:project] == mid_parent }
+        expect(mid_node[:children].pluck(:project)).to contain_exactly(leaf_project, mid_sibling)
+        expect(mid_node[:deferred_children_path]).to be_nil
+      end
+    end
+
     context "with an invalid filter_mode param" do
-      it "defaults to showing all projects" do
+      it "defaults to showing all root-level projects" do
         get :index, params: { filter_mode: "invalid" }
-        expect(assigns(:projects)).to include(parent_project, child_project, other_project)
+        expect(assigns(:projects)).to include(parent_project, other_project)
+      end
+    end
+  end
+
+  describe "#children" do
+    render_views
+    shared_let(:parent_project) { create(:project, name: "Alpha Parent") }
+    shared_let(:child_project)  { create(:project, name: "Beta Child", parent: parent_project) }
+    shared_let(:grandchild_project) { create(:project, name: "Gamma Grandchild", parent: child_project) }
+    shared_let(:role) { create(:project_role) }
+
+    before do
+      create(:member, principal: current_user, project: parent_project, roles: [role])
+      create(:member, principal: current_user, project: child_project, roles: [role])
+      create(:member, principal: current_user, project: grandchild_project, roles: [role])
+    end
+
+    subject(:make_request) { get :children, params: { parent_id: parent_project.id, path: "[]" } }
+
+    it "returns HTTP 200" do
+      make_request
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "renders without layout" do
+      make_request
+      expect(response).to render_template(layout: false)
+    end
+
+    it "returns only the immediate children of the requested parent" do
+      make_request
+      expect(assigns(:children_nodes).pluck(:project)).to contain_exactly(child_project)
+    end
+
+    it "marks a child with further descendants as deferred rather than loading them eagerly" do
+      make_request
+
+      child_node = assigns(:children_nodes).find { |node| node[:project] == child_project }
+      expect(child_node[:children]).to be_empty
+      expect(child_node[:deferred_children_path]).to be_present
+    end
+
+    context "when the requested parent has no children" do
+      subject(:make_request) { get :children, params: { parent_id: grandchild_project.id, path: "[]" } }
+
+      it "returns an empty list" do
+        make_request
+        expect(assigns(:children_nodes)).to be_empty
+      end
+    end
+
+    context "when the parent is not visible to the current user" do
+      let(:private_parent) { create(:private_project, name: "Private Parent") }
+
+      subject(:make_request) { get :children, params: { parent_id: private_parent.id, path: "[]" } }
+
+      it "responds with 404" do
+        make_request
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when a visible grandchild sits behind an invisible child" do
+      shared_let(:hidden_middle) { create(:private_project, name: "Hidden Middle", parent: parent_project) }
+      shared_let(:visible_grandchild) { create(:project, name: "Visible Grandchild", parent: hidden_middle) }
+
+      before do
+        create(:member, principal: current_user, project: visible_grandchild, roles: [role])
+      end
+
+      it "skips the invisible child and surfaces the nearest visible descendant" do
+        make_request
+
+        projects = assigns(:children_nodes).pluck(:project)
+        expect(projects).to include(visible_grandchild)
+        expect(projects).not_to include(hidden_middle)
+        expect(response.body).not_to include("Hidden Middle")
+      end
+    end
+
+    context "when a returned child's only subprojects are invisible to the current user" do
+      shared_let(:sibling_with_hidden_child) { create(:project, name: "Sibling With Hidden Child", parent: parent_project) }
+      shared_let(:hidden_grandchild) do
+        create(:private_project, name: "Hidden Grandchild", parent: sibling_with_hidden_child)
+      end
+
+      before do
+        create(:member, principal: current_user, project: sibling_with_hidden_child, roles: [role])
+      end
+
+      it "does not add a deferred children path to that child (no expand arrow with nothing behind it)" do
+        make_request
+
+        node = assigns(:children_nodes).find { |n| n[:project] == sibling_with_hidden_child }
+        expect(node[:deferred_children_path]).to be_nil
       end
     end
   end
