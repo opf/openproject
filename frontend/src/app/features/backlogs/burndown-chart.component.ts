@@ -313,10 +313,10 @@ export class BurndownChartComponent {
   // to projection. That way, the finer granularity is offered as long as it is available.
   // The remaining series has the finest granularity of all the data series (by hour - sometimes by day).
   private tooltipTitle(items:TooltipItem<'line'>[]):string {
-    const at = (id:BurndownSeries['id']) => items.find((item) => this.seriesId(item.datasetIndex) === id);
-    const dated = at('remaining') ?? at('projection') ?? items[0];
+    const itemFor = (id:BurndownSeries['id']) => items.find((item) => this.seriesId(item.datasetIndex) === id);
+    const dated = itemFor('remaining') ?? itemFor('projection') ?? items.at(0);
 
-    return this.formattedTick(Number(dated.parsed.x));
+    return dated ? this.formattedTick(Number(dated.parsed.x)) : '';
   }
 
   // Ticks sit at the end of the period they carry, so 09:59:59.999 is what the 9 o'clock hour
