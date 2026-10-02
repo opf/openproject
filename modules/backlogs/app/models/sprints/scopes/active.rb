@@ -33,7 +33,7 @@ module Sprints::Scopes::Active
 
   class_methods do
     def active
-      where(status: "active")
+      where.not(started_at: nil).where(completed_at: nil)
     end
   end
 end

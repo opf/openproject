@@ -32,7 +32,7 @@ module Sprints::Scopes::NotCompleted
 
   class_methods do
     def not_completed
-      where.not(status: "completed")
+      where(completed_at: nil)
     end
   end
 end
