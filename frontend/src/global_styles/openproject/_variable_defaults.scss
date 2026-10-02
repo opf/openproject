@@ -129,6 +129,7 @@
   --split-screen-width: 430px; // this variable is going to be updated via JS when the split screen is changed
   --split-screen-min-width: 430px; // a default which will not be changed
   --full-view-split-right-width: 430px;
+  --full-view-split-right-min-width: var(--split-screen-min-width); // a default which will not be changed
   --gantt-split-width: 50%;
   --enterprise-upsell-color: #CE4C00;
   --enterprise-upsell-text-color: #CE4C00;

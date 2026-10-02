@@ -3116,6 +3116,7 @@ vi:
   error_no_default_work_package_status: Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng thái của work package").
   error_no_type_in_project: Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần "Thiết Lập Dự Án".
   error_omniauth_invalid_auth: Thông tin xác thực được trả về từ nhà cung cấp danh tính không hợp lệ. Vui lòng liên hệ với quản trị viên của bạn để được trợ giúp thêm.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại.
   error_password_change_failed: Đã xảy ra lỗi khi cố gắng thay đổi mật khẩu.
   error_pdf_date_range_too_long: Phạm vi ngày của gói công việc đã chọn vượt quá giới hạn xuất PDF cho phép. Vui lòng thu gọn phạm vi tối đa %{years} năm.

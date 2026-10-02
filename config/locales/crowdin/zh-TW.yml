@@ -3118,6 +3118,7 @@ zh-TW:
   error_no_default_work_package_status: 沒有定義預設的工作套件狀態。請檢查您的設定 (前往 "管理 -> 工作套件狀態")。
   error_no_type_in_project: 這個專案沒有關聯的類型，請檢查專案設定。
   error_omniauth_invalid_auth: 從身分提供者傳回的驗證資訊無效。請聯絡您的管理員尋求進一步協助。
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 外部身份驗證註冊逾時，請再試一次。
   error_password_change_failed: 試圖更改密碼時發生錯誤。
   error_pdf_date_range_too_long: 選取的工作套件日期範圍超出允許的 PDF 匯出限制。請將範圍濃縮至最多 %{years} 年。

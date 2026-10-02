@@ -3,6 +3,7 @@ ko:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: 필터 기준
       resource_allocation:
         allocated_hours: 시간
@@ -28,6 +29,8 @@ ko:
         allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:

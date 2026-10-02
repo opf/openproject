@@ -25,9 +25,9 @@ li:
     attributes:
       meeting:
         duration: Duration
-        end_time: End time
-        location: Location
-        notes: Notes
+        end_time: Ind tied
+        location: Lokatie
+        notes: Opmerkinge
         notify: Send notifications
         participant:
           one: 1 Participant
@@ -39,48 +39,48 @@ li:
         participants_removed: 'Participants removed:'
         project: Projek
         recurrence_start_time: Scheduled start time
-        sharing: Sharing
-        start_date: Date
-        start_time: Start time
-        start_time_hour: Start time
-        template: Template
-        type: Meeting type
+        sharing: Deile
+        start_date: Datum
+        start_time: Start tied
+        start_time_hour: Start tied
+        template: Sjabloon
+        type: Soort vergadering
       meeting_agenda_item:
-        author: Author
-        description: Notes
+        author: Auteur
+        description: Opmerkinge
         duration_in_minutes: Duration
-        item_type: Type
+        item_type: Soort
         lock_version: Lock version
-        notes: Notes
-        position: Position
-        presenter: Presenter
-        title: Title
+        notes: Opmerkinge
+        position: Positie
+        presenter: Presentator
+        title: Titel
       meeting_outcome:
-        kind: Kind
+        kind: Soort
       meeting_participant:
         attended: Attended
         invited: Invited
         participation_status: Participation status
       meeting_section:
-        position: Position
-        title: Title
+        position: Positie
+        title: Titel
       recurring_meeting:
         duration: Duration
         end_after: Meeting series ends
-        end_date: End date
+        end_date: Ind datum
         frequency: Frequency
         interval: Interval
         iterations: Occurrences
-        location: Location
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
+        location: Lokatie
+        monthly_day: Daag van de maond
+        monthly_ordinal: Positie
+        monthly_weekday: Waekdaag
         notify: Send notifications
-        start_date: Starts on
+        start_date: Begint op
         start_time: Start time
         start_time_hour: Start time
-        time_zone: Time zone
-        title: Title
+        time_zone: Tied zone
+        title: Titel
       recurring_meeting_interim_response:
         start_time: Start time
     errors:
@@ -154,20 +154,20 @@ li:
     meeting_minutes_created: Meeting minutes created
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
+  label_add_work_package_to_meeting_section_label: Sectie
   label_added_as_outcome: Added as outcome
   label_agenda_backlog: Agenda backlog
   label_agenda_backlog_clear_title: Clear agenda backlog?
   label_agenda_item_actions: Agenda items actions
   label_agenda_item_add: Add agenda item
-  label_agenda_item_add_notes: Add notes
+  label_agenda_item_add_notes: Notities toevooge
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_deleted_wp: Deleted work package reference
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_move: Move
+  label_agenda_item_move: Verplaats
   label_agenda_item_move_down: Move down
   label_agenda_item_move_to_backlog: Move to backlog
   label_agenda_item_move_to_bottom: Move to bottom
@@ -206,13 +206,13 @@ li:
   label_meeting_actions: Meeting actions
   label_meeting_agenda: Agenda
   label_meeting_agenda_close: Close the agenda to begin the Minutes
-  label_meeting_close: Close
-  label_meeting_close_action: Close meeting
-  label_meeting_create: Create meeting
+  label_meeting_close: Geslaote
+  label_meeting_close_action: Sloet vergadering
+  label_meeting_create: Vergadering aanmake
   label_meeting_create_from_template: Create meeting from template
   label_meeting_created_by: Created by
-  label_meeting_date_and_time: Date and time
-  label_meeting_date_time: Date/Time
+  label_meeting_date_and_time: Datum en tied
+  label_meeting_date_time: Datum/Tied
   label_meeting_delete: Delete meeting
   label_meeting_details: Meeting details
   label_meeting_details_edit: Edit meeting details
@@ -222,17 +222,17 @@ li:
   label_meeting_edit_title: Edit meeting title
   label_meeting_empty_action: Add agenda item
   label_meeting_in_progress_action: Start meeting
-  label_meeting_index_delete: Delete
+  label_meeting_index_delete: Verwijder
   label_meeting_index_later: Next week and later
   label_meeting_index_this_week: Later this week
   label_meeting_index_today: Vandaag
-  label_meeting_index_tomorrow: Tomorrow
+  label_meeting_index_tomorrow: Mörge
   label_meeting_last_updated: Last updated
   label_meeting_minutes: Minutes
   label_meeting_more:
     one: There is one more meeting.
     other: There are %{count} more meetings.
-  label_meeting_new: New Meeting
+  label_meeting_new: Nieje vergadering
   label_meeting_new_dynamic: New one-time meeting
   label_meeting_new_recurring: New recurring meeting
   label_meeting_open: Open
@@ -249,22 +249,22 @@ li:
   label_meeting_state: Meeting status
   label_meeting_state_agenda_created: Agenda created
   label_meeting_state_cancelled: Cancelled
-  label_meeting_state_closed: Closed
+  label_meeting_state_closed: Geslaote
   label_meeting_state_draft: Draft
-  label_meeting_state_in_progress: In progress
+  label_meeting_state_in_progress: In behandeling
   label_meeting_state_open: Open
-  label_meeting_state_planned: Planned
+  label_meeting_state_planned: Geplandj
   label_meeting_state_skipped: Skipped
-  label_meeting_template: Template
+  label_meeting_template: Sjabloon
   label_meeting_template_create: Create template
   label_meeting_template_delete: Delete template
   label_meeting_template_edit: Edit template
   label_meeting_template_new: New template
-  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing: Deile
   label_meeting_template_sharing_descendants: Mit subprojekte
-  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_none: Allein mit dit projek
   label_meeting_template_sharing_system: With all projects
-  label_meeting_templates: Templates
+  label_meeting_templates: Sjablone
   label_my_meetings: My meetings
   label_notify: Send for review
   label_past_invitations: Past invitations
@@ -299,13 +299,13 @@ li:
   label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
   label_series_backlog: Series backlog
   label_series_backlog_clear_title: Clear series backlog?
-  label_start_date: Start date
+  label_start_date: Start datum
   label_subscribe_icalendar: Subscribe to calendar
-  label_template: Template
-  label_time_zone: Time zone
+  label_template: Sjabloon
+  label_time_zone: Tied zone
   label_upcoming_meetings: Upcoming meetings
   label_upcoming_meetings_short: Upcoming
-  label_version: Version
+  label_version: Versie
   label_view_meeting: View meeting
   label_view_meeting_series: View meeting series
   label_write_outcome: Write outcome
@@ -397,17 +397,17 @@ li:
         summary: Meeting '%{title}' has been updated by %{actor}
     export:
       minutes:
-        author: Author
-        date: Date
+        author: Auteur
+        date: Datum
         footer_page_numbers: P. %{current_page} of %{total_pages}
-        location: Location
-        time: Time
+        location: Lokatie
+        time: Tied
         title: Minutes
       your_meeting_export: Meeting is being exported
     export_pdf_dialog:
       author:
         caption: The author of the minutes will be displayed in the subtitle.
-        label: Author
+        label: Auteur
       description: Generate a printable PDF file of this meeting at the current state.
       first_page_header_left:
         caption: This text will appear on the first page at the left of the header.
@@ -439,7 +439,7 @@ li:
     ical_response:
       meeting_not_found: Meeting not found for the given UID.
       update_failed: Could not update participation status.
-    label_export_pdf: Export PDF
+    label_export_pdf: Exporteer PDF
     label_mail_all_participants: Send email invite to participants
     notifications:
       dialog:
@@ -480,7 +480,7 @@ li:
       button_present: Present
       current_item: Current item
       exit: Exit presentation
-      next: Next
+      next: Volgende
       no_items: No agenda items
       no_items_flash: There are no agenda items to present.
       previous: Previous
@@ -499,11 +499,11 @@ li:
       view_details: View all meetings
   meeting_participant:
     participation_status:
-      accepted: Accepted
-      declined: Declined
-      needs_action: No response
-      tentative: Maybe
-      unknown: Unknown
+      accepted: Geaccepteerd
+      declined: Aafgeweze
+      needs_action: Gen reactie
+      tentative: Messchien
+      unknown: Onbekindj
   meeting_section:
     delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
     empty_text: Drag items here or create a new one
@@ -579,7 +579,7 @@ li:
       title: Delete meeting series
     end_after:
       iterations: After a number of occurrences
-      never: Never
+      never: Noeïts
       specific_date: After a specific date
     end_series_dialog:
       title: End meeting series
@@ -588,19 +588,19 @@ li:
       message: 'This meeting series has come to an end. There are no upcoming meetings. '
       title: Meeting series ended
     frequency:
-      every_weekday: Every %{day_of_the_week}
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
-      working_days: Every working day
+      every_weekday: Iddere %{day_of_the_week}
+      monthly_day_of_month: Daag van de maond
+      monthly_nth_weekday: Maondeliks op 'nne werkdaag
+      working_days: Iddere werkdaag
       x_daily:
-        one: Every day
-        other: Every %{count} days
+        one: Idderen daag
+        other: Iddere %{count} daag
       x_monthly:
         one: Every month
         other: Every %{count} months
       x_weekly:
-        one: Every week
-        other: Every %{count} weeks
+        one: Iddere waek
+        other: Iddere %{count} waeke
     in_words:
       daily_interval: Every %{interval} days
       frequency: "%{base} at %{time}"
@@ -608,23 +608,23 @@ li:
       full_past: "%{base} at %{time}, ended on %{end_date}"
       monthly_day: Every month on the %{day}
       monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
-      never_ending: "%{base} at %{time}"
-      weekly: Every week on %{weekday}
-      weekly_interval: Every %{interval} weeks on %{weekday}
+      monthly_nth_weekday: Iddere maond op de %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Alle %{interval} maond op de %{ordinal} %{weekday}
+      never_ending: "%{base} op %{time}"
+      weekly: Iddere waek op %{weekday}
+      weekly_interval: Iddere %{interval} waeke op %{weekday}
       working_days: Every working day
     monthly:
       inflected_ordinal:
-        first: first
+        first: ierste
         fourth: fourth
-        last: last
+        last: letste
         second: second
         third: third
       ordinal_options:
-        first: First
+        first: Ierste
         fourth: Fourth
-        last: Last
+        last: Letste
         second: Second
         third: Third
     occurrence:
@@ -660,7 +660,7 @@ li:
         '
       heading: Cancel this meeting occurrence?
       title: Cancel meeting occurrence
-    starts: Starts
+    starts: Begintj
     template:
       banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
 
@@ -674,7 +674,7 @@ li:
 
         '
       label_edit_template: Edit template
-      label_view_template: View template
+      label_view_template: Sjabloon bekieke
     time_zone_difference_banner:
       description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
 

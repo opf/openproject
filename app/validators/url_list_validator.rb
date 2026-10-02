@@ -28,20 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared by formatters whose rendered field resolves to a CustomField
-# (OpenProject::JournalFormatter::CustomComment and the
-# OpenProject::JournalFormatter::CustomField::* formatters). Requires the
-# including class to implement +custom_field_for_key(key)+.
-module OpenProject::JournalFormatter::CustomFieldPermission
+class UrlListValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    invalid_lines = Array(value).each_with_index.filter_map do |url, index|
+      index + 1 unless absolute_http_url?(url)
+    end
+
+    record.errors.add(attribute, :url_list_invalid, invalid_lines: invalid_lines.to_sentence) if invalid_lines.any?
+  end
+
   private
 
-  # A Proc :view_permission is instance_exec'd with the CustomField being
-  # rendered (or nil, if it has since been deleted) as its sole argument,
-  # rather than with no arguments as JournalFormatter::Base does.
-  def permission_granted?(options)
-    permission = options[:view_permission]
-    return super unless permission.is_a?(Proc)
-
-    instance_exec(custom_field_for_key(options[:key]), &permission)
+  def absolute_http_url?(url)
+    uri = URI.parse(url.to_s)
+    uri.scheme.in?(%w[http https]) && uri.host.present?
+  rescue URI::InvalidURIError
+    false
   end
 end

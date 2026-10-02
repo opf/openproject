@@ -3256,6 +3256,7 @@ hy:
   error_no_default_work_package_status: Աշխատանքային փաթեթի կանխադրված կարգավիճակ սահմանված չէ։ Խնդրում ենք ստուգել Ձեր կազմաձևումը (անցեք "Ադմինիստրավորում -> Աշխատանքային փաթեթների կարգավիճակներ")։
   error_no_type_in_project: Այս նախագծին որևէ տեսակ կապակցված չէ։ Խնդրում ենք ստուգել նախագծի կարգավորումները։
   error_omniauth_invalid_auth: Ինքնության մատակարարից ստացված նույնականացման տեղեկությունն անվավեր էր։ Լրացուցիչ օգնության համար խնդրում ենք դիմել Ձեր ադմինիստրատորին։
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Արտաքին նույնականացման մատակարարի միջոցով գրանցման ժամանակը սպառվեց։ Խնդրում ենք կրկին փորձել։
   error_password_change_failed: Գաղտնաբառը փոխելու փորձի ժամանակ սխալ տեղի ունեցավ։
   error_pdf_date_range_too_long: Ընտրված աշխատանքային փաթեթների ամսաթվերի միջակայքը գերազանցում է PDF արտահանման թույլատրելի սահմանաչափը։ Խնդրում ենք կրճատել միջակայքը մինչև առավելագույնը %{years} տարի։
