@@ -38,7 +38,7 @@ import {
   isSortableListData,
   resolveDropIntent,
   resolvePreviousSortableItemId,
-  sortableItemData,
+  sortableDragSourceData,
   sortableItemIdentity,
   sortableListData,
 } from './drag-and-drop';
@@ -108,7 +108,7 @@ describe('sortable lists drag and drop helpers', () => {
     });
 
     it('accepts backlogs item data', () => {
-      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '42' }))).toBe(true);
+      expect(isSortableItemIdentity(sortableDragSourceData({ type: 'work_package', itemId: '42' }))).toBe(true);
     });
 
     it('rejects lookalike data from another drag source', () => {
@@ -120,11 +120,11 @@ describe('sortable lists drag and drop helpers', () => {
     });
 
     it('rejects data with a blank item id', () => {
-      expect(isSortableItemIdentity(sortableItemData({ type: 'work_package', itemId: '' }))).toBe(false);
+      expect(isSortableItemIdentity(sortableDragSourceData({ type: 'work_package', itemId: '' }))).toBe(false);
     });
 
     it('rejects data with a blank type', () => {
-      expect(isSortableItemIdentity(sortableItemData({ type: '', itemId: '1' }))).toBe(false);
+      expect(isSortableItemIdentity(sortableDragSourceData({ type: '', itemId: '1' }))).toBe(false);
     });
   });
 
@@ -138,9 +138,9 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('sortableItemData', () => {
+  describe('sortableDragSourceData', () => {
     it('uses the item type as the public source type', () => {
-      const data = sortableItemData({ type: 'work_package', itemId: '42' });
+      const data = sortableDragSourceData({ type: 'work_package', itemId: '42' });
 
       expect(data.type).toEqual('work_package');
       expect(data.itemId).toEqual('42');
@@ -149,14 +149,14 @@ describe('sortable lists drag and drop helpers', () => {
 
     it('carries the root element on the item payload when provided', () => {
       const root = document.createElement('div');
-      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root });
 
       expect(data.rootElement).toBe(root);
       expect(isSortableItemIdentity(data)).toBe(true);
     });
 
     it('defaults the item payload root element to null', () => {
-      const data = sortableItemData({ itemId: '1', type: 'work_package' });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package' });
 
       expect(data.rootElement).toBeNull();
     });
@@ -189,7 +189,7 @@ describe('sortable lists drag and drop helpers', () => {
     const root = document.createElement('div');
 
     it('accepts a sortable item whose rootElement is this root', () => {
-      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root });
       expect(isItemFromRoot(root, data)).toBe(true);
     });
 
@@ -204,17 +204,17 @@ describe('sortable lists drag and drop helpers', () => {
     });
 
     it('rejects a sortable item from another root', () => {
-      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') });
       expect(isItemFromRoot(root, data)).toBe(false);
     });
 
     it('rejects a sortable item with no root reference', () => {
-      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: null });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: null });
       expect(isItemFromRoot(root, data)).toBe(false);
     });
 
     it('rejects a null root element', () => {
-      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+      const data = sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root });
       expect(isItemFromRoot(null, data)).toBe(false);
     });
 
@@ -460,7 +460,7 @@ describe('sortable lists drag and drop helpers', () => {
       document.body.appendChild(root);
       vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
 
-      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+      const data = attachClosestEdge(sortableDragSourceData({ type: 'work_package', itemId: '2' }), {
         element: target,
         input: input({ clientY: 90 }),
         allowedEdges: ['top', 'bottom'],
@@ -474,7 +474,7 @@ describe('sortable lists drag and drop helpers', () => {
           ],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent?.listElement).toBe(list);
@@ -491,7 +491,7 @@ describe('sortable lists drag and drop helpers', () => {
       document.body.appendChild(root);
       vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
 
-      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+      const data = attachClosestEdge(sortableDragSourceData({ type: 'work_package', itemId: '2' }), {
         element: target,
         input: input({ clientY: 90 }),
         allowedEdges: ['top', 'bottom'],
@@ -500,7 +500,7 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation({ dropTargets: [{ data, element: target }] }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent).toBeNull();
@@ -521,7 +521,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent?.listElement).toBe(list);
@@ -548,7 +548,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({
+        sourceData: sortableDragSourceData({
           type: 'work_package',
           itemId: '1',
           permittedDestinations: [{ type: 'sprint', id: '9' }],
@@ -569,7 +569,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'sprint', listId: '7' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({
+        sourceData: sortableDragSourceData({
           type: 'work_package',
           itemId: '1',
           permittedDestinations: [{ type: 'sprint', id: '7' }],
@@ -595,7 +595,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7', dropPosition: 'start' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent?.listElement).toBe(list);
@@ -613,7 +613,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent?.listElement).toBe(list);
@@ -631,7 +631,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7', dropPosition: 'start' }), element: list }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '2' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '2' }),
       });
 
       expect(intent?.listElement).toBe(list);
@@ -649,7 +649,7 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation({ clientY: 90 }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent).toBeNull();
@@ -671,7 +671,7 @@ describe('sortable lists drag and drop helpers', () => {
           dropTargets: [{ data: {}, element: header }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent).toBeNull();
@@ -686,7 +686,7 @@ describe('sortable lists drag and drop helpers', () => {
       const intent = resolveDropIntent({
         location: dropLocation(),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent).toBeNull();
@@ -701,7 +701,7 @@ describe('sortable lists drag and drop helpers', () => {
       document.body.appendChild(root);
       vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
 
-      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+      const data = attachClosestEdge(sortableDragSourceData({ type: 'work_package', itemId: '2' }), {
         element: target,
         input: input({ clientY: 90 }),
         allowedEdges: ['top', 'bottom'],
@@ -715,7 +715,7 @@ describe('sortable lists drag and drop helpers', () => {
           ],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       // No rows container on the payload falls back to the list element.
@@ -744,7 +744,7 @@ describe('sortable lists drag and drop helpers', () => {
           }],
         }),
         root,
-        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+        sourceData: sortableDragSourceData({ type: 'work_package', itemId: '1' }),
       });
 
       expect(intent?.rowsContainer).toBe(rowsContainer);

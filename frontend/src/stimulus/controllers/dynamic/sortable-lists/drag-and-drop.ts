@@ -59,19 +59,22 @@ import {
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
 // item controllers, built on top of the DOM contract in list-dom.ts.
-const sortableItemDataKey = Symbol('sortable-list-item');
+const sortableItemIdentityKey = Symbol('sortable-list-item');
 const sortableListDataKey = Symbol('sortable-list');
 
 // What a drop target exposes: the identity a drop resolves against, and
 // nothing that would have to be recomputed on every dragover.
 export interface SortableItemIdentity extends Record<string|symbol, unknown> {
-  [sortableItemDataKey]:true;
+  [sortableItemIdentityKey]:true;
   type:string;
   itemId:string;
 }
 
-// What the dragged source carries, resolved once at drag start.
-export interface SortableItemData extends SortableItemIdentity {
+// What the dragged source carries, resolved once at drag start. Distinct
+// from the engine payload of the same shape family in
+// core-common/drag-and-drop/payload.ts, which names a list id rather than
+// a root.
+export interface SortableDragSourceData extends SortableItemIdentity {
   rootElement:HTMLElement|null;
   // The destinations this drag may land in, resolved across the whole batch
   // at drag start; null when nothing restricts it, empty when nothing
@@ -131,7 +134,7 @@ export interface RootAwareChild {
 }
 
 export function sortableItemIdentity({ type, itemId }:{ type:string; itemId:string }):SortableItemIdentity {
-  return { [sortableItemDataKey]: true, type, itemId };
+  return { [sortableItemIdentityKey]: true, type, itemId };
 }
 
 export function singleItemBatch({ type, itemId }:{ type:string; itemId:string }):SelectionItem[] {
@@ -140,7 +143,7 @@ export function singleItemBatch({ type, itemId }:{ type:string; itemId:string })
 
 // The source-only fields are what isItemFromRoot narrows on beyond this.
 export function isSortableItemIdentity(data:Record<string|symbol, unknown>):data is SortableItemIdentity {
-  return data[sortableItemDataKey] === true
+  return data[sortableItemIdentityKey] === true
     && typeof data.type === 'string'
     && data.type.length > 0
     && typeof data.itemId === 'string'
@@ -154,7 +157,7 @@ export function isSortableListData(data:Record<string|symbol, unknown>):data is 
     && (typeof data.listId === 'string' || data.listId === null);
 }
 
-export function sortableItemData({
+export function sortableDragSourceData({
   type,
   itemId,
   rootElement = null,
@@ -164,7 +167,7 @@ export function sortableItemData({
   itemId:string;
   rootElement?:HTMLElement|null;
   permittedDestinations?:DestinationIdentity[]|null;
-}):SortableItemData {
+}):SortableDragSourceData {
   return {
     ...sortableItemIdentity({ type, itemId }),
     rootElement,
@@ -222,7 +225,7 @@ export function buildMoveFormData({
 export function isItemFromRoot(
   rootElement:HTMLElement|null,
   data:Record<string|symbol, unknown>,
-):data is SortableItemData {
+):data is SortableDragSourceData {
   return rootElement != null
     && isSortableItemIdentity(data)
     && data.rootElement === rootElement
@@ -244,7 +247,7 @@ export function isItemFromRoot(
 // the drop-indicator layers consult it too — rows never show a drop position
 // for it, and the list marks its container refused instead of active.
 export function permittedDestinationsAllowDrop(
-  data:SortableItemData,
+  data:SortableDragSourceData,
   destination:DestinationIdentity|null,
 ):boolean {
   return data.permittedDestinations === null
@@ -329,7 +332,7 @@ export function resolveDropIntent({
 }:{
   location:DragLocationHistory;
   root:HTMLElement;
-  sourceData:SortableItemData;
+  sourceData:SortableDragSourceData;
   excludedItems?:ExcludedItems;
 }):DropIntent|null {
   const targetList = location.current.dropTargets.find(

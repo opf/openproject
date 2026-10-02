@@ -66,7 +66,7 @@ import type SortableListsControllerType from './sortable-lists.controller';
 import type { DragSession } from './sortable-lists/drag-session';
 import { selectionTranslations } from './sortable-lists/testing/selection-translations';
 import type {
-  sortableItemData as sortableItemDataFn,
+  sortableDragSourceData as sortableDragSourceDataFn,
   sortableListData as sortableListDataFn,
 } from './sortable-lists/drag-and-drop';
 
@@ -75,7 +75,7 @@ describe('Sortable lists controller', () => {
 
   let monitorForElements:typeof monitorForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
   let sortableListData:typeof sortableListDataFn;
 
   let ctx:StimulusTestContext;
@@ -90,7 +90,7 @@ describe('Sortable lists controller', () => {
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
-    ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
+    ({ sortableDragSourceData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
   });
 
   function input({ clientY = 10 }:{ clientY?:number } = {}) {
@@ -218,7 +218,7 @@ describe('Sortable lists controller', () => {
   }
 
   function itemData(itemId = '1', type = 'work_package', rootElement:HTMLElement|null = null) {
-    return sortableItemData({ itemId, type, rootElement });
+    return sortableDragSourceData({ itemId, type, rootElement });
   }
 
   function sourcePayload(element:HTMLElement, data:Record<string|symbol, unknown> = itemData()) {
@@ -776,11 +776,11 @@ describe('Sortable lists controller', () => {
     const canMonitor = vi.mocked(monitorForElements).mock.lastCall?.[0].canMonitor;
 
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root })),
       initial: {} as never,
     })).toBe(true);
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
       initial: {} as never,
     })).toBe(false);
   });
@@ -2424,7 +2424,7 @@ describe('Sortable lists controller', () => {
       if (targetItem && edge) {
         vi.spyOn(targetItem, 'getBoundingClientRect').mockReturnValue(rect());
         const targetItemId = targetItem.getAttribute('data-sortable-lists--item-id-value')!;
-        const data = attachClosestEdge(sortableItemData({ itemId: targetItemId, type: 'work_package' }), {
+        const data = attachClosestEdge(sortableDragSourceData({ itemId: targetItemId, type: 'work_package' }), {
           element: targetItem,
           input: input({ clientY: edge === 'bottom' ? 90 : 10 }),
           allowedEdges: ['top', 'bottom'],
@@ -2614,7 +2614,7 @@ describe('Sortable lists controller', () => {
         const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
 
         monitorOptions?.onDrop?.({
-          source: sourcePayload(source, sortableItemData({
+          source: sourcePayload(source, sortableDragSourceData({
             itemId: sourceId,
             type: 'work_package',
             rootElement: root,
@@ -3162,7 +3162,7 @@ describe('Sortable lists controller', () => {
       session.start();
 
       vi.spyOn(item1, 'getBoundingClientRect').mockReturnValue(rect());
-      const targetData = attachClosestEdge(sortableItemData({ itemId: '1', type: 'work_package' }), {
+      const targetData = attachClosestEdge(sortableDragSourceData({ itemId: '1', type: 'work_package' }), {
         element: item1,
         input: input({ clientY: 10 }),
         allowedEdges: ['top', 'bottom'],
