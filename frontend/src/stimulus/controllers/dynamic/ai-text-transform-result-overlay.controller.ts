@@ -411,14 +411,14 @@ export default class AiTextTransformResultOverlayController extends Controller<H
     this.pin(left, top);
   }
 
-  // anchored-position re-anchors on every window or document resize and writes plain inline
-  // top/left/right/bottom; once the user moved the pane, these win over that.
+  // anchored-position re-anchors on every window or document resize by assigning inline
+  // top/left, which also drops an inline !important. The pinned class carries the position
+  // through stylesheet rules that outrank it.
   private pin(left:number, top:number):void {
-    const { style } = this.overlayTarget;
-    style.setProperty('left', `${left}px`, 'important');
-    style.setProperty('top', `${top}px`, 'important');
-    style.setProperty('right', 'auto', 'important');
-    style.setProperty('bottom', 'auto', 'important');
+    const { style, classList } = this.overlayTarget;
+    style.setProperty('--op-ai-result-left', `${left}px`);
+    style.setProperty('--op-ai-result-top', `${top}px`);
+    classList.add('op-ai-result-overlay_pinned');
   }
 
   private endDrag():void {
@@ -454,7 +454,7 @@ export default class AiTextTransformResultOverlayController extends Controller<H
     if (fromLeft) {
       const maxWidth = left + width - EDGE_MARGIN;
       const newWidth = Math.min(Math.max(MIN_WIDTH, width - dx), maxWidth);
-      this.overlayTarget.style.setProperty('left', `${left + width - newWidth}px`, 'important');
+      this.pin(left + width - newWidth, rect.top);
       this.overlayTarget.style.width = `${newWidth}px`;
     } else {
       const maxWidth = window.innerWidth - left - EDGE_MARGIN;

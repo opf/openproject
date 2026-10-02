@@ -9,11 +9,22 @@
   pointer-events: none
 
 .op-ai-result-overlay
+  // anchored-position carries align="end" for its anchoring, which browsers also read as the
+  // legacy alignment attribute and so right-align the whole pane.
+  text-align: start
   min-width: 320px
   max-width: calc(100vw - 32px)
 
   &::backdrop
     background: transparent
+
+  // Once dragged or resized, the pane keeps its place: anchored-position re-anchors on every
+  // window or document resize by assigning plain inline top/left, which these rules outrank.
+  &_pinned
+    top: var(--op-ai-result-top) !important
+    left: var(--op-ai-result-left) !important
+    right: auto !important
+    bottom: auto !important
 
   > .Overlay
     height: 100%
