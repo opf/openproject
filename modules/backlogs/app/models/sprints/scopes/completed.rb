@@ -33,7 +33,7 @@ module Sprints::Scopes::Completed
 
   class_methods do
     def completed
-      where(status: "completed")
+      where.not(completed_at: nil)
     end
   end
 end

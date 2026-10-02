@@ -38,4 +38,10 @@ class Queries::Sprints::Filters::StatusFilter < Queries::Sprints::Filters::Sprin
   def type
     :list
   end
+
+  def apply_to(query_scope)
+    matching = values.map { ::Sprint.public_send(it) }.reduce(:or)
+
+    query_scope.merge(operator == "!" ? matching.invert_where : matching)
+  end
 end

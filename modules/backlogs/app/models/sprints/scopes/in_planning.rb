@@ -33,7 +33,7 @@ module Sprints::Scopes::InPlanning
 
   class_methods do
     def in_planning
-      where(status: "in_planning")
+      where(started_at: nil, completed_at: nil)
     end
   end
 end

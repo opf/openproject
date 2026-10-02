@@ -67,8 +67,6 @@ class Sprint < ApplicationRecord
          :visible,
          :native_to_sprint_source
 
-  attr_readonly :status
-
   validates :name, :project, presence: true
   validates :start_date, :finish_date, presence: true, if: :active?
   validates :finish_date,
@@ -79,8 +77,7 @@ class Sprint < ApplicationRecord
 
   def self.statuses = STATUSES
 
-  # `status` is a database generated column. The reader mirrors its expression so the
-  # value is correct in memory without a reload.
+  # Keep in sync with the in_planning, active and completed scopes.
   def status
     if completed_at?
       "completed"

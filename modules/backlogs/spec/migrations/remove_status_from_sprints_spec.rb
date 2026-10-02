@@ -29,21 +29,21 @@
 #++
 
 require "spec_helper"
-require Rails.root.join("modules/backlogs/db/migrate/20261002090000_derive_sprint_status_from_timestamps")
+require Rails.root.join("modules/backlogs/db/migrate/20261002090000_remove_status_from_sprints")
 
-RSpec.describe DeriveSprintStatusFromTimestamps, type: :model do
+RSpec.describe RemoveStatusFromSprints, type: :model do
   subject(:migrate) do
     ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
     Sprint.reset_column_information
   end
 
-  around do |example|
+  # The schema changes are rolled back together with the example's transaction.
+  before do
     ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
     Sprint.reset_column_information
-    example.run
-    ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) }
-    Sprint.reset_column_information
   end
+
+  after { Sprint.reset_column_information }
 
   def insert_sprint(status:, start_date: nil, finish_date: nil, started_at: nil, completed_at: nil)
     Sprint.connection.select_value(<<~SQL.squish)
@@ -58,6 +58,12 @@ RSpec.describe DeriveSprintStatusFromTimestamps, type: :model do
   end
 
   let(:project) { create(:project) }
+
+  it "removes the status column" do
+    migrate
+
+    expect(Sprint.column_names).not_to include("status")
+  end
 
   it "backfills started_at with the beginning of start_date for an active sprint" do
     id = insert_sprint(status: "active", start_date: Date.new(2026, 1, 5), finish_date: Date.new(2026, 1, 20))

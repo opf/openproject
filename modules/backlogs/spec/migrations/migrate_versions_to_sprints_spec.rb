@@ -31,7 +31,7 @@
 require "spec_helper"
 require Rails.root.join("modules/backlogs/db/migrate/20260313164539_migrate_versions_to_sprints")
 require Rails.root.join("modules/backlogs/db/migrate/20260420160236_remove_version_settings")
-require Rails.root.join("modules/backlogs/db/migrate/20261002090000_derive_sprint_status_from_timestamps")
+require Rails.root.join("modules/backlogs/db/migrate/20261002090000_remove_status_from_sprints")
 
 RSpec.describe MigrateVersionsToSprints, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
@@ -69,17 +69,17 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
   end
 
   around(:all) do |example|
-    # In this test: RemoveVersionSettings and DeriveSprintStatusFromTimestamps have already run.
+    # In this test: RemoveVersionSettings and RemoveStatusFromSprints have already run.
     # In production: both run after MigrateVersionsToSprints.
     ActiveRecord::Migration.suppress_messages do
-      DeriveSprintStatusFromTimestamps.migrate(:down)
+      RemoveStatusFromSprints.migrate(:down)
       RemoveVersionSettings.migrate(:down)
     end
     Sprint.reset_column_information
     example.run
     ActiveRecord::Migration.suppress_messages do
       RemoveVersionSettings.migrate(:up)
-      DeriveSprintStatusFromTimestamps.migrate(:up)
+      RemoveStatusFromSprints.migrate(:up)
     end
     Sprint.reset_column_information
   end

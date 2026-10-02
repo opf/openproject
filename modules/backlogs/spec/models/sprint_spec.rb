@@ -148,17 +148,10 @@ RSpec.describe Sprint do
       expect(completed_sprint.status).to eq("completed")
     end
 
-    it "stores the same status in the generated column" do
-      expect(described_class.where(id: in_planning_sprint.id).pick(:status)).to eq("in_planning")
-      expect(described_class.where(id: active_sprint.id).pick(:status)).to eq("active")
-      expect(described_class.where(id: completed_sprint.id).pick(:status)).to eq("completed")
-    end
-
     it "follows timestamp updates" do
       in_planning_sprint.update!(started_at: Time.zone.now)
 
       expect(in_planning_sprint.status).to eq("active")
-      expect(described_class.where(id: in_planning_sprint.id).pick(:status)).to eq("active")
     end
 
     it "falls back to the earlier status when a timestamp is cleared" do
@@ -167,8 +160,8 @@ RSpec.describe Sprint do
       expect(completed_sprint.status).to eq("active")
     end
 
-    it "rejects assigning the status of a persisted sprint" do
-      expect { in_planning_sprint.status = "completed" }.to raise_error(ActiveRecord::ReadonlyAttributeError)
+    it "cannot have its status assigned" do
+      expect(in_planning_sprint).not_to respond_to(:status=)
     end
 
     it "scopes by the derived status" do

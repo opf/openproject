@@ -30,18 +30,18 @@
 
 require "spec_helper"
 require Rails.root.join("modules/backlogs/db/migrate/20260825103847_backfill_sprint_started_and_completed_at")
-require Rails.root.join("modules/backlogs/db/migrate/20261002090000_derive_sprint_status_from_timestamps")
+require Rails.root.join("modules/backlogs/db/migrate/20261002090000_remove_status_from_sprints")
 
 RSpec.describe BackfillSprintStartedAndCompletedAt, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.migrate(:up) } }
 
   around(:all) do |example|
-    # In this test: DeriveSprintStatusFromTimestamps has already run.
+    # In this test: RemoveStatusFromSprints has already run.
     # In production: it runs after BackfillSprintStartedAndCompletedAt.
-    ActiveRecord::Migration.suppress_messages { DeriveSprintStatusFromTimestamps.migrate(:down) }
+    ActiveRecord::Migration.suppress_messages { RemoveStatusFromSprints.migrate(:down) }
     Sprint.reset_column_information
     example.run
-    ActiveRecord::Migration.suppress_messages { DeriveSprintStatusFromTimestamps.migrate(:up) }
+    ActiveRecord::Migration.suppress_messages { RemoveStatusFromSprints.migrate(:up) }
     Sprint.reset_column_information
   end
 

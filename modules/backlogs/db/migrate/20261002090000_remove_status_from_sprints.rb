@@ -28,28 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class DeriveSprintStatusFromTimestamps < ActiveRecord::Migration[8.1]
-  STATUS_EXPRESSION = <<~SQL.squish
-    CASE
-      WHEN completed_at IS NOT NULL THEN 'completed'
-      WHEN started_at IS NOT NULL THEN 'active'
-      ELSE 'in_planning'
-    END
-  SQL
-
+class RemoveStatusFromSprints < ActiveRecord::Migration[8.1]
   def up
     backfill_timestamps
     clear_contradicting_timestamps
 
     remove_column :sprints, :status
-    add_column :sprints, :status, :virtual, type: :string, as: STATUS_EXPRESSION, stored: true
   end
 
   def down
-    remove_column :sprints, :status
     add_column :sprints, :status, :string, default: "in_planning", null: false
 
-    execute "UPDATE sprints SET status = #{STATUS_EXPRESSION}"
+    execute <<~SQL.squish
+      UPDATE sprints
+      SET status = CASE
+                     WHEN completed_at IS NOT NULL THEN 'completed'
+                     WHEN started_at IS NOT NULL THEN 'active'
+                     ELSE 'in_planning'
+                   END
+    SQL
   end
 
   private
