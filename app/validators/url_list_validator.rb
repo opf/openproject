@@ -28,58 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenIDConnect
-  module Provider::HashBuilder
-    def attribute_map
-      OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES
-        .index_with { |attr| public_send(:"mapping_#{attr}") }
-        .compact_blank
+class UrlListValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    invalid_lines = Array(value).each_with_index.filter_map do |url, index|
+      index + 1 unless absolute_http_url?(url)
     end
 
-    def to_h # rubocop:disable Metrics/AbcSize
-      {
-        name: slug,
-        oidc_provider:,
-        icon:,
-        host:,
-        scheme:,
-        port:,
-        display_name:,
-        userinfo_endpoint:,
-        authorization_endpoint:,
-        jwks_uri:,
-        issuer:,
-        scope:,
-        identifier: client_id,
-        secret: client_secret,
-        token_endpoint:,
-        limit_self_registration:,
-        end_session_endpoint:,
-        attribute_map:,
-        post_logout_redirect_uri:,
-        claims:,
-        acr_values:,
-        additional_form_action_urls:
-      }
-       .merge(provider_specific_to_h)
-       .compact_blank
-    end
+    record.errors.add(attribute, :url_list_invalid, invalid_lines: invalid_lines.to_sentence) if invalid_lines.any?
+  end
 
-    def provider_specific_to_h
-      case oidc_provider
-      when "google"
-        {
-          client_auth_method: :not_basic,
-          send_nonce: false
-        }
-      when "microsoft_entra"
-        {
-          use_graph_api:,
-          tenant:
-        }
-      else
-        {}
-      end
-    end
+  private
+
+  def absolute_http_url?(url)
+    uri = URI.parse(url.to_s)
+    uri.scheme.in?(%w[http https]) && uri.host.present?
+  rescue URI::InvalidURIError
+    false
   end
 end
