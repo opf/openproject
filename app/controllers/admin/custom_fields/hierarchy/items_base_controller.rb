@@ -40,8 +40,8 @@ module Admin
         before_action :require_admin
         before_action :find_custom_field
         before_action :find_active_item
-        before_action :reject_nesting_in_list, only: %i[change_parent_dialog change_parent]
-        before_action :reject_sub_items_in_list, only: %i[show new create reorder_alphabetical]
+        before_action :reject_nesting_without_editing, only: %i[change_parent_dialog change_parent new create]
+        before_action :reject_sub_item_pages_in_former_list, only: %i[show reorder_alphabetical]
 
         # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
         def admin_or_frame_layout
@@ -192,10 +192,12 @@ module Admin
 
         def create_contract
           case @custom_field.field_format
-          when "hierarchy"
-            ::CustomFields::Hierarchy::InsertHierarchyItemContract
           when "list"
-            ::CustomFields::Hierarchy::InsertListItemContract
+            if @custom_field.nested_items_editable?
+              ::CustomFields::Hierarchy::InsertHierarchyItemContract
+            else
+              ::CustomFields::Hierarchy::InsertListItemContract
+            end
           when "weighted_item_list"
             ::CustomFields::Hierarchy::InsertWeightedItemContract
           else
@@ -205,10 +207,12 @@ module Admin
 
         def update_contract
           case @custom_field.field_format
-          when "hierarchy"
-            ::CustomFields::Hierarchy::UpdateHierarchyItemContract
           when "list"
-            ::CustomFields::Hierarchy::UpdateListItemContract
+            if @custom_field.short_names_allowed?
+              ::CustomFields::Hierarchy::UpdateHierarchyItemContract
+            else
+              ::CustomFields::Hierarchy::UpdateListItemContract
+            end
           when "weighted_item_list"
             ::CustomFields::Hierarchy::UpdateWeightedItemContract
           else
@@ -262,12 +266,12 @@ module Admin
                          end
         end
 
-        def reject_nesting_in_list
-          render_404 if @custom_field.list?
+        def reject_nesting_without_editing
+          render_404 if @custom_field.list? && !@custom_field.nested_items_editable? && !@active_item.root?
         end
 
-        def reject_sub_items_in_list
-          render_404 if @custom_field.list? && !@active_item.root?
+        def reject_sub_item_pages_in_former_list
+          render_404 if @custom_field.was_list? && !@active_item.root?
         end
       end
     end

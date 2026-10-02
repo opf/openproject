@@ -99,6 +99,17 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
         expect(described_class.search(%w[aubergine]).first).to include(listed)
       end
 
+      it "finds a work package by the label of a nested list value" do
+        list_field.update!(was_list: false)
+        purple = CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: aubergine, label: "Purple")
+          .value!
+        listed = create(:work_package, type:, project:, custom_values: { list_field.id => purple.id })
+
+        expect(described_class.search(%w[purple]).first).to include(listed)
+      end
+
       it "does not match the label against another field's value that equals the item id" do
         create(:work_package, type:, project:, custom_values: { text_field.id => aubergine.id.to_s })
 

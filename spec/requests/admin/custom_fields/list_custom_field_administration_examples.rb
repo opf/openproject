@@ -28,8 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples "list custom field administration" do |create_route:, redirect_route:, items_route:|
-  let(:type) { custom_field.class.name }
+RSpec.shared_context "with list item routes" do |items_route:|
   let(:root) { custom_field.hierarchy_root }
 
   def entry(label) = root.children.find_by!(label:)
@@ -39,6 +38,12 @@ RSpec.shared_examples "list custom field administration" do |create_route:, redi
   define_method(:item_path) do |item, action = nil, **params|
     public_send([action, "#{items_route}_item_path"].compact.join("_"), custom_field, item, **params)
   end
+end
+
+RSpec.shared_examples "list custom field administration" do |create_route:, redirect_route:, items_route:|
+  include_context("with list item routes", items_route:)
+
+  let(:type) { custom_field.class.name }
 
   it "creates a list field with its root and opens its own admin page" do
     attributes = { name: "Operating system", field_format: "list", multi_value: "1", **create_attributes }
@@ -121,5 +126,54 @@ RSpec.shared_examples "list custom field administration" do |create_route:, redi
     post item_path(root, :reorder_alphabetical)
 
     expect(labels).to eq %w[apple pear]
+  end
+end
+
+RSpec.shared_examples "nestable list custom field administration" do |items_route:|
+  include_context("with list item routes", items_route:)
+
+  def nest_under_pear
+    post item_path(entry("pear"), :new_child), params: { label: "nested", short: "NS", sort_order: 0 }
+  end
+
+  def move_apple_under_pear
+    post item_path(entry("apple"), :change_parent),
+         params: { custom_field_hierarchy_forms_new_parent_form_model: { new_parent: [{ value: entry("pear").id }.to_json] } }
+  end
+
+  context "without Enterprise" do
+    it "refuses to nest an entry under another one" do
+      nest_under_pear
+
+      expect(response).to have_http_status(:not_found)
+      expect(entry("pear").children).to be_empty
+    end
+
+    it "refuses to move an entry under another one" do
+      move_apple_under_pear
+
+      expect(response).to have_http_status(:not_found)
+      expect(entry("apple").parent).to eq(root)
+    end
+
+    it "ignores a posted short name" do
+      post item_path(root, :new_child), params: { label: "cherry", short: "CH" }
+
+      expect(entry("cherry").short).to be_nil
+    end
+  end
+
+  context "with Enterprise", with_ee: %i[custom_field_hierarchies] do
+    it "nests an entry under another one, keeping its short name" do
+      nest_under_pear
+
+      expect(entry("pear").children.pluck(:label, :short)).to eq([%w[nested NS]])
+    end
+
+    it "moves an entry under another one" do
+      move_apple_under_pear
+
+      expect(entry("pear").children.pluck(:label)).to eq(%w[apple])
+    end
   end
 end

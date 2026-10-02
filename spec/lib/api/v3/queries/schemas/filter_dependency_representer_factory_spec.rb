@@ -161,7 +161,7 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
 
       describe "type hierarchy" do
         let(:hierarchy_root) { build_stubbed(:hierarchy_item) }
-        let(:custom_field) { build_stubbed(:custom_field, field_format: "hierarchy", hierarchy_root:) }
+        let(:custom_field) { build_stubbed(:custom_field, field_format: "list", hierarchy_root:) }
 
         it "is the hierarchy dependency" do
           expect(subject).to be_a(API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter)

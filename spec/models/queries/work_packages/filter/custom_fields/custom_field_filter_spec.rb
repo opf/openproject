@@ -121,6 +121,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
           let(:item) { create(:legacy_list_item, custom_field: list_wp_custom_field) }
 
           before do
+            list_wp_custom_field.update!(was_list: true)
             instance.values = [item.legacy_option_id]
           end
 
@@ -186,12 +187,12 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       end
     end
 
-    describe "list optional" do
+    describe "list" do
       let(:cf_accessor) { list_wp_custom_field.column_name }
 
-      it "is list_optional for a list" do
+      it "is hierarchy for a list" do
         expect(instance.type)
-          .to be(:list_optional)
+          .to be(:hierarchy)
       end
     end
 
@@ -288,7 +289,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
     context "list" do
       let(:cf_accessor) { list_wp_custom_field.column_name }
 
-      it "is list_optional for a list" do
+      it "is the list's items" do
         expect(instance.allowed_values)
           .to match_array(list_wp_custom_field.possible_values.map { |item| [item.label, item.id.to_s] })
       end

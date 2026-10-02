@@ -191,7 +191,9 @@ module Redmine
             CustomValue.select("1")
               .joins(<<~SQL.squish)
                 LEFT JOIN (hierarchical_items list_items
-                           INNER JOIN hierarchical_items list_roots ON list_roots.id = list_items.parent_id)
+                           INNER JOIN hierarchical_item_hierarchies list_paths ON list_paths.descendant_id = list_items.id
+                           INNER JOIN hierarchical_items list_roots
+                             ON list_roots.id = list_paths.ancestor_id AND list_roots.parent_id IS NULL)
                 ON list_roots.custom_field_id = custom_values.custom_field_id
                 AND list_items.id::VARCHAR = custom_values.value
               SQL

@@ -65,4 +65,16 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
       expect(filter_for([]).autocomplete_options[:model]).to eq([])
     end
   end
+
+  describe "#value_objects" do
+    let!(:designer) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "Designer", before: developer.sort_order).value!
+    end
+
+    it "lists the items in the order of the list, as the filter summary reads them" do
+      expect(filter_for([developer.id.to_s, designer.id.to_s]).value_objects.map(&:name))
+        .to eq(%w[Designer Developer])
+    end
+  end
 end

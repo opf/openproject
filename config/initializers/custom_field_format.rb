@@ -87,14 +87,6 @@ OpenProject::CustomFieldFormat.tap do |formats|
                    order: 11,
                    formatter: "CustomValue::EmptyStrategy")
 
-  formats.register("hierarchy",
-                   label: :label_hierarchy,
-                   only: %w(Project User WorkPackage),
-                   order: 12,
-                   multi_value_possible: true,
-                   enterprise_feature: :custom_field_hierarchies,
-                   formatter: "CustomValue::HierarchyStrategy")
-
   formats.register("weighted_item_list",
                    label: :label_weighted_item_list,
                    only: %w(Project WorkPackage),

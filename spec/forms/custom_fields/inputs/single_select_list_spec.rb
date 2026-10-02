@@ -88,4 +88,23 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
       end
     end
   end
+
+  context "with items nested in the list" do
+    let(:custom_field) do
+      create(:list_project_custom_field, name: "List field", was_list: false, possible_values: ["eins", "zwei"]).tap do |field|
+        CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: field.possible_values.first, label: "halb")
+          .value!
+          .update!(default_value: true)
+      end
+    end
+    let(:value) { nil }
+
+    it_behaves_like "rendering autocompleter", "List field" do
+      it "labels the nested items with their ancestors and pre-selects the default value" do
+        expect(autocompleter["data-model"]).to be_json_eql(%{{"disabled": false, "name": "eins / halb", "selected": true}})
+      end
+    end
+  end
 end

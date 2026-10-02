@@ -167,7 +167,12 @@ module Import
       end
 
       def custom_field_settings
-        [@import_name, format]
+        [@import_name, created_field_format]
+      end
+
+      # Cascading selects are imported as nested lists, which share the list format.
+      def created_field_format
+        format == "hierarchy" ? "list" : format
       end
 
       def custom_field_parameters
@@ -294,7 +299,7 @@ module Import
       end
 
       def compatible_candidates
-        candidate_custom_fields.select { |cf| cf.field_format == format && compatible_multi_value?(cf) }
+        candidate_custom_fields.select { |cf| cf.field_format == created_field_format && compatible_multi_value?(cf) }
       end
 
       def compatible_multi_value?(custom_field)

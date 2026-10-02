@@ -953,7 +953,7 @@ RSpec.describe "API v3 Work package resource",
       end
 
       context "when setting a list custom field through a legacy custom option href" do
-        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:custom_field) { create(:list_wp_custom_field, was_list: true) }
         let(:item) { create(:legacy_list_item, custom_field:) }
         let(:params) do
           valid_params.merge(

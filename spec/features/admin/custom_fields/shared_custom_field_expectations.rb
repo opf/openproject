@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-RSpec.shared_examples_for "hierarchy custom fields on index page" do |type|
+RSpec.shared_examples_for "list custom fields on index page" do |type|
   let(:cf_page) { Pages::CustomFields::Index.new }
   let(:user) { create(:admin) }
 
@@ -39,23 +39,23 @@ RSpec.shared_examples_for "hierarchy custom fields on index page" do |type|
   end
 
   context "with an active enterprise token with custom_field_hierarchies feature", with_ee: [:custom_field_hierarchies] do
-    it "does not show the enterprise upsell banner and has the 'Hierarchy' option for creation" do
+    it "does not show the enterprise upsell banner and has the 'List' option for creation" do
       expect(page).to have_no_text(I18n.t("ee.upsell.custom_field_hierarchies.description"))
-      cf_page.expect_having_create_item "Hierarchy"
+      cf_page.expect_having_create_item "List"
     end
   end
 
   context "with an active enterprise token without custom_field_hierarchies feature", with_ee: [:another_feature] do
-    it "shows the enterprise upsell banner and lacks the 'Hierarchy' option for creation" do
+    it "shows the enterprise upsell banner and still has the 'List' option for creation" do
       expect(page).to have_text(I18n.t("ee.upsell.custom_field_hierarchies.description"))
-      cf_page.expect_not_having_create_item "Hierarchy"
+      cf_page.expect_having_create_item "List"
     end
   end
 
   context "with a trial enterprise token", :with_ee_trial, with_ee: [:custom_field_hierarchies] do
-    it "shows the enterprise upsell banner and has the 'Hierarchy' option for creation" do
+    it "shows the enterprise upsell banner and has the 'List' option for creation" do
       expect(page).to have_text(I18n.t("ee.upsell.custom_field_hierarchies.description"))
-      cf_page.expect_having_create_item "Hierarchy"
+      cf_page.expect_having_create_item "List"
     end
   end
 end
@@ -129,7 +129,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_no_label(label_is_filter)
     end
 
-    if type == "Work package" && format != "Hierarchy"
+    if type == "Work package"
       expect(page).to have_field(label_content_right_to_left)
     else
       expect(page).to have_no_label(label_content_right_to_left)
@@ -200,7 +200,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
       expect(page).to have_no_label(label_default_value)
     end
 
-    if format in "List" | "User" | "Version" | "Hierarchy"
+    if format in "List" | "User" | "Version"
       expect(page).to have_field(label_multi_value)
     else
       expect(page).to have_no_label(label_multi_value)

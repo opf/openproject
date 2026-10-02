@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe CustomField::Hierarchy::Item, :model, with_ee: [:custom_field_hierarchies] do
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy") }
+  let(:custom_field) { create(:custom_field, field_format: "list") }
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
 
   let(:root) { custom_field.hierarchy_root }

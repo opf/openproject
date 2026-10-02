@@ -91,7 +91,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
       int_user_custom_field: :integer,
       float_user_custom_field: :float,
       text_user_custom_field: :text,
-      list_user_custom_field: :list_optional,
+      list_user_custom_field: :hierarchy,
       date_user_custom_field: :date,
       bool_user_custom_field: :list,
       string_user_custom_field: :string
@@ -169,7 +169,7 @@ RSpec.describe Queries::Users::Filters::CustomFieldFilter do
       filters = coder.load(serialized)
 
       expect(filters.size).to eq(1)
-      expect(filters.first).to be_a(Queries::Filters::Shared::CustomFields::ListOptional)
+      expect(filters.first).to be_a(Queries::Filters::Shared::CustomFields::Hierarchy)
       expect(filters.first.custom_field).to eq(list_user_custom_field)
       expect(filters.first.values).to eq([list_user_custom_field.possible_values.first.id.to_s])
     end

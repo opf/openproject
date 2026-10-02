@@ -31,7 +31,7 @@
 require "spec_helper"
 require_relative "../shared_custom_field_expectations"
 
-RSpec.describe "work package custom fields of type hierarchy", :js do
+RSpec.describe "work package list custom fields nesting their items", :js do
   shared_let(:admin) { create(:admin) }
   let(:custom_field_index_page) { Pages::CustomFields::Index.new }
   let(:new_custom_field_page) { Pages::CustomFields::New.new }
@@ -39,11 +39,11 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
   current_user { admin }
 
-  it "lets you create, update and delete a custom field of type hierarchy", with_ee: [:custom_field_hierarchies] do
+  it "lets you create, update and delete a list custom field with nested items", with_ee: [:custom_field_hierarchies] do
     # region CustomField creation
     custom_field_index_page.visit!
 
-    custom_field_index_page.click_to_create_new_custom_field("Hierarchy")
+    custom_field_index_page.click_to_create_new_custom_field("List")
 
     hierarchy_name = "Stormtrooper Organisation"
     fill_in "Name", with: hierarchy_name
@@ -188,7 +188,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
   context "when navigating the hierarchy", with_ee: [:custom_field_hierarchies] do
     let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "hierarchy") }
+    let(:custom_field) { create(:wp_custom_field, name: "Hogwarts", field_format: "list") }
     let(:root) { custom_field.hierarchy_root }
     let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
     let!(:ravenclaw) { service.insert_item(contract_class:, parent: root, label: "Ravenclaw").value! }
@@ -239,9 +239,5 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     end
   end
 
-  it_behaves_like "hierarchy custom fields on index page", "Work packages"
-
-  context "with enterprise token", with_ee: [:custom_field_hierarchies] do
-    it_behaves_like "expected fields for the custom field's format", "Work packages", "Hierarchy"
-  end
+  it_behaves_like "list custom fields on index page", "Work packages"
 end

@@ -41,6 +41,22 @@ module CostQuery::CustomFieldMixin
     "float" => "decimal(60,3)"
   }.freeze
 
+  # Cost reports filter and group list fields by this path rather than by the item id,
+  # which keeps former option lists matching the labels saved in reports.
+  def self.item_path_sql(item_id_column)
+    <<~SQL.squish
+      SELECT string_agg(ancestor.label, ' / ' ORDER BY path.generations DESC)
+      FROM #{CustomField::Hierarchy::Item.hierarchy_class.table_name} path
+      JOIN #{CustomField::Hierarchy::Item.table_name} ancestor
+        ON ancestor.id = path.ancestor_id AND ancestor.parent_id IS NOT NULL
+      WHERE path.descendant_id = #{item_id_column}
+    SQL
+  end
+
+  def self.item_paths(custom_field)
+    custom_field.possible_values.pluck(Arel.sql("(#{item_path_sql("#{CustomField::Hierarchy::Item.table_name}.id")})"))
+  end
+
   def self.extended(base)
     base.inherited_attribute :factory
     base.factory = base
@@ -111,21 +127,25 @@ module CostQuery::CustomFieldMixin
   def list_join_table(field)
     custom_values_table = CustomValue.table_name
     items_table = CustomField::Hierarchy::Item.table_name
+    hierarchies_table = CustomField::Hierarchy::Item.hierarchy_class.table_name
 
     <<-SQL
     -- BEGIN Custom Field Join: cf_#{field.id}
     LEFT OUTER JOIN (
     SELECT
       item.id AS #{db_field},
-      item.label AS value,
+      (#{CostQuery::CustomFieldMixin.item_path_sql('item.id')}) AS value,
       cv.customized_type,
       cv.custom_field_id,
       cv.customized_id
       FROM #{custom_values_table} cv
       INNER JOIN #{items_table} item
       ON cv.value = item.id::VARCHAR
+      INNER JOIN #{hierarchies_table} root_path
+      ON root_path.descendant_id = item.id
       INNER JOIN #{items_table} root
-      ON root.id = item.parent_id
+      ON root.id = root_path.ancestor_id
+      AND root.parent_id IS NULL
       AND cv.custom_field_id = root.custom_field_id
     ) AS #{db_field}
     ON #{db_field}.customized_type = 'WorkPackage'

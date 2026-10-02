@@ -87,14 +87,14 @@ class Queries::CostReports::Filters::CustomFieldFilter < Queries::CostReports::F
     end
   end
 
-  # The engine filters list custom fields on the option's value rather than its
+  # The engine filters list custom fields on the item's path rather than its
   # id, because the same expression also aggregates the group.
   def allowed_values
     case custom_field&.field_format
     when "bool"
       [[I18n.t(:general_text_yes), "t"], [I18n.t(:general_text_no), "f"]]
     when "list"
-      custom_field.possible_values.map { |item| [item.label, item.label] }
+      engine_filter.available_values
     end
   end
 end

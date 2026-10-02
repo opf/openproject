@@ -548,7 +548,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    %w[list hierarchy weighted_item_list].each do |format|
+    %w[list weighted_item_list].each do |format|
       context "for #{format} custom field" do
         let(:value) { build_stubbed(:hierarchy_item) }
         let(:raw_value) { value.id.to_s }
@@ -785,7 +785,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
   end
 
   describe "writing links to a multi-value list field" do
-    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[apple]) }
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, was_list: true, possible_values: %w[apple]) }
     let(:pear) { create(:legacy_list_item, custom_field:, label: "pear") }
     let(:apple) { custom_field.possible_values.find_by!(label: "apple") }
     let(:legacy_pear_id) { pear.legacy_option_id }

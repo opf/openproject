@@ -39,9 +39,6 @@ module Queries::Filters::Shared
         case field_format
         when "version"
           ::Version.where(id: values)
-        when "list"
-          custom_field.possible_values.where(id: values)
-                       .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
         else
           super
         end
@@ -79,23 +76,6 @@ module Queries::Filters::Shared
       end
 
       protected
-
-      def condition
-        return super unless customized_strategy?
-
-        customized_model = custom_field_context.model
-
-        operator_strategy.sql_for_customized(
-          values_replaced,
-          custom_field.id,
-          Arel.sql(custom_field_context.customized_type),
-          Arel.sql("#{customized_model.table_name}.id")
-        )
-      end
-
-      def customized_strategy?
-        [Queries::Operators::CustomFields::EqualsAll, Queries::Operators::CustomFields::NotEqualsAll].include?(operator_strategy)
-      end
 
       def type_strategy_class
         ::Queries::Filters::Strategies::CfListOptional

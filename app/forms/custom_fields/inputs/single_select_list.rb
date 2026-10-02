@@ -53,30 +53,17 @@ class CustomFields::Inputs::SingleSelectList < CustomFields::Inputs::Base::Autoc
   end
 
   def list_items
-    case @custom_field.field_format
-    when "hierarchy", "weighted_item_list"
-      hierarchical_list_items.map do |item|
-        {
-          label: item.ancestry_path(include_shorts_and_weights: true),
-          value: item.id,
-          selected: item.id == @custom_value.value&.to_i
-        }
-      end
-    else
-      @custom_field.possible_values.map do |item|
-        {
-          label: item.label,
-          value: item.id,
-          selected: selected?(item)
-        }
-      end
+    @custom_field.possible_values.map do |item|
+      {
+        label: item_label(item),
+        value: item.id,
+        selected: selected?(item)
+      }
     end
   end
 
-  def hierarchical_list_items
-    CustomFields::Hierarchy::HierarchicalItemService.new
-      .get_descendants(item: @custom_field.hierarchy_root, include_self: false)
-      .value_or([])
+  def item_label(item)
+    @custom_field.nestable? ? item.ancestry_path(include_shorts_and_weights: true) : item.label
   end
 
   def selected?(item)

@@ -42,10 +42,10 @@ RSpec.describe OpenProject::CustomFieldFormat do
 
     context "for a 'Project' class" do
       context "with some enterprise addons",
-              with_ee: %i[calculated_values weighted_item_lists custom_field_hierarchies] do
+              with_ee: %i[calculated_values weighted_item_lists] do
         it_behaves_like "custom field formats",
                         "Project",
-                        %w[string text link int float list date bool user version hierarchy weighted_item_list calculated_value]
+                        %w[string text link int float list date bool user version weighted_item_list calculated_value]
       end
 
       context "without enterprise addons" do
@@ -56,10 +56,10 @@ RSpec.describe OpenProject::CustomFieldFormat do
     end
 
     context "for a 'WorkPackage' class" do
-      context "with some enterprise addons", with_ee: %i[weighted_item_lists custom_field_hierarchies] do
+      context "with some enterprise addons", with_ee: %i[weighted_item_lists] do
         it_behaves_like "custom field formats",
                         "WorkPackage",
-                        %w[string text link int float list date bool user version hierarchy weighted_item_list]
+                        %w[string text link int float list date bool user version weighted_item_list]
       end
 
       context "without enterprise addons" do
@@ -106,13 +106,13 @@ RSpec.describe OpenProject::CustomFieldFormat do
     context "for a 'Project' class" do
       it_behaves_like "custom field formats",
                       "Project",
-                      %w[string text link int float list date bool user version hierarchy weighted_item_list calculated_value]
+                      %w[string text link int float list date bool user version weighted_item_list calculated_value]
     end
 
     context "for a 'WorkPackage' class" do
       it_behaves_like "custom field formats",
                       "WorkPackage",
-                      %w[string text link int float list date bool user version hierarchy weighted_item_list]
+                      %w[string text link int float list date bool user version weighted_item_list]
     end
 
     context "for a 'Version' class" do
@@ -130,7 +130,7 @@ RSpec.describe OpenProject::CustomFieldFormat do
     context "for a 'User' class" do
       it_behaves_like "custom field formats",
                       "User",
-                      %w[string text int float list date bool hierarchy]
+                      %w[string text int float list date bool]
     end
 
     context "for a 'Group' class" do
@@ -143,7 +143,7 @@ RSpec.describe OpenProject::CustomFieldFormat do
   describe ".registered_formats" do
     it "returns all formats" do
       expect(described_class.registered_formats)
-        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
+        .to eq(%w[string text link int float list date bool user version empty weighted_item_list calculated_value])
     end
   end
 
@@ -160,15 +160,9 @@ RSpec.describe OpenProject::CustomFieldFormat do
                       %w[string text link int float list date bool user version empty]
     end
 
-    context "with a custom_field_hierarchies ee", with_ee: [:custom_field_hierarchies] do
-      it_behaves_like "available custom field formats",
-                      "including hierarchy",
-                      %w[string text link int float list date bool user version empty hierarchy]
-    end
-
     context "with a weighted_item_lists ee", with_ee: [:weighted_item_lists] do
       it_behaves_like "available custom field formats",
-                      "including hierarchy",
+                      "including weighted item lists",
                       %w[string text link int float list date bool user version empty weighted_item_list]
     end
 
@@ -178,10 +172,10 @@ RSpec.describe OpenProject::CustomFieldFormat do
                       %w[string text link int float list date bool user version empty calculated_value]
     end
 
-    context "with all ees", with_ee: %i[custom_field_hierarchies weighted_item_lists calculated_values] do
+    context "with all ees", with_ee: %i[weighted_item_lists calculated_values] do
       it_behaves_like "available custom field formats",
-                      "including hierarchy",
-                      %w[string text link int float list date bool user version empty hierarchy weighted_item_list
+                      "including every enterprise format",
+                      %w[string text link int float list date bool user version empty weighted_item_list
                          calculated_value]
     end
   end
@@ -189,7 +183,7 @@ RSpec.describe OpenProject::CustomFieldFormat do
   describe ".enabled_formats" do
     it "returns all formats" do
       expect(described_class.enabled_formats)
-        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
+        .to eq(%w[string text link int float list date bool user version empty weighted_item_list calculated_value])
     end
   end
 

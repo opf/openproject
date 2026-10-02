@@ -31,164 +31,202 @@
 require "spec_helper"
 
 RSpec.describe Query::Results, "Filtering custom fields" do
-  shared_let(:user) { create(:admin) }
-  shared_let(:custom_field) do
-    create(
-      :list_wp_custom_field,
-      name: "Ingredients",
-      multi_value: true,
-      possible_values: %w[A B C]
-    )
-  end
-
-  def custom_values_for(*names)
-    custom_field
-      .possible_values
-      .where(label: names)
-      .pluck(:id)
-      .map do |value|
-      CustomValue.new(custom_field_id: custom_field.id, value:)
+  shared_examples "a multi-value list filter" do |was_list:|
+    shared_let(:user) { create(:admin) }
+    shared_let(:custom_field) do
+      create(
+        :list_wp_custom_field,
+        name: "Ingredients",
+        multi_value: true,
+        was_list:,
+        possible_values: %w[A B C]
+      )
     end
-  end
 
-  shared_let(:type) { create(:type_task, custom_fields: [custom_field]) }
-  shared_let(:project) do
-    create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field])
-  end
-
-  shared_let(:wp_a) do
-    create(:work_package, subject: "A", type:, project:, custom_values: custom_values_for("A"))
-  end
-
-  shared_let(:wp_b) do
-    create(:work_package, subject: "B", type:, project:, custom_values: custom_values_for("B"))
-  end
-
-  shared_let(:wp_c) do
-    create(:work_package, subject: "C", type:, project:, custom_values: custom_values_for("C"))
-  end
-
-  shared_let(:wp_a_b) do
-    create(:work_package, subject: "A and B", type:, project:, custom_values: custom_values_for("A", "B"))
-  end
-
-  shared_let(:wp_b_c) do
-    create(:work_package, subject: "B and C", type:, project:, custom_values: custom_values_for("B", "C"))
-  end
-
-  shared_let(:wp_a_b_c) do
-    create(:work_package, subject: "A B C", type:, project:, custom_values: custom_values_for("A", "B", "C"))
-  end
-
-  let(:query) do
-    build(:query,
-          user:,
-          show_hierarchies: false,
-          project:).tap do |q|
-      q.filters.clear
-      q.add_filter(custom_field.column_name, operator, custom_field.possible_values.where(label: values).pluck(:id))
-    end
-  end
-
-  let(:query_results) do
-    described_class
-      .new(query)
-      .work_packages
-      .pluck(:id)
-  end
-
-  before do
-    login_as(user)
-  end
-
-  shared_examples "filtered work packages" do
-    it do
-      expect(query_results).to match_array expected.map(&:id)
-    end
-  end
-
-  describe "filter for is(OR)" do
-    let(:operator) { "=" }
-
-    context "when filtering for A" do
-      let(:values) { ["A"] }
-
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
+    def custom_values_for(*names)
+      custom_field
+        .possible_values
+        .where(label: names)
+        .pluck(:id)
+        .map do |value|
+        CustomValue.new(custom_field_id: custom_field.id, value:)
       end
     end
 
-    context "when filtering for A OR B" do
-      let(:values) { %w[A B] }
+    shared_let(:type) { create(:type_task, custom_fields: [custom_field]) }
+    shared_let(:project) do
+      create(:project,
+             types: [type],
+             work_package_custom_fields: [custom_field])
+    end
 
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c] }
+    shared_let(:wp_a) do
+      create(:work_package, subject: "A", type:, project:, custom_values: custom_values_for("A"))
+    end
+
+    shared_let(:wp_b) do
+      create(:work_package, subject: "B", type:, project:, custom_values: custom_values_for("B"))
+    end
+
+    shared_let(:wp_c) do
+      create(:work_package, subject: "C", type:, project:, custom_values: custom_values_for("C"))
+    end
+
+    shared_let(:wp_a_b) do
+      create(:work_package, subject: "A and B", type:, project:, custom_values: custom_values_for("A", "B"))
+    end
+
+    shared_let(:wp_b_c) do
+      create(:work_package, subject: "B and C", type:, project:, custom_values: custom_values_for("B", "C"))
+    end
+
+    shared_let(:wp_a_b_c) do
+      create(:work_package, subject: "A B C", type:, project:, custom_values: custom_values_for("A", "B", "C"))
+    end
+
+    let(:query) do
+      build(:query,
+            user:,
+            show_hierarchies: false,
+            project:).tap do |q|
+        q.filters.clear
+        q.add_filter(custom_field.column_name, operator, custom_field.possible_values.where(label: values).pluck(:id))
       end
     end
 
-    context "when filtering for A OR B OR C" do
-      let(:values) { %w[A B C] }
+    let(:query_results) do
+      described_class
+        .new(query)
+        .work_packages
+        .pluck(:id)
+    end
 
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c, wp_c] }
+    before do
+      login_as(user)
+    end
+
+    shared_examples "filtered work packages" do
+      it do
+        expect(query_results).to match_array expected.map(&:id)
+      end
+    end
+
+    describe "filter for is(OR)" do
+      let(:operator) { "=" }
+
+      context "when filtering for A" do
+        let(:values) { ["A"] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
+        end
+      end
+
+      context "when filtering for A OR B" do
+        let(:values) { %w[A B] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c] }
+        end
+      end
+
+      context "when filtering for A OR B OR C" do
+        let(:values) { %w[A B C] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c, wp_c] }
+        end
+      end
+    end
+
+    describe "filter for is(AND)" do
+      let(:operator) { "&=" }
+
+      context "when filtering for A" do
+        let(:values) { ["A"] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
+        end
+      end
+
+      context "when filtering for A AND B" do
+        let(:values) { %w[A B] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a_b, wp_a_b_c] }
+        end
+      end
+
+      context "when filtering for A AND B AND C" do
+        let(:values) { %w[A B C] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_a_b_c] }
+        end
+      end
+    end
+
+    describe "filter for is not" do
+      let(:operator) { "!" }
+
+      context "when filtering for A" do
+        let(:values) { ["A"] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_b, wp_b_c, wp_c] }
+        end
+      end
+
+      context "when filtering for A AND B" do
+        let(:values) { %w[A B] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [wp_c] }
+        end
+      end
+
+      context "when filtering for A AND B AND C" do
+        let(:values) { %w[A B C] }
+
+        it_behaves_like "filtered work packages" do
+          let(:expected) { [] }
+        end
       end
     end
   end
 
-  describe "filter for is(AND)" do
-    let(:operator) { "&=" }
-
-    context "when filtering for A" do
-      let(:values) { ["A"] }
-
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
-      end
-    end
-
-    context "when filtering for A AND B" do
-      let(:values) { %w[A B] }
-
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a_b, wp_a_b_c] }
-      end
-    end
-
-    context "when filtering for A AND B AND C" do
-      let(:values) { %w[A B C] }
-
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_a_b_c] }
-      end
-    end
+  context "with a former option list" do
+    it_behaves_like "a multi-value list filter", was_list: true
   end
 
-  describe "filter for is not" do
-    let(:operator) { "!" }
+  context "with a list that may nest its items" do
+    it_behaves_like "a multi-value list filter", was_list: false do
+      describe "filter for is, including descendants" do
+        let(:values) { ["A"] }
+        let!(:item_a1) do
+          CustomFields::Hierarchy::HierarchicalItemService.new
+            .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                         parent: custom_field.possible_values.find_by(label: "A"), label: "A1")
+            .value!
+        end
+        let!(:wp_a1) { create(:work_package, subject: "A1", type:, project:, custom_values: custom_values_for("A1")) }
 
-    context "when filtering for A" do
-      let(:values) { ["A"] }
+        context "with the is(OR) operator" do
+          let(:operator) { "=" }
 
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_b, wp_b_c, wp_c] }
-      end
-    end
+          it_behaves_like "filtered work packages" do
+            let(:expected) { [wp_a, wp_a_b, wp_a_b_c] }
+          end
+        end
 
-    context "when filtering for A AND B" do
-      let(:values) { %w[A B] }
+        context "with the including descendants operator" do
+          let(:operator) { "eq_with_descendants" }
 
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [wp_c] }
-      end
-    end
-
-    context "when filtering for A AND B AND C" do
-      let(:values) { %w[A B C] }
-
-      it_behaves_like "filtered work packages" do
-        let(:expected) { [] }
+          it_behaves_like "filtered work packages" do
+            let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_a1] }
+          end
+        end
       end
     end
   end

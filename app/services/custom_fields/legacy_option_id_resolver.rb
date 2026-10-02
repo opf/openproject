@@ -41,7 +41,7 @@ module CustomFields
       end
 
       def resolve_all(custom_field:, ids:)
-        return ids unless custom_field.list?
+        return ids unless custom_field.was_list?
 
         items = CustomField::Hierarchy::Item
                   .where(parent: custom_field.hierarchy_root, legacy_option_id: ids)

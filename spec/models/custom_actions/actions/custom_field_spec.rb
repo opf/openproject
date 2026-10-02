@@ -394,6 +394,21 @@ RSpec.describe CustomActions::Actions::CustomField do
       end
     end
 
+    context "for a list custom field nesting its items" do
+      let(:custom_field) { create(:list_wp_custom_field, was_list: false, possible_values: %w[A B]) }
+
+      before do
+        CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: custom_field.possible_values.first, label: "A1")
+      end
+
+      it "labels the nested items with their ancestors" do
+        expect(instance.allowed_values.pluck(:label))
+          .to eq(["-", "A", "A / A1", "B"])
+      end
+    end
+
     context "for a version custom field" do
       let(:custom_field) { version_custom_field }
       let(:expected) do
@@ -711,7 +726,7 @@ RSpec.describe CustomActions::Actions::CustomField do
       end
 
       context "for a list custom field carrying a legacy option id", with_ee: [:custom_field_hierarchies] do
-        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:custom_field) { create(:list_wp_custom_field, was_list: true) }
         let(:root) { custom_field.hierarchy_root }
         let(:migrated_item) { create(:legacy_list_item, custom_field:, label: "Kept") }
 

@@ -61,32 +61,36 @@ module CustomFieldsHelper
                                             [I18n.t(:general_text_no), "0"]].compact, value),
                         id: field_id,
                         include_blank: I18n.t(:label_no_change_option))
-    when "list"
+    when "list", "weighted_item_list"
+      return nested_custom_field_tag_for_bulk_edit(field_name, field_id, custom_field, value) if custom_field.nestable?
+
       styled_select_tag(field_name,
                         options_for_list(custom_field, project, value),
-                        id: field_id,
-                        multiple: custom_field.multi_value?,
-                        include_blank: I18n.t(:label_no_change_option))
-    when "hierarchy", "weighted_item_list"
-      base_options = []
-      result = CustomFields::Hierarchy::HierarchicalItemService.new
-        .get_descendants(item: custom_field.hierarchy_root, include_self: false)
-        .either(
-          ->(items) { items },
-          ->(_) { [] }
-        )
-      options = base_options + result.map do |item|
-        label = item.short.present? ? "#{item.label} (#{item.short})" : item.label
-        [label, item.id]
-      end
-      styled_select_tag(field_name,
-                        options_for_select(options, value),
                         id: field_id,
                         multiple: custom_field.multi_value?,
                         include_blank: I18n.t(:label_no_change_option))
     else
       styled_text_field_tag(field_name, value, id: field_id)
     end
+  end
+
+  def nested_custom_field_tag_for_bulk_edit(field_name, field_id, custom_field, value) # rubocop:disable Metrics/AbcSize
+    base_options = []
+    result = CustomFields::Hierarchy::HierarchicalItemService.new
+      .get_descendants(item: custom_field.hierarchy_root, include_self: false)
+      .either(
+        ->(items) { items },
+        ->(_) { [] }
+      )
+    options = base_options + result.map do |item|
+      label = item.short.present? ? "#{item.label} (#{item.short})" : item.label
+      [label, item.id]
+    end
+    styled_select_tag(field_name,
+                      options_for_select(options, value),
+                      id: field_id,
+                      multiple: custom_field.multi_value?,
+                      include_blank: I18n.t(:label_no_change_option))
   end
 
   # Return a string used to display a custom value

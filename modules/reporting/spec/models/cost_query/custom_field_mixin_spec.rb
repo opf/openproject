@@ -67,6 +67,31 @@ RSpec.describe CostQuery::CustomFieldMixin, :reporting_query_helper do
       expect(joined_label_for(field_a)).to eq(item_a.label)
     end
 
+    context "with an item nested in a list" do
+      let!(:field_a) { create(:list_wp_custom_field, name: "Field A", was_list: false, possible_values: ["Germany"]) }
+      let(:item_a) do
+        CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: field_a.possible_values.first, label: "Berlin")
+          .value!
+      end
+
+      before do
+        ActiveRecord::Base.connection.execute(<<~SQL.squish)
+          INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)
+          VALUES ('WorkPackage', #{work_package.id}, #{field_a.id}, '#{item_a.id}')
+        SQL
+      end
+
+      it "labels the value with its ancestors, so namesakes under other parents stay apart" do
+        expect(joined_label_for(field_a)).to eq("Germany / Berlin")
+      end
+
+      it "offers the same labels to filter on" do
+        expect(described_class.item_paths(field_a)).to eq(["Germany", "Germany / Berlin"])
+      end
+    end
+
     it "does not resolve a stale value that happens to match another field's item id" do
       ActiveRecord::Base.connection.execute(<<~SQL.squish)
         INSERT INTO custom_values (customized_type, customized_id, custom_field_id, value)

@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hierarchies] do
-  let(:custom_field) { create(:list_wp_custom_field) }
+  let(:custom_field) { create(:list_wp_custom_field, was_list: true) }
   let!(:item) { create(:legacy_list_item, custom_field:) }
   let(:legacy_id) { item.legacy_option_id.to_s }
 
@@ -44,15 +44,15 @@ RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hie
   end
 
   it "leaves an id alone when it is mapped for a different custom field" do
-    other = create(:list_wp_custom_field)
+    other = create(:list_wp_custom_field, was_list: true)
 
     expect(described_class.resolve(custom_field: other, id: legacy_id)).to eq(legacy_id)
   end
 
-  it "leaves ids alone for a field that is not a list" do
-    hierarchy_field = create(:hierarchy_wp_custom_field)
+  it "does not look ids up for a list field that never held custom options" do
+    new_list = create(:list_wp_custom_field, was_list: false)
 
-    expect(described_class.resolve(custom_field: hierarchy_field, id: legacy_id)).to eq(legacy_id)
+    expect { described_class.resolve(custom_field: new_list, id: legacy_id) }.to have_a_query_limit(0)
   end
 
   it "translates a batch in one query, preserving order and unmapped entries" do

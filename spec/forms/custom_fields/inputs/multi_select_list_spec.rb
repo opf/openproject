@@ -51,4 +51,24 @@ RSpec.describe CustomFields::Inputs::MultiSelectList, type: :forms do
       expect(autocompleter["data-model"]).to be_json_eql(%{[{"disabled": false, "name": "tre", "selected": true}, {"disabled": false, "name": "quattro", "selected": true}]})
     end
   end
+
+  context "with items nested in the list" do
+    let(:custom_field) do
+      create(:list_project_custom_field,
+             name: "Multi-list field", multi_value: true, was_list: false, possible_values: ["uno", "due"]).tap do |field|
+        CustomFields::Hierarchy::HierarchicalItemService.new
+          .insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                       parent: field.possible_values.first, label: "mezzo")
+          .value!
+          .update!(default_value: true)
+      end
+    end
+    let(:value) { nil }
+
+    it_behaves_like "rendering autocompleter", "Multi-list field", multiple: true do
+      it "labels the nested items with their ancestors and pre-selects the default values" do
+        expect(autocompleter["data-model"]).to be_json_eql(%{[{"disabled": false, "name": "uno / mezzo", "selected": true}]})
+      end
+    end
+  end
 end

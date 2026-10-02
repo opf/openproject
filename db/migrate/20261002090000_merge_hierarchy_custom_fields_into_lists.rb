@@ -28,11 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-require_relative "../format_field_expectations"
+class MergeHierarchyCustomFieldsIntoLists < ActiveRecord::Migration[8.1]
+  def up
+    add_column :custom_fields, :was_list, :boolean,
+               default: false,
+               null: false,
+               comment: "Former option list, whose items may still be referenced by legacy custom option ids."
 
-RSpec.describe "Project hierarchy custom fields", :js do
-  context "with enterprise token", with_ee: [:custom_field_hierarchies] do
-    it_behaves_like "expected fields for the Project custom field's format", "Hierarchy"
+    execute "UPDATE custom_fields SET was_list = true WHERE field_format = 'list'"
+    execute "UPDATE custom_fields SET field_format = 'list' WHERE field_format = 'hierarchy'"
+  end
+
+  # Lists created since the migration come back as hierarchies.
+  def down
+    execute "UPDATE custom_fields SET field_format = 'hierarchy' WHERE field_format = 'list' AND NOT was_list"
+
+    remove_column :custom_fields, :was_list
   end
 end
