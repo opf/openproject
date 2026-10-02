@@ -35,7 +35,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   context "with HierarchyItemContract" do
     let!(:custom_field) do
-      create(:custom_field, field_format: "hierarchy")
+      create(:custom_field, field_format: "list")
     end
     let!(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
 
@@ -289,7 +289,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
       end
 
       context "for a list custom field" do
-        let!(:list_custom_field) { create(:custom_field, field_format: "list") }
+        let!(:list_custom_field) { create(:custom_field, field_format: "list", was_list: true) }
         let(:list_root) { list_custom_field.hierarchy_root }
         let(:list_contract) { CustomFields::Hierarchy::InsertListItemContract }
         let!(:apple) do
@@ -401,7 +401,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#set_default" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy")
+      create(:custom_field, field_format: "list")
     end
     let(:root) { custom_field.hierarchy_root }
     let(:described_class_contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
@@ -428,7 +428,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
     context "when the field is multi value" do
       let(:custom_field) do
-        create(:custom_field, field_format: "hierarchy", multi_value: true)
+        create(:custom_field, field_format: "list", multi_value: true)
       end
 
       it "keeps every marked item" do
@@ -443,7 +443,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#clear_default" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy")
+      create(:custom_field, field_format: "list")
     end
     let!(:item) do
       service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
@@ -461,7 +461,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
 
   describe "#reorder_children_alphabetically" do
     let(:custom_field) do
-      create(:custom_field, field_format: "hierarchy")
+      create(:custom_field, field_format: "list")
     end
     let(:root) { custom_field.hierarchy_root }
     let(:contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }

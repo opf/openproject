@@ -107,8 +107,8 @@ module Queries::Filters::Shared
           :text
         when "date"
           :date
-        when "hierarchy", "weighted_item_list"
-          :hierarchy
+        when "list", "weighted_item_list"
+          custom_field.nestable? ? :hierarchy : :string
         else
           :string
         end

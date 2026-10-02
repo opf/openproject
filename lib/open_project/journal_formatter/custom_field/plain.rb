@@ -55,7 +55,7 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
 
   def get_modifier_function(custom_field)
     case custom_field.field_format
-    when "hierarchy", "list"
+    when "list"
       :find_item_value
     when "user"
       :find_user_value

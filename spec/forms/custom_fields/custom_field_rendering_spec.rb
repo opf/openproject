@@ -71,7 +71,6 @@ RSpec.describe CustomFields::CustomFieldRendering do
           "text" => CustomFields::Inputs::Text,
           "int" => CustomFields::Inputs::Int,
           "float" => CustomFields::Inputs::Float,
-          "hierarchy" => CustomFields::Inputs::SingleSelectList,
           "weighted_item_list" => CustomFields::Inputs::SingleSelectList,
           "list" => CustomFields::Inputs::SingleSelectList,
           "date" => CustomFields::Inputs::Date,
@@ -113,7 +112,6 @@ RSpec.describe CustomFields::CustomFieldRendering do
         let(:multi_value) { true }
 
         {
-          "hierarchy" => CustomFields::Inputs::MultiSelectList,
           "weighted_item_list" => CustomFields::Inputs::MultiSelectList,
           "list" => CustomFields::Inputs::MultiSelectList,
           "user" => CustomFields::Inputs::MultiUserSelectList,

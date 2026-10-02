@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
             render(Primer::OpenProject::DragHandle.new(draggable: true))
           end
           item_information.with_column(mr: 2) do
-            if custom_field.list?
+            if custom_field.was_list?
               render(Primer::Beta::Text.new(font_weight: :bold)) { model.label }
             else
               render(

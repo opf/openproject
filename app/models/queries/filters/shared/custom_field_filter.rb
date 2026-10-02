@@ -94,10 +94,14 @@ module Queries::Filters::Shared::CustomFieldFilter
       case custom_field.field_format
       when "user"
         ::Queries::Filters::Shared::CustomFields::User
-      when "list", "version"
+      when "version"
         ::Queries::Filters::Shared::CustomFields::ListOptional
-      when "hierarchy", "weighted_item_list"
-        ::Queries::Filters::Shared::CustomFields::Hierarchy
+      when "list", "weighted_item_list"
+        if custom_field.nestable?
+          ::Queries::Filters::Shared::CustomFields::Hierarchy
+        else
+          ::Queries::Filters::Shared::CustomFields::ListOptional
+        end
       when "bool"
         ::Queries::Filters::Shared::CustomFields::Bool
       else

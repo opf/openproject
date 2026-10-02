@@ -39,7 +39,6 @@ module Admin
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
                     only: %i(edit update destroy attribute_help_text update_attribute_help_text)
-      before_action :validate_enterprise_token, only: %i(create)
       before_action :find_or_initialize_attribute_help_text, only: %i(attribute_help_text update_attribute_help_text)
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -103,12 +102,6 @@ module Admin
 
       def find_custom_field
         @custom_field = custom_field_class.find(params.expect(:id))
-      end
-
-      def validate_enterprise_token
-        if params.dig(:custom_field, :field_format) == "hierarchy" && !EnterpriseToken.allows_to?(:custom_field_hierarchies)
-          render_403
-        end
       end
 
       def show_path

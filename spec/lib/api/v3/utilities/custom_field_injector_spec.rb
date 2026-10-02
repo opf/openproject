@@ -548,7 +548,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    %w[list hierarchy weighted_item_list].each do |format|
+    %w[list weighted_item_list].each do |format|
       context "for #{format} custom field" do
         let(:value) { build_stubbed(:hierarchy_item) }
         let(:raw_value) { value.id.to_s }

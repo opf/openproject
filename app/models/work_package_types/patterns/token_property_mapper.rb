@@ -84,13 +84,13 @@ module WorkPackageTypes
         end
       end
 
-      def tokenize(custom_field_scope, context_name, prefix = nil)
-        custom_field_scope.pluck(:name, :id, :field_format, :multi_value).map do |name, id, format, multiple|
+      def tokenize(custom_field_scope, context_name, prefix = nil) # rubocop:disable Metrics/PerceivedComplexity
+        custom_field_scope.pluck(:name, :id, :field_format, :multi_value, :was_list).map do |name, id, format, multiple, was_list|
           formatter = if multiple
                         Formatters::ArrayFormatter
                       elsif format == "date"
                         Formatters::DateFormatter
-                      elsif format == "hierarchy"
+                      elsif format == "list" && !was_list
                         Formatters::HierarchyFormatter
                       elsif format == "weighted_item_list"
                         Formatters::WeightedItemListFormatter

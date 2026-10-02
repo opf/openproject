@@ -28,15 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddWasListToCustomFields < ActiveRecord::Migration[8.1]
-  def change
+class MergeHierarchyCustomFieldsIntoLists < ActiveRecord::Migration[8.1]
+  def up
     add_column :custom_fields, :was_list, :boolean,
                default: false,
                null: false,
                comment: "Former option list, whose items may still be referenced by legacy custom option ids."
 
-    reversible do |direction|
-      direction.up { execute "UPDATE custom_fields SET was_list = true WHERE field_format = 'list'" }
-    end
+    execute "UPDATE custom_fields SET was_list = true WHERE field_format = 'list'"
+    execute "UPDATE custom_fields SET field_format = 'list' WHERE field_format = 'hierarchy'"
+  end
+
+  # Lists created since the migration come back as hierarchies.
+  def down
+    execute "UPDATE custom_fields SET field_format = 'hierarchy' WHERE field_format = 'list' AND NOT was_list"
+
+    remove_column :custom_fields, :was_list
   end
 end

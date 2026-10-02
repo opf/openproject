@@ -88,7 +88,7 @@ module ::Query::Results::GroupBy
   def transform_custom_field_keys(groups)
     custom_field = query.group_by_column.custom_field
 
-    if custom_field.list? || custom_field.field_format_hierarchy?
+    if custom_field.list?
       transform_hierarchy_custom_field_keys(custom_field, groups)
     else
       transform_single_custom_field_keys(custom_field, groups)

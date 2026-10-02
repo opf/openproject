@@ -51,16 +51,10 @@ module Admin
         end
 
         def secondary_input_format
-          field_format = custom_field.field_format
-          case field_format
-          when "hierarchy"
-            :short
-          when "weighted_item_list"
+          if custom_field.field_format_weighted_item_list?
             :weight
-          when "list"
-            nil
-          else
-            raise ArgumentError, "Unsupported field format: #{field_format}"
+          elsif custom_field.short_names_allowed?
+            :short
           end
         end
 

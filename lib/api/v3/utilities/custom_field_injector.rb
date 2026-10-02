@@ -44,18 +44,16 @@ module API
           "user" => "User",
           "version" => "Version",
           "list" => "CustomField::Hierarchy::Item",
-          "hierarchy" => "CustomField::Hierarchy::Item",
           "weighted_item_list" => "CustomField::Hierarchy::Item",
           "calculated_value" => "CalculatedValue"
         }.freeze
 
-        LINK_FORMATS = %w(list user version hierarchy weighted_item_list).freeze
+        LINK_FORMATS = %w(list user version weighted_item_list).freeze
 
         NAMESPACE_MAP = {
           "user" => %w[users groups placeholder_users],
           "version" => "versions",
           "list" => "custom_field_items",
-          "hierarchy" => "custom_field_items",
           "weighted_item_list" => "custom_field_items"
         }.freeze
 
@@ -63,7 +61,6 @@ module API
           "user" => "::API::V3::Principals::PrincipalRepresenterFactory",
           "version" => "::API::V3::Versions::VersionRepresenter",
           "list" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter",
-          "hierarchy" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter",
           "weighted_item_list" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter"
         }.freeze
 
@@ -119,10 +116,8 @@ module API
             inject_version_schema(custom_field)
           when "user"
             inject_user_schema(custom_field)
-          when "list"
-            inject_list_schema(custom_field)
-          when "hierarchy", "weighted_item_list"
-            inject_hierarchy_schema(custom_field)
+          when "list", "weighted_item_list"
+            custom_field.nestable? ? inject_hierarchy_schema(custom_field) : inject_list_schema(custom_field)
           else
             inject_basic_schema(custom_field)
           end

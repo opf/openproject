@@ -34,7 +34,7 @@ FactoryBot.define do
 
     factory :legacy_list_item do
       transient do
-        custom_field { association :list_wp_custom_field, was_list: true }
+        custom_field factory: :list_wp_custom_field
       end
 
       parent { custom_field.hierarchy_root }

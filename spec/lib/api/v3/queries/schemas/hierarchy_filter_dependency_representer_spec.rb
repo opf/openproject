@@ -35,7 +35,7 @@ RSpec.describe API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter d
 
   let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
-  let(:hierarchy_cf) { build_stubbed(:custom_field, field_format: "hierarchy", hierarchy_root:) }
+  let(:hierarchy_cf) { build_stubbed(:custom_field, field_format: "list", hierarchy_root:) }
   let(:hierarchy_root) { build_stubbed(:hierarchy_item) }
   let(:filter) do
     Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field!(

@@ -2801,13 +2801,13 @@ en:
         actions: "Item actions"
         blankslate:
           item:
-            description: Add items to this list to create sub-items inside another one
-            title: This item doesn't have any hierarchy level below
+            description: Add items here to nest them inside this one.
+            title: This item has no sub-items yet
           list:
             description: "Start by adding items to this list."
             title: "Your list of items is empty"
           root:
-            description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
+            description: "Start by adding items to this list. Any item can hold sub-items: click it to add some below."
             title: "Your list of items is empty"
         delete_dialog:
           description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing data to become invalid."

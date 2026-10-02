@@ -77,9 +77,11 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when "bool"
       check_box(field, input_options.merge(checked: custom_value.strategy.checked?))
     when "list"
-      custom_field_input_list(field, input_options)
-    when "hierarchy"
-      custom_field_input_hierarchy(field, input_options)
+      if custom_field.nestable?
+        custom_field_input_hierarchy(field, input_options)
+      else
+        custom_field_input_list(field, input_options)
+      end
     else
       text_field(field, input_options)
     end

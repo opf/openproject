@@ -52,12 +52,12 @@ module Admin
             with_item_group(menu) do
               add_above_action_item(menu)
               add_below_action_item(menu)
-              add_sub_item_action_item(menu) unless list?
+              add_sub_item_action_item(menu) if nesting_editable?
             end
 
             with_item_group(menu) { default_action_item(menu) }
 
-            with_item_group(menu) { change_parent_item(menu) } unless list?
+            with_item_group(menu) { change_parent_item(menu) } if nesting_editable?
 
             with_item_group(menu) do
               unless first_item?
@@ -87,7 +87,7 @@ module Admin
 
           def custom_field = @root.custom_field
 
-          def list? = custom_field.list?
+          def nesting_editable? = custom_field.nested_items_editable?
 
           def edit_action_item(menu)
             menu.with_item(label: I18n.t(:button_edit), tag: :a, href: hierarchy_item_path(item, :edit)) do |item|

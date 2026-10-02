@@ -125,6 +125,7 @@ FactoryBot.define do
         default_options { nil }
       end
       field_format { "list" }
+      was_list { true }
       multi_value { false }
       possible_values { %w[A B C D E F G] }
 
@@ -198,7 +199,8 @@ FactoryBot.define do
     end
 
     trait :hierarchy do
-      field_format { "hierarchy" }
+      field_format { "list" }
+      was_list { false }
     end
 
     trait :multi_hierarchy do

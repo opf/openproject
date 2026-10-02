@@ -798,8 +798,8 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
     before { import_project }
 
-    it "creates a 'hierarchy' custom field" do
-      expect(WorkPackageCustomField.find_by!(name: "CF Cascading").field_format).to eq("hierarchy")
+    it "creates a list custom field that may nest" do
+      expect(WorkPackageCustomField.find_by!(name: "CF Cascading")).to have_attributes(field_format: "list", nestable?: true)
     end
 
     it "populates the hierarchy with parent items" do
@@ -1160,7 +1160,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
           "CF Labels" => "list",
           "CF List" => "list",
           "CF Multi-List" => "list",
-          "CF Cascading" => "hierarchy",
+          "CF Cascading" => "list",
           "CF Booleans" => "list",
           "CF Boolean - Yes" => "bool",
           "CF Radio" => "list"

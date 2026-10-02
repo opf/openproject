@@ -58,8 +58,7 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
   end
 
   def list_items
-    case @custom_field.field_format
-    when "hierarchy", "weighted_item_list"
+    if @custom_field.nestable?
       hierarchical_list_items.map do |item|
         {
           label: item.ancestry_path(include_shorts_and_weights: true),

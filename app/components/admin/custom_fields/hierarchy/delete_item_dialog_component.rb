@@ -57,7 +57,7 @@ module Admin
         def url = hierarchy_item_path(@hierarchy_item)
 
         def description
-          key = custom_field.list? ? :list_description : :description
+          key = custom_field.was_list? ? :list_description : :description
           I18n.t(key, scope: "custom_fields.admin.items.delete_dialog")
         end
       end
