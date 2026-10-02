@@ -116,6 +116,7 @@ pt-PT:
         caption: Legenda
         help_text: Texto de ajuda
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clientes SCIM
       calculated_value_error:
         customized_id: ID personalizado
@@ -603,6 +604,7 @@ pt-PT:
         unknown_property: não é uma propriedade conhecida.
         unknown_property_nested: tem o caminho desconhecido '%{path}'.
         unremovable: não pode ser removido.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'não está a fornecer um "Contexto Seguro". Use HTTPS ou um endereço de loopback, como localhost.
 
           '
@@ -2260,6 +2262,10 @@ pt-PT:
     work_package: Pacote de trabalho
     work_package_id: Pacote de trabalho
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Iniciar sessão e registo
   background_jobs:
     status:
@@ -3030,6 +3036,7 @@ pt-PT:
   error_no_default_work_package_status: Não está definido um estado padrão para os pacotes de trabalho. Verifique a sua configuração (dirija-se a "Administração -> Estados de pacotes de trabalho").
   error_no_type_in_project: Nenhum tipo está associado a este projecto. Por favor, verifique as configurações do projeto.
   error_omniauth_invalid_auth: As informações de autenticação devolvidas pelo fornecedor de identidade eram inválidas. Entre em contato com o seu administrador para obter mais ajuda.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Esgotou-se o registo através de um provedor de autenticação externa. Por favor, tente novamente.
   error_password_change_failed: Ocorreu um erro ao tentar alterar a palavra-passe.
   error_pdf_date_range_too_long: O intervalo de datas do pacote de trabalho selecionado excede o limite de exportação de PDF permitido. Condense o intervalo para um máximo de %{years} anos.

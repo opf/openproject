@@ -116,6 +116,7 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клієнти SCIM
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
@@ -605,6 +606,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -2506,6 +2508,10 @@ uk:
     work_package: Робочий пакет
     work_package_id: Робочий пакет
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Вхід і реєстрація
   background_jobs:
     status:
@@ -3318,6 +3324,7 @@ uk:
   error_no_default_work_package_status: Не визначено статус робочого пакету за промовчанням. Перевірте конфігурацію (перейдіть до розділу "Адміністрування -> Статуси робочих пакетів").
   error_no_type_in_project: З цим проектом не асоційовано жодного типу. Перевірте налаштування проекту.
   error_omniauth_invalid_auth: Постачальник ідентифікаторів повернув недійсні дані для автентифікації. Зверніться до адміністратора, щоб отримати додаткову допомогу.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Реєстрація через зовнішнього постачальника аутентифікації закінчилася. Будь ласка спробуйте ще раз.
   error_password_change_failed: Під час спроби змінити пароль сталася помилка.
   error_pdf_date_range_too_long: Діапазон дат, вибраний для пакета робіт, перевищує допустимий ліміт для експорту у форматі PDF. Скоротіть діапазон до максимального — %{years} р.

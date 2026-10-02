@@ -116,6 +116,7 @@ vi:
         caption: chú thích
         help_text: Văn bản trợ giúp
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: khách hàng SCIM
       calculated_value_error:
         customized_id: ID tùy chỉnh
@@ -603,6 +604,7 @@ vi:
         unknown_property: không phải là một tài sản được biết đến.
         unknown_property_nested: có đường dẫn không xác định '%{path}'.
         unremovable: không thể gỡ bỏ.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'không cung cấp "Bối cảnh an toàn". Sử dụng HTTPS hoặc địa chỉ loopback, chẳng hạn như localhost.
 
           '
@@ -2139,6 +2141,10 @@ vi:
     work_package: Work Package
     work_package_id: Gói công việc
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Đăng nhập và đăng ký
   background_jobs:
     status:
@@ -2888,6 +2894,7 @@ vi:
   error_no_default_work_package_status: Không có tình trạng mặc định được định nghĩa cho work package. Vui lòng kiểm tra cấu hình của bạn (đi đến "Quản lý-> các trạng thái của work package").
   error_no_type_in_project: Không có kiểu được liên kết với dự án này. Hãy kiểm tra lại phần "Thiết Lập Dự Án".
   error_omniauth_invalid_auth: Thông tin xác thực được trả về từ nhà cung cấp danh tính không hợp lệ. Vui lòng liên hệ với quản trị viên của bạn để được trợ giúp thêm.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Đăng ký thông qua một nhà cung cấp bên ngoài xác thực hết thời gian. Xin vui lòng thử lại.
   error_password_change_failed: Đã xảy ra lỗi khi cố gắng thay đổi mật khẩu.
   error_pdf_date_range_too_long: Phạm vi ngày của gói công việc đã chọn vượt quá giới hạn xuất PDF cho phép. Vui lòng thu gọn phạm vi tối đa %{years} năm.

@@ -116,6 +116,7 @@ pl:
         caption: Podpis
         help_text: Tekst pomocy
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Klienci SCIM
       calculated_value_error:
         customized_id: Niestandardowy identyfikator
@@ -603,6 +604,7 @@ pl:
         unknown_property: nie jest znaną właściwością.
         unknown_property_nested: ma nieznaną ścieżkę '%{path}'.
         unremovable: nie można usunąć.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
 
           '
@@ -2502,6 +2504,10 @@ pl:
     work_package: Zadanie
     work_package_id: Pakiet roboczy
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Logowanie i rejestracja
   background_jobs:
     status:
@@ -3310,6 +3316,7 @@ pl:
   error_no_default_work_package_status: Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”).
   error_no_type_in_project: Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu.
   error_omniauth_invalid_auth: Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie.
   error_password_change_failed: Wystąpił błąd podczas próby zmiany hasła.
   error_pdf_date_range_too_long: Wybrany zakres dat pakietu roboczego przekracza dopuszczalny limit eksportu PDF. Ogranicz zakres do maksymalnie %{years} lat.

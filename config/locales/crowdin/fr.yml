@@ -116,6 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -603,6 +604,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -2260,6 +2262,10 @@ fr:
     work_package: Lot de travaux
     work_package_id: Lot de travaux
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Connexion et inscription
   background_jobs:
     status:
@@ -3028,6 +3034,7 @@ fr:
   error_no_default_work_package_status: Aucun statut de lot de travaux par défaut n'est défini. Veuillez vérifier votre configuration (Allez dans "Administration -> Statuts des lots de travaux").
   error_no_type_in_project: Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet.
   error_omniauth_invalid_auth: Les informations d'authentification retournées par le fournisseur d'identité n'étaient pas valides. Veuillez contacter votre administrateur pour plus d'aide.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau.
   error_password_change_failed: Une erreur s'est produite en essayant de changer le mot de passe.
   error_pdf_date_range_too_long: La plage de dates du lot de travaux sélectionné dépasse la limite d'exportation PDF autorisée. Veuillez réduire la plage à un maximum de %{years} ans.

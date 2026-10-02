@@ -116,6 +116,7 @@ bg:
         caption: Caption
         help_text: Help text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ bg:
         unknown_property: е неизвестно свойство.
         unknown_property_nested: има неизвестен път '%{path}'.
         unremovable: не може да бъде премахнат.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2260,6 +2262,10 @@ bg:
     work_package: Работен пакет
     work_package_id: Работен пакет
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3030,6 +3036,7 @@ bg:
   error_no_default_work_package_status: Не е дефиниран работен пакет по подразбиране. Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни пакети).
   error_no_type_in_project: Няма тип свързан към този проект. Моля проверете проектните настройки.
   error_omniauth_invalid_auth: Информацията за удостоверяване, върната от доставчика на идентичност, е невалидна. Моля, свържете се с вашия администратор за допълнителна помощ.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Изтече времето на изчакване за регистриране чрез удостоверяване на външен доставчик. Моля, опитайте отново.
   error_password_change_failed: An error occurred when trying to change the password.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

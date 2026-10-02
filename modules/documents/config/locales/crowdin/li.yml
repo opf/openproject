@@ -39,10 +39,10 @@ li:
         other: Document types
   activity:
     filter:
-      document: Documents
+      document: Dokumente
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
-    documents: Documents
+    documents: Dokumente
   default_doc_category_tech: Technical documentation
   default_doc_category_user: User documentation
   documents:
@@ -83,7 +83,7 @@ li:
         heading: Real-time collaboration is not enabled
         primary_action: Enable real-time collaboration
         success: Real-time collaboration has been enabled.
-    button_add_type: Type
+    button_add_type: Soort
     delete_dialog:
       confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
       heading: Delete this document?
@@ -113,8 +113,8 @@ li:
       heading: There are no documents yet
     index_page:
       label_legacy: Legacy
-      name: Name
-      type: Type
+      name: Naam
+      type: Soort
       updated_at: Last edited
     info_line:
       connection_restored: You are now back online.
@@ -123,11 +123,11 @@ li:
     label_categories: Categories
     last_updated_at: Last saved %{time}.
     menu:
-      all: All documents
+      all: Alle documente
       collaboration_settings: Real-time collaboration
-      types: Types
+      types: Soorte
     new_category: New category
-    new_type: New type
+    new_type: Nie type
     page_header:
       action_menu:
         document_actions: Document actions
@@ -151,15 +151,15 @@ li:
   enumeration_doc_categories: Document categories
   label_document_added: Document added
   label_document_category: Category
-  label_document_description: Description
+  label_document_description: Umschrieving
   label_document_new: New document
   label_document_plural: Documents
-  label_document_title: Title
-  label_document_type: Type
-  label_documents: Documents
+  label_document_title: Titel
+  label_document_type: Soort
+  label_documents: Dokumente
   permission_manage_documents: Manage documents
-  permission_view_documents: View documents
+  permission_view_documents: Documente bekieke
   plugin_openproject_documents:
     description: An OpenProject plugin to allow creation of documents in projects.
     name: OpenProject Documents
-  project_module_documents: Documents
+  project_module_documents: Dokumente

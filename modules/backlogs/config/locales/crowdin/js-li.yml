@@ -23,7 +23,7 @@
 li:
   js:
     burndown:
-      day: Dag
+      day: Daag
       points: Punte
     work_packages:
       properties:

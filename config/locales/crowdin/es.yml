@@ -116,6 +116,7 @@ es:
         caption: Título
         help_text: Texto de ayuda
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clientes SCIM
       calculated_value_error:
         customized_id: ID personalizado
@@ -603,6 +604,7 @@ es:
         unknown_property: no es una propiedad conocida.
         unknown_property_nested: tiene la ruta de acceso desconocida «%{path}».
         unremovable: no puede ser eliminado.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'no está proveyendo un "Contexto Seguro". Utiliza HTTPS o una dirección loopack, como un localhost.
 
           '
@@ -2260,6 +2262,10 @@ es:
     work_package: Paquete de trabajo
     work_package_id: Paquete de trabajo
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Inicio de sesión y registro
   background_jobs:
     status:
@@ -3024,6 +3030,7 @@ es:
   error_no_default_work_package_status: Ningún estado del paquete trabajo predeterminado está definido. Por favor, compruebe su configuración (ir a "Administración-> Situación del paquete de trabajo").
   error_no_type_in_project: Ningún tipo se asocia a este proyecto. Por favor, Compruebe la configuración del proyecto.
   error_omniauth_invalid_auth: La información de autenticación proporcionada por el proveedor de identidades no era válida. Póngase en contacto con el administrador para obtener ayuda.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: El registro mediante un proveedor de autenticación externa expiró. Por favor inténtelo nuevamente.
   error_password_change_failed: Se produjo un error al intentar cambiar la contraseña.
   error_pdf_date_range_too_long: El intervalo de fechas del paquete de trabajo seleccionado supera el límite permitido para la exportación a PDF. Reduzca el intervalo a un máximo de %{years} años.

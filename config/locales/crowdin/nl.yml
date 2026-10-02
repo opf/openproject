@@ -116,6 +116,7 @@ nl:
         caption: Caption
         help_text: Helptekst
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ nl:
         unknown_property: is geen bekend eigenschap.
         unknown_property_nested: heeft het onbekende pad '%{path}' '.
         unremovable: kan niet verwijderd worden.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
 
           '
@@ -2260,6 +2262,10 @@ nl:
     work_package: Werkpakket
     work_package_id: Werkpakket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3030,6 +3036,7 @@ nl:
   error_no_default_work_package_status: Geen standaard werkpakket status is gedefinieerd. Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen').
   error_no_type_in_project: Er is geen type gekoppeld aan dit project. Controleer de projectinstellingen.
   error_omniauth_invalid_auth: De verificatie-informatie van de identiteitsprovider was ongeldig. Neem contact op met uw beheerder voor verdere hulp.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: De registratie via een externe authenticatie-provider is verlopen. Probeer het opnieuw.
   error_password_change_failed: Er is een fout opgetreden tijdens het wijzigen van het wachtwoord.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

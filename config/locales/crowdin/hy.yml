@@ -116,6 +116,7 @@ hy:
         caption: Մակագրություն
         help_text: Օգնության տեքստ
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM հաճախորդներ
       calculated_value_error:
         customized_id: Հարմարեցված օբյեկտի ID
@@ -603,6 +604,7 @@ hy:
         unknown_property: հայտնի հատկություն չէ։
         unknown_property_nested: ունի անհայտ '%{path}' ուղի։
         unremovable: հնարավոր չէ հեռացնել։
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'չի ապահովում "Անվտանգ համատեքստ"։ Օգտագործեք HTTPS կամ loopback հասցե, օրինակ՝ localhost։
 
           '
@@ -2258,6 +2260,10 @@ hy:
     work_package: Աշխատանքային փաթեթ
     work_package_id: Աշխատանքային փաթեթ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Մուտք և գրանցում
   background_jobs:
     status:
@@ -3026,6 +3032,7 @@ hy:
   error_no_default_work_package_status: Աշխատանքային փաթեթի կանխադրված կարգավիճակ սահմանված չէ։ Խնդրում ենք ստուգել Ձեր կազմաձևումը (անցեք "Ադմինիստրավորում -> Աշխատանքային փաթեթների կարգավիճակներ")։
   error_no_type_in_project: Այս նախագծին որևէ տեսակ կապակցված չէ։ Խնդրում ենք ստուգել նախագծի կարգավորումները։
   error_omniauth_invalid_auth: Ինքնության մատակարարից ստացված նույնականացման տեղեկությունն անվավեր էր։ Լրացուցիչ օգնության համար խնդրում ենք դիմել Ձեր ադմինիստրատորին։
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Արտաքին նույնականացման մատակարարի միջոցով գրանցման ժամանակը սպառվեց։ Խնդրում ենք կրկին փորձել։
   error_password_change_failed: Գաղտնաբառը փոխելու փորձի ժամանակ սխալ տեղի ունեցավ։
   error_pdf_date_range_too_long: Ընտրված աշխատանքային փաթեթների ամսաթվերի միջակայքը գերազանցում է PDF արտահանման թույլատրելի սահմանաչափը։ Խնդրում ենք կրճատել միջակայքը մինչև առավելագույնը %{years} տարի։

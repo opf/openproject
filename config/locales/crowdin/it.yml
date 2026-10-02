@@ -116,6 +116,7 @@ it:
         caption: Didascalia
         help_text: Testo guida
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Client SCIM
       calculated_value_error:
         customized_id: ID personalizzato
@@ -603,6 +604,7 @@ it:
         unknown_property: non è una proprietà conosciuta.
         unknown_property_nested: ha il percorso sconosciuto '%{path}'.
         unremovable: non può essere rimosso.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
 
           '
@@ -2264,6 +2266,10 @@ it:
     work_package: Macro-attività
     work_package_id: Macro-attività
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Accesso e registrazione
   background_jobs:
     status:
@@ -3034,6 +3040,7 @@ it:
   error_no_default_work_package_status: Non è configurato alcuno stato predefinito per le macro-attività. Per favore controlla la tua configurazione (vai a "Amministrazione -> Stato macro-attività").
   error_no_type_in_project: Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto.
   error_omniauth_invalid_auth: Le informazioni di autenticazione restituite dal provider d'identità non sono valide. Contatta il tuo amministratore per ulteriori informazioni.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova.
   error_password_change_failed: Si è verificato un errore durante il tentativo di modifica della password.
   error_pdf_date_range_too_long: L'intervallo di date della macro-attività selezionata supera il limite consentito per l'esportazione in PDF. Riduci l'intervallo a un massimo di %{years} anni.

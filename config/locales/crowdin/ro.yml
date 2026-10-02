@@ -116,6 +116,7 @@ ro:
         caption: Caption
         help_text: Text de ajutor
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clienți SCIM
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ ro:
         unknown_property: nu este o proprietate cunoscută.
         unknown_property_nested: are calea necunoscută '%{path}'.
         unremovable: nu poate fi îndepărtată.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'nu oferă un "Context securizat". Folosește fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
 
           '
@@ -2381,6 +2383,10 @@ ro:
     work_package: Pachet de lucru
     work_package_id: Pachet de lucru
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3172,6 +3178,7 @@ ro:
   error_no_default_work_package_status: Nu există un status implicit al pachetelor de lucru. Verificați configurația ("Administrare -> Stări pachete de lucru").
   error_no_type_in_project: Nu există un tip asociat cu proiectul. Verificați setările proiectului.
   error_omniauth_invalid_auth: Informațiile de autentificare returnate de la furnizorul de identitate nu erau valide. Vă rugăm să contactați administratorul dumneavoastră pentru ajutor suplimentar.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Înregistrarea prin intermediul unui furnizor de autentificare extern a expirat. Vă rugăm să încercaţi din nou.
   error_password_change_failed: Eroare la încercarea de a schimba parola.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

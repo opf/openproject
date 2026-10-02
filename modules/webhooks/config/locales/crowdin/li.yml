@@ -8,8 +8,8 @@ li:
         response_code: Response code
         url: Payload URL
       webhooks/webhook:
-        enabled: Enabled
-        events: Events
+        enabled: Ingeschakeldj
+        events: Gebeurtenisse
         projects: Ingeschakelde projekte
         secret: Signature secret
         url: Payload URL
@@ -30,10 +30,10 @@ li:
         time: Delivery time
         title: Recent deliveries
       events:
-        comment: Comment
-        created: Created
-        internal_comment: Internal comment
-        updated: Updated
+        comment: Commentaar
+        created: Aangemak
+        internal_comment: Intern commentaar
+        updated: Beejgewerk
       explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
@@ -64,9 +64,9 @@ li:
       label_add_new: Add new webhook
       label_edit: Edit webhook
       label_x_events:
-        one: 1 event
+        one: 1 gebeurtenis
         other: "%{count} events"
-        zero: No events
+        zero: Gen gebeurtenisse
       no_results_table: No webhooks have been defined yet.
       status:
         disabled: Webhook is disabled

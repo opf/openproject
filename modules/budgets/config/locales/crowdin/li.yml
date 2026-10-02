@@ -24,12 +24,12 @@ li:
   activerecord:
     attributes:
       budget:
-        author: Author
-        available: Available
+        author: Auteur
+        available: Beschikbaar
         base_amount: Base amount
-        budget: Planned
+        budget: Geplandj
         budget_ratio: Spent (ratio)
-        description: Description
+        description: Umschrieving
         labor_budget: Planned labor costs
         labor_budget_items: Planned labor costs
         material_budget: Planned unit costs
@@ -100,7 +100,7 @@ li:
   button_add_cost_type: Add cost type
   button_cancel_edit_budget: Cancel editing budget
   button_cancel_edit_costs: Cancel editing costs
-  caption_labor: Labor
+  caption_labor: Werk
   caption_labor_costs: Actual labor costs
   caption_material_costs: Actual unit costs
   events:

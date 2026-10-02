@@ -116,6 +116,7 @@ tr:
         caption: Başlık
         help_text: Yardım metni
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM istemcileri
       calculated_value_error:
         customized_id: Özelleştirilmiş Kimlik
@@ -607,6 +608,7 @@ tr:
         unknown_property: bilinen bir özellik değildir.
         unknown_property_nested: "'%{path}' bilinmeyen yolu var."
         unremovable: kaldırılamadı.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
 
           '
@@ -2266,6 +2268,10 @@ tr:
     work_package: İş paketi
     work_package_id: İş paketi
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Giriş ve kayıt
   background_jobs:
     status:
@@ -3036,6 +3042,7 @@ tr:
   error_no_default_work_package_status: Varsayılan iş paketi durumu tanımlanmadı. Lütfen yapılandırmanızı kontrol edin ("Yönetim -> İş paketi durumu " na gidin).
   error_no_type_in_project: Bu proje ile ilişkili bir tür yok. Lütfen Proje ayarlarını kontrol edin.
   error_omniauth_invalid_auth: Kimlik sağlayıcısından döndürülen kimlik doğrulama bilgileri geçersizdi. Daha fazla yardım için lütfen yöneticinizle iletişime geçin.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Harici bir kimlik doğrulama sağlayıcısı aracılığıyla kayıt zaman aşımına uğradı. Lütfen tekrar deneyin.
   error_password_change_failed: Parolayı değiştirmeye çalışırken bir hata oluştu.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

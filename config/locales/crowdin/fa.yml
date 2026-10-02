@@ -116,6 +116,7 @@ fa:
         caption: عنوان
         help_text: متن راهنما
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: کلاینت‌های SCIM
       calculated_value_error:
         customized_id: شناسه سفارشی
@@ -603,6 +604,7 @@ fa:
         unknown_property: ویژگی شناخته‌شده‌ای نیست.
         unknown_property_nested: مسیر ناشناخته '%{path}' دارد.
         unremovable: قابل حذف نیست.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: "«Secure Context» ارائه نمی‌کند. از HTTPS یا یک نشانی loopback مانند localhost استفاده کنید.\n"
         user_already_in_department: کاربر %{user_id} از قبل عضو واحد سازمانی %{department_id} است.
         user_in_ldap_managed_department: این کاربر به واحد سازمانی‌ای تعلق دارد که با همگام‌سازی LDAP مدیریت می‌شود و قابل انتقال نیست.
@@ -2258,6 +2260,10 @@ fa:
     work_package: کاربسته
     work_package_id: بسته کاری
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: ورود و ثبت‌نام
   background_jobs:
     status:
@@ -3026,6 +3032,7 @@ fa:
   error_no_default_work_package_status: هیچ وضعیت پیش‌فرضی برای بسته کاری تعریف نشده است. پیکربندی را بررسی کنید (به «مدیریت -> وضعیت‌های بسته کاری» بروید).
   error_no_type_in_project: هیچ نوعی به این پروژه مرتبط نیست. لطفاً تنظیمات پروژه را بررسی کنید.
   error_omniauth_invalid_auth: اطلاعات احراز هویت بازگشتی از ارائه‌دهنده هویت نامعتبر بود. برای کمک بیشتر با مدیر تماس بگیرید.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: ثبت‌نام از طریق ارائه‌دهنده احراز هویت خارجی Timeout شد. لطفاً دوباره تلاش کنید.
   error_password_change_failed: هنگام تغییر گذرواژه خطایی رخ داد.
   error_pdf_date_range_too_long: بازه تاریخ بسته کاری انتخاب‌شده از حد مجاز خروجی PDF بیشتر است. لطفاً بازه را حداکثر به %{years} سال کاهش دهید.

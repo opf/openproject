@@ -35,8 +35,8 @@ li:
         name: Naam Sprint
         sharing: Sharing
         statuses:
-          active: Active
-          completed: Completed
+          active: Aktief
+          completed: Aafgeslaote
           in_planning: In planning
         work_packages: Werkpakkette
       sprint_goal:
@@ -45,7 +45,7 @@ li:
         backlog_bucket: Backlog bucket
         backlog_inbox: Backlog inbox
         backlogs_work_package_type: Backlog type
-        position: Position
+        position: Positie
         sprint: Sprint
         story_points: Story punte
     errors:
@@ -159,9 +159,9 @@ li:
       drop_zone_label: Drop here to add this item
       label_actions: Inbox actions
       show_more:
-        one: Show 1 more item
+        one: Nog 1 item weergaeve
         other: Show %{count} more items
-      title: Inbox
+      title: Posvak in
     index_subheader_component:
       label_search_by_subject: Search work packages by subject
     label_burndown_chart: Burndown chart
@@ -188,11 +188,11 @@ li:
       action_menu:
         add_existing_work_package: Add existing work package
         add_new_work_package: Add new work package
-        edit_sprint: Edit sprint
+        edit_sprint: Sprint bewerke
       blankslate_description: No items planned yet. Drag items here to add them.
       blankslate_title: "%{name} is empty"
       drop_zone_label: Drop here to add this item
-      label_actions: Sprint actions
+      label_actions: Sprint acties
       label_complete_sprint: Complete sprint
       label_start_sprint: Start sprint
       start_sprint_disabled_reason_active_sprint: Another sprint is already active.
@@ -212,7 +212,7 @@ li:
     sprints:
       row_component:
         action_menu:
-          edit_sprint: Edit sprint
+          edit_sprint: Sprint bewerke
           sprint_report: Sprint report
     sprints_component:
       blankslate:
@@ -224,7 +224,7 @@ li:
         receive_description_text: This project receives shared sprints from a different project, but none are available right now.
         settings_link_text: projek instellinge
         title: No sprints present yet
-      button_new_sprint: New sprint
+      button_new_sprint: Nieje sprint
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
@@ -266,20 +266,20 @@ li:
         description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
-  label_all_sprints: All sprints
+  label_all_sprints: Alle sprints
   label_backlog: Backlog
   label_backlog_and_sprints: Backlog and sprints
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
   label_backlogs: Backlogs
   label_burndown_chart: Burndown chart
-  label_inbox: Inbox
+  label_inbox: Posvak in
   label_points_burn_down: Umlieëg
   label_points_burn_up: Umhoeëg
   label_sprint_board: Sprint board
-  label_sprint_edit: Edit sprint
-  label_sprint_new: New sprint
-  label_task_board: Task board
+  label_sprint_edit: Sprint bewerke
+  label_sprint_new: Nieje sprint
+  label_task_board: Take bord
   notice_successful_finish: The sprint was completed.
   notice_successful_start: The sprint was started.
   notice_unsuccessful_finish: The sprint could not be completed.
@@ -289,7 +289,7 @@ li:
   notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
 
     '
-  permission_create_sprints: Create sprints
+  permission_create_sprints: Maak sprints
   permission_manage_sprint_items: Manage sprint items
   permission_select_backlog_types_and_statuses: Select backlog types and statuses
   permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
@@ -311,7 +311,7 @@ li:
         options:
           no_sharing:
             caption: Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects.
-            label: Don't share
+            label: Neet deile
           receive_shared:
             caption: This project can only use sprints shared by other projects.
             label: Receive shared sprints
@@ -325,7 +325,7 @@ li:
             caption: Sprints created in this project will be available to all subprojects of the current project.
             info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.
             label: Subprojekte
-        sprint_sharing: Share sprints
+        sprint_sharing: Deil sprints
       backlogs:
         multiple_active_sprints:
           description: By default, only one sprint can be active at a time per project. You can change this so that multiple sprints can be active in parallel in this project.

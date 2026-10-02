@@ -116,6 +116,7 @@ zh-TW:
         caption: 說明
         help_text: 說明文字
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 用戶端
       calculated_value_error:
         customized_id: 自訂 ID
@@ -603,6 +604,7 @@ zh-TW:
         unknown_property: 不是已知屬性
         unknown_property_nested: 具有未知路徑 '%{path}'
         unremovable: 無法移除
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
@@ -2145,6 +2147,10 @@ zh-TW:
     work_package: 工作套件
     work_package_id: 工作套件
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: 登入及註冊
   background_jobs:
     status:
@@ -2892,6 +2898,7 @@ zh-TW:
   error_no_default_work_package_status: 沒有定義預設的工作套件狀態。請檢查您的設定 (前往 "管理 -> 工作套件狀態")。
   error_no_type_in_project: 這個專案沒有關聯的類型，請檢查專案設定。
   error_omniauth_invalid_auth: 從身分提供者傳回的驗證資訊無效。請聯絡您的管理員尋求進一步協助。
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 外部身份驗證註冊逾時，請再試一次。
   error_password_change_failed: 試圖更改密碼時發生錯誤。
   error_pdf_date_range_too_long: 選取的工作套件日期範圍超出允許的 PDF 匯出限制。請將範圍濃縮至最多 %{years} 年。

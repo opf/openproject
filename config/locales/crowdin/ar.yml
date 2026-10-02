@@ -116,6 +116,7 @@ ar:
         caption: Caption
         help_text: Help text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ ar:
         unknown_property: is not a known property.
         unknown_property_nested: has the unknown path '%{path}'.
         unremovable: cannot be removed.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2744,6 +2746,10 @@ ar:
     work_package: مجموعة العمل
     work_package_id: مجموعة العمل
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3598,6 +3604,7 @@ ar:
   error_no_default_work_package_status: لم يتم تعريف حالة افتراضية لمجموعة العمل. رجاء تحقق من اعداداتك ( من "ادارة-->حالات مجموعة العمل").
   error_no_type_in_project: هذا المشروع غير مرتبط بأي نوع. رجاء تحقق من اعدادات المشروع.
   error_omniauth_invalid_auth: The authentication information returned from the identity provider was invalid. Please contact your administrator for further help.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: انتهاء مهلة التسجيل عبر موفر المصادقة الخارجية. الرجاء المحاولة مرة أخرى.
   error_password_change_failed: An error occurred when trying to change the password.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

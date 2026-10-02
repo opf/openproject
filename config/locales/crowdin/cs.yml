@@ -116,6 +116,7 @@ cs:
         caption: Titulek
         help_text: Text nápovědy
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Klienti SCIM
       calculated_value_error:
         customized_id: Přizpůsobené ID
@@ -605,6 +606,7 @@ cs:
         unknown_property: není známá vlastnost.
         unknown_property_nested: má neznámou cestu '%{path}'.
         unremovable: nelze odstranit.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'neposkytuje "bezpečný kontext". Buď použijte HTTPS nebo adresu pro smyčku, jako je localhost.
 
           '
@@ -2504,6 +2506,10 @@ cs:
     work_package: Pracovní balíček
     work_package_id: Pracovní balíček
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Přihlášení a registrace
   background_jobs:
     status:
@@ -3316,6 +3322,7 @@ cs:
   error_no_default_work_package_status: Žádný výchozí stav pracovního balíčku není definovaný. Prosím zkontrolujte konfiguraci (v "Administrace -> Stav pracovního balíčku").
   error_no_type_in_project: Neexistuje žádný typ provázaný s tímto projektem. Prosím zkontrolujte nastavení projektu.
   error_omniauth_invalid_auth: Ověřovací údaje vrácené od poskytovatele identity byly neplatné. Pro další pomoc kontaktujte svého správce.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Registrace prostřednictvím poskytovatele pro externí autentifikaci vypršela. Prosím zkuste to znova.
   error_password_change_failed: Došlo k chybě při pokusu o změnu hesla.
   error_pdf_date_range_too_long: Vybraný rozsah dat pracovního balíčku překračuje povolený limit pro export do PDF. Zúžte rozsah na maximálně %{years} let.

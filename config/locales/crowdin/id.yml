@@ -116,6 +116,7 @@ id:
         caption: Caption
         help_text: Teks bantuan
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ id:
         unknown_property: bukanlah properti yang diketahui.
         unknown_property_nested: memiliki jalur yang tidak diketahui '%{path}'.
         unremovable: tidak bisa dihapus.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2146,6 +2148,10 @@ id:
     work_package: Paket-Penugasan
     work_package_id: Paket-Penugasan
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2897,6 +2903,7 @@ id:
   error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan. Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
   error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan cek Pengaturan Project.
   error_omniauth_invalid_auth: Informasi autentikasi yang dikembalikan dari penyedia identitas tidak valid. Silakan hubungi administrator Anda untuk bantuan lebih lanjut.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Timed out. Silakan coba lagi.
   error_password_change_failed: Terjadi kesalahan saat mencoba mengubah kata sandi.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

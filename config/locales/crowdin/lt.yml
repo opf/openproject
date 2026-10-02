@@ -116,6 +116,7 @@ lt:
         caption: Caption
         help_text: Pagalbos tekstas
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -603,6 +604,7 @@ lt:
         unknown_property: yra nežinoma savybė.
         unknown_property_nested: yra nežinomas kelias „%{path}“.
         unremovable: negali būti pašalintas.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
 
           '
@@ -2502,6 +2504,10 @@ lt:
     work_package: Darbų paketas
     work_package_id: Darbų paketas
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3318,6 +3324,7 @@ lt:
   error_no_default_work_package_status: Numatytoji darbų paketo būsena nenustatyta. Prašome patikrinti nustatymus (Eiti į „Administravimas“->„Darbų paketų būsenos“).
   error_no_type_in_project: Joks tipas nepriskirtas šiam projektui. Prašome patikrinti projekto nustatymus.
   error_omniauth_invalid_auth: Autentifikavimo informacija, atėjusi iš tapatybės tiekėjo, buvo neteisinga. Dėl tolesnės pagalbos prašome kreiptis į savo administratorių.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Registracijos, naudojant išorinį autentifikacijos teikėją, laikas pasibaigė. Bandykite dar kartą.
   error_password_change_failed: Bandant pakeisti slaptažodį įvyko klaida.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

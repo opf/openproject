@@ -116,6 +116,7 @@ ja:
         caption: Caption
         help_text: ヘルプ テキスト
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIMクライアント
       calculated_value_error:
         customized_id: Customized ID
@@ -605,6 +606,7 @@ ja:
         unknown_property: 既知の財産ではありません。
         unknown_property_nested: has the unknown path '%{path}'。
         unremovable: 削除できません。
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'は「セキュアコンテキスト」を提供していません。HTTPSを使用するか、localhostのようなループバックアドレスを使用してください。
 
           '
@@ -2141,6 +2143,10 @@ ja:
     work_package: ワーク パッケージ
     work_package_id: ワーク パッケージ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: ログインと登録
   background_jobs:
     status:
@@ -2890,6 +2896,7 @@ ja:
   error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→ワークパッケージステータス）。"
   error_no_type_in_project: このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。
   error_omniauth_invalid_auth: IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。
   error_password_change_failed: パスワードの変更中にエラーが発生しました。
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
