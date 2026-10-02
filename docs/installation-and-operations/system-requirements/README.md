@@ -104,9 +104,9 @@ These values are **guidelines** and should be adjusted based on actual monitorin
 
 - **CPU**: 2 CPU
 
-- **RAM**: 4 GB
+- **RAM**: 4 to 6 GB
 
-- **Web Workers**:  2 Workers, each with 4 threads
+- **Web Workers**:  2 Workers, each with 3–5 threads
 
 - **Background Workers**: 1 multithreaded worker with 4GiB RAM (more RAM possibly required for larger exports)
 
@@ -116,9 +116,9 @@ These values are **guidelines** and should be adjusted based on actual monitorin
 
 - **Database**: 2-4 CPU / 8 GiB RAM
 - **CPU**: 4 CPU
-- **RAM**: 8 GB
-- **Web Workers**: 4 Workers, each with 4-8 threads
-- **Background Workers**: 2 multithreaded workers with 4-6 GiB RAM
+- **RAM**: 8 to 12 GB
+- **Web Workers**: 4 Workers, each with 3–5 threads
+- **Background Workers**: 1 to 2 multithreaded workers with 4-6 GiB RAM, depending on workload [1]
 - **Disk Space**: 50 GB + additional disk space in case of internal attachment storage
 
 ### Large instance (~1500 users, medium to high concurrent activity)
@@ -126,8 +126,8 @@ These values are **guidelines** and should be adjusted based on actual monitorin
 - **Database**: 4-8 CPU / 16 GiB RAM
 - **CPU**: 8 CPU
 - **RAM**: 16-24 GB
-- **Web Workers**: 6-8 Workers, each with 8-32 threads
-- **Background Workers**: 4-8 multithreaded workers with 4-6GiB RAM, depending on workload
+- **Web Workers**: 6-8 Workers, each with 3–5 threads
+- **Background Workers**: 1 to 2 multithreaded workers with 4-6GiB RAM, depending on workload [1]
 - **Disk Space**: 100 GB + additional disk space in case of internal attachment storage
 
 ### Enterprise-scale multitenancy instance (~80K - 100K users, high concurrent activity)
@@ -137,9 +137,11 @@ These values are **guidelines** and should be adjusted based on actual monitorin
   - **CPU**: 8 CPU (e.g., AWS r7a.xlarge instances)
   - **RAM**: 32GB
 
-- **Web Workers**: 8 - 12 Workers, each with 8-32 threads and 6GiB available RAM
-- **Background Workers**: 8 multithreaded workers with 4-6GiB RAM, depending on workload
+- **Web Workers**: 8–12 Workers, each with 3–5 threads and 6GiB available RAM
+- **Background Workers**: 2 or more multithreaded workers with 4-6GiB RAM, depending on workload [1]
 - **Disk Space**: 250 GB + additional disk space in case of internal attachment storage
+
+[1] You can observe the `worker_backed_up` health check under `https://<your-openproject-instance>/health_checks/worker_backed_up`. If jobs are backing up, you will want to increase the number of background workers.
 
 ### Additional scaling recommendations
 
