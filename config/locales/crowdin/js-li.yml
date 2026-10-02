@@ -283,7 +283,7 @@ li:
         text_close_filter: To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry.
         text_open_filter: Open this filter with 'ALT' and arrow keys.
       more_values_not_shown: There are %{total} more results, search to filter results.
-      noneElement: "(none)"
+      noneElement: "(gen)"
       sorting:
         criteria:
           one: First sorting criteria
@@ -303,7 +303,7 @@ li:
       button_activate: Show Gantt chart
       button_deactivate: Hide Gantt chart
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(gen)"
       label: Gantt chart
       labels:
         bar: Bar labels
@@ -319,7 +319,7 @@ li:
         notification: Click on any highlighted work package to create the relation. Press escape to cancel.
       zoom:
         auto: Auto zoom
-        days: Days
+        days: Daag
         description: 'Select the initial zoom level that should be shown when autozoom is not available.
 
           '
@@ -421,7 +421,7 @@ li:
     label_add_selected_columns: Add selected columns
     label_added_by: added by
     label_added_time_by: Added by <a href="%{authorLink}">%{author}</a> at %{age}
-    label_ago: days ago
+    label_ago: daag geleeje
     label_all: all
     label_all_projects: All projects
     label_all_uppercase: All
@@ -434,9 +434,9 @@ li:
     label_author: 'Author: %{user}'
     label_avatar: Avatar
     label_between: between
-    label_board: Board
+    label_board: Bord
     label_board_locked: Locked
-    label_board_plural: Boards
+    label_board_plural: Borde
     label_board_sticky: Sticky
     label_cancel_comment: Cancel comment
     label_change: Change
@@ -519,7 +519,7 @@ li:
     label_no_due_date: no finish date
     label_no_start_date: no start date
     label_no_value: No value
-    label_none: none
+    label_none: gen
     label_not_available: Not available
     label_not_contains: doesn't contain
     label_not_equals: is not
@@ -580,7 +580,7 @@ li:
     label_upload_counter: "%{done} of %{count} files finished"
     label_upload_notification: Uploading files...
     label_uploaded_by: Uploaded by
-    label_user_plural: Users
+    label_user_plural: Gebroekers
     label_validation_error: 'The work package could not be saved due to the following errors:'
     label_value_derived_from_children: "(value derived from children)"
     label_version_plural: Versions
@@ -610,7 +610,7 @@ li:
         title: Confirm deletion of time entry
       form_submit:
         text: Are you sure you want to perform this action?
-        title: Confirm to continue
+        title: Bevestig um door te gaon
       label_delete_page: Delete current page
       label_name: Name
     no_job_id: No job ID returned from server.
@@ -674,7 +674,7 @@ li:
     onboarding:
       buttons:
         got_it: Got it
-        next: Next
+        next: Volgende
         skip: Skip
       steps:
         boards:
@@ -690,7 +690,7 @@ li:
         team_planner:
           add_assignee: To get started, add assignees to the team planner.
           add_existing: Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.
-          calendar: The weekly or biweekly planning board displays all work packages assigned to your team members.
+          calendar: Ut waekelikse of twieëwekelijkse planningsbord tuuent alle werkpakkette die zien toegeweze aan dien teamlaeje.
           card: Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.
           overview: The team planner lets you visually assign tasks to team members and get an overview of who is working on what.
         welcome: Take a three-minute introduction tour to learn the most <b>important features</b>. <br> We recommend completing the steps until the end. You can restart the tour any time.
@@ -885,9 +885,9 @@ li:
         one: one child work package
         other: "%{count} work package children"
       day:
-        one: 1 day
-        other: "%{count} days"
-        zero: 0 days
+        one: 1 daag
+        other: "%{count} daag"
+        zero: 0 daag
       hour:
         one: 1 h
         other: "%{count} h"
@@ -1078,8 +1078,8 @@ li:
         presets:
           custom: At a particular date/time
           month: In a month
-          three_days: In 3 days
-          tomorrow: Tomorrow
+          three_days: In 3 daag
+          tomorrow: Mörge
           week: In a week
         subtitle: You will receive a notification for this work package at the chosen time.
         title:
@@ -1135,7 +1135,7 @@ li:
         relations: Relations
         watchers: Watchers
       time_relative:
-        days: days
+        days: daag
         months: months
         weeks: weeks
     zen_mode:

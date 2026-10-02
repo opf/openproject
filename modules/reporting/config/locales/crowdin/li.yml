@@ -34,10 +34,10 @@ li:
         one: Cost report
         other: Cost reports
   button_save_report_as: Save report as...
-  comments: Comment
+  comments: Commentaar
   cost_reports_title: Time and costs
   description_drill_down: Show details
-  description_filter_selection: Selection
+  description_filter_selection: Selectie
   description_multi_select: Show multiselect
   description_remove_filter: Remove filter
   export:
@@ -50,13 +50,13 @@ li:
       overview_per_user_day: 'Overview: Hours per user per day'
       overview_per_user_total: 'Overview: Total hours per user'
       sums_hours: Sums
-      time: Time
+      time: Tied
       timesheet: Timesheet
       title: Your PDF timesheet export
   information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
   label_click_to_edit: Click to edit.
-  label_closed: closed
-  label_columns: Columns
+  label_closed: geslaote
+  label_columns: Kolomme
   label_cost_entry_attributes: Cost entry attributes
   label_cost_report_plural: Cost reports
   label_count: Count
@@ -81,9 +81,9 @@ li:
   label_money: Cash value
   label_month_reporting: Month (Spent)
   label_new_report: New cost report
-  label_no: 'No'
+  label_no: Nae
   label_no_reports: There are no cost reports yet.
-  label_none: "(no data)"
+  label_none: "(gen gegaeves)"
   label_open: open
   label_operator: Operator
   label_private_report_plural: Private cost reports
@@ -104,8 +104,8 @@ li:
   permission_save_cost_reports: Save public cost reports
   permission_save_private_cost_reports: Save private cost reports
   plugin_openproject_reporting:
-    description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
-    name: OpenProject Reporting
+    description: Deze plugin mak ut meugelik um aangepaste kosterapporte te make mit filtering en groepering gemak door de OpenProject Tied en Koste plugin.
+    name: OpenProject Rapportage
   project_module_reporting_module: Cost reports
   reporting:
     group_by:

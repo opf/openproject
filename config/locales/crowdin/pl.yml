@@ -3544,6 +3544,7 @@ pl:
   error_no_default_work_package_status: Nie zdefiniowano domyślnego statusu pakietu roboczego. Proszę sprawdzić konfigurację (przejdź do „Administracja -> Statusy pakietów roboczych”).
   error_no_type_in_project: Żaden typ nie jest związany z tym projektem. Proszę sprawdzić ustawienia projektu.
   error_omniauth_invalid_auth: Dane uwierzytelniające zwrócone od dostawcy tożsamości były nieprawidłowe. Aby uzyskać dodatkową pomoc, skontaktuj się z administratorem.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Upłynął limit czasu na zewnętrzną autoryzację. Spróbuj ponownie.
   error_password_change_failed: Wystąpił błąd podczas próby zmiany hasła.
   error_pdf_date_range_too_long: Wybrany zakres dat pakietu roboczego przekracza dopuszczalny limit eksportu PDF. Ogranicz zakres do maksymalnie %{years} lat.

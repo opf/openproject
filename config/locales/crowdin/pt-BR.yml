@@ -179,20 +179,20 @@ pt-BR:
       favorite:
         favorited: Item
       form_configuration:
-        attribute_groups: Form
-        description: Description
-        name: Name
-        type_variants: Types and variants using this form
+        attribute_groups: Formulário
+        description: Descrição
+        name: Nome
+        type_variants: Tipos e variantes que utilizam este formulário
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
-        position: Position
+        attribute_key: Atributo
+        custom_field: Campo personalizado
+        group: Grupo
+        position: Posição
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Grupo padrão
+        kind: Tipo
+        label: Etiqueta
+        query: Consulta
       grids/grid:
         column_count: Número de colunas
         page: Página
@@ -232,20 +232,20 @@ pt-BR:
         port: Porta
         tls_certificate_string: Certificado SSL do servidor LDAP
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacidade
+        model_id: Modelo
+        state: Status
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
+        api_format: Formato da API
+        api_key: Chaves API
+        base_url: URL do host
+        default_chat_model: Modelo de chat padrão
         default_embedding_model: Default embedding model
         llm_features_enabled: Enable LLMs for this instance
       llm_model:
         admin_context_window: Context window
-        display_name: Display name
-        external: Model name
+        display_name: Nome de exibição
+        external: Nome do modelo
       mcp_configuration:
         description: Descrição
         enabled: Habilitado
@@ -1186,7 +1186,7 @@ pt-BR:
         one: Configuração de exportação
         other: Configurações de exportação
       form_configuration:
-        one: Form
+        one: Formulário
         other: Forms
       forum:
         one: Fórum
@@ -3260,6 +3260,7 @@ pt-BR:
   error_no_default_work_package_status: Nenhuma situação padrão de pacote de trabalho foi definida. Por favor, verifique sua configuração (vá em "Administração-> Situação de pacotes de trabalho").
   error_no_type_in_project: Nenhum tipo está associado a este projeto. Por favor, verifique as Configurações do Projeto.
   error_omniauth_invalid_auth: As informações de autenticação retornadas pelo provedor de identidade eram inválidas. Por favor, entre em contato com o administrador para obter mais ajuda.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: O registro por meio de um provedor de autenticação externo expirou. Por favor, tente novamente.
   error_password_change_failed: Ocorreu um erro durante a tentativa de alterar a senha.
   error_pdf_date_range_too_long: O intervalo de datas do pacote de trabalho selecionado excede o limite permitido para exportação em PDF. Reduza o intervalo para no máximo %{years} anos.

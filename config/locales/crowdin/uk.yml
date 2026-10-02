@@ -3552,6 +3552,7 @@ uk:
   error_no_default_work_package_status: Не визначено статус робочого пакету за промовчанням. Перевірте конфігурацію (перейдіть до розділу "Адміністрування -> Статуси робочих пакетів").
   error_no_type_in_project: З цим проектом не асоційовано жодного типу. Перевірте налаштування проекту.
   error_omniauth_invalid_auth: Постачальник ідентифікаторів повернув недійсні дані для автентифікації. Зверніться до адміністратора, щоб отримати додаткову допомогу.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Реєстрація через зовнішнього постачальника аутентифікації закінчилася. Будь ласка спробуйте ще раз.
   error_password_change_failed: Під час спроби змінити пароль сталася помилка.
   error_pdf_date_range_too_long: Діапазон дат, вибраний для пакета робіт, перевищує допустимий ліміт для експорту у форматі PDF. Скоротіть діапазон до максимального — %{years} р.
