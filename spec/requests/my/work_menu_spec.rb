@@ -30,12 +30,13 @@
 
 require "spec_helper"
 
-RSpec.describe "My time menu",
+RSpec.describe "My work menu",
                :skip_csrf,
                type: :rails_request do
-  shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking costs]) }
-
+  let(:project) { build_stubbed(:project) }
   let(:request) { get "/" }
+
+  current_user { build_stubbed(:user) }
 
   subject do
     request
@@ -43,29 +44,35 @@ RSpec.describe "My time menu",
   end
 
   context "when user has no permission in any project" do
-    current_user { build_stubbed(:user) }
-
-    it "shows a pagination" do
+    it "does not show the menu item" do
       expect(subject).to have_http_status(:ok)
-      expect(page).to have_no_text "My time tracking"
+      expect(page).to have_no_text "My work"
     end
   end
 
   context "when user has permission to log_own_time" do
-    current_user { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :log_own_time, project:
+      end
+    end
 
-    it "shows a pagination" do
+    it "shows the menu item" do
       expect(subject).to have_http_status(:ok)
-      expect(page).to have_text "My time tracking"
+      expect(page).to have_text "My work"
     end
   end
 
   context "when user has permission to log_time" do
-    current_user { create(:user, member_with_permissions: { project => %i[log_time] }) }
+    before do
+      mock_permissions_for(current_user) do |mock|
+        mock.allow_in_project :log_time, project:
+      end
+    end
 
-    it "shows a pagination" do
+    it "shows the menu item" do
       expect(subject).to have_http_status(:ok)
-      expect(page).to have_text "My time tracking"
+      expect(page).to have_text "My work"
     end
   end
 end
