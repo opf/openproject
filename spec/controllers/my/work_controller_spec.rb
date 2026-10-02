@@ -130,17 +130,21 @@ RSpec.describe My::WorkController do
       end
 
       it "loads only logged time when asked to" do
+        allow(ResourceAllocations::AllocatedTimeFor).to receive(:new).and_call_original
+
         get :index, params: { view_mode: :stack, entries: "logged" }
 
-        expect(assigns(:time_entries)).not_to be_nil
-        expect(assigns(:allocations)).to be_nil
+        expect(assigns(:allocations)).to eq([])
+        expect(ResourceAllocations::AllocatedTimeFor).not_to have_received(:new)
       end
 
       it "loads only allocations when asked to" do
+        allow(TimeEntries::TrackedTimeFor).to receive(:new).and_call_original
+
         get :index, params: { view_mode: :stack, entries: "allocated" }
 
-        expect(assigns(:time_entries)).to be_nil
-        expect(assigns(:allocations)).not_to be_nil
+        expect(assigns(:time_entries)).to eq([])
+        expect(TimeEntries::TrackedTimeFor).not_to have_received(:new)
       end
 
       it "falls back to all entries for an unknown filter" do

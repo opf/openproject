@@ -46,22 +46,18 @@ module My
     def index
       remember_view
 
-      load_time_entries(displayed_dates) unless entries == :allocated
-      load_allocations(displayed_dates) unless entries == :logged
+      load_entries(displayed_dates)
     end
 
     def refresh
-      if mode == :month # for the month we have the whole week in the table, for the rest it's the day
-        load_time_entries(date.all_week)
-      else
-        load_time_entries(date)
-      end
+      # for the month we have the whole week in the table, for the rest it's the day
+      load_entries(mode == :month ? date.all_week : date..date)
 
       update_via_turbo_stream(
-        component: My::Work::ListWrapperComponent.new(time_entries: @time_entries, date: date, mode: mode)
+        component: My::Work::ListWrapperComponent.new(time_entries: @time_entries, allocations: @allocations, date:, mode:)
       )
       update_via_turbo_stream(
-        component: My::Work::ListStatsComponent.new(time_entries: @time_entries, date: date)
+        component: My::Work::ListStatsComponent.new(time_entries: @time_entries, allocations: @allocations, date:, mode:)
       )
 
       respond_with_turbo_streams
@@ -149,12 +145,9 @@ module My
       Time.zone.today
     end
 
-    def load_time_entries(time_scope)
-      @time_entries = TimeEntries::TrackedTimeFor.new(user: User.current, dates: time_scope).items
-    end
-
-    def load_allocations(dates)
-      @allocations = ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:).events
+    def load_entries(dates)
+      @time_entries = entries == :allocated ? [] : TimeEntries::TrackedTimeFor.new(user: User.current, dates:).items
+      @allocations = entries == :logged ? [] : ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:).events
     end
 
     def list_view_component
@@ -164,7 +157,7 @@ module My
                         else My::Work::CalendarComponent
                         end
 
-      component_class.new(time_entries: @time_entries || [], allocations: @allocations || [], entries:, mode:, date:)
+      component_class.new(time_entries: @time_entries, allocations: @allocations, entries:, mode:, date:)
     end
 
     def mobile?

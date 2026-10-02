@@ -69,6 +69,7 @@ export default class MyWorkController extends Controller {
     viewMode: String,
     timeEntries: Array,
     allocations: Array,
+    entries: { type: String, default: 'all' },
     initialDate: String,
     today: String,
     canCreate: Boolean,
@@ -89,6 +90,7 @@ export default class MyWorkController extends Controller {
   declare readonly modeValue:string;
   declare readonly timeEntriesValue:TimeEntryEvent[];
   declare readonly allocationsValue:ResourceAllocationEvent[];
+  declare readonly entriesValue:string;
   declare readonly initialDateValue:string;
   declare readonly todayValue:string;
   declare readonly canCreateValue:boolean;
@@ -453,7 +455,7 @@ export default class MyWorkController extends Controller {
     if (this.viewModeValue === 'list') {
       // we don't know what date we clicked, so we need to reload the whole view
       if (additional?.spent_on) {
-        void this.turboRequests.request(this.pathHelperService.myWorkRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
+        void this.turboRequests.request(this.pathHelperService.myWorkRefresh(additional.spent_on, this.viewModeValue, this.modeValue, this.entriesValue), { method: 'GET' });
       } else {
         reloadMyWorkView(this.element);
       }

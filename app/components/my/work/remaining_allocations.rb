@@ -30,26 +30,39 @@
 
 module My
   module Work
-    class ListWrapperComponent < ApplicationComponent
-      include OpTurbo::Streamable
-
-      options :time_entries, :date, :mode
-      options allocations: []
-
-      def wrapper_key
-        "time-entries-list-#{options[:date].iso8601}"
+    # What is left of each allocation once the time logged on its work package that day
+    # is taken off, mirroring remainingHours in the stack and calendar views.
+    class RemainingAllocations
+      def self.call(allocations:, time_entries:)
+        new(allocations:, time_entries:).call
       end
 
+      def initialize(allocations:, time_entries:)
+        @allocations = allocations
+        @time_entries = time_entries
+      end
+
+      # @return [Array<My::Work::AllocationRow::Entry>]
       def call
-        component_wrapper do
-          render(My::Work::TimeEntriesListComponent.new(rows: time_entries.to_a + remaining_allocations, date:, mode:))
+        @allocations.filter_map do |event|
+          entry = event.scheduled_entry
+          hours = ((entry.minutes / 60.0) - logged_hours_on(entry, visible: event.visible)).round(2)
+
+          AllocationRow::Entry.new(scheduled_entry: entry, visible: event.visible, hours:) if hours.positive?
         end
       end
 
       private
 
-      def remaining_allocations
-        @remaining_allocations ||= RemainingAllocations.call(allocations:, time_entries:)
+      # A running timer has no final hours yet.
+      def logged_hours_on(entry, visible:)
+        return 0 unless visible
+
+        @time_entries
+          .select do |time_entry|
+            !time_entry.ongoing? && time_entry.entity == entry.work_package && time_entry.spent_on == entry.allocated_on
+          end
+          .sum(&:hours)
       end
     end
   end
