@@ -2476,6 +2476,23 @@ describe('Sortable lists controller', () => {
       await flushPromises();
     }
 
+    // Characterises today's behaviour, not a verdict on it. The "still over
+    // the source row" guard in resolveDropIntent compares the row under the
+    // pointer with the dragged item alone, so a release over a batch-mate's
+    // row with no sticky item target reads as a list-only drop and sends the
+    // block to the list's configured drop position. Whether a mate's row
+    // should count as the source row is an open product decision; flip the
+    // expectations when it is taken.
+    it('treats a release over a batch-mate\'s row as a list-only drop', async () => {
+      selectItems(item1, item2);
+      vi.spyOn(document, 'elementsFromPoint').mockReturnValue([item2]);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: null, edge: null });
+
+      expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
     // Item drop targets ask on every dragover; the owner is settled for the
     // drag at its start and forgotten with the frozen batch.
     describe('ownerDestinationOf', () => {
