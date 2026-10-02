@@ -73,6 +73,8 @@ module WorkPackageTypes
         update_details
       when :defaults
         update_defaults
+      when :form_configuration
+        update_form_configuration
       when :workflows
         update_workflows
       else
@@ -88,7 +90,7 @@ module WorkPackageTypes
 
       if service_call.success?
         reuse_existing_workflow
-        reuse_default_form
+        reuse_existing_form
         redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
         @current_step = Wizard::Steps::FIRST_EDITABLE
@@ -112,17 +114,14 @@ module WorkPackageTypes
       candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
     end
 
-    def reuse_default_form
-      default = ::FormConfiguration.default_form
+    def reuse_existing_form
       variant = @type.default_variant
+      started_id = variant.form_configuration_id
+      reusable = ::FormConfiguration.where.not(id: started_id).in_display_order.first
+      return if reusable.nil?
 
-      if default
-        started_id = variant.form_configuration_id
-        variant.update!(form_configuration: default)
-        ::FormConfiguration.find(started_id).destroy!
-      else
-        @started_form_configuration_id = variant.form_configuration_id
-      end
+      variant.update!(form_configuration: reusable)
+      ::FormConfiguration.find(started_id).destroy!
     end
 
     def create_variant
@@ -184,33 +183,46 @@ module WorkPackageTypes
       end
     end
 
-    def update_workflows
-      return name_workflow if params[:workflow].present?
-      return advance unless editing_own_workflow?
-      return render :show, status: :unprocessable_entity unless update_matrix.success?
+    def update_form_configuration
+      form = @variant.form_configuration
+      return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
+      return advance unless form&.used_by_one_variant?
 
-      respond_with_dialog(naming_dialog(@variant.workflow)) { |format| format.html { advance } }
+      ask_for_name(form)
     end
 
-    def name_workflow
-      service_call = ::Workflows::UpdateService.new(user: current_user, model: @variant.workflow).call(**naming_params)
+    def update_workflows
+      workflow = @variant.workflow
+      return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
+      return advance unless workflow&.used_by_one_variant?
+      return render :show, status: :unprocessable_entity unless update_matrix.success?
+
+      ask_for_name(workflow)
+    end
+
+    def ask_for_name(record)
+      respond_with_dialog(naming_dialog(record)) { |format| format.html { advance } }
+    end
+
+    def name_reference(record, service_class)
+      service_call = service_class.new(user: current_user, model: record).call(**naming_params(record))
       return advance if service_call.success?
 
       respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_entity
     end
 
-    def editing_own_workflow? = @variant.workflow&.used_by_one_variant?
+    def naming_dialog(record)
+      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: @current_step, **carried_params)
 
-    def naming_dialog(workflow)
-      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: :workflows, **carried_params)
-
-      NamedReferences::NameDialogComponent.new(record: workflow,
-                                               model_class: ::Workflow,
+      NamedReferences::NameDialogComponent.new(record:,
+                                               model_class: record.class,
                                                ask_copy_source: false,
                                                url:)
     end
 
-    def naming_params = params.expect(workflow: %i[name description]).to_h.symbolize_keys
+    def naming_params(record)
+      params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
+    end
 
     def update_matrix
       context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
