@@ -1,0 +1,25 @@
+# Local/internal dev on top of docker-compose.yml: plain HTTP, DB exposed (Entra ID stays on).
+#   cp .env.local.example .env.local   # fill in ENTRA_*
+#   docker compose --env-file .env.local -f docker-compose.yml -f docker-compose.local.yml up -d --build
+# Entra only accepts http redirect URIs for localhost: register http://localhost:8080/auth/entra/callback
+
+x-local-env: &local_env
+  OPENPROJECT_HTTPS: "false"
+  OPENPROJECT_HSTS: "false"
+  OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 0.0.0.0/0,::0/0 # local integrations (Nextcloud etc.)
+
+services:
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"
+  web:
+    environment: *local_env
+  worker:
+    environment: *local_env
+  cron:
+    environment: *local_env
+  seeder:
+    environment: *local_env
+  hocuspocus:
+    environment:
+      OPENPROJECT_HTTPS: "false"

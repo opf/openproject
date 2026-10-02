@@ -1,282 +1,176 @@
+# PRODUCTION stack (built from this repo's source).
+#   docker compose up -d --build
+# Other environments are overrides on top of this file:
+#   docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+#   docker compose --env-file .env.local -f docker-compose.yml -f docker-compose.local.yml up -d --build
+
 networks:
-  network:
-  testing:
-  # `external` joins the gateway network managed by the TLS proxy stack
-  # (traefik + step). Used by services that need to be reachable under
-  # https://*.${OPENPROJECT_DOCKER_DEV_TLD:-local}. First step toward
-  # TLS-by-default for dev — currently hocuspocus uses it; backend and
-  # frontend will follow.
-  external:
-    name: gateway
-    external: true
+  frontend:
+  backend:
 
 volumes:
-  downloads-test:
   pgdata:
-  tmp:
   opdata:
-  bundle:
-  pgdata-test:
-  tmp-test:
-  fedata-test:
 
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
-x-op-build: &build
-  context: .
-  dockerfile: ./docker/dev/backend/Dockerfile
-  args:
-    DEV_UID: $DEV_UID
-    DEV_GID: $DEV_GID
 x-op-image: &image
-  image: openproject/dev:latest
-x-op-frontend-build: &frontend-build
-  context: .
-  dockerfile: ./docker/dev/frontend/Dockerfile
-  args:
-    DEV_UID: $DEV_UID
-    DEV_GID: $DEV_GID
-x-op-backend: &backend
-  tty: true
-  stdin_open: true
+  # Use BUILD_TARGET=slim-bim for the BIM edition.
+  image: openproject/openproject:${TAG:-local}
   build:
-    <<: *build
-    target: develop
+    context: .
+    dockerfile: docker/prod/Dockerfile
+    target: ${BUILD_TARGET:-slim}
+x-op-app: &app
   <<: [*image, *restart_policy]
   environment:
-    DATABASE_URL: postgresql://${DB_USERNAME:-postgres}:${DB_PASSWORD:-postgres}@${DB_HOST:-db}:${DB_PORT:-5432}/${DB_DATABASE:-openproject}?pool=100
-    LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-docker-compose}"
-    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
-    OPENPROJECT_EDITION: ${OPENPROJECT_EDITION:-standard}
-    OPENPROJECT_RAILS__CACHE__STORE: file_store
+    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
+    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:?set OPENPROJECT_HOST__NAME}"
+    OPENPROJECT_ADDITIONAL__HOST__NAMES: "${OPENPROJECT_ADDITIONAL__HOST__NAMES:-web}" # to allow access from hocuspocus directly
+    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-true}"
+    OPENPROJECT_RAILS__CACHE__STORE: "memcache"
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: 0.0.0.0/0,::0/0 # disabling SSRF in dev to not interfere with local integrations (Nextcloud etc.)
-    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL:-wss://hocuspocus.local}
-    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: ${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET:-secret12345}
-    OPENPROJECT_WEB_MAX__THREADS: 1
-    OPENPROJECT_WEB_MIN__THREADS: 1
-    OPENPROJECT_WEB_WORKERS: 0
-    PIDFILE: /home/dev/openproject/tmpfs/pids/server.pid
-    RAILS_ENV: development
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: "${COLLABORATIVE_SERVER_URL:-wss://${OPENPROJECT_HOST__NAME}/hocuspocus}"
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: ${RAILS_MIN_THREADS:-4}
+    RAILS_MAX_THREADS: ${RAILS_MAX_THREADS:-16}
+    # set to true to enable the email receiving feature. See ./docker/cron for more options
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+    SECRET_KEY_BASE: "${SECRET_KEY_BASE:?set SECRET_KEY_BASE}"
+    # Microsoft Entra ID login (OIDC). Only ENTRA_TENANT_ID / ENTRA_CLIENT_ID / ENTRA_CLIENT_SECRET are needed.
+    # Redirect URI to register: https://<OPENPROJECT_HOST__NAME>/auth/entra/callback
+    OPENPROJECT_OPENID__CONNECT_ENTRA_DISPLAY__NAME: "${ENTRA_DISPLAY_NAME:-Microsoft}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_HOST: "login.microsoftonline.com"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_IDENTIFIER: "${ENTRA_CLIENT_ID:?set ENTRA_CLIENT_ID}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SECRET: "${ENTRA_CLIENT_SECRET:?set ENTRA_CLIENT_SECRET}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_ISSUER: "https://login.microsoftonline.com/${ENTRA_TENANT_ID:?set ENTRA_TENANT_ID}/v2.0"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SCOPE: "[openid,email,profile]"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_AUTHORIZATION__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/authorize"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_TOKEN__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/token"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_USERINFO__ENDPOINT: "https://graph.microsoft.com/oidc/userinfo"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_END__SESSION__ENDPOINT: "https://login.microsoftonline.com/${ENTRA_TENANT_ID}/oauth2/v2.0/logout"
   volumes:
-    - ".:/home/dev/openproject"
-    - "opdata:/var/openproject/assets"
-    - "bundle:/usr/local/bundle"
-    - "tmp:/home/dev/openproject/tmp"
-  tmpfs:
-    - /home/dev/openproject/tmpfs/pids:uid=$DEV_UID,gid=$DEV_GID
-  networks:
-    - network
-x-op-hocuspocus: &hocuspocus
-  # On macOS you may need to specify the platform in your `docker-compose.override.yml`:
-  # platform: linux/amd64
-  image: node:24-alpine
-  restart: unless-stopped
-  environment:
-    - SECRET=secret12345
-    - NODE_TLS_REJECT_UNAUTHORIZED=0
-  working_dir: /app
-  command: sh -c "npm run dev"
-  volumes:
-    - ./extensions/op-blocknote-hocuspocus:/app
+    - "${OPDATA:-opdata}:/var/openproject/assets"
+
 services:
-  backend:
-    <<: *backend
-    command: run-app
-    depends_on:
-      - db
-      - cache
-      - frontend
-      - hocuspocus
-    ports:
-      - "${PORT:-3000}:3000"
-
-  worker:
-    <<: *backend
-    command: bundle exec good_job start
-    depends_on:
-      - db
-      - cache
-
-  frontend:
-    build:
-      <<: *frontend-build
-    command: "node --max_old_space_size=8096 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0"
-    volumes:
-      - ".:/home/dev/openproject"
-      - "${CKEDITOR_BUILD_DIR:-./frontend/src/vendor/ckeditor/}:/home/dev/openproject/frontend/src/vendor/ckeditor/"
-    networks:
-      - network
-    environment:
-      __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS: "openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
-    ports:
-      - "${FE_PORT:-4200}:4200"
-
   db:
-    image: postgres:17
+    image: postgres:${POSTGRES_VERSION:-17-alpine}
     <<: *restart_policy
     stop_grace_period: "3s"
     volumes:
-      - "pgdata:/var/lib/postgresql/data"
+      - "${PGDATA:-pgdata}:/var/lib/postgresql/data"
     environment:
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_DATABASE:-openproject}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: openproject
     networks:
-      - network
-
-  hocuspocus:
-    <<: *hocuspocus
-    networks:
-      - network
-      - external
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
-      - "traefik.http.routers.hocuspocus.entrypoints=websecure"
-      - "traefik.http.services.hocuspocus.loadbalancer.server.port=1234"
+      - backend
 
   cache:
     image: memcached
     <<: *restart_policy
     networks:
-      - network
+      - backend
 
-  ######### Testing stuff below ############
-
-  db-test:
-    image: postgres:17
-    stop_grace_period: "3s"
-    volumes:
-      - "pgdata-test:/var/lib/postgresql/data"
-    environment:
-      POSTGRES_DB: openproject
-      POSTGRES_USER: openproject
-      POSTGRES_PASSWORD: openproject
-    networks:
-      - testing
-
-  hocuspocus-test:
-    <<: *hocuspocus
-    networks:
-      - testing
-
-  frontend-test:
+  proxy:
     build:
-      <<: *frontend-build
-    command: "npm run serve"
-    volumes:
-      - ".:/home/dev/openproject"
-      - "fedata-test:/home/dev/openproject/public/assets/frontend"
-    environment:
-      PROXY_HOSTNAME: backend-test
-      CHROME_BIN: chromium
-      FE_PORT: 4200
-      FE_HOST: frontend-test
+      context: ./docker-compose/proxy
+      args:
+        APP_HOST: web
+    image: openproject/proxy
+    <<: *restart_policy
+    ports:
+      - "${PORT:-8080}:80"
+    depends_on:
+      - web
     networks:
-      - testing
+      - frontend
+
+  web:
+    <<: *app
+    command: "./docker/prod/web"
+    hostname: "${OPENPROJECT_HOST__NAME}"
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      db:
+        condition: service_started
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+    labels:
+      - deunhealth.restart.on.unhealthy=true
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://frontend-test:4200/"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}/health_checks/default"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
 
-  backend-test:
+  deunhealth:
+    image: openproject/deunhealth:local
     build:
-      <<: *build
-      target: test
-    command: setup-tests
-    hostname: backend-test
+      context: ./tools/deunhealth
+      dockerfile: Dockerfile.distroless
+    <<: *restart_policy
+    network_mode: none
+    # runs as nonroot (65532); needs the docker socket's group to talk to it.
+    # Linux: DOCKER_GID=$(stat -c %g /var/run/docker.sock)
+    group_add:
+      - "${DOCKER_GID:-0}"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      LOG_LEVEL: info
+
+  worker:
+    <<: *app
+    command: "./docker/prod/worker"
     networks:
-      - testing
+      - backend
     depends_on:
-      db-test:
+      db:
         condition: service_started
-      selenium-hub:
+      cache:
         condition: service_started
-      frontend-test:
-        condition: service_healthy
-      cuprite-chrome:
-        condition: service_started
-      hocuspocus-test:
-        condition: service_started
-    environment:
-      RAILS_ENV: test
-      OPENPROJECT_TESTING_WITH_DOCKER: "true"
-      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-      DATABASE_URL: postgresql://openproject:openproject@db-test/openproject
-      DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: "true"
-      SELENIUM_GRID_URL: http://selenium-hub:4444/wd/hub
-      CHROME_WS_URL: ws://cuprite-chrome:3000/chrome
-      CAPYBARA_SERVER_PORT: 3000
-      CAPYBARA_BIND_ADDRESS: "0.0.0.0"
-      CAPYBARA_APP_HOSTNAME: backend-test
-      OPENPROJECT_EMAIL__DELIVERY__METHOD: test
-      OPENPROJECT_CLI_PROXY: http://frontend-test:4200
-      OPENPROJECT_TESTING_NO_HEADLESS: "true"
-      OPENPROJECT_TESTING_AUTO_DEVTOOLS: "true"
-    volumes:
-      - ".:/home/dev/openproject"
-      - "fedata-test:/home/dev/openproject/public/assets/frontend"
-      - "opdata:/var/openproject/assets"
-      - "bundle:/usr/local/bundle"
-      - "tmp-test:/home/dev/openproject/tmp"
-      - "./tmp/capybara:/home/dev/openproject/tmp/capybara"
+      seeder:
+        condition: service_completed_successfully
 
-  # https://vitobotta.com/2019/09/04/rails-parallel-system-tests-selenium-docker/
-  selenium-hub:
-    image: selenium/hub:4
-    container_name: selenium-hub
-    hostname: selenium-hub
-    environment:
-      GRID_MAX_SESSION: "${CI_JOBS:-4}"
+  cron:
+    <<: *app
+    command: "./docker/prod/cron"
+    networks:
+      - backend
     depends_on:
-      - chrome
-      - firefox
-    networks:
-      - testing
+      db:
+        condition: service_started
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
 
-  chrome:
-    image: selenium/node-chrome:4
-    volumes:
-      - /dev/shm:/dev/shm
-      - "downloads-test:/home/seluser/Downloads"
+  seeder:
+    <<: *app
+    command: "./docker/prod/seeder"
+    restart: on-failure
     networks:
-      - testing
-    shm_size: 2g
-    environment:
-      SE_EVENT_BUS_HOST: selenium-hub
-      SE_EVENT_BUS_PUBLISH_PORT: 4442
-      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
-      SCREEN_WIDTH: 1920
-      SCREEN_HEIGHT: 1080
-      # in case we want multiple sessions per container
-      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
-      NODE_MAX_SESSION: "${CI_JOBS:-4}"
+      - backend
 
-  firefox:
-    image: selenium/node-firefox:4
-    volumes:
-      - /dev/shm:/dev/shm
-      - "downloads-test:/home/seluser/Downloads"
-    networks:
-      - testing
-    shm_size: 2g
+  hocuspocus:
+    image: openproject/hocuspocus:17.9.1
     environment:
-      SE_EVENT_BUS_HOST: selenium-hub
-      SE_EVENT_BUS_PUBLISH_PORT: 4442
-      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
-      SCREEN_WIDTH: 1920
-      SCREEN_HEIGHT: 1080
-      # in case we want multiple sessions per container
-      NODE_MAX_INSTANCES: "${CI_JOBS:-4}"
-      NODE_MAX_SESSION: "${CI_JOBS:-4}"
-
-  cuprite-chrome:
-    # Currently, Apple M1 is only supported in unnumbered "latest" versions.
-    # See https://github.com/browserless/chrome/issues/1393
-    image: ghcr.io/browserless/chrome:latest
+      SECRET: ${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}
+      OPENPROJECT_URL: "${OPENPROJECT_URL:-http://web:8080}"
+      OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
     networks:
-      - testing
-    environment:
-      HOST: cuprite-chrome
-      # Set connection timeout to avoid timeout exception during debugging
-      # https://docs.browserless.io/docs/docker.html#connection-timeout
-      CONNECTION_TIMEOUT: 600000
+      - backend
+      - frontend
+    <<: *restart_policy

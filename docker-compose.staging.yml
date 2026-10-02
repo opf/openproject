@@ -1,0 +1,21 @@
+# Staging on top of docker-compose.yml (same as prod, own image tag, verbose logs).
+#   docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
+# Use a separate .env / host + OIDC app registration, and a different project name
+# (-p openproject-staging) if it shares a host with prod.
+
+x-staging-env: &staging_env
+  OPENPROJECT_LOG__LEVEL: debug
+
+services:
+  web:
+    image: openproject/openproject:${TAG:-staging}
+    environment: *staging_env
+  worker:
+    image: openproject/openproject:${TAG:-staging}
+    environment: *staging_env
+  cron:
+    image: openproject/openproject:${TAG:-staging}
+    environment: *staging_env
+  seeder:
+    image: openproject/openproject:${TAG:-staging}
+    environment: *staging_env
