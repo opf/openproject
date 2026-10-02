@@ -39,7 +39,7 @@ module Grids
       end
 
       def time_entries
-        @time_entries ||= My::Work::EntriesQuery.call(user: current_user, dates:)
+        @time_entries ||= TimeEntries::TrackedTimeFor.new(user: current_user, dates:).items
       end
 
       private

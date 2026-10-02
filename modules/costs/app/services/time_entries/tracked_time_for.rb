@@ -28,16 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module My
-  module Work
-    class EntriesQuery
-      def self.call(user:, dates:)
-        TimeEntry
-          .preload(:project, :activity, :entity)
-          .where(project_id: Project.visible.select(:id))
-          .where(user:, spent_on: dates)
-          .order(:spent_on, :start_time, :hours)
-      end
+module TimeEntries
+  class TrackedTimeFor
+    def initialize(user:, dates:)
+      @user = user
+      @dates = dates
+    end
+
+    def items
+      @items ||= TimeEntry
+                   .preload(:project, :activity, :entity)
+                   .where(project_id: Project.visible(@user).select(:id))
+                   .where(user: @user, spent_on: @dates)
+                   .order(:spent_on, :start_time, :hours)
+    end
+
+    def events
+      items.map { |time_entry| FullCalendar::TimeEntryEvent.from_time_entry(time_entry) }
     end
   end
 end

@@ -141,7 +141,7 @@ module My
     end
 
     def load_time_entries(time_scope)
-      @time_entries = My::Work::EntriesQuery.call(user: User.current, dates: time_scope)
+      @time_entries = TimeEntries::TrackedTimeFor.new(user: User.current, dates: time_scope).items
     end
 
     def list_view_component
