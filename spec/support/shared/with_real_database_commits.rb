@@ -29,7 +29,7 @@
 #++
 
 # Workers must stop before teardown; shared database fixtures are unsupported.
-RSpec.shared_context "with real database commits", use_transactional_fixtures: false do
+RSpec.shared_context "with real database commits" do
   self.use_transactional_tests = false
 
   around do |example|
