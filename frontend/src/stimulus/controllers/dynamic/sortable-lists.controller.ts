@@ -42,6 +42,7 @@ import {
   isItemFromRoot,
   resolveDropIntent,
   singleItemBatch,
+  type OwnedList,
   type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
@@ -60,6 +61,7 @@ import {
   restoreRowPositions,
   rowOf,
   rowsRemainAt,
+  ownedBy,
   sortableListsBusyAttribute,
   type DestinationIdentity,
   type MoveAvailability,
@@ -289,7 +291,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   // Outlets match document-wide; another root's lists are not ours.
   private ownedListOutlets() {
-    return this.sortableListsListOutlets.filter((list) => this.element.contains(list.element));
+    return this.sortableListsListOutlets.filter((list) => this.owns(list.element));
   }
 
   // A morph desyncs the children's drag-and-drop state in two ways. Stimulus
@@ -322,7 +324,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       children.forEach((child) => {
         // Outlet selectors are document-scoped, so a broad selector can match
         // another root's children; repair only the ones this root owns.
-        if (!this.element.contains(child.element)) {
+        if (!this.owns(child.element)) {
           return;
         }
 
@@ -345,21 +347,29 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   };
 
+  // Outlet selectors are document-scoped: a broad one matches the children
+  // of an independently nested root too, which are not ours to wire.
   sortableListsListOutletConnected(list:RootAwareChild):void {
-    list.connectRoot(this);
+    if (this.owns(list.element)) {
+      list.connectRoot(this);
+    }
   }
 
   sortableListsListOutletDisconnected(list:RootAwareChild):void {
-    list.disconnectRoot();
+    list.disconnectRoot(this);
   }
 
   sortableListsItemOutletConnected(item:RootAwareChild):void {
+    if (!this.owns(item.element)) {
+      return;
+    }
+
     item.connectRoot(this);
     this.scheduleSelectionReconcile();
   }
 
   sortableListsItemOutletDisconnected(item:RootAwareChild):void {
-    item.disconnectRoot();
+    item.disconnectRoot(this);
     this.scheduleSelectionReconcile();
   }
 
@@ -381,11 +391,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   sortableListsScrollableOutletConnected(scrollable:RootAwareChild):void {
-    scrollable.connectRoot(this);
+    if (this.owns(scrollable.element)) {
+      scrollable.connectRoot(this);
+    }
   }
 
   sortableListsScrollableOutletDisconnected(scrollable:RootAwareChild):void {
-    scrollable.disconnectRoot();
+    scrollable.disconnectRoot(this);
   }
 
   get busy():boolean {
@@ -453,14 +465,31 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // element: in nested topologies (a section item hosting a field list) the
   // item is contained by every ancestor list, and only the innermost one
   // holds its row.
-  private ownerListOf(itemElement:HTMLElement) {
-    const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
+  private ownerListOf(element:Element) {
+    const containing = this.ownedListOutlets().filter((list) => list.element.contains(element));
 
     return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
   }
 
+  owns(element:Element):boolean {
+    return ownedBy(this.element, element);
+  }
+
+  ownerList(element:Element):OwnedList|null {
+    const list = this.ownerListOf(element);
+
+    return list
+      ? {
+        element: list.element,
+        identity: destinationOfList(list.listData),
+        listData: list.listData,
+        rowsContainer: list.rowsContainer,
+      }
+      : null;
+  }
+
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
-    return this.ownerListOf(itemElement)?.rowsContainer ?? null;
+    return this.ownerList(itemElement)?.rowsContainer ?? null;
   }
 
   // Remembered only once the drag is real: a prospective session left by a
@@ -472,8 +501,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   liveOwnerDestinationOf(element:HTMLElement):DestinationIdentity|null {
-    const listData = this.ownerListOf(element)?.listData;
-    return listData ? destinationOfList(listData) : null;
+    return this.ownerList(element)?.identity ?? null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {

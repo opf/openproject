@@ -27,10 +27,12 @@
 
 import { selectionKey, type SelectionAnchor, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import { attributeTokenList } from 'core-app/shared/helpers/dom-helpers';
+import { type ListTopology } from './drag-and-drop';
 import {
   isOrderableItem,
+  listKey,
+  ownedBy,
   resolveItemType,
-  sortableListsRootSelector,
   resolveItemElement,
   resolveItemId,
   rowOf,
@@ -52,16 +54,6 @@ export interface SelectionCandidate extends SelectionItem {
 
 export const itemFocusTargetSelector = '[data-sortable-lists--item-target~="focus"]';
 
-// Decides only whether a range stays inside the list it started in. Derived
-// from the list's own values rather than its DOM id, so every consumer keys
-// its lists the same way.
-function listKeyOf(listElement:HTMLElement):string {
-  const type = listElement.getAttribute('data-sortable-lists--list-type-value') ?? '';
-  const id = listElement.getAttribute('data-sortable-lists--list-id-value') ?? '';
-
-  return `${type}:${id}`;
-}
-
 // Bounded to the item's own subtree: a nested list's items carry focus
 // targets of their own, and a descendant's must never stand in for the
 // outer item's.
@@ -70,16 +62,10 @@ function focusHostOf(itemElement:HTMLElement):HTMLElement {
     .find((target) => target.closest(sortableItemSelector) === itemElement) ?? itemElement;
 }
 
-// A child belongs to the nearest root, not to any root containing it: an
-// independently nested root is an ownership boundary.
-function ownsElement(root:HTMLElement, element:Element):boolean {
-  return element.closest(sortableListsRootSelector) === root;
-}
-
 function ownerList(root:HTMLElement, itemElement:HTMLElement):HTMLElement|null {
   const list = itemElement.closest<HTMLElement>(sortableListSelector);
 
-  return list && ownsElement(root, list) ? list : null;
+  return list && ownedBy(root, list) ? list : null;
 }
 
 function rowItem(row:Element, rowsContainer:Element, root:HTMLElement, list:HTMLElement):HTMLElement|null {
@@ -90,7 +76,7 @@ function rowItem(row:Element, rowsContainer:Element, root:HTMLElement, list:HTML
 
 export function orderedItemElements(root:HTMLElement):HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>(sortableItemSelector))
-    .filter((item) => ownsElement(root, item));
+    .filter((item) => ownedBy(root, item));
 }
 
 /**
@@ -99,18 +85,18 @@ export function orderedItemElements(root:HTMLElement):HTMLElement[] {
  * A structural row such as a truncation marker is not an item, and so not a
  * candidate whose selection could be refused either.
  */
-export function resolveCandidate(root:HTMLElement, target:EventTarget|null):SelectionCandidate|null {
-  if (!(target instanceof Element) || !root.contains(target)) {
+export function resolveCandidate(topology:ListTopology, target:EventTarget|null):SelectionCandidate|null {
+  if (!(target instanceof Element) || !topology.rootElement.contains(target)) {
     return null;
   }
 
   const itemElement = target.closest<HTMLElement>(sortableItemSelector);
   const id = itemElement ? resolveItemId(itemElement) : null;
-  if (!itemElement || !id || !root.contains(itemElement)) {
+  if (!itemElement || !id || !topology.owns(itemElement)) {
     return null;
   }
 
-  const list = ownerList(root, itemElement);
+  const list = topology.ownerList(itemElement);
   if (!list) {
     return null;
   }
@@ -127,7 +113,7 @@ export function resolveCandidate(root:HTMLElement, target:EventTarget|null):Sele
     itemElement,
     focusHost: focusHostOf(itemElement),
     id,
-    listKey: listKeyOf(list),
+    listKey: listKey(list.identity),
     orderable: isOrderableItem(itemElement),
   };
 }
