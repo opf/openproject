@@ -679,7 +679,7 @@ describe('Sortable lists controller', () => {
     fixture.innerHTML = `
       <turbo-frame
         id="backlogs-list"
-        src="/projects/demo/backlogs/backlog?bucket_ids=["1","inbox"]&sprint_ids="2"
+        src="/projects/demo/backlogs/backlog?bucket_ids=%5B%221%22%2C%22inbox%22%5D&sprint_ids=%222%22"
         data-controller="sortable-lists"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
         data-sortable-lists-optimistic-value="true"

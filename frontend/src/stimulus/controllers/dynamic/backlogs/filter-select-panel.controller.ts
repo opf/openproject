@@ -81,7 +81,7 @@ export default class FilterSelectPanelController extends Controller<SelectPanelE
 
   private submitFilter() {
     const requestURL = new URL(this.baseUrlValue, window.location.origin);
-    this.searchParams.forEach((value, key) => requestURL.searchParams.set(key, value));
+    requestURL.search = this.searchParams.toString();
     Turbo.visit(requestURL.href, { frame: 'backlogs_container', action: 'advance' });
   }
 

@@ -60,8 +60,8 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
 
     it "marks sprints selected in the JSON format as active" do
       render_component(field_name: :sprint_ids, sprint_ids: [sprint2.id.to_s].to_json)
-      expect(page).to have_css("[aria-selected='false']", text: "Alpha Sprint")
-      expect(page).to have_css("[aria-selected='true']", text: "Beta Sprint")
+      expect(page).to have_element(aria: { selected: false }, text: "Alpha Sprint")
+      expect(page).to have_element(aria: { selected: true }, text: "Beta Sprint")
     end
 
     it "does not list completed sprints" do
