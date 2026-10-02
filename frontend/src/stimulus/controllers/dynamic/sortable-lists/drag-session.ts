@@ -68,11 +68,12 @@ export function permittedDestinationsFor(
  * One drag, from the first `canDrag` read to its single end.
  *
  * Pragmatic asks `canDrag`, then builds the payloads, then renders the
- * preview, then starts the drag; the phases follow that order. Members are
- * resolved once, in the constructor, and stay fixed; freezing happens at
- * most once; `end()` hands the frozen batch out at most once. Rows are held
- * as identities only, so a morph that replaces an element mid-drag cannot
- * leave the session pointing at a node that left the document.
+ * preview, then starts the drag; the phases follow that order. The
+ * prospective members are resolved once, in the constructor, as elements
+ * read within that same dragstart turn; freezing commits the batch once,
+ * as identities, so a morph that replaces an element mid-drag cannot leave
+ * the frozen batch pointing at a node that left the document. `end()` hands
+ * the frozen batch out at most once.
  */
 export class DragSession {
   readonly members:HTMLElement[];
@@ -101,6 +102,8 @@ export class DragSession {
     return this.host.maxBatchSize > 0 && this.members.length > this.host.maxBatchSize;
   }
 
+  // The drag-start answer, which the Pragmatic payload carries for the rest
+  // of the drag; it is not recomputed after a morph.
   permittedDestinations():DestinationIdentity[]|null {
     this.permitted ??= {
       value: permittedDestinationsFor(

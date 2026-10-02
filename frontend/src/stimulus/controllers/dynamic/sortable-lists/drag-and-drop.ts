@@ -40,6 +40,7 @@ import {
 import { getElementFromPointWithoutHoneypot } from '@atlaskit/pragmatic-drag-and-drop/private/get-element-from-point-without-honey-pot';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { type SelectionItem } from 'core-common/batch-selection';
+import { type DragSession } from './drag-session';
 import {
   isExcludedItem,
   resolveClosestItemElement,
@@ -108,23 +109,15 @@ export interface SortableListsRoot {
   // The rows container of the item's innermost owning list, or null when the
   // item is not (yet) inside a list the root knows about.
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null;
-  // Freezes the drag's batch and returns its size; the preview renders it.
-  freezeDragBatch(itemElement:HTMLElement):number;
-  // Marks the frozen batch's rows; a no-op before freezeDragBatch.
-  markDragBatch():void;
-  // Asked while the drag payload is built, which Pragmatic dispatches before
-  // freezeDragBatch freezes the batch, so the answer comes from the live
-  // selection in the same synchronous dragstart turn.
-  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null;
+  // Asked in canDrag. A refused session is announced here and not kept.
+  beginDrag(itemElement:HTMLElement):DragSession;
+  // The session begun last, which the item reads in every later drag
+  // callback; held by the root so an item controller replaced mid-drag
+  // finds it again.
+  readonly dragSession:DragSession|null;
   // The destination of the element's innermost owning list, or null when no
-  // list the root knows about claims it.
+  // list the root knows about claims it. Remembered for the drag in flight.
   ownerDestinationOf(element:HTMLElement):DestinationIdentity|null;
-  // Asked in canDrag: true when the item's prospective batch exceeds the
-  // server's cap, so the drag never starts.
-  dragRefused(itemElement:HTMLElement):boolean;
-  // The cards an external drop should receive: the prospective batch, read
-  // before the batch is frozen, without touching the selection.
-  externalDragItems(itemElement:HTMLElement):HTMLElement[];
 }
 
 // Implemented by the list, item and scrollable controllers so the root can

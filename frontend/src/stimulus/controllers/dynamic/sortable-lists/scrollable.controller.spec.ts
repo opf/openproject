@@ -73,12 +73,9 @@ describe('Sortable lists scrollable controller', () => {
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
-      freezeDragBatch: vi.fn(() => 1),
-      markDragBatch: vi.fn(),
-      dragPermittedDestinations: vi.fn(() => null),
+      beginDrag: vi.fn(),
+      dragSession: null,
       ownerDestinationOf: vi.fn(() => null),
-      dragRefused: vi.fn(() => false),
-      externalDragItems: vi.fn((item:HTMLElement) => [item]),
     };
   }
 
