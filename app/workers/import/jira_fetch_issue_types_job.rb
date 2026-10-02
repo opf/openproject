@@ -46,7 +46,7 @@ module Import
 
     def fetch_data
       issue_types_upsert_data = @jira_client.issue_types.map do |payload|
-        Rails.logger.debug "Fetched issue type '#{payload['name']}'"
+        Rails.logger.debug { "Fetched issue type '#{payload['name']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

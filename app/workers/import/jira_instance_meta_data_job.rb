@@ -42,6 +42,7 @@ module Import
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def perform(jira_import_id)
       Rails.logger.info "Fetching instance meta data started"
       jira_import = Import::JiraImport.find(jira_import_id)
@@ -76,7 +77,7 @@ module Import
 
     def collect_projects
       @client.projects.filter_map do |project|
-        Rails.logger.debug "Fetched project '#{project['key']}'"
+        Rails.logger.debug { "Fetched project '#{project['key']}'" }
         next unless project_browsable?(project["key"])
 
         { "id" => project["id"], "key" => project["key"], "name" => project["name"] }
