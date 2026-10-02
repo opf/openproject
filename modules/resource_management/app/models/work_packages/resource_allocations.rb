@@ -32,12 +32,21 @@ module WorkPackages::ResourceAllocations
   extend ActiveSupport::Concern
 
   included do
+    has_many :resource_allocations,
+             as: :entity,
+             dependent: :destroy,
+             inverse_of: :entity
+
     has_many :allocated_resource_allocations,
              -> { allocated },
              class_name: "ResourceAllocation",
              as: :entity,
              dependent: nil,
              inverse_of: :entity
+
+    associated_to_ask_before_destruction ResourceAllocation,
+                                         ->(work_packages) { ResourceAllocation.on_work_packages(work_packages).exists? },
+                                         method(:cleanup_resource_allocations_before_destruction_of)
   end
 
   class_methods do
@@ -50,7 +59,62 @@ module WorkPackages::ResourceAllocations
       joins(join.join_sources).select(sums_table[:allocated_minutes])
     end
 
+    protected
+
+    # An allocation cannot exist without a work package, so it is either deleted with its
+    # work package or moved to another one.
+    # Returns whether the deletion may go ahead, as WorkPackage::AskBeforeDestruction expects.
+    def cleanup_resource_allocations_before_destruction_of(work_packages, user, to_do = { action: "destroy" }) # rubocop:disable Naming/PredicateMethod
+      work_packages = Array(work_packages)
+
+      return false if to_do.blank?
+
+      case to_do[:action]
+      when "destroy"
+        true
+      when "nullify"
+        add_resource_allocation_error(work_packages, :nullify_is_not_valid_for_resource_allocations)
+        false
+      when "reassign"
+        reassign_resource_allocations(work_packages, user, to_do[:reassign_to_id]).all?(&:success?)
+      else
+        false
+      end
+    end
+
     private
+
+    def reassign_resource_allocations(work_packages, user, target_id)
+      target = resource_allocations_reassign_target(user, target_id)
+
+      if target.nil?
+        add_resource_allocation_error(work_packages, :is_not_a_valid_target_for_resource_allocations, id: target_id)
+        return [ServiceResult.failure]
+      end
+
+      ResourceAllocation.on_work_packages(work_packages).map do |allocation|
+        reassign_resource_allocation(allocation, target, user).tap do |call|
+          call.errors.full_messages.each { |message| add_resource_allocation_error(work_packages, message) }
+        end
+      end
+    end
+
+    def reassign_resource_allocation(allocation, target, user)
+      ResourceAllocations::UpdateService
+        .new(user:, model: allocation, contract_class: ResourceAllocations::ReassignContract)
+        .call(entity: target)
+    end
+
+    def resource_allocations_reassign_target(user, id)
+      ::WorkPackage
+        .joins(:project)
+        .merge(Project.allowed_to(user, :allocate_user_resources))
+        .find_by(id:)
+    end
+
+    def add_resource_allocation_error(work_packages, key, **)
+      work_packages.each { |work_package| work_package.errors.add(:base, key, **) }
+    end
 
     def allocated_time_sums(work_package_scope)
       ResourceAllocation

@@ -80,6 +80,7 @@ class ResourceAllocation < ApplicationRecord
 
   scope :needs_principal_assignment, -> { where.not(placeholder_user_id: nil).where(principal_id: nil) }
   scope :for_principal, ->(principal) { where(principal:) }
+  scope :on_work_packages, ->(work_packages) { where(entity: work_packages) }
   scope :for_project, ->(project_or_project_id) {
     project_id = project_or_project_id.is_a?(Project) ? project_or_project_id.id : project_or_project_id
     joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
