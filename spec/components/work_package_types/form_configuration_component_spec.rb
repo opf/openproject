@@ -118,9 +118,22 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
         count: 1
       ) do |list|
         expect(list["data-sortable-lists--list-id-value"]).to be_nil
-        expect(list.find(list["data-sortable-lists--list-rows-container-element"]).tag_name).to eq("ul")
+        expect(list["data-sortable-lists--list-rows-container-element"]).to be_nil
+        expect(list).to match_css(".op-border-box-list")
+        expect(list.find(:xpath, "./ul")).to be_present
       end
       expect(rendered).to have_css("[data-controller~='sortable-lists--scrollable']", count: 2)
+    end
+
+    it "keeps the inactive container as the stream and filter target", :aggregate_failures do
+      rendered = render_component
+
+      expect(rendered).to have_css(
+        "#type-form-configuration-inactive-container[data-admin--type-form-configuration--main-target='inactiveContainer']"
+      )
+      expect(rendered).to have_css(
+        "#type-form-configuration-inactive-container [data-controller~='border-box-list'] .op-border-box-list"
+      )
     end
   end
 end

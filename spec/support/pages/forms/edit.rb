@@ -159,6 +159,16 @@ module Pages
         expect(page).to have_field(with: name)
       end
 
+      def expect_inactive_empty_state
+        expect(page.find_by_id("type-form-configuration-inactive-container"))
+          .to have_heading(I18n.t("types.edit.form_configuration.no_inactive_attributes"))
+      end
+
+      def expect_no_inactive_empty_state
+        expect(page.find_by_id("type-form-configuration-inactive-container"))
+          .to have_no_heading(I18n.t("types.edit.form_configuration.no_inactive_attributes"))
+      end
+
       def filter_inactive(text)
         page.fill_in I18n.t("types.edit.form_configuration.filter_inactive"), with: text
       end
@@ -181,7 +191,7 @@ module Pages
       end
 
       def inactive_list
-        page.find(".type-form-configuration-page--inactive-list")
+        page.find_by_id("type-form-configuration-inactive-container").find(".Box > ul")
       end
 
       def row(key)

@@ -71,6 +71,18 @@ RSpec.describe "Reordering a form on its page", :js, :selenium do
       editor.expect_group_order("People", "Details", "Spare")
     end
 
+    it "shows the inactive list's empty state when the filter matches nothing" do
+      moving { editor.drag_attribute(:date, to_inactive: true) }
+      editor.expect_inactive(:date)
+
+      editor.filter_inactive("no such attribute")
+      editor.expect_inactive_empty_state
+
+      editor.filter_inactive("")
+      editor.expect_no_inactive_empty_state
+      editor.expect_inactive(:date)
+    end
+
     it "reorders groups by dragging, twice, and keeps the order" do
       moving { editor.drag_group("People", below: "Details") }
       editor.expect_group_order("Details", "People", "Spare")

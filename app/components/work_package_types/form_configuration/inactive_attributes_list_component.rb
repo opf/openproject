@@ -32,6 +32,7 @@ module WorkPackageTypes
   module FormConfiguration
     class InactiveAttributesListComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
       def initialize(context:, inactive_attributes:)
         super
@@ -44,17 +45,26 @@ module WorkPackageTypes
       def container_data
         {
           "test-selector": "type-form-configuration-inactive-container",
-          "admin--type-form-configuration--main-target": "inactiveContainer",
+          "admin--type-form-configuration--main-target": "inactiveContainer"
+        }
+      end
+
+      def list_data
+        {
           controller: "sortable-lists--list",
           sortable_lists__list_type_value: SortableTypes::INACTIVE_ATTRIBUTE,
           sortable_lists__list_accepted_type_value: SortableTypes::ATTRIBUTE,
-          sortable_lists__list_name_value: t("types.edit.form_configuration.inactive_attributes_heading"),
-          sortable_lists__list_rows_container_element: ".type-form-configuration-page--inactive-list"
+          sortable_lists__list_name_value: t("types.edit.form_configuration.inactive_attributes_heading")
         }
       end
 
       def item_data(attribute)
-        data = { attr_key: attribute[:key], attr_translation: attribute[:translation], attr_is_cf: attribute[:is_cf] }
+        data = {
+          attr_key: attribute[:key],
+          attr_translation: attribute[:translation],
+          attr_is_cf: attribute[:is_cf],
+          "filter--filter-list-target": "searchItem"
+        }
         return data if attribute[:id].blank?
 
         data.merge(

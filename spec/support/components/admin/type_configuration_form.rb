@@ -49,7 +49,7 @@ module Components
       end
 
       def inactive_drop
-        inactive_group.find("[data-test-selector='type-form-configuration-inactive-list']")
+        inactive_group.find(".Box > ul")
       end
 
       def expect_empty
@@ -248,13 +248,7 @@ module Components
       private
 
       def drop_container_for(target)
-        inactive_list_selector = "[data-test-selector='type-form-configuration-inactive-list']"
-
-        if target.has_css?(inactive_list_selector, wait: 0)
-          target.find(inactive_list_selector)
-        else
-          target.find(".Box > ul")
-        end
+        target.find(".Box > ul")
       end
 
       def displayed_relation_filter_label(relation_filter)

@@ -7238,6 +7238,7 @@ en:
         group_actions: "Section actions"
         group_name_label: "Section name"
         inactive_attributes_heading: "Inactive attributes"
+        inactive_drop_label: "Drop here to deactivate"
         invalid_attribute_groups: "The form payload is invalid."
         invalid_query: "The embedded query configuration is invalid."
         label_group: "Section"
