@@ -208,6 +208,9 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
+    replace_principal_references "CostEntry" => %i[logged_by_id user_id]
+
+    include_module "Costs::HasRates", into: %w[User PlaceholderUser]
     include_module "Projects::Costs", into: "Project"
     include_module "PermittedParams::Costs", into: "PermittedParams"
     include_module "WorkPackages::Costs", into: "WorkPackage"
@@ -435,6 +438,45 @@ module Costs
              writable: false
     end
 
+    extend_api_response(:v3, :work_packages, :work_package_sums) do
+      include ActionView::Helpers::NumberHelper
+
+      property :overall_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.overall_costs)
+               }
+
+      property :labor_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.labor_costs)
+               }
+
+      property :material_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.material_costs)
+               }
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
+      schema :overall_costs,
+             type: "String",
+             required: false,
+             writable: false
+
+      schema :labor_costs,
+             type: "String",
+             required: false,
+             writable: false
+
+      schema :material_costs,
+             type: "String",
+             required: false,
+             writable: false
+    end
+
     config.to_prepare do
       # Load Enumeration descendants due to STI
       TimeEntryActivity
@@ -465,6 +507,12 @@ module Costs
 
       ::Queries::Register.register(::Query) do
         select Costs::QueryCurrencySelect
+      end
+
+      ::Exports::Register.register do
+        formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
+        formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
+        formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       end
 
       ::Queries::Register.register(::ProjectQuery) do

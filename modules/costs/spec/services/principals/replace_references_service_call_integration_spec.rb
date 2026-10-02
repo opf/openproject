@@ -27,26 +27,44 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  module Formatters
-    class SpentUnits < ::Exports::Formatters::Default
-      def self.apply?(name, _export_format)
-        %i[costs_by_type spent_units].include?(name.to_sym)
-      end
 
-      def format(work_package, **)
-        cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
-        values = cost_helper.summarized_cost_entries.map do |kvp|
-          cost_type = kvp[0]
-          volume = kvp[1]
-          BigDecimal("1.0")
-          type_unit = volume.to_d == BigDecimal("1.0") ? cost_type.unit : cost_type.unit_plural
-          "#{volume} #{type_unit}"
-        end
-        return nil if values.empty?
+require "spec_helper"
+require Rails.root.join("spec/services/principals/replace_references_context")
 
-        values.join(", ")
-      end
+RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
+  subject(:service_call) { instance.call(from: principal, to: to_principal) }
+
+  shared_let(:other_user) { create(:user) }
+  shared_let(:principal) { create(:user) }
+  shared_let(:to_principal) { create(:user) }
+
+  let(:instance) do
+    described_class.new
+  end
+
+  context "with CostEntry" do
+    let(:cost_entry_attributes) do
+      { project_id: 1,
+        cost_type_id: 1,
+        units: 1,
+        spent_on: "date '2012-02-02'",
+        comments: "''",
+        blocked: false,
+        tyear: 2012,
+        tmonth: 2,
+        tweek: 5 }
+    end
+
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :user_id do
+      let(:attributes) { cost_entry_attributes.merge(logged_by_id: principal.id) }
+    end
+
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :logged_by_id do
+      let(:attributes) { cost_entry_attributes.merge(user_id: principal.id) }
     end
   end
 end
