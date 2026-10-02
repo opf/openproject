@@ -174,7 +174,6 @@ export default class MyWorkStackController extends Controller {
       businessHours: { daysOfWeek: this.workingDaysValue, startTime: '00:00', endTime: '24:00' },
       events: (_fetchInfo, successCallback) => successCallback(this.buildEvents()),
       eventContent: (info) => this.eventContent(info.event.extendedProps),
-      eventClick: (info) => this.handleEventClick(info.event.extendedProps, info.jsEvent),
       selectable: this.canCreateValue,
       select: (info) => this.newTimeEntry(info.startStr.slice(0, 10), this.selectedHours(info.start, info.end)),
     });
@@ -299,24 +298,12 @@ export default class MyWorkStackController extends Controller {
     if (entry) {
       render(renderTimeEntryCard(entry, this.pathHelperService), wrapper);
     } else if (allocation) {
-      render(renderAllocationCard(allocation, props.day as string, this.todayValue, this.pathHelperService), wrapper);
+      render(renderAllocationCard(allocation, props.day as string, this.todayValue), wrapper);
     } else {
       return undefined;
     }
 
     return { domNodes: [wrapper] };
-  }
-
-  private handleEventClick(props:Record<string, unknown>, jsEvent:MouseEvent):void {
-    const entry = props.entry as TimeEntryEvent|undefined;
-
-    // FullCalendar renders the event element itself as a bare <a>, so only a link that
-    // actually leads somewhere may suppress the dialog.
-    if (!entry || (jsEvent.target as HTMLElement).closest('a[href]')) {
-      return;
-    }
-
-    openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryEditDialog(entry.id)}?onlyMe=true`);
   }
 
   // A selection spans slots on an axis of hours logged, so its length is the duration to

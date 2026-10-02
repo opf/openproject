@@ -277,19 +277,6 @@ export default class MyWorkController extends Controller {
 
         this.calendar.setOption('defaultTimedEventDuration', this.DEFAULT_TIMED_EVENT_DURATION);
       },
-      eventClick: (info) => {
-        if (info.event.extendedProps.allocationId) {
-          return;
-        }
-
-        // A link in the card leads somewhere of its own, and the click can land on an icon
-        // inside it rather than on the anchor.
-        if ((info.jsEvent.target as HTMLElement).closest('a[href]')) {
-          return;
-        }
-
-        openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`);
-      },
       viewDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
       eventDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
       eventChange: () => { setTimeout(() => this.addTotalFooter(), 100); },
@@ -307,7 +294,7 @@ export default class MyWorkController extends Controller {
     if (info.event.extendedProps.allocationId) {
       const allocation = { ...info.event.extendedProps, title: info.event.title } as ResourceAllocationEvent;
 
-      return renderAllocationCard(allocation, info.event.startStr.slice(0, 10), this.todayValue, this.pathHelperService);
+      return renderAllocationCard(allocation, info.event.startStr.slice(0, 10), this.todayValue);
     }
 
     const entry = { ...info.event.extendedProps, id: info.event.id } as TimeEntryCard;
