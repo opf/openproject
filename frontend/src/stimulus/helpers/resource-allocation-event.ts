@@ -31,6 +31,7 @@ import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { calendarIconData, opPersonAssignedIconData, toDOMString } from '@openproject/octicons-angular';
 import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
+import type { TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
 // What FullCalendar::ResourceAllocationEvent serializes. The work package and project
 // attributes are left out for a work package the user cannot see.
@@ -53,6 +54,21 @@ export interface ResourceAllocationEvent {
   projectId?:number;
   projectIdentifier?:string;
   projectName?:string;
+}
+
+// A running timer has no final hours yet.
+export function remainingHours(
+  allocation:ResourceAllocationEvent,
+  timeEntries:Pick<TimeEntryEvent, 'start'|'hours'|'ongoing'|'workPackageId'>[],
+):number {
+  const day = allocation.start.slice(0, 10);
+  const logged = timeEntries
+    .filter((entry) => !entry.ongoing
+      && entry.workPackageId === allocation.workPackageId
+      && entry.start.slice(0, 10) === day)
+    .reduce((sum, entry) => sum + entry.hours, 0);
+
+  return Math.max(Math.round((allocation.hours - logged) * 100) / 100, 0);
 }
 
 const icon = (data:Parameters<typeof toDOMString>[0]) => unsafeHTML(toDOMString(data, 'small', {
