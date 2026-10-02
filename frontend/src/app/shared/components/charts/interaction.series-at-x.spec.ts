@@ -98,6 +98,8 @@ describe('seriesAtX', () => {
     expect(points.map((point) => point.reads())).toEqual([1, 1, 1, 0, 1, 0, 0, 0, 1]);
   });
 
+  // A gap holds its place on the axis -- chart.js skips a point whose value is null but still
+  // places it at its own x -- so the halving can narrow onto one and then step off it.
   it('steps off a gap the halving lands on', () => {
     const chart = {
       getSortedVisibleDatasetMetas: () => [

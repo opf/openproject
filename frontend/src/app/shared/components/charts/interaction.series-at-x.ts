@@ -100,6 +100,11 @@ function drawnFrom(points:Element[], from:number, step:number, useFinalPosition?
 // unordered dataset while it is updating, so one can never reach an event. A dataset with
 // nothing drawn in it is a different matter and is settled on the spot, there being no span
 // to place the cursor against.
+//
+// The halving reads a midpoint's x without asking whether it is drawn, which it can because a gap
+// keeps its place on the axis: chart.js skips a point whose value is null, and places it at its own
+// x all the same. A point whose x is the missing one parses to null instead, which leaves the
+// dataset marked unordered, and so it never arrives here.
 function runningIndex(meta:ChartMeta, x:number, useFinalPosition?:boolean):number {
   const points = meta.data;
   let low = drawnFrom(points, 0, 1, useFinalPosition);
