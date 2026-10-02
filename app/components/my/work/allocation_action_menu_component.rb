@@ -77,7 +77,7 @@ module My
           tag: :a,
           label: t("my.work.actions.assign_to_me"),
           href: assign_to_me_work_package_path(work_package),
-          content_arguments: { data: { "turbo-method" => :post } }
+          content_arguments: { data: { "turbo-method" => :post, "turbo-stream" => true } }
         ) do |item|
           item.with_leading_visual_icon(icon: :"op-person-assigned")
         end

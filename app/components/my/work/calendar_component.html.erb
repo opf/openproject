@@ -4,6 +4,7 @@
     <% calendar_page.with_row { render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
     <% calendar_page.with_row { render(My::Work::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
     <% calendar_page.with_row(classes: "op-fc-wrapper", data: { "my--work-target" => "calendar" }) %>
+    <% calendar_page.with_row { render(My::Work::EntryMenusComponent.new(time_entries:, allocations:)) } %>
 
     <% if mode != :day %>
       <% calendar_page.with_row do %>
