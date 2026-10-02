@@ -43,10 +43,10 @@ import { closestDragBlockingElement } from 'core-stimulus/helpers/interactive-el
 import {
   permittedDestinationsAllowDrop,
   isItemFromRoot,
-  sortableItemData,
+  sortableDragSourceData,
   sortableItemIdentity,
   type RootAwareChild,
-  type SortableItemData,
+  type SortableDragSourceData,
   type SortableListsRoot,
 } from './drag-and-drop';
 import {
@@ -403,8 +403,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return data;
   }
 
-  private getItemData():SortableItemData {
-    return sortableItemData({
+  private getItemData():SortableDragSourceData {
+    return sortableDragSourceData({
       itemId: this.idValue,
       type: this.typeValue,
       rootElement: this.root?.element ?? null,

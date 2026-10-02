@@ -73,7 +73,7 @@ describe('Sortable lists item controller', () => {
   let preventUnhandled:typeof preventUnhandledType;
   let setCustomNativeDragPreview:typeof setCustomNativeDragPreviewFn;
   let ItemController:typeof ItemControllerType;
-  let sortableItemData:typeof import('./drag-and-drop').sortableItemData;
+  let sortableDragSourceData:typeof import('./drag-and-drop').sortableDragSourceData;
   let sortableItemIdentity:typeof import('./drag-and-drop').sortableItemIdentity;
 
   interface TestItemController {
@@ -87,7 +87,7 @@ describe('Sortable lists item controller', () => {
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
     ({ default: ItemController } = await import('./item.controller'));
-    ({ sortableItemData, sortableItemIdentity } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData, sortableItemIdentity } = await import('./drag-and-drop'));
   });
 
   function controllerFor(element:HTMLElement) {
@@ -548,7 +548,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -564,7 +564,7 @@ describe('Sortable lists item controller', () => {
       element,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '123', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -581,7 +581,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -597,7 +597,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -613,7 +613,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(true);
@@ -631,7 +631,7 @@ describe('Sortable lists item controller', () => {
         element: targetElement,
         input: {} as never,
         source: {
-          data: sortableItemData({
+          data: sortableDragSourceData({
             type: 'item',
             itemId: '456',
             rootElement: root,
@@ -699,7 +699,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({
+        data: sortableDragSourceData({
           type: 'item',
           itemId: '456',
           rootElement: root,
@@ -719,7 +719,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
