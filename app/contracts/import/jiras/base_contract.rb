@@ -38,6 +38,9 @@ module Import
       validates :url, presence: true
 
       attribute :personal_access_token
+      attribute :auth_method
+      attribute :basic_auth_username
+      attribute :basic_auth_password
     end
   end
 end

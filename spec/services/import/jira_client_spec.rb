@@ -31,17 +31,77 @@
 require "spec_helper"
 
 RSpec.describe Import::JiraClient do
-  subject(:client) { described_class.new(url:, personal_access_token:) }
+  subject(:client) { described_class.new(url:, auth_method:, personal_access_token:, basic_auth_username:, basic_auth_password:) }
 
   let(:url) { "https://jira.example.com" }
+  let(:auth_method) { "bearer" }
   let(:personal_access_token) { "test-token" }
+  let(:basic_auth_username) { nil }
+  let(:basic_auth_password) { nil }
 
   describe "#initialize" do
-    context "when personal_access_token is nil" do
-      let(:personal_access_token) { nil }
+    context "with bearer auth" do
+      let(:auth_method) { "bearer" }
 
-      it "raises ApiError" do
-        expect { client }.to raise_error(Import::JiraClient::Error)
+      context "when personal_access_token is nil" do
+        let(:personal_access_token) { nil }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal_access_token/)
+        end
+      end
+
+      context "when personal_access_token is blank" do
+        let(:personal_access_token) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /personal_access_token/)
+        end
+      end
+
+      context "when personal_access_token is present" do
+        let(:personal_access_token) { "valid-token" }
+
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with basic auth" do
+      let(:auth_method) { "basic" }
+      let(:personal_access_token) { nil }
+      let(:basic_auth_username) { "user" }
+      let(:basic_auth_password) { "pass" }
+
+      context "when basic_auth_username is blank" do
+        let(:basic_auth_username) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic_auth_username/)
+        end
+      end
+
+      context "when basic_auth_password is blank" do
+        let(:basic_auth_password) { "" }
+
+        it "raises Error" do
+          expect { client }.to raise_error(Import::JiraClient::Error, /basic_auth_password/)
+        end
+      end
+
+      context "when both username and password are present" do
+        it "creates the client successfully" do
+          expect { client }.not_to raise_error
+        end
+      end
+    end
+
+    context "with unknown auth method" do
+      let(:auth_method) { "unknown" }
+
+      it "raises Error" do
+        expect { client }.to raise_error(Import::JiraClient::Error, /unknown_auth_method/)
       end
     end
   end

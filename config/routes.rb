@@ -1016,12 +1016,12 @@ Rails.application.routes.draw do
 
     namespace :import do
       get "/", to: redirect("/admin/import/jira")
-      resources :jira, controller: "/admin/import/jira/instances" do
+      resources :jira, controller: "/admin/import/jira" do
         collection do
-          post :test
+          post :test_connection
         end
         member do
-          delete :delete_token
+          delete :clear_credential
         end
         resources :run, controller: "/admin/import/jira/import_runs", module: :jiras, except: %i[new index] do
           member do
