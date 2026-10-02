@@ -27,7 +27,7 @@
 //++
 
 import {
-  Chart, ChartMeta, Element, InteractionItem, Interaction, InteractionModeFunction,
+  Chart, ChartMeta, Element, InteractionItem, Interaction, InteractionModeFunction, Plugin,
 } from 'chart.js';
 import { getRelativePosition } from 'chart.js/helpers';
 
@@ -37,6 +37,8 @@ declare module 'chart.js' {
   }
 }
 
+const MODE = 'series-at-x';
+
 // The built-in index mode reads the same array index from every dataset, which only lines up
 // when they share their x values. Series sampled at different rates need matching by position.
 // Series that don't span the same interval as currently hovered, should not be considered at all.
@@ -44,6 +46,10 @@ declare module 'chart.js' {
 // series spanning the same interval is only sampled once per day. While the sprint is running, the "remaining (projection)"
 // starts at the current point in time, which is where "remaining" ends. When hovering over "remaining",
 // the matching "guideline" should be found, but not the "remaining (projection)".
+//
+// Matching by position means reading each series in ascending x. SeriesAtXPlugin holds a chart to
+// that, and is registered from here rather than left to the caller, so that asking for the mode and
+// being held to its terms are the same act -- there is no way to take one without the other.
 export function seriesAtX(chart:Chart, position:{ x:number }, useFinalPosition?:boolean):InteractionItem[] {
   const items:InteractionItem[] = [];
 
@@ -90,9 +96,10 @@ function drawnFrom(points:Element[], from:number, step:number, useFinalPosition?
 // The ends are read first: they are the span the series runs over, which decides whether it counts
 // at all, and they seed the halving without a further read.
 //
-// A dataset chart.js has not ordered has no such pair and would be read wrongly rather than
-// slowly, so it is refused outright. Emptiness is settled first: a dataset standing in for
-// something drawn by other means carries no points, and is neither ordered nor needs to be.
+// That the order holds is not checked here: SeriesAtXPlugin refuses a chart carrying an
+// unordered dataset while it is updating, so one can never reach an event. A dataset with
+// nothing drawn in it is a different matter and is settled on the spot, there being no span
+// to place the cursor against.
 function runningIndex(meta:ChartMeta, x:number, useFinalPosition?:boolean):number {
   const points = meta.data;
   let low = drawnFrom(points, 0, 1, useFinalPosition);
@@ -100,11 +107,6 @@ function runningIndex(meta:ChartMeta, x:number, useFinalPosition?:boolean):numbe
 
   if (!low || !high) {
     return -1;
-  }
-
-  // eslint-disable-next-line no-underscore-dangle -- chart.js names it, and it is typed
-  if (!meta._sorted) {
-    throw new Error('The series-at-x interaction mode needs every dataset ordered by x');
   }
 
   if (x < low.x || x > high.x) {
@@ -133,5 +135,40 @@ function runningIndex(meta:ChartMeta, x:number, useFinalPosition?:boolean):numbe
   return x - left.x <= right.x - x ? left.index : right.index;
 }
 
-Interaction.modes['series-at-x'] = (chart, event, _options, useFinalPosition) =>
+Interaction.modes[MODE] = (chart, event, _options, useFinalPosition) =>
   seriesAtX(chart, getRelativePosition(event, chart), useFinalPosition);
+
+function usesSeriesAtX(chart:Chart):boolean {
+  const options = chart.options;
+
+  return [options.interaction?.mode, options.hover?.mode, options.plugins?.tooltip?.mode]
+    .some((mode) => mode === MODE);
+}
+
+// series-at-x requires the data to be ordered in ascending x order. The following holds a chart to that order
+// at the first moment the answer is knowable and before any cursor can arrive. chart.js writes +_sorted+ while parsing,
+// part way through an update, so the hooks before that one would see the metaset default and refuse every chart.
+// All data sets are checked regardless of whether they are hidden or not. But datasets with empty data are exempted.
+export const SeriesAtXPlugin:Plugin = {
+  id: MODE,
+
+  beforeDatasetsUpdate(chart:Chart) {
+    if (!usesSeriesAtX(chart)) {
+      return;
+    }
+
+    chart.data.datasets.forEach((_dataset, index) => {
+      const meta = chart.getDatasetMeta(index);
+
+      // eslint-disable-next-line no-underscore-dangle -- chart.js names it, and it is typed
+      if (meta.data.length > 0 && !meta._sorted) {
+        throw new Error(`The ${MODE} interaction mode needs every dataset ordered by x, and "${
+          meta.label ?? index}" is not`);
+      }
+    });
+  },
+};
+
+// Registered here, with the interaction mode, so that the two (the order enforcement and the interaction mode)
+// cannot be taken apart.
+Chart.register(SeriesAtXPlugin);

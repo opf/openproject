@@ -27,19 +27,20 @@
 //++
 
 import { Chart } from 'chart.js';
-import { seriesAtX } from './interaction.series-at-x';
+import { SeriesAtXPlugin, seriesAtX } from './interaction.series-at-x';
 
 function element(x:number, skip = false) {
   return { getProps: () => ({ x, skip }) };
 }
 
-// Remaining runs to the middle of the chart, where the projection takes over.
+// Remaining runs to the middle of the chart, where the projection takes over. The order the mode
+// reads these in is SeriesAtXPlugin's to hold, so the metas carry no verdict about it.
 function chartStub():Chart {
   return {
     getSortedVisibleDatasetMetas: () => [
-      { index: 0, _sorted: true, data: [element(0), element(25), element(50)] },
-      { index: 1, _sorted: true, data: [element(50), element(75), element(100)] },
-      { index: 2, _sorted: true, data: [element(0), element(50), element(100)] },
+      { index: 0, data: [element(0), element(25), element(50)] },
+      { index: 1, data: [element(50), element(75), element(100)] },
+      { index: 2, data: [element(0), element(50), element(100)] },
     ],
   } as unknown as Chart;
 }
@@ -62,26 +63,16 @@ describe('seriesAtX', () => {
   });
 
   // The non-working days stand in with a dataset of no points, so that the legend can toggle what
-  // a plugin paints. Nothing is ordered there, and nothing needs to be.
-  it('passes over a dataset with no points, ordered or not', () => {
+  // a plugin paints. There is no span to place the cursor against.
+  it('passes over a dataset with no points', () => {
     const chart = {
       getSortedVisibleDatasetMetas: () => [
-        { index: 0, _sorted: false, data: [] },
-        { index: 1, _sorted: true, data: [element(0), element(50)] },
+        { index: 0, data: [] },
+        { index: 1, data: [element(0), element(50)] },
       ],
     } as unknown as Chart;
 
     expect(seriesAtX(chart, { x: 25 }).map((item) => item.datasetIndex)).toEqual([1]);
-  });
-
-  it('refuses a dataset chart.js has not ordered, rather than reading it wrongly', () => {
-    const chart = {
-      getSortedVisibleDatasetMetas: () => [
-        { index: 0, _sorted: false, data: [element(50), element(0)] },
-      ],
-    } as unknown as Chart;
-
-    expect(() => seriesAtX(chart, { x: 25 })).toThrow(/ordered by x/);
   });
 
   it('reads a sorted series a few points deep rather than end to end', () => {
@@ -120,10 +111,72 @@ describe('seriesAtX', () => {
   it('ignores skipped points when deciding where a series runs', () => {
     const chart = {
       getSortedVisibleDatasetMetas: () => [
-        { index: 0, _sorted: true, data: [element(0), element(90, true)] },
+        { index: 0, data: [element(0), element(90, true)] },
       ],
     } as unknown as Chart;
 
     expect(seriesAtX(chart, { x: 80 })).toEqual([]);
+  });
+});
+
+describe('SeriesAtXPlugin', () => {
+  interface Meta { label?:string, sorted:boolean, points:number, hidden?:boolean }
+
+  function updating(metas:Meta[], options:unknown = { interaction: { mode: 'series-at-x' } }):() => void {
+    const metaAt = (index:number) => ({
+      index,
+      label: metas[index].label,
+      hidden: metas[index].hidden === true,
+      _sorted: metas[index].sorted,
+      data: new Array<unknown>(metas[index].points).fill(element(0)),
+    });
+
+    const chart = {
+      options,
+      data: { datasets: metas.map(() => ({})) },
+      getDatasetMeta: metaAt,
+      // Offered so that a plugin reading only what is on screen would pass the hidden case below.
+      getSortedVisibleDatasetMetas: () => metas.map((_meta, index) => metaAt(index)).filter((meta) => !meta.hidden),
+    } as unknown as Chart;
+
+    return () => SeriesAtXPlugin.beforeDatasetsUpdate?.(chart, { mode: 'default' }, {});
+  }
+
+  const unordered = [{ sorted: true, points: 3 }, { label: 'Guideline', sorted: false, points: 2 }];
+
+  it('lets a chart whose datasets are all ordered update', () => {
+    expect(updating([{ sorted: true, points: 3 }, { sorted: true, points: 2 }])).not.toThrow();
+  });
+
+  // Refusing here rather than on the cursor's arrival: the mode would read such a dataset wrongly
+  // rather than slowly, and would do it on every movement.
+  it('refuses a chart carrying a dataset chart.js has not ordered, naming it', () => {
+    expect(updating(unordered)).toThrow(/"Guideline"/);
+  });
+
+  // The plugin is registered globally alongside the mode, so it meets every chart in the
+  // application and has to leave alone the ones reading their series some other way.
+  it('passes over a chart that does not ask for the mode', () => {
+    expect(updating(unordered, { interaction: { mode: 'nearest' } })).not.toThrow();
+    expect(updating(unordered, {})).not.toThrow();
+  });
+
+  // Hover and the tooltip fall back to interaction, so a chart naming the mode on one of those
+  // alone still means it.
+  it('holds a chart that asks for the mode on its hover or its tooltip', () => {
+    expect(updating(unordered, { hover: { mode: 'series-at-x' } })).toThrow(/ordered by x/);
+    expect(updating(unordered, { plugins: { tooltip: { mode: 'series-at-x' } } })).toThrow(/ordered by x/);
+  });
+
+  // chart.js never parses a dataset with nothing in it, so it stays unordered for good.
+  it('passes over a dataset with no points, which is never marked ordered', () => {
+    expect(updating([{ sorted: false, points: 0 }, { sorted: true, points: 2 }])).not.toThrow();
+  });
+
+  // Hidden datasets are parsed like the rest, so the toggle that reveals one finds it already held
+  // to the order rather than breaking the chart at that point.
+  it('holds a dataset hidden from the legend to the same order', () => {
+    expect(updating([{ sorted: true, points: 3 }, { label: 'Hidden', sorted: false, points: 2, hidden: true }]))
+      .toThrow(/ordered by x/);
   });
 });
