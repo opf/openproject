@@ -36,7 +36,7 @@ module My
       include My::WorkHelper
 
       options time_entries: [],
-              allocations: [],
+              allocations: nil,
               entries: :all,
               mode: :week,
               date: Date.current
@@ -62,23 +62,11 @@ module My
       end
 
       def grouped_time_entries
-        @grouped_time_entries ||= group_by_section(time_entries, &:spent_on)
-      end
-
-      def grouped_allocations
-        @grouped_allocations ||= group_by_section(allocations) { |event| event.scheduled_entry.allocated_on }
-      end
-
-      def group_by_section(items)
-        items
-          .group_by { |item| section_for(yield(item)) }
+        @grouped_time_entries ||= time_entries
+          .group_by { |entry| mode == :month ? entry.spent_on.beginning_of_week(week_start_day) : entry.spent_on }
           .tap do |hash|
             hash.default_proc = ->(h, k) { h[k] = [] }
           end
-      end
-
-      def section_for(day)
-        mode == :month ? day.beginning_of_week(week_start_day) : day
       end
 
       def date_title(date)

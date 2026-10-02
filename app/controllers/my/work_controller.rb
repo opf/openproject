@@ -147,7 +147,7 @@ module My
 
     def load_entries(dates)
       @time_entries = entries == :allocated ? [] : TimeEntries::TrackedTimeFor.new(user: User.current, dates:).items
-      @allocations = entries == :logged ? [] : ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:).events
+      @allocations = ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:) unless entries == :logged
     end
 
     def list_view_component
