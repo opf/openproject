@@ -60,6 +60,13 @@ import type { ActionEvent } from '@hotwired/stimulus';
 import type ItemControllerType from './item.controller';
 import type { SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
+import { type SelectionItem } from 'core-common/batch-selection';
+import { DragSession, type DragSessionHost } from './drag-session';
+import { type Mock } from 'vitest';
+
+// The method is a mock property rather than a method signature, so tests
+// may read the spy without binding it.
+type FakeRoot = Omit<SortableListsRoot, 'beginDrag'> & { beginDrag:Mock<(itemElement:HTMLElement) => DragSession> };
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -67,7 +74,7 @@ describe('Sortable lists item controller', () => {
   let preventUnhandled:typeof preventUnhandledType;
   let setCustomNativeDragPreview:typeof setCustomNativeDragPreviewFn;
   let ItemController:typeof ItemControllerType;
-  let sortableItemData:typeof import('./drag-and-drop').sortableItemData;
+  let sortableDragSourceData:typeof import('./drag-and-drop').sortableDragSourceData;
   let sortableItemIdentity:typeof import('./drag-and-drop').sortableItemIdentity;
 
   interface TestItemController {
@@ -81,7 +88,7 @@ describe('Sortable lists item controller', () => {
     ({ preventUnhandled } = await import('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled'));
     ({ setCustomNativeDragPreview } = await import('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview'));
     ({ default: ItemController } = await import('./item.controller'));
-    ({ sortableItemData, sortableItemIdentity } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData, sortableItemIdentity } = await import('./drag-and-drop'));
   });
 
   function controllerFor(element:HTMLElement) {
@@ -95,33 +102,71 @@ describe('Sortable lists item controller', () => {
   }
 
   function fakeRoot(
-    element = document.createElement('div'),
-    { busy = false, ownerDestination = null, ownerRowsContainer = () => null }:{
+    element:HTMLElement = document.createElement('div'),
+    {
+      busy = false,
+      ownerDestination = null,
+      ownerRowsContainer = () => null,
+      maxBatchSize = 0,
+      prospectiveMembers = (item:HTMLElement) => [item],
+      frozenMembers = ():SelectionItem[]|null => null,
+      // Two owned lists by default: with one, a confined member would permit
+      // every list and read as unrestricted.
+      ownedDestinations = [ownerDestination, { type: 'item', id: 'elsewhere' }]
+        .filter((destination):destination is DestinationIdentity => destination !== null),
+    }:{
       busy?:boolean;
       ownerDestination?:DestinationIdentity|null;
       ownerRowsContainer?:(itemElement:HTMLElement) => HTMLElement|null;
+      maxBatchSize?:number;
+      prospectiveMembers?:(itemElement:HTMLElement) => HTMLElement[];
+      frozenMembers?:(itemElement:HTMLElement) => SelectionItem[]|null;
+      ownedDestinations?:DestinationIdentity[];
     } = {},
-  ):SortableListsRoot {
+  ):FakeRoot {
     Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
+    const host:DragSessionHost = {
+      rootElement: element,
+      maxBatchSize,
+      prospectiveMembers,
+      frozenMembers,
+      ownedDestinations: () => ownedDestinations,
+      liveOwnerDestinationOf: () => ownerDestination,
+    };
+
+    // Mirrors the real root: one session at a time, a refused one not kept.
+    let dragSession:DragSession|null = null;
+    const beginDrag = vi.fn((itemElement:HTMLElement) => {
+      dragSession?.end();
+      const session = new DragSession(host, itemElement);
+      dragSession = session.refused ? null : session;
+      return session;
+    });
+
     return {
       element,
       busy,
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(ownerRowsContainer),
-      freezeDragBatch: vi.fn(() => 1),
-      markDragBatch: vi.fn(),
       ownerDestinationOf: vi.fn(() => ownerDestination),
-      // Mirrors the real root's fallback for a batchless drag: the item's own
-      // mobility attribute is the whole answer.
-      dragPermittedDestinations: vi.fn((itemElement:HTMLElement) => (
-        itemElement.getAttribute('data-sortable-lists--item-mobility-value') === 'confined'
-          ? [ownerDestination].filter((destination):destination is DestinationIdentity => destination !== null)
-          : null
-      )),
-      dragRefused: vi.fn(() => false),
-      externalDragItems: vi.fn((item:HTMLElement) => [item]),
+      beginDrag,
+      get dragSession():DragSession|null {
+        return dragSession;
+      },
     };
+  }
+
+  // Pragmatic asks canDrag before it builds payloads, renders the preview or
+  // starts the drag; the item begins its session there. The pointer lands on
+  // nothing, so the point check passes.
+  function permitDrag(element:HTMLElement, root:FakeRoot):DragSession {
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
+    })).toBe(true);
+
+    return root.beginDrag.mock.results.at(-1)!.value as DragSession;
   }
 
   function connectedControllerFor(
@@ -504,7 +549,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -520,7 +565,7 @@ describe('Sortable lists item controller', () => {
       element,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '123', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -537,7 +582,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -553,7 +598,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -569,7 +614,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(true);
@@ -587,7 +632,7 @@ describe('Sortable lists item controller', () => {
         element: targetElement,
         input: {} as never,
         source: {
-          data: sortableItemData({
+          data: sortableDragSourceData({
             type: 'item',
             itemId: '456',
             rootElement: root,
@@ -655,7 +700,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({
+        data: sortableDragSourceData({
           type: 'item',
           itemId: '456',
           rootElement: root,
@@ -675,7 +720,7 @@ describe('Sortable lists item controller', () => {
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        data: sortableDragSourceData({ type: 'item', itemId: '456', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
@@ -772,11 +817,13 @@ describe('Sortable lists item controller', () => {
     element.setAttribute('data-sortable-lists--item-external-url-value', 'http://example.org/work_packages/123');
     element.setAttribute('data-sortable-lists--item-label-value', 'Card');
 
+    const root = fakeRoot(undefined, { prospectiveMembers: () => [element, mate] });
     connectedControllerFor(element, {
       externalUrl: 'http://example.org/work_packages/123',
       label: 'Card',
-      root: { ...fakeRoot(), externalDragItems: vi.fn(() => [element, mate]) },
+      root,
     });
+    permitDrag(element, root);
 
     const externalData = vi.mocked(draggable).mock.lastCall?.[0].getInitialDataForExternal?.(draggableArgs(element));
 
@@ -869,13 +916,33 @@ describe('Sortable lists item controller', () => {
     element.appendChild(text);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
 
-    const root = fakeRoot();
-    root.dragRefused = vi.fn(() => true);
+    const root = fakeRoot(undefined, {
+      maxBatchSize: 1,
+      prospectiveMembers: (item) => [item, document.createElement('article')],
+    });
     connectedControllerFor(element, { root });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
       element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
     })).toBe(false);
+  });
+
+  it('does not begin a session when the pointer is on an interactive descendant', () => {
+    const element = document.createElement('article');
+    const button = document.createElement('button');
+    element.appendChild(button);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(button);
+
+    const root = fakeRoot(undefined, {
+      maxBatchSize: 1,
+      prospectiveMembers: (item) => [item, document.createElement('article')],
+    });
+    connectedControllerFor(element, { root });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
+    })).toBe(false);
+    expect(root.beginDrag).not.toHaveBeenCalled();
   });
 
   it('refuses to drag before the root reference is connected', () => {
@@ -901,12 +968,11 @@ describe('Sortable lists item controller', () => {
   });
 
   it('includes the root-resolved permitted destinations in the payload', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
-    connectedControllerFor(element, {
-      root: fakeRoot(root, { ownerDestination: { type: 'sprint', id: '7' } }),
-      mobility: 'confined',
-    });
+    const root = fakeRoot(rootElement, { ownerDestination: { type: 'sprint', id: '7' } });
+    connectedControllerFor(element, { root, mobility: 'confined' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: [{ type: 'sprint', id: '7' }] }));
@@ -915,12 +981,15 @@ describe('Sortable lists item controller', () => {
   // A confined item still defers to the root: the batch it would carry may
   // reach every list, and the item's own mobility must not narrow that.
   it('preserves an unrestricted permitted-destinations answer from the root', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
-    connectedControllerFor(element, {
-      root: { ...fakeRoot(root), dragPermittedDestinations: vi.fn(() => null) },
-      mobility: 'confined',
+    // The one owned list is the item's own, so its confinement restricts nothing.
+    const root = fakeRoot(rootElement, {
+      ownerDestination: { type: 'sprint', id: '7' },
+      ownedDestinations: [{ type: 'sprint', id: '7' }],
     });
+    connectedControllerFor(element, { root, mobility: 'confined' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: null }));
@@ -940,13 +1009,17 @@ describe('Sortable lists item controller', () => {
   // item's own mobility: a free card dragging a confined batch-mate is pinned
   // to the mate's list, which need not be its own.
   it('carries the batch-aware permitted destinations of the root in the payload', () => {
-    const root = document.createElement('div');
+    const rootElement = document.createElement('div');
     const element = document.createElement('article');
+    const mate = document.createElement('article');
+    mate.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
     const mateDestination = { type: 'sprint', id: '9' };
-    connectedControllerFor(element, {
-      root: { ...fakeRoot(root), dragPermittedDestinations: vi.fn(() => [mateDestination]) },
-      mobility: 'free',
+    const root = fakeRoot(rootElement, {
+      ownerDestination: mateDestination,
+      prospectiveMembers: () => [element, mate],
     });
+    connectedControllerFor(element, { root, mobility: 'free' });
+    permitDrag(element, root);
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
       .toEqual(expect.objectContaining({ permittedDestinations: [mateDestination] }));
@@ -1148,19 +1221,11 @@ describe('Sortable lists item controller', () => {
       await ctx.nextFrame();
 
       const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.connectRoot({
-        element: row,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 3),
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
+      const root = fakeRoot(row, {
+        frozenMembers: () => ['1', '2', '3'].map((id) => ({ type: 'work_package', id })),
       });
+      controller.connectRoot(root);
+      permitDrag(row, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(article),
@@ -1241,19 +1306,11 @@ describe('Sortable lists item controller', () => {
       await ctx.nextFrame();
 
       const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.connectRoot({
-        element: row,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 3),
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
+      const root = fakeRoot(row, {
+        frozenMembers: () => ['1', '2', '3'].map((id) => ({ type: 'work_package', id })),
       });
+      controller.connectRoot(root);
+      permitDrag(row, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(article),
@@ -1647,29 +1704,51 @@ describe('Sortable lists item controller', () => {
       expect(document.activeElement).toBe(item);
     });
 
-    it('marks the batch on drag start', async () => {
+    // Pragmatic dispatches onDragStart a frame after the preview; the root's
+    // monitor starts the session then, so an item controller replaced in
+    // between cannot strand the batch. The item itself marks nothing.
+    it('leaves drag-start marking to the root while a session exists', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const markDragBatch = vi.fn();
-      const root:SortableListsRoot = {
-        element: item,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch: vi.fn(() => 1),
-        markDragBatch,
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
-      };
+      const root = fakeRoot(item);
 
       controller.connectRoot(root);
+      const session = permitDrag(item, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
 
-      expect(markDragBatch).toHaveBeenCalled();
+      expect(session.phase).toBe('prospective');
+      expect(item).not.toHaveAttribute('data-dragging');
+    });
+
+    // canDrag refuses every drag without a root, so the item's own marking
+    // only ever runs when the root went away after permitting the drag.
+    it('marks and clears itself when the root disconnected after canDrag', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+      const root = fakeRoot(item);
+      controller.connectRoot(root);
+      permitDrag(item, root);
+
+      controller.disconnectRoot();
+      vi.mocked(draggable).mock.lastCall?.[0].onDragStart?.(dragEventPayload(item));
+      expect(item).toHaveAttribute('data-dragging', 'source');
+
+      vi.mocked(draggable).mock.lastCall?.[0].onDrop?.(dragEventPayload(item));
+      expect(item).not.toHaveAttribute('data-dragging');
+    });
+
+    it('leaves a mark the root set alone on drop while the session lives', async () => {
+      const item = await renderItem({ mobility: 'free' });
+      const controller = controllerFor(item);
+      const root = fakeRoot(item);
+      controller.connectRoot(root);
+      permitDrag(item, root);
+      item.setAttribute('data-dragging', 'source');
+
+      vi.mocked(draggable).mock.lastCall?.[0].onDrop?.(dragEventPayload(item));
+
+      expect(item).toHaveAttribute('data-dragging', 'source');
     });
 
     // Pragmatic invokes onGenerateDragPreview before onDragStart, so the
@@ -1678,29 +1757,18 @@ describe('Sortable lists item controller', () => {
     it('freezes the batch at the top of onGenerateDragPreview, before the preview renders', async () => {
       const item = await renderItem({ mobility: 'free' });
       const controller = controllerFor(item);
-      const freezeDragBatch = vi.fn(() => 1);
-      const root:SortableListsRoot = {
-        element: item,
-        busy: false,
-        moveInDirection: vi.fn(),
-        moveAvailability: vi.fn(() => null),
-        ownerRowsContainer: vi.fn(() => null),
-        freezeDragBatch,
-        markDragBatch: vi.fn(),
-        dragPermittedDestinations: vi.fn(() => null),
-        ownerDestinationOf: vi.fn(() => null),
-        dragRefused: vi.fn(() => false),
-        externalDragItems: vi.fn((element:HTMLElement) => [element]),
-      };
+      const root = fakeRoot(item);
 
       controller.connectRoot(root);
+      const session = permitDrag(item, root);
 
       vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
         ...dragEventPayload(item),
         nativeSetDragImage: vi.fn(),
       });
 
-      expect(freezeDragBatch).toHaveBeenCalledWith(item);
+      expect(root.beginDrag).toHaveBeenCalledWith(item);
+      expect(session.phase).toBe('frozen');
     });
   });
 });
