@@ -33,17 +33,24 @@ module EnterpriseHelper
   # Renders the enterprise banner component with a guard for the given feature key.
   # If the feature is not enabled, it will not render the given block.
   #
-  # Parameters:
-  # - feature_key: The key that identifies the specific enterprise feature.
-  # - inactive_guard: A boolean flag determining whether the guard should be active
+  # @param feature_key [Symbol] The key identifying the specific enterprise feature.
+  # @param inactive_guard [Boolean] Determines whether the guard should be active
   #   or bypassed. If set to `true`, the guard is bypassed and only the block is executed.
   #   Defaults to `false`.
-  # - **args: Additional keyword arguments to be passed to the banner component.
+  # @param inline_fallback [Boolean] Enables the banner to switch to the inline variant if true. In that case,
+  #   the block is yielded as well.
+  #   Defaults to `false`.
+  # @param args [Hash] Additional keyword arguments to be passed to the banner component.
   #
-  # Yields:
-  # - Executes the provided block within the guard's context.
-  def with_enterprise_banner_guard(feature_key, inactive_guard: false, **args)
+  # @yield: Executes the provided block within the guard's context.
+  def with_enterprise_banner_guard(feature_key,
+                                   inactive_guard: false,
+                                   inline_fallback: false,
+                                   **args)
     if inactive_guard
+      yield
+    elsif inline_fallback
+      concat(render(EnterpriseEdition::BannerComponent.new(feature_key, **args, variant: :inline)))
       yield
     else
       concat(render(EnterpriseEdition::BannerComponent.new(feature_key, **args)))
