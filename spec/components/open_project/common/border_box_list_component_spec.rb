@@ -588,6 +588,95 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
     end
   end
 
+  describe "header title form" do
+    def render_list(state:, collapsible: false, title_form: true)
+      render_inline(described_class.new(container: "hdr-title-form", collapsible:)) do |list|
+        list.with_header(
+          title: "Details",
+          state:,
+          count: true,
+          show_drag_handle: true,
+          drag_handle_arguments: { "aria-label": "Drag to reorder" }
+        ) do |header|
+          header.with_label { "Draft" }
+          header.with_action_button { "Enable all" }
+          header.with_menu { |menu| menu.with_item(label: "Rename") }
+          header.with_description { "Shown in both states" }
+          if title_form
+            header.with_title_form(url: "/sections/1", label: "Section name", input_name: :name,
+                                   cancel_arguments: { href: "/sections/1/cancel" })
+          end
+        end
+        list.with_item { "row" }
+      end
+    end
+
+    it "shows the title and builds no form by default", :aggregate_failures do
+      render_list(state: :show)
+
+      expect(page).to have_heading("Details")
+      expect(page).to have_no_css("h4.sr-only", visible: :all)
+      expect(page).to have_no_css("form")
+      expect(page).to have_button(accessible_name: "Drag to reorder")
+      expect(page).to have_css(".Counter")
+      expect(page).to have_primer_label("Draft")
+      expect(page).to have_button("Enable all")
+      expect(page).to have_button(accessible_name: "Actions")
+      expect(page).to have_text("Shown in both states")
+    end
+
+    it "replaces the title with the form in the edit state", :aggregate_failures do
+      render_list(state: :edit)
+
+      expect(page).to have_css("h4.Box-title.sr-only", text: "Details", visible: :all)
+      expect(page).to have_field("Section name")
+      expect(page).to have_button("Save")
+      expect(page).to have_link("Cancel", href: "/sections/1/cancel")
+      expect(page).to have_no_button(accessible_name: "Drag to reorder")
+      expect(page).to have_no_css(".op-border-box-list-header_with-drag-handle")
+      expect(page).to have_no_css(".Counter")
+      expect(page).to have_no_primer_label("Draft")
+      expect(page).to have_no_button("Enable all")
+      expect(page).to have_no_button(accessible_name: "Actions")
+      expect(page).to have_text("Shown in both states")
+    end
+
+    it "keeps the list labeled by its header while editing" do
+      rendered = render_list(state: :edit)
+
+      labelledby = rendered.css("ul").first["aria-labelledby"]
+      expect(rendered.css("##{labelledby}").text).to include("Details")
+    end
+
+    it "raises for an unsupported state" do
+      expect { render_list(state: :bogus) }
+        .to raise_error Primer::FetchOrFallbackHelper::InvalidValueError
+    end
+
+    it "raises in the edit state without a title form" do
+      expect { render_list(state: :edit, title_form: false) }
+        .to raise_error(ArgumentError, /with_title_form/)
+    end
+
+    it "raises in the edit state on a collapsible header" do
+      expect { render_list(state: :edit, collapsible: true) }
+        .to raise_error(ArgumentError, /collapsible/)
+    end
+
+    it "raises in the edit state together with breadcrumbs" do
+      expect do
+        render_inline(described_class.new(container: "hdr-title-form-crumbs")) do |list|
+          list.with_header(title: "Details", state: :edit) do |header|
+            header.with_breadcrumbs { |crumbs| crumbs.with_item(href: "/a") { "A" } }
+            header.with_title_form(url: "/sections/1", label: "Section name",
+                                   cancel_arguments: { href: "/sections/1/cancel" })
+          end
+          list.with_item { "row" }
+        end
+      end.to raise_error(ArgumentError, /breadcrumbs/)
+    end
+  end
+
   describe "header collapsible behavior" do
     it "sets collapsible_id from list and footer ids" do
       rendered = render_inline(

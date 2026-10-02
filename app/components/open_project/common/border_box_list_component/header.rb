@@ -43,6 +43,10 @@ module OpenProject
         include OpPrimer::ComponentHelpers
         include Primer::AttributesHelper
         include HasMenu
+        include Primer::FetchOrFallbackHelper
+
+        STATE_DEFAULT = :show
+        STATE_OPTIONS = [STATE_DEFAULT, :edit].freeze
 
         DEFAULT_ACTION_SCHEME = :default
 
@@ -141,6 +145,23 @@ module OpenProject
           Primer::Beta::Label.new(**system_arguments)
         end
 
+        # @!parse
+        #   # Declares the standard inline title form: a text field, Save and
+        #   # Cancel. Declare it whenever the title can be edited; it is
+        #   # rendered only in `state: :edit`, where it replaces the visible
+        #   # title. The title stays as a visually hidden heading, and the
+        #   # drag handle, count, label, action buttons and menu are not
+        #   # rendered. Not available on collapsible headers or together with
+        #   # breadcrumbs.
+        #   #
+        #   # @param arguments [Hash] see {TitleForm#initialize}.
+        #   # @return [ViewComponent::Slot]
+        #   def with_title_form(**arguments)
+        #   end
+        renders_one :title_form, ->(**arguments) do
+          TitleForm.new(**arguments)
+        end
+
         attr_reader :count,
                     :count_label,
                     :count_arguments,
@@ -150,10 +171,8 @@ module OpenProject
                     :interactive,
                     :collapsed,
                     :collapsible,
-                    :show_drag_handle,
+                    :state,
                     :drag_handle_arguments
-
-        alias_method :show_drag_handle?, :show_drag_handle
 
         attr_writer :collapsible_id
 
@@ -176,6 +195,8 @@ module OpenProject
         # @param collapsible [Boolean] whether the header renders a collapsible
         #   toggle. Defaults to `false`. Pass `true` to render a header
         #   with a toggle button.
+        # @param state [Symbol] `:show` (default) renders the title; `:edit`
+        #   renders the form declared with `with_title_form` in its place.
         # @param show_drag_handle [Boolean] whether the header renders a leading
         #   drag handle. Defaults to `false`.
         # @param drag_handle_arguments [Hash] forwarded to `Primer::OpenProject::DragHandle`.
@@ -191,6 +212,7 @@ module OpenProject
           interactive: false,
           collapsed: false,
           collapsible: false,
+          state: STATE_DEFAULT,
           show_drag_handle: false,
           drag_handle_arguments: {},
           **system_arguments
@@ -208,6 +230,7 @@ module OpenProject
           @collapsible_id = list_id
           @collapsed = collapsed
           @collapsible = collapsible
+          @state = ActiveSupport::StringInquirer.new(fetch_or_fallback(STATE_OPTIONS, state, STATE_DEFAULT).to_s)
           @show_drag_handle = show_drag_handle
           @drag_handle_arguments = drag_handle_arguments
           @system_arguments = system_arguments
@@ -216,6 +239,16 @@ module OpenProject
         # @return [Boolean] whether a collapsible toggle should be rendered.
         def collapsible?
           collapsible
+        end
+
+        # @return [Boolean] whether the title form replaces the title.
+        def editing?
+          state.edit?
+        end
+
+        # @return [Boolean] whether the leading drag handle is rendered.
+        def show_drag_handle?
+          @show_drag_handle && !editing?
         end
 
         # @return [Boolean] whether a title is present, from either the slot
@@ -233,6 +266,11 @@ module OpenProject
         def before_render
           raise ArgumentError, "A header title is required: pass `title:` or use the `with_title` slot." unless title?
           raise ArgumentError, "Breadcrumbs are not supported on collapsible headers." if breadcrumbs? && collapsible?
+          return unless editing?
+
+          raise ArgumentError, "The edit state needs a title form: use the `with_title_form` slot." unless title_form?
+          raise ArgumentError, "The edit state is not supported on collapsible headers." if collapsible?
+          raise ArgumentError, "The edit state cannot be combined with breadcrumbs." if breadcrumbs?
         end
 
         # Resolves inferred counts after the list slots have been captured.

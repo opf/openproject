@@ -64,6 +64,13 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
     <% end %>
+  <% elsif editing? %>
+    <% grid.with_area(:heading) do %>
+      <%= render(Primer::BaseComponent.new(**title_arguments, tag: title_tag, classes: hidden_title_classes)) do %>
+        <%= title_content %>
+      <% end %>
+      <%= title_form %>
+    <% end %>
   <% else %>
     <% grid.with_area(:heading) do %>
       <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-border-box-list-header--heading-line")) do %>
@@ -90,13 +97,13 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% if label? %>
+  <% if label? && !editing? %>
     <% grid.with_area(:label) do %>
       <%= label %>
     <% end %>
   <% end %>
 
-  <% if actions? %>
+  <% if actions? && !editing? %>
     <% grid.with_area(:actions) do %>
       <% actions.each do |action| %>
         <%= action %>
@@ -104,7 +111,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% if menu? %>
+  <% if menu? && !editing? %>
     <% grid.with_area(:menu) do %>
       <%= menu %>
     <% end %>

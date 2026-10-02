@@ -60,10 +60,13 @@ module OpenProject
       #   # @param show_drag_handle [Boolean] whether the header renders a
       #   #   leading drag handle.
       #   # @param drag_handle_arguments [Hash] forwarded to `Primer::OpenProject::DragHandle`.
+      #   # @param state [Symbol] `:show` (default) or `:edit`. See
+      #   #   {Header#initialize}.
       #   # @param system_arguments [Hash] forwarded to {Header}. List wiring
       #   #   arguments are supplied internally.
       #   # @return [ViewComponent::Slot]
-      #   def with_header(title: nil, show_drag_handle: false, drag_handle_arguments: {}, **system_arguments, &block)
+      #   def with_header(title: nil, state: :show, show_drag_handle: false, drag_handle_arguments: {},
+      #                   **system_arguments, &block)
       #   end
       renders_one :header, ->(**system_arguments) {
         system_arguments = system_arguments.except(:id, :list_id)
@@ -207,8 +210,10 @@ module OpenProject
       #   when the list has no items. `:static` (default) renders the generic
       #   empty state unless a custom one is declared via `with_empty_state`.
       #   `:none` suppresses the empty state entirely, including any declared
-      #   slot. `:dynamic` reserves client-side lifecycle handling for
-      #   sortable and filtered lists; no markup is added by this param yet.
+      #   slot. `:dynamic` wraps the list in the `border-box-list` controller
+      #   and parks the empty state in a template, so that it is shown and
+      #   removed on the client when sorting or filtering empties or fills
+      #   the list.
       # @param interactive [Boolean] whether dynamic list updates should be
       #   announced politely to assistive technology. This affects the counter
       #   and empty-state content.
