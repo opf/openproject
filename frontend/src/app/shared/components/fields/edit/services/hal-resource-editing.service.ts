@@ -89,7 +89,7 @@ export class ResourceChangesetCommit<T extends HalResource = HalResource> {
   }
 }
 
-export type ResourceChangesetClass = new(...args:any[]) => ResourceChangeset;
+export type ResourceChangesetClass = new(...args:ConstructorParameters<typeof ResourceChangeset>) => ResourceChangeset;
 
 @Injectable()
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {

@@ -63,7 +63,6 @@ export class UserEditFieldComponent extends EditFieldComponent implements OnInit
       // We fake a HalResource here because we're using a plain JS object, but the schema loading and editing
       // is part of the older HalResource stack
       const newUser = { ...user };
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       this.value = this.halResourceService.createHalResourceOfType('user', newUser);
     } else {
       this.value = null;
