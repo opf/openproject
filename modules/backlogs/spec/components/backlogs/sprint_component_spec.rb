@@ -224,8 +224,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       context "when the sprint is in planning" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
-                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                          status: "in_planning")
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
         end
 
         it "renders the status label" do
@@ -235,9 +234,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       context "when the sprint is active" do
         let(:sprint) do
-          create(:sprint, project:, name: "Sprint 1",
-                          start_date: Date.yesterday, finish_date: Date.tomorrow,
-                          status: "active")
+          create(:sprint, :active, project:, name: "Sprint 1",
+                                   start_date: Date.yesterday, finish_date: Date.tomorrow)
         end
 
         it "renders the status label" do
@@ -247,9 +245,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       context "when the sprint is completed" do
         let(:sprint) do
-          create(:sprint, project:, name: "Sprint 1",
-                          start_date: 2.weeks.ago, finish_date: 1.week.ago,
-                          status: "completed")
+          create(:sprint, :completed, project:, name: "Sprint 1",
+                                      start_date: 2.weeks.ago, finish_date: 1.week.ago)
         end
 
         it "renders the status label" do
@@ -329,8 +326,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       context "when the sprint is in planning with date range set" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
-                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                          status: "in_planning")
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
         end
 
         it "renders the start-sprint link enabled" do
@@ -354,8 +350,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       context "when the sprint is in planning without start date" do
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
-                          start_date: nil,
-                          status: "in_planning")
+                          start_date: nil)
         end
 
         it "renders the start-sprint button as disabled" do
@@ -396,9 +391,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       context "when the sprint is active" do
         let(:sprint) do
-          create(:sprint, project:, name: "Sprint 1",
-                          start_date: Date.yesterday, finish_date: Date.tomorrow,
-                          status: "active")
+          create(:sprint, :active, project:, name: "Sprint 1",
+                                   start_date: Date.yesterday, finish_date: Date.tomorrow)
         end
         let!(:task_board) { create(:board_grid_with_query, project:, linked: sprint) }
 
@@ -477,8 +471,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       context "when another active sprint blocks starting this one" do
         let(:sprint) do
           create(:sprint, project: sprint_owner, name: "Sprint 1",
-                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                          status: "in_planning")
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
         end
 
         context "when the sprint is native to the project" do
@@ -486,7 +479,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
           context "with another active sprint in the same project" do
             let!(:active_sprint) do
-              create(:sprint, project:, status: "active",
+              create(:sprint, :active, project:,
                               start_date: Date.yesterday, finish_date: Date.tomorrow)
             end
 
@@ -519,7 +512,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
           context "when the owning project has another active sprint not shared with this project" do
             let!(:invisible_active_sprint) do
-              create(:sprint, project: sprint_owner, status: "active",
+              create(:sprint, :active, project: sprint_owner,
                               start_date: Date.yesterday, finish_date: Date.tomorrow)
             end
 
@@ -536,7 +529,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
             context "and this project also has its own active sprint" do
               let!(:own_active_sprint) do
-                create(:sprint, project:, status: "active",
+                create(:sprint, :active, project:,
                                 start_date: Date.yesterday, finish_date: Date.tomorrow)
               end
 
@@ -559,7 +552,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
                                types: [type_feature, type_task])
             end
             let!(:invisible_active_sprint) do
-              create(:sprint, project: sprint_owner, status: "active",
+              create(:sprint, :active, project: sprint_owner,
                               start_date: Date.yesterday, finish_date: Date.tomorrow)
             end
 
@@ -579,7 +572,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           let(:project) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
           let(:sprint_owner) { create(:project, sprint_sharing: "no_sharing", types: [type_feature, type_task]) }
           let!(:active_shared_sprint) do
-            create(:sprint, project: sprint_owner, status: "active",
+            create(:sprint, :active, project: sprint_owner,
                             start_date: Date.yesterday, finish_date: Date.tomorrow)
           end
           let!(:work_package_for_active_shared_sprint) do
@@ -590,8 +583,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           context "when rendering this project's own sprint" do
             let(:sprint) do
               create(:sprint, project:, name: "Own Sprint",
-                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                              status: "in_planning")
+                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
             end
 
             it "disables the start-sprint button" do
@@ -609,8 +601,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           context "when rendering another leftover sprint from the same owning project" do
             let(:sprint) do
               create(:sprint, project: sprint_owner, name: "Second Leftover Sprint",
-                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                              status: "in_planning")
+                              start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
             end
             let!(:work_package) do
               create(:work_package, project:, type: type_feature, status: default_status,
@@ -636,8 +627,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         let(:project) { create(:project, parent:, sprint_sharing: "receive_shared", types: [type_feature, type_task]) }
         let(:sprint) do
           create(:sprint, project:, name: "Sprint 1",
-                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                          status: "in_planning")
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
         end
 
         # This testcase is reproducible on the UI, only if the owned sprint has work packages associated to it.
@@ -664,8 +654,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         context "when the sprint is received from the sharer" do
           let(:sprint) do
             create(:sprint, project: parent, name: "Shared Sprint",
-                            start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
-                            status: "in_planning")
+                            start_date: Date.tomorrow, finish_date: Date.tomorrow + 7)
           end
 
           it "renders the start-sprint link enabled" do
