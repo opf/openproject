@@ -66,6 +66,9 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
 
   @LazyInject() wpListService:WorkPackagesListService;
 
+  // Table cells are too narrow for inline radio buttons and checkboxes
+  public readonly allowsInlineOptions = false;
+
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);
 

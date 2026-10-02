@@ -149,6 +149,55 @@ RSpec.describe CustomFields::CustomFieldRendering do
       end
     end
 
+    describe "list custom fields displayed inline" do
+      let(:values_builder) { instance_double(ActionView::Helpers::FormBuilder) }
+      let(:custom_field) { build(:custom_field, field_format: "list", multi_value:, display_as:) }
+
+      before do
+        allow(builder).to receive(:fields_for).with(:custom_field_values).and_yield(values_builder)
+        allow(form_instance).to receive_messages(custom_fields: [custom_field])
+        allow(input_class).to receive(:new)
+      end
+
+      shared_examples "renders using" do |expected_class_name|
+        let(:input_class) { expected_class_name.constantize }
+
+        it "renders using #{expected_class_name}" do
+          form_instance.render_custom_fields(form: builder)
+
+          expect(input_class).to have_received(:new).with(values_builder, custom_field:, object: model)
+        end
+      end
+
+      context "with a single-select list displayed as radio buttons" do
+        let(:multi_value) { false }
+        let(:display_as) { "radio_buttons" }
+
+        it_behaves_like "renders using", "CustomFields::Inputs::RadioButtonList"
+      end
+
+      context "with a multi-select list displayed as checkboxes" do
+        let(:multi_value) { true }
+        let(:display_as) { "checkboxes" }
+
+        it_behaves_like "renders using", "CustomFields::Inputs::CheckBoxList"
+      end
+
+      context "with a multi-select list set to radio buttons" do
+        let(:multi_value) { true }
+        let(:display_as) { "radio_buttons" }
+
+        it_behaves_like "renders using", "CustomFields::Inputs::MultiSelectList"
+      end
+
+      context "with a single-select list displayed as a dropdown" do
+        let(:multi_value) { false }
+        let(:display_as) { "dropdown" }
+
+        it_behaves_like "renders using", "CustomFields::Inputs::SingleSelectList"
+      end
+    end
+
     describe "comment fields" do
       let(:comments_builder) { instance_double(ActionView::Helpers::FormBuilder) }
       let(:custom_field) { build(:custom_field, :string) }

@@ -185,7 +185,8 @@ module API
             values_callback: list_schemas_values_callback(custom_field),
             value_representer: CustomOptions::CustomOptionRepresenter,
             link_factory: list_schemas_link_callback,
-            required: custom_field.is_required
+            required: custom_field.is_required,
+            options: list_schema_options(custom_field)
           )
         end
 
@@ -384,6 +385,12 @@ module API
           {
             rtl: ("true" if custom_field.content_right_to_left)
           }
+        end
+
+        def list_schema_options(custom_field)
+          if custom_field.display_as_checkboxes? || custom_field.display_as_radio_buttons?
+            { displayAs: custom_field.display_as }
+          end
         end
 
         def list_schemas_values_callback(custom_field)

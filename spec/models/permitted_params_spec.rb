@@ -436,7 +436,7 @@ RSpec.describe PermittedParams do
     let(:attribute) { :custom_field }
 
     let(:hash) do
-      { "editable" => "0", "admin_only" => "0" }
+      { "editable" => "0", "admin_only" => "0", "display_as" => "radio_buttons" }
     end
 
     it_behaves_like "allows params"

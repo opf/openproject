@@ -26,23 +26,35 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
-import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  InlineOptionsEditFieldDirective,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/inline-options-edit-field.directive';
 
-export interface IEditFieldType extends IFieldType<EditFieldComponent> {
-  new():EditFieldComponent;
-}
-
-@Injectable({
-  providedIn: 'root',
+@Component({
+  templateUrl: './checkboxes-edit-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
-  public getClassForSchema(resourceType:string, fieldName:string, schema:IFieldSchema, allowInlineOptions = true):IEditFieldType {
-    const displayAs = allowInlineOptions ? (schema.options as { displayAs?:string }|undefined)?.displayAs : undefined;
-    const displayAsClass = displayAs ? this.classes[displayAs] : undefined;
+export class CheckboxesEditFieldComponent extends InlineOptionsEditFieldDirective {
+  public isChecked(option:HalResource):boolean {
+    return this.selected.some((value) => value.href === option.href);
+  }
 
-    return displayAsClass ?? this.getSpecificClassFor(resourceType, fieldName, schema.type);
+  public toggle(option:HalResource, checked:boolean):void {
+    this.values[this.name] = this.availableOptions.filter((candidate) => {
+      if (candidate.href === option.href) {
+        return checked;
+      }
+
+      return this.isChecked(candidate);
+    });
+  }
+
+  private get selected():HalResource[] {
+    const current = this.values[this.name] as HalResource[]|null|undefined;
+
+    return (current ?? []).filter((value) => !!value?.href);
   }
 }

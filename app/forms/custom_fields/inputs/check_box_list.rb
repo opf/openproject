@@ -28,22 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
-
-    def set_attributes(params)
-      super
-
-      reset_display_as_after_multi_value_toggle
+class CustomFields::Inputs::CheckBoxList < CustomFields::Inputs::Base::Input
+  form do |custom_value_form|
+    custom_value_form.check_box_group(include_hidden: true, **group_attributes) do |group|
+      @custom_field.custom_options.each do |custom_option|
+        group.check_box(value: custom_option.id,
+                        label: custom_option.value,
+                        checked: selected?(custom_option))
+      end
     end
+  end
 
-    # Toggling "Allow multi-select" falls back to the dropdown instead of failing on a
-    # display setting the admin did not touch. Conflicting values set together still fail validation.
-    def reset_display_as_after_multi_value_toggle
-      return unless model.multi_value_changed? && !model.display_as_changed?
+  def invalid?
+    custom_values.any? { |custom_value| custom_value.errors.any? }
+  end
 
-      model.display_as = nil if model.display_as_multi_value_mismatch
+  def validation_message
+    custom_values.map { |custom_value| custom_value.errors.full_messages }.join(", ") if invalid?
+  end
+
+  private
+
+  def group_attributes
+    base_input_attributes
+      .except(:value)
+      .merge(data: { "custom-field-id": @custom_field.id, "test-selector": test_selector })
+  end
+
+  def custom_values
+    @custom_values ||= @object.custom_values_for_custom_field(@custom_field)
+  end
+
+  def selected?(custom_option)
+    selected_values = custom_values.filter_map { |custom_value| custom_value.value&.to_i }
+
+    if selected_values.any?
+      selected_values.include?(custom_option.id)
+    else
+      custom_option.default_value?
     end
   end
 end

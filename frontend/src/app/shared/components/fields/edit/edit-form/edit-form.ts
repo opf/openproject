@@ -71,6 +71,9 @@ export abstract class EditForm<T extends HalResource = HalResource> {
   // Whether this form exists in edit mode
   public editMode = false;
 
+  // Whether list fields may render their options inline (radio buttons, checkboxes)
+  public readonly allowsInlineOptions:boolean = true;
+
   protected constructor(public injector:Injector) {
   }
 

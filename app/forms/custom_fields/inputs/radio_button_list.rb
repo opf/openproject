@@ -28,22 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+class CustomFields::Inputs::RadioButtonList < CustomFields::Inputs::Base::Input
+  form do |custom_value_form|
+    custom_value_form.radio_button_group(**group_attributes) do |group|
+      unless required?
+        group.radio_button(value: "", label: I18n.t(:label_none), checked: selected_id.nil?)
+      end
 
-    def set_attributes(params)
-      super
-
-      reset_display_as_after_multi_value_toggle
+      @custom_field.custom_options.each do |custom_option|
+        group.radio_button(value: custom_option.id,
+                           label: custom_option.value,
+                           checked: custom_option.id == selected_id)
+      end
     end
+  end
 
-    # Toggling "Allow multi-select" falls back to the dropdown instead of failing on a
-    # display setting the admin did not touch. Conflicting values set together still fail validation.
-    def reset_display_as_after_multi_value_toggle
-      return unless model.multi_value_changed? && !model.display_as_changed?
+  private
 
-      model.display_as = nil if model.display_as_multi_value_mismatch
+  def group_attributes
+    base_input_attributes
+      .except(:value)
+      .merge(data: { "custom-field-id": @custom_field.id, "test-selector": test_selector })
+  end
+
+  def selected_id
+    if custom_value.value.present?
+      custom_value.value.to_i
+    else
+      @custom_field.default_value&.to_i
     end
   end
 end

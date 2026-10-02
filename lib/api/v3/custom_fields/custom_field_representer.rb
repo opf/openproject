@@ -47,6 +47,9 @@ module API
 
         property :is_required
         property :is_multi_value, getter: ->(*) { multi_value }
+        property :display_as,
+                 if: ->(*) { list? },
+                 getter: ->(*) { display_as.presence || "dropdown" }
 
         date_time_property :created_at
         date_time_property :updated_at
