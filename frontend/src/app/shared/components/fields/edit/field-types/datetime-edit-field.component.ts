@@ -41,7 +41,7 @@ const DATETIME_LOCAL_INPUT_FORMAT = 'YYYY-MM-DDTHH:mm';
            [attr.required]="required"
            [disabled]="inFlight"
            [(ngModel)]="value"
-           (keydown)="handler.handleUserKeydown($event)"
+           (keydown)="handleKeydown($event)"
            [id]="handler.htmlId" />
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +62,17 @@ export class DateTimeEditFieldComponent extends EditFieldComponent {
 
   public set value(input:string) {
     this.datetimeResource[this.name] = this.parseValue(input);
+  }
+
+  // Chrome does not submit the surrounding form on Enter in a datetime-local input.
+  public handleKeydown(event:KeyboardEvent):void {
+    if (event.key === 'Enter' && !this.handler.inEditMode) {
+      event.preventDefault();
+      void this.handler.handleUserSubmit();
+      return;
+    }
+
+    void this.handler.handleUserKeydown(event);
   }
 
   private get datetimeResource():Record<string, string|null|undefined> {

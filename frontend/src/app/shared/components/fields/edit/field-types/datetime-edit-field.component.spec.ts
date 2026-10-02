@@ -41,6 +41,15 @@ import { DateTimeEditFieldComponent } from 'core-app/shared/components/fields/ed
 describe('DateTimeEditFieldComponent', () => {
   const fieldName = 'customField1';
   let resource:Record<string, unknown>;
+  let inEditMode:boolean;
+  let handleUserKeydown:ReturnType<typeof vi.fn>;
+  let handleUserSubmit:ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    inEditMode = false;
+    handleUserKeydown = vi.fn();
+    handleUserSubmit = vi.fn().mockResolvedValue(undefined);
+  });
 
   async function render(value:string|null, required = false):Promise<{ component:DateTimeEditFieldComponent, input:HTMLInputElement }> {
     resource = { [fieldName]: value };
@@ -59,7 +68,12 @@ describe('DateTimeEditFieldComponent', () => {
         {
           provide: OpEditingPortalHandlerToken,
           useValue: {
-            fieldName, htmlId: 'datetime-field', inFlight: false, handleUserKeydown: vi.fn(),
+            fieldName,
+            htmlId: 'datetime-field',
+            inFlight: false,
+            inEditMode,
+            handleUserKeydown,
+            handleUserSubmit,
           },
         },
         {
@@ -114,6 +128,26 @@ describe('DateTimeEditFieldComponent', () => {
 
     component.value = '2026-10-01';
     expect(resource[fieldName]).toBeNull();
+  });
+
+  it('submits on Enter, which Chrome does not do for datetime-local inputs on its own', async () => {
+    const { input } = await render('2026-10-01T12:30:00.000Z');
+
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }));
+
+    expect(handleUserSubmit).toHaveBeenCalledTimes(1);
+    expect(handleUserKeydown).not.toHaveBeenCalled();
+  });
+
+  it('leaves other keys and Enter in edit mode (create form) to the handler', async () => {
+    inEditMode = true;
+    const { input } = await render(null);
+
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+
+    expect(handleUserSubmit).not.toHaveBeenCalled();
+    expect(handleUserKeydown).toHaveBeenCalledTimes(2);
   });
 
   it('marks the input as required for required fields', async () => {
