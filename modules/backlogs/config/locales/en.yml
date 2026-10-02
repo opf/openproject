@@ -335,7 +335,6 @@ en:
         invalid_target_type: "list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id."
         missing_target: "list_type or list_id must be present."
 
-
   ee:
     features:
       multiple_active_sprints: "Multiple active sprints"
