@@ -37,17 +37,22 @@ module Import
     end
 
     def perform(jira_import_id)
-      Rails.logger.info "Fetching priorities started"
-      prepare_jira_import_ivars(jira_import_id)
-      fetch_data
-      Rails.logger.info "Fetching priorities finished"
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_object_type:priority") do
+        Rails.logger.debug "Fetching priorities started"
+        prepare_jira_import_ivars(jira_import_id)
+        fetch_data
+        Rails.logger.debug "Fetching priorities finished"
+      end
     end
 
     private
 
     def fetch_data
       priorities_upsert_data = @jira_client.priorities.map do |payload|
-        Rails.logger.debug { "Fetched priority '#{payload['name']}'" }
+        Rails.logger.tagged("jira_object_id_or_name:#{payload['name']}") do
+          Rails.logger.debug "Fetched priority"
+        end
         {
           payload:,
           origin_id: payload.fetch("id"),

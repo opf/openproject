@@ -32,6 +32,7 @@ module Import
   class JiraCreateProjectWorkPackagesJob < ProgressableJob
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
+    include Import::JiraJobUtils
 
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
@@ -40,7 +41,10 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
-      Rails.logger.info "Creating work packages finished"
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
+                          "jira_project_id:#{jira_project_key(arguments[1])}", "jira_object_type:project") do
+        Rails.logger.debug "Creating work packages finished"
+      end
     end
 
     def text
@@ -64,35 +68,39 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
-      Rails.logger.info "Creating work packages started"
-      @jira_import = Import::JiraImport.find(jira_import_id)
-      jira = @jira_import.jira
-      @jira_id = jira.id
-      @system_user = User.system
-      @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
-      jira_project = Import::JiraProject.find(jira_project_id)
+      jira_project = jira_project(jira_project_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_project_id:#{jira_project.payload['key']}", "jira_object_type:project") do
+        Rails.logger.debug "Creating work packages started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
+        jira = @jira_import.jira
+        @jira_id = jira.id
+        @system_user = User.system
+        @jira_client = Import::JiraClient.new(url: jira.url, personal_access_token: jira.personal_access_token)
 
-      @project_role = Role.find_by!(name: "JiraMember")
-      @custom_field_registry = build_custom_field_registry
+        @project_role = Role.find_by!(name: "JiraMember")
+        @custom_field_registry = build_custom_field_registry
 
-      @project = JiraOpenProjectReference.find_by!(
-        jira_entity_id: jira_project.id,
-        jira_entity_class: jira_project.class.to_s
-      ).op_leg
+        @project = JiraOpenProjectReference.find_by!(
+          jira_entity_id: jira_project.id,
+          jira_entity_class: jira_project.class.to_s
+        ).op_leg
 
-      update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
+        update_custom_fields_in_project(@project, jira_project, @custom_field_registry)
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraIssue.where(jira_import_id:, jira_project_id:),
-        cursor: cursor
-      )
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraIssue.where(jira_import_id:, jira_project_id:),
+          cursor: cursor
+        )
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
-      Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{_jira_import_id}",
+                          "jira_project_id:#{jira_project_key(_jira_project_id)}",
                           "jira_issue_key:#{jira_issue_key}") do
         Journal::NotificationConfiguration.with(false) do
           Journal::EventConfiguration.with(false) do
@@ -160,27 +168,29 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      Rails.logger.debug { "Creating type '#{issue_type['name']}'" }
-      type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
-      uses_existing = true
+      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{issue_type['name']}") do
+        Rails.logger.debug "Creating type"
+        type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
+        uses_existing = true
 
-      if type.blank?
-        service_call = WorkPackageTypes::CreateService
-                         .new(user: @system_user)
-                         .call(name: issue_type["name"])
-        unless service_call.success?
-          Rails.logger.error service_call.message
-          raise service_call.message
+        if type.blank?
+          service_call = WorkPackageTypes::CreateService
+                           .new(user: @system_user)
+                           .call(name: issue_type["name"])
+          unless service_call.success?
+            Rails.logger.error service_call.message
+            raise service_call.message
+          end
+
+          type = service_call.result
+          uses_existing = false
         end
 
-        type = service_call.result
-        uses_existing = false
+        enable_type(project, type)
+        jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
+        create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
+        type
       end
-
-      enable_type(project, type)
-      jira_issue_type = Import::JiraIssueType.find_by!(origin_id: issue_type["id"], jira_import_id: @jira_import.id)
-      create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
-      type
     end
 
     def enable_type(project, type)
@@ -196,24 +206,28 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      Rails.logger.debug { "Creating status '#{issue_status['name']}'" }
-      status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
-      uses_existing = true
-      if status.blank?
-        is_closed = issue_status.dig("statusCategory", "key") == "done"
-        status = Status.create!(name: issue_status["name"], is_closed: is_closed)
-        uses_existing = false
+      Rails.logger.tagged("jira_object_type:status", "jira_object_id_or_name:#{issue_status['name']}") do
+        Rails.logger.debug "Creating status"
+        status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
+        uses_existing = true
+        if status.blank?
+          is_closed = issue_status.dig("statusCategory", "key") == "done"
+          status = Status.create!(name: issue_status["name"], is_closed: is_closed)
+          uses_existing = false
+        end
+        jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
+        create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
+        status
       end
-      jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)
-      create_reference!(op_leg: status, jira_leg: jira_status, jira_import: @jira_import, uses_existing:)
-      status
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
-      if issue_priority.present?
-        Rails.logger.debug { "Creating priority '#{issue_priority['name']}'" }
+      return if issue_priority.blank?
+
+      Rails.logger.tagged("jira_object_type:priority", "jira_object_id_or_name:#{issue_priority['name']}") do
+        Rails.logger.debug "Creating priority"
         priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
         uses_existing = true
         if priority.blank?
@@ -228,15 +242,17 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def update_workflows(type)
-      statuses = Status.all
-      row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
-      status_params = statuses.to_h { |status| [status.id.to_s, row] }
-      call = Workflows::BulkUpdateService
-                .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
-                .call(status_params)
-      if call.failure?
-        Rails.logger.error call.message
-        raise call.message
+      Rails.logger.tagged("jira_object_type:issueType", "jira_object_id_or_name:#{type.name}") do
+        statuses = Status.all
+        row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
+        status_params = statuses.to_h { |status| [status.id.to_s, row] }
+        call = Workflows::BulkUpdateService
+                  .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
+                  .call(status_params)
+        if call.failure?
+          Rails.logger.error call.message
+          raise call.message
+        end
       end
     end
 
@@ -341,7 +357,7 @@ module Import
 
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
-        Rails.logger.tagged("comment_created:#{comment['created']}") do
+        Rails.logger.tagged("jira_object_type:comment", "jira_object_id_or_name:#{comment['created']}") do
           Rails.logger.debug "Adding comment"
           key = comment.dig("author", "key")
           Rails.logger.tagged("author:#{key}") do
@@ -375,22 +391,24 @@ module Import
     def find_user(jira_user_key)
       return if jira_user_key.blank?
 
-      jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
-      if jira_user
-        ref = JiraOpenProjectReference.find_by(
-          jira_entity_class: "Import::JiraUser",
-          jira_entity_id: jira_user.id
-        )
-        if ref.present?
-          ref.op_leg
+      Rails.logger.tagged("jira_object_type:user", "jira_object_id_or_name:#{jira_user_key}") do
+        jira_user = Import::JiraUser.find_by(origin_id: jira_user_key, jira_import: @jira_import)
+        if jira_user
+          ref = JiraOpenProjectReference.find_by(
+            jira_entity_class: "Import::JiraUser",
+            jira_entity_id: jira_user.id
+          )
+          if ref.present?
+            ref.op_leg
+          else
+            log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
+            Rails.logger.error log_message
+            raise log_message
+          end
         else
-          log_message = "Reference was expected to be found, but it was not. JiraUser: #{jira_user.inspect}"
-          Rails.logger.error log_message
-          raise log_message
+          Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+          DeletedUser.first
         end
-      else
-        Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
-        DeletedUser.first
       end
     end
   end

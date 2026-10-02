@@ -30,10 +30,17 @@
 
 module Import
   class JiraStagedImportJob < ApplicationJob
-    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def perform(batch, _context)
       jira_import = Import::JiraImport.find(batch.properties[:jira_import_id])
+      Rails.logger.tagged("batch_id:#{batch.id}", "jira_import_id:#{jira_import.id}") do
+        perform_stage(batch, jira_import)
+      end
+    end
 
+    private
+
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
+    def perform_stage(batch, jira_import)
       if batch.succeeded?
         # happens when jobs are not progressable and can't react to impot_aborting by discarding themselves.
         if jira_import.in_state?(:import_aborting)
