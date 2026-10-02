@@ -31,6 +31,14 @@
 module Import
   class JiraCreateUsersJob < ProgressableJob
     include JiraOpenProjectReferenceCreation
+    include JiraJobUtils
+
+    on_complete do
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{arguments[0]}",
+                          "jira_object_type:user") do
+        Rails.logger.debug "Creating users finished"
+      end
+    end
 
     def text
       I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
@@ -50,27 +58,36 @@ module Import
     end
 
     def build_enumerator(jira_import_id, cursor:)
-      @jira_import = Import::JiraImport.find(jira_import_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_object_type:user") do
+        Rails.logger.debug "Creating users started"
+        @jira_import = Import::JiraImport.find(jira_import_id)
 
-      cursor ||= @jira_import.get_job_cursor(self)
-      enumerator_builder.active_record_on_records(
-        Import::JiraUser.where(jira_import_id:),
-        cursor: cursor
-      )
+        cursor ||= @jira_import.get_job_cursor(self)
+        enumerator_builder.active_record_on_records(
+          Import::JiraUser.where(jira_import_id:),
+          cursor: cursor
+        )
+      end
     end
 
-    def each_iteration(jira_user, _jira_import_id)
-      Journal::NotificationConfiguration.with(false) do
-        Journal::EventConfiguration.with(false) do
-          import_user(jira_user)
-          @jira_import.set_job_cursor(self, jira_user.id)
+    def each_iteration(jira_user, jira_import_id)
+      Rails.logger.tagged("batch_id:#{batch_id}", "jira_import_id:#{jira_import_id}",
+                          "jira_object_type:user", "jira_object_id_or_name:#{jira_user.origin_id}") do
+        Journal::NotificationConfiguration.with(false) do
+          Journal::EventConfiguration.with(false) do
+            import_user(jira_user)
+            @jira_import.set_job_cursor(self, jira_user.id)
+          end
         end
       end
     end
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def import_user(jira_user)
+      Rails.logger.debug "Creating user"
       # A retried run re-processes every Jira user. Without this the OP user created by the
       # previous attempt is seen as a login/email collision and a duplicate is created.
       already_imported = Import::JiraOpenProjectReference.exists?(
@@ -107,8 +124,10 @@ module Import
       if taken_errors.any? { |e| e.attribute == :mail }
         user = jira_user.try_to_find_existing_op_user_by_mail
         if user.blank?
-          raise "Existing User is expected to be found, because there was an email " \
-                "collision. See attributes: #{user_attrs.except(:password)}"
+          message = "Existing User is expected to be found, because there was an email " \
+                    "collision. See attributes: #{user_attrs.except(:password)}"
+          Rails.logger.error message
+          raise message
         end
 
         if jira_user_already_referenced?(user)
@@ -124,13 +143,16 @@ module Import
         return
       end
 
-      raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
+      message = "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
+      Rails.logger.error message
+      raise message
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
       unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.origin_id)
       if reusable_user
+        Rails.logger.warn "Email '#{user_attrs[:mail]}' already in use by an unreferenced OpenProject user, reusing it"
         create_reference!(
           op_leg: reusable_user,
           jira_leg: jira_user,
@@ -142,13 +164,16 @@ module Import
           mail: unique_mail,
           login: resolve_jira_login(user_attrs[:login], jira_user.origin_id)
         }
+        Rails.logger.warn "Email '#{user_attrs[:mail]}' already taken, using '#{unique_mail}' instead"
 
         new_call = Users::CreateService
          .new(user: User.system, contract_class: EmptyContract)
          .call(user_attrs.merge(overrides))
         unless new_call.success?
-          raise "Error creating a user with modified email '#{unique_mail}' " \
-                "(#{user_attrs.except(:password)}): #{new_call.message}"
+          message = "Error creating a user with modified email '#{unique_mail}' " \
+                    "(#{user_attrs.except(:password)}): #{new_call.message}"
+          Rails.logger.error message
+          raise message
         end
 
         create_reference!(
@@ -160,14 +185,18 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def handle_referenced_user_login_conflict(user_attrs, jira_user)
       unique_login = resolve_jira_login(user_attrs[:login], jira_user.origin_id)
+      Rails.logger.warn "Login '#{user_attrs[:login]}' already taken, using '#{unique_login}' instead"
       new_call = Users::CreateService
                    .new(user: User.system, contract_class: EmptyContract)
                    .call(user_attrs.merge(login: unique_login))
       unless new_call.success?
-        raise "Error creating a user with modified login '#{unique_login}' " \
-              "(#{user_attrs.except(:password)}): #{new_call.message}"
+        message = "Error creating a user with modified login '#{unique_login}' " \
+                  "(#{user_attrs.except(:password)}): #{new_call.message}"
+        Rails.logger.error message
+        raise message
       end
 
       create_reference!(
@@ -186,35 +215,40 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def import_user_group(group_name, jira_user)
-      call = Groups::CreateService
-               .new(user: User.system, contract_class: EmptyContract)
-               .call(name: group_name)
-      call.on_success do |result|
-        create_reference!(
-          op_leg: result.result,
-          jira_leg: nil,
-          jira_import: @jira_import,
-          uses_existing: false
-        )
+      Rails.logger.tagged("jira_object_type:group", "jira_object_id_or_name:#{group_name}") do
+        Rails.logger.debug "Creating group"
+        call = Groups::CreateService
+                 .new(user: User.system, contract_class: EmptyContract)
+                 .call(name: group_name)
+        call.on_success do |result|
+          create_reference!(
+            op_leg: result.result,
+            jira_leg: nil,
+            jira_import: @jira_import,
+            uses_existing: false
+          )
+        end
+        call.on_failure do |_result|
+          handle_create_group_failure(call, group_name)
+        end
+        member_id = Import::JiraOpenProjectReference.where(
+          jira_import_id: @jira_import.id,
+          jira_entity_id: jira_user.id,
+          jira_entity_class: jira_user.class.to_s
+        ).pick(:op_entity_id)
+        group = Group.find_by!(name: group_name)
+        Groups::AddUsersService
+          .new(group, current_user: User.system)
+          .call(ids: [member_id], send_notifications: false)
       end
-      call.on_failure do |_result|
-        handle_create_group_failure(call, group_name)
-      end
-      member_id = Import::JiraOpenProjectReference.where(
-        jira_import_id: @jira_import.id,
-        jira_entity_id: jira_user.id,
-        jira_entity_class: jira_user.class.to_s
-      ).pick(:op_entity_id)
-      group = Group.find_by!(name: group_name)
-      Groups::AddUsersService
-        .new(group, current_user: User.system)
-        .call(ids: [member_id], send_notifications: false)
     end
 
     # rubocop:disable-next Metrics/AbcSize
     def handle_create_group_failure(call, group_name)
       if call.errors.find { |error| error.type == :taken }.blank?
-        raise "Error creating a group #{group_name}: #{call.message}"
+        message = "Error creating a group #{group_name}: #{call.message}"
+        Rails.logger.error message
+        raise message
       end
 
       group = Group.where(name: group_name).first
@@ -235,7 +269,9 @@ module Import
           uses_existing: true
         )
       else
-        raise "Existing Group is expected to be found. Group name: #{group_name}"
+        message = "Existing Group is expected to be found. Group name: #{group_name}"
+        Rails.logger.error message
+        raise message
       end
     end
 
