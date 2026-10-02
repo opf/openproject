@@ -61,7 +61,7 @@ rows = runs.filter_map do |date, run_id|
   next if job_id.empty?
 
   sizes = gh_api("--cache", "24h", "--allow-escape-sequences", "repos/#{repo}/actions/jobs/#{job_id}/logs")
-      .scan(%r{^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z ([\d.]+[KMGT]?)\t(cache/\S+)$}).to_h(&:reverse)
+      .scan(%r{^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z ([\d.]+[KMGT]?)\t(tmp/ci-cache/\S+)$}).to_h(&:reverse)
 
   { date:, **sizes }
 end

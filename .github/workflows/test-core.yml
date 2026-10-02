@@ -50,36 +50,36 @@ jobs:
       id: cache_docker
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/docker
+        path: tmp/ci-cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
         key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
     - name: Restore CI image from cache
       if: steps.cache_docker.outputs.cache-hit == 'true'
-      run: docker load -i cache/docker/image.tar
+      run: docker load -i tmp/ci-cache/docker/image.tar
     - name: Build and cache CI image
       if: steps.cache_docker.outputs.cache-hit != 'true'
       run: |
         bin/ci ruby -v
-        mkdir -p cache/docker
-        docker save openproject-ci -o cache/docker/image.tar
+        mkdir -p tmp/ci-cache/docker
+        docker save openproject-ci -o tmp/ci-cache/docker/image.tar
     - name: Cache GEM
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/bundle
+        path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-trixie-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/node
+        path: tmp/ci-cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/angular
+        path: tmp/ci-cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
@@ -104,8 +104,8 @@ jobs:
     - name: Report cache info
       if: ${{ always() }}
       run: |
-        ls -al cache/ || true
-        du -sh cache/* || true
+        ls -al tmp/ci-cache/ || true
+        du -sh tmp/ci-cache/* || true
 
   units:
     name: Units
@@ -122,25 +122,25 @@ jobs:
     - name: Restore DOCKER cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/docker
+        path: tmp/ci-cache/docker
         key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
         fail-on-cache-miss: true
     - name: Restore GEM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/bundle
+        path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         fail-on-cache-miss: true
     - name: Restore NPM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/node
+        path: tmp/ci-cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         fail-on-cache-miss: true
     - name: Restore ANGULAR cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/angular
+        path: tmp/ci-cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         fail-on-cache-miss: true
     - name: Restore DATABASE cache
@@ -154,13 +154,13 @@ jobs:
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/runtime-logs
+        path: tmp/ci-cache/runtime-logs
         key: runtime-logs-units-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-units-${{ github.head_ref || github.ref }}-
           runtime-logs-units-
     - name: Restore CI image from cache
-      run: docker load -i cache/docker/image.tar
+      run: docker load -i tmp/ci-cache/docker/image.tar
     - name: APIv3 specification (OpenAPI 3.0)
       run: bin/ci ./script/api/validate_spec
     - name: Unit tests
@@ -168,7 +168,7 @@ jobs:
     - name: Report cache info
       if: ${{ always() }}
       run: |
-        ls -al cache/runtime-logs || true
+        ls -al tmp/ci-cache/runtime-logs || true
 
   features:
     name: Features
@@ -185,25 +185,25 @@ jobs:
     - name: Restore DOCKER cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/docker
+        path: tmp/ci-cache/docker
         key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
         fail-on-cache-miss: true
     - name: Restore GEM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/bundle
+        path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         fail-on-cache-miss: true
     - name: Restore NPM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/node
+        path: tmp/ci-cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         fail-on-cache-miss: true
     - name: Restore ANGULAR cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/angular
+        path: tmp/ci-cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         fail-on-cache-miss: true
     - name: Restore DATABASE cache
@@ -227,13 +227,13 @@ jobs:
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
-        path: cache/runtime-logs
+        path: tmp/ci-cache/runtime-logs
         key: runtime-logs-features-${{ github.head_ref || github.ref }}-${{ github.sha }}
         restore-keys: |
           runtime-logs-features-${{ github.head_ref || github.ref }}-
           runtime-logs-features-
     - name: Restore CI image from cache
-      run: docker load -i cache/docker/image.tar
+      run: docker load -i tmp/ci-cache/docker/image.tar
     - name: Feature tests
       env:
         CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
@@ -265,4 +265,4 @@ jobs:
     - name: Report cache info
       if: ${{ always() }}
       run: |
-        ls -al cache/runtime-logs || true
+        ls -al tmp/ci-cache/runtime-logs || true
