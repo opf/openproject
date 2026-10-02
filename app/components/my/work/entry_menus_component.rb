@@ -35,7 +35,7 @@ module My
     # inside a `display: none` ancestor cannot open.
     class EntryMenusComponent < ApplicationComponent
       options time_entries: [],
-              allocations: []
+              allocations: nil
 
       def call
         render(Primer::Box.new(classes: "sr-only", data: { "my-work-menus": true })) do
