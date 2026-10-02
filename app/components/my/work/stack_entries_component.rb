@@ -36,6 +36,7 @@ module My
       include ScheduledHours
 
       options time_entries: [],
+              allocations: [],
               mode: :week,
               date: Date.current
 
@@ -46,6 +47,7 @@ module My
           "controller" => "my--work-stack",
           "my--work-stack-mode-value" => mode,
           "my--work-stack-time-entries-value" => time_entries_json,
+          "my--work-stack-allocations-value" => allocations.to_json,
           "my--work-stack-initial-date-value" => date.iso8601,
           "my--work-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
           "my--work-stack-locale-value" => I18n.locale,

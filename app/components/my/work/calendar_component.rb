@@ -35,7 +35,9 @@ module My
       include OpPrimer::ComponentHelpers
       include ScheduledHours
 
+      # TODO: display the allocations in the calendar
       options time_entries: [],
+              allocations: [],
               mode: :week,
               date: Date.current
 

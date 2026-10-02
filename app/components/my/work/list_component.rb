@@ -35,7 +35,9 @@ module My
       include OpPrimer::ComponentHelpers
       include My::WorkHelper
 
+      # TODO: display the allocations in the list
       options time_entries: [],
+              allocations: [],
               mode: :week,
               date: Date.current
 
