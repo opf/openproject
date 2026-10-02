@@ -1,8 +1,8 @@
 <% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_calendar)} #{I18n.l(date)}" -%>
 <%= render(My::Work::ViewFrameComponent.new) do %>
   <%= flex_layout(data: wrapper_data, classes: "my-work-calendar-view") do |calendar_page| %>
-    <% calendar_page.with_row { render(My::Work::HeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
-    <% calendar_page.with_row { render(My::Work::SubHeaderComponent.new(mode:, date:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row { render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
+    <% calendar_page.with_row { render(My::Work::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :calendar)) } %>
     <% calendar_page.with_row(classes: "op-fc-wrapper", data: { "my--work-target" => "calendar" }) %>
 
     <% if mode != :day %>

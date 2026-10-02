@@ -1,8 +1,8 @@
 <% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_list)} #{I18n.l(date)}" -%>
 <%= render(My::Work::ViewFrameComponent.new) do %>
   <%= component_wrapper(tag: "div", data: wrapper_data) do %>
-    <%= render(My::Work::HeaderComponent.new(mode:, date:, view_mode: :list)) %>
-    <%= render(My::Work::SubHeaderComponent.new(mode:, date:, view_mode: :list)) %>
+    <%= render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :list)) %>
+    <%= render(My::Work::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :list)) %>
 
     <%= flex_layout(classes: ["my-work-list-view"]) do |flex| %>
       <% range.each do |date| %>
