@@ -30,6 +30,8 @@
 
 module SortableLists
   module MoveMenu
+    include OpPrimer::AttributesHelper
+
     Direction = Data.define(:label, :direction, :icon) do
       def item_data
         {
@@ -49,13 +51,17 @@ module SortableLists
 
     private
 
-    def with_move_submenu(menu)
+    def with_move_submenu(menu, **system_arguments)
+      system_arguments[:data] = merge_data(
+        system_arguments,
+        data: { sortable_lists__item_target: "moveMenu" }
+      )
+
       menu.with_item(
         component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
         label: I18n.t(:button_move),
         select_variant: :none,
-        form_arguments: {},
-        data: { sortable_lists__item_target: "moveMenu" }
+        **system_arguments
       ) do |submenu|
         submenu.with_leading_visual_icon(icon: :"op-arrow-in")
 
