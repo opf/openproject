@@ -55,6 +55,12 @@ export const sortableScopeCountAttribute = 'data-sortable-lists-scope-count';
 export const sortableScopeIdsAttribute = 'data-sortable-lists-scope-ids';
 export const sortableLockedAttribute = 'data-sortable-lists-locked';
 
+// A child belongs to the nearest root, not to any root containing it: an
+// independently nested root is an ownership boundary.
+export function ownedBy(root:HTMLElement, element:Element):boolean {
+  return element.closest(sortableListsRootSelector) === root;
+}
+
 /**
  * What ordering an item takes part in.
  *
@@ -131,6 +137,12 @@ export interface DestinationIdentity {
 
 export function sameDestination(left:DestinationIdentity|null, right:DestinationIdentity):boolean {
   return left !== null && left.type === right.type && left.id === right.id;
+}
+
+// The same separator batch-selection.ts uses for item keys: it cannot appear
+// in an attribute value, so no type or id can forge a collision.
+export function listKey({ type, id }:DestinationIdentity):string {
+  return `${type}\u001F${id ?? ''}`;
 }
 
 // Whether the item may enter the destination: the one policy behind every
