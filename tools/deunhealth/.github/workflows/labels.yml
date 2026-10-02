@@ -1,0 +1,15 @@
+name: labels
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/labels.yml
+      - .github/workflows/labels.yml
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.5
+      - uses: crazy-max/ghaction-github-labeler@v3
+        with:
+          yaml-file: .github/labels.yml

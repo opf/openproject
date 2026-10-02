@@ -1,0 +1,21 @@
+name: Docker Hub description
+on:
+  push:
+    branches: [main]
+    paths:
+      - README.md
+      - .github/workflows/dockerhub-description.yml
+jobs:
+  dockerHubDescription:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.5
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v2.4.3
+        with:
+          username: qmcgaw
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          repository: qmcgaw/deunhealth
+          short-description: Restart your unhealthy containers safely
+          readme-filepath: README.md

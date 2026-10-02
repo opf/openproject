@@ -1,0 +1,1 @@
+FROM qmcgaw/godevcontainer

@@ -1,0 +1,113 @@
+{
+    // See https://containers.dev/implementors/json_reference/
+    // User defined settings
+    "containerEnv": {
+        "TZ": ""
+    },
+    // Fixed settings
+    "name": "deunhealth-dev",
+    "postCreateCommand": "~/.windows.sh && go mod download && go mod tidy",
+    "dockerComposeFile": "docker-compose.yml",
+    "overrideCommand": true,
+    "service": "vscode",
+    "workspaceFolder": "/workspace",
+    "mounts": [
+        // Source code
+        {
+            "source": "../",
+            "target": "/workspace",
+            "type": "bind"
+        },
+        // Zsh commands history persistence
+        {
+            "source": "${localEnv:HOME}/.zsh_history",
+            "target": "/root/.zsh_history",
+            "type": "bind"
+        },
+        // Git configuration file
+        {
+            "source": "${localEnv:HOME}/.gitconfig",
+            "target": "/root/.gitconfig",
+            "type": "bind"
+        },
+        // SSH directory for Linux, OSX and WSL
+        // On Linux and OSX, a symlink /mnt/ssh <-> ~/.ssh is
+        // created in the container. On Windows, files are copied
+        // from /mnt/ssh to ~/.ssh to fix permissions.
+        {
+            "source": "${localEnv:HOME}/.ssh",
+            "target": "/mnt/ssh",
+            "type": "bind"
+        },
+        // Docker socket to access the host Docker server
+        {
+            "source": "/var/run/docker.sock",
+            "target": "/var/run/docker.sock",
+            "type": "bind"
+        }
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "eamodio.gitlens", // IDE Git information
+                "davidanson.vscode-markdownlint",
+                "ms-azuretools.vscode-docker", // Docker integration and linting
+                "shardulm94.trailing-spaces", // Show trailing spaces
+                "Gruntfuggly.todo-tree", // Highlights TODO comments
+                "bierner.emojisense", // Emoji sense for markdown
+                "stkb.rewrap", // rewrap comments after n characters on one line
+                "vscode-icons-team.vscode-icons", // Better file extension icons
+                "github.vscode-pull-request-github", // Github interaction
+                "redhat.vscode-yaml", // Kubernetes, Drone syntax highlighting
+                "bajdzis.vscode-database", // Supports connections to mysql or postgres, over SSL, socked
+                "IBM.output-colorizer", // Colorize your output/test logs
+                "github.copilot" // AI code completion
+                // "mohsen1.prettify-json", // Prettify JSON data
+                // "zxh404.vscode-proto3", // Supports Proto syntax
+                // "jrebocho.vscode-random", // Generates random values
+                // "alefragnani.Bookmarks", // Manage bookmarks
+                // "quicktype.quicktype", // Paste JSON as code
+                // "spikespaz.vscode-smoothtype", // smooth cursor animation
+            ],
+            "settings": {
+                "files.eol": "\n",
+                "editor.formatOnSave": true,
+                "go.buildTags": "",
+                "go.toolsEnvVars": {
+                    "CGO_ENABLED": "0"
+                },
+                "go.useLanguageServer": true,
+                "go.testEnvVars": {
+                    "CGO_ENABLED": "1"
+                },
+                "go.testFlags": [
+                    "-v",
+                    "-race"
+                ],
+                "go.testTimeout": "10s",
+                "go.coverOnSingleTest": true,
+                "go.coverOnSingleTestFile": true,
+                "go.coverOnTestPackage": true,
+                "go.lintTool": "golangci-lint",
+                "go.lintOnSave": "package",
+                "[go]": {
+                    "editor.codeActionsOnSave": {
+                        "source.organizeImports": "always"
+                    }
+                },
+                "gopls": {
+                    "usePlaceholders": false,
+                    "staticcheck": true,
+                    "formatting.gofumpt": true,
+                    "ui.diagnostic.analyses": {
+                        "ST1000": false
+                    }
+                },
+                "remote.extensionKind": {
+                    "ms-azuretools.vscode-docker": "workspace"
+                }
+            }
+        }
+    }
+}

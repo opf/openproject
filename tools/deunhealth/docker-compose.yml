@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  deunhealth:
+    build: .
+    image: qmcgaw/deunhealth
+    container_name: deunhealth
+    network_mode: "none"
+    environment:
+      - LOG_LEVEL=info
+      - HEALTH_SERVER_ADDRESS=127.0.0.1:9999
+      - TZ=America/Montreal
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
