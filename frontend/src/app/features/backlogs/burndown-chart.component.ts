@@ -90,9 +90,9 @@ interface SeriesStyle {
   pointRadius?:number;
   pointHitRadius?:number;
   pointHoverRadius?:number;
-  // Read on demand rather than held as a value, because the colors come off the document and
-  // would otherwise freeze at import time, before the stylesheet resolves and against whichever
-  // theme is in force.
+  // Read on demand rather than held as a value: the colors come off the document, which at import
+  // time has no stylesheet resolved yet for them to freeze against. Being a call does not make them
+  // follow a theme switched afterwards -- that waits for the datasets to be built again.
   color?:() => SeriesColor;
 }
 
