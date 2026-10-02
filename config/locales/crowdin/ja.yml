@@ -3118,6 +3118,7 @@ ja:
   error_no_default_work_package_status: "｀ワークパッケージ目の既定のステータスが定義されていません。 設定をご確認してください（管理→ワークパッケージステータス）。"
   error_no_type_in_project: このプロジェクトには関連付けられているワークパッケージの種類がありません。プロジェクトの設定をご確認してください。
   error_omniauth_invalid_auth: IDプロバイダーから返された認証情報が無効です。詳細については管理者に連絡してください
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: 外部認証プロバイダーを経由して登録がタイムアウトしました。もう一度やり直してください。
   error_password_change_failed: パスワードの変更中にエラーが発生しました。
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.

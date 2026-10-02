@@ -27,26 +27,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  module Formatters
-    class SpentUnits < ::Exports::Formatters::Default
-      def self.apply?(name, _export_format)
-        %i[costs_by_type spent_units].include?(name.to_sym)
-      end
 
-      def format(work_package, **)
-        cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
-        values = cost_helper.summarized_cost_entries.map do |kvp|
-          cost_type = kvp[0]
-          volume = kvp[1]
-          BigDecimal("1.0")
-          type_unit = volume.to_d == BigDecimal("1.0") ? cost_type.unit : cost_type.unit_plural
-          "#{volume} #{type_unit}"
-        end
-        return nil if values.empty?
+module CustomFields
+  class OverviewComponent < ApplicationComponent
+    include AdminRoutes
 
-        values.join(", ")
-      end
-    end
+    SECTIONS = [
+      [:label_work_package_plural, WorkPackageCustomField],
+      [:label_version_plural, VersionCustomField],
+      [:label_user_plural, UserCustomField],
+      [:label_spent_time, TimeEntryCustomField],
+      [:label_group_plural, GroupCustomField],
+      [:label_project_plural, ProjectCustomField]
+    ].freeze
+
+    private
+
+    def sections = SECTIONS
   end
 end

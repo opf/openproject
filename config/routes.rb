@@ -255,12 +255,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :pdf_export_template, only: %i[],
-                                    controller: "pdf_export_template",
-                                    path: "pdf_export" do
+    resources :pdf_export_template, only: %i[], controller: "pdf_export_template", path: "pdf_export" do
       member do
         post :toggle
-        put :drop
+        put :move
         get :edit_settings
         patch :update_settings
       end
@@ -277,14 +275,13 @@ Rails.application.routes.draw do
 
   resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
-      post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
       get :menu
       get :deletion_dialog
-      put :drop
+      put :move
       post :duplicate
     end
   end
@@ -435,33 +432,19 @@ Rails.application.routes.draw do
   get "highlighting/styles(/:version_tag)" => "highlighting#styles",
       as: "highlighting_css_styles"
 
-  resources :custom_fields, except: :show do
-    member do
-      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
-
-      post :reorder_alphabetical
-
-      get :attribute_help_text
-      put :update_attribute_help_text
-
-      get :list_items
-    end
-
-    scope module: :admin do
-      scope module: :custom_fields do
-        resources :projects, controller: "/admin/custom_fields/custom_field_projects", only: %i[index new create]
-        resource :project, controller: "/admin/custom_fields/custom_field_projects", only: :destroy
-        resources :items, controller: "/admin/custom_fields/hierarchy/items" do
-          member do
-            get :change_parent, action: :change_parent_dialog
-            post :change_parent, action: :change_parent
-            get :delete, action: :deletion_dialog
-            get :item_actions
-            post :move
-            get :new_child, action: :new
-            post :new_child, action: :create
-          end
-        end
+  resources :custom_fields, only: :index
+  scope "admin/settings/work_package_custom_fields/:custom_field_id", as: :custom_field, module: "admin/custom_fields" do
+    resources :projects, controller: :custom_field_projects, only: %i[index new create]
+    resource :project, controller: :custom_field_projects, only: :destroy
+    resources :items, controller: "hierarchy/items" do
+      member do
+        get :change_parent, action: :change_parent_dialog
+        post :change_parent, action: :change_parent
+        get :delete, action: :deletion_dialog
+        get :item_actions
+        post :move
+        get :new_child, action: :new
+        post :new_child, action: :create
       end
     end
   end
@@ -515,6 +498,7 @@ Rails.application.routes.draw do
     resources :projects, only: :index do
       collection do
         get :frame
+        get :children
       end
     end
   end
@@ -964,8 +948,7 @@ Rails.application.routes.draw do
                 controller: "/admin/settings/project_phase_definitions",
                 except: :show do
         member do
-          patch :move
-          put :drop # should be patch, but requires passing method to generic-drag-and-drop controller
+          put :move
         end
       end
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
@@ -1061,6 +1044,42 @@ Rails.application.routes.draw do
             put :move
             put :drop
           end
+        end
+      end
+
+      resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
+
+      resources :version_custom_fields, controller: "/admin/settings/version_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
+
+      resources :group_custom_fields, controller: "/admin/settings/group_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
         end
       end
 

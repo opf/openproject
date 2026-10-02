@@ -383,6 +383,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_group_plural,
             parent: :users_and_permissions
 
+  menu.push :group_custom_fields,
+            { controller: "/admin/settings/group_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_group_attributes_plural,
+            after: :groups,
+            parent: :users_and_permissions
+
   menu.push :departments,
             { controller: "/admin/departments" },
             if: ->(_) { User.current.admin? },
@@ -449,10 +456,24 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_status_plural,
             parent: :admin_work_packages
 
+  menu.push :work_package_custom_fields,
+            { controller: "/admin/settings/work_package_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_custom_field_plural,
+            after: :statuses,
+            parent: :admin_work_packages
+
   menu.push :versions_and_categories,
             { controller: "/admin/settings/versions_and_categories", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_versions_and_categories,
+            parent: :admin_work_packages
+
+  menu.push :version_custom_fields,
+            { controller: "/admin/settings/version_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_version_custom_field_plural,
+            after: :versions_and_categories,
             parent: :admin_work_packages
 
   menu.push :priorities,

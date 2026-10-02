@@ -36,7 +36,8 @@ module API::V3::Days
 
       get &::API::V3::Utilities::Endpoints::Index.new(
         model: Day,
-        self_path: -> { api_v3_paths.days }
+        self_path: -> { api_v3_paths.days },
+        scope: -> { Day.includes(:non_working_days) }
       ).mount
     end
   end

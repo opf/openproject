@@ -51,4 +51,13 @@ module Queries::Filters
   class InvalidError < StandardError; end
 
   class MissingError < StandardError; end
+
+  ##
+  # Raised by filters that have too many candidates to enumerate. Those advertise their
+  # candidates through an autocompleter.
+  class TooManyCandidatesError < StandardError
+    def initialize(message = "There would be too many candidates")
+      super
+    end
+  end
 end

@@ -50,7 +50,12 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
     project.destroy!
     user.destroy!
     User.where(id: side_user_ids).destroy_all
-    TypeVariant.where(type_id: type.id).delete_all
+    variants = TypeVariant.where(type_id: type.id)
+    workflow_ids = variants.distinct.pluck(:workflow_id)
+    form_configuration_ids = variants.distinct.pluck(:form_configuration_id)
+    variants.delete_all
+    Workflow.where(id: workflow_ids).destroy_all
+    FormConfiguration.where(id: form_configuration_ids).destroy_all
     Type.unscoped.where(id: type.id).delete_all
     Role.where.not(id: baseline_role_ids).destroy_all
     Status.where.not(id: baseline_status_ids).delete_all

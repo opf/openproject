@@ -31,58 +31,43 @@
 module Admin
   module CustomFields
     class EditFormHeaderComponent < ApplicationComponent
-      def initialize(custom_field:, selected:, **)
+      include ::CustomFields::AdminRoutes
+
+      def initialize(custom_field:, selected:, section_label:, page_title:, **)
         @custom_field = custom_field
         @selected = selected
+        @section_label = section_label
+        @page_title = page_title
         super(custom_field, **)
       end
 
       def tabs
-        tabs = [
-          {
-            name: "edit",
-            path: edit_custom_field_path(@custom_field),
-            label: t(:label_details)
-          }
-        ]
-
-        if @custom_field.hierarchical_list?
-          tabs << {
-            name: "items",
-            path: custom_field_items_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        elsif @custom_field.list?
-          tabs << {
-            name: "items",
-            path: list_items_custom_field_path(@custom_field),
-            label: t(:label_item_plural)
-          }
-        end
-
-        if @custom_field.is_a?(WorkPackageCustomField) ||
-           @custom_field.is_a?(ProjectCustomField)
-          tabs <<
-            {
-              name: "custom_field_projects",
-              path: custom_field_projects_path(@custom_field),
-              label: t(:label_project_plural)
-            }
-
-          tabs <<
-            {
-              name: "attribute_help_text",
-              path: attribute_help_text_custom_field_path(@custom_field),
-              label: AttributeHelpText.human_attribute_name(:help_text)
-            }
-        end
-
-        tabs
+        [details_tab, items_tab, *extra_tabs].compact
       end
 
       private
 
-      def page_title
+      def details_tab
+        { name: "edit", path: edit_path(@custom_field), label: t(:label_details) }
+      end
+
+      def items_tab
+        if @custom_field.hierarchical_list?
+          { name: "items", path: custom_field_items_path(@custom_field), label: t(:label_item_plural) }
+        elsif @custom_field.list?
+          { name: "items", path: list_item_path(@custom_field), label: t(:label_item_plural) }
+        end
+      end
+
+      def extra_tabs
+        return [] unless @custom_field.is_a?(WorkPackageCustomField)
+
+        [{ name: "custom_field_projects", path: custom_field_projects_path(@custom_field), label: t(:label_project_plural) },
+         { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
+           label: AttributeHelpText.human_attribute_name(:help_text) }]
+      end
+
+      def header_title
         concat @custom_field.attribute_in_database("name")
         concat render(Primer::Beta::Text.new(color: :muted)) { " (#{helpers.label_for_custom_field_format(@custom_field.field_format)})" }
       end
@@ -90,8 +75,8 @@ module Admin
       def breadcrumbs_items
         [
           { href: admin_index_path, text: t(:label_administration) },
-          { href: custom_fields_path, text: t(:label_custom_field_plural) },
-          { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
+          { href: index_path(@custom_field), text: @section_label },
+          { href: index_path(@custom_field), text: @page_title },
           helpers.nested_breadcrumb_element(helpers.label_for_custom_field_format(model.field_format),
                                             @custom_field.attribute_in_database("name"))
         ]

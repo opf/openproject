@@ -62,6 +62,20 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
     end
   end
 
+  context "with a SAML provider that redirects through other servers", with_ee: %i[sso_auth_providers] do
+    let!(:saml_provider) do
+      create(:saml_provider,
+             additional_form_action_urls: ["https://idp.prod.soloidp.dk/login?authId=1", "https://broker.example.com:8443/"])
+    end
+
+    it "also allows the origins of the additional URLs" do
+      get omniauth_login_path(saml_provider.slug)
+
+      expect(form_action_sources)
+        .to include("https://example.com/", "https://idp.prod.soloidp.dk/", "https://broker.example.com:8443/")
+    end
+  end
+
   context "with an OpenID Connect provider", with_ee: %i[sso_auth_providers] do
     let!(:oidc_provider) { create(:oidc_provider) }
 
@@ -69,6 +83,24 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
       get omniauth_login_path(oidc_provider.slug)
 
       expect(form_action_sources).to include("https://keycloak.local/")
+    end
+  end
+
+  context "with a Microsoft Entra provider whose issuer is this application",
+          with_ee: %i[sso_auth_providers] do
+    let!(:azure_provider) do
+      create(:oidc_provider,
+             slug: "azure",
+             oidc_provider: "microsoft_entra",
+             host: nil,
+             authorization_endpoint: nil,
+             issuer: OpenProject::StaticRouting::StaticUrlHelpers.new.root_url)
+    end
+
+    it "allows the Microsoft login origin on the auto-submit form" do
+      get omniauth_login_path("azure")
+
+      expect(form_action_sources).to include("https://login.microsoftonline.com/")
     end
   end
 
@@ -86,6 +118,29 @@ RSpec.describe "CSP form-action for OmniAuth SSO", type: :rails_request do
 
       expect(response.body).to include('data-controller="omniauth-direct-login"')
       expect(form_action_sources).to include("https://example.com/")
+    end
+  end
+
+  context "with direct login to Microsoft Entra",
+          with_ee: %i[sso_auth_providers],
+          with_settings: { omniauth_direct_login_provider: "azure" } do
+    let!(:azure_provider) do
+      create(:oidc_provider,
+             slug: "azure",
+             oidc_provider: "microsoft_entra",
+             authorization_endpoint: nil,
+             issuer: nil,
+             host: nil)
+    end
+
+    it "redirects from /login to the auto-submit form that allows Microsoft" do
+      get signin_path
+
+      expect(response).to redirect_to omniauth_login_path("azure")
+
+      follow_redirect!
+
+      expect(form_action_sources).to include("https://login.microsoftonline.com/")
     end
   end
 

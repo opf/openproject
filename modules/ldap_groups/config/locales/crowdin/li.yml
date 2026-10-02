@@ -3,18 +3,18 @@ li:
   activerecord:
     attributes:
       ldap_groups/synchronized_filter:
-        auth_source: Auth source
+        auth_source: Auth bron
         base_dn: Search base DN
         filter_string: LDAP filter
         group_name_attribute: Group name attribute
-        ldap_auth_source: LDAP connection
+        ldap_auth_source: LDAP verbinding
         member_lookup_attribute: Group member attribute
-        sync_users: Sync users
+        sync_users: Gebroekers synchronisere
       ldap_groups/synchronized_group:
-        auth_source: Auth source
+        auth_source: Auth bron
         dn: DN
-        ldap_auth_source: LDAP connection
-        sync_users: Sync users
+        ldap_auth_source: LDAP verbinding
+        sync_users: Gebroekers synchronisere
     errors:
       models:
         ldap_groups/synchronized_filter:
@@ -30,10 +30,10 @@ li:
     upsell:
       ldap_groups:
         description: Synchronize LDAP groups with OpenProject groups to manage users, change their permissions and facilitate user management across groups.
-        title: LDAP group synchronization
+        title: LDAP groep synchronisatie
   ldap_groups:
     label_group_key: LDAP group filter key
-    label_menu_item: LDAP group synchronization
+    label_menu_item: LDAP groep synchronisatie
     label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP groups name attribute
@@ -59,8 +59,8 @@ li:
         one: 1 group found by the filter
         other: "%{count} groups found by the filter"
         zero: No groups were found by the filter
-      plural: LDAP Group synchronization filters
-      singular: LDAP Group synchronization filter
+      plural: LDAP groep synchronisatie filters
+      singular: LDAP groep synchronisatie filter
     synchronized_groups:
       add_new: Add synchronized LDAP group
       destroy:
@@ -88,10 +88,10 @@ li:
         [Please see our documentation on this topic](docs_url).
       no_members: This group has no synchronized members yet.
       no_results: No synchronized groups found.
-      plural: Synchronized LDAP groups
-      singular: Synchronized LDAP group
+      plural: Gesynchroniseerde LDAP groepe
+      singular: Gesynchroniseerde LDAP groep
       upsell:
         description: Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.
   plugin_openproject_ldap_groups:
-    description: Synchronization of LDAP group memberships.
-    name: OpenProject LDAP groups
+    description: Synchronisatie van LDAP groep leeje.
+    name: OpenProject LDAP groepe

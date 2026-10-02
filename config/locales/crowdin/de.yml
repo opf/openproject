@@ -3260,6 +3260,7 @@ de:
   error_no_default_work_package_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Arbeitspaket-Status").
   error_no_type_in_project: Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_omniauth_invalid_auth: Die vom Identity Provider zurückgegebenen Authentifizierungsdaten sind ungültig. Bitte kontaktieren Sie Ihren Adminstrator für weitere Hilfe.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut.
   error_password_change_failed: Beim Ändern des Passworts ist ein Fehler aufgetreten.
   error_pdf_date_range_too_long: Der ausgewählte Datumsbereich des Arbeitspakets überschreitet die zulässige Grenze für den PDF-Export. Bitte beschränken Sie den Bereich auf maximal %{years} Jahre.
