@@ -30,19 +30,45 @@
 
 module My
   module Work
-    module Widget
-      class SubHeaderComponent < My::Work::SubHeaderComponent
-        def path_for(date:, mode: self.mode)
-          widgets_time_entries_current_user_path(date:, mode:)
-        end
+    class EntriesFilterComponent < ApplicationComponent
+      FILTERS = %i[all logged allocated].freeze
 
-        def entries_filter?
-          false
-        end
+      ICONS = {
+        all: :tasklist,
+        logged: :clock,
+        allocated: :"op-person-assigned"
+      }.freeze
 
-        def link_data
-          { turbo_frame: Grids::Widgets::TimeEntriesCurrentUser.wrapper_key }
+      options :current_entries,
+              :path_builder
+      options link_data: {}
+
+      def call
+        render(Primer::Alpha::ActionMenu.new(menu_id: "my-work-entries-filter")) do |menu|
+          menu.with_show_button do |button|
+            button.with_leading_visual_icon(icon: ICONS.fetch(current_entries))
+            button.with_trailing_action_icon(icon: :"triangle-down")
+            label_for(current_entries)
+          end
+
+          FILTERS.each { menu_item_for(menu, it) }
         end
+      end
+
+      private
+
+      def menu_item_for(menu, entries)
+        menu.with_item(tag: :a,
+                       href: path_builder.call(entries),
+                       active: entries == current_entries,
+                       content_arguments: { data: link_data },
+                       label: label_for(entries)) do |item|
+          item.with_leading_visual_icon(icon: ICONS.fetch(entries))
+        end
+      end
+
+      def label_for(entries)
+        t("my.work.entries_filter.#{entries}")
       end
     end
   end

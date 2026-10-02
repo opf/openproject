@@ -32,9 +32,10 @@ module My
   module Work
     class HeaderComponent < ApplicationComponent
       options :date, :mode, :view_mode
+      options entries: :all
 
       def view_mode_switch_link(new_view_mode)
-        my_work_path(date: date, mode: mode, view_mode: new_view_mode)
+        my_work_path(date:, mode:, view_mode: new_view_mode, entries: (entries unless entries == :all))
       end
     end
   end

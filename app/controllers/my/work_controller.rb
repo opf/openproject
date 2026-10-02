@@ -46,8 +46,8 @@ module My
     def index
       remember_view
 
-      load_time_entries(displayed_dates)
-      load_allocations(displayed_dates)
+      load_time_entries(displayed_dates) unless entries == :allocated
+      load_allocations(displayed_dates) unless entries == :logged
     end
 
     def refresh
@@ -141,6 +141,10 @@ module My
       @view_mode ||= (params[:view_mode].presence || default_view_mode).to_sym
     end
 
+    def entries
+      @entries ||= My::Work::EntriesFilterComponent::FILTERS.find { |filter| filter.to_s == params[:entries] } || :all
+    end
+
     def current_date
       Time.zone.today
     end
@@ -160,7 +164,7 @@ module My
                         else My::Work::CalendarComponent
                         end
 
-      component_class.new(time_entries: @time_entries, allocations: @allocations, mode:, date:)
+      component_class.new(time_entries: @time_entries || [], allocations: @allocations || [], entries:, mode:, date:)
     end
 
     def mobile?

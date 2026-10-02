@@ -5054,6 +5054,11 @@ en:
     password_confirmation_dialog:
       confirmation_required: "You need to enter your account password to confirm this change."
       title: "Confirm your password to continue"
+    work:
+      entries_filter:
+        all: "All entries"
+        allocated: "Allocations only"
+        logged: "Logged time only"
 
   my_account:
     access_tokens:

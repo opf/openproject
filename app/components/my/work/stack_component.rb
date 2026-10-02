@@ -36,6 +36,7 @@ module My
 
       options time_entries: [],
               allocations: [],
+              entries: :all,
               mode: :week,
               date: Date.current
     end
