@@ -177,7 +177,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with in_planning status" do
         migrate
-        expect(Sprint.last.status).to eq("in_planning")
+        expect(Sprint.last.read_attribute(:status)).to eq("in_planning")
       end
     end
 
@@ -186,7 +186,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Sprint.last.status).to eq("completed")
+        expect(Sprint.last.read_attribute(:status)).to eq("completed")
       end
     end
 
@@ -195,7 +195,7 @@ RSpec.describe MigrateVersionsToSprints, type: :model do
 
       it "creates sprint with completed status" do
         migrate
-        expect(Sprint.last.status).to eq("completed")
+        expect(Sprint.last.read_attribute(:status)).to eq("completed")
       end
     end
   end

@@ -30,7 +30,9 @@
 module Sprints::Scopes::NotCompleted
   extend ActiveSupport::Concern
 
-  def not_completed
-    !completed
+  class_methods do
+    def not_completed
+      where.not(status: "completed")
+    end
   end
 end
