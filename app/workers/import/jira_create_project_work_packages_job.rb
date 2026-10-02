@@ -40,6 +40,7 @@ module Import
         .where(id: @project.id)
         .update_all(["wp_sequence_counter = (SELECT COALESCE(MAX(sequence_number), 0) " \
                      "FROM work_packages WHERE project_id = ?)", @project.id])
+      Rails.logger.info "Creating work packages finished"
     end
 
     def text
@@ -63,6 +64,7 @@ module Import
 
     # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Creating work packages started"
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
       @jira_id = jira.id
@@ -158,6 +160,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
+      Rails.logger.debug "Creating type '#{issue_type['name']}'"
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
       uses_existing = true
 
@@ -165,7 +168,10 @@ module Import
         service_call = WorkPackageTypes::CreateService
                          .new(user: @system_user)
                          .call(name: issue_type["name"])
-        raise service_call.message unless service_call.success?
+        unless service_call.success?
+          Rails.logger.error service_call.message
+          raise service_call.message
+        end
 
         type = service_call.result
         uses_existing = false
@@ -181,11 +187,15 @@ module Import
       service_call = Projects::Types::AddService
                        .new(user: @system_user, model: project)
                        .call(variant: type.default_variant)
-      raise service_call.message if service_call.failure?
+      if service_call.failure?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
     end
 
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
+      Rails.logger.debug "Creating status '#{issue_status['name']}'"
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
       uses_existing = true
       if status.blank?
@@ -201,6 +211,7 @@ module Import
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       if issue_priority.present?
+        Rails.logger.debug "Creating priority '#{issue_priority['name']}'"
         priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
         uses_existing = true
         if priority.blank?
@@ -220,7 +231,10 @@ module Import
       call = Workflows::BulkUpdateService
                 .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
                 .call(status_params)
-      raise call.message if call.failure?
+      if call.failure?
+        Rails.logger.error call.message
+        raise call.message
+      end
     end
 
     # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
@@ -280,7 +294,10 @@ module Import
             skip_semantic_id_allocation: true,
             **custom_field_attrs
           )
-      raise service_call.message unless service_call.success?
+      unless service_call.success?
+        Rails.logger.error service_call.message
+        raise service_call.message
+      end
 
       work_package = service_call.result
       identifier = jira_issue.payload["key"]
@@ -322,6 +339,7 @@ module Import
       comments = jira_issue.payload.dig("fields", "comment", "comments") || []
       comments.each do |comment|
         Rails.logger.tagged("comment_created:#{comment['created']}") do
+          Rails.logger.debug "Adding comment"
           key = comment.dig("author", "key")
           Rails.logger.tagged("author:#{key}") do
             author = find_user(key)
@@ -346,6 +364,7 @@ module Import
       return if service_call.success?
 
       if service_call.errors.find { |error| error.type == :taken }.blank?
+        Rails.logger.error service_call.message
         raise service_call.message
       end
     end
@@ -367,7 +386,7 @@ module Import
           raise log_message
         end
       else
-        Rails.logger.info "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
+        Rails.logger.warn "Import::JiraUser with jira_user_key #{jira_user_key} not found! Using DeletedUser instead."
         DeletedUser.first
       end
     end

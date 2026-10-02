@@ -65,6 +65,7 @@ module Import
     rescue StandardError => e
       raise if @jira_import.nil?
 
+      Rails.logger.error "Building revert enumerator failed: #{e.message}"
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
@@ -75,11 +76,14 @@ module Import
     def each_iteration(revert_step, jira_import_id)
       @jira_import = Import::JiraImport.find(jira_import_id)
       @user = User.system
+      Rails.logger.info "Revert step '#{revert_step}' started"
       ApplicationRecord.transaction do
         send(revert_step)
         @jira_import.set_job_cursor(self, revert_step)
       end
+      Rails.logger.info "Revert step '#{revert_step}' finished"
     rescue StandardError => e
+      Rails.logger.error "Revert step '#{revert_step}' failed: #{e.message}"
       @jira_import.transition_to!(:revert_error,
                                   job_id: job_id,
                                   error_backtrace: e.backtrace,
@@ -95,10 +99,15 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Project")
         .find_each do |ref|
+          Rails.logger.debug "Deleting project"
           op_leg = ref.op_leg
           service_call = ::Projects::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          if service_call.failure?
+            Rails.logger.error service_call.message
+            raise service_call.message
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject project no longer exists, skipping its deletion"
           next
         end
     end
@@ -108,9 +117,11 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: ["Type", "IssuePriority", "Status"])
         .find_each do |ref|
+          Rails.logger.debug { "Deleting #{ref.op_entity_class}" }
           op_leg = ref.op_leg
           op_leg.destroy!
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject #{ref.op_entity_class} no longer exists, skipping its deletion"
           next
         end
     end
@@ -120,11 +131,16 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "User")
         .find_each do |ref|
+          Rails.logger.debug "Deleting user"
           op_leg = ref.op_leg
           # EmptyContract is used to make deletion not dependent on Setting.users_deletable_by_admins
           service_call = ::Users::DeleteService.new(user: @user, model: op_leg, contract_class: EmptyContract).call
-          raise service_call.message if service_call.failure?
+          if service_call.failure?
+            Rails.logger.error service_call.message
+            raise service_call.message
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject user no longer exists, skipping its deletion"
           next
         end
     end
@@ -134,10 +150,15 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "Group")
         .find_each do |ref|
+          Rails.logger.debug "Deleting group"
           op_leg = ref.op_leg
           service_call = ::Groups::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          if service_call.failure?
+            Rails.logger.error service_call.message
+            raise service_call.message
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject group no longer exists, skipping its deletion"
           next
         end
     end
@@ -147,10 +168,15 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "ProjectRole")
         .find_each do |ref|
+          Rails.logger.debug "Deleting project role"
           op_leg = ref.op_leg
           service_call = ::Roles::DeleteService.new(user: @user, model: op_leg).call
-          raise service_call.message if service_call.failure?
+          if service_call.failure?
+            Rails.logger.error service_call.message
+            raise service_call.message
+          end
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject project role no longer exists, skipping its deletion"
           next
         end
     end
@@ -160,9 +186,11 @@ module Import
         .where(jira_import_id: @jira_import.id, uses_existing: false)
         .where(op_entity_class: "WorkPackageCustomField")
         .find_each do |ref|
+          Rails.logger.debug "Deleting custom field"
           op_leg = ref.op_leg
           op_leg.destroy!
         rescue Import::JiraOpenProjectReference::LegNotFoundError
+          Rails.logger.warn "OpenProject custom field no longer exists, skipping its deletion"
           next
         end
     end

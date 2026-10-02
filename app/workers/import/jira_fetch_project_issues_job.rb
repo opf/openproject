@@ -52,6 +52,7 @@ module Import
 
     # rubocop:disable Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
+      Rails.logger.info "Fetching issues started"
       prepare_jira_import_ivars(jira_import_id)
       jira_project = Import::JiraProject.find(jira_project_id)
 
@@ -73,6 +74,8 @@ module Import
 
           @jira_import.set_job_cursor(self, new_cursor)
 
+          Rails.logger.info "Fetched #{start_at + issues.size} of #{total} issues"
+
           yielder.yield(
             issues_and_total,
             new_cursor
@@ -87,6 +90,7 @@ module Import
       issues = issues_and_total["issues"]
       issues_and_total["total"]
       issues_upsert_data = issues.map do |payload|
+        Rails.logger.debug "Fetched issue '#{payload['key']}'"
         {
           payload:,
           jira_project_id:,
