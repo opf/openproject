@@ -29,16 +29,11 @@
 #++
 
 Rails.application.config.to_prepare do
-  default_resource_colors = {
-    "status" => -> { Status.includes(:color) },
-    "priority" => -> { IssuePriority.includes(:color) },
-    "type" => -> { Type.includes(:color) },
-    "project_phase_definition" => -> { Project::PhaseDefinition.includes(:color) },
-    "project_status" => -> { Projects::Statuses::AVAILABLE },
-    "color" => -> { Color.all }
-  }
+  Highlighting::Registry.register_model key: "status", model: Status
+  Highlighting::Registry.register_model key: "priority", model: IssuePriority
+  Highlighting::Registry.register_model key: "type", model: Type
+  Highlighting::Registry.register_model key: "project_phase_definition", model: Project::PhaseDefinition
+  Highlighting::Registry.register_model key: "color", model: Color
 
-  default_resource_colors.each_pair do |key, value_fn|
-    Highlighting::Registry.register_resource_colors(key:, value_fn:)
-  end
+  Highlighting::Registry.register_static key: "project_status", values: Projects::Statuses::AVAILABLE
 end

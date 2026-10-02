@@ -31,12 +31,70 @@
 module Highlighting
   class Registry
     class << self
-      def all
-        @all ||= {}
+      # Returns a hash of registered resources. The color values are stored as callback functions.
+      def entries
+        @entries ||= {}
       end
 
-      def register_resource_colors(key:, value_fn:)
-        all[key.to_s] = value_fn
+      def cache_key
+        OpenProject::Cache::CacheKey.expand [last_updated_at, *static_data]
+      end
+
+      # Register an active record model to being used for highlighting color calculation.
+      # Only models with a reference to `Color` or the `Color` model itself are allowed.
+      def register_model(key:, model:)
+        if entries.has_key?(key)
+          warn "Key already exists. Registration attempt rejected for key '#{key}'."
+          return
+        end
+
+        if models.include?(model)
+          warn "Model already registered. Registration attempt rejected for model '#{model}'."
+          return
+        end
+
+        models << model
+
+        # `Color` is the only model that can get registered as is. For other models we require
+        # a reference to the color entity.
+        lambda = model == ::Color ? -> { model.all } : -> { model.includes(:color) }
+        entries[key.to_s] = lambda
+      end
+
+      # Register static data for highlighting color calculation. The values must be an array of objects
+      # responding to `id` and returning a `Color` on `color`.
+      def register_static(key:, values:)
+        if entries.has_key?(key)
+          Rails.logger.warning "Key already exists. Registration attempt rejected for key '#{key}'."
+          return
+        end
+
+        if values.all? { |value| value.respond_to?(:color) && value.respond_to?(:id) }
+          static_data << values
+          entries[key.to_s] = -> { values }
+        else
+          Rails.logger.warning(
+            "Values registered for key '#{key}' do not respond to necessary properties. Registration attempt rejected."
+          )
+        end
+      end
+
+      private
+
+      def models
+        @models ||= []
+      end
+
+      def static_data
+        @static_data ||= []
+      end
+
+      def last_updated_at
+        ApplicationRecord.most_recently_changed(*models)
+      end
+
+      def warn(message)
+        Rails.logger.warning message
       end
     end
   end

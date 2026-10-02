@@ -210,8 +210,7 @@ module OpenProject::Meeting
 
     initializer "meetings.resource_colors" do
       Rails.application.reloader.to_prepare do
-        ::Highlighting::Registry.register_resource_colors(key: "meeting_status",
-                                                          value_fn: -> { ::Meetings::Statuses::AVAILABLE })
+        ::Highlighting::Registry.register_static(key: "meeting_status", values: ::Meetings::Statuses::AVAILABLE)
       end
     end
 

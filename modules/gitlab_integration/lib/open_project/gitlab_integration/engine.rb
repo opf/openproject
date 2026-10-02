@@ -99,12 +99,12 @@ module OpenProject::GitlabIntegration
 
     initializer "gitlab.resource_colors" do
       Rails.application.reloader.to_prepare do
-        ::Highlighting::Registry.register_resource_colors(key: "gitlab_issue_status",
-                                                          value_fn: -> { ::GitlabIntegration::IssueStatuses::AVAILABLE })
-        ::Highlighting::Registry.register_resource_colors(key: "gitlab_merge_request_status",
-                                                          value_fn: -> { ::GitlabIntegration::MergeRequestStatuses::AVAILABLE })
-        ::Highlighting::Registry.register_resource_colors(key: "gitlab_pipeline_status",
-                                                          value_fn: -> { ::GitlabIntegration::PipelineStatuses::AVAILABLE })
+        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
+                                                 values: ::GitlabIntegration::IssueStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
+                                                 values: ::GitlabIntegration::MergeRequestStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
+                                                 values: ::GitlabIntegration::PipelineStatuses::AVAILABLE)
       end
     end
 
