@@ -48,5 +48,25 @@ RSpec.describe Queries::WorkPackages::Filter::IdFilter do
           .to contain_exactly(visible_wp)
       end
     end
+
+    describe "#valid_values!" do
+      before do
+        instance.values = ["123"]
+
+        allow(instance).to receive(:allowed_values_subset).and_return([])
+      end
+
+      it "is invalid without the call" do
+        expect(instance.values).to eq(["123"])
+        expect(instance).not_to be_valid
+      end
+
+      it "stays valid when all ids are removed by the call" do
+        instance.valid_values!
+
+        expect(instance.values).to be_empty
+        expect(instance).to be_valid
+      end
+    end
   end
 end
