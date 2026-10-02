@@ -62,6 +62,23 @@ RSpec.describe Backlogs::BacklogController do
       expect(controller.current_menu_item).to eq(:backlog)
     end
 
+    context "with legacy array style filter params" do
+      let(:params) do
+        { bucket_ids: [backlog_bucket.id, "inbox"], sprint_ids: [sprint.id], filters: "status_id = \"1\"" }
+      end
+
+      it "redirects to the JSON encoded filter format" do
+        subject
+
+        expect(response).to redirect_to(
+          project_backlogs_backlog_path(project.id,
+                                        filters: "status_id = \"1\"",
+                                        bucket_ids: [backlog_bucket.id.to_s, "inbox"].to_json,
+                                        sprint_ids: [sprint.id.to_s].to_json)
+        )
+      end
+    end
+
     context "for turbo frame request with frame id backlogs_container" do
       before { request.headers["Turbo-Frame"] = "backlogs_container" }
 
@@ -143,7 +160,7 @@ RSpec.describe Backlogs::BacklogController do
           shared_let(:other_bucket) { create(:backlog_bucket, project:) }
           shared_let(:other_bucket_work_package) { create(:work_package, project:, status:, backlog_bucket: other_bucket) }
 
-          let(:params) { { bucket_ids: [backlog_bucket.id.to_s, "inbox"] } }
+          let(:params) { { bucket_ids: [backlog_bucket.id.to_s, "inbox"].to_json } }
 
           it "returns the union of the selected bucket's and the inbox's work packages", :aggregate_failures do
             subject

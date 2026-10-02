@@ -72,14 +72,6 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
       end
     end
 
-    context "when bucket_ids use the legacy array format" do
-      let(:params) { { bucket_ids: %w[1 inbox 2] } }
-
-      it "parses them" do
-        expect(filters.bucket_ids).to eq([1, "inbox", 2])
-      end
-    end
-
     context "when bucket_ids are malformed JSON" do
       let(:params) { { bucket_ids: "[1," } }
 
@@ -161,14 +153,6 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it "coerces it to integer" do
         expect(filters.sprint_ids).to eq([3])
-      end
-    end
-
-    context "when sprint_ids use the legacy array format" do
-      let(:params) { { sprint_ids: %w[5 6] } }
-
-      it "parses them" do
-        expect(filters.sprint_ids).to eq([5, 6])
       end
     end
   end
@@ -270,14 +254,6 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
       end
     end
 
-    context "with legacy array params" do
-      let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
-
-      it "serializes them in the JSON format" do
-        expect(filters.to_h).to eq({ bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json })
-      end
-    end
-
     context "when fed back into from_params" do
       let(:params) { { all: "1", bucket_ids: %w[1 inbox].to_json, sprint_ids: "2".to_json, filters: 'status_id = "1"' } }
 
@@ -296,7 +272,7 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
   end
 
   describe "#to_hash" do
-    let(:params) { { bucket_ids: %w[1 2] } }
+    let(:params) { { bucket_ids: %w[1 2].to_json } }
 
     it "is an alias for to_h, enabling ** spreading" do
       expect(filters.to_hash).to eq(filters.to_h)

@@ -58,12 +58,6 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_text("Beta Sprint")
     end
 
-    it "marks selected sprints as active" do
-      render_component(field_name: :sprint_ids, sprint_ids: [sprint1.id])
-      expect(page).to have_css("[aria-selected='true']", text: "Alpha Sprint")
-      expect(page).to have_css("[aria-selected='false']", text: "Beta Sprint")
-    end
-
     it "marks sprints selected in the JSON format as active" do
       render_component(field_name: :sprint_ids, sprint_ids: [sprint2.id.to_s].to_json)
       expect(page).to have_css("[aria-selected='false']", text: "Alpha Sprint")
@@ -90,12 +84,6 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       render_component(field_name: :bucket_ids)
       expect(page).to have_text("Ideas")
       expect(page).to have_text("Backlog")
-    end
-
-    it "marks selected buckets as active" do
-      render_component(field_name: :bucket_ids, bucket_ids: [bucket2.id])
-      expect(page).to have_element(aria: { selected: false }, text: "Ideas")
-      expect(page).to have_element(aria: { selected: true }, text: "Backlog")
     end
 
     it "marks inbox as active when selected in the JSON format" do

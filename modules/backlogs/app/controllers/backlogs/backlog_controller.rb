@@ -37,6 +37,7 @@ module Backlogs
       :backlog
     end
 
+    before_action :redirect_legacy_filter_params, only: %i[show details]
     before_action :build_backlog_query, only: %i[show details]
 
     def show
@@ -61,6 +62,18 @@ module Backlogs
     end
 
     private
+
+    def redirect_legacy_filter_params
+      converted_legacy_params = request.query_parameters
+                                    .slice("bucket_ids", "sprint_ids")
+                                    .select { |_, ids| ids.is_a?(Array) }
+                                    .transform_values(&:to_json)
+
+      return if converted_legacy_params.empty?
+
+      redirect_to action: action_name,
+                  params: permitted_params.backlog_filters.merge(converted_legacy_params)
+    end
 
     def build_backlog_query
       @backlog_query = backlog_query_builder.build

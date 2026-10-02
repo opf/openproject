@@ -168,7 +168,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
         it "still renders the shared selection description" do
           get "/projects/#{project.identifier}/backlogs/backlog",
-              params: { bucket_ids: [backlog_bucket.id] },
+              params: { bucket_ids: backlog_bucket.id.to_s.to_json },
               headers: { "Turbo-Frame" => "backlogs_container" }
 
           expect(response).to have_http_status(:ok)

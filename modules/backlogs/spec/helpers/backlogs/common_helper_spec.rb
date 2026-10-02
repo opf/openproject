@@ -113,9 +113,9 @@ RSpec.describe Backlogs::CommonHelper do
     end
 
     context "with bucket_ids and sprint_ids" do
-      let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
+      let(:params) { { bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json } }
 
-      it "includes both in to_h in the JSON format" do
+      it "includes both in to_h" do
         expect(helper.backlog_filters.to_h).to eq({ bucket_ids: %w[1 2].to_json, sprint_ids: "3".to_json })
       end
     end
@@ -146,14 +146,14 @@ RSpec.describe Backlogs::CommonHelper do
   end
 
   describe "#backlog_filter_params" do
-    let(:params) { { bucket_ids: %w[1 2], all: "1" } }
+    let(:params) { { bucket_ids: %w[1 2].to_json, all: "1" } }
 
     it "returns the same hash as backlog_filters.to_h" do
       expect(helper.backlog_filter_params).to eq(helper.backlog_filters.to_h)
     end
 
     context "with a filters param" do
-      let(:params) { { bucket_ids: %w[1 2], filters: 'status_id = "1"' } }
+      let(:params) { { bucket_ids: %w[1 2].to_json, filters: 'status_id = "1"' } }
 
       it "carries the filters param through alongside bucket_ids/sprint_ids/all" do
         expect(helper.backlog_filter_params).to eq(
@@ -177,7 +177,7 @@ RSpec.describe Backlogs::CommonHelper do
     end
 
     context "when only inbox is selected" do
-      let(:params) { { bucket_ids: ["inbox"] } }
+      let(:params) { { bucket_ids: "inbox".to_json } }
 
       it "returns no buckets" do
         expect(helper.filtered_buckets_for(project)).to be_empty
@@ -185,7 +185,7 @@ RSpec.describe Backlogs::CommonHelper do
     end
 
     context "when inbox and a specific bucket are selected" do
-      let(:params) { { bucket_ids: [bucket_a.id.to_s, "inbox"] } }
+      let(:params) { { bucket_ids: [bucket_a.id.to_s, "inbox"].to_json } }
 
       it "returns only the selected bucket" do
         expect(helper.filtered_buckets_for(project)).to contain_exactly(bucket_a)
@@ -193,18 +193,10 @@ RSpec.describe Backlogs::CommonHelper do
     end
 
     context "when only specific bucket IDs are selected" do
-      let(:params) { { bucket_ids: [bucket_a.id.to_s] } }
+      let(:params) { { bucket_ids: bucket_a.id.to_s.to_json } }
 
       it "returns only the matching bucket" do
         expect(helper.filtered_buckets_for(project)).to contain_exactly(bucket_a)
-      end
-    end
-
-    context "when bucket IDs are given in the JSON format" do
-      let(:params) { { bucket_ids: [bucket_b.id.to_s, "inbox"].to_json } }
-
-      it "returns only the matching bucket" do
-        expect(helper.filtered_buckets_for(project)).to contain_exactly(bucket_b)
       end
     end
   end

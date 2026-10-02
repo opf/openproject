@@ -65,14 +65,6 @@ RSpec.describe PermittedParams do
     subject(:permitted) { described_class.new(params, user).backlog_filters.to_h }
 
     context "with bucket_ids and sprint_ids" do
-      let(:params) { ActionController::Parameters.new(bucket_ids: %w[1 2], sprint_ids: %w[3]) }
-
-      it "permits both arrays" do
-        expect(permitted).to eq("bucket_ids" => %w[1 2], "sprint_ids" => %w[3])
-      end
-    end
-
-    context "with bucket_ids and sprint_ids as JSON strings" do
       let(:params) { ActionController::Parameters.new(bucket_ids: '["1","inbox"]', sprint_ids: '"3"') }
 
       it "permits both strings" do
@@ -97,10 +89,10 @@ RSpec.describe PermittedParams do
     end
 
     context "with unpermitted params" do
-      let(:params) { ActionController::Parameters.new(bucket_ids: %w[1], evil: "true") }
+      let(:params) { ActionController::Parameters.new(bucket_ids: "1", evil: "true") }
 
       it "filters them out" do
-        expect(permitted).to eq("bucket_ids" => %w[1])
+        expect(permitted).to eq("bucket_ids" => "1")
       end
     end
   end
