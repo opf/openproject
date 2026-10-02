@@ -7850,6 +7850,8 @@ en:
       requires_description: "Marks the related work package as a requirement to this one"
 
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"
