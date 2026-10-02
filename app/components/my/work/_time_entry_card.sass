@@ -51,6 +51,18 @@
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
 
+  .te-entry-card--due
+    display: flex
+    align-items: center
+    gap: 4px
+    margin-top: 6px
+    color: var(--fgColor-muted)
+    font-size: var(--text-caption-size)
+    line-height: var(--text-caption-lineHeight)
+
+  .te-entry-card--due-attention
+    color: var(--fgColor-attention)
+
   // Anchored rather than pushed down by the text, which would shove it out of a card that
   // is only just tall enough and get it clipped.
   .te-entry-card--icon
@@ -77,7 +89,8 @@
     text-overflow: ellipsis
 
   .te-entry-card--project,
-  .te-entry-card--times
+  .te-entry-card--times,
+  .te-entry-card--due
     display: none
 
   .te-entry-card--icon

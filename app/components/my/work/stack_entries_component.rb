@@ -42,13 +42,14 @@ module My
 
       private
 
-      def wrapper_data
+      def wrapper_data # rubocop:disable Metrics/AbcSize
         {
           "controller" => "my--work-stack",
           "my--work-stack-mode-value" => mode,
           "my--work-stack-time-entries-value" => time_entries_json,
           "my--work-stack-allocations-value" => allocations.to_json,
           "my--work-stack-initial-date-value" => date.iso8601,
+          "my--work-stack-today-value" => User.current.today.iso8601,
           "my--work-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
           "my--work-stack-locale-value" => I18n.locale,
           "my--work-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
