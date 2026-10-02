@@ -160,7 +160,7 @@ module Import
     # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
-      Rails.logger.debug "Creating type '#{issue_type['name']}'"
+      Rails.logger.debug { "Creating type '#{issue_type['name']}'" }
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
       uses_existing = true
 
@@ -193,9 +193,10 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
-      Rails.logger.debug "Creating status '#{issue_status['name']}'"
+      Rails.logger.debug { "Creating status '#{issue_status['name']}'" }
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
       uses_existing = true
       if status.blank?
@@ -208,10 +209,11 @@ module Import
       status
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
       if issue_priority.present?
-        Rails.logger.debug "Creating priority '#{issue_priority['name']}'"
+        Rails.logger.debug { "Creating priority '#{issue_priority['name']}'" }
         priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
         uses_existing = true
         if priority.blank?
@@ -224,6 +226,7 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def update_workflows(type)
       statuses = Status.all
       row = statuses.to_h { |status| [status.id.to_s, ["always"]] }

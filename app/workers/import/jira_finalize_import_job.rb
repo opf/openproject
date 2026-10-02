@@ -45,6 +45,7 @@ module Import
 
     private
 
+    # rubocop:disable-next Metrics/AbcSize
     def unlock_active_jira_users(jira_import)
       Import::JiraOpenProjectReference
         .where(
@@ -56,7 +57,7 @@ module Import
           jira_user = ref.jira_leg
           next unless jira_user.payload["active"]
 
-          Rails.logger.debug "Unlocking user '#{jira_user.origin_id}'"
+          Rails.logger.debug { "Unlocking user '#{jira_user.origin_id}'" }
           op_user = ref.op_leg
           Journal::NotificationConfiguration.with(false) do
             Journal::EventConfiguration.with(false) do

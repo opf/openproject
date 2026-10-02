@@ -47,7 +47,7 @@ module Import
 
     def fetch_data
       priorities_upsert_data = @jira_client.priorities.map do |payload|
-        Rails.logger.debug "Fetched priority '#{payload['name']}'"
+        Rails.logger.debug { "Fetched priority '#{payload['name']}'" }
         {
           payload:,
           origin_id: payload.fetch("id"),

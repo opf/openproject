@@ -143,7 +143,7 @@ module Import
     end
 
     def build_user_upsert_data(jira_user_key, created_at, updated_at, jira_import, jira_client)
-      Rails.logger.debug "Fetched user '#{jira_user_key}'"
+      Rails.logger.debug { "Fetched user '#{jira_user_key}'" }
       # here we send a direct user request to get group memberships
       # which are not returned by users_search endpoint
       jira_user_by_key = jira_client.user_by_key(key: jira_user_key)
