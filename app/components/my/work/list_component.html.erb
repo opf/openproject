@@ -11,10 +11,10 @@
             <% section.with_title { date_title(date) } %>
             <% section.with_caption { date_caption(date) } %>
             <% section.with_additional_information do %>
-              <%= render(My::Work::ListStatsComponent.new(time_entries: grouped_time_entries[date], allocations: grouped_allocations[date], date:, mode:)) %>
+              <%= render(My::Work::ListStatsComponent.new(time_entries: grouped_time_entries[date], allocations:, date:, mode:)) %>
             <% end %>
             <% section.with_collapsible_content do %>
-              <%= render(My::Work::ListWrapperComponent.new(time_entries: grouped_time_entries[date], allocations: grouped_allocations[date], date: date, mode: mode)) %>
+              <%= render(My::Work::ListWrapperComponent.new(time_entries: grouped_time_entries[date], allocations:, date:, mode:)) %>
             <% end %>
           <% end %>
         <% end %>

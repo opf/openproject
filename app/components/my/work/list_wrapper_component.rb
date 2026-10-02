@@ -32,9 +32,10 @@ module My
   module Work
     class ListWrapperComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include My::WorkHelper
 
       options :time_entries, :date, :mode
-      options allocations: []
+      options allocations: nil
 
       def wrapper_key
         "time-entries-list-#{options[:date].iso8601}"
@@ -49,7 +50,7 @@ module My
       private
 
       def remaining_allocations
-        @remaining_allocations ||= RemainingAllocations.call(allocations:, time_entries:)
+        @remaining_allocations ||= RemainingAllocations.call(allocations:, time_entries:, dates: list_section_dates(date, mode))
       end
     end
   end

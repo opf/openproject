@@ -33,22 +33,29 @@ module My
     # What is left of each allocation once the time logged on its work package that day
     # is taken off, mirroring remainingHours in the stack and calendar views.
     class RemainingAllocations
-      def self.call(allocations:, time_entries:)
-        new(allocations:, time_entries:).call
+      # `allocations` is a ResourceAllocations::AllocatedTimeFor, or nil when allocations are
+      # not shown at all.
+      def self.call(allocations:, time_entries:, dates:)
+        new(allocations:, time_entries:, dates:).call
       end
 
-      def initialize(allocations:, time_entries:)
+      def initialize(allocations:, time_entries:, dates:)
         @allocations = allocations
         @time_entries = time_entries
+        @dates = dates
       end
 
       # @return [Array<My::Work::AllocationRow::Entry>]
       def call
-        @allocations.filter_map do |event|
-          entry = event.scheduled_entry
-          hours = ((entry.minutes / 60.0) - logged_hours_on(entry, visible: event.visible)).round(2)
+        return [] unless @allocations
 
-          AllocationRow::Entry.new(scheduled_entry: entry, visible: event.visible, hours:) if hours.positive?
+        @allocations.items.filter_map do |entry|
+          next unless @dates.include?(entry.allocated_on)
+
+          visible = @allocations.visible?(entry)
+          hours = ((entry.minutes / 60.0) - logged_hours_on(entry, visible:)).round(2)
+
+          AllocationRow::Entry.new(scheduled_entry: entry, visible:, hours:) if hours.positive?
         end
       end
 

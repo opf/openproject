@@ -38,7 +38,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
   let(:date) { Date.civil(2022, 5, 4) }
   let(:mode) { :day }
   let(:time_entries) { [] }
-  let(:allocations) { [] }
+  let(:allocations) { nil }
 
   current_user { create(:user) }
 
@@ -46,12 +46,12 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
     render_component(time_entries:, allocations:, date:, mode:)
   end
 
-  def allocation_on(day, minutes:)
+  def allocated_on(day, minutes:)
     work_package = build_stubbed(:work_package)
     allocation = build_stubbed(:resource_allocation, entity: work_package)
     entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: day, minutes:)
 
-    FullCalendar::ResourceAllocationEvent.from_scheduled_entry(entry, visible: true)
+    instance_double(ResourceAllocations::AllocatedTimeFor, items: [entry], visible?: true)
   end
 
   def stats
@@ -96,7 +96,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
     end
 
     context "with allocated time" do
-      let(:allocations) { [allocation_on(date, minutes: 240)] }
+      let(:allocations) { allocated_on(date, minutes: 240) }
 
       it "renders the logged and the allocated time" do
         expect(rendered_component).to have_css(".octicon-op-person-assigned")
@@ -106,7 +106,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
 
     context "with only allocated time" do
       let(:time_entries) { [] }
-      let(:allocations) { [allocation_on(date, minutes: 240)] }
+      let(:allocations) { allocated_on(date, minutes: 240) }
 
       it "leaves the logged time out" do
         expect(rendered_component).to have_no_css(".octicon-clock")
@@ -115,7 +115,7 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
     end
 
     context "with more than the working hours covered" do
-      let(:allocations) { [allocation_on(date, minutes: 360)] }
+      let(:allocations) { allocated_on(date, minutes: 360) }
 
       it "highlights the coverage" do
         expect(rendered_component).to have_primer_text "- 9h/8h", color: "danger"
@@ -128,6 +128,14 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
 
       it "covers the working hours of the week" do
         expect(stats).to eq "3h - 3h/40h"
+      end
+    end
+
+    context "with time allocated on another day" do
+      let(:allocations) { allocated_on(date + 1.day, minutes: 240) }
+
+      it "leaves it out" do
+        expect(stats).to eq "3h - 3h/8h"
       end
     end
   end

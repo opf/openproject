@@ -126,7 +126,7 @@ RSpec.describe My::WorkController do
 
         expect(assigns(:entries)).to eq(:all)
         expect(assigns(:time_entries)).not_to be_nil
-        expect(assigns(:allocations)).not_to be_nil
+        expect(assigns(:allocations)).to be_a(ResourceAllocations::AllocatedTimeFor)
       end
 
       it "loads only logged time when asked to" do
@@ -134,7 +134,7 @@ RSpec.describe My::WorkController do
 
         get :index, params: { view_mode: :stack, entries: "logged" }
 
-        expect(assigns(:allocations)).to eq([])
+        expect(assigns(:allocations)).to be_nil
         expect(ResourceAllocations::AllocatedTimeFor).not_to have_received(:new)
       end
 

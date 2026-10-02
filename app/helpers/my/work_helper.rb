@@ -50,6 +50,11 @@ module My
       week_days(date).select { |day| worked.include?(day.wday) }
     end
 
+    # A month is listed by week, so its sections stand for the week starting on their date.
+    def list_section_dates(date, mode)
+      mode.to_sym == :month ? date..(date + 6.days) : date..date
+    end
+
     def date_range(from, to)
       if from.year == to.year && from.month == to.month
         [I18n.l(from, format: "%d."), I18n.l(to, format: "%d. %B %Y")].join(" - ")
