@@ -35,7 +35,7 @@ module CustomFields::CustomFieldRendering
     "text" => "CustomFields::Inputs::Text",
     "int" => "CustomFields::Inputs::Int",
     "float" => "CustomFields::Inputs::Float",
-    %w[hierarchy weighted_item_list list] => "CustomFields::Inputs::SingleSelectList",
+    %w[weighted_item_list list] => "CustomFields::Inputs::SingleSelectList",
     "date" => "CustomFields::Inputs::Date",
     "datetime" => "CustomFields::Inputs::DateTime",
     "bool" => "CustomFields::Inputs::Bool",
@@ -45,7 +45,7 @@ module CustomFields::CustomFieldRendering
   ).freeze
 
   MULTI_VALUE_INPUT_CLASS_NAMES = OpenProject::MultiKeyHash.expand(
-    %w[hierarchy weighted_item_list list] => "CustomFields::Inputs::MultiSelectList",
+    %w[weighted_item_list list] => "CustomFields::Inputs::MultiSelectList",
     "user" => "CustomFields::Inputs::MultiUserSelectList",
     "version" => "CustomFields::Inputs::MultiVersionSelectList"
   ).freeze

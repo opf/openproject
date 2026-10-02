@@ -29,25 +29,39 @@
 #++
 
 require "spec_helper"
-require Rails.root.join("db/migrate/20261002090000_add_was_list_to_custom_fields")
+require Rails.root.join("db/migrate/20261002090000_merge_hierarchy_custom_fields_into_lists")
 
-RSpec.describe AddWasListToCustomFields, type: :model do
+RSpec.describe MergeHierarchyCustomFieldsIntoLists, type: :model do
   let(:conn) { ActiveRecord::Base.connection }
 
-  def was_list?(custom_field)
-    conn.select_value("SELECT was_list FROM custom_fields WHERE id = #{custom_field.id}")
+  def stored(custom_field)
+    conn.select_one("SELECT field_format, was_list FROM custom_fields WHERE id = #{custom_field.id}")
   end
 
-  it "flags the fields that were option lists, and only those", with_ee: [:custom_field_hierarchies] do
-    list = create(:list_wp_custom_field)
-    hierarchy = create(:hierarchy_wp_custom_field)
+  # The factories already describe the merged formats, so the pre-migration ones are set by hand.
+  def as_before_the_merge(custom_field, field_format)
+    conn.execute("UPDATE custom_fields SET field_format = '#{field_format}' WHERE id = #{custom_field.id}")
+    custom_field
+  end
+
+  it "flags former lists and turns hierarchies into lists that may nest" do
+    list = as_before_the_merge(create(:list_wp_custom_field), "list")
+    hierarchy = as_before_the_merge(create(:list_wp_custom_field), "hierarchy")
 
     ActiveRecord::Migration.suppress_messages do
       described_class.migrate(:down)
       described_class.migrate(:up)
     end
 
-    expect(was_list?(list)).to be(true)
-    expect(was_list?(hierarchy)).to be(false)
+    expect(stored(list)).to eq("field_format" => "list", "was_list" => true)
+    expect(stored(hierarchy)).to eq("field_format" => "list", "was_list" => false)
+  end
+
+  it "turns lists that may nest back into hierarchies on the way down" do
+    nested = create(:list_wp_custom_field, was_list: false)
+
+    ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
+
+    expect(conn.select_value("SELECT field_format FROM custom_fields WHERE id = #{nested.id}")).to eq("hierarchy")
   end
 end

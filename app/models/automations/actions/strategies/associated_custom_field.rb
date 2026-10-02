@@ -41,6 +41,6 @@ module Automations::Actions::Strategies::AssociatedCustomField
   def associated
     custom_field
       .possible_values_options
-      .map { |label, value| [value.empty? ? nil : value.to_i, label] }
+      .map { |label, value| [value.presence&.to_i, label] }
   end
 end

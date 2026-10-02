@@ -50,7 +50,7 @@ RSpec.describe CustomFields::LegacyOptionIdResolver, with_ee: [:custom_field_hie
   end
 
   it "does not look ids up for a list field that never held custom options" do
-    new_list = create(:list_wp_custom_field)
+    new_list = create(:list_wp_custom_field, was_list: false)
 
     expect { described_class.resolve(custom_field: new_list, id: legacy_id) }.to have_a_query_limit(0)
   end

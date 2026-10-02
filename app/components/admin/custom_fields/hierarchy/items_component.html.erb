@@ -104,9 +104,9 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    # A single-level list has no tree to navigate, and Primer::Alpha::Layout#render? requires
+    # A former option list has no tree to navigate, and Primer::Alpha::Layout#render? requires
     # both a main and a sidebar slot to render anything at all — so it must not wrap main content here.
-    if custom_field.list?
+    if custom_field.was_list?
       render(Primer::BaseComponent.new(tag: :div, overflow: :auto, h: :full, classes: "custom-fields-hierarchy-page")) { main_content }
     else
       render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "custom-fields-hierarchy-page")) do |content|

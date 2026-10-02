@@ -182,7 +182,7 @@ class CustomField < ApplicationRecord
     when "version"
       possible_version_values_options(obj, options:)
     when "list"
-      possible_values.map { |item| [item.label, item.id.to_s] }
+      nestable? ? custom_field_hierarchy_items : possible_values.map { |item| [item.label, item.id.to_s] }
     else
       possible_values
     end
@@ -208,8 +208,8 @@ class CustomField < ApplicationRecord
     when "version"
       possible_versions(obj).pluck(:id).map(&:to_s)
     when "list"
-      hierarchy_root.children.order(:sort_order)
-    when "hierarchy", "weighted_item_list"
+      hierarchy_root.descendants.reorder(:position_cache)
+    when "weighted_item_list"
       custom_field_hierarchy_items
     else
       read_attribute(:possible_values)
@@ -297,7 +297,7 @@ class CustomField < ApplicationRecord
       Principal.find_by(id: value.to_i)
     when "version"
       Version.find_by(id: value.to_i)
-    when "list", "hierarchy", "weighted_item_list"
+    when "list", "weighted_item_list"
       CustomField::Hierarchy::Item.find_by(id: value.to_i)
     end
   end
@@ -378,6 +378,17 @@ class CustomField < ApplicationRecord
     field_format == "list"
   end
 
+  def was_list? = list? && super
+
+  # Former option lists stay flat; other lists and weighted item lists may nest their items.
+  def nestable? = field_format_weighted_item_list? || (list? && !was_list?)
+
+  def nested_items_editable?
+    field_format_weighted_item_list? || (nestable? && EnterpriseToken.allows_to?(:custom_field_hierarchies))
+  end
+
+  def short_names_allowed? = list? && nestable? && EnterpriseToken.allows_to?(:custom_field_hierarchies)
+
   def user?
     field_format == "user"
   end
@@ -394,10 +405,6 @@ class CustomField < ApplicationRecord
     field_format == "bool"
   end
 
-  def field_format_hierarchy?
-    field_format == "hierarchy"
-  end
-
   def field_format_weighted_item_list?
     field_format == "weighted_item_list"
   end
@@ -409,7 +416,7 @@ class CustomField < ApplicationRecord
   def calculated_value? = field_format_calculated_value?
 
   def hierarchical_list?
-    list? || field_format_hierarchy? || field_format_weighted_item_list?
+    list? || field_format_weighted_item_list?
   end
 
   def multi_value_possible?
@@ -470,8 +477,8 @@ class CustomField < ApplicationRecord
   end
 
   def default_hierarchy_item_ids
-    # A list's items are exactly its root's children, so preloaded children answer without a query.
-    if list? && hierarchy_root.association(:children).loaded?
+    # A former list's items are exactly its root's children, so preloaded children answer without a query.
+    if was_list? && hierarchy_root.association(:children).loaded?
       return hierarchy_root.children.select(&:default_value).map { |item| item.id.to_s }
     end
 
