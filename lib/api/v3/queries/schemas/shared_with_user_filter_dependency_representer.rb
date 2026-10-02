@@ -30,29 +30,18 @@ module API
   module V3
     module Queries
       module Schemas
-        class AccessToProjectFilterDependencyRepresenter <
+        class SharedWithUserFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
-          def json_cache_key
-            if filter.project
-              super + [filter.project.id]
-            else
-              super
-            end
-          end
-
           private
 
+          # A work package can be shared with any visible user or group, not just with
+          # members of its project, hence no project scoping here.
           def filter_query
-            params = [{ status: { operator: "!",
-                                  values: [Principal.statuses[:locked].to_s] } }]
-
-            params << if filter.project
-                        { access_to_anything_in_project: { operator: "=", values: [filter.project.id.to_s] } }
-                      else
-                        { access_to_anything_in_project: { operator: "*", values: [] } }
-                      end
-
-            params
+            [{ type: { operator: "=",
+                       values: ::Queries::WorkPackages::Filter::SharedWithUserFilter::SHAREABLE_TYPES } },
+             { status: { operator: "=",
+                         values: ::Queries::WorkPackages::Filter::SharedWithUserFilter::SHAREABLE_STATUSES
+                                   .map(&:to_s) } }]
           end
         end
       end
