@@ -41,18 +41,32 @@ jobs:
     runs-on:
       labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
     timeout-minutes: 10
+    outputs:
+      docker-key: ${{ steps.constants.outputs.docker-key }}
+      gem-key: ${{ steps.constants.outputs.gem-key }}
+      database-key: ${{ steps.constants.outputs.database-key }}
+      assets-key: ${{ steps.constants.outputs.assets-key }}
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
+    - name: Constants
+      id: constants
+      run: |
+        cat << EOF >> "$GITHUB_OUTPUT"
+        docker-key=docker-ci-${{ runner.os }}-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        gem-key=gem-${{ runner.os }}-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        database-key=database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
+        assets-key=assets-${{ github.sha }}
+        EOF
     - name: Cache DOCKER
       id: cache_docker
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        key: ${{ steps.constants.outputs.docker-key }}
     - name: Restore CI image from cache
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i tmp/ci-cache/docker/image.tar
@@ -66,9 +80,9 @@ jobs:
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/bundle
-        key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        key: ${{ steps.constants.outputs.gem-key }}
         restore-keys: |
-          gem-trixie-${{ hashFiles('.ruby-version') }}-
+          gem-${{ runner.os }}-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
@@ -89,7 +103,7 @@ jobs:
         path: |
           db/structure.sql
           config/database.yml
-        key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
+        key: ${{ steps.constants.outputs.database-key }}
     - name: Cache ASSETS
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
@@ -98,7 +112,7 @@ jobs:
           config/frontend_assets.manifest.json
           extensions/op-blocknote-hocuspocus/node_modules
           .cache/selenium
-        key: assets-${{ github.sha }}
+        key: ${{ steps.constants.outputs.assets-key }}
     - name: Build
       run: bin/ci setup-tests
     - name: APIv3 specification (OpenAPI 3.0)
@@ -125,13 +139,13 @@ jobs:
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/docker
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        key: ${{ needs.setup.outputs.docker-key }}
         fail-on-cache-miss: true
     - name: Restore GEM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/bundle
-        key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        key: ${{ needs.setup.outputs.gem-key }}
         fail-on-cache-miss: true
     - name: Restore DATABASE cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
@@ -139,7 +153,7 @@ jobs:
         path: |
           db/structure.sql
           config/database.yml
-        key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
+        key: ${{ needs.setup.outputs.database-key }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
@@ -174,13 +188,13 @@ jobs:
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/docker
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        key: ${{ needs.setup.outputs.docker-key }}
         fail-on-cache-miss: true
     - name: Restore GEM cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: tmp/ci-cache/bundle
-        key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        key: ${{ needs.setup.outputs.gem-key }}
         fail-on-cache-miss: true
     - name: Restore DATABASE cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
@@ -188,7 +202,7 @@ jobs:
         path: |
           db/structure.sql
           config/database.yml
-        key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
+        key: ${{ needs.setup.outputs.database-key }}
         fail-on-cache-miss: true
     - name: Restore ASSETS cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
@@ -198,7 +212,7 @@ jobs:
           config/frontend_assets.manifest.json
           extensions/op-blocknote-hocuspocus/node_modules
           .cache/selenium
-        key: assets-${{ github.sha }}
+        key: ${{ needs.setup.outputs.assets-key }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
