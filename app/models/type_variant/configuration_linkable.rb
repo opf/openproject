@@ -115,8 +115,14 @@ class TypeVariant
       source_for(aspect) || self
     end
 
+    def excludable?(aspect)
+      return false unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
+
+      aspect == TypeVariant::FORM_CONFIGURATION || linked?(aspect)
+    end
+
     def excluded_elements(aspect)
-      return [] unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect) && linked?(aspect)
+      return [] unless excludable?(aspect)
 
       Array(self["#{aspect}_excluded_elements"]).uniq
     end
@@ -172,37 +178,6 @@ class TypeVariant
       source.export_templates_settings
     end
 
-    # Follows the reader-override pattern above, but yields this variant's own groups while a change
-    # is pending: the switch-to-Independent copy assigns groups and reads them back to sync active
-    # custom fields while the link still exists (CopyConfiguration::FormConfigurationService), and
-    # must see what it just set.
-    def attribute_groups
-      source = source_for(TypeVariant::FORM_CONFIGURATION)
-      return super if source.nil? || attribute_groups_changed?
-
-      without_excluded_elements(source.attribute_groups)
-    end
-
-    def required_attributes
-      source = source_for(TypeVariant::FORM_CONFIGURATION)
-      return super if source.nil? || required_attributes_changed?
-
-      source.required_attributes - excluded_elements(TypeVariant::FORM_CONFIGURATION)
-    end
-
-    # custom_fields resolves through the form source. Beware of reader-driven mutation: currently,
-    # the only one is Jira import's `custom_fields <<`, but it runs on a FORM_CONFIGURATION-
-    # independent variant, so it reaches super.
-    def custom_fields
-      source = source_for(TypeVariant::FORM_CONFIGURATION)
-      return super if source.nil?
-
-      excluded_ids = excluded_custom_field_ids(TypeVariant::FORM_CONFIGURATION)
-      return source.custom_fields if excluded_ids.empty?
-
-      source.custom_fields.where.not(id: excluded_ids)
-    end
-
     # The ids of the custom fields this variant does not inherit for `aspect`. An element list can
     # also carry plain attribute keys ("assignee") and query groups ("query_7"), which have no
     # custom field to map to and are dropped here.
@@ -227,40 +202,6 @@ class TypeVariant
     def linked_aspects_are_valid
       errors.add(:linked_aspects, :inclusion) if (linked_aspects - TypeVariant::ASPECTS).any?
       errors.add(:linked_aspects, :present) if is_default_variant? && linked_aspects.any?
-    end
-
-    # Applies the exclusions to the owner's groups. A group left with no attributes is dropped
-    # rather than rendered empty.
-    #
-    # Groups are duplicated before being narrowed: they are memoized on the owner as its
-    # attribute_groups_objects, so narrowing them in place would change what the owning variant
-    # reads for itself.
-    def without_excluded_elements(groups)
-      excluded = excluded_elements(TypeVariant::FORM_CONFIGURATION)
-      return groups if excluded.empty?
-
-      groups.filter_map do |group|
-        next retained_query_group(group, excluded) if group.group_type == :query
-
-        remaining = group.attributes - excluded
-        next if remaining.empty?
-        next group if remaining.length == group.attributes.length
-
-        group.dup.tap { |narrowed| narrowed.attributes = remaining }
-      end
-    end
-
-    # A query group is a section holding a single query, stored under the element key "query_<id>"
-    # (see Type::AttributeGroups#to_attribute_group_array), so excluding that key drops the whole
-    # group. It cannot go through the narrowing above because Type::QueryGroup#attributes is the
-    # query itself rather than a list of attribute keys.
-    #
-    # A group whose query no longer exists is left alone: there is no id to exclude it by, and
-    # dropping it here would hide it from the form configuration that still has to repair it.
-    def retained_query_group(group, excluded)
-      return group if group.query.blank?
-
-      group unless excluded.include?(group.query_attribute_name.to_s)
     end
   end
 end

@@ -111,7 +111,7 @@ RSpec.describe Type do
     # A field on the variant's own form is invisible in the work package form until the project
     # activates it, and nothing else can find the projects a variant configures.
     it "activates the type's fields in the projects it configures" do
-      custom_field = create(:integer_wp_custom_field, type_variants: [variant])
+      custom_field = create(:integer_wp_custom_field, types: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .to change { project_using_variant.reload.work_package_custom_field_ids }
@@ -120,7 +120,7 @@ RSpec.describe Type do
     end
 
     it "leaves projects resolving the family elsewhere alone" do
-      create(:integer_wp_custom_field, type_variants: [variant])
+      create(:integer_wp_custom_field, types: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .not_to change { project_using_root.reload.work_package_custom_field_ids }
@@ -129,7 +129,7 @@ RSpec.describe Type do
     it "adds to a project's activation rather than replacing it" do
       existing = create(:integer_wp_custom_field)
       project_using_variant.work_package_custom_fields << existing
-      added = create(:integer_wp_custom_field, type_variants: [variant])
+      added = create(:integer_wp_custom_field, types: [variant])
 
       variant.activate_custom_fields_in_effective_projects!
 
@@ -505,6 +505,35 @@ RSpec.describe Type do
       end
     end
 
+    describe "#move_after_anchor" do
+      it "moves a template below the anchor" do
+        type.pdf_export_templates.move_after_anchor("attributes", "artefact")
+        type.save!
+
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[contract artefact attributes])
+      end
+
+      it "moves a template to the top for a blank prev_id" do
+        type.pdf_export_templates.move_after_anchor("artefact", nil)
+        type.save!
+
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[artefact attributes contract])
+      end
+
+      it "returns false without mutating for an unknown anchor" do
+        expect(type.pdf_export_templates.move_after_anchor("attributes", "bogus")).to be(false)
+        expect(type.pdf_export_templates.list.map(&:id)).to eq(%w[attributes contract artefact])
+      end
+
+      it "returns false without mutating for an unknown template" do
+        expect(type.pdf_export_templates.move_after_anchor("bogus", "attributes")).to be(false)
+      end
+
+      it "returns false when the anchor is the template itself" do
+        expect(type.pdf_export_templates.move_after_anchor("attributes", "attributes")).to be(false)
+      end
+    end
+
     context "when the variant is linked to its base" do
       let(:variant) { create(:type_variant, type: type.type) }
       let(:base) { type }
@@ -520,7 +549,8 @@ RSpec.describe Type do
         link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
       end
 
-      it "refuses to write via #update_settings, #clear_setting, #toggle, #move, #enable_all, #disable_all" do
+      it "refuses to write via #update_settings, #clear_setting, #toggle, #move_after_anchor, #enable_all, " \
+         "#disable_all" do
         pdf_export_templates = variant.pdf_export_templates
 
         expect { pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override") }
@@ -529,7 +559,7 @@ RSpec.describe Type do
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)
         expect { pdf_export_templates.toggle("attributes") }
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)
-        expect { pdf_export_templates.move("attributes", 1) }
+        expect { pdf_export_templates.move_after_anchor("attributes", nil) }
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)
         expect { pdf_export_templates.enable_all }
           .to raise_error(Type::PdfExportTemplates::ReadonlyError)

@@ -46,7 +46,6 @@ describe('currentProject service', () => {
       providers: [
         CurrentProjectService,
         PathHelperService,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         { provide: ApiV3Service, useValue: apiV3Stub },
       ],
     });

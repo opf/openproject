@@ -33,7 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     Admin::CustomFields::EditFormHeaderComponent.new(
       custom_field: @custom_field,
-      selected: :custom_field_projects
+      selected: :custom_field_projects,
+      section_label: t(:label_work_package_plural),
+      page_title: t(:label_custom_field_plural)
     )
   )
 %>
@@ -41,12 +43,14 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   unless @custom_field.is_for_all?
     render(Primer::OpenProject::SubHeader.new(test_selector: "add-projects-sub-header")) do |component|
-      component.with_action_button(scheme: :primary,
-                                   leading_icon: :"op-include-projects",
-                                   label: I18n.t(:label_add_projects),
-                                   tag: :a,
-                                   href: new_custom_field_project_path(@custom_field),
-                                   data: { controller: "async-dialog" }) do
+      component.with_action_button(
+        scheme: :primary,
+        leading_icon: :"op-include-projects",
+        label: I18n.t(:label_add_projects),
+        tag: :a,
+        href: new_custom_field_project_path(@custom_field),
+        data: { controller: "async-dialog" }
+      ) do
         I18n.t(:label_add_projects)
       end
     end

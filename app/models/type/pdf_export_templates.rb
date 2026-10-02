@@ -31,6 +31,8 @@
 class Type::PdfExportTemplates
   include WorkPackage::PDFExport::Templates
 
+  SORTABLE_LIST_TYPE = "pdf_export_templates"
+
   Template = Data.define(:id, :label, :caption, :enabled, :settings_component)
 
   class ReadonlyError < StandardError; end
@@ -84,14 +86,18 @@ class Type::PdfExportTemplates
     @type.export_templates_disabled = disabled
   end
 
-  def move(template_id, position)
+  def move_after_anchor(template_id, prev_id) # rubocop:disable Naming/PredicateMethod -- verb command, not a query
     raise_if_readonly!
 
-    ordered_template_ids = list.map(&:id)
-    prev_index = ordered_template_ids.find_index(template_id)
-    ordered_template_ids.delete_at(prev_index) unless prev_index.nil?
-    ordered_template_ids.insert(position, template_id)
-    @type.export_templates_order = ordered_template_ids
+    ordered_ids = list.map(&:id)
+    return false if ordered_ids.exclude?(template_id)
+    return false if !prev_id.nil? && prev_id != "" && (prev_id == template_id || ordered_ids.exclude?(prev_id))
+
+    ordered_ids.delete(template_id)
+    index = prev_id.present? ? ordered_ids.index(prev_id) + 1 : 0
+    ordered_ids.insert(index, template_id)
+    @type.export_templates_order = ordered_ids
+    true
   end
 
   def settings_for(template_id)

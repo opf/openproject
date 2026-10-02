@@ -29,8 +29,8 @@
 FactoryBot.define do
   factory :gitlab_user do
     sequence(:gitlab_id)
-    sequence(:gitlab_username) { |n| "user_#{n}" }
-    gitlab_name { "User #{gitlab_username}" }
-    gitlab_avatar_url { "https://gitlab.com/#{gitlab_username}_avatar.jpg" }
+    sequence(:username) { |n| "user_#{n}" }
+    name { "User #{username}" }
+    avatar_url { "https://gitlab.com/#{username}_avatar.jpg" }
   end
 end

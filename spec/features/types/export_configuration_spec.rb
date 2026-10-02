@@ -71,6 +71,14 @@ RSpec.describe "type export configuration tab", :js do
     )
   end
 
+  def open_pdf_export_template_menu(template)
+    trigger = within_pdf_export_template_container(template) do
+      find(:button, accessible_name: I18n.t(:button_actions))
+    end
+    trigger.click
+    page.find(:menu, id: trigger["aria-controls"])
+  end
+
   it "disables/enables all" do
     click_link(I18n.t("types.edit.export_configuration.pdf_export_templates.actions.label_disable_all"))
     wait_for_reload
@@ -99,19 +107,35 @@ RSpec.describe "type export configuration tab", :js do
     end
   end
 
-  it "reorders by drag and drop" do
-    first_id = variant.pdf_export_templates.list_enabled.first.id
-    second_id = variant.pdf_export_templates.list_enabled[1].id
-    Pages::Page.new.drag_and_drop_list(
-      from: 0,
-      to: 1,
-      elements: "[data-test-selector^='pdf-export-template-row-']",
-      handler: ".DragHandle"
-    )
-    wait_for_network_idle
+  # Real drag coverage needs the Selenium driver: Cuprite cannot reliably
+  # deliver the native drag lifecycle the sortable-lists controller relies on.
+  it "reorders by drag and drop", :selenium do
+    first = variant.pdf_export_templates.list_enabled.first
+    second = variant.pdf_export_templates.list_enabled[1]
+
+    handle = within_pdf_export_template_container(first) { find(".DragHandle") }
+    target = find(test_selector("pdf-export-template-row-#{second.id}"))
+    offset_y = (target.native.rect.height / 2) - [6, target.native.rect.height / 4].min
+
+    perform_native_drag(source: handle, target:, offset_y: offset_y.round)
+    expect(page).to have_no_css("[data-pdnd-honey-pot]", wait: 2, visible: :all)
+    expect(page).to have_no_css("[data-sortable-lists-busy]")
 
     variant.reload
+    expect(variant.pdf_export_templates.list.first.id).to eq(second.id)
+    expect(variant.pdf_export_templates.list[1].id).to eq(first.id)
+  end
+
+  it "reorders via the keyboard-accessible move menu" do
+    first_id = variant.pdf_export_templates.list_enabled.first.id
+    second = variant.pdf_export_templates.list_enabled[1]
+
+    menu = open_pdf_export_template_menu(second)
+    menu.find(:menuitem, I18n.t(:label_sort_highest)).click
+    wait_for_reload
+
+    variant.reload
+    expect(variant.pdf_export_templates.list.first.id).to eq(second.id)
     expect(variant.pdf_export_templates.list[1].id).to eq(first_id)
-    expect(variant.pdf_export_templates.list.first.id).to eq(second_id)
   end
 end

@@ -31,6 +31,7 @@
 class Workflows::Copies::FromRolesController < ApplicationController
   include WorkPackageTypes::AddressesVariant
   include ::WorkPackageTypes::ConfiguredInScope
+  include ::WorkPackageTypes::VariantRoutes
   include OpTurbo::ComponentStream
 
   before_action :set_workflow
@@ -90,7 +91,7 @@ class Workflows::Copies::FromRolesController < ApplicationController
     if standalone?
       workflow_matrix_path(@workflow, tab: params[:tab], role_ids:)
     else
-      type_workflow_matrix_path(**@source_variant.path_args, tab: params[:tab], role_ids:)
+      variant_workflow_matrix_path(variant_scope_project, @source_variant, tab: params[:tab], role_ids:)
     end
   end
 

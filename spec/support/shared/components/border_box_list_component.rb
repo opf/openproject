@@ -47,39 +47,3 @@ RSpec.shared_examples_for "rendering an empty Border Box List" do |heading:, ico
   it_behaves_like("rendering Box", row_count: 0, header:)
   it_behaves_like("rendering Blank Slate", heading:, icon:)
 end
-
-# Shared expectations for lists rendered through
-# OpenProject::Common::BorderBoxListComponent with generic drag-and-drop
-# reordering.
-#
-# Including contexts must pass +drag_type:+ and define the following:
-#
-# - +draggable_records+: ordered records expected to render as rows.
-# - +drop_url_for(record)+: the value each row's +data-drop-url+ ends with.
-# - +draggable_id_for(record)+: optional value for +data-draggable-id+.
-#   Defaults to +record.id+.
-RSpec.shared_examples_for "a reorderable Border Box List" do |drag_type:|
-  it "renders a drag-and-drop enabled Border Box List container" do
-    expect(rendered_component)
-      .to have_css(".Box.op-border-box-list[data-generic-drag-and-drop-target='container']") do |box|
-        expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-        expect(box["data-target-allowed-drag-type"]).to eq(drag_type)
-      end
-  end
-
-  it "renders the expected number of draggable rows" do
-    expect(rendered_component)
-      .to have_css(".Box-row[data-draggable-type='#{drag_type}']", count: draggable_records.size)
-  end
-
-  it "renders each record as a draggable row pointing at its drop URL", :aggregate_failures do
-    draggable_records.each do |record|
-      draggable_id = respond_to?(:draggable_id_for) ? draggable_id_for(record) : record.id
-      selector = ".Box-row[data-draggable-type='#{drag_type}'][data-draggable-id='#{draggable_id}']"
-
-      expect(rendered_component).to have_css(selector) do |row|
-        expect(row["data-drop-url"]).to end_with(drop_url_for(record))
-      end
-    end
-  end
-end

@@ -32,6 +32,7 @@ module WorkPackageTypes
   module ProjectsTab
     class RowComponent < ::Projects::RowComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def wrapper_uniq_by
         "project-#{project.id}"
@@ -52,7 +53,7 @@ module WorkPackageTypes
           scheme: :default,
           icon: :"list-ordered",
           label: I18n.t("types.edit.projects.actions.switch_variant"),
-          href: url_helpers.new_switch_type_projects_path(**variant.path_args, project_id: project.id),
+          href: new_switch_variant_projects_path(variant, project_id: project.id),
           data: { controller: "async-dialog" }
         }
       end
@@ -62,9 +63,7 @@ module WorkPackageTypes
           scheme: :danger,
           icon: :trash,
           label: I18n.t("types.edit.projects.actions.remove_from_project"),
-          href: url_helpers.unlink_type_projects_path(**variant.path_args,
-                                                      project_id: project.id,
-                                                      page: current_page),
+          href: unlink_variant_projects_path(variant, project_id: project.id, page: current_page),
           data: { turbo_method: :delete, turbo_confirm: confirm_removal }
         }
       end

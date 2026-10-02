@@ -56,7 +56,7 @@ export class WorkPackageContextMenuHelperService {
   private wpViewIndent = inject(WorkPackageViewHierarchyIdentationService);
   private PathHelper = inject(PathHelperService);
 
-  private BULK_ACTIONS = [
+  private BULK_ACTIONS:WorkPackageAction[] = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
       key: 'edit',

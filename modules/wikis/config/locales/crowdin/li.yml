@@ -13,7 +13,7 @@ li:
         authentication_methods:
           oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
-        token_exchange_scope: XWiki Scope
+        token_exchange_scope: XWiki Reikwiedte
         url: Instance URL
         wiki_audience: XWiki Audience
     errors:
@@ -134,9 +134,9 @@ li:
           xwiki_oauth_description: Allow OpenProject to access XWiki data using an OAuth.
     buttons:
       connect_account: Connect %{provider} account
-      done_continue: Done, continue
+      done_continue: Vaerdig, doorgaon
       open_wiki: Open wiki
-      save_and_continue: Save and continue
+      save_and_continue: Opslaon en doorgaon
       wiki_page: Wiki page
     create_new_wiki_page_dialog:
       title: Create new wiki page

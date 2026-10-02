@@ -134,7 +134,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
   let!(:multi_user_custom_field) do
     create(:multi_user_wp_custom_field).tap do |cf|
       project.work_package_custom_fields << cf
-      work_package.type.default_variant.custom_fields << cf
+      work_package.type.default_variant.custom_field_ids |= [cf.id]
     end
   end
   let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }

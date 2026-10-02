@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.7"
+gem "doorkeeper", "~> 5.9.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -239,7 +239,11 @@ gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
+gem "openproject-octicons", "~>19.37.0"
+gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-primer_view_components", "~>0.92.0"
 gem "view_component", "~> 4.15.0"
+
 # Lookbook
 gem "lookbook", "2.3.15"
 
@@ -254,6 +258,12 @@ gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
 gem "httpx", "~> 1.8.4"
+
+# Provider adapters and a model metadata registry for the AI features. Used as
+# transport and as a source of published model capabilities; what a given
+# connection actually offers is tracked per connection, never in RubyLLM's
+# application-wide registry.
+gem "ruby_llm", "~> 1.16"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -365,7 +375,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.37.0"
+  gem "rubocop-rails", "~> 2.38"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -425,11 +435,4 @@ gemfiles.each do |file|
   # We use send to allow dependabot to function
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
-end
-
-# Set cooldown 0 for our own gems
-source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.37.0"
-  gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.4"
 end

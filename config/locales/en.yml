@@ -126,6 +126,7 @@ en:
         caption: "Caption"
         help_text: "Help text"
       auth_provider:
+        additional_form_action_urls: "Additional allowed login redirect URLs"
         scim_clients: "SCIM clients"
       calculated_value_error:
         customized_id: "Customized ID"
@@ -188,6 +189,21 @@ en:
         company: "Company"
       favorite:
         favorited: "Item"
+      form_configuration:
+        attribute_groups: "Form"
+        description: "Description"
+        name: "Name"
+        type_variants: "Types and variants using this form"
+      form_configuration_attribute:
+        attribute_key: "Attribute"
+        custom_field: "Custom field"
+        group: "Group"
+        position: "Position"
+      form_configuration_group:
+        default_key: "Default group"
+        kind: "Kind"
+        label: "Label"
+        query: "Query"
       grids/grid:
         column_count: "Number of columns"
         page: "Page"
@@ -226,6 +242,24 @@ en:
         onthefly: "Automatic user creation"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
+      llm_capability_verdict:
+        capability: "Capability"
+        model_id: "Model"
+        state: "State"
+      llm_connection:
+        api_format: "API format"
+        api_key: "API key"
+        base_url: "Host URL"
+        # ActiveRecord::Base.human_attribute_name strips the _id suffix, so these
+        # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
+        default_chat_model: "Default chat model"
+        default_embedding_model: "Default embedding model"
+        llm_features_enabled: "Enable LLMs for this instance"
+      llm_model:
+        admin_context_window: "Context window"
+        display_name: "Display name"
+        # human_attribute_name strips the _id suffix, so the key omits it.
+        external: "Model name"
       mcp_configuration:
         description: Description
         enabled: Enabled
@@ -624,6 +658,7 @@ en:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_list_invalid: "Lines %{invalid_lines} are not valid HTTP or HTTPS URLs."
         url_not_secure_context: >
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         user_already_in_department: "User %{user_id} is already a member of department %{department_id}."
@@ -694,6 +729,16 @@ en:
           general_consent: "Please accept the terms and conditions."
         favorite:
           already_favorited: "has already been favorited."
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: "Invalid work package attribute used."
+              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
+              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
+              group_without_name: "Group name can't be blank."
+              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
+            base:
+              default_undeletable: "The default form cannot be deleted. Mark another form as default first."
         grids/grid:
           end_before_start: "end value needs to be larger than the start value."
           outside: "is outside of the grid."
@@ -723,6 +768,29 @@ en:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: "needs credentials that OpenProject cannot store, such as a separate secret key or region."
+            api_key:
+              invalid_api_key: "was rejected by the LLM server."
+            base:
+              singleton: "Only one LLM connection can be active."
+            base_url:
+              cannot_be_connected_to: "could not be reached. Please ensure the LLM server is running and reachable from OpenProject."
+              models_endpoint_missing: "has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1)."
+              not_openai_compatible: "did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1)."
+              request_timed_out: "did not respond in time. Please ensure the LLM server is reachable and not overloaded."
+              ssl_error: "could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS."
+              ssrf_filtered: "resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable."
+            custom_headers:
+              invalid: "must map header names to plain text values."
+            llm_features_enabled:
+              requires_connection: "cannot be turned on before a connection has been configured."
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: "has capability assertions stored under it that conflict with those of this model."
         meeting:
           error_conflict: "Unable to save because the meeting was updated by someone else in the meantime. Please reload the page."
         member:
@@ -891,12 +959,6 @@ en:
               in_use_by_work_packages: "This type cannot be deleted while work packages still use it."
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: "Invalid work package attribute used."
-              attribute_unknown_name: "Invalid work package attribute used: %{attribute}"
-              duplicate_group: "The group name '%{group}' is used more than once. Group names must be unique."
-              group_without_name: "Group name can't be blank."
-              query_invalid: "The embedded query '%{group}' is invalid: %{details}"
             base:
               is_default_variant: "The default configuration of a type cannot be deleted."
               project_variants_not_allowed: "This type does not allow creation of variants inside projects."
@@ -1141,6 +1203,9 @@ en:
       export_setting:
         one: "Export setting"
         other: "Export settings"
+      form_configuration:
+        one: "Form"
+        other: "Forms"
       forum:
         one: "Forum"
         other: "Forums"
@@ -1875,6 +1940,97 @@ en:
         no_matches:
           description: "Try a different search term."
           title: "No labels match your search"
+    llm_connections:
+      delete_api_key:
+        description: "OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time."
+        heading: "Remove the stored API key?"
+        menu_label: "Remove API key"
+        success: "The API key has been removed."
+        title: "Remove API key"
+      disabled_notice: "LLM features are switched off for this instance. Switch them on here first."
+      disconnect:
+        description: "OpenProject will stop using the LLM server. AI features will be unavailable until you connect again."
+        heading: "Disconnect from the LLM server?"
+        keeps_models: "The model list, including any models you added manually, is kept."
+        keeps_settings: "The endpoint and API format are kept. Only the stored API key is removed."
+        menu_label: "Disconnect"
+        success: "OpenProject has disconnected from the LLM server."
+        title: "Disconnect"
+      form:
+        api_format_caption: "Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers."
+        api_key_caption: "The key OpenProject authenticates with. Leave blank if the server requires no authentication."
+        api_key_caption_discarded: "The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key."
+        api_key_caption_stored: "A key is stored. Leave blank to keep the current key, or enter a new one to replace it."
+        api_key_placeholder_stored: "API key stored"
+        api_key_remove: "Remove key"
+        base_url_caption: "The base URL of the server, for example https://example.com/v1."
+        button_connect: "Connect"
+        label_connecting: "Contacting the LLM server…"
+        llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
+        server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
+        server_group: "Server"
+      show:
+        description: "Connect OpenProject to an LLM server so that AI features can use it."
+        description_enabled: "Once connected, review the models offered by the server on the [Models](models_url) tab."
+      tabs:
+        connection: "Connection"
+        models: "Models"
+      update:
+        disabled: "Saved. LLM features are switched off for this instance."
+        no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab."
+        success: "Successfully connected to the LLM server."
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: "The model will no longer be offered to AI features."
+        description_bound: "This model is currently used by %{features}. Those features will stop working until another model is selected."
+        heading: "Remove %{model}?"
+        success: "%{model} has been removed."
+        title: "Remove model"
+      edit:
+        description: "Edit how OpenProject uses this model."
+      form:
+        context_window: "Context window"
+        context_window_caption: "How many tokens this model accepts. Leave blank if you do not know."
+        context_window_known: "Leave blank to use %{value}, %{source}."
+        display_name_caption: "An optional friendly name shown instead of the model id."
+        external_id_caption: "The model name exactly as the server expects it."
+        model_type: "Model type"
+        model_type_caption: "Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url)."
+        model_type_chat: "Chat model"
+        model_type_embedding: "Embedding model"
+        model_type_unspecified: "Not specified"
+        state_inherited: "Inherit from server (%{state})"
+        state_supported: "Supported"
+        state_unsupported: "Not supported"
+      index:
+        add_model: "Model"
+        blank_description: "The server reported no models. Refresh the list once the server is reachable, or add one by hand."
+        blank_title: "No models available"
+        context_window: "Context window"
+        description: "Reported by the server on %{fetched_at}."
+        description_unfetched: "The server has not returned a model list yet. Refresh the models once it is reachable."
+        filter_label: "Filter models"
+        identifier: "Model"
+        kind: "Type"
+        refresh: "Refresh models"
+        source: "Source"
+        source_discovered: "Server"
+        source_discovered_description: "Reported by the server"
+        source_manual: "Manual"
+        source_manual_description: "Added manually by an administrator"
+        source_withdrawn: "Withdrawn"
+        source_withdrawn_description: "No longer reported by the server"
+        stale_warning: "The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure."
+      new:
+        description: "Name a model this server can use but does not advertise, and describe what it can do."
+        title: "Add a model"
+      refresh:
+        failure: "The model list could not be refreshed. Please check that the LLM server is still reachable."
+        success: "The model list has been refreshed."
+      update:
+        success: "%{model} has been updated."
 
     mcp_configurations:
       index:
@@ -2381,6 +2537,11 @@ en:
     work_package: "Work package"
     work_package_id: "Work package"
   authentication:
+    instructions:
+      additional_form_action_urls: >
+        Use this only if the login fails because the identity provider redirects the browser to other servers.
+        Enter one URL per line, for example the address that the browser console shows as blocked.
+        During the login, OpenProject allows redirects to the hosts of these URLs.
     login_and_registration: "Login and registration"
 
   background_jobs:
@@ -2722,7 +2883,11 @@ en:
     is_enabled_globally: "Is enabled globally"
     multi_value_more:
       other: "and %{count} more"
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: "No role assignment"
+    overview:
+      description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
+      heading: "Settings moved"
     placeholder_version_select: "Work package or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
@@ -2730,9 +2895,6 @@ en:
       job_title: "Job title"
       none: "None"
 
-    tab:
-      no_results_content_text: Create a new custom field
-      no_results_title_text: There are currently no custom fields.
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
       you can add them to this project.
@@ -3185,6 +3347,7 @@ en:
   error_no_default_work_package_status: 'No default work package status is defined. Please check your configuration (Go to "Administration -> Work package statuses").'
   error_no_type_in_project: "No type is associated to this project. Please check the Project settings."
   error_omniauth_invalid_auth: "The authentication information returned from the identity provider was invalid. Please contact your administrator for further help."
+  error_omniauth_provider_incomplete: "You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator."
   error_omniauth_registration_timed_out: "The registration via an external authentication provider timed out. Please try again."
   error_password_change_failed: "An error occurred when trying to change the password."
   error_pdf_date_range_too_long: "The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years."
@@ -3358,6 +3521,108 @@ en:
       selected: "Selected"
     include_sub_items: "Include sub-items"
     no_results_text: "No results"
+  form_configurations:
+    button: "Form"
+    change:
+      select:
+        caption: "The type shows its work packages with the attribute groups of the form you pick here."
+        label: "Form"
+        placeholder: "Select a form…"
+      title: "Change form"
+    default:
+      label: "Default"
+      mark: "Mark as default"
+      marked: "%{name} is now the default form. New types use it."
+      name: "Default form"
+    form:
+      copy_from:
+        caption: "The new form starts with a copy of that form's attribute groups."
+        label: "Copy from"
+        placeholder: "Select a form…"
+      description:
+        caption: "Add a short description about where and how will this form be used."
+        label: "Description"
+      edit_title: "Edit form"
+      name:
+        caption: "Pick a name that will let you identify this form later in other places."
+        label: "Form name"
+      new_title: "Create form"
+    index:
+      actions:
+        edit: "Edit form"
+        menu: "Actions for %{name}"
+        rename: "Edit name and description"
+      blank_slate:
+        description: "Create a form to define the attribute groups a type or variant shows on its work packages."
+        filtered_description: "No form matches the current filters."
+        filtered_title: "No matching forms"
+        title: "No forms"
+      columns:
+        name: "Form name"
+        projects: "Projects"
+        types_and_variants: "Types and variants"
+      description: "Every named work package form in this instance, with the types and variants using it."
+      filters:
+        name: "Form"
+        name_placeholder: "Filter by form name or description…"
+        projects_placeholder: "Filter projects…"
+      projects_count:
+        one: "1 project"
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: "1 type"
+        other: "%{count} types"
+      variants_count:
+        one: "1 variant"
+        other: "%{count} variants"
+    name:
+      fallback: "Form"
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: "Form"
+      same_as_type: "(same as type)"
+      title: "Select form"
+    start:
+      copy:
+        caption: "Start with an existing form, change it as you wish and save it as a new form."
+        label: "Start with a copy of an existing form"
+        missing: "Select the form to copy, or start from scratch instead."
+        panel_label: "Form to copy"
+      label: "Starting point"
+      scratch:
+        caption: "Start with the default attribute groups and arrange them yourself."
+        label: "Start from scratch"
+      title: "Configure a new form"
+    tab:
+      read_only:
+        edit_action: "Edit form"
+        text_html: >
+          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
+          custom fields as required.
+    usage:
+      dialog:
+        button: "View dependent types"
+        caption_html: "The form %{name} is used in the following types and variants."
+        title: "Form used in types"
+        variant_of: "Variant of %{type}"
+        variants: "Variants"
+      unused: "No type or variant uses this form yet."
+      used_by_types:
+        one: "This form is used by 1 type. Changes apply to it."
+        other: "This form is used by %{count} types. Changes apply to all of them."
+      used_by_variants:
+        one: "This form is used by 1 type or variant."
+        other: "This form is used by %{count} types and variants."
+    wizard:
+      choice:
+        existing:
+          caption: "Use an existing form for this type with a pre-defined set of attribute groups."
+          label: "Use an existing form"
+        new:
+          caption: "Arrange the attribute groups of a new form for this type."
+          label: "Configure a new form"
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -3842,6 +4107,7 @@ en:
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
+  label_form_configuration_plural: "Forms"
   label_formula: "Formula"
   label_forum_new: "New forum"
   label_forum_plural: "Forums"
@@ -3860,6 +4126,7 @@ en:
   label_go_forward: "Open %{module} sub-menu"
   label_greater_or_equal: ">="
   label_group: "Group"
+  label_group_attributes_plural: "Group attributes"
   label_group_by: "Group by"
   label_group_named: "Group %{name}"
   label_group_new: "New group"
@@ -4266,6 +4533,7 @@ en:
   label_user_settings: "User settings"
   label_users_settings: "Users settings"
   label_value_x: "Value: %{x}"
+  label_version_custom_field_plural: "Version custom fields"
   label_version_edit: "Edit version"
   label_version_new: "New version"
   label_version_plural: "Versions"
@@ -4450,6 +4718,42 @@ en:
     update:
       failure: "The modified list cannot be saved: %{errors}"
       success: "The modified list has been saved"
+  llm:
+    api_formats:
+      anthropic: "Anthropic"
+      azure: "Azure OpenAI"
+      bedrock: "AWS Bedrock"
+      deepseek: "DeepSeek"
+      gemini: "Google Gemini"
+      gpustack: "GPUStack"
+      mistral: "Mistral"
+      ollama: "Ollama"
+      openai: "OpenAI"
+      openrouter: "OpenRouter"
+      perplexity: "Perplexity"
+      vertexai: "Google Vertex AI"
+      xai: "xAI"
+    capabilities:
+      embeddings:
+        label: "Embeddings"
+      function_calling:
+        label: "Tool calling"
+      reasoning:
+        label: "Reasoning"
+      structured_output:
+        label: "Structured output"
+      vision:
+        label: "Vision"
+    context_window_sources:
+      registry: "the figure published for this model"
+      server: "reported by the server"
+    model_kinds:
+      chat: "Chat"
+      embedding: "Embedding"
+    verdict_states:
+      supported: "supported"
+      unknown: "not verified"
+      unsupported: "not supported"
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
   macro_unknown: "Unknown or unsupported macro."
@@ -4698,6 +5002,7 @@ en:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
       api_and_webhooks: "API and webhooks"
+      llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
@@ -6234,6 +6539,7 @@ en:
         You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       title: "Virus scanning"
     attachments:
+      attachment_max_size_env_caption: "This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it."
       show_work_package_attachments: >
         Deactivating this option will hide the attachments list on the work packages files tab for new projects. The
         files attached in the description of a work package will still be uploaded in the internal attachments storage.
@@ -6389,6 +6695,7 @@ en:
         heading: "New phase"
       no_gate: "No gate"
       non_defined: "No phases are currently defined."
+      order_changed: "Order successfully changed."
       phase_gates: "Phase gates"
       section_header: "Phases"
       start_gate: "Start gate"
@@ -6910,6 +7217,7 @@ en:
             label_enable_all: "Enable all"
             label_toggle_template: "Toggle %{template}"
           label: "PDF Export templates"
+          order_changed: "Order successfully changed."
         tab: "Generate PDF"
         templates:
           readonly_error: "Cannot be changed while linked to a source type."
@@ -6924,6 +7232,8 @@ en:
         blankslate_description: "Add groups using the button above or drag attributes from the left panel."
         blankslate_title: "No groups yet"
         confirm_delete_group: "Are you sure you want to delete this section? This action cannot be automatically reversed."
+        defaults_not_generated:
+          already_configured: "This form already has groups or attributes."
         confirm_reset: "Are you sure you want to reset the form?"
         custom_field: "Custom field"
         delete_group: "Delete section"
@@ -6954,7 +7264,6 @@ en:
           globally_hint: "Change this on the custom field"
           mark: "Require in this type"
           not_a_custom_field: "Only a custom field can be made required for a single type."
-          not_available_when_linked: "This configuration is inherited. Configure it manually to change what is required."
           unmark: "Do not require in this type"
         reset_description: >
           This will reset the attributes to their default group and disable ALL custom fields.

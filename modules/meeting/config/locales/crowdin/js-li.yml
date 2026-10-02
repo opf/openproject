@@ -22,7 +22,7 @@
 ---
 li:
   js:
-    label_meetings: Meetings
+    label_meetings: Vergaderinge
     work_packages:
       tabs:
-        meetings: Meetings
+        meetings: Vergaderinge

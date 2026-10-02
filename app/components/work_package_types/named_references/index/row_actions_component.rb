@@ -54,6 +54,9 @@ module WorkPackageTypes
         def record_actions(menu)
           edit_action(menu)
           rename_action(menu)
+          mark_default_action(menu) if model_class.defaultable? && !record.marked_default?
+          return if record.marked_default?
+
           menu.with_divider
           delete_action(menu)
         end
@@ -73,6 +76,16 @@ module WorkPackageTypes
                          content_arguments: { data: { controller: "async-dialog" } },
                          test_selector: "#{dom_class(model_class)}-rename-action") do |item|
             item.with_leading_visual_icon(icon: :pencil)
+          end
+        end
+
+        def mark_default_action(menu)
+          menu.with_item(tag: :button,
+                         label: reference_translate("default.mark"),
+                         href: polymorphic_path([:mark_default, record]),
+                         form_arguments: { method: :patch },
+                         test_selector: "#{dom_class(model_class)}-mark-default-action") do |item|
+            item.with_leading_visual_icon(icon: :"key-asterisk")
           end
         end
 

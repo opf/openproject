@@ -63,8 +63,7 @@ module WorkPackageTypes
       end
 
       def show_in_linked_mode?(custom_field)
-        source_active_field_ids.include?(custom_field.id) &&
-          !exclusion_state&.excluded_by_source?(custom_field.attribute_name)
+        source_active_field_ids.include?(custom_field.id)
       end
 
       def source_active_field_ids

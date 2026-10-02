@@ -38,11 +38,10 @@ class TypeVariant < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
     DEFAULTS = "defaults",
-    # TODO: Form reuse should move to named forms (cross-type), replacing the generic inherit/manual
-    # mode selector and the dropped one-time "copy from another type". Revisit all Form-related wiring.
-    FORM_CONFIGURATION = "form_configuration",
     PROJECT_ATTRIBUTES = "project_attributes"
   ].freeze
+
+  FORM_CONFIGURATION = "form_configuration"
 
   # The aspects a variant can reduce fields in
   EXCLUDABLE_ASPECTS = [FORM_CONFIGURATION, PROJECT_ATTRIBUTES].freeze
@@ -50,6 +49,7 @@ class TypeVariant < ApplicationRecord
   include ::Scopes::Scoped
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::TypeVariants::FormReference
   prepend ::TypeVariant::ConfigurationLinkable
 
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
@@ -73,11 +73,6 @@ class TypeVariant < ApplicationRecord
            dependent: :destroy
   has_many :project_custom_fields, through: :own_project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
-
-  has_and_belongs_to_many :custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                          class_name: "WorkPackageCustomField",
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: "custom_field_id"
 
   # The projects this variant is in use
   # autosave must be turned off: If we autosaved here, the insert would only set variant_id and leave type_id NULL.
@@ -127,14 +122,7 @@ class TypeVariant < ApplicationRecord
     variant_name.presence || type.name
   end
 
-  # How the admin routes address this variant. The base one is implied by its type, so naming
-  # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
-
-  def path_args
-    args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
-    project_id.nil? ? args : args.merge(in_project_id: project)
-  end
 
   def type_reference_id(reflection)
     type.default_variant[reflection.foreign_key] unless is_default_variant?

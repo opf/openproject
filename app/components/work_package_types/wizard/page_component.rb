@@ -32,12 +32,14 @@ module WorkPackageTypes
   module Wizard
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, current_step:, variant: nil, back_url: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
 
         @current_step = current_step
         @back_url = back_url
+        @started_form_configuration_id = started_form_configuration_id
         # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
         # editing once here, so nothing below has to ask what it was given.
         @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
@@ -69,27 +71,27 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        type_settings_path(type_id: type.id)
+        variant_settings_path(nil, type.default_variant)
       end
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step, back_url:)
+      def step_url
+        variant_creation_wizard_path(helpers.variant_scope_project, variant, step: current_step, **carried_params)
+      end
 
-      # A type still being created has no variant to address yet.
-      def variant_path_args = variant&.path_args || { type_id: type.id }
+      def carried_params
+        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
+      end
 
-      # Named here because this route is on the type collection: no segment of the request
-      # matches it, so the form would otherwise post to administration.
       def step_form_url
         return step_url if record_persisted?
+        return variants_creation_wizard_path(helpers.variant_scope_project, type, **back_url_params) if adding_variant?
 
-        scope = { in_project_id: helpers.variant_scope_project, back_url: }
-
-        return creation_wizard_types_path(type_id: type.id, **scope) if adding_variant?
-
-        creation_wizard_types_path(**scope)
+        creation_wizard_types_path(**back_url_params)
       end
+
+      def back_url_params = { back_url: }.compact
 
       def step_form_method
         record_persisted? ? :patch : :post
@@ -149,7 +151,7 @@ module WorkPackageTypes
       def step_body
         case current_step
         when :form_configuration
-          FormConfigurationStepComponent.new(variant:)
+          FormConfigurationStepComponent.new(variant:, back_url: step_url)
         when :project_attributes
           ProjectAttributesStepComponent.new(variant:)
         when :projects

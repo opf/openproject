@@ -68,7 +68,7 @@ module JournalFormatter
       global_id = GlobalID.parse(gid)
       return if global_id.nil?
 
-      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do # rubocop:disable Lint/UselessDefaultValueArgument
+      JournalFormatterCache.fetch(global_id.model_name, global_id.model_id) do
         locate(global_id)
       end
     end

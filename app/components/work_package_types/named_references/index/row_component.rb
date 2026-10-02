@@ -95,7 +95,16 @@ module WorkPackageTypes
         end
 
         def title
-          render(Primer::Beta::Link.new(href: helpers.edit_polymorphic_path(record), font_weight: :bold)) { record.name }
+          link = render(Primer::Beta::Link.new(href: helpers.edit_polymorphic_path(record), font_weight: :bold)) { record.name }
+          return link unless record.marked_default?
+
+          safe_join([link, default_label])
+        end
+
+        def default_label
+          render(Primer::Beta::Label.new(ml: 2, test_selector: "#{dom_class(model_class)}-default-label")) do
+            reference_translate("default.label")
+          end
         end
 
         def text(content) = render(Primer::Beta::Text.new) { content }

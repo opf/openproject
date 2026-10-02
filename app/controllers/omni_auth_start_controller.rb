@@ -40,29 +40,59 @@ class OmniAuthStartController < ApplicationController
   def show
     return redirect_after_login(User.current) if User.current.logged?
 
-    provider_name = permitted_omniauth_provider_name(params[:provider])
-    return render_404 if provider_name.blank?
+    provider = permitted_omniauth_provider(params[:provider])
+    return render_404 if provider.nil?
 
-    @omniauth_provider_name = provider_name
+    @omniauth_provider_name = provider[:name].to_s
     @direct_login_origin = params[:back_url]
-    append_omniauth_form_action(provider_name)
+
+    # If we want to redirect to the provider, we need to
+    # extend the form-action to the provider's host.
+    #
+    # Should we fail to find a valid origin, we show an error to the user
+    # as they will no longer be able to continue
+    ensure_form_action_appended!(provider)
   end
 
   private
 
-  def permitted_omniauth_provider_name(name)
-    requested = name.to_s
-    provider = OpenProject::Plugins::AuthPlugin.find_provider_by_name(requested)
-    return provider[:name].to_s if provider.present?
-    return requested if requested == "developer" && !Rails.env.production?
+  def ensure_form_action_appended!(provider)
+    form_action_origins = Array(provider[:form_action_urls]).filter_map { |url| origin_from_url(url) }
 
-    nil
+    if form_action_origins.empty?
+      render_incomplete_provider(provider)
+    else
+      append_content_security_policy_directives(form_action: form_action_origins)
+    end
   end
 
-  def append_omniauth_form_action(provider_name)
-    origin = AuthProvider.find_by(slug: provider_name)&.csp_form_action_origin
-    return if origin.blank?
+  def permitted_omniauth_provider(name)
+    OpenProject::Plugins::AuthPlugin.find_provider_by_name(name) ||
+      developer_provider(name)
+  end
 
-    append_content_security_policy_directives(form_action: [origin])
+  def developer_provider(name)
+    return if name.to_s != "developer" || Rails.env.production?
+
+    { name: "developer", form_action_urls: [root_url] }
+  end
+
+  def render_incomplete_provider(provider)
+    render_error(
+      status: 500,
+      message: I18n.t(:error_omniauth_provider_incomplete, provider: provider[:display_name].presence || provider[:name]),
+      exception: "OmniAuth provider #{provider[:name].inspect} has no valid :form_action_urls"
+    )
+  end
+
+  def origin_from_url(url)
+    return if url.blank?
+
+    uri = URI.parse(url.to_s)
+    return unless uri.scheme.in?(%w[http https]) && uri.host.present?
+
+    URI.join(uri, "/").to_s
+  rescue URI::InvalidURIError, ArgumentError
+    nil
   end
 end

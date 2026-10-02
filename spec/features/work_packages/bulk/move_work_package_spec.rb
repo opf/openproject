@@ -218,7 +218,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
                          projects: [project, project2])
     create(:workflow, type:, old_status: status, new_status:, role: mover_role)
     create(:workflow, type: type2, old_status: status, new_status:, role: mover_role)
-    type2.default_variant.custom_fields << required_cf
+    type2.default_variant.custom_field_ids |= [required_cf.id]
 
     visit new_move_work_packages_path(ids: work_packages.map(&:id))
 

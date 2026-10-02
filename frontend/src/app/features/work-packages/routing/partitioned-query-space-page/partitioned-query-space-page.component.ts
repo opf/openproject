@@ -49,11 +49,12 @@ import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
   inputs?:Record<string, any>;
-  outputs?:Record<string, Function>;
+  outputs?:Record<string, EventHandler>;
 }
 
 export interface ToolbarButtonComponentDefinition extends DynamicComponentDefinition {

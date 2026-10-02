@@ -102,7 +102,14 @@ RSpec.describe "Type creation wizard", :js do
     expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
+    expect(page).to have_css("[data-test-selector='form_configuration-choice-existing']:checked", visible: :all)
     click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      expect(page).to have_field("Form name", with: "Incident form")
+      fill_in "Form name", with: "Incident intake"
+      click_on I18n.t(:button_save)
+    end
+
     expect_step_saved(:form_configuration)
 
     expect(page).to have_heading("Project attributes")
@@ -128,6 +135,7 @@ RSpec.describe "Type creation wizard", :js do
     expect_flash(message: I18n.t("types.creation_wizard.success"))
     expect(page).to have_current_path(types_path)
     expect(type.reload.name).to eq("Incident")
+    expect(type.default_variant.form_configuration.name).to eq("Incident intake")
   end
 
   it "creates a type with the core settings editable" do
@@ -180,8 +188,8 @@ RSpec.describe "Type creation wizard", :js do
       expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
       expect(page).to have_field(TypeVariant.human_attribute_name(:variant_name), with: "Hardware")
       expect(page).to have_current_path(
-        type_creation_wizard_path(type_id: bug_type.id, variant_id: variant.id, step: :details,
-                                  back_url: type_variants_path(type_id: bug_type.id))
+        type_variant_creation_wizard_path(type_id: bug_type.id, variant_id: variant.id, step: :details,
+                                          back_url: type_variants_path(type_id: bug_type.id))
       )
     end
 

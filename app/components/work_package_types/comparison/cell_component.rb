@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Comparison
     class CellComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(cell:)
         super()
@@ -130,7 +131,7 @@ module WorkPackageTypes
 
       def source_path = helpers.aspect_edit_path(source, row.aspect)
 
-      def projects_path = edit_type_projects_path(**variant.path_args)
+      def projects_path = edit_variant_projects_path(variant)
 
       def owner_path = project_settings_work_packages_types_path(variant.project)
 

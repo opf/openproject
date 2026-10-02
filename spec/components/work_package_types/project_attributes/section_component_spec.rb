@@ -15,6 +15,8 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ProjectAttributes::SectionComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   current_user { create(:admin) }
 
   let(:type) { create(:type) }
