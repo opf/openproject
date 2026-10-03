@@ -116,6 +116,7 @@ da:
         caption: Caption
         help_text: Help text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ da:
         unknown_property: is not a known property.
         unknown_property_nested: has the unknown path '%{path}'.
         unremovable: cannot be removed.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2490,6 +2492,10 @@ da:
     work_package: Arbejdspakke
     work_package_id: Arbejdspakke
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@ da:
     is_enabled_globally: Er aktiveret globalt
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorder values alphabetically
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Oprette en ny brugerdefineret felt
-      no_results_title_text: Der er i øjeblikket ingen brugerdefinerede felter.
     text_add_new_custom_field: 'For at tilføje nye brugerdefinerede felter til et projekt, skal du først oprette dem, før du kan føje dem til dette projekt.
 
       '
@@ -4010,6 +4017,7 @@ da:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_attributes_plural: Group attributes
   label_group_by: Gruppér efter
   label_group_named: Group %{name}
   label_group_new: Ny gruppe
@@ -4415,6 +4423,7 @@ da:
   label_user_settings: User settings
   label_users_settings: Users settings
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edit version
   label_version_new: Ny version
   label_version_plural: Versioner
@@ -6333,6 +6342,7 @@ da:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6478,6 +6488,7 @@ da:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6973,6 +6984,7 @@ da:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

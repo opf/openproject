@@ -32,6 +32,10 @@ ko:
         labels: 레이블
       gitlab_pipeline:
         ci_details: CI 세부 정보
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ ko:
   attributes:
     commit: 커밋
     gitlab: GitLab 식별자
-    gitlab_avatar_url: 아바타 URL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 병합 요청
-    gitlab_name: GitLab 이름
     gitlab_updated_at: '업데이트:'
     gitlab_user_avatar_url: GitLab 아바타 URL
-    gitlab_username: GitLab 사용자 이름
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

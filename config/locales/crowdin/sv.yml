@@ -116,6 +116,7 @@ sv:
         caption: Bildtext
         help_text: Hjälptext
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM-klienter
       calculated_value_error:
         customized_id: Anpassat ID
@@ -644,6 +645,7 @@ sv:
         unknown_property: är inte en känd egenskap.
         unknown_property_nested: har den okända sökvägen ”%{path}”.
         unremovable: kan inte tas bort.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'tillhandahåller inte en "Secure Context". Använd antingen HTTPS eller en loopback-adress, som localhost.
 
           '
@@ -2490,6 +2492,10 @@ sv:
     work_package: Arbetspaket
     work_package_id: Arbetspaket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Inloggning och registrering
   background_jobs:
     status:
@@ -2815,16 +2821,17 @@ sv:
     is_enabled_globally: Är aktiverad globalt
     multi_value_more:
       other: och %{count} till
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Ingen rolltilldelning
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Ett arbetspaket eller projekt måste väljas först
     reorder_alphabetical: Sortera om värden alfabetiskt
     reorder_confirmation: 'Varning: Den aktuella ordningen för tillgängliga värden och alla osparade värden går förlorade. Är du säker på att du vill fortsätta?'
     semantic_keys:
       job_title: Befattning
       none: Ingen
-    tab:
-      no_results_content_text: Skapa ett nytt anpassat fält
-      no_results_title_text: Det finns för närvarande inga anpassade fält.
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
 
       '
@@ -4008,6 +4015,7 @@ sv:
   label_go_forward: Öppna undermenyn %{module}
   label_greater_or_equal: ">="
   label_group: Grupp
+  label_group_attributes_plural: Group attributes
   label_group_by: Gruppera efter
   label_group_named: Grupp %{name}
   label_group_new: Ny grupp
@@ -4413,6 +4421,7 @@ sv:
   label_user_settings: Användarinställningar
   label_users_settings: Användarinställningar
   label_value_x: 'Värde: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Redigera version
   label_version_new: Ny version
   label_version_plural: Versioner
@@ -6324,6 +6333,7 @@ sv:
         '
       title: Virusskanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Om du inaktiverar detta alternativ döljs listan över bilagor på arbetspaketens filflik för nya projekt. Filer som bifogas i beskrivningen av ett arbetspaket laddas fortfarande upp till den interna bilagelagringen.
 
         '
@@ -6469,6 +6479,7 @@ sv:
         heading: Ny fas
       no_gate: Ingen grind
       non_defined: Inga faser är definierade för närvarande.
+      order_changed: Order successfully changed.
       phase_gates: Fasgrindar
       section_header: Faser
       start_gate: Startgrind
@@ -6960,6 +6971,7 @@ sv:
             label_enable_all: Aktivera alla
             label_toggle_template: Växla %{template}
           label: Mallar för PDF-export
+          order_changed: Order successfully changed.
         tab: Generera PDF
         templates:
           readonly_error: Kan inte ändras när den är länkad till en källtyp.

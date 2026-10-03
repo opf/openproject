@@ -265,6 +265,7 @@ ro:
   label_status_finished: Finalizat
   label_time: Timp
   label_time_entry_activity_form_description: Modificările acestei activități de intrare în timp se vor reflecta în toate proiectele în care este activată.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limite
   label_timer_since: Început la %{time}
   label_today_capitalized: Azi

@@ -116,6 +116,7 @@ pt-PT:
         caption: Legenda
         help_text: Texto de ajuda
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clientes SCIM
       calculated_value_error:
         customized_id: ID personalizado
@@ -644,6 +645,7 @@ pt-PT:
         unknown_property: não é uma propriedade conhecida.
         unknown_property_nested: tem o caminho desconhecido '%{path}'.
         unremovable: não pode ser removido.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'não está a fornecer um "Contexto Seguro". Use HTTPS ou um endereço de loopback, como localhost.
 
           '
@@ -2490,6 +2492,10 @@ pt-PT:
     work_package: Pacote de trabalho
     work_package_id: Pacote de trabalho
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Iniciar sessão e registo
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@ pt-PT:
     is_enabled_globally: Ativado a nível global
     multi_value_more:
       other: e mais %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Sem atribuição de funções
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: A seleção do pacote de trabalho ou do projeto é necessária em primeiro lugar
     reorder_alphabetical: Reordenar valores em ordem alfabética
     reorder_confirmation: 'Aviso: Será perdida a ordem atual dos valores disponíveis, bem como todos os valores não guardados. Tem a certeza de que quer continuar?'
     semantic_keys:
       job_title: Cargo
       none: Nenhum
-    tab:
-      no_results_content_text: Criar um novo campo personalizado
-      no_results_title_text: Atualmente, não existem campos personalizados.
     text_add_new_custom_field: 'Para adicionar novos campos personalizados a um projeto, primeiro precisa de criá-los para depois adicioná-los a este projeto.
 
       '
@@ -4010,6 +4017,7 @@ pt-PT:
   label_go_forward: Abrir sub-menu %{module}
   label_greater_or_equal: ">="
   label_group: Grupo
+  label_group_attributes_plural: Group attributes
   label_group_by: Agrupar por
   label_group_named: Grupo %{name}
   label_group_new: Novo Grupo
@@ -4415,6 +4423,7 @@ pt-PT:
   label_user_settings: Definições do utilizador
   label_users_settings: Definições do utilizador
   label_value_x: 'Valor: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Editar versão
   label_version_new: Nova versão
   label_version_plural: Versões
@@ -6324,6 +6333,7 @@ pt-PT:
         '
       title: Análise de vírus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Se desativar esta opção, irá ocultar a lista de anexos no separador de ficheiros dos pacotes de trabalho para novos projetos. Os ficheiros anexados na descrição de um pacote de trabalho irão continuar a ser carregados no armazenamento interno de anexos.
 
         '
@@ -6469,6 +6479,7 @@ pt-PT:
         heading: Nova fase
       no_gate: Sem porta
       non_defined: De momento não está definida nenhuma fase.
+      order_changed: Order successfully changed.
       phase_gates: Portas de fases
       section_header: Fases
       start_gate: Porta de início
@@ -6965,6 +6976,7 @@ pt-PT:
             label_enable_all: Ativar todos
             label_toggle_template: Alternar %{template}
           label: Modelos de Exportação PDF
+          order_changed: Order successfully changed.
         tab: Gerar PDF
         templates:
           readonly_error: Não pode ser alterado enquanto estiver associado a um tipo de origem.

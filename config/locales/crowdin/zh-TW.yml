@@ -116,6 +116,7 @@ zh-TW:
         caption: 說明
         help_text: 說明文字
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 用戶端
       calculated_value_error:
         customized_id: 自訂 ID
@@ -644,6 +645,7 @@ zh-TW:
         unknown_property: 不是已知屬性
         unknown_property_nested: 具有未知路徑 '%{path}'
         unremovable: 無法移除
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
@@ -2371,6 +2373,10 @@ zh-TW:
     work_package: 工作套件
     work_package_id: 工作套件
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: 登入及註冊
   background_jobs:
     status:
@@ -2698,16 +2704,17 @@ zh-TW:
     is_enabled_globally: 已全域啟用
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: 無角色指派
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: 需要先選擇工作套件或專案
     reorder_alphabetical: 按字母順序重新排列
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: 建立一個新的自定義欄位
-      no_results_title_text: 目前沒有自定義的欄位
     text_add_new_custom_field: '要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
 
       '
@@ -3859,6 +3866,7 @@ zh-TW:
   label_go_forward: 開啟 %{module} 子選單
   label_greater_or_equal: ">="
   label_group: 群組
+  label_group_attributes_plural: Group attributes
   label_group_by: 分組依據
   label_group_named: 群組名稱 %{name}
   label_group_new: 新增群組
@@ -4264,6 +4272,7 @@ zh-TW:
   label_user_settings: 使用者設定
   label_users_settings: 使用者設定
   label_value_x: '值: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: 編輯版本
   label_version_new: 新增版本
   label_version_plural: 版本
@@ -6164,6 +6173,7 @@ zh-TW:
         '
       title: 病毒掃描中：
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: '禁用此選項將會為新專案隱藏工作套件文件標籤上的附件列表。 工作套件描述中的文件仍將上傳到內部附件存儲。
 
         '
@@ -6311,6 +6321,7 @@ zh-TW:
         heading: 新增階段
       no_gate: 沒有關卡
       non_defined: 目前沒定義階段。
+      order_changed: Order successfully changed.
       phase_gates: 階段關卡
       section_header: 階段
       start_gate: 開始關卡
@@ -6805,6 +6816,7 @@ zh-TW:
             label_enable_all: 全部啟用
             label_toggle_template: Toggle %{template}
           label: PDF匯出範本
+          order_changed: Order successfully changed.
         tab: 產生PDF檔案
         templates:
           readonly_error: Cannot be changed while linked to a source type.

@@ -116,6 +116,7 @@ ms:
         caption: Caption
         help_text: Teks bantuan
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -646,6 +647,7 @@ ms:
         unknown_property: bukan ciri-ciri yang diketahui.
         unknown_property_nested: mempunyai laluan yang tidak diketahui '%{path}'.
         unremovable: tidak dapat dikeluarkan.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.
 
           '
@@ -2375,6 +2377,10 @@ ms:
     work_package: Pakej kerja
     work_package_id: Pakej kerja
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2702,16 +2708,17 @@ ms:
     is_enabled_globally: Adalah diaktifkan secara global
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Susun semula nilai mengikut abjad
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Cipta ruangan tersuai baharu
-      no_results_title_text: Tiada ruangan tersuai pada masa ini.
     text_add_new_custom_field: 'Untuk menambah ruang tersuai ke projek, anda perlu menciptanya terlebih dahulu sebelum anda boleh menambahnya ke projek ini.
 
       '
@@ -3869,6 +3876,7 @@ ms:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Kumpulan
+  label_group_attributes_plural: Group attributes
   label_group_by: Kumpulkan mengikut
   label_group_named: Kumpulan %{name}
   label_group_new: Kumpulan baharu
@@ -4276,6 +4284,7 @@ ms:
   label_user_settings: Tetapan pengguna
   label_users_settings: Tetapan pengguna
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Versi edit
   label_version_new: Versi baharu
   label_version_plural: Versi-versi
@@ -6175,6 +6184,7 @@ ms:
         '
       title: Pengimbasan virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Nyahaktifkan pilihan ini akan menyorokkamenyembunyikan senarai lampiran di tab fail pakej kerja untuk projek baharu. Fail yang dilampirkan di deskripsi pakej kerja masih akan dimuat naik di storan lampiran dalaman.
 
         '
@@ -6322,6 +6332,7 @@ ms:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6812,6 +6823,7 @@ ms:
             label_enable_all: Dayakan semua
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Hasilkan PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
