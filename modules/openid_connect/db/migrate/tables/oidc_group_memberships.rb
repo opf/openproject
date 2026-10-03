@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,15 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class AddPdfFontsToCustomStyles < ActiveRecord::Migration[8.0]
-  def change
-    change_table :custom_styles, bulk: true do |t|
-      t.string :export_font_regular, null: true
-      t.string :export_font_bold, null: true
-      t.string :export_font_italic, null: true
-      t.string :export_font_bold_italic, null: true
+require Rails.root.join("db/migrate/tables/base").to_s
+
+class Tables::OidcGroupMemberships < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.belongs_to :auth_provider, null: false,
+                                   index: false,
+                                   foreign_key: { on_delete: :cascade }
+      t.belongs_to :group_user, null: false,
+                                index: true,
+                                foreign_key: { on_delete: :cascade }
+
+      t.index %i[auth_provider_id group_user_id], unique: true
+
+      t.timestamps null: false
     end
   end
 end

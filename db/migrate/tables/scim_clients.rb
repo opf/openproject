@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,11 +26,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class CreateScimClients < ActiveRecord::Migration[8.0]
-  def change
-    create_table :scim_clients do |t|
+require_relative "base"
+
+class Tables::ScimClients < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
       t.string :name, null: false
       t.belongs_to :auth_provider, null: false, foreign_key: { on_delete: :restrict }
       t.integer :authentication_method, null: false

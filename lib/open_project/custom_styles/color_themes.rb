@@ -32,12 +32,6 @@ module OpenProject::CustomStyles
 
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = "OpenProject (default)".freeze
 
-    DEPRECATED_ALTERNATIVE_COLOR = "#35C53F".freeze
-    DEPRECATED_PRIMARY_COLOR = "#1A67A3".freeze
-    DEPRECATED_BIM_ALTERNATIVE_COLOR = "#349939".freeze
-    DEPRECATED_PRIMARY_DARK_COLOR = "#175A8E".freeze
-    DEPRECATED_LINK_COLOR = "#155282".freeze
-    DEPRECATED_MAIN_MENU_COLOR = "#333739".freeze
     PRIMER_PRIMARY_BUTTON_COLOR = "#1F883D".freeze
     ACCENT_COLOR = "#1A67A3".freeze
 

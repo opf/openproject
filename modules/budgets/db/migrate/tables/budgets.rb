@@ -39,6 +39,7 @@ class Tables::Budgets < Tables::Base
       t.text :description, null: false
       t.date :fixed_date, null: false
       t.timestamps precision: nil, null: true
+      t.decimal :base_amount, precision: 20, scale: 2, null: false, default: "0.0"
 
       t.index %i[project_id updated_at]
     end

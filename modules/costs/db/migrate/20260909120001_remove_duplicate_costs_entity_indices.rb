@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,19 +26,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
-require_relative "tables/oidc_user_session_links"
-require_relative "tables/oidc_user_tokens"
+class RemoveDuplicateCostsEntityIndices < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
 
-class AggregatedOpenIDConnectMigrations < SquashedMigration
-  tables Tables::OidcUserSessionLinks,
-         Tables::OidcUserTokens
+  TABLES = %i[time_entries time_entry_journals cost_entries].freeze
 
-  squashed_migrations *%w[
-    1018015_aggregated_openid_connect_migrations
-    20241212131910_add_oidc_user_tokens
-    20250218133700_add_expires_at_to_oidc_user_tokens
-  ]
+  def up
+    TABLES.each do |table|
+      remove_index table,
+                   name: "index_#{table}_on_entity_type_and_entity_id",
+                   algorithm: :concurrently,
+                   if_exists: true
+    end
+  end
+
+  def down
+    TABLES.each do |table|
+      add_index table,
+                %i[entity_type entity_id],
+                name: "index_#{table}_on_entity_type_and_entity_id",
+                algorithm: :concurrently,
+                if_not_exists: true
+    end
+  end
 end
