@@ -54,6 +54,7 @@ class LlmConnection < ApplicationRecord
   belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
   has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
+
   validates :base_url, presence: true
   validate :base_url_is_absolute_http, if: -> { base_url.present? }
   # The column is NOT NULL and +active_connection+ hands back an unsaved record
@@ -143,7 +144,46 @@ class LlmConnection < ApplicationRecord
     options["server_flavour"].presence&.to_sym
   end
 
+  # Whether a health check run may spend a real completion.
+  #
+  # Not a column: it describes the run, not the connection. An administrator
+  # asking to test the connection wants it; the scheduled re-check leaves it off
+  # so that a connection to a paid provider is not billed four times a day.
+  attr_accessor :deep_health_check
+
+  def deep_health_check? = ActiveModel::Type::Boolean.new.cast(deep_health_check).present?
+
+  def latest_health_report
+    health_reports.order(created_at: :asc).last
+  end
+
+  # Feeds the downloadable health report. Deliberately excludes api_key *and*
+  # custom_headers: a gateway header routinely carries a second credential, as
+  # can the userinfo or query string of base_url.
+  def non_confidential_configuration
+    {
+      base_url: base_url_without_credentials,
+      api_format:,
+      llm_features_enabled: Setting.llm_features_enabled?,
+      server_flavour:,
+      last_synced_at:,
+      last_connected_at:,
+      model_count: models.count,
+      manual_model_count: models.where(manual: true).count
+    }
+  end
+
   private
+
+  def base_url_without_credentials
+    uri = URI.parse(base_url)
+    uri.user = nil
+    uri.query = nil
+    uri.fragment = nil
+    uri.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
 
   def base_url_is_absolute_http
     uri = URI.parse(base_url)
