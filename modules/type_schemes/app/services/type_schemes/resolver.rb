@@ -32,16 +32,25 @@ module TypeSchemes
   module Resolver
     module_function
 
-
-    CACHE_KEY = :type_scheme_by_project_id
+    CACHE_KEY = :type_scheme_cache
 
     def for_project(project)
       return if project.nil?
+      return default_scheme if project.id.nil?
 
-      cache = RequestStore.store[CACHE_KEY] ||= {}
-      return cache[project.id] if cache.key?(project.id)
+      by_project = cache[:projects]
+      return by_project[project.id] if by_project.key?(project.id)
 
-      cache[project.id] = find_active_scheme(project.id) || DefaultScheme.current
+      by_project[project.id] = find_active_scheme(project.id) || default_scheme
+    end
+
+    def type_allowed?(project, type_id)
+      scheme = for_project(project)
+      return true unless scheme
+
+      enabled_ids = project.project_types.map(&:type_id)
+      scheme_ids = scheme.items.map(&:type_id) & enabled_ids
+      scheme_ids.empty? || scheme_ids.include?(type_id)
     end
 
     def reset_cache
@@ -61,8 +70,21 @@ module TypeSchemes
     end
 
     def find_active_scheme(project_id)
-      scheme = ProjectTypeScheme.includes(scheme: :items).find_by(project_id:)&.scheme
-      scheme if scheme&.active
+      scheme_id = ProjectTypeScheme.where(project_id:).pick(:scheme_id)
+      return unless scheme_id
+
+      schemes = cache[:schemes]
+      schemes[scheme_id] = TypeScheme.active.includes(:items).find_by(id: scheme_id) unless schemes.key?(scheme_id)
+      schemes[scheme_id]
+    end
+
+    def default_scheme
+      cache[:default] = DefaultScheme.current unless cache.key?(:default)
+      cache[:default]
+    end
+
+    def cache
+      RequestStore.store[CACHE_KEY] ||= { projects: {}, schemes: {} }
     end
   end
 end

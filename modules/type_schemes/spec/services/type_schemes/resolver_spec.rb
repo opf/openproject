@@ -116,6 +116,44 @@ RSpec.describe TypeSchemes::Resolver do
     end
   end
 
+  describe ".type_allowed?" do
+    let(:scheme) { create(:type_scheme, types: [story, epic]) }
+
+    before { ProjectTypeScheme.create!(project:, scheme:) }
+
+    it "is true for scheme types and false for enabled types outside the scheme" do
+      expect(described_class.type_allowed?(project, story.id)).to be true
+      expect(described_class.type_allowed?(project, bug.id)).to be false
+    end
+
+    it "allows everything enabled when no scheme type is enabled in the project" do
+      other = create(:project, types: [bug])
+      ProjectTypeScheme.create!(project: other, scheme:)
+      expect(described_class.type_allowed?(other, bug.id)).to be true
+    end
+
+    it "is true without any scheme" do
+      expect(described_class.type_allowed?(create(:project, types: [bug]), bug.id)).to be true
+    end
+  end
+
+  describe "query count" do
+    let!(:default) { create(:type_scheme, types: [story, epic], is_default: true) }
+    let(:projects) { create_list(:project, 3, types: [story, epic]) }
+
+    it "loads the default scheme once for projects without assignment" do
+      projects
+      described_class.reset_cache
+      count = 0
+      callback = ->(*, payload) { count += 1 unless payload[:name] == "SCHEMA" }
+      ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+        projects.each { |p| 3.times { described_class.for_project(p) } }
+      end
+
+      expect(count).to eq(projects.size + 2)
+    end
+  end
+
   context "with a default scheme and no explicit assignment" do
     let!(:default) { create(:type_scheme, types: [story, epic], is_default: true) }
 

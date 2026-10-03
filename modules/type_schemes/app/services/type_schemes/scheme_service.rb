@@ -66,7 +66,7 @@ module TypeSchemes
         attempts = 0
         begin
           ProjectTypeScheme.transaction(requires_new: true) do
-            record = ProjectTypeScheme.find_or_initialize_by(project_id: project.id)
+            record = ProjectTypeScheme.find_or_initialize_by(project:)
             record.scheme = scheme
             record.save ? ok(record) : fail_with(record)
           end
@@ -84,9 +84,14 @@ module TypeSchemes
       end
 
       def impact(scheme, removed_type_ids: [])
-        project_ids = scheme.project_assignments.pluck(:project_id)
-        counts = WorkPackage.where(project_id: project_ids, type_id: removed_type_ids).group(:type_id).count
-        { project_count: project_ids.size, work_package_counts: counts }
+        assignments = scheme.project_assignments
+        counts = if removed_type_ids.empty?
+                   {}
+                 else
+                   WorkPackage.where(type_id: removed_type_ids, project_id: assignments.select(:project_id))
+                              .group(:type_id).count
+                 end
+        { project_count: assignments.count, work_package_counts: counts }
       end
 
       private
@@ -147,7 +152,7 @@ module TypeSchemes
       def prepare_items(scheme, items)
         wanted = items.index_by { |i| i[:type_id].to_i }
         if scheme.persisted?
-          scheme.items.where.not(type_id: wanted.keys).destroy_all
+          scheme.items.where.not(type_id: wanted.keys).delete_all
           scheme.items.update_all(is_default: false)
           scheme.items.reset
           Resolver.reset_cache

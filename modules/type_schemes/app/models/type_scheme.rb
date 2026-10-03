@@ -50,7 +50,10 @@ class TypeScheme < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  def types = items.sort_by(&:position).map(&:type)
+  def types
+    ActiveRecord::Associations::Preloader.new(records: items.to_a, associations: :type).call
+    items.sort_by(&:position).map(&:type)
+  end
   def default_item = items.find(&:is_default)
   def default_type = default_item&.type
 

@@ -48,12 +48,9 @@ module OpenProject::TypeSchemes
     def validate_enabled_type
       super
       return unless model.project && type_context_changed? && errors[:type_id].empty?
+      return if model.type_id == model.type_id_was
 
-      # A relation means no scheme applies (or it fell back to native types): nothing to enforce.
-      allowed = assignable_types
-      return unless allowed.is_a?(Array)
-
-      errors.add :type_id, :not_in_scheme if allowed.none? { |t| t.id == model.type_id }
+      errors.add :type_id, :not_in_scheme unless ::TypeSchemes::Resolver.type_allowed?(model.project, model.type_id)
     end
   end
 end

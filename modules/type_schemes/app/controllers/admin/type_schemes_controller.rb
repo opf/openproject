@@ -38,7 +38,8 @@ module Admin
 
     def index
       ::TypeSchemes::DefaultScheme.ensure!
-      @schemes = TypeScheme.includes(:project_assignments).order(:name)
+      @schemes = TypeScheme.order(:name)
+      @project_counts = ProjectTypeScheme.group(:scheme_id).count
     end
 
     def new

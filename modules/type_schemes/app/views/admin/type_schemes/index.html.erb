@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% @schemes.each do |scheme| %>
       <tr>
         <td><%= scheme.name %><%= " (#{t('type_schemes.index.default_scheme')})" if scheme.is_default %></td>
-        <td><%= scheme.project_assignments.size %></td>
+        <td><%= @project_counts.fetch(scheme.id, 0) %></td>
         <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
         <td>
           <%= link_to t(:button_edit), edit_admin_type_scheme_path(scheme) %>

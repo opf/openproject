@@ -47,8 +47,8 @@ module TypeSchemes
       return plan if @mode == "dry_run" || plan.type_names.empty?
 
       TypeScheme.transaction do
-        DefaultScheme.ensure!
-        assign_projects if @mode == "auto"
+        scheme = DefaultScheme.ensure!
+        assign_projects(scheme) if @mode == "auto"
       end
       plan
     end
@@ -60,7 +60,9 @@ module TypeSchemes
     end
 
     def unassigned_projects
-      Project.where.not(id: ProjectTypeScheme.select(:project_id)).order(:name)
+      Project.where(<<~SQL.squish).order(:name)
+        NOT EXISTS (SELECT 1 FROM project_type_schemes WHERE project_type_schemes.project_id = projects.id)
+      SQL
     end
 
     def build_plan
@@ -70,8 +72,16 @@ module TypeSchemes
                project_names: @mode == "manual" ? [] : unassigned_projects.pluck(:name))
     end
 
-    def assign_projects
-      unassigned_projects.find_each { |project| SchemeService.assign_default(project) }
+    def assign_projects(scheme)
+      now = Time.zone.now
+      sql = ProjectTypeScheme.sanitize_sql_array([<<~SQL.squish, scheme.id, now, now])
+        INSERT INTO project_type_schemes (project_id, scheme_id, created_at, updated_at)
+        SELECT projects.id, ?, ?, ? FROM projects
+        WHERE NOT EXISTS (SELECT 1 FROM project_type_schemes WHERE project_type_schemes.project_id = projects.id)
+        ON CONFLICT (project_id) DO NOTHING
+      SQL
+      ProjectTypeScheme.connection.execute(sql)
+      Resolver.reset_cache
     end
   end
 end

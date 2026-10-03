@@ -57,6 +57,15 @@ RSpec.describe TypeSchemes::DefaultMigration do
     expect(ProjectTypeScheme.where(scheme_id: scheme.id).pluck(:project_id)).to include(project_a.id, project_b.id)
   end
 
+  it "assigns archived projects too, in one statement" do
+    archived = create(:project, active: false)
+
+    described_class.call(mode: "auto")
+
+    expect(ProjectTypeScheme.where(project_id: archived.id)).to exist
+    expect(Project.where.not(id: ProjectTypeScheme.select(:project_id))).to be_empty
+  end
+
   it "manual creates the scheme only" do
     expect { described_class.call(mode: "manual") }
       .to change(TypeScheme, :count).by(1).and not_change(ProjectTypeScheme, :count)

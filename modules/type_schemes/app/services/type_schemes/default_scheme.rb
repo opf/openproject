@@ -39,7 +39,7 @@ module TypeSchemes
     end
 
     def ensure!
-      current || create!
+      TypeScheme.active.find_by(is_default: true) || create!
     end
 
     def task_type(types = Type.order(:position, :id).to_a)
@@ -49,10 +49,10 @@ module TypeSchemes
     end
 
     def add_type(type)
-      scheme = current
-      return if scheme.nil? || scheme.items.any? { |item| item.type_id == type.id }
+      scheme = TypeScheme.active.find_by(is_default: true)
+      return if scheme.nil? || scheme.items.exists?(type_id: type.id)
 
-      scheme.items.create!(type:, position: scheme.items.map(&:position).max.to_i + 1, is_default: false)
+      scheme.items.create!(type:, position: scheme.items.maximum(:position).to_i + 1, is_default: false)
     end
 
     def create!

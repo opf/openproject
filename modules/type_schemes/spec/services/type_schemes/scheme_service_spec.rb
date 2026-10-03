@@ -220,6 +220,15 @@ RSpec.describe TypeSchemes::SchemeService do
     end
   end
 
+  describe ".impact without removed types" do
+    it "skips the work package query" do
+      scheme = create(:type_scheme, types: [epic])
+      ProjectTypeScheme.create!(project:, scheme:)
+
+      expect(described_class.impact(scheme)).to eq(project_count: 1, work_package_counts: {})
+    end
+  end
+
   describe ".activate" do
     it "re-enables a deactivated scheme" do
       scheme = create(:type_scheme, types: [epic])
