@@ -48,6 +48,13 @@ module LlmConnections
     validate :default_models_offered_by_server
     validate :default_chat_model_can_chat
     validate :default_embedding_model_can_embed
+    validate :not_configured_from_env
+
+    def not_configured_from_env
+      return unless model.configured_from_env?
+
+      errors.add :base, :configured_via_env
+    end
 
     private
 
