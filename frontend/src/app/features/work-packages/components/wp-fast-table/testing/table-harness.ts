@@ -44,10 +44,12 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { InlineCreateRowBuilder } from 'core-app/features/work-packages/components/wp-inline-create/inline-create-row-builder';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
@@ -175,6 +177,8 @@ export interface TableHarness {
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
   /** Expands the relation column of a work package; works before the first render. */
   expand(workPackageId:string, columnId:string):void;
+  /** Appends the unsaved row the inline-create component renders into its own `<tbody>`. */
+  addInlineCreateRow():HTMLTableRowElement;
   destroy():Promise<void>;
 }
 
@@ -338,6 +342,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     expand(workPackageId, columnId) {
       injector.get(WorkPackageViewRelationColumnsService).setExpandFor(workPackageId, columnId);
+    },
+
+    addInlineCreateRow() {
+      const workPackage = buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' });
+      states.workPackages.get(HAL_NEW_RESOURCE_ID).putValue(workPackage);
+      const builder = new InlineCreateRowBuilder(injector, table);
+      table.editing.startEditing(workPackage, builder.classIdentifier(workPackage));
+      const [row] = builder.buildEmpty(workPackage);
+      const inlineCreateBody = document.createElement('tbody');
+      inlineCreateBody.append(row);
+      dom.tbody.after(inlineCreateBody);
+      return row;
     },
 
     destroy() {
