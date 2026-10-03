@@ -27,7 +27,7 @@
 //++
 
 import { Excalidraw, Footer, MainMenu } from '@excalidraw/excalidraw';
-import type { OrderedExcalidrawElement } from '@excalidraw/excalidraw/element/types';
+import type { OrderedExcalidrawElement, Theme } from '@excalidraw/excalidraw/element/types';
 import type {
   AppState,
   Collaborator,
@@ -55,6 +55,22 @@ export interface OpWhiteboardProps {
 }
 
 const t = (key:string) => window.I18n.t(`js.whiteboards.${key}`);
+
+function currentOpTheme():Theme {
+  return document.body.dataset.colorMode === 'dark' ? 'dark' : 'light';
+}
+
+function useOpTheme():Theme {
+  const [theme, setTheme] = useState(currentOpTheme);
+
+  useEffect(() => {
+    const update = () => setTheme(currentOpTheme());
+    window.addEventListener('op:theme-changed', update);
+    return () => window.removeEventListener('op:theme-changed', update);
+  }, []);
+
+  return theme;
+}
 
 function useSharedTitle(doc:Y.Doc, initialTitle:string) {
   const meta = useMemo(() => doc.getMap<string>(META_KEY), [doc]);
@@ -215,6 +231,7 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
   const bindingRef = useRef<ExcalidrawYjsBinding|null>(null);
   const awarenessRef = useRef<WhiteboardAwareness|null>(null);
   const saveState = useSaveState(provider);
+  const theme = useOpTheme();
 
   const initialData = useMemo<ExcalidrawInitialDataState>(
     () => ({ elements: ExcalidrawYjsBinding.storedElements(doc), scrollToContent: true }),
@@ -265,10 +282,11 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
       isCollaborating
       viewModeEnabled={readOnly || offline}
       langCode={langCode}
+      theme={theme}
       name={title}
       renderTopRightUI={renderTopRightUI}
       UIOptions={{
-        canvasActions: { loadScene: false, saveToActiveFile: false, clearCanvas: !readOnly },
+        canvasActions: { loadScene: false, saveToActiveFile: false, clearCanvas: !readOnly, toggleTheme: false },
         tools: { image: false },
       }}
     >
@@ -280,7 +298,6 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
         <MainMenu.DefaultItems.Help />
         {!readOnly && <MainMenu.DefaultItems.ClearCanvas />}
         <MainMenu.Separator />
-        <MainMenu.DefaultItems.ToggleTheme />
         <MainMenu.DefaultItems.ChangeCanvasBackground />
       </MainMenu>
       <Footer>
