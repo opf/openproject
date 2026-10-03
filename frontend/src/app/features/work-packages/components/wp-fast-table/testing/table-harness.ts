@@ -33,6 +33,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -111,6 +114,8 @@ export interface TableHarnessOptions {
   states?:States;
   /** Shows the timeline side through the query, as a saved Gantt view does. */
   timelineVisible?:boolean;
+  requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
+  loadPositions?:() => Promise<QueryOrder>;
 }
 
 export interface TableHarness {
@@ -370,12 +375,16 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
       provide: ApiV3Service,
       useFactory: (states:States) => ({
         work_packages: {
+          requireAll: options.requireAll ?? ((ids:string[]) => Promise.resolve(
+            ids.map((id) => states.workPackages.get(id).value!).filter(Boolean),
+          )),
           cache: { current: (_id:string, fallback:unknown) => fallback },
           id: (id:string) => ({
             get: () => of(states.workPackages.get(id).value),
             requireAndStream: () => of(states.workPackages.get(id).value),
           }),
         },
+        queries: { id: () => ({ order: { get: options.loadPositions ?? (() => Promise.resolve({})) } }) },
       }),
       deps: [States],
     },
@@ -422,6 +431,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
     { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
     { provide: CopyToClipboardService, useValue: {} },
     { provide: CurrentProjectService, useValue: { id: null, identifier: null } },
