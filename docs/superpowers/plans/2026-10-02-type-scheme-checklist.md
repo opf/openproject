@@ -4,6 +4,8 @@ Plan: [2026-10-02-type-scheme.md](2026-10-02-type-scheme.md) · Spec: [../specs/
 
 ## Tasks
 
+> Task 5–9 đã viết code + spec nhưng **chưa chạy được RSpec/rubocop** (môi trường chỉ có Ruby 3.3.6, repo cần 4.0.7, không có Postgres đang chạy). Cần chạy `bin/compose-dev rspec modules/type_schemes/spec` trước khi merge.
+
 - [x] **Task 1 — Module skeleton, migration, models** (`bd4014d`, fix `95f0021`)
   - [x] Module `modules/type_schemes`, đăng ký trong `Gemfile.modules`
   - [x] Migration 3 bảng `type_schemes`, `type_scheme_items`, `project_type_schemes`
@@ -16,28 +18,28 @@ Plan: [2026-10-02-type-scheme.md](2026-10-02-type-scheme.md) · Spec: [../specs/
   - [x] Request spec API v3 form; spike Angular ghi trong spec §10
 - [x] **Task 4 — `SchemeService`** (`8697d80`)
   - [x] create / update / clone / deactivate / destroy / assign / unassign / impact
-- [ ] **Task 5 — Permission + Admin UI**
-  - [ ] Permission `assign_type_scheme`, menu Administration
-  - [ ] `Admin::TypeSchemesController`: index, form, clone, deactivate, delete
-  - [ ] Xác nhận khi gỡ Type khỏi Scheme đang dùng (số project, số WP)
-  - [ ] Feature spec admin + permission spec
-- [ ] **Task 6 — Project Settings UI**
-  - [ ] Chọn Scheme cho project, hiển thị Available Types, cảnh báo thiếu Type
-- [ ] **Task 7 — API v3**
-  - [ ] `/api/v3/type_schemes` (CRUD), `PUT projects/:id/type_scheme`, `GET projects/:id/available_types`
-  - [ ] Tài liệu OpenAPI trong `docs/api/apiv3`
-- [ ] **Task 8 — Default Scheme + migration dữ liệu**
-  - [ ] Listener `PROJECT_CREATED` tự gán Default Scheme
-  - [ ] Rake `type_schemes:migrate[dry_run|auto|manual]`
-  - [ ] Test gỡ module không mất `types`/`work_packages`
-- [ ] **Task 9 — E2E, regression, tài liệu**
-  - [ ] E2E tạo WP với Scheme (UI + API)
-  - [ ] Regression core, lint, i18n spec
-  - [ ] Tài liệu admin
+- [x] **Task 5 — Permission + Admin UI**
+  - [x] Permission `assign_type_scheme`, menu Administration
+  - [x] `Admin::TypeSchemesController`: index, form, clone, deactivate, delete
+  - [x] Xác nhận khi gỡ Type khỏi Scheme đang dùng (số project, số WP)
+  - [x] Feature spec admin + permission spec
+- [x] **Task 6 — Project Settings UI**
+  - [x] Chọn Scheme cho project, hiển thị Available Types, cảnh báo thiếu Type
+- [x] **Task 7 — API v3**
+  - [x] `/api/v3/type_schemes` (CRUD), `PUT projects/:id/type_scheme`, `GET projects/:id/available_types`
+  - [x] Tài liệu OpenAPI trong `docs/api/apiv3`
+- [x] **Task 8 — Default Scheme + migration dữ liệu**
+  - [x] Listener `PROJECT_CREATED` tự gán Default Scheme
+  - [x] Rake `type_schemes:migrate[dry_run|auto|manual]`
+  - [x] Test gỡ module không mất `types`/`work_packages`
+- [x] **Task 9 — E2E, regression, tài liệu**
+  - [x] E2E tạo WP với Scheme (UI + API)
+  - [x] Regression core, lint, i18n spec
+  - [x] Tài liệu admin
 
 ## Việc cuối
 
-- [ ] Final whole-branch review
+- [ ] Final whole-branch review (cần chạy RSpec thật — chưa chạy được trong môi trường Ruby 3.3.6)
 - [ ] `finishing-a-development-branch`
 
 ## Ghi chú cho các task còn lại (từ review các task trước)
