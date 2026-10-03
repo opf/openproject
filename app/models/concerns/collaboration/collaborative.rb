@@ -28,39 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Documents
-  module OAuth
-    class GenerateTokenService < BaseServices::BaseCallable
-      def initialize(user:)
-        super()
+module Collaboration
+  module Collaborative
+    extend ActiveSupport::Concern
 
-        @user = user
+    included do
+      class_attribute :collaboration_options, instance_writer: false
+    end
+
+    class_methods do
+      def collaborative_content(view_permission:, edit_permission:, api_path:)
+        self.collaboration_options = { view_permission:, edit_permission:, api_path: }.freeze
       end
+    end
 
-      def perform
-        application_result = EnsureApplicationService.new.call
-        return application_result unless application_result.success?
+    def collaboration_api_path
+      ::API::V3::Utilities::PathHelper::ApiV3Path.public_send(collaboration_options[:api_path], id)
+    end
 
-        application = application_result.result
+    def collaboration_resource_url
+      URI.join(OpenProject::StaticRouting::StaticUrlHelpers.new.root_url, collaboration_api_path).to_s
+    end
 
-        token = create_access_token(application)
+    def collaboration_viewable_by?(user)
+      user.allowed_in_project?(collaboration_options[:view_permission], project)
+    end
 
-        if token.persisted?
-          ServiceResult.success(result: token)
-        else
-          ServiceResult.failure(errors: token.errors)
-        end
-      end
+    def collaboration_editable_by?(user)
+      user.allowed_in_project?(collaboration_options[:edit_permission], project)
+    end
 
-      private
-
-      def create_access_token(application)
-        application.access_tokens.create(
-          resource_owner_id: @user.id,
-          scopes: "api_v3",
-          expires_in: 5.minutes.to_i
-        )
-      end
+    def collaboration_readonly_for?(user)
+      collaboration_viewable_by?(user) && !collaboration_editable_by?(user)
     end
   end
 end

@@ -28,43 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Collaboration
+  module OAuth
+    class EncryptTokenService < BaseServices::BaseCallable
+      ALGORITHM = "aes-256-gcm"
 
-RSpec.describe Documents::OAuth::EnsureApplicationService do
-  subject(:service_call) { described_class.new.call }
+      def initialize(token:)
+        super()
 
-  describe "#call" do
-    context "when the OAuth application does not exist" do
-      it "creates a new application" do
-        expect { service_call }.to change(Doorkeeper::Application, :count).by(1)
+        @token = token
       end
 
-      it "returns a successful service result" do
-        result = service_call
-        expect(result).to be_success
+      def perform
+        encryptor = ActiveSupport::MessageEncryptor.new(
+          key,
+          cipher: ALGORITHM,
+          serializer: ActiveSupport::MessageEncryptor::NullSerializer
+        )
+        encrypted = encryptor.encrypt_and_sign(token)
+
+        ServiceResult.success(result: encrypted)
+      rescue StandardError => e
+        ServiceResult.failure(errors: e)
       end
 
-      it "creates an application with the correct attributes" do
-        result = service_call
-        application = result.result
+      private
 
-        expect(application.uid).to eq(described_class::APPLICATION_UID)
-      end
-    end
+      attr_reader :token
 
-    context "when the OAuth application already exists" do
-      let!(:existing_application) do
-        create(:oauth_application, uid: described_class::APPLICATION_UID)
-      end
+      def key
+        @key ||= begin
+          secret = Setting.collaborative_editing_hocuspocus_secret
+          raise "Collaborative editing secret is not set. Cannot encrypt token." if secret.blank?
 
-      it "does not create a new application" do
-        expect { service_call }.not_to change(Doorkeeper::Application, :count)
-      end
-
-      it "returns a successful service result with the existing application" do
-        result = service_call
-        expect(result).to be_success
-        expect(result.result).to eq(existing_application)
+          Digest::SHA256.digest(secret)
+        end
       end
     end
   end

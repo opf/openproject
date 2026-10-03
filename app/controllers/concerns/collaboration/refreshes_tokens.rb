@@ -28,37 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::Collaboration::CollaborativeContentRepresenter
+module Collaboration
+  # Including controllers provide the resource via a private #collaborative_resource.
+  module RefreshesTokens
+    def create
+      token_result = Collaboration::OAuth::TokenWithMetadataService
+        .new(user: current_user, resource: collaborative_resource)
+        .call
 
-        cached_representer key_parts: %i(project),
-                           disabled: false
-
-        self_link title_getter: ->(*) { represented.title }
-
-        property :id
-
-        property :title
-
-        formattable_property :description
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "Document"
-        end
+      if token_result.success?
+        render json: token_result.result.slice(:encrypted_token, :expires_in_seconds), status: :ok
+      else
+        render json: { error: token_result.message }, status: :unprocessable_entity
       end
     end
   end

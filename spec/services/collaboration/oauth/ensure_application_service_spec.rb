@@ -28,37 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::Collaboration::CollaborativeContentRepresenter
+require "spec_helper"
 
-        cached_representer key_parts: %i(project),
-                           disabled: false
+RSpec.describe Collaboration::OAuth::EnsureApplicationService do
+  subject(:service_call) { described_class.new.call }
 
-        self_link title_getter: ->(*) { represented.title }
+  describe "#call" do
+    context "when the OAuth application does not exist" do
+      it "creates a new application" do
+        expect { service_call }.to change(Doorkeeper::Application, :count).by(1)
+      end
 
-        property :id
+      it "returns a successful service result" do
+        result = service_call
+        expect(result).to be_success
+      end
 
-        property :title
+      it "creates an application with the correct attributes" do
+        result = service_call
+        application = result.result
 
-        formattable_property :description
+        expect(application.uid).to eq(described_class::APPLICATION_UID)
+      end
+    end
 
-        date_time_property :created_at
-        date_time_property :updated_at
+    context "when the OAuth application already exists" do
+      let!(:existing_application) do
+        create(:oauth_application, uid: described_class::APPLICATION_UID)
+      end
 
-        associated_project
+      it "does not create a new application" do
+        expect { service_call }.not_to change(Doorkeeper::Application, :count)
+      end
 
-        def _type
-          "Document"
-        end
+      it "returns a successful service result with the existing application" do
+        result = service_call
+        expect(result).to be_success
+        expect(result.result).to eq(existing_application)
       end
     end
   end

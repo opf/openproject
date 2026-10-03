@@ -33,7 +33,7 @@ import {
   PROVIDER_AUTH_ERROR_EVENT,
   ProviderAuthErrorKind,
   TokenRefreshService,
-} from 'core-stimulus/services/documents/token-refresh.service';
+} from 'core-stimulus/services/collaboration/token-refresh.service';
 import type { Doc } from 'yjs';
 import * as Y from 'yjs';
 

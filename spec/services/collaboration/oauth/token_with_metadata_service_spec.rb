@@ -30,9 +30,9 @@
 
 require "spec_helper"
 
-RSpec.describe Documents::OAuth::TokenWithMetadataService,
+RSpec.describe Collaboration::OAuth::TokenWithMetadataService,
                with_settings: { collaborative_editing_hocuspocus_secret: "test_secret_for_encryption" } do
-  subject(:service_call) { described_class.new(user:, document:, project:).call }
+  subject(:service_call) { described_class.new(user:, resource: document).call }
 
   let(:project) { create(:project) }
   let(:document) { create(:document, project:) }
@@ -109,7 +109,7 @@ RSpec.describe Documents::OAuth::TokenWithMetadataService,
 
   context "when token generation fails" do
     before do
-      allow_any_instance_of(Documents::OAuth::GenerateTokenService) # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(Collaboration::OAuth::GenerateTokenService) # rubocop:disable RSpec/AnyInstance
         .to receive(:call)
         .and_return(ServiceResult.failure(errors: "Token generation failed"))
 

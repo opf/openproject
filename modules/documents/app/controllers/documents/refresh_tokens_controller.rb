@@ -30,25 +30,15 @@
 
 module Documents
   class RefreshTokensController < ApplicationController
+    include Collaboration::RefreshesTokens
+
     before_action :find_project_by_project_id
     before_action :find_document
     before_action :authorize
 
-    def create
-      token_result = Documents::OAuth::TokenWithMetadataService.new(
-        user: current_user,
-        document: @document,
-        project: @project
-      ).call
-
-      if token_result.success?
-        render json: token_result.result.slice(:encrypted_token, :expires_in_seconds), status: :ok
-      else
-        render json: { error: token_result.message }, status: :unprocessable_entity
-      end
-    end
-
     private
+
+    def collaborative_resource = @document
 
     def find_document
       @document = Document.where(project_id: @project.id).find(params[:document_id])

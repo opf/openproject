@@ -28,42 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Collaboration
+  module SessionContext
+    private
 
-RSpec.describe Documents::OAuth::GenerateTokenService do
-  subject(:service_call) { described_class.new(user:).call }
+    def setup_collaboration_context(resource) # rubocop:disable Metrics/AbcSize
+      return unless resource.collaboration_viewable_by?(current_user)
 
-  let(:user) { create(:user) }
+      token_result = Collaboration::OAuth::TokenWithMetadataService
+        .new(user: current_user, resource:)
+        .call
 
-  describe "#call" do
-    it "creates a new access token" do
-      expect { service_call }.to change(Doorkeeper::AccessToken, :count).by(1)
-    end
+      if token_result.failure?
+        Rails.logger.error("Failed to generate token payload for #{resource.model_name.singular} #{resource.id}: " \
+                           "#{token_result.errors}")
+        return
+      end
 
-    it "returns a successful service result" do
-      result = service_call
-      expect(result).to be_success
-    end
-
-    it "creates a token that belongs to the provided user" do
-      result = service_call
-      token = result.result
-
-      expect(token.resource_owner_id).to eq(user.id)
-    end
-  end
-
-  context "with different users" do
-    let(:user1) { create(:user) }
-    let(:user2) { create(:user) }
-
-    it "creates separate tokens for different users" do
-      result1 = described_class.new(user: user1).call
-      result2 = described_class.new(user: user2).call
-
-      expect(result1.result.resource_owner_id).to eq(user1.id)
-      expect(result2.result.resource_owner_id).to eq(user2.id)
-      expect(result1.result.token).not_to eq(result2.result.token)
+      @token_payload = token_result.result[:encrypted_token]
+      @resource_url = token_result.result[:resource_url]
+      @readonly = token_result.result[:readonly]
+      @token_expires_in_seconds = token_result.result[:expires_in_seconds]
     end
   end
 end

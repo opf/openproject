@@ -28,10 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Documents
+module Collaboration
   module OAuth
     ##
-    # Service to ensure the existence of the Documents OAuth application.
+    # Service to ensure the existence of the OAuth application shared by all collaborative resources.
+    # Name and UID predate the extraction from the documents module and are kept for existing installations.
     #
     # This service is responsible for finding or creating a Doorkeeper OAuth application
     # that is used for authenticating the YJS provider with the OpenProject API.

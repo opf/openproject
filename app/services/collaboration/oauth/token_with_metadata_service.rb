@@ -28,26 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Documents
+module Collaboration
   module OAuth
     class TokenWithMetadataService < BaseServices::BaseCallable
-      include API::V3::Utilities::PathHelper
+      attr_reader :user, :resource
 
-      attr_reader :user, :document, :project
-
-      def initialize(user:, document:, project:)
+      def initialize(user:, resource:)
         super()
 
         @user = user
-        @document = document
-        @project = project
+        @resource = resource
       end
 
       def perform # rubocop:disable Metrics/AbcSize
         token_result = GenerateTokenService.new(user:).call
 
         if token_result.failure?
-          Rails.logger.error("Failed to generate OAuth token for document #{document.id}: #{token_result.errors}")
+          Rails.logger.error("Failed to generate OAuth token for #{resource_label}: #{token_result.errors}")
           return token_result
         end
 
@@ -64,7 +61,7 @@ module Documents
         encrypted_result = EncryptTokenService.new(token: payload.to_json).call
 
         if encrypted_result.failure?
-          Rails.logger.error("Failed to encrypt OAuth token payload for document #{document.id}: #{encrypted_result.errors}")
+          Rails.logger.error("Failed to encrypt OAuth token payload for #{resource_label}: #{encrypted_result.errors}")
           return encrypted_result
         end
 
@@ -82,15 +79,15 @@ module Documents
       private
 
       def resource_url
-        @resource_url ||= URI.join(
-          OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
-          api_v3_paths.document(document.id)
-        ).to_s
+        @resource_url ||= resource.collaboration_resource_url
       end
 
       def readonly
-        @readonly ||= user.allowed_in_project?(:view_documents, project) &&
-          !user.allowed_in_project?(:manage_documents, project)
+        @readonly ||= resource.collaboration_readonly_for?(user)
+      end
+
+      def resource_label
+        "#{resource.model_name.singular} #{resource.id}"
       end
     end
   end

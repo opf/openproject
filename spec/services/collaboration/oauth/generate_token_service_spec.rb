@@ -28,42 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Documents
-  module OAuth
-    class EncryptTokenService < BaseServices::BaseCallable
-      ALGORITHM = "aes-256-gcm"
+require "spec_helper"
 
-      def initialize(token:)
-        super()
+RSpec.describe Collaboration::OAuth::GenerateTokenService do
+  subject(:service_call) { described_class.new(user:).call }
 
-        @token = token
-      end
+  let(:user) { create(:user) }
 
-      def perform
-        encryptor = ActiveSupport::MessageEncryptor.new(
-          key,
-          cipher: ALGORITHM,
-          serializer: ActiveSupport::MessageEncryptor::NullSerializer
-        )
-        encrypted = encryptor.encrypt_and_sign(token)
+  describe "#call" do
+    it "creates a new access token" do
+      expect { service_call }.to change(Doorkeeper::AccessToken, :count).by(1)
+    end
 
-        ServiceResult.success(result: encrypted)
-      rescue StandardError => e
-        ServiceResult.failure(errors: e)
-      end
+    it "returns a successful service result" do
+      result = service_call
+      expect(result).to be_success
+    end
 
-      private
+    it "creates a token that belongs to the provided user" do
+      result = service_call
+      token = result.result
 
-      attr_reader :token
+      expect(token.resource_owner_id).to eq(user.id)
+    end
+  end
 
-      def key
-        @key ||= begin
-          secret = Setting.collaborative_editing_hocuspocus_secret
-          raise "Collaborative editing secret is not set. Cannot encrypt token." if secret.blank?
+  context "with different users" do
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
 
-          Digest::SHA256.digest(secret)
-        end
-      end
+    it "creates separate tokens for different users" do
+      result1 = described_class.new(user: user1).call
+      result2 = described_class.new(user: user2).call
+
+      expect(result1.result.resource_owner_id).to eq(user1.id)
+      expect(result2.result.resource_owner_id).to eq(user2.id)
+      expect(result1.result.token).not_to eq(result2.result.token)
     end
   end
 end

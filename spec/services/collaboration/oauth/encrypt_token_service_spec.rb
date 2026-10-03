@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Documents::OAuth::EncryptTokenService do
+RSpec.describe Collaboration::OAuth::EncryptTokenService do
   subject(:service_call) { described_class.new(token:).call }
 
   before do

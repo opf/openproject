@@ -28,37 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::Collaboration::CollaborativeContentRepresenter
+module Collaboration
+  module OAuth
+    class GenerateTokenService < BaseServices::BaseCallable
+      def initialize(user:)
+        super()
 
-        cached_representer key_parts: %i(project),
-                           disabled: false
+        @user = user
+      end
 
-        self_link title_getter: ->(*) { represented.title }
+      def perform
+        application_result = EnsureApplicationService.new.call
+        return application_result unless application_result.success?
 
-        property :id
+        application = application_result.result
 
-        property :title
+        token = create_access_token(application)
 
-        formattable_property :description
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "Document"
+        if token.persisted?
+          ServiceResult.success(result: token)
+        else
+          ServiceResult.failure(errors: token.errors)
         end
+      end
+
+      private
+
+      def create_access_token(application)
+        application.access_tokens.create(
+          resource_owner_id: @user.id,
+          scopes: "api_v3",
+          expires_in: 5.minutes.to_i
+        )
       end
     end
   end

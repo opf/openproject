@@ -30,34 +30,22 @@
 
 module API
   module V3
-    module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::Collaboration::CollaborativeContentRepresenter
+    module Collaboration
+      # The collaboration server derives read-only access from the presence of the update link
+      # and loads the Y.Doc from contentBinary.
+      module CollaborativeContentRepresenter
+        extend ActiveSupport::Concern
 
-        cached_representer key_parts: %i(project),
-                           disabled: false
+        included do
+          link :update,
+               cache_if: -> { represented.collaboration_editable_by?(current_user) } do
+            {
+              href: represented.collaboration_api_path,
+              method: :patch
+            }
+          end
 
-        self_link title_getter: ->(*) { represented.title }
-
-        property :id
-
-        property :title
-
-        formattable_property :description
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "Document"
+          property :content_binary
         end
       end
     end

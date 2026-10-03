@@ -28,38 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::Collaboration::CollaborativeContentRepresenter
-
-        cached_representer key_parts: %i(project),
-                           disabled: false
-
-        self_link title_getter: ->(*) { represented.title }
-
-        property :id
-
-        property :title
-
-        formattable_property :description
-
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        associated_project
-
-        def _type
-          "Document"
-        end
-      end
-    end
+module CollaborationHelper
+  def collaboration_provider_controller(resource_url:, token_payload:, token_expires_in_seconds:, refresh_url:)
+    content_controller(
+      "collaboration--init-yjs-provider",
+      "collaboration--init-yjs-provider-hocuspocus-url-value": Setting.collaborative_editing_hocuspocus_url,
+      "collaboration--init-yjs-provider-token-payload-value": token_payload,
+      "collaboration--init-yjs-provider-document-name-value": resource_url,
+      "collaboration--init-yjs-provider-token-expires-in-seconds-value": token_expires_in_seconds,
+      "collaboration--init-yjs-provider-refresh-url-value": refresh_url
+    )
   end
 end
