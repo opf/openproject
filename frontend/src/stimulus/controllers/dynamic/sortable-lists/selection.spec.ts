@@ -32,7 +32,7 @@ import { listKey } from './list-dom';
 import {
   applySelectionPresentation,
   batchSelectedAttribute,
-  liveOrderableItems,
+  liveMovableItems,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
@@ -134,7 +134,7 @@ describe('sortable-lists selection adapter', () => {
       focusHost: itemFor('1'),
       id: '1',
       listKey: listKey({ type: 'sprint', id: '7' }),
-      orderable: true,
+      movable: true,
     });
   });
 
@@ -163,7 +163,7 @@ describe('sortable-lists selection adapter', () => {
   });
 
   it('resolves a non-movable candidate', () => {
-    expect(candidateFor('5').orderable).toBe(false);
+    expect(candidateFor('5').movable).toBe(false);
   });
 
   it('does not resolve a truncation marker as a candidate', () => {
@@ -211,8 +211,8 @@ describe('sortable-lists selection adapter', () => {
     expect(orderedSelectedItemElements(root, keys)).toEqual([itemFor('1'), itemFor('3'), itemFor('4')]);
   });
 
-  it('lists only live orderable items', () => {
-    expect(liveOrderableItems(root).map((item) => item.id)).toEqual(['1', '2', '3', '4']);
+  it('lists only live movable items', () => {
+    expect(liveMovableItems(root).map((item) => item.id)).toEqual(['1', '2', '3', '4']);
   });
 
 

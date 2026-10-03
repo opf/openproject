@@ -30,7 +30,7 @@ import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common
 import { attributeTokenList } from 'core-app/shared/helpers/dom-helpers';
 import { type ListTopology } from './drag-and-drop';
 import {
-  isOrderableItem,
+  isMovableItem,
   listKey,
   ownedBy,
   resolveItemType,
@@ -47,7 +47,7 @@ export interface SelectionCandidate extends SelectionItem {
   // interactive-descendant check stops at.
   focusHost:HTMLElement;
   listKey:string;
-  orderable:boolean;
+  movable:boolean;
 }
 
 export const itemFocusTargetSelector = '[data-sortable-lists--item-target~="focus"]';
@@ -100,7 +100,7 @@ export function resolveCandidate(topology:ListTopology, target:EventTarget|null)
     focusHost: focusHostOf(itemElement),
     id,
     listKey: listKey(list.identity),
-    orderable: isOrderableItem(itemElement),
+    movable: isMovableItem(itemElement),
   };
 }
 
@@ -131,15 +131,15 @@ export function itemElementsByKey(root:HTMLElement):Map<SelectionKey, HTMLElemen
   return map;
 }
 
-export function liveOrderableItems(root:HTMLElement):SelectionItem[] {
+export function liveMovableItems(root:HTMLElement):SelectionItem[] {
   return orderedItemElements(root)
-    .filter(isOrderableItem)
+    .filter(isMovableItem)
     .map((item) => itemIdentity(item))
     .filter((item):item is SelectionItem => item !== null);
 }
 
-export function liveOrderableKeys(root:HTMLElement):Set<SelectionKey> {
-  return new Set(liveOrderableItems(root).map(selectionKey));
+export function liveMovableKeys(root:HTMLElement):Set<SelectionKey> {
+  return new Set(liveMovableItems(root).map(selectionKey));
 }
 
 /**

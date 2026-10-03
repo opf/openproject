@@ -52,7 +52,7 @@ import {
 } from './drag-and-drop';
 import {
   isMoveDirection,
-  isOrderableItem,
+  isMovableItem,
   itemMobility,
   resolveItemExternalUrl,
   resolveItemLabel,
@@ -149,7 +149,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
 
   move(event:ActionEvent):void {
     const item = event.currentTarget;
-    if (!isOrderableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
+    if (!isMovableItem(this.element) || !this.hasMenuElement || !(item instanceof HTMLElement)) {
       return;
     }
 
@@ -194,7 +194,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.cleanupFn = combine(
       // A non-movable item registers no draggable but stays a drop target:
       // its movable neighbours still anchor on it.
-      isOrderableItem(this.element) ? this.registerDraggable() : () => undefined,
+      isMovableItem(this.element) ? this.registerDraggable() : () => undefined,
       this.registerDropTarget(),
     );
   }

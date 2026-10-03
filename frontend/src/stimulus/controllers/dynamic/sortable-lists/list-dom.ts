@@ -105,7 +105,7 @@ export function itemMobility(itemElement:Element):ItemMobility {
   return value as ItemMobility;
 }
 
-export function isOrderableItem(itemElement:Element):boolean {
+export function isMovableItem(itemElement:Element):boolean {
   return itemMobility(itemElement) !== 'fixed';
 }
 

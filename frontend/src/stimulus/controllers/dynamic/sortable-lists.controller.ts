@@ -50,7 +50,7 @@ import {
 } from './sortable-lists/drag-and-drop';
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
-  isOrderableItem,
+  isMovableItem,
   resolveItemId,
   resolveItemLabel,
   resolveItemType,
@@ -415,7 +415,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // Null means the item is not in an owned list yet. A snapshot for menu
   // gating; the click path re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
-    if (!isOrderableItem(itemElement)) {
+    if (!isMovableItem(itemElement)) {
       return {
         top: false, up: false, down: false, bottom: false,
       };
@@ -435,7 +435,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
-    if (this.busy || !isOrderableItem(itemElement)) {
+    if (this.busy || !isMovableItem(itemElement)) {
       return;
     }
 

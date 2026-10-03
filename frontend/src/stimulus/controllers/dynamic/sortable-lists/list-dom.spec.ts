@@ -27,7 +27,7 @@
 //++
 
 import {
-  isOrderableItem,
+  isMovableItem,
   itemAcceptsDestination,
   itemMobility,
   sortableItemMobilityAttribute,
@@ -113,10 +113,10 @@ describe('itemMobility', () => {
     expect(itemMobility(itemWith(''))).toBe('fixed');
   });
 
-  it('derives orderable from the union', () => {
-    expect(isOrderableItem(itemWith('free'))).toBe(true);
-    expect(isOrderableItem(itemWith('confined'))).toBe(true);
-    expect(isOrderableItem(itemWith('fixed'))).toBe(false);
+  it('derives movable from the mobility', () => {
+    expect(isMovableItem(itemWith('free'))).toBe(true);
+    expect(isMovableItem(itemWith('confined'))).toBe(true);
+    expect(isMovableItem(itemWith('fixed'))).toBe(false);
   });
 });
 
