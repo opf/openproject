@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% @schemes.each do |scheme| %>
             <tr>
               <th scope="row"><%= link_to scheme.name, edit_admin_field_rule_scheme_path(scheme) %></th>
-              <td><%= scheme.items.size %></td>
+              <td><%= @item_counts.fetch(scheme.id, 0) %></td>
               <td><%= @project_counts.fetch(scheme.id, 0) %></td>
               <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
               <td>

@@ -29,6 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%
   rules = rule_set.rules.index_by(&:field_key)
   keys = ::FieldRules::Fields.configurable_keys
+  labels = ::FieldRules::Fields.labels(keys)
 %>
 <div class="form--field -required">
   <%= label_tag "rule_set_name", FieldRuleSet.human_attribute_name(:name), class: "form--label" %>
@@ -56,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
       <tbody>
         <% keys.each do |key| %>
           <% rule = rules[key] %>
-          <% label = ::FieldRules::Fields.label(key) %>
+          <% label = labels[key] %>
           <tr>
             <th scope="row"><%= label %></th>
             <% %w[hidden required read_only enforce_on_update].each do |state| %>

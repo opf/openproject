@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
                   <div class="color-fg-muted"><%= rule_set.description %></div>
                 <% end %>
               </th>
-              <td><%= rule_set.rules.size %></td>
+              <td><%= @rule_counts.fetch(rule_set.id, 0) %></td>
               <td><%= @scheme_counts.fetch(rule_set.id, 0) %></td>
               <td><%= rule_set.active ? t(:label_active) : t(:label_inactive) %></td>
               <td>

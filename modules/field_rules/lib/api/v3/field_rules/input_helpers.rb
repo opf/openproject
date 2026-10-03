@@ -31,7 +31,9 @@ module API
     module FieldRules
       module InputHelpers
         MAX_ID = 2_147_483_647
-        BOOLEAN = ActiveModel::Type::Boolean.new
+        MAX_LIST_SIZE = 1000
+        TRUE_VALUES = [true, "true", "1", 1].freeze
+        FALSE_VALUES = [false, "false", "0", 0, "", nil].freeze
 
         def safe_id(value)
           return 0 unless value.is_a?(String) || value.is_a?(Integer)
@@ -39,7 +41,29 @@ module API
           value.to_s.to_i.clamp(0, MAX_ID)
         end
 
-        def safe_bool(value) = BOOLEAN.cast(value) || false
+        def safe_bool(value)
+          return true if TRUE_VALUES.include?(value)
+          return false if FALSE_VALUES.include?(value)
+
+          raise ::API::Errors::BadRequest.new("A boolean value is expected.")
+        end
+
+        def body_hash!
+          body = request_body
+          return {}.with_indifferent_access if body.nil?
+          raise ::API::Errors::BadRequest.new("The request body must be a JSON object.") unless body.is_a?(Hash)
+
+          body.with_indifferent_access
+        end
+
+        def text_attributes(body)
+          %i[name description].each_with_object({}) do |key, attributes|
+            next unless body.key?(key)
+            raise ::API::Errors::BadRequest.new("#{key} must be a string.") unless body[key].nil? || body[key].is_a?(String)
+
+            attributes[key] = body[key]
+          end
+        end
 
         def safe_string(value)
           value.is_a?(String) || value.is_a?(Numeric) ? value.to_s : nil
@@ -59,9 +83,9 @@ module API
         end
 
         def objects_array!(value, name)
-          return value if value.is_a?(Array) && value.all?(Hash)
+          return value if value.is_a?(Array) && value.size <= MAX_LIST_SIZE && value.all?(Hash)
 
-          raise ::API::Errors::BadRequest.new("#{name} must be a list of objects.")
+          raise ::API::Errors::BadRequest.new("#{name} must be a list of at most #{MAX_LIST_SIZE} objects.")
         end
       end
     end

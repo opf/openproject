@@ -37,6 +37,7 @@ module Admin
 
     def index
       @rule_sets = FieldRuleSet.order(:name)
+      @rule_counts = FieldRule.group(:rule_set_id).count
       @scheme_counts = FieldRuleSchemeItem.group(:rule_set_id).distinct.count(:scheme_id)
     end
 

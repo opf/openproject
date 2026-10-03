@@ -34,8 +34,8 @@ module API
 
         helpers do
           def rule_set_params
-            body = request_body.to_h.with_indifferent_access
-            params = body.slice(:name, :description).symbolize_keys
+            body = body_hash!
+            params = text_attributes(body)
             if body.key?(:rules)
               params[:rules] = objects_array!(body[:rules], "rules").map do |rule|
                 rule = rule.with_indifferent_access
@@ -89,7 +89,7 @@ module API
                 result = ::FieldRules::RuleSetService.update(@rule_set, rule_set_params)
                 raise_service_errors(result) if result.failure?
 
-                active = request_body.to_h.with_indifferent_access[:active]
+                active = body_hash![:active]
                 unless active.nil?
                   toggle = safe_bool(active) ? :activate : :deactivate
                   result = ::FieldRules::RuleSetService.public_send(toggle, @rule_set.reload)

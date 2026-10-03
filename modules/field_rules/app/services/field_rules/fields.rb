@@ -80,6 +80,11 @@ module FieldRules
         WorkPackage.human_attribute_name(definition(key)&.attributes&.first.to_s.delete_suffix("_id"))
       end
 
+      def labels(keys)
+        names = WorkPackageCustomField.where(id: keys.filter_map { |key| custom_field_id(key) }).pluck(:id, :name).to_h
+        keys.index_with { |key| names[custom_field_id(key)] || label(key) }
+      end
+
       def custom_field_id(key)
         key.to_s[CUSTOM_FIELD_KEY, 1]&.to_i
       end

@@ -81,4 +81,24 @@ RSpec.describe FieldRule do
     priority = create(:issue_priority)
     expect(build_rule(field_key: "priority", default_value: priority.id.to_s)).to be_valid
   end
+
+  it "checks the custom field existence once per validation" do
+    custom_field = create(:work_package_custom_field)
+    rule = build_rule(field_key: "custom_field_#{custom_field.id}", default_value: "x")
+    allow(WorkPackageCustomField).to receive(:exists?).and_call_original
+
+    rule.valid?
+
+    expect(WorkPackageCustomField).to have_received(:exists?).once
+  end
+
+  it "labels custom fields without one query per field" do
+    fields = create_list(:work_package_custom_field, 2)
+    keys = ["description"] + fields.map { |field| "custom_field_#{field.id}" }
+
+    labels = FieldRules::Fields.labels(keys)
+
+    expect(labels.keys).to eq(keys)
+    expect(labels["custom_field_#{fields.first.id}"]).to eq(fields.first.name)
+  end
 end

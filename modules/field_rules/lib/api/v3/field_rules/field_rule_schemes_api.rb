@@ -34,8 +34,8 @@ module API
 
         helpers do
           def scheme_params
-            body = request_body.to_h.with_indifferent_access
-            params = body.slice(:name, :description).symbolize_keys
+            body = body_hash!
+            params = text_attributes(body)
             raw_items = body[:type_items] || body[:typeItems]
             if raw_items
               params[:items] = objects_array!(raw_items, "typeItems").map do |item|
@@ -86,7 +86,7 @@ module API
                 result = ::FieldRules::SchemeService.update(@scheme, scheme_params)
                 raise_service_errors(result) if result.failure?
 
-                active = request_body.to_h.with_indifferent_access[:active]
+                active = body_hash![:active]
                 unless active.nil?
                   toggle = safe_bool(active) ? :activate : :deactivate
                   result = ::FieldRules::SchemeService.public_send(toggle, @scheme.reload)

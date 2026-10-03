@@ -35,7 +35,7 @@ module API
         resource :field_rule_scheme do
           put do
             authorize_in_project(:assign_field_rule_scheme, project: @project)
-            scheme_id = request_body.to_h.with_indifferent_access[:scheme_id]
+            scheme_id = body_hash![:scheme_id]
 
             if scheme_id.blank?
               ::FieldRules::SchemeService.unassign(@project)

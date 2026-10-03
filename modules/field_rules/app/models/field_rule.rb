@@ -40,6 +40,7 @@ class FieldRule < ApplicationRecord
   validate :default_matches_field
 
   before_validation :normalize_state
+  before_validation { @configurable = nil }
   after_save { ::FieldRules::Resolver.reset_cache }
   after_destroy { ::FieldRules::Resolver.reset_cache }
 
@@ -53,7 +54,13 @@ class FieldRule < ApplicationRecord
   end
 
   def field_is_configurable
-    errors.add(:field_key, :unknown_field) unless ::FieldRules::Fields.configurable?(field_key)
+    errors.add(:field_key, :unknown_field) unless configurable_field?
+  end
+
+  def configurable_field?
+    return @configurable unless @configurable.nil?
+
+    @configurable = ::FieldRules::Fields.configurable?(field_key)
   end
 
   def state_combination_is_valid
@@ -62,7 +69,7 @@ class FieldRule < ApplicationRecord
   end
 
   def default_matches_field
-    return if default_value.blank? || !::FieldRules::Fields.configurable?(field_key)
+    return if default_value.blank? || !configurable_field?
 
     error = ::FieldRules::Fields.default_error(field_key, default_value)
     errors.add(:default_value, error) if error

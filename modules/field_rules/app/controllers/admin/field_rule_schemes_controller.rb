@@ -37,6 +37,7 @@ module Admin
 
     def index
       @schemes = FieldRuleScheme.order(:name)
+      @item_counts = FieldRuleSchemeItem.group(:scheme_id).count
       @project_counts = ProjectFieldRuleScheme.group(:scheme_id).count
     end
 
