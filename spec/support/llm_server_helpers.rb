@@ -34,6 +34,11 @@ module LlmServerHelpers
     { id: "bge-m3", object: "model", owned_by: "vllm", max_model_len: 8_192 }
   ].freeze
 
+  DEFAULT_EMBEDDING_MODELS = [
+    { id: "voyageai/voyage-4", name: "Voyage 4", context_length: 32_000,
+      architecture: { input_modalities: ["text"], output_modalities: ["embeddings"] } }
+  ].freeze
+
   # Stubs GET <base_url>/models. Returns the stub so specs can assert on how
   # often it was called -- which is how the changed-attributes guard is pinned.
   def mock_llm_models_response(base_url,
@@ -52,6 +57,20 @@ module LlmServerHelpers
       headers: { "Content-Type" => "application/json" },
       body: body || { object: "list", data: models }.to_json
     )
+  end
+
+  # Stubs the filtered catalogue request, which is how OpenRouter serves the
+  # embedding models that GET /models leaves out.
+  def mock_llm_embedding_models_response(base_url,
+                                         models: DEFAULT_EMBEDDING_MODELS,
+                                         response_code: 200)
+    stub_request(:get, "#{base_url.chomp('/')}/models")
+      .with(query: { "output_modalities" => "embeddings" })
+      .to_return(
+        status: response_code,
+        headers: { "Content-Type" => "application/json" },
+        body: { object: "list", data: models }.to_json
+      )
   end
 
   DEFAULT_CHAT_BODY = {
