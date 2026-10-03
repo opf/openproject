@@ -1,11 +1,18 @@
 en:
   activerecord:
+    attributes:
+      type_scheme:
+        items: Types
+        project_assignments: Projects
+      project_type_scheme:
+        scheme: Type scheme
     errors:
       models:
         type_scheme:
           attributes:
             items:
               exactly_one_default: must contain exactly one default type.
+              duplicate_types: must not contain the same type more than once.
         project_type_scheme:
           attributes:
             scheme:

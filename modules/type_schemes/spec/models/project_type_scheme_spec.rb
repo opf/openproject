@@ -28,16 +28,27 @@
 
 # frozen_string_literal: true
 
-require "open_project/plugins"
+require "spec_helper"
 
-module OpenProject::TypeSchemes
-  class Engine < ::Rails::Engine
-    engine_name :openproject_type_schemes
+RSpec.describe ProjectTypeScheme do
+  let(:project) { create(:project) }
+  let(:scheme) { create(:type_scheme) }
 
-    include OpenProject::Plugins::ActsAsOpEngine
+  it "is valid with a project and an active scheme" do
+    expect(described_class.new(project:, scheme:)).to be_valid
+  end
 
-    register "openproject-type_schemes",
-             author_url: "https://www.openproject.org",
-             bundled: true
+  it "allows only one scheme per project" do
+    described_class.create!(project:, scheme:)
+    other = described_class.new(project:, scheme: create(:type_scheme))
+    expect(other).not_to be_valid
+    expect(other.errors[:project_id]).to be_present
+  end
+
+  it "rejects an inactive scheme" do
+    inactive = create(:type_scheme, active: false)
+    assignment = described_class.new(project:, scheme: inactive)
+    expect(assignment).not_to be_valid
+    expect(assignment.errors[:scheme]).to be_present
   end
 end
