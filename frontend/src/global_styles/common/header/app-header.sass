@@ -16,6 +16,13 @@
   @media screen and (max-width: $breakpoint-md)
     grid-template-columns: minmax(0, auto) 1fr auto
 
+    .op-app-header--start
+      min-width: 0
+
+      .op-app-menu,
+      .op-logo
+        min-width: 0
+
   @media screen and (max-width: $breakpoint-sm)
     position: fixed
     top: 0
