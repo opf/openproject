@@ -32,9 +32,11 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { GroupHeaderBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 
 describe('GroupHeaderBuilder', () => {
   let builder:GroupHeaderBuilder;
+  let groupedType:string|null;
 
   function group(value:unknown):GroupObject {
     return {
@@ -62,6 +64,22 @@ describe('GroupHeaderBuilder', () => {
       providers: [
         { provide: I18nService, useValue: { t: (key:string) => key } },
         {
+          provide: IsolatedQuerySpace,
+          useValue: {
+            results: {
+              get value() {
+                // The custom field is not active in the first schema, so it has to look further.
+                const schemas = [
+                  { subject: { type: 'String' } },
+                  { customField1: groupedType ? { type: groupedType } : undefined },
+                ];
+
+                return { schemas: { elements: schemas } };
+              },
+            },
+          },
+        },
+        {
           provide: ConfigurationService,
           useValue: {
             isTimezoneSet: () => true,
@@ -75,20 +93,47 @@ describe('GroupHeaderBuilder', () => {
       ],
     });
 
+    groupedType = null;
     builder = new GroupHeaderBuilder(TestBed.inject(Injector));
   });
 
-  it('shows a UTC datetime value (datetime custom field) in the user time zone', () => {
-    expect(title('2026-10-01T12:30:00.000Z')).toEqual('2026-10-01 14:30');
+  describe('when grouped by a datetime custom field', () => {
+    beforeEach(() => {
+      groupedType = 'DateTime';
+    });
+
+    it('shows the UTC value in the user time zone', () => {
+      expect(title('2026-10-01T12:30:00.000Z')).toEqual('2026-10-01 14:30');
+    });
+
+    it('shows a dash for groups without a value', () => {
+      expect(title(null)).toEqual('-');
+    });
   });
 
-  it('keeps other values as they are', () => {
-    expect(title('2026-10-01')).toEqual('2026-10-01');
-    expect(title('High')).toEqual('High');
+  describe('when grouped by a string custom field', () => {
+    beforeEach(() => {
+      groupedType = 'String';
+    });
+
+    it('keeps a value looking like a UTC datetime as it is', () => {
+      expect(title('2026-10-01T12:30:00.000Z')).toEqual('2026-10-01T12:30:00.000Z');
+    });
+
+    it('keeps other values as they are', () => {
+      expect(title('2026-10-01')).toEqual('2026-10-01');
+      expect(title('High')).toEqual('High');
+    });
   });
 
-  it('shows a dash for groups without a value', () => {
-    expect(title(null)).toEqual('-');
+  describe('when the type of the grouped attribute is unknown', () => {
+    it('keeps the value as it is', () => {
+      expect(title('2026-10-01T12:30:00.000Z')).toEqual('2026-10-01T12:30:00.000Z');
+    });
+
+    it('shows a dash for groups without a value', () => {
+      expect(title(null)).toEqual('-');
+    });
   });
 
   it('escapes the value', () => {
