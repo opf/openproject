@@ -79,6 +79,7 @@
     "@blocknote/react": "^0.51.3",
     "@braintree/sanitize-url": "^7.1.2",
     "@datorama/akita": "^8.0.1",
+    "@excalidraw/excalidraw": "^0.18.1",
     "@floating-ui/dom": "^1.2.1",
     "@fullcalendar/angular": "^6.1.21",
     "@fullcalendar/common": "^5.11.5",
@@ -175,7 +176,8 @@
     "url-template": "^3.1.1",
     "uuid": "^14.0.1",
     "vis-data": "^8.0.4",
-    "vis-timeline": "^8.5.1"
+    "vis-timeline": "^8.5.1",
+    "yjs": "^13.6.33"
   },
   "optionalDependencies": {
     "fsevents": "*"
