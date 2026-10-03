@@ -1,0 +1,41 @@
+# /api/v3/field_rule_sets
+---
+get:
+  summary: List field rule sets
+  operationId: list_field_rule_sets
+  tags:
+    - Field Rules
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_set_collection_model.yml'
+post:
+  summary: Create a field rule set
+  operationId: create_field_rule_set
+  tags:
+    - Field Rules
+  description: |-
+    Creates a rule set. A rule cannot be both `hidden` and `required`; `required` together with `readOnly` needs a `defaultValue`.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/field_rule_set_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_set_model.yml'
+    '400':
+      description: Returned if `rules` is not a list of objects.
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if a rule is invalid.

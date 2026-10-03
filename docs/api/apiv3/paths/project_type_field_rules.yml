@@ -1,0 +1,62 @@
+# /api/v3/projects/{id}/types/{type_id}/field_rules
+---
+get:
+  summary: Get the effective field rules of a project and type
+  operationId: get_project_type_field_rules
+  tags:
+    - Field Rules
+  description: |-
+    Returns the rules that apply when creating or editing work packages of the type in the project. Fields without a rule are omitted and behave natively.
+
+    **Required permission:** view work packages
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    - name: type_id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            properties:
+              _type:
+                type: string
+                enum:
+                  - FieldRuleConfiguration
+              fields:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    key:
+                      type: string
+                    visibility:
+                      type: string
+                      enum:
+                        - visible
+                        - hidden
+                    required:
+                      type: boolean
+                    readOnly:
+                      type: boolean
+                    enforceOnUpdate:
+                      type: boolean
+                    defaultValue:
+                      type:
+                        - string
+                        - "null"
+                    source:
+                      type: string
+    '403':
+      description: Returned if the user may not view work packages in the project.
+    '404':
+      description: Returned if the project is not visible or the type does not exist.

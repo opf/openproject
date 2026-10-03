@@ -1,0 +1,39 @@
+# /api/v3/field_rule_schemes
+---
+get:
+  summary: List field rule schemes
+  operationId: list_field_rule_schemes
+  tags:
+    - Field Rules
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_scheme_collection_model.yml'
+post:
+  summary: Create a field rule scheme
+  operationId: create_field_rule_scheme
+  tags:
+    - Field Rules
+  description: |-
+    Creates a scheme. `typeItems` maps each type to a rule set through `_links.type` and `_links.ruleSet`.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/field_rule_scheme_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the scheme is invalid, e.g. a type appears twice.

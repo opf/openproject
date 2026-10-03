@@ -1,0 +1,50 @@
+# /api/v3/field_rule_sets/{id}
+---
+get:
+  summary: Get a field rule set
+  operationId: get_field_rule_set
+  tags:
+    - Field Rules
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_set_model.yml'
+    '404':
+      description: Returned if the rule set does not exist.
+patch:
+  summary: Update a field rule set
+  operationId: update_field_rule_set
+  tags:
+    - Field Rules
+  description: |-
+    Updates name, description, `active` and replaces `rules`. Rule sets cannot be deleted; set `active` to `false` instead.
+
+    **Required permission:** administrator
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_set_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '404':
+      description: Returned if the rule set does not exist.
+    '422':
+      description: Returned if a rule is invalid.

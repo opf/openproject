@@ -1,0 +1,50 @@
+# /api/v3/field_rule_schemes/{id}
+---
+get:
+  summary: Get a field rule scheme
+  operationId: get_field_rule_scheme
+  tags:
+    - Field Rules
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_scheme_model.yml'
+    '404':
+      description: Returned if the scheme does not exist.
+patch:
+  summary: Update a field rule scheme
+  operationId: update_field_rule_scheme
+  tags:
+    - Field Rules
+  description: |-
+    Updates name, description, `active` and replaces `typeItems`. Schemes cannot be deleted; set `active` to `false` instead.
+
+    **Required permission:** administrator
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/field_rule_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '404':
+      description: Returned if the scheme does not exist.
+    '422':
+      description: Returned if the scheme is invalid.

@@ -1,0 +1,36 @@
+# /api/v3/projects/{id}/field_rule_scheme
+---
+put:
+  summary: Assign a field rule scheme to a project
+  operationId: assign_project_field_rule_scheme
+  tags:
+    - Field Rules
+  description: |-
+    Assigns the active scheme with the given `scheme_id`. An empty `scheme_id` removes the assignment, so the project uses the native behaviour.
+
+    **Required permission:** assign field rule scheme (in the project)
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            scheme_id:
+              type:
+                - integer
+                - "null"
+  responses:
+    '204':
+      description: No Content
+    '403':
+      description: Returned if the user lacks the permission.
+    '404':
+      description: Returned if the project is not visible.
+    '422':
+      description: Returned if the scheme is unknown or inactive.

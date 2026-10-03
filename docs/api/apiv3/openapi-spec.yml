@@ -395,6 +395,18 @@ paths:
     "$ref": "./paths/program_form.yml"
   "/api/v3/project_phases/{id}":
     "$ref": "./paths/project_phase.yml"
+  "/api/v3/field_rule_sets":
+    "$ref": "./paths/field_rule_sets.yml"
+  "/api/v3/field_rule_sets/{id}":
+    "$ref": "./paths/field_rule_set.yml"
+  "/api/v3/field_rule_schemes":
+    "$ref": "./paths/field_rule_schemes.yml"
+  "/api/v3/field_rule_schemes/{id}":
+    "$ref": "./paths/field_rule_scheme.yml"
+  "/api/v3/projects/{id}/field_rule_scheme":
+    "$ref": "./paths/project_field_rule_scheme.yml"
+  "/api/v3/projects/{id}/types/{type_id}/field_rules":
+    "$ref": "./paths/project_type_field_rules.yml"
   "/api/v3/type_schemes":
     "$ref": "./paths/type_schemes.yml"
   "/api/v3/type_schemes/{id}":
@@ -1062,6 +1074,14 @@ components:
       "$ref": "./components/schemas/project_phase_definition_model.yml"
     ProjectPhaseDefinitionCollectionModel:
       "$ref": "./components/schemas/project_phase_definition_collection_model.yml"
+    FieldRuleSetModel:
+      "$ref": "./components/schemas/field_rule_set_model.yml"
+    FieldRuleSetCollectionModel:
+      "$ref": "./components/schemas/field_rule_set_collection_model.yml"
+    FieldRuleSchemeModel:
+      "$ref": "./components/schemas/field_rule_scheme_model.yml"
+    FieldRuleSchemeCollectionModel:
+      "$ref": "./components/schemas/field_rule_scheme_collection_model.yml"
     TypeSchemeModel:
       "$ref": "./components/schemas/type_scheme_model.yml"
     TypeSchemeCollectionModel:
@@ -1282,6 +1302,7 @@ tags:
   - "$ref": "./tags/project_phases.yml"
   - "$ref": "./tags/project_phase_definitions.yml"
   - "$ref": "./tags/projects.yml"
+  - "$ref": "./tags/field_rules.yml"
   - "$ref": "./tags/type_schemes.yml"
   - "$ref": "./tags/queries.yml"
   - "$ref": "./tags/query_columns.yml"
