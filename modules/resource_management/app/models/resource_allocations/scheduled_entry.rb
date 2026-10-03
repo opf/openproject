@@ -30,13 +30,14 @@
 
 module ResourceAllocations
   # A single allocation's share of a day in a computed schedule: `minutes` of the
-  # `allocation` (and its `work_package`) placed on one day.
+  # `allocation` (and its `work_package`) placed on the `allocated_on` day.
   class ScheduledEntry
     include ActiveModel::Model
     include ActiveModel::Attributes
 
     attribute :allocation
     attribute :work_package
+    attribute :allocated_on, :date
     attribute :minutes, :integer
   end
 end
