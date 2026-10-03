@@ -42,6 +42,13 @@ RSpec.describe "LLM connection administration",
 
   current_user { admin }
 
+  def offered_default_models
+    items = find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+    ids = JSON.parse(items).pluck("id").compact_blank
+
+    LlmModel.where(id: ids).pluck(:external_id)
+  end
+
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
   # for the item itself to become visible.
@@ -145,6 +152,7 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to have_test_selector("llm-model--edit-#{connection.models.first.id}")
       expect(page).to be_axe_clean.within("#content")
     end
 
