@@ -51,9 +51,7 @@ import {
 } from './sortable-lists/drag-and-drop';
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
-  captureRowPositions,
   isOrderableItem,
-  reorderRows,
   resolveBlockMove,
   resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
@@ -63,9 +61,7 @@ import {
   resolveItemPosition,
   resolveItemType,
   resolveMoveAvailability,
-  restoreRowPositions,
   rowOf,
-  rowsRemainAt,
   ownedBy,
   sortableListsBusyAttribute,
   sortableScopeCountAttribute,
@@ -74,6 +70,12 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import {
+  captureRowPositions,
+  reorderRows,
+  restoreRowPositions,
+  rowsRemainAt,
+} from './sortable-lists/row-mutations';
 import { SelectionOrchestrator, type ActionScope, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { relativeUrl } from './sortable-lists/url';

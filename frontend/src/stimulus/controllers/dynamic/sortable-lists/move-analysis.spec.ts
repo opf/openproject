@@ -28,12 +28,12 @@
 import { analyzeMoveRows, analyzedMoveAvailability, resolveAnalyzedMove } from './move-analysis';
 import {
   type MoveDirection,
-  reorderRows,
   resolveBlockMove,
   resolveBlockMoveAvailability,
   resolveDirectionalPreviousItemId,
   resolveMoveAvailability,
 } from './list-dom';
+import { reorderRows } from './row-mutations';
 
 describe('row movement geometry', () => {
   function fixture(initial:string) {
