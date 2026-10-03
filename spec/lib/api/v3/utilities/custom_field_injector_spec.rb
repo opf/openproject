@@ -253,7 +253,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like "has basic schema properties" do
         let(:path) { cf_path }
-        let(:type) { "CustomOption" }
+        let(:type) { "CustomField::Hierarchy::Item" }
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
@@ -265,7 +265,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
         it_behaves_like "has basic schema properties" do
           let(:path) { cf_path }
-          let(:type) { "CustomOption" }
+          let(:type) { "CustomField::Hierarchy::Item" }
           let(:name) { custom_field.name }
           let(:required) { true }
           let(:writable) { false }
@@ -277,9 +277,13 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         let(:path) { cf_path }
         let(:hrefs) do
           custom_field.possible_values.map do |value|
-            api_v3_paths.custom_option(value.id)
+            api_v3_paths.custom_field_item(value.id)
           end
         end
+      end
+
+      it "reports that the field does not allow nesting" do
+        expect(JSON.parse(subject).dig(cf_path, "options", "allowsNesting")).to be(false)
       end
     end
 
@@ -366,6 +370,14 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
           let(:path) { cf_path }
           let(:href) { api_v3_paths.custom_field_items(custom_field.id) }
         end
+      end
+    end
+
+    context "for a hierarchy custom field", with_ee: [:custom_field_hierarchies] do
+      let(:custom_field) { create(:hierarchy_wp_custom_field) }
+
+      it "reports that the field allows nesting" do
+        expect(JSON.parse(subject).dig("customField#{custom_field.id}", "options", "allowsNesting")).to be(true)
       end
     end
 
@@ -536,48 +548,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context "for list custom field" do
-      let(:value) { build_stubbed(:custom_option) }
-      let(:typed_value) { value.value }
-      let(:raw_value) { value.id.to_s }
-      let(:field_format) { "list" }
-
-      it_behaves_like "has a titled link" do
-        let(:link) { cf_path }
-        let(:href) { api_v3_paths.custom_option(value.id) }
-        let(:title) { value.value }
-      end
-
-      context "when value is nil" do
-        let(:value) { nil }
-        let(:raw_value) { "" }
-        let(:typed_value) { "" }
-
-        it_behaves_like "has an empty link" do
-          let(:link) { cf_path }
-        end
-      end
-
-      context "when value is some invalid string" do
-        let(:value) { "some invalid string" }
-        let(:raw_value) { "some invalid string" }
-        let(:typed_value) { "some invalid string not found" }
-
-        it "has an empty href" do
-          expect(subject)
-            .to be_json_eql(nil.to_json)
-            .at_path("_links/#{cf_path}/href")
-        end
-
-        it "has the invalid value as title" do
-          expect(subject)
-            .to be_json_eql(typed_value.to_json)
-            .at_path("_links/#{cf_path}/title")
-        end
-      end
-    end
-
-    %w[hierarchy weighted_item_list].each do |format|
+    %w[list hierarchy weighted_item_list].each do |format|
       context "for #{format} custom field" do
         let(:value) { build_stubbed(:hierarchy_item) }
         let(:raw_value) { value.id.to_s }
@@ -810,6 +781,34 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
         expect(represented).to have_received(custom_field.attribute_setter).with(expected)
       end
+    end
+  end
+
+  describe "writing links to a multi-value list field" do
+    let(:custom_field) { create(:list_wp_custom_field, multi_value: true, possible_values: %w[apple]) }
+    let(:pear) { create(:legacy_list_item, custom_field:, label: "pear") }
+    let(:apple) { custom_field.possible_values.find_by!(label: "apple") }
+    let(:legacy_pear_id) { pear.legacy_option_id }
+    let(:base_class) do
+      Class.new(API::Decorators::Single) do
+        def self.custom_field_injector_config
+          {}
+        end
+      end
+    end
+    let(:represented) { Struct.new(:available_custom_fields, custom_field.attribute_name.to_sym).new([custom_field]) }
+
+    it "resolves all legacy ids in a single lookup, keeping the links' order" do
+      allow(CustomFields::LegacyOptionIdResolver).to receive(:resolve_all).and_call_original
+      links = [{ href: api_v3_paths.custom_option(legacy_pear_id) },
+               { href: api_v3_paths.custom_field_item(apple.id) }]
+
+      described_class.create_value_representer([custom_field], base_class)
+        .new(represented, current_user: nil)
+        .from_json({ _links: { cf_path => links } }.to_json)
+
+      expect(CustomFields::LegacyOptionIdResolver).to have_received(:resolve_all).once
+      expect(represented.public_send(custom_field.attribute_name)).to eq([pear.id.to_s, apple.id.to_s])
     end
   end
 end

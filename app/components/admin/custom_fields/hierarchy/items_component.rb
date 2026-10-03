@@ -34,6 +34,7 @@ module Admin
       class ItemsComponent < ApplicationComponent
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
+        include ItemRoutes
 
         def initialize(item:, new_item: nil)
           super(item)
@@ -46,14 +47,14 @@ module Admin
 
         def new_item_path
           position = model.children.any? ? model.children.last.sort_order + 1 : 0
-          custom_field_id = root.custom_field_id
-
-          if project_custom_field_context?
-            new_child_admin_settings_project_custom_field_item_path(custom_field_id, model, position:)
-          else
-            new_child_custom_field_item_path(custom_field_id, model, position:)
-          end
+          hierarchy_item_path(model, :new_child, position:)
         end
+
+        def reorder_alphabetical_path = hierarchy_item_path(model, :reorder_alphabetical)
+
+        def move_item_url(item) = hierarchy_item_url(item, :move)
+
+        def index_item_url(item) = hierarchy_item_url(item)
 
         def children
           list = model.children
@@ -77,7 +78,9 @@ module Admin
         end
 
         def blank_header_text
-          if model.root?
+          if custom_field.list?
+            "custom_fields.admin.items.blankslate.list.title"
+          elsif model.root?
             "custom_fields.admin.items.blankslate.root.title"
           else
             "custom_fields.admin.items.blankslate.item.title"
@@ -85,7 +88,9 @@ module Admin
         end
 
         def blank_description_text
-          if model.root?
+          if custom_field.list?
+            "custom_fields.admin.items.blankslate.list.description"
+          elsif model.root?
             "custom_fields.admin.items.blankslate.root.description"
           else
             "custom_fields.admin.items.blankslate.item.description"
@@ -94,28 +99,18 @@ module Admin
 
         private
 
-        def project_custom_field_context?
-          root.custom_field.is_a?(ProjectCustomField)
-        end
+        def custom_field = root.custom_field
 
         def branch(item)
           ::CustomFields::Hierarchy::HierarchicalItemService.new.get_branch(item:).value!
         end
 
-        def slices # rubocop:disable Metrics/AbcSize
-          custom_field = root.custom_field
-
+        def slices
           branch(model).map do |item|
-            if project_custom_field_context?
-              if item.root?
-                { href: admin_settings_project_custom_field_items_path(custom_field.id), label: custom_field.name }
-              else
-                { href: admin_settings_project_custom_field_item_path(custom_field.id, item), label: item.label }
-              end
-            elsif item.root?
-              { href: custom_field_items_path(custom_field.id), label: custom_field.name }
+            if item.root?
+              { href: hierarchy_items_path, label: custom_field.name }
             else
-              { href: custom_field_item_path(custom_field.id, item), label: item.label }
+              { href: hierarchy_item_path(item), label: item.label }
             end
           end
         end

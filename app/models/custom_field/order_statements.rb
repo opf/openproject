@@ -34,10 +34,9 @@ module CustomField::OrderStatements
     "int" => :join_for_order_by_int_sql,
     "float" => :join_for_order_by_float_sql,
     "calculated_value" => :join_for_order_by_calculated_value_sql,
-    "list" => :join_for_order_by_list_sql,
     "user" => :join_for_order_by_user_sql,
     "version" => :join_for_order_by_version_sql,
-    %w[hierarchy weighted_item_list] => :join_for_order_by_hierarchy_sql
+    %w[list hierarchy weighted_item_list] => :join_for_order_by_hierarchy_sql
   ).freeze
 
   # Returns the expression to use in ORDER BY clause to sort objects by their
@@ -145,15 +144,6 @@ module CustomField::OrderStatements
 
   def join_for_order_by_calculated_value_sql
     join_for_order_sql(value: "CASE cv.value WHEN 't' THEN 1 WHEN 'f' THEN 0 ELSE cv.value::double precision END")
-  end
-
-  def join_for_order_by_list_sql
-    join_for_order_sql(
-      value: multi_value? ? "ARRAY_AGG(co.position ORDER BY co.position)" : "co.position",
-      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')" : 'cv.value'} ids",
-      join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
-      multi_value:
-    )
   end
 
   def join_for_order_by_user_sql

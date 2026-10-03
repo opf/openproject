@@ -34,8 +34,8 @@ import {
   SingleLineResourcesDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-resources-display-field.module';
 import {
-  MultipleLinesCustomOptionsDisplayField,
-} from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
+  MultipleLinesResourcesDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/multiple-lines-resources-display-field.module';
 import {
   MultipleLinesUserFieldModule,
 } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
@@ -45,12 +45,19 @@ import {
 import {
   SingleLineUserDisplayField,
 } from 'core-app/shared/components/fields/display/field-types/single-line-user-display-field.module';
+import {
+  HierarchyItemDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/hierarchy-item-display-field.module';
+import {
+  ResourceDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 type DisplayFieldClass = new (name:string, context:DisplayFieldContext) => DisplayField;
 
 describe('DisplayFieldService', () => {
   const service = new DisplayFieldService();
+  service.addFieldType(ResourceDisplayField, 'resource', ['CustomField::Hierarchy::Item']);
 
   const mockI18n = { t: (key:string) => key };
 
@@ -62,22 +69,21 @@ describe('DisplayFieldService', () => {
     get: (token:unknown, notFoundValue?:unknown) => serviceMap.get(token) ?? notFoundValue ?? {},
   };
 
-  function fieldFor(type:string, layout?:string):DisplayField {
+  function fieldFor(type:string, layout?:string, schemaOptions?:object):DisplayField {
     const context = {
       injector: mockInjector,
       container: 'single-view',
       options: layout ? { layout } : {},
     } as unknown as DisplayFieldContext;
 
-    return service.getField({} as HalResource, 'multiValueAttribute', { type } as IFieldSchema, context);
+    return service.getField({} as HalResource, 'multiValueAttribute', { type, options: schemaOptions } as IFieldSchema, context);
   }
 
   // Every type the singleline layout applies to, paired with the fields it
   // renders as in the single view for each layout. Users keep their avatar
   // rendering in the singleline layout via a dedicated field.
   const multiValueTypes:[string, DisplayFieldClass, DisplayFieldClass][] = [
-    ['[]Version', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
-    ['[]CustomOption', SingleLineResourcesDisplayField, MultipleLinesCustomOptionsDisplayField],
+    ['[]Version', SingleLineResourcesDisplayField, MultipleLinesResourcesDisplayField],
     ['[]User', SingleLineUserDisplayField, MultipleLinesUserFieldModule],
     ['[]CustomField::Hierarchy::Item', SingleLineResourcesDisplayField, MultipleLinesHierarchyItemDisplayField],
   ];
@@ -96,5 +102,17 @@ describe('DisplayFieldService', () => {
         expect(fieldFor(type)).toBeInstanceOf(multilineClass);
       });
     });
+  });
+
+  it('uses the plain resource field for a hierarchical field that cannot nest', () => {
+    const field = fieldFor('CustomField::Hierarchy::Item', undefined, { allowsNesting: false });
+
+    expect(field).toBeInstanceOf(ResourceDisplayField);
+    expect(field instanceof HierarchyItemDisplayField).toBeFalsy();
+  });
+
+  it('renders a multi value list field that cannot nest one value per line', () => {
+    expect(fieldFor('[]CustomField::Hierarchy::Item', undefined, { allowsNesting: false }))
+      .toBeInstanceOf(MultipleLinesResourcesDisplayField);
   });
 });

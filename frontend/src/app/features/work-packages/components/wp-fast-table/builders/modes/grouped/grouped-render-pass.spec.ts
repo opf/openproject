@@ -62,15 +62,15 @@ describe('GroupedRenderPass', () => {
     const workPackage = {
       id: '1',
       customField16: [
-        { href: '/api/v3/custom_options/9' },
-        { href: '/api/v3/custom_options/11' },
-        { href: '/api/v3/custom_options/10' },
+        { href: '/api/v3/custom_field_items/9' },
+        { href: '/api/v3/custom_field_items/11' },
+        { href: '/api/v3/custom_field_items/10' },
       ],
     } as unknown as WorkPackageResource;
     const group = buildGroup({
-      0: { href: '/api/v3/custom_options/10' },
-      1: { href: '/api/v3/custom_options/9' },
-      2: { href: '/api/v3/custom_options/11' },
+      0: { href: '/api/v3/custom_field_items/10' },
+      1: { href: '/api/v3/custom_field_items/9' },
+      2: { href: '/api/v3/custom_field_items/11' },
     });
     const row = buildTableRow(workPackage);
     const pass = buildRenderPass([row], [group]);
@@ -93,11 +93,11 @@ describe('GroupedRenderPass', () => {
     const workPackage = {
       id: '1',
       customField16: [
-        { href: '/api/v3/custom_options/9' },
+        { href: '/api/v3/custom_field_items/9' },
       ],
     } as unknown as WorkPackageResource;
     const group = buildGroup({
-      0: { href: '/api/v3/custom_options/10' },
+      0: { href: '/api/v3/custom_field_items/10' },
     });
     const row = buildTableRow(workPackage);
     const pass = buildRenderPass([row], [group]);

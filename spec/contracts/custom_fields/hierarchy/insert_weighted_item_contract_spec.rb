@@ -29,128 +29,45 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::InsertWeightedItemContract do
-  subject { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
-  # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-  describe "#call" do
-    let(:parent) { create(:hierarchy_item) }
+  let(:parent) { create(:hierarchy_item) }
+  let(:valid_params) { { parent:, label: "Valid Label", weight: 0.1337 } }
 
-    context "when all required fields are valid" do
-      let(:params) { { parent:, label: "Valid Label", weight: 0.1337 } }
+  it_behaves_like "a hierarchy item insert contract"
 
-      it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
+  context "with a large weight" do
+    let(:params) { valid_params.merge(weight: 1.47e12) }
 
-    context "when inputs are empty" do
-      let(:params) { { parent:, label: "", weight: "" } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["must be filled."])
-        expect(result.errors.to_h).to include(weight: ["must be filled."])
-      end
-    end
-
-    context "when inputs are missing" do
-      let(:params) { { parent: } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["is missing."])
-        expect(result.errors.to_h).to include(weight: ["is missing."])
-      end
-    end
-
-    context "when parent is not of type 'Item'" do
-      let(:invalid_parent) { create(:custom_field) }
-      let(:params) { { parent: invalid_parent, label: "Valid Label", weight: 0.1337 } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(parent: ["must be CustomField::Hierarchy::Item."])
-      end
-    end
-
-    context "when label is not unique within the same hierarchy level" do
-      let(:params) { { parent:, label: "Duplicate Label", weight: 0.1337 } }
-
-      before { create(:hierarchy_item, parent:, label: "Duplicate Label", weight: 0.1337) }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
-      end
-
-      context "if another locale is set" do
-        let(:mordor) { "agh burzum-ishi krimpatul" }
-
-        before do
-          I18n.config.enforce_available_locales = false
-          I18n.backend.store_translations(
-            :mo,
-            { op_dry_validation: {
-              errors: { rules: { label: { not_unique: mordor } } }
-            } }
-          )
-        end
-
-        after do
-          I18n.config.enforce_available_locales = true
-        end
-
-        it "is invalid with localized validation errors" do
-          I18n.with_locale(:mo) do
-            result = subject.call(params)
-            expect(result).to be_failure
-            expect(result.errors.to_h).to include(label: [mordor])
-          end
-        end
-      end
-    end
-
-    context "when weight is not a decimal value" do
-      let(:params) { { parent:, label: "Valid Label", weight: "pi" } }
-
-      it "is invalid with localized validation errors" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(weight: ["must be a decimal."])
-      end
-    end
-
-    context "when inputs are valid" do
-      it "creates a success result" do
-        [
-          { parent:, label: "A label", weight: 0.1337 },
-          { parent:, label: "Another label", weight: 1.47e12 }
-        ].each { |params| expect(subject.call(params)).to be_success }
-      end
-    end
-
-    context "when inputs are invalid" do
-      it "creates a failure result" do
-        [
-          { parent:, label: "A label", weight: "" },
-          { parent:, label: "A label", weight: nil },
-          { parent:, label: "", weight: 1.47e12 },
-          { parent:, label: nil, weight: 1.47e12 },
-          { parent: },
-          { parent: nil },
-          { parent: nil, label: "A label", weight: 1.47e12 },
-          { parent: "parent", label: "A label", weight: 1.47e12 },
-          { parent: 42, label: "A label", weight: 1.47e12 }
-        ].each { |params| expect(subject.call(params)).to be_failure }
-      end
-    end
+    it { is_expected.to be_success }
   end
-  # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
+  context "with a weight a sibling already uses" do
+    let(:params) { valid_params }
+
+    before { create(:hierarchy_item, parent:, weight: 0.1337) }
+
+    it("accepts it") { is_expected.to be_success }
+  end
+
+  context "without a weight" do
+    let(:params) { valid_params.except(:weight) }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("is missing.") }
+  end
+
+  context "with a blank weight" do
+    let(:params) { valid_params.merge(weight: "") }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("must be filled.") }
+  end
+
+  context "with a weight that is not a decimal" do
+    let(:params) { valid_params.merge(weight: "pi") }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("must be a decimal.") }
+  end
 end

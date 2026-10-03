@@ -33,19 +33,8 @@ module CustomFields
     class HierarchicalItemService
       include Dry::Monads[:result]
 
-      # Generate the root item for the CustomField of type hierarchy
-      # @param custom_field [CustomField] custom field of type hierarchy
-      # @return [Success(CustomField::Hierarchy::Item), Failure(Dry::Validation::Result), Failure(ActiveModel::Errors)]
-      def generate_root(custom_field)
-        CustomFields::Hierarchy::GenerateRootContract
-          .new
-          .call(custom_field:)
-          .to_monad
-          .bind { |validation| create_root_item(validation[:custom_field]) }
-      end
-
       # Insert a new node on the hierarchy tree at a desired position or at the end if no sort_order is passed.
-      # @param contract_class [Class<CustomFields::Hierarchy::InsertListItemContract>, Class<CustomFields::Hierarchy::InsertWeightedItemContract>]
+      # @param contract_class [Class<InsertHierarchyItemContract, InsertListItemContract, InsertWeightedItemContract>]
       #   the params validation contract class
       # @param parent [CustomField::Hierarchy::Item] the parent of the node
       # @param label [String] the node label/name that must be unique at the same tree level
@@ -63,7 +52,7 @@ module CustomFields
       end
 
       # Updates an item/node
-      # @param contract_class [Class<CustomFields::Hierarchy::UpdateListItemContract>, Class<CustomFields::Hierarchy::UpdateWeightedItemContract>]
+      # @param contract_class [Class<UpdateHierarchyItemContract, UpdateListItemContract, UpdateWeightedItemContract>]
       #   the params validation contract class
       # @param item [CustomField::Hierarchy::Item] the item to be updated
       # @param label [String] the node label/name that must be unique at the same tree level
@@ -138,6 +127,10 @@ module CustomFields
       # @param new_parent [CustomField::Hierarchy::Item] the new parent of the node
       # @return [Success(CustomField::Hierarchy::Item)]
       def move_item(item:, new_parent:)
+        if new_parent.root&.custom_field&.list? && !new_parent.root?
+          return Failure(I18n.t("op_dry_validation.errors.rules.parent.nesting_not_allowed"))
+        end
+
         updated_item = new_parent.append_child(item)
         update_position_cache(new_parent.root)
 
@@ -157,6 +150,36 @@ module CustomFields
         update_item_order(item:, new_sort_order:)
 
         Success()
+      end
+
+      def reorder_children_alphabetically(parent:)
+        ActiveRecord::Base.transaction do
+          parent.children.reorder(Arel.sql("LOWER(label)")).each_with_index do |child, index|
+            child.update_column(:sort_order, index)
+          end
+        end
+
+        update_position_cache(parent.root)
+
+        Success()
+      end
+
+      def set_default(item:)
+        ActiveRecord::Base.transaction do
+          unless item.root.custom_field.multi_value?
+            item.root.descendants.where(default_value: true).where.not(id: item.id).update_all(default_value: false)
+          end
+
+          item.update!(default_value: true)
+        end
+
+        Success(item)
+      end
+
+      def clear_default(item:)
+        item.update!(default_value: false)
+
+        Success(item)
       end
 
       # Soft delete the item and children
@@ -185,14 +208,6 @@ module CustomFields
       end
 
       private
-
-      def create_root_item(custom_field)
-        item = CustomField::Hierarchy::Item.create(custom_field: custom_field)
-        return Failure(item.errors) if item.new_record?
-
-        update_position_cache(item)
-        Success(item)
-      end
 
       def create_child_item(validation:, before:)
         item = CustomField::Hierarchy::Item.new(**validation.to_h.except(:parent))

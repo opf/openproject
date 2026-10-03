@@ -691,7 +691,6 @@ en:
           only_one_allowed: "(%{name}) only one value is allowed."
           smaller_than_or_equal_to: "(%{name}) must be smaller than or equal to %{count}."
         custom_field:
-          at_least_one_custom_option: "At least one option needs to be available."
           attributes:
             formula:
               blank: "Formula can't be blank."
@@ -1167,9 +1166,6 @@ en:
       custom_field_section:
         one: "Custom field section"
         other: "Custom field sections"
-      custom_option:
-        one: "Custom field option"
-        other: "Custom field options"
       custom_style:
         one: "Design"
         other: "Designs"
@@ -2451,7 +2447,6 @@ en:
     created_at: "Created on"
     creator: "Creator"
     custom_field: "Custom field"
-    custom_options: "Possible values"
     custom_values: "Custom fields"
     customized: "Customized"
     date: "Date"
@@ -2612,6 +2607,7 @@ en:
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
+  button_clear_default_value: "Clear default value"
   button_click_to_reveal: "Click to reveal"
   button_close: "Close"
   button_collapse_all: "Collapse all"
@@ -2673,6 +2669,7 @@ en:
   button_save_as: "Save as"
   button_save_back: "Save and back"
   button_select: "Select"
+  button_set_as_default_value: "Set as default value"
   button_set_reminder: "Set reminder"
   button_show: "Show"
   button_sort: "Sort"
@@ -2806,12 +2803,16 @@ en:
           item:
             description: Add items to this list to create sub-items inside another one
             title: This item doesn't have any hierarchy level below
+          list:
+            description: "Start by adding items to this list."
+            title: "Your list of items is empty"
           root:
             description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
             title: "Your list of items is empty"
         delete_dialog:
-          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing work packages to become invalid."
+          description: "This action will irreversibly remove the item and all its sub-items. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing data to become invalid."
           heading: "Delete custom field item?"
+          list_description: "This action will irreversibly remove the item. Any assigned values will be permanently deleted. If this field is required, removing items may cause existing data to become invalid."
           title: "Delete custom field item"
         placeholder:
           label: "Item label"
@@ -2890,7 +2891,7 @@ en:
       heading: "Settings moved"
     placeholder_version_select: "Work package or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
-    reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
+    reorder_confirmation: "Warning: The current order of available values will be lost. Are you sure you want to continue?"
     semantic_keys:
       job_title: "Job title"
       none: "None"
@@ -4035,7 +4036,6 @@ en:
   label_deleted: "deleted"
   label_deleted_custom_field: "(deleted custom field)"
   label_deleted_custom_item: "(deleted item)"
-  label_deleted_custom_option: "(deleted option)"
   label_deleted_version: "(deleted version)"
   label_departments: "Organization"
   label_departments_description_html: >
@@ -5223,7 +5223,6 @@ en:
   notice_auth_stage_wrong_stage: "Expected to finish authentication stage '%{expected}', but '%{actual}' returned."
   notice_bad_request: "Bad Request."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
-  notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
   notice_deletion_scheduled: "The deletion has been scheduled and is performed asynchronously."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
@@ -5446,7 +5445,6 @@ en:
     errors:
       array?: "must be an array."
       decimal?: "must be a decimal."
-      defined: "must not be defined."
       eql?: "must be equal to %{left}."
       filled?: "must be filled."
       format?: "is in invalid format."
@@ -5459,17 +5457,21 @@ en:
           range: "must be one of: %{list_left} - %{list_right}."
       int?: "must be an integer."
       key?: "is missing."
+      list_item:
+        rules:
+          label:
+            not_unique: "has already been taken."
       not_found: "not found."
       respond_to?: "does not implement required method."
       rules:
-        custom_field:
-          format_not_supported: "format '%{field_format}' is unsupported."
         item:
+          nesting_not_allowed: "cannot have sub-items for this custom field."
           not_persisted: "must be an already existing item."
           root_item: "cannot be a root item."
         label:
           not_unique: "must be unique within the same hierarchy level."
         parent:
+          nesting_not_allowed: "cannot have sub-items for this custom field."
           not_descendant: "must be a descendant of the hierarchy root."
         short:
           not_unique: "must be unique within the same hierarchy level."

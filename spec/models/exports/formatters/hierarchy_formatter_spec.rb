@@ -32,9 +32,9 @@ require "spec_helper"
 
 RSpec.describe Exports::Formatters::HierarchyFormatter, with_ee: [:custom_field_hierarchies] do
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
-  let(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-  let(:root) { service.generate_root(custom_field).value! }
-  let(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+  let(:custom_field) { create(:custom_field, field_format: "hierarchy") }
+  let(:root) { custom_field.hierarchy_root }
+  let(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
   let!(:homer) { service.insert_item(contract_class:, parent: root, label: "Homer", short: "HS").value! }
   let!(:bart) { service.insert_item(contract_class:, parent: homer, label: "Bart", short: "BS").value! }
   let!(:lisa) { service.insert_item(contract_class:, parent: homer, label: "Lisa").value! }

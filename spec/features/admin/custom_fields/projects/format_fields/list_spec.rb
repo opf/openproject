@@ -30,7 +30,21 @@
 
 require "spec_helper"
 require_relative "../format_field_expectations"
+require_relative "../../shared_list_custom_field_journey"
 
 RSpec.describe "Project list custom fields", :js do
   it_behaves_like "expected fields for the Project custom field's format", "List"
+
+  it_behaves_like "list custom field journey" do
+    let(:section) { create(:project_custom_field_section, name: "Test section") }
+
+    current_user { create(:admin) }
+
+    def open_new_list_field_form
+      section
+      cf_page = Pages::Admin::Settings::ProjectCustomFields::Index.new
+      cf_page.visit!
+      cf_page.click_to_create_new_custom_field "List"
+    end
+  end
 end

@@ -309,11 +309,8 @@ RSpec.describe CustomField do
       end
     end
 
-    describe "WITH a list field WITH a custom option" do
-      before do
-        field.field_format = "list"
-        field.custom_options.build(value: "some value")
-      end
+    describe "WITH a list field WITH items" do
+      let(:field) { create(:custom_field, :list, possible_values: %w[some\ value]) }
 
       it "is valid" do
         expect(field)
@@ -478,18 +475,11 @@ RSpec.describe CustomField do
     end
 
     context "for a list custom field" do
-      let(:option1) { build_stubbed(:custom_option) }
-      let(:option2) { build_stubbed(:custom_option) }
+      let(:field) { create(:custom_field, :list, possible_values: ["First", "Second"]) }
 
-      before do
-        field.field_format = "list"
-
-        field.custom_options = [option1, option2]
-      end
-
-      it "is a list of name, id pairs" do
+      it "is a list of label, id pairs" do
         expect(field.possible_values_options)
-          .to contain_exactly([option1.value, option1.id.to_s], [option2.value, option2.id.to_s])
+          .to eq(field.possible_values.map { |item| [item.label, item.id.to_s] })
       end
     end
 
@@ -558,78 +548,58 @@ RSpec.describe CustomField do
 
   describe "#possible_values" do
     context "on a list custom field" do
-      let(:field) { described_class.new field_format: "list" }
+      let(:field) { create(:custom_field, :list, possible_values:) }
 
       context "on providing an array" do
-        before do
-          field.possible_values = ["One value", "Two values", ""]
-        end
+        let(:possible_values) { ["One value", "Two values", ""] }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value", "Two values")
         end
       end
 
       context "on providing a string" do
-        before do
-          field.possible_values = "One value"
-        end
+        let(:possible_values) { "One value" }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value")
         end
       end
 
       context "on providing a multiline string" do
-        before do
-          field.possible_values = "One value\nTwo values  \r\n \n"
-        end
+        let(:possible_values) { "One value\nTwo values  \r\n \n" }
 
         it "accepts the values" do
-          expect(field.possible_values.map(&:value))
+          expect(field.possible_values.pluck(:label))
             .to contain_exactly("One value", "Two values")
         end
       end
     end
   end
 
-  describe "nested attributes for custom options" do
-    let(:option) { build(:custom_option) }
-    let(:options) { [option] }
-    let(:field) { build(:custom_field, field_format: "list", custom_options: options) }
+  describe "#possible_values=" do
+    context "on a persisted custom field" do
+      let(:field) { create(:custom_field, :list, possible_values: ["Existing"]) }
 
-    before do
-      field.save!
-    end
+      it "raises instead of silently discarding the new values" do
+        expect { field.possible_values = ["New"] }
+          .to raise_error(/possible_values=/)
 
-    shared_examples_for "saving updates field's updated_at" do
-      it "updates updated_at" do
-        timestamp_before = field.updated_at
-        sleep 0.001
-        field.save
-        expect(field.updated_at).not_to eql(timestamp_before)
+        expect(field.possible_values.pluck(:label)).to contain_exactly("Existing")
       end
     end
+  end
 
-    context "after adding a custom option" do
-      before do
-        field.attributes = { "custom_options_attributes" => { "0" => option.attributes,
-                                                              "1" => { value: "blubs" } } }
-      end
+  describe "#flush_buffered_possible_values" do
+    it "raises when the hierarchy service rejects one of the buffered values" do
+      service = instance_double(CustomFields::Hierarchy::HierarchicalItemService)
+      allow(CustomFields::Hierarchy::HierarchicalItemService).to receive(:new).and_return(service)
+      allow(service).to receive(:insert_item).and_return(Dry::Monads::Failure.new(:boom))
 
-      it_behaves_like "saving updates field's updated_at"
-    end
-
-    context "after changing a custom option" do
-      before do
-        attributes = option.attributes.merge(value: "new_value")
-
-        field.attributes = { "custom_options_attributes" => { "0" => attributes } }
-      end
-
-      it_behaves_like "saving updates field's updated_at"
+      expect { create(:custom_field, field_format: "list", possible_values: ["Only"]) }
+        .to raise_error(/Could not insert possible value/)
     end
   end
 
@@ -886,6 +856,90 @@ RSpec.describe CustomField do
           end
         end
       end
+    end
+  end
+
+  describe "#default_value for a list with preloaded items" do
+    let(:field) { create(:list_wp_custom_field, possible_values: %w[pear apple]) }
+    let(:preloaded) { WorkPackageCustomField.includes(hierarchy_root: :children).find(field.id) }
+
+    before { field.possible_values.find_by!(label: "apple").update!(default_value: true) }
+
+    it "answers from the preloaded items without querying" do
+      preloaded
+
+      expect { preloaded.default_value }.to have_a_query_limit(0)
+      expect(preloaded.default_value).to eq(field.possible_values.find_by!(label: "apple").id.to_s)
+    end
+  end
+
+  describe "#default_value for hierarchical formats", with_ee: [:custom_field_hierarchies] do
+    let(:custom_field) { create(:hierarchy_wp_custom_field) }
+    let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
+    let!(:first) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "First").value!
+    end
+    let!(:second) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "Second").value!
+    end
+
+    it "is nil when no item is marked as default" do
+      expect(custom_field.default_value).to be_nil
+    end
+
+    it "returns the marked item's id as a string" do
+      second.update!(default_value: true)
+
+      expect(custom_field.default_value).to eq(second.id.to_s)
+    end
+
+    context "when the field is multi value" do
+      let(:custom_field) { create(:hierarchy_wp_custom_field, multi_value: true) }
+
+      it "returns every marked item's id" do
+        first.update!(default_value: true)
+        second.update!(default_value: true)
+
+        expect(custom_field.default_value).to contain_exactly(first.id.to_s, second.id.to_s)
+      end
+
+      it "orders the marked ids by position, not by the order they were marked" do
+        third = service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                                    parent: custom_field.hierarchy_root, label: "Third").value!
+        third.update!(default_value: true)
+        first.update!(default_value: true)
+
+        expect(custom_field.default_value).to eq([first.id.to_s, third.id.to_s])
+      end
+    end
+  end
+
+  describe "#hierarchy_root" do
+    it "is saved along with a new list field" do
+      field = create(:custom_field, field_format: "list")
+
+      expect(field.hierarchy_root.reload).to have_attributes(custom_field_id: field.id, parent: nil)
+    end
+
+    it "is there as soon as a new field is given a list format, so its values read as blank" do
+      field = WorkPackageCustomField.new
+
+      expect { field.field_format = "list" }.to change(field, :hierarchy_root).from(nil)
+      expect(field.default_value).to be_nil
+      expect(field.possible_values).to be_empty
+    end
+
+    it "is not built for a format without items" do
+      expect(WorkPackageCustomField.new(field_format: "string").hierarchy_root).to be_nil
+    end
+
+    it "rolls the field back when the root cannot be saved" do
+      field = build(:custom_field, field_format: "list")
+      allow(field.hierarchy_root).to receive(:save).and_return(false)
+
+      expect { field.save }.not_to change(described_class, :count)
     end
   end
 end

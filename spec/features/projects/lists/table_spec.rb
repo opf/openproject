@@ -622,10 +622,10 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
 
     it "shows the multi selection" do
       expected_sort = list_custom_field
-                        .custom_options
-                        .where(value: %w[A B])
+                        .possible_values
+                        .where(label: %w[A B])
                         .reorder(:id)
-                        .pluck(:value)
+                        .pluck(:label)
       expect(page).to have_css(".#{list_custom_field.column_name}.format-list", text: expected_sort.join(", "))
     end
   end

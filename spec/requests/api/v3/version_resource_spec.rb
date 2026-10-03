@@ -130,7 +130,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
              sharing: "none",
              project:,
              custom_field_values: { int_cf.id => 123,
-                                    list_cf.id => list_cf.custom_options.first.id })
+                                    list_cf.id => list_cf.possible_values.first.id })
     end
     let!(:int_cf) { create(:version_custom_field, :integer) }
     let!(:list_cf) { create(:version_custom_field, :list) }
@@ -147,7 +147,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
         sharing: "descendants",
         _links: {
           "customField#{list_cf.id}": {
-            href: api_v3_paths.custom_option(list_cf.custom_options.last.id)
+            href: api_v3_paths.custom_field_item(list_cf.possible_values.last.id)
           }
         }
       }.to_json
@@ -179,7 +179,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
         "status" => "closed",
         "sharing" => "descendants",
         "_links/definingProject/title" => project.name,
-        "_links/customField#{list_cf.id}/href" => api_v3_paths.custom_option(list_cf.custom_options.last.id),
+        "_links/customField#{list_cf.id}/href" => api_v3_paths.custom_field_item(list_cf.possible_values.last.id),
         "customField#{int_cf.id}" => 5
       }
 
@@ -408,7 +408,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
             href: api_v3_paths.project(project.id)
           },
           "customField#{list_cf.id}": {
-            href: api_v3_paths.custom_option(list_cf.custom_options.first.id)
+            href: api_v3_paths.custom_field_item(list_cf.possible_values.first.id)
           }
         }
       }.to_json
@@ -440,7 +440,7 @@ RSpec.describe "API v3 Version resource", content_type: :json do
         "status" => "closed",
         "sharing" => "descendants",
         "_links/definingProject/title" => project.name,
-        "_links/customField#{list_cf.id}/href" => api_v3_paths.custom_option(list_cf.custom_options.first.id),
+        "_links/customField#{list_cf.id}/href" => api_v3_paths.custom_field_item(list_cf.possible_values.first.id),
         "customField#{int_cf.id}" => 5
       }
 

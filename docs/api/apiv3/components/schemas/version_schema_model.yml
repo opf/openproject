@@ -79,8 +79,10 @@ example:
     writable: true
     visibility: default
   customField40:
-    type: CustomOption
+    type: CustomField::Hierarchy::Item
     name: List CF
+    options:
+      allowsNesting: false
     required: false
     hasDefault: false
     writable: true

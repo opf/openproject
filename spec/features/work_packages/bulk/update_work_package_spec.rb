@@ -244,9 +244,9 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
           {
             boolean_cf.id => true,
             required_boolean_cf.id => false,
-            list_cf.id => list_cf.custom_options.find_by(value: "B"),
-            required_list_cf.id => required_list_cf.custom_options.find_by(value: "B"),
-            multi_list_cf.id => multi_list_cf.custom_options.find_by(value: "B"),
+            list_cf.id => list_cf.possible_values.find_by(label: "B"),
+            required_list_cf.id => required_list_cf.possible_values.find_by(label: "B"),
+            multi_list_cf.id => multi_list_cf.possible_values.find_by(label: "B"),
             user_cf.id => dev,
             multi_user_cf.id => [dev, mover]
           }
@@ -280,9 +280,9 @@ RSpec.describe "Bulk update work packages through Rails view", :js do
 
           # It clears all the values except the required fields
           expect(work_package.reload.custom_field_values.pluck(:value).compact)
-            .to eq(["f", required_list_cf.custom_options.find_by(value: "B").id.to_s])
+            .to eq(["f", required_list_cf.possible_values.find_by(label: "B").id.to_s])
           expect(work_package2.reload.custom_field_values.pluck(:value).compact)
-            .to eq(["f", required_list_cf.custom_options.find_by(value: "B").id.to_s])
+            .to eq(["f", required_list_cf.possible_values.find_by(label: "B").id.to_s])
         end
       end
 

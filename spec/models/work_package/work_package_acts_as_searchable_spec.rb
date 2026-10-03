@@ -80,5 +80,30 @@ RSpec.describe WorkPackage, "acts_as_searchable" do
         expect(WorkPackage.search(wp_subject.split, nil, offset:).first).to include(work_package)
       end
     end
+
+    describe "with a searchable list custom field" do
+      let(:list_field) { create(:list_wp_custom_field, searchable: true, possible_values: %w[Aubergine]) }
+      let(:text_field) { create(:text_wp_custom_field, searchable: true) }
+      let(:aubergine) { list_field.possible_values.first }
+      let(:type) { create(:type_task, custom_fields: [list_field, text_field]) }
+      let(:project) { create(:project, types: [type], work_package_custom_fields: [list_field, text_field]) }
+
+      before do
+        allow(User).to receive(:current).and_return user
+        become_member_with_permissions(project, user, :view_work_packages)
+      end
+
+      it "finds a work package by the label of its list value" do
+        listed = create(:work_package, type:, project:, custom_values: { list_field.id => aubergine.id })
+
+        expect(described_class.search(%w[aubergine]).first).to include(listed)
+      end
+
+      it "does not match the label against another field's value that equals the item id" do
+        create(:work_package, type:, project:, custom_values: { text_field.id => aubergine.id.to_s })
+
+        expect(described_class.search(%w[aubergine]).first).to be_empty
+      end
+    end
   end
 end

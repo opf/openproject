@@ -38,17 +38,13 @@ module Admin
 
       # rubocop:disable Rails/LexicallyScopedActionFilter
       before_action :find_custom_field,
-                    only: %i(edit update destroy delete_option reorder_alphabetical attribute_help_text
-                             update_attribute_help_text list_items)
-      before_action :prepare_custom_option_position, only: %i(update create)
-      before_action :find_custom_option, only: :delete_option
+                    only: %i(edit update destroy attribute_help_text update_attribute_help_text)
       before_action :validate_enterprise_token, only: %i(create)
       before_action :find_or_initialize_attribute_help_text, only: %i(attribute_help_text update_attribute_help_text)
       # rubocop:enable Rails/LexicallyScopedActionFilter
 
-      helper_method :index_path, :new_path, :edit_path, :member_path, :delete_option_path, :list_item_path,
-                    :reorder_alphabetical_path, :attribute_help_text_path, :update_attribute_help_text_path,
-                    :custom_field_page_title, :section_label, :customizable_name
+      helper_method :index_path, :new_path, :edit_path, :member_path, :attribute_help_text_path,
+                    :update_attribute_help_text_path, :custom_field_page_title, :section_label, :customizable_name
 
       def index
         @custom_fields = custom_field_scope
@@ -59,8 +55,6 @@ module Admin
       end
 
       def edit; end
-
-      def list_items; end
 
       def attribute_help_text
         render_attribute_help_text_form

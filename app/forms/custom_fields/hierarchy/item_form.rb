@@ -31,6 +31,8 @@
 module CustomFields
   module Hierarchy
     class ItemForm < ApplicationForm
+      include Admin::CustomFields::Hierarchy::ItemRoutes
+
       form do |item_form|
         item_form.hidden name: :sort_order, value: @target_item.sort_order
 
@@ -51,8 +53,10 @@ module CustomFields
             short_input_field(input_group)
           when :weight
             weight_input_field(input_group)
+          when nil
+            # list items carry only a label
           else
-            raise ArgumentError, "Unsupported secondary input format: #{secondary_input_format}"
+            raise ArgumentError, "Unsupported secondary input format: #{@secondary_input_format}"
           end
         end
 
@@ -61,7 +65,7 @@ module CustomFields
                               tag: :a,
                               label: I18n.t(:button_cancel),
                               scheme: :default,
-                              data: { turbo_target: "admin-custom-fields-hierarchy-items-component" },
+                              data: { turbo_frame: Admin::CustomFields::Hierarchy::ItemsComponent.wrapper_key },
                               href: cancel_href)
           button_group.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
         end
@@ -79,6 +83,10 @@ module CustomFields
       def root
         @root ||= @target_item.parent.root
       end
+
+      def custom_field = root.custom_field
+
+      def item_route_helpers = url_helpers
 
       def short_input_field(form_group)
         form_group.text_field(
@@ -108,20 +116,9 @@ module CustomFields
         )
       end
 
-      def cancel_href # rubocop:disable Metrics/AbcSize
-        custom_field = root.custom_field
-        item_is_top_level = @target_item.parent.root?
-        if custom_field.is_a?(ProjectCustomField)
-          if item_is_top_level
-            url_helpers.admin_settings_project_custom_field_items_path(custom_field.id)
-          else
-            url_helpers.admin_settings_project_custom_field_item_path(custom_field.id, @target_item.parent)
-          end
-        elsif item_is_top_level
-          url_helpers.custom_field_items_path(custom_field.id)
-        else
-          url_helpers.custom_field_item_path(custom_field.id, @target_item.parent)
-        end
+      def cancel_href
+        parent = @target_item.parent
+        parent.root? ? hierarchy_items_path : hierarchy_item_path(parent)
       end
 
       def validation_message_for(attribute)

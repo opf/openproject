@@ -121,7 +121,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     create(:integer_wp_custom_field)
   end
   let(:selected_list_custom_field_options) do
-    [list_custom_field.custom_options.first, list_custom_field.custom_options.last]
+    [list_custom_field.possible_values.first, list_custom_field.possible_values.last]
   end
   let!(:date_custom_field) do
     cf = create(:date_wp_custom_field)
@@ -202,7 +202,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     new_ca_page.add_action("Notify", other_member_user.name)
 
     new_ca_page.expect_selected_option other_member_user.name
-    new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:name))
+    new_ca_page.add_action(list_custom_field.name, selected_list_custom_field_options.map(&:label))
 
     new_ca_page.expect_selected_option "A"
     new_ca_page.expect_selected_option "G"
@@ -334,7 +334,7 @@ RSpec.describe "Custom actions", :js, with_ee: %i[custom_actions] do
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: "-",
-                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
+                              "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:label).join("\n")
 
     activity_tab.expect_journal_mention(text: other_member_user.name)
 

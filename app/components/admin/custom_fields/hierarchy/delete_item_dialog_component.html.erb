@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |dialog|
     dialog.with_confirmation_message do |message|
       message.with_heading(tag: :h2) { I18n.t("custom_fields.admin.items.delete_dialog.heading") }
-      message.with_description_content(I18n.t("custom_fields.admin.items.delete_dialog.description"))
+      message.with_description_content(description)
     end
     dialog.with_confirmation_check_box_content(I18n.t(:text_permanent_delete_confirmation_checkbox_label))
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,22 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module CustomOptions
-      class CustomOptionRepresenter < ::API::Decorators::Single
-        self_link
-
-        # TODO: add link to custom field once api for custom fields exists
-
-        def _type
-          "CustomOption"
-        end
-
-        property :id
-
-        property :value
-      end
-    end
+class ConvertLegacyCustomOptionIds < ActiveRecord::Migration[8.1]
+  def up
+    CustomFields::ConvertLegacyOptionIdsJob.perform_later
   end
+
+  def down; end
 end

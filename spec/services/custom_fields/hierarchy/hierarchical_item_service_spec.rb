@@ -33,62 +33,15 @@ require "spec_helper"
 RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:custom_field_hierarchies] do
   subject(:service) { described_class.new }
 
-  context "with ListItemContract" do
+  context "with HierarchyItemContract" do
     let!(:custom_field) do
-      create(:custom_field, field_format: "hierarchy", hierarchy_root: nil).tap do |cf|
-        service.generate_root(cf).value!
-        cf.reload
-      end
+      create(:custom_field, field_format: "hierarchy")
     end
-    let!(:contract_class) { CustomFields::Hierarchy::InsertListItemContract }
+    let!(:contract_class) { CustomFields::Hierarchy::InsertHierarchyItemContract }
 
     let(:root) { custom_field.hierarchy_root }
     let!(:luke) { service.insert_item(contract_class:, parent: root, label: "luke", short: "LS").value! }
     let!(:mara) { service.insert_item(contract_class:, parent: luke, label: "mara").value! }
-
-    describe "#generate_root" do
-      # no tree needed for this section, but creation would fail due to non-existing root
-      let!(:luke) { nil }
-      let!(:mara) { nil }
-
-      context "with valid hierarchy custom field" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-
-        it "creates a root item successfully" do
-          expect(service.generate_root(custom_field)).to be_success
-        end
-      end
-
-      context "with invalid custom field type" do
-        let!(:custom_field) { create(:custom_field, field_format: "text", hierarchy_root: nil) }
-
-        it "requires a custom field of type hierarchy" do
-          result = service.generate_root(custom_field).failure
-
-          expect(result.errors[:custom_field]).to eq(["format 'text' is unsupported."])
-        end
-      end
-
-      context "with persistence of hierarchy root fails" do
-        let!(:custom_field) { create(:custom_field, field_format: "hierarchy", hierarchy_root: nil) }
-
-        it "fails to create a root item" do
-          allow(CustomField::Hierarchy::Item)
-            .to receive(:create)
-                  .and_return(instance_double(CustomField::Hierarchy::Item, new_record?: true, errors: "some errors"))
-
-          result = service.generate_root(custom_field)
-          expect(result).to be_failure
-        end
-      end
-
-      context "with already existing hierarchy root" do
-        it "fails to create a root item" do
-          result = service.generate_root(custom_field)
-          expect(result).to be_failure
-        end
-      end
-    end
 
     describe "#insert_item" do
       let(:label) { "Child Item" }
@@ -138,7 +91,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
     describe "#update_item" do
       context "with valid parameters" do
         it "updates the item with new attributes" do
-          update_contract = CustomFields::Hierarchy::UpdateListItemContract
+          update_contract = CustomFields::Hierarchy::UpdateHierarchyItemContract
           result = service.update_item(contract_class: update_contract, item: luke, label: "Luke Skywalker", short: "LS")
           expect(result).to be_success
         end
@@ -148,7 +101,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia").value! }
 
         it "refuses to update the item with new attributes" do
-          update_contract = CustomFields::Hierarchy::UpdateListItemContract
+          update_contract = CustomFields::Hierarchy::UpdateHierarchyItemContract
           result = service.update_item(contract_class: update_contract, item: leia, label: "luke", short: "LS")
           expect(result).to be_failure
 
@@ -196,10 +149,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
           end
 
           let!(:custom_field) do
-            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type], hierarchy_root: nil).tap do |cf|
-              service.generate_root(cf).value!
-              cf.reload
-            end
+            create(:hierarchy_wp_custom_field, projects: [project], types: [wp_type])
           end
           let!(:leia) { service.insert_item(contract_class:, parent: root, label: "leia", short: "LO").value! }
 
@@ -337,6 +287,25 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         preordered_descendants = root.reload.self_and_descendants_preordered.pluck(:label)
         expect(root.self_and_descendants.reorder(:position_cache).pluck(:label)).to eq(preordered_descendants)
       end
+
+      context "for a list custom field" do
+        let!(:list_custom_field) { create(:custom_field, field_format: "list") }
+        let(:list_root) { list_custom_field.hierarchy_root }
+        let(:list_contract) { CustomFields::Hierarchy::InsertListItemContract }
+        let!(:apple) do
+          service.insert_item(contract_class: list_contract, parent: list_root, label: "Apple").value!
+        end
+        let!(:pear) do
+          service.insert_item(contract_class: list_contract, parent: list_root, label: "Pear").value!
+        end
+
+        it "refuses to nest a list item under one of its siblings" do
+          result = service.move_item(item: pear, new_parent: apple)
+
+          expect(result).to be_failure
+          expect(pear.reload.parent).to eq(list_root)
+        end
+      end
     end
 
     describe "#reorder_item" do
@@ -427,6 +396,92 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService, with_ee: [:cust
         expect(subtree.value!).to be_a(Hash)
         expect(subtree.value![chewbacca]).to be_empty
       end
+    end
+  end
+
+  describe "#set_default" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy")
+    end
+    let(:root) { custom_field.hierarchy_root }
+    let(:described_class_contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
+    let!(:first) do
+      service.insert_item(contract_class: described_class_contract, parent: root, label: "First").value!
+    end
+    let!(:second) do
+      service.insert_item(contract_class: described_class_contract, parent: root, label: "Second").value!
+    end
+
+    it "marks the item as default" do
+      service.set_default(item: first)
+
+      expect(first.reload.default_value).to be(true)
+    end
+
+    it "unmarks the previous default on a single value field" do
+      service.set_default(item: first)
+      service.set_default(item: second)
+
+      expect(first.reload.default_value).to be(false)
+      expect(second.reload.default_value).to be(true)
+    end
+
+    context "when the field is multi value" do
+      let(:custom_field) do
+        create(:custom_field, field_format: "hierarchy", multi_value: true)
+      end
+
+      it "keeps every marked item" do
+        service.set_default(item: first)
+        service.set_default(item: second)
+
+        expect(first.reload.default_value).to be(true)
+        expect(second.reload.default_value).to be(true)
+      end
+    end
+  end
+
+  describe "#clear_default" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy")
+    end
+    let!(:item) do
+      service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
+                          parent: custom_field.hierarchy_root, label: "Only").value!
+    end
+
+    it "unmarks the item" do
+      service.set_default(item:)
+
+      service.clear_default(item:)
+
+      expect(item.reload.default_value).to be(false)
+    end
+  end
+
+  describe "#reorder_children_alphabetically" do
+    let(:custom_field) do
+      create(:custom_field, field_format: "hierarchy")
+    end
+    let(:root) { custom_field.hierarchy_root }
+    let(:contract) { CustomFields::Hierarchy::InsertHierarchyItemContract }
+
+    before do
+      ["banana", "Apple", "cherry"].each do |label|
+        service.insert_item(contract_class: contract, parent: root, label:).value!
+      end
+    end
+
+    it "sorts siblings case insensitively" do
+      service.reorder_children_alphabetically(parent: root)
+
+      expect(root.children.reload.order(:sort_order).pluck(:label)).to eq(%w[Apple banana cherry])
+    end
+
+    it "leaves sort_order contiguous from zero" do
+      service.reorder_children_alphabetically(parent: root)
+
+      expect(root.children.reload.order(:sort_order).pluck(:sort_order)).to eq([0, 1, 2])
     end
   end
 

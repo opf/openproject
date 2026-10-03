@@ -114,9 +114,9 @@ RSpec.describe DevelopmentData::DepartmentSeeder do
 
     marko = seed_data.find_reference(:marko_marketing).reload
 
-    expect(marko.typed_custom_value_for(job_title_field)).to eq("Marketing Manager")
-    expect(marko.typed_custom_value_for(languages_field)).to contain_exactly("English", "German")
-    expect(marko.typed_custom_value_for(skills_field)).to contain_exactly("Public Speaking")
+    expect(marko.typed_custom_value_for(job_title_field).label).to eq("Marketing Manager")
+    expect(marko.typed_custom_value_for(languages_field).map(&:label)).to contain_exactly("English", "German")
+    expect(marko.typed_custom_value_for(skills_field).map(&:label)).to contain_exactly("Public Speaking")
     expect(marko.typed_custom_value_for(start_date_field)).to eq(Date.new(2021, 3, 1))
   end
 

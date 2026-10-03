@@ -88,9 +88,7 @@ module ::Query::Results::GroupBy
   def transform_custom_field_keys(groups)
     custom_field = query.group_by_column.custom_field
 
-    if custom_field.list?
-      transform_list_custom_field_keys(custom_field, groups)
-    elsif custom_field.field_format_hierarchy?
+    if custom_field.list? || custom_field.field_format_hierarchy?
       transform_hierarchy_custom_field_keys(custom_field, groups)
     else
       transform_single_custom_field_keys(custom_field, groups)
@@ -130,29 +128,6 @@ module ::Query::Results::GroupBy
   end
 
   # rubocop:enable Metrics/AbcSize
-
-  def transform_list_custom_field_keys(custom_field, groups)
-    options = custom_options_for_keys(custom_field, groups)
-
-    groups.transform_keys do |key|
-      if custom_field.multi_value?
-        Array(key&.split(".")).map.map { |subkey| options[subkey].first }
-      else
-        options[key]&.first
-      end
-    end
-  end
-
-  def custom_options_for_keys(custom_field, groups)
-    keys = groups.keys.map { |k| k ? k.split(".") : [] }
-    # Because of multi select cfs we might end up having overlapping groups
-    # (e.g. group "1" and group "1.3" and group "3" which represent concatenated ids).
-    # This can result in us having ids in the keys array multiple times (e.g. ["1", "1", "3", "3"]).
-    # If we were to use the keys array with duplicates to find the actual custom options,
-    # AR would throw an error as the number of records returned does not match the number
-    # of ids searched for.
-    custom_field.custom_options.find(keys.flatten.uniq).group_by { |o| o.id.to_s }
-  end
 
   def transform_single_custom_field_keys(custom_field, groups)
     groups.transform_keys { |key| custom_field.cast_value(key) }

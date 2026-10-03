@@ -40,6 +40,8 @@ module Admin
         before_action :require_admin
         before_action :find_custom_field
         before_action :find_active_item
+        before_action :reject_nesting_in_list, only: %i[change_parent_dialog change_parent]
+        before_action :reject_sub_items_in_list, only: %i[show new create reorder_alphabetical]
 
         # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
         def admin_or_frame_layout
@@ -92,6 +94,24 @@ module Admin
             .reorder_item(item: @active_item, new_sort_order: params.require(:new_sort_order))
 
           redirect_to action: :show, id: @active_item.parent, status: :see_other
+        end
+
+        def set_default
+          item_service.set_default(item: @active_item)
+
+          redirect_to action: :show, id: @active_item.parent, status: :see_other
+        end
+
+        def clear_default
+          item_service.clear_default(item: @active_item)
+
+          redirect_to action: :show, id: @active_item.parent, status: :see_other
+        end
+
+        def reorder_alphabetical
+          item_service.reorder_children_alphabetically(parent: @active_item)
+
+          redirect_to action: :show, id: @active_item, status: :see_other
         end
 
         def change_parent
@@ -173,6 +193,8 @@ module Admin
         def create_contract
           case @custom_field.field_format
           when "hierarchy"
+            ::CustomFields::Hierarchy::InsertHierarchyItemContract
+          when "list"
             ::CustomFields::Hierarchy::InsertListItemContract
           when "weighted_item_list"
             ::CustomFields::Hierarchy::InsertWeightedItemContract
@@ -184,6 +206,8 @@ module Admin
         def update_contract
           case @custom_field.field_format
           when "hierarchy"
+            ::CustomFields::Hierarchy::UpdateHierarchyItemContract
+          when "list"
             ::CustomFields::Hierarchy::UpdateListItemContract
           when "weighted_item_list"
             ::CustomFields::Hierarchy::UpdateWeightedItemContract
@@ -236,6 +260,14 @@ module Admin
                          else
                            @custom_field.hierarchy_root
                          end
+        end
+
+        def reject_nesting_in_list
+          render_404 if @custom_field.list?
+        end
+
+        def reject_sub_items_in_list
+          render_404 if @custom_field.list? && !@active_item.root?
         end
       end
     end

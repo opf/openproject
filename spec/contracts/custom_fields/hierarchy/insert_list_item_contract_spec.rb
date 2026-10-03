@@ -29,128 +29,28 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::InsertListItemContract do
-  subject { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
-  # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-  describe "#call" do
-    let(:parent) { create(:hierarchy_item) }
+  let(:custom_field) { create(:list_wp_custom_field, possible_values: %w[Top Other]) }
+  let(:root) { custom_field.hierarchy_root }
+  let(:valid_params) { { parent: root, label: "Sibling" } }
 
-    context "when all required fields are valid" do
-      let(:params) { { parent:, label: "Valid Label", short: nil } }
-
-      it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
-
-    context "when parent is not of type 'Item'" do
-      let(:invalid_parent) { create(:custom_field) }
-      let(:params) { { parent: invalid_parent, label: "Valid Label", short: nil } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(parent: ["must be CustomField::Hierarchy::Item."])
-      end
-    end
-
-    context "when label is not unique within the same hierarchy level" do
-      before do
-        create(:hierarchy_item, parent:, label: "Duplicate Label")
-      end
-
-      let(:params) { { parent:, label: "Duplicate Label", short: nil } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(label: ["must be unique within the same hierarchy level."])
-      end
-
-      context "if another locale is set" do
-        let(:mordor) { "agh burzum-ishi krimpatul" }
-
-        before do
-          I18n.config.enforce_available_locales = false
-          I18n.backend.store_translations(
-            :mo,
-            { op_dry_validation: {
-              errors: { rules: { label: { not_unique: mordor } } }
-            } }
-          )
-        end
-
-        after do
-          I18n.config.enforce_available_locales = true
-        end
-
-        it "is invalid with localized validation errors" do
-          I18n.with_locale(:mo) do
-            result = subject.call(params)
-            expect(result).to be_failure
-            expect(result.errors.to_h).to include(label: [mordor])
-          end
-        end
-      end
-    end
-
-    context "when short is not unique in the same hierarchy level" do
-      let(:params) { { parent:, label: "Valid Label", short: "Repeated Short" } }
-
-      before { create(:hierarchy_item, parent:, label: "Unique Label", short: "Repeated Short") }
-
-      it "is invalid with localized validation errors" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(short: ["must be unique within the same hierarchy level."])
-      end
-    end
-
-    context "when short is set and is a string" do
-      let(:params) { { parent:, label: "Valid Label", short: "Valid Short" } }
-
-      it "is valid" do
-        result = subject.call(params)
-        expect(result).to be_success
-      end
-    end
-
-    context "when short is set and is not a string" do
-      let(:params) { { parent:, label: "Valid Label", short: 123 } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(short: ["must be a string."])
-      end
-    end
-
-    context "when inputs are valid" do
-      it "creates a success result" do
-        [
-          { parent:, label: "A label", short: "A shorthand" },
-          { parent:, label: "A label", short: nil }
-        ].each { |params| expect(subject.call(params)).to be_success }
-      end
-    end
-
-    context "when inputs are invalid" do
-      it "creates a failure result" do
-        [
-          { parent: },
-          { parent:, label: "A label" },
-          { parent:, short: "AL" },
-          { parent: nil, label: "A label", short: nil },
-          { parent: 42, label: "A label", short: nil },
-          { parent:, label: nil, short: nil },
-          { parent:, label: 42, short: nil },
-          { parent:, label: "A label", short: 42 }
-        ].each { |params| expect(subject.call(params)).to be_failure }
-      end
-    end
+  it_behaves_like "a hierarchy item insert contract" do
+    let(:label_taken) { "has already been taken." }
   end
-  # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
+  context "with a short" do
+    let(:params) { valid_params.merge(short: "SI") }
+
+    it("drops it, since list items do not carry one") { expect(result.to_h).not_to have_key(:short) }
+  end
+
+  context "with a parent below the root" do
+    let(:params) { valid_params.merge(parent: root.children.find_by!(label: "Top")) }
+
+    it("rejects the nesting") { expect(result.errors[:parent]).to include("cannot have sub-items for this custom field.") }
+  end
 end

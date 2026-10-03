@@ -323,7 +323,7 @@ RSpec.describe Exports::PDF::Common::Macro do
           type: type_task,
           project: project,
           custom_field_values: {
-            multi_list_custom_field.id => multi_list_custom_field.custom_options.first(2).map(&:id)
+            multi_list_custom_field.id => multi_list_custom_field.possible_values.first(2).map(&:id)
           }
         )
       end

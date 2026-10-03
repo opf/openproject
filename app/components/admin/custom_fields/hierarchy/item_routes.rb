@@ -28,29 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# A custom option is a possible value for a given custom field
-# which is restricted to a set of specific values.
-class CustomOption < ApplicationRecord
-  belongs_to :custom_field, touch: true
+module Admin
+  module CustomFields
+    module Hierarchy
+      module ItemRoutes
+        private
 
-  validates :value, presence: true, length: { maximum: 255 }
+        def custom_field
+          raise SubclassResponsibilityError
+        end
 
-  before_destroy :assure_at_least_one_option
+        def hierarchy_items_path
+          item_route_helpers.public_send(:"#{item_route_prefix}custom_field_items_path", custom_field.id)
+        end
 
-  def to_s
-    value
-  end
+        def hierarchy_item_path(item, action = nil, **)
+          hierarchy_item_route(:path, item, action, **)
+        end
 
-  alias :name :to_s
+        def hierarchy_item_url(item, action = nil, **)
+          hierarchy_item_route(:url, item, action, **)
+        end
 
-  protected
+        def hierarchy_item_route(type, item, action, **)
+          name = [action, "#{item_route_prefix}custom_field_item", type].compact.join("_")
+          item_route_helpers.public_send(name, custom_field.id, item, **)
+        end
 
-  def assure_at_least_one_option
-    return if CustomOption.where(custom_field_id:).where.not(id:).count > 0
+        def item_route_prefix
+          case custom_field
+          when ProjectCustomField then "admin_settings_project_"
+          when UserCustomField then "admin_settings_user_"
+          else ""
+          end
+        end
 
-    errors.add(:base, I18n.t(:"activerecord.errors.models.custom_field.at_least_one_custom_option"))
-
-    throw :abort
+        def item_route_helpers = self
+      end
+    end
   end
 end

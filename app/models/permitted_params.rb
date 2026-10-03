@@ -517,7 +517,6 @@ class PermittedParams
           :min_value,
           :move_to,
           :name,
-          :possible_values,
           :regexp,
           :searchable,
           :admin_only,
@@ -528,7 +527,6 @@ class PermittedParams
           :allow_non_open_versions,
           :has_comment,
           :visible_on_user_card,
-          { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],
         enumeration: %i(

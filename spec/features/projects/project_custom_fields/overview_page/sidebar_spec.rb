@@ -753,12 +753,12 @@ RSpec.describe "Show project custom fields on project overview page", :js do
                    name: "New list field",
                    project_custom_field_section: section_for_select_fields,
                    possible_values: ["Option 1", "Option 2", "Option 3"]) do |field|
-              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first)
+              create(:custom_value, customized: project, custom_field: field, value: field.possible_values.first)
             end
           end
 
           it "does show the default value for the project custom field if no value given" do
-            new_list_project_custom_field.custom_options.first.update!(default_value: true)
+            new_list_project_custom_field.possible_values.first.update!(default_value: true)
             overview_page.visit_page
 
             overview_page.within_project_attributes_sidebar do
@@ -935,14 +935,14 @@ RSpec.describe "Show project custom fields on project overview page", :js do
                    project_custom_field_section: section_for_multi_select_fields,
                    possible_values: ["Option 1", "Option 2", "Option 3"],
                    multi_value: true) do |field|
-              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.first.id)
-              create(:custom_value, customized: project, custom_field: field, value: field.custom_options.second.id)
+              create(:custom_value, customized: project, custom_field: field, value: field.possible_values.first.id)
+              create(:custom_value, customized: project, custom_field: field, value: field.possible_values.second.id)
             end
           end
 
           it "does not show the default value(s) for the project custom field if no value given" do
-            new_multi_list_project_custom_field.custom_options.first.update!(default_value: true)
-            new_multi_list_project_custom_field.custom_options.second.update!(default_value: true)
+            new_multi_list_project_custom_field.possible_values.first.update!(default_value: true)
+            new_multi_list_project_custom_field.possible_values.second.update!(default_value: true)
 
             overview_page.visit_page
 
