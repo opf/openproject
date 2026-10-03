@@ -159,7 +159,7 @@ export default class MenuSourceController extends Controller<HTMLElement> implem
     return tooltip?.localName === 'tool-tip' ? tooltip : null;
   }
 
-  // A refused scope (a fixed or non-orderable card, or selection disabled)
+  // A refused scope (a fixed or immovable card, or selection disabled)
   // still loads the invoker's own menu.
   private menuSrc(invoker:HTMLElement, scope:HTMLElement[]):string|null {
     const invokerId = resolveItemId(invoker);

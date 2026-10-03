@@ -188,7 +188,7 @@ function moveRows(list:RenderedList):MoveRow[] {
   return list.rows.map((row) => ({
     element: row.element,
     isItem: row.item !== null,
-    orderable: row.item?.movable ?? false,
+    movable: row.item?.movable ?? false,
     previousItemId: row.predecessorId,
   }));
 }

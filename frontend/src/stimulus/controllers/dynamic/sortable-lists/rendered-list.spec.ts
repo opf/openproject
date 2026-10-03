@@ -514,7 +514,7 @@ describe('block moves over a rendered list', () => {
       .toEqual({ available: true, rows: [second, third], previousItemId: 'last-hidden' });
   });
 
-  it('rejects an empty or fixed selection as not orderable', () => {
+  it('rejects an empty or fixed selection as not movable', () => {
     const { rowsContainer, items: [first, second] } = fixture();
     second.setAttribute(sortableItemMobilityAttribute, 'fixed');
 

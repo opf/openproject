@@ -30,7 +30,7 @@ import { type ListTopology } from './drag-and-drop';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
-  liveOrderableKeys,
+  liveMovableKeys,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
@@ -93,7 +93,7 @@ export class SelectionOrchestrator {
     return this.resolveActionScope(itemElement, 'none');
   }
 
-  // Same, but an unselected orderable card becomes the selection first, so
+  // Same, but an unselected movable card becomes the selection first, so
   // a drag or a menu action on it leaves one consistent state behind.
   selectForAction(itemElement:HTMLElement):ActionScope {
     return this.resolveActionScope(itemElement, 'replace-if-unselected');
@@ -109,7 +109,7 @@ export class SelectionOrchestrator {
 
   private resolveActionScope(itemElement:HTMLElement, mutation:ScopeMutation):ActionScope {
     const candidate = resolveCandidate(this.host, itemElement);
-    if (!candidate?.orderable) {
+    if (!candidate?.movable) {
       return { kind: 'refused', items: [] };
     }
 
@@ -175,7 +175,7 @@ export class SelectionOrchestrator {
 
       // A fixed card cannot join the batch, but must still clear the one
       // behind it.
-      if (candidate.orderable) {
+      if (candidate.movable) {
         this.selection.replace({ type: candidate.type, id: candidate.id }, candidate.listKey);
         this.renderSelection('navigation');
       } else {
@@ -194,7 +194,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (!candidate.orderable) {
+    if (!candidate.movable) {
       this.announceSelection('not_selectable');
       return;
     }
@@ -272,7 +272,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (!candidate.orderable) {
+    if (!candidate.movable) {
       this.announceSelection('not_selectable');
       return;
     }
@@ -335,7 +335,7 @@ export class SelectionOrchestrator {
       return;
     }
 
-    if (candidate.orderable) {
+    if (candidate.movable) {
       this.extendSelectionTo(candidate);
     } else {
       this.announceSelection('not_selectable');
@@ -363,9 +363,9 @@ export class SelectionOrchestrator {
       return;
     }
 
-    // A fixed focused card cannot anchor the batch, so the first orderable
+    // A fixed focused card cannot anchor the batch, so the first movable
     // card of the same list stands in.
-    const anchor:SelectionAnchor = candidate.orderable
+    const anchor:SelectionAnchor = candidate.movable
       ? { type: candidate.type, id: candidate.id, listKey: candidate.listKey }
       : { ...items[0], listKey: candidate.listKey };
 
@@ -442,7 +442,7 @@ export class SelectionOrchestrator {
     }
 
     // Expanding the list can surface a truncated block, but never makes a
-    // locked card orderable, so the two speak different messages.
+    // locked card movable, so the two speak different messages.
     this.announceSelection(range.reason === 'locked' ? 'range_blocked' : 'range_unavailable');
   }
 
@@ -480,7 +480,7 @@ export class SelectionOrchestrator {
   // Repaints whether or not prune dropped anything: a morph can strip or
   // preserve the marker attribute independently of the model.
   reconcile():void {
-    this.selection.prune(liveOrderableKeys(this.host.rootElement));
+    this.selection.prune(liveMovableKeys(this.host.rootElement));
     this.rebindAnchorList();
     this.renderSelection('selection', true);
   }

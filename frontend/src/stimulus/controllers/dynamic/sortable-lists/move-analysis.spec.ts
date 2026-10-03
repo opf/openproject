@@ -99,7 +99,7 @@ describe('row movement geometry', () => {
     const rows = Array.from(rowsContainer.children).map((element) => ({
       element: element as HTMLElement,
       isItem: element.hasAttribute('data-sortable-lists--item-id-value'),
-      orderable: true,
+      movable: true,
       previousItemId: element.getAttribute('data-sortable-lists--item-id-value')
         ?? element.getAttribute('data-sortable-lists-prev-item-id'),
     }));
