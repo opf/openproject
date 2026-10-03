@@ -61,9 +61,9 @@ en:
         selected:
           one: "1 work package selected."
           other: "%{count} work packages selected."
-    burndown:
-      day: "Day"
-      points: "Points"
+    burndown_chart:
+      non_working_day: "Non-working day"
+      story_points: "Story points"
     work_packages:
       properties:
         storyPoints: "Story Points"

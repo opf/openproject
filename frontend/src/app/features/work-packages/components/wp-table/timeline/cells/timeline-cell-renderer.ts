@@ -35,6 +35,7 @@ import { HierarchyRenderPass } from 'core-app/features/work-packages/components/
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
+import { getCSSVariable } from 'core-app/shared/helpers/dom-helpers';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -96,9 +97,7 @@ export class TimelineCellRenderer {
 
   constructor(readonly injector:Injector,
     readonly workPackageTimeline:WorkPackageTimelineTableController) {
-    this.ganttChartRowHeight = +getComputedStyle(document.documentElement)
-      .getPropertyValue('--table-timeline--row-height')
-      .replace('px', '');
+    this.ganttChartRowHeight = +getCSSVariable('--table-timeline--row-height').replace('px', '');
   }
 
   public get type():string {

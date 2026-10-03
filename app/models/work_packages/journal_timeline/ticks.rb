@@ -29,11 +29,16 @@
 #++
 
 # Builds the points in time a JournalTimeline is sampled at: +from+, every period end in
-# between, and +to+.
+# between, and +to+. Both ends stay exact, so a series always reaches the moment asked for.
 #
-# Period ends are derived in +zone+ rather than UTC, because a "day" is only meaningful
-# relative to a zone and half-hour offsets (e.g. Asia/Kolkata) place hour ends off the UTC
-# hour. The returned instants are absolute and directly comparable to a tstzrange.
+# Sampling at period ends rather than starts means a tick carries everything that happened
+# during its period, so the last day of an interval is whole however the interval is stepped.
+# Presentation renames them -- an hour end reads as the hour it opens -- but the series must
+# not, or two series stepped differently would stop a second apart.
+#
+# Period ends are derived in +zone+ rather than UTC, because a "day" is only meaningful relative
+# to a zone and half-hour offsets (e.g. Asia/Kolkata) place hour ends off the UTC hour.
+# The returned instants are absolute and directly comparable to a tstzrange.
 class WorkPackages::JournalTimeline::Ticks
   STEPS = %i[hour day].freeze
 

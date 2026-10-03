@@ -102,6 +102,15 @@ class Day < ApplicationRecord
       # Exclude the current day
       from_range(from: from + 1.day, to: from + 9.days).where(working: true).first
     end
+
+    # The non working days in the range, as consecutive date ranges.
+    def non_working_intervals(from:, to:)
+      from_range(from:, to:)
+        .where(working: false)
+        .map(&:date)
+        .slice_when { |previous, current| current != previous + 1 }
+        .map { it.first..it.last }
+    end
   end
 
   def week_day
