@@ -744,13 +744,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             if: proc { User.current.admin? && OpenProject::Configuration.ee_manager_visible? }
 
   menu.push :import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_import,
             icon: "desktop-download"
 
   menu.push :jira_import,
-            { controller: "/admin/import/jira/instances", action: :index },
+            { controller: "/admin/import/jira", action: :index },
             if: ->(_) { User.current.admin? },
             caption: :label_jira_import,
             parent: :import

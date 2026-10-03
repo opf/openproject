@@ -31,6 +31,14 @@
 FactoryBot.define do
   factory :jira, class: "Import::Jira" do
     url { "https://jira-software.local/" }
+    auth_method { "bearer" }
     personal_access_token { "<personal_access_token>" }
+
+    trait :with_basic_auth do
+      auth_method { "basic" }
+      personal_access_token { nil }
+      basic_auth_username { "jira_user" }
+      basic_auth_password { "jira_password" }
+    end
   end
 end

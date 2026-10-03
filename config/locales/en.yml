@@ -221,6 +221,9 @@ en:
         name: "Jira instance name"
         personal_access_token: "Personal access token"
         url: "Jira instance URL"
+        auth_method: "Auth method"
+        basic_auth_username: "Basic Auth Username"
+        basic_auth_password: "Basic Auth Password"
       "import/jira_open_project_reference":
         jira: "Jira"
         jira_import: "Jira Migrator"
@@ -1632,13 +1635,16 @@ en:
           title: "Project-based semantic identifiers must be enabled."
       form:
         button_add: "Add configuration"
-        button_delete_token: "Delete token"
+        button_delete_personal_access_token: "Delete PAT"
+        button_delete_basic_auth_password: "Delete basic auth password"
         button_save: "Save configuration"
         delete_token_confirm: "Are you sure you want to delete the token? This will disable the Jira connection."
         fields:
           name: "Name"
           personal_access_token: "Personal Access Token"
           url: "Jira Server/Data Center URL"
+          basic_auth_username: "Username"
+          basic_auth_password: "Password"
         label_testing: "Testing configuration..."
         test_configuration_caption: "You can test this configuration by [clicking here](test)"
       run:

@@ -38,9 +38,8 @@ RSpec.describe "Jira instance configuration", :js do
   describe "new form" do
     before { visit new_admin_import_jira_path }
 
-    it "offers testing the configuration via a caption link instead of a button" do
-      expect(page).to have_no_button("Test configuration")
-      expect(page).to have_link("clicking here")
+    it "offers a Test Connection button" do
+      expect(page).to have_button("Test Connection")
     end
 
     it "cancels back to the Jira import overview" do
@@ -98,13 +97,12 @@ RSpec.describe "Jira instance configuration", :js do
 
     it "shows the masked token with a delete button when a token is present" do
       expect(page).to have_field("Personal Access Token", with: "*********", disabled: true)
-      expect(page).to have_css("[href='/admin/import/jira/9/delete_token']")
-      expect(page).to have_link("clicking here")
+      expect(page).to have_css("[href='/admin/import/jira/9/clear_credential?field=personal_access_token']")
     end
 
     it "deletes the token and shows the token input field" do
       accept_confirm do
-        find("[href='/admin/import/jira/9/delete_token']").click
+        find("[href='/admin/import/jira/9/clear_credential?field=personal_access_token']").click
       end
 
       expect(page).to have_field("Personal Access Token", disabled: false)

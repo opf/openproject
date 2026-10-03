@@ -30,27 +30,11 @@
 
 module Admin::Import::Jira
   class Form < ApplicationForm
-    form do |client_form|
-      client_form.text_field(
-        name: :name,
-        label: I18n.t("admin.jira.form.fields.name"),
-        required: true,
-        input_width: :medium
-      )
-
-      client_form.text_field(
-        name: :url,
-        label: I18n.t("admin.jira.form.fields.url"),
-        required: true,
-        input_width: :large,
-        type: :url,
-        data: { "admin--jira-configuration-form-target": "urlInput" }
-      )
-
-      if model.persisted? && model.personal_access_token.present?
-        client_form.html_content do
+    def credential_field(group, input_name:)
+      if model.persisted? && model.public_send(input_name).present?
+        group.html_content do
           render(Primer::BaseComponent.new(tag: :div, classes: "FormControl")) do
-            input_wrap = render(
+            render(
               Primer::OpenProject::FlexLayout.new(
                 align_items: :flex_end,
                 classes: "FormControl-input-wrap FormControl-input-width--large"
@@ -59,8 +43,8 @@ module Admin::Import::Jira
               flex.with_column(flex: 1) do
                 render(
                   Primer::Alpha::TextField.new(
-                    name: :saved_personal_access_token,
-                    label: I18n.t("admin.jira.form.fields.personal_access_token"),
+                    name: :"saved_#{input_name}",
+                    label: I18n.t("admin.jira.form.fields.#{input_name}"),
                     input_width: :large,
                     disabled: true,
                     value: "*********"
@@ -74,47 +58,113 @@ module Admin::Import::Jira
                     scheme: :danger,
                     size: :medium,
                     tag: :a,
-                    href: url_helpers.delete_token_admin_import_jira_path(model),
-                    "aria-label": I18n.t("admin.jira.form.button_delete_token"),
+                    href: url_helpers.clear_credential_admin_import_jira_path(model, field: input_name),
+                    "aria-label": I18n.t("admin.jira.form.button_delete_#{input_name}"),
                     data: {
                       "admin--jira-configuration-form-target": "button",
                       turbo_method: :delete,
-                      turbo_confirm: I18n.t("admin.jira.form.delete_token_confirm"),
+                      turbo_confirm: I18n.t("admin.jira.form.delete_#{input_name}_confirm"),
                       action: "click->admin--jira-configuration-form#disableButtons"
                     }
                   )
                 )
               end
             end
-
-            caption = render(Primer::BaseComponent.new(tag: :span, classes: "FormControl-caption")) do
-              test_connection_caption
-            end
-
-            helpers.safe_join([input_wrap, caption])
           end
         end
 
-        client_form.text_field(
-          name: :personal_access_token,
-          label: I18n.t("admin.jira.form.fields.personal_access_token"),
+        group.text_field(
+          name: input_name,
+          label: I18n.t("admin.jira.form.fields.#{input_name}"),
           hidden: true,
           value: "",
-          data: { "admin--jira-configuration-form-target": "tokenInput" }
+          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
         )
       else
-        client_form.text_field(
-          name: :personal_access_token,
-          label: I18n.t("admin.jira.form.fields.personal_access_token"),
+        group.text_field(
+          name: input_name,
+          label: I18n.t("admin.jira.form.fields.#{input_name}"),
           required: !model.persisted?,
           input_width: :large,
           autocomplete: "off",
-          caption: test_connection_caption,
-          data: { "admin--jira-configuration-form-target": "tokenInput" }
+          data: { "admin--jira-configuration-form-target": input_name.to_s.camelize(:lower) }
+        )
+      end
+    end
+
+    form do |f|
+      f.text_field(
+        name: :name,
+        label: I18n.t("admin.jira.form.fields.name"),
+        required: true,
+        input_width: :medium
+      )
+
+      f.text_field(
+        name: :url,
+        label: I18n.t("admin.jira.form.fields.url"),
+        required: true,
+        input_width: :large,
+        type: :url,
+        data: { "admin--jira-configuration-form-target": "url" }
+      )
+
+      f.radio_button_group(
+        name: :auth_method,
+        data: {
+          "admin--jira-configuration-form-target": "authMethodGroup"
+        }
+      ) do |group|
+        group.radio_button(
+          value: "bearer",
+          label: "Personal access token (PAT)",
+          caption: "We recommend using this authentication method.",
+          data: {
+            "show-when-value-selected-target": "cause",
+            target_name: "auth_method"
+          }
+        )
+        group.radio_button(
+          value: "basic",
+          label: "Basic auth",
+          caption: "Use basic auth if you are using a Jira Server version 8 or the instance is configured behind a proxy.",
+          data: {
+            "show-when-value-selected-target": "cause",
+            target_name: "auth_method"
+          }
         )
       end
 
-      client_form.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
+      f.group(
+        hidden: !model.auth_method_bearer?,
+        data: {
+          "show-when-value-selected-target": "effect",
+          target_name: "auth_method",
+          value: "bearer"
+        }
+      ) do |bearer_group|
+        credential_field(bearer_group, input_name: :personal_access_token)
+      end
+
+      f.group(
+        hidden: !model.auth_method_basic?,
+        data: {
+          "show-when-value-selected-target": "effect",
+          target_name: "auth_method",
+          value: "basic"
+        }
+      ) do |basic_group|
+        basic_group.text_field(
+          name: :basic_auth_username,
+          label: I18n.t("admin.jira.form.fields.basic_auth_username"),
+          input_width: :large,
+          required: !model.persisted?,
+          data: { "admin--jira-configuration-form-target": "basicAuthUsername" }
+        )
+        credential_field(basic_group, input_name: :basic_auth_password)
+      end
+
+      f.group(layout: :horizontal, mt: 1, mb: 2) do |button_group|
         button_group.submit(
           name: :submit,
           label: model.persisted? ? I18n.t("admin.jira.form.button_save") : I18n.t("admin.jira.form.button_add"),
@@ -129,18 +179,15 @@ module Admin::Import::Jira
           tag: :a,
           href: url_helpers.admin_import_jira_index_path
         )
+
+        button_group.button(
+          name: :test_connection,
+          label: "Test Connection",
+          scheme: :default,
+          href: url_helpers.admin_import_jira_index_path,
+          data: { action: "click->admin--jira-configuration-form#testConnection" }
+        )
       end
-    end
-
-    private
-
-    def test_connection_caption
-      helpers.link_translate(
-        "admin.jira.form.test_configuration_caption",
-        links: { test: "#" },
-        external: false,
-        data: { action: "click->admin--jira-configuration-form#testConnection" }
-      )
     end
   end
 end
