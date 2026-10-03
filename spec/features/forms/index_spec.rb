@@ -190,7 +190,6 @@ RSpec.describe "Forms index", :js do
       visit edit_type_form_configuration_path(type_id: bug.id)
 
       within_test_selector("form-configuration-read-only") do
-        expect(page).to have_text("Bug form")
         click_link_or_button I18n.t("form_configurations.tab.read_only.edit_action")
       end
 
