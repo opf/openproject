@@ -50,24 +50,26 @@ import {
 } from './sortable-lists/drag-and-drop';
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
-  captureRowPositions,
   isOrderableItem,
-  reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
   resolveItemLabel,
   resolveItemPosition,
   resolveItemType,
   resolveMoveAvailability,
-  restoreRowPositions,
   rowOf,
-  rowsRemainAt,
   ownedBy,
   sortableListsBusyAttribute,
   type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import {
+  captureRowPositions,
+  reorderRows,
+  restoreRowPositions,
+  rowsRemainAt,
+} from './sortable-lists/row-mutations';
 import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';

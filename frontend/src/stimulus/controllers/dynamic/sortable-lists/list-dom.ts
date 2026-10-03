@@ -27,7 +27,6 @@
 //++
 
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { reindexAriaRowsAfter } from './aria-row-indices';
 
 // Sortable lists use a DOM contract shared by the root and item controllers:
 // the root has data-controller~="sortable-lists"; lists are sortable-lists--list
@@ -70,10 +69,6 @@ const recognisedMobilities = new Set<string>(['fixed', 'confined', 'free']);
 // controller; this module treats any direct child as a row.
 function listRows(rowsContainer:Element):Element[] {
   return Array.from(rowsContainer.children);
-}
-
-function firstListRow(rowsContainer:Element):Element|null {
-  return rowsContainer.firstElementChild;
 }
 
 // The row (direct child of the rows container) that holds the given element, or null
@@ -224,21 +219,6 @@ export function isExcludedItem(excluded:ExcludedItems, { id, type }:{ id:string;
   return excluded.ids.has(id) && (type === null || type === excluded.type);
 }
 
-// The inverse of resolvePreviousItemId: the previous item id can point at a
-// hidden item collapsed behind a truncation marker row, which carries the id
-// on data-sortable-lists-prev-item-id rather than exposing an item element.
-// Anchor on that marker so the row lands next to the collapsed block instead
-// of jumping to the top.
-function resolveAnchorRow(rowsContainer:HTMLElement, previousItemId:string):HTMLElement|null {
-  // Match against the list's own rows rather than querying descendants:
-  // ids of different item types come from different tables, so a nested
-  // inner list may contain an unrelated item with a colliding id.
-  const anchor = listRows(rowsContainer)
-    .find((row) => resolvePreviousItemId(row, rowsContainer) === previousItemId);
-
-  return (anchor as HTMLElement|undefined) ?? null;
-}
-
 export function resolveListAppendPreviousItemId({
   excludedItems,
   rowsContainer,
@@ -256,99 +236,6 @@ export function resolveListAppendPreviousItemId({
   }
 
   return null;
-}
-
-export interface RowPlacement {
-  row:HTMLElement;
-  parent:HTMLElement|null;
-  nextElementSibling:Element|null;
-}
-
-// Snapshot each row's current location so an optimistic move can be undone if
-// the server rejects it. Captured before the move; restored in reverse so the
-// stored nextElementSibling references are still valid when reinserting.
-export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
-  return rows.map((row) => ({
-    row,
-    parent: row.parentElement,
-    nextElementSibling: row.nextElementSibling,
-  }));
-}
-
-export function restoreRowPositions(positions:RowPlacement[]):void {
-  const containers = [
-    ...rowContainers(positions.map(({ row }) => row)),
-    ...positions.flatMap(({ parent }) => (parent ? [parent] : [])),
-  ];
-
-  reindexAriaRowsAfter(containers, () => {
-    for (let i = positions.length - 1; i >= 0; i -= 1) {
-      const { row, parent, nextElementSibling } = positions[i];
-      // A list-refresh morph can replace the captured parent mid-request; restoring
-      // into a detached node would drop the row out of the live DOM until the next
-      // reload. Skip it and let the pending refresh reconcile the position.
-      if (!parent?.isConnected) {
-        continue;
-      }
-
-      const insertionPoint = nextElementSibling?.parentNode === parent ? nextElementSibling : null;
-      parent.insertBefore(row, insertionPoint);
-    }
-  });
-}
-
-// A rollback may only reinsert rows it still owns: if a concurrent morph
-// removed or repositioned a row after the optimistic move, the morph reflects
-// fresher server state and the rollback must yield. The comparison is
-// element-level placement only — a changed parent or element sibling counts
-// as foreign ownership; text and comment nodes are deliberately ignored.
-export function rowsRemainAt(positions:RowPlacement[]):boolean {
-  return positions.every(({ row, parent, nextElementSibling }) => (
-    row.parentElement === parent && row.nextElementSibling === nextElementSibling
-  ));
-}
-
-// Optimistically move rows on the client without waiting for the server.
-// `rows` are the moved rows in order; `previousItemId` of null means top of
-// list.
-export function reorderRows({
-  rows,
-  rowsContainer,
-  previousItemId,
-}:{
-  rows:HTMLElement[];
-  rowsContainer:HTMLElement;
-  previousItemId:string|null;
-}):void {
-  reindexAriaRowsAfter([...rowContainers(rows), rowsContainer], () => {
-    let anchor:Element|null = previousItemId ? resolveAnchorRow(rowsContainer, previousItemId) : null;
-
-    for (const row of rows) {
-      if (anchor) {
-        anchor.after(row);
-      } else {
-        insertAtListTop(rowsContainer, row);
-      }
-
-      anchor = row;
-    }
-  });
-}
-
-function rowContainers(rows:HTMLElement[]):Element[] {
-  return rows.flatMap((row) => (row.parentElement ? [row.parentElement] : []));
-}
-
-// Insert before the first existing row, keeping the moved row among its
-// siblings. An empty rows container simply receives the row.
-function insertAtListTop(rowsContainer:HTMLElement, row:HTMLElement):void {
-  const firstRow = firstListRow(rowsContainer);
-
-  if (firstRow && firstRow !== row) {
-    firstRow.before(row);
-  } else if (!firstRow) {
-    rowsContainer.prepend(row);
-  }
 }
 
 const moveDirections = ['top', 'up', 'down', 'bottom'] as const;
