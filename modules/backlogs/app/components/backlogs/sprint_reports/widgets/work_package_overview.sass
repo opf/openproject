@@ -1,18 +1,33 @@
-.op-wp-overview--blocks
+@import helpers
+
+.op-sprint-reports--wp-overview-widget
   container-type: inline-size
-  display: flex
-  flex-wrap: wrap
-  gap: var(--stack-gap-normal)
+  container-name: wp-overview-widget
 
-  > .op-wp-overview--block
-    // 1x4 blocks (all 4 blocks in one row)
-    flex: 1 1 0
-    min-width: 0
+  @container wp-overview-widget (min-width: #{$breakpoint-md})
+    .op-wp-overview--progress
+      max-width: 90%
 
-    @container (max-width: 800px)
-      // Collapse to 2x2 blocks
-      flex-basis: calc(50% - var(--stack-gap-normal) / 2)
+    @container wp-overview-widget (min-width: #{$breakpoint-xl})
+      .op-wp-overview--progress
+        max-width: 60%
 
-    @container (max-width: 400px)
-      // Collapse to 4x1 blocks
-      flex-basis: 100%
+  .op-wp-overview--blocks
+    container-type: inline-size
+    container-name: wp-overview-blocks
+    display: flex
+    flex-wrap: wrap
+    gap: var(--stack-gap-normal)
+
+    > .op-wp-overview--block
+      // 1x4 blocks (all 4 blocks in one row)
+      flex: 1 1 0
+      min-width: 0
+
+      @container wp-overview-blocks (max-width: 800px)
+        // Collapse to 2x2 blocks
+        flex-basis: calc(50% - var(--stack-gap-normal) / 2)
+
+      @container wp-overview-blocks (max-width: 400px)
+        // Collapse to 4x1 blocks
+        flex-basis: 100%
