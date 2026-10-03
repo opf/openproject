@@ -57,8 +57,8 @@ See COPYRIGHT and LICENSE files for more details.
       <tr>
         <td><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", "aria-label": type.name %></td>
         <td><%= type.name %></td>
-        <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 1, "aria-label": t("type_schemes.form.position") %></td>
-        <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": t("type_schemes.form.default") %></td>
+        <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 1, "aria-label": "#{t("type_schemes.form.position")}: #{type.name}" %></td>
+        <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": "#{t("type_schemes.form.default")}: #{type.name}" %></td>
       </tr>
     <% end %>
   </tbody>

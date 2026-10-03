@@ -53,6 +53,7 @@ module API
           get do
             authorize_in_project(:view_work_packages, project: @project)
             types = ::TypeSchemes::Resolver.allowed_types(@project).to_a
+            ActiveRecord::Associations::Preloader.new(records: types, associations: %i[color variants]).call
             API::V3::Types::TypeCollectionRepresenter.new(types,
                                                           self_link: api_v3_paths.project_available_types(@project.id),
                                                           current_user:)

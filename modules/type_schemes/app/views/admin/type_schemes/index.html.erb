@@ -48,9 +48,9 @@ See COPYRIGHT and LICENSE files for more details.
           <%= link_to t(:button_edit), edit_admin_type_scheme_path(scheme) %>
           <%= button_to t("type_schemes.index.clone"), clone_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
           <% if scheme.active %>
-            <%= button_to t("type_schemes.index.deactivate"), deactivate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
+            <%= button_to t("type_schemes.index.deactivate"), deactivate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline", data: { turbo_confirm: t(:text_are_you_sure) } } %>
           <% end %>
-          <%= button_to t(:button_delete), admin_type_scheme_path(scheme), method: :delete, form: { style: "display:inline" } %>
+          <%= button_to t(:button_delete), admin_type_scheme_path(scheme), method: :delete, form: { style: "display:inline", data: { turbo_confirm: t(:text_are_you_sure) } } %>
         </td>
       </tr>
     <% end %>

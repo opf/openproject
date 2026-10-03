@@ -34,7 +34,7 @@ module API
           def scheme_params
             body = request_body.to_h.with_indifferent_access
             raw_items = body[:type_items] || body[:typeItems]
-            params = { name: body[:name], description: body[:description] }.compact
+            params = body.slice(:name, :description).symbolize_keys
             if raw_items
               params[:items] = Array(raw_items).map do |item|
                 item = item.with_indifferent_access
@@ -48,6 +48,8 @@ module API
 
           def type_id_from_link(item)
             href = item.dig(:_links, :type, :href)
+            return if href.blank?
+
             ::API::Utilities::ResourceLinkParser.parse_id(href, property: "type", expected_version: "3", expected_namespace: "types")
           end
 
@@ -63,7 +65,7 @@ module API
         resources :type_schemes do
           get do
             authorize_logged_in
-            schemes = TypeScheme.includes(items: :type).order(:name).to_a
+            schemes = TypeScheme.includes(:items).order(:name).to_a
             TypeSchemeCollectionRepresenter.new(schemes,
                                                 self_link: api_v3_paths.type_schemes,
                                                 current_user:)
@@ -80,7 +82,7 @@ module API
 
           route_param :id, type: Integer do
             after_validation do
-              @scheme = TypeScheme.includes(items: :type).find(params[:id])
+              @scheme = TypeScheme.includes(:items).find(params[:id])
             end
 
             get do
