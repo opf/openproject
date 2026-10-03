@@ -299,7 +299,7 @@ export default class MyWorkController extends Controller {
   addTotalFooter() {
     if (!this.calendar) return;
 
-    renderFooterTotals(document, (day) => renderDayTotal(this.calculateTotalHours(day), this.workingHoursValue[day] || 0));
+    renderFooterTotals(document, (day) => renderDayTotal(this.calculateTotalHours(day), 0, this.workingHoursValue[day] || 0));
   }
 
   calculateTotalHours(dayStr:string):number {
