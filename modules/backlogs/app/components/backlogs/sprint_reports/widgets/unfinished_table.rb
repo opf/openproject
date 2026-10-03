@@ -29,13 +29,25 @@
 #++
 
 module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
+  module SprintReports
+    module Widgets
+      class UnfinishedTable < WorkPackageTable
+        def blankslate_icon = state == :empty ? :trophy : super
 
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
+        private
+
+        def i18n_key = :unfinished
+
+        def empty? = breakdown.unfinished.work_package_count.zero?
+
+        def timestamps
+          [breakdown.reference_finish]
+        end
+
+        def filters
+          [*super, status_filter("!")]
+        end
+      end
     end
   end
 end
