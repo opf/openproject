@@ -42,20 +42,21 @@ import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/type
 import { type SelectionItem } from 'core-common/batch-selection';
 import { type DragSession } from './drag-session';
 import {
-  isExcludedItem,
   resolveClosestItemElement,
-  resolveItemElement,
   resolveItemId,
-  resolveItemType,
-  resolveListAppendPreviousItemId,
-  resolvePreviousItem,
-  rowOf,
   sameDestination,
   type DestinationIdentity,
   type ExcludedItems,
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
+import {
+  placementAtEdge,
+  placementAtEnd,
+  placementAtStart,
+  renderList,
+  type Placement,
+} from './rendered-list';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
 // item controllers, built on top of the DOM contract in list-dom.ts.
@@ -279,59 +280,6 @@ export function destinationOfList(listData:SortableListData):DestinationIdentity
   return { type: listData.type, id: listData.listId == null ? null : String(listData.listId) };
 }
 
-export function resolvePreviousSortableItemId({
-  excludedItems,
-  targetItem,
-  closestEdge,
-  rowsContainer,
-}:{
-  excludedItems:ExcludedItems;
-  targetItem:HTMLElement;
-  closestEdge:Edge|null;
-  rowsContainer:Element;
-}):string|null {
-  const targetItemElement = resolveItemElement(targetItem, rowsContainer);
-  const targetItemId = targetItemElement ? resolveItemId(targetItemElement) : null;
-
-  if (closestEdge === 'bottom' && targetItemElement && targetItemId !== null
-    && !isExcludedItem(excludedItems, { id: targetItemId, type: resolveItemType(targetItemElement) })) {
-    return targetItemId;
-  }
-
-  const targetRow = rowOf(rowsContainer, targetItemElement ?? targetItem);
-  let row = targetRow?.previousElementSibling ?? null;
-
-  while (row) {
-    const item = resolvePreviousItem(row, rowsContainer);
-    if (item && !isExcludedItem(excludedItems, item)) {
-      return item.id;
-    }
-
-    row = row.previousElementSibling;
-  }
-
-  return null;
-}
-
-// A list-only drop (over the header or empty space, not over an item) lands at
-// the position the target list declares: 'start' inserts before the first row
-// (null previous item), 'end' appends after the last.
-function resolveListOnlyPreviousItemId({
-  excludedItems,
-  rowsContainer,
-  dropPosition,
-}:{
-  excludedItems:ExcludedItems;
-  rowsContainer:HTMLElement;
-  dropPosition:SortableListDropPosition;
-}):string|null {
-  if (dropPosition === 'start') {
-    return null;
-  }
-
-  return resolveListAppendPreviousItemId({ excludedItems, rowsContainer });
-}
-
 export interface DropIntent {
   listElement:HTMLElement;
   listData:SortableListData;
@@ -402,18 +350,25 @@ export function resolveDropIntent({
     }
   }
 
-  const previousItemId = targetItem
-    ? resolvePreviousSortableItemId({
-      excludedItems,
-      targetItem: targetItem.element,
-      closestEdge: extractClosestEdge(targetItem.data),
-      rowsContainer,
-    })
-    : resolveListOnlyPreviousItemId({
-      excludedItems,
-      rowsContainer,
-      dropPosition: listData.dropPosition,
-    });
+  const rendered = renderList(rowsContainer);
+  let placement:Placement;
 
-  return { listElement, listData, previousItemId, rowsContainer };
+  if (targetItem) {
+    const targetRow = rendered.rowOf(targetItem.element);
+    // A target outside the resolved rows container has no row to anchor on;
+    // the drop lands at the top rather than nowhere.
+    placement = targetRow
+      ? placementAtEdge(rendered, targetRow, verticalEdge(extractClosestEdge(targetItem.data)), excludedItems)
+      : placementAtStart();
+  } else {
+    placement = listData.dropPosition === 'start' ? placementAtStart() : placementAtEnd(rendered, excludedItems);
+  }
+
+  return { listElement, listData, previousItemId: placement.previousItemId, rowsContainer };
+}
+
+// Sortable lists are vertical; a missing or horizontal edge means "before
+// the target".
+function verticalEdge(edge:Edge|null):'top'|'bottom'|null {
+  return edge === 'top' || edge === 'bottom' ? edge : null;
 }

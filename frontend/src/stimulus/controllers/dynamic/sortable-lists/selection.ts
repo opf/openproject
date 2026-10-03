@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { selectionKey, type SelectionAnchor, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
+import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
 import { attributeTokenList } from 'core-app/shared/helpers/dom-helpers';
 import { type ListTopology } from './drag-and-drop';
 import {
@@ -34,11 +34,8 @@ import {
   listKey,
   ownedBy,
   resolveItemType,
-  resolveItemElement,
   resolveItemId,
-  rowOf,
   sortableItemSelector,
-  sortableListSelector,
 } from './list-dom';
 
 // Distinct from `aria-current`: a card may be either, both, or neither.
@@ -61,18 +58,6 @@ export const itemFocusTargetSelector = '[data-sortable-lists--item-target~="focu
 function focusHostOf(itemElement:HTMLElement):HTMLElement {
   return Array.from(itemElement.querySelectorAll<HTMLElement>(itemFocusTargetSelector))
     .find((target) => target.closest(sortableItemSelector) === itemElement) ?? itemElement;
-}
-
-function ownerList(root:HTMLElement, itemElement:HTMLElement):HTMLElement|null {
-  const list = itemElement.closest<HTMLElement>(sortableListSelector);
-
-  return list && ownedBy(root, list) ? list : null;
-}
-
-function rowItem(row:Element, rowsContainer:Element, root:HTMLElement, list:HTMLElement):HTMLElement|null {
-  const item = resolveItemElement(row, rowsContainer);
-
-  return item && ownerList(root, item) === list ? item : null;
 }
 
 export function orderedItemElements(root:HTMLElement):HTMLElement[] {
@@ -153,91 +138,8 @@ export function liveOrderableItems(root:HTMLElement):SelectionItem[] {
     .filter((item):item is SelectionItem => item !== null);
 }
 
-export function liveOrderableListItems(root:HTMLElement, from:HTMLElement):SelectionItem[] {
-  return listItems(root, from)
-    .filter(isOrderableItem)
-    .map((item) => itemIdentity(item))
-    .filter((item):item is SelectionItem => item !== null);
-}
-
 export function liveOrderableKeys(root:HTMLElement):Set<SelectionKey> {
   return new Set(liveOrderableItems(root).map(selectionKey));
-}
-
-// `unavailable` is remediable by expanding the list, most often a truncation
-// marker in the span. `locked` is not: a card the user may not move sits in
-// it, and expanding changes nothing.
-export type RangeUnavailableReason = 'crossList'|'unavailable'|'locked';
-
-export type RangeResolution =
-  | { ok:true; items:SelectionItem[] }
-  | { ok:false; reason:RangeUnavailableReason };
-
-/**
- * The contiguous, orderable range between the anchor and the candidate, or a
- * reason the range cannot be expressed.
- *
- * A range that would cross a list boundary, a truncation marker or a card the
- * user may not move is refused whole rather than trimmed.
- */
-export function resolveRangeItems(
-  root:HTMLElement,
-  anchor:SelectionAnchor,
-  candidate:SelectionCandidate,
-  // Must be the container moves use: a row is any direct child of it, not
-  // necessarily an item element, so it cannot be derived from the item's own
-  // parent.
-  rowsContainer:HTMLElement|null,
-):RangeResolution {
-  if (anchor.listKey !== candidate.listKey) {
-    return { ok: false, reason: 'crossList' };
-  }
-
-  const list = ownerList(root, candidate.itemElement);
-  if (!list || !rowsContainer) {
-    return { ok: false, reason: 'unavailable' };
-  }
-
-  const rows = Array.from(rowsContainer.children);
-  const anchorKey = selectionKey(anchor);
-  const anchorRow = rows.find((row) => {
-    const item = rowItem(row, rowsContainer, root, list);
-    const identity = item && itemIdentity(item);
-    return identity !== null && selectionKey(identity) === anchorKey;
-  });
-  // A candidate whose item sits outside the rows container has no row here.
-  const candidateRow = rowOf(rowsContainer, candidate.itemElement);
-  if (!anchorRow || !candidateRow) {
-    return { ok: false, reason: 'unavailable' };
-  }
-
-  const from = rows.indexOf(anchorRow);
-  const to = rows.indexOf(candidateRow);
-  const span = rows.slice(Math.min(from, to), Math.max(from, to) + 1);
-
-  const items:SelectionItem[] = [];
-  for (const row of span) {
-    const item = rowItem(row, rowsContainer, root, list);
-    const id = item ? resolveItemId(item) : null;
-    // A truncation marker in the span and a card the user cannot move are
-    // both hard boundaries, but only the first can be resolved by expanding.
-    if (!item || !id) {
-      return { ok: false, reason: 'unavailable' };
-    }
-
-    if (!isOrderableItem(item)) {
-      return { ok: false, reason: 'locked' };
-    }
-
-    const type = resolveItemType(item);
-    if (!type) {
-      return { ok: false, reason: 'unavailable' };
-    }
-
-    items.push({ type, id });
-  }
-
-  return { ok: true, items };
 }
 
 /**
@@ -301,44 +203,4 @@ function removeDescription(item:HTMLElement, describedById:string):void {
   if (describedBy.length === 0) {
     item.removeAttribute('aria-describedby');
   }
-}
-
-// Filtered back to the items this list owns: a nested topology puts another
-// list's items inside this one's subtree.
-function listItems(root:HTMLElement, from:HTMLElement):HTMLElement[] {
-  const list = ownerList(root, from);
-
-  return list
-    ? Array.from(list.querySelectorAll<HTMLElement>(sortableItemSelector))
-      .filter((item) => ownerList(root, item) === list)
-    : [];
-}
-
-// Arrows step through the list as rendered, fixed cards included. Not
-// symmetric with listBoundaryItem below, which does filter.
-export function neighbourItem(root:HTMLElement, from:HTMLElement, offset:1|-1):HTMLElement|null {
-  const items = listItems(root, from);
-  const index = items.indexOf(from);
-
-  if (index === -1) {
-    return null;
-  }
-
-  return items[index + offset] ?? null;
-}
-
-// Home/End land on the first/last *orderable* card, so a leading or trailing
-// fixed card is skipped rather than becoming the jump target.
-export function listBoundaryItem(
-  root:HTMLElement,
-  from:HTMLElement,
-  edge:'first'|'last',
-):HTMLElement|null {
-  const items = listItems(root, from).filter(isOrderableItem);
-
-  if (items.length === 0) {
-    return null;
-  }
-
-  return edge === 'first' ? items[0] : items[items.length - 1];
 }

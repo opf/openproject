@@ -51,12 +51,9 @@ import {
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
   isOrderableItem,
-  resolveDirectionalPreviousItemId,
   resolveItemId,
   resolveItemLabel,
-  resolveItemPosition,
   resolveItemType,
-  resolveMoveAvailability,
   rowOf,
   ownedBy,
   sortableListsBusyAttribute,
@@ -64,6 +61,12 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import {
+  directionalPlacement,
+  moveAvailability,
+  positionOf,
+  renderList,
+} from './sortable-lists/rendered-list';
 import {
   captureRowPositions,
   reorderRows,
@@ -418,9 +421,14 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       };
     }
 
-    const list = this.ownerListOf(itemElement);
+    const list = this.ownerList(itemElement);
+    if (!list) {
+      return null;
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    const rendered = renderList(list.rowsContainer);
+    const row = rendered.rowOf(itemElement);
+    return row ? moveAvailability(rendered, row) : null;
   }
 
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
@@ -431,35 +439,28 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const list = this.ownerListOf(itemElement);
-    if (!list) {
-      return;
-    }
-
+    const list = this.ownerList(itemElement);
     const itemId = resolveItemId(itemElement);
-    if (!itemId) {
+    if (!list || !itemId) {
       return;
     }
 
-    const previousItemId = resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer });
-    if (previousItemId === undefined) {
-      return;
-    }
-
+    const rendered = renderList(list.rowsContainer);
+    const row = rendered.rowOf(itemElement);
+    const placement = row ? directionalPlacement(rendered, row, direction) : null;
     const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
-    const sourceRow = rowOf(list.rowsContainer, itemElement);
-    if (!moveUrl || !sourceRow) {
+    if (!row || !placement || !moveUrl) {
       return;
     }
 
     this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
-      rows: [sourceRow],
+      rows: [row.element],
       items: null,
       rowsContainer: list.rowsContainer,
       listData: list.listData,
-      previousItemId,
+      previousItemId: placement.previousItemId,
       moveUrl,
     });
   }
@@ -796,7 +797,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // is streamed by the server and self-announces (matching the toast rule).
   // The consumer's vocabulary: Backlogs says "work package", not "item".
   private announceMove(context:MoveAnnouncementContext, rows:HTMLElement[], rowsContainer:HTMLElement):void {
-    const placement = resolveItemPosition({ row: rows[0], rowsContainer });
+    const rendered = renderList(rowsContainer);
+    const row = rendered.rowOf(rows[0]);
+    const placement = row ? positionOf(rendered, row) : null;
     if (!placement) {
       return;
     }

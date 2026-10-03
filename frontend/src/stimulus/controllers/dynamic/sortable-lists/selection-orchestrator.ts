@@ -32,16 +32,21 @@ import { type ListTopology } from './drag-and-drop';
 import { resolveItemId, resolveItemType } from './list-dom';
 import {
   applySelectionPresentation,
-  listBoundaryItem,
   liveOrderableKeys,
-  liveOrderableListItems,
-  neighbourItem,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
-  resolveRangeItems,
   type SelectionCandidate,
 } from './selection';
+import {
+  boundaryItemRow,
+  movableItems,
+  neighbourItemRow,
+  rangeBetween,
+  renderList,
+  type RangeResolution,
+  type RenderedList,
+} from './rendered-list';
 import { closestInteractiveElement } from 'core-common/interactive-element-helper';
 import { isApplePlatform } from 'core-common/platform';
 import { clearSelectionOnEscape } from 'core-common/selection-escape';
@@ -281,19 +286,27 @@ export class SelectionOrchestrator {
   private handleArrow(event:KeyboardEvent, candidate:SelectionCandidate, offset:1|-1):void {
     event.preventDefault();
 
-    const next = neighbourItem(this.host.rootElement, candidate.itemElement, offset);
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const next = rendered ? neighbourItemRow(rendered, candidate.itemElement, offset)?.item : null;
     if (!next) {
       return;
     }
 
-    this.focusAndMaybeExtend(event, next);
+    this.focusAndMaybeExtend(event, next.element);
+  }
+
+  // One snapshot per gesture: the rows of the list that owns the item.
+  private renderedListOf(itemElement:HTMLElement):RenderedList|null {
+    const list = this.host.ownerList(itemElement);
+    return list ? renderList(list.rowsContainer) : null;
   }
 
   // Consumed like an arrow, including in both no-op cases below.
   private handleBoundary(event:KeyboardEvent, candidate:SelectionCandidate, edge:'first'|'last'):void {
     event.preventDefault();
 
-    const target = listBoundaryItem(this.host.rootElement, candidate.itemElement, edge);
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const target = rendered ? boundaryItemRow(rendered, edge)?.item?.element ?? null : null;
     if (!target) {
       return;
     }
@@ -332,7 +345,8 @@ export class SelectionOrchestrator {
 
   // Confined to the focused card's list, like a range.
   private handleSelectAll(event:KeyboardEvent, candidate:SelectionCandidate):void {
-    const items = liveOrderableListItems(this.host.rootElement, candidate.itemElement)
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const items = (rendered ? movableItems(rendered) : [])
       .filter((item) => item.type === candidate.type);
     // Only consumed once there is something to select: otherwise the
     // browser's own select-all still has to work.
@@ -405,21 +419,20 @@ export class SelectionOrchestrator {
       return;
     }
 
-    const range = resolveRangeItems(
-      this.host.rootElement,
-      anchor,
-      candidate,
-      this.host.ownerList(candidate.itemElement)?.rowsContainer ?? null,
-    );
+    // A range never crosses a list: Shift into another list restarts there.
+    if (anchor.listKey !== candidate.listKey) {
+      this.renderRangeRestart(candidate);
+      return;
+    }
+
+    const rendered = this.renderedListOf(candidate.itemElement);
+    const range:RangeResolution = rendered
+      ? rangeBetween(rendered, anchor, candidate.itemElement)
+      : { ok: false, reason: 'unavailable' };
 
     if (range.ok) {
       this.selection.range(range.items);
       this.renderSelection('selection');
-      return;
-    }
-
-    if (range.reason === 'crossList') {
-      this.renderRangeRestart(candidate);
       return;
     }
 
