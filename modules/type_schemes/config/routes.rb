@@ -30,7 +30,7 @@
 
 Rails.application.routes.draw do
   namespace :admin do
-    resources :type_schemes, except: :show do
+    resources :type_schemes, except: %i[show destroy] do
       member do
         post :clone
         post :deactivate

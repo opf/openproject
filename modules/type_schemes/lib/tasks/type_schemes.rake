@@ -30,6 +30,8 @@ namespace :type_schemes do
   desc "Create a Default Scheme from enabled types. MODE is dry_run (default), auto (create and assign) or manual (create only)"
   task :migrate, [:mode] => :environment do |_task, args|
     mode = args[:mode].presence || "dry_run"
+    abort "mode must be one of: #{TypeSchemes::DefaultMigration::MODES.join(', ')}" unless TypeSchemes::DefaultMigration::MODES.include?(mode)
+
     plan = TypeSchemes::DefaultMigration.call(mode:)
 
     puts "Mode: #{mode}"

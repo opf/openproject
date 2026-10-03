@@ -50,13 +50,12 @@ RSpec.describe "Project settings type scheme" do
       expect(page).to have_no_css("#available-types li", text: "Bug")
     end
 
-    it "unassigns the scheme" do
-      TypeSchemes::SchemeService.assign(project, scheme)
+    it "has no empty option and shows the default scheme when none is assigned" do
+      default = create(:type_scheme, name: "Fallback", types: [story, epic], is_default: true)
       visit project_settings_type_scheme_path(project)
-      select "No scheme (all enabled types)", from: "scheme_id"
-      click_button "Save"
 
-      expect(ProjectTypeScheme.where(project_id: project.id)).to be_empty
+      expect(page).to have_select("scheme_id", selected: default.name)
+      expect(page).to have_no_select("scheme_id", with_options: [""])
     end
 
     it "warns about scheme types not enabled in the project" do

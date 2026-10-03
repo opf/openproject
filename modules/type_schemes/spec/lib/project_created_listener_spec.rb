@@ -29,7 +29,7 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::TypeSchemes::ProjectCreatedListener do
-  let(:story) { create(:type) }
+  let!(:story) { create(:type, name: "Story") }
   let(:project) { create(:project, types: [story]) }
 
   it "assigns the default scheme to a new project" do
@@ -40,10 +40,12 @@ RSpec.describe OpenProject::TypeSchemes::ProjectCreatedListener do
     expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq scheme
   end
 
-  it "does nothing without a default scheme" do
-    create(:type_scheme, types: [story])
+  it "creates the default scheme when none exists yet" do
+    described_class.call(project:)
 
-    expect { described_class.call(project:) }.not_to change(ProjectTypeScheme, :count)
+    assigned = ProjectTypeScheme.find_by!(project_id: project.id).scheme
+    expect(assigned).to be_is_default
+    expect(assigned.types).to include(story)
   end
 
   it "does not touch a project that already has a scheme" do
@@ -54,12 +56,6 @@ RSpec.describe OpenProject::TypeSchemes::ProjectCreatedListener do
     described_class.call(project:)
 
     expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq other
-  end
-
-  it "ignores an inactive default scheme" do
-    create(:type_scheme, types: [story], is_default: true).update_columns(active: false)
-
-    expect { described_class.call(project:) }.not_to change(ProjectTypeScheme, :count)
   end
 
   it "is triggered by the PROJECT_CREATED event" do

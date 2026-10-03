@@ -36,8 +36,7 @@ module OpenProject::TypeSchemes
       project = payload[:project]
       return if project.nil? || ProjectTypeScheme.exists?(project_id: project.id)
 
-      scheme = TypeScheme.active.find_by(is_default: true)
-      ::TypeSchemes::SchemeService.assign(project, scheme) if scheme
+      ::TypeSchemes::SchemeService.assign_default(project)
     end
   end
 end

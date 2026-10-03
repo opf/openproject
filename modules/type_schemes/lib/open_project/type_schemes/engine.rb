@@ -94,6 +94,7 @@ module OpenProject::TypeSchemes
     end
 
     config.to_prepare do
+      ::Type.after_create_commit { ::TypeSchemes::DefaultScheme.add_type(self) }
       ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
       ::WorkPackages::SetAttributesService.prepend(OpenProject::TypeSchemes::SetAttributesServicePatch)
     end

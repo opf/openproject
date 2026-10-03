@@ -43,21 +43,22 @@ module TypeSchemes
       end
 
       def deactivate(scheme)
-        scheme.update(active: false, is_default: false) ? ok(scheme) : fail_with(scheme)
+        if scheme.is_default
+          scheme.errors.add(:active, :default_scheme_required)
+          return fail_with(scheme)
+        end
+
+        TypeScheme.transaction(requires_new: true) do
+          default = DefaultScheme.ensure!
+          scheme.project_assignments.update_all(scheme_id: default.id) if default
+          scheme.update!(active: false)
+          Resolver.reset_cache
+        end
+        ok(scheme)
       end
 
       def activate(scheme)
         scheme.update(active: true) ? ok(scheme) : fail_with(scheme)
-      end
-
-      def destroy(scheme)
-        names = scheme.projects.order(:name).pluck(:name)
-        if names.any?
-          scheme.errors.add(:project_assignments, :assigned_to_projects, projects: names.join(", "))
-          return fail_with(scheme)
-        end
-
-        scheme.destroy ? ok(scheme) : fail_with(scheme)
       end
 
       def assign(project, scheme)
@@ -74,10 +75,11 @@ module TypeSchemes
         end
       end
 
-      def unassign(project)
-        ProjectTypeScheme.where(project_id: project.id).destroy_all
-        Resolver.reset_cache
-        ServiceResult.success
+      def assign_default(project)
+        default = DefaultScheme.ensure!
+        return ServiceResult.success unless default
+
+        assign(project, default)
       end
 
       def impact(scheme, removed_type_ids: [])
@@ -112,12 +114,30 @@ module TypeSchemes
         result = nil
         TypeScheme.transaction(requires_new: true) do
           scheme.lock! if scheme.persisted?
-          scheme.assign_attributes(params.slice(:name, :description, :is_default))
+          scheme.assign_attributes(params.slice(:name, :description))
+          unless apply_default_flag(scheme, params)
+            result = fail_with(scheme)
+            raise ActiveRecord::Rollback
+          end
           prepare_items(scheme, params[:items]) if params.key?(:items)
           result = scheme.save ? ok(scheme) : fail_with(scheme)
           raise ActiveRecord::Rollback if result.failure?
         end
         result
+      end
+
+      def apply_default_flag(scheme, params)
+        return true unless params.key?(:is_default)
+
+        wanted = params[:is_default] ? true : false
+        if wanted && !scheme.is_default
+          TypeScheme.where(is_default: true).update_all(is_default: false)
+          scheme.is_default = true
+        elsif !wanted && scheme.is_default
+          scheme.errors.add(:is_default, :default_scheme_required)
+          return false
+        end
+        true
       end
 
       # Persisted items are removed / un-defaulted up front so the unique indexes

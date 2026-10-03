@@ -27,7 +27,7 @@ patch:
   tags:
     - Type Schemes
   description: |-
-    Updates name, description and replaces the `typeItems`. Existing work packages are not changed.
+    Updates name, description and replaces the `typeItems`. `isDefault: true` makes this scheme the default scheme for projects (the previous default is unset); the default flag cannot be removed directly. `active: false` deactivates the scheme and moves its projects to the default scheme; the default scheme cannot be deactivated. Existing work packages are not changed. Type schemes cannot be deleted.
 
     **Required permission:** administrator
   parameters:
@@ -49,27 +49,3 @@ patch:
       description: Returned if the scheme does not exist.
     '422':
       description: Returned if the resulting scheme is invalid.
-delete:
-  summary: Delete a type scheme
-  operationId: delete_type_scheme
-  tags:
-    - Type Schemes
-  description: |-
-    Deletes a type scheme. Fails with 422 and the names of the projects while the scheme is still assigned.
-
-    **Required permission:** administrator
-  parameters:
-    - name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-  responses:
-    '204':
-      description: No Content
-    '403':
-      description: Returned if the user is not an administrator.
-    '404':
-      description: Returned if the scheme does not exist.
-    '422':
-      description: Returned if the scheme is assigned to projects.

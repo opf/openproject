@@ -38,12 +38,10 @@ module Projects
       def update
         scheme = TypeScheme.active.find_by(id: params[:scheme_id]) if params[:scheme_id].present?
         result =
-          if params[:scheme_id].blank?
-            ::TypeSchemes::SchemeService.unassign(@project)
-          elsif scheme
+          if scheme
             ::TypeSchemes::SchemeService.assign(@project, scheme)
           else
-            ServiceResult.failure(errors: ActiveModel::Errors.new(ProjectTypeScheme.new).tap { _1.add(:scheme, :inactive) })
+            ServiceResult.failure(errors: ActiveModel::Errors.new(ProjectTypeScheme.new).tap { _1.add(:scheme, :blank) })
           end
 
         if result.success?

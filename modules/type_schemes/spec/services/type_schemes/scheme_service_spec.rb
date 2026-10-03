@@ -133,36 +133,67 @@ RSpec.describe TypeSchemes::SchemeService do
       expect(described_class.deactivate(scheme)).to be_success
       expect(scheme.reload.active).to be(false)
     end
-  end
 
-  describe ".destroy" do
-    let!(:scheme) { create(:type_scheme, types: [epic]) }
-
-    it "destroys an unassigned scheme" do
-      expect(described_class.destroy(scheme)).to be_success
-      expect(TypeScheme.exists?(scheme.id)).to be(false)
-    end
-
-    it "fails and lists project names when assigned" do
-      ProjectTypeScheme.create!(project:, scheme:)
-      result = described_class.destroy(scheme)
+    it "refuses to deactivate the default scheme" do
+      scheme = create(:type_scheme, is_default: true)
+      result = described_class.deactivate(scheme)
       expect(result).to be_failure
-      expect(result.errors.symbols_for(:project_assignments)).to include(:assigned_to_projects)
-      expect(result.errors.full_messages.join).to include(project.name)
-      expect(TypeScheme.exists?(scheme.id)).to be(true)
+      expect(result.errors.symbols_for(:active)).to include(:default_scheme_required)
+      expect(scheme.reload).to be_active
+    end
+
+    it "moves the projects of a deactivated scheme to the default scheme" do
+      default = create(:type_scheme, types: [epic], is_default: true)
+      scheme = create(:type_scheme, types: [story])
+      ProjectTypeScheme.create!(project:, scheme:)
+
+      described_class.deactivate(scheme)
+
+      expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq default
     end
   end
 
-  describe ".assign / .unassign" do
+  describe "schemes cannot be deleted" do
+    it "has no destroy service" do
+      expect(described_class).not_to respond_to(:destroy)
+    end
+  end
+
+  describe "default scheme switching" do
+    let!(:current) { create(:type_scheme, types: [epic], is_default: true) }
+    let!(:other) { create(:type_scheme, types: [story]) }
+
+    it "makes another scheme the default and clears the previous flag" do
+      expect(described_class.update(other, is_default: true)).to be_success
+      expect(other.reload).to be_is_default
+      expect(current.reload).not_to be_is_default
+    end
+
+    it "refuses to unset the default flag directly" do
+      result = described_class.update(current, is_default: false)
+      expect(result).to be_failure
+      expect(current.reload).to be_is_default
+    end
+
+    it "keeps the previous default when the new one is invalid" do
+      other.update_columns(active: false)
+      expect(described_class.update(other, is_default: true)).to be_failure
+      expect(current.reload).to be_is_default
+    end
+  end
+
+  describe ".assign" do
     let!(:scheme) { create(:type_scheme, types: [epic]) }
     let!(:other) { create(:type_scheme, types: [story]) }
 
-    it "assigns, reassigns and unassigns" do
+    it "assigns and reassigns" do
       expect(described_class.assign(project, scheme)).to be_success
       expect(described_class.assign(project, other)).to be_success
       expect(ProjectTypeScheme.where(project_id: project.id).pluck(:scheme_id)).to eq([other.id])
-      expect(described_class.unassign(project)).to be_success
-      expect(ProjectTypeScheme.where(project_id: project.id)).to be_empty
+    end
+
+    it "has no unassign" do
+      expect(described_class).not_to respond_to(:unassign)
     end
 
     it "fails for an inactive scheme" do
@@ -189,15 +220,22 @@ RSpec.describe TypeSchemes::SchemeService do
     end
   end
 
-  describe "deactivate / activate" do
-    it "drops the default-scheme flag when deactivating and can reactivate" do
-      scheme = create(:type_scheme, types: [epic], is_default: true)
-
+  describe ".activate" do
+    it "re-enables a deactivated scheme" do
+      scheme = create(:type_scheme, types: [epic])
       described_class.deactivate(scheme)
-      expect(scheme.reload).to have_attributes(active: false, is_default: false)
 
       described_class.activate(scheme)
       expect(scheme.reload).to be_active
+    end
+  end
+
+  describe ".assign_default" do
+    it "assigns the default scheme, creating it from all types when missing" do
+      project
+      expect(described_class.assign_default(project)).to be_success
+      assigned = ProjectTypeScheme.find_by!(project_id: project.id).scheme
+      expect(assigned).to be_is_default
     end
   end
 

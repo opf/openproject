@@ -43,7 +43,7 @@ RSpec.describe TypeSchemes::DefaultMigration do
     plan = nil
     expect { plan = described_class.call(mode: "dry_run") }.not_to change(TypeScheme, :count)
 
-    expect(plan.type_names).to eq %w[Epic Story]
+    expect(plan.type_names).to include("Epic", "Story", "Unused")
     expect(plan.default_type_name).to eq "Epic"
     expect(plan.project_names).to include(project_a.name, project_b.name)
   end
@@ -53,7 +53,7 @@ RSpec.describe TypeSchemes::DefaultMigration do
 
     scheme = TypeScheme.find_by!(name: "Default Scheme")
     expect(scheme).to be_is_default
-    expect(scheme.types).to eq [epic, story]
+    expect(scheme.types).to include(epic, story, unused)
     expect(ProjectTypeScheme.where(scheme_id: scheme.id).pluck(:project_id)).to include(project_a.id, project_b.id)
   end
 
@@ -70,6 +70,14 @@ RSpec.describe TypeSchemes::DefaultMigration do
 
     expect(TypeScheme.where(name: "Default Scheme").count).to eq 1
     expect(ProjectTypeScheme.find_by(project_id: project_a.id).scheme).to eq other
+  end
+
+  it "uses Task as the default type when present" do
+    task = create(:type, name: "Task", position: 4)
+
+    described_class.call(mode: "auto")
+
+    expect(TypeScheme.find_by!(name: "Default Scheme").default_type).to eq task
   end
 
   it "does not change types or work packages" do

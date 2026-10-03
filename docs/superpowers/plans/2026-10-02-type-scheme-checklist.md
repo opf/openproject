@@ -37,6 +37,14 @@ Plan: [2026-10-02-type-scheme.md](2026-10-02-type-scheme.md) · Spec: [../specs/
   - [x] Regression core, lint, i18n spec
   - [x] Tài liệu admin
 
+- [x] **Task 10 — Scheme bắt buộc, Default Scheme default = Task** (spec §13.1)
+  - [x] `DefaultScheme` (ensure!/current/add_type), Resolver fallback, bỏ unassign, API/UI không cho rỗng
+  - [x] Listener project mới, migration dữ liệu, hook Type mới, bất biến Default Scheme
+- [x] **Task 11 — Không cho xoá Scheme** (spec §13.2)
+  - [x] Bỏ destroy ở service/controller/route/UI/API/OpenAPI/docs/specs, model chặn destroy
+- [x] **Task 12 — Kéo-thả sắp xếp Type** (spec §13.3)
+  - [x] Stimulus controller + view + i18n + spec
+
 ## Việc cuối
 
 - [ ] Final whole-branch review (cần chạy RSpec thật — chưa chạy được trong môi trường Ruby 3.3.6)

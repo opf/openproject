@@ -37,13 +37,15 @@ class TypeScheme < ApplicationRecord
   has_many :items, -> { order(:position) }, class_name: "TypeSchemeItem",
            foreign_key: :scheme_id, inverse_of: :scheme, dependent: :destroy, autosave: true
   has_many :project_assignments, class_name: "ProjectTypeScheme", foreign_key: :scheme_id,
-           inverse_of: :scheme, dependent: :restrict_with_error
+           inverse_of: :scheme
   has_many :projects, through: :project_assignments
 
   validates :name, presence: true, uniqueness: true, length: { maximum: 255 }
   validates :description, length: { maximum: 5000 }
   validates :is_default, uniqueness: true, if: :is_default
   validate :types_unique
+  validate :default_scheme_stays_active
+  before_destroy :prevent_destroy
   validate :exactly_one_default_item, if: :active
 
   scope :active, -> { where(active: true) }
@@ -53,6 +55,15 @@ class TypeScheme < ApplicationRecord
   def default_type = default_item&.type
 
   private
+
+  def prevent_destroy
+    errors.add(:base, :cannot_be_deleted)
+    throw :abort
+  end
+
+  def default_scheme_stays_active
+    errors.add(:active, :default_scheme_required) if is_default && !active
+  end
 
   def types_unique
     ids = items.reject(&:marked_for_destruction?).map(&:type_id)

@@ -48,7 +48,6 @@ See COPYRIGHT and LICENSE files for more details.
     <span class="form--field-container">
       <%= select_tag "scheme_id",
                      options_from_collection_for_select(@schemes, :id, :name, current&.id),
-                     include_blank: t("type_schemes.project_settings.none"),
                      class: "form--select" %>
     </span>
   </div>

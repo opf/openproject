@@ -35,17 +35,10 @@ module API
             authorize_in_project(:assign_type_scheme, project: @project)
             scheme_id = request_body.to_h.with_indifferent_access[:scheme_id]
 
-            result =
-              if scheme_id.blank?
-                ::TypeSchemes::SchemeService.unassign(@project)
-              else
-                scheme = TypeScheme.find_by(id: scheme_id)
-                if scheme
-                  ::TypeSchemes::SchemeService.assign(@project, scheme)
-                else
-                  raise ::API::Errors::Validation.new(:scheme_id, "Type scheme does not exist.")
-                end
-              end
+            scheme = scheme_id.present? ? TypeScheme.active.find_by(id: scheme_id) : nil
+            raise ::API::Errors::Validation.new(:scheme_id, "An active type scheme is required.") unless scheme
+
+            result = ::TypeSchemes::SchemeService.assign(@project, scheme)
             raise ::API::Errors::ErrorBase.create_and_merge_errors(result.errors) if result.failure?
 
             status 204

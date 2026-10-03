@@ -41,18 +41,17 @@ See COPYRIGHT and LICENSE files for more details.
   <tbody>
     <% @schemes.each do |scheme| %>
       <tr>
-        <td><%= scheme.name %></td>
+        <td><%= scheme.name %><%= " (#{t('type_schemes.index.default_scheme')})" if scheme.is_default %></td>
         <td><%= scheme.project_assignments.size %></td>
         <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
         <td>
           <%= link_to t(:button_edit), edit_admin_type_scheme_path(scheme) %>
           <%= button_to t("type_schemes.index.clone"), clone_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
-          <% if scheme.active %>
+          <% if scheme.active && !scheme.is_default %>
             <%= button_to t("type_schemes.index.deactivate"), deactivate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline", data: { turbo_confirm: t(:text_are_you_sure) } } %>
-          <% else %>
+          <% elsif !scheme.active %>
             <%= button_to t("type_schemes.index.activate"), activate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
           <% end %>
-          <%= button_to t(:button_delete), admin_type_scheme_path(scheme), method: :delete, form: { style: "display:inline", data: { turbo_confirm: t(:text_are_you_sure) } } %>
         </td>
       </tr>
     <% end %>

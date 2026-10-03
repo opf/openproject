@@ -116,3 +116,20 @@ Theo mục 25 của idea, cộng: Type ngoài Scheme không xuất hiện trong 
 - **Cảnh báo:** sửa bất kỳ Scheme nào đang gán cho ≥1 project đều qua trang xác nhận (không chỉ khi gỡ Type).
 - **Activate/Deactivate:** có cả hai; deactivate gỡ cờ `is_default`.
 - **Hoãn:** kéo-thả sắp xếp (hiện dùng ô số `position`), `PUT` với `scheme_id` không tồn tại trả 422.
+
+## 13. Yêu cầu bổ sung (2026-10-03): scheme bắt buộc, không xoá, kéo-thả
+
+Thay thế các điểm tương ứng ở §3, §5, §7, §8.
+
+**13.1 Mọi project luôn có scheme, Default Scheme có default là Task**
+- Luôn tồn tại đúng một **Default Scheme** (`is_default = true`, luôn `active`). `TypeSchemes::DefaultScheme.ensure!` tạo nó (idempotent) từ tất cả Type, Type mặc định = "Task" (không phân biệt hoa thường; không có thì Type đầu tiên không phải milestone theo position).
+- `Resolver.for_project`: scheme đã gán và active, nếu không thì Default Scheme (fallback). Chỉ khi chưa có Type nào trong hệ thống mới trả `nil` (hành vi native).
+- Project mới nhận Default Scheme qua `PROJECT_CREATED`; migration dữ liệu gán cho project hiện có; Type mới tạo được thêm vào Default Scheme (không default) để không bị ẩn.
+- **Không còn gỡ gán**: bỏ `SchemeService.unassign`, UI bỏ lựa chọn rỗng, `PUT projects/:id/type_scheme` với `scheme_id` rỗng trả 422.
+- Default Scheme không deactivate được; đổi default = chọn scheme khác làm default (cờ của scheme cũ tự bỏ trong cùng transaction). Deactivate scheme thường chuyển các project của nó về Default Scheme.
+
+**13.2 Không xoá Scheme**
+- Bỏ action destroy ở service, controller, route, UI, API (`DELETE`), OpenAPI và tài liệu. Model chặn `destroy` (`before_destroy`). Dùng Deactivate/Activate. Xoá Type vẫn cascade `type_scheme_items` ở DB.
+
+**13.3 Kéo-thả sắp xếp**
+- Form admin: mỗi dòng Type có handle kéo-thả (HTML5 DnD) + nút Lên/Xuống bàn phím (Alt+↑/↓) + vùng `aria-live` thông báo; vị trí được ghi lại vào ô `position` (vẫn sửa được khi tắt JS). Stimulus controller `type-schemes--sortable-types`.

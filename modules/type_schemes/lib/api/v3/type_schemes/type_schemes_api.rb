@@ -35,6 +35,8 @@ module API
             body = request_body.to_h.with_indifferent_access
             raw_items = body[:type_items] || body[:typeItems]
             params = body.slice(:name, :description).symbolize_keys
+            default_flag = body.fetch(:isDefault) { body[:is_default] }
+            params[:is_default] = ActiveModel::Type::Boolean.new.cast(default_flag) unless default_flag.nil?
             if raw_items
               unless raw_items.is_a?(Array) && raw_items.all?(Hash)
                 raise ::API::Errors::BadRequest.new("typeItems must be a list of objects.")
@@ -100,16 +102,14 @@ module API
               result = ::TypeSchemes::SchemeService.update(@scheme, scheme_params)
               raise_service_errors(result) if result.failure?
 
+              active = request_body.to_h.with_indifferent_access[:active]
+              unless active.nil?
+                toggle = ActiveModel::Type::Boolean.new.cast(active) ? :activate : :deactivate
+                result = ::TypeSchemes::SchemeService.public_send(toggle, @scheme.reload)
+                raise_service_errors(result) if result.failure?
+              end
+
               render_scheme(result.result)
-            end
-
-            delete do
-              authorize_admin
-              result = ::TypeSchemes::SchemeService.destroy(@scheme)
-              raise_service_errors(result) if result.failure?
-
-              status 204
-              body false
             end
           end
         end

@@ -6,7 +6,7 @@ put:
   tags:
     - Type Schemes
   description: |-
-    Assigns the scheme with the given `scheme_id` to the project. An empty `scheme_id` removes the assignment.
+    Assigns the active scheme with the given `scheme_id` to the project. Every project always has a scheme (projects without an explicit assignment use the default scheme), so an empty or unknown `scheme_id` is rejected.
 
     **Required permission:** assign type scheme (in the project)
   parameters:
@@ -22,9 +22,7 @@ put:
           type: object
           properties:
             scheme_id:
-              type:
-                - integer
-                - "null"
+              type: integer
   responses:
     '204':
       description: No Content
@@ -33,4 +31,4 @@ put:
     '404':
       description: Returned if the project is not visible to the user or the scheme does not exist.
     '422':
-      description: Returned if the scheme is inactive.
+      description: Returned if the scheme is missing, unknown or inactive.

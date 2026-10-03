@@ -34,13 +34,15 @@ module Admin
     menu_item :type_schemes
 
     before_action :require_admin
-    before_action :find_scheme, only: %i[edit update clone deactivate activate destroy]
+    before_action :find_scheme, only: %i[edit update clone deactivate activate]
 
     def index
+      ::TypeSchemes::DefaultScheme.ensure!
       @schemes = TypeScheme.includes(:project_assignments).order(:name)
     end
 
     def new
+      ::TypeSchemes::DefaultScheme.ensure!
       @scheme = TypeScheme.new(active: true)
     end
 
@@ -59,6 +61,7 @@ module Admin
 
     def update
       attrs = scheme_params
+      attrs.delete(:is_default) if @scheme.is_default
       removed = @scheme.items.map(&:type_id) - attrs[:items].pluck(:type_id)
       @impact = ::TypeSchemes::SchemeService.impact(@scheme, removed_type_ids: removed)
 
@@ -87,10 +90,6 @@ module Admin
 
     def activate
       respond(::TypeSchemes::SchemeService.activate(@scheme), t(:notice_successful_update))
-    end
-
-    def destroy
-      respond(::TypeSchemes::SchemeService.destroy(@scheme), t(:notice_successful_delete))
     end
 
     private

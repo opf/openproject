@@ -82,11 +82,18 @@ RSpec.describe TypeScheme do
     expect(build(:type_scheme, is_default: true)).not_to be_valid
   end
 
-  it "cannot be destroyed while projects are assigned" do
+  it "cannot be destroyed" do
     scheme = create(:type_scheme)
-    ProjectTypeScheme.create!(project: create(:project), scheme:)
     expect(scheme.destroy).to be(false)
     expect(described_class.exists?(scheme.id)).to be(true)
+    expect(scheme.errors.symbols_for(:base)).to include(:cannot_be_deleted)
+  end
+
+  it "keeps the default scheme active" do
+    scheme = create(:type_scheme, is_default: true)
+    scheme.active = false
+    expect(scheme).not_to be_valid
+    expect(scheme.errors.symbols_for(:active)).to include(:default_scheme_required)
   end
 
   describe "DB constraints" do

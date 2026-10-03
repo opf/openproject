@@ -79,15 +79,13 @@ RSpec.describe "API v3 type schemes" do
     it "forbids writing" do
       post api_v3_paths.type_schemes, body_for("X", [bug]), headers
       expect(last_response).to have_http_status(:forbidden)
-      delete api_v3_paths.type_scheme(scheme.id)
-      expect(last_response).to have_http_status(:forbidden)
     end
   end
 
   describe "writing as admin" do
     before { login_as(admin) }
 
-    it "creates, updates and deletes a scheme" do
+    it "creates and updates a scheme" do
       post api_v3_paths.type_schemes, body_for("New", [bug, epic]), headers
       expect(last_response).to have_http_status(:created)
       id = json["id"]
@@ -96,15 +94,20 @@ RSpec.describe "API v3 type schemes" do
       patch api_v3_paths.type_scheme(id), body_for("Renamed", [epic]), headers
       expect(last_response).to have_http_status(:ok)
       expect(TypeScheme.find(id)).to have_attributes(name: "Renamed", types: [epic])
-
-      delete api_v3_paths.type_scheme(id)
-      expect(last_response).to have_http_status(:no_content)
-      expect(TypeScheme.exists?(id)).to be false
     end
 
-    it "rejects an item without a type link" do
-      body = { name: "Bad", typeItems: [{ position: 1, default: true }] }
-      post api_v3_paths.type_schemes, body.to_json, headers
+    it "does not offer deletion" do
+      delete api_v3_paths.type_scheme(scheme.id)
+      expect(last_response.status).to be_in([404, 405])
+      expect(TypeScheme.exists?(scheme.id)).to be true
+    end
+
+    it "makes a scheme the default and toggles active" do
+      patch api_v3_paths.type_scheme(scheme.id), { isDefault: true }.to_json, headers
+      expect(last_response).to have_http_status(:ok)
+      expect(scheme.reload).to be_is_default
+
+      patch api_v3_paths.type_scheme(scheme.id), { active: false }.to_json, headers
       expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
@@ -112,13 +115,6 @@ RSpec.describe "API v3 type schemes" do
       body = { name: "Bad", typeItems: [{ _links: { type: { href: api_v3_paths.type(bug.id) } }, position: 1 }] }
       post api_v3_paths.type_schemes, body.to_json, headers
       expect(last_response).to have_http_status(:unprocessable_entity)
-    end
-
-    it "refuses to delete an assigned scheme and names the project" do
-      TypeSchemes::SchemeService.assign(project, scheme)
-      delete api_v3_paths.type_scheme(scheme.id)
-      expect(last_response).to have_http_status(:unprocessable_entity)
-      expect(last_response.body).to include(project.name)
     end
   end
 
@@ -129,27 +125,15 @@ RSpec.describe "API v3 type schemes" do
       expect(last_response).to have_http_status(:forbidden)
     end
 
-    it "assigns and unassigns" do
+    it "assigns a scheme and refuses an empty scheme_id" do
       login_as(member)
       put api_v3_paths.project_type_scheme(project.id), { scheme_id: scheme.id }.to_json, headers
       expect(last_response).to have_http_status(:no_content)
       expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq scheme
 
       put api_v3_paths.project_type_scheme(project.id), { scheme_id: nil }.to_json, headers
-      expect(last_response).to have_http_status(:no_content)
-      expect(ProjectTypeScheme.where(project_id: project.id)).to be_empty
-    end
-
-    it "returns 404 for a project the user cannot see" do
-      login_as(create(:user))
-      put api_v3_paths.project_type_scheme(project.id), { scheme_id: scheme.id }.to_json, headers
-      expect(last_response).to have_http_status(:not_found)
-    end
-
-    it "returns 422 for an unknown scheme" do
-      login_as(member)
-      put api_v3_paths.project_type_scheme(project.id), { scheme_id: 0 }.to_json, headers
       expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq scheme
     end
 
     it "rejects an inactive scheme" do

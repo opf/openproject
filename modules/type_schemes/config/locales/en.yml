@@ -7,6 +7,7 @@ en:
     index:
       projects: "Number of projects"
       clone: "Clone"
+      default_scheme: "default"
       deactivate: "Deactivate"
       activate: "Activate"
     form:
@@ -14,10 +15,15 @@ en:
       position: "Position"
       default: "Default"
       is_default: "Default scheme for new projects"
+      default_scheme_hint: "Every project without an explicit scheme uses it. Make another scheme the default to change this."
+      drag_hint: "Drag the handle to reorder types, or use the arrow buttons (Alt + Up / Down on a row)."
+      drag_handle: "Drag to reorder %{type}"
+      move_up: "Move %{type} up"
+      move_down: "Move %{type} down"
+      moved: "%{type} moved to position %{position} of %{total}"
     project_settings:
       title: "Type scheme"
       scheme: "Type scheme"
-      none: "No scheme (all enabled types)"
       available_types: "Available types"
       missing_types: "These types belong to the scheme but are not enabled in this project: %{types}."
     confirm:
@@ -49,9 +55,14 @@ en:
               exactly_one_default: must contain exactly one default type.
               duplicate_types: must not contain the same type more than once.
               too_many: must not contain more than %{count} types.
-            project_assignments:
-              assigned_to_projects: "cannot be deleted while the scheme is assigned to: %{projects}."
+            active:
+              default_scheme_required: cannot be changed because this is the default scheme; make another scheme the default first.
+            is_default:
+              default_scheme_required: cannot be removed directly; make another scheme the default instead.
+            base:
+              cannot_be_deleted: Type schemes cannot be deleted. Deactivate them instead.
         project_type_scheme:
           attributes:
             scheme:
               inactive: must be active.
+              blank: must be selected.

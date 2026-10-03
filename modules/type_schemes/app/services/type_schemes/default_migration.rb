@@ -30,7 +30,6 @@
 
 module TypeSchemes
   class DefaultMigration
-    SCHEME_NAME = "Default Scheme"
     MODES = %w[dry_run auto manual].freeze
 
     Plan = Struct.new(:scheme_name, :type_names, :default_type_name, :project_names, keyword_init: true)
@@ -48,8 +47,8 @@ module TypeSchemes
       return plan if @mode == "dry_run" || plan.type_names.empty?
 
       TypeScheme.transaction do
-        scheme = find_or_create_scheme!
-        assign_projects(scheme) if @mode == "auto"
+        DefaultScheme.ensure!
+        assign_projects if @mode == "auto"
       end
       plan
     end
@@ -57,7 +56,7 @@ module TypeSchemes
     private
 
     def types
-      @types ||= Type.where(id: ProjectType.select(:type_id)).order(:position, :id).to_a
+      @types ||= Type.order(:position, :id).to_a
     end
 
     def unassigned_projects
@@ -65,29 +64,14 @@ module TypeSchemes
     end
 
     def build_plan
-      Plan.new(scheme_name: SCHEME_NAME,
+      Plan.new(scheme_name: DefaultScheme.current&.name || DefaultScheme::NAME,
                type_names: types.map(&:name),
-               default_type_name: types.first&.name,
+               default_type_name: DefaultScheme.task_type(types)&.name,
                project_names: @mode == "manual" ? [] : unassigned_projects.pluck(:name))
     end
 
-    def find_or_create_scheme!
-      TypeScheme.find_by(name: SCHEME_NAME) || create_scheme!
-    end
-
-    def create_scheme!
-      items = types.each_with_index.map do |type, index|
-        { type_id: type.id, position: index + 1, is_default: index.zero? }
-      end
-      make_default = @mode == "auto" && !TypeScheme.exists?(is_default: true)
-      result = SchemeService.create(name: SCHEME_NAME, items:, is_default: make_default)
-      raise ActiveRecord::RecordInvalid, result.result if result.failure?
-
-      result.result
-    end
-
-    def assign_projects(scheme)
-      unassigned_projects.find_each { |project| SchemeService.assign(project, scheme) }
+    def assign_projects
+      unassigned_projects.find_each { |project| SchemeService.assign_default(project) }
     end
   end
 end

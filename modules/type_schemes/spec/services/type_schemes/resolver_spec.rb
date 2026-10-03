@@ -110,8 +110,27 @@ RSpec.describe TypeSchemes::Resolver do
       TypeSchemes::SchemeService.assign(project, scheme)
       expect(described_class.for_project(project)).to eq scheme
 
-      TypeSchemes::SchemeService.unassign(project)
-      expect(described_class.for_project(project)).to be_nil
+      default = create(:type_scheme, types: [story], is_default: true)
+      TypeSchemes::SchemeService.assign(project, default)
+      expect(described_class.for_project(project)).to eq default
+    end
+  end
+
+  context "with a default scheme and no explicit assignment" do
+    let!(:default) { create(:type_scheme, types: [story, epic], is_default: true) }
+
+    it "falls back to the default scheme" do
+      expect(described_class.for_project(project)).to eq default
+      expect(described_class.allowed_types(project).to_a.first(2)).to eq([story, epic])
+    end
+
+    it "falls back to the default scheme when the assigned scheme is inactive" do
+      inactive = create(:type_scheme, types: [bug])
+      ProjectTypeScheme.create!(project:, scheme: inactive)
+      inactive.update_columns(active: false)
+      described_class.reset_cache
+
+      expect(described_class.for_project(project)).to eq default
     end
   end
 end

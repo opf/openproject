@@ -75,11 +75,23 @@ RSpec.describe "Type schemes administration" do
       expect(scheme.reload).not_to be_active
     end
 
-    it "deletes an unassigned scheme" do
+    it "offers no way to delete a scheme" do
       visit admin_type_schemes_path
-      within("tr", text: "Base") { click_button "Delete" }
+      expect(page).to have_no_button("Delete")
+    end
 
-      expect(page).to have_no_css("tr", text: "Base")
+    it "does not offer to deactivate the default scheme" do
+      scheme.update!(is_default: true)
+      visit admin_type_schemes_path
+      within("tr", text: "Base") { expect(page).to have_no_button("Deactivate") }
+    end
+
+    it "reactivates an inactive scheme" do
+      TypeSchemes::SchemeService.deactivate(scheme)
+      visit admin_type_schemes_path
+      within("tr", text: "Base") { click_button "Activate" }
+
+      expect(scheme.reload).to be_active
     end
 
     context "when assigned to a project with work packages" do
@@ -88,14 +100,6 @@ RSpec.describe "Type schemes administration" do
       before do
         TypeSchemes::SchemeService.assign(project, scheme)
         create_list(:work_package, 2, project:, type: type_b)
-      end
-
-      it "blocks deletion and names the project" do
-        visit admin_type_schemes_path
-        within("tr", text: "Base") { click_button "Delete" }
-
-        expect(page).to have_text("Assigned project")
-        expect(TypeScheme.exists?(scheme.id)).to be true
       end
 
       it "asks for confirmation before removing a type and saves only on confirm" do

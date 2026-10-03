@@ -28,7 +28,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%
   items = scheme.items.index_by(&:type_id)
-  all_types = Type.order(:position)
+  all_types = Type.order(:position).sort_by.with_index do |type, index|
+    item = items[type.id]
+    item ? [0, item.position, index] : [1, 0, index]
+  end
 %>
 <div class="form--field -required">
   <%= label_tag "type_scheme_name", TypeScheme.human_attribute_name(:name), class: "form--label" %>
@@ -40,26 +43,50 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 <div class="form--field">
   <%= label_tag "type_scheme_is_default", t("type_schemes.form.is_default"), class: "form--label" %>
-  <span class="form--field-container"><%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default" %></span>
+  <span class="form--field-container">
+    <%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default", disabled: scheme.persisted? && scheme.is_default %>
+    <% if scheme.persisted? && scheme.is_default %>
+      <span class="form--field-instructions"><%= t("type_schemes.form.default_scheme_hint") %></span>
+    <% end %>
+  </span>
 </div>
+<p><%= t("type_schemes.form.drag_hint") %></p>
+<div data-controller="type-schemes--sortable-types"
+     data-type-schemes--sortable-types-moved-text-value="<%= t("type_schemes.form.moved") %>">
 <table class="generic-table">
   <thead>
     <tr>
+      <th></th>
       <th><%= t("type_schemes.form.enabled") %></th>
       <th><%= Type.model_name.human %></th>
       <th><%= t("type_schemes.form.position") %></th>
       <th><%= t("type_schemes.form.default") %></th>
+      <th></th>
     </tr>
   </thead>
-  <tbody>
+  <tbody data-type-schemes--sortable-types-target="list">
     <% all_types.each_with_index do |type, index| %>
       <% item = items[type.id] %>
-      <tr>
+      <tr data-type-schemes--sortable-types-target="row"
+          data-action="dragover->type-schemes--sortable-types#over drop->type-schemes--sortable-types#drop keydown->type-schemes--sortable-types#keydown">
+        <td>
+          <span class="DragHandle" draggable="true" role="img" aria-label="<%= t("type_schemes.form.drag_handle", type: type.name) %>"
+                data-action="dragstart->type-schemes--sortable-types#start dragend->type-schemes--sortable-types#end"
+                style="cursor: grab;">&#x2630;</span>
+        </td>
         <td><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", "aria-label": type.name %></td>
         <td><%= type.name %></td>
-        <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 1, "aria-label": "#{t("type_schemes.form.position")}: #{type.name}" %></td>
+        <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 0, max: 99_999, "aria-label": "#{t("type_schemes.form.position")}: #{type.name}", data: { "type-schemes--sortable-types-target": "position" } %></td>
         <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": "#{t("type_schemes.form.default")}: #{type.name}" %></td>
+        <td>
+          <button type="button" hidden data-type-schemes--sortable-types-target="control"
+                  data-action="type-schemes--sortable-types#up" aria-label="<%= t("type_schemes.form.move_up", type: type.name) %>">&#x2191;</button>
+          <button type="button" hidden data-type-schemes--sortable-types-target="control"
+                  data-action="type-schemes--sortable-types#down" aria-label="<%= t("type_schemes.form.move_down", type: type.name) %>">&#x2193;</button>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+<div class="sr-only" role="status" aria-live="polite" data-type-schemes--sortable-types-target="status"></div>
+</div>
