@@ -29,39 +29,37 @@
 # ++
 
 module My
-  module WorkHelper
-    def week_date_range(date)
-      date_range(week_days(date).first, week_days(date).last)
-    end
+  module Work
+    # The action menus of the cards in the calendar views, which open them at the pointer
+    # through the event they belong to. Kept out of sight rather than hidden, as a popover
+    # inside a `display: none` ancestor cannot open.
+    class EntryMenusComponent < ApplicationComponent
+      options time_entries: [],
+              allocations: nil
 
-    # The work week leaves out the days that are not worked, so it is the range it covers
-    # rather than the week around it that names it.
-    def workweek_date_range(date)
-      date_range(workweek_days(date).first, workweek_days(date).last)
-    end
+      def call
+        render(Primer::Box.new(classes: "sr-only", data: { "my-work-menus": true })) do
+          safe_join(time_entry_menus + allocation_menus)
+        end
+      end
 
-    def week_days(date)
-      date.all_week(OpenProject::Internationalization::Date.beginning_of_week)
-    end
+      private
 
-    def workweek_days(date)
-      worked = Setting.working_days.map { |day| day % 7 }
+      def time_entry_menus
+        time_entries.map do |time_entry|
+          menu_for(time_entry.id, TimeEntryActionMenuComponent.new(time_entry:, navigation: true))
+        end
+      end
 
-      week_days(date).select { |day| worked.include?(day.wday) }
-    end
+      def allocation_menus
+        RemainingAllocations.call(allocations:, time_entries:).map do |allocation|
+          event_id = FullCalendar::ResourceAllocationEvent.id_for(allocation.scheduled_entry)
+          menu_for(event_id, AllocationActionMenuComponent.new(allocation:, navigation: true))
+        end
+      end
 
-    # A month is listed by week, so its sections stand for the week starting on their date.
-    def list_section_dates(date, mode)
-      mode.to_sym == :month ? date..(date + 6.days) : date..date
-    end
-
-    def date_range(from, to)
-      if from.year == to.year && from.month == to.month
-        [I18n.l(from, format: "%d."), I18n.l(to, format: "%d. %B %Y")].join(" - ")
-      elsif from.year == to.year
-        [I18n.l(from, format: "%d. %B"), I18n.l(to, format: "%d. %B %Y")].join(" - ")
-      else
-        [I18n.l(from, format: "%d. %B %Y"), I18n.l(to, format: "%d. %B %Y")].join(" - ")
+      def menu_for(event_id, menu)
+        render(Primer::Box.new(data: { "my-work-menu-for": event_id })) { render(menu) }
       end
     end
   end

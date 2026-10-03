@@ -41,6 +41,10 @@ module My
 
       delegate :work_package, to: :allocation
 
+      def button_links
+        [render(My::Work::AllocationActionMenuComponent.new(allocation:))]
+      end
+
       def spent_on
         format_date(allocation.allocated_on)
       end

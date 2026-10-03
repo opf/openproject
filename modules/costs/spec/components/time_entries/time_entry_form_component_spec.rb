@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,32 +26,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module My
-  module Work
-    class ListWrapperComponent < ApplicationComponent
-      include OpTurbo::Streamable
-      include My::WorkHelper
+require "rails_helper"
 
-      options :time_entries, :date, :mode
-      options allocations: nil
+RSpec.describe TimeEntries::TimeEntryFormComponent, type: :component do
+  let(:project) { build_stubbed(:project) }
+  let(:work_package) { build_stubbed(:work_package, project:, subject: "Plan the conference") }
+  let(:time_entry) { build(:time_entry, entity: work_package, project:, user: build_stubbed(:user)) }
 
-      def wrapper_key
-        "time-entries-list-#{options[:date].iso8601}"
-      end
+  current_user { build_stubbed(:admin) }
 
-      def call
-        component_wrapper do
-          render(My::Work::TimeEntriesListComponent.new(rows: time_entries.to_a + remaining_allocations, date:, mode:))
-        end
-      end
+  subject(:rendered_component) do
+    render_inline(described_class.new(time_entry:, show_work_package: false, show_user: false))
+  end
 
-      private
+  context "when the dialog is fixed on a work package" do
+    it "shows the work package in a disabled field" do
+      expect(rendered_component).to have_field("Work package", with: "#{work_package.formatted_id} Plan the conference",
+                                                               disabled: true)
+    end
 
-      def remaining_allocations
-        @remaining_allocations ||= RemainingAllocations.call(allocations:, time_entries:, dates: list_section_dates(date, mode))
-      end
+    it "still submits the work package" do
+      expect(rendered_component).to have_field("time_entry[entity_id]", with: work_package.id.to_s, type: :hidden)
     end
   end
 end

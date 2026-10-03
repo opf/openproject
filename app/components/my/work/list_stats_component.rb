@@ -32,9 +32,10 @@ module My
   module Work
     class ListStatsComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include My::WorkHelper
 
       options :time_entries, :date
-      options allocations: [],
+      options allocations: nil,
               mode: :day
 
       def wrapper_key
@@ -81,15 +82,16 @@ module My
       end
 
       def allocated_hours
-        @allocated_hours ||= RemainingAllocations.call(allocations:, time_entries:).sum(&:hours).round(2)
+        @allocated_hours ||= RemainingAllocations
+                               .call(allocations:, time_entries:, dates: list_section_dates(date, mode))
+                               .sum(&:hours)
+                               .round(2)
       end
 
-      # A month is listed by week, so its sections stand for the week starting on their date.
       def scheduled_hours
-        @scheduled_hours ||= begin
-          range = mode.to_sym == :month ? date..(date + 6.days) : date..date
-          ResourceAllocations::WorkingTimeCalendar.new(user: User.current, range:).total / 60.0
-        end
+        @scheduled_hours ||= ResourceAllocations::WorkingTimeCalendar
+                               .new(user: User.current, range: list_section_dates(date, mode))
+                               .total / 60.0
       end
 
       def duration(hours)

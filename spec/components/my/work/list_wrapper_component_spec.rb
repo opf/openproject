@@ -70,14 +70,14 @@ RSpec.describe My::Work::ListWrapperComponent, type: :component do
     let(:work_package) { create(:work_package, subject: "Plan the conference") }
     let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
     let(:visible) { true }
-    let(:allocation_event) do
+    let(:allocations) do
       entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 360)
-      FullCalendar::ResourceAllocationEvent.from_scheduled_entry(entry, visible:)
+      instance_double(ResourceAllocations::AllocatedTimeFor, items: [entry], visible?: visible)
     end
     let(:time_entries) { [] }
 
     subject(:rendered_component) do
-      render_component(time_entries:, allocations: [allocation_event], date:, mode:)
+      render_component(time_entries:, allocations:, date:, mode:)
     end
 
     it_behaves_like "rendering Box", row_count: 1

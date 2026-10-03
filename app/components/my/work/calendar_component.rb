@@ -36,7 +36,7 @@ module My
       include ScheduledHours
 
       options time_entries: [],
-              allocations: [],
+              allocations: nil,
               entries: :all,
               mode: :week,
               date: Date.current
@@ -49,7 +49,7 @@ module My
           "my--work-mode-value" => mode,
           "my--work-view-mode-value" => "calendar",
           "my--work-time-entries-value" => time_entries_json,
-          "my--work-allocations-value" => allocations.to_json,
+          "my--work-allocations-value" => allocation_events_json,
           "my--work-initial-date-value" => date.iso8601,
           "my--work-today-value" => User.current.today.iso8601,
           "my--work-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
@@ -68,6 +68,10 @@ module My
         time_entries.map do |time_entry|
           FullCalendar::TimeEntryEvent.from_time_entry(time_entry)
         end.to_json
+      end
+
+      def allocation_events_json
+        (allocations&.events || []).to_json
       end
 
       def total_hours
