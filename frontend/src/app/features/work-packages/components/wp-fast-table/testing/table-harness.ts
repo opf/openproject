@@ -98,6 +98,8 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
+  /** Retains the root so a replacement table can mount with a fresh injector. */
+  dom?:ReturnType<typeof buildDom>;
   columns?:string[];
   /** Renders the table grouped by `groupBy` (default `status`) with one header row per group. */
   groups?:GroupFixture[];
@@ -169,7 +171,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
-  const dom = buildDom();
+  const dom = options.dom ?? buildDom();
 
   const groupBy = options.groupBy ?? 'status';
   const query = buildQuery(
@@ -312,7 +314,8 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       await nextFrame();
       await nextTask();
       querySpace.stopAllSubscriptions.next();
-      dom.wrapper.remove();
+      table.destroy();
+      if (!options.dom) dom.wrapper.remove();
       injector.destroy();
     },
   };
@@ -452,7 +455,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
   ];
 }
 
-function buildDom() {
+export function buildDom() {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
     <div class="work-packages-tabletimeline--table-side">
