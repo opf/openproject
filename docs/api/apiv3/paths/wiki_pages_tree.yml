@@ -1,0 +1,37 @@
+# /api/v3/projects/{project_id}/wiki_pages/tree
+---
+get:
+  summary: Wiki Pages Tree
+  operationId: Wiki_Pages_Tree
+  tags:
+    - Wiki Pages
+  description: |-
+    Returns the project's wiki pages as a hierarchical tree (`children` is recursive).
+
+    **Required permission:** `view_wiki_pages` in the project.
+  parameters:
+    - name: project_id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 12
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_tree_model.yml'
+    '403':
+      description: Returned if the user lacks `view_wiki_pages` in the project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the project does not exist or its wiki module is not enabled.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'

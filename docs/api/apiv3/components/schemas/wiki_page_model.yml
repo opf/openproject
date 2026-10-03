@@ -2,8 +2,12 @@
 ---
 type: object
 required:
-- title
+  - title
 properties:
+  _type:
+    type: string
+    enum: [WikiPage]
+    readOnly: true
   id:
     type: integer
     description: Identifier of this wiki page
@@ -12,35 +16,137 @@ properties:
   title:
     type: string
     description: The wiki page's title
+  slug:
+    type: string
+    description: URL-friendly identifier derived from the title
+    readOnly: true
+  locked:
+    type: boolean
+    description: Whether the page is protected from being edited (requires `manage_wiki` to change)
+  lockVersion:
+    type: integer
+    description: Optimistic-locking counter. Must be echoed back on `PATCH` to detect concurrent edits.
+    readOnly: true
+  version:
+    type: integer
+    description: Current journal version number of the page
+    readOnly: true
+  text:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: The page's body in markdown
+  createdAt:
+    type: string
+    format: date-time
+    description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of last update
+    readOnly: true
   _links:
     type: object
     properties:
+      self:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: This wiki page
+            readOnly: true
+      update:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Update this wiki page (PATCH).
+
+              **Permission**: edit_wiki_pages
+            readOnly: true
+      delete:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Delete this wiki page (DELETE).
+
+              **Permission**: manage_wiki
+            readOnly: true
+      versions:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: List of journal versions of this page
+            readOnly: true
+      parent:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              Parent wiki page, if any.
+
+              **Resource**: WikiPage
+            readOnly: true
+      author:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The user that created this page.
+
+              **Resource**: User
+            readOnly: true
+      project:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: |-
+              The project this wiki page belongs to.
+
+              **Resource**: Project
+      attachments:
+        allOf:
+          - "$ref": "./link.yml"
+          - description: The attachments associated with the page
+            readOnly: true
       addAttachment:
         allOf:
-        - "$ref": "./link.yml"
-        - description: |-
-            Attach a file to the wiki page
+          - "$ref": "./link.yml"
+          - description: |-
+              Attach a file to the wiki page.
 
-            # Conditions
-
-            **Permission**: edit wiki page
-          readOnly: true
+              **Permission**: edit_wiki_pages
+            readOnly: true
 example:
   _type: WikiPage
   id: 72
   title: A wiki page with a name
-  _embedded:
-    project:
-      _type: Project...
-      id: 12
+  slug: a-wiki-page-with-a-name
+  locked: false
+  lockVersion: 0
+  version: 3
+  text:
+    format: markdown
+    raw: "**Bold** text on a wiki page"
+    html: "<p><strong>Bold</strong> text on a wiki page</p>"
+  createdAt: '2026-03-20T12:57:01.601Z'
+  updatedAt: '2026-04-02T08:13:05.123Z'
   _links:
     self:
       href: "/api/v3/wiki_pages/72"
+      title: A wiki page with a name
+    update:
+      href: "/api/v3/wiki_pages/72"
+      method: patch
+    delete:
+      href: "/api/v3/wiki_pages/72"
+      method: delete
+    versions:
+      href: "/api/v3/wiki_pages/72/versions"
+    parent:
+      href: "/api/v3/wiki_pages/40"
+      title: Parent page
+    author:
+      href: "/api/v3/users/5"
+      title: John Smith
+    project:
+      href: "/api/v3/projects/12"
+      title: Demo project
     attachments:
       href: "/api/v3/wiki_pages/72/attachments"
     addAttachment:
       href: "/api/v3/wiki_pages/72/attachments"
       method: post
-    project:
-      href: "/api/v3/projects/12"
-      title: some project

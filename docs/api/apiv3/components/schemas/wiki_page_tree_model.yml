@@ -1,0 +1,50 @@
+# Schema: Wiki_PageTreeModel
+---
+type: object
+description: |-
+  Hierarchical representation of all wiki pages in a project. Each node carries
+  a `children` array of the same shape.
+properties:
+  _type:
+    type: string
+    enum: [Collection]
+    readOnly: true
+  total:
+    type: integer
+    description: Total number of pages in the wiki (flat count)
+    readOnly: true
+  tree:
+    type: array
+    items:
+      $ref: "./wiki_page_tree_node_model.yml"
+example:
+  _type: Collection
+  total: 4
+  tree:
+    - _type: WikiPage
+      id: 40
+      title: Parent page
+      slug: parent-page
+      _links:
+        self:
+          href: "/api/v3/wiki_pages/40"
+          title: Parent page
+      children:
+        - _type: WikiPage
+          id: 72
+          title: A wiki page with a name
+          slug: a-wiki-page-with-a-name
+          _links:
+            self:
+              href: "/api/v3/wiki_pages/72"
+              title: A wiki page with a name
+          children: []
+    - _type: WikiPage
+      id: 50
+      title: Top-level page
+      slug: top-level-page
+      _links:
+        self:
+          href: "/api/v3/wiki_pages/50"
+          title: Top-level page
+      children: []
