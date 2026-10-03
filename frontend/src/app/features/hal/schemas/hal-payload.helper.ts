@@ -84,7 +84,7 @@ export class HalPayloadHelper {
         if (Array.isArray(resource[property])) {
           payload[property] = (resource[property] as HalResource[]).map((element) => {
             if (element instanceof HalResource) {
-              return this.extractPayloadFromSchema(element, element.currentSchema || element.schema);
+              return this.extractPayloadFromSchema(element, (element.currentSchema ?? element.schema) as SchemaResource);
             }
             return element;
           });

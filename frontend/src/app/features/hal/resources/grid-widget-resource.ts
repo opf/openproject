@@ -57,6 +57,8 @@ export class GridWidgetResource extends HalResource {
 
   public grid:GridResource;
 
+  public isNewWidget:boolean;
+
   public get schema():SchemaResource {
     return this.halResource.createHalResource({ _type: 'Schema' }, true);
   }

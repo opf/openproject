@@ -34,6 +34,6 @@ export class HoursDurationDisplayField extends DisplayField {
   @LazyInject() timezoneService:TimezoneService;
 
   public get valueString() {
-    return this.timezoneService.formattedDuration(this.value, 'hour');
+    return this.timezoneService.formattedDuration(this.value as string, 'hour');
   }
 }

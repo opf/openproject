@@ -125,7 +125,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         break;
       case 'copy':
         if (this.workPackage.id) {
-          window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier, this.workPackage.id)}`;
+          window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier as string|null, this.workPackage.id)}`;
         }
         break;
       case 'delete': {

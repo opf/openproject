@@ -36,7 +36,7 @@ export class WorkPackageDisplayField extends DisplayField {
   };
 
   public get value() {
-    return this.resource[this.name];
+    return this.resource[this.name] as WorkPackageResource;
   }
 
   public get title() {
@@ -55,7 +55,7 @@ export class WorkPackageDisplayField extends DisplayField {
       return this.value.id;
     }
 
-    return this.value.href.match(/(\d+)$/)[0];
+    return /(\d+)$/.exec(this.value.href!)![0];
   }
 
   /**

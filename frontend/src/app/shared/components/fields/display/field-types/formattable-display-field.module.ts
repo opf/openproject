@@ -70,7 +70,7 @@ export class FormattableDisplayField extends DisplayField {
     if (!this.schema) {
       return null;
     }
-    const element = this.resource[this.name];
+    const element = this.resource[this.name] as api.v3.Formattable|null|undefined;
     if (!(element?.html)) {
       return '';
     }

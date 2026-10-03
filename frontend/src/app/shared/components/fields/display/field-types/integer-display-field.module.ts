@@ -30,7 +30,7 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 
 export class IntegerDisplayField extends DisplayField {
   public get value() {
-    return parseInt(this.resource[this.name]);
+    return parseInt(this.resource[this.name] as string);
   }
 
   public isEmpty():boolean {

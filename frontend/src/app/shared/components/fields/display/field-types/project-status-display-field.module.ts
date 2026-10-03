@@ -31,10 +31,11 @@ import {
   projectStatusCodeCssClass,
   projectStatusI18n,
 } from 'core-app/shared/components/fields/helpers/project-status-helper';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    const code = this.value?.id;
+    const code = (this.value as HalResource|null|undefined)?.id;
 
     const bulb = document.createElement('span');
     bulb.classList.add('project-status--bulb', projectStatusCodeCssClass(code));

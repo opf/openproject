@@ -84,6 +84,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import Mousetrap from 'mousetrap';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -566,7 +567,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const changedGroupId = groupIdFromIdentifier(groupIdentifier);
     const changedGroupType = groupTypeFromIdentifier(groupIdentifier);
-    const changedGroupTableWorkPackages = tableWorkPackages.filter((tableWorkPackage) => tableWorkPackage[changedGroupType].id === changedGroupId);
+    const changedGroupTableWorkPackages = tableWorkPackages.filter((tableWorkPackage) => (tableWorkPackage[changedGroupType] as HalResource).id === changedGroupId);
     const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter((tableWorkPackage) => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage)
       && (tableWorkPackage.date || tableWorkPackage.startDate));
     const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map((workPackage) => workPackage.id!);

@@ -98,7 +98,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
   }
 
   public get valueString():string {
-    return this.value;
+    return this.value as string;
   }
 
   public get placeholder():string {

@@ -41,7 +41,7 @@ export class HighlightedResourceDisplayField extends HighlightableDisplayField {
 
   public get value() {
     if (this.schema) {
-      return this.attribute?.name;
+      return (this.attribute as HalResource|null|undefined)?.name;
     }
     return null;
   }
