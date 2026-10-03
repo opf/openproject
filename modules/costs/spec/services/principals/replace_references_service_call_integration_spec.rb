@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,27 +26,45 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class CustomFields::IndexPageHeaderComponent < ApplicationComponent
-  include OpPrimer::ComponentHelpers
-  include ApplicationHelper
-  include TabsHelper
+require "spec_helper"
+require Rails.root.join("spec/services/principals/replace_references_context")
 
-  def initialize(tabs: nil)
-    super
-    @tabs = tabs
+RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
+  subject(:service_call) { instance.call(from: principal, to: to_principal) }
+
+  shared_let(:other_user) { create(:user) }
+  shared_let(:principal) { create(:user) }
+  shared_let(:to_principal) { create(:user) }
+
+  let(:instance) do
+    described_class.new
   end
 
-  def breadcrumb_items
-    [
-      { href: admin_index_path, text: t("label_administration") },
-      helpers.nested_breadcrumb_element(t(:label_custom_field_plural),
-                                        I18n.t(currently_selected_tab[:label].to_s))
-    ]
-  end
+  context "with CostEntry" do
+    let(:cost_entry_attributes) do
+      { project_id: 1,
+        cost_type_id: 1,
+        units: 1,
+        spent_on: "date '2012-02-02'",
+        comments: "''",
+        blocked: false,
+        tyear: 2012,
+        tmonth: 2,
+        tweek: 5 }
+    end
 
-  def currently_selected_tab
-    @currently_selected_tab ||= selected_tab(@tabs)
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :user_id do
+      let(:attributes) { cost_entry_attributes.merge(logged_by_id: principal.id) }
+    end
+
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :logged_by_id do
+      let(:attributes) { cost_entry_attributes.merge(user_id: principal.id) }
+    end
   end
 end

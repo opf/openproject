@@ -256,6 +256,7 @@ af:
   label_status_finished: Finished
   label_time: Time
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Started at %{time}
   label_today_capitalized: Today

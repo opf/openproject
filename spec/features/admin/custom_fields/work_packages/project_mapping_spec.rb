@@ -63,8 +63,8 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       aggregate_failures "shows a correct breadcrumb menu" do
         within ".PageHeader-breadcrumbs" do
           expect(page).to have_link("Administration")
-          expect(page).to have_link("Custom fields")
           expect(page).to have_link("Work packages")
+          expect(page).to have_link("Custom fields")
           expect(page).to have_text(custom_field.name)
         end
       end

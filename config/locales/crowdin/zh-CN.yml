@@ -116,6 +116,7 @@ zh-CN:
         caption: 标题
         help_text: 帮助文本
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 客户端
       calculated_value_error:
         customized_id: 自定义ID
@@ -644,6 +645,7 @@ zh-CN:
         unknown_property: 不是已知属性。
         unknown_property_nested: 具有未知路径“%{path}”。
         unremovable: 不能删除。
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: '未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。
 
           '
@@ -2369,6 +2371,10 @@ zh-CN:
     work_package: 工作包
     work_package_id: 工作包
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: 登录和注册
   background_jobs:
     status:
@@ -2694,16 +2700,17 @@ zh-CN:
     is_enabled_globally: 已全局启用
     multi_value_more:
       other: 和其他 %{count} 个
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: 无角色指定
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: 需要先选择工作包或项目
     reorder_alphabetical: 按字母顺序重新排序
     reorder_confirmation: 警告：当前的可用值顺序以及所有未保存的值都将丢失。确定要继续吗？
     semantic_keys:
       job_title: 职务名称
       none: 无
-    tab:
-      no_results_content_text: 创建新的自定义字段
-      no_results_title_text: 目前没有自定义字段。
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -3857,6 +3864,7 @@ zh-CN:
   label_go_forward: 打开 %{module} 子菜单
   label_greater_or_equal: ">="
   label_group: 组
+  label_group_attributes_plural: Group attributes
   label_group_by: 分组依据
   label_group_named: 组 %{name}
   label_group_new: 新的组
@@ -4262,6 +4270,7 @@ zh-CN:
   label_user_settings: 用户设置
   label_users_settings: 用户设置
   label_value_x: '值: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: 编辑版本
   label_version_new: 新版本
   label_version_plural: 版本
@@ -6151,6 +6160,7 @@ zh-CN:
         '
       title: 病毒扫描
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: '禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
 
         '
@@ -6296,6 +6306,7 @@ zh-CN:
         heading: 新阶段
       no_gate: 无关口
       non_defined: 当前没有定义阶段。
+      order_changed: Order successfully changed.
       phase_gates: 阶段关口
       section_header: 阶段
       start_gate: 开始关口
@@ -6791,6 +6802,7 @@ zh-CN:
             label_enable_all: 全部启用
             label_toggle_template: 切换 %{template}
           label: PDF 导出模板
+          order_changed: Order successfully changed.
         tab: 生成 PDF
         templates:
           readonly_error: 链接到源类型时无法更改。

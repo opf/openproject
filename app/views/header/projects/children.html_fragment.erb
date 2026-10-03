@@ -26,11 +26,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { I18n.t(:label_custom_field_plural) }
-    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
 
-    helpers.render_tab_header_nav(header, @tabs, test_selector: "custom-fields--tab-nav")
-  end
-%>
+<%= render(Primer::Alpha::TreeView::SubTree.new(path: @path, node_variant: :anchor)) do |sub| %>
+  <% @children_nodes.each do |node| %>
+    <%= render Header::Projects::NodeComponent.new(
+          component: sub,
+          node:,
+          current_project_id: @current_project_id,
+          favorited_ids: @favorited_ids,
+          jump: @jump
+        ) %>
+  <% end %>
+<% end %>

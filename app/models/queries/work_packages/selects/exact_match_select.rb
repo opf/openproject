@@ -80,15 +80,11 @@ class Queries::WorkPackages::Selects::ExactMatchSelect < Queries::WorkPackages::
   end
 
   def self.numeric_exact_match_condition(candidate, hash_prefixed:)
-    if Setting::WorkPackageIdentifier.classic? || hash_prefixed
-      OpenProject::SqlSanitization.sanitize(
-        "#{WorkPackage.table_name}.id = ?", candidate.to_i
-      )
-    else
-      OpenProject::SqlSanitization.sanitize(
-        "#{WorkPackage.table_name}.sequence_number = ?", candidate.to_i
-      )
-    end
+    column = Setting::WorkPackageIdentifier.classic? || hash_prefixed ? "id" : "sequence_number"
+    value = candidate.to_i
+    return nil unless WorkPackage.type_for_attribute(column).serializable?(value)
+
+    OpenProject::SqlSanitization.sanitize("#{WorkPackage.table_name}.#{column} = ?", value)
   end
 
   def self.semantic_exact_match_condition(candidate, hash_prefixed:)

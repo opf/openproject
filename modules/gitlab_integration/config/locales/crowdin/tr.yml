@@ -32,6 +32,10 @@ tr:
         labels: Etiketler
       gitlab_pipeline:
         ci_details: CI Detayları
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,13 +65,10 @@ tr:
   attributes:
     commit: İşlem
     gitlab: GitLab tanımlayıcı
-    gitlab_avatar_url: Avatar adresi
     gitlab_html_url: GitLab HTML adresi
     gitlab_merge_request: Birleştirme İsteği
-    gitlab_name: GitLab adı
     gitlab_updated_at: Güncellenme tarihi
     gitlab_user_avatar_url: GitLab avatar adresi
-    gitlab_username: GitLab kullanıcı adı
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

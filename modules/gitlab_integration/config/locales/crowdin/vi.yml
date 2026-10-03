@@ -32,6 +32,10 @@ vi:
         labels: Nhãn
       gitlab_pipeline:
         ci_details: Chi tiết CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ vi:
   attributes:
     commit: cam kết
     gitlab: Mã định danh GitLab
-    gitlab_avatar_url: URL hình đại diện
     gitlab_html_url: URL HTML của GitLab
     gitlab_merge_request: Yêu cầu hợp nhất
-    gitlab_name: Tên GitLab
     gitlab_updated_at: Cập nhật lúc
     gitlab_user_avatar_url: URL hình đại diện GitLab
-    gitlab_username: tên người dùng GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

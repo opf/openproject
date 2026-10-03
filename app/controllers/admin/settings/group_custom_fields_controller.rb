@@ -27,25 +27,24 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module WorkPackage::Exports
-  module Formatters
-    class SpentUnits < ::Exports::Formatters::Default
-      def self.apply?(name, _export_format)
-        %i[costs_by_type spent_units].include?(name.to_sym)
+
+module Admin
+  module Settings
+    class GroupCustomFieldsController < CustomFieldsBaseController
+      menu_item :group_custom_fields
+
+      protected
+
+      def custom_field_class
+        GroupCustomField
       end
 
-      def format(work_package, **)
-        cost_helper = ::Costs::AttributesHelper.new(work_package, User.current)
-        values = cost_helper.summarized_cost_entries.map do |kvp|
-          cost_type = kvp[0]
-          volume = kvp[1]
-          BigDecimal("1.0")
-          type_unit = volume.to_d == BigDecimal("1.0") ? cost_type.unit : cost_type.unit_plural
-          "#{volume} #{type_unit}"
-        end
-        return nil if values.empty?
+      def custom_field_page_title
+        t(:label_group_attributes_plural)
+      end
 
-        values.join(", ")
+      def section_label
+        t(:label_user_and_permission)
       end
     end
   end

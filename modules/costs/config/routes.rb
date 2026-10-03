@@ -102,6 +102,18 @@ Rails.application.routes.draw do
           get :reassign
         end
       end
+
+      resources :time_entry_custom_fields, controller: "/admin/settings/time_entry_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+      end
     end
 
     resources :cost_types, only: %i[index new edit update create destroy] do

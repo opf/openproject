@@ -43,21 +43,12 @@ module CustomFields
 
     alias_method :custom_field, :model
 
-    def form_url
-      if model.new_record?
-        case model.type
-        when "ProjectCustomField" then admin_settings_project_custom_fields_path
-        when "UserCustomField" then admin_settings_user_custom_fields_path
-        else custom_fields_path
-        end
-      else
-        case model.type
-        when "ProjectCustomField" then admin_settings_project_custom_field_path(model)
-        when "UserCustomField" then admin_settings_user_custom_field_path(model)
-        else custom_field_path(model)
-        end
-      end
+    def initialize(model = nil, form_url:, **)
+      super(model, **)
+      @form_url = form_url
     end
+
+    attr_reader :form_url
 
     def form_method
       model.new_record? ? :post : :put

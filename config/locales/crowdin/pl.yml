@@ -116,6 +116,7 @@ pl:
         caption: Podpis
         help_text: Tekst pomocy
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Klienci SCIM
       calculated_value_error:
         customized_id: Niestandardowy identyfikator
@@ -644,6 +645,7 @@ pl:
         unknown_property: nie jest znaną właściwością.
         unknown_property_nested: ma nieznaną ścieżkę '%{path}'.
         unremovable: nie można usunąć.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
 
           '
@@ -2736,6 +2738,10 @@ pl:
     work_package: Zadanie
     work_package_id: Pakiet roboczy
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Logowanie i rejestracja
   background_jobs:
     status:
@@ -3061,16 +3067,17 @@ pl:
     is_enabled_globally: Jest włączony globalnie
     multi_value_more:
       other: i jeszcze %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Brak przypisanie roli
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: W pierwszej kolejności wymagany jest wybór pakietu roboczego lub projektu
     reorder_alphabetical: Ustaw kolejność wartości alfabetycznie
     reorder_confirmation: 'Ostrzeżenie: bieżąca kolejność dostępnych wartości oraz wszystkie niezapisane wartości zostaną utracone. Czy na pewno chcesz kontynuować?'
     semantic_keys:
       job_title: Stanowisko
       none: Brak
-    tab:
-      no_results_content_text: Utwórz pole użytkownika
-      no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
     text_add_new_custom_field: 'Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
 
       '
@@ -4310,6 +4317,7 @@ pl:
   label_go_forward: Otwórz podmenu %{module}
   label_greater_or_equal: "≥"
   label_group: Grupa
+  label_group_attributes_plural: Group attributes
   label_group_by: Grupuj według
   label_group_named: Grupa %{name}
   label_group_new: Nowa Grupa
@@ -4715,6 +4723,7 @@ pl:
   label_user_settings: Ustawienia użytkownika
   label_users_settings: Ustawienia użytkowników
   label_value_x: 'Wartość: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edytuj wersję
   label_version_new: Nowa wersja
   label_version_plural: Wersje
@@ -6677,6 +6686,7 @@ pl:
         '
       title: Skanowanie antywirusowe
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Wyłączenie tej opcji spowoduje ukrycie listy załączników na karcie plików pakietów roboczych dla nowych projektów. Pliki załączone w opisie pakietu roboczego będą nadal przesyłane do wewnętrznego magazynu załączników.
 
         '
@@ -6821,6 +6831,7 @@ pl:
         heading: Nowa faza
       no_gate: Brak bramki
       non_defined: Obecnie nie są zdefiniowane żadne fazy.
+      order_changed: Order successfully changed.
       phase_gates: Bramki faz
       section_header: Fazy
       start_gate: Bramka początkowa
@@ -7319,6 +7330,7 @@ pl:
             label_enable_all: Włącz wszystkie
             label_toggle_template: Przełącz %{template}
           label: Szablony eksportu PDF
+          order_changed: Order successfully changed.
         tab: Wygeneruj PDF
         templates:
           readonly_error: Nie można zmienić, dopóki jest powiązany z typem źródła.

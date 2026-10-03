@@ -256,6 +256,7 @@ pt-PT:
   label_status_finished: Terminado
   label_time: Hora
   label_time_entry_activity_form_description: As alterações a esta atividade de registo de tempo serão refletidas em todos os projetos em que estiver ativado.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limites
   label_timer_since: Iniciado em %{time}
   label_today_capitalized: Hoje

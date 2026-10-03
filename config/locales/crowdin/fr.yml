@@ -116,6 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -644,6 +645,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -2490,6 +2492,10 @@ fr:
     work_package: Lot de travaux
     work_package_id: Lot de travaux
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Connexion et inscription
   background_jobs:
     status:
@@ -2815,16 +2821,17 @@ fr:
     is_enabled_globally: Est activé globalement
     multi_value_more:
       other: et %{count} autres
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Aucune attribution de rôle
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: La sélection d'un lot de travaux ou d'un projet est requise en premier lieu
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
       job_title: Intitulé du poste
       none: Aucun
-    tab:
-      no_results_content_text: Créer un nouveau champ personnalisé
-      no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -4008,6 +4015,7 @@ fr:
   label_go_forward: Ouvrir le sous-menu %{module}
   label_greater_or_equal: ">="
   label_group: Groupe
+  label_group_attributes_plural: Group attributes
   label_group_by: Grouper par
   label_group_named: Groupe %{name}
   label_group_new: Nouveau groupe
@@ -4413,6 +4421,7 @@ fr:
   label_user_settings: Paramètres de l'utilisateur
   label_users_settings: Paramètres des utilisateurs
   label_value_x: 'Valeur : %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Modifier la version
   label_version_new: Nouvelle version
   label_version_plural: Versions
@@ -6336,6 +6345,7 @@ fr:
         '
       title: Analyse de virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes.
 
         '
@@ -6481,6 +6491,7 @@ fr:
         heading: Nouvelle phase
       no_gate: Aucune porte
       non_defined: Aucune phase n'est actuellement définie.
+      order_changed: Order successfully changed.
       phase_gates: Portes de phase
       section_header: Phases
       start_gate: Porte de début
@@ -6973,6 +6984,7 @@ fr:
             label_enable_all: Activer tout
             label_toggle_template: Activer/désactiver %{template}
           label: Modèles d'exportation PDF
+          order_changed: Order successfully changed.
         tab: Générer un fichier PDF
         templates:
           readonly_error: Ne peut pas être modifié tant qu'il est lié à un type source.
