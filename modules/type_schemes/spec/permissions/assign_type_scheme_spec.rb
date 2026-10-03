@@ -28,37 +28,14 @@
 
 # frozen_string_literal: true
 
-require "open_project/plugins"
+require "spec_helper"
 
-module OpenProject::TypeSchemes
-  class Engine < ::Rails::Engine
-    engine_name :openproject_type_schemes
+RSpec.describe "assign_type_scheme permission" do # rubocop:disable RSpec/DescribeClass
+  subject(:permission) { OpenProject::AccessControl.permission(:assign_type_scheme) }
 
-    include OpenProject::Plugins::ActsAsOpEngine
-
-    register "openproject-type_schemes",
-             author_url: "https://www.openproject.org",
-             bundled: true do
-      menu :admin_menu,
-           :type_schemes,
-           { controller: "/admin/type_schemes", action: :index },
-           if: ->(_) { User.current.admin? },
-           caption: :"type_schemes.plural",
-           parent: :admin_work_packages
-
-      # Consumed by the project settings page (Task 6). Deliberately not inside a project_module,
-      # so it is usable without enabling a module per project.
-      project_module nil do
-        permission :assign_type_scheme,
-                   { "projects/settings/type_scheme": %i[show update] },
-                   permissible_on: :project,
-                   require: :member
-      end
-    end
-
-    config.to_prepare do
-      ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
-      ::WorkPackages::SetAttributesService.prepend(OpenProject::TypeSchemes::SetAttributesServicePatch)
-    end
+  it "is a project permission that requires membership" do
+    expect(permission).to be_present
+    expect(permission).to be_project
+    expect(permission).to be_require_member
   end
 end

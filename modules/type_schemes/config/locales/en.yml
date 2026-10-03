@@ -1,7 +1,30 @@
 en:
+  permission_assign_type_scheme: "Assign type scheme"
+  type_schemes:
+    plural: "Type schemes"
+    new: "New type scheme"
+    edit: "Edit type scheme"
+    index:
+      projects: "Number of projects"
+      clone: "Clone"
+      deactivate: "Deactivate"
+    form:
+      enabled: "Enabled"
+      position: "Position"
+      default: "Default"
+    confirm:
+      title: "Confirm type scheme changes"
+      used_by_projects:
+        one: "This scheme is used by %{count} project. Changes will affect all projects."
+        other: "This scheme is used by %{count} projects. Changes will affect all projects."
+      type_in_use:
+        one: "Type %{type} is currently used by %{count} work package. Removing it prevents creating new ones. Existing work packages will not be changed."
+        other: "Type %{type} is currently used by %{count} work packages. Removing it prevents creating new ones. Existing work packages will not be changed."
   activerecord:
     attributes:
       type_scheme:
+        name: Name
+        description: Description
         items: Types
         project_assignments: Projects
       project_type_scheme:
