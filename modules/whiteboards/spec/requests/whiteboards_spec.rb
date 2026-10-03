@@ -30,7 +30,7 @@
 
 require_relative "../spec_helper"
 
-RSpec.describe "Whiteboards", with_flag: { whiteboards: true } do
+RSpec.describe "Whiteboards", :skip_csrf, type: :rails_request, with_flag: { whiteboards: true } do
   let(:project) { create(:project, enabled_module_names: %w[whiteboards]) }
   let(:permissions) { %i[view_whiteboards manage_whiteboards] }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
