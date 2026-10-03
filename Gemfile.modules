@@ -31,6 +31,7 @@ group :opf_plugins do
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
   gem 'openproject-job_status',                path: 'modules/job_status'
   gem 'openproject-type_schemes',              path: 'modules/type_schemes'
+  gem 'openproject-field_rules',               path: 'modules/field_rules'
 
   gem 'grids',                                 path: 'modules/grids'
   gem 'my_page',                               path: 'modules/my_page'

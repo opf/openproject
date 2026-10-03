@@ -1,0 +1,59 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title @project.name, t("field_rules.project_settings.title") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("field_rules.project_settings.title") }
+    header.with_breadcrumbs([{ href: project_overview_path(@project.id), text: @project.name },
+                             { href: project_settings_general_path(@project.id), text: t("label_project_settings") },
+                             t("field_rules.project_settings.title")])
+  end
+%>
+<%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("field_rules.project_settings.description") } %>
+<%= form_tag project_settings_field_rule_scheme_path(@project), method: :patch do %>
+  <div class="form--field">
+    <%= label_tag "scheme_id", t("field_rules.project_settings.scheme"), class: "form--label" %>
+    <span class="form--field-container">
+      <%= select_tag "scheme_id", options_from_collection_for_select(@schemes, :id, :name, @current&.id),
+                     include_blank: t("field_rules.project_settings.none"), class: "form--select" %>
+    </span>
+  </div>
+  <%= submit_tag t(:button_save), class: "button -primary" %>
+<% end %>
+<% if @current && !@current.active %>
+  <%= render(Primer::Beta::Flash.new(scheme: :warning, mt: 3)) { t("field_rules.project_settings.inactive") } %>
+<% end %>
+<% if @current %>
+  <h2><%= t("field_rules.project_settings.effective") %></h2>
+  <ul id="effective-rules">
+    <% @current.items.includes(:type, :rule_set).sort_by { |item| item.type.position.to_i }.each do |item| %>
+      <li><%= item.type.name %>: <%= item.rule_set.name %><%= " (#{t(:label_inactive)})" unless item.rule_set.active %></li>
+    <% end %>
+  </ul>
+<% end %>

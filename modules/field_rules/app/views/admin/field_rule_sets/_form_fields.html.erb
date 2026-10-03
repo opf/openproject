@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  rules = rule_set.rules.index_by(&:field_key)
+  keys = ::FieldRules::Fields.configurable_keys
+%>
+<div class="form--field -required">
+  <%= label_tag "rule_set_name", FieldRuleSet.human_attribute_name(:name), class: "form--label" %>
+  <span class="form--field-container"><%= text_field_tag "rule_set[name]", rule_set.name, id: "rule_set_name", class: "form--text-field", required: true, maxlength: 255 %></span>
+</div>
+<div class="form--field">
+  <%= label_tag "rule_set_description", FieldRuleSet.human_attribute_name(:description), class: "form--label" %>
+  <span class="form--field-container"><%= text_area_tag "rule_set[description]", rule_set.description, id: "rule_set_description", class: "form--text-area", rows: 3, maxlength: 5000 %></span>
+</div>
+<p><%= t("field_rules.rule_sets.form_hint") %></p>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <caption class="sr-only"><%= t("field_rules.rule_sets.fields_caption") %></caption>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("field_rules.rule_sets.field") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.hidden") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.required") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.read_only") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.enforce_on_update") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.default_value") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% keys.each do |key| %>
+          <% rule = rules[key] %>
+          <% label = ::FieldRules::Fields.label(key) %>
+          <tr>
+            <th scope="row"><%= label %></th>
+            <% %w[hidden required read_only enforce_on_update].each do |state| %>
+              <td>
+                <%= check_box_tag "rule_set[rules][#{key}][#{state}]", "1", rule&.public_send(state), id: "rule_set_#{key}_#{state}",
+                                  "aria-label": "#{t("field_rules.rule_sets.#{state}")}: #{label}" %>
+              </td>
+            <% end %>
+            <td>
+              <%= text_field_tag "rule_set[rules][#{key}][default_value]", rule&.default_value, id: "rule_set_#{key}_default_value",
+                                 class: "form--text-field -small", maxlength: 5000, "aria-label": "#{t("field_rules.rule_sets.default_value")}: #{label}" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

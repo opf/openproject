@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  chosen = scheme.items.index_by(&:type_id).transform_values(&:rule_set_id)
+  rule_sets = FieldRuleSet.order(:name)
+%>
+<div class="form--field -required">
+  <%= label_tag "scheme_name", FieldRuleScheme.human_attribute_name(:name), class: "form--label" %>
+  <span class="form--field-container"><%= text_field_tag "scheme[name]", scheme.name, id: "scheme_name", class: "form--text-field", required: true, maxlength: 255 %></span>
+</div>
+<div class="form--field">
+  <%= label_tag "scheme_description", FieldRuleScheme.human_attribute_name(:description), class: "form--label" %>
+  <span class="form--field-container"><%= text_area_tag "scheme[description]", scheme.description, id: "scheme_description", class: "form--text-area", rows: 3, maxlength: 5000 %></span>
+</div>
+<p><%= t("field_rules.schemes.form_hint") %></p>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <caption class="sr-only"><%= t("field_rules.schemes.types_caption") %></caption>
+      <thead>
+        <tr>
+          <th scope="col"><%= Type.model_name.human %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.singular") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% Type.order(:position).each do |type| %>
+          <tr>
+            <th scope="row"><%= label_tag "scheme_types_#{type.id}", type.name %></th>
+            <td>
+              <%= select_tag "scheme[types][#{type.id}]",
+                             options_from_collection_for_select(rule_sets, :id, :name, chosen[type.id]),
+                             include_blank: t("field_rules.schemes.no_rules"), id: "scheme_types_#{type.id}", class: "form--select" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
