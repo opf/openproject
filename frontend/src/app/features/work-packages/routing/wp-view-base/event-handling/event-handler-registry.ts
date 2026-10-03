@@ -27,7 +27,8 @@
 //++
 
 import { EventEmitter, InjectionToken, Injector } from '@angular/core';
-import { delegate } from '@knowledgecode/delegate';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 export type EventType = keyof HTMLElementEventMap;
 
@@ -45,6 +46,10 @@ export interface WorkPackageViewEventHandler<T> {
   eventScope(view:T):HTMLElement;
 }
 
+export interface WorkPackageViewAttachment {
+  destroy():void;
+}
+
 export interface WorkPackageViewOutputs {
   // On row (double) clicked
   itemClicked:EventEmitter<{ workPackageId:string, double:boolean }>;
@@ -52,7 +57,7 @@ export interface WorkPackageViewOutputs {
   stateLinkClicked:EventEmitter<{ workPackageId:string, requestedState:string }>;
 }
 
-export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<any>>('CardEventHandler');
+export const WorkPackageViewHandlerToken = new InjectionToken<WorkPackageViewEventHandler<unknown>>('CardEventHandler');
 
 /**
  * Abstract view handler registry for globally handling arbitrary event on the
@@ -65,19 +70,25 @@ export abstract class WorkPackageViewHandlerRegistry<T> {
 
   protected abstract eventHandlers:((view:T) => WorkPackageViewEventHandler<T>)[];
 
-  attachTo(viewRef:T) {
-    this.eventHandlers.map((factory) => {
-      const handler = factory(viewRef);
-      const target = handler.eventScope(viewRef);
-      const types = Array.isArray(handler.EVENT) ? handler.EVENT : [handler.EVENT];
+  attachTo(viewRef:T):WorkPackageViewAttachment {
+    const cleanups:(() => void)[] = [];
+    try {
+      this.eventHandlers.forEach((factory) => {
+        const handler = factory(viewRef);
+        const target = handler.eventScope(viewRef);
+        const types = Array.isArray(handler.EVENT) ? handler.EVENT : [handler.EVENT];
 
-      types.forEach((type) => {
-        delegate(target).on(type, handler.SELECTOR, (evt) => {
-          handler.handleEvent(viewRef, evt.originalEvent);
+        types.forEach((type) => {
+          const callback = (event:DelegateEvent) => handler.handleEvent(viewRef, event.nativeEvent);
+          delegate(target).on(type, handler.SELECTOR, callback);
+          cleanups.push(() => delegate(target).off(type, handler.SELECTOR, callback));
         });
       });
+    } catch (error) {
+      cleanups.splice(0).reverse().forEach((cleanup) => runCleanup(cleanup));
+      throw error;
+    }
 
-      return handler;
-    });
+    return { destroy: () => cleanups.splice(0).reverse().forEach((cleanup) => runCleanup(cleanup)) };
   }
 }

@@ -26,10 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Injector } from '@angular/core';
 import { scrollTableRowIntoView } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import {
-  distinctUntilChanged, filter, map, takeUntil,
+  distinctUntilChanged, filter, map,
 } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
@@ -55,7 +56,7 @@ export class HierarchyTransformer {
     this.wpTableHierarchies
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
         map((state) => state.isVisible),
         distinctUntilChanged(),
       )
@@ -71,7 +72,7 @@ export class HierarchyTransformer {
     this.wpTableHierarchies
       .updates$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
+        takeUntilDestroyed(table.destroyRef),
         filter(() => this.querySpace.tableRendered.hasValue()),
       )
       .subscribe((state:WorkPackageViewHierarchies) => {

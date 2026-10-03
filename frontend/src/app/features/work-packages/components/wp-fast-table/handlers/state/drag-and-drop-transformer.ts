@@ -28,7 +28,8 @@
 
 import { Injector } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -74,29 +75,32 @@ export class DragAndDropTransformer {
     public table:WorkPackageTable) {
     // The DragService may not have been provided
     // in which case we do not provide drag and drop
-    if (this.dragService === null) {
+    if (table.destroyed) return;
+    const dragService = this.dragService;
+    if (dragService === null) {
       return;
     }
 
+    onDestroySafely(table.destroyRef, () => dragService.remove(table.tbody));
+
     this.inlineCreateService.newInlineWorkPackageCreated
-      .pipe(takeUntil(this.querySpace.stopAllSubscriptions))
-      .subscribe(async (wpId) => {
-        const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId);
-        this.updateRenderedOrder(newOrder);
+      .pipe(takeUntilDestroyed(table.destroyRef))
+      .subscribe((wpId) => {
+        const notification = this.halNotification;
+        void (async () => {
+          const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId);
+          if (table.destroyed) return;
+          await this.updateRenderedOrder(newOrder);
+        })().catch((error:unknown) => notification.handleRawError(error));
       });
 
-    this.querySpace.stopAllSubscriptions
-      .pipe(take(1))
-      .subscribe(() => {
-        this.dragService!.remove(this.table.tbody);
-      });
-
-    this.dragService.register({
+    dragService.register({
       dragContainer: this.table.tbody,
       scrollContainers: [this.table.scrollContainer],
-      itemIdOf: (row) => row.dataset.workPackageId ?? null,
-      accepts: () => true,
+      itemIdOf: (row) => (table.destroyed ? null : row.dataset.workPackageId ?? null),
+      accepts: () => !table.destroyed,
       canPickup: (row, handle) => {
+        if (table.destroyed) return false;
         if (!handle?.classList.contains('wp-table--drag-and-drop-handle')) {
           return false;
         }
@@ -108,6 +112,7 @@ export class DragAndDropTransformer {
       // A detached `<tr>` clone loses its column widths and drags the row's
       // selection background along with it, so the preview is built fresh.
       renderPreview: (row, preview) => {
+        if (table.destroyed) return;
         const wpId:string = row.dataset.workPackageId!;
         const workPackage = this.states.workPackages.get(wpId).value;
         if (!workPackage) {
@@ -130,6 +135,7 @@ export class DragAndDropTransformer {
   }
 
   private collapseSelectionTo(row:HTMLElement):void {
+    if (this.table.destroyed) return;
     const wpId = row.dataset.workPackageId;
     if (wpId) {
       this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
@@ -142,6 +148,10 @@ export class DragAndDropTransformer {
    * transaction.
    */
   private performMove(intent:DragIntent, complete:(success:boolean) => void):void {
+    if (this.table.destroyed) {
+      complete(false);
+      return;
+    }
     void (async () => {
       const wpId = intent.sourceId;
 
@@ -277,6 +287,7 @@ export class DragAndDropTransformer {
    * Update current rendered order
    */
   private async updateRenderedOrder(order:string[]) {
+    if (this.table.destroyed) return;
     order = Array.from(new Set(order));
 
     const mappedOrder = await Promise.all(
@@ -284,6 +295,8 @@ export class DragAndDropTransformer {
         (wpId) => firstValueFrom(this.apiV3Service.work_packages.id(wpId).get()),
       ),
     );
+
+    if (this.table.destroyed) return;
 
     /** Re-render the table */
     this.table.initialSetup(mappedOrder);

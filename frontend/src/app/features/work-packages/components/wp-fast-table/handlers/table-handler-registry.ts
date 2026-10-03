@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { Injector } from '@angular/core';
 import {
   HighlightingTransformer,
@@ -34,6 +35,7 @@ import {
   DragAndDropTransformer,
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer';
 import {
+  WorkPackageViewAttachment,
   WorkPackageViewEventHandler,
   WorkPackageViewHandlerRegistry,
   WorkPackageViewOutputs,
@@ -42,6 +44,7 @@ import {
   GroupFoldTransformer,
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
 import { WorkPackageTable } from '../wp-fast-table';
+import { ShareCellHandler } from './cell/share-cell-handler';
 import { EditCellHandler } from './cell/edit-cell-handler';
 import { RelationsCellHandler } from './cell/relations-cell-handler';
 import { ContextMenuClickHandler } from './context-menu/context-menu-click-handler';
@@ -63,7 +66,9 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/sharing-transformer';
 
 // noinspection JSUnusedLocalSymbols
-type StateTransformers = new(injector:Injector, table:WorkPackageTable) => any;
+type StateTransformers = new(injector:Injector, table:WorkPackageTable) => unknown;
+
+const attachedTables = new WeakSet<WorkPackageTable>();
 
 export interface TableEventComponent extends WorkPackageViewOutputs {
   // Reference to the fast table instance
@@ -94,6 +99,8 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     () => new ContextMenuKeyboardHandler(this.injector),
     // Clicking on relations cells
     () => new RelationsCellHandler(this.injector),
+    // Clicking on sharing cells
+    () => new ShareCellHandler(this.injector),
   ];
 
   protected readonly stateTransformers:StateTransformers[] = [
@@ -109,9 +116,26 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     DragAndDropTransformer,
   ];
 
-  attachTo(viewRef:TableEventComponent) {
-    this.stateTransformers.map((cls) => new cls(this.injector, viewRef.workPackageTable));
+  attachTo(viewRef:TableEventComponent):WorkPackageViewAttachment {
+    const table = viewRef.workPackageTable;
+    if (table.destroyed || attachedTables.has(table)) throw new Error('Table already attached or destroyed');
+    attachedTables.add(table);
 
-    super.attachTo(viewRef);
+    const instances:unknown[] = [];
+    let listeners:WorkPackageViewAttachment|undefined;
+    onDestroySafely(table.destroyRef, () => {
+      runCleanup(() => listeners?.destroy());
+      instances.length = 0;
+    });
+
+    try {
+      this.stateTransformers.forEach((Transformer) => instances.push(new Transformer(this.injector, table)));
+      listeners = super.attachTo(viewRef);
+    } catch (error) {
+      table.destroy();
+      throw error;
+    }
+
+    return { destroy: () => table.destroy() };
   }
 }

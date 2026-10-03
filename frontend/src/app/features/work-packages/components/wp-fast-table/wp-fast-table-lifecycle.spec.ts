@@ -26,16 +26,25 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ElementRef, Injector, runInInjectionContext } from '@angular/core';
+import { Subject } from 'rxjs';
+import { OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
+import { ElementRef, EnvironmentInjector, Injector, runInInjectionContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { EmbeddedTablesMacroComponent } from 'core-app/features/work-packages/components/wp-table/embedded/embedded-tables-macro.component';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
+import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
+import { usePlatform } from 'core-common/testing/platform';
 import { States } from 'core-app/core/states/states.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableConfigurationObject } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { TableUiWork } from './table-ui-work';
-import { buildTable, TableHarness, TableHarnessOptions } from './testing/table-harness';
+import { buildDom, buildTable, TableHarness, TableHarnessOptions } from './testing/table-harness';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
@@ -71,6 +80,7 @@ const grouped:TableHarnessOptions = {
 };
 
 describe('WorkPackageTable lifecycle', () => {
+  usePlatform('Linux');
   const harnesses:TableHarness[] = [];
 
   const mount = async (options:TableHarnessOptions) => {
@@ -290,6 +300,51 @@ describe('WorkPackageTable lifecycle', () => {
     await waitFor(() => expect(report).toHaveBeenCalledExactlyOnceWith(error));
   });
 
+  it('retires inline-create work and removes its drag registration at disposal', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }] });
+    const member = vi.spyOn(harness.injector.get(DragAndDropService), 'remove');
+    const order = harness.injector.get(WorkPackageViewOrderService);
+    const added = deferred<string[]>();
+    vi.spyOn(order, 'add').mockReturnValue(added.promise);
+    const get = vi.spyOn(harness.injector.get(ApiV3Service).work_packages, 'id');
+    harness.injector.get(WorkPackageInlineCreateService).newInlineWorkPackageCreated.next('2');
+    harness.table.destroy();
+    harness.table.destroy();
+    added.resolve(['1', '2']);
+    await added.promise;
+    expect(get).not.toHaveBeenCalled();
+    expect(member).toHaveBeenCalledExactlyOnceWith(harness.tbody);
+  });
+
+  it('does not redraw after inline-create resource loading finishes after disposal', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }] });
+    const loaded = new Subject<WorkPackageResource>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'add').mockResolvedValue(['1']);
+    const get = vi.spyOn(harness.injector.get(ApiV3Service).work_packages, 'id')
+      .mockReturnValue({ get: () => loaded } as unknown as ReturnType<ApiV3Service['work_packages']['id']>);
+    const setup = vi.spyOn(harness.table, 'initialSetup');
+    harness.injector.get(WorkPackageInlineCreateService).newInlineWorkPackageCreated.next('2');
+    await waitFor(() => expect(get).toHaveBeenCalled());
+    harness.table.destroy();
+    loaded.next(buildWorkPackage({ id: '1' }));
+    await Promise.resolve();
+    await Promise.resolve();
+    expect(setup).not.toHaveBeenCalled();
+  });
+
+  it('reports rejected inline-create order persistence after disposal', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }] });
+    const error = new Error('inline order request');
+    let reject!:(reason:unknown) => void;
+    const pending = new Promise<string[]>((_resolve, fail) => { reject = fail; });
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'add').mockReturnValue(pending);
+    const report = vi.spyOn(harness.injector.get(WorkPackageNotificationService), 'handleRawError');
+    harness.injector.get(WorkPackageInlineCreateService).newInlineWorkPackageCreated.next('2');
+    harness.table.destroy();
+    reject(error);
+    await waitFor(() => expect(report).toHaveBeenCalledExactlyOnceWith(error));
+  });
+
   describe('with two tables showing the same work packages', () => {
     let states:States;
     let first:TableHarness;
@@ -338,8 +393,47 @@ describe('WorkPackageTable lifecycle', () => {
       await waitFor(() => expect(second.row('3')).not.toBeVisible());
     });
 
-    it('stops redrawing a table once its query space stops', async () => {
-      first.querySpace.stopAllSubscriptions.next();
+    it('retires selection, folding, refresh and sharing while the other table stays live', async () => {
+      first.click('2');
+      const selected = vi.spyOn(first.selection, 'selectAll');
+      const reset = vi.spyOn(first.selection, 'reset');
+      const refreshed = vi.spyOn(first.table, 'refreshRows');
+      const firstRefresh = vi.fn();
+      const secondRefresh = vi.fn();
+      first.injector.get(ActionsService).ofType(tableRefreshRequest).subscribe(firstRefresh);
+      second.injector.get(ActionsService).ofType(tableRefreshRequest).subscribe(secondRefresh);
+      first.table.destroy();
+      first.table.destroy();
+
+      first.click('3');
+      toggleGroup(first, 0);
+      fireEvent.keyDown(first.row('1'), { key: 'a', ctrlKey: true });
+      first.injector.get(ActionsService).dispatch(shareModalUpdated({ workPackageId: '1' }));
+      second.injector.get(ActionsService).dispatch(shareModalUpdated({ workPackageId: '1' }));
+      states.workPackages.get('1').putValue(buildWorkPackage({ id: '1', subject: 'Surviving refresh', attributes: { status: newStatus } }));
+      await waitFor(() => expect(second.row('1')).toHaveTextContent('Surviving refresh'));
+      expect(first.row('1')).not.toHaveTextContent('Surviving refresh');
+      expect(first.row('1')).toBeVisible();
+      expect(first.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      expect(selected).not.toHaveBeenCalled();
+      expect(refreshed).not.toHaveBeenCalled();
+      expect(firstRefresh).not.toHaveBeenCalled();
+      expect(secondRefresh).toHaveBeenCalledOnce();
+
+      second.click('2');
+      fireEvent.keyDown(second.row('1'), { key: 'a', ctrlKey: true });
+      expect(second.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+      fireEvent.keyDown(document.body, { key: 'Escape' });
+      expect(second.selection.isEmpty).toBe(true);
+      expect(reset).not.toHaveBeenCalled();
+      expect(first.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      toggleGroup(second, 1);
+      await waitFor(() => expect(second.row('3')).not.toBeVisible());
+    });
+
+    it('stops redrawing a table once the table is destroyed', async () => {
+      const setup = vi.spyOn(first.table, 'initialSetup');
+      first.table.destroy();
 
       first.querySpace.results.putValue({ elements: [buildWorkPackage({ id: '9' })] } as WorkPackageCollectionResource);
       first.querySpace.initialized.putValue(null);
@@ -347,6 +441,7 @@ describe('WorkPackageTable lifecycle', () => {
 
       expect(second.rowIds()).toEqual(['9']);
       expect(first.rowIds()).toEqual(['1', '2', '3']);
+      expect(setup).not.toHaveBeenCalled();
     });
   });
 
@@ -380,6 +475,106 @@ describe('WorkPackageTable lifecycle', () => {
       expect(opened).not.toHaveBeenCalled();
       expect(harness.selection.isEmpty).toBe(true);
     });
+  });
+
+  it('removes context-menu callbacks on direct table disposal', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { contextMenuEnabled: true } });
+    const opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+    harness.table.destroy();
+    expect(fireEvent.contextMenu(harness.row('1'))).toBe(true);
+    expect(fireEvent.keyDown(harness.row('1'), { key: 'F10', shiftKey: true, altKey: true })).toBe(true);
+    expect(opened).not.toHaveBeenCalled();
+  });
+
+  it('mounts a fresh table on a retained root without old callbacks', async () => {
+    const dom = buildDom();
+    const options = { ...grouped, dom, configuration: { contextMenuEnabled: true } };
+    const first = await mount(options);
+    const clicked = vi.fn();
+    first.outputs.itemClicked.subscribe(clicked);
+    const firstMenu = vi.spyOn(first.injector.get(OPContextMenuService), 'show');
+    const firstSelect = vi.spyOn(first.selection, 'selectAll');
+    const firstReset = vi.spyOn(first.selection, 'reset');
+    first.table.destroy();
+    const second = await mount(options);
+    const secondClicked = vi.fn();
+    second.outputs.itemClicked.subscribe(secondClicked);
+    const secondMenu = vi.spyOn(second.injector.get(OPContextMenuService), 'show');
+    try {
+      expect(second.injector).not.toBe(first.injector);
+      second.click('2');
+      fireEvent.contextMenu(second.row('1'));
+      fireEvent.keyDown(second.row('1'), { key: 'a', ctrlKey: true });
+      expect(second.selection.getSelectedWorkPackageIds()).toEqual(['1', '2', '3']);
+      fireEvent.keyDown(document.body, { key: 'Escape' });
+      expect(second.selection.isEmpty).toBe(true);
+      expect(clicked).not.toHaveBeenCalled();
+      expect(firstMenu).not.toHaveBeenCalled();
+      expect(firstSelect).not.toHaveBeenCalled();
+      expect(firstReset).not.toHaveBeenCalled();
+      expect(secondClicked).toHaveBeenCalledOnce();
+      expect(secondMenu).toHaveBeenCalledOnce();
+    } finally {
+      await first.destroy();
+      await second.destroy();
+      dom.wrapper.remove();
+    }
+  });
+
+  it.each(['direct', 'injector'] as const)('retires real sharing cells on %s disposal and replaces their same-root owner', async (mode) => {
+    const dom = buildDom();
+    const firstModal = vi.fn();
+    const options = { workPackages: [{ id: '1' }], columns: ['id', 'sharedWithUsers'], dom };
+    const first = buildTable({ ...options, providers: [{ provide: OpModalService, useValue: { show: firstModal } }] });
+    const firstInjector = first.injector as EnvironmentInjector;
+    const errors:ErrorEvent[] = [];
+    const captureError = (event:ErrorEvent) => { errors.push(event); event.preventDefault(); };
+    window.addEventListener('error', captureError);
+    let second:TableHarness|undefined;
+    try {
+      await first.render();
+      const oldCell = first.row('1').querySelector<HTMLElement>('[data-column-id="sharedWithUsers"]')!;
+      const workPackage = first.injector.get(States).workPackages.get('1').value;
+      if (mode === 'direct') {
+        fireEvent.click(oldCell);
+        first.table.destroy();
+      } else {
+        // The owning component retires the table before its real injector.
+        // Keep the modal LazyInject unprimed through both disposals.
+        first.table.destroy();
+        firstInjector.destroy();
+      }
+      const expectedCalls = mode === 'direct'
+        ? [[WorkPackageShareModalComponent, 'global', { workPackage }, false, true]]
+        : [];
+      expect(firstModal.mock.calls).toEqual(expectedCalls);
+      firstModal.mockClear();
+      const lookup = vi.spyOn(firstInjector, 'get');
+      fireEvent.click(oldCell);
+      expect(firstModal).not.toHaveBeenCalled();
+      expect(lookup).not.toHaveBeenCalled();
+      expect(errors).toEqual([]);
+      expect(first.table.destroyed).toBe(true);
+      lookup.mockRestore();
+
+      const secondModal = vi.fn();
+      second = buildTable({ ...options, providers: [{ provide: OpModalService, useValue: { show: secondModal } }] });
+      await second.render();
+      fireEvent.click(second.row('1').querySelector('[data-column-id="sharedWithUsers"]')!);
+      expect(secondModal).toHaveBeenCalledExactlyOnceWith(
+        WorkPackageShareModalComponent, 'global', { workPackage: second.injector.get(States).workPackages.get('1').value }, false, true,
+      );
+      // Ordinary redraws detach old cells, which must have no direct handlers.
+      fireEvent.click(oldCell);
+      expect(firstModal).not.toHaveBeenCalled();
+      expect(secondModal).toHaveBeenCalledOnce();
+      expect(errors).toEqual([]);
+    } finally {
+      window.removeEventListener('error', captureError);
+      if (!firstInjector.destroyed) await first.destroy();
+      await second?.destroy();
+      dom.wrapper.remove();
+    }
   });
 
   it('does not duplicate click and context menu effects across rerenders', async () => {

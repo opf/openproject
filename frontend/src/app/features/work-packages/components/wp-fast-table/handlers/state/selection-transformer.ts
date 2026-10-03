@@ -26,10 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DestroyRef, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
-import { finalize, take, takeUntil } from 'rxjs/operators';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
@@ -54,12 +54,11 @@ export class SelectionTransformer {
 
   constructor(public readonly injector:Injector,
     public readonly table:WorkPackageTable) {
-    const destroyRef = table.injector.get(DestroyRef);
+    const destroyRef = table.destroyRef;
 
     // Focus a single selection when active
     this.querySpace.tableRendered.values$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
         takeUntilDestroyed(destroyRef),
       )
       .subscribe(() => {
@@ -75,14 +74,12 @@ export class SelectionTransformer {
 
     this.wpTableSelection.live$()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
         takeUntilDestroyed(destroyRef),
       )
       .subscribe(() => this.paintRows());
 
     this.wpTableFocus.whenChanged()
       .pipe(
-        takeUntil(this.querySpace.stopAllSubscriptions),
         takeUntilDestroyed(destroyRef),
       )
       .subscribe(() => this.paintRows());
@@ -99,16 +96,8 @@ export class SelectionTransformer {
       hasState: () => this.wpTableSelection.hasSelectionState,
       clear: () => this.wpTableSelection.reset(),
     });
-    this.querySpace.stopAllSubscriptions
-      .pipe(
-        take(1),
-        takeUntilDestroyed(destroyRef),
-        finalize(() => {
-          unregisterSelectAll();
-          unregisterDeselectAll();
-        }),
-      )
-      .subscribe();
+    onDestroySafely(destroyRef, unregisterSelectAll);
+    onDestroySafely(destroyRef, unregisterDeselectAll);
   }
 
   private paintRows():void {
