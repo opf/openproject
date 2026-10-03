@@ -105,7 +105,7 @@ module Admin
     end
 
     def permitted_scheme_params
-      params.require(:type_scheme).permit(:name, :description, :default_type_id, types: {})
+      params.require(:type_scheme).permit(:name, :description, :is_default, :default_type_id, types: {})
     end
 
     # Builds the symbol-keyed hash SchemeService expects from the form fields.
@@ -116,7 +116,8 @@ module Admin
       items = rows.map do |type_id, v|
         { type_id: type_id.to_i, position: v["position"].to_i, is_default: type_id == default_id }
       end
-      { name: permitted[:name], description: permitted[:description], items: }
+      { name: permitted[:name], description: permitted[:description],
+        is_default: permitted[:is_default] == "1", items: }
     end
   end
 end

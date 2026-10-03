@@ -76,7 +76,7 @@ module TypeSchemes
       def save(scheme, params)
         result = nil
         TypeScheme.transaction do
-          scheme.assign_attributes(params.slice(:name, :description))
+          scheme.assign_attributes(params.slice(:name, :description, :is_default))
           prepare_items(scheme, params[:items]) if params.key?(:items)
           result = scheme.save ? ok(scheme) : fail_with(scheme)
           raise ActiveRecord::Rollback if result.failure?

@@ -87,6 +87,12 @@ module OpenProject::TypeSchemes
       "#{project(project_id)}/available_types"
     end
 
+    config.after_initialize do
+      OpenProject::Notifications.subscribe(OpenProject::Events::PROJECT_CREATED) do |payload|
+        OpenProject::TypeSchemes::ProjectCreatedListener.call(payload)
+      end
+    end
+
     config.to_prepare do
       ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
       ::WorkPackages::SetAttributesService.prepend(OpenProject::TypeSchemes::SetAttributesServicePatch)

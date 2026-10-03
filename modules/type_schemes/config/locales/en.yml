@@ -12,6 +12,7 @@ en:
       enabled: "Enabled"
       position: "Position"
       default: "Default"
+      is_default: "Default scheme for new projects"
     project_settings:
       title: "Type scheme"
       scheme: "Type scheme"

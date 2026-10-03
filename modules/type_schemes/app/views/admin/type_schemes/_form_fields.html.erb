@@ -38,6 +38,10 @@ See COPYRIGHT and LICENSE files for more details.
   <%= label_tag "type_scheme_description", TypeScheme.human_attribute_name(:description), class: "form--label" %>
   <span class="form--field-container"><%= text_area_tag "type_scheme[description]", scheme.description, id: "type_scheme_description", class: "form--text-area", rows: 3 %></span>
 </div>
+<div class="form--field">
+  <%= label_tag "type_scheme_is_default", t("type_schemes.form.is_default"), class: "form--label" %>
+  <span class="form--field-container"><%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default" %></span>
+</div>
 <table class="generic-table">
   <thead>
     <tr>
