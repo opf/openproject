@@ -88,9 +88,9 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # The result is that all later statements, including later CTEs, will pick up data from that
   # first CTE. This makes the fact that data is fetched not from the model but from the journals
   # transparent so most queries that work on the model table just continue to work on the journals
-  # join. The only currently known exceptions to this are conditions on custom fields. That is
-  # because those should also work on the historic data and not the current one, so the statement
-  # needs to be rewritten.
+  # join. The only currently known exceptions to this are conditions on custom fields and on
+  # versions. That is because those should also work on the historic data and not the current one,
+  # so the statement needs to be rewritten.
   #
   # A statement on work packages might then look like this:
   #
@@ -167,10 +167,12 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # Additional table joins can appear in the where clause, such as the custom_values table join.
   # We need to substitute the table name ("custom_values") with the journalized table name
   # ("customized_journals") in order to retrieve historic data from the journalized table.
+  # The same applies to "work_package_versions" and "work_package_version_journals".
 
   def substitute_join_tables_in_where_clause(relation)
     relation.where_clause.instance_variable_get(:@predicates).each do |predicate|
       substitute_custom_values_join_in_predicate(predicate)
+      substitute_work_package_versions_join_in_predicate(predicate)
     end
   end
 
@@ -204,6 +206,23 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     predicate.gsub!(/WHERE.*#{Regexp.escape(custom_values)}\.value.*/) do |match|
       match.gsub!("#{custom_values}.value", "#{customizable_journals}.value")
     end
+  end
+
+  # As with the "custom_values" join, only String predicates are handled. This is the way we are
+  # receiving the predicate from the `Queries::WorkPackages::Filter::FilterOnVersionsMixin`.
+  def substitute_work_package_versions_join_in_predicate(predicate)
+    return unless predicate.is_a? String
+
+    version_journals = Journal::WorkPackageVersionJournal.table_name
+    work_package_versions = WorkPackageVersion.table_name
+    models = model.table_name
+
+    # The work_package_version_journals table has no direct relation to the work_packages table,
+    # but it has to the journals table. We join it to the journals table instead.
+    predicate.gsub! "#{work_package_versions}.work_package_id = #{models}.id",
+                    "#{version_journals}.journal_id = #{models}.journal_id"
+    predicate.gsub! "\"#{work_package_versions}\"",
+                    "\"#{version_journals}\""
   end
 
   # Add a timestamp condition: Select the work package journals that are the
