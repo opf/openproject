@@ -39,3 +39,12 @@ en:
         saved: "All changes saved"
         saved_at: "Saved at %{time}"
         saving: "Saving…"
+      work_package_card:
+        error:
+          header: "Work package could not be loaded"
+          message: "Try reloading the whiteboard."
+        loading:
+          header: "Loading work package…"
+        unavailable:
+          header: "Work package not available"
+          message: "It does not exist or you are not allowed to see it."

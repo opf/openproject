@@ -26,8 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Excalidraw, Footer, MainMenu } from '@excalidraw/excalidraw';
-import type { OrderedExcalidrawElement, Theme } from '@excalidraw/excalidraw/element/types';
+import { CaptureUpdateAction, Excalidraw, Footer, MainMenu } from '@excalidraw/excalidraw';
+import type { ClipboardData } from '@excalidraw/excalidraw/clipboard';
+import type {
+  ExcalidrawEmbeddableElement,
+  NonDeleted,
+  OrderedExcalidrawElement,
+  Theme,
+} from '@excalidraw/excalidraw/element/types';
 import type {
   AppState,
   Collaborator,
@@ -39,6 +45,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCollaboration } from '../hooks/useCollaboration';
 import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
 import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
+import { WorkPackageCard } from './WorkPackageCard';
+import { newWorkPackageCardElement, workPackageIdFromCardLink, workPackageIdFromText } from './work-package-cards';
 
 export interface OpWhiteboardProps {
   provider:HocuspocusProvider;
@@ -143,11 +151,26 @@ function ConnectionStatus({ offline, saveState }:{ offline:boolean; saveState:Sa
   );
 }
 
+function viewportCenter(api:ExcalidrawImperativeAPI) {
+  const { width, height, scrollX, scrollY, zoom } = api.getAppState();
+  return { x: (width / 2 / zoom.value) - scrollX, y: (height / 2 / zoom.value) - scrollY };
+}
+
+function validateEmbeddable(link:string):true|undefined {
+  return workPackageIdFromCardLink(link) ? true : undefined;
+}
+
+function renderEmbeddable(element:NonDeleted<ExcalidrawEmbeddableElement>) {
+  const id = workPackageIdFromCardLink(element.link);
+  return id ? <WorkPackageCard id={id} /> : null;
+}
+
 function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
   const doc = provider.document;
   const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
   const bindingRef = useRef<ExcalidrawYjsBinding|null>(null);
   const awarenessRef = useRef<WhiteboardAwareness|null>(null);
+  const lastPointerRef = useRef<{ x:number; y:number }|null>(null);
   const saveState = useSaveState(provider);
   const theme = useOpTheme();
 
@@ -179,10 +202,24 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
 
   const onPointerUpdate = useCallback(
     ({ pointer, button }:{ pointer:NonNullable<Collaborator['pointer']>; button:Collaborator['button'] }) => {
+      lastPointerRef.current = pointer;
       awarenessRef.current?.updatePointer(pointer, button);
     },
     [],
   );
+
+  const onPaste = useCallback((data:ClipboardData) => {
+    const id = data.text ? workPackageIdFromText(data.text) : null;
+    if (!api || readOnly || !id) return true;
+
+    const card = newWorkPackageCardElement(id, lastPointerRef.current ?? viewportCenter(api));
+    api.updateScene({
+      elements: [...api.getSceneElementsIncludingDeleted(), card],
+      appState: { selectedElementIds: { [card.id]: true } },
+      captureUpdate: CaptureUpdateAction.IMMEDIATELY,
+    });
+    return false;
+  }, [api, readOnly]);
 
   const renderTopRightUI = useCallback(() => (
     <div className="op-whiteboard-chrome">
@@ -196,6 +233,9 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
       initialData={initialData}
       onChange={onChange}
       onPointerUpdate={onPointerUpdate}
+      onPaste={onPaste}
+      validateEmbeddable={validateEmbeddable}
+      renderEmbeddable={renderEmbeddable}
       isCollaborating
       viewModeEnabled={readOnly || offline}
       langCode={langCode}

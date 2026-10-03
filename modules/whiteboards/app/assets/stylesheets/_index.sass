@@ -60,3 +60,60 @@
 
 .op-whiteboard-chrome--status_offline
   color: var(--fgColor-danger)
+
+.op-whiteboard-wp-card
+  display: flex
+  flex-direction: column
+  gap: 0.25rem
+  box-sizing: border-box
+  width: 100%
+  height: 100%
+  padding: 0.5rem 0.75rem
+  overflow: hidden
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  background: var(--bgColor-default)
+  color: var(--fgColor-default)
+  font-family: var(--fontStack-system)
+  font-size: 0.875rem
+  text-decoration: none
+
+  &:hover
+    text-decoration: none
+    border-color: var(--borderColor-accent-emphasis)
+
+.op-whiteboard-wp-card--header
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  font-size: 0.75rem
+  white-space: nowrap
+
+.op-whiteboard-wp-card--id
+  color: var(--fgColor-muted)
+
+.op-whiteboard-wp-card--status
+  margin-left: auto
+  padding: 0 0.5rem
+  border-radius: var(--borderRadius-full)
+  overflow: hidden
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-card--subject
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+  overflow: hidden
+  font-weight: var(--base-text-weight-semibold)
+
+.op-whiteboard-wp-card--meta
+  overflow: hidden
+  color: var(--fgColor-muted)
+  font-size: 0.75rem
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-card_unavailable,
+.op-whiteboard-wp-card_error
+  border-style: dashed
+  background: var(--bgColor-muted)
