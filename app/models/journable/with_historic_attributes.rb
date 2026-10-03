@@ -164,15 +164,18 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filters_at_timestamps
-    if query.present?
-      timestamps.select { |timestamp| loader.work_package_ids_of_query_at_timestamp(query:, timestamp:).include?(__getobj__.id) }
-    else
-      []
-    end
+    @matches_query_filters_at_timestamps ||=
+      if query.present?
+        timestamps.select do |timestamp|
+          loader.work_package_ids_of_query_at_timestamp(query:, timestamp:).include?(__getobj__.id)
+        end
+      else
+        []
+      end
   end
 
   def exists_at_timestamps
-    timestamps.select { |t| at_timestamp(t).present? }
+    @exists_at_timestamps ||= timestamps.select { |t| at_timestamp(t).present? }
   end
 
   def baseline_timestamp

@@ -95,16 +95,27 @@ class Journable::WithHistoricAttributes
       end
     end
 
+    # Dropping the sorting is only equivalent while every `sortable_join_statement` and
+    # `groupable_join` -- core's and every plugin's -- is a LEFT OUTER JOIN, as they are today. An
+    # INNER join in a sort would narrow the id set.
     def work_package_ids_of_query_at_timestamp_calculation(query, timestamp)
-      query = query.dup
-      query.timestamps = [timestamp] if timestamp
+      if timestamp.try(:historic?)
+        query.results.work_package_ids_at_timestamp(timestamp, ids: journable_ids)
+      else
+        scoped_query = query.dup
+        scoped_query.timestamps = [timestamp] if timestamp
 
-      query.results.work_packages.where(id: journables.map(&:id)).pluck(:id)
+        scoped_query.results.work_packages.where(id: journable_ids).pluck(:id)
+      end.to_set
+    end
+
+    def journable_ids
+      @journable_ids ||= journables.map(&:id)
     end
 
     def currently_visible_journables
       @currently_visible_journables ||= begin
-        visible_ids = journalized_class.visible.where(id: journables.map(&:id)).pluck(:id)
+        visible_ids = journalized_class.visible.where(id: journable_ids).pluck(:id)
         journables.select { |j| visible_ids.include?(j.id) }
       end
     end
@@ -114,7 +125,9 @@ class Journable::WithHistoricAttributes
     end
 
     def journalized_at_timestamp(tms)
-      journalized = (currently_invisible_journalized_at_timestamp(tms) + currently_visible_journalized_at_timestamp(tms))
+      journalized = currently_invisible_journables.any? ? currently_invisible_journalized_at_timestamp(tms).to_a : []
+      journalized.concat(currently_visible_journalized_at_timestamp(tms).to_a)
+
       load_journal_associations(journalized)
     end
 
