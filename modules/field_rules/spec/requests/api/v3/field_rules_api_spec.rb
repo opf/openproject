@@ -92,6 +92,45 @@ RSpec.describe "API v3 field rule sets, schemes and project assignment" do # rub
     end
   end
 
+  describe "hostile input" do
+    before { login_as(admin) }
+
+    it "answers 400 for a non-object body" do
+      post api_v3_paths.field_rule_sets, [1, 2].to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+
+      put api_v3_paths.project_field_rule_scheme(project.id), "[]", headers
+      expect(last_response).to have_http_status(:bad_request)
+    end
+
+    it "answers 400 for non-string names and non-boolean flags" do
+      post api_v3_paths.field_rule_sets, { name: { a: 1 } }.to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+
+      post api_v3_paths.field_rule_sets, { name: "Flags", rules: [{ fieldKey: "priority", hidden: [1] }] }.to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+
+      patch api_v3_paths.field_rule_set(rule_set.id), { active: "maybe" }.to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+    end
+
+    it "answers 400 for oversized lists and 404 for unknown ids" do
+      rules = Array.new(API::V3::FieldRules::InputHelpers::MAX_LIST_SIZE + 1) { { fieldKey: "priority" } }
+      post api_v3_paths.field_rule_sets, { name: "Huge", rules: }.to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+
+      get api_v3_paths.field_rule_set(2_147_483_647)
+      expect(last_response).to have_http_status(:not_found)
+    end
+
+    it "does not let a viewer write anything" do
+      login_as(viewer)
+      patch api_v3_paths.field_rule_scheme(scheme.id), { active: false }.to_json, headers
+      expect(last_response).to have_http_status(:forbidden)
+      expect(scheme.reload).to be_active
+    end
+  end
+
   describe "schemes" do
     it "creates a scheme from links" do
       login_as(admin)

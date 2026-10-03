@@ -29,6 +29,8 @@
 
 module Admin
   class FieldRuleSchemesController < ApplicationController
+    MAX_ROWS = 1000
+
     layout "admin"
     menu_item :field_rule_schemes
 
@@ -62,7 +64,7 @@ module Admin
       @impact = ::FieldRules::SchemeService.impact(@scheme)
 
       if @impact[:project_count].positive? && params[:confirm] != "1"
-        @scheme_params = permitted_params
+        @scheme_params = confirmation_params
         return render :confirm, status: :unprocessable_entity
       end
 
@@ -103,14 +105,29 @@ module Admin
     end
 
     def permitted_params
-      params.require(:scheme).permit(:name, :description, types: {})
+      raw = params[:scheme]
+      raise ActionController::BadRequest, "scheme must be an object" unless raw.is_a?(ActionController::Parameters)
+
+      raw.permit(:name, :description, types: {})
+    end
+
+    def type_rows
+      rows = permitted_params[:types]
+      return {} unless rows.respond_to?(:to_h)
+
+      rows.to_h.select { |type_id, rule_set_id| type_id.match?(/\A\d{1,9}\z/) && rule_set_id.is_a?(String) }
+          .first(MAX_ROWS).to_h
+    end
+
+    def confirmation_params
+      permitted = permitted_params
+      { "name" => permitted[:name].to_s, "description" => permitted[:description].to_s, "types" => type_rows }.with_indifferent_access
     end
 
     def scheme_params
       permitted = permitted_params
-      rows = (permitted[:types] || {}).to_h
-      items = rows.filter_map do |type_id, rule_set_id|
-        next if rule_set_id.blank? || !rule_set_id.to_s.match?(/\A\d+\z/)
+      items = type_rows.filter_map do |type_id, rule_set_id|
+        next unless rule_set_id.match?(/\A\d{1,9}\z/)
 
         { type_id: type_id.to_i, rule_set_id: rule_set_id.to_i }
       end

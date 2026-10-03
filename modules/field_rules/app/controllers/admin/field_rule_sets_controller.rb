@@ -29,6 +29,9 @@
 
 module Admin
   class FieldRuleSetsController < ApplicationController
+    MAX_ROWS = 1000
+    RULE_FLAGS = %w[hidden required read_only enforce_on_update].freeze
+
     layout "admin"
     menu_item :field_rule_sets
 
@@ -63,7 +66,7 @@ module Admin
       @impact = ::FieldRules::RuleSetService.impact(@rule_set)
 
       if @impact[:project_count].positive? && params[:confirm] != "1"
-        @rule_set_params = permitted_params
+        @rule_set_params = confirmation_params
         return render :confirm, status: :unprocessable_entity
       end
 
@@ -104,23 +107,41 @@ module Admin
     end
 
     def permitted_params
-      params.require(:rule_set).permit(:name, :description, rules: {})
+      raw = params[:rule_set]
+      raise ActionController::BadRequest, "rule_set must be an object" unless raw.is_a?(ActionController::Parameters)
+
+      raw.permit(:name, :description, rules: {})
+    end
+
+    def rule_rows
+      rows = permitted_params[:rules]
+      return {} unless rows.respond_to?(:to_h)
+
+      rows.to_h.select { |_, row| row.respond_to?(:key?) }.first(MAX_ROWS).to_h
+    end
+
+    def confirmation_params
+      permitted = permitted_params
+      rules = rule_rows.transform_values do |row|
+        RULE_FLAGS.to_h { |flag| [flag, row[flag].to_s] }.merge("default_value" => row["default_value"].to_s)
+      end
+      { "name" => permitted[:name].to_s, "description" => permitted[:description].to_s, "rules" => rules }.with_indifferent_access
     end
 
     def rule_set_params
       permitted = permitted_params
-      rows = (permitted[:rules] || {}).to_h.select { |_, row| row.respond_to?(:key?) }
-      rules = rows.filter_map { |key, row| build_rule(key, row) }
+      rules = rule_rows.filter_map { |key, row| build_rule(key, row) }
       { name: permitted[:name], description: permitted[:description], rules: }
     end
 
     def build_rule(key, row)
+      default = row["default_value"]
       rule = { field_key: key.to_s,
                hidden: row["hidden"] == "1",
                required: row["required"] == "1",
                read_only: row["read_only"] == "1",
                enforce_on_update: row["enforce_on_update"] == "1",
-               default_value: row["default_value"].to_s.strip.presence }
+               default_value: (default.strip.presence if default.is_a?(String)) }
       rule if rule.values_at(:hidden, :required, :read_only, :enforce_on_update, :default_value).any?
     end
   end
