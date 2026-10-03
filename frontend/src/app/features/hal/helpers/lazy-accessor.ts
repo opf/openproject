@@ -26,17 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-
 export namespace OpenprojectHalModuleHelpers {
-  export function lazy(obj:HalResource,
+  export function lazy<V>(obj:object,
     property:string,
-    getter:() => any,
-    setter?:(value:any) => void):void {
+    getter:() => V,
+    setter?:(value:V) => V):void {
     if (typeof obj === 'object' && obj !== null) {
       let done = false;
-      let value:any;
-      const config:any = {
+      let value:V;
+      const config:PropertyDescriptor = {
         get() {
           if (!done) {
             value = getter();
@@ -51,7 +49,7 @@ export namespace OpenprojectHalModuleHelpers {
       };
 
       if (setter) {
-        config.set = (val:any) => {
+        config.set = (val:V) => {
           value = setter(val);
           done = true;
         };

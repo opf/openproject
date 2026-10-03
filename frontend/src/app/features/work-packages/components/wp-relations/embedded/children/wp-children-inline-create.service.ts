@@ -78,7 +78,6 @@ export class WpChildrenInlineCreateService extends WorkPackageInlineCreateServic
       return of(false);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     return this.canCreateWorkPackages(idFromLink(this.referenceTarget.project.href));
   }
 

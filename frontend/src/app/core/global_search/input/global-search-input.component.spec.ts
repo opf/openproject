@@ -27,6 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { GlobalSearchInputComponent } from './global-search-input.component';
 
@@ -62,7 +63,7 @@ describe('GlobalSearchInputComponent#followItem', () => {
     // so followItem exercises the production displayId getter rather than a stub.
     function buildWorkPackage(source:{ id:number, displayId?:string }):WorkPackageResource {
       const item = Object.create(WorkPackageResource.prototype) as WorkPackageResource;
-      item.$source = source;
+      item.$source = source as unknown as HalSource;
       return item;
     }
 

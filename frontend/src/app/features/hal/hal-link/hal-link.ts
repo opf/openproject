@@ -39,7 +39,7 @@ export interface HalLinkInterface {
   method:HTTPSupportedMethods;
   title?:string;
   templated?:boolean;
-  payload?:any;
+  payload?:unknown;
   type?:string;
   identifier?:string;
   displayId?:string;
@@ -50,18 +50,21 @@ export interface HalLinkSource {
   title:string;
 }
 
-export interface CallableHalLink extends HalLinkInterface {
-  $link:this;
+export interface CallableHalLink<T = HalResource> extends HalLinkInterface {
+  (data?:unknown, headers?:HTTPClientHeaders):Promise<T>;
+  $link:HalLink;
   data?:Promise<HalResource>;
 }
 
+export type HalLinkRequestMethod = (method:HTTPSupportedMethods, href:string, data?:unknown, headers?:HTTPClientHeaders) => Promise<HalResource>;
+
 export class HalLink implements HalLinkInterface {
-  constructor(public requestMethod:(method:HTTPSupportedMethods, href:string, data:any, headers:any) => Promise<HalResource>,
+  constructor(public requestMethod:HalLinkRequestMethod,
     public href:string|null = null,
     public title = '',
     public method:HTTPSupportedMethods = 'get',
     public templated = false,
-    public payload?:any,
+    public payload?:unknown,
     public type = 'application/json',
     public identifier?:string,
     public displayId?:string) {
@@ -72,7 +75,7 @@ export class HalLink implements HalLinkInterface {
    */
   public static fromObject(halResourceService:HalResourceService, link:HalLinkInterface):HalLink {
     return new HalLink(
-      (method:HTTPSupportedMethods, href:string, data:object, headers:HTTPClientHeaders) => firstValueFrom(halResourceService.request(method, href, data, headers)),
+      (method, href, data, headers) => firstValueFrom(halResourceService.request(method, href, data, headers)),
       link.href,
       link.title,
       link.method,
@@ -87,9 +90,8 @@ export class HalLink implements HalLinkInterface {
   /**
    * Fetch the resource.
    */
-  public $fetch(...params:any[]):Promise<HalResource> {
-    const [data, headers] = params;
-    return this.requestMethod(this.method, this.href!, data, headers);
+  public $fetch<T = HalResource>(data?:unknown, headers?:HTTPClientHeaders):Promise<T> {
+    return this.requestMethod(this.method, this.href!, data, headers) as Promise<T>;
   }
 
   /**
@@ -126,10 +128,10 @@ export class HalLink implements HalLinkInterface {
    *
    * @returns {CallableHalLink}
    */
-  public $callable():CallableHalLink {
-    const linkFunc:any = (...params:any[]) => this.$fetch(...params);
+  public $callable<T = HalResource>():CallableHalLink<T> {
+    const linkFunc = (data?:unknown, headers?:HTTPClientHeaders) => this.$fetch<T>(data, headers);
 
-    Object.assign(linkFunc, {
+    return Object.assign(linkFunc, {
       $link: this,
       href: this.href,
       title: this.title,
@@ -140,7 +142,5 @@ export class HalLink implements HalLinkInterface {
       identifier: this.identifier,
       displayId: this.displayId,
     });
-
-    return linkFunc;
   }
 }

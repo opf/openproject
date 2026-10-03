@@ -27,14 +27,15 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import Formattable = api.v3.Formattable;
 
 export interface MembershipResourceLinks {
-  update(payload:unknown):Promise<unknown>;
-  updateImmediately(payload:unknown):Promise<unknown>;
-  delete():Promise<unknown>;
+  update:CallableHalLink;
+  updateImmediately:CallableHalLink;
+  delete:CallableHalLink;
 }
 
 export interface MembershipResourceEmbedded {
@@ -44,7 +45,18 @@ export interface MembershipResourceEmbedded {
   notificationMessage:Formattable;
 }
 
-export class MembershipResource extends HalResource {
-}
+export class MembershipResource extends HalResource implements MembershipResourceLinks, MembershipResourceEmbedded {
+  public update:CallableHalLink;
 
-export interface MembershipResource extends MembershipResourceLinks, MembershipResourceEmbedded {}
+  public updateImmediately:CallableHalLink;
+
+  public delete:CallableHalLink;
+
+  public principal:HalResource;
+
+  public roles:RoleResource[];
+
+  public project:ProjectResource;
+
+  public notificationMessage:Formattable;
+}

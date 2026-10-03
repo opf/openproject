@@ -33,6 +33,6 @@ export class TypeResource extends HalResource {
   public color:string;
 
   public get state():InputState<this> {
-    return this.states.types.get(this.href!) as any;
+    return this.states.types.get(this.href!) as unknown as InputState<this>;
   }
 }

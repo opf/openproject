@@ -51,7 +51,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
@@ -208,7 +207,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const resource = change.projectedResource;
     if (!this.currentProject.inProjectContext) {
       this.projectContext.field = this.getFields(change, ['project']);
-      this.workPackage.project = resource.project as HalResource;
+      this.workPackage.project = resource.project;
     }
 
     if (resource.project === null) {

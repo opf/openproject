@@ -27,16 +27,16 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { HalSource } from 'core-app/features/hal/interfaces';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 import { InputState } from '@openproject/reactivestates';
 
 export class SchemaResource extends HalResource {
   public get state():InputState<this> {
-    return this.states.schemas.get(this.href!) as any;
+    return this.states.schemas.get(this.href!) as unknown as InputState<this>;
   }
 
   public get availableAttributes():string[] {
-    return Object.keys(this.$source as HalSource).filter((name) => !name.startsWith('_'));
+    return Object.keys(this.$source).filter((name) => !name.startsWith('_'));
   }
 
   // Find the attribute name with a matching (localized) name;
@@ -44,7 +44,7 @@ export class SchemaResource extends HalResource {
     let match:string|null = null;
 
     for (const attribute of this.availableAttributes) {
-      const fieldSchema = this[attribute];
+      const fieldSchema = this[attribute] as IOPFieldSchema|undefined;
       if (fieldSchema?.name === name) {
         match = attribute;
         break;

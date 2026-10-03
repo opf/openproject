@@ -31,7 +31,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 export class WorkPackageSchemaProxy extends SchemaProxy {
-  get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
+  get(schema:SchemaResource, property:PropertyKey, receiver:unknown):unknown {
     switch (property) {
       case 'isMilestone': {
         return this.isMilestone;

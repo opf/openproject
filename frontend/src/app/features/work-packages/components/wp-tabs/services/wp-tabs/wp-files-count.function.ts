@@ -35,6 +35,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export function workPackageFilesCount(
   workPackage:WorkPackageResource,
@@ -43,7 +44,7 @@ export function workPackageFilesCount(
   const attachmentService = injector.get(AttachmentsResourceService);
   const http = injector.get(HttpClient);
   const attachmentsCollection = workPackage.$links.attachments
-    ? attachmentService.collection(workPackage.$links.attachments.href || '')
+    ? attachmentService.collection((workPackage.$links.attachments as CallableHalLink).href ?? '')
     : of([]);
   const totalFileLinks = workPackage.$links.fileLinks
     ? http.get<IHALCollection<IFileLink>>(href(workPackage))
@@ -60,5 +61,5 @@ function href(workPackage:WorkPackageResource):string {
     return '';
   }
 
-  return `${workPackage.$links.fileLinks.href}?pageSize=0`;
+  return `${(workPackage.$links.fileLinks as CallableHalLink).href}?pageSize=0`;
 }

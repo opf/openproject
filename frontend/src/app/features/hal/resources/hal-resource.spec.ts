@@ -34,7 +34,7 @@ import { States } from 'core-app/core/states/states.service';
 import { of } from 'rxjs';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
-import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink, HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import type { Mock } from 'vitest';
@@ -393,7 +393,7 @@ describe('HalResource', () => {
         return null as any;
       });
 
-      expect(() => resource.$links.beaver()).not.toThrow(Error);
+      expect(() => (resource.$links.beaver as CallableHalLink)()).not.toThrow(Error);
     });
 
     it('should have a $links property with the keys of its source _links', () => {
@@ -426,7 +426,7 @@ describe('HalResource', () => {
     });
 
     it('should have an embedded resource, that is loaded', () => {
-      expect(resource.$embedded.resource.$loaded).toBeTruthy();
+      expect((resource.$embedded.resource as HalResource).$loaded).toBeTruthy();
     });
 
     it('should have a property that is the resource', () => {
@@ -466,8 +466,9 @@ describe('HalResource', () => {
           },
         };
 
-        first = resource.$embedded.resource.$embedded.first;
-        deep = resource.$embedded.resource.$embedded.first.$embedded.second;
+        const embedded = resource.$embedded.resource as HalResource;
+        first = embedded.$embedded.first;
+        deep = (embedded.$embedded.first as HalResource).$embedded.second;
       });
 
       it('should create all nested resources recursively', () => {
@@ -492,7 +493,7 @@ describe('HalResource', () => {
       });
 
       it(`should ${update} the $source property`, () => {
-        expect(resource.$source._links.values.length).toEqual(length);
+        expect((resource.$source._links.values as unknown as unknown[]).length).toEqual(length);
       });
     };
 
@@ -577,8 +578,9 @@ describe('HalResource', () => {
     });
 
     it('should transform the list elements', () => {
-      expect(resource.$embedded.elements[0].$isHal).toBeTruthy();
-      expect(resource.$embedded.elements[1].$isHal).toBeTruthy();
+      const elements = resource.$embedded.elements as HalResource[];
+      expect(elements[0].$isHal).toBeTruthy();
+      expect(elements[1].$isHal).toBeTruthy();
     });
   });
 
@@ -629,7 +631,7 @@ describe('HalResource', () => {
 
     it('should not be possible to override a link', () => {
       try {
-        resource.$links.action = 'foo';
+        resource.$links.action = 'foo' as unknown as CallableHalLink;
       }
       catch (ignore) {
         /**/
