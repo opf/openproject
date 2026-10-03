@@ -1,0 +1,12 @@
+en:
+  activerecord:
+    errors:
+      models:
+        type_scheme:
+          attributes:
+            items:
+              exactly_one_default: must contain exactly one default type.
+        project_type_scheme:
+          attributes:
+            scheme:
+              inactive: must be active.
