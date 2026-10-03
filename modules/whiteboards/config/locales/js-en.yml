@@ -26,12 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+---
 en:
   js:
     whiteboards:
+      connection:
+        connecting: "Connecting…"
+        live: "Live"
+        offline: "Offline – changes are not saved"
       leave: "Leave whiteboard"
       rename: "Rename whiteboard"
-      connection:
-        live: "Live"
-        connecting: "Connecting…"
-        offline: "Offline – changes are not saved"

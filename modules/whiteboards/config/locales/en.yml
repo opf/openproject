@@ -26,16 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+---
 en:
   activerecord:
-    models:
-      whiteboard: "Whiteboard"
     attributes:
       whiteboard:
-        title: "Title"
+        content_binary: "Content"
         scene: "Scene"
         searchable_text: "Searchable text"
-        content_binary: "Content"
+        title: "Title"
+    models:
+      whiteboard: "Whiteboard"
 
   label_whiteboard: "Whiteboard"
   label_whiteboard_new: "Untitled whiteboard"
@@ -46,10 +47,10 @@ en:
 
   whiteboards:
     blankslate:
-      heading: "No whiteboards yet"
       description: "Create a whiteboard to sketch and brainstorm together in real time."
+      heading: "No whiteboards yet"
     collaboration_unavailable:
-      heading: "Real-time collaboration is not available"
       description: "Whiteboards require the collaboration server. Ask an administrator to enable it."
+      heading: "Real-time collaboration is not available"
     leave: "Back to whiteboards"
     updated_by: "Updated by %{author} %{time} ago"

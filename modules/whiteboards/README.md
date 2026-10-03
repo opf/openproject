@@ -6,7 +6,7 @@ through the same Hocuspocus collaboration server and Yjs/CRDT stack as collabora
 ## Enabling
 
 1. Configure the collaboration server (Administration → Documents → Collaboration settings), exactly as for documents.
-2. Activate the feature flag: `OPENPROJECT_FEATURE_WHITEBOARDS_ACTIVE=true`.
+2. Activate the feature flag: `OPENPROJECT_FEATURE__WHITEBOARDS__ACTIVE=true`.
 3. Enable the *Whiteboards* project module and grant `view_whiteboards` / `manage_whiteboards`.
 
 ## How it fits together

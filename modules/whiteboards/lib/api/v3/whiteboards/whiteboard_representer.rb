@@ -35,7 +35,10 @@ module API
         include API::Decorators::DateProperty
         include API::Decorators::LinkedResource
         include API::V3::Workspaces::LinkedResource
+        include API::Caching::CachedRepresenter
         include ::API::V3::Collaboration::CollaborativeContentRepresenter
+
+        cached_representer key_parts: %i(project)
 
         self_link title_getter: ->(*) { represented.title }
 

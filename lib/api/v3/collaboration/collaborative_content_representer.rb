@@ -33,6 +33,7 @@ module API
     module Collaboration
       # The collaboration server derives read-only access from the presence of the update link
       # and loads the Y.Doc from contentBinary.
+      # Must be included after API::Caching::CachedRepresenter, which provides `link` with `cache_if`.
       module CollaborativeContentRepresenter
         extend ActiveSupport::Concern
 

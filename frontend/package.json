@@ -213,5 +213,10 @@
     "core-js": false,
     "core-js-pure": false,
     "es5-ext@0.10.64": true
+  },
+  "overrides": {
+    "@excalidraw/excalidraw": {
+      "sass": "^1.99.0"
+    }
   }
 }
