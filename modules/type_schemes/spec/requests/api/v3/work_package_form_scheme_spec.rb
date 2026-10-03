@@ -57,7 +57,21 @@ RSpec.describe "API v3 work package form with type scheme" do
     post api_v3_paths.create_work_package_form, payload.to_json, "CONTENT_TYPE" => "application/json"
 
     expect(last_response).to have_http_status(:ok)
-    expect(JSON.parse(last_response.body).dig("_embedded", "validationErrors")).to have_key("type")
+    error = JSON.parse(last_response.body).dig("_embedded", "validationErrors", "type")
+    expect(error).to be_present
+    expect(error["message"]).to include("type scheme")
+  end
+
+  it "defaults to the scheme default type when no type is given" do
+    default_story_scheme_check = project.enabled_types.first
+    expect(default_story_scheme_check).not_to eq(story)
+
+    payload = { subject: "x", _links: { project: { href: api_v3_paths.project(project.id) } } }
+    post api_v3_paths.create_work_package_form, payload.to_json, "CONTENT_TYPE" => "application/json"
+
+    body = JSON.parse(last_response.body)
+    expect(body.dig("_embedded", "payload", "_links", "type", "href")).to eq(api_v3_paths.type(story.id))
+    expect(body.dig("_embedded", "validationErrors")).not_to have_key("type")
   end
 
   it "lists only scheme types, default first, in the schema type.allowedValues" do

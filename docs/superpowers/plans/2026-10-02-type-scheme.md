@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Không sửa file core: chỉ thêm file trong `modules/type_schemes/`, `Gemfile.modules` (một dòng), `docs/`.
-- Chỉ một điểm chạm vào core qua `prepend` trong `config.to_prepare`: `WorkPackages::BaseContract`.
+- Chỉ hai prepend vào core trong `config.to_prepare`: `WorkPackages::BaseContract` và `WorkPackages::SetAttributesService#assign_default_type`.
 - Tên bảng giữ nguyên: `type_schemes`, `type_scheme_items`, `project_type_schemes`.
 - `UNIQUE(project_id)` trên `project_type_schemes`; `UNIQUE(scheme_id, type_id)` trên items; tối đa 1 scheme `is_default`; đúng 1 item `is_default` mỗi scheme active.
 - Project không có scheme (hoặc scheme inactive) ⇒ hành vi native, không lọc.

@@ -24,7 +24,7 @@ Scheme chỉ tham chiếu `Type` native, không tạo Type mới, không sửa d
 Quyết định lệch so với idea (cần xác nhận ở mục 9):
 - **API** đặt trong API v3 (HAL, `add_api_endpoint "API::V3::Root"`) thay vì `/api/jira/...` trong idea (không dùng tên jira), để theo convention và authentication sẵn có.
 - **Manage Scheme = admin** (menu Administration vốn chỉ dành admin); **Assign Scheme** là project permission mới.
-- **Một điểm chạm core**: một `prepend` vào `WorkPackages::BaseContract` từ trong module (không sửa file core). Đây chính là điểm idea yêu cầu kiểm tra trước; nó sạch vì `assignable_types` là điểm duy nhất.
+- **Hai điểm chạm core, đều qua `prepend` từ trong module (không sửa file core)**: `WorkPackages::BaseContract#assignable_types`/`validate_enabled_type` (lọc + validate) và `WorkPackages::SetAttributesService#assign_default_type` (Type mặc định khi tạo không chỉ định Type, vì Angular không tự chọn Type).
 
 ## 3. Phạm vi
 
@@ -101,7 +101,7 @@ Body create (`type_items: [{type_id, position, default}]`).
 
 - `prepend` vào `WorkPackages::BaseContract`: nếu core đổi tên/hợp đồng `assignable_types`, spec hook sẽ vỡ ngay (có test bảo vệ).
 - Frontend Angular có thể tự chọn default Type theo thứ tự `allowedValues`; cần xác minh ở Task 4 (spike). Nếu không, default chỉ có hiệu lực ở dialog Rails và API, và ghi nhận là giới hạn.
-- Kết quả spike (Task 3): Angular (`wp-create.component.ts`, `wp-create.service.ts`) không tự chọn Type; khi không có `?type=` nó gửi form không có Type và server chọn bằng `WorkPackages::SetAttributesService#assign_default_type` = `project.enabled_types.first` (không qua `assignable_types`). Vì vậy default của Scheme chỉ có hiệu lực ở dialog Rails và thứ tự `allowedValues`; ở luồng Angular không `?type=`, Type mặc định vẫn theo core (có thể nằm ngoài Scheme ⇒ lỗi `not_in_scheme` cho tới khi người dùng chọn lại Type). Ghi nhận là giới hạn, không sửa core/Angular.
+- Kết quả spike (Task 3), đã xử lý: Angular không tự chọn Type; khi không có `?type=` server chọn bằng `SetAttributesService#assign_default_type` (core: `project.enabled_types.first`). Module prepend thêm vào hàm này để chọn phần tử đầu của `Resolver.allowed_types` (default Scheme) khi có Scheme, nên default hoạt động end-to-end; không có Scheme thì giữ hành vi gốc.
 - Type có `TypeVariant` theo project: Scheme không phân biệt variant (cùng Type ⇒ cùng được phép).
 
 ## 11. Acceptance

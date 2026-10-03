@@ -36,6 +36,8 @@ module OpenProject::TypeSchemes
       return scope if allowed.equal?(scope)
 
       allowed = allowed.to_a
+      # Deliberate: the work package's own persisted type stays allowed, so moving it to another
+      # project with an unchanged type is not blocked by that project's scheme.
       current = model.type_id_was && scope.find { |t| t.id == model.type_id_was }
       allowed << current if current && allowed.exclude?(current)
       allowed
@@ -46,9 +48,12 @@ module OpenProject::TypeSchemes
     def validate_enabled_type
       super
       return unless model.project && type_context_changed?
-      return if ::TypeSchemes::Resolver.for_project(model.project).nil?
 
-      errors.add :type_id, :not_in_scheme unless assignable_types.map(&:id).include?(model.type_id)
+      # A relation means no scheme applies (or it fell back to native types): nothing to enforce.
+      allowed = assignable_types
+      return unless allowed.is_a?(Array)
+
+      errors.add :type_id, :not_in_scheme if allowed.none? { |t| t.id == model.type_id }
     end
   end
 end

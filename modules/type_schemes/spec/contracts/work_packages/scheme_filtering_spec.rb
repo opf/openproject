@@ -63,4 +63,64 @@ RSpec.describe WorkPackages::CreateContract, "scheme filtering" do
     c.validate
     expect(c.errors.symbols_for(:type_id)).not_to include(:not_in_scheme)
   end
+
+  it "rejects changing a persisted work package to a type outside the scheme, but keeps the old one allowed" do
+    wp = create(:work_package, project:, type: bug)
+    c = WorkPackages::UpdateContract.new(wp, user)
+    expect(c.assignable_types.to_a).to eq([story, epic, bug])
+    wp.type = story
+    c.validate
+    expect(c.errors.symbols_for(:type_id)).not_to include(:not_in_scheme)
+
+    wp2 = create(:work_package, project:, type: story)
+    wp2.type = bug
+    c2 = WorkPackages::UpdateContract.new(wp2, user)
+    c2.validate
+    expect(c2.errors.symbols_for(:type_id)).to include(:not_in_scheme)
+  end
+
+  it "does not flag an unchanged persisted work package" do
+    wp = create(:work_package, project:, type: bug)
+    c = WorkPackages::UpdateContract.new(wp, user)
+    c.validate
+    expect(c.errors.symbols_for(:type_id)).to be_empty
+  end
+
+  context "without a scheme" do
+    let(:other) { create(:project, types: [epic, story, bug]) }
+    let(:user) { create(:user, member_with_permissions: { other => %i[view_work_packages add_work_packages] }) }
+
+    it "behaves natively" do
+      wp = build(:work_package, project: other, type: bug, author: user)
+      c = contract_for(wp)
+      expect(c.assignable_types).to be_a(ActiveRecord::Relation)
+      c.validate
+      expect(c.errors.symbols_for(:type_id)).to be_empty
+    end
+  end
+
+  context "with an inactive scheme" do
+    before { ProjectTypeScheme.find_by(project:).scheme.update_columns(active: false) }
+
+    it "behaves natively" do
+      wp = build(:work_package, project:, type: bug, author: user)
+      c = contract_for(wp)
+      expect(c.assignable_types).to be_a(ActiveRecord::Relation)
+      c.validate
+      expect(c.errors.symbols_for(:type_id)).to be_empty
+    end
+  end
+
+  context "when no scheme type is enabled in the project" do
+    # the outer scheme [story, epic] has no type enabled in this project
+    let(:project) { create(:project, types: [bug]) }
+
+    it "falls back to native types without a scheme error" do
+      wp = build(:work_package, project:, type: bug, author: user)
+      c = contract_for(wp)
+      expect(c.assignable_types.to_a).to eq([bug])
+      c.validate
+      expect(c.errors.symbols_for(:type_id)).not_to include(:not_in_scheme)
+    end
+  end
 end

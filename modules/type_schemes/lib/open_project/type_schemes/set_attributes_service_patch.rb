@@ -28,21 +28,22 @@
 
 # frozen_string_literal: true
 
-require "open_project/plugins"
-
 module OpenProject::TypeSchemes
-  class Engine < ::Rails::Engine
-    engine_name :openproject_type_schemes
+  module SetAttributesServicePatch
+    private
 
-    include OpenProject::Plugins::ActsAsOpEngine
+    # Without an explicit type, core picks project.enabled_types.first. With a scheme, use its default.
+    def assign_default_type
+      super
+      return unless ::TypeSchemes::Resolver.for_project(work_package.project)
 
-    register "openproject-type_schemes",
-             author_url: "https://www.openproject.org",
-             bundled: true
+      type = ::TypeSchemes::Resolver.allowed_types(work_package.project).first
+      return if type.nil? || type == work_package.type
 
-    config.to_prepare do
-      ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
-      ::WorkPackages::SetAttributesService.prepend(OpenProject::TypeSchemes::SetAttributesServicePatch)
+      work_package.type = type
+      update_duration_to_one_day_for_milestones
+      unify_milestone_dates
+      reassign_status assignable_statuses
     end
   end
 end
