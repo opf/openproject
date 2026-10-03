@@ -707,9 +707,26 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         end
       end
 
+      it "unsets the value on writing an empty string" do
+        allow(represented).to receive(custom_field.attribute_setter)
+        modified_class.new(represented, current_user: nil).from_json({ cf_path => "" }.to_json)
+
+        expect(represented).to have_received(custom_field.attribute_setter).with(nil)
+      end
+
       it "rejects a value that is not an ISO 8601 datetime" do
         expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => "chicken" }.to_json) }
           .to raise_error(API::Errors::PropertyFormatError)
+      end
+
+      [false, [], {}, "  "].each do |blank_value|
+        it "rejects #{blank_value.to_json} instead of unsetting the value" do
+          allow(represented).to receive(custom_field.attribute_setter)
+
+          expect { modified_class.new(represented, current_user: nil).from_json({ cf_path => blank_value }.to_json) }
+            .to raise_error(API::Errors::PropertyFormatError)
+          expect(represented).not_to have_received(custom_field.attribute_setter)
+        end
       end
 
       it "rejects a date without a time of day" do

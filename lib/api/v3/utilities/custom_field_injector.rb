@@ -85,8 +85,10 @@ module API
             end
           end
 
+          # Only `null` and `""` clear the value. Anything else that is not an ISO 8601
+          # datetime string (e.g. `false`, `[]`, `{}` or whitespace) is a format error.
           def parse_datetime_value(fragment, custom_field)
-            return if fragment.blank?
+            return if fragment.nil? || fragment == ""
 
             property_name = custom_field.attribute_name(:camel_case)
 
