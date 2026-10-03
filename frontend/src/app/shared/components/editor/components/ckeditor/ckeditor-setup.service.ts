@@ -120,7 +120,6 @@ export class CKEditorSetupService {
 
           editable.dataset.lastUpdated = String(new Date().getTime());
         };
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
 
         // Allow custom events on wrapper to set/get data for debugging

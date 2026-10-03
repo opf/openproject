@@ -46,7 +46,7 @@ export function setupServerResponse() {
     });
   });
 
-  let resizeTo:any = null;
+  let resizeTo:ReturnType<typeof setTimeout>|null = null;
   window.addEventListener('resize', () => {
     // wait 200 milliseconds for no further resize event
     // then readjust breadcrumb

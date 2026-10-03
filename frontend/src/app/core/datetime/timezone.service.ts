@@ -29,7 +29,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import moment, { Moment } from 'moment-timezone';
+import moment, { Moment, MomentInput } from 'moment-timezone';
 import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
@@ -55,7 +55,7 @@ export class TimezoneService {
       .tz(this.userTimezone());
   }
 
-  public parseDate(date:Date|string, format?:string):Moment {
+  public parseDate(date:MomentInput, format?:string):Moment {
     return moment(date, format);
   }
 
@@ -169,15 +169,15 @@ export class TimezoneService {
     return outputChronicDuration(seconds, opts) || '0h';
   }
 
-  public formattedISODate(date:any):string {
+  public formattedISODate(date:MomentInput):string {
     return this.parseDate(date).format('YYYY-MM-DD');
   }
 
-  public formattedISODateTime(datetime:any):string {
+  public formattedISODateTime(datetime:Moment):string {
     return datetime.format();
   }
 
-  public isValidISODate(date:any):boolean {
+  public isValidISODate(date:string):boolean {
     return this.isValid(date, 'YYYY-MM-DD');
   }
 

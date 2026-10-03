@@ -45,7 +45,7 @@ export function debugLog(message:string, ...args:unknown[]):void {
   whenDebugging(() => console.log(`[DEBUG] ${message}`, ...args));
 }
 
-export function timeOutput(msg:string, cb:() => void):any {
+export function timeOutput<T>(msg:string, cb:() => T):T {
   if (!environment.production) {
     const t0 = performance.now();
 
@@ -60,7 +60,7 @@ export function timeOutput(msg:string, cb:() => void):any {
   return cb();
 }
 
-export function asyncTimeOutput(msg:string, promise:Promise<any>):any {
+export function asyncTimeOutput(msg:string, promise:Promise<unknown>):Promise<unknown> {
   if (!environment.production) {
     const t0 = performance.now();
 
