@@ -45,6 +45,10 @@
   container-name: backlogsListsContainer
   container-type: inline-size
 
+// Display the loading indicator while the #backlogs_container is loading
+body:has(turbo-frame#backlogs_container[busy]) #global-loading-indicator
+  display: block !important
+
 .op-sprint-planning-container
   display: flex
   flex-direction: row
