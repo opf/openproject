@@ -31,11 +31,14 @@
 module FormConfigurations
   class FormConfigurationsController < ApplicationController
     include OpTurbo::ComponentStream
+    include FormConfigurations::EditorRecords
+    include WorkPackageTypes::FormConfiguration::LayoutLock
 
     layout "admin"
 
     before_action :require_admin
     before_action :load_form_configuration
+    before_action :reconcile_editor_records, only: :edit
 
     menu_item :form_configurations
 
@@ -48,11 +51,13 @@ module FormConfigurations
     end
 
     def reset
-      service_call = ::WorkPackageTypes::UpdateService
-        .new(user: current_user,
-             model: @form_configuration,
-             contract_class: ::WorkPackageTypes::UpdateFormConfigurationContract)
-        .call(attribute_groups: [])
+      service_call = with_layout_lock(@form_configuration) do
+        ::WorkPackageTypes::UpdateService
+          .new(user: current_user,
+               model: @form_configuration,
+               contract_class: ::WorkPackageTypes::UpdateFormConfigurationContract)
+          .call(attribute_groups: [])
+      end
 
       if service_call.success?
         flash[:notice] = t(:notice_successful_update)

@@ -33,10 +33,18 @@ module WorkPackageTypes
     module Concern
       extend ActiveSupport::Concern
 
+      include LayoutLock
+
       def initialize(user:, form_configuration:, **)
         super()
         @user = user
         @form_configuration = form_configuration
+      end
+
+      protected
+
+      def perform(*)
+        with_layout_lock(form_configuration) { perform_locked }
       end
 
       private

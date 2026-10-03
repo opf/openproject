@@ -50,14 +50,15 @@ module WorkPackageTypes
       end
 
       def groups_container_data
-        return { "test-selector": "type-form-configuration-groups-container" } if readonly?
+        data = { "test-selector": "type-form-configuration-groups-container" }
+        return data if readonly?
 
-        {
-          "test-selector": "type-form-configuration-groups-container",
+        data.merge(
           "admin--type-form-configuration--main-target": "groupsContainer",
-          "admin--type-form-configuration--drag-and-drop-target": "container",
-          "target-allowed-drag-type": "group"
-        }
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: SortableTypes::GROUP,
+          sortable_lists__list_accepted_type_value: SortableTypes::GROUP
+        )
       end
     end
   end

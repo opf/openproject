@@ -28,7 +28,8 @@
               Primer::OpenProject::DragHandle.new(
                 classes: "group-handle",
                 "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
-                test_selector: "type-form-configuration-group-handle-#{@group[:key]}"
+                test_selector: "type-form-configuration-group-handle-#{@group[:key]}",
+                data: { sortable_lists__item_target: "handle" }
               )
             )
           end
@@ -64,15 +65,9 @@
               end
             end
 
-            with_item_group(menu) do
-              unless first?
-                move_action(menu:, href: move_path(:highest), label: t("label_agenda_item_move_to_top"), icon: "move-to-top")
-                move_action(menu:, href: move_path(:higher), label: t("label_agenda_item_move_up"), icon: "chevron-up")
-              end
-
-              unless last?
-                move_action(menu:, href: move_path(:lower), label: t("label_agenda_item_move_down"), icon: "chevron-down")
-                move_action(menu:, href: move_path(:lowest), label: t("label_agenda_item_move_to_bottom"), icon: "move-to-bottom")
+            unless sole_group?
+              with_item_group(menu) do
+                with_move_items(menu)
               end
             end
 

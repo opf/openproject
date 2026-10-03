@@ -29,28 +29,40 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
+  module FormConfiguration
+    class ReconcileEditorRecordsService
+      include LayoutLock
 
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
+      def initialize(form)
+        @form = form
+      end
+
+      # Default groups first: GenerateDefaultsService refuses once memberships
+      # exist, and memberships without groups read as an intentionally empty form.
+      def call
+        materialize_default_groups if unconfigured?
+        EnsureAttributeMembershipService.new(form).call
       end
 
       private
 
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
+      attr_reader :form
 
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
+      def unconfigured?
+        !form.form_groups.exists? && !form.form_attributes.exists?
+      end
 
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
+      def materialize_default_groups
+        with_layout_lock(form) do
+          unconfigured? ? GenerateDefaultsService.new(form, from: defaults_source).call : ServiceResult.success(result: form)
         end
+      end
+
+      def defaults_source
+        variants = form.type_variants.reload.to_a
+        return form if variants.map(&:default_attribute_groups).uniq.size != 1
+
+        variants.first
       end
     end
   end

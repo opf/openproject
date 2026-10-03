@@ -28,30 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
+RSpec::Matchers.define :have_sortable_item do |record, type:, label: record.try(:name)|
+  identity = "[data-sortable-lists--item-id-value='#{record.id}']" \
+             "[data-sortable-lists--item-type-value='#{type}']"
+  selector = "[data-controller~='sortable-lists--item']#{identity}"
 
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
-      end
+  def capybara_node(rendered)
+    rendered.respond_to?(:has_css?) ? rendered : Capybara.string(rendered.to_s)
+  end
 
-      private
+  match do |rendered|
+    node = capybara_node(rendered)
+    node.has_css?(selector, count: 1) &&
+      node.find(selector)["data-sortable-lists--item-label-value"] == label
+  end
 
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
+  match_when_negated do |rendered|
+    capybara_node(rendered).has_no_css?(identity)
+  end
 
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
-
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
-        end
-      end
-    end
+  failure_message do
+    "expected one sortable-lists item of type #{type.inspect} with id #{record.id} and label #{label.inspect}"
   end
 end

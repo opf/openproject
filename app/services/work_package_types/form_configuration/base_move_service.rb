@@ -29,28 +29,47 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
+  module FormConfiguration
+    class BaseMoveService < ::BaseServices::BaseCallable
+      include LayoutLock
 
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
+      def initialize(user:, form_configuration:, record:)
+        super()
+        @user = user
+        @form_configuration = form_configuration
+        @record = record
+      end
+
+      protected
+
+      def perform(*)
+        return unauthorized unless user.admin?
+
+        with_layout_lock(form_configuration) do
+          record = fresh_record
+          record ? move(record) : invalid_move
+        end
+      rescue ActiveRecord::RecordNotFound
+        raise
+      rescue StandardError => e
+        OpenProject.logger.error(e, reference: :form_configuration_move, form_configuration_id: form_configuration.id)
+        ServiceResult.failure(message: I18n.t("types.edit.form_configuration.move_failed"))
       end
 
       private
 
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
+      attr_reader :user, :form_configuration
 
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
+      def fresh_record = raise(SubclassResponsibilityError)
 
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
-        end
+      def move(_record) = raise(SubclassResponsibilityError)
+
+      def invalid_move
+        ServiceResult.failure(message: I18n.t(:error_invalid_list_move_anchor))
+      end
+
+      def unauthorized
+        ServiceResult.failure(message: I18n.t("activerecord.errors.messages.error_unauthorized"))
       end
     end
   end

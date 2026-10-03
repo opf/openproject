@@ -50,6 +50,8 @@ RSpec.describe "form configuration", :js, :selenium do
 
   describe "query group actions with EE token", with_ee: %i[edit_attribute_groups] do
     describe "default configuration" do
+      include_context "with mobile screen size", 1920, 1700
+
       let(:dialog) { Components::ConfirmationDialog.new }
 
       before do
@@ -362,32 +364,6 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
       end
 
-      it "shows move actions only where valid for multi-row groups" do
-        details_order = form.attribute_order("Details")
-
-        first_row_menu_id = form.open_attribute_menu(details_order.first)
-
-        within "##{first_row_menu_id}" do
-          expect(page).to have_text(I18n.t("label_agenda_item_move_down"))
-          expect(page).to have_text(I18n.t("label_agenda_item_move_to_bottom"))
-          expect(page).to have_no_text(I18n.t("label_agenda_item_move_to_top"))
-          expect(page).to have_no_text(I18n.t("label_agenda_item_move_up"))
-          expect(page).to have_text(I18n.t("button_delete"))
-        end
-
-        form.close_menu(first_row_menu_id)
-
-        last_row_menu_id = form.open_attribute_menu(details_order.last)
-
-        within "##{last_row_menu_id}" do
-          expect(page).to have_text(I18n.t("label_agenda_item_move_to_top"))
-          expect(page).to have_text(I18n.t("label_agenda_item_move_up"))
-          expect(page).to have_no_text(I18n.t("label_agenda_item_move_down"))
-          expect(page).to have_no_text(I18n.t("label_agenda_item_move_to_bottom"))
-          expect(page).to have_text(I18n.t("button_delete"))
-        end
-      end
-
       it "opens the query editor from the query row action" do
         form.add_query_group("Subtasks", :children)
 
@@ -398,72 +374,6 @@ RSpec.describe "form configuration", :js, :selenium do
         end
 
         expect(page).to have_css(".wp-table--configuration-modal")
-      end
-
-      it "reorders and deletes groups via group actions" do
-        expected_order = persisted_group_order
-        moving_group = expected_order.second
-
-        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
-        index = expected_order.index(moving_group)
-        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        wait_for { persisted_group_order }.to eq(expected_order)
-
-        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_bottom"))
-        expected_order.delete(moving_group)
-        expected_order << moving_group
-        wait_for { persisted_group_order }.to eq(expected_order)
-
-        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
-        index = expected_order.index(moving_group)
-        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        wait_for { persisted_group_order }.to eq(expected_order)
-
-        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_top"))
-        expected_order.delete(moving_group)
-        expected_order.unshift(moving_group)
-        wait_for { persisted_group_order }.to eq(expected_order)
-
-        deleted_group = expected_order.last
-        accept_confirm I18n.t("types.edit.form_configuration.confirm_delete_group") do
-          form.invoke_group_action(deleted_group, I18n.t("button_delete"))
-        end
-        expected_order.delete(deleted_group)
-        wait_for { persisted_group_order }.to eq(expected_order)
-      end
-
-      it "reorders and deletes attribute rows via row actions" do
-        expected_order = persisted_attribute_order(:details)
-        moving_attribute = expected_order.second
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
-        index = expected_order.index(moving_attribute)
-        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_down"))
-        index = expected_order.index(moving_attribute)
-        expected_order[index], expected_order[index + 1] = expected_order[index + 1], expected_order[index]
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_bottom"))
-        expected_order.delete(moving_attribute)
-        expected_order << moving_attribute
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
-        index = expected_order.index(moving_attribute)
-        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_top"))
-        expected_order.delete(moving_attribute)
-        expected_order.unshift(moving_attribute)
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
-
-        form.invoke_attribute_action(moving_attribute, I18n.t("button_delete"))
-        expected_order.delete(moving_attribute)
-        wait_for { persisted_attribute_order(:details) }.to eq(expected_order)
       end
     end
 

@@ -103,4 +103,44 @@ RSpec.describe Lists::MoveAfterAnchor do
       end
     end
   end
+
+  describe "#position_after_anchor" do
+    it "is the first position for an empty or nil anchor" do
+      expect(section_c.position_after_anchor("", scope:)).to eq(1)
+      expect(section_c.position_after_anchor(nil, scope:)).to eq(1)
+    end
+
+    it "is the position below the anchor" do
+      expect(section_c.position_after_anchor(section_a.id.to_s, scope:)).to eq(section_a.position + 1)
+    end
+
+    it "is nil for an unknown, out-of-scope, self or malformed anchor", :aggregate_failures do
+      foreign = create(:user_custom_field_section)
+
+      expect(section_c.position_after_anchor("999999", scope:)).to be_nil
+      expect(section_c.position_after_anchor(foreign.id.to_s, scope:)).to be_nil
+      expect(section_c.position_after_anchor(section_c.id.to_s, scope:)).to be_nil
+      expect(section_c.position_after_anchor("0#{section_a.id}", scope:)).to be_nil
+      expect(section_c.position_after_anchor([section_a.id], scope:)).to be_nil
+    end
+
+    it "does not move anything" do
+      section_c.position_after_anchor(section_a.id.to_s, scope:)
+
+      expect(order).to eq(%w[A B C])
+    end
+  end
+
+  describe ".canonical_id" do
+    it "accepts positive Integers and their canonical decimal Strings", :aggregate_failures do
+      expect(described_class.canonical_id(7)).to eq(7)
+      expect(described_class.canonical_id("7")).to eq(7)
+    end
+
+    it "rejects everything else", :aggregate_failures do
+      [0, -1, "0", "07", "+7", "7.0", " 7", "7junk", "", nil, true, [7], { id: 7 }].each do |value|
+        expect(described_class.canonical_id(value)).to be_nil
+      end
+    end
+  end
 end

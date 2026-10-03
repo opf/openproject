@@ -12,9 +12,9 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupHeaderComponent, type: 
     end
   end
 
-  def render_header(readonly:)
-    render_inline(described_class.new(group:, context: editor_context(readonly:), ee_available: true, first: true,
-                                      last: true, edit_mode: false))
+  def render_header(readonly: false, first: true, last: true)
+    render_inline(described_class.new(group:, context: editor_context(readonly:), ee_available: true, first:,
+                                      last:, edit_mode: false))
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
@@ -31,5 +31,18 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupHeaderComponent, type: 
     expect(page).to have_no_test_selector("type-form-configuration-group-handle-details")
     expect(page).to have_no_test_selector("type-form-configuration-group-actions-details")
     expect(page).to have_text("Details")
+  end
+
+  it "offers the four shared move items", :aggregate_failures do
+    render_header(first: false, last: false)
+
+    expect(page).to have_css("[data-sortable-lists--item-target='moveItem']", count: 4, visible: :all)
+    expect(page).to have_no_link("Move up", visible: :all)
+  end
+
+  it "offers no move items for the only group" do
+    render_header(first: true, last: true)
+
+    expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
   end
 end

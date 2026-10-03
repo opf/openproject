@@ -32,6 +32,14 @@ module Lists
   # Anchor-based reordering for acts_as_list models: moves the record
   # directly below another record of the same list, addressed by id.
   module MoveAfterAnchor
+    # A positive Integer or its canonical decimal String; nil for anything else.
+    def self.canonical_id(value)
+      case value
+      when Integer then value if value.positive?
+      when /\A[1-9]\d*\z/ then value.to_i
+      end
+    end
+
     # Moves the record below the record identified by `prev_id` within
     # `scope` (a relation over the same acts_as_list list). `nil` or an
     # empty string moves the record to the top; otherwise `prev_id` must
@@ -58,13 +66,23 @@ module Lists
       true
     end
 
+    # The position a record entering `scope` from another list takes when
+    # placed below `prev_id`: 1 for `nil` or an empty string. Returns nil
+    # under the conditions that make {#move_after_anchor} return false.
+    def position_after_anchor(prev_id, scope:)
+      return 1 if prev_id.nil? || prev_id == ""
+
+      anchor_id = anchor_id_from(prev_id)
+      return if anchor_id.nil?
+
+      anchor = scope.find_by(id: anchor_id)
+      return if anchor.nil? || anchor.id == id
+
+      anchor.position + 1
+    end
+
     private
 
-    def anchor_id_from(prev_id)
-      case prev_id
-      when Integer then prev_id if prev_id.positive?
-      when /\A[1-9]\d*\z/ then prev_id.to_i
-      end
-    end
+    def anchor_id_from(prev_id) = Lists::MoveAfterAnchor.canonical_id(prev_id)
   end
 end

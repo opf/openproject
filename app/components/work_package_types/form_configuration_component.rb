@@ -60,22 +60,20 @@ module WorkPackageTypes
       return {} if readonly?
 
       {
-        controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
+        controller: "admin--type-form-configuration--main sortable-lists",
+        action: "sortable-lists:before-move->admin--type-form-configuration--main#confirmDiscardingEdit " \
+                "turbo:morph-element->admin--type-form-configuration--main#reapplyInactiveFilter",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
         "admin--type-form-configuration--main-add-group-url-value": @context.group_path(:add_group),
-        "admin--type-form-configuration--rows-drag-and-drop-handle-selector-value": ".attribute-handle"
+        sortable_lists_move_url_templates_value: @context.move_url_templates.to_json,
+        sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+        sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']",
+        sortable_lists_sortable_lists__scrollable_outlet: "##{wrapper_key} [data-controller~='sortable-lists--scrollable']"
       }
     end
 
-    def active_list_data
-      return {} if readonly?
-
-      {
-        controller: "admin--type-form-configuration--drag-and-drop",
-        "admin--type-form-configuration--drag-and-drop-handle-selector-value": ".group-handle",
-        "admin--type-form-configuration--drag-and-drop-target": "scrollContainer",
-        "admin--type-form-configuration--rows-drag-and-drop-target": "scrollContainer"
-      }
+    def scrollable_data
+      readonly? ? {} : { controller: "sortable-lists--scrollable" }
     end
 
     def main_content_component

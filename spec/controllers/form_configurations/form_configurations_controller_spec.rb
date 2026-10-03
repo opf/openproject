@@ -47,6 +47,14 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
       expect(form.reload.form_groups.map(&:default_key)).to include("people", "details")
     end
 
+    it "takes the form's layout lock" do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_call_original
+
+      patch :reset, params: { id: form.id }
+
+      expect(OpenProject::Mutex).to have_received(:with_advisory_lock_transaction).with(form, "layout")
+    end
+
     context "with an account that is not an administrator" do
       let(:user) { create(:user) }
 
@@ -56,6 +64,32 @@ RSpec.describe FormConfigurations::FormConfigurationsController do
         expect(response).to have_http_status(:forbidden)
         expect(form.reload.form_groups.map(&:label)).to eq(["People"])
       end
+    end
+  end
+
+  describe "GET #edit for a form created from scratch" do
+    render_views
+
+    let(:scratch) { create(:form_configuration) }
+
+    it "persists and shows the default groups instead of the blankslate", :aggregate_failures do
+      get :edit, params: { id: scratch.id }
+
+      expect(response).to have_http_status(:ok)
+      expect(scratch.form_groups.reload).not_to be_empty
+      expect(response.body).to include(I18n.t(:label_details))
+    end
+  end
+
+  describe "GET #edit for the form of a fresh milestone type" do
+    let(:variant) { create(:type_milestone).default_variant }
+
+    it "leaves the milestone's effective groups unchanged" do
+      before = variant.attribute_groups.map(&:key)
+
+      get :edit, params: { id: variant.form_configuration.id }
+
+      expect(variant.reload.attribute_groups.map(&:key)).to eq(before)
     end
   end
 end

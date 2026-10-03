@@ -33,7 +33,9 @@ module WorkPackageTypes
     class CreateService < ::BaseServices::BaseCallable
       include ::WorkPackageTypes::FormConfiguration::Concern
 
-      def perform
+      private
+
+      def perform_locked
         name = resolve_group_name
 
         if query_group?
@@ -50,8 +52,6 @@ module WorkPackageTypes
           call.result = group if call.success?
         end
       end
-
-      private
 
       def resolve_group_name
         name = params[:name].to_s.strip

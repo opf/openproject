@@ -234,6 +234,24 @@ RSpec.describe TypesHelper do
     end
   end
 
+  describe "#form_configuration_groups with an editor context" do
+    let(:form) { create(:form_configuration) }
+    let!(:group) { create(:form_configuration_group, form_configuration: form, label: "Details") }
+    let!(:active) do
+      create(:form_configuration_attribute, form_configuration: form, group:, position: 1, attribute_key: "assignee")
+    end
+    let!(:inactive) { create(:form_configuration_attribute, form_configuration: form, attribute_key: "priority") }
+    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: form) }
+
+    it "carries record ids for groups, active and inactive attributes", :aggregate_failures do
+      result = helper.form_configuration_groups(context)
+
+      expect(result[:actives].first).to include(id: group.id)
+      expect(result[:actives].first[:attributes].first).to include(key: "assignee", id: active.id)
+      expect(result[:inactives].find { it[:key] == "priority" }).to include(id: inactive.id)
+    end
+  end
+
   describe "#icon_for_type" do
     subject(:icon) { helper.icon_for_type(type) }
 
