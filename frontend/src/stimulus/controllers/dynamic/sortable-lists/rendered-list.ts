@@ -40,6 +40,14 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './list-dom';
+import {
+  analyzeMoveRows,
+  analyzedMoveAvailability,
+  resolveAnalyzedMove,
+  type BlockMoveResult,
+  type MoveAnalysis,
+  type MoveRow,
+} from './move-analysis';
 
 export interface RenderedItem {
   element:HTMLElement;
@@ -176,57 +184,36 @@ export function placementAtEdge(list:RenderedList, row:RenderedRow, edge:'top'|'
   return predecessorFrom(list, index - 1, excluded);
 }
 
-// Reasoning happens over rows, not just items, so a truncation marker takes
-// part: a one-step move that would cross its hidden block is unavailable,
-// while the extremes and moves landing next to the block via the marker's
-// id stay available. A gap is a hard stop for one-step moves.
-export function directionalPlacement(list:RenderedList, row:RenderedRow, direction:MoveDirection):Placement|null {
-  const { rows } = list;
-  const rowIndex = rows.indexOf(row);
-  const itemRows = list.itemRows();
-  const itemIndex = itemRows.indexOf(row);
-
-  if (rowIndex === -1 || itemIndex === -1) {
-    return null;
-  }
-
-  const isFirst = itemIndex === 0;
-  const isLast = itemIndex === itemRows.length - 1;
-
-  switch (direction) {
-    case 'top':
-      return isFirst ? null : placementAtStart();
-    case 'bottom':
-      // After the last visible item; the server appends past the hidden block.
-      return isLast ? null : { previousItemId: itemRows[itemRows.length - 1].predecessorId };
-    case 'up': {
-      if (isFirst || !rows[rowIndex - 1].item) {
-        return null;
-      }
-      const anchor:RenderedRow|undefined = rows[rowIndex - 2];
-      if (anchor?.predecessorId === null) {
-        return null;
-      }
-      return { previousItemId: anchor?.predecessorId ?? null };
-    }
-    case 'down': {
-      if (isLast) {
-        return null;
-      }
-      const below = rows[rowIndex + 1];
-      return below.item ? { previousItemId: below.predecessorId } : null;
-    }
-    default:
-      return null;
-  }
+function moveRows(list:RenderedList):MoveRow[] {
+  return list.rows.map((row) => ({
+    element: row.element,
+    isItem: row.item !== null,
+    orderable: row.item?.movable ?? false,
+    previousItemId: row.predecessorId,
+  }));
 }
 
-export function moveAvailability(list:RenderedList, row:RenderedRow):MoveAvailability {
-  return {
-    top: directionalPlacement(list, row, 'top') !== null,
-    up: directionalPlacement(list, row, 'up') !== null,
-    down: directionalPlacement(list, row, 'down') !== null,
-    bottom: directionalPlacement(list, row, 'bottom') !== null,
+function analyzeBlock(list:RenderedList, itemElements:readonly HTMLElement[]):MoveAnalysis|null {
+  const selectedRows:HTMLElement[] = [];
+  for (const itemElement of itemElements) {
+    const row = list.rowOf(itemElement);
+    if (row?.item?.element !== itemElement) return null;
+    selectedRows.push(row.element);
+  }
+
+  return analyzeMoveRows(moveRows(list), selectedRows);
+}
+
+export function blockMove(list:RenderedList, itemElements:readonly HTMLElement[], direction:MoveDirection):BlockMoveResult {
+  const analysis = analyzeBlock(list, itemElements);
+  return analysis ? resolveAnalyzedMove(analysis, direction) : { available: false };
+}
+
+// An item the analysis rejects is in the list but may not move.
+export function blockMoveAvailability(list:RenderedList, itemElements:readonly HTMLElement[]):MoveAvailability {
+  const analysis = analyzeBlock(list, itemElements);
+  return analysis ? analyzedMoveAvailability(analysis) : {
+    top: false, up: false, down: false, bottom: false,
   };
 }
 

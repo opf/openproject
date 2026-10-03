@@ -25,8 +25,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { type RenderedList, renderList, placementAtEdge, placementAtEnd, placementAtStart, directionalPlacement, moveAvailability, positionOf, anchorRow, rangeBetween, neighborItemRow, boundaryItemRow, movableItems } from './rendered-list';
-import { type ExcludedItems } from './list-dom';
+import { type RenderedList, renderList, placementAtEdge, placementAtEnd, placementAtStart, blockMove, blockMoveAvailability, positionOf, anchorRow, rangeBetween, neighborItemRow, boundaryItemRow, movableItems } from './rendered-list';
+import { sortableItemMobilityAttribute, type ExcludedItems } from './list-dom';
 
 describe('rendered sortable list', () => {
   function itemRow(id:string, { type = 'work_package', mobility = 'free' }:{ type?:string|null; mobility?:string } = {}):HTMLLIElement {
@@ -97,6 +97,25 @@ describe('rendered sortable list', () => {
       expect(renderList(container).rows[1].predecessorId).toBeNull();
     });
 
+    it('reads a row that is itself the item, as consumers render it', () => {
+      const row = document.createElement('li');
+      row.setAttribute('data-sortable-lists--item-id-value', '7');
+      row.setAttribute('data-sortable-lists--item-type-value', 'work_package');
+      const container = list(row);
+      const rendered = renderList(container);
+
+      expect(rendered.rows[0].item?.element).toBe(row);
+      expect(rendered.rowOf(row)).toBe(rendered.rows[0]);
+    });
+
+    it('treats a marker with an empty hidden id as a gap', () => {
+      const container = list(itemRow('1'), showMoreRow(''), itemRow('2'));
+      const rendered = renderList(container);
+
+      expect(rendered.rows[1].predecessorId).toBeNull();
+      expect(placementAtEdge(rendered, rowById(rendered, '2'), 'top', excluding('x'))).toEqual({ previousItemId: '1' });
+    });
+
     it('resolves the row holding a nested element and null for the container', () => {
       const container = list(itemRow('1'), itemRow('2'));
       const rendered = renderList(container);
@@ -118,6 +137,15 @@ describe('rendered sortable list', () => {
       const container = list(itemRow('1'), itemRow('2'), showMoreRow('hidden'));
 
       expect(placementAtEnd(renderList(container), excluding('2'))).toEqual({ previousItemId: 'hidden' });
+    });
+
+    it('returns the top for an empty list nested inside an outer item', () => {
+      const section = itemRow('s1', { type: 'section' });
+      const inner = document.createElement('ul');
+      section.append(inner);
+      list(section);
+
+      expect(placementAtEnd(renderList(inner), excluding('x'))).toEqual({ previousItemId: null });
     });
 
     it('returns the top when the list has no other items', () => {
@@ -154,6 +182,37 @@ describe('rendered sortable list', () => {
       expect(placementAtEdge(rendered, rowById(rendered, '3'), 'top', excluding('1', '2'))).toEqual({ previousItemId: 'hidden' });
     });
 
+    it('refuses an excluded target as the bottom-edge anchor', () => {
+      const container = list(itemRow('1'), itemRow('2'), itemRow('3'));
+      const rendered = renderList(container);
+
+      expect(placementAtEdge(rendered, rowById(rendered, '2'), 'bottom', excluding('2'))).toEqual({ previousItemId: '1' });
+    });
+
+    it('treats a missing edge as dropping before the target', () => {
+      const container = list(itemRow('1'), itemRow('2'));
+      const rendered = renderList(container);
+
+      expect(placementAtEdge(rendered, rowById(rendered, '2'), null, excluding('x'))).toEqual({ previousItemId: '1' });
+    });
+
+    it('resolves a target given as its row or a descendant of the item', () => {
+      const container = list(itemRow('1'), itemRow('2'));
+      const rendered = renderList(container);
+      const rowElement = container.children[1];
+      const descendant = rowElement.firstElementChild!;
+
+      expect(placementAtEdge(rendered, rendered.rowOf(rowElement)!, 'bottom', excluding('x'))).toEqual({ previousItemId: '2' });
+      expect(placementAtEdge(rendered, rendered.rowOf(descendant)!, 'top', excluding('x'))).toEqual({ previousItemId: '1' });
+    });
+
+    it('keeps excluding a truncation marker whose hidden id collides with the batch', () => {
+      const container = list(showMoreRow('1'), itemRow('2'));
+      const rendered = renderList(container);
+
+      expect(placementAtEdge(rendered, rowById(rendered, '2'), 'top', excluding('1'))).toEqual({ previousItemId: null });
+    });
+
     it('excludes only a same-type id', () => {
       const container = list(itemRow('1', { type: 'section' }), itemRow('2'));
       const rendered = renderList(container);
@@ -162,26 +221,34 @@ describe('rendered sortable list', () => {
     });
   });
 
-  describe('directionalPlacement', () => {
+  describe('blockMove for one item', () => {
     it('maps each direction to a placement', () => {
       const container = list(itemRow('1'), itemRow('2'), itemRow('3'));
       const rendered = renderList(container);
       const row = rowById(rendered, '2');
 
-      expect(directionalPlacement(rendered, row, 'top')).toEqual({ previousItemId: null });
-      expect(directionalPlacement(rendered, row, 'up')).toEqual({ previousItemId: null });
-      expect(directionalPlacement(rendered, row, 'down')).toEqual({ previousItemId: '3' });
-      expect(directionalPlacement(rendered, row, 'bottom')).toEqual({ previousItemId: '3' });
+      expect(blockMove(rendered, [row.item!.element], 'top')).toMatchObject({ available: true, previousItemId: null });
+      expect(blockMove(rendered, [row.item!.element], 'up')).toMatchObject({ available: true, previousItemId: null });
+      expect(blockMove(rendered, [row.item!.element], 'down')).toMatchObject({ available: true, previousItemId: '3' });
+      expect(blockMove(rendered, [row.item!.element], 'bottom')).toMatchObject({ available: true, previousItemId: '3' });
+    });
+
+    it('mirrors up and down between neighbors', () => {
+      const container = list(itemRow('1'), itemRow('2'), itemRow('3'));
+      const rendered = renderList(container);
+
+      expect(blockMove(rendered, [rowById(rendered, '3').item!.element], 'up')).toMatchObject({ available: true, previousItemId: '1' });
+      expect(blockMove(rendered, [rowById(rendered, '1').item!.element], 'down')).toMatchObject({ available: true, previousItemId: '2' });
     });
 
     it('is unavailable at the extremes', () => {
       const container = list(itemRow('1'), itemRow('2'));
       const rendered = renderList(container);
 
-      expect(directionalPlacement(rendered, rowById(rendered, '1'), 'top')).toBeNull();
-      expect(directionalPlacement(rendered, rowById(rendered, '1'), 'up')).toBeNull();
-      expect(directionalPlacement(rendered, rowById(rendered, '2'), 'down')).toBeNull();
-      expect(directionalPlacement(rendered, rowById(rendered, '2'), 'bottom')).toBeNull();
+      expect(blockMove(rendered, [rowById(rendered, '1').item!.element], 'top')).toEqual({ available: false });
+      expect(blockMove(rendered, [rowById(rendered, '1').item!.element], 'up')).toEqual({ available: false });
+      expect(blockMove(rendered, [rowById(rendered, '2').item!.element], 'down')).toEqual({ available: false });
+      expect(blockMove(rendered, [rowById(rendered, '2').item!.element], 'bottom')).toEqual({ available: false });
     });
 
     describe('across a truncation marker', () => {
@@ -192,22 +259,22 @@ describe('rendered sortable list', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '2'), 'down')).toBeNull();
+        expect(blockMove(rendered, [rowById(rendered, '2').item!.element], 'down')).toEqual({ available: false });
       });
 
       it('anchors a tail item stepping up onto the hidden block via the marker id', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '4'), 'up')).toEqual({ previousItemId: 'hidden-last' });
+        expect(blockMove(rendered, [rowById(rendered, '4').item!.element], 'up')).toMatchObject({ available: true, previousItemId: 'hidden-last' });
       });
 
       it('keeps the extremes available across the block', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '1'), 'bottom')).toEqual({ previousItemId: '4' });
-        expect(directionalPlacement(rendered, rowById(rendered, '4'), 'top')).toEqual({ previousItemId: null });
+        expect(blockMove(rendered, [rowById(rendered, '1').item!.element], 'bottom')).toMatchObject({ available: true, previousItemId: '4' });
+        expect(blockMove(rendered, [rowById(rendered, '4').item!.element], 'top')).toMatchObject({ available: true, previousItemId: null });
       });
     });
 
@@ -218,33 +285,33 @@ describe('rendered sortable list', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '2'), 'down')).toBeNull();
-        expect(directionalPlacement(rendered, rowById(rendered, '3'), 'up')).toBeNull();
+        expect(blockMove(rendered, [rowById(rendered, '2').item!.element], 'down')).toEqual({ available: false });
+        expect(blockMove(rendered, [rowById(rendered, '3').item!.element], 'up')).toEqual({ available: false });
       });
 
       it('disables a one-step up whose would-be predecessor is the divider', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '4'), 'up')).toBeNull();
+        expect(blockMove(rendered, [rowById(rendered, '4').item!.element], 'up')).toEqual({ available: false });
       });
 
       it('keeps the extremes and same-chunk steps available', () => {
         const container = build();
         const rendered = renderList(container);
 
-        expect(directionalPlacement(rendered, rowById(rendered, '1'), 'down')).toEqual({ previousItemId: '2' });
-        expect(directionalPlacement(rendered, rowById(rendered, '4'), 'top')).toEqual({ previousItemId: null });
+        expect(blockMove(rendered, [rowById(rendered, '1').item!.element], 'down')).toMatchObject({ available: true, previousItemId: '2' });
+        expect(blockMove(rendered, [rowById(rendered, '4').item!.element], 'top')).toMatchObject({ available: true, previousItemId: null });
       });
     });
   });
 
-  describe('moveAvailability', () => {
+  describe('blockMoveAvailability for one item', () => {
     it('reports per-direction availability', () => {
       const container = list(itemRow('1'), itemRow('2'));
       const rendered = renderList(container);
 
-      expect(moveAvailability(rendered, rowById(rendered, '1'))).toEqual({ top: false, up: false, down: true, bottom: true });
+      expect(blockMoveAvailability(rendered, [rowById(rendered, '1').item!.element])).toEqual({ top: false, up: false, down: true, bottom: true });
     });
   });
 
@@ -269,6 +336,13 @@ describe('rendered sortable list', () => {
 
       expect(positionOf(rendered, rowById(rendered, '2'))).toEqual({ position: 2, total: 2 });
     });
+  });
+
+  it('positionOf is null for a row that is not an item row', () => {
+    const container = list(itemRow('1'), showMoreRow('hidden', 2));
+    const rendered = renderList(container);
+
+    expect(positionOf(rendered, rendered.rows[1])).toBeNull();
   });
 
   describe('anchorRow', () => {
@@ -321,6 +395,24 @@ describe('rendered sortable list', () => {
       expect(rangeBetween(renderList(container), wp('9'), container.children[1])).toEqual({ ok: false, reason: 'unavailable' });
     });
 
+    it('is unavailable across a row that only hosts a nested list', () => {
+      const wrapper = document.createElement('li');
+      const inner = document.createElement('ul');
+      inner.append(itemRow('9'));
+      wrapper.append(inner);
+      const container = list(itemRow('1'), wrapper, itemRow('2'));
+
+      expect(rangeBetween(renderList(container), wp('1'), container.children[2])).toEqual({ ok: false, reason: 'unavailable' });
+    });
+
+    it('is unavailable when the candidate sits outside the rows container', () => {
+      const container = list(itemRow('1'), itemRow('2'));
+      const stray = itemRow('3');
+      document.body.append(stray);
+
+      expect(rangeBetween(renderList(container), wp('1'), stray)).toEqual({ ok: false, reason: 'unavailable' });
+    });
+
     it('matches the anchor on type as well as id', () => {
       const container = list(itemRow('1', { type: 'section' }), itemRow('2'));
 
@@ -346,10 +438,211 @@ describe('rendered sortable list', () => {
       expect(boundaryItemRow(rendered, 'last')?.item?.id).toBe('3');
     });
 
+    it('does not step into a list nested inside the list', () => {
+      const section = itemRow('s1', { type: 'section' });
+      const inner = document.createElement('ul');
+      inner.append(itemRow('f1', { type: 'custom_field' }));
+      section.append(inner);
+      const container = list(section, itemRow('s2', { type: 'section' }));
+      const rendered = renderList(container);
+
+      expect(neighborItemRow(rendered, section, 1)?.item?.id).toBe('s2');
+      expect(movableItems(rendered).map((item) => item.id)).toEqual(['s1', 's2']);
+    });
+
+    it('returns null when no movable item remains in the list', () => {
+      const container = list(itemRow('1', { mobility: 'fixed' }));
+
+      expect(boundaryItemRow(renderList(container), 'first')).toBeNull();
+    });
+
     it('lists the movable items with a type', () => {
       const container = list(itemRow('1'), itemRow('2', { mobility: 'fixed' }), itemRow('3', { type: null }), itemRow('4'));
 
       expect(movableItems(renderList(container))).toEqual([{ type: 'work_package', id: '1' }, { type: 'work_package', id: '4' }]);
     });
+  });
+});
+
+describe('block moves over a rendered list', () => {
+  function fixture():{
+    rowsContainer:HTMLUListElement;
+    items:HTMLLIElement[];
+    marker:HTMLLIElement;
+    divider:HTMLLIElement;
+  } {
+    const rowsContainer = document.createElement('ul');
+    const items = ['1', '2', '3', '4'].map((id) => {
+      const row = document.createElement('li');
+      row.setAttribute('data-sortable-lists--item-id-value', id);
+      return row;
+    });
+    const marker = document.createElement('li');
+    marker.setAttribute('data-sortable-lists-prev-item-id', 'last-hidden');
+    marker.setAttribute('data-sortable-lists-omitted-count', '3');
+    const divider = document.createElement('li');
+    divider.classList.add('divider');
+
+    rowsContainer.append(...items, marker, divider);
+
+    return { rowsContainer, items, marker, divider };
+  }
+
+  it('resolves one card in all four directions', () => {
+    const { rowsContainer, items: [, second] } = fixture();
+
+    expect(blockMove(renderList(rowsContainer), [second], 'top'))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second], 'up'))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second], 'down'))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
+    expect(blockMove(renderList(rowsContainer), [second], 'bottom'))
+      .toEqual({ available: true, rows: [second], previousItemId: 'last-hidden' });
+  });
+
+  it('resolves an adjacent block in all four directions and excludes selected predecessors', () => {
+    const { rowsContainer, items: [, second, third] } = fixture();
+
+    expect(blockMove(renderList(rowsContainer), [second, third], 'top'))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second, third], 'up'))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second, third], 'down'))
+      .toEqual({ available: true, rows: [second, third], previousItemId: '4' });
+    expect(blockMove(renderList(rowsContainer), [second, third], 'bottom'))
+      .toEqual({ available: true, rows: [second, third], previousItemId: 'last-hidden' });
+  });
+
+  it('rejects an empty or fixed selection as not orderable', () => {
+    const { rowsContainer, items: [first, second] } = fixture();
+    second.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(blockMove(renderList(rowsContainer), [], 'top'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [first, second], 'top'))
+      .toEqual({ available: false });
+  });
+
+  it('rejects selected elements from different containers', () => {
+    const { rowsContainer, items: [first] } = fixture();
+    const { items: [foreign] } = fixture();
+
+    expect(blockMove(renderList(rowsContainer), [first, foreign], 'top'))
+      .toEqual({ available: false });
+  });
+
+  it('rejects an inner-list item that resolves to its outer host row', () => {
+    const rowsContainer = document.createElement('ul');
+    const outerHost = document.createElement('li');
+    outerHost.setAttribute('data-sortable-lists--item-id-value', 'outer-1');
+    const nestedRows = document.createElement('ul');
+    const inner = document.createElement('li');
+    inner.setAttribute('data-sortable-lists--item-id-value', 'inner-1');
+    nestedRows.append(inner);
+    outerHost.append(nestedRows);
+
+    const outerSecond = document.createElement('li');
+    outerSecond.setAttribute('data-sortable-lists--item-id-value', 'outer-2');
+    const outerThird = document.createElement('li');
+    outerThird.setAttribute('data-sortable-lists--item-id-value', 'outer-3');
+    rowsContainer.append(outerHost, outerSecond, outerThird);
+
+    expect(blockMove(renderList(rowsContainer), [inner, outerSecond], 'bottom'))
+      .toEqual({ available: false });
+  });
+
+  it('normalizes sparse and reverse-order input, and rejects duplicate members', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+
+    expect(blockMove(renderList(rowsContainer), [first, third], 'top'))
+      .toEqual({ available: true, rows: [first, third], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [third, second], 'top'))
+      .toEqual({ available: true, rows: [second, third], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second, second], 'top'))
+      .toEqual({ available: false });
+  });
+
+  it('rejects up and down across an adjacent truncation marker', () => {
+    const { rowsContainer, items: [, second, third], marker } = fixture();
+
+    second.after(marker);
+    expect(blockMove(renderList(rowsContainer), [second], 'down'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [third], 'up'))
+      .toEqual({ available: false });
+  });
+
+  it('rejects up and down across an unaddressable gap', () => {
+    const { rowsContainer, items: [, second, third], divider } = fixture();
+
+    second.after(divider);
+    expect(blockMove(renderList(rowsContainer), [second], 'down'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [third], 'up'))
+      .toEqual({ available: false });
+  });
+
+  it('keeps fixed rows addressable as up and down neighbors', () => {
+    const { rowsContainer, items: [first, second, third] } = fixture();
+    first.setAttribute(sortableItemMobilityAttribute, 'fixed');
+    third.setAttribute(sortableItemMobilityAttribute, 'fixed');
+
+    expect(blockMove(renderList(rowsContainer), [second], 'up'))
+      .toEqual({ available: true, rows: [second], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second], 'down'))
+      .toEqual({ available: true, rows: [second], previousItemId: '3' });
+  });
+
+  it('keeps top and bottom available across loaded sparse-list boundaries', () => {
+    const { rowsContainer, items: [, second, third, fourth], marker } = fixture();
+
+    second.after(marker);
+    expect(blockMove(renderList(rowsContainer), [third], 'top'))
+      .toEqual({ available: true, rows: [third], previousItemId: null });
+    expect(blockMove(renderList(rowsContainer), [second], 'bottom'))
+      .toEqual({ available: true, rows: [second], previousItemId: '4' });
+    expect(blockMove(renderList(rowsContainer), [third], 'bottom'))
+      .toEqual({ available: true, rows: [third], previousItemId: '4' });
+    expect(blockMove(renderList(rowsContainer), [fourth], 'top'))
+      .toEqual({ available: true, rows: [fourth], previousItemId: null });
+  });
+
+  it('rejects every move that returns the block to its effective placement', () => {
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
+
+    expect(blockMove(renderList(rowsContainer), [first], 'top'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [first, second], 'up'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [fourth], 'down'))
+      .toEqual({ available: false });
+    expect(blockMove(renderList(rowsContainer), [third, fourth], 'bottom'))
+      .toEqual({ available: false });
+  });
+
+  it('derives availability by resolving all four directions', () => {
+    const { rowsContainer, items: [first, second, third, fourth], marker, divider } = fixture();
+    marker.remove();
+    divider.remove();
+
+    expect(blockMoveAvailability(renderList(rowsContainer), [first, second]))
+      .toEqual({ top: false, up: false, down: true, bottom: true });
+    expect(blockMoveAvailability(renderList(rowsContainer), [second, third]))
+      .toEqual({ top: true, up: true, down: true, bottom: true });
+    expect(blockMoveAvailability(renderList(rowsContainer), [third, fourth]))
+      .toEqual({ top: true, up: true, down: false, bottom: false });
+  });
+
+  it('reports no direction for an item whose row belongs to another item', () => {
+    const { rowsContainer, items: [first] } = fixture();
+    const nested = document.createElement('li');
+    nested.setAttribute('data-sortable-lists--item-id-value', '5');
+    first.append(nested);
+
+    expect(blockMoveAvailability(renderList(rowsContainer), [nested]))
+      .toEqual({ top: false, up: false, down: false, bottom: false });
   });
 });

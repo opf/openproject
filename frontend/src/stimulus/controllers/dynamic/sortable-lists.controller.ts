@@ -52,15 +52,10 @@ import {
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
   isOrderableItem,
-  resolveBlockMove,
-  resolveBlockMoveAvailability,
-  resolveDirectionalPreviousItemId,
   resolveItemElement,
   resolveItemId,
   resolveItemLabel,
-  resolveItemPosition,
   resolveItemType,
-  resolveMoveAvailability,
   rowOf,
   ownedBy,
   sortableListsBusyAttribute,
@@ -70,6 +65,12 @@ import {
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import {
+  blockMove,
+  blockMoveAvailability,
+  positionOf,
+  renderList,
+} from './sortable-lists/rendered-list';
 import {
   captureRowPositions,
   reorderRows,
@@ -482,16 +483,18 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       };
     }
 
-    const list = this.ownerListOf(itemElement);
+    const list = this.ownerList(itemElement);
     if (!list) {
       return null;
     }
 
-    const { items } = this.actionScopeFor(itemElement);
+    const rendered = renderList(list.rowsContainer);
+    if (!rendered.rowOf(itemElement)) {
+      return null;
+    }
 
-    return items.length > 1
-      ? resolveBlockMoveAvailability({ itemElements: items, rowsContainer: list.rowsContainer })
-      : resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer });
+    const { items } = this.actionScopeFor(itemElement);
+    return blockMoveAvailability(rendered, items.length > 1 ? items : [itemElement]);
   }
 
   moveToDestination(form:HTMLFormElement):void {
@@ -520,33 +523,24 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       return;
     }
 
-    const list = this.ownerListOf(itemElement);
-    if (!list) {
-      return;
-    }
-
+    const list = this.ownerList(itemElement);
     const itemId = resolveItemId(itemElement);
-    if (!itemId) {
+    if (!list || !itemId) {
       return;
     }
 
-    const previousItemId = resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer });
-    if (previousItemId === undefined) {
-      return;
-    }
-
+    const resolution = blockMove(renderList(list.rowsContainer), [itemElement], direction);
     const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
-    const sourceRow = rowOf(list.rowsContainer, itemElement);
-    if (!moveUrl || !sourceRow) {
+    if (!resolution.available || !moveUrl) {
       return;
     }
 
     void this.performMove({
-      rows: [sourceRow],
+      rows: resolution.rows,
       items: null,
       rowsContainer: list.rowsContainer,
       listData: list.listData,
-      previousItemId,
+      previousItemId: resolution.previousItemId,
       moveUrl,
       collapseSelectionOnto: itemElement,
     });
@@ -565,13 +559,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   private moveBlockInDirection(itemElement:HTMLElement, scopeItems:HTMLElement[], direction:MoveDirection):void {
-    const list = this.ownerListOf(itemElement);
+    const list = this.ownerList(itemElement);
     const moveUrl = this.resolveCollectionMoveUrl();
     if (!list || !moveUrl) {
       return;
     }
 
-    const resolution = resolveBlockMove({ itemElements: scopeItems, direction, rowsContainer: list.rowsContainer });
+    const resolution = blockMove(renderList(list.rowsContainer), scopeItems, direction);
     if (!resolution.available) {
       return;
     }
@@ -1006,7 +1000,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // is streamed by the server and self-announces (matching the toast rule).
   // The consumer's vocabulary: Backlogs says "work package", not "item".
   private announceMove(context:MoveAnnouncementContext, rows:HTMLElement[], rowsContainer:HTMLElement):void {
-    const placement = resolveItemPosition({ row: rows[0], rowsContainer });
+    const rendered = renderList(rowsContainer);
+    const row = rendered.rowOf(rows[0]);
+    const placement = row ? positionOf(rendered, row) : null;
     if (!placement) {
       return;
     }
