@@ -308,5 +308,32 @@ RSpec.describe Saml::Provider do
         expect(provider.to_h).not_to include(:uid_attribute)
       end
     end
+
+    context "when allowed_clock_drift is set" do
+      before do
+        provider.allowed_clock_drift = 5
+      end
+
+      it "outputs it as a top-level option for the ruby-saml response validation" do
+        expect(provider.to_h).to include(allowed_clock_drift: 5.0)
+        expect(provider.to_h[:security]).not_to include(:allowed_clock_drift)
+      end
+    end
+
+    context "when allowed_clock_drift is set to a fraction of a second" do
+      before do
+        provider.allowed_clock_drift = 0.5
+      end
+
+      it "keeps the fraction" do
+        expect(provider.to_h).to include(allowed_clock_drift: 0.5)
+      end
+    end
+
+    context "when allowed_clock_drift is not set" do
+      it "does not output it, leaving the ruby-saml default in place" do
+        expect(provider.to_h).not_to include(:allowed_clock_drift)
+      end
+    end
   end
 end

@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
 
       it "offers configure, make default, add variant, duplicate, move and delete", :aggregate_failures do
         expect(rendered_component).to have_selector :menuitem, text: I18n.t(:button_configure) do |item|
-          expect(item[:href]).to eq edit_type_details_path(type_id: root_type.id)
+          expect(item[:href]).to eq type_settings_path(type_id: root_type.id)
         end
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.make_default")
         expect(rendered_component).to have_selector :menuitem, text: I18n.t("types.index.add_variant_action")
@@ -73,6 +73,56 @@ RSpec.describe WorkPackageTypes::Types::TypeActionsComponent, type: :component d
       it "omits move" do
         expect(rendered_component).to have_no_selector :menuitem, text: I18n.t(:button_move)
       end
+    end
+  end
+
+  describe "paginated moves" do
+    let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
+    let(:ordered) { Type.order(:position) }
+    let(:page_two) { ordered.page(2).per_page(2).to_a }
+    let(:page_args) { { page: 2, per_page: 2 } }
+
+    def render_for(type, **args)
+      render_inline(described_class.new(type:, **args))
+    end
+
+    def expect_directions(rendered, present: [], absent: [])
+      aggregate_failures do
+        present.each { |label| expect(rendered).to have_selector(:menuitem, text: I18n.t(label)) }
+        absent.each { |label| expect(rendered).to have_no_selector(:menuitem, text: I18n.t(label)) }
+      end
+    end
+
+    it "keeps all directions for a page's first type and submits with page context" do
+      first_on_page = page_two.first
+      expect(first_on_page).not_to eq(ordered.first)
+
+      rendered = render_for(first_on_page, page_args:)
+
+      expect_directions(rendered, present: %i[label_sort_highest label_sort_higher label_sort_lower label_sort_lowest])
+      expect(rendered).to have_element(:form, action: move_type_path(first_on_page, **page_args), count: 4)
+      expect(rendered).to have_field("_method", type: :hidden, with: "put", count: 4)
+    end
+
+    it "keeps downward moves for a page's last type" do
+      last_on_page = page_two.last
+      expect(last_on_page).not_to eq(ordered.last)
+
+      rendered = render_for(last_on_page, page_args:)
+
+      expect_directions(rendered, present: %i[label_sort_lower label_sort_lowest])
+    end
+
+    it "omits upward directions at the global start" do
+      expect_directions(render_for(ordered.first),
+                        present: %i[label_sort_lower label_sort_lowest],
+                        absent: %i[label_sort_highest label_sort_higher])
+    end
+
+    it "omits downward directions at the global end" do
+      expect_directions(render_for(ordered.last),
+                        present: %i[label_sort_highest label_sort_higher],
+                        absent: %i[label_sort_lower label_sort_lowest])
     end
   end
 end

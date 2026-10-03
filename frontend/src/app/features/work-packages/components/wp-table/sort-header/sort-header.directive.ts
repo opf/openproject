@@ -186,11 +186,11 @@ export class SortHeaderDirective extends UntilDestroyedMixin implements AfterVie
   }
 
   public get displayDropdownIcon() {
-    return this.table && this.table.configuration.columnMenuEnabled;
+    return this.table?.configuration.columnMenuEnabled;
   }
 
   public get displayHierarchyIcon() {
-    return this.table && this.table.configuration.hierarchyToggleEnabled;
+    return this.table?.configuration.hierarchyToggleEnabled;
   }
 
   toggleHierarchy(evt:Event) {

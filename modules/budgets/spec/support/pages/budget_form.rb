@@ -32,6 +32,8 @@ module Pages
   ##
   # Offers common steps for Budget Page instances.
   module BudgetForm
+    include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
     ##
     # Adds planned unit costs with the default cost type.
     def add_unit_costs!(num_units, comment: nil, expected_costs: nil)
@@ -105,13 +107,19 @@ module Pages
 
       retry_block do
         fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
-        select user_name, from: "#{prefix}_user_id" if user_name.present?
+        select_labor_costs_user!(prefix, user_name) if user_name.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
         if expected_costs.present?
           expect(page).to have_css("##{prefix}_costs", text: expected_costs)
         end
       end
+    end
+
+    def select_labor_costs_user!(row_id, user_name)
+      select_autocomplete page.find("##{row_id} opce-user-autocompleter"),
+                          query: user_name,
+                          results_selector: "body"
     end
 
     def add_unit_costs_row!

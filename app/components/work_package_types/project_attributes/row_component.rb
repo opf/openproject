@@ -16,6 +16,7 @@ module WorkPackageTypes
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       ASPECT = TypeVariant::PROJECT_ATTRIBUTES
 
@@ -54,8 +55,8 @@ module WorkPackageTypes
       end
 
       def toggle_path
-        toggle_type_project_attributes_path(
-          **@variant.path_args,
+        toggle_variant_project_attributes_path(
+          helpers.variant_scope_project, @variant,
           project_custom_field_type_mapping: {
             variant_id: @variant.id,
             custom_field_id: @project_custom_field.id

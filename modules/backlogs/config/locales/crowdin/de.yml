@@ -26,6 +26,7 @@ de:
       project:
         allow_multiple_active_sprints: Mehrere aktive Sprints zulassen
         backlog_excluded_types: Ausgeschlossene Arbeitspaket-Typen
+        estimation_unit: Unit
         sprint_sharing: Sprints teilen
         statuses_considered_closed: Als abgeschlossen geltende Status
       sprint:
@@ -50,7 +51,7 @@ de:
         story_points: Story-Punkte
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: kann nicht gestartet werden, wenn das Projekt Sprints von einem anderen Projekt erhält.
         dates_required: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
         must_be_in_planning: muss in Planung sein, um zu beginnen.
         only_one_active_sprint_allowed: pro Projekt ist nur ein aktiver Sprint erlaubt.
@@ -61,11 +62,11 @@ de:
               locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints laufen.
               requires_no_sharing: kann nur aktiviert werden, wenn die Sprint-Freigabe auf „Nicht teilen“ eingestellt ist.
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: kann nicht auf "erhalten" gesetzt werden, da das Projekt einen aktiven oder geliehenen Sprint enthält. Schließen Sie die Arbeitspakete zunächst oder heben Sie deren Zuordnung auf.
               locked_by_multiple_active_sprints: kann nicht geändert werden, solange mehrere aktive Sprints möglich sind.
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: kann nicht geändert werden, da noch Arbeitspakete mit geteilten Sprints verknüpft sind. Heben Sie zunächst die Zuordnung auf.
           receiving_sprints: erhält geteilte Sprints. Eigene Sprints können nicht erstellt werden.
         sprint:
           attributes:
@@ -92,9 +93,15 @@ de:
               task_version_must_be_the_same_as_story_version: muss der Version der übergeordneten Story entsprechen.
           backlog_bucket_xor_sprint: kann nicht gleichzeitig einem Sprint und einem Backlog Bucket zugewiesen werden.
     models:
+      backlog_bucket:
+        one: Backlog Bucket
+        other: Backlog Buckets
       sprint:
         one: Sprint
         other: Sprints
+      sprint_goal:
+        one: Sprint-Ziel
+        other: Sprint-Ziele
   backlogs:
     add_existing_work_package_dialog_component:
       title_without_container: Vorhandenes Arbeitspaket hinzufügen
@@ -113,6 +120,7 @@ de:
         other: Sprints
         zero: Alle Sprints
       select_panel_title: Elemente auswählen
+    blankslate_filtered_title: Es wurden keine Arbeitspakete gefunden, die den Filterkriterien entsprechen.
     bucket_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -130,6 +138,7 @@ de:
       show:
         blankslate_description: Legen Sie Start- und Enddatum für den Sprint fest, um ein Burndown-Diagramm zu erstellen.
         blankslate_title: Keine Burndown-Daten verfügbar
+    estimation_unit: Units
     excluded_work_package_types_caption: 'Wählen Sie, welche Arbeitspaket-Typen Sie aus dem Backlog ausblenden möchten. Elemente der ausgewählten Typen erscheinen nicht automatisch im Backlog und sind so auf die Arbeit konzentriert, die für Ihr Team wichtig ist. Typen wie Epics oder Milestones, die auf einer höheren Ebene verwaltet werden, können beispielsweise ausgeblendet werden, damit sich das Backlog auf umsetzbare Aufgaben konzentriert.
 
       '
@@ -155,6 +164,8 @@ de:
         one: Zeige ein weiteres Element
         other: Zeige %{count} weitere Elemente
       title: Posteingang
+    index_subheader_component:
+      label_search_by_subject: Arbeitspakete nach Betreff suchen
     label_burndown_chart: Burndown-Diagramm
     label_is_done_status: Status %{status_name} bedeutet abgeschlossen
     label_sprint_board: Sprint-Board
@@ -175,6 +186,7 @@ de:
     remaining_hours: Verbleibender Aufwand
     sharing: Sprints teilen
     show_burndown_chart: Burndown-Diagramm
+    show_work_package_overview: Arbeitspakete innerhalb des Sprints
     sprint_component:
       action_menu:
         add_existing_work_package: Vorhandenes Arbeitspaket hinzufügen
@@ -188,7 +200,7 @@ de:
       label_start_sprint: Sprint starten
       start_sprint_disabled_reason_active_sprint: Ein anderer Sprint ist bereits aktiv.
       start_sprint_disabled_reason_missing_dates: Start- und Enddatum sind erforderlich, um den Sprint zu starten.
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: Die eigenen Sprints dieses Projekts können nicht gestartet werden, solange es geteilte Sprints erhält.
       start_sprint_disabled_reason_shared_sprint: Dieser Sprint stammt aus einem anderen Projekt, das mehrere aktive Sprints nicht zulässt.
     sprint_form:
       goal_caption: Das Sprintziel gilt ausschließlich für dieses Projekt und wird nicht mit anderen Projekten geteilt, die denselben Sprint nutzen.
@@ -199,7 +211,32 @@ de:
     sprint_reports:
       page_header_component:
         breadcrumb: Bericht
-        title: "%{sprint} report"
+        title: "%{sprint} Bericht"
+      widgets:
+        work_package_graph:
+          title: Arbeitspaket-Graph
+        work_package_overview:
+          blankslate:
+            description: Legen Sie Start- und Enddatum für den Sprint fest, um die Arbeitspaket-Übersicht zu erstellen.
+            heading: Keine Sprintdaten verfügbar
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: Scope-Änderungen
+              story_points_change: "+%{added} / -%{removed} Story-Punkte"
+            completed:
+              heading: Abgeschlossen
+            initially_planned:
+              heading: Ursprünglich geplant
+            unfinished:
+              heading: Unvollendet
+          breakdown_block:
+            blocks:
+              show_all: Alle anzeigen
+          closed_work_packages: Abgeschlossene Arbeitspakete
+          resolved_summary:
+            one: "%{percentage}% (%{resolved} von %{total} Arbeitspaket)"
+            other: "%{percentage}% (%{resolved} von %{total} Arbeitspaketen)"
     sprints:
       row_component:
         action_menu:
@@ -240,8 +277,19 @@ de:
       add_existing_dialog:
         invalid_target: Das Ziel, zu dem Sie hinzufügen möchten, ist ungültig.
         target_not_found: Der Sprint oder das Backlog, zu dem Sie hinzufügen möchten, wurde nicht gefunden.
+      batch_update_service:
+        mixed_projects: Alle Arbeitspakete eines Vorgangs müssen zum selben Projekt gehören.
+        stale_batch: Mindestens ein Arbeitspaket hat sich während der Vorbereitungen fürs Verschieben geändert. Bitte überprüfen Sie die aktuellen Positionen und versuchen Sie es erneut.
+        stale_predecessor: Das Arbeitspaket, hinter welches eingefügt werden sollte wurde verschoben. Bitte überprüfen Sie die aktuellen Positionen und versuchen Sie es erneut.
+        unavailable_target: Der Zielcontainer ist nicht mehr verfügbar. Bitte laden Sie die Seite neu und versuchen Sie es erneut.
+        unexpected_failure: Die Arbeitspakete konnten nicht verschoben werden. Bitte versuchen Sie es erneut.
       move:
         moved_announcement: "%{label} verschoben nach %{list}, Position %{position} von %{total}"
+      move_collection:
+        invalid_ids: Die Liste der zu verschiebenden Arbeitspakete ist ungültig.
+        member_failed: "%{work_package}: %{reason}"
+        too_many_work_packages: Es können nicht mehr als %{max} Arbeitspakete gleichzeitig verschoben werden.
+        work_packages_not_found: In diesem Projekt konnte mindestens ein Arbeitspaket nicht gefunden werden.
       update_service:
         invalid_target_type: "„list_type“ muss einer der folgenden Werte sein: „backlog_bucket“ mit einer „list_id“, „sprint“ mit einer „list_id“ oder „inbox“ ohne „list_id“."
         missing_target: "„list_type“ oder „list_id“ muss vorhanden sein."
@@ -254,7 +302,7 @@ de:
       sprint_sharing: Sprints teilen
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: Führen Sie in einem Projekt mehrere Sprints parallel mit verschiedene Teams aus.
       sprint_sharing:
         description: Teilen Sie Sprints über Projekte hinweg, um Teams aufeinander abzustimmen und die Arbeit in skalierten agilen Setups (SAFe) zu koordinieren.
   label_all_sprints: Alle Sprints
@@ -277,9 +325,11 @@ de:
   notice_unsuccessful_finish_with_reason: 'Der Sprint konnte nicht abgeschlossen werden: %{reason}'
   notice_unsuccessful_start: Der Sprint konnte nicht gestartet werden.
   notice_unsuccessful_start_with_reason: 'Der Sprint konnte nicht gestartet werden: %{reason}'
-  notice_work_package_invisible_after_move: 'Das Arbeitspaket wurde auf %{backlog} verschoben, ist aber nicht sichtbar, weil sein Typ oder Status gemäß Konfiguration im Backlog ausgeblendet wird.
+  notice_work_package_invisible_after_move:
+    one: 'Das Arbeitspaket wurde zu %{backlog} verschoben, ist aber nicht sichtbar, weil sein Typ oder Status gemäß Konfiguration im Backlog ausgeblendet wird.
 
-    '
+      '
+    other: "%{count} Arbeitspakete wurden zu %{backlog} verschoben, sind aber nicht sichtbar, weil ihr Typ oder Status gemäß Konfiguration im Backlog ausgeblendet wird.\n"
   permission_create_sprints: Sprints erstellen
   permission_manage_sprint_items: Sprint-Elemente verwalten
   permission_select_backlog_types_and_statuses: Typen und Status für Backlogs wählen
@@ -295,9 +345,21 @@ de:
   project_module_backlogs: Backlogs
   projects:
     copy:
-      backlog_buckets: Backlog buckets
+      backlog_buckets: Backlog Buckets
       sprints: Sprints
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -318,6 +380,9 @@ de:
             label: Unterprojekte
         sprint_sharing: Sprints teilen
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: Standardmäßig kann pro Projekt jeweils nur ein Sprint aktiv sein. Sie können diese Einstellung ändern, sodass in diesem Projekt mehrere Sprints parallel aktiv sein können.
           heading: Anzahl der aktiven Sprints

@@ -39,9 +39,12 @@ import { debounceTime, skip, take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Observable } from 'rxjs';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
+import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import * as Turbo from '@hotwired/turbo';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,
@@ -59,6 +62,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
   private readonly wpTableFilters = inject(WorkPackageViewFiltersService);
   private readonly urlParamsHelper = inject(UrlParamsHelperService);
   private readonly boardFilters = inject(BoardFiltersService);
+  private readonly boardActionRegistry = inject(BoardActionsRegistryService);
 
   /** Current active */
   @Input() public board$:Observable<Board>;
@@ -79,9 +83,10 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
         // Update checksum service whenever filters change
         this.updateChecksumOnFilterChanges();
 
-        // Remove action attribute from filter service
+        // Remove action attribute from filter service, under every
+        // filter id the action filter may be rendered as
         if (board.isAction) {
-          this.wpTableFilters.hidden.push(board.actionAttribute!);
+          this.wpTableFilters.hidden.push(...this.boardActionRegistry.get(board.actionAttribute!).filterNames);
         }
       });
   }
@@ -105,7 +110,7 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
         } else {
           url.searchParams.delete('query_props');
         }
-        window.history.pushState({}, '', url);
+        Turbo.session.history.push(url);
 
         this.boardFilters.filters.putValue(filterHash);
       });

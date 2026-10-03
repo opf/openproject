@@ -40,6 +40,10 @@ module Queries
           ::Queries::Register.filters[self]
         end
 
+        def excluded_filters
+          ::Queries::Register.excluded_filters[self]
+        end
+
         def find_registered_filter(key)
           registered_filters.detect do |f|
             f.key === key.to_sym

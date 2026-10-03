@@ -37,7 +37,7 @@ import { TableDragActionService } from 'core-app/features/work-packages/componen
 import { States } from 'core-app/core/states/states.service';
 import { DragAndDropService, DragIntent } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -60,7 +60,7 @@ export class DragAndDropTransformer {
 
   @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
-  @LazyInject() private readonly wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() private readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
   @LazyInject() private readonly apiV3Service:ApiV3Service;
 
@@ -129,19 +129,10 @@ export class DragAndDropTransformer {
     });
   }
 
-  /** Reduce a multi-row selection to just the picked-up row (see onDragStarted). */
   private collapseSelectionTo(row:HTMLElement):void {
     const wpId = row.dataset.workPackageId;
-    if (!wpId) {
-      return;
-    }
-
-    // `getSelectedWorkPackageIds`, not `selectionCount`: the count also
-    // includes false-valued entries a deselect leaves behind.
-    const selected = this.wpTableSelection.getSelectedWorkPackageIds();
-    const soleSelection = selected.length === 1 && selected[0] === wpId;
-    if (selected.length > 0 && !soleSelection) {
-      this.wpTableSelection.setSelection(wpId, this.currentOrder.indexOf(wpId));
+    if (wpId) {
+      this.selectionGestures.collapseTo(wpId, this.table.renderedRows, row.dataset.classIdentifier);
     }
   }
 
@@ -186,8 +177,8 @@ export class DragAndDropTransformer {
 
         const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
 
-        const el = locateTableRow(wpId);
-        await this.withRowAtTarget(el, newOrder[rowIndex + 1] ?? null, async () => {
+        const el = locateTableRow(wpId, this.table.tableAndTimelineContainer);
+        await this.withRowAtTarget(el, targetId, edge, async () => {
           if (el) {
             await this.actionService.handleDrop(workPackage, el);
           }
@@ -221,17 +212,17 @@ export class DragAndDropTransformer {
    * moments later, so restoring first would visibly snap it back before
    * that rebuild moves it again.
    */
-  private async withRowAtTarget(el:HTMLElement|null, siblingId:string|null, fn:() => Promise<void>):Promise<void> {
+  private async withRowAtTarget(el:HTMLElement|null, targetId:string|null, edge:Edge|null, fn:() => Promise<void>):Promise<void> {
     if (!el) {
       await fn();
       return;
     }
 
     const { parentNode, nextSibling } = el;
-    const sibling = siblingId ? locateTableRow(siblingId) : null;
+    const targetRow = targetId ? locateTableRow(targetId, this.table.tableAndTimelineContainer) : null;
 
-    if (sibling) {
-      this.table.tbody.insertBefore(el, sibling);
+    if (targetRow) {
+      this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
     } else {
       this.table.tbody.appendChild(el);
     }
@@ -254,7 +245,7 @@ export class DragAndDropTransformer {
    */
   private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
     const siblingId = this.siblingIdFor(intent);
-    const siblingRow = siblingId ? locateTableRow(siblingId) : null;
+    const siblingRow = siblingId ? locateTableRow(siblingId, this.table.tableAndTimelineContainer) : null;
 
     if (!isInsideCollapsedGroup(siblingRow)) {
       return { targetId: intent.targetId, edge: intent.edge };

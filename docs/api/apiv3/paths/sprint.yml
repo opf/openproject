@@ -8,7 +8,7 @@ get:
   description: Retrieves a sprint defined by its unique identifier.
   parameters:
     - description: Sprint id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

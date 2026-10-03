@@ -22,8 +22,12 @@ hu:
 
             '
     models:
-      ldap_groups/synchronized_filter: LDAP csoport szinkronizálása
-      ldap_groups/synchronized_group: Szinkronizált LDAP csoport
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

@@ -30,17 +30,12 @@ import {
   input,
   InputState,
 } from '@openproject/reactivestates';
-import { take } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  ChangeItem,
-  ChangeMap,
-  Changeset,
-} from 'core-app/shared/components/fields/changeset/changeset';
+import { ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -249,7 +244,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   public isWritable(key:string):boolean {
     const fieldSchema = this.schema.ofProperty(key) as IFieldSchema|null;
-    return !!(fieldSchema && fieldSchema.writable);
+    return !!fieldSchema?.writable;
   }
 
   /**
@@ -303,7 +298,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param key
    */
   public valueExists(key:string):boolean {
-    return this.changeset.contains(key) || this.pristineResource.hasOwnProperty(key);
+    return this.changeset.contains(key) || Object.hasOwn(this.pristineResource, key);
   }
 
   /**
@@ -346,7 +341,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @return {boolean}
    */
   public isOverridden(key:string) {
-    return this.changes.hasOwnProperty(key);
+    return Object.hasOwn(this.changes, key);
   }
 
   /**

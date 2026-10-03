@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
-import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
@@ -82,6 +81,9 @@ import {
   WorkPackageViewIncludeSubprojectsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -93,9 +95,8 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  injector = inject(Injector);
 
-  readonly $state = inject(StateService);
+  injector = inject(Injector);
 
   readonly states = inject(States);
 
@@ -129,8 +130,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
   readonly loadingIndicatorService = inject(LoadingIndicatorService);
 
-  readonly $transitions = inject(TransitionService);
-
   readonly I18n = inject(I18nService);
 
   readonly opStaticQueries = inject(StaticQueriesService);
@@ -146,6 +145,10 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
   readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
 
   readonly halEvents = inject(HalEventsService);
+
+  readonly wpTableFocus = inject(WorkPackageViewFocusService);
+
+  readonly urlParams = inject(UrlParamsService);
 
   readonly deviceService = inject(DeviceService);
 
@@ -247,6 +250,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
       )
       .subscribe((events:HalEvent[]) => {
         this.refresh(false, false);
+        this.focusNewlyCreatedWorkPackageIfOpenInDetails(events);
       });
 
     this
@@ -287,14 +291,37 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     const rendered = new Set(source);
 
-    for (let i = 0; i < events.length; i++) {
-      const item = events[i];
+    for (const item of events) {
       if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
     }
 
     return false;
+  }
+
+  /**
+   * If a work package is currently open in the split view (per the URL) and it just got
+   * created, mark it selected/focused in this list's own WorkPackageViewSelectionService.
+   *
+   * The split-create view lives in its own isolated query space,
+   * so it cannot update this list's selection state directly -
+   * it can only signal "a WorkPackage was created" via the root-provided
+   * HalEventsService, which is what triggers this handler.
+   */
+  private focusNewlyCreatedWorkPackageIfOpenInDetails(events:HalEvent[]):void {
+    const details = this.urlParams.currentDetailsRouteParams();
+    if (!details) {
+      return;
+    }
+
+    const created = events.find(
+      (event) => event.eventType === 'created' && resolveRoutingId(this.states, event.id) === details.routingId,
+    );
+
+    if (created) {
+      this.wpTableFocus.initializeSelectionAndFocus(created.id, false, false);
+    }
   }
 
   protected setupQueryLoadedListener() {

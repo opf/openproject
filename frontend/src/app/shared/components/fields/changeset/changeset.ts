@@ -41,7 +41,7 @@ export class Changeset {
    * @return {boolean}
    */
   public contains(key:string) {
-    return this.changes.hasOwnProperty(key);
+    return Object.hasOwn(this.changes, key);
   }
 
   /**

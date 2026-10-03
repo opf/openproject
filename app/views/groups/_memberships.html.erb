@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
             </tr>
             </thead>
             <tbody>
-            <% memberships.where.not(project: nil).each do |membership| %>
+            <% memberships.where.not(project: nil).find_each do |membership| %>
               <% next if membership.new_record? %>
               <tr id="member-<%= membership.id %>"
                 class="member"
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
                 </td>
                 <td class="roles">
                   <span id="member-<%= membership.id %>-roles" data-reveal-target="item">
-                    <%= h membership.roles.sort.collect(&:to_s).join(", ") %>
+                    <%= role_names_with_permissions_preview(membership.roles.sort) %>
                   </span>
                   <%= labelled_tabular_form_for(
                         :membership,
@@ -89,15 +89,18 @@ See COPYRIGHT and LICENSE files for more details.
                         html: { class: "d-none" }
                       ) do |f| %>
                     <% roles.each do |role| %>
-                      <label class="form--label-with-check-box">
-                        <%= f.collection_check_box :role_ids,
-                                                   role.id,
-                                                   membership.roles.include?(role),
-                                                   role.name,
-                                                   no_label: true,
-                                                   id: nil %>
-                        <%= role %>
-                      </label>
+                      <%= render(Primer::Box.new(display: :flex, align_items: :center, classes: "gap-1")) do %>
+                        <label class="form--label-with-check-box pr-0">
+                          <%= f.collection_check_box :role_ids,
+                                                     role.id,
+                                                     membership.roles.include?(role),
+                                                     role.name,
+                                                     no_label: true,
+                                                     id: nil %>
+                          <%= role %>
+                        </label>
+                        <%= role_permissions_preview_icon(role) %>
+                      <% end %>
                     <% end %>
                     <p class="generic-table--cell-controls">
                       <%= submit_tag t(:button_change), class: "memberships--edit-submit-button button -primary -small" %>
@@ -154,7 +157,9 @@ See COPYRIGHT and LICENSE files for more details.
           <div class="form--field -vertical">
             <%= styled_label_tag nil, "#{t(:label_role_plural)}:" %>
             <div class="form--field-container -vertical">
-              <%= labeled_check_box_tags "membership[role_ids][]", roles %>
+              <%= labeled_check_box_tags "membership[role_ids][]", roles do |role| %>
+                <%= role_permissions_preview_icon(role) %>
+              <% end %>
             </div>
           </div>
           <div><%= styled_button_tag t(:button_add), class: "-primary -with-icon icon-checkmark" %></div>

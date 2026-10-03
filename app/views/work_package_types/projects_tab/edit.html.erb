@@ -27,8 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
-<%= render WorkPackageTypes::ProjectsComponent.new(@type, variant: @variant, projects: @projects) %>
+<%= render(sub_header_component) %>
+
+<%= render(projects_table_component) %>

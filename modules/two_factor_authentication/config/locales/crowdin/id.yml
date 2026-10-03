@@ -20,10 +20,16 @@ id:
             phone_number:
               error_phone_number_format: harus merupakan format + XX XXXXXXXXX
     models:
-      two_factor_authentication/device: Perangkat 2FA
-      two_factor_authentication/device/sms: Telepon genggam
-      two_factor_authentication/device/totp: Aplikasi Authenticator
-      two_factor_authentication/device/webauthn: WebAuthn
+      two_factor_authentication/backup_code:
+        other: Backup codes
+      two_factor_authentication/device:
+        other: 2FA devices
+      two_factor_authentication/device/sms:
+        other: Mobile phones
+      two_factor_authentication/device/totp:
+        other: Authenticator applications
+      two_factor_authentication/device/webauthn:
+        other: WebAuthn
   button_continue: Lanjutkan
   button_make_active: Activate
   button_make_default: Tandai sebagai default

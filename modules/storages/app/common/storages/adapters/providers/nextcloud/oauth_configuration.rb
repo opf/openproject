@@ -43,6 +43,10 @@ module Storages
             @oauth_client = storage.oauth_client.freeze
           end
 
+          def token_endpoint
+            UrlBuilder.url(@storage.uri, "/index.php/apps/oauth2/api/v1/token")
+          end
+
           def to_httpx_oauth_config
             AuthenticationStrategies::OAuthConfiguration.new(
               client_id: @oauth_client.client_id,
@@ -67,7 +71,7 @@ module Storages
               host: uri.host,
               port: uri.port,
               authorization_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/authorize"),
-              token_endpoint: UrlBuilder.path(uri.path, "/index.php/apps/oauth2/api/v1/token")
+              token_endpoint: URI(token_endpoint).path
             )
           end
         end

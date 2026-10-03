@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_variants: true } do
+RSpec.describe WorkPackageTypes::CreationWizardController do
   render_views
 
   before { login_as user }
@@ -113,7 +113,23 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
 
       describe "PATCH update on the workflows step" do
         # The wizard step only advances as the matrix saves via its own turbo endpoint
-        it "advances to the next step" do
+        it "asks for the name of the workflow it started before advancing" do
+          patch :update, params: { type_id: type.id, step: :workflows }, format: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(I18n.t("workflows.form.name.label"))
+          expect(response).not_to be_redirect
+        end
+
+        it "advances without asking when another type shares the workflow" do
+          type.default_variant.update!(workflow: create(:type).default_variant.workflow)
+
+          patch :update, params: { type_id: type.id, step: :workflows }, format: :turbo_stream
+
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
+        end
+
+        it "advances rather than failing when the request cannot carry a dialog" do
           patch :update, params: { type_id: type.id, step: :workflows }
 
           expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
@@ -126,6 +142,36 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
         it { expect(response).to redirect_to(types_path) }
 
         it { expect(flash[:notice]).to eq(I18n.t("types.creation_wizard.success")) }
+      end
+
+      describe "returning to where the wizard was entered from" do
+        let(:back_url) { type_variants_path(type_id: type.id) }
+
+        it "carries the back_url from step to step" do
+          patch :update, params: { type_id: type.id, step: :details, type: { name: "Blocker" }, back_url: }
+
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults, back_url:))
+        end
+
+        it "returns there once the wizard finishes" do
+          patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last, back_url: }
+
+          expect(response).to redirect_to(back_url)
+          expect(flash[:notice]).to eq(I18n.t("types.creation_wizard.success"))
+        end
+
+        it "offers the cancel button the same target" do
+          get :show, params: { type_id: type.id, step: :details, back_url: }
+
+          expect(response.body).to include(CGI.escapeHTML(back_url))
+        end
+
+        it "drops a back_url pointing at another host" do
+          patch :update, params: { type_id: type.id, step: WorkPackageTypes::Wizard::Steps.last,
+                                   back_url: "https://evil.example.com/types" }
+
+          expect(response).to redirect_to(types_path)
+        end
       end
     end
   end
@@ -140,13 +186,25 @@ RSpec.describe WorkPackageTypes::CreationWizardController, with_flag: { type_var
     end
   end
 
-  context "when the variants feature is disabled", with_flag: { type_variants: false } do
-    let(:user) { create(:admin) }
+  context "when adding a variant from inside a project" do
+    shared_let(:type) { create(:type, name: "Critical") }
+    shared_let(:project) { create(:project, types: [type]) }
+
+    let(:user) { create(:user, member_with_permissions: { project => %i[view_project manage_project_variants] }) }
 
     describe "GET new" do
-      before { get :new }
+      before { get :new, params: { project_id: project.id, type_id: type.id } }
 
-      it { expect(response).to have_http_status(:not_found) }
+      it { expect(response).to have_http_status(:ok) }
+
+      context "when the type does not allow project-specific variants" do
+        before do
+          type.update!(allow_project_variants: false)
+          get :new, params: { project_id: project.id, type_id: type.id }
+        end
+
+        it { expect(response).to have_http_status(:not_found) }
+      end
     end
   end
 end

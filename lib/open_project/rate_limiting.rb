@@ -12,7 +12,8 @@ module OpenProject
       @default_rules ||= [
         LostPassword,
         APIV3,
-        Login
+        Login,
+        Registration
       ]
     end
 

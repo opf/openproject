@@ -34,6 +34,95 @@ RSpec.describe TypesHelper do
   let(:type) { build_stubbed(:type) }
   let(:variant) { build_stubbed(:type_variant, type:) }
 
+  describe "#types_tabs" do
+    subject(:tab_names) { helper.types_tabs.pluck(:name) }
+
+    before do
+      helper.instance_variable_set(:@type, type)
+      helper.instance_variable_set(:@variant, addressed_variant)
+      without_partial_double_verification do
+        allow(helper).to receive(:variant_scope_project).and_return(nil)
+      end
+    end
+
+    context "when the tabs are built for a type" do
+      context "when no variant is addressed" do
+        let(:type) { create(:type) }
+        let(:addressed_variant) { nil }
+
+        it "offers the variants tab right after the defaults tab" do
+          expect(tab_names).to include("variants")
+          expect(tab_names.index("variants")).to eq(tab_names.index("defaults") + 1)
+        end
+      end
+
+      context "when the base variant is addressed" do
+        let(:addressed_variant) { build_stubbed(:type_variant, type:, is_default_variant: true) }
+
+        it "offers the variants tab: the URL is about the type itself" do
+          expect(tab_names).to include("variants")
+        end
+      end
+
+      context "when a named variant is addressed" do
+        let(:addressed_variant) { variant }
+
+        it "omits the variants tab" do
+          expect(tab_names).not_to include("variants")
+        end
+      end
+
+      context "when a variant a project owns is addressed" do
+        let(:addressed_variant) do
+          build_stubbed(:project_owned_type_variant, type:, project: build_stubbed(:project))
+        end
+
+        # It is only ever used in the project owning it, so which projects use it is not a
+        # question — for an administrator either, which is who sees this tab set.
+        it "omits the projects tab" do
+          expect(tab_names).not_to include("projects")
+        end
+
+        it "still offers the tabs that configure it" do
+          expect(tab_names).to include("details", "defaults", "form_configuration")
+        end
+      end
+
+      context "when a variant every project may use is addressed" do
+        let(:addressed_variant) { variant }
+
+        it "offers the projects tab" do
+          expect(tab_names).to include("projects")
+        end
+      end
+    end
+  end
+
+  describe "#type_tab" do
+    it "labels a tab from its name" do
+      expect(helper.type_tab("details", "/details", aspect: nil))
+        .to eq(name: "details", path: "/details", label: "Details", aspect: nil)
+    end
+
+    it "takes a label of its own when the name does not name its translation" do
+      tab = helper.type_tab("settings", "/settings", aspect: nil, label: "Overview")
+
+      expect(tab[:label]).to eq("Overview")
+    end
+
+    it "carries anything else a tab needs through" do
+      tab = helper.type_tab("export_configuration", "/pdf", aspect: nil, view_component: String)
+
+      expect(tab[:view_component]).to eq(String)
+    end
+
+    # Pairs with the fetch in WorkPackageTypes::Overview::RowComponent: a tab that never says
+    # whether its configuration is reusable cannot reach the overview table.
+    it "insists on an aspect" do
+      expect { helper.type_tab("details", "/details") }.to raise_error(ArgumentError)
+    end
+  end
+
   describe "#form_configuration_groups" do
     it "returns a Hash with the keys :actives and :inactives Arrays" do
       expect(helper.form_configuration_groups(variant)[:actives]).to be_an Array
@@ -131,7 +220,7 @@ RSpec.describe TypesHelper do
 
       it "returns 'Builtin field' for built-in attributes" do
         builtin = groups[:inactives].find { |a| a[:key] == "date" }
-        expect(builtin[:field_format_label]).to eq I18n.t("types.edit.form_configuration.builtin_field")
+        expect(builtin[:field_format_label]).to eq I18n.t("label_builtin")
       end
 
       context "with a custom field" do

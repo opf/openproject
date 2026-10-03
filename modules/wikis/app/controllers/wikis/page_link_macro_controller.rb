@@ -73,7 +73,7 @@ module Wikis
 
     def close_existing_page_dialog
       params = inline_existing_params
-      close_dialog_via_turbo_stream("##{InlineWikiPageDialog::DIALOG_ID}",
+      close_dialog_via_turbo_stream(InlineWikiPageDialog::DIALOG_ID,
                                     additional: {
                                       action: "close_existing_page_dialog",
                                       providerId: params[:provider_id],
@@ -88,11 +88,12 @@ module Wikis
       provider = Provider.visible.enabled.find(parameters[:provider_id])
       result = CreatePageService.new(provider:, user: current_user)
                                 .create_page(title: parameters[:page_title],
-                                             parent_identifier: parameters[:parent_page_identifier])
+                                             parent_identifier: parameters[:parent_identifier],
+                                             parent_type: parameters[:parent_type])
 
       result.either(
         ->(info) do
-          close_dialog_via_turbo_stream("##{InlineWikiPageDialog::DIALOG_ID}",
+          close_dialog_via_turbo_stream(InlineWikiPageDialog::DIALOG_ID,
                                         additional: {
                                           action: "close_new_page_dialog",
                                           providerId: provider.id,
@@ -128,7 +129,7 @@ module Wikis
     def inline_existing_params
       if params.key?(:wikis_forms_inline_existing_wiki_page_form_model)
         params.expect(wikis_forms_inline_existing_wiki_page_form_model: %i[provider_id])
-              .merge(page_identifier: parse_identifier(params[:wiki_page_selection]))
+              .merge(page_identifier: parse_page_identifier(params[:wiki_page_selection]))
       else
         params
       end
@@ -136,8 +137,10 @@ module Wikis
 
     def inline_new_params
       if params.key?(:wikis_forms_inline_new_wiki_page_form_model)
+        parent = parse_selected_node(params[:wiki_page_selection])
+
         params.expect(wikis_forms_inline_new_wiki_page_form_model: %i[provider_id page_title])
-              .merge(parent_page_identifier: parse_identifier(params[:wiki_page_selection]))
+              .merge(parent_identifier: parent&.identifier, parent_type: parent&.type)
       else
         params
       end

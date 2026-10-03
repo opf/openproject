@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(
       [
         { href: project_overview_path(@project.id), text: @project.name },
-        { href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier, id: @related_page }), text: t("activerecord.models.wiki"), skip_for_mobile: true },
+        { href: url_for({ controller: "/wiki", action: "index", project_id: @project.identifier, id: @related_page }), text: Wiki.model_name.human, skip_for_mobile: true },
         t(:label_wiki_toc)
       ]
     )

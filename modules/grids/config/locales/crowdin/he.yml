@@ -14,6 +14,15 @@ he:
           end_before_start: end value needs to be larger than the start value.
           outside: is outside of the grid.
           overlaps: overlap.
+    models:
+      grids/grid:
+        one: Grid
+        two: Grids
+        other: Grids
+      grids/widget:
+        one: Widget
+        two: Widgets
+        other: Widgets
   grids:
     label_widget_in_grid: התוסף מופיע באזור %{grid_name}
     widgets:
@@ -26,7 +35,6 @@ he:
         x_more:
           one: and one more member.
           two: and %{count} more members.
-          many: and %{count} more members.
           other: and %{count} more members.
       news:
         no_results: Nothing new to report.

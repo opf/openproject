@@ -98,8 +98,8 @@ export class RevitBridgeService extends ViewerBridgeService {
           // newer versions the message payload is sent correctly and needs no special treatment
           const viewpointJson = message.messagePayload;
 
-          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') // eslint-disable-line no-prototype-builtins
-            && viewpointJson.snapshot.hasOwnProperty('snapshot_data')) { // eslint-disable-line no-prototype-builtins
+          if (Object.hasOwn(viewpointJson.snapshot, 'snapshot_type')
+            && Object.hasOwn(viewpointJson.snapshot, 'snapshot_data')) {
             // already correctly formatted payload
             return viewpointJson;
           }

@@ -23,17 +23,17 @@
 fa:
   js:
     github_integration:
-      github_actions: اقدامات
+      github_actions: اقدام‌ها
       pull_requests:
-        merged_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.'
-        message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} has been %{pr_state}.'
-        referenced_message: 'Pull request #%{pr_number} %{pr_link} for %{repository_link} authored by %{github_user_link} referenced this work package.'
+        merged_message: Pull Request شماره %{pr_number} %{pr_link} برای %{repository_link} توسط %{github_user_link} %{pr_state} شده است.
+        message: Pull Request شماره %{pr_number} %{pr_link} برای %{repository_link} که توسط %{github_user_link} ایجاد شده بود %{pr_state} شده است.
+        referenced_message: Pull Request شماره %{pr_number} %{pr_link} برای %{repository_link} که توسط %{github_user_link} ایجاد شده بود به این بسته کاری ارجاع داد.
         states:
           closed: بسته
-          draft: drafted
-          merged: merged
-          opened: opened
-          ready_for_review: marked ready for review
+          draft: پیش‌نویس شد
+          merged: Merge شد
+          opened: باز شد
+          ready_for_review: آماده بازبینی علامت‌گذاری شد
       tab_header:
         copy_menu:
           description: کپی تکه کد گیت در حافظه
@@ -42,12 +42,12 @@ fa:
           branch_name: نام شاخه
           cmd: ساخت شاخه خالی بدون کامیت کردن
           commit_message: کامیت کردن پیام
-          copy_error: "❌ Copy failed!"
-          copy_success: "✅ Copied!"
+          copy_error: "❌ کپی ناموفق بود!"
+          copy_success: "✅ کپی شد!"
           title: تکه کد های سریع برای گیت
         title: درخواست‌های ادغام
       tab_prs:
-        empty: There are no pull requests linked yet. Link an existing PR by using the code <code>OP#%{wp_id}</code> in the PR description or create a new PR.
+        empty: هنوز Pull Requestی پیوند نشده است. با استفاده از کد <code>OP#%{wp_id}</code> در توضیحات PR، یک PR موجود را پیوند دهید یا PR جدید بسازید.
       work_packages:
         tab_name: GitHub
     work_packages:

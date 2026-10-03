@@ -156,10 +156,6 @@ class PermittedParams
     end
   end
 
-  def projects_type_ids
-    params.require(:project).require(:type_ids).map(&:to_i).select { |x| x > 0 }
-  end
-
   def query
     # there is a weird bug in strong_parameters gem which makes the permit call
     # on the sort_criteria pattern return the sort_criteria-hash contents AND
@@ -243,10 +239,6 @@ class PermittedParams
     end
 
     whitelisted
-  end
-
-  def type_move
-    params.require(:type).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def enumerations_move
@@ -521,6 +513,8 @@ class PermittedParams
           :is_required,
           :max_length,
           :min_length,
+          :max_value,
+          :min_value,
           :move_to,
           :name,
           :possible_values,
@@ -571,6 +565,7 @@ class PermittedParams
           :due_date,
           :estimated_hours,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :budget_id,
           :parent_id,
           :priority_id,
@@ -599,6 +594,7 @@ class PermittedParams
           :due_date,
           :status_id,
           { target_version_ids: [] },
+          { observed_in_version_ids: [] },
           :priority_id
         ],
         oauth_application: [
@@ -611,6 +607,7 @@ class PermittedParams
         ],
         placeholder_user: %i(
           name
+          description
         ),
         project_type: [
           :name,

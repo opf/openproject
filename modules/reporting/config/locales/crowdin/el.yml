@@ -21,6 +21,18 @@
 #++
 ---
 el:
+  activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Αποθήκευση αναφοράς ως...
   comments: Σχόλιο
   cost_reports_title: Χρόνος και κόστος
@@ -46,7 +58,6 @@ el:
   label_closed: κλειστό
   label_columns: Στήλες
   label_cost_entry_attributes: Χαρακτηριστικά καταχώρησης κόστους
-  label_cost_report: Αναφορά κόστους
   label_cost_report_plural: Αναφορές κόστους
   label_count: Πλήθος
   label_days_ago: κατά τη διάρκεια των τελευταίων ημερών

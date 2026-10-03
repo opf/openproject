@@ -140,17 +140,39 @@ module Exports::PDF::Components::Gantt
     # @param [Array<GanttDataEntry>] entries
     # @return [Array<GanttDataEntry>]
     def insert_work_package_group_placeholders(entries)
-      last_group = nil
+      last_group_key = nil
       result = []
       entries.each do |entry|
-        wp_group = @query.group_by_column.value(entry.work_package)
-        if last_group != wp_group
-          last_group = wp_group
-          result << GanttDataEntry.new("group_#{wp_group}", wp_group.to_s, nil)
+        wp_group = group_value(@query, entry.work_package)
+        if last_group_key != wp_group
+          last_group_key = wp_group
+          result << GanttDataEntry.new("group_#{wp_group}", group_label(wp_group), nil)
         end
         result << entry
       end
       result
+    end
+
+    # Normalizes the value when it's a ActiveRecord::Relation into an array
+    # @param [Query] query
+    # @param [WorkPackage] work_package
+    # @return [Object]
+    def group_value(query, work_package)
+      value = query.group_by_column.value(work_package)
+      value.is_a?(ActiveRecord::Relation) ? value.to_a : value
+    end
+
+    # Handles names when the group is different kinds of objects
+    # @param [Object] group
+    # @return [String]
+    def group_label(group)
+      if group.blank?
+        I18n.t(:label_none_parentheses)
+      elsif group.is_a?(Array)
+        group.join(", ")
+      else
+        group.to_s
+      end
     end
 
     # Builds all page groups for the given work packages

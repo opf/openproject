@@ -60,6 +60,7 @@ class Journal < ApplicationRecord
   register_journal_formatter OpenProject::JournalFormatter::MeetingStartTime
   register_journal_formatter OpenProject::JournalFormatter::MeetingState
   register_journal_formatter OpenProject::JournalFormatter::MeetingWorkPackageId
+  register_journal_formatter OpenProject::JournalFormatter::ObservedInVersions
   register_journal_formatter OpenProject::JournalFormatter::ParticipantChange
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseActive
   register_journal_formatter OpenProject::JournalFormatter::ProjectPhaseDates
@@ -137,6 +138,10 @@ class Journal < ApplicationRecord
   # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :target_version_journals,
            -> { where(kind: "target") },
+           class_name: "Journal::WorkPackageVersionJournal",
+           inverse_of: :journal
+  has_many :observed_in_version_journals,
+           -> { where(kind: "observed_in") },
            class_name: "Journal::WorkPackageVersionJournal",
            inverse_of: :journal
   # rubocop:enable Rails/HasManyOrHasOneDependent

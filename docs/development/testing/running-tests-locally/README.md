@@ -51,10 +51,22 @@ You can run all frontend tests with the standard npm command:
 npm test
 ```
 
+This runs the suite in headless Chromium. CI additionally runs Firefox and WebKit; to reproduce that locally, pass the browsers explicitly:
+
+```shell
+npm test -- --browsers chromium --browsers firefox --browsers webkit
+```
+
 Alternatively, when in the `frontend/` folder, you can also use the watch mode of Angular to automatically run tests after you changed a file in the frontend.
 
 ```shell
 ./node_modules/.bin/ng test --watch
+```
+
+CI additionally typechecks the application and spec sources with `tsc`, which reports errors that the build and the test run can miss. To reproduce that locally, run the following in the `frontend/` folder:
+
+```shell
+npm run typecheck
 ```
 
 ## Unit tests

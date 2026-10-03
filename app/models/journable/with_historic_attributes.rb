@@ -263,6 +263,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     )
 
     merge_target_versions_changes!(changes, historic_journable)
+    merge_observed_in_versions_changes!(changes, historic_journable)
 
     changes
   end
@@ -275,8 +276,8 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def target_versions_changes(historic_journable)
-    old_ids = sorted_target_version_ids(historic_journable)
-    new_ids = sorted_target_version_ids(__getobj__)
+    old_ids = sorted_version_ids(historic_journable, :target_versions)
+    new_ids = sorted_version_ids(__getobj__, :target_versions)
 
     {}.tap do |changes|
       changes["version_id"] = [old_ids.first, new_ids.first] if old_ids.first != new_ids.first
@@ -284,8 +285,23 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     end
   end
 
-  def sorted_target_version_ids(work_package)
-    work_package.target_versions.map(&:id).sort
+  def merge_observed_in_versions_changes!(changes, historic_journable)
+    return unless __getobj__.respond_to?(:observed_in_versions)
+
+    changes.merge!(observed_in_versions_changes(historic_journable))
+  end
+
+  def observed_in_versions_changes(historic_journable)
+    old_ids = sorted_version_ids(historic_journable, :observed_in_versions)
+    new_ids = sorted_version_ids(__getobj__, :observed_in_versions)
+
+    {}.tap do |changes|
+      changes["observed_in_versions"] = [old_ids, new_ids].map { joined_version_ids(it) } if old_ids != new_ids
+    end
+  end
+
+  def sorted_version_ids(work_package, association)
+    work_package.public_send(association).map(&:id).sort
   end
 
   def joined_version_ids(ids)

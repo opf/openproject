@@ -9,7 +9,7 @@ delete:
     - Principals
   parameters:
     - description: User id. Use `me` to reference current user, if any.
-      example: 1
+      example: '1'
       in: path
       name: id
       required: true
@@ -55,7 +55,7 @@ get:
     - Principals
   parameters:
     - description: User id. Use `me` to reference current user, if any.
-      example: 1
+      example: '1'
       in: path
       name: id
       required: true
@@ -98,7 +98,7 @@ patch:
     Password updates for self-service account changes require both `password` and `currentPassword`.
   parameters:
     - description: User id. Use `me` to reference current user, if any.
-      example: 1
+      example: '1'
       in: path
       name: id
       required: true

@@ -246,7 +246,7 @@ RSpec.describe "API v3 storages resource", :storage_server_helpers, :webmock, co
       end
 
       context "if no storage with that id exists" do
-        let(:path) { api_v3_paths.storage(1337) }
+        let(:path) { api_v3_paths.storage(not_existing_id(Storages::Storage)) }
 
         it_behaves_like "not found"
       end

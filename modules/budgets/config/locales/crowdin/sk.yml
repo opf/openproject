@@ -46,15 +46,29 @@ sk:
             principal:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
-      budget: Rozpočet
-      labor_budget_item: Planned labor cost
-      material_budget_item: Jednotka
+      budget:
+        one: Budget
+        few: Budgets
+        many: Budgets
+        other: Budgets
+      labor_budget_item:
+        one: Planned labor cost
+        few: Planned labor costs
+        many: Planned labor costs
+        other: Planned labor costs
+      material_budget_item:
+        one: Unit
+        few: Units
+        many: Units
+        other: Units
   activity:
     filter:
       budget: Rozpočty
   attributes:
     budget: Rozpočet
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: No hourly rate on %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -102,7 +116,6 @@ sk:
   help_click_to_edit: Kliknite tu pre editáciu.
   help_currency_format: Formát zobrazených hodnôt mien. %n sa nahradí hodnotou meny, %u sa nahradí jednotkou meny.
   help_override_rate: Tu zadajte hodnotu, ak chcete zmeniť predvolenú sadzbu.
-  label_budget: Rozpočet
   label_budget_available: Budget available
   label_budget_details: Budget details
   label_budget_id: 'Rozpočet #%{id}'

@@ -33,6 +33,8 @@ require "support/pages/admin/departments"
 
 RSpec.describe "Departments admin",
                :js do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   let(:departments_page) { Pages::Admin::Departments.new }
@@ -129,6 +131,26 @@ RSpec.describe "Departments admin",
       departments_page.cancel_add_department
 
       expect(page).to have_no_field(I18n.t("departments.add_department_form.name_placeholder"))
+    end
+  end
+
+  describe "adding a project membership" do
+    shared_let(:department) { create(:department, lastname: "Engineering") }
+    shared_let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
+    shared_let(:other_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+
+    it_behaves_like "a project picker searchable by identifier" do
+      let(:control_project) { other_project }
+
+      before do
+        visit edit_admin_department_path(department, tab: :memberships)
+      end
+
+      def search_project(query)
+        search_autocomplete(page.find_test_selector("membership_project_id"),
+                            query:,
+                            results_selector: "body")
+      end
     end
   end
 

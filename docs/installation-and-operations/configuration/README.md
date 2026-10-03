@@ -38,7 +38,7 @@ Configuring OpenProject through environment variables is described in detail [in
 
 ### One container per process installation
 
-Create a file `docker-compose.override.yml` next to `docker-compose.yml` file. Docker Compose will automatically merge those files, for more information, [see](https://docs.docker.com/compose/multiple-compose-files/merge/).
+Create a file `docker-compose.override.yml` next to `docker-compose.yml` file. Docker Compose will automatically merge those files, for more information, [see Docker Docs](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
 Add your custom configuration to `docker-compose.override.yml`.
 
 In the compose folder you will also find the file `docker-compose.yml` which shall **NOT** be edited.
@@ -312,7 +312,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 In an automated deployment setup, such as installing OpenProject using our Helm chart, you might want to provide the custom design through environment variables.
 
 > [!NOTE]
-> Setting these variables will not have an effect on the Community Edition.
+> Setting these variables will not have an effect on the Community edition.
 
 **Setting design colors**
 
@@ -341,25 +341,43 @@ OPENPROJECT_SEED_DESIGN_EXPORT__LOGO="..."
 OPENPROJECT_SEED_DESIGN_EXPORT__COVER="..."
 ```
 
+**Applying the design only on first seed**
+
+By default, these variables are re-applied on every seed (including upgrades), which overwrites any design changes made in the administration UI.
+
+To seed an initial design once and then leave it under admin control, set:
+
+```shell
+OPENPROJECT_SEED_DESIGN_ONLY__WHEN__EMPTY="true"
+```
+
+When this flag is true, the seeder runs only if no custom design (`CustomStyle`) exists yet. Omit the flag or set it to `false` to keep the default always-reapply behavior.
+
+> [!NOTE]
+> On BIM edition, the BIM theme seeder already creates a custom design during first install. With `ONLY__WHEN__EMPTY=true`, the environment design will therefore not be applied on BIM first install.
+
 ## Examples for common use cases
 
-- `attachments_storage_path`
+- [`attachments_storage_path`](#attachments-storage-path)
 - `autologin_cookie_name` (default: 'autologin'),
 - `autologin_cookie_path` (default: '/')
 - `database_cipher_key`     (default: nil)
 - `scm_git_command` (default: 'git')
 - `scm_subversion_command` (default: 'svn')
 - [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
-- `force_help_link` (default: nil)
+- [`force_help_link`](#force-help-link) (default: nil)
 - `drop_old_sessions_on_logout` (default: true)
 - `drop_old_sessions_on_login` (default: false)
 - [`auth_source_sso`](#auth-source-sso) (default: nil)
 - [`omniauth_direct_login_provider`](#omniauth-direct-login-provider) (default: nil)
 - [`oauth_allow_remapping_of_existing_users`](#prevent-omniauth-remapping-of-existing-users) (default: true)
-- [`disable_password_login`](#disable-password-login) (default: false)
+- [`password_login`](#password-login) (default: all)
+- [`password_login_bypass_logins`](#password-login) (default: [])
+- [`password_login_bypass_principal_ids`](#password-login) (default: [])
 - [`attachments_storage`](#attachments-storage) (default: file)
 - [`direct_uploads`](#direct-uploads) (default: true)
 - [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
+- [`fog_direct_upload_expires_in`](#fog-direct-upload-expires-in) (default: 14400)
 - [`hidden_menu_items`](#hidden-menu-items-admin-menu) (default: {})
 - [`disabled_modules`](#disabled-modules) (default: [])
 - [`blacklisted_routes`](#blacklisted-routes) (default: [])
@@ -405,13 +423,13 @@ To disable, set the configuration option:
 OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
 ```
 
-### Attachments storage
+### Attachments storage path
 
 You can modify the folder where attachments are stored locally. Use the `attachments_storage_path` configuration variable for that. But ensure that you move the existing paths. To find out the current path on a packaged installation, use `openproject config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH`.
 
 To update the path, use `openproject config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="/path/to/new/folder"`. Ensure that this is writable by the `openproject` user. Afterwards issue a restart by `sudo openproject configure`
 
-#### Attachment storage type
+#### Attachments storage
 
 Attachments can be stored using e.g. Amazon S3, In order to set these values through ENV variables, add to the file :
 
@@ -465,9 +483,10 @@ OPENPROJECT_BACKUP__ENABLED="false"
 
 #### Backup attachment size max sum mb
 
-Per default the maximum overall size of all attachments must not exceed 1GB for them to be included in the backup. If they are larger only the database dump will be included.
+Per default the maximum overall size of all attachments must not exceed 4GB for them to be included in the backup. If they are larger only the database dump will be included. The main limiting factor here is the disk space available on /tmp. Make sure there is enough to support creating a backup archive
+of the desired size with some space to spare.
 
-_default=1024_
+_default=4096_
 
 ```yaml
 OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB="8192"
@@ -497,18 +516,57 @@ OPENPROJECT_OVERRIDE__BCRYPT__COST__FACTOR="16"
 
 Please see [this separate guide](./database/) on how to set a custom database connection string and optionally, require SSL/TTLS verification.
 
-### Disable password login
+### Password login
 
-If you enable this option you have to configure at least one omniauth authentication
-provider to take care of authentication instead of the password login.
+Controls who may authenticate with a password:
 
-All username/password forms will be removed and only a list of omniauth providers
-presented to the users.
+* `all` — anyone with a password, including users linked to an OmniAuth provider
+* `except_sso` — users linked to an OmniAuth provider cannot use a leftover password
+* `none` — nobody, except the break-glass allowlist
 
-_default: false_
+Modes `except_sso` and `none` are meant for instances that have at least one OmniAuth
+provider. `none` hides the password form on `/login`. Break-glass users sign in at
+`/login/internal`, which is enabled when an allowlist (or the login overlay below) is
+non-empty.
+
+This setting is also available in the administration under *Authentication → Settings →
+Single Sign-On*.
+
+> [!NOTE]
+> The legacy environment variable `OPENPROJECT_DISABLE__PASSWORD__LOGIN=true` still forces
+> the value to `none` and makes the select read-only for compatibility with existing
+> deployments.
+
+_default: all_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN="except_sso"
+```
+
+Legacy deployments may still use:
 
 ```yaml
 OPENPROJECT_DISABLE__PASSWORD__LOGIN="true"
+```
+
+User and group ids that keep password login when the policy is `except_sso` or `none`.
+Groups include their descendant groups. Deleted principals are removed from this list
+automatically.
+
+_default: []_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__PRINCIPAL__IDS="[1, 42]"
+```
+
+Individual logins can additionally be exempted through the environment, so that you can
+still grant yourself access when nobody is able to reach the administration anymore.
+Logins are matched case-insensitively.
+
+_default: []_
+
+```yaml
+OPENPROJECT_PASSWORD__LOGIN__BYPASS__LOGINS="[admin, breakglass]"
 ```
 
 ### Omniauth direct login provider
@@ -518,7 +576,8 @@ Per default the user may choose the usual password login as well as **several** 
 If this option is active, a login will lead directly to the configured omniauth provider and so will a click on 'Sign in' (the drop down menu will not open).
 
 To still reach the internal login route for e.g., an internal administrative user, you can manually navigate to `/login/internal`.
-This route is only available when the direct login provider is set.
+This route is available when the direct login provider is set, and also when [`password_login`](#password-login)
+is `none` and a break-glass allowlist (or login overlay) is configured.
 
 > [!NOTE]
 > This does not stop a user from manually navigating to any other omniauth provider if additional ones are configured.
@@ -610,6 +669,37 @@ _default: 21600_
 OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
 ```
 
+#### Fog direct upload expires in
+
+When [`direct_uploads`](#direct-uploads) are enabled, the browser uploads attachments straight to the remote storage using a signed upload form. This option determines how long such a form stays valid after it has been issued. Increase it if very large files regularly take longer than that to upload.
+
+The default is 14400 seconds, that is 4 hours.
+
+_default: 14400_
+
+```yaml
+OPENPROJECT_FOG__DIRECT__UPLOAD__EXPIRES__IN="3600"
+```
+
+#### Cleaning up staged direct uploads
+
+With [`direct_uploads`](#direct-uploads) enabled, browsers first upload files to a staging location in your bucket, under the `uploads/direct_uploads/` prefix. OpenProject then copies them to their final location and removes the staged file. Staged files of uploads that were abandoned or never completed can remain in the bucket.
+
+We recommend adding a lifecycle rule to your bucket that expires objects under this prefix after one day. The rule must keep staged files for longer than [`fog_direct_upload_expires_in`](#fog-direct-upload-expires-in). For example, with the AWS CLI:
+
+```shell
+aws s3api put-bucket-lifecycle-configuration --bucket «bucket-name» --lifecycle-configuration '{
+  "Rules": [{
+    "ID": "openproject-expire-staged-direct-uploads",
+    "Filter": { "Prefix": "uploads/direct_uploads/" },
+    "Status": "Enabled",
+    "Expiration": { "Days": 1 }
+  }]
+}'
+```
+
+Most S3-compatible storage providers support lifecycle rules. Please refer to your provider's documentation for details.
+
 ### Force help link
 
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
@@ -699,6 +789,35 @@ Limits password-reset requests per email address to 3 per hour.
 
 ```shell
 OPENPROJECT_RATE_LIMITING_LOST__PASSWORD="true"
+```
+
+##### Registration rate limiting (disabled by default)
+
+Limits unauthenticated `POST /account/register` requests per hour.
+`0` (the default) disables the limit. A positive value is the number of attempts allowed.
+
+The two counting modes target different attackers:
+
+- **Per client IP** (default): an unauthenticated outsider hitting the public registration form.
+  This does not stop someone who rotates addresses, and it will not freeze signups for everyone
+  behind a shared NAT.
+- **Per instance** (`host_name`): Set
+  `registration_rate_limit_per_ip` to `false` for this mode, which will restrict registrations altogether.
+
+```shell
+OPENPROJECT_REGISTRATION__RATE__LIMIT="10"
+OPENPROJECT_REGISTRATION__RATE__LIMIT__PER__IP="false"
+```
+
+##### Mail recipient limits (disabled by default)
+
+Limits how many distinct email addresses OpenProject will send mail to per day.
+`0` (the default) disables this form of rate limiting.
+
+Addresses exceeding this are dropped before delivery, so this covers every mailer (registration, invitations, shares, meetings, notifications).
+
+```shell
+OPENPROJECT_MAIL__RECIPIENT__LIMITS="30"
 ```
 
 ##### API v3 rate limiting (disabled by default)

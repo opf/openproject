@@ -33,9 +33,8 @@ class GitlabUser < ApplicationRecord
   has_many :gitlab_merge_requests
 
   validates :gitlab_id,
-            :gitlab_name,
-            :gitlab_username,
-            :gitlab_email,
-            :gitlab_avatar_url,
+            :name,
+            :username,
+            :avatar_url,
             presence: true
 end

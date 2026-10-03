@@ -37,9 +37,10 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Commands::CreatePage, :disable
 
     let(:provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
     let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider:).value! }
-    let(:input_data) { Wikis::Adapters::Input::CreatePage.build(title:, parent_identifier:).value! }
+    let(:input_data) { Wikis::Adapters::Input::CreatePage.build(title:, parent_identifier:, parent_type:).value! }
     let(:user) { create(:user) }
 
+    let(:parent_type) { :page }
     let(:title) { "A page automatically created during a create_page test" }
     # To record a VCR cassette, make sure to set parent_identifier to the stable ID of an existing wiki page
     # and parent_title to that wiki page's title.
@@ -82,6 +83,24 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Commands::CreatePage, :disable
         result
 
         expect(WebMock).not_to have_requested(:put, %r{https://xwiki.local/rest/openproject/documents})
+      end
+    end
+
+    context "when a wiki is the parent", vcr: "xwiki/create_root_page" do
+      let(:parent_identifier) { "xwiki" }
+      let(:parent_type) { :wiki }
+
+      it "creates the page as a root page of that wiki" do
+        expect(result).to be_success
+
+        expect(WebMock).to have_requested(:put, "https://xwiki.local/rest/openproject/documents")
+          .with(query: hash_including(docRef: "xwiki:#{title}.WebHome"))
+      end
+
+      it "does not look the parent up first" do
+        result
+
+        expect(WebMock).not_to have_requested(:get, %r{https://xwiki.local/rest/openproject/documents/})
       end
     end
 

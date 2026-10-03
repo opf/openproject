@@ -49,7 +49,7 @@ module WorkPackageTypes
         copy = result.result
         copy.insert_at(source.position + 1)
 
-        failure = copy_configuration(copy) || copy_project_assignments(copy)
+        failure = copy_workflows(copy) || copy_configuration(copy) || copy_project_assignments(copy)
         if failure
           result = failure
           raise ActiveRecord::Rollback
@@ -70,7 +70,8 @@ module WorkPackageTypes
           name: duplicated_name,
           color_id: source.color_id,
           is_milestone: source.is_milestone,
-          is_in_roadmap: source.is_in_roadmap
+          is_in_roadmap: source.is_in_roadmap,
+          allow_project_variants: source.allow_project_variants
         )
     end
 
@@ -87,18 +88,18 @@ module WorkPackageTypes
       nil
     end
 
+    def copy_workflows(copy)
+      Workflows::StatusTransition.copy(source.default_variant.workflow, nil, copy.default_variant.workflow, nil)
+
+      nil
+    end
+
     def copy_configuration(copy)
       source_variant = source.default_variant
       copy_variant = copy.default_variant
 
-      CopyConfiguration::SERVICES.each_pair do |aspect, service_class|
-        aspect_result =
-          if (linked_source = source_variant.source_for(aspect))
-            SwitchToLinkedModeService.new(variant: copy_variant, aspect:).call(source: linked_source)
-          else
-            service_class.new(variant: copy_variant, user:).call(source: source_variant)
-          end
-
+      [*CopyConfiguration::SERVICES.values, CopyConfiguration::FormConfigurationService].each do |service_class|
+        aspect_result = service_class.new(variant: copy_variant, user:).call(source: source_variant)
         return aspect_result if aspect_result.failure?
       end
 

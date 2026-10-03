@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe Query,
-               with_ee: %i[baseline_comparison work_package_query_relation_columns] do
+               with_ee: %i[baseline_comparison] do
   let(:query) { build(:query) }
   let(:project) { create(:project) }
   let(:project_member) { create(:user, member_with_permissions: { project => [:view_project] }) }
@@ -85,6 +85,13 @@ RSpec.describe Query,
       expect(query.find_active_filter("status_id")).to be_nil
       expect(query.find_active_filter(:status_id)).not_to be_nil
     end
+
+    it "finds a filter added under the other interchangeable version key" do
+      query.add_filter("version_id", "=", ["1"])
+
+      expect(query.find_active_filter(:target_version_id))
+        .to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+    end
   end
 
   describe "#available_advanced_filters" do
@@ -94,6 +101,23 @@ RSpec.describe Query,
       classes = query.available_advanced_filters.map(&:class)
 
       expect(classes).not_to include(Queries::WorkPackages::Filter::ManualSortFilter)
+    end
+
+    it "excludes the relation-type filters and the generic relatable filter" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      expect(classes).not_to include(Queries::WorkPackages::Filter::BlocksFilter,
+                                     Queries::WorkPackages::Filter::BlockedFilter,
+                                     Queries::WorkPackages::Filter::PrecedesFilter,
+                                     Queries::WorkPackages::Filter::FollowsFilter,
+                                     Queries::WorkPackages::Filter::DuplicatesFilter,
+                                     Queries::WorkPackages::Filter::DuplicatedFilter,
+                                     Queries::WorkPackages::Filter::PartofFilter,
+                                     Queries::WorkPackages::Filter::IncludesFilter,
+                                     Queries::WorkPackages::Filter::RequiresFilter,
+                                     Queries::WorkPackages::Filter::RequiredFilter,
+                                     Queries::WorkPackages::Filter::RelatesFilter,
+                                     Queries::WorkPackages::Filter::RelatableFilter)
     end
 
     it "still exposes regular work-package filters" do
@@ -441,12 +465,6 @@ RSpec.describe Query,
         it "does not include the relation columns for types not in project" do
           expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
         end
-
-        context "with the enterprise token disallowing relation columns", with_ee: false do
-          it "excludes the relation columns" do
-            expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
-          end
-        end
       end
 
       context "when global" do
@@ -457,13 +475,6 @@ RSpec.describe Query,
         it "includes the relation columns for all types" do
           expect(query.displayable_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
                                                                    :"relations_to_type_#{type_not_in_project.id}")
-        end
-
-        context "with the enterprise token disallowing relation columns", with_ee: false do
-          it "excludes the relation columns" do
-            expect(query.displayable_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
-                                                                         :"relations_to_type_#{type_not_in_project.id}")
-          end
         end
       end
     end
@@ -478,13 +489,6 @@ RSpec.describe Query,
       it "includes the relation columns for every relation type" do
         expect(query.displayable_columns.map(&:name)).to include(:relations_of_type_relation1,
                                                                  :relations_of_type_relation2)
-      end
-
-      context "with the enterprise token disallowing relation columns", with_ee: false do
-        it "excludes the relation columns" do
-          expect(query.displayable_columns.map(&:name)).not_to include(:relations_of_type_relation1,
-                                                                       :relations_of_type_relation2)
-        end
       end
     end
   end
@@ -519,53 +523,32 @@ RSpec.describe Query,
                  relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
     end
 
-    context "with the enterprise token allowing relation columns" do
-      current_user { project_member }
+    current_user { project_member }
 
-      it "has all static columns, cf columns and relation columns" do
-        expected_columns = %i(id project assigned_to author
-                              category created_at due_date estimated_hours
-                              parent done_ratio priority responsible
-                              spent_hours start_date status subject type
-                              updated_at version) +
-                           [custom_field.column_name.to_sym] +
-                           [:"relations_to_type_#{type.id}"] +
-                           %i(relations_of_type_relation1 relations_of_type_relation2)
+    it "has all static columns, cf columns and relation columns" do
+      expected_columns = %i(id project assigned_to author
+                            category created_at due_date estimated_hours
+                            parent done_ratio priority responsible
+                            spent_hours start_date status subject type
+                            updated_at version) +
+                         [custom_field.column_name.to_sym] +
+                         [:"relations_to_type_#{type.id}"] +
+                         %i(relations_of_type_relation1 relations_of_type_relation2)
 
-        expect(described_class.available_columns.map(&:name)).to include *expected_columns
-      end
-
-      context "when the user cannot see the project" do
-        current_user { user_restricted }
-
-        it "does not list custom field columns" do
-          columns = described_class.available_columns.map(&:name)
-
-          # We do not really care about column details here, but let's see if we have some amount of them:
-          expect(columns.count).to be > 5
-
-          # This is the important assertion:
-          expect(columns).not_to include custom_field.column_name.to_sym
-        end
-      end
+      expect(described_class.available_columns.map(&:name)).to include *expected_columns
     end
 
-    context "with the enterprise token disallowing relation columns", with_ee: false do
-      current_user { project_member }
+    context "when the user cannot see the project" do
+      current_user { user_restricted }
 
-      it "has all static columns, cf columns but no relation columns" do
-        expected_columns = %i(id project assigned_to author
-                              category created_at due_date estimated_hours
-                              parent done_ratio priority responsible
-                              spent_hours start_date status subject type
-                              updated_at version) +
-                           [custom_field.column_name.to_sym]
+      it "does not list custom field columns" do
+        columns = described_class.available_columns.map(&:name)
 
-        unexpected_columns = [:"relations_to_type_#{type.id}"] +
-                             %i(relations_of_type_relation1 relations_of_type_relation2)
+        # We do not really care about column details here, but let's see if we have some amount of them:
+        expect(columns.count).to be > 5
 
-        expect(described_class.available_columns.map(&:name)).to include *expected_columns
-        expect(described_class.available_columns.map(&:name)).not_to include *unexpected_columns
+        # This is the important assertion:
+        expect(columns).not_to include custom_field.column_name.to_sym
       end
     end
   end
@@ -820,6 +803,25 @@ RSpec.describe Query,
     end
   end
 
+  describe "#add_filter" do
+    it "keeps distinct filters that happen to share an operator and values" do
+      query.add_filter("assigned_to_id", "=", ["1"])
+      query.add_filter("author_id", "=", ["1"])
+
+      expect(query.filters.map { it.field.to_s })
+        .to include("assigned_to_id", "author_id")
+    end
+
+    it "updates an already active filter instead of listing it twice" do
+      query.add_filter("assigned_to_id", "=", ["1"])
+
+      expect { query.add_filter("assigned_to_id", "=", ["2"]) }
+        .not_to change { query.filters.count }
+
+      expect(query.filter_for("assigned_to_id").values).to eq(["2"])
+    end
+  end
+
   describe "#filter_for" do
     context "for a status_id filter" do
       subject { query.filter_for("status_id") }
@@ -834,6 +836,22 @@ RSpec.describe Query,
 
       it "reuses an existing filter" do
         expect(subject.object_id).to eql query.filter_for("status_id").object_id
+      end
+    end
+
+    context "for version_id/target_version_id, which are interchangeable" do
+      context "with multiple versions active", with_settings: { work_package_multiple_versions: true } do
+        it "returns the target versions filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::TargetVersionsFilter)
+        end
+      end
+
+      context "with multiple versions inactive", with_settings: { work_package_multiple_versions: false } do
+        it "returns the version filter for either key" do
+          expect(query.filter_for("version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+          expect(query.filter_for("target_version_id")).to be_a(Queries::WorkPackages::Filter::VersionFilter)
+        end
       end
     end
   end
@@ -862,6 +880,15 @@ RSpec.describe Query,
       it "is a noop" do
         expect { query.remove_filter("assigned_to_id") }
           .not_to change { query.filters.count }
+      end
+    end
+
+    context "if the filter was added under the other interchangeable version key" do
+      it "removes it" do
+        query.add_filter("version_id", "=", ["1"])
+
+        expect { query.remove_filter("target_version_id") }
+          .to change { query.filters.count }.by(-1)
       end
     end
   end

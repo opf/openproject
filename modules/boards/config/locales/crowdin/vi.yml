@@ -1,5 +1,9 @@
 ---
 vi:
+  activerecord:
+    models:
+      boards/grid:
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Người được chuyển nhượng

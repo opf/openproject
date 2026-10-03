@@ -299,6 +299,43 @@ RSpec.describe "Meeting index",
       expect(table).to have_no_text "meeting on next monday"
       expect(table).to have_no_text "meeting on next friday"
     end
+
+    context "with more than 15 past meetings" do
+      before do
+        20.times do |i|
+          create(:meeting,
+                 :author_participates,
+                 title: "old meeting #{i}",
+                 start_time: DateTime.parse("2025-01-2#{i % 8}T05:00:00Z"),
+                 project:,
+                 author: user)
+        end
+      end
+
+      it "shows 15 past meetings by default with a show-more footer for the rest" do
+        expect(subject).to have_http_status(:ok)
+
+        expect(page).to have_css("#meetings-table-footer-component")
+        expect(page).to have_text "There are 6 more meetings."
+      end
+    end
+  end
+
+  context "when the time filter is not present" do
+    let(:request) do
+      filters = [{ "author_id" => { "operator" => "=", "values" => [user.id.to_s] } }].to_json
+      get "/projects/#{project.id}/meetings", params: { filters: }
+    end
+
+    it "defaults to the upcoming view and excludes past meetings" do
+      expect(subject).to have_http_status(:ok)
+
+      today = page.find("[data-test-selector='meetings-table-today']")
+      expect(today).to have_text "meeting starting soon"
+      expect(today).to have_text "meeting starting tonight"
+
+      expect(page).to have_no_text "an earlier meeting"
+    end
   end
 
   describe "POST #refresh_form (add WP to meeting)" do

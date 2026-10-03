@@ -34,9 +34,6 @@ require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    ACCESS_TOKEN_TYPE = "urn:ietf:params:oauth:token-type:access_token"
-    TOKEN_EXCHANGE_GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange"
-
     def self.configuration
       providers = ::OpenIDConnect::Provider.where(available: true)
 
@@ -67,6 +64,18 @@ module OpenProject
 
         clazz.new(slug, configuration)
       end
+    end
+
+    def self.authorization_url(client_options)
+      options = ::OmniAuth::Strategies::OpenIDConnect.default_options.client_options.merge(client_options)
+
+      uri = URI.parse(options[:authorization_endpoint])
+      uri.scheme ||= options[:scheme]
+      uri.host ||= options[:host]
+      uri.port ||= options[:port]
+      URI.parse(uri.to_s).to_s
+    rescue URI::Error
+      nil
     end
   end
 end

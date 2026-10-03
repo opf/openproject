@@ -152,6 +152,8 @@ ignore_unused:
   - 'storages.upsell.*'
   - 'services.*'
   - 'storages.health.checks.*'
+  - 'storages.instructions.*.provider_configuration_html'
+  - 'storages.instructions.*.oauth_configuration_html'
 
 ## Exclude these keys from the `i18n-tasks eq-base' report:
 # ignore_eq_base:

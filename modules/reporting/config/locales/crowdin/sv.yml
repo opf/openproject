@@ -21,6 +21,18 @@
 #++
 ---
 sv:
+  activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: Raderna och kolumnerna måste tillsammans motsvara exakt frågans grupperingskriterier.
+    models:
+      cost_query:
+        one: Kostnadsrapport
+        other: Kostnadsrapporter
+      cost_report:
+        one: Kostnadsrapport
+        other: Kostnadsrapporter
   button_save_report_as: Spara rapporten som...
   comments: Kommentar
   cost_reports_title: Tid och kostnader
@@ -46,7 +58,6 @@ sv:
   label_closed: stängd
   label_columns: Kolumner
   label_cost_entry_attributes: Kostnadspostattribut
-  label_cost_report: Kostnadsrapport
   label_cost_report_plural: Kostnadsrapporter
   label_count: Antal
   label_days_ago: under de senaste dagarna
@@ -66,7 +77,7 @@ sv:
   label_is_project_with_subprojects: är (inkluderar delprojekt)
   label_is_work_package_with_descendants: är (inkluderar ättlingar)
   label_less: "<"
-  label_logged_by_reporting: Loggad av
+  label_logged_by_reporting: Loggat av
   label_money: Kontantvärde
   label_month_reporting: Månad (spenderade)
   label_new_report: Nya kostnadsrapport

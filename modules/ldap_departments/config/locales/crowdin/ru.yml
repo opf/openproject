@@ -4,14 +4,14 @@ ru:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Подразделение
+        ldap_auth_source: LDAP-подключение
+        users_count: Участники
       ldap_departments/synchronized_tree:
-        base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
+        base_dn: Базовый DN
+        guid_attribute: Атрибут уникального идентификатора
+        ldap_auth_source: LDAP-подключение
+        name: Имя
         ou_name_attribute: Атрибут OU
         structure_filter_string: Фильтр по подразделениям
         sync_users: Синхронизировать пользователей
@@ -22,8 +22,16 @@ ru:
           must_contain_base_dn: Базовый DN должен входить в состав базового DN соединения LDAP.
           overlaps_other_tree: Пересекается с базовым DN другой синхронизации, использующей то же LDAP-соединение.
     models:
-      ldap_departments/synchronized_department: Синхронизированное подразделение
-      ldap_departments/synchronized_tree: Синхронизация подразделений с помощью LDAP
+      ldap_departments/synchronized_department:
+        one: Синхронизированное подразделение
+        few: Synchronized departments
+        many: Synchronized departments
+        other: Синхронизированные подразделения
+      ldap_departments/synchronized_tree:
+        one: Синхронизация подразделений с помощью LDAP
+        few: LDAP department synchronizations
+        many: LDAP department synchronizations
+        other: Синхронизации подразделений с помощью LDAP
   ee:
     upsell:
       ldap_departments:

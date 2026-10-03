@@ -74,9 +74,8 @@ RSpec.describe MyController do
       end
     end
 
-    describe "with disabled password login" do
+    describe "with disabled password login", with_settings: { password_login: "none" } do
       before do
-        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
         post :change_password
       end
 
@@ -382,9 +381,8 @@ RSpec.describe MyController do
     end
   end
 
-  describe "account with disabled password login" do
+  describe "account with disabled password login", with_settings: { password_login: "none" } do
     before do
-      allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
         get :security
       end

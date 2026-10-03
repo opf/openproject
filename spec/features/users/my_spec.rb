@@ -143,44 +143,85 @@ RSpec.describe "my", :js do
     describe "#account" do
       let(:dialog) { Components::PasswordConfirmationDialog.new }
 
-      before do
-        visit my_account_path
+      context "when updating profile fields" do
+        before do
+          visit my_account_path
 
-        fill_in "user[mail]", with: "foo@mail.com"
-        fill_in "user[firstname]", with: "Foo"
-        fill_in "user[lastname]", with: "Bar"
-        click_on "Update profile"
-      end
-
-      context "when confirmation disabled",
-              with_config: { internal_password_confirmation: false } do
-        it "does not request confirmation" do
-          expect_changed!
-        end
-      end
-
-      context "when confirmation required",
-              with_config: { internal_password_confirmation: true } do
-        it "requires the password for a regular user" do
-          dialog.confirm_flow_with(user_password)
-          expect_changed!
+          fill_in "user[mail]", with: "foo@mail.com"
+          fill_in "user[firstname]", with: "Foo"
+          fill_in "user[lastname]", with: "Bar"
+          click_on "Update profile"
         end
 
-        it "declines the change when invalid password is given" do
-          dialog.confirm_flow_with(user_password + "INVALID", should_fail: true)
-
-          user.reload
-          expect(user.mail).to eq("old@mail.com")
-        end
-
-        context "as admin" do
-          shared_let(:admin) { create(:admin) }
-          let(:user) { admin }
-
-          it "requires the password" do
-            dialog.confirm_flow_with("adminADMIN!")
+        context "when confirmation disabled",
+                with_config: { internal_password_confirmation: false } do
+          it "does not request confirmation" do
             expect_changed!
           end
+        end
+
+        context "when confirmation required",
+                with_config: { internal_password_confirmation: true } do
+          it "requires the password for a regular user" do
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+
+          it "declines the change when invalid password is given" do
+            dialog.confirm_flow_with("#{user_password}INVALID", should_fail: true)
+
+            user.reload
+            expect(user.mail).to eq("old@mail.com")
+          end
+
+          it "allows submitting again after cancelling the confirmation dialog" do
+            dialog.cancel
+
+            click_on "Update profile"
+            dialog.confirm_flow_with(user_password)
+            expect_changed!
+          end
+
+          context "as admin" do
+            shared_let(:admin) { create(:admin) }
+            let(:user) { admin }
+
+            it "requires the password" do
+              dialog.confirm_flow_with("adminADMIN!")
+              expect_changed!
+            end
+          end
+        end
+      end
+
+      # CKEditor-augmented text custom fields also intercept submit (to flush
+      # editor → textarea). With turboMode they used to call Turbo's
+      # navigator.submitForm, which bypassed password confirmation and POSTed
+      # immediately — flashing notice_password_confirmation_failed.
+      context "with a long text custom field",
+              with_config: { internal_password_confirmation: true } do
+        let!(:text_cf) { create(:user_custom_field, :text, name: "Biography") }
+        let(:editor) { Components::WysiwygEditor.new("[data-test-selector='#{text_cf.attribute_name(:kebab_case)}']") }
+
+        it "still requires password confirmation and does not submit without it" do
+          visit my_account_path
+
+          editor.expect_value("")
+          editor.set_markdown("Loves hiking")
+
+          fill_in "user[mail]", with: "foo@mail.com"
+          fill_in "user[firstname]", with: "Foo"
+          fill_in "user[lastname]", with: "Bar"
+          click_on "Update profile"
+
+          dialog.expect_open
+          expect(page).to have_no_text(I18n.t(:notice_password_confirmation_failed))
+
+          dialog.confirm_flow_with(user_password)
+          expect_changed!
+
+          user.reload
+          expect(user.typed_custom_value_for(text_cf)).to include("Loves hiking")
         end
       end
     end

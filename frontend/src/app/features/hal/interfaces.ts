@@ -44,6 +44,8 @@ export interface IOPFieldSchema {
   name?:string;
   minLength?:number,
   maxLength?:number,
+  minimum?:number,
+  maximum?:number,
   attributeGroup?:string;
   location?:'_meta'|'_links'|undefined;
   options:Record<string, unknown>;

@@ -35,6 +35,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'icon-triggered-context-menu',
   templateUrl: './icon-triggered-context-menu.component.html',
   styleUrls: ['./icon-triggered-context-menu.component.sass'],

@@ -203,7 +203,6 @@ import {
 import {
   WorkPackageRelationQueryComponent,
 } from 'core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-query.component';
-import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 import {
   WorkPackageSplitViewComponent,
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
@@ -252,9 +251,11 @@ import {
   WorkPackageViewPageComponent,
 } from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page.component';
 import {
+  WorkPackageViewPageEntryComponent,
+} from 'core-app/features/work-packages/routing/wp-view-page/wp-view-page-entry.component';
+import {
   WorkPackageSettingsButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
-import { BackButtonComponent } from 'core-app/features/work-packages/components/back-routing/back-button.component';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
 import {
   WorkPackageGroupToggleDropdownMenuDirective,
@@ -485,9 +486,9 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
   ],
   declarations: [
     // Routing
-    WorkPackagesBaseComponent,
     PartitionedQuerySpacePageComponent,
     WorkPackageViewPageComponent,
+    WorkPackageViewPageEntryComponent,
 
     // WP list side
     WorkPackageListViewComponent,
@@ -574,7 +575,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageChildrenQueryComponent,
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
-    BackButtonComponent,
     WorkPackageTimerButtonComponent,
 
     // Activity Tab
@@ -688,7 +688,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
-    BackButtonComponent,
     OpWpDatePickerModalComponent,
 
     // Needed so boards can put its lists under a shared sortable root.

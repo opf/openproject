@@ -53,11 +53,12 @@ module OpenProject::JournalFormatter::CauseMeetingRendering
 
   def meeting_message
     return I18n.t("journals.cause_descriptions.meeting_deleted") if @meeting.nil?
-    return I18n.t("journals.cause_descriptions.meeting_cancelled") if @meeting.cancelled?
     return meeting_template_message if @meeting.templated?
 
     label = "#{@meeting.title} – #{format_time(@meeting.start_time)}"
-    meeting_link(label)
+    return meeting_link(label) unless @meeting.cancelled?
+
+    "#{label} #{I18n.t('journals.cause_descriptions.meeting_cancelled')}"
   end
 
   def meeting_template_message

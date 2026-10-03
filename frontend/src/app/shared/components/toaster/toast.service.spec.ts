@@ -101,7 +101,7 @@ describe('ToastService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second success toaster',
     () => {
-      const firstToast = toastService.addSuccess('blubs');
+      toastService.addSuccess('blubs');
 
       expect(toastService.current.value!.length).toEqual(1);
 
@@ -112,7 +112,7 @@ describe('ToastService', () => {
 
   it('sends a broadcast to remove the first toaster upon adding a second error toaster',
     () => {
-      const firstToast = toastService.addSuccess('blubs');
+      toastService.addSuccess('blubs');
       toastService.addError('blubs2');
 
       expect(toastService.current.value!.length).toEqual(1);

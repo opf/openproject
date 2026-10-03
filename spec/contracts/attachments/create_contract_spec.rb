@@ -140,5 +140,15 @@ RSpec.describe Attachments::CreateContract do
     end
   end
 
+  context "with filesize exceeding maximum",
+          with_settings: { attachment_max_size: 0 } do
+    it_behaves_like "contract is invalid", file: :file_too_large
+  end
+
+  context "with filesize within maximum",
+          with_settings: { attachment_max_size: 1024 } do
+    it_behaves_like "contract is valid"
+  end
+
   include_examples "contract reuses the model errors"
 end

@@ -35,7 +35,13 @@ ka:
         project_timeline:
           accessible_date_range: "%{start} to %{end}"
           accessible_gate: 'Phase gate %{name}: %{date}'
+          accessible_milestone: 'Milestone %{name}: %{date}'
           accessible_phase: 'Phase %{name}: %{date}'
+          accessible_sprint: 'Sprint %{name}: %{date}. Status: %{status}'
+          sprint_status:
+            active: Active
+            completed: Completed
+            in_planning: In planning
           tooltip_type_gate: Phase gate
           tooltip_type_milestone: Milestone
           tooltip_type_phase: Phase

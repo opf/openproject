@@ -14,7 +14,7 @@ get:
     - name: work_package_id
       in: path
       description: Work package id
-      example: '1'
+      example: 1
       required: true
       schema:
         type: integer
@@ -85,7 +85,7 @@ post:
     - name: work_package_id
       in: path
       description: Work package id
-      example: '1'
+      example: 1
       required: true
       schema:
         type: integer

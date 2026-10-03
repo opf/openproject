@@ -106,6 +106,22 @@ RSpec.describe Meeting do
         expect(meeting.start_time).to eq(Time.zone.today + 10.hours)
       end
     end
+
+    describe "default start_time" do
+      let(:meeting) { described_class.new(project:) }
+
+      it "defaults to today, now, rounded up to the next half hour" do
+        travel_to(Time.zone.local(2026, 8, 20, 9, 12)) do
+          expect(meeting.start_time).to eq(Time.zone.local(2026, 8, 20, 9, 30))
+        end
+      end
+
+      it "keeps the time when already on a half-hour boundary" do
+        travel_to(Time.zone.local(2026, 8, 20, 9, 30)) do
+          expect(meeting.start_time).to eq(Time.zone.local(2026, 8, 20, 9, 30))
+        end
+      end
+    end
   end
 
   describe "participants and author as watchers" do

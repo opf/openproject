@@ -92,8 +92,8 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     });
   });
 
-  it('preserves the split view selection markers during Turbo morphs', () => {
-    ['data-selected', 'aria-current'].forEach((attributeName) => {
+  it('preserves the batch selection and current-work-package markers during Turbo morphs', () => {
+    ['data-batch-selected', 'aria-current'].forEach((attributeName) => {
       const element = appendSortableRow();
       const event = beforeMorphAttributeEvent(attributeName);
 

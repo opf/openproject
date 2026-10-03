@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
@@ -46,6 +45,7 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 @Component({
   templateUrl: './watchers-tab.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-watchers-tab',
   standalone: false,
 })
@@ -53,7 +53,6 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
   readonly I18n = inject(I18nService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly wpWatchersService = inject(WorkPackageWatchersService);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly loadingIndicator = inject(LoadingIndicatorService);
   readonly cdRef = inject(ChangeDetectorRef);
@@ -91,8 +90,7 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
 
   public ngOnInit() {
     this.element = this.elementRef.nativeElement;
-    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
-    this.workPackageId = (this.workPackage.id!) || workPackageId;
+    this.workPackageId = this.workPackage.id!;
 
     this
       .apiV3Service

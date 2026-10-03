@@ -8,47 +8,58 @@ keywords: Mobile app features time tracking, time tracking, mobile time tracking
 
 # Time tracking
 
-The **Time Tracking** module in the OpenProject Mobile App enables you to easily record, review, and manage the time you spend on your work. Whether you prefer logging time manually or using a real-time focus timer, the module offers a clear and efficient mobile workflow.
+The **Time tracking** module lets you track and log spent time in OpenProject from the mobile app. It is designed for quick time entry on the go, whether you want to log time for **yourself** or, with the proper permissions, log time for **other users**, including **multiple users at once**.
 
-## Purpose
+## Views
 
-The Time Tracking feature helps you:
+The Time tracking module is organized into three tabs:
 
-- Keep accurate records of your work across projects
-- Maintain consistent time reporting while on the move
-- Review your weekly work patterns at a glance
-- Track focused work sessions without distractions
+- **Day:** See your logged time grouped by day and review the entries for the selected date.
+- **Work week:** Get a weekly overview of your logged hours, including totals and a day-by-day breakdown.
+- **Time tracker:** Track time actively with a running timer and link it to a work package when needed.
 
-## Time Entries Index
+![Time tracking views](time_tracking-views.png)
 
-The **Time Entries Index** provides a clear, chronological view of all your logged time. What you can do:
+## Common workflows
 
-- **Browse weekly overviews:** Move between the current week and previous weeks to see all your recorded time entries.
-- **Review logged hours:** See each entry with its associated work package, duration, and date.
-- **Quick view chart:** Easily see the total of hours recorded by day in the weekly chart.
+### Review your logged time
 
-This view is ideal for maintaining accurate records and verifying past entries.
+Use the **Day** or **Work week** tab to:
 
-![Time tracking week logged time index page in the OpenProject mobile app](mobile_app_timetrackingmodule.png)
-![Time tracking index page with a day of the week selected in the OpenProject mobile app](mobile_app_timetrackingmodule_dayfocused.png)
+- see **your personal** time entries,
+- review logged hours and daily/weekly totals,
+- open entries for additional details and editing.
 
-## Timer Focus Mode
+> [!TIP]
+> The app shows **only your personal time entries**, even if you logged time for other users. Time entries for other users are not displayed in the app (regardless of who created them).
 
-The **Timer Focus Mode** allows you to track time as it happens, helping you stay focused and avoid manual entry errors. What you can do:
+![Edit a logged time entry](time_tracking-edit_log.png)
 
-- **Start a focus timer** on any work package to measure your work session in real time.
-- **Let the timer run in the background**, even if you switch apps or lock your device.
-- **Stop the timer** when finished, and convert the session into a logged time entry.
+### Log time
 
-![Timer running in a focus mode in the OpenProject mobile app](mobile_app_focustimer.png)
-![Timer running in the background shown in the index page in the OpenProject mobile app](mobile_app_timerrunning.png)
+You can create a new time entry from the Time tracking module.
 
-## Log Time
+1. Tap **+** (top right).
+2. Tap **Log time**.
+3. By default, you will be selected as **User** to log time**.** With the correct permissions you can select **another user** or **multiple users.**
+4. Select a **Work package**.
+5. Set the **Date**.
+6. Enter **Hours**, including **exact times** if the instance allows it.
+7. Fill in all the **mandatory fields** depending on the instance configuration.
+8. Fill in other **optional fields** if desired.
+9. Tap **Save** to create the time entry.
 
-The **Log Time** feature allows you to manually enter time spent on work packages. What you can do:
+![Log time flow](time_tracking-log_time.png)
 
-- **Create a new time entry** for any work package.
-- **Specify the date, duration, and activity type**.
-- **Ensure accurate reporting** even if you didn’t use the focus timer.
+## Track time with a running timer
 
-![Log time modal in the OpenProject mobile app](mobile_app_logtime.png)
+Use the **Time tracker** tab when you want to measure time as you work:
+
+- Start the timer using the **Start** button or the **+** button on the top bar.
+- Optionally **link a work package** while the timer is running.
+- You can always **Pause** the tracker if needed.
+- **Stop** the timer when you are done.
+- Review and edit the log time information.
+- Tap **Save** to create the time entry or tap **Continue tracking** to keep the tracker running from where you left it.
+
+![Time tracker timer](time_tracking-timer.png)

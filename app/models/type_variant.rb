@@ -38,10 +38,10 @@ class TypeVariant < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
     DEFAULTS = "defaults",
-    WORKFLOWS = "workflows",
-    FORM_CONFIGURATION = "form_configuration",
     PROJECT_ATTRIBUTES = "project_attributes"
   ].freeze
+
+  FORM_CONFIGURATION = "form_configuration"
 
   # The aspects a variant can reduce fields in
   EXCLUDABLE_ASPECTS = [FORM_CONFIGURATION, PROJECT_ATTRIBUTES].freeze
@@ -49,6 +49,7 @@ class TypeVariant < ApplicationRecord
   include ::Scopes::Scoped
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::TypeVariants::FormReference
   prepend ::TypeVariant::ConfigurationLinkable
 
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
@@ -56,19 +57,14 @@ class TypeVariant < ApplicationRecord
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
+  store_attribute :pdf_export_templates_config, :export_templates_settings, :json
 
   belongs_to :type
 
-  # Which workflows we are defining ourselves
-  has_many :own_workflows,
-           class_name: "Workflow",
-           foreign_key: :type_variant_id,
-           inverse_of: :type_variant,
-           dependent: :delete_all do
-    def copy_from_variant(source_variant)
-      Workflow.copy(source_variant, nil, proxy_association.owner, nil)
-    end
-  end
+  # The project owning this variant, or nil for a variant every project may use.
+  belongs_to :project, optional: true
+
+  belongs_to :workflow, autosave: true, inverse_of: :type_variants
 
   # Which project custom fields we define ourselves
   has_many :own_project_custom_field_type_mappings,
@@ -77,11 +73,6 @@ class TypeVariant < ApplicationRecord
            dependent: :destroy
   has_many :project_custom_fields, through: :own_project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
-
-  has_and_belongs_to_many :custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                          class_name: "WorkPackageCustomField",
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: "custom_field_id"
 
   # The projects this variant is in use
   # autosave must be turned off: If we autosaved here, the insert would only set variant_id and leave type_id NULL.
@@ -92,46 +83,35 @@ class TypeVariant < ApplicationRecord
   validates :variant_name, length: { maximum: 255 }
   validates :variant_name,
             presence: true,
-            uniqueness: { scope: :type_id, case_sensitive: false },
+            uniqueness: { scope: %i[type_id project_id], case_sensitive: false },
             unless: :is_default_variant?
   validate :base_variant_has_no_name
   validate :only_one_variant_enabled_in_new_projects
+  validate :base_variant_is_never_owned
+  validate :owned_variant_is_never_enabled_in_new_projects
+  validate :workflow_is_available_to_this_variant
 
-  scopes :with_effective_configuration, :with_effective_source
+  scopes :switch_targets
 
   scope :enabled_in_new_projects, -> { where(enabled_in_new_projects: true) }
 
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
 
+  scope :global, -> { where(project_id: nil) }
+  scope :project_owned, -> { where.not(project_id: nil) }
+  scope :owned_by, ->(project) { where(project:) }
+  scope :available_in, ->(project) { where(project: [nil, project]) }
+
   # Base variants first, then the named ones alphabetically. Named variants have no user defined order
   scope :in_display_order, -> { order(is_default_variant: :desc, variant_name: :asc) }
 
+  scope :with_name_like, ->(query) {
+    where("variant_name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
   delegate :name, :color, :color_id, :is_milestone, :is_milestone?, :is_in_roadmap, :is_in_roadmap?,
            to: :type
-
-  def self.statuses(variants, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
-    workflow_table, status_table = [Workflow, Status].map(&:arel_table)
-    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
-      subquery = workflow_table.project(workflow_table[foreign_key])
-                               .where(workflow_table[:type_variant_id].in(variants))
-      subquery = subquery.where(workflow_table[:role_id].eq(role.id)) if role
-      subquery = apply_tab_condition(subquery, workflow_table, tab) if tab
-      subquery
-    end
-    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
-  end
-
-  def self.apply_tab_condition(subquery, workflow_table, tab)
-    case tab
-    when "author"
-      subquery.where(workflow_table[:author].eq(true))
-    when "assignee"
-      subquery.where(workflow_table[:assignee].eq(true))
-    else
-      subquery.where(workflow_table[:author].eq(false).and(workflow_table[:assignee].eq(false)))
-    end
-  end
 
   # The base configuration every type has, as opposed to one of its named variants.
   def default? = is_default_variant?
@@ -142,10 +122,10 @@ class TypeVariant < ApplicationRecord
     variant_name.presence || type.name
   end
 
-  # How the admin routes address this variant. The base one is implied by its type, so naming
-  # it would make every type-level URL carry a redundant id.
-  def path_args
-    is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
+  def project_owned? = project_id.present?
+
+  def type_reference_id(reflection)
+    type.default_variant[reflection.foreign_key] unless is_default_variant?
   end
 
   # Full variant name, e.g., "Bug: Hardware"
@@ -153,18 +133,25 @@ class TypeVariant < ApplicationRecord
     is_default_variant? ? type.name : "#{type.name}: #{variant_name}"
   end
 
-  def workflows
-    return own_workflows unless resolve_aspect_in_sql?
+  def work_packages
+    WorkPackage.where(type_id:, project_id: project_types.select(:project_id))
+  end
 
-    Workflow.where(Workflow.arel_table[:type_variant_id].in(effective_source_id_ref(WORKFLOWS)))
+  def migration_targets
+    siblings = self.class.where(type_id:).where.not(id:)
+    owners = projects.distinct.pluck(:id)
+
+    owners.one? ? siblings.available_in(owners.first) : siblings.global
+  end
+
+  def workflows
+    workflow.status_transitions
   end
 
   def project_custom_field_type_mappings
-    return own_project_custom_field_type_mappings unless resolve_aspect_in_sql?
+    return own_project_custom_field_type_mappings unless persisted?
 
-    mappings = ProjectCustomFieldTypeMapping.where(
-      ProjectCustomFieldTypeMapping.arel_table[:type_variant_id].in(effective_source_id_ref(PROJECT_ATTRIBUTES))
-    )
+    mappings = ProjectCustomFieldTypeMapping.where(type_variant_id: owner_of(PROJECT_ATTRIBUTES).id)
     excluded_ids = excluded_custom_field_ids(PROJECT_ATTRIBUTES)
     return mappings if excluded_ids.empty?
 
@@ -172,10 +159,9 @@ class TypeVariant < ApplicationRecord
   end
 
   def statuses(include_default: false, role: nil, tab: nil)
-    return Status.none if new_record?
+    return Status.none if workflow_id.nil?
 
-    variant_ref = resolve_aspect_in_sql? ? effective_source_id_ref(WORKFLOWS) : [id]
-    scope = self.class.statuses(variant_ref, role:, tab:)
+    scope = Workflow.statuses([workflow_id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
   end
 
@@ -228,5 +214,26 @@ class TypeVariant < ApplicationRecord
     siblings = siblings.where.not(id:) if persisted?
 
     errors.add(:enabled_in_new_projects, :taken) if siblings.exists?
+  end
+
+  # A new project would start on a configuration only the owning project can see.
+  def owned_variant_is_never_enabled_in_new_projects
+    return unless enabled_in_new_projects? && project_id.present?
+
+    errors.add(:enabled_in_new_projects, :not_available_to_project_owned_variant)
+  end
+
+  def workflow_is_available_to_this_variant
+    return if workflow.nil? || !workflow.project_specific?
+    return if workflow.project_id == project_id
+
+    errors.add(:workflow, :not_available_to_this_variant)
+  end
+
+  # A type's own configuration belongs to the type, so no single project may own it.
+  def base_variant_is_never_owned
+    return unless is_default_variant? && project_id.present?
+
+    errors.add(:project, :present)
   end
 end

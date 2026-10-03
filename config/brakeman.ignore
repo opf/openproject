@@ -43,6 +43,26 @@
     {
       "warning_type": "SQL Injection",
       "warning_code": 0,
+      "fingerprint": "06d3701309b02c96866805e0ca6c9a68c7443e653c32a6687233f73a648ab350",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/type_variant/configuration_linkable.rb",
+      "line": 199,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "joins(\"INNER JOIN (#{dependent_tree_sql(variant_id, validated_configuration_aspect(aspect))}) dependent_tree ON dependent_tree.node_id = #{quoted_table_name}.id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TypeVariant",
+        "method": "dependents_of"
+      },
+      "user_input": "dependent_tree_sql(variant_id, validated_configuration_aspect(aspect))",
+      "confidence": "Medium",
+      "note": "static SQL string: the variant id is bound through sanitize_sql_array and the aspect is checked against TypeVariant::ASPECTS before it reaches the query"
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
       "fingerprint": "0a7846a219566627938cc3c69924f53dbbcc6973e21081aef5572ffbcedd77d3",
       "check_name": "SQL",
       "message": "Possible SQL injection",

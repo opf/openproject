@@ -424,6 +424,30 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     end
   end
 
+  describe "with a request for a PDF gantt grouped by target versions" do
+    let(:query_attributes) { { group_by: "target_versions" } }
+    let(:version_one) { create(:version, project:, name: "1.0") }
+    let(:version_two) { create(:version, project:, name: "2.0") }
+    let(:work_packages) do
+      work_package_task.target_version_ids_replacements = [version_one.id, version_two.id]
+      work_package_task.save!
+      [work_package_task, work_package_milestone]
+    end
+
+    context "with multiple versions active",
+            with_settings: { work_package_multiple_versions: true } do
+      it "joins the several target versions of a work package into one group, " \
+         "and groups work packages without a target version under a none placeholder" do
+        expect(pdf[:strings]).to eq [query.name, "2024 Apr 21 22 23", # header columns
+                                     "1.0, 2.0",
+                                     wp_title_column(work_package_task),
+                                     I18n.t(:label_none_parentheses),
+                                     wp_title_column(work_package_milestone),
+                                     "1/1", export_date_formatted, query.name].join(" ").squeeze(" ")
+      end
+    end
+  end
+
   describe "with a request for a PDF gantt with too long date range" do
     let(:work_packages) { [work_package_task_far_future] }
 

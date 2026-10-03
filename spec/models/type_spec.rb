@@ -45,7 +45,7 @@ RSpec.describe Type do
       expect(described_class.enabled_in(project)).to contain_exactly(type)
     end
 
-    context "with variants", with_flag: { type_variants: true } do
+    context "with variants" do
       shared_let(:enabled_root) { create(:type, name: "Enabled root") }
       shared_let(:enabled_variant) { create(:type_variant, type: enabled_root, variant_name: "Enabled variant") }
       shared_let(:on_variant) { create(:project, types: [enabled_variant]) }
@@ -111,7 +111,7 @@ RSpec.describe Type do
     # A field on the variant's own form is invisible in the work package form until the project
     # activates it, and nothing else can find the projects a variant configures.
     it "activates the type's fields in the projects it configures" do
-      custom_field = create(:integer_wp_custom_field, type_variants: [variant])
+      custom_field = create(:integer_wp_custom_field, types: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .to change { project_using_variant.reload.work_package_custom_field_ids }
@@ -120,7 +120,7 @@ RSpec.describe Type do
     end
 
     it "leaves projects resolving the family elsewhere alone" do
-      create(:integer_wp_custom_field, type_variants: [variant])
+      create(:integer_wp_custom_field, types: [variant])
 
       expect { variant.activate_custom_fields_in_effective_projects! }
         .not_to change { project_using_root.reload.work_package_custom_field_ids }
@@ -129,7 +129,7 @@ RSpec.describe Type do
     it "adds to a project's activation rather than replacing it" do
       existing = create(:integer_wp_custom_field)
       project_using_variant.work_package_custom_fields << existing
-      added = create(:integer_wp_custom_field, type_variants: [variant])
+      added = create(:integer_wp_custom_field, types: [variant])
 
       variant.activate_custom_fields_in_effective_projects!
 
@@ -270,7 +270,7 @@ RSpec.describe Type do
       end
     end
 
-    context "when linked to a source type" do
+    context "when sharing a workflow with another type" do
       let(:role) { create(:project_role) }
       let(:statuses) { create_list(:status, 2) }
       let!(:source) { create(:type) }
@@ -284,59 +284,30 @@ RSpec.describe Type do
                           assignee: false)
       end
 
-      before { link_configuration(type.default_variant, source: source.default_variant, aspect: TypeVariant::WORKFLOWS) }
+      before { type.default_variant.update!(workflow: source.default_variant.workflow) }
 
-      it "resolves the source's statuses" do
-        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
-      end
-
-      it "resolves the same with the feature disabled", with_flag: { type_variants: false } do
-        expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
-      end
-    end
-
-    context "when linked through a longer chain", with_flag: { type_variants: true } do
-      let(:role) { create(:project_role) }
-      let(:statuses) { create_list(:status, 2) }
-      let!(:owner) { create(:type) }
-      let!(:middle) { create(:type) }
-      let!(:type) { create(:type) }
-      let!(:workflow) do
-        create(:workflow, role_id: role.id,
-                          type_variant: owner.default_variant,
-                          old_status_id: statuses[0].id,
-                          new_status_id: statuses[1].id,
-                          author: false,
-                          assignee: false)
-      end
-
-      before do
-        link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-        link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
-      end
-
-      it "resolves statuses from the chain's owning type" do
+      it "resolves the shared workflow's statuses" do
         expect(subject.pluck(:id)).to contain_exactly(statuses[0].id, statuses[1].id)
       end
     end
   end
 
-  describe "#copy_from_type on own_workflows" do
+  describe ".copy" do
     before do
-      allow(Workflow)
+      allow(Workflows::StatusTransition)
         .to receive(:copy)
     end
 
-    it "calls the .copy method on Workflow" do
-      type.default_variant.own_workflows.copy_from_variant(type2.default_variant)
+    it "copies between the workflows the two types reference" do
+      Workflows::StatusTransition.copy(type2.default_variant.workflow, nil, type.default_variant.workflow, nil)
 
-      expect(Workflow)
+      expect(Workflows::StatusTransition)
         .to have_received(:copy)
-        .with(type2.default_variant, nil, type.default_variant, nil)
+        .with(type2.default_variant.workflow, nil, type.default_variant.workflow, nil)
     end
   end
 
-  describe "#workflows", with_flag: { type_variants: true } do
+  describe "#workflows" do
     let(:role) { create(:project_role) }
     let(:statuses) { create_list(:status, 2) }
     let!(:type) { create(:type) }
@@ -346,54 +317,26 @@ RSpec.describe Type do
                         old_status_id: statuses[0].id, new_status_id: statuses[1].id)
     end
 
-    it "returns its own workflows when unlinked" do
+    it "returns the transitions of the workflow it references" do
       own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
                               old_status_id: statuses[1].id, new_status_id: statuses[0].id)
 
       expect(type.default_variant.workflows).to contain_exactly(own)
     end
 
-    it "resolves a child to its linked parent's workflows" do
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
+    it "returns the same transitions as every other variant referencing that workflow" do
+      type.default_variant.update!(workflow: owner.default_variant.workflow)
 
       expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
     end
 
-    it "resolves through a longer chain to the owning type's workflows" do
-      middle = create(:type)
-      link_configuration(middle.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      link_configuration(type.default_variant, source: middle.default_variant, aspect: TypeVariant::WORKFLOWS)
+    it "writes reach every variant referencing the workflow" do
+      type.default_variant.update!(workflow: owner.default_variant.workflow)
 
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-    end
+      added = create(:workflow, type_variant: type.default_variant, role_id: role.id,
+                                old_status_id: statuses[1].id, new_status_id: statuses[0].id)
 
-    it "reads the source's rows and not its own while linked" do
-      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-      expect(type.default_variant.workflows).not_to include(own)
-    end
-
-    it "resolves the link the same with the feature disabled", with_flag: { type_variants: false } do
-      own = create(:workflow, type_variant: type.default_variant, role_id: role.id,
-                              old_status_id: statuses[1].id, new_status_id: statuses[0].id)
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-
-      expect(type.default_variant.workflows).to contain_exactly(owner_workflow)
-      expect(type.default_variant.workflows).not_to include(own)
-    end
-
-    it "writes through #own_workflows to its own rows while linked, leaving the source untouched" do
-      link_configuration(type.default_variant, source: owner.default_variant, aspect: TypeVariant::WORKFLOWS)
-      expect(type.default_variant.own_workflows).to be_empty
-
-      type.default_variant.own_workflows.copy_from_variant(owner.default_variant)
-
-      expect(type.default_variant.own_workflows.sole)
-        .to have_attributes(old_status_id: statuses[0].id, new_status_id: statuses[1].id)
-      expect(owner.default_variant.reload.own_workflows).to contain_exactly(owner_workflow)
+      expect(owner.default_variant.reload.workflows).to contain_exactly(owner_workflow, added)
     end
   end
 
@@ -491,6 +434,155 @@ RSpec.describe Type do
     it "is true when a storing mode is set" do
       expect(build(:type_variant,
                    pdf_export_templates_config: { "artefact_export_mode" => "file_link" })).to be_artefact_export_enabled
+    end
+  end
+
+  describe "#pdf_export_templates settings" do
+    subject(:type) { create(:type).default_variant }
+
+    it "defaults to an empty hash for a fresh type" do
+      expect(type.pdf_export_templates.settings_for("attributes")).to eq({})
+    end
+
+    it "round-trips settings through #update_settings/#settings_for for each template" do
+      %w[attributes contract artefact].each do |template_id|
+        type.pdf_export_templates.update_settings(template_id, "hyphenation" => "true")
+      end
+      type.save!
+
+      %w[attributes contract artefact].each do |template_id|
+        expect(type.reload.pdf_export_templates.settings_for(template_id)).to eq(hyphenation: "true")
+      end
+    end
+
+    it "merges rather than replaces on repeated #update_settings calls" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A")
+      type.pdf_export_templates.update_settings("attributes", "page_orientation" => "landscape")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes"))
+        .to eq(footer_text: "A", page_orientation: "landscape")
+    end
+
+    it "#clear_setting removes just one field, leaving the others" do
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "A", "page_orientation" => "landscape")
+      type.save!
+
+      type.pdf_export_templates.clear_setting("attributes", "footer_text")
+      type.save!
+
+      expect(type.reload.pdf_export_templates.settings_for("attributes")).to eq(page_orientation: "landscape")
+    end
+
+    it "rejects an unknown template id" do
+      expect { type.pdf_export_templates.settings_for("bogus") }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.update_settings("bogus", {}) }.to raise_error(ArgumentError)
+      expect { type.pdf_export_templates.clear_setting("bogus", "footer_text") }.to raise_error(ArgumentError)
+    end
+
+    it "resolves through a configuration link" do
+      variant = create(:type_variant, type: type.type)
+      type.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+      type.save!
+      link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
+
+      expect(variant.pdf_export_templates.settings_for("attributes")).to eq(footer_text: "Base footer")
+    end
+
+    describe "#readonly?" do
+      it "is false for an unlinked type" do
+        expect(type.pdf_export_templates).not_to be_readonly
+      end
+
+      context "when the variant is linked to its base" do
+        let(:variant) { create(:type_variant, type: type.type) }
+
+        before { link_configuration(variant, aspect: TypeVariant::PDF_EXPORT) }
+
+        it "is true" do
+          expect(variant.pdf_export_templates).to be_readonly
+        end
+      end
+    end
+
+    describe "#move_after_anchor" do
+      it "moves a template below the anchor" do
+        type.pdf_export_templates.move_after_anchor("attributes", "artefact")
+        type.save!
+
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[contract artefact attributes])
+      end
+
+      it "moves a template to the top for a blank prev_id" do
+        type.pdf_export_templates.move_after_anchor("artefact", nil)
+        type.save!
+
+        expect(type.reload.pdf_export_templates.list.map(&:id)).to eq(%w[artefact attributes contract])
+      end
+
+      it "returns false without mutating for an unknown anchor" do
+        expect(type.pdf_export_templates.move_after_anchor("attributes", "bogus")).to be(false)
+        expect(type.pdf_export_templates.list.map(&:id)).to eq(%w[attributes contract artefact])
+      end
+
+      it "returns false without mutating for an unknown template" do
+        expect(type.pdf_export_templates.move_after_anchor("bogus", "attributes")).to be(false)
+      end
+
+      it "returns false when the anchor is the template itself" do
+        expect(type.pdf_export_templates.move_after_anchor("attributes", "attributes")).to be(false)
+      end
+    end
+
+    context "when the variant is linked to its base" do
+      let(:variant) { create(:type_variant, type: type.type) }
+      let(:base) { type }
+
+      before do
+        # `variant` already has its own stored `contract` settings before being linked -
+        # this is the data #update_settings must not clobber while resolving through the link.
+        variant.pdf_export_templates.update_settings("contract", "footer_text_center" => "Variant's own contract footer")
+        variant.save!
+        base.pdf_export_templates.update_settings("attributes", "footer_text" => "Base footer")
+        base.pdf_export_templates.update_settings("contract", "footer_text_center" => "Base contract footer")
+        base.save!
+        link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
+      end
+
+      it "refuses to write via #update_settings, #clear_setting, #toggle, #move_after_anchor, #enable_all, " \
+         "#disable_all" do
+        pdf_export_templates = variant.pdf_export_templates
+
+        expect { pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.clear_setting("attributes", "footer_text") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.toggle("attributes") }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.move_after_anchor("attributes", nil) }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.enable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+        expect { pdf_export_templates.disable_all }
+          .to raise_error(Type::PdfExportTemplates::ReadonlyError)
+      end
+
+      it "does not corrupt the variant's own settings for a different template once unlinked" do
+        # Attempting to edit "attributes" while linked used to merge onto the *base's*
+        # resolved settings hash (which includes the base's "contract" entry) and write
+        # the whole thing back onto `variant`'s own column, clobbering `variant`'s own "contract"
+        # settings with a copy of the base's. Guard against a regression of that.
+        begin
+          variant.pdf_export_templates.update_settings("attributes", "footer_text" => "Attempted override")
+        rescue Type::PdfExportTemplates::ReadonlyError
+          # expected - the write must not happen at all
+        end
+
+        unlink_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
+
+        expect(variant.reload.pdf_export_templates.settings_for("contract"))
+          .to eq(footer_text_center: "Variant's own contract footer")
+      end
     end
   end
 end

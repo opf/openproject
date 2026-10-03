@@ -6,7 +6,7 @@ pt-PT:
         event_name: Nome do evento
         response_body: Resposta
         response_code: Código de resposta
-        url: URL Payload
+        url: URL de carga
       webhooks/webhook:
         enabled: Ativada
         events: Eventos
@@ -14,7 +14,12 @@ pt-PT:
         secret: Assinatura secreta
         url: URL Payload
     models:
-      webhooks/outgoing_webhook: Webhook de saída
+      webhooks/log:
+        one: Registo de webhook
+        other: Registos de webhook
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Fornece uma API de plug-in para suportar webhooks do OpenProject para uma melhor integração de terceiros.
     name: Webhooks do OpenProject

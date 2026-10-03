@@ -1,5 +1,10 @@
 ---
 ca:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        other: Overviews
   overviews:
     label_dashboard: Tauler de control
     label_home: "%{workspace_type} home"

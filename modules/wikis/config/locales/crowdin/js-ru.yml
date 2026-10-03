@@ -25,8 +25,8 @@ ru:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: Существующая страница вики
+          create_new: Создать страницу вики
     work_packages:
       tabs:
         wikis: Вики

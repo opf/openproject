@@ -1,5 +1,12 @@
 ---
 ru:
+  activerecord:
+    models:
+      job_status/status:
+        one: Статус фонового задания
+        few: Background job statuses
+        many: Background job statuses
+        other: Статусы фонового задания
   job_status_dialog:
     click_to_download: Или [нажмите здесь](download_url) для загрузки.
     download_starts: Загрузка начнется автоматически.

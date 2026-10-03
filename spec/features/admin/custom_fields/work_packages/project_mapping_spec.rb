@@ -63,8 +63,8 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
       aggregate_failures "shows a correct breadcrumb menu" do
         within ".PageHeader-breadcrumbs" do
           expect(page).to have_link("Administration")
-          expect(page).to have_link("Custom fields")
           expect(page).to have_link("Work packages")
+          expect(page).to have_link("Custom fields")
           expect(page).to have_text(custom_field.name)
         end
       end
@@ -118,6 +118,15 @@ RSpec.describe "Custom Fields Multi-Project Activation", :js do
 
       aggregate_failures "pagination links maintain the correct url" do
         custom_field_projects_mappings_page.expect_page_sizes(model: custom_field)
+      end
+    end
+
+    it_behaves_like "a fill-in project autocompleter searchable by identifier" do
+      let(:target_project) { create(:project, name: "Alpha Initiative", identifier: "zulu-target") }
+      let(:control_project) { create(:project, name: "Beta Initiative", identifier: "yankee-other") }
+
+      before do
+        click_on "Add projects"
       end
     end
 

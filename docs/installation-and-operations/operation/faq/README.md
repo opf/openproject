@@ -40,7 +40,10 @@ user.password = user.password_confirmation = "YOUR NEW SAFE PASSWORD 1234!"
 user.save!
 ```
 
-Afterwards, you can navigate to your OpenProject instance and login with `admin` and your chosen password again.
+Afterwards, you can navigate to your OpenProject instance and log in with `admin` and your chosen password again.
+
+> [!NOTE]
+> If [password login is restricted](../../configuration/#password-login), resetting the password alone may not permit authentication. Ensure the admin account is included in the break-glass allowlist or environment login overlay when required, and use `/login/internal` for break-glass password login.
 
 ## Do you provide different release channels?
 

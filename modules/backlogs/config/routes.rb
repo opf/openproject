@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       resource :backlog_multiple_active_sprints, only: %i[show] do
         post :toggle_multiple_active_sprints
       end
+      resource :backlog_estimation_unit, only: %i[show update]
     end
   end
 
@@ -63,6 +64,7 @@ Rails.application.routes.draw do
 
     namespace :backlogs do
       resource :backlog, controller: :backlog, only: :show
+      resource :filters, controller: :filters, only: %i[show]
       get "backlog/details/:work_package_id(/:tab)",
           to: "backlog#details",
           as: :backlog_details,
@@ -98,6 +100,7 @@ Rails.application.routes.draw do
         collection do
           get :add_existing_dialog
           post :add_existing
+          put :move, action: :move_collection
         end
 
         member do

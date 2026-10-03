@@ -32,11 +32,14 @@ module WorkPackageTypes
   module Wizard
     class PageComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
-      def initialize(type:, current_step:, variant: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
 
         @current_step = current_step
+        @back_url = back_url
+        @started_form_configuration_id = started_form_configuration_id
         # Creating a type hands in the type itself, or nothing at all. Settle what the wizard is
         # editing once here, so nothing below has to ask what it was given.
         @variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
@@ -44,7 +47,7 @@ module WorkPackageTypes
 
       private
 
-      attr_reader :current_step, :variant
+      attr_reader :current_step, :variant, :back_url
 
       def type = model
 
@@ -57,13 +60,7 @@ module WorkPackageTypes
       end
 
       def breadcrumb_items
-        [
-          { href: admin_index_path, text: I18n.t("label_administration") },
-          { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
-          { href: types_path, text: I18n.t(:label_type_plural) },
-          *parent_breadcrumb_item,
-          title
-        ]
+        [*helpers.variant_scope_breadcrumb_roots, *parent_breadcrumb_item, title]
       end
 
       def parent_breadcrumb_item
@@ -71,23 +68,30 @@ module WorkPackageTypes
       end
 
       def cancel_href
-        return types_path unless type.persisted?
+        return back_url if back_url.present?
+        return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        edit_type_details_path(type_id: type.id)
+        variant_settings_path(nil, type.default_variant)
       end
 
       def step_title = Steps.title(current_step)
 
-      def step_url = type_creation_wizard_path(**variant_path_args, step: current_step)
+      def step_url
+        variant_creation_wizard_path(helpers.variant_scope_project, variant, step: current_step, **carried_params)
+      end
 
-      # A type still being created has no variant to address yet.
-      def variant_path_args = variant&.path_args || { type_id: type.id }
+      def carried_params
+        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
+      end
 
       def step_form_url
         return step_url if record_persisted?
+        return variants_creation_wizard_path(helpers.variant_scope_project, type, **back_url_params) if adding_variant?
 
-        adding_variant? ? creation_wizard_types_path(type_id: type.id) : creation_wizard_types_path
+        creation_wizard_types_path(**back_url_params)
       end
+
+      def back_url_params = { back_url: }.compact
 
       def step_form_method
         record_persisted? ? :patch : :post
@@ -100,7 +104,7 @@ module WorkPackageTypes
       # Editors whose fields belong to the wizard form itself, so that "Continue"
       # persists them when advancing to the next step.
       def step_editor
-        @step_editor ||= StepEditors.for(current_step, editor_record)
+        @step_editor ||= StepEditors.for(current_step, editor_record, step_url: (step_url if record_persisted?))
       end
 
       def editor_record
@@ -123,7 +127,7 @@ module WorkPackageTypes
         }
       end
 
-      # Only a step with a reuse mode needs the frame, and only those steps are reached
+      # Only a step with a linkable aspect needs the frame, and only those steps are reached
       # with a persisted type — step_url has no route while the record is still new.
       def within_step_frame(&)
         return capture(&) unless step_editor.linkable_aspect?
@@ -137,17 +141,17 @@ module WorkPackageTypes
         )
       end
 
-      def reuse_mode_banner
-        return unless step_editor.linkable_aspect?
+      def reuse_mode_section
+        section = step_editor.reuse_section
 
-        render(WorkPackageTypes::ReuseModeBannerComponent.new(variant:, aspect: step_editor.aspect))
+        render(section) if section
       end
 
       # Editors that self-persist through their own turbo endpoints.
       def step_body
         case current_step
         when :form_configuration
-          FormConfigurationStepComponent.new(variant:)
+          FormConfigurationStepComponent.new(variant:, back_url: step_url)
         when :project_attributes
           ProjectAttributesStepComponent.new(variant:)
         when :projects

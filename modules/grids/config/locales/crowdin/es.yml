@@ -14,6 +14,13 @@ es:
           end_before_start: el valor final necesita ser mayor que el valor inicial.
           outside: está fuera de la red.
           overlaps: superpuesto.
+    models:
+      grids/grid:
+        one: Cuadrícula
+        other: Cuadrículas
+      grids/widget:
+        one: Widget
+        other: Widgets
   grids:
     label_widget_in_grid: Widget contenido en la cuadrícula %{grid_name}
     widgets:

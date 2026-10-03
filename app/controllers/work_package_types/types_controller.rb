@@ -32,20 +32,19 @@ module WorkPackageTypes
   class TypesController < ApplicationController
     include PaginationHelper
     include OpTurbo::ComponentStream
-    include TypeVariantsFeature
 
     layout "admin"
 
     before_action :require_admin
-    before_action :require_type_variants_feature, only: %i[drop duplicate menu]
-    before_action :find_type, only: %i[move destroy drop duplicate menu]
+    before_action :find_type, only: %i[move destroy duplicate menu deletion_dialog]
 
     current_menu_item do
       :types
     end
 
     def index
-      @expanded_type_id = params[:expand].presence&.to_i
+      @expanded_type_id = expanded_type_id
+      @page_args = page_args
       @types = types_for_index
     end
 
@@ -53,40 +52,32 @@ module WorkPackageTypes
       @type
     end
 
-    def new
-      @type = Type.new(new_type_params)
-      load_projects_and_types
-    end
-
-    def create
-      service_call = WorkPackageTypes::CreateService.new(user: current_user).call(create_params)
-
-      @type = service_call.result
-      if service_call.success?
-        redirect_to edit_type_details_path(type_id: @type.id), notice: t(:notice_successful_create), status: :see_other
-      else
-        render action: :new, status: :unprocessable_entity
-      end
-    end
-
     def move
-      if @type.update(permitted_params.type_move)
-        flash[:notice] = I18n.t(:notice_successful_update)
+      if params.key?(:move_to)
+        render_ordering_result(move_in_direction, error_message: I18n.t(:error_type_could_not_be_saved))
       else
-        flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
+        render_ordering_result(move_after_anchor, error_message: I18n.t(:error_invalid_list_move_anchor))
       end
-      redirect_to types_path
     end
 
     def destroy
-      if @type.work_packages.any?
-        flash[:error] = destroy_error_message
-      elsif @type.destroy
+      return refuse_deletion if @type.work_packages.exists?
+
+      service_call = WorkPackageTypes::DeleteService.new(user: current_user, model: @type).call
+
+      if service_call.success?
         flash[:notice] = I18n.t(:notice_successful_delete)
       else
-        flash[:error] = @type.errors.full_messages
+        flash[:error] = service_call.errors.full_messages
       end
+
       redirect_to action: "index", status: :see_other
+    end
+
+    def deletion_dialog
+      return refuse_deletion_via_turbo_stream if @type.work_packages.exists?
+
+      respond_with_dialog Types::TypeDeletionDialogComponent.new(type: @type)
     end
 
     def duplicate
@@ -101,58 +92,35 @@ module WorkPackageTypes
       redirect_to types_path, status: :see_other
     end
 
-    def drop
-      unless @type.update(params.permit(:position))
-        render_error_flash_message_via_turbo_stream(message: @type.errors.full_messages.to_sentence)
-      end
-
-      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: types_for_index))
-      respond_to_with_turbo_streams
-    end
-
     def menu
-      render Types::TypeActionsComponent.new(type: @type), layout: false
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:), layout: false
     end
 
     protected
 
     def find_type
-      @type = ::Type.find(params[:id])
+      @type = ::Type.find(params.expect(:id))
     end
 
     def types_for_index
       ::Type
         .includes(:color, :projects,
-                  variants: %i[own_workflows custom_fields])
+                  variants: [:workflow, { form_configuration: :custom_fields }])
         .page(page_param)
         .per_page(per_page_param)
     end
 
-    def new_type_params
-      return {} if params[:type].blank?
-
-      permitted_type_params
+    def refuse_deletion
+      flash[:error] = destroy_error_message
+      redirect_to action: "index", status: :see_other
     end
 
-    # copy_workflow_from is a creation-time instruction rather than a type attribute,
-    # so it is read straight off the request and only passed on when one was chosen.
-    # TODO: Remove with type_variants feature flag
-    def create_params
-      copy_workflow_from = params.dig(:type, :copy_workflow_from)
-      return permitted_type_params if copy_workflow_from.blank?
+    def refuse_deletion_via_turbo_stream
+      render_error_flash_message_via_turbo_stream(
+        message: helpers.safe_join(destroy_error_message, helpers.tag.br)
+      )
 
-      permitted_type_params.merge(copy_workflow_from:)
-    end
-
-    def permitted_type_params
-      # having to call #to_unsafe_h as a query hash the attribute_groups
-      # parameters would otherwise still be an ActiveSupport::Parameter
-      permitted_params.type.to_unsafe_h
-    end
-
-    def load_projects_and_types
-      @types = ::Type.order(Arel.sql("position"))
-      @projects = Project.all
+      respond_to_with_turbo_streams
     end
 
     def destroy_error_message
@@ -180,6 +148,76 @@ module WorkPackageTypes
 
     def archived_projects
       @archived_projects ||= @type.projects.archived
+    end
+
+    private
+
+    def page_args
+      { page: page_param, per_page: per_page_param }
+    end
+
+    def expanded_type_id
+      Integer(params[:expand].to_s, exception: false)
+    end
+
+    def ordering_component
+      Types::GroupedListComponent.new(types: types_for_index, page_args:, expanded_type_id:)
+    end
+
+    def render_ordering_result(moved, error_message:)
+      if moved
+        update_via_turbo_stream(component: ordering_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+      else
+        render_error_flash_message_via_turbo_stream(message: error_message)
+      end
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+    end
+
+    def move_in_direction
+      direction = params[:move_to]
+      return false unless direction.in?(%w[highest higher lower lowest])
+
+      @type.update(move_to: direction)
+    end
+
+    def move_after_anchor
+      return false unless valid_drop_request?
+
+      predecessor = drop_params[:prev_id]
+      if predecessor.nil? || predecessor == ""
+        move_to_page_start
+      else
+        @type.move_after_anchor(predecessor, scope: ::Type.all)
+      end
+    end
+
+    def move_to_page_start
+      current_page = ::Type.page(page_param).per_page(per_page_param)
+      return false if current_page.empty?
+
+      predecessor = ::Type.offset(current_page.offset - 1).pick(:id) if current_page.offset.positive?
+      @type.move_after_anchor(predecessor, scope: ::Type.all)
+    end
+
+    def valid_drop_request?
+      drop_params[:list_type] == sortable_list_type &&
+        unscoped_list_id? &&
+        drop_params.key?(:prev_id)
+    end
+
+    # The type list carries no list id. The raw param is checked because
+    # permit cannot tell an absent value from a filtered-out array or hash.
+    def unscoped_list_id?
+      params[:list_id].nil? || params[:list_id] == ""
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def sortable_list_type
+      ::Type.model_name.param_key
     end
   end
 end

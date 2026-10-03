@@ -149,6 +149,28 @@ RSpec.describe "API v3 Work package resource",
       end
     end
 
+    context "when filtering by typeahead with a number beyond the 64-bit integer range and sorting by exact_match" do
+      let(:filters) do
+        [
+          {
+            typeahead: {
+              operator: "**",
+              values: "2608049472608049476767"
+            }
+          }
+        ]
+      end
+      let(:path) do
+        api_v3_paths.path_for :work_packages, filters:, sort_by: [["exact_match", "desc"], ["updatedAt", "desc"]]
+      end
+
+      before { get path }
+
+      it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
+        let(:elements) { [] }
+      end
+    end
+
     context "with a user not seeing any work packages" do
       # Create a public project so that the non-member permission has something to attach to
       let!(:public_project) { create(:project, public: true, active: true) }
@@ -415,6 +437,33 @@ RSpec.describe "API v3 Work package resource",
         expect(subject.body)
           .to be_json_eql("PT0S".to_json)
           .at_path("_embedded/elements/0/_meta/timestamp")
+      end
+
+      describe "update links" do
+        context "when last timestamp is current" do
+          it "has the update links" do
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with one timestamp in the past" do
+          let(:timestamps) { [Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
+
+        context "when requesting with two timestamps in the past" do
+          let(:timestamps) { [Timestamp.parse("P-5D"), Timestamp.parse("P-2D")] }
+
+          it "has no update links because the historic state cannot be edited" do
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/update/href")
+            expect(subject.body).not_to have_json_path("_embedded/elements/0/_links/updateImmediately/href")
+          end
+        end
       end
 
       context "when a custom value changes" do

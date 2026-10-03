@@ -34,17 +34,20 @@ module WorkPackage::PDFExport::Templates
       {
         id: "attributes",
         label: I18n.t("pdf_generator.template_attributes.label"),
-        caption: I18n.t("pdf_generator.template_attributes.caption")
+        caption: I18n.t("pdf_generator.template_attributes.caption"),
+        settings_component: WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent
       },
       {
         id: "contract",
         label: I18n.t("pdf_generator.template_contract.label"),
-        caption: I18n.t("pdf_generator.template_contract.caption")
+        caption: I18n.t("pdf_generator.template_contract.caption"),
+        settings_component: WorkPackages::Exports::Generate::Templates::ContractSettingsComponent
       },
       {
         id: "artefact",
         label: I18n.t("pdf_generator.template_artefact.label"),
-        caption: I18n.t("pdf_generator.template_artefact.caption")
+        caption: I18n.t("pdf_generator.template_artefact.caption"),
+        settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent
       }
     ]
   end

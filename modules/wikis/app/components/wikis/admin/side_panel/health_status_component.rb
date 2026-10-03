@@ -45,9 +45,9 @@ module Wikis
         def summary_header
           case report.tally
           in { failure: 1.. }
-            { scheme: :critical, text: I18n.t("health_reports.common.checks.failures", count: tally[:failure]) }
+            { scheme: :critical, text: I18n.t("health_reports.common.checks.failures", count: report.tally[:failure]) }
           in { warning: 1.. }
-            { scheme: :warning, text: I18n.t("health_reports.common.checks.warnings", count: tally[:warning]) }
+            { scheme: :warning, text: I18n.t("health_reports.common.checks.warnings", count: report.tally[:warning]) }
           else
             { scheme: :success, text: I18n.t("health_reports.common.checks.success") }
           end

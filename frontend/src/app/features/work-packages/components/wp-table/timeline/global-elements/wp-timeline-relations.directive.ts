@@ -28,9 +28,8 @@
 
 import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { State } from '@openproject/reactivestates';
 import { combineLatest } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
 import {
   WorkPackageViewTimelineService,
@@ -75,6 +74,7 @@ function newSegment(vp:TimelineViewParameters,
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>',
   standalone: false,
@@ -83,6 +83,7 @@ function newSegment(vp:TimelineViewParameters,
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
   elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

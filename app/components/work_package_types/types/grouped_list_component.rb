@@ -33,48 +33,56 @@ module WorkPackageTypes
     class GroupedListComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
-      def initialize(types:, expanded_type_id: nil)
+      def initialize(types:, expanded_type_id: nil, page_args: {})
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
+        @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
       end
 
       private
 
-      attr_reader :types, :expanded_type_id
+      attr_reader :types, :expanded_type_id, :page_args
 
       def collapsed?(root)
         root.id != expanded_type_id
       end
 
-      def variants_count_label(root)
-        t("types.index.variants_count", count: root.variants.non_default_variants.size)
+      def named_variants(root)
+        root.variants.non_default_variants
       end
 
-      # A named variant carrying the flag is only visible once the group is expanded, so the
-      # collapsed header names it instead.
+      # Left out rather than shown as zero, so the badge never labels a type nobody has made a
+      # variant of.
+      def variants_count(root)
+        count = named_variants(root).size
+        count if count.positive?
+      end
+
+      def listed_variants(root)
+        named_variants(root).global.in_display_order
+      end
+
+      def owned_variants_count(root)
+        named_variants(root).project_owned.size
+      end
+
+      def owned_variants_path(root)
+        type_variants_path(type_id: root.id)
+      end
+
+      # Only the type's own configuration: a variant carrying the flag says so on its own row.
       def add_default_label(header, type)
-        if type.default_variant.enabled_in_new_projects?
-          header.with_label { t("types.index.enabled_in_new_projects") }
-        elsif (variant = default_variant_for_new_projects(type))
-          header.with_label(scheme: :secondary) do
-            t("types.index.variant_enabled_in_new_projects", name: variant.variant_name)
-          end
-        end
-      end
+        return unless type.default_variant.enabled_in_new_projects?
 
-      def default_variant_for_new_projects(type)
-        type.variants.detect(&:enabled_in_new_projects?)
-      end
-
-      def variant_path(variant)
-        edit_type_details_path(type_id: variant.type_id, variant_id: variant.id)
+        header.with_label { t("types.index.enabled_in_new_projects") }
       end
 
       def add_variant_path(type)
-        new_creation_wizard_types_path(type_id: type.id)
+        new_variant_creation_wizard_path(nil, type, back_url: types_path)
       end
 
       def menu_id(type)
@@ -82,7 +90,7 @@ module WorkPackageTypes
       end
 
       def menu_src(type)
-        menu_type_path(type)
+        menu_type_path(type, **context_args)
       end
 
       def variant_menu_id(variant)
@@ -97,19 +105,48 @@ module WorkPackageTypes
         !(type.first? && type.last?)
       end
 
-      def drop_target_config
+      def context_args
+        page_args.merge(expand: expanded_type_id).compact
+      end
+
+      def wrapper_data_attributes
         {
-          generic_drag_and_drop_target: "container",
-          "target-allowed-drag-type": "work-package-type"
+          controller: "sortable-lists",
+          sortable_lists_move_url_template_value: move_url_template,
+          sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+          sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
         }
       end
 
-      def draggable_item_config(root)
+      # Built from the route helper with a sentinel so relative-URL-root
+      # installations keep working; {id} is expanded client-side.
+      def move_url_template
+        id_placeholder = "__id__"
+        move_type_path(id_placeholder, **context_args).sub(id_placeholder, "{id}")
+      end
+
+      def list_data
         {
-          "draggable-type": "work-package-type",
-          "draggable-id": root.id,
-          "drop-url": drop_type_path(root)
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: sortable_list_type,
+          sortable_lists__list_accepted_type_value: sortable_list_type,
+          sortable_lists__list_name_value: t(:label_type_plural)
         }
+      end
+
+      def item_data(root)
+        {
+          controller: "sortable-lists--item",
+          sortable_lists__item_target: "preview",
+          sortable_lists__item_id_value: root.id,
+          sortable_lists__item_type_value: sortable_list_type,
+          sortable_lists__item_label_value: root.name,
+          sortable_lists__item_mobility_value: ("fixed" unless reorderable?(root))
+        }.compact
+      end
+
+      def sortable_list_type
+        ::Type.model_name.param_key
       end
     end
   end

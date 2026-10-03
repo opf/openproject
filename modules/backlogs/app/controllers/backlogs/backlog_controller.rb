@@ -37,6 +37,8 @@ module Backlogs
       :backlog
     end
 
+    before_action :build_backlog_query, only: %i[show details]
+
     def show
       case turbo_frame_request_id
       when "backlogs_container"
@@ -59,6 +61,10 @@ module Backlogs
     end
 
     private
+
+    def build_backlog_query
+      @backlog_query = Backlogs::BacklogQueryBuilder.new(project: @project, user: current_user, params:).build
+    end
 
     def split_view_base_route
       project_backlogs_backlog_path(@project, request.query_parameters)

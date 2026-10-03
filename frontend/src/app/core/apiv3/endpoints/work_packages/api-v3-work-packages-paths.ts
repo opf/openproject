@@ -62,31 +62,58 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * Load a collection of work packages and put them all into cache
    *
    * @param ids
+   * @param timestamps Baseline timestamps to load the work packages at, if any
    */
-  public requireAll(ids:string[]):Promise<unknown> {
+  public requireAll(ids:string[], timestamps?:string[]):Promise<unknown> {
     if (ids.length === 0) {
       return Promise.resolve();
     }
 
+    const uniqueIds = Array.from(new Set(ids));
     return new Promise<undefined>((resolve, reject) => {
       this
-        .loadCollectionsFor(Array.from(new Set(ids)))
+        .loadCollectionsFor(uniqueIds, timestamps)
         .then((pagedResults:WorkPackageCollectionResource[]) => {
-          pagedResults.forEach((results) => {
-            if (results.schemas) {
-              results.schemas.elements.forEach((schema:SchemaResource) => {
-                this.states.schemas.get(schema.href!).putValue(schema);
-              });
-            }
+          const loadedIds = this.cacheCollection(pagedResults);
 
-            if (results.elements) {
-              this.cache.updateWorkPackageList(results.elements);
-            }
-          });
+          // Load current state of WPs that didn't exist at any timestamp
+          if (timestamps?.length && uniqueIds.length !== loadedIds.size) {
+            const missingIds = uniqueIds.filter(id => !loadedIds.has(String(id)));
 
-          resolve(undefined);
+            if (missingIds.length > 0) {
+              this
+                .loadCollectionsFor(missingIds)
+                .then((fallbackResults:WorkPackageCollectionResource[]) => {
+                  this.cacheCollection(fallbackResults);
+                  resolve(undefined);
+                }, reject);
+            } else {
+              resolve(undefined);
+            }
+          } else {
+            resolve(undefined);
+          }
         }, reject);
     });
+  }
+
+  private cacheCollection(pagedResults:WorkPackageCollectionResource[]):Set<string> {
+    const loadedIds = new Set<string>;
+
+    pagedResults.forEach(results => {
+      if (results.schemas) {
+        results.schemas.elements.forEach((schema:SchemaResource) => {
+          this.states.schemas.get(schema.href!).putValue(schema);
+        });
+      }
+
+      if (results.elements) {
+        this.cache.updateWorkPackageList(results.elements);
+        results.elements.forEach(el => loadedIds.add(String(el.id)));
+      }
+    });
+
+    return loadedIds;
   }
 
   /**
@@ -158,7 +185,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param ids
    * @return {WorkPackageCollectionResource[]}
    */
-  protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
+  protected loadCollectionsFor(ids:string[], timestamps?:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
       .getAllPaginated(
@@ -166,6 +193,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
         {
           filters: ApiV3Filter('id', '=', ids).toJson(),
           valid_subset: true,
+          ...(timestamps?.length ? { timestamps: timestamps.join(',') } : {}),
         },
       )
       .toPromise() as Promise<WorkPackageCollectionResource[]>;

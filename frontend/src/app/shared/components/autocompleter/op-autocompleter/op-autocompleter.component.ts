@@ -31,7 +31,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, forwardRef, HostBinding, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, Type, ViewChild, ViewContainerRef, ViewEncapsulation, inject } from '@angular/core';
 import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import { BehaviorSubject, merge, NEVER, Observable, of, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, switchMap, tap } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
@@ -74,6 +74,7 @@ export interface IAutocompleterTemplateComponent {
   headerTemplate?:TemplateRef<Element>;
   labelTemplate?:TemplateRef<Element>;
   footerTemplate?:TemplateRef<Element>;
+  notFoundTemplate?:TemplateRef<Element>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-redundant-type-constituents
@@ -314,6 +315,8 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   footerTemplate:TemplateRef<Element>;
 
+  notFoundTemplate:TemplateRef<Element>;
+
   readonly opAutocompleterService = inject(OpAutocompleterService);
 
   ngOnInit() {
@@ -490,19 +493,22 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
       tap(() => this.loading$.next(true)),
       debounceTime(this.debounceTimeForCurrentEnvironment),
       switchMap((queryString:string) => {
+        let source$:Observable<unknown> = NEVER;
+
         if (this.getOptionsFn) {
-          return this.getOptionsFn(queryString);
+          source$ = this.getOptionsFn(queryString);
+        } else if (this.url) {
+          source$ = this.opAutocompleterService.loadFromUrl(this.url, queryString, this.resource, this.filters, this.searchKey);
+        } else if (this.defaultData) {
+          source$ = this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
         }
 
-        if (this.url) {
-          return this.opAutocompleterService.loadFromUrl(this.url, queryString, this.resource, this.filters, this.searchKey);
-        }
-
-        if (this.defaultData) {
-          return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
-        }
-
-        return NEVER;
+        return source$.pipe(
+          catchError((error) => {
+            console.error(error);
+            return of([]);
+          }),
+        );
       }),
       tap({
         next: () => this.loading$.next(false),
@@ -548,7 +554,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
     componentRef.changeDetectorRef.detectChanges();
 
-    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
+    ['optionTemplate', 'headerTemplate', 'labelTemplate', 'footerTemplate', 'notFoundTemplate'].forEach((name:keyof IAutocompleterTemplateComponent) => {
       const template = componentRef.instance[name];
       if (template) {
         this[name] = template;

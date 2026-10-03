@@ -69,7 +69,7 @@ Each list represents a status. That means that all work packages with the status
 When creating a new Kanban board a list of all work packages in the default status (usually this is the status "New") will be added automatically, while additional lists need to be added manually. 
 
 > [!TIP]
-> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-workflows/).
+> You can not move work packages from or to every status. Please find out more about the [workflow rules and restrictions here](../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ![Example of a Kanban board in OpenProject boards module](openproject_userguide_boards_kanban.png)
 

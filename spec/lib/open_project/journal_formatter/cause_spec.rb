@@ -843,6 +843,44 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
+    context "when the work package was migrated" do
+      subject(:cause) do
+        { "type" => "import", "migrated" => true }
+      end
+
+      it "renders the migration message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.migrated')}"
+        )
+      end
+
+      it "renders the migration message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.migrated')}"
+        )
+      end
+    end
+
+    context "when the work package came from a CSV import" do
+      subject(:cause) do
+        { "type" => "import", "csv" => true }
+      end
+
+      it "renders the CSV import message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+
+      it "renders the CSV import message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+    end
+
     context "when import_history is empty" do
       subject(:cause) do
         {
@@ -1047,11 +1085,30 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
         allow(meeting).to receive(:cancelled?).and_return(true)
       end
 
-      it "keeps the entry with a generic label" do
+      it "renders the meeting label as plain text with '(cancelled)'" do
+        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
+        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
         expect(cause).to render_html_variant(
           I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
-                 meeting_title_information: I18n.t("journals.cause_descriptions.meeting_cancelled"))
+                 meeting_title_information: "#{label} #{cancelled}")
         )
+      end
+
+      it "renders the meeting label with '(cancelled)' when rendering raw text" do
+        label = "#{meeting.title} – #{format_time(meeting.start_time)}"
+        cancelled = I18n.t("journals.cause_descriptions.meeting_cancelled")
+        expect(cause).to render_raw_variant(
+          ActionController::Base.helpers.strip_tags(
+            I18n.t("journals.caused_changes.meeting_agenda_item_added_html",
+                   meeting_title_information: "#{label} #{cancelled}")
+          )
+        )
+      end
+
+      it "escapes a malicious meeting title when rendering HTML" do
+        allow(meeting).to receive(:title).and_return("<script>alert('xss')</script>")
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>alert('xss')</script>"))
       end
     end
   end

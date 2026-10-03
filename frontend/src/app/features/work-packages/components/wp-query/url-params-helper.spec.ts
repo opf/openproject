@@ -36,13 +36,10 @@ describe('UrlParamsHelper', () => {
   } as any;
 
   let UrlParamsHelper:UrlParamsHelperService;
-  let queryString;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UrlParamsHelperService,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         { provide: PaginationService, useValue: paginationStub },
       ],
     });

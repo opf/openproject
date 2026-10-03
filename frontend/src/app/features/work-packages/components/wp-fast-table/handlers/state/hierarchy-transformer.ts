@@ -51,7 +51,7 @@ export class HierarchyTransformer {
   @LazyInject() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
-    table:WorkPackageTable) {
+    private readonly table:WorkPackageTable) {
     this.wpTableHierarchies
       .updates$()
       .pipe(
@@ -88,9 +88,10 @@ export class HierarchyTransformer {
    */
   private renderHierarchyState(state:WorkPackageViewHierarchies) {
     const rendered = this.querySpace.tableRendered.value!;
+    const root = this.table.tableAndTimelineContainer;
 
     // Show all hierarchies
-    document.querySelectorAll('[class^="__hierarchy-group-"]').forEach((el) => {
+    root.querySelectorAll('[class^="__hierarchy-group-"]').forEach((el) => {
       Array.from(el.classList)
         .filter((className) => /__collapsed-group-\d+/g.test(className))
         .forEach((className) => el.classList.remove(className));
@@ -103,10 +104,10 @@ export class HierarchyTransformer {
     // Hide all collapsed hierarchies
     Object.entries(state.collapsed).forEach(([wpId, isCollapsed]) => {
       // Toggle the root style
-      document.querySelector(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`)?.classList.toggle(indicatorCollapsedClass, isCollapsed);
+      root.querySelector(`.${hierarchyRootClass(wpId)} .wp-table--hierarchy-indicator`)?.classList.toggle(indicatorCollapsedClass, isCollapsed);
 
       // Get parent row and mark/unmark it as collapsed
-      const hierarchyRoot = document.querySelector(`.wp-timeline-cell.__hierarchy-root-${wpId}`);
+      const hierarchyRoot = root.querySelector(`.wp-timeline-cell.__hierarchy-root-${wpId}`);
 
       if (hierarchyRoot) {
         if (isCollapsed) {
@@ -117,7 +118,7 @@ export class HierarchyTransformer {
       }
 
       // Get all affected children rows
-      const affected = Array.from(document.querySelectorAll(`.${hierarchyGroupClass(wpId)}`));
+      const affected = Array.from(root.querySelectorAll(`.${hierarchyGroupClass(wpId)}`));
 
       // Hide/Show the descendants.
       affected.forEach((el) => el.classList.toggle(collapsedGroupClass(wpId), isCollapsed));
@@ -140,7 +141,7 @@ export class HierarchyTransformer {
     // Keep focused on the last element, if any.
     // Based on https://stackoverflow.com/a/3782959
     if (state.last) {
-      scrollTableRowIntoView(state.last);
+      scrollTableRowIntoView(state.last, root);
     }
 
     this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');

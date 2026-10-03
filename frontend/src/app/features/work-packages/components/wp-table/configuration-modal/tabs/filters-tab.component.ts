@@ -60,9 +60,6 @@ export class WpTableConfigurationFiltersTabComponent implements TabComponent, On
     columnsLabel: this.I18n.t('js.label_columns'),
     selectedColumns: this.I18n.t('js.description_selected_columns'),
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
-
-    upsellRelationColumns: this.I18n.t('js.modals.upsell_relation_columns'),
-    upsellRelationColumnsLink: this.I18n.t('js.modals.upsell_relation_columns_link'),
   };
 
   ngOnInit() {

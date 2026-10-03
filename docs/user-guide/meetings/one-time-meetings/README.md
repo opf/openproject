@@ -98,6 +98,10 @@ If you are using (reusable meeting templates)(#meeting-templates-enterprise-add-
 > - 90min
 > - 1:30
 
+> [!NOTE]
+>
+> The date is set to the present day by default, while the start time is automatically rounded up to the next half-hour. For example, if the current time is 10:09, the start time is set to 10:30.
+
 Click the **Create meeting** button to save your changes. A new meeting will be created. It will initially be in **draft mode**, as indicated by the status message and the corresponding  banner. You can then proceed to add more details to the meeting.
 
 ### Meeting draft mode 
@@ -258,6 +262,17 @@ You can add a work package to both upcoming or past meetings as long as the work
 > [!TIP]
 > The upcoming meetings are displayed in chronological order, from the nearest meeting to the most distant. 
 > The past meetings are displayed in reverse chronological order, from the most recent meeting to the oldest.
+
+The **Activity tab** records every action taken around a work package. This includes when a work package is added to a meeting agenda, removed from the agenda or moved to another meeting occurrence. The action taken is displayed next to the meeting title and date.
+
+![Activity tab showing updates when a work package is added or removed from a meeting](openproject_userguide_meetings_add_wp_activity_tab.png)
+
+> [!NOTE]
+> Meeting related work package updates appear in the Activity tab only for users who have access to both the work package and the meeting.
+
+To hide all meeting related work package updates, scroll to the top of the **Activity tab** and select the appropriate option from the drop-down menu.
+
+![Hide meetings updates from drop-down menu of the Activity tab](openproject_userguide_meetings_wp_activity_tab_filters.png)
 
 ### Edit a meeting
 

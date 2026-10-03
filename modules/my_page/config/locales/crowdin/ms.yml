@@ -1,4 +1,8 @@
 ---
 ms:
+  activerecord:
+    models:
+      grids/my_page:
+        other: My pages
   my_page:
     label: Halaman saya

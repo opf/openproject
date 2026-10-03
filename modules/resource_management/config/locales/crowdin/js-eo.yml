@@ -1,0 +1,8 @@
+---
+eo:
+  js:
+    button_allocate_resource: Allocate resource
+    resource_management:
+      create_placeholder_user: Create placeholder user with filter criteria
+      hidden_user: Hidden user
+      show_allocations: Show resource allocations

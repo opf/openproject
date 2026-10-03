@@ -36,23 +36,32 @@ module Wikis
           class CreatePage < BaseCommand
             def call(input_data:, auth_strategy:)
               Adapters::Authentication[auth_strategy].call do |user|
-                parent = find_parent(input_data.parent_identifier, user:)
-                return failure(code: :not_found) if parent.nil?
-
-                service_result_to_monad(
-                  ::WikiPages::CreateService.new(user:).call(
-                    title: input_data.title,
-                    parent:,
-                    wiki: parent.wiki
-                  )
-                )
+                if input_data.wiki_parent?
+                  create_root_page(input_data, user:)
+                else
+                  create_child_page(input_data, user:)
+                end
               end
             end
 
             private
 
-            def find_parent(identifier, user:)
-              WikiPage.visible(user).find_by(id: identifier)
+            def create_root_page(input_data, user:)
+              wiki = Wiki.find_by(id: input_data.parent_identifier)
+              return failure(code: :not_found) unless wiki&.visible?(user)
+
+              create_page(title: input_data.title, wiki:, parent: nil, user:)
+            end
+
+            def create_child_page(input_data, user:)
+              parent = WikiPage.visible(user).find_by(id: input_data.parent_identifier)
+              return failure(code: :not_found) if parent.nil?
+
+              create_page(title: input_data.title, wiki: parent.wiki, parent:, user:)
+            end
+
+            def create_page(title:, wiki:, parent:, user:)
+              service_result_to_monad(::WikiPages::CreateService.new(user:).call(title:, parent:, wiki:))
             end
 
             def service_result_to_monad(result)

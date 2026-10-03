@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% page_title = t(".title") %>
 
-<% html_title(t(:label_administration), t(:project_module_wiki_platforms), @provider.name, page_title) -%>
+<% html_title(t(:label_administration), t("menus.admin.external_wiki_providers"), @provider.name, page_title) -%>
 
 <%= turbo_frame_tag "health_status_report", refresh: :morph do %>
   <%=
@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
       header.with_breadcrumbs(
         [
           { href: admin_index_path, text: t("label_administration") },
-          { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
+          { href: admin_settings_wiki_providers_path, text: t("menus.admin.external_wiki_providers") },
           { href: edit_admin_settings_wiki_provider_path(@provider), text: @provider.name },
           page_title
         ]
@@ -91,7 +91,15 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
       <% if @report.present? %>
-        <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "wikis.health_checks")) %>
+        <%=
+          render(
+            HealthReports::ReportComponent.new(
+              @report,
+              i18n_scope: "wikis.health_checks",
+              docs_href: ::OpenProject::Static::Links.url_for(:wiki_docs, :health_status)
+            )
+          )
+        %>
       <% else %>
         <%=
           render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|

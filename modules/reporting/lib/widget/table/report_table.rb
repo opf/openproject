@@ -63,7 +63,7 @@ class Widget::Table::ReportTable < Widget::Table
       subrows
     end
 
-    @walker.for_empty_cell { "<td class='normal empty'>&nbsp;</td>".html_safe }
+    @walker.for_empty_cell { content_tag(:td, "\u00A0", class: "normal empty") }
 
     @walker.for_cell do |result|
       content_tag(:td, show_result(result), class: "normal right")

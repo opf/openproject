@@ -14,7 +14,12 @@ hu:
         secret: titkos aláírás
         url: Tartalom URL-címe
     models:
-      webhooks/outgoing_webhook: Kimenő webhook
+      webhooks/log:
+        one: Webhook log
+        other: Webhook logs
+      webhooks/webhook:
+        one: Webhook
+        other: Webhooks
   plugin_openproject_webhooks:
     description: Az OpenProject webhooks támogatásához egy API-t biztosít a jobb 3rd party integráció érdekében.
     name: OpenProject webhookok

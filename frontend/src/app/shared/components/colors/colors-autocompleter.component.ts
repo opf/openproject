@@ -118,12 +118,10 @@ export class ColorsAutocompleterComponent implements OnInit {
       return undefined;
     }
 
-    let highlightingClass;
     if (this.highlightTextInline) {
-      highlightingClass = '__hl_inline_type_ ';
-    } else {
-      highlightingClass = '__hl_inline_ ';
+      return `__hl_uppercase ${Highlighting.foregroundClass('color', item.value)}`;
     }
-    return highlightingClass + Highlighting.colorClass(this.highlightTextInline, item.value);
+
+    return Highlighting.dotClass('color', item.value);
   }
 }

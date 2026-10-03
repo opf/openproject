@@ -30,9 +30,6 @@
 
 module WorkPackageTypes
   class ExcludedElementsController < BaseTabController
-    include TypeVariantsFeature
-
-    before_action :require_type_variants_feature
     before_action :require_valid_aspect
 
     current_menu_item do
@@ -67,7 +64,7 @@ module WorkPackageTypes
     end
 
     def require_valid_aspect
-      render_404 unless TypeVariant::ASPECTS.include?(aspect)
+      render_404 unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
     end
   end
 end

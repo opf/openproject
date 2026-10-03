@@ -26,13 +26,14 @@ zh-CN:
       project:
         allow_multiple_active_sprints: 允许多个处于有效状态的冲刺
         backlog_excluded_types: 排除的工作包类型
+        estimation_unit: Unit
         sprint_sharing: 冲刺共享
         statuses_considered_closed: 被视为已关闭的状态
       sprint:
         duration: 持续时间
         finish_date: 结束日期
         goal: 冲刺目标
-        name: Sprint 冲刺名称
+        name: 冲刺名称
         sharing: 共享中
         statuses:
           active: 激活
@@ -50,7 +51,7 @@ zh-CN:
         story_points: 故事点
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: 无法启动，因为项目正在接收共享冲刺。
         dates_required: 必须设置开始和结束日期才能开始冲刺。
         must_be_in_planning: 必须处于规划中状态才能开始。
         only_one_active_sprint_allowed: 每个项目只允许有一个有效冲刺。
@@ -61,11 +62,11 @@ zh-CN:
               locked_by_multiple_active_sprints: 在多个处于有效状态的冲刺正在运行时无法更改。
               requires_no_sharing: 只有当冲刺共享设置为“不共享”时才能启用。
             sprint_sharing:
-              active_or_borrowed_sprint_blocks_receiving: cannot be set to receive because the project has an active or borrowed sprint. Close or unassign the work packages first.
+              active_or_borrowed_sprint_blocks_receiving: 无法设置为接收，因为项目有一个处于有效状态或借用的冲刺。请先关闭或取消指定这些工作包。
               locked_by_multiple_active_sprints: 在启用了多个处于有效状态的冲刺时无法更改。
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
-              work_packages_still_linked_to_shared_sprints: cannot be changed because work packages are still linked to shared sprints. Unassign them first.
+              work_packages_still_linked_to_shared_sprints: 无法更改，因为工作包仍然与共享冲刺相关联。请先取消指定。
           receiving_sprints: 正在接收共享冲刺。无法创建自己的冲刺。
         sprint:
           attributes:
@@ -74,7 +75,7 @@ zh-CN:
               unfinished_work_packages:
                 other: 此冲刺中有 %{count} 个未完成的工作包。
             status:
-              not_active: 未激活，无法关闭。
+              not_active: 未处于有效状态，因此无法关闭。
         sprint_goal:
           project_already_has_goal: 已为此冲刺设定目标。
         work_package:
@@ -91,11 +92,15 @@ zh-CN:
               task_version_must_be_the_same_as_story_version: 必须与父级故事的版本相同。
           backlog_bucket_xor_sprint: 无法同时指定至冲刺和积压工作存储桶。
     models:
+      backlog_bucket:
+        other: 积压工作存储桶
       sprint:
         other: 冲刺
+      sprint_goal:
+        other: 冲刺目标
   backlogs:
     add_existing_work_package_dialog_component:
-      title_without_container: Add existing work package
+      title_without_container: 添加现有工作包
     administration_blankslate:
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
       title: 积压工作管理设置不断演进
@@ -111,6 +116,7 @@ zh-CN:
         other: 冲刺
         zero: 所有冲刺
       select_panel_title: 选择条目
+    blankslate_filtered_title: 没有工作包符合筛选条件。
     bucket_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -128,6 +134,7 @@ zh-CN:
       show:
         blankslate_description: 设置冲刺的开始和结束日期，以生成燃尽图。
         blankslate_title: 没有可用的燃尽数据
+    estimation_unit: Units
     excluded_work_package_types_caption: '选择要从积压工作中隐藏的工作包类型。所选类型的项目不会自动出现在积压工作中，从而聚焦于对您团队真正重要的工作。例如，可以隐藏长篇故事或里程碑等在更高级别管理的类型，使积压工作聚焦于可执行的项目。
 
       '
@@ -152,6 +159,8 @@ zh-CN:
       show_more:
         other: 显示其他 %{count} 个条目
       title: 收件箱
+    index_subheader_component:
+      label_search_by_subject: 按主题搜索工作包
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
@@ -171,6 +180,7 @@ zh-CN:
     remaining_hours: 剩余工时
     sharing: 冲刺共享
     show_burndown_chart: 燃尽图
+    show_work_package_overview: 冲刺内的工作包
     sprint_component:
       action_menu:
         add_existing_work_package: 添加现有工作包
@@ -179,12 +189,12 @@ zh-CN:
       blankslate_description: 尚未计划条目。请将条目拖到此处以添加。
       blankslate_title: "%{name} 为空"
       drop_zone_label: 拖放到此处以添加此条目
-      label_actions: 冲刺行动
+      label_actions: 冲刺操作
       label_complete_sprint: 完成冲刺
       label_start_sprint: 开始冲刺
       start_sprint_disabled_reason_active_sprint: 另一次冲刺已经开始。
       start_sprint_disabled_reason_missing_dates: 必须设置开始和结束日期才能开始冲刺。
-      start_sprint_disabled_reason_receiving_shared_sprints: This project's own sprints cannot be started while it is receiving shared sprints.
+      start_sprint_disabled_reason_receiving_shared_sprints: 此项目正在接收共享冲刺，无法启动自己的冲刺。
       start_sprint_disabled_reason_shared_sprint: 此冲刺来自另一个项目，该项目不支持多个处于有效状态的冲刺。
     sprint_form:
       goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用此冲刺的其他项目共享。
@@ -196,6 +206,30 @@ zh-CN:
       page_header_component:
         breadcrumb: 报告
         title: "%{sprint}报告"
+      widgets:
+        work_package_graph:
+          title: 工作包图表
+        work_package_overview:
+          blankslate:
+            description: 设置冲刺的开始和结束日期，以生成工作包概述。
+            heading: 没有可用的冲刺数据
+          blocks:
+            changed_after_start:
+              count_change_html: "+%{added} %{divider} -%{removed}"
+              heading: 范围更改
+              story_points_change: "+%{added} / -%{removed} 故事点"
+            completed:
+              heading: 已完成
+            initially_planned:
+              heading: 已初步规划
+            unfinished:
+              heading: 未完成
+          breakdown_block:
+            blocks:
+              show_all: 查看全部
+          closed_work_packages: 已关闭的工作包
+          resolved_summary:
+            other: "%{percentage}% (%{resolved} of %{total} work packages)"
     sprints:
       row_component:
         action_menu:
@@ -235,8 +269,19 @@ zh-CN:
       add_existing_dialog:
         invalid_target: 您尝试添加到的目标无效。
         target_not_found: 您尝试添加到的冲刺或积压工作未找到。
+      batch_update_service:
+        mixed_projects: 一个批次的所有工作包必须属于同一个项目。
+        stale_batch: 在准备移动时，至少有一个工作包发生了变化。请检查当前位置并重试。
+        stale_predecessor: 要插入到后方的工作包已移至其他位置。请检查当前位置并重试。
+        unavailable_target: 目标列表不再可用。 请重新加载页面并重试。
+        unexpected_failure: 无法移动工作包。请重试。
       move:
         moved_announcement: "%{label} 已移至 %{list}，位置 %{position}，总计 %{total}"
+      move_collection:
+        invalid_ids: 要移动的工作包列表无效。
+        member_failed: "%{work_package}：%{reason}"
+        too_many_work_packages: 一次移动的工作包数量不能超过 %{max} 个。
+        work_packages_not_found: 至少有一个工作包在此项目中无法找到。
       update_service:
         invalid_target_type: list_type 必须是下列一项：带有 list_id 的 backlog_bucket、带有 list_id 的 sprint，或者不带 list_id 的 inbox。
         missing_target: list_type 或 list_id 必须存在。
@@ -245,11 +290,11 @@ zh-CN:
     story_points_ideal: 故事点（理想）
   ee:
     features:
-      multiple_active_sprints: Multiple active sprints
+      multiple_active_sprints: 多个处于有效状态的冲刺
       sprint_sharing: 冲刺共享
     upsell:
       multiple_active_sprints:
-        description: Run multiple sprints in parallel for different teams in your project for more control and flexibility.
+        description: 为项目中的不同团队并行运行多个冲刺，以获得更大的控制力和灵活性。
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
   label_all_sprints: 所有冲刺
@@ -272,9 +317,8 @@ zh-CN:
   notice_unsuccessful_finish_with_reason: 无法完成该冲刺：%{reason}
   notice_unsuccessful_start: 无法开始该冲刺。
   notice_unsuccessful_start_with_reason: 无法开始该冲刺：%{reason}
-  notice_work_package_invisible_after_move: '工作包已移至 %{backlog} ，但不可见，因为其类型或状态已从积压工作中排除。
-
-    '
+  notice_work_package_invisible_after_move:
+    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
   permission_create_sprints: 创建冲刺
   permission_manage_sprint_items: 管理冲刺条目
   permission_select_backlog_types_and_statuses: 选择积压工作类型和状态
@@ -293,6 +337,18 @@ zh-CN:
       backlog_buckets: 积压工作存储桶
       sprints: 冲刺
     settings:
+      backlog_estimation_unit:
+        estimation_unit: Unit
+        options:
+          none:
+            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
+            label: None
+          story_points:
+            caption: The cards and charts will display story points.
+            label: Story points
+          time:
+            caption: The cards and charts will display work time estimates.
+            label: Work time estimate
       backlog_sharing:
         options:
           no_sharing:
@@ -313,6 +369,9 @@ zh-CN:
             label: 子项目
         sprint_sharing: 共享冲刺
       backlogs:
+        estimation_unit_form_component:
+          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
+          heading: Default unit of velocity, effort and capacity
         multiple_active_sprints:
           description: 默认情况下，每个项目中一次只能有一个冲刺处于有效状态。您可以更改此设置，使此项目中能够同时有多个冲刺处于有效状态。
           heading: 有效冲刺的数量

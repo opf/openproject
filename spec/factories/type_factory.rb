@@ -30,8 +30,11 @@
 
 FactoryBot.define do
   factory :type do
-    sequence(:position)
-    name { |a| "Type No. #{a.position}" }
+    # No position: it is acts_as_list's to assign, which appends on create. Sequencing it here
+    # made the value depend on how many types the whole rspec process had built before this one,
+    # so an unrelated spec creating a type could shift this one ahead of :type_task and silently
+    # become project.enabled_types.first / the work_package factory's type fallback.
+    sequence(:name) { |n| "Type No. #{n}" }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
 

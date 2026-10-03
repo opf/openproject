@@ -1,0 +1,4 @@
+<%= helpers.turbo_frame_tag(Admin::Members::IndexComponent::FRAME_ID, target: "_top") do %>
+  <%= render(Admin::Members::IndexSubHeaderComponent.new(query:)) %>
+  <%= render(Admin::Members::TableComponent.new(rows:, query:)) %>
+<% end %>

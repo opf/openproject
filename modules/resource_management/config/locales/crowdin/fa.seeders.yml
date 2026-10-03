@@ -8,14 +8,14 @@ fa:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: تخصیص‌های تیم
             work_package_list:
-              name: Work packages
+              name: بسته‌های کاری
             work_package_timeline:
-              name: Work package timeline
+              name: خط زمانی بسته‌های کاری
             user_card:
-              name: Team members
+              name: اعضای تیم
             user_timeline:
-              name: Team timeline
+              name: خط زمانی تیم
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: توسعه‌دهندهٔ نرم‌افزار

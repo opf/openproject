@@ -85,6 +85,15 @@ export abstract class BoardActionService {
   }
 
   /**
+   * The filter ids the action filter may be rendered under by the API.
+   * Usually just the filter name, but it may differ from it while a
+   * deprecated filter key is replaced (e.g. version / targetVersion).
+   */
+  get filterNames():string[] {
+    return [this.filterName];
+  }
+
+  /**
    * The work package attributes whose changes may move a work package
    * between the lists of the board.
    */
@@ -127,7 +136,7 @@ export abstract class BoardActionService {
    * @param query
    */
   getActionFilter(query:QueryResource, getHref = false):QueryFilterInstanceResource|undefined {
-    return query.filters.find((filter) => filter.id === this.filterName);
+    return query.filters.find((filter) => this.filterNames.includes(filter.id));
   }
 
   /**

@@ -175,6 +175,82 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       end
     end
 
+    describe "time entry costs" do
+      shared_let(:logging_user) { create(:user) }
+
+      let!(:source_rate) do
+        create(:hourly_rate, user: logging_user, project:, rate: 10.0, valid_from: 2.years.ago)
+      end
+      let!(:target_rate) do
+        create(:hourly_rate, user: logging_user, project: target_project, rate: 99.0, valid_from: 2.years.ago)
+      end
+      let!(:time_entry) do
+        create(:time_entry,
+               project:,
+               entity: work_package,
+               user: logging_user,
+               logged_by: logging_user,
+               hours: 2.0)
+      end
+
+      it "recalculates the costs using the target project's rate", :aggregate_failures do
+        expect(time_entry.reload.costs).to eq(20.0)
+
+        expect(subject)
+          .to be_success
+
+        time_entry.reload
+
+        expect(time_entry.project_id).to eq(target_project.id)
+        expect(time_entry.rate).to eq(target_rate)
+        expect(time_entry.costs).to eq(198.0)
+      end
+
+      it "journals the move on the time entry",
+         :aggregate_failures,
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        expect { subject }
+          .to change { time_entry.journals.reload.count }
+          .by(1)
+
+        journal = time_entry.journals.last.data
+
+        expect(journal.project_id).to eq(target_project.id)
+        expect(journal.rate_id).to eq(target_rate.id)
+        expect(journal.costs).to eq(198.0)
+      end
+
+      context "when the target project's rate changed after the time was logged" do
+        let!(:historic_source_rate) do
+          create(:hourly_rate, user: logging_user, project:, rate: 5.0, valid_from: 4.years.ago)
+        end
+        let!(:historic_target_rate) do
+          create(:hourly_rate, user: logging_user, project: target_project, rate: 50.0, valid_from: 4.years.ago)
+        end
+        let!(:time_entry) do
+          create(:time_entry,
+                 project:,
+                 entity: work_package,
+                 user: logging_user,
+                 logged_by: logging_user,
+                 hours: 2.0,
+                 spent_on: 3.years.ago.to_date)
+        end
+
+        it "re-rates using the rate valid on spent_on, not the current one", :aggregate_failures do
+          expect(time_entry.reload.costs).to eq(10.0)
+
+          expect(subject)
+            .to be_success
+
+          time_entry.reload
+
+          expect(time_entry.rate).to eq(historic_target_rate)
+          expect(time_entry.costs).to eq(100.0)
+        end
+      end
+    end
+
     describe "memberships" do
       let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
       let(:other_user) { create(:user) }
@@ -440,8 +516,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  describe "changing the type when the project resolves it to a variant",
-           with_flag: { type_variants: true } do
+  describe "changing the type when the project resolves it to a variant" do
     shared_let(:family_root) { create(:type, name: "Family root") }
     shared_let(:variant) { create(:type_variant, type: family_root, variant_name: "Variant") }
     shared_let(:root_only_status) { create(:status, name: "root_only_status") }
@@ -450,7 +525,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:attributes) { { type: family_root } }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
 
       create(:workflow, type: family_root, role:,
                         old_status_id: root_only_status.id, new_status_id: root_only_status.id)
@@ -1807,16 +1882,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   end
 
   context "with work packages having automatically generated subjects" do
-    # rubocop:disable RSpec/BeforeAfterAll
-    before_all do
-      set_factory_default(:type, autosubject_type)
-    end
-
-    after(:all) do
-      set_factory_default(:type, type)
-    end
-    # rubocop:enable RSpec/BeforeAfterAll
-
     shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type) }
     let(:attributes) { { description: "new description" } }
 
@@ -1845,20 +1910,20 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
-  context "with a type whose subject configuration is linked to a source type",
-          with_flag: { type_variants: true } do
-    shared_let(:linked_type) do
-      create(:type, name: "Linked").tap do |t|
-        link_configuration(t, source: autosubject_type, aspect: TypeVariant::DEFAULTS)
-        project.project_types.create!(type: t)
+  context "with a variant inheriting its subject configuration from its base" do
+    shared_let(:variant) do
+      create(:type_variant, type: autosubject_type, variant_name: "Inheriting").tap do |v|
+        link_configuration(v, aspect: TypeVariant::DEFAULTS)
       end
     end
 
-    shared_let(:work_package, reload: true) { create(:work_package, type: linked_type, project:) }
+    shared_let(:work_package, reload: true) { create(:work_package, type: autosubject_type, project:) }
 
     let(:attributes) { { description: "new description" } }
 
-    it "generates the subject from the linked source type's pattern" do
+    before { project.project_types.find_by(type: autosubject_type).update!(variant:) }
+
+    it "generates the subject from the inherited pattern" do
       expect(subject).to be_success
 
       expect(work_package.reload).to have_attributes(
@@ -2000,7 +2065,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
     let!(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.enabled_variants.first.custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         project.work_package_custom_fields << cf
       end
     end
@@ -2073,7 +2138,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     # The work package does not have a required custom field set.
     let(:mandatory_custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-        project.enabled_variants.first.custom_fields << cf
+        project.enabled_variants.first.custom_field_ids |= [cf.id]
         project.work_package_custom_fields << cf
       end
     end
@@ -2112,13 +2177,13 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:new_type) { create(:type) }
     let!(:custom_field_of_current_type) do
       create(:integer_wp_custom_field, default_value: nil) do |cf|
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
         project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_new_type) do
       create(:integer_wp_custom_field, default_value: 8) do |cf|
-        new_type.default_variant.custom_fields << cf
+        new_type.default_variant.custom_field_ids |= [cf.id]
         project.work_package_custom_fields << cf
       end
     end

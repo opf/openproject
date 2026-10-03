@@ -12,7 +12,7 @@ If a file storage is not working as expected, you can find additional informatio
 
 ## Connection validation
 
-Every file storage is able to run connection checks. This test is triggered manually by clicking on **Run checks now** in the sidebar on the right side of the file storage's details view. This check is available from the UI to edit the storage.
+Every file storage is able to run connection checks. This test is triggered manually by clicking on **Run checks now** in the sidebar on the right side of the file storage's details view.
 
 ![Check connection for a file storage in OpenProject administration](openproject_file_storages_onedrive_run_checks_button.png)
 

@@ -14,6 +14,21 @@ ar:
           end_before_start: يجب أن تكون قيمة النهاية أكبر من قيمة البداية.
           outside: هو خارج الشبكة.
           overlaps: تداخل.
+    models:
+      grids/grid:
+        zero: Grids
+        one: Grid
+        two: Grids
+        few: Grids
+        many: Grids
+        other: Grids
+      grids/widget:
+        zero: Widgets
+        one: Widget
+        two: Widgets
+        few: Widgets
+        many: Widgets
+        other: Widgets
   grids:
     label_widget_in_grid: الويدجت متوفر في الشبكة %{grid_name}
     widgets:

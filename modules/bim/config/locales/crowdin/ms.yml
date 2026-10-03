@@ -38,7 +38,14 @@ ms:
               ifc_attachment_missing: Tiada fail IFC yang dilampirkan.
               invalid_ifc_file: Fail yang disediakan adalah fail IFC yang tidak sah.
     models:
-      bim/ifc_models/ifc_model: Model IFC
+      bim/bcf/comment:
+        other: BCF comments
+      bim/bcf/issue:
+        other: BCF issues
+      bim/bcf/viewpoint:
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        other: IFC models
   attributes:
     bcf_thumbnail: Gambaran BCF
   bcf:
@@ -100,6 +107,7 @@ ms:
       zero: Tiada isu-isu BCF
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

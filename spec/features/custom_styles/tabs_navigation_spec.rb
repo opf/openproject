@@ -57,29 +57,116 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
     it "shows interface tab" do
       expect(page).to have_current_path custom_style_path(tab: "interface")
       expect(page).to have_text I18n.t(:label_interface_colors)
+      %i[base_colors top_header_colors main_menu].each do |group_name|
+        expect(page).to have_test_selector("design-color-group-#{group_name}")
+      end
+      %w[
+        primary-button-color
+        accent-color
+        header-bg-color
+        main-menu-bg-color
+        main-menu-bg-selected-background
+      ].each do |variable|
+        expect(page).to have_test_selector("edit-design-color-#{variable}")
+      end
     end
 
-    it "selects a color theme and redirect to the interface tab" do
+    it "renders an auto-submitting theme selector on the interface tab" do
+      selector = find_test_selector("color-theme-select")
+
+      expect(selector["data-action"]).to eq("auto-submit#submit")
+      expect(selector.find(:xpath, "ancestor::form")["data-controller"].split).to include("auto-submit")
+    end
+
+    it "selects a color theme", :js do
       select("OpenProject Gray", from: "theme")
-      find("[data-test-selector='color-theme-button']").click
+      wait_for_reload
+
       expect_flash(message: I18n.t(:notice_successful_update))
+      expect(page).to have_select("theme", selected: "OpenProject Gray")
       expect(page).to have_current_path custom_style_path(tab: "interface")
+      expect(custom_style.reload.theme).to eq("OpenProject Gray")
     end
 
-    it "changes accent color and redirects to interface tab" do
+    context "with a custom theme", :js do
+      before do
+        custom_style.update!(theme: nil)
+        create(:design_color, variable: "accent-color", hexcode: "#333333")
+        visit custom_style_path(tab: "branding")
+        select("OpenProject Gray", from: "theme")
+      end
+
+      it "shows the warning and applies the confirmed theme" do
+        within "#confirm-theme-dialog[open]" do
+          expect(page).to have_heading(I18n.t("admin.custom_styles.theme_warning.heading"))
+          expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning.description"))
+          expect(page).to have_text(I18n.t("admin.custom_styles.theme_warning.confirmation"))
+          expect(page).to have_button(I18n.t(:button_change), disabled: true)
+
+          find_field("confirm_dangerous_action").click
+
+          expect(page).to have_button(I18n.t(:button_change), disabled: false)
+          click_on I18n.t(:button_change)
+        end
+        wait_for_reload
+
+        expect_flash(message: I18n.t(:notice_successful_update))
+        expect(page).to have_current_path custom_style_path(tab: "branding")
+        expect(custom_style.reload.theme).to eq("OpenProject Gray")
+        expect(DesignColor.find_by(variable: "accent-color").hexcode)
+          .to eq(OpenProject::CustomStyles::ColorThemes::ACCENT_COLOR)
+      end
+
+      it "restores the saved theme when the warning is canceled" do
+        within "#confirm-theme-dialog[open]" do
+          click_on I18n.t(:button_cancel)
+        end
+
+        expect(page).to have_select("theme", selected: I18n.t("admin.custom_styles.color_theme_custom"))
+
+        select("OpenProject Gray", from: "theme")
+        expect(page).to have_css("#confirm-theme-dialog[open]")
+      end
+    end
+
+    it "changes accent color and redirects to interface tab", :js do
+      find_test_selector("edit-design-color-accent-color").click
       fill_in "design_colors[]accent-color", with: "#333333"
-      find("[data-test-selector='interface-colors-button']").click
-      expect(page).to have_css("#design_colors_accent-color", value: "#333333")
+      find_test_selector("save-design-color-accent-color").click
+
+      expect(page).to have_text("#333333")
+      expect(DesignColor.find_by(variable: "accent-color").hexcode).to eq("#333333")
       expect(page).to have_current_path custom_style_path(tab: "interface")
     end
 
-    it "redirects to branding tab" do
+    it "restores the inherited color by clearing an override", :js do
+      create(:design_color, variable: "accent-color", hexcode: "#333333")
+      visit custom_style_path(tab: "interface")
+
+      find_test_selector("edit-design-color-accent-color").click
+      fill_in "design_colors[]accent-color", with: ""
+      find_test_selector("save-design-color-accent-color").click
+
+      expect(DesignColor.find_by(variable: "accent-color")).to be_nil
+      expect(page).to have_current_path custom_style_path(tab: "interface")
+    end
+
+    it "redirects to branding tab", :js do
       click_on "Branding"
       expect(page).to have_current_path custom_style_path(tab: "branding")
+      expect(page).to have_test_selector("color-theme-select")
+      expect(page).to have_field("custom_style_logo")
+      expect(page).to have_field("custom_style_logo_dark")
+      expect(page).to have_field("custom_style_logo_light_high_contrast")
+      expect(page).to have_field("custom_style_logo_mobile")
+      expect(page).to have_field("custom_style_logo_mobile_dark")
+      expect(page).to have_field("custom_style_logo_mobile_light_high_contrast")
+      expect(page).to have_field("custom_style_favicon")
+      expect(page).to have_field("custom_style_touch_icon")
 
       # select a color theme and redirect to the branding tab
       select("OpenProject Navy Blue", from: "theme")
-      find("[data-test-selector='color-theme-button']").click
+      wait_for_reload
       expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
@@ -89,15 +176,66 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "branding")
     end
 
+    it "shows the default logo immediately after deleting the custom logo", :js do
+      visit custom_style_path(tab: "branding")
+      custom_logo_path = custom_style_logo_path(
+        digest: custom_style.digest,
+        field: :logo,
+        filename: custom_style.logo_identifier
+      )
+
+      expect(desktop_logo_background).to include(custom_logo_path)
+
+      find_test_selector("delete-custom-style-image-logo").click
+
+      expect(page).to have_no_test_selector("delete-custom-style-image-logo")
+      expect(custom_style.reload.logo).not_to be_present
+      expect(desktop_logo_background).not_to include(custom_logo_path)
+      expect(desktop_logo_background)
+        .to include(ActionController::Base.helpers.asset_path("logo_openproject_white_big.png"))
+    end
+
+    context "with a desktop logo and only a dark mobile logo", :js do
+      before do
+        custom_style.update!(
+          logo_mobile_dark: Rack::Test::UploadedFile.new(
+            Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+          )
+        )
+        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "light"))
+        visit custom_style_path
+      end
+
+      include_context "with mobile screen size"
+
+      it "shows the mobile logos only in dark mode" do
+        expect(page).to have_no_css("a.op-logo--icon", visible: :visible)
+
+        admin.pref.update!(settings: admin.pref.settings.merge("theme" => "dark"))
+        visit custom_style_path
+
+        expect(page).to have_css("a.op-logo--icon", visible: :visible)
+
+        find_test_selector("op-app-header--modules-menu-button").click
+        expect(page).to have_css(".op-app-header--modules-menu-header .op-logo", visible: :visible)
+      end
+    end
+
     it "redirects to pdf export styles tab" do
       click_on "PDF export styles"
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
 
       # change export cover text color and redirect to the PDF export styles tab
       fill_in "export_cover_text_color", with: "#333"
-      find("[data-test-selector='text-color-change']").click
+      find_test_selector("text-color-change").click
       expect(page).to have_css("#export_cover_text_color", value: "#333")
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
     end
+  end
+
+  def desktop_logo_background
+    first(".op-logo--link", minimum: 1, visible: :all)
+      .style("background-image")
+      .fetch("background-image")
   end
 end

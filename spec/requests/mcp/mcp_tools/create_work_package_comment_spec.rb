@@ -59,7 +59,7 @@ RSpec.describe McpTools::CreateWorkPackageComment do
   let(:parsed_results) { JSON.parse(last_response.body).fetch("result") }
   let(:result_item) { parsed_results.fetch("structuredContent") }
 
-  let(:work_package) { create(:work_package).reload }
+  let(:work_package) { create(:work_package, identifier: "PROJ-101").reload }
 
   let(:server_config) { create(:mcp_configuration, identifier: "mcp_server") }
   let(:tool_config) { create(:mcp_configuration, identifier: described_class.qualified_name) }
@@ -85,6 +85,21 @@ RSpec.describe McpTools::CreateWorkPackageComment do
       mcp_request
 
       expect(result_item.to_json).to match_json_schema.from_docs("work_package_activities_model")
+    end
+
+    context "when specifying the work package via semantic identifier" do
+      let(:call_args) do
+        {
+          work_package_id: work_package.identifier,
+          comment: "This is a comment I'd like to add."
+        }
+      end
+
+      it "adds a work package comment" do
+        expect { mcp_request }.to change { work_package.reload.journals.count }.by(1)
+
+        expect(work_package.reload.journals.last.notes).to eq("This is a comment I'd like to add.")
+      end
     end
 
     context "when requesting to create an internal comment" do

@@ -70,13 +70,13 @@ module Bim::Bcf
 
         ::WorkPackages::UpdateService
           .new(user:, model: work_package)
-          .call(**params)
+          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
       end
 
       def create_work_package(params)
         ::WorkPackages::CreateService
           .new(user:)
-          .call(**params)
+          .call(**params.except(*Bim::Bcf::Issue::SETTABLE_ATTRIBUTES))
       end
 
       def work_package_identifier_from_links(links)

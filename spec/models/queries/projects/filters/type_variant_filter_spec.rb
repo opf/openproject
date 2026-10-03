@@ -78,6 +78,20 @@ RSpec.describe Queries::Projects::Filters::TypeVariantFilter do
       end
     end
 
+    context "with the base variant of a type" do
+      it "matches only the projects that enabled it" do
+        expect(filter("=", [bug.default_variant.id.to_s]).apply_to(Project))
+          .to contain_exactly(base_project)
+      end
+
+      it "leaves out a project that never enabled the type" do
+        never_enabled = create(:project, types: [])
+
+        expect(filter("=", [bug.default_variant.id.to_s]).apply_to(Project))
+          .not_to include(never_enabled)
+      end
+    end
+
     context 'for "!"' do
       it "returns the projects using another variant of the same type as well as those on other types" do
         expect(filter("!", values).apply_to(Project))

@@ -3,73 +3,78 @@ fa:
   activerecord:
     attributes:
       webhooks/log:
-        event_name: Event name
-        response_body: Response
-        response_code: Response code
-        url: Payload URL
+        event_name: نام رویداد
+        response_body: پاسخ
+        response_code: کد پاسخ
+        url: URL محموله
       webhooks/webhook:
-        enabled: Enabled
-        events: Events
-        projects: Enabled projects
-        secret: Signature secret
-        url: Payload URL
+        enabled: فعال
+        events: رویدادها
+        projects: پروژه‌های فعال
+        secret: رمز امضا
+        url: URL محموله
     models:
-      webhooks/outgoing_webhook: Outgoing webhook
+      webhooks/log:
+        one: گزارش Webhook
+        other: گزارش‌های Webhook
+      webhooks/webhook:
+        one: Webhook
+        other: Webhookها
   plugin_openproject_webhooks:
     description: یک API پلاگین برای پشتیبانی از وب هوک های OpenProject برای ادغام بهتر شخص ثالث ارائه می دهد.
     name: وب‌هوک اپن‌پروژه
   webhooks:
     outgoing:
       deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
-        time: Delivery time
-        title: Recent deliveries
+        no_results_table: در روزهای گذشته هیچ ارسالی برای این Webhook انجام نشده است.
+        time: زمان ارسال
+        title: ارسال‌های اخیر
       events:
-        comment: نظر
-        created: ایجاد شد
-        internal_comment: Internal comment
-        updated: Updated
-      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+        comment: دیدگاه
+        created: ایجادشده
+        internal_comment: دیدگاه داخلی
+        updated: به‌روزرسانی‌شده
+      explanation_html: 'با وقوع رویدادی مانند ایجاد یک بسته کاری یا به‌روزرسانی یک پروژه، OpenProject یک درخواست POST به نقاط پایانی وب پیکربندی‌شده ارسال می‌کند. در بسیاری از موارد، رویداد پس از سپری‌شدن [دوره تجمیع پیکربندی‌شده](aggregation_path) ارسال می‌شود.
 
         '
       form:
-        apiv3_doc_url: For more information, visit the API documentation
+        apiv3_doc_url: برای اطلاعات بیشتر، مستندات API را ببینید
         description:
-          placeholder: Optional description for the webhook.
+          placeholder: توضیح اختیاری برای Webhook.
         enabled:
-          description: 'When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
+          description: 'وقتی این گزینه فعال باشد، Webhook با رویدادهای انتخاب‌شده اجرا می‌شود. برای غیرفعال‌کردن Webhook علامت را بردارید.
 
             '
         events:
-          title: Enabled events
-        introduction: 'Send a POST request to the payload URL below for any event in the project you''re subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
+          title: رویدادهای فعال
+        introduction: 'برای هر رویداد در پروژه‌ای که مشترک آن هستید، یک درخواست POST به URL محموله زیر ارسال کنید. محموله مطابق نمایش APIv3 شیء تغییرکرده خواهد بود.
 
           '
         project_ids:
           all: همه پروژه‌ها
-          description: Select for which projects this webhook should be executed for.
-          selected: Selected projects only
-          title: Enabled projects
+          description: انتخاب کنید این Webhook برای کدام پروژه‌ها اجرا شود.
+          selected: فقط پروژه‌های انتخاب‌شده
+          title: پروژه‌های فعال
         secret:
-          description: 'If set, this secret value is used by OpenProject to sign the webhook payload.
+          description: 'اگر تنظیم شود، OpenProject از این مقدار محرمانه برای امضای محموله Webhook استفاده می‌کند.
 
             '
         selected_project_ids:
-          title: Selected projects
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
+          title: پروژه‌های انتخاب‌شده
+      label_add_new: افزودن Webhook جدید
+      label_edit: ویرایش Webhook
       label_x_events:
-        one: 1 event
-        other: "%{count} events"
-        zero: No events
-      no_results_table: No webhooks have been defined yet.
+        one: ۱ رویداد
+        other: "%{count} رویداد"
+        zero: بدون رویداد
+      no_results_table: هنوز Webhookی تعریف نشده است.
       status:
-        disabled: Webhook is disabled
-        disabled_text: Click the edit button to activate the webhook.
-        enabled: Webhook is enabled
-        enabled_text: The webhook will emit payloads for the defined events below.
-    plural: Webhooks
+        disabled: Webhook غیرفعال است
+        disabled_text: برای فعال‌کردن Webhook روی دکمه ویرایش کلیک کنید.
+        enabled: Webhook فعال است
+        enabled_text: Webhook برای رویدادهای تعریف‌شده زیر محموله ارسال خواهد کرد.
+    plural: Webhookها
     resources:
       time_entry:
-        name: Time entry
+        name: ورودی زمان
     singular: Webhook

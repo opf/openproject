@@ -1,0 +1,105 @@
+---
+label: Implementation overview
+---
+
+Server-rendered lists become sortable through the `sortable-lists` Stimulus
+controller suite. A drag or a move menu action sends one request describing
+where the row landed; the server persists the order and streams the list
+back. The same suite drives a single admin list, the Backlogs board and the
+nested Project Attributes settings.
+
+This page documents the markup and HTTP contract for wiring the controllers
+by hand. The **Design guidance** tab covers when drag and drop is appropriate
+and what users expect from it.
+
+## Before you wire anything
+
+**Prefer the component API where it exists.** `BorderBoxListComponent` is
+gaining `sortable_list:` / `sortable_item:` options that emit this contract
+for you ([DREAM-805](https://community.openproject.org/wp/DREAM-805)). Once
+those land they cover a single list and sibling lists of rows the server can
+reorder. Wire by hand only for what they do not reach: several item types
+under one root, per-type move endpoints, non-`BorderBoxList` markup such as
+table rows or cards, or optimistic placement.
+
+**Do not use `generic-drag-and-drop`.** The Dragula-based controller is
+deprecated and closed to new consumers. The API reference tab has a migration
+table for its remaining call sites.
+
+## Anatomy
+
+Four controllers divide the work and find each other through Stimulus
+outlets, never by walking the DOM:
+
+| Controller | Placed on | Owns |
+| --- | --- | --- |
+| `sortable-lists` | one wrapper per page region | the move URL, the request, rollback on failure, the outlet selectors for the three children |
+| `sortable-lists--list` | each list | the list's type, its id, which item type it accepts, where a drop on empty space lands |
+| `sortable-lists--item` | each row that can move | the row's id, type and accessible label; the drag handle and preview; the move menu actions |
+| `sortable-lists--scrollable` | whatever element scrolls | auto-scrolling while a drag hovers its edge |
+
+### A single list
+
+<img src="<%= image_path("lookbook/sortable_lists_a.png") %>" alt="One root, one list, three rows; the root reaches the list and each row through outlets" width="460" style="max-width: 100%">
+
+The minimum topology. Three controllers; the root reaches the other two
+through outlets, never by traversing the DOM.
+
+### Sibling lists in scrolling columns
+
+<img src="<%= image_path("lookbook/sortable_lists_b.png") %>" alt="Two scroll columns under one root, each holding lists of the same type; the scrollable sits between root and lists" width="636" style="max-width: 100%">
+
+Two scrolling columns, each holding several lists of one type. The
+scrollables sit inside the root and are reached by outlet like every other
+child; the root still addresses every item directly, however deep it sits.
+
+### How the root reaches its children
+
+<img src="<%= image_path("lookbook/sortable_lists_c.png") %>" alt="The root's three outlet selectors resolving to the list, item and scrollable controllers" width="760" style="max-width: 100%">
+
+Nesting is DOM structure; this is how the controllers address each other.
+The root declares one outlet per child type, so it holds a live collection
+of each with no `closest()` and no `querySelector` walking. The selectors
+are ordinary descendant selectors scoped to the root's own wrapper id, so
+two roots on one page cannot capture each other's children:
+
+```html
+<div id="tasks"
+     data-controller="sortable-lists"
+     data-sortable-lists-move-url-template-value="<%%= move_url_template %>"
+     data-sortable-lists-sortable-lists--list-outlet="#tasks [data-controller~='sortable-lists--list']"
+     data-sortable-lists-sortable-lists--item-outlet="#tasks [data-controller~='sortable-lists--item']">
+```
+
+Because the selectors match at any depth, one root holds every list and
+every item beneath it in one flat collection. A row's owning list is the
+innermost list element that contains it. That single rule is what lets one
+root serve nested lists as well as flat ones.
+
+### Vocabulary
+
+* **Sortable list, sortable item, sortable item type**: a list whose order the
+  server persists, a row that takes part in that order, and the category a
+  list accepts. A row is an item once it carries
+  `data-sortable-lists--item-id-value`; that is what counts it and anchors
+  its neighbors' drops. The `sortable-lists--item` controller on it is what
+  makes it draggable and gives it a move menu, and `confined` keeps a
+  draggable item in its own list.
+* **Drag source**: the original row while it is being dragged. **Drag
+  preview**: the copy that follows the pointer.
+* **Drop indicator**: the line marking where the row will land, drawn without
+  reserving space. **Drop container**: the list-level outline shown while a
+  compatible row hovers a list (`data-drop-container="active"`).
+* **Reorder** happens within one list; a **move** changes list. In terms of
+  the backend request they are identical.
+
+## Choosing a scenario
+
+* **One list**: rows reorder within a single list, such as admin enumerations
+  or text transform actions.
+* **Sibling lists**: several lists of the same kind, with rows moving between
+  them, as in Backlogs.
+* **Nested lists**: rows that are themselves lists, such as Project Attributes
+  sections and their custom fields.
+* **API reference**: every attribute, the backend request, the server half, the
+  Angular counterpart, migration.

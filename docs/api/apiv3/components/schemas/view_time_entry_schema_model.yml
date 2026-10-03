@@ -53,6 +53,7 @@ example:
     hasDefault: false
     writable: true
     location: _links
+    deprecated: true
     _links: {}
   project:
     type: Project

@@ -32,6 +32,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpGroupToggleDropdown]',
   standalone: false,
 })

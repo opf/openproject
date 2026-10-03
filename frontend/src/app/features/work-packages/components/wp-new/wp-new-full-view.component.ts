@@ -30,6 +30,7 @@ import { WorkPackageCreateComponent } from 'core-app/features/work-packages/comp
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-new-full-view',
   host: { class: 'work-packages-page--ui-view' },
   templateUrl: './wp-new-full-view.html',
@@ -37,8 +38,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   standalone: false,
 })
 export class WorkPackageNewFullViewComponent extends WorkPackageCreateComponent {
-  public successState = (this.$state?.current?.data?.successState as string) || '';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {

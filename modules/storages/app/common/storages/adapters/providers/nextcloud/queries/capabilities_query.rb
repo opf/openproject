@@ -54,8 +54,7 @@ module Storages
 
               case response
               in { status: 200..299 }
-                json = response.json(symbolize_keys: true)
-                parse_capabilities(json)
+                parse_json(response, error).bind { parse_capabilities(it) }
               in { status: 404 }
                 Failure(error.with(code: :not_found))
               else

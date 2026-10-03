@@ -34,5 +34,9 @@ FactoryBot.define do
     project
     principal factory: :user
     public { false }
+
+    trait :global do
+      project { nil }
+    end
   end
 end

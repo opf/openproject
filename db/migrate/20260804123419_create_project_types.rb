@@ -30,6 +30,9 @@
 
 class CreateProjectTypes < ActiveRecord::Migration[8.1]
   def up
+    # Old installations of OpenProject used ProjectType
+    drop_table :project_types, if_exists: true
+
     create_table :project_types do |t|
       t.references :project, null: false, foreign_key: { on_delete: :cascade }, index: false
       t.references :type, null: false, foreign_key: { to_table: :types, on_delete: :cascade }

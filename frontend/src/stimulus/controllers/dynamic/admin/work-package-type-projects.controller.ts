@@ -34,67 +34,45 @@ export default class WorkPackageTypeProjectsController extends Controller {
     'treeView',
   ];
 
-  static values = {
-    initiallySelectedProjects: String,
-  };
-
-  declare initiallySelectedProjectsValue:string;
-
   declare readonly treeViewTarget:HTMLElement;
+
+  declare readonly hasTreeViewTarget:boolean;
 
   declare readonly selectedProjectsTarget:HTMLInputElement;
 
+  declare readonly hasSelectedProjectsTarget:boolean;
+
+  private observer:MutationObserver;
+
   connect():void {
-    this.addProjectIds(this.initiallySelectedProjectsValue.split(','));
+    if (!this.hasTreeViewTarget || !this.hasSelectedProjectsTarget) {
+      return;
+    }
+
+    // Primer stops the propagation of clicks on sub tree nodes, so listening for clicks would
+    // miss every parent project.
+    this.observer = new MutationObserver(() => this.updateSelectedProjects());
+    this.observer.observe(this.treeViewTarget, {
+      childList: true,
+      subtree: true,
+      attributeFilter: ['aria-checked'],
+    });
+
+    this.updateSelectedProjects();
   }
 
-  updateSelectedProjects(ev:PointerEvent):void {
-    const target = ev.target;
-    if (!this.isHTMLElement(target)) {
-      return;
-    }
-
-    const projectItem = target.closest('.TreeViewItemContent');
-    if (!this.isHTMLElement(projectItem)) {
-      return;
-    }
-
-    const projectId = projectItem.dataset.projectId;
-    const checked = projectItem.ariaChecked;
-
-    if (!projectId || !checked) {
-      return;
-    }
-
-    if (checked === 'false') {
-      // 'false' means it was now changed to true -> selected
-      this.addProjectIds([projectId]);
-    } else {
-      this.removeProjectIds([projectId]);
-    }
+  disconnect():void {
+    this.observer?.disconnect();
   }
 
-  private addProjectIds(ids:string[]):void {
-    if (!this.selectedProjectsTarget) {
-      return;
-    }
+  private updateSelectedProjects():void {
+    const projectIds = Array.from(this.checkedProjectItems).map((item) => item.dataset.projectId);
 
-    const currentIds = JSON.parse(this.selectedProjectsTarget.value) as string[];
-    const distinctIds = [...new Set(currentIds), ...new Set(ids)].filter((id) => id.length > 0);
-    this.selectedProjectsTarget.value = JSON.stringify(distinctIds);
+    this.selectedProjectsTarget.value = JSON.stringify(projectIds);
   }
 
-  private removeProjectIds(ids:string[]):void {
-    if (!this.selectedProjectsTarget) {
-      return;
-    }
-
-    const currentIds = JSON.parse(this.selectedProjectsTarget.value) as string[];
-    const newIds = currentIds.filter((id) => !ids.includes(id));
-    this.selectedProjectsTarget.value = JSON.stringify(newIds);
-  }
-
-  private isHTMLElement(obj:unknown):obj is HTMLElement {
-    return obj instanceof HTMLElement;
+  private get checkedProjectItems():NodeListOf<HTMLElement> {
+    return this.treeViewTarget
+      .querySelectorAll<HTMLElement>('[role="treeitem"][aria-checked="true"][data-project-id]');
   }
 }

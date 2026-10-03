@@ -364,10 +364,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_group_plural,
             parent: :users_and_permissions
 
+  menu.push :group_custom_fields,
+            { controller: "/admin/settings/group_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_group_attributes_plural,
+            after: :groups,
+            parent: :users_and_permissions
+
   menu.push :departments,
             { controller: "/admin/departments" },
             if: ->(_) { User.current.admin? },
             caption: :label_departments,
+            parent: :users_and_permissions
+
+  menu.push :members,
+            { controller: "/admin/members" },
+            if: ->(_) { User.current.admin? },
+            caption: :"admin.members.index.title",
             parent: :users_and_permissions
 
   menu.push :roles,
@@ -406,16 +419,42 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_type_plural,
             parent: :admin_work_packages
 
+  menu.push :form_configurations,
+            { controller: "/form_configurations/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_form_configuration_plural,
+            parent: :admin_work_packages
+
+  menu.push :workflows,
+            { controller: "/workflows/index", action: "index" },
+            if: ->(_) { User.current.admin? },
+            caption: :label_workflow_plural,
+            parent: :admin_work_packages
+
   menu.push :statuses,
             { controller: "/statuses" },
             if: ->(_) { User.current.admin? },
             caption: :label_status_plural,
             parent: :admin_work_packages
 
+  menu.push :work_package_custom_fields,
+            { controller: "/admin/settings/work_package_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_custom_field_plural,
+            after: :statuses,
+            parent: :admin_work_packages
+
   menu.push :versions_and_categories,
             { controller: "/admin/settings/versions_and_categories", action: :show },
             if: ->(_) { User.current.admin? },
             caption: :label_versions_and_categories,
+            parent: :admin_work_packages
+
+  menu.push :version_custom_fields,
+            { controller: "/admin/settings/version_custom_fields", action: :index },
+            if: ->(_) { User.current.admin? },
+            caption: :label_version_custom_field_plural,
+            after: :versions_and_categories,
             parent: :admin_work_packages
 
   menu.push :priorities,
@@ -479,6 +518,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "op-custom-fields",
             html: { class: "custom_fields" }
 
+  menu.push :labels,
+            { controller: "/admin/labels", action: :index },
+            after: :custom_fields,
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.work_package_labels_active? },
+            caption: :label_label_plural,
+            icon: "tag"
+
   menu.push :custom_actions,
             { controller: "/custom_actions" },
             if: ->(_) { User.current.admin? },
@@ -504,11 +550,23 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: I18n.t("menus.admin.ai"),
             icon: :sparkle
 
+  menu.push :llm_connection,
+            { controller: "/admin/llm_connections", action: :show },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.llm_connection_active? },
+            caption: I18n.t("menus.admin.llm_connection"),
+            parent: :ai
+
   menu.push :mcp_configurations,
             { controller: "/admin/mcp_configurations", action: :index },
             if: ->(_) { User.current.admin? },
             caption: I18n.t("menus.admin.mcp_configurations"),
             enterprise_feature: "mcp_server",
+            parent: :ai
+
+  menu.push :text_transform_actions,
+            { controller: "/admin/text_transform_actions", action: :index },
+            if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.ai_text_transform_actions_active? },
+            caption: :"menus.admin.text_transform_actions",
             parent: :ai
 
   menu.push :working_days_and_hours,
@@ -628,7 +686,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: "/ldap_auth_sources", action: "index" },
-            if: ->(_) { User.current.admin? && !OpenProject::Configuration.disable_password_login? },
+            if: ->(_) { User.current.admin? && Users::PasswordLogin.enabled? },
             parent: :authentication,
             caption: :label_ldap_auth_source_plural,
             html: { class: "server_authentication" }
@@ -785,11 +843,12 @@ Redmine::MenuManager.map :project_menu do |menu|
       caption: :label_work_package_plural,
       if: ->(project) {
         User.current.allowed_in_project?(:edit_project, project) ||
-          User.current.allowed_in_project?(:manage_types, project) ||
+          User.current.allowed_in_project?(%i[manage_types manage_project_variants], project) ||
           User.current.allowed_in_project?(:manage_categories, project) ||
           User.current.allowed_in_project?(:select_custom_fields, project)
       }
     },
+    work_packages_import: { caption: :"work_packages.import.menu_title" },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
     time_and_costs: {

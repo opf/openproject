@@ -1,21 +1,26 @@
 ---
 fa:
+  activerecord:
+    models:
+      job_status/status:
+        one: وضعیت کار پس‌زمینه
+        other: وضعیت‌های کارهای پس‌زمینه
   job_status_dialog:
-    click_to_download: Or [click here](download_url) to download.
-    download_starts: The download should start automatically.
-    errors: Something went wrong
+    click_to_download: یا برای دانلود [اینجا کلیک کنید](download_url).
+    download_starts: دانلود باید به‌طور خودکار شروع شود.
+    errors: مشکلی پیش آمد
     generic_messages:
-      cancelled: The job has been cancelled due to an error.
-      error: The job has failed to complete.
-      in_process: The job is currently being processed.
-      in_queue: The job has been queued and will be processed shortly.
-      not_found: This job could not be found.
-      success: The job completed successfully.
-    redirect: You are being redirected.
-    redirect_errors: Due to these errors, you will not be redirected automatically.
-    redirect_link: Please click here to continue.
-    title: Background job status
-  label_job_status_plural: Job statuses
+      cancelled: این کار به‌دلیل خطا لغو شد.
+      error: این کار کامل نشد.
+      in_process: این کار در حال پردازش است.
+      in_queue: کار در صف قرار گرفته و به‌زودی پردازش می‌شود.
+      not_found: این کار یافت نشد.
+      success: کار با موفقیت کامل شد.
+    redirect: در حال هدایت هستید.
+    redirect_errors: به‌دلیل این خطاها، به‌طور خودکار هدایت نخواهید شد.
+    redirect_link: برای ادامه اینجا کلیک کنید.
+    title: وضعیت کار پس‌زمینه
+  label_job_status_plural: وضعیت کارهای پس‌زمینه
   plugin_openproject_job_status:
-    description: Listing and status of background jobs.
-    name: OpenProject Job status
+    description: فهرست و وضعیت کارهای پس‌زمینه.
+    name: وضعیت کارهای OpenProject

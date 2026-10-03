@@ -8,7 +8,7 @@ delete:
   description: Delete the query identified by the id parameter
   parameters:
   - description: Query id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true
@@ -65,7 +65,7 @@ get:
   parameters:
     - name: id
       description: Query id
-      example: '1'
+      example: 1
       in: path
       required: true
       schema:
@@ -75,7 +75,7 @@ get:
         JSON specifying filter conditions.
         The filters provided as parameters are not applied to the query but are instead used to override the query's persisted filters.
         All filters also accepted by the work packages endpoint are accepted. If no filter is to be applied, the client should send an empty array (`[]`).
-      example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] }" }]'
+      example: '[{ "assignee": { "operator": "=", "values": ["1", "5"] } }]'
       in: query
       required: false
       schema:
@@ -83,7 +83,7 @@ get:
         type: string
     - name: offset
       description: Page number inside the queries' result collection of work packages.
-      example: '25'
+      example: 25
       in: query
       required: false
       schema:
@@ -92,19 +92,25 @@ get:
     - name: pageSize
       description: Number of elements to display per page for the queries' result collection
         of work packages.
-      example: '25'
+      example: 25
       in: query
       required: false
       schema:
         type: integer
     - name: columns
-      description: Selected columns for the table view.
-      example: "[]"
+      description: |-
+        Selected columns for the table view. Repeat the parameter for every column,
+        e.g. `columns[]=type&columns[]=priority`.
+      example:
+        - type
+        - priority
       in: query
       required: false
+      explode: true
       schema:
-        default: "['type', 'priority']"
-        type: string
+        type: array
+        items:
+          type: string
     - name: sortBy
       description: JSON specifying sort criteria. The sort criteria is applied to the
         query's result collection of work packages overriding the query's persisted
@@ -176,15 +182,21 @@ get:
         default: inline
         type: string
     - name: highlightedAttributes
-      description: Highlighted attributes mode for the table view when `highlightingMode`
-        is `inline`. When set to `[]` all highlightable attributes will be returned
-        as `highlightedAttributes`.
-      example: "[]"
+      description: |-
+        Highlighted attributes mode for the table view when `highlightingMode` is `inline`.
+        Repeat the parameter for every attribute, e.g.
+        `highlightedAttributes[]=type&highlightedAttributes[]=priority`.
+        When omitted, all highlightable attributes will be returned as `highlightedAttributes`.
+      example:
+        - type
+        - priority
       in: query
       required: false
+      explode: true
       schema:
-        default: "['type', 'priority']"
-        type: string
+        type: array
+        items:
+          type: string
     - name: showHierarchies
       description: Indicates whether the hierarchy mode should be enabled.
       example: true
@@ -232,7 +244,7 @@ patch:
     Note that it is only allowed to provide properties or links supporting the **write** operation.
   parameters:
   - description: Query id
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

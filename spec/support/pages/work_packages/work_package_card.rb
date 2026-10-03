@@ -63,15 +63,11 @@ module Pages
       end
     end
 
-    def open_details_view(primerized: false)
+    def open_details_view
       card_element.hover
       card_element.find('[data-test-selector="op-wp-single-card--details-button"]').click
 
-      if primerized
-        Pages::PrimerizedSplitWorkPackage.new work_package
-      else
-        ::Pages::SplitWorkPackage.new work_package
-      end
+      Pages::PrimerizedSplitWorkPackage.new work_package
     end
   end
 end

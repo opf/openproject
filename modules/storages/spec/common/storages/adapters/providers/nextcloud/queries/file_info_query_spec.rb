@@ -131,6 +131,13 @@ module Storages
 
               it_behaves_like "storage adapter: error response", :error
             end
+
+            context "with a non JSON response body", vcr: "nextcloud/file_info_query_xml_response" do
+              let(:file_id) { "56" }
+              let(:error_source) { described_class }
+
+              it_behaves_like "storage adapter: error response", :invalid_response
+            end
           end
         end
       end

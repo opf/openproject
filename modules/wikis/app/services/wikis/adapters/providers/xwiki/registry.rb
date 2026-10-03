@@ -48,11 +48,13 @@ module Wikis
             register(:general_information, Wikis::Admin::GeneralInfoComponent)
             register(:oauth_application, Wikis::Admin::OAuthApplicationInfoComponent)
             register(:oauth_client, Wikis::Admin::OAuthClientInfoComponent)
+            register(:redirect_uri, Wikis::Admin::RedirectUriInfoComponent)
 
             namespace("forms") do
               register(:general_information, Wikis::Admin::Forms::GeneralInfoFormComponent)
               register(:oauth_application, Wikis::Admin::Forms::OAuthApplicationFormComponent)
               register(:oauth_client, Wikis::Admin::Forms::OAuthClientFormComponent)
+              register(:redirect_uri, Wikis::Admin::Forms::RedirectUriFormComponent)
             end
           end
 
@@ -61,7 +63,7 @@ module Wikis
           end
 
           namespace("queries") do
-            register(:user, Queries::User)
+            register(:browse_pages, Queries::BrowsePages)
             register(:instance_id, Queries::InstanceId)
             register(:page_info, Queries::StablePageInfo)
             register(:page_info_for_url, Queries::PageInfoForUrl)
@@ -69,6 +71,7 @@ module Wikis
             register(:relation_page_links, Queries::RelationPageLinks)
             register(:search_pages, Queries::SearchPages)
             register(:search_wikis, Queries::SearchWikis)
+            register(:user, Queries::User)
           end
 
           namespace("validators") do

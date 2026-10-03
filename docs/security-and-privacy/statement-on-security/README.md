@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Statement on security
   priority: 600
 description: Statement of data security in OpenProject
-keywords: GDPR, data security, security, OpenProject security, security alerts, single sign-on, password security, mailing list, vulnerability, responsible disclosure, bug bounty
+keywords: GDPR, data security, security, OpenProject security, security alerts, single sign-on, password security, mailing list, vulnerability, responsible disclosure, bug bounty, supply chain security, SBOM, VEX, image signing, cosign, attestation
 ---
 
 # Statement on security
@@ -148,6 +148,16 @@ Because OpenProject is open source, any fix committed to our public repository i
 ## Bug bounty program
 
 Please note that OpenProject does not currently offer its own bug bounty program. For any security vulnerability you responsibly disclose to us, whether through another bug bounty program or through our website, we will do our best to give you appropriate credit. We will gladly reference your work, name, and website on every publication we make related to the security update.
+
+## Software supply chain security
+
+OpenProject secures the software it delivers, not only the source code it is built from. Every container image published to Docker Hub is a signed, immutable artifact whose origin and contents can be verified before deployment.
+
+- **Signed images and attestations**: images are signed with [Sigstore cosign](https://github.com/sigstore/cosign) using keyless (OIDC) signing. Each image carries signed attestations describing its build provenance (in-toto release attestation), a Software Bill of Materials (SBOM, CycloneDX 1.6) listing every component, and a Vulnerability Exploitability eXchange (VEX) document, published in both CycloneDX 1.6 and OpenVEX 0.2.0.
+- **Continuous vulnerability scanning**: published images are scanned automatically with [Docker Scout](https://www.docker.com/products/docker-scout/), including a daily re-scan of the development and release-candidate images against the latest vulnerability data, so newly disclosed issues are detected quickly. The scan applies the VEX triage, so results reflect the vulnerabilities that actually affect OpenProject. Unresolved critical and high findings are reported to the security team and handled through the process described above.
+- **Transparent exception documentation**: the exploitability assessment for each known vulnerability is published in the VEX documents, so operators and auditors can see why a given CVE is or is not considered exploitable in OpenProject.
+
+Operators can verify the signatures, read the SBOM, and reproduce the scan by following [Verifying image integrity and provenance](../../installation-and-operations/installation/docker/#verifying-image-integrity-and-provenance). The build-pipeline details are described in the [secure coding guidelines](../../development/concepts/secure-coding/#packaging-and-containerization).
 
 ## OpenProject security features
 

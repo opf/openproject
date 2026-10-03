@@ -38,55 +38,37 @@ projects:
         author: :openproject_admin
     meeting_agenda_items:
       - t_title: Good news
-        notes: "What went well this week?"
+        t_notes: "What went well this week?"
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :openproject_admin
-        duration: 5
-      - t_title: Updates from development team
-        notes: "News and focused topics for the upcoming week."
+        duration: 10
+      - t_title: Team updates
+        t_notes: "News and focused topics for the upcoming week."
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :user__wanda_web
-        duration: 5
-      - t_title: Updates from product team
-        notes: "News and focused topics for the upcoming week."
-        meeting: :weekly_meeting_template
-        author: :openproject_admin
-        presenter: :user__evan_events
-        duration: 5
-      - t_title: Updates from marketing team
-        notes: "News and focused topics for the upcoming week."
-        meeting: :weekly_meeting_template
-        author: :openproject_admin
-        presenter: :user__marko_marketing
-        duration: 5
+        duration: 10
       - work_package: :organize_open_source_conference
-        notes: "**Today's topic**: Organizing the open-source conference."
+        t_notes: "**Today's topic**: Organizing the open-source conference."
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :user__evan_events
-        duration: 5
-      - t_title: Updates from sales team
-        notes: "News and focused topics for the upcoming week."
-        meeting: :weekly_meeting_template
-        author: :openproject_admin
-        presenter: :user__fritz_finance
         duration: 5
       - t_title: Review of quarterly goals
-        notes: "Assessing the status and progress of the defined quarterly goals."
+        t_notes: "Assessing the status and progress of the defined quarterly goals."
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :user__fritz_finance
-        duration: 5
+        duration: 10
       - t_title: Core values feedback
-        notes: "Highlight employees who have lived the core values this week."
+        t_notes: "Highlight employees who have lived the core values this week."
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :openproject_admin
         duration: 5
       - t_title: General topics
-        notes: "Solving or discussing topics together."
+        t_notes: "Solving or discussing topics together."
         meeting: :weekly_meeting_template
         author: :openproject_admin
         presenter: :openproject_admin

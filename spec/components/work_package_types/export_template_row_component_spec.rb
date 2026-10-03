@@ -33,9 +33,13 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
-  let(:template) { Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true) }
+  let(:template) do
+    Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true, settings_component: nil)
+  end
 
   context "when readonly" do
     it "renders the toggle as a disabled, non-interactive switch", :aggregate_failures do
@@ -44,6 +48,13 @@ RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
       expect(page).to have_css("[data-test-selector='toggle-pdf-export-template-row-1']")
       expect(page).to have_css(".ToggleSwitch--disabled")
       expect(page).to have_no_css("[data-turbo-method]")
+    end
+
+    it "renders no drag handle or move menu", :aggregate_failures do
+      render_inline(described_class.new(variant:, template:, readonly: true))
+
+      expect(page).to have_no_css(".DragHandle")
+      expect(page).to have_no_css("action-menu")
     end
   end
 
@@ -72,6 +83,17 @@ RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
           template: template.label
         ),
         aria: { pressed: template.enabled }
+      )
+    end
+
+    it "renders a drag handle wired as the sortable-lists item's handle" do
+      expect(rendered_component).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']")
+    end
+
+    it "renders a move menu with all four directional actions", :aggregate_failures do
+      expect(rendered_component).to have_button(accessible_name: I18n.t(:button_actions))
+      expect(rendered_component).to have_css(
+        "action-menu [data-sortable-lists--item-target~='moveItem']", count: 4
       )
     end
   end

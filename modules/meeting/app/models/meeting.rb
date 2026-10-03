@@ -116,12 +116,13 @@ class Meeting < ApplicationRecord
 
   acts_as_searchable columns: [
                        "#{table_name}.title",
+                       "#{MeetingSection.table_name}.title",
                        "#{MeetingAgendaItem.table_name}.title",
                        "#{MeetingAgendaItem.table_name}.notes",
                        "#{MeetingOutcome.table_name}.notes"
                      ],
-                     include: [:project, { agenda_items: :outcomes }],
-                     references: %i[agenda_items outcomes],
+                     include: [:project, :sections, { agenda_items: :outcomes }],
+                     references: %i[sections agenda_items outcomes],
                      date_column: "#{table_name}.created_at"
 
   include Meeting::Journalized
@@ -238,6 +239,12 @@ class Meeting < ApplicationRecord
 
   def onetime_template?
     template? && recurring_meeting_id.nil?
+  end
+
+  # The series event in the ICS renders the template: its location, its duration and its attendees.
+  # A change to any of them is a new revision of that event.
+  def bump_series_ical_sequence!
+    recurring_meeting.bump_ical_sequence! if series_template?
   end
 
   # One-time meeting time zone

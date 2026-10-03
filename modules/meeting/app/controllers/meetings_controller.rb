@@ -439,7 +439,6 @@ class MeetingsController < ApplicationController
       .call({ state: "open", notify: meeting_params[:notify] == "1" })
 
     if call.success?
-      deliver_invitation_mails
       update_all_via_turbo_stream
       update_backlog_via_turbo_stream(collapsed: nil)
 
@@ -468,21 +467,6 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def deliver_invitation_mails
-    return false unless @meeting.notify?
-
-    @meeting
-      .participants
-      .invited
-      .find_each do |participant|
-      MeetingMailer.invited(
-        @meeting,
-        participant.user,
-        User.current
-      ).deliver_later
-    end
-  end
-
   def load_query = build_meeting_query
 
   def load_meetings
@@ -491,7 +475,8 @@ class MeetingsController < ApplicationController
     time_filter = @query.find_active_filter(:time)
     # We group meetings into individual groups, but only for upcoming meetings
     if time_filter&.past?
-      @meetings = show_more_pagination(@query.results, limit: params[:limit])
+      @meetings = show_more_pagination(@query.results, limit: params[:limit],
+                                                       initial_limit: SHOW_MORE_PAST_DEFAULT_LIMIT)
     else
       service = ::GroupMeetingsService.new(@query.results, limit: params[:limit])
       call = service.call

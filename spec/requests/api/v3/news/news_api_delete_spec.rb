@@ -51,7 +51,7 @@ RSpec.describe API::V3::News::NewsAPI, "delete" do
     end
 
     context "with a non-existent news" do
-      let(:path) { api_v3_paths.news 1337 }
+      let(:path) { api_v3_paths.news(not_existing_id(News)) }
 
       it_behaves_like "not found"
     end

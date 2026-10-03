@@ -43,7 +43,7 @@ RSpec.describe TypeVariant do
   describe "#attribute_groups" do
     shared_examples_for "returns default attributes" do
       it do
-        expect(variant.read_attribute(:attribute_groups)).to be_empty
+        expect(variant.form_configuration.form_groups).to be_empty
 
         attribute_groups = variant.attribute_groups.grep(Type::AttributeGroup).map do |group|
           [group.key, group.attributes]
@@ -158,61 +158,55 @@ RSpec.describe TypeVariant do
   end
 
   describe "target versions in the form configuration" do
-    context "when the multiple versions feature is inactive",
-            with_settings: { work_package_multiple_versions: false } do
-      it "offers the deprecated version in the default configuration" do
-        members = variant.default_attribute_groups.to_h
+    it "offers target_versions in the default configuration" do
+      members = variant.default_attribute_groups.to_h
 
-        expect(members[:details]).to include("version")
-        expect(members[:details]).not_to include("target_versions")
-      end
-
-      it "renders a persisted target_versions key as the deprecated version" do
-        variant[:attribute_groups] = [["details", %w[category target_versions]]]
-        variant.unset_attribute_groups_objects
-
-        details = variant.attribute_groups.detect { |group| group.key == "details" }
-
-        expect(details.attributes).to include("version")
-        expect(details.attributes).not_to include("target_versions")
-      end
+      expect(members[:details]).to include("target_versions")
+      expect(members[:details]).not_to include("version")
     end
 
-    context "when the multiple versions feature is active",
-            with_settings: { work_package_multiple_versions: true } do
-      it "offers target_versions in the default configuration" do
-        members = variant.default_attribute_groups.to_h
+    it "leaves a persisted target_versions key untouched" do
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category target_versions]]])
+      variant.unset_attribute_groups_objects
 
-        expect(members[:details]).to include("target_versions")
-        expect(members[:details]).not_to include("version")
-      end
+      details = variant.attribute_groups.detect { |group| group.key == "details" }
 
-      it "renders a persisted legacy version key as target_versions" do
-        variant[:attribute_groups] = [["details", %w[category version]]]
-        variant.unset_attribute_groups_objects
-
-        details = variant.attribute_groups.detect { |group| group.key == "details" }
-
-        expect(details.attributes).to include("target_versions")
-        expect(details.attributes).not_to include("version")
-      end
-
-      it "keeps the display name of a renamed group while normalizing it" do
-        variant[:attribute_groups] = [["details", %w[category version], "Custom Details"]]
-        variant.unset_attribute_groups_objects
-
-        details = variant.attribute_groups.detect { |group| group.key == "details" }
-
-        expect(details.attributes).to include("target_versions")
-        expect(details.display_name).to eq("Custom Details")
-      end
+      expect(details.attributes).to eq(%w[category target_versions])
     end
 
-    it "leaves query group members untouched" do
-      query_member = :"#{Type::QueryGroup::MEMBER_PREFIX}1"
-      variant[:attribute_groups] = [["Related", [query_member]]]
+    it "leaves a persisted literal version key untranslated but drops it from members" do
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category version]]])
+      variant.unset_attribute_groups_objects
 
-      expect(variant.send(:custom_attribute_groups)).to eq([["Related", [query_member]]])
+      details = variant.attribute_groups.detect { |group| group.key == "details" }
+
+      expect(details.attributes).to eq(%w[category version])
+      expect(details.members).not_to include("version")
+    end
+
+    it "reads a query group back with its query" do
+      query = create(:query)
+      variant.form_configuration.update!(attribute_groups: [["Related", [query]]])
+
+      expect(variant.send(:custom_attribute_groups).map { it.first(2) }).to eq([["Related", [query]]])
+    end
+  end
+
+  describe "observed_in_versions in the form configuration" do
+    it "is schema-addable but kept out of the default configuration" do
+      expect(variant.work_package_attributes.keys).to include("observed_in_versions")
+
+      members = variant.default_attribute_groups.to_h.values.flatten
+      expect(members).not_to include("observed_in_versions")
+    end
+
+    it "can still be added to a group manually" do
+      variant.form_configuration.update!(attribute_groups: [["details", %w[category observed_in_versions]]])
+      variant.unset_attribute_groups_objects
+
+      details = variant.attribute_groups.detect { |group| group.key == "details" }
+
+      expect(details.attributes).to include("observed_in_versions")
     end
   end
 
@@ -234,7 +228,7 @@ RSpec.describe TypeVariant do
       # Can be enabled
       variant.attribute_groups = [["foo", [cf_identifier]]]
       expect(variant.save).to be_truthy
-      expect(variant.read_attribute(:attribute_groups)).not_to be_empty
+      expect(variant.form_configuration.form_groups).not_to be_empty
     end
 
     context "with multiple CFs" do
@@ -255,7 +249,7 @@ RSpec.describe TypeVariant do
         # Can be enabled
         variant.attribute_groups = [["foo", [cf_identifier2, cf_identifier]]]
         expect(variant.save).to be_truthy
-        expect(variant.read_attribute(:attribute_groups)).not_to be_empty
+        expect(variant.form_configuration.form_groups).not_to be_empty
 
         cf_group = variant.attribute_groups[0]
         expect(cf_group.members).to eq([cf_identifier2, cf_identifier])
@@ -285,6 +279,7 @@ RSpec.describe TypeVariant do
 
       # It is removed again when resetting it
       variant.reset_attribute_groups
+      variant.save!
       expect(variant.custom_field_ids).to be_empty
 
       other_group = variant.attribute_groups.detect { |g| g.key == :other }
@@ -304,8 +299,8 @@ RSpec.describe TypeVariant do
       variant.destroy
     end
 
-    it "destroys all queries references by query groups" do
-      expect(Query.find_by(id: query.id)).to be_nil
+    it "keeps the queries of the form, which outlives the variant" do
+      expect(Query.find_by(id: query.id)).to be_present
     end
   end
 end

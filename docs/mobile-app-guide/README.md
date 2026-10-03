@@ -7,97 +7,71 @@ keywords: Mobile app guide, mobile, mobile application, iOS, android, app store,
 ---
 # Mobile app guide (Beta)
 
-We are excited to announce the **Beta Release** of the **OpenProject Mobile app** — now available in the **App Store** and **Google Play Store**. This Beta version marks the beginning of our journey to bring **OpenProject** to your mobile devices, enabling you to stay connected and productive wherever you are.
+The **OpenProject Mobile app (Beta)** is available for **iOS** and **Android**. It is designed as a **companion app** to OpenProject’s web experience, giving you mobile access to essential project workflows so you can stay connected and productive when you’re away from your desk.
 
 > [!NOTE]
-> The app is currently under active development, and core features are being continuously improved. We invite you to test the app, share feedback, and help shape the future of OpenProject Mobile.
+> The app is currently under active development. Some features are still evolving, and new capabilities will be added over time. We welcome feedback to help shape OpenProject Mobile.
 
-## Purpose and Vision
+## Purpose and vision
 
-The **OpenProject Mobile app** is designed as a **companion application** to the OpenProject web and desktop experience. It allows you to:
+The OpenProject Mobile app focuses on mobile-first workflows that complement the full OpenProject web application. With the mobile app, you can:
 
-- **Access your work packages** and projects on the go.
-- **React and respond** quickly to updates, comments, and notifications.
-- **Stay informed** about project progress, tasks, and deadlines — anytime, anywhere.
-- **Track your work and log time** directly within the app to keep your reporting up to date.
+- **Access your projects, meetings, and work packages** on the go.
+- **React and respond quickly** to updates and discussions.
+- **Stay informed** about project progress, tasks, meetings, and deadlines.
+- **Track and log time** directly in the app to keep reporting up to date.
+- Use additional mobile-friendly flows to support work in the field, for example, capturing and attaching photos.
 
-The goal is to provide **lightweight mobile access** for essential collaboration and project management tasks, perfectly complementing the full web experience of OpenProject.
+For complete functionality and administration, use the **OpenProject web application**.
 
-## Current Beta Features
+## What’s included in the current Beta
 
-In this initial Beta version, you can:
+OpenProject Mobile is organized into modules. See the module guides for details:
 
-- Log in securely with your **OpenProject credentials.**
-- View and edit your **work packages.**
-- **Comment** and **reply** to discussions.
-- View your **portfolio, program or project** details.
-- Receive **notifications** about updates and mentions.
-- Quickly **search** and **filter** work packages.
-- **Track** and **log** your work time.
+| Module | Description |
+| --- | --- |
+| [**Home Dashboard**](core-features/home-dashboard) | Your personal overview of tasks, notifications, and project updates, giving you a quick snapshot of what matters most. |
+| [**Work Packages**](core-features/work-packages) | Create, view, and edit work packages directly from the app. Work packages are organized for quick access and easy collaboration. |
+| [**Notifications**](core-features/notification-center) | Receive updates about comments, mentions, and work package changes, ensuring you never miss an important activity. |
+| [**Time Tracking**](core-features/time-tracking) | Track time spent on work packages, run timers in focus mode, and keep your reporting accurate and up to date. |
+| [**Meetings**](core-features/meetings) | Access and react to meeting agendas, series, and details directly in the app. |
+| [**Global search**](core-features/global-search) | Search across all the content available in the app from a single place. |
+| [Spaces](core-features/projects) | Browse your projects, access project-specific details, and stay on top of deadlines and activities. |
+| [**User Settings**](core-features/user-settings) | Configure your account, manage app preferences, and tailor notifications to suit your workflow. |
 
-## Mobile-Only Features
+## Mobile-first capabilities
 
-The **OpenProject Mobile App** introduces a set of features built specifically for mobile devices, designed to make project management faster, more focused, and more convenient wherever you are:
+The OpenProject Mobile app includes features designed specifically for mobile devices:
 
-- **Attach photos directly from your camera:** Capture and upload images instantly to work packages or comments — ideal for documenting on-site work, visual progress, or issues in real time.
-- **Local notifications:** Stay up to date with mentions, comments, and task updates through local notifications — even when the app isn’t open. _These notifications are not yet real-time push notifications._
-- **Create work packages fast:** Quickly add new work packages in a distraction-free interface designed for fast, mobile-friendly input.
-- **Run timers in focus mode:** Track your work time effortlessly with built-in timers that run in the background, helping you stay focused and accurate with time logs.
-- **Configure modules and dashboards:** Customize what you see by enabling only the modules and views most relevant to you — keeping your mobile workspace clean and efficient.
-- **Optimized touch interface:** Navigate with ease using gestures, adaptive layouts, and mobile-first design tailored for smaller screens.
+- **Attach photos directly from your camera:** capture and upload images to work packages or comments—useful for documenting on-site work, progress, or issues in real time.
+- **Run timers (focus mode):** track your work time with built-in timers that support accurate time logging.
+- **Configure modules and dashboards:** customize what you see by enabling only the modules and views most relevant to you.
+- **Tablet specific navigation and interface:** use an interface optimized for larger screens and tablet navigation patterns to make it easier to browse and work across the app on iPad/Android tablets.
+- **Integrated mobile app feedback flow:** send product feedback directly from within the app (via user settings), making it easy to report issues or share suggestions while you work.
+- **Switch between instances without logging out:** move between different OpenProject instances without having to fully log out and log back in each time.
+- **Touch-optimized navigation:** a mobile-first interface built for smaller screens and quick interactions.
+- **OS-level widgets:** you can place quick OS widgets on your phone’s home screen to work directly from outside the OpenProject app.
 
-These mobile-specific capabilities enhance your ability to **work efficiently, document instantly, and stay connected** — all while maintaining focus and flexibility on the go.
+These mobile-specific capabilities enhance your ability to **work efficiently, document instantly, and stay connected** — all while maintaining focus and flexibility on the go.
 
-## Coming Soon
+## What’s coming next
 
-The app is still under development, and many core features are planned for future updates, including:
+The mobile app is still evolving. The next focus areas include:
 
-- **Deep-linking (including on-premises support):** Seamlessly open specific work packages, projects, or comments directly from links in emails, chats, or browser pages — whether you’re using the cloud or an on-premises instance.
-- **Multi-device UI:** Enjoy a consistent, responsive experience across phones, tablets and macOS, with layouts optimized for each device size and orientation.
-- **Real-time push notifications:** Receive updates instantly as they happen — from mentions and comments to task status changes — ensuring you never miss important activity.
-- **Meeting agendas in the app:** Access and review meeting agendas on the go to stay prepared and aligned with your team wherever you are.
-
-These upcoming features will make the OpenProject Mobile App even more connected, collaborative, and aligned with the full OpenProject experience.
+- **Bringing more OpenProject core modules to mobile**, such as **Documents** and **Wikis**
+- **Offline capability**, to support working with limited or unreliable connectivity
+- The mobile app supports a **multi-device experience on tablets** today. Additional device support is planned, including expansion toward **desktop**.
+- Receive updates instantly with **real-time push notifications** as they happen, from mentions and comments to task status changes, ensuring you never miss important activity.
 
 ## Feedback and Involvement
 
-As a Beta user, your feedback is invaluable. If you encounter issues or have suggestions, please let us know:&nbsp;
+Your feedback helps improve OpenProject Mobile. If you encounter issues or have suggestions, you can:
 
-- Using the **flow to provide feedback** directly from the **app** in the user settings.
-![Entry point for the OpenProject mobile app flow to provide user feedback](mobile_app_feedback_flow_entrypoint.png)
-- Create a **feedback work package** directly in [OpenProject **Community** instance](https://community.openproject.org/) and assign it to _Stream Mobile App_.
+- Use the **flow to provide feedback** directly from the **app** in user settings.
+- Create a **feedback work package** directly in the [**OpenProject Community instance**](https://community.openproject.org/) and assign it to *Stream Mobile App*.
 
-Your input directly helps improve the mobile experience and ensure a stable, feature-rich public release.
-
-## Availability
-
-The **OpenProject Mobile App (Beta)** is available now for:
-
-- **iOS:** [App Store link](https://apps.apple.com/us/app/openproject/id6474431879).
-- **Android:** [Google Play link](https://play.google.com/store/apps/details?id=org.openproject.app).
-
-## Requirements
-
-To access and use the **OpenProject Mobile App (Beta)**, you’ll need the following:
-
-- **An active OpenProject account:** Either from an **OpenProject Cloud** workspace or an **OpenProject On-premises** installation with API access enabled.
-- Having a **signed certificate** (**https**, not http) on your instance to be able to log in.
-- **OpenProject version:** 17.0.0 or above
-
-> [!NOTE]
-> If you have a previous version of OpenProject you can connect your OpenProject instance by asking your administrator to enable the Built in OAuth applications flag under_ `_{BASE_URL}/admin/settings/experimental_`.
-
-- **Minimum system requirements:**
-  - **iOS 17** or later
-  - **Android 12** or later
-- **Built-in OAuth applications enabled:** Make sure that the built-in OAuth applications are **enabled in your administration settings** (`{BASE_URL}/admin/oauth/applications`). This is required for successful login from the mobile app.
-![Applications setting to enable the built-in OAuth](mobile_app_oauth_authentication.png)
-- **Network connection:** Internet access is required for syncing data with your OpenProject instance.
-
-> [!NOTE]
-> Some features, such as deep-linking and real-time push notifications, may depend on your organization’s configuration or will become available in future updates.
 
 ## Disclaimer
 
 > [!IMPORTANT]
-> This is a **Beta Release**, which means the app may contain incomplete features and occasional bugs. We recommend using it alongside the **OpenProject web application** for the full experience.
+> This is a **Beta release**. The app may include incomplete features and occasional bugs. We recommend using it alongside the **OpenProject web application** for the full experience.

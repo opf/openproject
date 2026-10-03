@@ -137,6 +137,8 @@ module WorkPackages
 
     attribute :budget
 
+    attribute :labels
+
     validates :subject,
               presence: true,
               unless: -> { model.type_variant&.replacement_pattern_defined_for?(:subject) }
@@ -401,11 +403,11 @@ module WorkPackages
     end
 
     def user_target_versions_override?
-      model.override_target_versions? && !model.system_version_override?("target")
+      model.target_versions_changed? && !model.system_version_override?("target")
     end
 
     def user_observed_in_versions_override?
-      model.override_observed_in_versions? && !model.system_version_override?("observed_in")
+      model.observed_in_versions_changed? && !model.system_version_override?("observed_in")
     end
 
     # target_versions behaves as a single value while the multiple-versions feature is disabled

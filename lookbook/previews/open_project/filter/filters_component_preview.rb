@@ -38,6 +38,13 @@ module OpenProject
                                                         initially_expanded: true))
         render_with_template(locals: { query: ProjectQuery.new })
       end
+
+      # @label Full width
+      # `full_width: true` lifts the default cap so the inputs stretch to the container.
+      # Widen the preview pane to see it diverge from the default.
+      def full_width
+        render_with_template(locals: { query: ProjectQuery.new })
+      end
     end
   end
 end

@@ -27,16 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<% html_title variant_scope_title, "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @variant.composite_name}" %>
 
 <%= render ::Types::EditPageHeaderComponent.new(type: @type, variant: @variant, tabs: types_tabs) %>
 
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_defaults_path(**@variant.path_args)
+        reload_url: edit_variant_defaults_path(variant_scope_project, @variant)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseModeBannerComponent.new(variant: @variant, aspect: TypeVariant::DEFAULTS)) %>
+  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::DEFAULTS)) %>
   <% if @variant.linked?(TypeVariant::DEFAULTS) %>
     <%= render WorkPackageTypes::DefaultsComponent.new(@variant, readonly: true) %>
   <% else %>

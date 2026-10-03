@@ -36,6 +36,7 @@ import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[op-addCardDropdown]',
   standalone: false,
 })

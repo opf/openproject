@@ -33,7 +33,6 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { StateService } from '@uirouter/core';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -49,6 +48,7 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
       <span class="button--text"> {{text.export}} </span>
     </a>
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-export-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -66,7 +66,6 @@ export class BcfExportButtonComponent extends UntilDestroyedMixin implements OnI
   readonly httpClient = inject(HttpClient);
   readonly injector = inject(Injector);
   readonly toastService = inject(ToastService);
-  readonly state = inject(StateService);
   readonly cdRef = inject(ChangeDetectorRef);
 
   public text = {

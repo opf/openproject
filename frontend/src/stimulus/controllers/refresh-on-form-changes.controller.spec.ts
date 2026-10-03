@@ -257,6 +257,28 @@ describe('Refresh on form changes controller', () => {
     expect((init.body as FormData).get('sprint[goal][text]')).toBe('Flushed just before snapshot');
   });
 
+  it('dispatches beforeSnapshot on a form target nested inside the controller element', async () => {
+    await ctx.mount(`
+      <div data-controller="refresh-on-form-changes"
+           data-refresh-on-form-changes-turbo-stream-url-value="/refresh">
+        <form data-refresh-on-form-changes-target="form">
+          <input name="sprint[name]" value="Created sprint">
+        </form>
+      </div>
+    `);
+    const controller = ctx.getController<RefreshOnFormChangesControllerType>('refresh-on-form-changes');
+    const form = ctx.container.querySelector('form')!;
+    const listener = vi.fn();
+    form.addEventListener('refresh-on-form-changes:beforeSnapshot', listener);
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(listener).toHaveBeenCalledOnce();
+    });
+    expect((listener.mock.calls[0] as [Event])[0].target).toBe(form);
+  });
+
   it('swallows abort errors but logs other request errors', async () => {
     const controller = await renderForm();
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);

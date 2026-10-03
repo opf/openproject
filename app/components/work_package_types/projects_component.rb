@@ -33,15 +33,15 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     def form_options
       {
-        url: type_projects_path(**variant.path_args),
+        url: variant_projects_path(variant),
         method: :put,
         model:,
         data: {
-          controller: "admin--work-package-type-projects",
-          "admin--work-package-type-projects-initially-selected-projects-value": enabled_project_ids.join(",")
+          controller: "admin--work-package-type-projects"
         }
       }
     end

@@ -31,13 +31,18 @@ pt-BR:
         document_type:
           one_or_more_required: Não é possível excluir o último tipo de documento
     models:
-      document: Documento
-      documents: Documentos
+      document:
+        one: Documento
+        other: Documentos
+      document_type:
+        one: Tipo de documento
+        other: Tipos de documento
   activity:
     filter:
       document: Documentos
   attributes:
     collaborative_editing_hocuspocus_url: URL do servidor Hocuspocus
+    documents: Documentos
   default_doc_category_tech: Documentação técnica
   default_doc_category_user: Documentação do usuário
   documents:
@@ -59,9 +64,9 @@ pt-BR:
           invalid_scheme: Deve usar um protocolo WebSocket (ws:// ou wss://).
           label: URL do servidor Hocuspocus
         page_header:
-          description: |-
+          description_html: |-
             Quando ativada, a colaboração em tempo real permite que vários usuários editem um documento simultaneamente.
-            Para funcionar, é necessário ter um %{hocuspocus_server_link} em funcionamento.
+            Para funcionar, é necessário um [servidor Hocuspocus](hocuspocus_server_link) em funcionamento.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Entendo que posso perder dados permanentemente
         confirmation_message: Todos os documentos existentes podem se tornar inacessíveis. Faça isso apenas se tiver certeza de que deseja desabilitar a colaboração em tempo real e o editor BlockNote nesta instância.
@@ -111,7 +116,7 @@ pt-BR:
       currently_offline: Você está offline no momento.
     label_attachment_author: Autor do anexo
     label_categories: Categorias
-    last_updated_at: Última gravação %{time}.
+    last_updated_at_html: Última gravação %{time}.
     menu:
       all: Todos os documentos
       collaboration_settings: Colaboração em tempo real

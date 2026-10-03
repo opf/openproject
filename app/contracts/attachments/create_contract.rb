@@ -47,8 +47,15 @@ module Attachments
     validate :validate_container_addable
     validate :validate_author
     validate :validate_content_type
+    validate :filesize_below_allowed_maximum, if: -> { !model.internal_container? }
 
     private
+
+    def filesize_below_allowed_maximum
+      if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
+        errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
+      end
+    end
 
     def validate_attachments_addable
       return if model.container

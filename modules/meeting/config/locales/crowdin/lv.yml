@@ -56,6 +56,8 @@ lv:
         position: Position
         presenter: Presenter
         title: Virsraksts
+      meeting_outcome:
+        kind: Kind
       meeting_participant:
         attended: Attended
         invited: Invited
@@ -99,15 +101,38 @@ lv:
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
     models:
-      meeting: One-time meeting
-      meeting_agenda: Darba kārtība
-      meeting_agenda_item: Darba kārtības punkts
-      meeting_section: Section
-      recurring_meeting: Recurring meeting
+      meeting:
+        zero: One-time meetings
+        one: One-time meeting
+        other: One-time meetings
+      meeting_agenda_item:
+        zero: Agenda items
+        one: Agenda item
+        other: Agenda items
+      meeting_outcome:
+        zero: Outcomes
+        one: Outcome
+        other: Outcomes
+      meeting_participant:
+        zero: Meeting participants
+        one: Meeting participant
+        other: Meeting participants
+      meeting_section:
+        zero: Sections
+        one: Section
+        other: Sections
+      recurring_meeting:
+        zero: Recurring meetings
+        one: Recurring meeting
+        other: Recurring meetings
+      scheduled_meeting:
+        zero: Scheduled meetings
+        one: Scheduled meeting
+        other: Scheduled meetings
       token/ical_meeting:
-        zero: iCal Meeting subscription
+        zero: iCal Meeting subscriptions
         one: iCal Meeting subscription
-        other: iCal Meeting subscription
+        other: iCal Meeting subscriptions
   activity:
     filter:
       meeting: Sanāksmes
@@ -256,7 +281,6 @@ lv:
   label_past_meetings: Iepriekšējās sanāksmes
   label_past_meetings_short: Iepriekšējās
   label_recurring_filter: Recurring filter
-  label_recurring_meeting: Recurring meeting
   label_recurring_meeting_cancel: Cancel this occurrence
   label_recurring_meeting_create: Atvērts
   label_recurring_meeting_delete: Delete occurrence

@@ -113,13 +113,15 @@ Add the project **status description** and further important information, such a
 
 ### Project timeline widget
 
-The project timeline widget under the overview tab displays a timeline chart of your **Project phases** and **Phase gates**. Hover your cursor over a phase or gate on the timeline to view the name and date(s). You can also use your cursor to expand or reduce the size of the timeline chart for a more detailed or compact view. If there are no phases and gates enabled in your project, the widget is empty.
+The project timeline widget under the overview tab displays a timeline chart of your **Project phases**, **Phase gates**, **Milestones** and **Sprints**. Hover your cursor over an item to view the name and date(s). For a more detailed or compact view, scroll to expand or reduce the size of the timeline chart. If there are no phases and gates enabled in your project, no milestones and sprints, the widget is empty. 
+
+Click **See more details** below the widget to view your project milestones in a Gantt chart and see an overview of all project sprints.
 
 ![Project timeline widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_timeline_widget.png)
 
 > [!NOTE]
 > 
-> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. In addition, the widget is visible only to users with the right permissions.
+> This widget is **read-only**, which means users cannot modify project dates by dragging and dropping phases or gates on the timeline. This also applies to milestones and sprints. In addition, the widget is visible only to users with the right permissions to view project lifecycle attributes, work packages and sprints.
 
 ### Subitems widget
 
@@ -130,6 +132,14 @@ The subitems widget lists all subitems of the respective entity:
 - Subitems of a portfolio are programs and projects
 
 The _Subitems_ widget under the _Overview_ tab allows adding subitems directly within the widget (click the **Plus** icon in the top right corner of the widget and select _Project_). That same widget under that _Dashboard_ tab lists all subitems of a project, but offers no option to add subitems directly. 
+
+> [!NOTE]
+>
+> The **Subitem** widget behaves differently depending on the page type:
+>
+> **Project homepage:** The widget is hidden when the project has no subitems.  Users with the required permissions can add subitems (subprojects) from the **More** (three dots) menu at the top of the page.
+>
+> **Portfolio or Program homepage:** The widget is always shown, even when there are no subitems.
 
 ![Subprojects widget displayed on a project home page in OpenProject](openproject_user_guide_project_overview_project_subitems_widget.png)
 

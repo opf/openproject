@@ -38,7 +38,18 @@ el:
               ifc_attachment_missing: Δεν υπάρχει συνημμένο ifc αρχείο.
               invalid_ifc_file: Το δοθέν αρχείο δεν είναι ένα έγκυρο αρχείο IFC.
     models:
-      bim/ifc_models/ifc_model: Μοντέλο IFC
+      bim/bcf/comment:
+        one: BCF comment
+        other: BCF comments
+      bim/bcf/issue:
+        one: BCF issue
+        other: BCF issues
+      bim/bcf/viewpoint:
+        one: BCF viewpoint
+        other: BCF viewpoints
+      bim/ifc_models/ifc_model:
+        one: IFC model
+        other: IFC models
   attributes:
     bcf_thumbnail: BCF snapshot
   bcf:
@@ -100,6 +111,7 @@ el:
       zero: Δεν υπάρχουν ζητήματα BCF
   bim:
     error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_file_too_large: IFC model is too large (maximum size is %{size} Bytes).
     label_bim: BIM
   export:
     format:

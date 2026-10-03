@@ -28,7 +28,7 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 ## Development Environment
 
-Take a look at the bottom under Additional resources to see how to setup your development environment.
+Take a look at the bottom under Additional resources to see how to set up your development environment.
 
 ## Highlighting Development Environment
 
@@ -42,7 +42,7 @@ Please see this separate guide for the [git branching model and core development
 
 ## Development concepts
 
-We prepared a set of documentation concepts for an introduction into various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
+We prepared a set of documentation concepts for an introduction to various backend and frontend related topics of OpenProject. Please see the [concepts main page](concepts/) for more.
 
 ## Translations
 

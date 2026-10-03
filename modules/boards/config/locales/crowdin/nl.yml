@@ -1,5 +1,10 @@
 ---
 nl:
+  activerecord:
+    models:
+      boards/grid:
+        one: Bord
+        other: Borden
   boards:
     board_type_attributes:
       assignee: Toegewezene

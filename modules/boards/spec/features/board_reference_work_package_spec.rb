@@ -77,7 +77,7 @@ RSpec.describe "Board reference work package spec",
 
     # Filter for Version
     filters.open
-    filters.add_filter_by("Version", "is (OR)", version.name)
+    filters.add_filter_by("Target versions", "is (OR)", version.name, "targetVersion")
     sleep 2
 
     # Reference an existing work package

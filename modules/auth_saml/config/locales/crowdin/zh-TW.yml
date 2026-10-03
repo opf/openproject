@@ -3,6 +3,7 @@ zh-TW:
   activerecord:
     attributes:
       saml/provider:
+        allowed_clock_drift: Allowed clock drift
         assertion_consumer_service_url: ACS(認證消費者服務) URL
         authn_requests_signed: 簽署 SAML AuthnRequests
         certificate: OpenProject 用於 SAML 請求的憑證
@@ -32,6 +33,9 @@ zh-TW:
           invalid_certificate: 不是有效的 PEM 格式證書： %{additional_message}
           invalid_private_key: 不是有效的 PEM 格式私密金鑰： %{additional_message}
           unmatched_private_key: 不屬於指定的憑證
+    models:
+      saml/provider:
+        other: SAML providers
   saml:
     delete_heading: Delete this SAML provider?
     delete_title: 刪除 SAML 提供者
@@ -41,6 +45,9 @@ zh-TW:
         '
       title: SAML 通訊協定組態參數
     instructions:
+      allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
+
+        '
       authn_requests_signed: '如果啟用，OpenProject 將簽署 SAML AuthnRequest。您必須使用以下欄位提供簽名憑證和私鑰。
 
         '

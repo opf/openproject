@@ -3,7 +3,7 @@
 get:
   parameters:
   - description: The custom option's identifier
-    example: '1'
+    example: 1
     in: path
     name: id
     required: true

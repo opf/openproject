@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi } from 'vitest';
 import { readScriptNonce, scrubScriptElements } from './csp-script-nonce';
 
 describe('readScriptNonce', () => {

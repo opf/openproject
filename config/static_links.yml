@@ -34,13 +34,15 @@ date_format_settings_documentation:
 digital_accessibility:
   href: https://www.openproject.org/de/rechtliches/erklaerung-zur-digitalen-barrierefreiheit/
   label: :label_digital_accessibility
-disable_password_login:
-  href: https://www.openproject.org/docs/installation-and-operations/configuration/#disable-password-login
+password_login:
+  href: https://www.openproject.org/docs/installation-and-operations/configuration/#password-login
 docker_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/docker/
   label: Docker installation
 documents_docs:
   href: https://www.openproject.org/docs/user-guide/documents/
+embeddings_explanation:
+  href: https://huggingface.co/blog/getting-started-with-embeddings
 enterprise_features:
   board_view:
     href: https://www.openproject.org/docs/user-guide/agile-boards/#action-boards-enterprise-add-on
@@ -105,8 +107,7 @@ manual_installation:
   href: https://www.openproject.org/docs/installation-and-operations/installation/manual/
   label: Manual installation
 multiple_versions_documentation:
-  # Placeholder until the documentation team publishes the multiple target versions page.
-  href: https://www.openproject.org/docs/system-admin-guide/
+  href: https://www.openproject.org/docs/system-admin-guide/manage-work-packages/versions-and-categories/#multiple-target-versions
 newsletter:
   href: https://www.openproject.org/newsletter
   label: homescreen.links.newsletter
@@ -148,6 +149,8 @@ release_notes_14_0_1:
 report_bug:
   href: https://www.openproject.org/docs/development/report-a-bug/
   label: :label_report_bug
+restore_cloud_backup_documentation:
+  href: https://www.openproject.org/docs/installation-and-operations/operation/restoring/#changing-the-database-schema-from-cloud-to-on-premises
 roadmap:
   href: https://www.openproject.org/roadmap/
   label: :label_development_roadmap
@@ -157,8 +160,10 @@ shortcuts:
   href: https://www.openproject.org/docs/user-guide/keyboard-shortcuts-access-keys/
   label: homescreen.links.shortcuts
 wiki_docs:
+  health_status:
+    href: https://www.openproject.org/docs/system-admin-guide/wikis/wiki-providers/health-status/
   xwiki_setup:
-    href: https://www.openproject.org/docs/system-admin-guide/integrations/
+    href: https://www.openproject.org/docs/system-admin-guide/integrations/xwiki/
 storage_docs:
   health_status:
     href: https://www.openproject.org/docs/system-admin-guide/files/external-file-storages/health-status/
@@ -246,6 +251,10 @@ user_guide:
   calendar:
     subscribe:
       href: https://www.openproject.org/docs/user-guide/calendar/#subscribe-to-a-calendar
+  work_packages:
+    import:
+      columns:
+        href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:

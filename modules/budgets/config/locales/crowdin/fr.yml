@@ -46,15 +46,23 @@ fr:
             principal:
               not_a_member_of_budget_project: n'est pas membre du projet du budget
     models:
-      budget: Budget
-      labor_budget_item: Coût de main-d'œuvre prévu
-      material_budget_item: Unité
+      budget:
+        one: Budget
+        other: Budgets
+      labor_budget_item:
+        one: Coût de main-d'œuvre prévu
+        other: Coûts de main-d'œuvre prévus
+      material_budget_item:
+        one: Unité
+        other: Unités
   activity:
     filter:
       budget: Budgets
   attributes:
     budget: Budget
   budgets:
+    labor_budget_items:
+      no_rate_at_fixed_date: Aucun taux horaire au %{date}
     widgets:
       budget_by_cost_type:
         blankslate:
@@ -62,7 +70,7 @@ fr:
           heading: Démarrer le contrôle du projet
         blankslate_zero:
           description: Ajoutez les détails de votre budget prévisionnel pour voir les données ici
-          heading: Détails du budget manquant
+          heading: Détails du budget manquants
         count_caption:
           one: Données agrégées à partir de %{count} budget
           other: Données agrégées à partir de %{count} budgets
@@ -102,7 +110,6 @@ fr:
   help_click_to_edit: Cliquez ici pour modifier.
   help_currency_format: Format des valeurs monétaires affichées. %n est remplacé par le montant, %u est remplacé par l'unité monétaire.
   help_override_rate: Entrez une valeur ici pour outrepasser les tarifs de défaut.
-  label_budget: Budget
   label_budget_available: Budget disponible
   label_budget_details: Détails du budget
   label_budget_id: 'Budget #%{id}'

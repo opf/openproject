@@ -30,9 +30,9 @@ export const onboardingTourStorageKey = 'openProject-onboardingTour';
 export type OnboardingTourNames = 'homescreen'|'workPackages'|'workPackagesFullView'|'gantt'|'final'|'boards'|'teamPlanner';
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {
-  for (let i = 0; i < list.length; i++) {
-    if (filterFunction(list[i])) {
-      return list[i];
+  for (const element of list) {
+    if (filterFunction(element)) {
+      return element;
     }
   }
 

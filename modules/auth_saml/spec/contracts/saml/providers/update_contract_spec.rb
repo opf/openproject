@@ -29,23 +29,34 @@
 #++
 
 require "spec_helper"
-require "contracts/shared/model_contract_shared_context"
+require_relative "shared_contract_examples"
 
 RSpec.describe Saml::Providers::UpdateContract do
   let(:provider) { build_stubbed(:saml_provider) }
-  let(:contract) { described_class.new provider, current_user }
 
-  include_context "ModelContract shared context"
+  include_context "as saml provider contract"
 
   context "when admin" do
     let(:current_user) { build_stubbed(:admin) }
 
-    it_behaves_like "contract is valid"
+    describe "additional_form_action_urls" do
+      let(:provider) { build_stubbed(:saml_provider, additional_form_action_urls: urls) }
+      let(:urls) { ["https://idp.example.com/login", "http://broker.example.com:8080"] }
+
+      it_behaves_like "contract is valid"
+
+      context "with an entry that is not an absolute HTTP(S) URL" do
+        let(:urls) { ["https://idp.example.com/login", "idp.example.com", "ftp://idp.example.com"] }
+
+        it_behaves_like "contract is invalid", additional_form_action_urls: :url_list_invalid
+      end
+    end
   end
 
-  context "when non-admin" do
-    let(:current_user) { build_stubbed(:user) }
+  describe "allowed_clock_drift persisted out of bounds" do
+    let(:current_user) { build_stubbed(:admin) }
+    let(:provider) { build_stubbed(:saml_provider, allowed_clock_drift: -0.5) }
 
-    it_behaves_like "contract is invalid", base: :error_unauthorized
+    it_behaves_like "contract is valid"
   end
 end

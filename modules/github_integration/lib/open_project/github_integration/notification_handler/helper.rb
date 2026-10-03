@@ -83,9 +83,7 @@ module OpenProject::GithubIntegration
         return if notes.nil?
 
         work_packages.each do |work_package|
-          ::WorkPackages::UpdateService
-            .new(user:, model: work_package)
-            .call(journal_notes: notes, send_notifications: false)
+          ::AddWorkPackageNoteService.new(user:, work_package:).call(notes, send_notifications: false)
         end
       end
 

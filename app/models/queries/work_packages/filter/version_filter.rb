@@ -30,9 +30,7 @@
 
 class Queries::WorkPackages::Filter::VersionFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
-  # Filters on `target_versions` as it is replacing
-  # the legacy `work_packages.version_id` column.
-  include ::Queries::WorkPackages::Filter::FilterOnTargetVersionsMixin
+  include ::Queries::WorkPackages::Filter::FilterOnVersionsMixin
 
   def human_name
     WorkPackage.human_attribute_name("version")
@@ -41,4 +39,14 @@ class Queries::WorkPackages::Filter::VersionFilter <
   def self.key
     :version_id
   end
+
+  def self.stored_key = :target_version_id
+
+  def available?
+    !Setting::WorkPackageMultipleVersions.active?
+  end
+
+  private
+
+  def version_kind = "target"
 end

@@ -30,6 +30,7 @@
 
 require_relative "../toasts/expectations"
 require_relative "../flash/expectations"
+require_relative "../capybara/sub_header_helpers"
 require_relative "../capybara/wait_helpers"
 
 module Pages
@@ -42,6 +43,7 @@ module Pages
     include Toasts::Expectations
     include Flash::Expectations
     include RSpec::Wait
+    include SubHeaderHelpers
     include WaitHelpers
 
     def current_page?
@@ -53,7 +55,7 @@ module Pages
 
       visit(path)
 
-      wait_for_reload
+      wait_for_reload if using_cuprite?
     end
 
     def reload!
@@ -224,14 +226,20 @@ module Pages
       # These helpers have always meant "insert before the element currently at
       # index `to`" (Dragula's insertBefore semantics), so aim at the target's
       # top quarter — closest-edge resolution then inserts above it either way.
-      target_rect = target.native.rect
       perform_native_drag(
         source: source.find(handler),
-        target_x: target_rect.x + (target_rect.width / 2),
-        target_y: target_rect.y + (target_rect.height / 4)
+        target:,
+        offset_y: -(target.native.rect.height / 4)
       )
 
       sleep 1
+    end
+
+    def send_select_all(element)
+      platform = page.evaluate_script("navigator.userAgentData?.platform || navigator.platform")
+      apple_platform = platform.match?(/mac|iphone|ipad|ipod/i)
+      element.execute_script("this.focus()")
+      element.send_keys [apple_platform ? :command : :control, "a"]
     end
 
     def path

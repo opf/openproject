@@ -1,4 +1,9 @@
 ---
 ka:
+  activerecord:
+    models:
+      grids/my_page:
+        one: My page
+        other: My pages
   my_page:
     label: ჩემი გვერდი

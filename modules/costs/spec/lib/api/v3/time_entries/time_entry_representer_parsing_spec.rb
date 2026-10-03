@@ -211,6 +211,32 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "parsing" do
       end
     end
 
+    describe "endTime" do
+      context "when tracking start and end time" do
+        before do
+          allow(TimeEntry).to receive_messages(
+            can_track_start_and_end_time?: true,
+            must_track_start_and_end_time?: false
+          )
+
+          # Different from the start_time + hours derived value (17:30), so a match would
+          # prove the sent endTime was actually ignored, not coincidentally equal.
+          hash["endTime"] = "2017-07-28T23:00:00Z"
+        end
+
+        it "does not raise and ignores the sent endTime, keeping the derived value" do
+          parsed = nil
+          expect { parsed = representer.from_hash(hash) }.not_to raise_error
+
+          # Normally set via the SetAttribute service; set manually here so end_timestamp
+          # can be computed, same as the analogous startTime spec above.
+          parsed.time_zone = "UTC"
+
+          expect(parsed.end_timestamp).to eq(DateTime.parse("2017-07-28T17:30:00Z"))
+        end
+      end
+    end
+
     describe "hours" do
       it "updates hours" do
         time_entry = representer.from_hash(hash)

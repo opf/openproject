@@ -21,6 +21,18 @@
 #++
 ---
 'no':
+  activerecord:
+    errors:
+      models:
+        cost_report:
+          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+    models:
+      cost_query:
+        one: Cost report
+        other: Cost reports
+      cost_report:
+        one: Cost report
+        other: Cost reports
   button_save_report_as: Lagre rapport som...
   comments: Kommentar
   cost_reports_title: Tid og kostnader
@@ -46,7 +58,6 @@
   label_closed: lukket
   label_columns: Kolonner
   label_cost_entry_attributes: Kostnadsegenskaper
-  label_cost_report: Kostnadsrapport
   label_cost_report_plural: Kostnadsrapporter
   label_count: Antall
   label_days_ago: for de siste dagene

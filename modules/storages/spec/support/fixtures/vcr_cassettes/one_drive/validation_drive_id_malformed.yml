@@ -66,7 +66,7 @@ http_interactions:
   recorded_at: Mon, 07 Apr 2025 13:55:35 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/not-a-drive-id/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference
+    uri: https://graph.microsoft.com/v1.0/drives/not-a-drive-id/root/children?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference&$top=1000
     body:
       encoding: US-ASCII
       string: ''

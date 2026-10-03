@@ -33,6 +33,7 @@ export interface IProjectAutocompleteItem {
   id:ID;
   href:string;
   name:string;
+  identifier?:string;
   _type?:string;
   disabled:boolean;
   disabledReason?:string;

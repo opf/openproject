@@ -217,6 +217,7 @@ module API
             as:,
             representer:,
             v3_path:,
+            uncacheable_link: true,
             skip_render: ->(*) {
               represented.public_send(:"#{name}_id").nil? ||
                 !represented.public_send(name)&.visible?(current_user)

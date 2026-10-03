@@ -1323,4 +1323,15 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
       expect(page).to have_no_css("ul [data-empty-list-item]")
     end
   end
+
+  it "forwards drag handle arguments to the handle only" do
+    rendered = render_inline(described_class.new(container: "sortable-header")) do |list|
+      list.with_header(title: "Types", show_drag_handle: true,
+                       drag_handle_arguments: { data: { sortable_lists__item_target: "handle" } })
+    end
+
+    expect(rendered).to have_css(".DragHandle[data-sortable-lists--item-target='handle']")
+    expect(rendered).to have_no_css(".Box-header[data-sortable-lists--item-target]")
+    expect(rendered).to have_no_css("[drag_handle_arguments]")
+  end
 end

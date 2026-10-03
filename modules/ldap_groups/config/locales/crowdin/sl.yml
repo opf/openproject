@@ -22,8 +22,16 @@ sl:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: Osnova filtra DN mora biti vsebovana znotraj LDAP povezave
     models:
-      ldap_groups/synchronized_filter: Sinhronizacijski filter skupine LDAP
-      ldap_groups/synchronized_group: sinhronizacija LDAP skupine
+      ldap_groups/synchronized_filter:
+        one: LDAP Group synchronization filter
+        two: LDAP Group synchronization filters
+        few: LDAP Group synchronization filters
+        other: LDAP Group synchronization filters
+      ldap_groups/synchronized_group:
+        one: Synchronized LDAP group
+        two: Synchronized LDAP groups
+        few: Synchronized LDAP groups
+        other: Synchronized LDAP groups
   ee:
     upsell:
       ldap_groups:

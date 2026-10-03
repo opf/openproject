@@ -8,7 +8,7 @@ get:
   description: Retrieves a version defined by its unique identifier.
   parameters:
     - description: Version id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -52,7 +52,7 @@ delete:
   description: Deletes the version. Entities associated to the version will no longer be assigned to it.
   parameters:
     - description: Version id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true
@@ -110,7 +110,7 @@ patch:
     set of attributes, custom fields can extend a version's attributes and are accepted by the endpoint.
   parameters:
     - description: Version id
-      example: '1'
+      example: 1
       in: path
       name: id
       required: true

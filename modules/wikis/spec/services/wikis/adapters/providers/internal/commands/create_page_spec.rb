@@ -36,11 +36,12 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Commands::CreatePage do
 
   let(:provider) { create(:internal_wiki_provider) }
   let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :internal, user:, provider:).value! }
-  let(:input_data) { Wikis::Adapters::Input::CreatePage.build(title:, parent_identifier:).value! }
+  let(:input_data) { Wikis::Adapters::Input::CreatePage.build(title:, parent_identifier:, parent_type:).value! }
   let(:user) { create(:user) }
 
   let(:title) { "A page automatically created during a create_page test" }
   let(:parent_identifier) { existing_page.id.to_s }
+  let(:parent_type) { :page }
 
   let(:existing_page) { create(:wiki_page) }
   let(:project) { existing_page.project }
@@ -104,6 +105,47 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Commands::CreatePage do
 
     it "does not create a page" do
       expect { subject }.not_to change(WikiPage, :count)
+    end
+  end
+
+  context "when a wiki is the parent" do
+    let(:parent_identifier) { existing_page.wiki.id.to_s }
+    let(:parent_type) { :wiki }
+
+    it { is_expected.to be_success }
+
+    it "creates the page as a root page of that wiki" do
+      expect { subject }.to change(WikiPage, :count).by(1)
+
+      expect(WikiPage.last.title).to eq(title)
+      expect(WikiPage.last.wiki).to eq(existing_page.wiki)
+      expect(WikiPage.last.parent).to be_nil
+    end
+
+    context "when the wiki does not exist" do
+      let(:parent_identifier) { (existing_page.wiki.id * 10).to_s }
+
+      it "returns a :not_found error" do
+        expect(result).to be_failure
+        expect(result.failure.code).to eq(:not_found)
+      end
+
+      it "does not create a page" do
+        expect { subject }.not_to change(WikiPage, :count)
+      end
+    end
+
+    context "when the wiki is not visible to the user" do
+      let(:permissions) { %i[edit_wiki_pages] }
+
+      it "returns a :not_found error" do
+        expect(result).to be_failure
+        expect(result.failure.code).to eq(:not_found)
+      end
+
+      it "does not create a page" do
+        expect { subject }.not_to change(WikiPage, :count)
+      end
     end
   end
 end

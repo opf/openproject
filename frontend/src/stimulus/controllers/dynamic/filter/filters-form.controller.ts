@@ -27,12 +27,18 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderStreamMessage } from '@hotwired/turbo';
+import {
+  renderStreamMessage,
+  visit,
+  type TurboBeforeMorphAttributeEvent,
+  type TurboBeforeMorphElementEvent,
+} from '@hotwired/turbo';
 import { debounce } from 'lodash-es';
 import {
   hideElement,
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
+import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
 interface PrimerTextFieldElement extends HTMLElement {
@@ -45,7 +51,27 @@ export interface InternalFilterValue {
   value:string[];
 }
 
+type SerializedFilter = Record<string, { operator:string; values:unknown[] }>;
+
 type FilterFunc<T> = (_value:T) => boolean;
+
+// Marks a row the user added that holds no value yet. It is not part of any request, so a
+// re-render of the form would hide it again; the morph guard keeps marked rows as they are.
+const PENDING_ATTRIBUTE = 'data-filter-pending';
+
+// Turbo's page snapshot keeps live control values, so a hidden row would otherwise still
+// carry the draft the user typed and submit it the moment the filter is added again.
+function resetControls(row:HTMLElement) {
+  row.querySelectorAll<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>('input, select, textarea').forEach((control) => {
+    if (control instanceof HTMLSelectElement) {
+      Array.from(control.options).forEach((option) => { option.selected = option.defaultSelected; });
+    } else if (control instanceof HTMLInputElement && (control.type === 'checkbox' || control.type === 'radio')) {
+      control.checked = control.defaultChecked;
+    } else {
+      control.value = control.defaultValue;
+    }
+  });
+}
 
 export default class FiltersFormController extends Controller {
   static targets = [
@@ -61,9 +87,12 @@ export default class FiltersFormController extends Controller {
     'dateRange',
     'simpleValue',
     'filtersInput',
+    'filterCount',
   ];
 
   declare readonly filterFormToggleTarget:HTMLButtonElement;
+  // The filter button has 2 counters, one is displayed and the other is for screen readers.
+  declare readonly filterCountTargets:HTMLElement[];
   declare readonly filterFormTarget:HTMLFormElement;
   declare readonly simpleFilterTargets:HTMLElement[];
   declare readonly filterTargets:HTMLElement[];
@@ -82,16 +111,23 @@ export default class FiltersFormController extends Controller {
   static values = {
     displayFilters: { type: Boolean, default: false },
     outputFormat: { type: String, default: 'params' },
-    performTurboRequests: { type: Boolean, default: false },
+    turboStreamRequest: { type: Boolean, default: false },
+    turboFrameRequest: String,
     clearButtonId: String,
     urlPathName: String,
+    currentFilters: Array,
+    resetParams: { type: Array, default: ['page'] },
   };
 
   declare displayFiltersValue:boolean;
   declare outputFormatValue:string;
-  declare performTurboRequestsValue:boolean;
+  declare turboStreamRequestValue:boolean;
+  declare readonly turboFrameRequestValue:string;
+  declare readonly hasTurboFrameRequestValue:boolean;
   declare readonly clearButtonIdValue:string;
   declare urlPathNameValue:string;
+  declare currentFiltersValue:SerializedFilter[];
+  declare resetParamsValue:string[];
   declare hasFilterFormTarget:boolean;
 
   private formLoadedResolver:(() => void)|null = () => null;
@@ -101,22 +137,30 @@ export default class FiltersFormController extends Controller {
   });
 
   private boundListener:() => void;
-  private boundClearListener:(event:MouseEvent) => void;
+  private abortController?:AbortController;
+  private sentFilters:string|null = null;
 
   initialize() {
     // Initialize runs anytime an element with a controller connected to the DOM for the first time
-    this.boundListener = debounce(this.sendForm.bind(this), 300);
-    this.boundClearListener = (event:MouseEvent) => this.clearInputWithButton(event);
+    this.boundListener = debounce(this.sendFormLive.bind(this), 300);
   }
 
   connect() {
+    this.abortController = new AbortController();
+    const { signal } = this.abortController;
+
     const clearButton = document.getElementById(this.clearButtonIdValue);
-    clearButton?.addEventListener('click', this.boundClearListener);
+    clearButton?.addEventListener('click', (event) => this.clearInputWithButton(event), { signal });
+    this.element.addEventListener('turbo:before-morph-element', this.keepPendingRows, { signal });
+    this.element.addEventListener('turbo:before-morph-attribute', this.keepPendingOptionsTaken, { signal });
+
+    // A restored page brings its markup back but not this controller's model, so a marker
+    // already in the DOM here belongs to whoever was cached.
+    this.pendingRows().forEach((row) => this.releasePendingRow(row, { hide: true }));
   }
 
   disconnect() {
-    const clearButton = document.getElementById(this.clearButtonIdValue);
-    clearButton?.removeEventListener('click', this.boundClearListener);
+    this.abortController?.abort();
   }
 
   addFilterSelectTargetConnected() {
@@ -251,7 +295,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private get liveUpdatesEnabled():boolean {
-    return this.performTurboRequestsValue || this.hasFiltersInputTarget;
+    return this.turboStreamRequestValue || this.hasTurboFrameRequestValue || this.hasFiltersInputTarget;
   }
 
   private addChangeListener(target:HTMLElement) {
@@ -283,58 +327,120 @@ export default class FiltersFormController extends Controller {
     const selectedFilter = this.findTargetByName(filterName, this.filterTargets);
     if (selectedFilter) {
       selectedFilter.removeAttribute('hidden');
+      selectedFilter.setAttribute(PENDING_ATTRIBUTE, '');
     }
-    this.addFilterSelectTarget.selectedOptions[0].disabled = true;
+    this.setFilterOptionTaken(filterName, true);
     this.addFilterSelectTarget.selectedIndex = 0;
 
     this.focusFilterValueIfPossible(selectedFilter);
 
-    if (this.liveUpdatesEnabled) {
-      this.sendForm();
-    }
+    this.sendFormLive();
   }
 
-  // Takes an Element and tries to find the next input or select child element. This should be the filter value.
-  // If found, it will be focused.
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
-    if (!element) return;
+    const filterName = element?.getAttribute('data-filter-name');
+    if (!filterName) return;
 
-    // Try different selectors for various filter styles. The order is important as some selectors match unwanted
-    // hidden fields when used too early in the chain.
-    const selectors = [
-      '.advanced-filters--filter-value ng-select input',
-      '.advanced-filters--filter-value input',
-      '.advanced-filters--filter-value select',
-    ];
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    const container = this.findTargetByName(filterName, this.filterValueContainerTargets);
+    const canFocus = (candidate:HTMLElement) => candidate.isConnected
+      && !candidate.matches(':disabled, input[type="hidden"]')
+      && !candidate.closest('[hidden], [inert]')
+      && candidate.checkVisibility({ visibilityProperty: true });
 
-    selectors.some((selector) => {
-      const target = element.querySelector<HTMLElement>(selector);
+    let target:HTMLElement|undefined;
+    if (operator && this.operatorRequiresNoValue(operator)) {
+      target = canFocus(operator) ? operator : undefined;
+    } else if (container) {
+      const controls = 'input, select, textarea, button';
+      const candidates = [
+        ...container.querySelectorAll<HTMLElement>('ng-select input'),
+        ...container.querySelectorAll<HTMLElement>('button[aria-current="true"]'),
+        ...(container.matches(controls) ? [container] : []),
+        ...container.querySelectorAll<HTMLElement>(controls),
+      ];
+      target = candidates.find(canFocus);
+    }
 
-      if (target) {
-        window.setTimeout(() => {
-          target.focus();
-
-          // We have found and focused our element, abort the iteration.
-          return true;
-        }, 250);
-      }
-
-      return false;
-    });
+    if (target) {
+      const destination = target;
+      window.setTimeout(() => {
+        if (canFocus(destination)) destination.focus();
+      }, 250);
+    }
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
     const filterToRemove = this.findTargetByName(filterName, this.filterTargets);
-    filterToRemove?.setAttribute('hidden', '');
+    if (filterToRemove) {
+      filterToRemove.setAttribute('hidden', '');
+      filterToRemove.removeAttribute(PENDING_ATTRIBUTE);
+    }
+    this.setFilterOptionTaken(filterName, false);
 
-    const selectOptions = Array.from(this.addFilterSelectTarget.options);
-    const removedFilterOption = selectOptions.find((option) => option.value === filterName);
-    removedFilterOption?.removeAttribute('disabled');
+    this.sendFormLive();
+  }
 
-    if (this.liveUpdatesEnabled) {
-      this.sendForm();
+  private setFilterOptionTaken(filterName:string, taken:boolean) {
+    const option = Array.from(this.addFilterSelectTarget.options).find((candidate) => candidate.value === filterName);
+    if (option) {
+      option.disabled = taken;
     }
   }
+
+  private pendingRows():HTMLElement[] {
+    return this.filterTargets.filter((row) => row.hasAttribute(PENDING_ATTRIBUTE));
+  }
+
+  private releaseSubmittedPendingRows() {
+    const submitted = new Set(this.parseFilters().map((filter) => filter.name));
+    this.pendingRows()
+      .filter((row) => submitted.has(row.dataset.filterName!))
+      .forEach((row) => this.releasePendingRow(row, { hide: false }));
+  }
+
+  private releasePendingRow(row:HTMLElement, { hide }:{ hide:boolean }) {
+    row.removeAttribute(PENDING_ATTRIBUTE);
+    if (hide) {
+      row.setAttribute('hidden', '');
+      this.setFilterOptionTaken(row.dataset.filterName!, false);
+      resetControls(row);
+      this.showValueForOperator(row.dataset.filterName!);
+    }
+  }
+
+  // Which picker is shown, and whether the value container is shown at all, follows the
+  // operator through attributes that a reset of control values leaves untouched.
+  private showValueForOperator(filterName:string) {
+    const operator = this.findTargetByName(filterName, this.operatorTargets);
+    if (operator) {
+      this.setValueVisibility({ target: operator, params: { filterName } });
+    }
+  }
+
+  // The server does not know a pending row, so its response would hide the row and put its
+  // operator, draft value and active picker back to defaults. The row is left out of the morph.
+  private readonly keepPendingRows = (event:TurboBeforeMorphElementEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (this.filterTargets.includes(target) && target.hasAttribute(PENDING_ATTRIBUTE)) {
+      event.preventDefault();
+    }
+  };
+
+  private readonly keepPendingOptionsTaken = (event:TurboBeforeMorphAttributeEvent) => {
+    const { attributeName } = event.detail;
+    const target = event.target as HTMLElement;
+
+    const keepsOptionTaken = attributeName === 'disabled'
+      && target instanceof HTMLOptionElement
+      && target.closest('select') === this.addFilterSelectTarget
+      && this.pendingRows().some((row) => row.dataset.filterName === target.value);
+
+    if (keepsOptionTaken) {
+      event.preventDefault();
+    }
+  };
 
   clearInputWithButton(event:MouseEvent) {
     // Primer does not trigger an input event when clearing the value of the input field unless
@@ -349,6 +455,14 @@ export default class FiltersFormController extends Controller {
       cancelable: true,
     });
     inputElement.dispatchEvent(inputEvent);
+  }
+
+  private updateFilterCounter() {
+    const filterCount = this.parseFilters().length;
+    this.filterCountTargets.forEach((counter) => {
+      counter.textContent = `${filterCount}`;
+      counter.hidden = filterCount === 0;
+    });
   }
 
   private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
@@ -385,50 +499,98 @@ export default class FiltersFormController extends Controller {
     }
   }
 
+  serializedFiltersWith(additions:InternalFilterValue[] = [], { except }:{ except?:string } = {}):string {
+    const filters = this.currentFilters().filter((filter) => filter.name !== except);
+    return this.buildFiltersParam([...filters, ...additions]);
+  }
+
+  private currentFilters():InternalFilterValue[] {
+    // Owned filters are filters that we see in this form,
+    // and those we want to update with the actual value present in the filter form
+    const ownedFilterNames = new Set(
+      [...this.simpleFilterTargets, ...this.filterTargets]
+        .map((filter) => filter.getAttribute('data-filter-name'))
+        .filter((name):name is string => name !== null),
+    );
+
+    // Unowned filter might be additional information, keys, params that we do not know in this form
+    // we will simply reflect them again so they do not change.
+    const unownedFilters = this.currentFiltersValue.flatMap((filter) => (
+      Object.entries(filter).map(([name, options]) => ({
+        name,
+        operator: options.operator,
+        value: options.values.map(String),
+      }))
+    )).filter((filter) => !ownedFilterNames.has(filter.name));
+
+    return [...unownedFilters, ...this.parseFilters()];
+  }
+
+  // Public entrypoint for the autocomplete/list filter hidden fields
   autocompleteSendForm() {
+    this.sendFormLive();
+  }
+
+  // Only for change/input listeners that stay bound regardless of whether live updates are
+  // enabled (e.g. the "add filter"/"remove filter" buttons). The plain form submit action
+  // must always call sendForm() directly.
+  private sendFormLive() {
     if (this.liveUpdatesEnabled) {
+      this.updateFilterCounter();
       this.sendForm();
     }
   }
 
-  // Serialize the current DOM filter selection in this form's output format,
-  // ignoring anything in except while adding additions.
-  serializedFiltersWith(additions:InternalFilterValue[] = [], { except }:{ except?:string } = {}):string {
-    const filters = this.parseFilters().filter((filter) => filter.name !== except);
-    return this.buildFiltersParam([...filters, ...additions]);
-  }
-
   sendForm() {
+    this.releaseSubmittedPendingRows();
+
     // When we want the filter content to be written to a hidden input, do this.
     // When we do not also want the turbo requests, we can exit early here. Otherwise the automatic redirect
     // would also be triggered. We do not want this in the case where we use the filter input in another form
     if (this.hasFiltersInputTarget) {
       this.writeFiltersToHiddenInput();
 
-      if (!this.performTurboRequestsValue) {
+      if (!this.turboStreamRequestValue) {
         return;
       }
     }
 
     const params = new URLSearchParams(window.location.search);
-    const newFilters = this.buildFiltersParam(this.parseFilters());
+    const newFilters = this.buildFiltersParam(this.currentFilters());
 
-    if (newFilters === params.get('filters')) {
+    if (newFilters === (this.sentFilters ?? params.get('filters') ?? '')) {
       // Some fields may be triggered via the input event and the change event too.
       // This early return will prevent firing request when the filter params are not changed.
       return;
     }
 
-    // Remove the page parameter when changing filters, so that pagination resets
-    params.delete('page');
-    params.set('filters', newFilters);
+    this.resetParamsValue.forEach((parameter) => params.delete(parameter));
+
+    if (newFilters) {
+      params.set('filters', newFilters);
+    } else {
+      params.delete('filters');
+    }
+
+    const pathName = this.urlPathNameValue || window.location.pathname;
+    const search = params.toString();
+    const url = `${pathName}${search ? `?${search}` : ''}`;
+    const browserUrl = `${window.location.pathname}${search ? `?${search}` : ''}${window.location.hash}`;
+
+    if (this.hasTurboFrameRequestValue) {
+      // Turbo Drive shows its own progress bar for visits, so there is no need to
+      // toggle the global loading indicator here as the other branches below do.
+      visit(url, { frame: this.turboFrameRequestValue, action: 'advance' });
+      return;
+    }
+
     const loadingIndicator = document.querySelector<HTMLElement>('#global-loading-indicator')!;
     showElement(loadingIndicator);
 
-    const pathName = this.urlPathNameValue || window.location.pathname;
-    const url = `${pathName}?${params.toString()}`;
+    if (this.turboStreamRequestValue) {
+      const previousFilters = this.sentFilters;
+      this.sentFilters = newFilters;
 
-    if (this.performTurboRequestsValue) {
       fetch(url, {
         headers: {
           Accept: 'text/vnd.turbo-stream.html',
@@ -437,9 +599,13 @@ export default class FiltersFormController extends Controller {
         .then((response:Response) => response.text())
         .then((html:string) => {
           renderStreamMessage(html);
+          if (this.sentFilters === newFilters) {
+            window.history.replaceState(window.history.state, '', browserUrl);
+          }
           hideElement(loadingIndicator);
         })
         .catch((error:Error) => {
+          this.sentFilters = previousFilters;
           console.error('Error:', error);
           hideElement(loadingIndicator);
         });
@@ -449,7 +615,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private writeFiltersToHiddenInput() {
-    this.filtersInputTarget.value = this.buildFiltersParam(this.parseFilters());
+    this.filtersInputTarget.value = this.buildFiltersParam(this.currentFilters());
   }
 
   private parseFilters():InternalFilterValue[] {
@@ -505,7 +671,7 @@ export default class FiltersFormController extends Controller {
   }
 
   private buildFilterString(filter:InternalFilterValue) {
-    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(filter.value[0])}"`;
+    const valuesString = filter.value.length > 1 ? `[${filter.value.map((v) => `"${escapeFilterValue(v)}"`).join(',')}]` : `"${escapeFilterValue(filter.value[0])}"`;
 
     return `${filter.name} ${filter.operator} ${valuesString}`;
   }
@@ -521,10 +687,6 @@ export default class FiltersFormController extends Controller {
     return filters.map((filter) => this.buildFilterString(filter)).join('&');
   }
 
-  private replaceDoubleQuotes(value:string) {
-    return value && value.length > 0 ? value.replace(/"/g, '\\"') : '';
-  }
-
   private readonly dateFilterTypes = ['datetime_past', 'date'];
 
   private parseFilterValue(valueContainer:HTMLElement, filterName:string, filterType:string, operator:string, requiresNoValue:boolean) {
@@ -534,12 +696,14 @@ export default class FiltersFormController extends Controller {
       return [checkbox.checked ? 't' : 'f'];
     }
 
-    if (valueContainer.dataset.filterAutocomplete === 'true') {
-      return (valueContainer.querySelector<HTMLInputElement>('input[name="value"]'))?.value.split(',');
-    }
-
     if (requiresNoValue) {
       return [];
+    }
+
+    if (valueContainer.dataset.filterAutocomplete === 'true') {
+      const selected = valueContainer.querySelector<HTMLInputElement>('input[name="value"]')?.value ?? '';
+      const values = selected.split(',').filter((value) => value !== '');
+      return values.length > 0 ? values : null;
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
@@ -573,10 +737,11 @@ export default class FiltersFormController extends Controller {
 
       value = [dateValue].filter((v) => v !== '');
     } else if (operator === this.betweenDatesOperator) {
-      const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value;
-      const [fromValue, toValue] = rangeValue?.split(' - ') ?? [];
+      // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
+      const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value ?? '';
+      const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
 
-      value = [fromValue, toValue];
+      value = fromValue === '' && toValue === '' ? [] : [fromValue, toValue];
     }
     if (value && value.length > 0) {
       return value;

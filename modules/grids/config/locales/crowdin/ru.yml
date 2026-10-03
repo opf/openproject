@@ -14,6 +14,17 @@ ru:
           end_before_start: конечное значение должно быть больше начального.
           outside: за пределами сетки.
           overlaps: перекрытие.
+    models:
+      grids/grid:
+        one: Сетка
+        few: Grids
+        many: Grids
+        other: Сетки
+      grids/widget:
+        one: Виджет
+        few: Widgets
+        many: Widgets
+        other: Виджеты
   grids:
     label_widget_in_grid: Виджет содержится в Сетке %{grid_name}
     widgets:

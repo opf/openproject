@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
             <tr class="custom-field-<%= custom_field.id %>">
               <td>
                 <% if current_user.admin? %>
-                <%= link_to custom_field.name, edit_custom_field_path(custom_field.id) %>
+                <%= link_to custom_field.name, edit_admin_settings_work_package_custom_field_path(custom_field) %>
                 <% else %>
                 <%= custom_field.name %>
                 <% end %>
@@ -96,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
               </td>
               <td>
                 <% if current_user.admin? %>
-                  <% variant_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_type_form_configuration_path(**variant.path_args)) } %>
+                  <% variant_links = custom_field.type_variants.map { |variant| link_to(variant.composite_name, edit_variant_form_configuration_path(variant.project, variant)) } %>
                   <%= safe_join variant_links, ", " %>
                 <% else %>
                   <%= custom_field.type_variants.map(&:composite_name).join(", ") %>

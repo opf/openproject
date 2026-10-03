@@ -11,7 +11,7 @@ OpenProject offers different APIs:
 - API v3 (OpenProject's general purpose HATEOAS API)
 - SCIM (System for Cross-domain Identity Management)
 - MCP (Model Context Protocol)
-- BCF API v2.1 api targeted towards BIM use cases
+- BCF API v2.1, targeted towards BIM use cases
 - .well-known endpoints
 
 Please note that we intend to keep this specification as accurate and stable as possible, however work on APIs is still ongoing
@@ -37,7 +37,7 @@ Download the API specification in OpenAPI format as [json](https://www.openproje
 
 ## SCIM
 
-OpenProject allows to manage users and groups using System for Cross-domain Identity Management. This is a standardized API (see [RFC 7643](https://datatracker.ietf.org/doc/html/rfc7643) and [RFC 7644](https://datatracker.ietf.org/doc/html/rfc7644)) that might thus be supported by existing identity providers.
+OpenProject allows administrators to manage users and groups using System for Cross-domain Identity Management. This is a standardized API (see [RFC 7643](https://datatracker.ietf.org/doc/html/rfc7643) and [RFC 7644](https://datatracker.ietf.org/doc/html/rfc7644)) that might thus be supported by existing identity providers.
 
 ➔ [Read more on configuration instructions](../system-admin-guide/authentication/scim/)
 

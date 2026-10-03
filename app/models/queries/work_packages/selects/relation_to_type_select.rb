@@ -36,14 +36,11 @@ class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackag
   end
 
   def caption
-    I18n.t(:"activerecord.attributes.query.relations_to_type_column",
-           type: type.name)
+    I18n.t(:"activerecord.attributes.query.relations_to_type_column", type: type.name)
   end
 
   def self.instances(context = nil)
-    if !granted_by_enterprise_token
-      []
-    elsif context
+    if context
       context.enabled_types
     else
       Type.all

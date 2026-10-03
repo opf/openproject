@@ -32,22 +32,10 @@ module WorkPackageTypes
   module Wizard
     class ProjectAttributesStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:)
         super(variant)
-      end
-
-      def call
-        render(WorkPackageTypes::ReloadableConfigurationFrameComponent.new(reload_url:)) do
-          render(WorkPackageTypes::ReuseModeBannerComponent.new(
-                   variant: model,
-                   aspect: TypeVariant::PROJECT_ATTRIBUTES
-                 )) +
-            render(WorkPackageTypes::ProjectAttributes::IndexComponent.new(
-                     variant: model,
-                     project_custom_field_sections:
-                   ))
-        end
       end
 
       private
@@ -57,7 +45,7 @@ module WorkPackageTypes
       end
 
       def reload_url
-        helpers.type_creation_wizard_path(model, step: :project_attributes)
+        variant_creation_wizard_path(helpers.variant_scope_project, model, step: :project_attributes)
       end
     end
   end

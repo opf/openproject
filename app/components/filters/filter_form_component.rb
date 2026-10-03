@@ -47,7 +47,10 @@
 # by `Filter::FilterComponent` subclasses that restrict or reorder the list).
 # To keep the default set but drop a few entries, pass `excluded_filters:` a
 # list of filter names (e.g. `%i[project_id]`); they are removed from the
-# advertised and active filters so they cannot be added in the UI.
+# advertised and active filters so they cannot be added in the UI. On top of
+# that, filters that are never meant to be user selectable are dropped
+# unconditionally — see `NEVER_ADVERTISED_FILTER_NAMES` and the filters modules
+# register via `exclude` in `Queries::Register.register`.
 #
 # By default the component does *not* attach the `filter--filters-form` Stimulus
 # controller, because in the standard layout (e.g. `Projects::IndexSubHeaderComponent`)
@@ -71,16 +74,25 @@
 # (`wrap_with_controller: true`); otherwise the host's controller wrapper
 # decides.
 #
-# `autocomplete_append_to:` forwards an `appendTo` selector (or DOM reference
-# string ng-select understands, e.g. `"#my-dialog"` or `"body"`) to every
-# autocompleter the component renders. Use this when the component is embedded
-# in a Primer dialog or another container that clips overflow, so the dropdown
-# portal renders outside that container instead of being clipped.
+# `dialog_id:` names the dialog hosting the form. Pass it when the component is
+# embedded in a Primer dialog so the overlays the filter inputs open (ng-select
+# dropdowns and flatpickr calendars) are portalled into the dialog instead of
+# being clipped by it or rendered behind it.
+#
+# The inputs are capped at a readable width by default. Pass `full_width: true`
+# where they should instead stretch to the full width of whatever contains the
+# component. Only meaningful together with `wrap_with_controller: true`; without
+# it the host's wrapper decides.
 class Filters::FilterFormComponent < ApplicationComponent
   include OpPrimer::AttributesHelper
   include Primer::FetchOrFallbackHelper
 
   OUTPUT_FORMATS = %i[params json].freeze
+
+  # Internal filters backing autocompleters and the global search. They are supported by the
+  # query but have no meaningful standalone UI. Could also be excluded using Queries::Register.excluded_filters
+  # but they are so common that it's easier to just exclude them here.
+  NEVER_ADVERTISED_FILTER_NAMES = %i[search subject_or_id typeahead].freeze
 
   def initialize(builder:,
                  query:,
@@ -89,7 +101,8 @@ class Filters::FilterFormComponent < ApplicationComponent
                  wrap_with_controller: false,
                  hidden_input_name: nil,
                  output_format: nil,
-                 autocomplete_append_to: nil,
+                 dialog_id: nil,
+                 full_width: false,
                  **wrapper_arguments)
     super()
     @builder = builder
@@ -98,11 +111,12 @@ class Filters::FilterFormComponent < ApplicationComponent
     @wrap_with_controller = wrap_with_controller
     @hidden_input_name = hidden_input_name
     @output_format = fetch_or_fallback(OUTPUT_FORMATS, output_format.to_sym) if output_format
-    @autocomplete_append_to = autocomplete_append_to
+    @dialog_id = dialog_id
     @wrapper_arguments = wrapper_arguments
     @wrapper_arguments[:tag] ||= :div
     @wrapper_arguments[:classes] = class_names(
       "op-filters-form -expanded",
+      ("op-filters-form--full-width" if full_width),
       @wrapper_arguments[:classes]
     )
     @wrapper_arguments[:data] = merge_data(
@@ -126,9 +140,13 @@ class Filters::FilterFormComponent < ApplicationComponent
   def advertised_filters(allowed_filters, excluded_filters)
     filters = allowed_filters || query.available_advanced_filters
     excluded = Array(excluded_filters).map(&:to_sym)
-    return filters if excluded.empty?
 
-    filters.reject { |filter| excluded.include?(filter.name.to_sym) }
+    filters.reject { |filter| never_advertised?(filter) || excluded.include?(filter.name.to_sym) }
+  end
+
+  def never_advertised?(filter)
+    NEVER_ADVERTISED_FILTER_NAMES.include?(filter.name.to_sym) ||
+      query.class.excluded_filters.include?(filter.class)
   end
 
   def form_list
@@ -146,7 +164,7 @@ class Filters::FilterFormComponent < ApplicationComponent
   def sub_forms
     forms = map_filter do |filter, active, additional_attributes|
       filter_form_class(filter)
-        .new(@builder, filter:, additional_attributes:, active:)
+        .new(@builder, filter:, additional_attributes:, active:, dialog_id: @dialog_id)
     end
 
     forms << Filters::Inputs::AddFilterForm.new(
@@ -167,7 +185,7 @@ class Filters::FilterFormComponent < ApplicationComponent
 
   def additional_filter_attributes(filter)
     opts = filter.autocomplete_options
-    opts = opts.merge(appendTo: @autocomplete_append_to) if @autocomplete_append_to
+    opts = opts.merge(appendTo: "##{@dialog_id}") if @dialog_id
     opts.any? ? { autocomplete_options: opts } : {}
   end
 

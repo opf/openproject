@@ -596,6 +596,58 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
+          describe "set observed_in_version_ids attribute" do
+            shared_let(:observed_in_subproject) do
+              create(:project, parent: project1, types: [type])
+            end
+            shared_let(:observed_in_version) do
+              create(:version, status: "open", sharing: "tree", project: observed_in_subproject)
+            end
+
+            describe "to a version" do
+              before do
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: [observed_in_version.id.to_s] }
+                    }
+              end
+
+              it "redirects on success" do
+                expect(response).to be_redirect
+              end
+
+              it "assigns the version as observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([observed_in_version.id])
+              end
+
+              it "does not move the work packages into the version's project" do
+                expect(work_packages.map(&:project_id).uniq)
+                  .not_to contain_exactly(observed_in_subproject.id)
+              end
+            end
+
+            describe "to none" do
+              before do
+                work_packages.each do |wp|
+                  wp.work_package_versions.create!(version_id: observed_in_version.id, kind: "observed_in")
+                end
+
+                # 'none' is a magic value that clears all observed_in_versions
+                put :update,
+                    params: {
+                      ids: work_package_ids,
+                      work_package: { observed_in_version_ids: ["none"] }
+                    }
+              end
+
+              it "clears the observed_in_versions on every selected work package" do
+                expect(work_packages.map { |wp| wp.observed_in_versions.pluck(:id) }.uniq)
+                  .to contain_exactly([])
+              end
+            end
+          end
         end
 
         describe "#done_ratio" do
@@ -820,7 +872,9 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
         send_destroy_request
         expect(WorkPackage.find_by(id: work_package1.id)).to be_present
         expect(WorkPackage.find_by(id: work_package2.id)).to be_present
-        expect(response).to redirect_to(reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id]))
+        expect(response).to redirect_to(
+          reassign_work_packages_bulk_path(ids: [work_package1.id, work_package2.id], delete_descendants: true)
+        )
       end
     end
 
@@ -873,6 +927,102 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
         expect(WorkPackage.count).to eq(0)
         expect(response).to redirect_to(project_work_packages_path(project1))
+      end
+    end
+  end
+
+  describe "the descendants deletion choice" do
+    let(:parent_wp) { create(:work_package, author: user, type:, status:, project: project1) }
+    let!(:child_wp) do
+      create(:work_package, author: user, type:, status:, project: project1, parent: parent_wp)
+    end
+
+    describe "#delete_dialog" do
+      it "offers two choices when the selection has descendants" do
+        as_logged_in_user(user) do
+          get :delete_dialog, params: { ids: [parent_wp.id] }, format: :turbo_stream
+        end
+
+        expect(response.body).to include("delete_descendants")
+        expect(response.body).to include(I18n.t("work_packages.delete_dialog.descendants_choice.self_only_label"))
+      end
+    end
+
+    describe "#confirm_delete" do
+      it "opens the confirmation dialog without deleting anything when cascading" do
+        as_logged_in_user(user) do
+          post :confirm_delete, params: { ids: [parent_wp.id], delete_descendants: true }, format: :turbo_stream
+        end
+
+        expect(response).to be_successful
+        expect(response.body).to include(WorkPackages::DeleteDescendantsDialogComponent::DIALOG_ID)
+        expect(WorkPackage).to exist(parent_wp.id)
+        expect(child_wp.reload.parent_id).to eq(parent_wp.id)
+      end
+
+      it "deletes only the roots and detaches the descendants when keeping them" do
+        as_logged_in_user(user) do
+          post :confirm_delete, params: { ids: [parent_wp.id], delete_descendants: false }
+        end
+
+        expect(WorkPackage).not_to exist(parent_wp.id)
+        expect(WorkPackage).to exist(child_wp.id)
+        expect(child_wp.reload.parent_id).to be_nil
+      end
+
+      context "when the user may see but not delete the work packages" do
+        shared_let(:view_only_project) { create(:project, types: [type]) }
+        shared_let(:view_only_role) { create(:project_role, permissions: %i[view_work_packages]) }
+        shared_let(:view_only_member) do
+          create(:member, project: view_only_project, principal: user, roles: [view_only_role])
+        end
+        shared_let(:undeletable_wp) { create(:work_package, type:, status:, project: view_only_project) }
+
+        it "denies access" do
+          post :confirm_delete, params: { ids: [undeletable_wp.id], delete_descendants: true }, format: :turbo_stream
+
+          expect(response).to have_http_status(:forbidden)
+          expect(WorkPackage).to exist(undeletable_wp.id)
+        end
+      end
+    end
+
+    describe "#destroy with the keep-descendants choice" do
+      it "detaches a deletable descendant instead of deleting it" do
+        as_logged_in_user(user) do
+          delete :destroy, params: { ids: [parent_wp.id], delete_descendants: false }
+        end
+
+        expect(WorkPackage).not_to exist(parent_wp.id)
+        expect(WorkPackage).to exist(child_wp.id)
+        expect(child_wp.reload.parent_id).to be_nil
+      end
+
+      it "carries the choice through the reassign redirect when cleanup is required" do
+        allow(WorkPackage)
+          .to receive(:cleanup_associated_before_destructing_if_required)
+          .and_return false
+
+        as_logged_in_user(user) do
+          delete :destroy, params: { ids: [parent_wp.id], to_do: "blubs", delete_descendants: false }
+        end
+
+        expect(response).to redirect_to(
+          reassign_work_packages_bulk_path(ids: [parent_wp.id], delete_descendants: false)
+        )
+      end
+    end
+
+    describe "#reassign" do
+      render_views
+
+      it "renders the form and carries the descendants choice through a hidden field" do
+        as_logged_in_user(user) do
+          get :reassign, params: { ids: [parent_wp.id], delete_descendants: "false" }
+        end
+
+        expect(response).to be_successful
+        expect(response.body).to include('name="delete_descendants"')
       end
     end
   end

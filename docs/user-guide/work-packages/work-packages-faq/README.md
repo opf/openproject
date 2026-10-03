@@ -138,16 +138,16 @@ When changing a work package type, attributes that are not part of the new type 
 
 ### I created a new work package status, why can I not choose it?
 
-Please add the new status to the workflow for all work packages you want to use it for, first. Find out [here](../../../system-admin-guide/manage-work-packages/work-package-workflows) how to do it. Please make sure to un-check the box at top ("Only display statuses that are used by this type") to be able to see your new status.
+Please add the new status to the workflow for all work packages you want to use it for, first. Find out [here](../../../system-admin-guide/manage-work-packages/work-package-types/workflows) how to do it. Please make sure to un-check the box at top ("Only display statuses that are used by this type") to be able to see your new status.
 
 ### Is it possible to adapt or rename the status list (i.e. the available work package statuses)?
 
 Yes, this is absolutely possible. To do this, you would first have to [create new statuses](../../../system-admin-guide/manage-work-packages/work-package-status/).
-In the second step you can then [assign them to workflows](../../../system-admin-guide/manage-work-packages/work-package-workflows/).
+In the second step you can then [assign them to workflows](../../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 
 ### We like for each department to have their own custom "status" with different value options in OpenProject. How do we do this?
 
-The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role. Please find the guide [here](../../../system-admin-guide/manage-work-packages/work-package-workflows/#edit-workflows).
+The status which can be selected by users (based on the workflow) is always determined based on the work package type and the role of the user. In order to use the same work package type (e.g. task) but display different status for each department, you would need to create a separate role for each department. You can then add the members of a department (ideally using a group) and assign them with the correct role. Please find the guide [here](../../../system-admin-guide/manage-work-packages/work-package-types/workflows).
 To work with different status, first create those status in _Administration ->Work packages ->Status_.
 Next, go to _Administration ->Work packages ->Workflow_ and select the combination of Type and Role for which you would like to set the allowed workflow transition.
 You can e.g. create a role “Marketing – Member” and select it as well as the type (e.g. “Task”). Make sure to uncheck the option “Only display statuses that are used by this type” and click on **Edit**. Now, you can select the correct status transitions.

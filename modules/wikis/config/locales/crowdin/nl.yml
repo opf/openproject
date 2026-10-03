@@ -28,8 +28,11 @@ nl:
         one: Inline page link
         other: Inline page links
       wikis/internal_provider:
-        one: Project wiki
-        other: Project wikis
+        one: Interne aanbieder
+        other: Interne aanbieders
+      wikis/page_link:
+        one: Page link
+        other: Page links
       wikis/provider:
         one: Wiki provider
         other: Wiki providers
@@ -44,11 +47,9 @@ nl:
       external_wiki_providers: External wiki providers
       internal_wiki_provider: Project wikis
       wikis: Wikis
-  permission_manage_wiki_page_links: Manage wiki page links
-  project_module_wiki_internal: Project wiki
-  project_module_wiki_platforms: External wiki providers
-  projects_settings_wiki:
-    title: Project wiki
+    project_settings:
+      wiki: Project wiki
+  permission_manage_wiki_page_links: Links naar wikipagina’s beheren
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -64,8 +65,6 @@ nl:
         oauth_client_form_component:
           client_id: Wiki OAuth Client ID
           client_secret: Wiki OAuth Client secret
-          redirect_uri: Redirect URI
-          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
       health_status:
         show:
           actions:
@@ -90,6 +89,10 @@ nl:
         confirm_replace_oauth_client: This action will reset the current XWiki OAuth credentials. All users will need to reauthorize against XWiki. Are you sure you want to proceed?
         label_oauth_client_id: OAuth Client ID
         replace_oauth_client: Replace XWiki OAuth application
+      redirect_uri_info_component:
+        description: The redirect URI is generated once the wiki OAuth client is configured.
+        label_uri: URI
+        show_redirect_uri: Show redirect URI
       side_panel:
         health_status_component:
           last_check: 'Last check: %{datetime}'
@@ -111,8 +114,11 @@ nl:
         name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
         name_placeholder: XWiki knowledge base
         new_provider_html: Read our documentation on [setting up an XWiki integration](docs_url) for more information.
+        successful_setup: Wiki provider configured successfully!
         oauth:
           openproject_oauth: OpenProject OAuth
+          redirect_uri: Redirect URI
+          redirect_uri_caption: Copy this value into the Redirect URI field of your XWiki OIDC client registration.
         sections:
           general_information: General information
           oauth_configuration: OAuth configuration
@@ -140,11 +146,11 @@ nl:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
+      connection_error: Er kon geen verbinding worden gemaakt met de wiki-aanbieder.
+      invalid_parent: De geselecteerde pagina is geen geldige bovenliggende pagina.
+      invalid_response: De wiki-aanbieder reageerde onverwacht.
+      missing_token: Het gebruikersaccount is nog niet gekoppeld aan de wiki-aanbieder.
+      request_failed: Er is een onverwachte fout opgetreden bij de wiki-aanbieder.
       unauthorized: An authorization error occurred.
     health_checks:
       authentication:
@@ -181,8 +187,8 @@ nl:
         one: 1 sub-page
         other: "%{count} sub-pages"
     inline_wiki_page_dialog:
-      title_add: Add existing wiki page
-      title_create: Create new wiki page
+      title_add: Bestaande wikipagina toevoegen
+      title_create: Nieuwe wiki pagina
     instructions:
       xwiki:
         integration: XWiki Administration
@@ -219,6 +225,8 @@ nl:
         caption: This enables native wiki functionality for this project. Members will be able to create and read wiki pages that are stored in OpenProject.
         enable: Enable the OpenProject wiki for this project
     provider_types:
+      internal:
+        name: OpenProject
       xwiki:
         name: XWiki
     relation_page_links_component:

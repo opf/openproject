@@ -190,11 +190,10 @@ RSpec.describe "API v3 file links resource" do
 
   describe "GET /api/v3/work_packages/:work_package_id/file_links" do
     let(:path) { api_v3_paths.file_links(work_package.id) }
+    let(:initialize_file_links) { [file_link, file_link_of_other_work_package, file_link_of_another_storage] }
 
     before do
-      file_link
-      file_link_of_other_work_package
-      file_link_of_another_storage
+      initialize_file_links
       get path
     end
 
@@ -216,6 +215,19 @@ RSpec.describe "API v3 file links resource" do
       it_behaves_like "API V3 collection response", 0, 0, "FileLink", "Collection" do
         let(:elements) { [] }
       end
+    end
+
+    context "if a collection with an offset is requested" do
+      let(:path) { "#{api_v3_paths.file_links(work_package.id)}?pageSize=2&offset=2" }
+      let(:second_file_link) { create(:file_link, creator: current_user, container: work_package, storage:) }
+      let(:third_file_link) { create(:file_link, creator: current_user, container: work_package, storage:) }
+      let(:initialize_file_links) { [file_link, second_file_link, third_file_link] }
+
+      it_behaves_like "API V3 collection response", 3, 1, "FileLink", "Collection" do
+        let(:elements) { [third_file_link] }
+      end
+
+      it { expect(response.body).to be_json_eql(2).at_path("offset") }
     end
 
     describe "with filter by storage" do
@@ -497,7 +509,7 @@ RSpec.describe "API v3 file links resource" do
     end
 
     context "if no file link with that id exists" do
-      let(:path) { api_v3_paths.file_link(1337) }
+      let(:path) { api_v3_paths.file_link(not_existing_id(Storages::FileLink)) }
 
       it_behaves_like "not found"
     end
@@ -563,7 +575,7 @@ RSpec.describe "API v3 file links resource" do
     end
 
     context "if no file link with that id exists" do
-      let(:path) { api_v3_paths.file_link(1337) }
+      let(:path) { api_v3_paths.file_link(not_existing_id(Storages::FileLink)) }
 
       it_behaves_like "not found"
     end
@@ -594,7 +606,7 @@ RSpec.describe "API v3 file links resource" do
     end
 
     context "if no storage with that id exists" do
-      let(:path) { api_v3_paths.file_link(1337) }
+      let(:path) { api_v3_paths.file_link(not_existing_id(Storages::FileLink)) }
 
       it_behaves_like "not found"
     end

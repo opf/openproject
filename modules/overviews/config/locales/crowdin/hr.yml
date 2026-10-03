@@ -1,5 +1,11 @@
 ---
 hr:
+  activerecord:
+    models:
+      grids/overview:
+        one: Overview
+        few: Overviews
+        other: Overviews
   overviews:
     label_dashboard: Dashboard
     label_home: "%{workspace_type} home"

@@ -34,11 +34,11 @@ To create a new wiki page, open the **Wiki** module in your project and click **
 The editor opens, allowing you to enter the page title and content.
 
 1. Enter a page title.
-2. Add the page content. You can format the content using the editor toolbar. For more information, see the [WYSIWYG editor](../).
-3. Add images by dragging and dropping them into the editor, pasting them from your clipboard, or using the image button in the toolbar.
-4. Optionally, select a **Parent page**.
+2. Optionally, select a **Parent page**.
+3. Add the page content. You can format the content using the editor toolbar. For more information, see the [WYSIWYG editor](../).
+4. Add images by dragging and dropping them into the editor, pasting them from your clipboard, or using the image button in the toolbar. 
 5. Optionally, enter a comment describing your changes.
-6. Click **Save**.
+6. Click **Create**.
 
 ![Create a new wiki page form in OpenProject](openproject_user_guide_create_wiki_page_form.png)
 

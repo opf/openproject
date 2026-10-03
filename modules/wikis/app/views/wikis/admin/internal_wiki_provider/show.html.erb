@@ -27,16 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), Wikis::InternalProvider.model_name.human(count: :other) %>
+<% html_title t(:label_administration), t("menus.admin.internal_wiki_provider") %>
 
 <% content_for :content_header do %>
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-    <% header.with_title { Wikis::InternalProvider.model_name.human(count: :other) } %>
+    <% header.with_title { t("menus.admin.internal_wiki_provider") } %>
     <% header.with_description { t(".description") } %>
     <% header.with_breadcrumbs([
       { href: admin_index_path, text: t(:label_administration) },
       { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
-      Wikis::InternalProvider.model_name.human(count: :other)
+      t("menus.admin.internal_wiki_provider")
     ]) %>
   <% end %>
 <% end %>

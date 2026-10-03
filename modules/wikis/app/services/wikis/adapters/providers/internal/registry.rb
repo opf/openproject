@@ -42,6 +42,7 @@ module Wikis
           end
 
           namespace("queries") do
+            register(:browse_pages, Queries::BrowsePages)
             register(:page_info, Queries::PageInfo)
             register(:page_info_for_url, Queries::PageInfoForUrl)
             register(:referencing_pages, Queries::ReferencingPages)

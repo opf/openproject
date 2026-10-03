@@ -28,9 +28,11 @@
 
 import { Injectable, inject } from '@angular/core';
 import { opGateIconData } from '@openproject/octicons-angular';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 export interface ProjectPhaseData {
   id:number;
@@ -59,6 +61,7 @@ export interface ProjectSprintData {
   endDate:string;
   status:string;
   row:number;
+  href:string;
 }
 
 export interface ProjectTimelineItem {
@@ -76,6 +79,7 @@ export interface ProjectTimelineItem {
   definitionId?:number;
   typeId?:number;
   workPackageId?:number;
+  href?:string;
   isCluster?:boolean;
   items?:ProjectTimelineItem[];
 }
@@ -83,6 +87,7 @@ export interface ProjectTimelineItem {
 export interface AccessibleProjectTimelineItem {
   id:string;
   text:string;
+  href?:string;
 }
 
 export const GROUP_GATES = 'gates';
@@ -93,6 +98,7 @@ export const GROUP_SPRINTS = 'sprints';
 @Injectable()
 export class ProjectTimelineItemBuilder {
   private readonly i18n = inject(I18nService);
+  private readonly pathHelper = inject(PathHelperService);
   private readonly timezone = inject(TimezoneService);
 
   buildData(phases:ProjectPhaseData[], milestones:ProjectMilestoneData[], sprints:ProjectSprintData[]):{items:ProjectTimelineItem[]; groups:{id:string; content:string}[]} {
@@ -129,7 +135,7 @@ export class ProjectTimelineItemBuilder {
   }
 
   buildPhaseItem(phase:ProjectPhaseData):ProjectTimelineItem {
-    const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
+    const hlClass = Highlighting.backgroundClass('project_phase_definition', phase.definitionId);
     const isOneDay = phase.startDate === phase.endDate;
     let start:Date | string = phase.startDate!;
     let end:Date | string = phase.endDate!;
@@ -155,8 +161,8 @@ export class ProjectTimelineItemBuilder {
   }
 
   buildGateItem(phase:ProjectPhaseData, position:'start'|'finish'):ProjectTimelineItem {
-    const hlClass = `__hl_background_project_phase_definition_${phase.definitionId}`;
-    const hlInlineClass = `__hl_inline_project_phase_definition_${phase.definitionId}`;
+    const hlClass = Highlighting.backgroundClass('project_phase_definition', phase.definitionId);
+    const hlInlineClass = Highlighting.foregroundClass('project_phase_definition', phase.definitionId);
     const isFinish = position === 'finish';
     const icon = octiconElement(opGateIconData, 'small', `octicon ${hlInlineClass}`);
     return {
@@ -173,7 +179,7 @@ export class ProjectTimelineItemBuilder {
   }
 
   buildMilestoneItem(milestone:ProjectMilestoneData):ProjectTimelineItem {
-    const hlClass = `__hl_background_type_${milestone.typeId}`;
+    const hlClass = Highlighting.backgroundClass('type', milestone.typeId);
     return {
       id: `milestone-${milestone.id}`,
       group: GROUP_MILESTONES,
@@ -202,19 +208,25 @@ export class ProjectTimelineItemBuilder {
       type: 'range',
       className: `op-timeline-sprint${isActive ? ' op-timeline-sprint--active' : ''}`,
       itemType: 'sprint',
+      href: sprint.href,
     };
   }
 
-  buildAccessibleItems(phases:ProjectPhaseData[]):AccessibleProjectTimelineItem[] {
-    const items:AccessibleProjectTimelineItem[] = [];
+  buildAccessibleItems(
+    phases:ProjectPhaseData[],
+    milestones:ProjectMilestoneData[],
+    sprints:ProjectSprintData[],
+  ):AccessibleProjectTimelineItem[] {
+    const items:(AccessibleProjectTimelineItem & { date:string })[] = [];
 
     for (const phase of phases) {
       if (phase.startDate && phase.endDate) {
         items.push({
           id: `phase-${phase.id}`,
+          date: phase.startDate,
           text: this.i18n.t('js.grid.widgets.project_timeline.accessible_phase', {
             name: phase.name,
-            date: this.accessiblePhaseDate(phase),
+            date: this.accessibleDate(phase.startDate, phase.endDate),
           }),
         });
       }
@@ -222,6 +234,7 @@ export class ProjectTimelineItemBuilder {
       if (phase.startGate && phase.startDate) {
         items.push({
           id: `gate-start-${phase.id}`,
+          date: phase.startDate,
           text: this.accessibleGateText(phase.startGateName ?? phase.name, phase.startDate),
         });
       }
@@ -229,19 +242,47 @@ export class ProjectTimelineItemBuilder {
       if (phase.finishGate && phase.endDate) {
         items.push({
           id: `gate-finish-${phase.id}`,
+          date: phase.endDate,
           text: this.accessibleGateText(phase.finishGateName ?? phase.name, phase.endDate),
         });
       }
     }
 
-    return items;
+    for (const milestone of milestones) {
+      items.push({
+        id: `milestone-${milestone.id}`,
+        date: milestone.date,
+        href: this.pathHelper.workPackagePath(String(milestone.id)),
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_milestone', {
+          name: milestone.subject,
+          date: this.timezone.formattedDate(milestone.date),
+        }),
+      });
+    }
+
+    for (const sprint of sprints) {
+      items.push({
+        id: `sprint-${sprint.id}`,
+        date: sprint.startDate,
+        href: sprint.href,
+        text: this.i18n.t('js.grid.widgets.project_timeline.accessible_sprint', {
+          name: sprint.name,
+          date: this.accessibleDate(sprint.startDate, sprint.endDate),
+          status: this.i18n.t<string>(`js.grid.widgets.project_timeline.sprint_status.${sprint.status}`),
+        }),
+      });
+    }
+
+    return items
+      .sort((a, b) => a.date.localeCompare(b.date))
+      .map(({ id, text, href }) => ({ id, text, ...(href ? { href } : {}) }));
   }
 
-  private accessiblePhaseDate(phase:ProjectPhaseData):string {
-    const start = this.timezone.formattedDate(phase.startDate!);
-    const end = this.timezone.formattedDate(phase.endDate!);
+  private accessibleDate(startDate:string, endDate:string):string {
+    const start = this.timezone.formattedDate(startDate);
+    const end = this.timezone.formattedDate(endDate);
 
-    if (phase.startDate === phase.endDate) {
+    if (startDate === endDate) {
       return start;
     }
 

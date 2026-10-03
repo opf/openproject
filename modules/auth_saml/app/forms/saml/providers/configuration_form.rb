@@ -48,6 +48,16 @@ module Saml
           required: true,
           input_width: :large
         )
+        f.text_area(
+          name: :additional_form_action_urls,
+          rows: 3,
+          label: Saml::Provider.human_attribute_name(:additional_form_action_urls),
+          caption: I18n.t("authentication.instructions.additional_form_action_urls"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :large,
+          value: provider.additional_form_action_urls.join("\n")
+        )
         f.text_field(
           name: :idp_slo_service_url,
           label: I18n.t("activerecord.attributes.saml/provider.idp_slo_service_url"),
@@ -76,6 +86,18 @@ module Saml
             list.option(label: format, value: format)
           end
         end
+        f.text_field(
+          name: :allowed_clock_drift,
+          type: :number,
+          min: 0,
+          max: Saml::Providers::BaseContract::MAX_ALLOWED_CLOCK_DRIFT,
+          step: "any",
+          label: I18n.t("activerecord.attributes.saml/provider.allowed_clock_drift"),
+          caption: I18n.t("saml.instructions.allowed_clock_drift"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :xsmall
+        )
         f.check_box(
           name: :limit_self_registration,
           label: I18n.t("activerecord.attributes.saml/provider.limit_self_registration"),

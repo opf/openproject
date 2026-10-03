@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Patterns
     Collection = Data.define(:patterns) do
       extend Dry::Monads[:result]
+
       private_class_method :new
 
       def self.empty

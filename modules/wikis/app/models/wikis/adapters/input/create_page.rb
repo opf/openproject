@@ -29,11 +29,13 @@
 #++
 
 module Wikis::Adapters::Input
-  CreatePage = Data.define(:title, :parent_identifier) do
+  CreatePage = Data.define(:title, :parent_identifier, :parent_type) do
     private_class_method :new
 
-    def self.build(title:, parent_identifier:, contract: CreatePageContract.new)
-      contract.call(title:, parent_identifier:).to_monad.fmap { new(**it.to_h) }
+    def self.build(title:, parent_identifier:, parent_type:, contract: CreatePageContract.new)
+      contract.call(title:, parent_identifier:, parent_type:).to_monad.fmap { new(**it.to_h) }
     end
+
+    def wiki_parent? = parent_type == :wiki
   end
 end

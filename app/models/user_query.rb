@@ -48,6 +48,7 @@ class UserQuery < PersistedQuery
     filter Queries::Users::Filters::StatusFilter
     filter Queries::Users::Filters::LoginFilter
     filter Queries::Users::Filters::BlockedFilter
+    filter Queries::Users::Filters::ConsentedAtFilter
     filter Queries::Users::Filters::CustomFieldFilter
 
     order Queries::Users::Orders::DefaultOrder
@@ -56,6 +57,11 @@ class UserQuery < PersistedQuery
     order Queries::Users::Orders::CustomFieldOrder
 
     select Queries::Users::Selects::Default
+    select Queries::Users::Selects::ConsentedAt
+    select Queries::Users::Selects::Department
+    select Queries::Users::Selects::MemberOfGroup
+    select Queries::Users::Selects::MemberOfProject
+    select Queries::Users::Selects::Status
     select Queries::Users::Selects::CustomField
   end
 end

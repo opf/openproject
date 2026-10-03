@@ -48,7 +48,62 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, key)
   end
 
+  # `allowed_values` only carries ids, not labels, so an inline `<select>` would
+  # render blank entries. Render a server-side autocompleter instead, scoped to
+  # the same candidate set `allowed_values` accepts.
+  def autocomplete_options
+    {
+      component: "opce-user-autocompleter",
+      resource: "principals",
+      url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+      searchKey: "any_name_attribute",
+      filters: autocomplete_filters,
+      additionalOptions: me_autocomplete_options,
+      model: autocomplete_model,
+      hideSelected: true,
+      defaultData: false
+    }
+  end
+
   private
+
+  def autocomplete_filters
+    filters = []
+    filters << { name: "type", operator: "=", values: autocomplete_principal_types } if autocomplete_principal_types
+    filters << { name: "member", operator: "=", values: [project.id.to_s] } if project
+    filters
+  end
+
+  # `nil` advertises every principal type, matching the API's default scope.
+  def autocomplete_principal_types
+    nil
+  end
+
+  def me_autocomplete_options
+    return [] unless User.current.logged?
+
+    [{ id: me_value_key, name: me_label }]
+  end
+
+  # Preselected values are resolved here rather than by the autocompleter, which
+  # would try to `GET /api/v3/principals/me` for the me value.
+  #
+  # `opce-user-autocompleter` identifies items by `href` and `name`, so an item
+  # has to be shaped exactly like the one the principals API returns for it.
+  # Otherwise the fetched item is not recognized as the selected one and can be
+  # picked a second time. The me value carries no `href` on either side.
+  def autocomplete_model
+    value_objects.map do |object|
+      { id: object.id.to_s, name: object.name, href: autocomplete_href(object) }.compact
+    end
+  end
+
+  def autocomplete_href(object)
+    return if object.is_a?(::Queries::Filters::MeValue)
+
+    ::API::V3::Utilities::PathHelper::ApiV3Path
+      .public_send(::API::V3::Principals::PrincipalType.for(object), object.id)
+  end
 
   def principal_loader
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)

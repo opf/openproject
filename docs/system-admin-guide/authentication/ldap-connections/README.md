@@ -11,7 +11,10 @@ keywords: ldap authentication
 > [!NOTE]
 > In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
-To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > _Administration_ and select _-> Authentication_ -> _LDAP connections_ from the menu on the left. You will see the list of all available connections already created.
+To see the list of all available LDAP (Lightweight Directory Access Protocol) authentications navigate to _Administration -> Authentication -> LDAP connections_. You will see the list of all available connections already created.
+
+> [!NOTE]
+> LDAP password authentication is subject to the [Password login policy](../login-registration-settings/#single-sign-on-sso-settings). With **Disallow for SSO users**, SSO-linked users cannot authenticate with an LDAP password unless they are included in the break-glass allowlist. With **Disallow for everyone**, password authentication is disabled except for break-glass principals and the **LDAP connections** administration menu is hidden.
 
 ## Add a new LDAP connection
 

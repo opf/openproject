@@ -1,5 +1,12 @@
 ---
 sk:
+  activerecord:
+    models:
+      boards/grid:
+        one: Board
+        few: Boards
+        many: Boards
+        other: Boards
   boards:
     board_type_attributes:
       assignee: Priradené

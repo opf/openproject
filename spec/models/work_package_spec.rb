@@ -46,7 +46,6 @@ RSpec.describe WorkPackage do
 
   let(:stub_work_package) { build_stubbed(:work_package) }
   let(:stub_version) { build_stubbed(:version) }
-  let(:stub_project) { build_stubbed(:project) }
   let(:user) { user1 }
 
   let(:work_package) do
@@ -217,7 +216,7 @@ RSpec.describe WorkPackage do
     it { is_expected.to eq(category.assigned_to) }
   end
 
-  describe "#type_variant", with_flag: { type_variants: true } do
+  describe "#type_variant" do
     shared_let(:type) { create(:type, name: "Bug") }
     shared_let(:variant) { create(:type_variant, type:, variant_name: "Mobile") }
 
@@ -381,7 +380,7 @@ RSpec.describe WorkPackage do
     end
 
     describe "time entries" do
-      subject { TimeEntry.find_by(work_package_id: work_package.id) }
+      subject { TimeEntry.find_by(entity: work_package) }
 
       it { is_expected.to be_nil }
     end
@@ -730,26 +729,6 @@ RSpec.describe WorkPackage do
 
         it { is_expected.to eq(2) }
       end
-    end
-  end
-
-  describe "#add_time_entry" do
-    it "returns a new time entry" do
-      expect(stub_work_package.add_time_entry).to be_a TimeEntry
-    end
-
-    it "has already the project assigned" do
-      stub_work_package.project = stub_project
-
-      expect(stub_work_package.add_time_entry.project).to eq(stub_project)
-    end
-
-    it "has already the work_package assigned" do
-      expect(stub_work_package.add_time_entry.entity).to eq(stub_work_package)
-    end
-
-    it "returns an unsaved entry" do
-      expect(stub_work_package.add_time_entry).to be_new_record
     end
   end
 

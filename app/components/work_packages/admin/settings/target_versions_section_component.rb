@@ -34,7 +34,7 @@ module WorkPackages
       class TargetVersionsSectionComponent < ApplicationComponent
         include OpTurbo::Streamable
 
-        STATES = %i[action_required in_progress completed].freeze
+        STATES = %i[action_required completed].freeze
 
         attr_reader :state
 
@@ -48,7 +48,6 @@ module WorkPackages
         private
 
         def action_required? = state == :action_required
-        def in_progress? = state == :in_progress
         def completed? = state == :completed
 
         def multiple_versions_writable? = Setting.work_package_multiple_versions_writable?
@@ -59,20 +58,6 @@ module WorkPackages
 
         def documentation_url
           OpenProject::Static::Links.url_for(:multiple_versions_documentation)
-        end
-
-        # Polling stops because the status action replaces the whole wrapper and a
-        # terminal state's markup mounts no controller to re-arm.
-        def wrapper_data_attrs
-          return {} unless in_progress?
-
-          {
-            data: {
-              controller: "poll-for-changes",
-              poll_for_changes_url_value: url_helpers.status_admin_settings_versions_and_categories_path,
-              poll_for_changes_interval_value: 3000
-            }
-          }
         end
       end
     end

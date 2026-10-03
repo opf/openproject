@@ -14,6 +14,15 @@ ro:
           end_before_start: valoarea finală trebuie să fie mai mare decât valoarea inițială.
           outside: se află în afara rețelei.
           overlaps: suprapunere.
+    models:
+      grids/grid:
+        one: Grilă
+        few: Grile
+        other: Grile
+      grids/widget:
+        one: Widget
+        few: Widget-uri
+        other: Widget-uri
   grids:
     label_widget_in_grid: Widget conținut în grila %{grid_name}
     widgets:
@@ -36,7 +45,7 @@ ro:
         no_results_title: No project timeline content configured
         sprints_link: Sprints overview
         title: Project timeline
-        title_portfolio: Portfolio timeline
+        title_portfolio: Cronologia portofoliului
         title_program: Program timeline
       subitems:
         button_text: Subelement

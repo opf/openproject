@@ -44,7 +44,7 @@ module Admin::Settings::ProjectReservedIdentifiers
     def sub_header_data_attributes
       {
         controller: "filter--filters-form",
-        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-turbo-stream-request-value": true,
         "filter--filters-form-output-format-value": "json",
         "filter--filters-form-url-path-name-value": helpers.search_admin_settings_project_reserved_identifiers_path,
         "filter--filters-form-clear-button-id-value": clear_button_id

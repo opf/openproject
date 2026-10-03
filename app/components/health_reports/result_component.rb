@@ -32,24 +32,24 @@ module HealthReports
   class ResultComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(group:, result:, i18n_scope:)
+    def initialize(group:, result:, i18n_scope:, docs_href:)
       super(result)
       @group = group
       @i18n_scope = i18n_scope
+      @docs_href = docs_href
     end
 
     private
+
+    attr_reader :docs_href
 
     def text = I18n.t("#{@group}.#{model.key}", scope: @i18n_scope)
 
     def error_text
       return nil if model.code.nil?
 
-      # TODO: fix translation namespace
       I18n.t("errors.#{model.code}", scope: @i18n_scope, **model.context&.symbolize_keys)
     end
-
-    def docs_href = ::OpenProject::Static::Links.url_for(:storage_docs, :health_status)
 
     def error_code
       if model.failure?

@@ -8,14 +8,14 @@ ru:
       projects:
         demo-project:
           resource_planner:
-            name: Team allocations
+            name: Распределение команды
             work_package_list:
-              name: Work packages
+              name: Пакеты работ
             work_package_timeline:
-              name: Work package timeline
+              name: Таймлайн пакетов работ
             user_card:
-              name: Team members
+              name: Участники команды
             user_timeline:
-              name: Team timeline
+              name: Таймлайн команды
             generic_allocation:
-              filter_name: Software Developer
+              filter_name: Разработчик программного обеспечения

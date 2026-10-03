@@ -35,7 +35,7 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA stage
+RSpec.describe "OpenID Connect", :skip_2fa_stage, :skip_csrf, # Prevent redirects to 2FA stage
                type: :rails_request,
                with_ee: %i[sso_auth_providers] do
   let(:host) { "keycloak.local" }

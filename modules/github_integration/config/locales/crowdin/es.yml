@@ -21,6 +21,23 @@
 #++
 ---
 es:
+  activerecord:
+    models:
+      deploy_status_check:
+        one: Comprobación del estado de la implementación
+        other: Comprobaciones del estado de la implementación
+      deploy_target:
+        one: Destino de la implementación
+        other: Destinos de la implementación
+      github_check_run:
+        one: Ejecución de la prueba de GitHub
+        other: Ejecuciones de la prueba de GitHub
+      github_pull_request:
+        one: Solicitud de incorporación de cambios de GitHub
+        other: Solicitudes de incorporación de cambios de GitHub
+      github_user:
+        one: Usuario de GitHub
+        other: Usuarios de GitHub
   attributes:
     additions_count: Número de adiciones
     changed_files_count: Archivos modificados

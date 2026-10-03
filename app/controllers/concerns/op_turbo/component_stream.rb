@@ -140,9 +140,9 @@ module OpTurbo
         .render_in(view_context)
     end
 
-    def close_dialog_via_turbo_stream(target, additional: {})
+    def close_dialog_via_turbo_stream(dialog_id, additional: {})
       turbo_streams << OpTurbo::StreamComponent
-        .new(action: :closeDialog, target:, additional: additional.to_json)
+        .new(action: :closeDialog, target: dialog_id, additional: additional.to_json)
         .render_in(view_context)
     end
 
@@ -152,6 +152,11 @@ module OpTurbo
              target: "#{dialog_id}-title",
              template: new_title)
         .render_in(view_context)
+    end
+
+    # Takes the same parts the page passes to +html_title+.
+    def set_page_title_via_turbo_stream(*parts, project: nil)
+      turbo_streams << turbo_stream.set_title(title: helpers.page_title_with_project(*parts, project:))
     end
 
     def reload_page_via_turbo_stream

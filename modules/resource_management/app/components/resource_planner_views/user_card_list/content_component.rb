@@ -53,13 +53,11 @@ module ResourcePlannerViews::UserCardList
     def remove_path_for(user)
       return nil unless @view.manually_picked?
 
-      helpers.remove_user_project_resource_planner_view_path(
-        @project, @resource_planner, @view, user_id: user.id
-      )
+      remove_planner_view_user_path(@resource_planner, @view, user.id)
     end
 
     def details_path_for(user)
-      helpers.project_user_resource_allocations_path(@project, user, resource_planner_view_id: @view.id)
+      user_allocations_path(@project, user, resource_planner_view_id: @view.id)
     end
 
     def utilization_for(user)

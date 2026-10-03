@@ -5,16 +5,16 @@ sidebar_navigation:
 description: General project information.
 keywords: project information
 ---
+
 # Manage project information
 
 ## Edit project information
 
 To edit your project information in OpenProject, select a project from the **Select a project** drop-down menu. Then navigate to _Project settings → Information_ in the project menu on the left.
 
-Project settings are grouped into three sections:
+Project settings are grouped into four sections:
 
 1. **Basic details**. Here you can edit: 
-
     - **Project name**. The name will be displayed in the project list.
     - Add a project **description**.
 2. **Project identifier**. Here you can [change project identifier](#change-project-identifier).
@@ -28,35 +28,36 @@ Project settings are grouped into three sections:
 
 **Save** your changes by clicking the **Update** button at the bottom of each respective section.
 
-Further, in the top right corner you can: 
+![Project information page under project settings, showing basic details, project identifier, project status and project relations](openproject_user_guide_project_settings_information.png)
 
-5. [Add a subproject](#create-a-subproject) 
+In the top-right corner, click the **More (three dots)** icon to open a menu with additional project actions:
 
-6. Click the **More (three dots)** icon, which opens a dropdown menu with the following options: 
-   - [Copy a project](#copy-a-project)
-   - [Make a project public](#make-a-project-public)
-   - [Archive a project](#archive-a-project)
-   - [Set a project as a template](../../project-templates) 
-   - [Delete a project](#delete-a-project)
+- [Add a subproject](#create-a-subproject)
+- [Duplicate a project](#duplicate-a-project)
+- [Make a project public](#make-a-project-public)
+- [Set a project as a template](../../project-templates)
+- [Archive a project](#archive-a-project)
+- [Delete a project](#delete-a-project)
 
-![project-information](openproject_user_guide_project_settings_information.png)
+![More actions menu in the project settings, with options to add a subproject, duplicate the project, make it public, set it as a template, archive it, or delete it](openproject_user_guide_project_settings_information_more_actions.png)
 
-> [!NOTE]
-> After 16.0 release, project attributes can be edited directly on the project overview page.
+> [!TIP]
+>
+> All of these project actions are also available on the project homepage.
 
 ## Create a subproject
 
-To create a subproject for an existing project, navigate to [_Project settings_](../) -> _Information_ and click on the green **+ Subproject** button.
+To create a subproject for an existing project, navigate to [_Project settings_](../) → _Information_, click on the **More (three dots)** menu and select **+Add subproject**.
 
 Then follow the instructions to [create a new project](../../../../getting-started/projects/#create-a-new-project).
 
-![Form to create a subproject in OpenProject](openproject_user_guide_project_settings_information_subproject_form.png)
+![Form for creating a subproject in OpenProject](openproject_user_guide_project_settings_information_subproject_form.png)
 
 ## Change project identifier
 
 A project identifier is the part of the project name shown in the URL, e.g. /demo-project. To change the project identifier navigate to Project settings and click the **Change identifier** button in the respective section.
 
-![A form to change the project identifier in OpenProject](openproject_user_guide_project_settings_information_change_identifier_button.png)
+![Project identifier section with the Change identifier button](openproject_user_guide_project_settings_information_change_identifier_button.png)
 
 You will then see the form to change and save the new project identifier. 
 
@@ -68,17 +69,15 @@ You will then see the form to change and save the new project identifier.
 > Keep in mind that once a project identifier is changed, members of the project will have to relocate the project's repositories. 
 > Existing links using previous identifiers will continue to work.
 
-## Copy a project
+## Duplicate a project
 
-You can copy an existing project by navigating to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Copy** from the dropdown menu.
-
-> [!NOTE]
-> Users who copy a project are assigned a **New role for users that create projects** in the copied project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
-
-![Copy a project under project settings in OpenProject](openproject_user_guide_project_settings_information_copy_project.png)
+You can duplicate an existing project by navigating to the _Project settings → Project information_. Click the **More (three dots)** icon in the upper right corner and select **Duplicate** from the dropdown menu.
 
 > [!NOTE]
-> To access the **Copy** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
+> Users who duplicate a project are assigned a **New role for users that create projects** in the duplicated project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
+
+> [!NOTE]
+> To access the **Duplicate** action from **Project settings**, users must be able to open the project settings (typically through the **Edit project** permission). Alternatively, users can create a new project from a project template if template creation is available to them.
 
 Under the **Copy from project** section you can select what additional project data and settings, such as versions, work package categories, attachments, project life cycle and project members should be copied as well. 
 You can copy existing [boards](../../../agile-boards/) (apart from the Subproject board) and the [Project overview](../../project-home/#project-overview) dashboards along with your project, too. 
@@ -101,13 +100,13 @@ Give the new project a name, identifier and select a parent project if needed.
 
 Click the **Copy** button to proceed.
 
-![Form to specify copying options when copying a project in OpenProject](openproject_user_guide_project_settings_information_copy_project_form.png)
+![Project duplication form with options for selecting which project data and settings to copy](openproject_user_guide_project_settings_information_copy_project_form.png)
 
 ## Make a project public
 
-If you want to set a project to be public, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
+If you want to set a project to be public, navigate to the _Project settings → Project information_. Click the **More (three dots)** icon in the upper right corner and select **Make public**.
 
-![Make a project public in OpenProject](openproject_user_guide_project_settings_information_mark_public.png)
+![More actions menu with the Make public option](openproject_user_guide_project_settings_information_make_public.png)
 
 Setting a project to public will make it accessible to all people within your OpenProject instance.
 
@@ -117,30 +116,30 @@ Setting a project to public will make it accessible to all people within your Op
 
 ## Archive a project
 
-In order to archive a project, navigate to the _Project settings -> Project information_. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
+In order to archive a project, navigate to the _Project settings → Project information_. Click the **More (three dots)** icon in the upper right corner and select **Archive project**.
 
 > [!NOTE]
 > This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _Archive project_ permission for that role via the [Roles and permissions](../../../../system-admin-guide/users-permissions/roles-permissions/) page in the administrator settings.
 
-![Archive a project under project settings in OpenProject](openproject_user_guide_project_settings_information_archive_project.png)
+![More actions menu with the Archive project option](openproject_user_guide_project_settings_information_archive_project.png)
 
 Once archived, a project can no longer be selected from the project list accessible via header navigation. It is still visible in the [Project lists](../../project-lists/) dashboard if you set the "Active" filter to "off" (move slider to the left). You can unarchive the project there, too, using the three dots at the right end of a row and clicking **Unarchive**.
 
-![An archived project shown in projects list in OpenProject](openproject_user_guide_project_settings_information_archived_project_projects_list.png)
+![Projects list showing an archived project and the option to unarchive it](openproject_user_guide_project_settings_information_archived_project_projects_list.png)
 
 You can also archive a project directly on the [project overview page.](../../project-home/#archive-a-project) 
 
 ## Change the project hierarchy
 
-To change the project's hierarchy, navigate to the _Project settings -> Information_ and change the **Subproject of** in _Project relations_ section.
+To change the project's hierarchy, navigate to the _Project settings → Information_ and change the **Subproject of** in _Project relations_ section.
 
-![Project relations section under project settings in OpenProject](openproject_user_guide_project_settings_information_relations_section.png)
+![Project relations section with the Subproject of field for selecting a parent project](openproject_user_guide_project_settings_information_relations_section.png)
 
 ## Delete a project
 
-If you want to delete a project, navigate to the [Project settings](../../project-settings/). Click the button **Delete project** on the top right of the page.
+If you want to delete a project, navigate to the [Project settings](../../project-settings/). Click the **More (three dots)** icon in the upper right corner and select **Delete project**.
 
-![delete a project](openproject_user_guide_project_settings_information_delete_project.png)
+![More actions menu with the Delete project option](openproject_user_guide_project_settings_information_delete_project.png)
 
 You can also delete a project via the [projects overview list](../../project-lists/).
 

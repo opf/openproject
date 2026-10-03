@@ -33,6 +33,10 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ProjectTimelineItem, ProjectTimelineGraphComponent } from './project-timeline-graph.component';
 import { ProjectTimelineItemBuilder } from './project-timeline-item.builder';
 import { ProjectTimelineTooltipBuilder } from './project-timeline-tooltip.builder';
+import type { TooltipView } from './project-timeline-tooltip.builder';
+import { render } from 'lit-html';
+import type { TemplateResult } from 'lit-html';
+import '@openproject/primer-view-components/app/components/primer/anchored_position';
 
 describe('ProjectTimelineGraphComponent', () => {
   const i18nStub = {
@@ -44,6 +48,11 @@ describe('ProjectTimelineGraphComponent', () => {
         'js.grid.widgets.project_timeline.tooltip_type_sprint': 'Sprint',
         'js.grid.widgets.project_timeline.accessible_phase': `Phase ${options.name}: ${options.date}`,
         'js.grid.widgets.project_timeline.accessible_gate': `Phase gate ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_milestone': `Milestone ${options.name}: ${options.date}`,
+        'js.grid.widgets.project_timeline.accessible_sprint': `Sprint ${options.name}: ${options.date}. Status: ${options.status}`,
+        'js.grid.widgets.project_timeline.sprint_status.active': 'Active',
+        'js.grid.widgets.project_timeline.sprint_status.completed': 'Completed',
+        'js.grid.widgets.project_timeline.sprint_status.in_planning': 'In planning',
         'js.grid.widgets.project_timeline.accessible_date_range': `${options.start} to ${options.end}`,
       }[key] ?? key;
     },
@@ -116,15 +125,15 @@ describe('ProjectTimelineGraphComponent', () => {
     endDate: '2024-01-14',
     status: 'active',
     row: 0,
+    href: '/projects/some-project/backlogs?sprint_ids%5B%5D=20',
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  let component:ProjectTimelineGraphComponent;
 
   let buildData:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { items:ProjectTimelineItem[]; groups:{ id:string; content:string }[] };
   let tooltipTemplate:(item:ProjectTimelineItem) => HTMLElement|string;
-  let buildAccessibleItems:(phases:unknown[]) => { id:string; text:string }[];
+  let popoverTemplate:(view:TooltipView) => TemplateResult;
+  let buildAccessibleItems:(phases:unknown[], milestones:unknown[], sprints:unknown[]) => { id:string; text:string; href?:string }[];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -137,7 +146,6 @@ describe('ProjectTimelineGraphComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProjectTimelineGraphComponent);
-    component = fixture.componentInstance;
 
     // Set required inputs before detectChanges triggers ngAfterViewInit
     fixture.componentRef.setInput('phasesData', '[]');
@@ -150,6 +158,7 @@ describe('ProjectTimelineGraphComponent', () => {
 
     buildData = itemBuilder.buildData.bind(itemBuilder);
     tooltipTemplate = tooltipBuilder.tooltipTemplate.bind(tooltipBuilder);
+    popoverTemplate = tooltipBuilder.popoverTemplate.bind(tooltipBuilder);
     buildAccessibleItems = itemBuilder.buildAccessibleItems.bind(itemBuilder);
   });
 
@@ -162,7 +171,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.type).toBe('range');
       expect(item!.group).toBe('phases');
       expect(item!.content).toBe('Design');
-      expect(item!.className).toContain('__hl_background_project_phase_definition_3');
+      expect(item!.className).toContain('__hl_background __hl_project_phase_definition_3');
       expect(item!.itemType).toBe('phase');
       expect(item!.definitionId).toBe(3);
     });
@@ -182,8 +191,8 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(startGate!.title).toBe('Build Start');
       expect(startGate!.className).toContain('op-timeline-gate');
       expect(startGate!.itemType).toBe('gate');
-      expect(startGate!.content instanceof HTMLElement).toBe(true);
-      expect((startGate!.content as HTMLElement).querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
+      expect(startGate!.content).toBeInstanceOf(HTMLElement);
+      expect((startGate!.content as HTMLElement).querySelector('.__hl_foreground.__hl_project_phase_definition_5')).not.toBeNull();
 
       const finishGate = items.find((i) => i.id === 'gate-finish-2');
       expect(finishGate).toBeDefined();
@@ -236,7 +245,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.group).toBe('milestones');
       expect(item!.title).toBe('Launch');
       expect(item!.className).toContain('op-timeline-milestone');
-      expect(item!.className).toContain('__hl_background_type_7');
+      expect(item!.className).toContain('__hl_background __hl_type_7');
       expect(item!.itemType).toBe('milestone');
     });
 
@@ -253,6 +262,7 @@ describe('ProjectTimelineGraphComponent', () => {
       expect(item!.className).toContain('op-timeline-sprint');
       expect(item!.className).toContain('op-timeline-sprint--active');
       expect(item!.itemType).toBe('sprint');
+      expect(item!.href).toBe(sprint.href);
     });
 
     it('does not add the active class for non-active sprints', () => {
@@ -285,35 +295,35 @@ describe('ProjectTimelineGraphComponent', () => {
           end: '2024-03-31',
           content: 'Design',
           title: 'Design',
-          className: '__hl_background_project_phase_definition_3',
+          className: '__hl_background __hl_project_phase_definition_3',
           itemType: 'phase',
           definitionId: 3,
         }) as HTMLElement;
       });
 
       it('returns an HTMLElement', () => {
-        expect(result instanceof HTMLElement).toBe(true);
+        expect(result).toBeInstanceOf(HTMLElement);
       });
 
       it('shows "Phase" as the type label', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('Phase');
+        expect(meta).toHaveTextContent('Phase');
       });
 
       it('shows the date range', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('2024-01-01');
-        expect(meta?.textContent).toContain('2024-03-31');
-        expect(meta?.textContent).toContain('–');
+        expect(meta).toHaveTextContent('2024-01-01');
+        expect(meta).toHaveTextContent('2024-03-31');
+        expect(meta).toHaveTextContent('–');
       });
 
       it('shows the phase name', () => {
         const name = result.querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('Design');
+        expect(name).toHaveTextContent('Design');
       });
 
       it('applies the highlight class to the type indicator', () => {
-        expect(result.querySelector('.__hl_inline_project_phase_definition_3')).toBeTruthy();
+        expect(result.querySelector('.__hl_foreground.__hl_project_phase_definition_3')).not.toBeNull();
       });
     });
 
@@ -330,20 +340,20 @@ describe('ProjectTimelineGraphComponent', () => {
           originalEnd: '2024-05-15',
           content: 'Kickoff',
           title: 'Kickoff',
-          className: '__hl_background_project_phase_definition_9',
+          className: '__hl_background __hl_project_phase_definition_9',
           definitionId: 9,
         }) as HTMLElement;
       });
 
       it('shows only a single date (no range)', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('2024-05-15');
-        expect(meta?.textContent).not.toContain('–');
+        expect(meta).toHaveTextContent('2024-05-15');
+        expect(meta).not.toHaveTextContent('–');
       });
 
       it('shows the phase name', () => {
         const name = result.querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('Kickoff');
+        expect(name).toHaveTextContent('Kickoff');
       });
     });
 
@@ -358,7 +368,7 @@ describe('ProjectTimelineGraphComponent', () => {
           start: '2024-04-01',
           content: document.createElement('i'),
           title: 'Build Start',
-          className: 'op-timeline-gate __hl_background_project_phase_definition_5',
+          className: 'op-timeline-gate __hl_background __hl_project_phase_definition_5',
           itemType: 'gate',
           definitionId: 5,
         }) as HTMLElement;
@@ -366,22 +376,22 @@ describe('ProjectTimelineGraphComponent', () => {
 
       it('shows "Gate" as the type label', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('Gate');
+        expect(meta).toHaveTextContent('Gate');
       });
 
       it('shows only a single date (no range)', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('2024-04-01');
-        expect(meta?.textContent).not.toContain('–');
+        expect(meta).toHaveTextContent('2024-04-01');
+        expect(meta).not.toHaveTextContent('–');
       });
 
       it('shows the gate name', () => {
         const name = result.querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('Build Start');
+        expect(name).toHaveTextContent('Build Start');
       });
 
       it('applies the highlight class', () => {
-        expect(result.querySelector('.__hl_inline_project_phase_definition_5')).toBeTruthy();
+        expect(result.querySelector('.__hl_foreground.__hl_project_phase_definition_5')).not.toBeNull();
       });
     });
 
@@ -396,7 +406,7 @@ describe('ProjectTimelineGraphComponent', () => {
           start: '2024-06-30',
           content: '',
           title: 'Launch',
-          className: 'op-timeline-milestone __hl_background_type_7',
+          className: 'op-timeline-milestone __hl_background __hl_type_7',
           itemType: 'milestone',
           typeId: 7,
         }) as HTMLElement;
@@ -404,22 +414,22 @@ describe('ProjectTimelineGraphComponent', () => {
 
       it('shows "Milestone" as the type label', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('Milestone');
+        expect(meta).toHaveTextContent('Milestone');
       });
 
       it('shows only a single date (no range)', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('2024-06-30');
-        expect(meta?.textContent).not.toContain('–');
+        expect(meta).toHaveTextContent('2024-06-30');
+        expect(meta).not.toHaveTextContent('–');
       });
 
       it('shows the milestone name', () => {
         const name = result.querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('Launch');
+        expect(name).toHaveTextContent('Launch');
       });
 
       it('applies the type highlight class to the icon', () => {
-        expect(result.querySelector('.__hl_inline_type_7')).toBeTruthy();
+        expect(result.querySelector('.__hl_uppercase.__hl_foreground.__hl_type_7')).not.toBeNull();
       });
     });
 
@@ -442,19 +452,19 @@ describe('ProjectTimelineGraphComponent', () => {
 
       it('shows "Sprint" as the type label', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('Sprint');
+        expect(meta).toHaveTextContent('Sprint');
       });
 
       it('shows the date range', () => {
         const meta = result.querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('2024-01-01');
-        expect(meta?.textContent).toContain('2024-01-14');
-        expect(meta?.textContent).toContain('–');
+        expect(meta).toHaveTextContent('2024-01-01');
+        expect(meta).toHaveTextContent('2024-01-14');
+        expect(meta).toHaveTextContent('–');
       });
 
       it('shows the sprint name', () => {
         const name = result.querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('Sprint 1');
+        expect(name).toHaveTextContent('Sprint 1');
       });
     });
 
@@ -492,12 +502,12 @@ describe('ProjectTimelineGraphComponent', () => {
 
       it('shows "Gate" as the type label', () => {
         const meta = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--meta-row');
-        expect(meta?.textContent).toContain('Gate');
+        expect(meta).toHaveTextContent('Gate');
       });
 
       it('lists all gate names', () => {
         const name = makeCluster([octoberGate, novemberGate]).querySelector('.op-timeline-tooltip--name');
-        expect(name?.textContent).toBe('October Gate, November Gate');
+        expect(name).toHaveTextContent('October Gate, November Gate');
       });
 
       it('sorts dates chronologically even when items arrive in reverse order', () => {
@@ -510,15 +520,61 @@ describe('ProjectTimelineGraphComponent', () => {
         // Items intentionally in reverse order (November before October)
         makeCluster([novemberGate, octoberGate]);
 
-        expect(formattedDates.length).toBe(2);
+        expect(formattedDates).toHaveLength(2);
         expect(formattedDates[0] < formattedDates[1]).toBe(true);
       });
     });
   });
 
+  describe('popoverTemplate', () => {
+    const renderView = (view:Partial<TooltipView>) => {
+      const host = document.createElement('div');
+      render(popoverTemplate({ anchor: null, content: null, caret: null, ...view }), host);
+      return {
+        popover: host.querySelector<HTMLElement & { anchorElement:Element | null }>('anchored-position')!,
+        message: host.querySelector<HTMLElement>('.Popover-message')!,
+      };
+    };
+
+    it('renders a manual popover anchored above the given element', () => {
+      const anchor = document.createElement('span');
+      const { popover } = renderView({ anchor, content: 'Launch' });
+
+      expect(popover).toHaveAttribute('popover', 'manual');
+      expect(popover).toHaveAttribute('side', 'outside-top');
+      expect(popover.anchorElement).toBe(anchor);
+      expect(popover).toHaveTextContent('Launch');
+    });
+
+    it('renders no caret side until the placement is known', () => {
+      const { message } = renderView({ content: 'Launch' });
+
+      expect(message).toHaveClass('Popover-message op-anchored-popover', { exact: true });
+      expect(message.style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe('');
+    });
+
+    it('turns the caret to face the anchor at the given offset', () => {
+      const { message } = renderView({ content: 'Launch', caret: { side: 'left', offset: 30 } });
+
+      expect(message).toHaveClass('Popover-message--left');
+      expect(message).not.toHaveClass('Popover-message--bottom');
+      expect(message.style.getPropertyValue('--op-anchored-popover-caret-offset')).toBe('30px');
+    });
+
+    it('drops the sideways caret when the popover moves back above the anchor', () => {
+      const host = document.createElement('div');
+      render(popoverTemplate({ anchor: null, content: 'Launch', caret: { side: 'left', offset: 30 } }), host);
+      render(popoverTemplate({ anchor: null, content: 'Launch', caret: { side: 'bottom', offset: 50 } }), host);
+
+      const message = host.querySelector<HTMLElement>('.Popover-message')!;
+      expect(message).not.toHaveClass('Popover-message--left');
+      expect(message).toHaveClass('Popover-message--bottom');
+    });
+  });
+
   describe('buildAccessibleItems', () => {
     it('creates screen reader text for phases and gates', () => {
-      expect(buildAccessibleItems([phaseWithGates])).toEqual([
+      expect(buildAccessibleItems([phaseWithGates], [], [])).toEqual([
         { id: 'phase-2', text: 'Phase Build: 2024-04-01 to 2024-06-30' },
         { id: 'gate-start-2', text: 'Phase gate Build Start: 2024-04-01' },
         { id: 'gate-finish-2', text: 'Phase gate Build End: 2024-06-30' },
@@ -526,13 +582,39 @@ describe('ProjectTimelineGraphComponent', () => {
     });
 
     it('uses a single date for one-day phases', () => {
-      expect(buildAccessibleItems([oneDayPhase])).toEqual([
+      expect(buildAccessibleItems([oneDayPhase], [], [])).toEqual([
         { id: 'phase-4', text: 'Phase Kickoff: 2024-05-15' },
       ]);
     });
 
     it('skips phases without dates', () => {
-      expect(buildAccessibleItems([phaseWithoutDates])).toEqual([]);
+      expect(buildAccessibleItems([phaseWithoutDates], [], [])).toEqual([]);
+    });
+
+    it('creates screen reader text for milestones', () => {
+      expect(buildAccessibleItems([], [milestone], [])).toEqual([
+        { id: 'milestone-10', text: 'Milestone Launch: 2024-06-30', href: '/work_packages/10' },
+      ]);
+    });
+
+    it('creates screen reader text for sprints', () => {
+      expect(buildAccessibleItems([], [], [sprint])).toEqual([
+        {
+          id: 'sprint-20',
+          text: 'Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active',
+          href: sprint.href,
+        },
+      ]);
+    });
+
+    it('orders all item types chronologically', () => {
+      expect(buildAccessibleItems([phaseWithGates], [milestone], [sprint]).map(({ id }) => id)).toEqual([
+        'sprint-20',
+        'phase-2',
+        'gate-start-2',
+        'gate-finish-2',
+        'milestone-10',
+      ]);
     });
   });
 
@@ -540,7 +622,7 @@ describe('ProjectTimelineGraphComponent', () => {
     it('does not render an empty screen reader list', () => {
       const element = fixture.nativeElement as HTMLElement;
 
-      expect(element.querySelector('ul.sr-only')).toBeNull();
+      expect(element.querySelector('ul.op-project-timeline-graph--accessible-list')).not.toBeInTheDocument();
     });
 
     it('renders screen reader text and hides the visual graph from assistive technology', () => {
@@ -548,21 +630,307 @@ describe('ProjectTimelineGraphComponent', () => {
       fixture.detectChanges();
 
       const element = fixture.nativeElement as HTMLElement;
-      expect(element.querySelector('.op-project-timeline-graph')?.getAttribute('aria-hidden')).toBe('true');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase Build: 2024-04-01 to 2024-06-30');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build Start: 2024-04-01');
-      expect(element.querySelector('ul.sr-only')?.textContent).toContain('Phase gate Build End: 2024-06-30');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')).toHaveAttribute('role', 'list');
+      expect(element.querySelector('.op-project-timeline-graph')).toHaveAttribute('aria-hidden', 'true');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')).toHaveTextContent('Phase Build: 2024-04-01 to 2024-06-30');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')).toHaveTextContent('Phase gate Build Start: 2024-04-01');
+      expect(element.querySelector('.op-project-timeline-graph--accessible-list')).toHaveTextContent('Phase gate Build End: 2024-06-30');
+    });
+
+    it('renders milestone and sprint screen reader links', () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      const links = element.querySelectorAll<HTMLAnchorElement>('.op-project-timeline-graph--accessible-list a');
+      expect(links).toHaveLength(2);
+      expect(links[0]).toHaveClass('show-on-focus');
+      expect(links[0]).toHaveAccessibleName('Sprint Sprint 1: 2024-01-01 to 2024-01-14. Status: Active');
+      expect(links[0]).toHaveAttribute('href', sprint.href);
+      expect(links[1]).toHaveAccessibleName('Milestone Launch: 2024-06-30');
+      expect(links[1]).toHaveAttribute('href', '/work_packages/10');
+
+      expect(links[0]).toHaveStyle({ width: '1px' });
+      expect(links[0]).toHaveStyle({ clip: 'rect(1px, 1px, 1px, 1px)' });
+      links[0].focus();
+      expect(links[0]).toHaveFocus();
+      expect(links[0]).not.toHaveStyle({ width: '1px' });
+      expect(links[0]).not.toHaveStyle({ clip: 'rect(1px, 1px, 1px, 1px)' });
+      expect(links[0]).toHaveStyle({ position: 'static' });
+      const linkBounds = links[0].getBoundingClientRect();
+      expect(linkBounds.width).toBeGreaterThan(0);
+      expect(linkBounds.height).toBeGreaterThan(0);
+      expect(linkBounds.bottom).toBeLessThanOrEqual(element.querySelector('.op-project-timeline-graph')!.getBoundingClientRect().top);
+
+      links[0].blur();
+      expect(links[0]).not.toHaveFocus();
+      expect(links[0]).toHaveStyle({ width: '1px' });
+      expect(links[0]).toHaveStyle({ clip: 'rect(1px, 1px, 1px, 1px)' });
+    });
+
+    it('highlights the visual item related to a focused accessible link', async () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      await vi.waitFor(() => {
+        fixture.detectChanges();
+        expect(element.querySelector('.vis-item.op-timeline-sprint')).toBeInTheDocument();
+        expect(element.querySelector('.vis-item.op-timeline-milestone')).toBeInTheDocument();
+      });
+
+      const sprintLink = element.querySelector<HTMLAnchorElement>(`a[href="${sprint.href}"]`)!;
+      const milestoneLink = element.querySelector<HTMLAnchorElement>('a[href="/work_packages/10"]')!;
+      const sprintItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-sprint')!;
+      const milestoneItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-milestone')!;
+      const milestoneDiamond = milestoneItem.querySelector<HTMLElement>('.vis-dot')!;
+      element.style.setProperty('--borderWidth-thick', '2px');
+      element.style.setProperty('--fgColor-accent', 'blue');
+
+      sprintLink.focus();
+      expect(sprintItem).toHaveClass('vis-selected');
+
+      sprintLink.blur();
+      expect(sprintItem).not.toHaveClass('vis-selected');
+
+      milestoneLink.focus();
+      expect(milestoneItem).toHaveClass('vis-selected');
+      expect(getComputedStyle(milestoneDiamond).borderTopWidth).toBe('2px');
+
+      milestoneLink.blur();
+      expect(milestoneItem).not.toHaveClass('vis-selected');
+      expect(getComputedStyle(milestoneDiamond).borderTopWidth).toBe('0px');
+    });
+
+    it('opens clicked milestone and sprint items with Turbo', async () => {
+      fixture.componentRef.setInput('milestonesData', JSON.stringify([milestone]));
+      fixture.componentRef.setInput('sprintsData', JSON.stringify([sprint]));
+      fixture.detectChanges();
+
+      const element = fixture.nativeElement as HTMLElement;
+      await vi.waitFor(() => {
+        fixture.detectChanges();
+        expect(element.querySelector('.vis-item.op-timeline-sprint')).toBeInTheDocument();
+        expect(element.querySelector('.vis-item.op-timeline-milestone')).toBeInTheDocument();
+      });
+
+      const visit = vi.spyOn(Turbo, 'visit').mockImplementation(() => undefined);
+      const milestoneItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-milestone')!;
+      const sprintItem = element.querySelector<HTMLElement>('.vis-item.op-timeline-sprint')!;
+
+      milestoneItem.click();
+      expect(visit).toHaveBeenCalledWith('/work_packages/10');
+
+      sprintItem.click();
+      expect(visit).toHaveBeenCalledWith(sprint.href);
     });
 
     it('hides the loading skeleton once the initial draw completes', async () => {
       const element = fixture.nativeElement as HTMLElement;
 
-      await vi.waitUntil(() => {
+      await vi.waitFor(() => {
         fixture.detectChanges();
-        return element.querySelector('.op-project-timeline-graph--wrapper_loading') === null;
+        expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  describe('hover tooltip', () => {
+    const hover = (type:'mouseover' | 'mouseout', target:Element) => {
+      target.dispatchEvent(new MouseEvent(type, { bubbles: true, clientX: 10, clientY: 10 }));
+    };
+
+    let element:HTMLElement;
+
+    const fakeHoverDelay = () => vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const nextFrame = () => new Promise(requestAnimationFrame);
+
+    const popover = () => element.querySelector<HTMLElement>('.op-project-timeline-graph--tooltip')!;
+    const message = () => popover().querySelector<HTMLElement>('.Popover-message')!;
+    const isOpen = () => popover().matches(':popover-open');
+
+    const renderItems = async (selector:string, inputs:Record<string, unknown[]>) => {
+      for (const [name, value] of Object.entries(inputs)) {
+        fixture.componentRef.setInput(name, JSON.stringify(value));
+      }
+      fixture.detectChanges();
+      element = fixture.nativeElement as HTMLElement;
+
+      await vi.waitFor(() => {
+        fixture.detectChanges();
+        expect(element.querySelector(selector)).toBeInTheDocument();
+      });
+      await nextFrame();
+      return element.querySelector<HTMLElement>(selector)!;
+    };
+
+    const caretOffsetValue = () => message().style.getPropertyValue('--op-anchored-popover-caret-offset');
+
+    // anchored-position places the popover in the frame after it opens.
+    const openTooltip = (item:Element) => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'requestAnimationFrame', 'cancelAnimationFrame'] });
+      hover('mouseover', item);
+      vi.advanceTimersByTime(500);
+      vi.advanceTimersToNextFrame();
+      vi.useRealTimers();
+    };
+
+    const caretOffset = () => parseFloat(caretOffsetValue());
+    const expectedCaretOffset = (anchor:DOMRect) => {
+      const box = popover().getBoundingClientRect();
+      const center = anchor.left + anchor.width / 2 - box.left;
+      return Math.min(Math.max(center, 12), box.width - 12);
+    };
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    describe('for a milestone', () => {
+      let milestoneItem:HTMLElement;
+
+      beforeEach(async () => {
+        milestoneItem = await renderItems('.vis-item.vis-point', { milestonesData: [milestone] });
       });
 
-      expect(element.querySelector('.op-project-timeline-graph--wrapper_loading')).toBeNull();
+      it('does not use the vis-timeline tooltip that the grid cell would clip', () => {
+        hover('mouseover', milestoneItem);
+        expect(element.querySelector('.vis-tooltip')).not.toBeInTheDocument();
+      });
+
+      it('inherits the hidden state from the timeline container', () => {
+        expect(popover().parentElement).not.toHaveAttribute('aria-hidden');
+        expect(popover().closest('.op-project-timeline-graph')).toHaveAttribute('aria-hidden', 'true');
+      });
+
+      it('opens the tooltip in the top layer after the hover delay', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        expect(isOpen()).toBe(false);
+
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+        expect(popover()).toHaveTextContent('Launch');
+        expect(popover()).toHaveTextContent('Milestone');
+      });
+
+      it('closes the tooltip when the pointer leaves the item', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+
+        hover('mouseout', milestoneItem);
+        expect(isOpen()).toBe(false);
+      });
+
+      it('does not open when the pointer leaves before the delay', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        hover('mouseout', milestoneItem);
+
+        vi.advanceTimersByTime(1000);
+        expect(isOpen()).toBe(false);
+      });
+
+      it('reuses one popover element across hovers', () => {
+        const before = popover();
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        hover('mouseout', milestoneItem);
+        expect(popover()).toBe(before);
+      });
+
+      it('points the caret at the diamond from the side facing it', () => {
+        openTooltip(milestoneItem);
+
+        const diamond = milestoneItem.querySelector('.vis-dot')!.getBoundingClientRect();
+        const box = popover().getBoundingClientRect();
+        const popoverIsAbove = box.bottom <= diamond.top;
+        const popoverIsBelow = box.top >= diamond.bottom;
+
+        expect(caretOffset()).toBeCloseTo(expectedCaretOffset(diamond), 0);
+        expect(popoverIsAbove || popoverIsBelow).toBe(true);
+        expect(message().matches('.Popover-message--bottom')).toBe(popoverIsAbove);
+      });
+
+      it('closes the tooltip when the page scrolls', () => {
+        openTooltip(milestoneItem);
+        expect(isOpen()).toBe(true);
+
+        document.dispatchEvent(new Event('scroll'));
+        expect(isOpen()).toBe(false);
+      });
+
+      it('closes the tooltip when the window is resized', () => {
+        openTooltip(milestoneItem);
+        expect(isOpen()).toBe(true);
+
+        window.dispatchEvent(new Event('resize'));
+        expect(isOpen()).toBe(false);
+      });
+
+      it('closes the tooltip when the data is replaced', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+        vi.advanceTimersByTime(500);
+        expect(isOpen()).toBe(true);
+
+        fixture.componentRef.setInput('milestonesData', JSON.stringify([{ ...milestone, subject: 'Relaunch' }]));
+        fixture.detectChanges();
+        expect(isOpen()).toBe(false);
+      });
+
+      it('drops a pending tooltip when the data is replaced', () => {
+        fakeHoverDelay();
+        hover('mouseover', milestoneItem);
+
+        fixture.componentRef.setInput('milestonesData', JSON.stringify([{ ...milestone, subject: 'Relaunch' }]));
+        fixture.detectChanges();
+        vi.advanceTimersByTime(1000);
+        expect(isOpen()).toBe(false);
+      });
+    });
+
+    it('keeps a long milestone name inside the viewport', async () => {
+      const longName = 'really long milestone '.repeat(12).trim();
+      const item = await renderItems('.vis-item.vis-point', { milestonesData: [{ ...milestone, subject: longName }] });
+      openTooltip(item);
+
+      const box = popover().getBoundingClientRect();
+      expect(box.left).toBeGreaterThanOrEqual(0);
+      expect(box.right).toBeLessThanOrEqual(window.innerWidth);
+      expect(popover()).toHaveTextContent(longName);
+    });
+
+    it('anchors a phase bar on the bar itself', async () => {
+      const bar = await renderItems('.vis-item.vis-range', { phasesData: [phaseWithDates] });
+      openTooltip(bar);
+
+      expect(caretOffset()).toBeCloseTo(expectedCaretOffset(bar.getBoundingClientRect()), 0);
+      expect(popover()).toHaveTextContent('Design');
+    });
+
+    it('anchors a gate on its visible icon rather than the hidden dot', async () => {
+      const gate = await renderItems('.vis-item.vis-point.op-timeline-gate', { phasesData: [phaseWithGates] });
+      openTooltip(gate);
+
+      const icon = gate.getBoundingClientRect();
+      expect(icon.width).toBeGreaterThan(0);
+      expect(caretOffset()).toBeCloseTo(expectedCaretOffset(icon), 0);
+      expect(popover()).toHaveTextContent('Build Start');
+    });
+
+    it('shows every gate of a cluster', async () => {
+      const secondPhase = { ...phaseWithGates, id: 3, name: 'Test', startGateName: 'Test Start', finishGate: false };
+      const cluster = await renderItems('.vis-item.vis-cluster', { phasesData: [phaseWithGates, secondPhase] });
+      openTooltip(cluster);
+
+      expect(popover()).toHaveTextContent('Build Start');
+      expect(popover()).toHaveTextContent('Test Start');
     });
   });
 });

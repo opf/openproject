@@ -22,9 +22,38 @@
 ---
 sv:
   js:
+    backlogs:
+      announcements:
+        batch_too_large: Det går inte att flytta %{count} arbetspaket samtidigt. Välj högst %{max}.
+        fallback_item_label: Arbetspaket
+        fallback_list_name: en annan lista
+        move_failed_check_position: Flytten misslyckades. Kontrollera arbetspaketets aktuella position.
+        move_failed_check_positions_batch:
+          other: Flytten misslyckades. Kontrollera arbetspaketens aktuella positioner.
+        move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
+        move_failed_rolled_back_batch:
+          other: Flytten misslyckades. %{count} arbetspaket återställdes till sina tidigare positioner.
+        moved: "%{label} flyttades till position %{position} av %{total}"
+        moved_batch:
+          other: "%{count} arbetspaket flyttades till positionerna %{first} till %{last} av %{total}"
+        moved_batch_to_list:
+          other: "%{count} arbetspaket flyttades till %{list}, positionerna %{first} till %{last} av %{total}"
+        moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
+      selection:
+        card_state: Vald
+        cleared: Markeringen har rensats.
+        not_selectable: Markeringen är oförändrad. Det här arbetspaketet ingår inte i listans sorteringsordning.
+        range_blocked: Markeringen är oförändrad. Intervallet innehåller ett arbetspaket som inte ingår i listans sorteringsordning.
+        range_restarted:
+          one: Det gick inte att utöka intervallet. 1 arbetspaket markerat.
+          other: Det gick inte att utöka intervallet. %{count} arbetspaket markerade.
+        range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
+        selected:
+          one: 1 arbetspaket markerat.
+          other: "%{count} arbetspaket markerade."
     burndown:
-      day: Day
-      points: Points
+      day: Dag
+      points: Poäng
     work_packages:
       properties:
         storyPoints: Berättelsepoäng

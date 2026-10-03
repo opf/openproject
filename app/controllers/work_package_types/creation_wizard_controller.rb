@@ -32,34 +32,39 @@ module WorkPackageTypes
   # Guided, multi-step creation of a work package type, or of a variant of one.
   class CreationWizardController < ApplicationController
     include AddressesVariant
-    include TypeVariantsFeature
+    include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
+    include OpTurbo::ComponentStream
 
     layout "no_menu"
 
     helper_method :adding_variant?
-
-    before_action :require_admin
-    before_action :require_type_variants_feature
     before_action :find_type, only: %i[show update]
     before_action :find_variant, only: %i[show update]
     before_action :set_current_step, only: %i[show update]
+    before_action :set_back_url
+    before_action :set_started_form_configuration_id
 
     def show; end
 
-    def new
+    def new # rubocop:disable Metrics/AbcSize
       if params[:type_id]
         @type = ::Type.find(params.expect(:type_id))
-        @variant = @type.variants.new
+        return render_404 if variant_scope_project && !@type.allow_project_variants?
+
+        @variant = @type.variants.new(project: variant_scope_project)
       else
         @type = Type.new
       end
 
-      @current_step = Wizard::Steps.first
+      @current_step = params[:step].to_s == Wizard::Steps::FIRST_EDITABLE.to_s ? Wizard::Steps::FIRST_EDITABLE : Wizard::Steps.first
       render :show
     end
 
     def create
-      params[:type_id] ? create_variant : create_type
+      return create_variant if params[:type_id]
+
+      create_type
     end
 
     def update
@@ -68,6 +73,8 @@ module WorkPackageTypes
         update_details
       when :defaults
         update_defaults
+      when :form_configuration
+        update_form_configuration
       when :workflows
         update_workflows
       else
@@ -82,23 +89,52 @@ module WorkPackageTypes
       @type = @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
+        reuse_existing_workflow
+        reuse_existing_form
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
     end
 
+    def reuse_existing_workflow
+      variant = @type.default_variant
+      started_id = variant.workflow_id
+      reusable = reusable_workflow(started_id)
+      return if reusable.nil?
+
+      variant.update!(workflow: reusable)
+      # Read back rather than reusing the built instance, whose type_variants are still in memory.
+      Workflow.find(started_id).destroy
+    end
+
+    def reusable_workflow(started_id)
+      candidates = Workflow.global.where.not(id: started_id).in_display_order
+      candidates.where(id: TypeVariant.select(:workflow_id)).first || candidates.first
+    end
+
+    def reuse_existing_form
+      variant = @type.default_variant
+      started_id = variant.form_configuration_id
+      reusable = ::FormConfiguration.where.not(id: started_id).in_display_order.first
+      return if reusable.nil?
+
+      variant.update!(form_configuration: reusable)
+      ::FormConfiguration.find(started_id).destroy!
+    end
+
     def create_variant
       @type = ::Type.find(params.expect(:type_id))
-      service_call = WorkPackageTypes::CreateVariantService.new(user: current_user, type: @type)
-                                                          .call(variant_details_params)
+      service_call = WorkPackageTypes::CreateVariantService
+                       .new(user: current_user, type: @type)
+                       .call(new_variant_params)
       @variant = service_call.result
 
       if service_call.success?
-        redirect_to_step Wizard::Steps.next_after(Wizard::Steps.first)
+        redirect_to_step Wizard::Steps.next_after(Wizard::Steps::FIRST_EDITABLE, @variant)
       else
-        @current_step = Wizard::Steps.first
+        @current_step = Wizard::Steps::FIRST_EDITABLE
         render :show, status: :unprocessable_entity
       end
     end
@@ -147,41 +183,87 @@ module WorkPackageTypes
       end
     end
 
-    # The matrix submits its inputs with the wizard form, along with the roles and
-    # transition tab it was showing, so that only that slice is rewritten.
+    def update_form_configuration
+      form = @variant.form_configuration
+      return name_reference(form, ::FormConfigurations::UpdateService) if params[:form_configuration].present?
+      return advance unless form&.used_by_one_variant?
+
+      ask_for_name(form)
+    end
+
     def update_workflows
-      matrix_context = ::Workflows::MatrixContext.new(
-        variant: @variant,
-        tab: params[:tab],
-        role_ids: params[:role_ids]
-      )
+      workflow = @variant.workflow
+      return name_reference(workflow, ::Workflows::UpdateService) if params[:workflow].present?
+      return advance unless workflow&.used_by_one_variant?
+      return render :show, status: :unprocessable_entity unless update_matrix.success?
 
-      service_call = ::Workflows::MatrixUpdateService
-                       .new(variant: @variant, roles: matrix_context.roles, tab: matrix_context.tab)
-                       .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
+      ask_for_name(workflow)
+    end
 
-      if service_call.success?
-        advance
-      else
-        render :show, status: :unprocessable_entity
-      end
+    def ask_for_name(record)
+      respond_with_dialog(naming_dialog(record)) { |format| format.html { advance } }
+    end
+
+    def name_reference(record, service_class)
+      service_call = service_class.new(user: current_user, model: record).call(**naming_params(record))
+      return advance if service_call.success?
+
+      respond_with_dialog naming_dialog(service_call.result), status: :unprocessable_entity
+    end
+
+    def naming_dialog(record)
+      url = variant_creation_wizard_path(variant_scope_project, wizard_variant, step: @current_step, **carried_params)
+
+      NamedReferences::NameDialogComponent.new(record:,
+                                               model_class: record.class,
+                                               ask_copy_source: false,
+                                               url:)
+    end
+
+    def naming_params(record)
+      params.expect(record.model_name.param_key => %i[name description]).to_h.symbolize_keys
+    end
+
+    def update_matrix
+      context = ::Workflows::MatrixContext.new(workflow: @variant.workflow,
+                                               variant: @variant,
+                                               tab: params[:tab],
+                                               role_ids: params[:role_ids])
+
+      ::Workflows::MatrixUpdateService
+        .new(workflow: @variant.workflow, roles: context.roles, tab: context.tab)
+        .call(status: params[:status], indeterminate_status: params[:indeterminate_status])
     end
 
     def advance
-      redirect_to_step Wizard::Steps.next_after(@current_step)
+      redirect_to_step Wizard::Steps.next_after(@current_step, @variant)
     end
 
     def redirect_to_step(step)
       if step
-        redirect_to type_creation_wizard_path(**variant_path_args, step:), status: :see_other
+        redirect_to variant_creation_wizard_path(variant_scope_project, wizard_variant, step:, **carried_params),
+                    status: :see_other
       else
-        redirect_to types_path, notice: t("types.creation_wizard.success"), status: :see_other
+        flash[:notice] = t("types.creation_wizard.success")
+        redirect_back_or_default(helpers.variant_scope_types_path, status: :see_other)
       end
     end
 
+    # The wizard hands this straight to the cancel button, so it is validated here rather than
+    # where it is rendered.
+    def set_back_url
+      @back_url = RedirectPolicy.new(params[:back_url], hostname: request.host, default: nil).redirect_url
+    end
+
+    def carried_params = { back_url: @back_url, started_form_configuration_id: @started_form_configuration_id }.compact
+
+    def set_started_form_configuration_id
+      @started_form_configuration_id = params[:started_form_configuration_id].presence&.to_i
+    end
+
     # @variant is the type itself while a type is being created until there is a variant to be used
-    def variant_path_args
-      adding_variant? ? @variant.path_args : { type_id: @type.id }
+    def wizard_variant
+      adding_variant? ? @variant : @type.default_variant
     end
 
     def adding_variant? = @variant.is_a?(TypeVariant) && !@variant.is_default_variant?
@@ -198,14 +280,22 @@ module WorkPackageTypes
 
     def set_current_step
       @current_step = Wizard::Steps.for_key(params[:step]) || Wizard::Steps.first
+
+      render_404 unless Wizard::Steps.available?(@current_step, @variant)
     end
 
     def details_params
-      params.expect(type: %i[name color_id is_milestone is_in_roadmap])
+      params.expect(type: %i[name color_id is_milestone is_in_roadmap allow_project_variants])
     end
 
     def variant_details_params
       params.expect(type_variant: [:variant_name])
+    end
+
+    # The owner is the project this was routed through, merged last so that it wins over anything
+    # the body carries under that name.
+    def new_variant_params
+      variant_details_params.to_h.merge(project: variant_scope_project)
     end
 
     def defaults_params

@@ -52,8 +52,8 @@ export class OpModalWrapperAugmentService {
    */
   public setupListener() {
     const matches = this.documentElement.querySelectorAll('[data-augmented-model-wrapper]');
-    for (let i = 0; i < matches.length; ++i) {
-      this.wrapElement(matches[i] as HTMLElement);
+    for (const match of matches) {
+      this.wrapElement(match as HTMLElement);
     }
   }
 

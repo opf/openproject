@@ -45,6 +45,7 @@ import {
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-custom-action',
   templateUrl: './wp-custom-action.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -14,6 +14,11 @@ ko:
           end_before_start: 종료 값은 시작 값보다 커야 합니다.
           outside: "- 그리드의 외부에 있습니다."
           overlaps: 오버랩
+    models:
+      grids/grid:
+        other: 그리드
+      grids/widget:
+        other: 위젯
   grids:
     label_widget_in_grid: 그리드 %{grid_name}에 포함된 위젯
     widgets:
