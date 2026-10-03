@@ -67,14 +67,6 @@ function useOpTheme():Theme {
   return theme;
 }
 
-function WhiteboardTitle({ title }:{ title:string }) {
-  return (
-    <span className="op-whiteboard-chrome--title" title={title} data-test-selector="whiteboard-title">
-      {title}
-    </span>
-  );
-}
-
 function LeaveButton({ leaveUrl }:{ leaveUrl:string }) {
   return (
     <a
@@ -194,10 +186,9 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
 
   const renderTopRightUI = useCallback(() => (
     <div className="op-whiteboard-chrome">
-      <WhiteboardTitle title={title} />
       <LeaveButton leaveUrl={leaveUrl} />
     </div>
-  ), [title, leaveUrl]);
+  ), [leaveUrl]);
 
   return (
     <Excalidraw
