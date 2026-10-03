@@ -54,7 +54,9 @@ module McpTools
     filter :assigned_to_id
     filter :author_id
     filter :id, filter_proc: ->(wps, v) { wps.where_display_id_in(v) }
-    filter :project_id
+    filter :project_id, filter_proc: ->(wps, v) {
+      v.is_a?(String) ? wps.joins(:project).where(projects: { identifier: v }) : wps.where(project_id: v)
+    }
     filter :status_id
     filter :type_id
     filter :version_id, filter_proc: FILTER_ON_TARGET_VERSIONS
@@ -77,7 +79,11 @@ module McpTools
         },
         author_id: { type: "number", description: "The ID of the user that created this work package." },
         id: { type: %w[string number], description: "The identifier of the work package." },
-        project_id: { type: "number", description: "The ID of the project that this work package belongs to." },
+        project_id: {
+          type: %w[string number],
+          description: "The numeric ID or identifier of the project that this work package belongs to, " \
+                       "for example 'DAS' or 'test-abc'."
+        },
         status_id: { type: "number", description: "The ID of the work package's status." },
         subject: {
           type: "string",
