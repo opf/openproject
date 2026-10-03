@@ -45,6 +45,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: false,
 })
 export class WidgetCustomTextComponent extends AbstractWidgetComponent implements OnInit, OnChanges, OnDestroy {
+  protected override readonly hasWidgetHeading = true;
+
   handler = inject(CustomTextEditFieldService);
   protected cdr = inject(ChangeDetectorRef);
   protected sanitization = inject(DomSanitizer);

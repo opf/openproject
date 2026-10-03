@@ -48,6 +48,8 @@ import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit, AfterViewInit, OnDestroy {
+  protected override readonly hasWidgetHeading = true;
+
   readonly injector = inject(Injector);
   readonly timezone = inject(TimezoneService);
   readonly i18n = inject(I18nService);
