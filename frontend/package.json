@@ -216,7 +216,8 @@
   },
   "overrides": {
     "@excalidraw/excalidraw": {
-      "sass": "^1.99.0"
+      "sass": "^1.99.0",
+      "lodash-es": "^4.18.1"
     }
   }
 }
