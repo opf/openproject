@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { remainingHours, type ResourceAllocationEvent } from './resource-allocation-event';
+import { remainingAllocations, remainingHours, type ResourceAllocationEvent } from './resource-allocation-event';
 
 describe('remainingHours', () => {
   const allocation = {
@@ -73,5 +73,27 @@ describe('remainingHours', () => {
     const hidden = { ...allocation, workPackageId: undefined };
 
     expect(remainingHours(hidden, [timeEntry()])).toBe(6);
+  });
+});
+
+describe('remainingAllocations', () => {
+  const allocation = (id:string, workPackageId:string) => ({
+    id,
+    start: '2026-10-05',
+    hours: 2,
+    workPackageId,
+  }) as ResourceAllocationEvent;
+
+  const timeEntry = {
+    start: '2026-10-05T09:00:00+02:00',
+    hours: 2,
+    ongoing: false,
+    workPackageId: '42',
+  };
+
+  it('drops the allocations whose plan has been logged in full', () => {
+    const remaining = remainingAllocations([allocation('done', '42'), allocation('open', '43')], [timeEntry]);
+
+    expect(remaining.map(({ id, hours }) => [id, hours])).toEqual([['open', 2]]);
   });
 });

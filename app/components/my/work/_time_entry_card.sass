@@ -51,7 +51,7 @@
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
 
-  .te-entry-card--due
+  .te-entry-card--finish-by
     display: flex
     align-items: center
     gap: 4px
@@ -60,7 +60,7 @@
     font-size: var(--text-caption-size)
     line-height: var(--text-caption-lineHeight)
 
-  .te-entry-card--due-attention
+  .te-entry-card--finish-by-attention
     color: var(--fgColor-attention)
 
   // Anchored rather than pushed down by the text, which would shove it out of a card that
@@ -71,6 +71,17 @@
     bottom: 8px
     display: flex
     color: var(--fgColor-muted)
+
+// For the event element of an allocation, which each view names for itself. A card
+// without a type (its work package is not visible) has no --hl-color.
+=te-allocation-event
+  --allocation-border-color: hsl(from var(--hl-color, var(--borderColor-emphasis)) h s calc(l - 15))
+  background: var(--bgColor-muted)
+  border: 1px dashed var(--allocation-border-color)
+  border-top: 4px solid var(--allocation-border-color)
+  border-radius: 6px
+  box-shadow: var(--shadow-resting-medium)
+  overflow: hidden
 
 // For a card with no room for more than a single row.
 =te-entry-card-condensed
@@ -90,7 +101,7 @@
 
   .te-entry-card--project,
   .te-entry-card--times,
-  .te-entry-card--due
+  .te-entry-card--finish-by
     display: none
 
   .te-entry-card--icon

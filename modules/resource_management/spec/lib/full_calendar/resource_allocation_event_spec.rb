@@ -55,6 +55,11 @@ RSpec.describe FullCalendar::ResourceAllocationEvent do
     expect(json).to include("allocationId" => allocation.id, "hours" => 2.5)
   end
 
+  it "carries the allocation's end date as the date to finish by", with_settings: { date_format: "%d.%m.%Y" } do
+    expect(json).to include("finishBy" => allocation.end_date.iso8601,
+                            "formattedFinishBy" => allocation.end_date.strftime("%d.%m.%Y"))
+  end
+
   context "when the work package is visible" do
     it "describes the work package" do
       expect(json).to include(
