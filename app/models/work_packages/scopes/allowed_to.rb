@@ -51,6 +51,35 @@ module WorkPackages::Scopes
         end
       end
 
+      # Ids of the work packages visible to +user+, for use as a semi-join operand:
+      # +where(resource_id: WorkPackage.visible_ids(user))+. +column:+ projects a
+      # different column (e.g. +:project_id+) and is validated, since it lands in
+      # the CTE's SELECT list.
+      #
+      # With +shared_permissions_cte+ on, the set is wrapped in an +AS MATERIALIZED+
+      # CTE and built once with a real cardinality instead of re-derived per row;
+      # off, it is the plain subquery. Both return the same ids. The nested inner
+      # CTE only carries the materialization hint — see the rails/rails#54322 note
+      # in +logged_in_non_admin_allowed_to+.
+      def visible_ids(user, column: :id)
+        raise ArgumentError, "unknown column #{column.inspect}" unless column_names.include?(column.to_s)
+
+        ids = visible(user).select(column)
+
+        return ids unless OpenProject::FeatureDecisions.shared_permissions_cte_active?
+
+        visible_work_packages = Arel::Table.new(:visible_work_packages)
+
+        with(visible_work_packages: Arel.sql(<<~SQL.squish))
+          WITH materialized_visible_work_packages AS MATERIALIZED (
+            #{ids.to_sql}
+          )
+          SELECT #{column} FROM materialized_visible_work_packages
+        SQL
+          .select(visible_work_packages[column])
+          .from(visible_work_packages)
+      end
+
       private
 
       def admin_allowed_to(permissions)
