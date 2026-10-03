@@ -25,3 +25,5 @@ get:
             $ref: '../components/schemas/collection_model.yml'
     '403':
       description: Returned if the user may not view work packages in the project.
+    '404':
+      description: Returned if the project does not exist or is not visible to the user.

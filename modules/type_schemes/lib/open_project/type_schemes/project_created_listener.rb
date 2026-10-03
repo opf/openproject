@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# frozen_string_literal: true
+
 module OpenProject::TypeSchemes
   module ProjectCreatedListener
     module_function

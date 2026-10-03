@@ -48,6 +48,14 @@ RSpec.describe TypeSchemes::SchemeService do
       expect(result.result.default_type).to eq(epic)
     end
 
+    it "fails when the same type is listed twice" do
+      items = items_for(epic, story) + [{ type_id: epic.id, position: 3, is_default: false }]
+      result = described_class.create(name: "A", items:)
+      expect(result).to be_failure
+      expect(result.errors.symbols_for(:items)).to include(:duplicate_types)
+      expect(TypeScheme.exists?(name: "A")).to be(false)
+    end
+
     it "fails without a default" do
       result = described_class.create(name: "A", items: items_for(epic, story, default: nil))
       expect(result).to be_failure
@@ -111,6 +119,11 @@ RSpec.describe TypeSchemes::SchemeService do
       expect(copy.default_type).to eq(epic)
       expect(copy.is_default).to be(false)
       expect(copy.project_assignments).to be_empty
+    end
+
+    it "picks a free name when the clone name is taken" do
+      described_class.clone(scheme)
+      expect(described_class.clone(scheme).result.name).to eq("X - Custom 2")
     end
   end
 

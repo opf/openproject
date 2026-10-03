@@ -71,6 +71,11 @@ RSpec.describe "API v3 type schemes" do
       expect(json["typeItems"].first["default"]).to be true
     end
 
+    it "returns 404 for an unknown scheme" do
+      get api_v3_paths.type_scheme(0)
+      expect(last_response).to have_http_status(:not_found)
+    end
+
     it "forbids writing" do
       post api_v3_paths.type_schemes, body_for("X", [bug]), headers
       expect(last_response).to have_http_status(:forbidden)
@@ -95,6 +100,12 @@ RSpec.describe "API v3 type schemes" do
       delete api_v3_paths.type_scheme(id)
       expect(last_response).to have_http_status(:no_content)
       expect(TypeScheme.exists?(id)).to be false
+    end
+
+    it "rejects an item without a type link" do
+      body = { name: "Bad", typeItems: [{ position: 1, default: true }] }
+      post api_v3_paths.type_schemes, body.to_json, headers
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "rejects a scheme without a default type" do
@@ -129,6 +140,18 @@ RSpec.describe "API v3 type schemes" do
       expect(ProjectTypeScheme.where(project_id: project.id)).to be_empty
     end
 
+    it "returns 404 for a project the user cannot see" do
+      login_as(create(:user))
+      put api_v3_paths.project_type_scheme(project.id), { scheme_id: scheme.id }.to_json, headers
+      expect(last_response).to have_http_status(:not_found)
+    end
+
+    it "returns 404 for an unknown scheme" do
+      login_as(member)
+      put api_v3_paths.project_type_scheme(project.id), { scheme_id: 0 }.to_json, headers
+      expect(last_response).to have_http_status(:not_found)
+    end
+
     it "rejects an inactive scheme" do
       login_as(member)
       inactive = create(:type_scheme, name: "Off", types: [bug])
@@ -147,6 +170,12 @@ RSpec.describe "API v3 type schemes" do
 
       expect(last_response).to have_http_status(:ok)
       expect(json["_embedded"]["elements"].pluck("id")).to eq([story.id, epic.id])
+    end
+
+    it "is forbidden without view_work_packages" do
+      login_as(create(:user, member_with_permissions: { project => %i[assign_type_scheme] }))
+      get api_v3_paths.project_available_types(project.id)
+      expect(last_response).to have_http_status(:forbidden)
     end
 
     it "returns all enabled types without a scheme" do

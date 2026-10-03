@@ -35,7 +35,7 @@ module TypeSchemes
       def update(scheme, params) = save(scheme, params)
 
       def clone(scheme)
-        copy = TypeScheme.new(name: "#{scheme.name} - Custom", description: scheme.description, active: scheme.active)
+        copy = TypeScheme.new(name: clone_name(scheme), description: scheme.description, active: scheme.active)
         scheme.items.each { |i| copy.items.build(type_id: i.type_id, position: i.position, is_default: i.is_default) }
         copy.save ? ok(copy) : fail_with(copy)
       end
@@ -55,9 +55,17 @@ module TypeSchemes
       end
 
       def assign(project, scheme)
-        record = ProjectTypeScheme.find_or_initialize_by(project_id: project.id)
-        record.scheme = scheme
-        record.save ? ok(record) : fail_with(record)
+        attempts = 0
+        begin
+          ProjectTypeScheme.transaction(requires_new: true) do
+            record = ProjectTypeScheme.find_or_initialize_by(project_id: project.id)
+            record.scheme = scheme
+            record.save ? ok(record) : fail_with(record)
+          end
+        rescue ActiveRecord::RecordNotUnique
+          retry if (attempts += 1) < 2
+          raise
+        end
       end
 
       def unassign(project)
@@ -73,9 +81,26 @@ module TypeSchemes
 
       private
 
+      def clone_name(scheme)
+        base = "#{scheme.name} - Custom"
+        candidates = [base] + (2..).lazy.map { |n| "#{base} #{n}" }
+        candidates.find { |name| !TypeScheme.exists?(name:) }
+      end
+
+      def duplicate_types?(items)
+        ids = items&.map { |i| i[:type_id].to_i }
+        ids && ids.uniq.size != ids.size
+      end
+
       def save(scheme, params)
+        if duplicate_types?(params[:items])
+          scheme.errors.add(:items, :duplicate_types)
+          return fail_with(scheme)
+        end
+
         result = nil
         TypeScheme.transaction do
+          scheme.lock! if scheme.persisted?
           scheme.assign_attributes(params.slice(:name, :description, :is_default))
           prepare_items(scheme, params[:items]) if params.key?(:items)
           result = scheme.save ? ok(scheme) : fail_with(scheme)
@@ -96,7 +121,7 @@ module TypeSchemes
         end
         wanted.each do |type_id, attrs|
           item = scheme.items.find { |i| i.type_id == type_id } || scheme.items.build(type_id:)
-          item.assign_attributes(position: attrs[:position], is_default: attrs[:is_default] || false)
+          item.assign_attributes(position: attrs[:position] || 0, is_default: attrs[:is_default] || false)
         end
       end
 

@@ -30,5 +30,7 @@ put:
       description: No Content
     '403':
       description: Returned if the user lacks the permission.
+    '404':
+      description: Returned if the project is not visible to the user or the scheme does not exist.
     '422':
       description: Returned if the scheme is inactive.

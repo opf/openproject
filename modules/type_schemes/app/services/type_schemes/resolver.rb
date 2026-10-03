@@ -45,7 +45,7 @@ module TypeSchemes
       return scope unless scheme
 
       by_id = scope.index_by(&:id)
-      ordered = scheme.items.sort_by { |i| [i.is_default ? 0 : 1, i.position] }
+      ordered = scheme.items.sort_by { |i| [i.is_default ? 0 : 1, i.position, i.id.to_i] }
                       .filter_map { |i| by_id[i.type_id] }
       ordered.presence || scope
     end

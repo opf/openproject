@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# frozen_string_literal: true
+
 module TypeSchemes
   class DefaultMigration
     SCHEME_NAME = "Default Scheme"
@@ -45,8 +47,10 @@ module TypeSchemes
       plan = build_plan
       return plan if @mode == "dry_run" || plan.type_names.empty?
 
-      scheme = find_or_create_scheme!
-      assign_projects(scheme) if @mode == "auto"
+      TypeScheme.transaction do
+        scheme = find_or_create_scheme!
+        assign_projects(scheme) if @mode == "auto"
+      end
       plan
     end
 
@@ -75,10 +79,11 @@ module TypeSchemes
       items = types.each_with_index.map do |type, index|
         { type_id: type.id, position: index + 1, is_default: index.zero? }
       end
-      result = SchemeService.create(name: SCHEME_NAME, items:)
-      scheme = result.result
-      scheme.update!(is_default: true) if @mode == "auto" && !TypeScheme.exists?(is_default: true)
-      scheme
+      make_default = @mode == "auto" && !TypeScheme.exists?(is_default: true)
+      result = SchemeService.create(name: SCHEME_NAME, items:, is_default: make_default)
+      raise ActiveRecord::RecordInvalid, result.result if result.failure?
+
+      result.result
     end
 
     def assign_projects(scheme)
