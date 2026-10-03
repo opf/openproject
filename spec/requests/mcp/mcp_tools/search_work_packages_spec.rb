@@ -171,12 +171,22 @@ RSpec.describe McpTools::SearchWorkPackages do
     describe "filtering by project_id" do
       let!(:other_work_package) { create(:work_package, subject: "Other Project WP") }
 
-      let(:call_args) { { project_id: project.id } }
+      context "when searching by a numeric ID" do
+        let(:call_args) { { project_id: project.id } }
 
-      it "finds only work packages in the specified project" do
-        mcp_request
-        expect(result_items.size).to eq(2)
-        expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
+        it "finds only work packages in the specified project" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
+        end
+      end
+
+      context "when searching by an identifier" do
+        let(:call_args) { { project_id: project.identifier } }
+
+        it "finds only work packages in the specified project" do
+          mcp_request
+          expect(result_items.pluck("id")).to contain_exactly(work_package_a.id, work_package_b.id)
+        end
       end
     end
 
