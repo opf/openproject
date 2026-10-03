@@ -4991,7 +4991,7 @@ cs:
         add_button: Přidat projektové notifikace
         description: Nastavení oznámení si můžete přizpůsobit tak, abyste dostávali oznámení pouze o určitých událostech v konkrétních projektech. Níže přidejte projekt a vyberte, které události by měly spustit zaslání oznámení. Tato nastavení pro jednotlivé projekty mají přednost před výchozími nastaveními uvedenými výše.
         dialog_title: Přidat projektové notifikace
-        list_header: Projects with specific notifications
+        list_header: Projektové notifikace
         title: Projektové notifikace
     notifications_and_email:
       tabs:
