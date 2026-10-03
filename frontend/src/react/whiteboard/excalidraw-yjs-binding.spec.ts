@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { mutateElement } from '@excalidraw/excalidraw';
 import type { OrderedExcalidrawElement } from '@excalidraw/excalidraw/element/types';
 import type { AppState, ExcalidrawImperativeAPI, SceneData } from '@excalidraw/excalidraw/types';
 import * as Y from 'yjs';
@@ -178,6 +179,33 @@ describe('ExcalidrawYjsBinding', () => {
     window.dispatchEvent(new Event('pagehide'));
 
     expect(docA.getMap(WHITEBOARD_ELEMENTS_KEY).has('r1')).toBe(true);
+  });
+
+  it('syncs edits Excalidraw makes by mutating an element in place', async () => {
+    const element = rectangle('r1', 1, { width: 0, height: 0 });
+    bindingA.onSceneChange([element]);
+    await nextFrame();
+
+    const updates = vi.fn();
+    docA.on('update', updates);
+    mutateElement(element, { width: 120, height: 80 });
+    bindingA.onSceneChange([element]);
+    await nextFrame();
+    await nextFrame();
+
+    expect(updates).toHaveBeenCalled();
+    const stored = docA.getMap(WHITEBOARD_ELEMENTS_KEY).get('r1') as OrderedExcalidrawElement;
+    expect(stored).not.toBe(element);
+    expect(stored.width).toBe(120);
+    expect(editorB.elements[0].width).toBe(120);
+  });
+
+  it('never hands stored Y.Map values to Excalidraw', () => {
+    docA.getMap(WHITEBOARD_ELEMENTS_KEY).set('r1', rectangle('r1', 1));
+
+    const [restored] = ExcalidrawYjsBinding.storedElements(docA);
+
+    expect(restored).not.toBe(docA.getMap(WHITEBOARD_ELEMENTS_KEY).get('r1'));
   });
 
   it('never writes for read-only users', async () => {

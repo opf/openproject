@@ -37,7 +37,9 @@ export const WHITEBOARD_ELEMENTS_KEY = 'elements';
 /**
  * Syncs the Excalidraw scene with a Y.Doc.
  *
- * Every element is stored as a whole under its id in a Y.Map, deletions stay as
+ * Every element is stored as a copy under its id in a Y.Map: Y.Map keeps local values
+ * by reference and Excalidraw mutates elements in place, so storing the live object
+ * would make every later edit look already stored. Deletions stay as
  * `isDeleted` tombstones so stale clients cannot resurrect them. Excalidraw bumps
  * `version` on every mutation (including undo/redo), so a local element is only
  * written when it is newer than the stored one. Remote updates are merged with
@@ -98,7 +100,7 @@ export class ExcalidrawYjsBinding {
     if (changed.length === 0) return;
 
     this.doc.transact(() => {
-      changed.forEach((element) => this.elements.set(element.id, element));
+      changed.forEach((element) => this.elements.set(element.id, structuredClone(element)));
     }, this.localOrigin);
   };
 
