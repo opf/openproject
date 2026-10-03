@@ -29,7 +29,7 @@
 import { CaptureUpdateAction, reconcileElements, restoreElements } from '@excalidraw/excalidraw';
 import type { RemoteExcalidrawElement } from '@excalidraw/excalidraw/data/reconcile';
 import type { OrderedExcalidrawElement } from '@excalidraw/excalidraw/element/types';
-import type { ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types';
+import type { AppState, ExcalidrawImperativeAPI } from '@excalidraw/excalidraw/types';
 import * as Y from 'yjs';
 
 export const WHITEBOARD_ELEMENTS_KEY = 'elements';
@@ -42,7 +42,9 @@ export const WHITEBOARD_ELEMENTS_KEY = 'elements';
  * `version` on every mutation (including undo/redo), so a local element is only
  * written when it is newer than the stored one. Remote updates are merged with
  * Excalidraw's own `reconcileElements` and applied without being captured in the
- * local undo history.
+ * local undo history. When two clients edit an element to the same version, the
+ * stored element wins, because Excalidraw's own tie-break could keep a version
+ * locally that never reaches the Y.Doc.
  */
 export class ExcalidrawYjsBinding {
   private readonly elements:Y.Map<OrderedExcalidrawElement>;
@@ -63,10 +65,12 @@ export class ExcalidrawYjsBinding {
   ) {
     this.elements = doc.getMap(WHITEBOARD_ELEMENTS_KEY);
     this.elements.observe(this.onYjsChange);
+    window.addEventListener('pagehide', this.flushLocal);
   }
 
   destroy():void {
     this.elements.unobserve(this.onYjsChange);
+    window.removeEventListener('pagehide', this.flushLocal);
     if (this.localFrame !== null) cancelAnimationFrame(this.localFrame);
     if (this.remoteFrame !== null) cancelAnimationFrame(this.remoteFrame);
     this.flushLocal();
@@ -82,7 +86,7 @@ export class ExcalidrawYjsBinding {
     });
   }
 
-  private flushLocal():void {
+  private flushLocal = ():void => {
     const elements = this.pendingLocal;
     this.pendingLocal = null;
     if (!elements) return;
@@ -96,7 +100,7 @@ export class ExcalidrawYjsBinding {
     this.doc.transact(() => {
       changed.forEach((element) => this.elements.set(element.id, element));
     }, this.localOrigin);
-  }
+  };
 
   private onYjsChange = (_event:Y.YMapEvent<OrderedExcalidrawElement>, transaction:Y.Transaction):void => {
     if (transaction.origin === this.localOrigin) return;
@@ -109,12 +113,33 @@ export class ExcalidrawYjsBinding {
 
   private applyRemote():void {
     const remote = ExcalidrawYjsBinding.storedElements(this.doc) as RemoteExcalidrawElement[];
+    const appState = this.api.getAppState();
     const reconciled = reconcileElements(
-      this.api.getSceneElementsIncludingDeleted(),
+      this.preferStoredOnTies(this.api.getSceneElementsIncludingDeleted(), remote, appState),
       remote,
-      this.api.getAppState(),
+      appState,
     );
 
     this.api.updateScene({ elements: reconciled, captureUpdate: CaptureUpdateAction.NEVER });
+  }
+
+  private preferStoredOnTies(
+    local:readonly OrderedExcalidrawElement[],
+    remote:readonly RemoteExcalidrawElement[],
+    appState:AppState,
+  ):OrderedExcalidrawElement[] {
+    const remoteById = new Map(remote.map((element) => [element.id, element]));
+    const inProgress = new Set([
+      appState.editingTextElement?.id,
+      appState.newElement?.id,
+      appState.resizingElement?.id,
+      ...(appState.selectedElementsAreBeingDragged ? Object.keys(appState.selectedElementIds) : []),
+    ]);
+
+    return local.map((element) => {
+      const stored = remoteById.get(element.id);
+      const tiedWithStored = stored?.version === element.version && stored.versionNonce !== element.versionNonce;
+      return tiedWithStored && !inProgress.has(element.id) ? stored : element;
+    });
   }
 }

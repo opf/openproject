@@ -93,6 +93,8 @@ describe("whiteboard collaboration through Hocuspocus", () => {
     const alice = connect();
     const bob = connect();
     providers.push(alice, bob);
+    const bobNotifications: string[] = [];
+    bob.on("stateless", ({ payload }: { payload: string }) => bobNotifications.push(payload));
     await expect.poll(() => alice.synced && bob.synced, { timeout: 10000 }).toBe(true);
 
     expect(bob.document.getMap("elements").has("seed")).toBe(true);
@@ -106,6 +108,7 @@ describe("whiteboard collaboration through Hocuspocus", () => {
     });
     expect(storedBodies.at(-1)).toHaveProperty("content_binary");
     expect(storedBodies.at(-1)).not.toHaveProperty("description");
+    await expect.poll(() => bobNotifications, { timeout: 5000 }).toContain("storeEvent");
   });
 
   it("shares presence through awareness", async () => {

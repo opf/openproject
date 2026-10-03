@@ -145,6 +145,41 @@ describe('ExcalidrawYjsBinding', () => {
     expect(editorB.updates.at(-1)?.captureUpdate).toBe('NEVER');
   });
 
+  it('converges when two users concurrently edit the same element to the same version', async () => {
+    const isolatedA = new Y.Doc();
+    const isolatedB = new Y.Doc();
+    const alice = new FakeExcalidraw();
+    const bob = new FakeExcalidraw();
+    const aliceBinding = new ExcalidrawYjsBinding(isolatedA, alice.api, false);
+    const bobBinding = new ExcalidrawYjsBinding(isolatedB, bob.api, false);
+
+    alice.elements = [rectangle('r1', 2, { x: 100, versionNonce: 900 })];
+    aliceBinding.onSceneChange(alice.elements);
+    bob.elements = [rectangle('r1', 2, { x: 200, versionNonce: 1 })];
+    bobBinding.onSceneChange(bob.elements);
+    await nextFrame();
+
+    Y.applyUpdate(isolatedB, Y.encodeStateAsUpdate(isolatedA));
+    Y.applyUpdate(isolatedA, Y.encodeStateAsUpdate(isolatedB));
+    await nextFrame();
+    await nextFrame();
+
+    const stored = isolatedA.getMap(WHITEBOARD_ELEMENTS_KEY).get('r1') as OrderedExcalidrawElement;
+    expect(alice.elements[0].x).toBe(stored.x);
+    expect(bob.elements[0].x).toBe(stored.x);
+
+    aliceBinding.destroy();
+    bobBinding.destroy();
+  });
+
+  it('flushes pending local changes when the page is hidden', () => {
+    bindingA.onSceneChange([rectangle('r1', 1)]);
+
+    window.dispatchEvent(new Event('pagehide'));
+
+    expect(docA.getMap(WHITEBOARD_ELEMENTS_KEY).has('r1')).toBe(true);
+  });
+
   it('never writes for read-only users', async () => {
     const readOnlyDoc = new Y.Doc();
     const binding = new ExcalidrawYjsBinding(readOnlyDoc, new FakeExcalidraw().api, true);

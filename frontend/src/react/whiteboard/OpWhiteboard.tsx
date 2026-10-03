@@ -34,7 +34,7 @@ import type {
   ExcalidrawImperativeAPI,
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/types';
-import type { HocuspocusProvider } from '@hocuspocus/provider';
+import type { HocuspocusProvider, onStatelessParameters } from '@hocuspocus/provider';
 import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type * as Y from 'yjs';
@@ -149,11 +149,62 @@ function LeaveButton({ leaveUrl }:{ leaveUrl:string }) {
   );
 }
 
-function ConnectionStatus({ offline }:{ offline:boolean }) {
-  const state = offline ? 'offline' : 'live';
+type SaveState = { kind:'saved'; at:Date|null } | { kind:'saving' } | { kind:'delayed' };
+
+const SAVE_DELAYED_AFTER_MS = 20_000;
+
+function useSaveState(provider:HocuspocusProvider):SaveState {
+  const [state, setState] = useState<SaveState>({ kind: 'saved', at: null });
+
+  useEffect(() => {
+    let delayTimer:ReturnType<typeof setTimeout>|null = null;
+    const clearDelayTimer = () => {
+      if (delayTimer !== null) clearTimeout(delayTimer);
+      delayTimer = null;
+    };
+
+    const onUpdate = () => {
+      setState((current) => (current.kind === 'delayed' ? current : { kind: 'saving' }));
+      delayTimer ??= setTimeout(() => setState({ kind: 'delayed' }), SAVE_DELAYED_AFTER_MS);
+    };
+    const onStateless = ({ payload }:onStatelessParameters) => {
+      if (payload !== 'storeEvent') return;
+      clearDelayTimer();
+      setState({ kind: 'saved', at: new Date() });
+    };
+    const warnAboutUnsentChanges = (event:BeforeUnloadEvent) => {
+      if (provider.hasUnsyncedChanges) event.preventDefault();
+    };
+
+    provider.document.on('update', onUpdate);
+    provider.on('stateless', onStateless);
+    window.addEventListener('beforeunload', warnAboutUnsentChanges);
+
+    return () => {
+      clearDelayTimer();
+      provider.document.off('update', onUpdate);
+      provider.off('stateless', onStateless);
+      window.removeEventListener('beforeunload', warnAboutUnsentChanges);
+    };
+  }, [provider]);
+
+  return state;
+}
+
+function saveStateLabel(state:SaveState):string {
+  if (state.kind === 'saving') return t('save.saving');
+  if (state.kind === 'delayed') return t('save.delayed');
+  if (!state.at) return t('save.saved');
+
+  const time = state.at.toLocaleTimeString(window.I18n.locale, { hour: '2-digit', minute: '2-digit' });
+  return window.I18n.t('js.whiteboards.save.saved_at', { time });
+}
+
+function ConnectionStatus({ offline, saveState }:{ offline:boolean; saveState:SaveState }) {
+  const state = offline ? 'offline' : saveState.kind;
   return (
     <span className={`op-whiteboard-chrome--status op-whiteboard-chrome--status_${state}`} data-test-selector="whiteboard-connection-status">
-      {t(`connection.${state}`)}
+      {offline ? t('connection.offline') : saveStateLabel(saveState)}
     </span>
   );
 }
@@ -163,6 +214,7 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
   const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
   const bindingRef = useRef<ExcalidrawYjsBinding|null>(null);
   const awarenessRef = useRef<WhiteboardAwareness|null>(null);
+  const saveState = useSaveState(provider);
 
   const initialData = useMemo<ExcalidrawInitialDataState>(
     () => ({ elements: ExcalidrawYjsBinding.storedElements(doc), scrollToContent: true }),
@@ -232,7 +284,7 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
         <MainMenu.DefaultItems.ChangeCanvasBackground />
       </MainMenu>
       <Footer>
-        <ConnectionStatus offline={offline} />
+        <ConnectionStatus offline={offline} saveState={saveState} />
       </Footer>
     </Excalidraw>
   );
