@@ -177,4 +177,29 @@ RSpec.describe "API v3 type schemes" do
       expect(json["_embedded"]["elements"].pluck("id")).to match_array([epic.id, story.id, bug.id])
     end
   end
+
+  describe "unexpected input types" do
+    before { login_as(admin) }
+
+    it "rejects non-scalar position and oversized ids without a server error" do
+      body = { name: "Weird",
+               typeItems: [{ typeId: bug.id, position: { a: 1 }, default: true },
+                           { typeId: 99_999_999_999_999_999_999, position: 1 }] }.to_json
+      post api_v3_paths.type_schemes, body, headers
+      expect(last_response).to have_http_status(:unprocessable_entity)
+    end
+
+    it "does not persist a rename when the activation toggle fails" do
+      default = TypeSchemes::DefaultScheme.ensure!
+      patch api_v3_paths.type_scheme(default.id), { name: "Renamed", active: false }.to_json, headers
+      expect(last_response).to have_http_status(:unprocessable_entity)
+      expect(default.reload.name).not_to eq("Renamed")
+    end
+
+    it "answers 422 for a non-scalar scheme_id on assignment" do
+      login_as(member)
+      put api_v3_paths.project_type_scheme(project.id), { scheme_id: { a: 1 } }.to_json, headers
+      expect(last_response).to have_http_status(:unprocessable_entity)
+    end
+  end
 end

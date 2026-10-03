@@ -36,7 +36,8 @@ module Projects
       def show; end
 
       def update
-        scheme = TypeScheme.active.find_by(id: params[:scheme_id]) if params[:scheme_id].present?
+        scheme_id = params[:scheme_id]
+        scheme = TypeScheme.active.find_by(id: scheme_id.to_i.clamp(0, 2_147_483_647)) if scheme_id.is_a?(String) && scheme_id.present?
         result =
           if scheme
             ::TypeSchemes::SchemeService.assign(@project, scheme)

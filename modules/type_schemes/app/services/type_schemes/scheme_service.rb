@@ -43,18 +43,19 @@ module TypeSchemes
       end
 
       def deactivate(scheme)
-        if scheme.is_default
-          scheme.errors.add(:active, :default_scheme_required)
-          return fail_with(scheme)
-        end
-
         TypeScheme.transaction(requires_new: true) do
+          scheme.lock!
+          if scheme.is_default
+            scheme.errors.add(:active, :default_scheme_required)
+            raise ActiveRecord::Rollback
+          end
+
           default = DefaultScheme.ensure!
           scheme.project_assignments.update_all(scheme_id: default.id) if default
           scheme.update!(active: false)
           Resolver.reset_cache
         end
-        ok(scheme)
+        scheme.errors.any? ? fail_with(scheme) : ok(scheme)
       end
 
       def activate(scheme)

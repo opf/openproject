@@ -107,6 +107,10 @@ module Admin
       @scheme = TypeScheme.find(params[:id])
     end
 
+    def bounded_position(value)
+      value.is_a?(String) ? value.to_i.clamp(0, 100_000) : 0
+    end
+
     def permitted_scheme_params
       params.require(:type_scheme).permit(:name, :description, :is_default, :default_type_id, types: {})
     end
@@ -117,7 +121,8 @@ module Admin
       default_id = permitted[:default_type_id].to_s
       rows = (permitted[:types] || {}).to_h.select { |_, v| v.respond_to?(:key?) && v["enabled"] == "1" }
       items = rows.map do |type_id, v|
-        { type_id: type_id.to_i, position: v["position"].to_i, is_default: type_id == default_id }
+        { type_id: type_id.to_i.clamp(0, 2_147_483_647), position: bounded_position(v["position"]),
+          is_default: type_id == default_id }
       end
       { name: permitted[:name], description: permitted[:description],
         is_default: permitted[:is_default] == "1", items: }

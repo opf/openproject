@@ -35,7 +35,8 @@ module API
             authorize_in_project(:assign_type_scheme, project: @project)
             scheme_id = request_body.to_h.with_indifferent_access[:scheme_id]
 
-            scheme = scheme_id.present? ? TypeScheme.active.find_by(id: scheme_id) : nil
+            scheme_id = scheme_id.to_s.to_i.clamp(0, 2_147_483_647) if scheme_id.is_a?(String) || scheme_id.is_a?(Integer)
+            scheme = scheme_id.is_a?(Integer) && scheme_id.positive? ? TypeScheme.active.find_by(id: scheme_id) : nil
             raise ::API::Errors::Validation.new(:scheme_id, "An active type scheme is required.") unless scheme
 
             result = ::TypeSchemes::SchemeService.assign(@project, scheme)

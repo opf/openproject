@@ -30,6 +30,9 @@ module API
   module V3
     module TypeSchemes
       class TypeSchemesAPI < ::API::OpenProjectAPI
+        MAX_ID = 2_147_483_647
+        MAX_POSITION = 100_000
+
         helpers do
           def scheme_params
             body = request_body.to_h.with_indifferent_access
@@ -44,12 +47,18 @@ module API
 
               params[:items] = raw_items.map do |item|
                 item = item.with_indifferent_access
-                { type_id: item[:type_id] || item[:typeId] || type_id_from_link(item),
-                  position: item[:position].to_i,
+                { type_id: safe_int(item[:type_id] || item[:typeId] || type_id_from_link(item), max: MAX_ID),
+                  position: safe_int(item[:position], max: MAX_POSITION),
                   is_default: ActiveModel::Type::Boolean.new.cast(item[:default]) || false }
               end
             end
             params
+          end
+
+          def safe_int(value, max:)
+            return 0 unless value.is_a?(String) || value.is_a?(Integer)
+
+            value.to_i.clamp(0, max)
           end
 
           def type_id_from_link(item)
@@ -99,14 +108,17 @@ module API
 
             patch do
               authorize_admin
-              result = ::TypeSchemes::SchemeService.update(@scheme, scheme_params)
-              raise_service_errors(result) if result.failure?
-
-              active = request_body.to_h.with_indifferent_access[:active]
-              unless active.nil?
-                toggle = ActiveModel::Type::Boolean.new.cast(active) ? :activate : :deactivate
-                result = ::TypeSchemes::SchemeService.public_send(toggle, @scheme.reload)
+              result = nil
+              TypeScheme.transaction do
+                result = ::TypeSchemes::SchemeService.update(@scheme, scheme_params)
                 raise_service_errors(result) if result.failure?
+
+                active = request_body.to_h.with_indifferent_access[:active]
+                unless active.nil?
+                  toggle = ActiveModel::Type::Boolean.new.cast(active) ? :activate : :deactivate
+                  result = ::TypeSchemes::SchemeService.public_send(toggle, @scheme.reload)
+                  raise_service_errors(result) if result.failure?
+                end
               end
 
               render_scheme(result.result)
