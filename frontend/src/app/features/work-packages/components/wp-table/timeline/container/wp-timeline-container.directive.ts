@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IToast,
@@ -36,7 +36,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import moment, { Moment } from 'moment';
 import {
   filter,
-  takeUntil,
+  switchMap,
   take,
 } from 'rxjs/operators';
 import {
@@ -60,6 +60,7 @@ import {
   combineLatest,
   firstValueFrom,
   Observable,
+  ReplaySubject,
 } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
@@ -83,6 +84,9 @@ import {
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import Mousetrap from 'mousetrap';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TableUiWork } from 'core-app/features/work-packages/components/wp-fast-table/table-ui-work';
+import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { IDay } from 'core-app/core/state/days/day.model';
 
 @Component({
@@ -98,6 +102,11 @@ import { IDay } from 'core-app/core/state/days/day.model';
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   readonly injector = inject(Injector);
+  readonly destroyRef = inject(DestroyRef);
+  private readonly tables = new ReplaySubject<WorkPackageTable>(1);
+  readonly tables$:Observable<WorkPackageTable> = this.tables.asObservable();
+  private uiWork:TableUiWork;
+  private releaseAttachment:() => void = () => undefined;
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private states = inject(States);
   wpTableComponent = inject(WorkPackagesTableComponent);
@@ -115,7 +124,58 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private element:HTMLElement;
 
-  public workPackageTable:WorkPackageTable;
+  private table:WorkPackageTable;
+
+  get workPackageTable():WorkPackageTable {
+    return this.table;
+  }
+
+  set workPackageTable(table:WorkPackageTable) {
+    if (this.destroyRef.destroyed || table.destroyed || this.table === table) return;
+    this.releaseAttachment();
+    this.table = table;
+    const uiWork = this.uiWork = new TableUiWork(table.destroyRef, () => this.attachedTo(table));
+    const scrollContainer = this.getParentScrollContainer();
+    const reportDaysError = this.notificationService.handleRawError.bind(this.notificationService);
+    const onResize = () => {
+      if (this.attachedTo(table)) this.refreshRequest.putValue(undefined);
+    };
+    const onScroll = () => {
+      if (!this.initialized || !this.attachedTo(table)) return;
+      void this.requireNonWorkingDays(
+        this.getFirstDayInViewport().format('YYYY-MM-DD'),
+        this.getLastDayInViewport().format('YYYY-MM-DD'),
+        table,
+      ).catch(reportDaysError);
+    };
+    window.addEventListener('wp-resize.timeline', onResize);
+    scrollContainer.addEventListener('scroll', onScroll);
+    const cleanup = () => {
+      uiWork.cancel();
+      runCleanup(() => window.removeEventListener('wp-resize.timeline', onResize));
+      runCleanup(() => scrollContainer.removeEventListener('scroll', onScroll));
+    };
+    const unregister = onDestroySafely(table.destroyRef, cleanup);
+    this.releaseAttachment = () => {
+      cleanup();
+      if (!table.destroyed) runCleanup(unregister);
+    };
+    this.tables.next(table);
+  }
+
+  get destroyed():boolean {
+    return this.destroyRef.destroyed || this.workPackageTable?.destroyed === true;
+  }
+
+  private attachedTo(table:WorkPackageTable):boolean {
+    return !this.destroyRef.destroyed && !table.destroyed && this.workPackageTable === table;
+  }
+
+  override ngOnDestroy():void {
+    this.releaseAttachment();
+    this.tables.complete();
+    super.ngOnDestroy();
+  }
 
   private _viewParameters:TimelineViewParameters = new TimelineViewParameters();
 
@@ -144,10 +204,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   private orderedRows:RenderedWorkPackage[] = [];
 
   get commonPipes() {
-    return (source:Observable<any>) => source.pipe(
-      this.untilDestroyed(),
-      takeUntil(this.querySpace.stopAllSubscriptions),
-      filter(() => this.initialized && this.wpTableTimeline.isVisible),
+    return <T>(source:Observable<T>) => this.tables$.pipe(
+      switchMap((table) => source.pipe(
+        takeUntilDestroyed(table.destroyRef),
+        filter(() => this.attachedTo(table) && this.initialized && this.wpTableTimeline.isVisible),
+      )),
+      takeUntilDestroyed(this.destroyRef),
     );
   }
 
@@ -162,14 +224,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   }
 
   ngAfterViewInit() {
+    if (this.destroyRef.destroyed) return;
     this.element = this.elementRef.nativeElement;
-
-    const scrollBar = document.querySelector('.work-packages-tabletimeline--timeline-side');
-    if (scrollBar) {
-      scrollBar.addEventListener('scroll', () => {
-        this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
-      });
-    }
 
     this.text = {
       selectionMode: this.I18n.t('js.gantt_chart.selection_mode.notification'),
@@ -181,9 +237,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     // Register this instance to the table
     this.wpTableComponent.registerTimeline(this, this.timelineBody);
-
-    // Refresh on window resize events
-    window.addEventListener('wp-resize.timeline', () => this.refreshRequest.putValue(undefined));
 
     combineLatest([
       this.querySpace.tableRendered.values$(),
@@ -216,8 +269,12 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     return this.workPackageIdOrder.findIndex((el) => el.classIdentifier === classIdentifier);
   }
 
-  onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void) {
+  onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void):() => void {
+    if (this.destroyRef.destroyed) return () => undefined;
     this.renderers[name] = callback;
+    return () => {
+      if (this.renderers[name] === callback) delete this.renderers[name];
+    };
   }
 
   getAbsoluteLeftCoordinates():number {
@@ -242,6 +299,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   }
 
   refreshView() {
+    const table = this.workPackageTable;
+    if (!table || !this.attachedTo(table) || !this.initialized) return;
+    const uiWork = this.uiWork;
+    const reportDaysError = this.notificationService.handleRawError.bind(this.notificationService);
     if (!this.wpTableTimeline.isVisible) {
       debugLog('refreshView() requested, but TL is invisible.');
       return;
@@ -263,7 +324,17 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
       this.calculateViewParams(this._viewParameters);
 
-      await this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
+      try {
+        await this.requireNonWorkingDays(
+          this.getFirstDayInViewport().format('YYYY-MM-DD'),
+          this.getLastDayInViewport().format('YYYY-MM-DD'),
+          table,
+        );
+      } catch (error:unknown) {
+        reportDaysError(error);
+        return;
+      }
+      if (!this.attachedTo(table)) return;
 
       // Update all cells
       this.cellsRenderer.refreshAllCells();
@@ -282,7 +353,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.outerContainer.style.setProperty('width', `${currentWidth}px`);
 
       // Mark rendering event in a timeout to give DOM some time
-      setTimeout(() => {
+      uiWork.task(() => {
         this.querySpace.timelineRendered.next(null);
       });
     });
@@ -385,13 +456,15 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.refreshView();
   }
 
-  async requireNonWorkingDays(start:Date|string, end:Date|string) {
-    this.nonWorkingDays = await firstValueFrom(
+  async requireNonWorkingDays(start:Date|string, end:Date|string, table:WorkPackageTable) {
+    if (!table || !this.attachedTo(table)) return;
+    const days = await firstValueFrom(
       this
         .daysService
         .requireNonWorkingYears$(start, end)
         .pipe(take(1)),
     );
+    if (this.attachedTo(table)) this.nonWorkingDays = days;
   }
 
   isNonWorkingDay(date:Date|string):boolean {

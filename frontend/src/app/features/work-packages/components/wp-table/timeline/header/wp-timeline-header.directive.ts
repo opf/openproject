@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, OnInit, inject } from '@angular/core';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import moment, { Moment } from 'moment';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -40,6 +40,10 @@ import {
   TimelineViewParameters,
 } from '../wp-timeline';
 
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { TableUiWork } from 'core-app/features/work-packages/components/wp-fast-table/table-ui-work';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
+
 @Component({
   selector: timelineHeaderSelector,
   templateUrl: './wp-timeline-header.html',
@@ -51,6 +55,23 @@ import {
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineHeaderController implements OnInit {
+  readonly destroyRef = inject(DestroyRef);
+  private table:WorkPackageTable;
+  private uiWork:TableUiWork;
+
+  private prepareAttachment():boolean {
+    const controller = this.workPackageTimelineTableController;
+    const table = controller.workPackageTable;
+    if (this.destroyRef.destroyed || controller.destroyed || !table) return false;
+    if (this.table !== table) {
+      this.uiWork?.cancel();
+      this.table = table;
+      this.uiWork = new TableUiWork(table.destroyRef,
+        () => !this.destroyRef.destroyed && !controller.destroyed && controller.workPackageTable === table);
+    }
+    return true;
+  }
+
   readonly I18n = inject(I18nService);
   readonly wpTimelineService = inject(WorkPackageViewTimelineService);
   readonly workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
@@ -68,11 +89,15 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   }
 
   ngOnInit() {
-    this.workPackageTimelineTableController
+    if (this.destroyRef.destroyed) return;
+    const release = this.workPackageTimelineTableController
       .onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
+    onDestroySafely(this.destroyRef, release);
+    onDestroySafely(this.destroyRef, () => this.uiWork?.cancel());
   }
 
   refreshView(vp:TimelineViewParameters) {
+    if (!this.prepareAttachment()) return;
     this.innerHeader = this.element.querySelector('.wp-table-timeline--header-inner')!;
     this.renderLabels(vp);
   }
@@ -218,7 +243,8 @@ export class WorkPackageTimelineHeaderController implements OnInit {
       cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
       cellCallback(start, cell);
     }
-    setTimeout(() => {
+    const uiWork = this.uiWork;
+    uiWork.task(() => {
       for (const [start, end] of rest) {
         const cell = this.addLabelCell();
         cell.style.top = `${marginTop}px`;
@@ -226,7 +252,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
         cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
         cellCallback(start, cell);
       }
-    }, 0);
+    });
   }
 
   private addLabelCell():HTMLElement {

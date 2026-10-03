@@ -26,10 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, Injector, OnInit, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
 import {
   WorkPackageViewTimelineService,
@@ -86,6 +90,8 @@ function newSegment(vp:TimelineViewParameters,
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
+  readonly destroyRef = inject(DestroyRef);
+  private readonly notificationService = inject(WorkPackageNotificationService);
   elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   states = inject(States);
   workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
@@ -100,8 +106,10 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
 
   ngOnInit() {
     this.container = this.elementRef.nativeElement.querySelector('.wp-table-timeline--relations')!;
-    this.workPackageTimelineTableController
-      .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
+    if (this.destroyRef.destroyed) return;
+    const release = this.workPackageTimelineTableController
+      .onRefreshRequested('relations', (_vp:TimelineViewParameters) => this.refreshView());
+    onDestroySafely(this.destroyRef, release);
 
     this.setupRelationSubscription();
   }
@@ -117,7 +125,25 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   /**
    * Refresh relations of visible rows.
    */
+  private whileAttached<T>(source:Observable<T>):Observable<{ table:WorkPackageTable; value:T }> {
+    const controller = this.workPackageTimelineTableController;
+    return controller.tables$.pipe(
+      switchMap((table) => source.pipe(
+        takeUntilDestroyed(table.destroyRef),
+        filter(() => !controller.destroyed && !table.destroyed && controller.workPackageTable === table),
+        map((value) => ({ table, value })),
+      )),
+      takeUntilDestroyed(this.destroyRef),
+    );
+  }
+
+  private attachedTo(table:WorkPackageTable):boolean {
+    const controller = this.workPackageTimelineTableController;
+    return !!table && !this.destroyRef.destroyed && !controller.destroyed && controller.workPackageTable === table;
+  }
+
   private setupRelationSubscription() {
+    const reportRelationsError = this.notificationService.handleRawError.bind(this.notificationService);
     // for all visible WorkPackage rows...
     combineLatest([
       this.querySpace.renderedWorkPackages.values$(),
@@ -125,13 +151,14 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     ])
       .pipe(
         filter(([_render, timeline]) => timeline.visible),
-        this.untilDestroyed(),
         map(([rendered, _]) => rendered),
+        (source) => this.whileAttached(source),
       )
-      .subscribe((list) => {
+      .subscribe(({ table, value: list }) => {
+        if (!this.attachedTo(table)) return;
         // ... make sure that the corresponding relations are loaded ...
         const wps = list.map((row) => row.workPackageId).filter((x):x is NonNullable<typeof x> => Boolean(x));
-        void this.wpRelations.requireAll(wps);
+        void this.wpRelations.requireAll(wps).catch(reportRelationsError);
       });
 
     // When the relations are updated, redraw them
@@ -139,9 +166,10 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
       .wpRelations
       .observeChanges()
       .pipe(
-        this.untilDestroyed(),
         filter(([_, state]) => !!state),
-      ).subscribe(([wpId, state]) => {
+        (source) => this.whileAttached(source),
+      ).subscribe(({ table, value: [wpId, state] }) => {
+        if (!this.attachedTo(table)) return;
         this.workPackagesWithRelations[wpId] = state!;
         this.renderWorkPackagesRelations([wpId]);
     });
@@ -150,15 +178,17 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
       .pipe(
-        this.untilDestroyed(),
         filter(() => this.wpTableTimeline.isVisible),
+        (source) => this.whileAttached(source),
       )
-      .subscribe(([workPackageId]) => {
+      .subscribe(({ table, value: [workPackageId] }) => {
+        if (!this.attachedTo(table)) return;
         this.renderWorkPackagesRelations([workPackageId]);
       });
   }
 
   private renderWorkPackagesRelations(workPackageIds:string[]) {
+    if (!this.attachedTo(this.workPackageTimelineTableController.workPackageTable)) return;
     workPackageIds.forEach((workPackageId) => {
       const workPackageWithRelation = this.workPackagesWithRelations[workPackageId];
       if (workPackageWithRelation == null) {
@@ -180,6 +210,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   }
 
   private update() {
+    if (!this.attachedTo(this.workPackageTimelineTableController.workPackageTable)) return;
     this.removeAllVisibleElements();
     this.renderElements();
   }
