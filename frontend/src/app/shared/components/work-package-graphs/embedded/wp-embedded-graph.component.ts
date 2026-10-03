@@ -38,7 +38,7 @@ import { chartTypeLocaleKey } from './../chart-type';
 
 export interface WorkPackageEmbeddedGraphDataset {
   label:string;
-  queryProps:any;
+  queryProps:unknown;
   queryId?:number|string;
   groups?:GroupObject[];
 }
@@ -106,24 +106,24 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
-      const groups = (dataset.groups || []).map((group) => group.value) as any;
+    const uniqLabels = Array.from(new Set(this.datasets.reduce<(string|null)[]>((array, dataset) => {
+      const groups = (dataset.groups ?? []).map((group) => group.value as string|null);
       return array.concat(groups);
-    }, []))) as string[];
+    }, [])));
 
     const labelCountMaps = this.datasets.map((dataset) => {
-      const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
+      const countMap = (dataset.groups ?? []).reduce<Record<string, number>>((hash, group) => ({
         ...hash,
         [group.value]: group.count,
       }), {});
 
       return {
         label: dataset.label,
-        data: uniqLabels.map((label) => countMap[label] || 0),
+        data: uniqLabels.map((label) => countMap[String(label)] || 0),
       };
     });
 
-    uniqLabels = uniqLabels.map((label) => {
+    const displayLabels = uniqLabels.map((label) => {
       if (label === null) {
         return this.i18n.t('js.placeholders.default');
       }
@@ -134,7 +134,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
     // keep the array in order to update the labels
     this.chartLabels.length = 0;
-    this.chartLabels.push(...uniqLabels);
+    this.chartLabels.push(...displayLabels);
     this.chartData.length = 0;
     this.chartData.push(...labelCountMaps);
   }

@@ -53,6 +53,8 @@ interface GridPatchPayload {
   [key:string]:unknown;
 }
 
+type ScrollIntoViewIfNeededElement = HTMLElement&{ scrollIntoViewIfNeeded?:() => void };
+
 @Injectable()
 export class GridAreaService {
   private apiV3Service = inject(ApiV3Service);
@@ -207,10 +209,10 @@ export class GridAreaService {
   // But as scrollIntoView will always readjust the viewport, the result would be an unbearable flicker
   // which causes e.g. dragging to be impossible.
   public scrollPlaceholderIntoView() {
-    const placeholder = document.querySelector<HTMLElement>('.grid--area.-placeholder');
+    const placeholder = document.querySelector<ScrollIntoViewIfNeededElement>('.grid--area.-placeholder')!;
 
-    if ((placeholder as any).scrollIntoViewIfNeeded) {
-      setTimeout(() => (placeholder as any).scrollIntoViewIfNeeded());
+    if (placeholder.scrollIntoViewIfNeeded) {
+      setTimeout(() => placeholder.scrollIntoViewIfNeeded!());
     }
   }
 

@@ -62,7 +62,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public resource:HalResource;
 
-  @Input() public model:any;
+  @Input() public model:unknown;
 
   @Input() public required = false;
 

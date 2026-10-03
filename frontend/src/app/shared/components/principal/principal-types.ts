@@ -38,5 +38,5 @@ export type PrincipalLike =
 
 export interface PrincipalData {
   principal:PrincipalLike|null;
-  customFields:Record<string, any>,
+  customFields:Record<string, unknown>,
 }

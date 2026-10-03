@@ -68,7 +68,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   readonly I18n = inject(I18nService);
   readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.code_block.title'),
     language: this.I18n.t('js.editor.macro.code_block.language'),
     language_hint: this.I18n.t('js.editor.macro.code_block.language_hint'),

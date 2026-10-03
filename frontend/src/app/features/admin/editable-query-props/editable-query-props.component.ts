@@ -76,7 +76,7 @@ export class EditableQueryPropsComponent implements OnInit {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return JSON.parse(this.queryProps);
       } catch (e) {
-        console.error(`Failed to parse query props from ${this.queryProps}: ${e}`);
+        console.error(`Failed to parse query props from ${this.queryProps}: ${String(e)}`);
         return {};
       }
     })();

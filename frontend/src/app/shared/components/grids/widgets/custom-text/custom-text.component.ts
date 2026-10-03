@@ -35,6 +35,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { filter } from 'rxjs/operators';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 
 @Component({
   templateUrl: './custom-text.component.html',
@@ -83,7 +84,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   ngOnChanges(changes:SimpleChanges):void {
-    if (changes.resource.currentValue.options.text.raw !== this.currentRawText) {
+    if (((changes.resource.currentValue as GridWidgetResource).options.text as HalResource).raw !== this.currentRawText) {
       this.setupVariables();
 
       this.cdr.detectChanges();

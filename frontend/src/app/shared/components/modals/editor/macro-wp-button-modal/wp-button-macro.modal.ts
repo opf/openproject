@@ -60,7 +60,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
 
   @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef<HTMLSelectElement>;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.work_package_button.button'),
     none: this.I18n.t('js.label_none'),
     selected_type: this.I18n.t('js.editor.macro.work_package_button.type'),
@@ -74,8 +74,8 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
   constructor() {
     super();
 
-    this.selectedType = this.type = this.locals.type;
-    this.classes = this.locals.classes;
+    this.selectedType = this.type = this.locals.type as string;
+    this.classes = this.locals.classes as string;
     this.buttonStyle = this.classes === 'button';
 
     this

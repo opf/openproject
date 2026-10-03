@@ -31,6 +31,14 @@ import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/cor
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
+interface DatePickerModalResource {
+  id:string;
+  startDate:string|null;
+  dueDate:string|null;
+  duration:string|null;
+  includeNonWorkingDays:boolean|null;
+}
+
 @Component({
   templateUrl: './wp-date-picker.modal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,43 +83,33 @@ export class OpWpDatePickerModalComponent extends OpModalComponent implements On
   }
 
   public updateFrameSrc():void {
+    const resource = this.locals.resource as DatePickerModalResource;
     const url = new URL(
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      this.pathHelper.workPackageDatepickerDialogContentPath(this.locals.resource.id as string),
+      this.pathHelper.workPackageDatepickerDialogContentPath(resource.id),
       window.location.origin,
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('field', this.locals.name);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][start_date]', this.nullAsEmptyStringFormatter(this.locals.resource.startDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][due_date]', this.nullAsEmptyStringFormatter(this.locals.resource.dueDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[initial][duration]', this.nullAsEmptyStringFormatter(this.locals.resource.duration));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('work_package[initial][ignore_non_working_days]', this.nullAsEmptyStringFormatter(this.locals.resource.includeNonWorkingDays));
+    url.searchParams.set('field', this.locals.name as string);
+    url.searchParams.set('work_package[initial][start_date]', this.nullAsEmptyStringFormatter(resource.startDate));
+    url.searchParams.set('work_package[initial][due_date]', this.nullAsEmptyStringFormatter(resource.dueDate));
+    url.searchParams.set('work_package[initial][duration]', this.nullAsEmptyStringFormatter(resource.duration));
+    url.searchParams.set('work_package[initial][ignore_non_working_days]', this.nullAsEmptyStringFormatter(resource.includeNonWorkingDays));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[start_date]', this.nullAsEmptyStringFormatter(this.locals.resource.startDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[due_date]', this.nullAsEmptyStringFormatter(this.locals.resource.dueDate));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
-    url.searchParams.set('work_package[duration]', this.nullAsEmptyStringFormatter(this.locals.resource.duration));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument
-    url.searchParams.set('work_package[ignore_non_working_days]', this.nullAsEmptyStringFormatter(this.locals.resource.includeNonWorkingDays));
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (this.locals.resource?.id === 'new' && this.locals.resource.startDate) {
+    url.searchParams.set('work_package[start_date]', this.nullAsEmptyStringFormatter(resource.startDate));
+    url.searchParams.set('work_package[due_date]', this.nullAsEmptyStringFormatter(resource.dueDate));
+    url.searchParams.set('work_package[duration]', this.nullAsEmptyStringFormatter(resource.duration));
+    url.searchParams.set('work_package[ignore_non_working_days]', this.nullAsEmptyStringFormatter(resource.includeNonWorkingDays));
+    if (resource.id === 'new' && resource.startDate) {
       url.searchParams.set('work_package[start_date_touched]', 'true');
     }
 
     this.turboFrameSrc = url.toString();
   }
 
-  private nullAsEmptyStringFormatter(value:null|undefined|string):string {
+  private nullAsEmptyStringFormatter(value:null|undefined|string|boolean):string {
     if (value === undefined || value === null) {
       return '';
     }
-    return value;
+    return String(value);
   }
 }

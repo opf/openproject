@@ -129,7 +129,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       );
   }
 
-  protected loadAll(hrefs:string[]):Promise<unknown|undefined> {
+  protected loadAll(hrefs:string[]):Promise<unknown> {
     return Promise.all(hrefs.map((href) => this.load(href)));
   }
 

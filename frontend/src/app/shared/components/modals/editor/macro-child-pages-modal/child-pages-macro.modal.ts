@@ -55,7 +55,7 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
 
   @ViewChild('selectedPageInput', { static: true }) selectedPageInput:ElementRef<HTMLInputElement>;
 
-  public text:any = {
+  public text = {
     title: this.I18n.t('js.editor.macro.child_pages.button'),
     hint: this.I18n.t('js.editor.macro.child_pages.hint'),
     page: this.I18n.t('js.editor.macro.child_pages.page'),
@@ -68,8 +68,8 @@ export class ChildPagesMacroModalComponent extends OpModalComponent implements A
   constructor() {
     super();
 
-    this.selectedPage = this.page = this.locals.page;
-    this.selectedIncludeParent = this.includeParent = this.locals.includeParent;
+    this.selectedPage = this.page = this.locals.page as string;
+    this.selectedIncludeParent = this.includeParent = this.locals.includeParent as boolean;
 
     // We could provide an autocompleter here to get correct page names
   }

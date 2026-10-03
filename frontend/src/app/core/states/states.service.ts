@@ -93,7 +93,7 @@ export class States extends StatesGroup {
   additional:Record<string, MultiInputState<unknown>> = {};
 
   forType<T>(stateName:string):MultiInputState<T> {
-    let state = (this as any)[stateName] || this.additional[stateName];
+    let state = (this as unknown as Record<string, MultiInputState<T>|undefined>)[stateName] ?? this.additional[stateName] as MultiInputState<T>|undefined;
 
     if (!state) {
       state = this.additional[stateName] = multiInput<T>();

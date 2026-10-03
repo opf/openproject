@@ -64,13 +64,13 @@ export class BcfTopicResource {
   @jsonArrayMember(String)
   labels:string[];
 
-  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value:string) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   creation_date:Moment;
 
   @jsonMember(String)
   creation_author:string;
 
-  @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
+  @jsonMember({ deserializer: (value:string) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   modified_date:Moment;
 
   @jsonMember(String, { preserveNull: true })
@@ -86,7 +86,7 @@ export class BcfTopicResource {
   description:string;
 
   @jsonMember({
-    deserializer: (value) => moment(value),
+    deserializer: (value:string) => moment(value),
     serializer: (timestamp:Moment) => timestamp.format('YYYY-MM-DD'),
   })
   due_date:Moment;
