@@ -114,7 +114,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <%
       rows.each.with_index do |row, index|
-        row_instance = row_class.new(row: row, table: self)
+        row_instance = row_class_for(row).new(row: row, table: self)
         component.with_row(
           scheme: row_instance.scheme,
           tag: :div,

@@ -139,7 +139,7 @@ describe('My work controller', () => {
     await waitFor(() => {
       expect(request).toHaveBeenCalledWith('/my/work/refresh?date=2026-06-01', { method: 'GET' });
     });
-    expect(myWorkRefresh).toHaveBeenCalledWith('2026-06-01', 'list', 'week');
+    expect(myWorkRefresh).toHaveBeenCalledWith('2026-06-01', 'list', 'week', 'all');
   });
 
   it('brings the calendar back through its frame instead of reloading the page', async () => {

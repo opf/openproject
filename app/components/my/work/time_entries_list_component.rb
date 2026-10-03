@@ -33,11 +33,15 @@ module My
     class TimeEntriesListComponent < OpPrimer::BorderBoxTableComponent
       include OpTurbo::Streamable
 
-      columns :spent_on, :time, :hours, :subject, :project, :activity, :comments
+      columns :spent_on, :time, :hours, :type, :subject, :project
       main_column :time, :subject, :project
 
       def row_class
         TimeEntryRow
+      end
+
+      def row_class_for(row)
+        row.is_a?(AllocationRow::Entry) ? AllocationRow : row_class
       end
 
       def mobile_title
@@ -73,10 +77,9 @@ module My
           options[:mode] == :month ? [:spent_on, { caption: TimeEntry.human_attribute_name(:spent_on) }] : nil,
           TimeEntry.can_track_start_and_end_time? ? [:time, { caption: TimeEntry.human_attribute_name(:time) }] : nil,
           [:hours, { caption: TimeEntry.human_attribute_name(:hours) }],
+          [:type, { caption: TimeEntry.human_attribute_name(:type) }],
           [:subject, { caption: TimeEntry.human_attribute_name(:subject) }],
-          [:project, { caption: TimeEntry.human_attribute_name(:project) }],
-          [:activity, { caption: TimeEntry.human_attribute_name(:activity) }],
-          [:comments, { caption: TimeEntry.human_attribute_name(:comments) }]
+          [:project, { caption: TimeEntry.human_attribute_name(:project) }]
         ].compact
       end
 

@@ -36,9 +36,26 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
   end
 
   let(:date) { Date.civil(2022, 5, 4) }
+  let(:mode) { :day }
+  let(:time_entries) { [] }
+  let(:allocations) { [] }
+
+  current_user { create(:user) }
 
   subject(:rendered_component) do
-    render_component(time_entries:, date:)
+    render_component(time_entries:, allocations:, date:, mode:)
+  end
+
+  def allocation_on(day, minutes:)
+    work_package = build_stubbed(:work_package)
+    allocation = build_stubbed(:resource_allocation, entity: work_package)
+    entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: day, minutes:)
+
+    FullCalendar::ResourceAllocationEvent.from_scheduled_entry(entry, visible: true)
+  end
+
+  def stats
+    rendered_component.text.squish
   end
 
   shared_examples_for "applying an ID" do
@@ -48,16 +65,11 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
   end
 
   context "with no time entries" do
-    let(:time_entries) { build_list(:time_entry, 0) }
-
     include_examples "applying an ID"
 
-    it "renders count" do
-      expect(rendered_component).to have_primer_text "0 Time entries", color: "muted"
-    end
-
-    it "renders sum" do
-      expect(rendered_component).to have_text "0h"
+    it "renders no logged time" do
+      expect(rendered_component).to have_css(".octicon-clock")
+      expect(stats).to eq "0h"
     end
   end
 
@@ -66,12 +78,57 @@ RSpec.describe My::Work::ListStatsComponent, type: :component do
 
     include_examples "applying an ID"
 
-    it "renders count" do
-      expect(rendered_component).to have_primer_text "2 Time entries", color: "muted"
+    it "renders the logged time" do
+      expect(stats).to eq "2h 39m"
+    end
+  end
+
+  context "when the user works that day" do
+    let(:time_entries) { build_list(:time_entry, 1, hours: 3) }
+
+    before do
+      create(:user_working_hours, user: current_user, valid_from: Date.civil(2022, 1, 1))
     end
 
-    it "renders sum" do
-      expect(rendered_component).to have_text "2h 39m"
+    it "renders how much of the working hours is covered" do
+      expect(stats).to eq "3h - 3h/8h"
+      expect(rendered_component).to have_primer_text "- 3h/8h", color: "muted"
+    end
+
+    context "with allocated time" do
+      let(:allocations) { [allocation_on(date, minutes: 240)] }
+
+      it "renders the logged and the allocated time" do
+        expect(rendered_component).to have_css(".octicon-op-person-assigned")
+        expect(stats).to eq "3h 4h - 7h/8h"
+      end
+    end
+
+    context "with only allocated time" do
+      let(:time_entries) { [] }
+      let(:allocations) { [allocation_on(date, minutes: 240)] }
+
+      it "leaves the logged time out" do
+        expect(rendered_component).to have_no_css(".octicon-clock")
+        expect(stats).to eq "4h - 4h/8h"
+      end
+    end
+
+    context "with more than the working hours covered" do
+      let(:allocations) { [allocation_on(date, minutes: 360)] }
+
+      it "highlights the coverage" do
+        expect(rendered_component).to have_primer_text "- 9h/8h", color: "danger"
+      end
+    end
+
+    context "when listing a month" do
+      let(:mode) { :month }
+      let(:date) { Date.civil(2022, 5, 2) }
+
+      it "covers the working hours of the week" do
+        expect(stats).to eq "3h - 3h/40h"
+      end
     end
   end
 end

@@ -79,6 +79,11 @@ module OpPrimer
 
     def pagination_params = {}
 
+    # For tables mixing several kinds of rows.
+    def row_class_for(_row)
+      row_class
+    end
+
     # Data attributes for the box element wrapping the whole table, for
     # subclasses that need to attach behaviour to it.
     def container_data

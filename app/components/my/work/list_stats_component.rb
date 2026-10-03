@@ -34,26 +34,66 @@ module My
       include OpTurbo::Streamable
 
       options :time_entries, :date
+      options allocations: [],
+              mode: :day
 
       def wrapper_key
         "time-entries-list-stats-#{date.iso8601}"
       end
 
+      # Mirrors renderDayTotal, the footer of the stack and calendar views.
       def call
         component_wrapper do
-          render(Primer::Beta::Text.new(color: :muted)) { "#{entry_count} - " } +
-          render(Primer::Beta::Text.new) { total_hours }
+          safe_join([logged, allocated, coverage].compact, " ")
         end
       end
 
-      def total_hours
-        total_hours = time_entries.sum(&:hours_for_calculation).round(2)
-        DurationConverter.output(total_hours, format: :hours_and_minutes).presence || "0h"
+      private
+
+      def logged
+        return if logged_hours.zero? && allocated_hours.positive?
+
+        with_icon(:clock, logged_hours)
       end
 
-      def entry_count
-        entries_count = time_entries.size
-        "#{entries_count} #{TimeEntry.model_name.human(count: entries_count)}"
+      def allocated
+        return unless allocated_hours.positive?
+
+        with_icon(:"op-person-assigned", allocated_hours)
+      end
+
+      def coverage
+        return unless scheduled_hours.positive?
+
+        covered = logged_hours + allocated_hours
+
+        render(Primer::Beta::Text.new(color: covered > scheduled_hours ? :danger : :muted)) do
+          "- #{duration(covered)}/#{duration(scheduled_hours)}"
+        end
+      end
+
+      def with_icon(icon, hours)
+        render(Primer::Beta::Octicon.new(icon:, color: :muted, mr: 1)) + render(Primer::Beta::Text.new) { duration(hours) }
+      end
+
+      def logged_hours
+        @logged_hours ||= time_entries.sum(&:hours_for_calculation).round(2)
+      end
+
+      def allocated_hours
+        @allocated_hours ||= RemainingAllocations.call(allocations:, time_entries:).sum(&:hours).round(2)
+      end
+
+      # A month is listed by week, so its sections stand for the week starting on their date.
+      def scheduled_hours
+        @scheduled_hours ||= begin
+          range = mode.to_sym == :month ? date..(date + 6.days) : date..date
+          ResourceAllocations::WorkingTimeCalendar.new(user: User.current, range:).total / 60.0
+        end
+      end
+
+      def duration(hours)
+        DurationConverter.output(hours.round(2), format: :hours_and_minutes).presence || "0h"
       end
     end
   end

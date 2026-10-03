@@ -58,5 +58,65 @@ RSpec.describe My::Work::ListWrapperComponent, type: :component do
     let(:time_entries) { create_list(:time_entry, 2) }
 
     it_behaves_like "rendering Box", row_count: 2
+
+    it "marks the entries as time entries" do
+      expect(rendered_component).to have_css(".type .octicon-clock", count: 2)
+      expect(rendered_component).to have_css(".type", text: "Time entry", count: 2)
+    end
+  end
+
+  context "with allocations" do
+    let(:mode) { :day }
+    let(:work_package) { create(:work_package, subject: "Plan the conference") }
+    let(:allocation) { build_stubbed(:resource_allocation, entity: work_package) }
+    let(:visible) { true }
+    let(:allocation_event) do
+      entry = ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: 360)
+      FullCalendar::ResourceAllocationEvent.from_scheduled_entry(entry, visible:)
+    end
+    let(:time_entries) { [] }
+
+    subject(:rendered_component) do
+      render_component(time_entries:, allocations: [allocation_event], date:, mode:)
+    end
+
+    it_behaves_like "rendering Box", row_count: 1
+
+    it "lists the allocation as a resource allocation" do
+      expect(rendered_component).to have_css(".type .octicon-op-person-assigned")
+      expect(rendered_component).to have_css(".type", text: "Resource Allocation")
+      expect(rendered_component).to have_css(".hours", text: "6h")
+      expect(rendered_component).to have_text("Plan the conference")
+    end
+
+    it "gives the allocation an empty actions cell to keep it aligned with the grid" do
+      expect(rendered_component).to have_css(".op-border-box-grid__row-action[role=cell]")
+    end
+
+    context "when time was logged on the work package that day" do
+      let(:time_entries) { [create(:time_entry, entity: work_package, spent_on: date, hours: 2)] }
+
+      it "lists the time entry and what is left of the allocation" do
+        expect(rendered_component).to have_css(".type", text: "Time entry")
+        expect(rendered_component).to have_css(".hours", text: "4h")
+      end
+    end
+
+    context "when the allocation was logged in full" do
+      let(:time_entries) { [create(:time_entry, entity: work_package, spent_on: date, hours: 6)] }
+
+      it "leaves the allocation out" do
+        expect(rendered_component).to have_no_css(".type", text: "Resource Allocation")
+      end
+    end
+
+    context "when the work package is not visible" do
+      let(:visible) { false }
+
+      it "does not reveal the work package" do
+        expect(rendered_component).to have_text(I18n.t("resource_management.my_work.hidden_work_package"))
+        expect(rendered_component).to have_no_text("Plan the conference")
+      end
+    end
   end
 end

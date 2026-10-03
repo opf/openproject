@@ -41,10 +41,9 @@ RSpec.describe My::Work::TimeEntriesListComponent, type: :component do
 
   shared_examples_for "rendering Border Box Grid headings" do
     include_examples "rendering Border Box Grid heading", text: "Hours"
+    include_examples "rendering Border Box Grid heading", text: "Type"
     include_examples "rendering Border Box Grid heading", text: "Subject"
     include_examples "rendering Border Box Grid heading", text: "Project"
-    include_examples "rendering Border Box Grid heading", text: "Activity"
-    include_examples "rendering Border Box Grid heading", text: "Comment"
     include_examples "rendering Border Box Grid mobile heading", text: "Time entries"
   end
 
@@ -61,6 +60,6 @@ RSpec.describe My::Work::TimeEntriesListComponent, type: :component do
 
     it_behaves_like "rendering Box", row_count: 2
     it_behaves_like "rendering Border Box Grid headings"
-    it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 5
+    it_behaves_like "rendering Border Box Grid rows", row_count: 2, col_count: 4
   end
 end
