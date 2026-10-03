@@ -1,6 +1,6 @@
 <%= render(Primer::OpenProject::SubHeader.new) do |component|
-      component.with_filter_component do
-        render(mode_switcher)
+      component.with_filter_component(display: :flex, classes: "gap-2") do
+        safe_join([render(mode_switcher), (render(entries_filter) if entries_filter?)].compact)
       end
 
       component.with_text { title }

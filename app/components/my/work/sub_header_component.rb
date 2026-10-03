@@ -34,6 +34,7 @@ module My
       include My::WorkHelper
 
       options :date, :mode, :view_mode
+      options entries: :all
 
       def title
         case mode
@@ -50,8 +51,8 @@ module My
 
       # Overridden where the sub header drives something other than the full page, such as
       # the my page widget.
-      def path_for(date:, mode: self.mode)
-        my_work_path(date:, view_mode:, mode:)
+      def path_for(date:, mode: self.mode, entries: self.entries)
+        my_work_path(date:, view_mode:, mode:, entries: (entries unless entries == :all))
       end
 
       def mode_switcher
@@ -59,6 +60,18 @@ module My
           current_mode: mode,
           view_mode:,
           path_builder: ->(for_mode) { path_for(date:, mode: for_mode) },
+          link_data:
+        )
+      end
+
+      def entries_filter?
+        EnterpriseToken.allows_to?(:resource_management)
+      end
+
+      def entries_filter
+        My::Work::EntriesFilterComponent.new(
+          current_entries: entries,
+          path_builder: ->(for_entries) { path_for(date:, entries: for_entries) },
           link_data:
         )
       end

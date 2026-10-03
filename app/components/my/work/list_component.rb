@@ -38,6 +38,7 @@ module My
       # TODO: display the allocations in the list
       options time_entries: [],
               allocations: [],
+              entries: :all,
               mode: :week,
               date: Date.current
 

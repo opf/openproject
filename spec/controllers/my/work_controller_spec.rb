@@ -120,6 +120,36 @@ RSpec.describe My::WorkController do
       end
     end
 
+    describe "filtering the entries" do
+      it "loads both logged time and allocations by default" do
+        get :index, params: { view_mode: :stack }
+
+        expect(assigns(:entries)).to eq(:all)
+        expect(assigns(:time_entries)).not_to be_nil
+        expect(assigns(:allocations)).not_to be_nil
+      end
+
+      it "loads only logged time when asked to" do
+        get :index, params: { view_mode: :stack, entries: "logged" }
+
+        expect(assigns(:time_entries)).not_to be_nil
+        expect(assigns(:allocations)).to be_nil
+      end
+
+      it "loads only allocations when asked to" do
+        get :index, params: { view_mode: :stack, entries: "allocated" }
+
+        expect(assigns(:time_entries)).to be_nil
+        expect(assigns(:allocations)).not_to be_nil
+      end
+
+      it "falls back to all entries for an unknown filter" do
+        get :index, params: { view_mode: :stack, entries: "everything" }
+
+        expect(assigns(:entries)).to eq(:all)
+      end
+    end
+
     describe "remembering the view the user was last in" do
       before do
         allow(controller).to receive(:mobile?).and_return(false)

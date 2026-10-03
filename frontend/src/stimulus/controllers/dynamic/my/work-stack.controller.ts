@@ -42,7 +42,11 @@ import { render } from 'lit-html';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
-import { renderAllocationCard, type ResourceAllocationEvent } from 'core-stimulus/helpers/resource-allocation-event';
+import {
+  remainingHours,
+  renderAllocationCard,
+  type ResourceAllocationEvent,
+} from 'core-stimulus/helpers/resource-allocation-event';
 
 const TIME_ENTRY_CLASS_NAME = 'te-stack--time-entry';
 const ALLOCATION_CLASS_NAME = 'te-stack--allocation';
@@ -199,13 +203,19 @@ export default class MyWorkStackController extends Controller {
       return this.timeEntryEvent(entry, day, ...stack(day, entry.hours));
     });
 
-    const allocations = this.allocationsValue.map((allocation) => {
+    const allocations = this.remainingAllocations().map((allocation) => {
       const day = this.dayOf(allocation);
 
       return this.allocationEvent(allocation, day, ...stack(day, allocation.hours));
     });
 
     return [...timeEntries, ...allocations];
+  }
+
+  private remainingAllocations():ResourceAllocationEvent[] {
+    return this.allocationsValue
+      .map((allocation) => ({ ...allocation, hours: remainingHours(allocation, this.timeEntriesValue) }))
+      .filter((allocation) => allocation.hours > 0);
   }
 
   // Each bar is stacked on top of the one before it, so the entries are laid out in the
@@ -333,7 +343,7 @@ export default class MyWorkStackController extends Controller {
   }
 
   private setRatio():void {
-    const stacked = this.calculateDateSums([...this.timeEntriesValue, ...this.allocationsValue]);
+    const stacked = this.calculateDateSums([...this.timeEntriesValue, ...this.remainingAllocations()]);
     const maxHours = Math.max(...Object.values(stacked), 0);
 
     if (maxHours > MAX_HOUR - MIN_HOUR) {
