@@ -537,7 +537,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(keydownOn(item('1'), 'a', { ctrlKey: true }));
 
       expect(selectedIds()).toEqual(['2', '3']);
-      // The fallback anchor is the first orderable card of the same list, so
+      // The fallback anchor is the first movable card of the same list, so
       // a follow-up Shift ranges within it rather than from another list.
       orchestrator.handleKeydown(keydownOn(item('3'), ' ', { shiftKey: true }));
       expect(selectedIds()).toEqual(['2', '3']);
@@ -834,7 +834,7 @@ describe('SelectionOrchestrator', () => {
       expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
-    it('reports an unselected orderable card alone without selecting it', () => {
+    it('reports an unselected movable card alone without selecting it', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
 
@@ -842,7 +842,7 @@ describe('SelectionOrchestrator', () => {
       expect(isSelected(item('3'))).toBe(false);
     });
 
-    it('selects an unselected orderable card for an action, replacing the batch', () => {
+    it('selects an unselected movable card for an action, replacing the batch', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
       orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));
