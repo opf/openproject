@@ -40,7 +40,12 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
-              "src/assets"
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@excalidraw/excalidraw/dist/prod/fonts",
+                "output": "assets/excalidraw/fonts"
+              }
             ],
             "styles": [
               {
@@ -50,6 +55,11 @@
               {
                 "input": "node_modules/@blocknote/mantine/src/style.css",
                 "bundleName": "blocknote"
+              },
+              {
+                "input": "node_modules/@excalidraw/excalidraw/dist/prod/index.css",
+                "bundleName": "excalidraw",
+                "inject": false
               },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",

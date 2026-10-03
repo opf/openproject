@@ -38,27 +38,18 @@ module API
         include API::V3::Workspaces::LinkedResource
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
+        include ::API::V3::Collaboration::CollaborativeContentRepresenter
 
         cached_representer key_parts: %i(project),
                            disabled: false
 
         self_link title_getter: ->(*) { represented.title }
 
-        link :update,
-             cache_if: -> { current_user.allowed_in_project?(:manage_documents, represented.project) } do
-          {
-            href: api_v3_paths.document(represented.id),
-            method: :patch
-          }
-        end
-
         property :id
 
         property :title
 
         formattable_property :description
-
-        property :content_binary
 
         date_time_property :created_at
         date_time_property :updated_at
