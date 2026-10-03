@@ -42,10 +42,9 @@ RSpec.describe TypeSchemes::Resolver do
   end
 
   context "with an assigned scheme [story*, epic]" do
-    before do
-      scheme = create(:type_scheme, types: [story, epic])
-      ProjectTypeScheme.create!(project:, scheme:)
-    end
+    let!(:scheme) { create(:type_scheme, types: [story, epic]) }
+
+    before { ProjectTypeScheme.create!(project:, scheme:) }
 
     it "filters, orders and puts default first" do
       expect(described_class.allowed_types(project).to_a).to eq([story, epic])
@@ -53,13 +52,38 @@ RSpec.describe TypeSchemes::Resolver do
 
     it "falls back to native types when scheme types are not enabled in the project" do
       other = create(:project, types: [bug])
-      ProjectTypeScheme.create!(project: other, scheme: TypeScheme.last)
+      ProjectTypeScheme.create!(project: other, scheme:)
       expect(described_class.allowed_types(other).to_a).to eq([bug])
     end
 
     it "ignores inactive schemes" do
-      TypeScheme.last.update_columns(active: false)
+      scheme.update_columns(active: false)
       expect(described_class.for_project(project)).to be_nil
+      expect(described_class.allowed_types(project)).to match_array([epic, story, bug])
+    end
+  end
+
+  context "when the default item has the higher position (epic, story*)" do
+    let(:scheme) do
+      create(:type_scheme, types: [epic, story]).tap do |s|
+        s.items.each { |i| i.update_columns(is_default: i.type_id == story.id) }
+      end
+    end
+
+    before { ProjectTypeScheme.create!(project:, scheme:) }
+
+    it "puts the default first regardless of position" do
+      expect(described_class.allowed_types(project).to_a).to eq([story, epic])
+    end
+  end
+
+  context "with scheme [story*, epic, bug]" do
+    let(:scheme) { create(:type_scheme, types: [story, epic, bug]) }
+
+    before { ProjectTypeScheme.create!(project:, scheme:) }
+
+    it "follows position after the default" do
+      expect(described_class.allowed_types(project).to_a).to eq([story, epic, bug])
     end
   end
 end

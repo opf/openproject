@@ -35,8 +35,8 @@ module TypeSchemes
     def for_project(project)
       return if project.nil?
 
-      ProjectTypeScheme.includes(scheme: { items: :type }).find_by(project_id: project.id)
-                       &.scheme&.then { |s| s if s.active }
+      scheme = ProjectTypeScheme.includes(scheme: :items).find_by(project_id: project.id)&.scheme
+      scheme if scheme&.active
     end
 
     # Returns +scope+ untouched when no scheme applies, so project settings stay native.
