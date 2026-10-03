@@ -35,6 +35,7 @@ module My
       include OpPrimer::ComponentHelpers
 
       options time_entries: [],
+              allocations: [],
               mode: :week,
               date: Date.current
     end

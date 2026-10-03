@@ -46,12 +46,8 @@ module My
     def index
       remember_view
 
-      case mode
-      when :day then load_time_entries(date)
-      when :workweek then load_time_entries(workweek)
-      when :week then load_time_entries(date.all_week)
-      when :month then load_time_entries(date.all_month)
-      end
+      load_time_entries(displayed_dates)
+      load_allocations(displayed_dates)
     end
 
     def refresh
@@ -79,6 +75,15 @@ module My
 
     def workweek
       workweek_days(date)
+    end
+
+    def displayed_dates
+      case mode
+      when :day then date..date
+      when :workweek then workweek
+      when :week then date.all_week
+      when :month then date.all_month
+      end
     end
 
     def parsed_date
@@ -144,6 +149,10 @@ module My
       @time_entries = TimeEntries::TrackedTimeFor.new(user: User.current, dates: time_scope).items
     end
 
+    def load_allocations(dates)
+      @allocations = ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:).events
+    end
+
     def list_view_component
       component_class = case view_mode
                         when :list then My::Work::ListComponent
@@ -151,7 +160,7 @@ module My
                         else My::Work::CalendarComponent
                         end
 
-      component_class.new(time_entries: @time_entries, mode: mode, date: date)
+      component_class.new(time_entries: @time_entries, allocations: @allocations, mode:, date:)
     end
 
     def mobile?
