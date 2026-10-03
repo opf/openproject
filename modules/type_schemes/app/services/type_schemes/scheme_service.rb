@@ -76,6 +76,7 @@ module TypeSchemes
 
       def unassign(project)
         ProjectTypeScheme.where(project_id: project.id).destroy_all
+        Resolver.reset_cache
         ServiceResult.success
       end
 
@@ -128,6 +129,7 @@ module TypeSchemes
           scheme.items.where.not(type_id: wanted.keys).destroy_all
           scheme.items.update_all(is_default: false)
           scheme.items.reset
+          Resolver.reset_cache
         end
         wanted.each do |type_id, attrs|
           item = scheme.items.find { |i| i.type_id == type_id } || scheme.items.build(type_id:)

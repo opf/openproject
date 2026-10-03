@@ -30,6 +30,9 @@
 
 class ProjectTypeScheme < ApplicationRecord
   self.table_name = "project_type_schemes"
+
+  after_save { ::TypeSchemes::Resolver.reset_cache }
+  after_destroy { ::TypeSchemes::Resolver.reset_cache }
   belongs_to :project
   belongs_to :scheme, class_name: "TypeScheme", inverse_of: :project_assignments
   validates :project_id, uniqueness: true

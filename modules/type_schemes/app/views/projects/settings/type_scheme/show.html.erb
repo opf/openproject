@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% current = ::TypeSchemes::Resolver.for_project(@project) %>
 <% enabled_ids = @project.enabled_types.pluck(:id) %>
 <% missing = current ? current.types.reject { |type| enabled_ids.include?(type.id) } : [] %>
-<% available = ::TypeSchemes::Resolver.allowed_types(@project).to_a %>
+<% available = ::TypeSchemes::Resolver.allowed_types(@project, default_first: false).to_a %>
 
 <%= form_tag project_settings_type_scheme_path(@project), method: :patch do %>
   <div class="form--field">
@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h3><%= t("type_schemes.project_settings.available_types") %></h3>
 <ol id="available-types">
-  <% available.each_with_index do |type, index| %>
-    <li><%= type.name %><%= " (#{t('type_schemes.form.default')})" if current && index.zero? %></li>
+  <% available.each do |type| %>
+    <li><%= type.name %><%= " (#{t('type_schemes.form.default')})" if current&.default_type == type %></li>
   <% end %>
 </ol>

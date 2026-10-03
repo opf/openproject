@@ -107,3 +107,12 @@ Body create (`type_items: [{type_id, position, default}]`).
 ## 11. Acceptance
 
 Theo mục 25 của idea, cộng: Type ngoài Scheme không xuất hiện trong schema API v3 `type.allowedValues` của form tạo WP; POST tạo WP với Type ngoài Scheme trả lỗi validation; WP cũ vẫn sửa được.
+
+## 12. Quyết định sau review hội đồng (2026-10-03)
+
+- **Thứ tự:** `Resolver.allowed_types` mặc định đặt Type default lên đầu để `assignable_types.first` (dialog tạo WP của core, `assign_default_type`) luôn chọn đúng default mà không sửa core. Các bề mặt do module kiểm soát (trang Project Settings, `GET projects/:id/available_types`) dùng `default_first: false`, hiển thị đúng thứ tự `position` như idea US-04 và đánh dấu default riêng.
+- **Cache:** `Resolver.for_project` cache theo request trong `RequestStore`; reset khi model/`SchemeService` thay đổi dữ liệu. `update_columns`/SQL thô không reset (chỉ dùng trong test).
+- **Unassign:** giữ nguyên, quyền `assign_type_scheme` do admin cấp cho role và bao gồm gỡ gán; ghi trong tài liệu.
+- **Cảnh báo:** sửa bất kỳ Scheme nào đang gán cho ≥1 project đều qua trang xác nhận (không chỉ khi gỡ Type).
+- **Activate/Deactivate:** có cả hai; deactivate gỡ cờ `is_default`.
+- **Hoãn:** kéo-thả sắp xếp (hiện dùng ô số `position`), `PUT` với `scheme_id` không tồn tại trả 422.

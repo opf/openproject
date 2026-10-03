@@ -39,8 +39,12 @@ module API
               if scheme_id.blank?
                 ::TypeSchemes::SchemeService.unassign(@project)
               else
-                scheme = TypeScheme.find(scheme_id)
-                ::TypeSchemes::SchemeService.assign(@project, scheme)
+                scheme = TypeScheme.find_by(id: scheme_id)
+                if scheme
+                  ::TypeSchemes::SchemeService.assign(@project, scheme)
+                else
+                  raise ::API::Errors::Validation.new(:scheme_id, "Type scheme does not exist.")
+                end
               end
             raise ::API::Errors::ErrorBase.create_and_merge_errors(result.errors) if result.failure?
 
@@ -52,7 +56,7 @@ module API
         resource :available_types do
           get do
             authorize_in_project(:view_work_packages, project: @project)
-            types = ::TypeSchemes::Resolver.allowed_types(@project).to_a
+            types = ::TypeSchemes::Resolver.allowed_types(@project, default_first: false).to_a
             ActiveRecord::Associations::Preloader.new(records: types, associations: %i[color variants]).call
             API::V3::Types::TypeCollectionRepresenter.new(types,
                                                           self_link: api_v3_paths.project_available_types(@project.id),

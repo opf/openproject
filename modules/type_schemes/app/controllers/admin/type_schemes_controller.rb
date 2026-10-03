@@ -62,7 +62,7 @@ module Admin
       removed = @scheme.items.map(&:type_id) - attrs[:items].pluck(:type_id)
       @impact = ::TypeSchemes::SchemeService.impact(@scheme, removed_type_ids: removed)
 
-      if removed.any? && @impact[:project_count].positive? && params[:confirm] != "1"
+      if @impact[:project_count].positive? && params[:confirm] != "1"
         @types = Type.where(id: removed).index_by(&:id)
         @scheme_params = permitted_scheme_params
         return render :confirm

@@ -31,6 +31,9 @@
 class TypeScheme < ApplicationRecord
   self.table_name = "type_schemes"
 
+  after_save { ::TypeSchemes::Resolver.reset_cache }
+  after_destroy { ::TypeSchemes::Resolver.reset_cache }
+
   has_many :items, -> { order(:position) }, class_name: "TypeSchemeItem",
            foreign_key: :scheme_id, inverse_of: :scheme, dependent: :destroy, autosave: true
   has_many :project_assignments, class_name: "ProjectTypeScheme", foreign_key: :scheme_id,

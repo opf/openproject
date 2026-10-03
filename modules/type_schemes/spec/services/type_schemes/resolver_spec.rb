@@ -86,4 +86,32 @@ RSpec.describe TypeSchemes::Resolver do
       expect(described_class.allowed_types(project).to_a).to eq([story, epic, bug])
     end
   end
+
+  context "with scheme [epic, story*]" do
+    let(:scheme) do
+      create(:type_scheme, types: [epic, story]).tap do |s|
+        s.items.each { |i| i.update_columns(is_default: i.type_id == story.id) }
+      end
+    end
+
+    before { ProjectTypeScheme.create!(project:, scheme:) }
+
+    it "keeps pure position order when default_first is false" do
+      expect(described_class.allowed_types(project, default_first: false).to_a).to eq([epic, story])
+    end
+  end
+
+  describe "request cache" do
+    let(:scheme) { create(:type_scheme, types: [story]) }
+
+    it "reuses the lookup and resets after assignment changes" do
+      expect(described_class.for_project(project)).to be_nil
+
+      TypeSchemes::SchemeService.assign(project, scheme)
+      expect(described_class.for_project(project)).to eq scheme
+
+      TypeSchemes::SchemeService.unassign(project)
+      expect(described_class.for_project(project)).to be_nil
+    end
+  end
 end

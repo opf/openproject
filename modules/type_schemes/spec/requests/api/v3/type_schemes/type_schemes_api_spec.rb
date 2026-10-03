@@ -146,10 +146,10 @@ RSpec.describe "API v3 type schemes" do
       expect(last_response).to have_http_status(:not_found)
     end
 
-    it "returns 404 for an unknown scheme" do
+    it "returns 422 for an unknown scheme" do
       login_as(member)
       put api_v3_paths.project_type_scheme(project.id), { scheme_id: 0 }.to_json, headers
-      expect(last_response).to have_http_status(:not_found)
+      expect(last_response).to have_http_status(:unprocessable_entity)
     end
 
     it "rejects an inactive scheme" do
@@ -162,6 +162,16 @@ RSpec.describe "API v3 type schemes" do
   end
 
   describe "available types" do
+    it "keeps scheme position order, not default first" do
+      ordered = create(:type_scheme, name: "Pos", types: [epic, story])
+      ordered.items.each { |i| i.update_columns(is_default: i.type_id == story.id) }
+      TypeSchemes::SchemeService.assign(project, ordered)
+      login_as(viewer)
+
+      get api_v3_paths.project_available_types(project.id)
+      expect(json["_embedded"]["elements"].pluck("id")).to eq([epic.id, story.id])
+    end
+
     before { login_as(viewer) }
 
     it "returns scheme types in order, default first" do
