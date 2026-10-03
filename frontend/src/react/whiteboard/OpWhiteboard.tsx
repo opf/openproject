@@ -35,21 +35,16 @@ import type {
   ExcalidrawInitialDataState,
 } from '@excalidraw/excalidraw/types';
 import type { HocuspocusProvider, onStatelessParameters } from '@hocuspocus/provider';
-import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type * as Y from 'yjs';
 import { useCollaboration } from '../hooks/useCollaboration';
 import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
 import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
-
-const META_KEY = 'meta';
 
 export interface OpWhiteboardProps {
   provider:HocuspocusProvider;
   user:WhiteboardUser;
   readOnly:boolean;
   title:string;
-  updateUrl:string|null;
   leaveUrl:string;
   langCode:string;
 }
@@ -72,80 +67,11 @@ function useOpTheme():Theme {
   return theme;
 }
 
-function useSharedTitle(doc:Y.Doc, initialTitle:string) {
-  const meta = useMemo(() => doc.getMap<string>(META_KEY), [doc]);
-  const [title, setTitle] = useState(() => meta.get('title') ?? initialTitle);
-
-  useEffect(() => {
-    const update = () => setTitle(meta.get('title') ?? initialTitle);
-    meta.observe(update);
-    return () => meta.unobserve(update);
-  }, [meta, initialTitle]);
-
-  const publishTitle = useCallback((newTitle:string) => meta.set('title', newTitle), [meta]);
-
-  return [title, publishTitle] as const;
-}
-
-async function persistTitle(updateUrl:string, title:string):Promise<boolean> {
-  const body = new URLSearchParams({ 'whiteboard[title]': title });
-  const response = await fetch(updateUrl, {
-    method: 'PATCH',
-    headers: { 'X-CSRF-Token': getMetaContent('csrf-token') },
-    credentials: 'same-origin',
-    body,
-  });
-  return response.ok;
-}
-
-function WhiteboardTitle({ doc, initialTitle, updateUrl }:{ doc:Y.Doc; initialTitle:string; updateUrl:string|null }) {
-  const [title, publishTitle] = useSharedTitle(doc, initialTitle);
-  const [editing, setEditing] = useState(false);
-
-  const shownTitle = useRef(initialTitle);
-  useEffect(() => {
-    document.title = document.title.replace(shownTitle.current, title);
-    shownTitle.current = title;
-  }, [title]);
-
-  const commit = async (value:string) => {
-    setEditing(false);
-    const newTitle = value.trim();
-    if (!updateUrl || !newTitle || newTitle === title) return;
-
-    if (await persistTitle(updateUrl, newTitle)) {
-      publishTitle(newTitle);
-    }
-  };
-
-  if (editing) {
-    return (
-      <input
-        className="op-whiteboard-chrome--title-input"
-        defaultValue={title}
-        aria-label={t('rename')}
-        autoFocus
-        onBlur={(event) => { void commit(event.currentTarget.value); }}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') event.currentTarget.blur();
-          if (event.key === 'Escape') setEditing(false);
-          event.stopPropagation();
-        }}
-      />
-    );
-  }
-
+function WhiteboardTitle({ title }:{ title:string }) {
   return (
-    <button
-      type="button"
-      className="op-whiteboard-chrome--title"
-      title={updateUrl ? t('rename') : title}
-      disabled={!updateUrl}
-      onClick={() => setEditing(true)}
-      data-test-selector="whiteboard-title"
-    >
+    <span className="op-whiteboard-chrome--title" title={title} data-test-selector="whiteboard-title">
       {title}
-    </button>
+    </span>
   );
 }
 
@@ -225,7 +151,7 @@ function ConnectionStatus({ offline, saveState }:{ offline:boolean; saveState:Sa
   );
 }
 
-function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
+function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
   const doc = provider.document;
   const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
   const bindingRef = useRef<ExcalidrawYjsBinding|null>(null);
@@ -268,10 +194,10 @@ function WhiteboardCanvas({ provider, user, readOnly, title, updateUrl, leaveUrl
 
   const renderTopRightUI = useCallback(() => (
     <div className="op-whiteboard-chrome">
-      <WhiteboardTitle doc={doc} initialTitle={title} updateUrl={updateUrl} />
+      <WhiteboardTitle title={title} />
       <LeaveButton leaveUrl={leaveUrl} />
     </div>
-  ), [doc, title, updateUrl, leaveUrl]);
+  ), [title, leaveUrl]);
 
   return (
     <Excalidraw

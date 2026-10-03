@@ -45,7 +45,6 @@
                   class: "op-whiteboard",
                   "whiteboard-title": @whiteboard.title,
                   "read-only": @readonly.to_s,
-                  "update-url": @readonly ? nil : whiteboard_path(@whiteboard),
                   "leave-url": project_whiteboards_path(@project),
                   "active-user": {
                     id: User.current.id,

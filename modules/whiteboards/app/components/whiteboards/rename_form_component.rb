@@ -28,16 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  resources :projects, only: [] do
-    resources :whiteboards, only: %i[index create] do
-      resource :refresh_token, only: [:create], controller: "whiteboards/refresh_tokens", defaults: { format: :json }
-    end
-  end
+module Whiteboards
+  class RenameFormComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-  resources :whiteboards, only: %i[show update destroy] do
-    member do
-      get :rename_dialog
-    end
+    FORM_ID = "whiteboard-rename-form"
   end
 end

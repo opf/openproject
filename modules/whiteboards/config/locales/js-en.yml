@@ -34,7 +34,6 @@ en:
         connecting: "Connecting…"
         offline: "Offline – changes are not saved"
       leave: "Leave whiteboard"
-      rename: "Rename whiteboard"
       save:
         delayed: "Saving is taking longer than usual – keep this page open"
         saved: "All changes saved"

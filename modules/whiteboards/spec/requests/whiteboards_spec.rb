@@ -86,4 +86,67 @@ RSpec.describe "Whiteboards", :skip_csrf, type: :rails_request, with_flag: { whi
       expect(response.parsed_body).to include("encrypted_token", "expires_in_seconds")
     end
   end
+
+  describe "GET /projects/:project_id/whiteboards" do
+    let!(:whiteboard) { create(:whiteboard, project:) }
+
+    it "offers a rename action per whiteboard" do
+      get project_whiteboards_path(project)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(rename_dialog_whiteboard_path(whiteboard))
+    end
+
+    context "for a user who can only view" do
+      let(:permissions) { %i[view_whiteboards] }
+
+      it "does not offer the rename action" do
+        get project_whiteboards_path(project)
+
+        expect(response.body).not_to include(rename_dialog_whiteboard_path(whiteboard))
+      end
+    end
+  end
+
+  describe "GET /whiteboards/:id/rename_dialog" do
+    let(:whiteboard) { create(:whiteboard, project:) }
+
+    it "renders the rename dialog" do
+      get rename_dialog_whiteboard_path(whiteboard), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(Whiteboards::RenameDialogComponent::DIALOG_ID)
+    end
+  end
+
+  describe "PATCH /whiteboards/:id" do
+    let(:whiteboard) { create(:whiteboard, project:, title: "Before") }
+
+    it "renames the whiteboard and returns to the list" do
+      patch whiteboard_path(whiteboard), params: { whiteboard: { title: "After" } }
+
+      expect(response).to redirect_to(project_whiteboards_path(project))
+      expect(whiteboard.reload.title).to eq("After")
+    end
+
+    it "re-renders the form for an invalid title" do
+      patch whiteboard_path(whiteboard),
+            params: { whiteboard: { title: "" } },
+            headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(whiteboard.reload.title).to eq("Before")
+    end
+
+    context "for a user who can only view" do
+      let(:permissions) { %i[view_whiteboards] }
+
+      it "is forbidden" do
+        patch whiteboard_path(whiteboard), params: { whiteboard: { title: "After" } }
+
+        expect(response).to have_http_status(:forbidden)
+        expect(whiteboard.reload.title).to eq("Before")
+      end
+    end
+  end
 end

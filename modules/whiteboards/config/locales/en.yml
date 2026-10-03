@@ -46,6 +46,7 @@ en:
   project_module_whiteboards: "Whiteboards"
 
   whiteboards:
+    actions: "Whiteboard actions"
     blankslate:
       description: "Create a whiteboard to sketch and brainstorm together in real time."
       heading: "No whiteboards yet"
@@ -53,4 +54,6 @@ en:
       description: "Whiteboards require the collaboration server. Ask an administrator to enable it."
       heading: "Real-time collaboration is not available"
     leave: "Back to whiteboards"
+    rename_dialog:
+      title: "Rename %{title}"
     updated_by: "Updated by %{author} %{time} ago"

@@ -30,6 +30,7 @@
 
 class WhiteboardsController < ApplicationController
   include Collaboration::SessionContext
+  include OpTurbo::ComponentStream
 
   before_action :require_feature_flag
   before_action :find_project_by_project_id, only: %i[index create]
@@ -61,15 +62,21 @@ class WhiteboardsController < ApplicationController
     end
   end
 
+  def rename_dialog
+    respond_with_dialog Whiteboards::RenameDialogComponent.new(@whiteboard)
+  end
+
   def update
     call = Whiteboards::UpdateService
       .new(user: current_user, model: @whiteboard)
       .call(params.expect(whiteboard: [:title]))
 
     if call.success?
-      head :no_content
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to project_whiteboards_path(@project), status: :see_other
     else
-      render json: { errors: call.errors.full_messages }, status: :unprocessable_entity
+      update_via_turbo_stream(component: Whiteboards::RenameFormComponent.new(call.result), status: :unprocessable_entity)
+      respond_with_turbo_streams
     end
   end
 

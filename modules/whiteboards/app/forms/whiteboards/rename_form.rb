@@ -28,16 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  resources :projects, only: [] do
-    resources :whiteboards, only: %i[index create] do
-      resource :refresh_token, only: [:create], controller: "whiteboards/refresh_tokens", defaults: { format: :json }
-    end
-  end
-
-  resources :whiteboards, only: %i[show update destroy] do
-    member do
-      get :rename_dialog
+module Whiteboards
+  class RenameForm < ApplicationForm
+    form do |f|
+      f.text_field(
+        name: :title,
+        label: Whiteboard.human_attribute_name(:title),
+        required: true,
+        autofocus: true
+      )
     end
   end
 end

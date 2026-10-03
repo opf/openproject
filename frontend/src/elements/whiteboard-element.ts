@@ -73,7 +73,6 @@ class WhiteboardElement extends HTMLElement {
         user: JSON.parse(this.getAttribute('active-user') ?? '{}') as WhiteboardUser,
         readOnly: this.getAttribute('read-only') === 'true',
         title: this.getAttribute('whiteboard-title') ?? '',
-        updateUrl: this.getAttribute('update-url'),
         leaveUrl: this.getAttribute('leave-url') ?? '/',
         langCode: this.getAttribute('lang-code') ?? 'en',
       }),

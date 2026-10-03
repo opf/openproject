@@ -60,7 +60,7 @@ module OpenProject::Whiteboards
                    visible: -> { OpenProject::FeatureDecisions.whiteboards_active? }
         permission :manage_whiteboards,
                    {
-                     whiteboards: %i[create update destroy]
+                     whiteboards: %i[create rename_dialog update destroy]
                    },
                    permissible_on: :project,
                    require: :loggedin,

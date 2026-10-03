@@ -29,6 +29,8 @@
   ++#
 %>
 
+<% can_manage = User.current.allowed_in_project?(:manage_whiteboards, @project) %>
+
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t(:label_whiteboard_plural) }
@@ -37,7 +39,7 @@
        t(:label_whiteboard_plural)]
     )
 
-    if User.current.allowed_in_project?(:manage_whiteboards, @project)
+    if can_manage
       header.with_action_button(
         tag: :a,
         scheme: :primary,
@@ -72,9 +74,25 @@
                 whiteboard.title
               end
             end
-            row.with_column do
-              render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-                t("whiteboards.updated_by", author: whiteboard.author.name, time: time_ago_in_words(whiteboard.updated_at))
+            row.with_column(display: :flex, align_items: :center) do
+              concat(
+                render(Primer::Beta::Text.new(color: :subtle, font_size: :small, mr: 2)) do
+                  t("whiteboards.updated_by", author: whiteboard.author.name, time: time_ago_in_words(whiteboard.updated_at))
+                end
+              )
+              if can_manage
+                concat(
+                  render(Primer::Alpha::ActionMenu.new(test_selector: "whiteboard-actions-#{whiteboard.id}")) do |menu|
+                    menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": t("whiteboards.actions"))
+                    menu.with_item(
+                      label: t(:button_rename),
+                      href: rename_dialog_whiteboard_path(whiteboard),
+                      content_arguments: { data: { controller: "async-dialog" } }
+                    ) do |item|
+                      item.with_leading_visual_icon(icon: :pencil)
+                    end
+                  end
+                )
               end
             end
           end
