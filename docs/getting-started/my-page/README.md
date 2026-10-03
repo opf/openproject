@@ -89,7 +89,7 @@ To delete a widget from the dashboard, click on the three dots in the upper righ
 
 > [!NOTE]
 >
-> Please note that this widget will be deprecated in an upcoming release. Instead of using it, we recommend logging time via [My time tracking module](../../user-guide/time-and-costs/my-time-tracking/). 
+> Please note that this widget will be deprecated in an upcoming release. Instead of using it, we recommend logging time via [My work module](../../user-guide/time-and-costs/my-work/). 
 
 To track spent time, [add the **My spent time** widget](#add-widgets) in the My page.
 

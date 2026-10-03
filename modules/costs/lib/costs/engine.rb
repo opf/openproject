@@ -170,16 +170,6 @@ module Costs
            parent: :admin_costs,
            caption: :label_time_entry_custom_field_plural
 
-      menu :global_menu,
-           :my_time_tracking,
-           { controller: "/my/time_tracking", action: "index", date: "today" },
-           after: :my_page,
-           caption: :label_my_time_tracking,
-           if: ->(*) do
-             User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
-           end,
-           icon: :stopwatch
-
       menu :my_menu,
            :hourly_rates,
            { controller: "/my/hourly_rates", action: "show" },
@@ -187,17 +177,6 @@ module Costs
            caption: ->(*) { HourlyRate.model_name.human(count: 2) },
            if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
            icon: "credit-card"
-
-      menu :top_menu,
-           :my_time_tracking,
-           { controller: "/my/time_tracking", action: "index" },
-           after: :my_page,
-           context: :my,
-           caption: :label_my_time_tracking,
-           if: ->(*) do
-             User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
-           end,
-           icon: :stopwatch
     end
 
     initializer "costs.settings" do
