@@ -65,7 +65,9 @@ module API
         end
 
         def active_projects
-          Project.visible_with_activated_time_activity(represented)
+          Project.visible_with_activated_time_activity(represented) if embed_links
+
+          Project.none
         end
       end
     end
