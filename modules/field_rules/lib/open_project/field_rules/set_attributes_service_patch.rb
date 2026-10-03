@@ -32,28 +32,31 @@ module OpenProject::FieldRules
     private
 
     def set_calculated_attributes(attributes)
+      type_known = work_package.type_id.present?
+      apply_field_rule_defaults(attributes) if work_package.new_record? && type_known
       super
-      apply_field_rule_defaults(attributes) if work_package.new_record?
-    end
+      return if type_known || !work_package.new_record?
 
-    def assign_default_type
-      super
-      apply_field_rule_defaults({}, only_blank: true) if work_package.new_record?
+      apply_field_rule_defaults(attributes)
+      update_derivable_date_attribute
     end
 
     # Values the user gave win; otherwise the rule default wins over the native default.
-    def apply_field_rule_defaults(attributes, only_blank: false)
+    def apply_field_rule_defaults(attributes)
       return if work_package.type_id.nil? || work_package.project_id.nil?
 
       ::FieldRules::Resolver.for(work_package.project_id, work_package.type_id).each do |field|
         next if field.default_value.blank?
         next if attributes.keys.any? { |key| ::FieldRules::Fields.attribute_matches?(field.key, key) }
-        next if only_blank && !::FieldRules::Fields.blank_value?(work_package, field.key)
 
-        ::FieldRules::Fields.apply_default(work_package, field.key, field.default_value)
+        apply_field_rule_default(field)
       end
+    end
+
+    def apply_field_rule_default(field)
+      ::FieldRules::Fields.apply_default(work_package, field.key, field.default_value)
     rescue StandardError => e
-      Rails.logger.error("[field_rules] applying defaults failed, skipping: #{e.class}: #{e.message}")
+      Rails.logger.error("[field_rules] applying default for #{field.key} failed, skipping: #{e.class}: #{e.message}")
     end
   end
 end

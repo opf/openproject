@@ -48,14 +48,26 @@ module OpenProject::FieldRules
       return ::FieldRules::EffectiveConfiguration.empty if ::FieldRules::Resolver.system_actor?(@user)
 
       ::FieldRules::Resolver.for(model.project_id, model.type_id)
+    rescue StandardError => e
+      Rails.logger.error("[field_rules] resolving rules failed, using native behaviour: #{e.class}: #{e.message}")
+      ::FieldRules::EffectiveConfiguration.empty
     end
 
     def add_field_rule_errors
       ::FieldRules::Validator.violations(model, user: @user).each do |violation|
-        errors.add(violation.attribute.to_sym, :required_by_field_rules, type: model.type&.name)
+        errors.add(violation.attribute.delete_suffix("_id").to_sym, :required_by_field_rules, type: model.type&.name)
       end
+      add_restricted_target_versions_error
     rescue StandardError => e
       Rails.logger.error("[field_rules] required check failed, skipping: #{e.class}: #{e.message}")
+    end
+
+    # Version assignments bypass the changed attributes the readonly check looks at.
+    def add_restricted_target_versions_error
+      return unless field_rules_configuration.restricting_write("target_versions")
+      return unless model.target_versions_changed? && !model.system_version_override?("target")
+
+      errors.add(:target_versions, :error_readonly)
     end
   end
 end

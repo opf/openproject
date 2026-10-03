@@ -93,4 +93,42 @@ RSpec.describe WorkPackages::SetAttributesService, "field rule defaults" do
 
     expect { build_with }.not_to raise_error
   end
+
+  it "still applies the other defaults when one default fails" do
+    allow(FieldRules::Fields).to receive(:apply_default).and_wrap_original do |original, work_package, key, value|
+      raise StandardError, "boom" if key == "priority"
+
+      original.call(work_package, key, value)
+    end
+
+    expect(build_with.description).to eq "Steps to reproduce:"
+  end
+
+  it "applies defaults before dates are derived" do
+    rule_set = create(:field_rule_set, rule_attributes: [{ field_key: "start_date", default_value: "2026-03-02" },
+                                                         { field_key: "due_date", default_value: "2026-03-06" }])
+    other = create(:type)
+    project.types << other
+    ProjectFieldRuleScheme.find_by!(project:).scheme.items.create!(type: other, rule_set:)
+
+    work_package = build_with(type: other)
+
+    expect(work_package.duration).to eq 5
+  end
+
+  it "does not report system-set defaults as writes to read-only fields" do
+    rule_set = create(:field_rule_set, rule_attributes: [{ field_key: "priority", read_only: true,
+                                                           default_value: high.id.to_s }])
+    other = create(:type)
+    project.types << other
+    ProjectFieldRuleScheme.find_by!(project:).scheme.items.create!(type: other, rule_set:)
+    member = create(:user, member_with_permissions: { project => %i[view_work_packages add_work_packages] })
+
+    work_package = WorkPackage.new
+    result = described_class.new(user: member, model: work_package, contract_class: WorkPackages::CreateContract)
+                            .call(project:, type: other, subject: "x")
+
+    expect(result.errors.symbols_for(:priority)).not_to include(:error_readonly)
+    expect(work_package.priority).to eq high
+  end
 end

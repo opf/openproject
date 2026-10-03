@@ -32,10 +32,19 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title { t("field_rules.confirm.title") }
     header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
                              { href: admin_field_rule_sets_path, text: t("field_rules.rule_sets.plural") },
+                             { href: edit_admin_field_rule_set_path(@rule_set), text: @rule_set.name },
                              t("field_rules.confirm.title")])
   end
 %>
-<%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) { t("field_rules.confirm.rule_set_in_use", schemes: @impact[:scheme_count], projects: @impact[:project_count], work_packages: @impact[:work_package_count]) } %>
+<%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) do %>
+  <p class="mb-2"><%= t("field_rules.confirm.rule_set_intro", name: @rule_set.name) %></p>
+  <ul id="field-rule-impact">
+    <li><%= t("field_rules.confirm.schemes", count: @impact[:scheme_count]) %></li>
+    <li><%= t("field_rules.confirm.projects", count: @impact[:project_count]) %></li>
+    <li><%= t("field_rules.confirm.work_packages", count: @impact[:work_package_count]) %></li>
+  </ul>
+<% end %>
+<p><%= t("field_rules.confirm.no_data_change") %></p>
 <%= form_tag admin_field_rule_set_path(@rule_set), method: :patch do %>
   <%= hidden_field_tag :confirm, "1" %>
   <% @rule_set_params.to_h.except("rules").each do |key, value| %>
@@ -46,6 +55,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= hidden_field_tag "rule_set[rules][#{field}][#{key}]", value, id: nil %>
     <% end %>
   <% end %>
-  <%= submit_tag t(:button_confirm), class: "button -primary" %>
-  <%= link_to t(:button_cancel), admin_field_rule_sets_path, class: "button" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_confirm) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_sets_path, scheme: :invisible)) { t(:button_cancel) } %>
+  </div>
 <% end %>

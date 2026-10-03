@@ -29,11 +29,14 @@
 
 module OpenProject::FieldRules
   module Constraints
+    DATE_KEY = "date"
+    DATE_FIELDS = %w[start_date due_date].freeze
+
     module_function
 
     # TypeVariant keeps one constraint per attribute: wrap the existing one so other modules keep working.
     def install
-      ::FieldRules::Fields::NATIVE.each_key do |key|
+      [*::FieldRules::Fields::NATIVE.keys, DATE_KEY].each do |key|
         existing = ::TypeVariant.attribute_constraints[key.to_sym]
         ::TypeVariant.add_constraint(key, wrap(key, existing))
       end
@@ -48,7 +51,10 @@ module OpenProject::FieldRules
     def hidden?(key, variant, project)
       return false if project.nil? || variant.nil?
 
-      ::FieldRules::Resolver.for(project, variant.type_id).hidden?(key)
+      configuration = ::FieldRules::Resolver.for(project, variant.type_id)
+      return DATE_FIELDS.all? { |field| configuration.hidden?(field) } if key == DATE_KEY
+
+      configuration.hidden?(key)
     rescue StandardError => e
       Rails.logger.error("[field_rules] hidden check failed, showing field: #{e.class}: #{e.message}")
       false

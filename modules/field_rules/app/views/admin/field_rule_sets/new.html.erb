@@ -37,6 +37,8 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%= form_tag admin_field_rule_sets_path, method: :post do %>
   <%= render "form_fields", rule_set: @rule_set %>
-  <%= submit_tag t(:button_create), class: "button -primary" %>
-  <%= link_to t(:button_cancel), admin_field_rule_sets_path, class: "button" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_create) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_sets_path)) { t(:button_cancel) } %>
+  </div>
 <% end %>

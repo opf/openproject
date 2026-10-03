@@ -31,12 +31,15 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("field_rules.schemes.edit") }
     header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_field_rule_sets_path, text: t("field_rules.plural") },
                              { href: admin_field_rule_schemes_path, text: t("field_rules.schemes.plural") },
                              t("field_rules.schemes.edit")])
   end
 %>
 <%= form_tag admin_field_rule_scheme_path(@scheme), method: :patch do %>
   <%= render "form_fields", scheme: @scheme %>
-  <%= submit_tag t(:button_save), class: "button -primary" %>
-  <%= link_to t(:button_cancel), admin_field_rule_schemes_path, class: "button" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_schemes_path)) { t(:button_cancel) } %>
+  </div>
 <% end %>

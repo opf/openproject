@@ -48,6 +48,24 @@ RSpec.describe FieldRules::Fields do
     expect(described_class.attribute_matches?("custom_field_1", "custom_field_12")).to be false
   end
 
+  it "counts pending target version assignments as a value" do
+    work_package = build(:work_package)
+    version = create(:version)
+    expect(described_class.blank_value?(work_package, "target_versions")).to be true
+
+    work_package.target_version_ids_replacements = [version.id]
+    expect(described_class.blank_value?(work_package, "target_versions")).to be false
+  end
+
+  it "does not set custom field defaults the work package cannot take" do
+    custom_field = create(:work_package_custom_field)
+    work_package = build(:work_package)
+    allow(work_package).to receive(:respond_to?).and_call_original
+    allow(work_package).to receive(:respond_to?).with(:"custom_field_#{custom_field.id}=").and_return(false)
+
+    expect { described_class.apply_default(work_package, "custom_field_#{custom_field.id}", "1") }.not_to raise_error
+  end
+
   it "lets other modules register fields" do
     described_class.register("story_points", attributes: %w[story_points], schema_key: "storyPoints")
     expect(described_class.configurable?("story_points")).to be true

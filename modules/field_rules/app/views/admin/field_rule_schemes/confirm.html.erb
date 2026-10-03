@@ -31,11 +31,14 @@ See COPYRIGHT and LICENSE files for more details.
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("field_rules.confirm.title") }
     header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_field_rule_sets_path, text: t("field_rules.plural") },
                              { href: admin_field_rule_schemes_path, text: t("field_rules.schemes.plural") },
+                             { href: edit_admin_field_rule_scheme_path(@scheme), text: @scheme.name },
                              t("field_rules.confirm.title")])
   end
 %>
 <%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) { t("field_rules.confirm.scheme_in_use", count: @impact[:project_count]) } %>
+<p><%= t("field_rules.confirm.no_data_change") %></p>
 <%= form_tag admin_field_rule_scheme_path(@scheme), method: :patch do %>
   <%= hidden_field_tag :confirm, "1" %>
   <% @scheme_params.to_h.except("types").each do |key, value| %>
@@ -44,6 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% (@scheme_params[:types] || {}).to_h.each do |type_id, rule_set_id| %>
     <%= hidden_field_tag "scheme[types][#{type_id}]", rule_set_id, id: nil %>
   <% end %>
-  <%= submit_tag t(:button_confirm), class: "button -primary" %>
-  <%= link_to t(:button_cancel), admin_field_rule_schemes_path, class: "button" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_confirm) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_schemes_path, scheme: :invisible)) { t(:button_cancel) } %>
+  </div>
 <% end %>

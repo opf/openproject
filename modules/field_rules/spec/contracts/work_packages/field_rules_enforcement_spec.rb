@@ -99,11 +99,31 @@ RSpec.describe "Field rules enforcement in work package contracts" do # rubocop:
       expect(contract.errors.symbols_for(:priority)).to include(:error_readonly)
     end
 
+    it "keeps hidden and read-only target versions from being assigned" do
+      rule_set.rules.create!(field_key: "target_versions", read_only: true)
+      FieldRules::Resolver.reset_cache
+      work_package = build(:work_package, project:, type: bug, author: user, status:, description: "x")
+      work_package.target_version_ids_replacements = [create(:version, project:).id]
+      contract = WorkPackages::CreateContract.new(work_package, user).tap(&:validate)
+
+      expect(contract.errors.symbols_for(:target_versions)).to include(:error_readonly)
+    end
+
     it "keeps everything writable for types without rules" do
       work_package = build(:work_package, project:, type: story, author: user, status:)
       writable = WorkPackages::CreateContract.new(work_package, user).writable_attributes
 
       expect(writable).to include("priority_id", "estimated_hours")
+    end
+  end
+
+  describe "required assignee" do
+    let(:rules) { [{ field_key: "assignee", required: true }] }
+
+    it "reports the violation on the API-facing attribute" do
+      contract = create_contract(assigned_to: nil)
+
+      expect(contract.errors.symbols_for(:assigned_to)).to include(:required_by_field_rules)
     end
   end
 

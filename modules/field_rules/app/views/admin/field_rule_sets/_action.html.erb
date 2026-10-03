@@ -26,20 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
-<% html_title t(:label_administration), t("field_rules.plural"), t("field_rules.schemes.new") %>
-<%=
-  render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { t("field_rules.schemes.new") }
-    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
-                             { href: admin_field_rule_sets_path, text: t("field_rules.plural") },
-                             { href: admin_field_rule_schemes_path, text: t("field_rules.schemes.plural") },
-                             t("field_rules.schemes.new")])
-  end
-%>
-<%= form_tag admin_field_rule_schemes_path, method: :post do %>
-  <%= render "form_fields", scheme: @scheme %>
-  <div class="form--field">
-    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_create) } %>
-    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_schemes_path)) { t(:button_cancel) } %>
-  </div>
+<%= form_with url: path, method: :post, class: "d-inline-block mr-2 mb-1", data: confirm ? { turbo_confirm: confirm } : {} do %>
+  <%= render(Primer::Beta::Button.new(type: :submit, size: :small, "aria-label": t("field_rules.action_on", action: caption, name: name))) { caption } %>
 <% end %>

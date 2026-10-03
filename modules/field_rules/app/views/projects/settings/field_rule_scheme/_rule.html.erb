@@ -1,0 +1,60 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  key = rule.field_key
+  custom_field_id = ::FieldRules::Fields.custom_field_id(key)
+  available = custom_field_id.nil? || active_custom_field_ids.include?(custom_field_id)
+  states = %w[hidden required read_only enforce_on_update].select { |state| rule.public_send(state) }
+  states -= %w[required read_only enforce_on_update] if rule.hidden
+  states = states.map { |state| t("field_rules.rule_sets.#{state}") }
+  default_text =
+    if rule.default_value.present?
+      value = rule.default_value
+      shown =
+        case ::FieldRules::Fields.definition(key)&.default_type
+        when :user then User.find_by(id: value)&.name
+        when :priority then IssuePriority.find_by(id: value)&.name
+        when :category then Category.find_by(id: value)&.name
+        when :custom_field
+          field = WorkPackageCustomField.find_by(id: custom_field_id)
+          case field&.field_format
+          when "list" then field.custom_options.find_by(id: value)&.value
+          when "bool" then value.in?(%w[true t 1]) ? t(:general_text_Yes) : t(:general_text_No)
+          end
+        end
+      t("field_rules.project_settings.default_value", value: shown || value)
+    end
+%>
+<li>
+  <%= ::FieldRules::Fields.label(key) %>:
+  <%= ([states.to_sentence.presence, default_text].compact.join("; ")) %>
+  <% unless available %>
+    <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 1)) { t("field_rules.project_settings.field_not_active") } %>
+  <% end %>
+</li>

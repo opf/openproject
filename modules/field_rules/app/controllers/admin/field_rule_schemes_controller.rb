@@ -32,7 +32,7 @@ module Admin
     MAX_ROWS = 1000
 
     layout "admin"
-    menu_item :field_rule_schemes
+    menu_item :field_rule_sets
 
     before_action :require_admin
     before_action :find_scheme, only: %i[edit update clone activate deactivate]

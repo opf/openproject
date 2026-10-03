@@ -138,12 +138,14 @@ module FieldRules
       def apply_default(work_package, key, value)
         definition = definition(key)
         return if definition.nil? || value.blank?
+        return if definition.default_type == :custom_field && !work_package.respond_to?(:"#{key}=")
 
         case definition.default_type
         when :text then work_package.description = value
         when :user then work_package.public_send(key == "assignee" ? :assigned_to_id= : :responsible_id=, value.to_i)
         when :priority then work_package.priority_id = value.to_i
-        when :category then work_package.category_id = value.to_i
+        when :category
+          work_package.category_id = value.to_i if Category.exists?(id: value.to_i, project_id: work_package.project_id)
         when :date then work_package.public_send(:"#{key}=", Date.iso8601(value))
         when :hours then work_package.estimated_hours = value.to_f
         when :custom_field then work_package.public_send(:"#{key}=", value)
@@ -151,6 +153,8 @@ module FieldRules
       end
 
       def blank_value?(work_package, key)
+        return work_package.effective_target_versions.blank? if key.to_s == "target_versions"
+
         attribute = definition(key)&.attributes&.first
         attribute.present? && work_package.respond_to?(attribute) && work_package.public_send(attribute).blank?
       end
@@ -167,7 +171,8 @@ module FieldRules
         when "bool" then %w[true false 1 0 t f].include?(value.to_s)
         when "date" then Date.iso8601(value.to_s) && true
         when "list" then custom_field.possible_values.map { |v| v.id.to_s }.include?(value.to_s)
-        else true
+        when "string", "text", "link" then true
+        else false
         end
       rescue Date::Error
         false

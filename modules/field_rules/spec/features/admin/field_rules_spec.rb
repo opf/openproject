@@ -61,6 +61,44 @@ RSpec.describe "Field rules administration" do # rubocop:disable RSpec/DescribeC
     expect(FieldRuleSet.exists?(name: "Broken")).to be false
   end
 
+  it "offers typed inputs for default values" do
+    priority = create(:priority, name: "Urgent")
+    visit new_admin_field_rule_set_path
+    fill_in "rule_set_name", with: "Defaults"
+    select "Urgent", from: "rule_set_priority_default_value"
+    fill_in "rule_set_due_date_default_value", with: "2030-01-31"
+    fill_in "rule_set_estimated_time_default_value", with: "2.5"
+    click_button "Create"
+
+    expect(page).to have_text("Successful creation.")
+    rule_set = FieldRuleSet.find_by!(name: "Defaults")
+    expect(rule_set.rule_for("priority").default_value).to eq priority.id.to_s
+    expect(rule_set.rule_for("due_date").default_value).to eq "2030-01-31"
+    expect(rule_set.rule_for("estimated_time").default_value).to eq "2.5"
+  end
+
+  it "explains the allowed combinations and marks the offending row" do
+    visit new_admin_field_rule_set_path
+    expect(page).to have_css("#field-rule-combinations li", minimum: 3)
+    expect(page).to have_css("#rule_set_description_required[aria-describedby~='field-rule-combinations']")
+    expect(page).to have_css("table#field-rules-table caption", visible: :all)
+
+    fill_in "rule_set_name", with: "Broken"
+    check "rule_set_description_hidden"
+    check "rule_set_description_required"
+    click_button "Create"
+
+    expect(page).to have_css("#rule_set_description_errors", text: "cannot be combined with hidden")
+  end
+
+  it "shows an empty state when there are no rule sets or schemes" do
+    visit admin_field_rule_sets_path
+    expect(page).to have_css("h2", text: "No field rule sets yet")
+
+    visit admin_field_rule_schemes_path
+    expect(page).to have_css("h2", text: "No field rule schemes yet")
+  end
+
   context "with an existing rule set" do
     let!(:rule_set) { create(:field_rule_set, name: "Base", rule_attributes: [{ field_key: "description", required: true }]) }
 
@@ -91,7 +129,10 @@ RSpec.describe "Field rules administration" do # rubocop:disable RSpec/DescribeC
         uncheck "rule_set_description_required"
         click_button "Save"
 
-        expect(page).to have_text("1 project(s)")
+        expect(page).to have_css("#field-rule-impact li", text: "1 field rule scheme")
+        expect(page).to have_css("#field-rule-impact li", text: "1 project")
+        expect(page).to have_css("#field-rule-impact li", text: "existing work package")
+        expect(page).to have_link("Cancel")
         expect(rule_set.reload.rule_for("description")).to be_required
 
         click_button "Confirm"

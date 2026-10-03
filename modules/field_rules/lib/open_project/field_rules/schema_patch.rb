@@ -34,13 +34,23 @@ module OpenProject::FieldRules
       configuration = field_rules_schema_configuration
       return json if configuration.nil? || configuration.empty?
 
+      adjust_schema_json(json, configuration)
+    end
+
+    private
+
+    def adjust_schema_json(json, configuration)
       JSON.dump(apply_field_rules(JSON.parse(json), configuration))
     rescue StandardError => e
       Rails.logger.error("[field_rules] adjusting schema failed, using native schema: #{e.class}: #{e.message}")
       json
     end
 
-    private
+    # Hidden fields change the cached attribute groups, which the schema cache key does not know about.
+    def json_key_dependencies
+      hidden = field_rules_schema_configuration&.select(&:hidden)&.map(&:key)
+      [super, (["field_rules", *hidden.sort].join(":") if hidden.present?)]
+    end
 
     def field_rules_schema_configuration
       return unless represented.respond_to?(:project) && represented.respond_to?(:type)
@@ -56,13 +66,18 @@ module OpenProject::FieldRules
         next if key.nil? || !hash.key?(key)
 
         if field.hidden
-          hash.delete(key)
-          remove_from_attribute_groups(hash, key)
+          remove_property(hash, key)
         else
           adjust_property(hash[key], field)
         end
       end
+      remove_property(hash, "date") if %w[start_date due_date].all? { |key| configuration.hidden?(key) }
       hash
+    end
+
+    def remove_property(hash, key)
+      hash.delete(key)
+      remove_from_attribute_groups(hash, key)
     end
 
     def adjust_property(property, field)

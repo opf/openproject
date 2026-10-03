@@ -62,6 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
         </thead>
         <tbody>
           <% @rule_sets.each do |rule_set| %>
+            <% scheme_count = @scheme_counts.fetch(rule_set.id, 0) %>
             <tr>
               <th scope="row">
                 <%= link_to rule_set.name, edit_admin_field_rule_set_path(rule_set) %>
@@ -69,16 +70,17 @@ See COPYRIGHT and LICENSE files for more details.
                   <div class="color-fg-muted"><%= rule_set.description %></div>
                 <% end %>
               </th>
-              <td><%= @rule_counts.fetch(rule_set.id, 0) %></td>
-              <td><%= @scheme_counts.fetch(rule_set.id, 0) %></td>
+              <td><%= rule_set.rules.size %></td>
+              <td><%= scheme_count %></td>
               <td><%= rule_set.active ? t(:label_active) : t(:label_inactive) %></td>
               <td>
-                <%= render Primer::Beta::Button.new(tag: :a, href: edit_admin_field_rule_set_path(rule_set), size: :small, mr: 2, "aria-label": t("field_rules.action_on", action: t(:button_edit), name: rule_set.name)) { t(:button_edit) } %>
-                <%= button_to t("field_rules.clone"), clone_admin_field_rule_set_path(rule_set), method: :post, class: "button -small", form: { class: "op-inline-form" }, "aria-label": t("field_rules.action_on", action: t("field_rules.clone"), name: rule_set.name) %>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_field_rule_set_path(rule_set), size: :small, mr: 2, mb: 1, "aria-label": t("field_rules.action_on", action: t(:button_edit), name: rule_set.name))) { t(:button_edit) } %>
+                <%= render "action", name: rule_set.name, path: clone_admin_field_rule_set_path(rule_set), caption: t("field_rules.clone"), confirm: nil %>
                 <% if rule_set.active %>
-                  <%= button_to t("field_rules.deactivate"), deactivate_admin_field_rule_set_path(rule_set), method: :post, class: "button -small", form: { class: "op-inline-form", data: { turbo_confirm: t("field_rules.rule_sets.deactivate_confirm", count: @scheme_counts.fetch(rule_set.id, 0)) } }, "aria-label": t("field_rules.action_on", action: t("field_rules.deactivate"), name: rule_set.name) %>
+                  <%= render "action", name: rule_set.name, path: deactivate_admin_field_rule_set_path(rule_set), caption: t("field_rules.deactivate"),
+                                       confirm: t("field_rules.rule_sets.deactivate_confirm", count: scheme_count) %>
                 <% else %>
-                  <%= button_to t("field_rules.activate"), activate_admin_field_rule_set_path(rule_set), method: :post, class: "button -small", form: { class: "op-inline-form" }, "aria-label": t("field_rules.action_on", action: t("field_rules.activate"), name: rule_set.name) %>
+                  <%= render "action", name: rule_set.name, path: activate_admin_field_rule_set_path(rule_set), caption: t("field_rules.activate"), confirm: nil %>
                 <% end %>
               </td>
             </tr>

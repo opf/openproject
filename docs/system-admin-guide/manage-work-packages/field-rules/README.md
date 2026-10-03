@@ -32,6 +32,17 @@ Create rule sets and schemes in *Administration → Work packages → Field rule
 
 Description, assignee, responsible, priority, category, target versions, start date, due date, estimated time and every work package custom field. The subject, type, project, status, author and automatically calculated fields cannot be configured. A custom field must be active in the project to be affected.
 
+## Editing a rule set
+
+*Administration → Work packages → Field rules* lists all rule sets. Open one to see a table with one row per configurable field and the columns **Hidden**, **Required**, **Read-only**, **Enforce on update** and **Default value**.
+
+* The default value input depends on the field: a list for priority, category, assignee and responsible and for list custom fields, a date picker for dates and date custom fields, a number input for estimated time and numeric custom fields, a yes/no list for boolean custom fields and free text otherwise. Fields without a usable default (for example target versions) show a dash.
+* Ticking **Hidden** disables the other checkboxes of that row, because a hidden field cannot be required or read-only.
+* A custom field that is already required in its custom field settings is marked; a rule cannot make it optional. A custom field that is not enabled in some projects shows how many, the rule is ignored there.
+* If you save a rule set or scheme that is already assigned to projects, a confirmation page lists how many schemes, projects and existing work packages are affected. Nothing is saved until you confirm; existing values are never changed.
+
+In *Project settings → Field rule scheme* members with the permission see, for each type enabled in the project, the assigned rule set and the rules it contains (states and default values). Rules for fields that are not enabled in the project are flagged as ignored.
+
 ## Valid combinations
 
 * A field cannot be **hidden and required**.

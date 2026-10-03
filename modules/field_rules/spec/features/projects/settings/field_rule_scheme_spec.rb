@@ -33,7 +33,7 @@ require "spec_helper"
 RSpec.describe "Project settings field rule scheme" do # rubocop:disable RSpec/DescribeClass
   shared_let(:bug) { create(:type, name: "Bug") }
   shared_let(:project) { create(:project, types: [bug]) }
-  shared_let(:scheme) { create(:field_rule_scheme, name: "Dev", mapping: { bug => create(:field_rule_set, name: "Bug rules") }) }
+  shared_let(:scheme) { create(:field_rule_scheme, name: "Dev", mapping: { bug => create(:field_rule_set, name: "Bug rules", rule_attributes: [{ field_key: "description", required: true }, { field_key: "category", hidden: true }]) }) }
 
   context "with the assign permission" do
     current_user { create(:user, member_with_permissions: { project => %i[assign_field_rule_scheme view_work_packages] }) }
@@ -45,11 +45,15 @@ RSpec.describe "Project settings field rule scheme" do # rubocop:disable RSpec/D
 
       expect(page).to have_text("Successful update.")
       expect(ProjectFieldRuleScheme.find_by(project_id: project.id).scheme).to eq scheme
-      expect(page).to have_css("#effective-rules li", text: "Bug: Bug rules")
+      expect(page).to have_css("#effective-rules li", text: "Bug")
+      expect(page).to have_css("#effective-rules li", text: "Bug rules")
+      expect(page).to have_css("#effective-rules li li", text: "Description: Required")
+      expect(page).to have_css("#effective-rules li li", text: "Category: Hidden")
 
       select "No scheme (native behaviour)", from: "scheme_id"
       click_button "Save"
       expect(ProjectFieldRuleScheme.where(project_id: project.id)).to be_empty
+      expect(page).to have_css("#effective-rules", text: "No scheme is assigned")
     end
   end
 

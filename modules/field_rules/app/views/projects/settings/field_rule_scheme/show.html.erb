@@ -26,6 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
+<%
+  scheme = @current
+  items = scheme ? scheme.items.includes(:rule_set).index_by(&:type_id) : {}
+  active_custom_field_ids = @project.all_work_package_custom_fields.pluck(:id)
+%>
 <% html_title @project.name, t("field_rules.project_settings.title") %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
@@ -36,24 +41,57 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 <%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("field_rules.project_settings.description") } %>
+<% if scheme && !scheme.active %>
+  <%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) { t("field_rules.project_settings.inactive") } %>
+<% end %>
 <%= form_tag project_settings_field_rule_scheme_path(@project), method: :patch do %>
   <div class="form--field">
     <%= label_tag "scheme_id", t("field_rules.project_settings.scheme"), class: "form--label" %>
     <span class="form--field-container">
-      <%= select_tag "scheme_id", options_from_collection_for_select(@schemes, :id, :name, @current&.id),
-                     include_blank: t("field_rules.project_settings.none"), class: "form--select" %>
+      <%= select_tag "scheme_id", options_from_collection_for_select(@schemes, :id, :name, scheme&.id),
+                     include_blank: t("field_rules.project_settings.none"), class: "form--select",
+                     "aria-describedby": "scheme_id_hint" %>
+    </span>
+    <span class="form--field-instructions" id="scheme_id_hint">
+      <%= @schemes.empty? ? t("field_rules.project_settings.no_schemes") : t("field_rules.project_settings.scheme_hint") %>
     </span>
   </div>
-  <%= submit_tag t(:button_save), class: "button -primary" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) } %>
+  </div>
 <% end %>
-<% if @current && !@current.active %>
-  <%= render(Primer::Beta::Flash.new(scheme: :warning, mt: 3)) { t("field_rules.project_settings.inactive") } %>
-<% end %>
-<% if @current %>
-  <h2><%= t("field_rules.project_settings.effective") %></h2>
-  <ul id="effective-rules">
-    <% @current.items.includes(:type, :rule_set).sort_by { |item| item.type.position.to_i }.each do |item| %>
-      <li><%= item.type.name %>: <%= item.rule_set.name %><%= " (#{t(:label_inactive)})" unless item.rule_set.active %></li>
+
+<h2 class="mt-4" id="effective-rules-heading"><%= t("field_rules.project_settings.effective") %></h2>
+<% if scheme.nil? %>
+  <p id="effective-rules"><%= t("field_rules.project_settings.no_scheme_assigned") %></p>
+<% else %>
+  <p><%= t("field_rules.project_settings.effective_hint", scheme: scheme.name) %></p>
+  <ul id="effective-rules" aria-labelledby="effective-rules-heading" class="list-style-none pl-0">
+    <% @project.types.sort_by { |type| type.position.to_i }.each do |type| %>
+      <% rule_set = items[type.id]&.rule_set %>
+      <li class="mb-3">
+        <strong><%= type.name %></strong>
+        <% if rule_set.nil? %>
+          <span class="color-fg-muted"><%= t("field_rules.project_settings.no_rule_set") %></span>
+        <% else %>
+          <span>: <%= rule_set.name %></span>
+          <% unless scheme.active && rule_set.active %>
+            <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 1)) { t("field_rules.project_settings.not_applied") } %>
+          <% end %>
+          <% if rule_set.description.present? %>
+            <div class="color-fg-muted"><%= rule_set.description %></div>
+          <% end %>
+          <% if rule_set.rules.empty? %>
+            <div class="color-fg-muted"><%= t("field_rules.project_settings.no_rules") %></div>
+          <% else %>
+            <ul class="mt-1">
+              <% rule_set.rules.sort_by { |rule| [rule.position, rule.field_key] }.each do |rule| %>
+                <%= render "projects/settings/field_rule_scheme/rule", rule:, active_custom_field_ids: %>
+              <% end %>
+            </ul>
+          <% end %>
+        <% end %>
+      </li>
     <% end %>
   </ul>
 <% end %>

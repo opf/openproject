@@ -67,6 +67,8 @@ module FieldRules
     end
 
     def field_changed?(work_package, key)
+      return true if key.to_s == "target_versions" && work_package.target_versions_changed?
+
       changed = work_package.respond_to?(:changed_with_custom_fields) ? work_package.changed_with_custom_fields : work_package.changed
       Array(changed).map(&:to_s).any? { |attribute| Fields.attribute_matches?(key, attribute) }
     end

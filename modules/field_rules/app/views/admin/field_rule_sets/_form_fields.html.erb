@@ -27,9 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%
-  rules = rule_set.rules.index_by(&:field_key)
+  rules = rule_set.rules.reject(&:marked_for_destruction?).index_by(&:field_key)
   keys = ::FieldRules::Fields.configurable_keys
-  labels = ::FieldRules::Fields.labels(keys)
+  custom_fields = WorkPackageCustomField.where(id: keys.filter_map { |key| ::FieldRules::Fields.custom_field_id(key) }).index_by(&:id)
+  enabled_counts = CustomFieldsProject.group(:custom_field_id).count
+  project_total = Project.count
 %>
 <div class="form--field -required">
   <%= label_tag "rule_set_name", FieldRuleSet.human_attribute_name(:name), class: "form--label" %>
@@ -39,10 +41,19 @@ See COPYRIGHT and LICENSE files for more details.
   <%= label_tag "rule_set_description", FieldRuleSet.human_attribute_name(:description), class: "form--label" %>
   <span class="form--field-container"><%= text_area_tag "rule_set[description]", rule_set.description, id: "rule_set_description", class: "form--text-area", rows: 3, maxlength: 5000 %></span>
 </div>
+
+<h2 class="mt-4"><%= t("field_rules.rule_sets.fields_heading") %></h2>
 <p><%= t("field_rules.rule_sets.form_hint") %></p>
-<div class="generic-table--container">
+<ul id="field-rule-combinations" class="mb-3">
+  <li><%= t("field_rules.rule_sets.combination_hidden") %></li>
+  <li><%= t("field_rules.rule_sets.combination_read_only_required") %></li>
+  <li><%= t("field_rules.rule_sets.combination_enforce") %></li>
+  <li><%= t("field_rules.rule_sets.combination_default") %></li>
+</ul>
+
+<div class="generic-table--container" data-controller="disable-when-checked">
   <div class="generic-table--results-container">
-    <table class="generic-table">
+    <table class="generic-table" id="field-rules-table">
       <caption class="sr-only"><%= t("field_rules.rule_sets.fields_caption") %></caption>
       <thead>
         <tr>
@@ -57,18 +68,37 @@ See COPYRIGHT and LICENSE files for more details.
       <tbody>
         <% keys.each do |key| %>
           <% rule = rules[key] %>
-          <% label = labels[key] %>
+          <% label = ::FieldRules::Fields.label(key) %>
+          <% custom_field = custom_fields[::FieldRules::Fields.custom_field_id(key)] %>
+          <% hidden = rule&.hidden || false %>
+          <% error_id = "rule_set_#{key}_errors" %>
           <tr>
-            <th scope="row"><%= label %></th>
+            <th scope="row">
+              <%= label %>
+              <% if custom_field&.is_required? %>
+                <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) { t("field_rules.rule_sets.native_required") } %>
+              <% end %>
+              <% if custom_field && !custom_field.is_for_all? && (inactive = project_total - enabled_counts.fetch(custom_field.id, 0)).positive? %>
+                <div class="color-fg-muted f6"><%= t("field_rules.rule_sets.not_active_in_projects", count: inactive) %></div>
+              <% end %>
+              <% if rule&.errors&.any? %>
+                <div class="color-fg-danger f6" id="<%= error_id %>"><%= rule.errors.full_messages.to_sentence %></div>
+              <% end %>
+            </th>
             <% %w[hidden required read_only enforce_on_update].each do |state| %>
+              <% cause = state == "hidden" %>
               <td>
-                <%= check_box_tag "rule_set[rules][#{key}][#{state}]", "1", rule&.public_send(state), id: "rule_set_#{key}_#{state}",
-                                  "aria-label": "#{t("field_rules.rule_sets.#{state}")}: #{label}" %>
+                <%= check_box_tag "rule_set[rules][#{key}][#{state}]", "1", rule&.public_send(state) && (cause || !hidden),
+                                  id: "rule_set_#{key}_#{state}",
+                                  disabled: !cause && hidden,
+                                  "aria-label": "#{t("field_rules.rule_sets.#{state}")}: #{label}",
+                                  "aria-describedby": ["field-rule-combinations", (error_id if rule&.errors&.any?)].compact.join(" "),
+                                  "aria-invalid": (rule&.errors&.any? ? "true" : nil),
+                                  data: { "disable-when-checked-target": cause ? "cause" : "effect", "target-name": key } %>
               </td>
             <% end %>
             <td>
-              <%= text_field_tag "rule_set[rules][#{key}][default_value]", rule&.default_value, id: "rule_set_#{key}_default_value",
-                                 class: "form--text-field -small", maxlength: 5000, "aria-label": "#{t("field_rules.rule_sets.default_value")}: #{label}" %>
+              <%= render "admin/field_rule_sets/default_input", key:, rule:, label:, custom_fields: %>
             </td>
           </tr>
         <% end %>

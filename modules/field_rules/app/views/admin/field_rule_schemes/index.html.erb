@@ -63,18 +63,25 @@ See COPYRIGHT and LICENSE files for more details.
         </thead>
         <tbody>
           <% @schemes.each do |scheme| %>
+            <% project_count = @project_counts.fetch(scheme.id, 0) %>
             <tr>
-              <th scope="row"><%= link_to scheme.name, edit_admin_field_rule_scheme_path(scheme) %></th>
-              <td><%= @item_counts.fetch(scheme.id, 0) %></td>
-              <td><%= @project_counts.fetch(scheme.id, 0) %></td>
+              <th scope="row">
+                <%= link_to scheme.name, edit_admin_field_rule_scheme_path(scheme) %>
+                <% if scheme.description.present? %>
+                  <div class="color-fg-muted"><%= scheme.description %></div>
+                <% end %>
+              </th>
+              <td><%= scheme.items.size %></td>
+              <td><%= project_count %></td>
               <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
               <td>
-                <%= render Primer::Beta::Button.new(tag: :a, href: edit_admin_field_rule_scheme_path(scheme), size: :small, mr: 2, "aria-label": t("field_rules.action_on", action: t(:button_edit), name: scheme.name)) { t(:button_edit) } %>
-                <%= button_to t("field_rules.clone"), clone_admin_field_rule_scheme_path(scheme), method: :post, class: "button -small", form: { class: "op-inline-form" }, "aria-label": t("field_rules.action_on", action: t("field_rules.clone"), name: scheme.name) %>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_field_rule_scheme_path(scheme), size: :small, mr: 2, mb: 1, "aria-label": t("field_rules.action_on", action: t(:button_edit), name: scheme.name))) { t(:button_edit) } %>
+                <%= render "admin/field_rule_sets/action", name: scheme.name, path: clone_admin_field_rule_scheme_path(scheme), caption: t("field_rules.clone"), confirm: nil %>
                 <% if scheme.active %>
-                  <%= button_to t("field_rules.deactivate"), deactivate_admin_field_rule_scheme_path(scheme), method: :post, class: "button -small", form: { class: "op-inline-form", data: { turbo_confirm: t("field_rules.schemes.deactivate_confirm", count: @project_counts.fetch(scheme.id, 0)) } }, "aria-label": t("field_rules.action_on", action: t("field_rules.deactivate"), name: scheme.name) %>
+                  <%= render "admin/field_rule_sets/action", name: scheme.name, path: deactivate_admin_field_rule_scheme_path(scheme), caption: t("field_rules.deactivate"),
+                                                              confirm: t("field_rules.schemes.deactivate_confirm", count: project_count) %>
                 <% else %>
-                  <%= button_to t("field_rules.activate"), activate_admin_field_rule_scheme_path(scheme), method: :post, class: "button -small", form: { class: "op-inline-form" }, "aria-label": t("field_rules.action_on", action: t("field_rules.activate"), name: scheme.name) %>
+                  <%= render "admin/field_rule_sets/action", name: scheme.name, path: activate_admin_field_rule_scheme_path(scheme), caption: t("field_rules.activate"), confirm: nil %>
                 <% end %>
               </td>
             </tr>
