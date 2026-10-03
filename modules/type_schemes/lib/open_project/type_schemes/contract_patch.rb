@@ -28,20 +28,27 @@
 
 # frozen_string_literal: true
 
-require "open_project/plugins"
-
 module OpenProject::TypeSchemes
-  class Engine < ::Rails::Engine
-    engine_name :openproject_type_schemes
+  module ContractPatch
+    def assignable_types
+      scope = super
+      allowed = ::TypeSchemes::Resolver.allowed_types(model.project, scope)
+      return scope if allowed.equal?(scope)
 
-    include OpenProject::Plugins::ActsAsOpEngine
+      allowed = allowed.to_a
+      current = model.type_id_was && scope.find { |t| t.id == model.type_id_was }
+      allowed << current if current && allowed.exclude?(current)
+      allowed
+    end
 
-    register "openproject-type_schemes",
-             author_url: "https://www.openproject.org",
-             bundled: true
+    private
 
-    config.to_prepare do
-      ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
+    def validate_enabled_type
+      super
+      return unless model.project && type_context_changed?
+      return if ::TypeSchemes::Resolver.for_project(model.project).nil?
+
+      errors.add :type_id, :not_in_scheme unless assignable_types.map(&:id).include?(model.type_id)
     end
   end
 end

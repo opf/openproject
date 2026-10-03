@@ -101,6 +101,7 @@ Body create (`type_items: [{type_id, position, default}]`).
 
 - `prepend` vào `WorkPackages::BaseContract`: nếu core đổi tên/hợp đồng `assignable_types`, spec hook sẽ vỡ ngay (có test bảo vệ).
 - Frontend Angular có thể tự chọn default Type theo thứ tự `allowedValues`; cần xác minh ở Task 4 (spike). Nếu không, default chỉ có hiệu lực ở dialog Rails và API, và ghi nhận là giới hạn.
+- Kết quả spike (Task 3): Angular (`wp-create.component.ts`, `wp-create.service.ts`) không tự chọn Type; khi không có `?type=` nó gửi form không có Type và server chọn bằng `WorkPackages::SetAttributesService#assign_default_type` = `project.enabled_types.first` (không qua `assignable_types`). Vì vậy default của Scheme chỉ có hiệu lực ở dialog Rails và thứ tự `allowedValues`; ở luồng Angular không `?type=`, Type mặc định vẫn theo core (có thể nằm ngoài Scheme ⇒ lỗi `not_in_scheme` cho tới khi người dùng chọn lại Type). Ghi nhận là giới hạn, không sửa core/Angular.
 - Type có `TypeVariant` theo project: Scheme không phân biệt variant (cùng Type ⇒ cùng được phép).
 
 ## 11. Acceptance

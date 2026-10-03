@@ -8,6 +8,10 @@ en:
         scheme: Type scheme
     errors:
       models:
+        work_package:
+          attributes:
+            type_id:
+              not_in_scheme: is not allowed by the project's type scheme.
         type_scheme:
           attributes:
             items:
