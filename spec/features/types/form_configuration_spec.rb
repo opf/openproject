@@ -165,9 +165,10 @@ RSpec.describe "form configuration", :js, :selenium do
         group_key = form.send(:find_group, "Cool Stuff")["data-group-key"]
         form.send(:open_group_menu, "Cool Stuff")
         page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
-        input = find_test_selector("type-form-configuration-group-name-input", wait: 10)
+        input = find_field("Section name")
         input.set("FOOBAR")
-        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
+        page.click_link "Cancel"
+        expect(page).to have_no_field("Section name")
         form.expect_group("Cool Stuff", "Cool Stuff")
         expect(page).to have_no_css("[data-group-key]", text: /\bFOOBAR\b/)
 
@@ -297,10 +298,10 @@ RSpec.describe "form configuration", :js, :selenium do
 
         click_on I18n.t("types.edit.form_configuration.add_attribute_group")
 
-        expect(page.find_test_selector("type-form-configuration-group-name-input", wait: 10).value).to eq("")
+        expect(page.find_field("Section name").value).to eq("")
 
-        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
-        expect(page).to have_no_test_selector("type-form-configuration-group-name-input")
+        page.click_link "Cancel"
+        expect(page).to have_no_field("Section name")
 
         expect(form.group_order).to eq(initial_order)
       end
@@ -314,11 +315,11 @@ RSpec.describe "form configuration", :js, :selenium do
         form.send(:open_group_menu, "Saved custom group")
         page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
 
-        input = page.find_test_selector("type-form-configuration-group-name-input", wait: 10)
+        input = page.find_field("Section name")
         expect(input.value).to eq("Saved custom group")
 
         input.set("Renamed group")
-        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
+        page.click_link "Cancel"
 
         form.expect_group("Saved custom group", "Saved custom group")
         expect(page).to have_no_css("[data-group-key]", text: /\bRenamed group\b/)

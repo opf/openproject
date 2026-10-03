@@ -53,33 +53,17 @@ body:has(.type-form-configuration-page)
     overflow: auto
     height: 100%
 
-  &--inactive-list
-    list-style: none
-    margin: 0
-    padding: 0
-
-    .ActionListItem-visual--leading
-      pointer-events: auto
-
-  &--inactive-item,
-  &--inactive-empty
-    margin-block: var(--base-size-4)
-
-  &--inactive-item .ActionListContent
-    padding-inline: var(--base-size-4)
-
   &--row-alignment-spacer
     min-width: var(--base-size-16)
     width: var(--base-size-16)
     min-height: var(--control-small-size)
 
-  &--drag-handle,
-  &--actions
+  &--drag-handle
     align-self: flex-start
-    justify-self: end
 
-  &--actions-button
-    margin-top: 0
+  &--drag-handle,
+  &--row-alignment-spacer
+    margin-left: calc(-1 * var(--base-size-8))
 
   @media screen and (max-width: $breakpoint-md)
     &--main-inner

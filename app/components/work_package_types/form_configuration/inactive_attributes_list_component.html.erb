@@ -1,44 +1,35 @@
-<%=
-  component_wrapper(
-    id: "type-form-configuration-inactive-container",
-    data: container_data
-  ) do
-    render(
-      Primer::Alpha::ActionList.new(
-        role: :list,
-        classes: "type-form-configuration-page--inactive-list",
-        data: { "test-selector": "type-form-configuration-inactive-list" }
-      )
-    ) do |list|
-      if @inactive_attributes.empty?
-        list.with_item(
-          label: t("types.edit.form_configuration.no_inactive_attributes"),
-          disabled: true,
-          classes: "type-form-configuration-page--inactive-empty",
-          content_arguments: { tag: :div },
-          data: { "empty-list-item": true, "filter--filter-list-target": "searchItem" }
+<%= component_wrapper(id: "type-form-configuration-inactive-container", data: container_data) do %>
+  <%= render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: "type-form-configuration-inactive-list",
+          empty_state_behavior: :dynamic,
+          padding: :condensed,
+          data: list_data
         )
-      else
-        @inactive_attributes.each do |attribute|
-          list.with_item(
-            label: attribute[:translation],
-            classes: "type-form-configuration-page--inactive-item",
-            content_arguments: { tag: :div },
-            data: item_data(attribute).merge("filter--filter-list-target": "searchItem")
-          ) do |item|
-            item.with_leading_visual_raw_content do
-              render(
-                Primer::OpenProject::DragHandle.new(
-                  classes: "attribute-handle",
-                  "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
-                  test_selector: "type-form-configuration-attribute-handle-#{attribute[:key]}",
-                  data: { sortable_lists__item_target: "handle" }
-                )
-              )
-            end
-          end
-        end
-      end
-    end
-  end
-%>
+      ) do |list| %>
+    <% @inactive_attributes.each do |attribute| %>
+      <% list.with_item(data: item_data(attribute)) do %>
+        <%= flex_layout(align_items: :center) do |row| %>
+          <% row.with_column(mr: 2, classes: "hide-when-print") do %>
+            <%= render(
+                  Primer::OpenProject::DragHandle.new(
+                    classes: "attribute-handle",
+                    "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
+                    test_selector: "type-form-configuration-attribute-handle-#{attribute[:key]}",
+                    data: { sortable_lists__item_target: "handle" }
+                  )
+                ) %>
+          <% end %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(Primer::Beta::Text.new) { attribute[:translation] } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% list.with_empty_state(
+         title: t("types.edit.form_configuration.no_inactive_attributes"),
+         drop_target_label: t("types.edit.form_configuration.inactive_drop_label")
+       ) %>
+  <% end %>
+<% end %>

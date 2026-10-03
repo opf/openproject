@@ -33,6 +33,7 @@ module WorkPackageTypes
     class GroupComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include SortableLists::MoveMenu
 
       def initialize(group:, context:, ee_available: false, first: false, last: false, edit_mode: false,
                      form_model: nil)
@@ -97,8 +98,137 @@ module WorkPackageTypes
         @group[:temporary]
       end
 
+      def sole_group? = first? && last?
+
       def sortable?
         !readonly? && @group[:id].present? && !temporary_group?
+      end
+
+      def droppable_list?
+        sortable? && !query_group?
+      end
+
+      def list_container
+        uid = @group[:id].presence || key_digest || @instance_uid
+        "form-configuration-group-#{uid}"
+      end
+
+      def key_digest
+        Digest::SHA256.hexdigest(@group[:key].to_s)[0, 12] if @group[:key].present?
+      end
+
+      def empty_state_behavior
+        droppable_list? ? :dynamic : :none
+      end
+
+      def header_arguments
+        {
+          title: group_name.presence || t("types.edit.form_configuration.new_group_title"),
+          title_tag: :h3,
+          state: edit_mode? ? :edit : :show,
+          show_drag_handle: !readonly?,
+          drag_handle_arguments: {
+            classes: "group-handle",
+            "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
+            test_selector: "type-form-configuration-group-handle-#{@group[:key]}",
+            data: { sortable_lists__item_target: "handle" }
+          }
+        }
+      end
+
+      def group_menu_arguments
+        {
+          button_arguments: {
+            size: :small,
+            test_selector: "type-form-configuration-group-actions-#{@group[:key]}",
+            aria: { label: t("types.edit.form_configuration.group_actions") }
+          }
+        }
+      end
+
+      def group_menu_items(menu)
+        with_item_group(menu) { rename_item(menu) } if ee_available?
+        with_item_group(menu) { with_move_items(menu) } unless sole_group?
+        with_item_group(menu) { delete_item(menu) } if ee_available?
+      end
+
+      def rename_item(menu)
+        menu.with_item(
+          label: t("types.edit.form_configuration.rename_group"),
+          test_selector: "type-form-configuration-group-rename-#{@group[:key]}",
+          tag: :a,
+          href: edit_path,
+          content_arguments: { data: { turbo_stream: true } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      def delete_item(menu)
+        menu.with_item(
+          label: t("button_delete"),
+          scheme: :danger,
+          tag: :a,
+          href: destroy_path,
+          content_arguments: {
+            data: {
+              turbo_method: :delete,
+              turbo_stream: true,
+              turbo_confirm: t("types.edit.form_configuration.confirm_delete_group")
+            }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+
+      def title_form_arguments
+        {
+          model: form_model,
+          scope: :group,
+          input_name: :name,
+          url: update_path,
+          method: form_method,
+          label: t("types.edit.form_configuration.group_name_label"),
+          hidden_fields: { group_type: form_model.group_type, query: form_model.query.presence },
+          input_arguments: { validation_message: name_validation_message }.compact,
+          cancel_arguments: { href: cancel_edit_path, data: { turbo_method: :post, turbo_stream: true } },
+          data: { turbo_stream: true }
+        }
+      end
+
+      def name_validation_message
+        form_model.errors.messages_for(:name).to_sentence.presence
+      end
+
+      def form_model
+        @form_model ||= GroupFormModel.from_group(@group)
+      end
+
+      def query_menu_arguments
+        {
+          menu_id: "#{list_container}-query-menu",
+          button_arguments: {
+            size: :small,
+            test_selector: "type-form-configuration-query-actions-#{@group[:key]}",
+            aria: { label: t("types.edit.form_configuration.row_actions") }
+          }
+        }
+      end
+
+      def query_menu_items(menu)
+        menu.with_item(
+          label: t("types.edit.form_configuration.edit_query"),
+          test_selector: "type-form-configuration-edit-query-#{@group[:key]}",
+          tag: :button,
+          content_arguments: { data: { action: "click->admin--type-form-configuration--main#editQuery" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      def attribute_row(attribute)
+        GroupAttributeRowComponent.new(attribute:, context: @context, total_count: attributes.length)
       end
 
       def item_data
@@ -144,6 +274,26 @@ module WorkPackageTypes
 
       def update_query_path
         @context.group_path(:update_query, key: @group[:key])
+      end
+
+      def edit_path
+        @context.group_path(:edit, key: @group[:key])
+      end
+
+      def update_path
+        temporary_group? ? @context.group_path : @context.group_path(key: @group[:key])
+      end
+
+      def form_method
+        temporary_group? ? :post : :patch
+      end
+
+      def cancel_edit_path
+        @context.group_path(:cancel_edit, key: @group[:key])
+      end
+
+      def destroy_path
+        @context.group_path(key: @group[:key])
       end
     end
   end
