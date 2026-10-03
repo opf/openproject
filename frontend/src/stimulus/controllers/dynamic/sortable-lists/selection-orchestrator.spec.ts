@@ -30,10 +30,37 @@ import { usePlatform } from 'core-common/testing/platform';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import type { SelectionHost } from './selection-orchestrator';
+import { type ListTopology, sortableListData } from './drag-and-drop';
 import { selectionTranslations } from './testing/selection-translations';
 
 // No Stimulus application, no outlets, no controller lifecycle: the host
 // port lets selection be driven over a plain DOM.
+// Mirrors the root: the nearest list element that belongs to this root,
+// with the Box list's <ul> as its rows container when it has one.
+function topologyFor(root:HTMLElement):ListTopology {
+  const rootSelector = '[data-controller~="sortable-lists"]';
+  return {
+    rootElement: root,
+    owns: (element) => element.closest(rootSelector) === root,
+    ownerList: (element) => {
+      const list = element.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
+      if (list?.closest(rootSelector) !== root) {
+        return null;
+      }
+      const identity = {
+        type: list.getAttribute('data-sortable-lists--list-type-value') ?? '',
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      };
+      return {
+        element: list,
+        identity,
+        listData: sortableListData({ type: identity.type, listId: identity.id }),
+        rowsContainer: list.querySelector<HTMLElement>(':scope > ul') ?? list,
+      };
+    },
+  };
+}
+
 describe('SelectionOrchestrator', () => {
   // Imported dynamically, after the mock above registers: spec files share
   // one module registry (the runner does not isolate them), so a static
@@ -57,15 +84,11 @@ describe('SelectionOrchestrator', () => {
 
   function hostFor(element:HTMLElement):SelectionHost {
     return {
-      rootElement: element,
+      ...topologyFor(element),
       get busy() { return busy; },
       announcementScope: 'js.sortable_lists.selection',
       descriptionId: 'selection-description',
       focusItem: (item) => { focused = item; },
-      ownerRowsContainer: (item) => {
-        const list = item.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
-        return list ? (list.querySelector<HTMLElement>(':scope > ul') ?? list) : null;
-      },
     };
   }
 
@@ -515,7 +538,7 @@ describe('SelectionOrchestrator', () => {
       orchestrator.handleKeydown(keydownOn(item('1'), 'a', { ctrlKey: true }));
 
       expect(selectedIds()).toEqual(['2', '3']);
-      // The fallback anchor is the first orderable card of the same list, so
+      // The fallback anchor is the first movable card of the same list, so
       // a follow-up Shift ranges within it rather than from another list.
       orchestrator.handleKeydown(keydownOn(item('3'), ' ', { shiftKey: true }));
       expect(selectedIds()).toEqual(['2', '3']);
@@ -812,7 +835,7 @@ describe('SelectionOrchestrator', () => {
       expect(selectedIds()).toEqual(['1', '2', '3']);
     });
 
-    it('reports an unselected orderable card alone without selecting it', () => {
+    it('reports an unselected movable card alone without selecting it', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
 
@@ -820,7 +843,7 @@ describe('SelectionOrchestrator', () => {
       expect(isSelected(item('3'))).toBe(false);
     });
 
-    it('selects an unselected orderable card for an action, replacing the batch', () => {
+    it('selects an unselected movable card for an action, replacing the batch', () => {
       const orchestrator = new SelectionOrchestrator(hostFor(root));
       orchestrator.handleClick(clickOn(item('1')));
       orchestrator.handleClick(clickOn(item('2'), { ctrlKey: true }));

@@ -43,29 +43,36 @@ import {
   isItemFromRoot,
   resolveDropIntent,
   singleItemBatch,
+  type OwnedList,
   type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
 import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
-  captureRowPositions,
-  isOrderableItem,
-  reorderRows,
-  resolveDirectionalPreviousItemId,
+  isMovableItem,
   resolveItemId,
   resolveItemLabel,
-  resolveItemPosition,
   resolveItemType,
-  resolveMoveAvailability,
-  restoreRowPositions,
   rowOf,
-  rowsRemainAt,
+  ownedBy,
   sortableListsBusyAttribute,
   type DestinationIdentity,
   type MoveAvailability,
   type MoveDirection,
 } from './sortable-lists/list-dom';
+import {
+  directionalPlacement,
+  moveAvailability,
+  positionOf,
+  renderList,
+} from './sortable-lists/rendered-list';
+import {
+  captureRowPositions,
+  reorderRows,
+  restoreRowPositions,
+  rowsRemainAt,
+} from './sortable-lists/row-mutations';
 import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
 import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
 import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
@@ -290,7 +297,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
 
   // Outlets match document-wide; another root's lists are not ours.
   private ownedListOutlets() {
-    return this.sortableListsListOutlets.filter((list) => this.element.contains(list.element));
+    return this.sortableListsListOutlets.filter((list) => this.owns(list.element));
   }
 
   // A morph desyncs the children's drag-and-drop state in two ways. Stimulus
@@ -323,7 +330,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       children.forEach((child) => {
         // Outlet selectors are document-scoped, so a broad selector can match
         // another root's children; repair only the ones this root owns.
-        if (!this.element.contains(child.element)) {
+        if (!this.owns(child.element)) {
           return;
         }
 
@@ -346,21 +353,29 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     });
   };
 
+  // Outlet selectors are document-scoped: a broad one matches the children
+  // of an independently nested root too, which are not ours to wire.
   sortableListsListOutletConnected(list:RootAwareChild):void {
-    list.connectRoot(this);
+    if (this.owns(list.element)) {
+      list.connectRoot(this);
+    }
   }
 
   sortableListsListOutletDisconnected(list:RootAwareChild):void {
-    list.disconnectRoot();
+    list.disconnectRoot(this);
   }
 
   sortableListsItemOutletConnected(item:RootAwareChild):void {
+    if (!this.owns(item.element)) {
+      return;
+    }
+
     item.connectRoot(this);
     this.scheduleSelectionReconcile();
   }
 
   sortableListsItemOutletDisconnected(item:RootAwareChild):void {
-    item.disconnectRoot();
+    item.disconnectRoot(this);
     this.scheduleSelectionReconcile();
   }
 
@@ -382,11 +397,13 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   sortableListsScrollableOutletConnected(scrollable:RootAwareChild):void {
-    scrollable.connectRoot(this);
+    if (this.owns(scrollable.element)) {
+      scrollable.connectRoot(this);
+    }
   }
 
   sortableListsScrollableOutletDisconnected(scrollable:RootAwareChild):void {
-    scrollable.disconnectRoot();
+    scrollable.disconnectRoot(this);
   }
 
   get busy():boolean {
@@ -398,54 +415,52 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // Null means the item is not in an owned list yet. A snapshot for menu
   // gating; the click path re-resolves the live DOM.
   moveAvailability(itemElement:HTMLElement):MoveAvailability|null {
-    if (!isOrderableItem(itemElement)) {
+    if (!isMovableItem(itemElement)) {
       return {
         top: false, up: false, down: false, bottom: false,
       };
     }
 
-    const list = this.ownerListOf(itemElement);
+    const list = this.ownerList(itemElement);
+    if (!list) {
+      return null;
+    }
 
-    return list ? resolveMoveAvailability({ itemElement, rowsContainer: list.rowsContainer }) : null;
+    const rendered = renderList(list.rowsContainer);
+    const row = rendered.rowOf(itemElement);
+    return row ? moveAvailability(rendered, row) : null;
   }
 
   moveInDirection(itemElement:HTMLElement, direction:MoveDirection):void {
     // The menu is rendered server-side from a permission check that does not
     // know about per-work-package movability, so a stale or over-permissive
     // menu must not execute a move the server will refuse.
-    if (this.busy || !isOrderableItem(itemElement)) {
+    if (this.busy || !isMovableItem(itemElement)) {
       return;
     }
 
-    const list = this.ownerListOf(itemElement);
-    if (!list) {
-      return;
-    }
-
+    const list = this.ownerList(itemElement);
     const itemId = resolveItemId(itemElement);
-    if (!itemId) {
+    if (!list || !itemId) {
       return;
     }
 
-    const previousItemId = resolveDirectionalPreviousItemId({ itemElement, direction, rowsContainer: list.rowsContainer });
-    if (previousItemId === undefined) {
-      return;
-    }
-
+    const rendered = renderList(list.rowsContainer);
+    const row = rendered.rowOf(itemElement);
+    const placement = row ? directionalPlacement(rendered, row, direction) : null;
     const moveUrl = this.resolveMoveUrl({ itemId, type: resolveItemType(itemElement) });
-    const sourceRow = rowOf(list.rowsContainer, itemElement);
-    if (!moveUrl || !sourceRow) {
+    if (!row || !placement || !moveUrl) {
       return;
     }
 
     this.selection?.collapseForAction(itemElement);
 
     void this.performMove({
-      rows: [sourceRow],
+      rows: [row.element],
       items: null,
       rowsContainer: list.rowsContainer,
       listData: list.listData,
-      previousItemId,
+      previousItemId: placement.previousItemId,
       moveUrl,
     });
   }
@@ -454,14 +469,31 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // element: in nested topologies (a section item hosting a field list) the
   // item is contained by every ancestor list, and only the innermost one
   // holds its row.
-  private ownerListOf(itemElement:HTMLElement) {
-    const containing = this.sortableListsListOutlets.filter((list) => list.element.contains(itemElement));
+  private ownerListOf(element:Element) {
+    const containing = this.ownedListOutlets().filter((list) => list.element.contains(element));
 
     return containing.find((list) => !containing.some((other) => other !== list && list.element.contains(other.element))) ?? null;
   }
 
+  owns(element:Element):boolean {
+    return ownedBy(this.element, element);
+  }
+
+  ownerList(element:Element):OwnedList|null {
+    const list = this.ownerListOf(element);
+
+    return list
+      ? {
+        element: list.element,
+        identity: destinationOfList(list.listData),
+        listData: list.listData,
+        rowsContainer: list.rowsContainer,
+      }
+      : null;
+  }
+
   ownerRowsContainer(itemElement:HTMLElement):HTMLElement|null {
-    return this.ownerListOf(itemElement)?.rowsContainer ?? null;
+    return this.ownerList(itemElement)?.rowsContainer ?? null;
   }
 
   // Remembered only once the drag is real: a prospective session left by a
@@ -473,8 +505,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   }
 
   liveOwnerDestinationOf(element:HTMLElement):DestinationIdentity|null {
-    const listData = this.ownerListOf(element)?.listData;
-    return listData ? destinationOfList(listData) : null;
+    return this.ownerList(element)?.identity ?? null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
@@ -766,7 +797,9 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // is streamed by the server and self-announces (matching the toast rule).
   // The consumer's vocabulary: Backlogs says "work package", not "item".
   private announceMove(context:MoveAnnouncementContext, rows:HTMLElement[], rowsContainer:HTMLElement):void {
-    const placement = resolveItemPosition({ row: rows[0], rowsContainer });
+    const rendered = renderList(rowsContainer);
+    const row = rendered.rowOf(rows[0]);
+    const placement = row ? positionOf(rendered, row) : null;
     if (!placement) {
       return;
     }

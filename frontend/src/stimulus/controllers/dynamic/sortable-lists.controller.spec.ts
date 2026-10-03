@@ -1266,6 +1266,79 @@ describe('Sortable lists controller', () => {
     });
   });
 
+  describe('nested independent roots', () => {
+    let outer:HTMLElement;
+    let outerItem:HTMLElement;
+    let innerItem:HTMLElement;
+    let outerController:SortableListsControllerType;
+
+    beforeEach(async () => {
+      // The outer root's outlet selectors are deliberately unscoped, so they
+      // match the inner root's children too.
+      fixture.innerHTML = `
+        <div id="outer" data-controller="sortable-lists"
+             data-sortable-lists-move-url-template-value="/move/{id}"
+             data-sortable-lists-sortable-lists--list-outlet="[data-controller~='sortable-lists--list']"
+             data-sortable-lists-sortable-lists--item-outlet="[data-controller~='sortable-lists--item']">
+          <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="outer" data-sortable-lists--list-accepted-type-value="outer">
+            <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="o1" data-sortable-lists--item-type-value="outer"></li>
+          </ul>
+          <div id="inner" data-controller="sortable-lists"
+               data-sortable-lists-move-url-template-value="/inner/{id}"
+               data-sortable-lists-sortable-lists--list-outlet="#inner [data-controller~='sortable-lists--list']"
+               data-sortable-lists-sortable-lists--item-outlet="#inner [data-controller~='sortable-lists--item']">
+            <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="inner" data-sortable-lists--list-accepted-type-value="inner">
+              <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="i1" data-sortable-lists--item-type-value="inner"></li>
+            </ul>
+          </div>
+        </div>
+      `;
+      await ctx.nextFrame();
+      outer = fixture.querySelector<HTMLElement>('#outer')!;
+      outerItem = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="o1"]')!;
+      innerItem = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="i1"]')!;
+      outerController = ctx.application.getControllerForElementAndIdentifier(outer, 'sortable-lists') as SortableListsControllerType;
+    });
+
+    it('does not own the inner root\'s children', () => {
+      expect(outerController.owns(innerItem)).toBe(false);
+      expect(outerController.ownerList(innerItem)).toBeNull();
+      expect(outerController.ownerList(outerItem)?.identity).toEqual({ type: 'outer', id: null });
+    });
+
+    it('hands its reference only to children it owns', () => {
+      const foreign = { element: innerItem, connectRoot: vi.fn(), disconnectRoot: vi.fn(), reregister: vi.fn() };
+      const own = { element: outerItem, connectRoot: vi.fn(), disconnectRoot: vi.fn(), reregister: vi.fn() };
+
+      outerController.sortableListsItemOutletConnected(foreign);
+      outerController.sortableListsItemOutletConnected(own);
+      outerController.sortableListsItemOutletDisconnected(foreign);
+
+      expect(foreign.connectRoot).not.toHaveBeenCalled();
+      expect(own.connectRoot).toHaveBeenCalledWith(outerController);
+      // A foreign disconnect names the root, so the child can ignore it.
+      expect(foreign.disconnectRoot).toHaveBeenCalledWith(outerController);
+    });
+
+    it('leaves the inner root\'s real item wired to the inner root', () => {
+      const inner = fixture.querySelector<HTMLElement>('#inner')!;
+      const innerController = ctx.application.getControllerForElementAndIdentifier(inner, 'sortable-lists') as SortableListsControllerType;
+      const innerItemController = ctx.application.getControllerForElementAndIdentifier(innerItem, 'sortable-lists--item') as unknown as { root?:unknown };
+
+      expect(innerItemController.root).toBe(innerController);
+    });
+
+    it('heals only its own children after a morph', async () => {
+      const innerItemController = ctx.application.getControllerForElementAndIdentifier(innerItem, 'sortable-lists--item') as unknown as { reregister():void };
+      const reregister = vi.spyOn(innerItemController, 'reregister');
+
+      outer.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+      await ctx.nextFrame();
+
+      expect(reregister).not.toHaveBeenCalled();
+    });
+  });
+
   describe('per-type move URL map', () => {
     it('resolves the drop move URL from the per-type template map', async () => {
       const { fieldList, sectionList } = renderTypeMapFixture();
