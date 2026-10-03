@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       member do
         post :clone
         post :deactivate
+        post :activate
       end
     end
   end

@@ -30,6 +30,8 @@
 
 module TypeSchemes
   class SchemeService
+    MAX_ITEMS = 500
+
     class << self
       def create(params) = save(TypeScheme.new, params)
       def update(scheme, params) = save(scheme, params)
@@ -41,7 +43,11 @@ module TypeSchemes
       end
 
       def deactivate(scheme)
-        scheme.update(active: false) ? ok(scheme) : fail_with(scheme)
+        scheme.update(active: false, is_default: false) ? ok(scheme) : fail_with(scheme)
+      end
+
+      def activate(scheme)
+        scheme.update(active: true) ? ok(scheme) : fail_with(scheme)
       end
 
       def destroy(scheme)
@@ -97,9 +103,13 @@ module TypeSchemes
           scheme.errors.add(:items, :duplicate_types)
           return fail_with(scheme)
         end
+        if params[:items] && params[:items].size > MAX_ITEMS
+          scheme.errors.add(:items, :too_many, count: MAX_ITEMS)
+          return fail_with(scheme)
+        end
 
         result = nil
-        TypeScheme.transaction do
+        TypeScheme.transaction(requires_new: true) do
           scheme.lock! if scheme.persisted?
           scheme.assign_attributes(params.slice(:name, :description, :is_default))
           prepare_items(scheme, params[:items]) if params.key?(:items)

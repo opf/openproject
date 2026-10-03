@@ -188,4 +188,28 @@ RSpec.describe TypeSchemes::SchemeService do
         .to eq(project_count: 1, work_package_counts: { story.id => 2, bug.id => 1 })
     end
   end
+
+  describe "deactivate / activate" do
+    it "drops the default-scheme flag when deactivating and can reactivate" do
+      scheme = create(:type_scheme, types: [epic], is_default: true)
+
+      described_class.deactivate(scheme)
+      expect(scheme.reload).to have_attributes(active: false, is_default: false)
+
+      described_class.activate(scheme)
+      expect(scheme.reload).to be_active
+    end
+  end
+
+  describe "input limits" do
+    it "rejects names that are too long" do
+      result = described_class.create(name: "x" * 256, items: [{ type_id: epic.id, position: 1, is_default: true }])
+      expect(result).to be_failure
+    end
+
+    it "rejects out-of-range positions" do
+      result = described_class.create(name: "Pos", items: [{ type_id: epic.id, position: 1_000_000, is_default: true }])
+      expect(result).to be_failure
+    end
+  end
 end

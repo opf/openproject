@@ -36,7 +36,11 @@ module API
             raw_items = body[:type_items] || body[:typeItems]
             params = body.slice(:name, :description).symbolize_keys
             if raw_items
-              params[:items] = Array(raw_items).map do |item|
+              unless raw_items.is_a?(Array) && raw_items.all?(Hash)
+                raise ::API::Errors::BadRequest.new("typeItems must be a list of objects.")
+              end
+
+              params[:items] = raw_items.map do |item|
                 item = item.with_indifferent_access
                 { type_id: item[:type_id] || item[:typeId] || type_id_from_link(item),
                   position: item[:position].to_i,
@@ -47,7 +51,8 @@ module API
           end
 
           def type_id_from_link(item)
-            href = item.dig(:_links, :type, :href)
+            link = item.dig(:_links, :type)
+            href = link.is_a?(Hash) ? link[:href] : nil
             return if href.blank?
 
             ::API::Utilities::ResourceLinkParser.parse_id(href, property: "type", expected_version: "3", expected_namespace: "types")

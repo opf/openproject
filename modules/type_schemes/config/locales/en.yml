@@ -8,6 +8,7 @@ en:
       projects: "Number of projects"
       clone: "Clone"
       deactivate: "Deactivate"
+      activate: "Activate"
     form:
       enabled: "Enabled"
       position: "Position"
@@ -47,6 +48,7 @@ en:
             items:
               exactly_one_default: must contain exactly one default type.
               duplicate_types: must not contain the same type more than once.
+              too_many: must not contain more than %{count} types.
             project_assignments:
               assigned_to_projects: "cannot be deleted while the scheme is assigned to: %{projects}."
         project_type_scheme:

@@ -34,7 +34,7 @@ module Admin
     menu_item :type_schemes
 
     before_action :require_admin
-    before_action :find_scheme, only: %i[edit update clone deactivate destroy]
+    before_action :find_scheme, only: %i[edit update clone deactivate activate destroy]
 
     def index
       @schemes = TypeScheme.includes(:project_assignments).order(:name)
@@ -85,6 +85,10 @@ module Admin
       respond(::TypeSchemes::SchemeService.deactivate(@scheme), t(:notice_successful_update))
     end
 
+    def activate
+      respond(::TypeSchemes::SchemeService.activate(@scheme), t(:notice_successful_update))
+    end
+
     def destroy
       respond(::TypeSchemes::SchemeService.destroy(@scheme), t(:notice_successful_delete))
     end
@@ -112,7 +116,7 @@ module Admin
     def scheme_params
       permitted = permitted_scheme_params
       default_id = permitted[:default_type_id].to_s
-      rows = (permitted[:types] || {}).to_h.select { |_, v| v["enabled"] == "1" }
+      rows = (permitted[:types] || {}).to_h.select { |_, v| v.respond_to?(:key?) && v["enabled"] == "1" }
       items = rows.map do |type_id, v|
         { type_id: type_id.to_i, position: v["position"].to_i, is_default: type_id == default_id }
       end

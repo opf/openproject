@@ -19,7 +19,7 @@ A scheme only references existing types. It never creates types and never change
 3. Tick the types that belong to the scheme, set their position and choose exactly one **Default** type.
 4. Optionally tick **Default scheme for new projects**. Only one scheme can be the default; it is assigned automatically to every newly created project.
 
-You can **clone** a scheme (the copy is called "<name> - Custom" and is not assigned to any project), **deactivate** it (an inactive scheme no longer filters types and cannot be newly assigned) or **delete** it. A scheme that is still assigned to projects cannot be deleted; the error lists the projects.
+You can **clone** a scheme (the copy is called "<name> - Custom" and is not assigned to any project), **deactivate** it (an inactive scheme no longer filters types, cannot be newly assigned and loses its "default for new projects" flag; use **Activate** to enable it again) or **delete** it. A scheme that is still assigned to projects cannot be deleted; the error lists the projects.
 
 When you remove a type from a scheme that is used by projects, a confirmation page shows how many projects are affected and how many work packages use the removed type. Existing work packages keep their type.
 
@@ -49,7 +49,7 @@ Recommended order: `dry_run`, review the output, then `auto` (or `manual` to ass
 
 ## Removing the module
 
-Removing the module only drops its three tables (`type_schemes`, `type_scheme_items`, `project_type_schemes`). Types, work packages and project type settings are untouched.
+Run `bundle exec rake db:migrate:down VERSION=20261002100000` before removing the gem, then delete role permissions named `assign_type_scheme`. Removing the module only drops its three tables (`type_schemes`, `type_scheme_items`, `project_type_schemes`). Types, work packages and project type settings are untouched.
 
 ## API
 

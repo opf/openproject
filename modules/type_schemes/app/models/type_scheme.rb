@@ -37,7 +37,8 @@ class TypeScheme < ApplicationRecord
            inverse_of: :scheme, dependent: :restrict_with_error
   has_many :projects, through: :project_assignments
 
-  validates :name, presence: true, uniqueness: true
+  validates :name, presence: true, uniqueness: true, length: { maximum: 255 }
+  validates :description, length: { maximum: 5000 }
   validates :is_default, uniqueness: true, if: :is_default
   validate :types_unique
   validate :exactly_one_default_item, if: :active
