@@ -1,8 +1,11 @@
 #!/bin/bash -e
 
-OUTPUT=$(echo "\dt" | psql `echo $DATABASE_URL | cut -d? -f1` 2>&1)
+DB_URL=$(echo "$DATABASE_URL" | cut -d? -f1)
 
-if [[ "$OUTPUT" = "No relations found." ]]; then
+SCHEMA_LOADED=$(psql -qtAX -v ON_ERROR_STOP=1 "$DB_URL" -c \
+	"SELECT to_regclass('schema_migrations') IS NOT NULL")
+
+if [[ "$SCHEMA_LOADED" = "f" ]]; then
 	echo "Initialising database"
 	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:structure:load
 else
