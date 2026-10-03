@@ -53,23 +53,19 @@ class Sprint < ApplicationRecord
 
   delegate :allow_multiple_active_sprints?, to: :project, allow_nil: true
 
-  scopes :assignable,
+  STATUSES = %w[in_planning active completed].index_with(&:itself).with_indifferent_access.freeze
+
+  scopes :active,
+         :assignable,
+         :completed,
          :for_project,
+         :in_planning,
          :not_completed,
          :order_by_activity,
          :order_by_date,
          :receiving_projects,
          :visible,
          :native_to_sprint_source
-
-  enum :status,
-       {
-         in_planning: "in_planning",
-         active: "active",
-         completed: "completed"
-       },
-       default: "in_planning",
-       validate: true
 
   validates :name, :project, presence: true
   validates :start_date, :finish_date, presence: true, if: :active?
@@ -78,6 +74,23 @@ class Sprint < ApplicationRecord
             if: :date_range_set?
 
   validate :validate_only_one_active_sprint, if: -> { active? && !allow_multiple_active_sprints? }
+
+  def self.statuses = STATUSES
+
+  # Keep in sync with the in_planning, active and completed scopes.
+  def status
+    if completed_at?
+      "completed"
+    elsif started_at?
+      "active"
+    else
+      "in_planning"
+    end
+  end
+
+  def in_planning? = status == "in_planning"
+  def active? = status == "active"
+  def completed? = status == "completed"
 
   def date_range_set?
     start_date? && finish_date?

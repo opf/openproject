@@ -49,11 +49,11 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
   context "when the sprint has a date range set" do
     shared_let(:sprint) do
       create(:sprint,
+             :active,
              project:,
              name: "Sprint 42",
              start_date: Date.yesterday,
-             finish_date: Date.tomorrow,
-             status: :active)
+             finish_date: Date.tomorrow)
     end
 
     it "renders the burndown chart" do

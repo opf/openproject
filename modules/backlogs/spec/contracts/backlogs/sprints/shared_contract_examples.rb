@@ -39,7 +39,8 @@ RSpec.shared_context "as sprint contract" do
   let(:sprint_name) { "Sprint 1" }
   let(:sprint_start_date) { Time.zone.today }
   let(:sprint_finish_date) { Time.zone.today + 14.days }
-  let(:sprint_status) { "in_planning" }
+  let(:sprint_started_at) { nil }
+  let(:sprint_completed_at) { nil }
   let(:permissions) { [:create_sprints] }
 
   subject(:contract) { described_class.new(sprint, user) }
@@ -108,7 +109,7 @@ RSpec.shared_context "as sprint contract" do
     end
 
     context "when the sprint is active" do
-      let(:sprint_status) { "active" }
+      let(:sprint_started_at) { Time.zone.now }
 
       context "when start_date is blank" do
         let(:sprint_start_date) { nil }

@@ -85,8 +85,8 @@ RSpec.describe "Backlog filter panel", :js do
   end
 
   describe "sprint filter" do
-    shared_let(:active_sprint) { create(:sprint, project:, name: "Active Sprint", status: :active) }
-    shared_let(:completed_sprint) { create(:sprint, project:, name: "Completed Sprint", status: :completed) }
+    shared_let(:active_sprint) { create(:sprint, :active, project:, name: "Active Sprint") }
+    shared_let(:completed_sprint) { create(:sprint, :completed, project:, name: "Completed Sprint") }
 
     it "only lists in_planning and active sprints" do
       backlogs_page.within_filter_panel(:sprint) do

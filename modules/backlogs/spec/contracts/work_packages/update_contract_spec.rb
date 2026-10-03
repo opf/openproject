@@ -95,7 +95,7 @@ RSpec.describe WorkPackages::UpdateContract do
       end
 
       context "when sprint is not assignable but the assignment did not change" do
-        let(:completed_sprint) { build_stubbed(:sprint, status: :completed) }
+        let(:completed_sprint) { build_stubbed(:sprint, :completed) }
         let(:work_package_sprint) { completed_sprint }
         let(:assignable_sprints) { [] }
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,22 +26,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class Queries::Sprints::Filters::StatusFilter < Queries::Sprints::Filters::SprintFilter
-  def allowed_values
-    Sprint.statuses.map do |key, value|
-      [I18n.t(:"activerecord.attributes.sprint.statuses.#{key}"), value]
+module Sprints::Scopes::Completed
+  extend ActiveSupport::Concern
+
+  class_methods do
+    def completed
+      where.not(completed_at: nil)
     end
-  end
-
-  def type
-    :list
-  end
-
-  def apply_to(query_scope)
-    matching = values.map { ::Sprint.public_send(it) }.reduce(:or)
-
-    query_scope.merge(operator == "!" ? matching.invert_where : matching)
   end
 end

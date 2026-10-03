@@ -89,8 +89,8 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
   end
   let!(:source_sprint) do
     create(:sprint,
+           :active,
            project:,
-           status: :active,
            start_date: Date.current,
            finish_date: 1.week.from_now.to_date)
   end
@@ -329,7 +329,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
       ActiveRecord::Base.connection_pool.with_connection do |connection|
         Sprint.transaction do
           locked_sprint = Sprint.lock.find(source_sprint.id)
-          locked_sprint.update!(status: :completed)
+          locked_sprint.update!(completed_at: Time.zone.now)
           mutation_pid << connection.select_value("SELECT pg_backend_pid()").to_i
           mutation_ready.set
           raise "timed out waiting to commit the sprint mutation" unless release_mutation.wait(5)

@@ -73,8 +73,8 @@ RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
 
   let!(:active_sprint) do
     create(:sprint,
+           :active,
            project:,
-           status: "active",
            start_date: Date.new(2025, 10, 5),
            finish_date: Date.new(2025, 10, 15))
   end

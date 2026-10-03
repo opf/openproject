@@ -37,7 +37,7 @@ RSpec.describe Backlogs::FinishSprintDialogComponent, type: :component do
   current_user { admin }
 
   let(:project) { create(:project) }
-  let(:sprint) { create(:sprint, project:, name: "Sprint 1", status: "active") }
+  let(:sprint) { create(:sprint, :active, project:, name: "Sprint 1") }
   let(:available_sprints) { [] }
 
   def render_component
