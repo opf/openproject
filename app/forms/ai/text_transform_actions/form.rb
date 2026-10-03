@@ -110,6 +110,20 @@ module AI
           label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
           scheme: :primary
         )
+
+        if model.persisted?
+          f.separator
+          f.html_content do
+            render(Primer::Beta::Text.new(tag: :p, color: :muted, font_weight: :bold, mb: 2)) do
+              I18n.t("admin.text_transform_actions.form.prototype_only")
+            end
+          end
+          f.submit(
+            name: :save_and_stay,
+            label: I18n.t("admin.text_transform_actions.form.save_and_stay"),
+            scheme: :default
+          )
+        end
       end
 
       private

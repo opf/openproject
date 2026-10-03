@@ -123,7 +123,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
-      it "offers the Models tab once the features are on",
+      it "offers the Models and Feature configuration tabs once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
@@ -131,6 +131,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).to include("llm-settings--tabs")
         expect(response.body).to include(llm_models_path)
+        expect(response.body).to include(llm_feature_bindings_path)
       end
 
       context "when an API key is stored" do
@@ -154,6 +155,68 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           get llm_connection_path
 
           expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
+        end
+      end
+
+      context "with a connection that is switched on", with_settings: { llm_features_enabled: true } do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "offers the health checks next to the form" do
+          get llm_connection_path
+
+          expect(page).to have_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      # Nothing checks a connection no feature may use, and the scheduled check
+      # is switched off with it.
+      context "with a connection that is switched off" do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "leaves the health checks out" do
+          get llm_connection_path
+
+          expect(page).to have_no_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      it "renders the features switch disabled while the environment sets it" do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+        create(:llm_connection, base_url:)
+
+        get llm_connection_path
+
+        expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+        expect(page).to have_field("Host URL", disabled: false)
+        expect(page).to have_button("Save")
+      end
+
+      context "when the connection comes from the environment" do
+        let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+
+        before do
+          # Provisioning from the environment switches the features on, and the
+          # server settings are only rendered once they are.
+          allow(Setting).to receive_messages(llm_connection: { "base_url" => base_url },
+                                             llm_features_enabled?: true)
+        end
+
+        it "renders the server settings read-only, with a banner saying why" do
+          get llm_connection_path
+
+          expect(response.body).to include("configured via environment variables")
+          expect(page).to have_field("Host URL", disabled: true)
+          expect(page).to have_field("API format", disabled: true)
+          expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+          expect(page).to have_no_button("Save")
+        end
+
+        it "does not ask for a key that cannot be entered" do
+          get llm_connection_path
+
+          expect(response.body).to include("The key comes from the environment")
+          expect(response.body).not_to include("A key is stored")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
         end
       end
     end
@@ -266,6 +329,53 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    context "when the features switch is set through the environment" do
+      let!(:models_request) { mock_llm_models_response(base_url) }
+
+      before do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+      end
+
+      it "stores the connection and leaves the switch to the environment" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(Setting.llm_features_enabled?).to be(true)
+      end
+
+      it "still schedules the health check" do
+        allow(Llm::HealthCheckJob).to receive(:toggle_cron_job)
+
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(Llm::HealthCheckJob).to have_received(:toggle_cron_job)
+      end
+    end
+
+    # The form renders no Save button in this state, so only a hand-crafted
+    # request gets here.
+    context "when the connection comes from the environment" do
+      let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
+      let(:elsewhere) { "https://elsewhere.example/v1" }
+
+      before do
+        mock_llm_models_response(elsewhere)
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+      end
+
+      it "refuses the change and keeps the stored record" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: elsewhere, api_key: "sk-crafted" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(response.body).to include("configured via environment variables")
+        connection.reload
+        expect(connection.base_url).to eq(base_url)
+        expect(connection.api_key).to eq("sk-original")
+      end
+    end
+
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
 
@@ -368,6 +478,18 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(page).to have_no_css(remove_api_key, visible: :all)
     end
 
+    # update! bypasses the contract, so without the explicit guard a
+    # hand-crafted request could wipe a key the environment owns.
+    it "refuses when the connection comes from the environment" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
     it "is refused to a non-admin" do
       connection = create(:llm_connection, base_url:, api_key: "sk-original")
       login_as create(:user)
@@ -433,14 +555,19 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
 
     it "offers the confirmation, naming what is kept" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       get disconnect_dialog_llm_connection_path,
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
+      expect(response.body).to include("Description assistant")
     end
 
     it "clears the credential and switches the connection off, keeping everything else" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       post disconnect_llm_connection_path
 
       connection.reload
@@ -448,6 +575,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "refuses when the connection comes from the environment" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(connection.reload.api_key).to eq("sk-test")
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+
+    it "clears the credential when the features switch is set through the environment" do
+      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_blank
     end
 
     it "is refused to a non-admin" do
@@ -485,6 +631,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response).to have_http_status(:see_other)
       expect(connection.reload.api_key).to be_nil
       expect(Setting.llm_features_enabled?).to be(false)
+    end
+  end
+
+  describe "the default models" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    it "are chosen on the Models tab, not here" do
+      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b",
+                                                             default_embedding_model_id: "bge-m3" } }
+
+      connection.reload
+      expect(connection.default_chat_model_id).to be_nil
+      expect(connection.default_embedding_model_id).to be_nil
     end
   end
 end

@@ -138,6 +138,57 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe "#chat_models" do
+    let(:connection) { create(:llm_connection, :with_models) }
+
+    before do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+    end
+
+    it "lists the active models that are not embedding models, by identifier" do
+      create(:llm_model, llm_connection: connection, external_id: "a-chat-model")
+      create(:llm_model, :withdrawn, llm_connection: connection, external_id: "b-withdrawn")
+
+      expect(connection.chat_models.map(&:external_id)).to eq(%w[a-chat-model qwen3.6-27b])
+    end
+
+    it "does not query once per model" do
+      query_count = -> { ActiveRecord::QueryRecorder.new { connection.chat_models.to_a }.count }
+      with_two_models = query_count.call
+
+      create_list(:llm_model, 3, llm_connection: connection)
+
+      expect(query_count.call).to eq(with_two_models)
+    end
+  end
+
+  describe "#embedding_models" do
+    let(:connection) { create(:llm_connection, :with_models) }
+
+    before do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+    end
+
+    it "lists the active models that can create embeddings, by identifier" do
+      create(:llm_model, :withdrawn, llm_connection: connection, external_id: "a-withdrawn")
+      connection.capability_verdicts.create!(model_id: "a-withdrawn", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+
+      expect(connection.embedding_models.map(&:external_id)).to eq(%w[bge-m3])
+    end
+
+    it "does not query once per model" do
+      query_count = -> { ActiveRecord::QueryRecorder.new { connection.embedding_models.to_a }.count }
+      with_two_models = query_count.call
+
+      create_list(:llm_model, 3, llm_connection: connection)
+
+      expect(query_count.call).to eq(with_two_models)
+    end
+  end
+
   describe ".available?" do
     context "with the feature flag and the setting on",
             with_flag: { llm_connection: true },

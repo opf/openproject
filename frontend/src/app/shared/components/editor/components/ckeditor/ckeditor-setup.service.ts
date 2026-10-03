@@ -51,6 +51,35 @@ export type ICKEditorMacroType = 'none'|'resource'|'wiki'|boolean|string[];
 // What the CKEditor build consumes: false = none, true = all, array = exactly these.
 export type ICKEditorResolvedMacros = boolean|string[];
 
+// Demo only (AI-126, mode B): the CKEditor 5 model and data APIs the selection events use.
+// The wrapper's ICKEditorInstance typing does not declare them.
+interface SelectionCapableEditor {
+  data:{ stringify(fragment:unknown):string; parse(markdown:string):unknown };
+  model:{
+    document:{ selection:{ isCollapsed:boolean; getFirstRange():unknown }; getRoot():unknown };
+    markers:{ get(name:string):{ getRange():unknown }|null };
+    getSelectedContent(selection:unknown):unknown;
+    insertContent(fragment:unknown, range:unknown):void;
+    change(callback:(writer:{
+      addMarker(name:string, options:{ range:unknown; usingOperation:boolean }):void;
+      removeMarker(name:string):void;
+      createRangeIn(element:unknown):unknown;
+    }) => void):void;
+  };
+}
+
+export const AI_SELECTION_MARKER = 'ai-text-transform:selection';
+
+export interface EditorSelectionResult {
+  markdown:string;
+  empty:boolean;
+}
+
+export interface ReplaceSelectionDetail {
+  markdown:string;
+  done:(ok:boolean) => void;
+}
+
 // Wiki-page-link macros, added to any editor when a wiki provider is configured (see resolveMacros).
 const wikiLinkMacros = ['OpMacroWikiPageLinkAddExisting', 'OpMacroWikiPageLinkCreateNew'];
 
@@ -138,9 +167,60 @@ export class CKEditorSetupService {
         wrapper.addEventListener('op:ckeditor:getData', (event:CustomEvent<(data:string) => void>) => {
           event.detail(editor.getData({ trim: false }));
         });
+        this.addSelectionEvents(wrapper, editor as unknown as SelectionCapableEditor);
 
         return watchdog;
       });
+  }
+
+  // Demo only (AI-126, mode B): the AI menu reads the selected text as markdown and pins it
+  // with a marker, so the result popover can replace exactly that range later even if the
+  // user kept typing meanwhile.
+  private addSelectionEvents(wrapper:HTMLElement, editor:SelectionCapableEditor):void {
+    const clearMarker = () => {
+      if (editor.model.markers.get(AI_SELECTION_MARKER)) {
+        editor.model.change((writer) => writer.removeMarker(AI_SELECTION_MARKER));
+      }
+    };
+
+    wrapper.addEventListener('op:ckeditor:getSelection', (event:CustomEvent<(result:EditorSelectionResult) => void>) => {
+      const { selection } = editor.model.document;
+      clearMarker();
+      if (selection.isCollapsed) {
+        event.detail({ markdown: '', empty: true });
+        return;
+      }
+
+      const markdown = editor.data.stringify(editor.model.getSelectedContent(selection));
+      editor.model.change((writer) => {
+        writer.addMarker(AI_SELECTION_MARKER, { range: selection.getFirstRange(), usingOperation: false });
+      });
+      event.detail({ markdown, empty: markdown.trim() === '' });
+    });
+
+    wrapper.addEventListener('op:ckeditor:replaceSelection', (event:CustomEvent<ReplaceSelectionDetail>) => {
+      const marker = editor.model.markers.get(AI_SELECTION_MARKER);
+      if (!marker) {
+        event.detail.done(false);
+        return;
+      }
+
+      editor.model.change((writer) => {
+        editor.model.insertContent(editor.data.parse(event.detail.markdown), marker.getRange());
+        writer.removeMarker(AI_SELECTION_MARKER);
+      });
+      event.detail.done(true);
+    });
+
+    // Unlike setData, replacing the root's content with insertContent keeps the undo history.
+    wrapper.addEventListener('op:ckeditor:replaceDocument', (event:CustomEvent<string>) => {
+      clearMarker();
+      editor.model.change((writer) => {
+        editor.model.insertContent(editor.data.parse(event.detail), writer.createRangeIn(editor.model.document.getRoot()));
+      });
+    });
+
+    wrapper.addEventListener('op:ckeditor:clearSelectionMarker', clearMarker);
   }
 
   private createConfig(context:ICKEditorContext, initialData:string|null) {

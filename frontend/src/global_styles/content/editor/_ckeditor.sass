@@ -163,3 +163,18 @@ opce-ckeditor-augmented-textarea .op-ckeditor--attachments
 
   .ck-list__item .mention-list-item
     max-width: none !important
+
+// Demo only (AI-126): the AI action menu at the end of the description editor's toolbar row
+.document-editor__toolbar_with-ai-menu
+  display: flex
+  align-items: center
+  background: var(--ck-color-toolbar-background, var(--body-background))
+
+  > .ck-toolbar
+    flex: 1 1 auto
+    min-width: 0
+
+  > .document-editor__ai-menu
+    flex: 0 0 auto
+    padding-inline: 4px
+
