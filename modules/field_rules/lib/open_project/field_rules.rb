@@ -35,7 +35,7 @@ module OpenProject
     PATCH_TARGETS = {
       "WorkPackages::BaseContract" => %i[writable_attributes validate_enabled_type],
       "WorkPackages::SetAttributesService" => %i[set_calculated_attributes update_derivable_date_attribute],
-      "API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter" => %i[to_json]
+      "API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter" => %i[to_json json_key_dependencies]
     }.freeze
 
     def self.assert_patch_targets!

@@ -41,6 +41,9 @@ module FieldRules
           copy.rules.build(rule.attributes.slice("field_key", *RULE_ATTRIBUTES.map(&:to_s)))
         end
         copy.save ? ok(copy) : fail_with(copy)
+      rescue ActiveRecord::RecordNotUnique
+        copy.errors.add(:base, :conflict)
+        fail_with(copy)
       end
 
       def activate(rule_set) = toggle(rule_set, true)

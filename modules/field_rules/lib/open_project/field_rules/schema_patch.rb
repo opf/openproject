@@ -48,8 +48,12 @@ module OpenProject::FieldRules
 
     # Hidden fields change the cached attribute groups, which the schema cache key does not know about.
     def json_key_dependencies
+      dependencies = super
       hidden = field_rules_schema_configuration&.select(&:hidden)&.map(&:key)
-      [super, (["field_rules", *hidden.sort].join(":") if hidden.present?)]
+      [dependencies, (["field_rules", *hidden.sort].join(":") if hidden.present?)]
+    rescue StandardError => e
+      Rails.logger.error("[field_rules] schema cache key failed, using native key: #{e.class}: #{e.message}")
+      dependencies || super
     end
 
     def field_rules_schema_configuration

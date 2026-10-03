@@ -38,6 +38,7 @@ class FieldRule < ApplicationRecord
   validate :field_is_configurable
   validate :state_combination_is_valid
   validate :default_matches_field
+  validate :custom_field_requirement_is_respected
 
   before_validation :normalize_state
   before_validation { @configurable = nil }
@@ -66,6 +67,14 @@ class FieldRule < ApplicationRecord
   def state_combination_is_valid
     errors.add(:required, :hidden_and_required) if hidden && required
     errors.add(:required, :read_only_required_without_default) if required && read_only && !default_present?
+  end
+
+  def custom_field_requirement_is_respected
+    id = ::FieldRules::Fields.custom_field_id(field_key)
+    return unless id && WorkPackageCustomField.where(id:, is_required: true).exists?
+
+    errors.add(:hidden, :custom_field_required) if hidden
+    errors.add(:read_only, :custom_field_required) if read_only && !default_present?
   end
 
   def default_matches_field

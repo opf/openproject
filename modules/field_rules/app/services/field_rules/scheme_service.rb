@@ -37,6 +37,9 @@ module FieldRules
         copy = FieldRuleScheme.new(name: clone_name(scheme), description: scheme.description, active: scheme.active)
         scheme.items.each { |item| copy.items.build(type_id: item.type_id, rule_set_id: item.rule_set_id) }
         copy.save ? ok(copy) : fail_with(copy)
+      rescue ActiveRecord::RecordNotUnique
+        copy.errors.add(:base, :conflict)
+        fail_with(copy)
       end
 
       def activate(scheme) = toggle(scheme, true)
@@ -52,7 +55,7 @@ module FieldRules
           end
         rescue ActiveRecord::RecordNotUnique
           retry if (attempts += 1) < 2
-          raise
+          ServiceResult.failure(errors: ActiveModel::Errors.new(ProjectFieldRuleScheme.new).tap { _1.add(:base, :conflict) })
         end
       end
 

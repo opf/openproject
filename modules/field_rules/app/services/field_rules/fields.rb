@@ -142,13 +142,25 @@ module FieldRules
 
         case definition.default_type
         when :text then work_package.description = value
-        when :user then work_package.public_send(key == "assignee" ? :assigned_to_id= : :responsible_id=, value.to_i)
-        when :priority then work_package.priority_id = value.to_i
+        when :user
+          if Principal.possible_assignee(work_package.project).exists?(id: value.to_i)
+            work_package.public_send(key == "assignee" ? :assigned_to_id= : :responsible_id=, value.to_i)
+          end
+        when :priority
+          work_package.priority_id = value.to_i if IssuePriority.active.exists?(id: value.to_i)
         when :category
           work_package.category_id = value.to_i if Category.exists?(id: value.to_i, project_id: work_package.project_id)
         when :date then work_package.public_send(:"#{key}=", Date.iso8601(value))
         when :hours then work_package.estimated_hours = value.to_f
         when :custom_field then work_package.public_send(:"#{key}=", value)
+        end
+      end
+
+      # A required field the project cannot offer must not make creation impossible.
+      def available?(work_package, key)
+        case key.to_s
+        when "category" then work_package.project&.categories&.exists? || false
+        else true
         end
       end
 

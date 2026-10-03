@@ -120,6 +120,10 @@ en:
           attributes:
             field_key:
               unknown_field: is not a configurable field.
+            hidden:
+              custom_field_required: cannot be set because the custom field itself is required.
+            read_only:
+              custom_field_required: needs a default value because the custom field itself is required.
             required:
               hidden_and_required: cannot be combined with hidden.
               read_only_required_without_default: needs a default value when the field is also read-only.

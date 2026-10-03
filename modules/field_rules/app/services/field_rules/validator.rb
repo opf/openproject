@@ -53,6 +53,7 @@ module FieldRules
     end
 
     def violation_for(work_package, field)
+      return unless Fields.available?(work_package, field.key)
       return unless Fields.blank_value?(work_package, field.key)
       return unless enforce?(work_package, field)
 

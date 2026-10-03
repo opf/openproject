@@ -66,6 +66,14 @@ bundle exec rake "field_rules:repair[apply]"     # remove them
 
 Removing the module only drops its five tables (`field_rule_sets`, `field_rules`, `field_rule_schemes`, `field_rule_scheme_items`, `project_field_rule_schemes`). Run `bundle exec rake db:migrate:down VERSION=20261003200000` before removing the gem and delete role permissions named `assign_field_rule_scheme`. Work packages, types and projects are untouched.
 
+### Runbook: backup, emergency switch-off and rollback
+
+* **Back up the database before upgrading or before the first rule set is assigned.** The module only adds its five tables and never changes `types`, `projects` or `work_packages`, but rollback deletes every rule set and scheme (see below).
+* **Users cannot create work packages in a project or type.** Open *Project settings → Field rule scheme*, or the work package form, to see which rule applies. Typical causes are a required field the project cannot offer (for example a category in a project without categories), a default value that was deleted, deactivated or is not assignable in that project, or a custom field that is required in its own settings but hidden by a rule. Switch the rule off without losing it: deactivate the rule set or the scheme in *Administration → Work packages → Field rules* (takes effect on the next request, nothing is deleted) or unassign the scheme from the project. Fix the rule, then activate it again.
+* **Rules of deleted custom fields** stay in the database and are ignored. `field_rules:repair[dry_run]` lists them, `field_rules:repair[apply]` removes them. The task never changes work packages.
+* **Rollback of the migration** (`db:migrate:down VERSION=20261003200000`) drops all five tables, so every rule set, scheme and project assignment is lost. Restore the backup if you want to reinstall the module with the same rules; reinstalling without a restore starts empty and behaves natively.
+* **Concurrent edits**: if two administrators save the same rule set or scheme, the last save wins because the form submits the complete list of rules. Reload the page before editing a set that others maintain.
+
 ## API
 
 See the *Field Rules* section of the API v3 documentation: `/api/v3/field_rule_sets`, `/api/v3/field_rule_schemes`, `PUT /api/v3/projects/{id}/field_rule_scheme` and `GET /api/v3/projects/{id}/types/{type_id}/field_rules`. The work package schema (`/api/v3/work_packages/schemas/...`) reflects the rules (`required`, `writable`, hidden fields omitted).

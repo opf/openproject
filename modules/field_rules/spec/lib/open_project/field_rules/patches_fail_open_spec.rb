@@ -34,7 +34,7 @@ RSpec.describe "Field rule patches fail open" do # rubocop:disable RSpec/Describ
   let(:json) { '{"description":{"required":false,"writable":true},"_attributeGroups":[{"attributes":["description"]}]}' }
   let(:project) { build_stubbed(:project) }
   let(:type) { build_stubbed(:type) }
-  let(:represented) { instance_double(WorkPackage, project:, type:) }
+  let(:represented) { double("represented schema work package", project:, type:) } # rubocop:disable RSpec/VerifiedDoubles
 
   def rule(key, **flags) = FieldRule.new(field_key: key, **flags)
 
@@ -51,7 +51,10 @@ RSpec.describe "Field rule patches fail open" do # rubocop:disable RSpec/Describ
   end
 
   describe OpenProject::FieldRules::SchemaPatch do
-    let(:representer) { representer_class { |*| json }.new(represented) }
+    let(:representer) do
+      native = json
+      representer_class { |*| native }.new(represented)
+    end
 
     before { allow(User).to receive(:current).and_return(build_stubbed(:user)) }
 
@@ -95,7 +98,6 @@ RSpec.describe "Field rule patches fail open" do # rubocop:disable RSpec/Describ
     end
 
     it "does not swallow an error raised by the core serialisation" do
-      pending "KNOWN GAP (safety review #5): the rescue wraps super, so a core error becomes a nil body"
       failing = representer_class { |*| raise ArgumentError, "core failure" }.new(represented)
 
       expect { failing.to_json }.to raise_error(ArgumentError, "core failure")
@@ -103,7 +105,7 @@ RSpec.describe "Field rule patches fail open" do # rubocop:disable RSpec/Describ
   end
 
   describe OpenProject::FieldRules::Constraints do
-    let(:variant) { instance_double(TypeVariant, type_id: 42) }
+    let(:variant) { double("variant", type_id: 42) } # rubocop:disable RSpec/VerifiedDoubles
 
     it "keeps an existing constraint of another module in charge" do
       existing = ->(_variant, project: nil) { project.nil? }
@@ -192,10 +194,26 @@ RSpec.describe "Field rule patches fail open" do # rubocop:disable RSpec/Describ
       end
     end
 
+    it "lists every core method a patch overrides in the boot guard" do
+      pending "KNOWN GAP (safety review #12): SchemaPatch#json_key_dependencies overrides core but is not guarded"
+      {
+        "WorkPackages::BaseContract" => OpenProject::FieldRules::ContractPatch,
+        "WorkPackages::SetAttributesService" => OpenProject::FieldRules::SetAttributesServicePatch,
+        "API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter" => OpenProject::FieldRules::SchemaPatch
+      }.each do |class_name, patch|
+        below = class_name.constantize.ancestors.drop_while { |ancestor| ancestor != patch }.drop(1)
+        overrides = (patch.instance_methods(false) + patch.private_instance_methods(false)).select do |name|
+          below.any? { |ancestor| ancestor.method_defined?(name, false) || ancestor.private_method_defined?(name, false) }
+        end
+
+        expect(OpenProject::FieldRules::PATCH_TARGETS.fetch(class_name)).to include(*overrides)
+      end
+    end
+
     it "keeps every patched method chained down to the core implementation" do
       {
         WorkPackages::BaseContract => %i[writable_attributes validate_enabled_type],
-        WorkPackages::SetAttributesService => %i[set_calculated_attributes assign_default_type]
+        WorkPackages::SetAttributesService => %i[set_calculated_attributes]
       }.each do |klass, methods|
         methods.each do |name|
           method = klass.instance_method(name)

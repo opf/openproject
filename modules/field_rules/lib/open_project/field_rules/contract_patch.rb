@@ -31,6 +31,9 @@ module OpenProject::FieldRules
   module ContractPatch
     def writable_attributes
       attributes = super
+      @field_rules_core_writable = attributes
+      return attributes if is_a?(::WorkPackages::CopyProjectContract)
+
       configuration = field_rules_configuration
       return attributes if configuration.empty?
 
@@ -44,6 +47,10 @@ module OpenProject::FieldRules
       add_field_rule_errors
     end
 
+    def writable_by_user?(field_key)
+      Array(@field_rules_core_writable).any? { |attribute| ::FieldRules::Fields.attribute_matches?(field_key, attribute) }
+    end
+
     def field_rules_configuration
       return ::FieldRules::EffectiveConfiguration.empty if ::FieldRules::Resolver.system_actor?(@user)
 
@@ -54,7 +61,10 @@ module OpenProject::FieldRules
     end
 
     def add_field_rule_errors
+      writable_attributes
       ::FieldRules::Validator.violations(model, user: @user).each do |violation|
+        next unless writable_by_user?(violation.field)
+
         errors.add(violation.attribute.delete_suffix("_id").to_sym, :required_by_field_rules, type: model.type&.name)
       end
       add_restricted_target_versions_error
