@@ -69,19 +69,34 @@ module ResourcePlannerViews::WorkPackageList
     def identifiable
       @identifiable ||= allocations.select do |allocation|
         allocation.principal_id.nil? ||
+          deleted_user?(allocation) ||
           visible_principal_ids.nil? ||
           visible_principal_ids.include?(allocation.principal_id)
       end
     end
 
+    def deleted_user?(allocation)
+      allocation.principal.is_a?(DeletedUser)
+    end
+
+    # A deleted user has no avatar; they are named in the tooltip only.
     def avatar_options
-      identifiable.map { |allocation| avatar_options_for(allocation) }
+      identifiable.reject { |allocation| deleted_user?(allocation) }
+                  .map { |allocation| avatar_options_for(allocation) }
+    end
+
+    def lead
+      identifiable.find { |allocation| !deleted_user?(allocation) } || identifiable.first
+    end
+
+    def lead_deleted_user?
+      deleted_user?(lead)
     end
 
     # The name shown beside the stack. The stack's own overflow indicator is not
     # numeric, so the count of the remaining members is spelled out separately.
     def lead_name
-      member_name(identifiable.first)
+      member_name(lead)
     end
 
     # Members beyond the named lead, including those hidden from this user, so

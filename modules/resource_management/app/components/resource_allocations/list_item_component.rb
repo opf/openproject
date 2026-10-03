@@ -66,7 +66,11 @@ module ResourceAllocations
     end
 
     def menu?
-      @editable && visible?
+      @editable && (visible? || deleted_user?)
+    end
+
+    def deleted_user?
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def context_menu
@@ -110,17 +114,23 @@ module ResourceAllocations
 
     def name
       if allocation.principal
-        visible? ? allocation.principal.name : hidden_label
+        principal_name
       else
         allocation.placeholder_user&.name.presence || unassigned_label
       end
+    end
+
+    def principal_name
+      visible? || deleted_user? ? allocation.principal.name : hidden_label
     end
 
     # An allocation without a user yet (filter placeholder or lost principal)
     # shows a person-add icon instead of an avatar. Sized to match the avatar so
     # the leading column keeps the same width and the row stays aligned.
     def leading_visual
-      if allocation.principal
+      if deleted_user?
+        Primer::Beta::Octicon.new(icon: :"x-circle", size: :medium, color: :muted, "aria-hidden": true)
+      elsif allocation.principal
         Primer::OpenProject::AvatarWithFallback.new(size: AVATAR_SIZE, **avatar_options)
       else
         Primer::Beta::Octicon.new(icon: :"person-add", size: :medium, color: :muted, "aria-hidden": true)

@@ -49,12 +49,14 @@ module ResourceAllocations
             focusDirectly: false,
             multiple: false,
             appendTo: "##{@dialog_id}",
-            data: { action: "change->refresh-on-form-changes#triggerTurboStream" }
+            data: { action: "change->refresh-on-form-changes#triggerTurboStream" },
+            **deleted_user_selection
           }
         )
 
         f.html_content do
-          render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
+          render(ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation: model)) +
+            render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
         end
       end
 
@@ -86,7 +88,20 @@ module ResourceAllocations
         filters = []
         filters << { name: "allocatable_in_project", operator: "=", values: [@project.id.to_s] } if @project
         filters.concat(@view.allocation_principal_filters) if @view&.allocation_principal_filters
+        filters << candidate_filter if model.staffed?
         filters
+      end
+
+      def candidate_filter
+        { name: "candidate_of_placeholder", operator: "=", values: [model.placeholder_user_id.to_s] }
+      end
+
+      # The picker would look the selected principal up through the API, which
+      # does not return the deleted user to most users.
+      def deleted_user_selection
+        return {} unless model.principal.is_a?(DeletedUser)
+
+        { model: { id: model.principal_id, name: model.principal.name } }
       end
     end
   end

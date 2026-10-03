@@ -140,6 +140,35 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
     end
   end
 
+  context "with only a deleted user, who the current user may not see" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocations) { [assigned_allocation(deleted_user)] }
+    let(:visible_principal_ids) { Set.new }
+
+    it "names the deleted user as muted text with an icon instead of an avatar" do
+      expect(rendered).to have_no_css(".AvatarStack")
+      expect(rendered).to have_css(".octicon-x-circle")
+      expect(rendered).to have_css(".color-fg-muted", text: deleted_user.name)
+      expect(rendered).to have_no_text("1 user")
+    end
+  end
+
+  context "with a visible member and a deleted user" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocations) { [assigned_allocation(deleted_user), assigned_allocation(assignee)] }
+    let(:visible_principal_ids) { Set[assignee.id] }
+
+    it "leads with the visible member, stacks only their avatar and names the deleted user in the tooltip" do
+      expect(rendered).to have_css("avatar-fallback", count: 1)
+      expect(rendered).to have_css("avatar-fallback[data-unique-id='#{assignee.id}']")
+      expect(rendered).to have_text("Michael Johnson")
+      expect(rendered).to have_text("+1")
+      expect(rendered).to have_css("tool-tip", text: deleted_user.name, visible: :all)
+    end
+  end
+
   context "without any allocations" do
     let(:allocations) { [] }
 

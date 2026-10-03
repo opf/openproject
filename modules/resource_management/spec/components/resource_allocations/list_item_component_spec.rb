@@ -105,6 +105,33 @@ RSpec.describe ResourceAllocations::ListItemComponent, type: :component do
     end
   end
 
+  context "with an allocation of a deleted user" do
+    shared_let(:deleted_user) { create(:deleted_user) }
+
+    let(:allocation) do
+      create(:resource_allocation, entity: work_package, principal: deleted_user, allocated_time: 720)
+    end
+    let(:editable) { true }
+
+    { "visible" => true, "not visible" => false }.each do |visibility_label, visibility|
+      context "when the deleted user is #{visibility_label} to the user" do
+        let(:visible) { visibility }
+
+        it "shows the deleted user as muted text with an icon instead of an avatar" do
+          expect(rendered).to have_css(".color-fg-muted", text: deleted_user.name)
+          expect(rendered).to have_css(".octicon-x-circle")
+          expect(rendered).to have_no_css("avatar-fallback")
+          expect(rendered).to have_no_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
+        end
+
+        it "offers the edit/delete menu" do
+          expect(rendered).to have_css("action-menu")
+          expect(rendered).to have_css("a[href*='/resource_allocations/#{allocation.id}/edit']", visible: :all)
+        end
+      end
+    end
+  end
+
   context "with a filter-based allocation" do
     let(:allocation) do
       create(:resource_allocation, :with_user_filter,
