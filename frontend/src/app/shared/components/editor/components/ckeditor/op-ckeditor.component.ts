@@ -29,6 +29,7 @@
 import { debounce } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import type { Editor as CodeMirrorEditor } from 'codemirror';
+import type { ViewDocumentKeyDownEvent, ViewDocumentKeyUpEvent } from '@ckeditor/ckeditor5-engine';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -138,7 +139,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     if (this.manualMode) {
       content = this.codeMirrorInstance!.getValue();
     } else {
-      content = this.ckEditorInstance.getData({ trim: false });
+      content = this.ckEditorInstance.getData({ trim: 'none' });
     }
 
     if (content === null || content === undefined) {
@@ -212,9 +213,13 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy():void {
+    void this.destroyEditor();
+  }
+
+  private async destroyEditor():Promise<void> {
     try {
-      this.watchdog?.destroy();
+      await this.watchdog?.destroy();
     } catch (e) {
       console.error('Failed to destroy CKEditor instance:', e);
     }
@@ -233,6 +238,9 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
       .then((watchdog:ICKEditorWatchdog) => {
         this.setupWatchdog(watchdog);
         const editor = watchdog.editor;
+        if (!editor) {
+          throw new Error('CKEditor watchdog has no editor after creation.');
+        }
         this.ckEditorInstance = editor;
 
         // Switch mode
@@ -250,18 +258,18 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
         // Emit global dragend events for other drop zones to react.
         // This is needed, as CKEditor does not bubble any drag events
-        const model = watchdog.editor.model;
+        const model = editor.model;
         model.document.on('change', this.debouncedEmitter);
         model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
         model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
 
-        this.initializeDone.emit(watchdog.editor);
-        return watchdog.editor;
+        this.initializeDone.emit(editor);
+        return editor;
       });
   }
 
   private interceptModifiedEnterKeystrokes(editor:ICKEditorInstance) {
-    editor.listenTo(
+    editor.listenTo<ViewDocumentKeyDownEvent>(
       editor.editing.view.document,
       'keydown',
       (evt, data) => {
@@ -281,7 +289,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   private interceptKeyup(editor:ICKEditorInstance) {
-    editor.listenTo(
+    editor.listenTo<ViewDocumentKeyUpEvent>(
       editor.editing.view.document,
       'keyup',
       (event) => {

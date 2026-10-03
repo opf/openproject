@@ -263,7 +263,7 @@ export default class EditorController extends BaseController {
   }
 
   private rescueEditorContent() {
-    const data = this.ckEditorInstance?.getData({ trim: false });
+    const data = this.ckEditorInstance?.getData({ trim: 'none' });
     if (data) {
       localStorage.setItem(this.rescuedEditorDataKey, data);
     }
@@ -305,7 +305,7 @@ export default class EditorController extends BaseController {
   }
 
   private isEditorEmpty():boolean {
-    return this.ckEditorInstance?.getData({ trim: false }) === '';
+    return this.ckEditorInstance?.getData({ trim: 'none' }) === '';
   }
 
   private setCKEditorReadonlyMode(disabled:boolean) {

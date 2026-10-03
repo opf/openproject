@@ -2,6 +2,15 @@
 
 OpenProject uses the ckEditor WYSIWYG editor. ckEditor is a great WYSIWYG framework with a lot of functionalities and great flexibility (custom builds, plugins...). All the OpenProject code related to ckEditor is hosted on a separate [repository](https://github.com/opf/commonmark-ckeditor-build).
 
+## TypeScript declarations in OpenProject core
+
+Core imports CKEditor declarations with `import type` from version-pinned development dependencies. The runtime remains the vendored build in `frontend/src/vendor/ckeditor/`; do not add runtime imports from the npm packages.
+
+When updating the vendored build, update all direct `@ckeditor/ckeditor5-*` development dependencies in `frontend/package.json` to the exact CKEditor version used by that build and regenerate `frontend/package-lock.json`. The version is also recorded in the vendored source map's `ckeditor5-utils` source. Run application/spec typechecks and the editor browser specs after updating.
+
+`ckeditor.types.ts` retains only the OpenProject configuration and `createCustomized` extension alongside aliases for upstream editor and watchdog types. This is an interim integration until [OP-18993](https://community.openproject.org/wp/OP-18993) provides declarations from the custom build itself.
+
+
 ckEditor is used in OpenProject as an input for string fields that require formatting, for example the description of a task, a comment or a wiki page.
 
 ## MarkDown

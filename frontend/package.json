@@ -7,6 +7,12 @@
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^22.0.0",
     "@angular/language-service": "22.1.8",
+    "@ckeditor/ckeditor5-autosave": "48.5.2",
+    "@ckeditor/ckeditor5-core": "48.5.2",
+    "@ckeditor/ckeditor5-editor-decoupled": "48.5.2",
+    "@ckeditor/ckeditor5-engine": "48.5.2",
+    "@ckeditor/ckeditor5-link": "48.5.2",
+    "@ckeditor/ckeditor5-watchdog": "48.5.2",
     "@eslint/js": "^10.0.1",
     "@html-eslint/eslint-plugin": "^0.66.1",
     "@html-eslint/parser": "^0.66.0",
