@@ -63,7 +63,7 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
     // Locate the row from event
     const element = target.closest<HTMLTableRowElement>(this.rowSelector);
 
-    if (element?.dataset.workPackageId) {
+    if (element?.dataset.workPackageId && !this.isUnsavedRow(element)) {
       this.openContextMenu(view.workPackageTable, evt, element);
     }
 

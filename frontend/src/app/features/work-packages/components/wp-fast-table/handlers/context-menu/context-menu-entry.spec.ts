@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { fireEvent, within } from '@testing-library/dom';
+import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
@@ -179,5 +179,72 @@ describe('Context menu entry from the actions column button', () => {
 
     expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1', '2']);
     expect(menuTargets).toEqual([['1', '2']]);
+  });
+});
+
+describe('Context menu entry on the inline-create row', () => {
+  let harness:TableHarness;
+  let inlineCreateRow:HTMLTableRowElement;
+  let opened:ReturnType<typeof vi.spyOn>;
+
+  const menuShortcut = { key: 'F10', shiftKey: true, altKey: true };
+
+  const openSubjectEditor = async () => {
+    fireEvent.click(inlineCreateRow.querySelector<HTMLElement>('td.subject .inline-edit--display-field')!);
+    await waitFor(() => expect(within(inlineCreateRow).getByRole('textbox')).toHaveFocus());
+
+    return within(inlineCreateRow).getByRole('textbox');
+  };
+
+  beforeEach(async () => {
+    harness = buildTable({
+      workPackages: [{ id: '1' }, { id: '2' }],
+      configuration: { contextMenuEnabled: true, inlineCreateEnabled: true },
+      editing: {},
+    });
+    await harness.render();
+    inlineCreateRow = harness.addInlineCreateRow();
+    harness.click('2');
+
+    opened = vi.spyOn(harness.injector.get(OPContextMenuService), 'show');
+  });
+
+  afterEach(() => harness.destroy());
+
+  it('opens no menu and keeps the selection on right-click of a cell', () => {
+    fireEvent.contextMenu(inlineCreateRow.querySelector('td.subject')!);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('leaves the browser context menu alone on right-click inside the subject editor', async () => {
+    const editor = await openSubjectEditor();
+
+    expect(fireEvent.contextMenu(editor)).toBe(true);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('opens no menu and keeps the selection on the keyboard menu shortcut', async () => {
+    const editor = await openSubjectEditor();
+
+    expect(fireEvent.keyDown(editor, menuShortcut)).toBe(true);
+
+    expect(opened).not.toHaveBeenCalled();
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+  });
+
+  it('still opens the menu for saved rows', () => {
+    fireEvent.contextMenu(harness.row('1'));
+
+    expect(opened).toHaveBeenCalledTimes(1);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+
+    fireEvent.keyDown(harness.row('2'), menuShortcut);
+
+    expect(opened).toHaveBeenCalledTimes(2);
+    expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
   });
 });

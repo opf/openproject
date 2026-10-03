@@ -27,6 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -59,6 +60,10 @@ export abstract class ContextMenuHandler implements TableEventHandler {
   }
 
   public abstract handleEvent(view:TableEventComponent, evt:Event):boolean;
+
+  protected isUnsavedRow(row:HTMLElement|null):boolean {
+    return row?.dataset.workPackageId === HAL_NEW_RESOURCE_ID;
+  }
 
   protected openContextMenu(table:WorkPackageTable, evt:Event, row:HTMLElement, positionArgs:PositionArgs = {}):void {
     const workPackageId = row.dataset.workPackageId!;
