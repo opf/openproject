@@ -320,7 +320,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   };
 }
 
-class FakeDragAndDropService {
+export class FakeDragAndDropService {
   private readonly members = new Map<HTMLElement, DragMember>();
 
   register(member:DragMember):void {
@@ -353,7 +353,7 @@ class FakeEditingPortalService {
   }
 }
 
-function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
+export function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
@@ -471,7 +471,7 @@ export function buildDom() {
   };
 }
 
-function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
+export function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
   return {
     id: null,
     columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
@@ -486,7 +486,7 @@ function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boole
   } as unknown as QueryResource;
 }
 
-function initializeViewServices(injector:Injector, query:QueryResource) {
+export function initializeViewServices(injector:Injector, query:QueryResource) {
   const results = { elements: [] } as unknown as WorkPackageCollectionResource;
   const services:Type<WorkPackageViewBaseService<unknown>>[] = [
     WorkPackageViewColumnsService,
