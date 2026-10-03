@@ -29,35 +29,6 @@
 #++
 
 module CustomFieldsHelper
-  def custom_fields_tabs
-    [
-      {
-        name: "WorkPackageCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :WorkPackageCustomField),
-        label: :label_work_package_plural
-      },
-      {
-        name: "TimeEntryCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :TimeEntryCustomField),
-        label: :label_spent_time
-      },
-      {
-        name: "VersionCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :VersionCustomField),
-        label: :label_version_plural
-      },
-      {
-        name: "GroupCustomField",
-        partial: "custom_fields/tab",
-        path: custom_fields_path(tab: :GroupCustomField),
-        label: :label_group_plural
-      }
-    ]
-  end
-
   def blank_custom_field_label_tag(name, custom_field)
     label = [h(custom_field.name)]
     label << content_tag("span", " *", class: "required") if custom_field.is_required?

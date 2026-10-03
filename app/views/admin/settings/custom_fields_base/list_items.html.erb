@@ -29,12 +29,21 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_item_plural) %>
 
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
+<%=
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :items,
+      section_label:,
+      page_title: custom_field_page_title
+    )
+  )
+%>
 
 <%= settings_primer_form_with(
       model: @custom_field,
       scope: :custom_field,
-      url: custom_field_path(@custom_field),
+      url: member_path(@custom_field),
       html: { id: "custom_field_form" }
     ) do |f| %>
   <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
@@ -45,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         render Primer::Beta::Button.new(
           scheme: :secondary,
           tag: :a,
-          href: reorder_alphabetical_custom_field_path(@custom_field),
+          href: reorder_alphabetical_path(@custom_field),
           data: {
             turbo_method: :post,
             turbo_confirm: t("custom_fields.reorder_confirmation")

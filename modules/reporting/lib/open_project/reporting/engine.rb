@@ -128,7 +128,8 @@ module OpenProject::Reporting
                                  format: :boolean
     end
 
-    patches %i[CustomFieldsController]
+    prepend_module "OpenProject::Reporting::Patches::CustomFieldsControllerPatch",
+                   into: "Admin::Settings::CustomFieldsBaseController"
     patch_with_namespace :BasicData, :SettingSeeder
   end
 end

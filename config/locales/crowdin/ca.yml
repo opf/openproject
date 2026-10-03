@@ -116,6 +116,7 @@ ca:
         caption: Caption
         help_text: Text d'ajuda
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ ca:
         unknown_property: no és una propietat coneguda.
         unknown_property_nested: té la ruta desconeguda '%{path}'.
         unremovable: no es pot eliminar.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
 
           '
@@ -2490,6 +2492,10 @@ ca:
     work_package: Paquet de treball
     work_package_id: Paquet de treball
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@ ca:
     is_enabled_globally: És habilitat globalment
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorganitza els valors alfabèticament
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Crea un camp personalitzat nou
-      no_results_title_text: Actualment no hi ha camps personalitzats.
     text_add_new_custom_field: 'Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
 
       '
@@ -3260,6 +3267,7 @@ ca:
   error_no_default_work_package_status: No hi ha cap estat de paquet de treball definit per defecte. Comprova la configuració ("Administració-> Estats dels paquets de treball").
   error_no_type_in_project: Aquest projecte no té cap tipus associat. Comproveu els paràmetres del projecte.
   error_omniauth_invalid_auth: La informació d'autentificació rebuda del proveïdor d'identificació és invàlida. Si us plau, contacta amb el teu administrador per més ajuda.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: S'ha esgotat el temps d'espera per a la inscripció mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar.
   error_password_change_failed: Hi ha hagut un error l'intentar canviar la contrasenya.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
@@ -4007,6 +4015,7 @@ ca:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grup
+  label_group_attributes_plural: Group attributes
   label_group_by: Agrupa per
   label_group_named: 'Grup: %{name}'
   label_group_new: Nou grup
@@ -4412,6 +4421,7 @@ ca:
   label_user_settings: Configuració de l'usuari
   label_users_settings: Configuració d'usuaris
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edita la versió
   label_version_new: Nova versió
   label_version_plural: Versions
@@ -6326,6 +6336,7 @@ ca:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6471,6 +6482,7 @@ ca:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6968,6 +6980,7 @@ ca:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

@@ -116,6 +116,7 @@ si:
         caption: Caption
         help_text: උපකාරක පෙළ
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ si:
         unknown_property: is not a known property.
         unknown_property_nested: has the unknown path '%{path}'.
         unremovable: ඉවත් කළ නොහැක.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2490,6 +2492,10 @@ si:
     work_package: වැඩ පැකේජය
     work_package_id: වැඩ පැකේජය
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@ si:
     is_enabled_globally: ගෝලීයව සබල කර ඇත
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorder values alphabetically
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: නව අභිරුචි ක්ෂේත්‍රයක් සාදන්න
-      no_results_title_text: දැනට අභිරුචි ක්ෂේත්ර නොමැත.
     text_add_new_custom_field: 'ව්යාපෘතියකට නව අභිරුචි ක්ෂේත්ර එකතු කිරීම සඳහා ඔබ මුලින්ම මෙම ව්යාපෘතියට එකතු කිරීමට පෙර ඒවා නිර්මාණය කළ යුතුය.
 
       '
@@ -3260,6 +3267,7 @@ si:
   error_no_default_work_package_status: පෙරනිමි වැඩ පැකේජ තත්ත්වය අර්ථ දක්වා නැත. කරුණාකර ඔබගේ වින්යාසය පරීක්ෂා කරන්න (“පරිපාලන -> වැඩ පැකේජ තත්වයන්” වෙත යන්න).
   error_no_type_in_project: මෙම ව්යාපෘතියට කිසිදු වර්ගයක් සම්බන්ධ නොවේ. කරුණාකර ව්යාපෘති සැකසුම් පරීක්ෂා කරන්න.
   error_omniauth_invalid_auth: The authentication information returned from the identity provider was invalid. Please contact your administrator for further help.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: බාහිර සත්යාපන සැපයුම්කරුවෙකු හරහා ලියාපදිංචිය කල් දමා ඇත. කරුණාකර නැවත උත්සාහ කරන්න.
   error_password_change_failed: An error occurred when trying to change the password.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
@@ -4009,6 +4017,7 @@ si:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: කණ්ඩායම
+  label_group_attributes_plural: Group attributes
   label_group_by: කණ්ඩායම විසින්
   label_group_named: සමූහය %{name}
   label_group_new: නව කණ්ඩායම
@@ -4414,6 +4423,7 @@ si:
   label_user_settings: පරිශීලක සැකසුම්
   label_users_settings: Users settings
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: අනුවාදය සංස්කරණය
   label_version_new: නව අනුවාදය
   label_version_plural: අනුවාද
@@ -6339,6 +6349,7 @@ si:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6484,6 +6495,7 @@ si:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6981,6 +6993,7 @@ si:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

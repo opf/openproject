@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,35 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class AccessToProjectFilterDependencyRepresenter <
-          PrincipalFilterDependencyRepresenter
-          def json_cache_key
-            if filter.project
-              super + [filter.project.id]
-            else
-              super
-            end
-          end
+module Admin
+  module Settings
+    class WorkPackageCustomFieldsController < CustomFieldsBaseController
+      menu_item :work_package_custom_fields
 
-          private
+      protected
 
-          def filter_query
-            params = [{ status: { operator: "!",
-                                  values: [Principal.statuses[:locked].to_s] } }]
+      def custom_field_class
+        WorkPackageCustomField
+      end
 
-            params << if filter.project
-                        { access_to_anything_in_project: { operator: "=", values: [filter.project.id.to_s] } }
-                      else
-                        { access_to_anything_in_project: { operator: "*", values: [] } }
-                      end
+      def custom_field_scope
+        WorkPackageCustomField.includes(type_variants: :type).all
+      end
 
-            params
-          end
-        end
+      def custom_field_page_title
+        t(:label_custom_field_plural)
+      end
+
+      def section_label
+        t(:label_work_package_plural)
       end
     end
   end

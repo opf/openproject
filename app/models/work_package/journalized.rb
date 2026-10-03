@@ -99,7 +99,8 @@ module WorkPackage::Journalized
     register_journal_formatted_fields /\Acustom_fields_\d+\z/,
                                       formatter_key: :custom_field,
                                       view_permission: ->(custom_field) do
-                                        custom_field.present? && visible_custom_field_ids(project).include?(custom_field.id)
+                                        custom_field.present? &&
+                                        visible_work_package_custom_field_ids(project).include?(custom_field.id)
                                       end
     register_journal_formatted_fields "ignore_non_working_days", formatter_key: :ignore_non_working_days
     register_journal_formatted_fields "cause", formatter_key: :cause

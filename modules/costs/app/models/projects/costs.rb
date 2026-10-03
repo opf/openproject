@@ -33,6 +33,8 @@ module Projects::Costs
 
   included do
     has_many :rates, class_name: "HourlyRate" # rubocop:disable Rails/HasManyOrHasOneDependent
+    has_many :cost_types_projects, dependent: :delete_all
+    has_many :cost_types, through: :cost_types_projects
   end
 
   def costs_enabled?

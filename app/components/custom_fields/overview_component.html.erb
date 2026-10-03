@@ -27,8 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{CustomField.model_name.human} #{h @custom_field.name}" %>
-
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :edit)) %>
-
-<%= render CustomFields::DetailsComponent.new(@custom_field) %>
+<%= render(OpPrimer::InsetBoxComponent.new(border: false)) do |box| %>
+  <% box.with_title(tag: :h3) { t("custom_fields.overview.heading") } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 3)) { t("custom_fields.overview.description") } %>
+  <ul>
+    <% sections.each do |label, custom_field_class| %>
+      <li>
+        <%= render(Primer::Beta::Link.new(href: index_path(custom_field_class), underline: true)) do %>
+          <%= t(label) %>
+          <%= render(Primer::Beta::Octicon.new(:"link-external", ml: 1, size: :small)) %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

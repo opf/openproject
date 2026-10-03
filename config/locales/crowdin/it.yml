@@ -116,6 +116,7 @@ it:
         caption: Didascalia
         help_text: Testo guida
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Client SCIM
       calculated_value_error:
         customized_id: ID personalizzato
@@ -644,6 +645,7 @@ it:
         unknown_property: non è una proprietà conosciuta.
         unknown_property_nested: ha il percorso sconosciuto '%{path}'.
         unremovable: non può essere rimosso.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
 
           '
@@ -2494,6 +2496,10 @@ it:
     work_package: Macro-attività
     work_package_id: Macro-attività
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Accesso e registrazione
   background_jobs:
     status:
@@ -2821,16 +2827,17 @@ it:
     is_enabled_globally: Abilitato a livello globale
     multi_value_more:
       other: e altri %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Nessuna assegnazione di ruolo
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Prima è necessario selezionare la macro-attività o il progetto
     reorder_alphabetical: Riordina i valori alfabeticamente
     reorder_confirmation: 'Attenzione: l''ordine attuale dei valori disponibili e tutti i valori non salvati andranno persi. Vuoi continuare?'
     semantic_keys:
       job_title: Titolo professionale
       none: Nessuno
-    tab:
-      no_results_content_text: Crea un nuovo campo personalizzato
-      no_results_title_text: Al momento non esistono campi personalizzati.
     text_add_new_custom_field: 'Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
 
       '
@@ -3264,6 +3271,7 @@ it:
   error_no_default_work_package_status: Non è configurato alcuno stato predefinito per le macro-attività. Per favore controlla la tua configurazione (vai a "Amministrazione -> Stato macro-attività").
   error_no_type_in_project: Nessun tipo è associato a questo progetto. Si prega di controllare le impostazioni del progetto.
   error_omniauth_invalid_auth: Le informazioni di autenticazione restituite dal provider d'identità non sono valide. Contatta il tuo amministratore per ulteriori informazioni.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: La registrazione tramite un provider di autenticazione esterno è scaduta. Per favore riprova.
   error_password_change_failed: Si è verificato un errore durante il tentativo di modifica della password.
   error_pdf_date_range_too_long: L'intervallo di date della macro-attività selezionata supera il limite consentito per l'esportazione in PDF. Riduci l'intervallo a un massimo di %{years} anni.
@@ -4011,6 +4019,7 @@ it:
   label_go_forward: Apri sottomenu %{module}
   label_greater_or_equal: ">="
   label_group: Gruppo
+  label_group_attributes_plural: Group attributes
   label_group_by: Raggruppa per
   label_group_named: Gruppo %{name}
   label_group_new: Nuovo gruppo
@@ -4416,6 +4425,7 @@ it:
   label_user_settings: Impostazioni utente
   label_users_settings: Impostazioni utenti
   label_value_x: 'Valore: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Modifica versione
   label_version_new: Nuova versione
   label_version_plural: Versioni
@@ -6338,6 +6348,7 @@ it:
         '
       title: Scansione antivirus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'La disattivazione di questa opzione nasconderà l''elenco degli allegati nella scheda dei file delle macro-attività per i nuovi progetti. I file allegati nella descrizione di una macro-attività verranno comunque caricati nell''archivio interno degli allegati.
 
         '
@@ -6483,6 +6494,7 @@ it:
         heading: Nuova fase
       no_gate: Nessun controllo
       non_defined: Nessuna fase è attualmente definita.
+      order_changed: Order successfully changed.
       phase_gates: Controlli di fase
       section_header: Fasi
       start_gate: Inizia controllo
@@ -6975,6 +6987,7 @@ it:
             label_enable_all: Abilita tutto
             label_toggle_template: Attiva/disattiva %{template}
           label: Modelli di esportazione PDF
+          order_changed: Order successfully changed.
         tab: Genera PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

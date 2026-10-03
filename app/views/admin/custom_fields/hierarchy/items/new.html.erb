@@ -29,6 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), "#{CustomField.model_name.human} #{h @custom_field.name}", t(:label_item_plural) %>
 
-<%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
+<%=
+  render(
+    Admin::CustomFields::EditFormHeaderComponent.new(
+      custom_field: @custom_field,
+      selected: :items,
+      section_label: t(:label_work_package_plural),
+      page_title: t(:label_custom_field_plural)
+    )
+  )
+%>
 
 <%= render(Admin::CustomFields::Hierarchy::ItemsComponent.new(item: @active_item, new_item: @new_item)) %>

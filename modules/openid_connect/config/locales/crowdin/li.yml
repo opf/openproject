@@ -20,7 +20,7 @@ li:
         jwks_uri: JWKS URI
         limit_self_registration: Limit self registration
         metadata_url: Metadata URL
-        name: Name
+        name: Naam
         post_logout_redirect_uri: Post logout redirect URI
         redirect_url: Redirect URL
         scope: Reikwiedte
@@ -99,7 +99,7 @@ li:
       mapping_login: 'Provide a custom mapping in the userinfo response to be used for the login attribute.
 
         '
-      metadata_none: I don't have this information
+      metadata_none: Ich höb deze informatie neet
       metadata_url: I have a discovery endpoint URL
       oidc_information: These values are needed to configure the OpenID Connect provider.
       post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
@@ -154,7 +154,7 @@ li:
         '
     settings:
       endpoint_url: Endpoint URL
-      metadata_none: I don't have this information
+      metadata_none: Ich höb deze informatie neet
       metadata_url: I have a discovery endpoint URL
   plugin_openproject_openid_connect:
     description: Adds OmniAuth OpenID Connect strategy providers to OpenProject.

@@ -116,6 +116,7 @@ ru:
         caption: Заголовок
         help_text: Текст справки
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клиенты SCIM
       calculated_value_error:
         customized_id: Настраиваемый ID
@@ -644,6 +645,7 @@ ru:
         unknown_property: неизвестное свойство.
         unknown_property_nested: имеет неизвестный путь '%{path}'.
         unremovable: не может быть удалено.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
 
           '
@@ -2738,6 +2740,10 @@ ru:
     work_package: Пакет работ
     work_package_id: Пакет работ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Войти и зарегистрироваться
   background_jobs:
     status:
@@ -3065,16 +3071,17 @@ ru:
     is_enabled_globally: Разрешено в глобальном масштабе
     multi_value_more:
       other: и еще %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Роль не назначена
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Сначала необходимо выбрать пакет работ или проект
     reorder_alphabetical: Переупорядочить значения по алфавиту
     reorder_confirmation: 'Предупреждение: Текущий порядок доступных значений, а также все несохраненные значения будут потеряны. Вы уверены, что хотите продолжить?'
     semantic_keys:
       job_title: Должность
       none: Отсутствует
-    tab:
-      no_results_content_text: Создать новое настраиваемое поле
-      no_results_title_text: Нет настраиваемых полей.
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
 
       '
@@ -3550,6 +3557,7 @@ ru:
   error_no_default_work_package_status: Пакету работ не может быть присвоен статус по умолчанию. Пожалуйста, проверьте конфигурацию («Администрирование –> Статус пакета работ»).
   error_no_type_in_project: Тип не связан с этим проектом. Пожалуйста, проверьте параметры проекта.
   error_omniauth_invalid_auth: Информация аутентификации, полученная от поставщика идентификационных данных, является недействительной. Пожалуйста, обратитесь к администратору за дальнейшей помощью.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Время регистрации через провайдера истекло. Пожалуйста, попробуйте еще раз.
   error_password_change_failed: Произошла ошибка при попытке изменить пароль.
   error_pdf_date_range_too_long: Выбранный диапазон дат пакета работ превышает допустимый лимит экспорта в PDF. Пожалуйста, сократите диапазон до %{years} лет.
@@ -4315,6 +4323,7 @@ ru:
   label_go_forward: Открыть подменю %{module}
   label_greater_or_equal: ">="
   label_group: Группа
+  label_group_attributes_plural: Group attributes
   label_group_by: Группировать по
   label_group_named: Группа %{name}
   label_group_new: Новая группа
@@ -4720,6 +4729,7 @@ ru:
   label_user_settings: Настройки пользователя
   label_users_settings: Настройки пользователей
   label_value_x: 'Значение: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Изменить версию
   label_version_new: Новый этап
   label_version_plural: Этапы
@@ -6676,6 +6686,7 @@ ru:
         '
       title: Сканирование вирусов
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Отключение этой опции скроет список вложений на вкладке "Файлы" пакетов работ для новых проектов. Файлы, прикрепленные в описании пакета работ, по-прежнему будут загружаться во внутреннее хранилище вложений.
 
         '
@@ -6821,6 +6832,7 @@ ru:
         heading: Новый этап
       no_gate: Нет стадии
       non_defined: В настоящее время этапы не определены.
+      order_changed: Order successfully changed.
       phase_gates: Стадии этапа
       section_header: Этапы
       start_gate: Начать стадию
@@ -7314,6 +7326,7 @@ ru:
             label_enable_all: Включить всё
             label_toggle_template: Переключить %{template}
           label: Шаблоны экспорта в PDF
+          order_changed: Order successfully changed.
         tab: Создать PDF
         templates:
           readonly_error: Не может быть изменено, пока связано с источником типа.

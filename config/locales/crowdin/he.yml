@@ -116,6 +116,7 @@ he:
         caption: Caption
         help_text: Help text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ he:
         unknown_property: is not a known property.
         unknown_property_nested: has the unknown path '%{path}'.
         unremovable: cannot be removed.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2613,6 +2615,10 @@ he:
     work_package: חבילת עבודה
     work_package_id: חבילת עבודה
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2940,16 +2946,17 @@ he:
     is_enabled_globally: Is enabled globally
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorder values alphabetically
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Create a new custom field
-      no_results_title_text: There are currently no custom fields.
     text_add_new_custom_field: 'To add new custom fields to a project you first need to create them before you can add them to this project.
 
       '
@@ -3404,6 +3411,7 @@ he:
   error_no_default_work_package_status: אין הגדרת סטטוס ברירת מחדל לחבילת עבודה. אנא בדוק את ההגדרות שלך (לך אל ״ניהול -> סטטוסי חבילת עבודה״).
   error_no_type_in_project: אין סוג המשויך לפרויקט זה. אנא בדוק את הגדרות הפרוייקט.
   error_omniauth_invalid_auth: The authentication information returned from the identity provider was invalid. Please contact your administrator for further help.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: הרישום באמצעותספק אימות חיצוני פג תוקף. אנא נסה שוב.
   error_password_change_failed: An error occurred when trying to change the password.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
@@ -4162,6 +4170,7 @@ he:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: קבוצה
+  label_group_attributes_plural: Group attributes
   label_group_by: קבץ לפי
   label_group_named: Group %{name}
   label_group_new: קבוצה חדשה
@@ -4567,6 +4576,7 @@ he:
   label_user_settings: User settings
   label_users_settings: Users settings
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: ערוך גרסה
   label_version_new: גרסה חדשה
   label_version_plural: גירסאות
@@ -6516,6 +6526,7 @@ he:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6661,6 +6672,7 @@ he:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -7159,6 +7171,7 @@ he:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

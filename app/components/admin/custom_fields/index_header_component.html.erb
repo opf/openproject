@@ -27,22 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_custom_field_new) %>
-
 <%=
   render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
-    header.with_title do
-      concat t(:label_custom_field_new)
-      concat render(Primer::Beta::Text.new(color: :muted)) { " (#{label_for_custom_field_format(@custom_field.field_format)})" }
-    end
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: custom_fields_path, text: t(:label_custom_field_plural) },
-       { href: custom_fields_path(tab: @custom_field.type), text: I18n.t(@custom_field.type_name) },
-       nested_breadcrumb_element(label_for_custom_field_format(@custom_field.field_format), t(:label_custom_field_new))],
-      selected_item_font_weight: :normal
-    )
+    header.with_title { title }
+    header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
   end
 %>
-
-<%= render CustomFields::DetailsComponent.new(@custom_field) %>

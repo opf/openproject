@@ -116,6 +116,7 @@ id:
         caption: Caption
         help_text: Teks bantuan
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ id:
         unknown_property: bukanlah properti yang diketahui.
         unknown_property_nested: memiliki jalur yang tidak diketahui '%{path}'.
         unremovable: tidak bisa dihapus.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2374,6 +2376,10 @@ id:
     work_package: Paket-Penugasan
     work_package_id: Paket-Penugasan
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2701,16 +2707,17 @@ id:
     is_enabled_globally: Diaktifkan secara global
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Susun ulang nilai menurut abjad
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Buat bidang kustom baru
-      no_results_title_text: Tidak ada bidang kustom saat ini.
     text_add_new_custom_field: 'Untuk menambahkan kolom kustom baru untuk sebuah proyek, pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek ini.
 
       '
@@ -3125,6 +3132,7 @@ id:
   error_no_default_work_package_status: Status Paket-Penugasan default tidak didefinisikan. Silakan periksa konfigurasi (ke "Administrasi -> Paket-Penugasan Status").
   error_no_type_in_project: Tidak ada Tipe terasosiasi dengan Project ini. Silakan cek Pengaturan Project.
   error_omniauth_invalid_auth: Informasi autentikasi yang dikembalikan dari penyedia identitas tidak valid. Silakan hubungi administrator Anda untuk bantuan lebih lanjut.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Timed out. Silakan coba lagi.
   error_password_change_failed: Terjadi kesalahan saat mencoba mengubah kata sandi.
   error_pdf_date_range_too_long: The selected work package date range exceeds the allowable PDF export limit. Please condense the range to a maximum of %{years} years.
@@ -3863,6 +3871,7 @@ id:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grup
+  label_group_attributes_plural: Group attributes
   label_group_by: Pengelompokan
   label_group_named: Grup %{name}
   label_group_new: Grup baru
@@ -4268,6 +4277,7 @@ id:
   label_user_settings: User settings
   label_users_settings: Users settings
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Ubah versi
   label_version_new: Versi baru
   label_version_plural: Versi
@@ -6156,6 +6166,7 @@ id:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6301,6 +6312,7 @@ id:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6791,6 +6803,7 @@ id:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

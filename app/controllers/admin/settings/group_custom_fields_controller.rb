@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,27 +26,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-class CustomFields::IndexPageHeaderComponent < ApplicationComponent
-  include OpPrimer::ComponentHelpers
-  include ApplicationHelper
-  include TabsHelper
+module Admin
+  module Settings
+    class GroupCustomFieldsController < CustomFieldsBaseController
+      menu_item :group_custom_fields
 
-  def initialize(tabs: nil)
-    super
-    @tabs = tabs
-  end
+      protected
 
-  def breadcrumb_items
-    [
-      { href: admin_index_path, text: t("label_administration") },
-      helpers.nested_breadcrumb_element(t(:label_custom_field_plural),
-                                        I18n.t(currently_selected_tab[:label].to_s))
-    ]
-  end
+      def custom_field_class
+        GroupCustomField
+      end
 
-  def currently_selected_tab
-    @currently_selected_tab ||= selected_tab(@tabs)
+      def custom_field_page_title
+        t(:label_group_attributes_plural)
+      end
+
+      def section_label
+        t(:label_user_and_permission)
+      end
+    end
   end
 end

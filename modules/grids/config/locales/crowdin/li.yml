@@ -28,8 +28,8 @@ li:
       members:
         no_results: No visible members.
         show_members_count: Show all %{count} members
-        title: Members
-        view_all_members: View all members
+        title: Leeje
+        view_all_members: Bekiek alle leeje
         x_more:
           one: and one more member.
           other: and %{count} more members.

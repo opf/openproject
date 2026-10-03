@@ -79,12 +79,12 @@ module API
 
         associated_resource :gitlab_user,
                             representer: ::API::V3::GitlabMergeRequests::GitlabUserRepresenter,
-                            link_title_attribute: :gitlab_name
+                            link_title_attribute: :name
 
         associated_resource :merged_by,
                             representer: ::API::V3::GitlabMergeRequests::GitlabUserRepresenter,
                             v3_path: :gitlab_user,
-                            link_title_attribute: :gitlab_name
+                            link_title_attribute: :name
 
         # TODO: pending until get the list of statuses...
         associated_resources :latest_pipelines,

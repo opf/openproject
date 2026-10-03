@@ -57,7 +57,6 @@ module API
             AuthorFilter: "UserFilter",
             ResponsibleFilter: "ProjectMembersFilter",
             AssignedToFilter: "ProjectMembersFilter",
-            SharedWithUserFilter: "AccessToProjectFilter",
             WatcherFilter: "UserFilter"
           }
 

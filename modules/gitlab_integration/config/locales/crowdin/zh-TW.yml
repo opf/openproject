@@ -32,6 +32,10 @@ zh-TW:
         labels: 標籤
       gitlab_pipeline:
         ci_details: CI 詳情
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ zh-TW:
   attributes:
     commit: 提交
     gitlab: GitLab 識別碼
-    gitlab_avatar_url: 大頭貼網址
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合併請求
-    gitlab_name: GitLab 名稱
     gitlab_updated_at: 更新於
     gitlab_user_avatar_url: GitLab 頭像 URL
-    gitlab_username: GitLab 使用者名稱
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

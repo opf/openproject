@@ -116,6 +116,7 @@ de:
         caption: Untertitel
         help_text: Hilfe-Text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM-Clients
       calculated_value_error:
         customized_id: Benutzerdefinierte ID
@@ -644,6 +645,7 @@ de:
         unknown_property: ist kein bekanntes Attribut.
         unknown_property_nested: hat den unerwarteten Pfad '%{path}'.
         unremovable: kann nicht entfernt werden.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
 
           '
@@ -2490,6 +2492,10 @@ de:
     work_package: Arbeitspaket
     work_package_id: Arbeitspaket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Anmeldung und Registrierung
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@ de:
     is_enabled_globally: Für alle Projekte aktiviert
     multi_value_more:
       other: und %{count} weitere
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Keine Rollenzuweisung
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Zunächst muss ein Arbeitspaket oder ein Projekt ausgewählt werden
     reorder_alphabetical: Alphabetisch umsortieren
     reorder_confirmation: 'Warnung: Die aktuelle Reihenfolge der verfügbaren Werte sowie alle nicht gespeicherten Werte gehen verloren. Sind Sie sicher, dass Sie fortfahren möchten?'
     semantic_keys:
       job_title: Stellenbezeichnung
       none: Keine
-    tab:
-      no_results_content_text: Neues benutzerdefiniertes Feld anlegen
-      no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
 
       '
@@ -3260,6 +3267,7 @@ de:
   error_no_default_work_package_status: Es ist kein Status als Standard definiert. Bitte überprüfen Sie Ihre Konfiguration (unter "Administration -> Arbeitspaket-Status").
   error_no_type_in_project: Diesem Projekt ist kein Typ zugeordnet. Bitte überprüfen Sie die Projekteinstellungen.
   error_omniauth_invalid_auth: Die vom Identity Provider zurückgegebenen Authentifizierungsdaten sind ungültig. Bitte kontaktieren Sie Ihren Adminstrator für weitere Hilfe.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Die Registrierung über einen externen Authentifizierungsprovider ist fehlgeschlagen. Bitte versuchen Sie es erneut.
   error_password_change_failed: Beim Ändern des Passworts ist ein Fehler aufgetreten.
   error_pdf_date_range_too_long: Der ausgewählte Datumsbereich des Arbeitspakets überschreitet die zulässige Grenze für den PDF-Export. Bitte beschränken Sie den Bereich auf maximal %{years} Jahre.
@@ -4007,6 +4015,7 @@ de:
   label_go_forward: Öffne %{module} Untermenü
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_attributes_plural: Group attributes
   label_group_by: Gruppieren nach
   label_group_named: Gruppe %{name}
   label_group_new: Neue Gruppe
@@ -4412,6 +4421,7 @@ de:
   label_user_settings: Benutzereinstellungen
   label_users_settings: Benutzereinstellungen
   label_value_x: 'Wert: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Version bearbeiten
   label_version_new: Neue Version
   label_version_plural: Versionen
@@ -6338,6 +6348,7 @@ de:
         '
       title: Virenscan
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.
 
         '
@@ -6483,6 +6494,7 @@ de:
         heading: Neue Phase
       no_gate: Kein Gate
       non_defined: Derzeit sind keine Phasen definiert.
+      order_changed: Order successfully changed.
       phase_gates: Phasen Gates
       section_header: Phasen
       start_gate: Gate zum Beginn
@@ -6977,6 +6989,7 @@ de:
             label_enable_all: Alles aktivieren
             label_toggle_template: "%{template} umschalten"
           label: PDF-Exportvorlagen
+          order_changed: Order successfully changed.
         tab: PDF generieren
         templates:
           readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.

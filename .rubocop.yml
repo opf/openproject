@@ -93,6 +93,10 @@ Lint/SuppressedException:
 Lint/UnderscorePrefixedVariableName:
   Enabled: false
 
+Lint/UselessDefaultValueArgument:
+  AllowedReceivers:
+    - JournalFormatterCache
+
 Lint/Void:
   Enabled: false
 

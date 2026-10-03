@@ -256,6 +256,7 @@ sv:
   label_status_finished: Avslutad
   label_time: Tid
   label_time_entry_activity_form_description: Ändringar i denna inmatningsaktivitet kommer att återspeglas i alla projekt där den är aktiverad.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Gränser
   label_timer_since: Startade på %{time}
   label_today_capitalized: I dag

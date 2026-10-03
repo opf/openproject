@@ -256,6 +256,7 @@ hu:
   label_status_finished: Kész
   label_time: Idő
   label_time_entry_activity_form_description: A munkaidő-nyilvántartási tevékenység változásai minden olyan projektben tükröződnek, ahol ez engedélyezve van.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Elkezdődött %{time}-kor
   label_today_capitalized: Ma

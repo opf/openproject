@@ -28,20 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Shared by formatters whose rendered field resolves to a CustomField
-# (OpenProject::JournalFormatter::CustomComment and the
-# OpenProject::JournalFormatter::CustomField::* formatters). Requires the
-# including class to implement +custom_field_for_key(key)+.
-module OpenProject::JournalFormatter::CustomFieldPermission
-  private
+require "spec_helper"
+require Rails.root.join("spec/services/principals/replace_references_context")
 
-  # A Proc :view_permission is instance_exec'd with the CustomField being
-  # rendered (or nil, if it has since been deleted) as its sole argument,
-  # rather than with no arguments as JournalFormatter::Base does.
-  def permission_granted?(options)
-    permission = options[:view_permission]
-    return super unless permission.is_a?(Proc)
+RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
+  subject(:service_call) { instance.call(from: principal, to: to_principal) }
 
-    instance_exec(custom_field_for_key(options[:key]), &permission)
+  shared_let(:other_user) { create(:user) }
+  shared_let(:principal) { create(:user) }
+  shared_let(:to_principal) { create(:user) }
+
+  let(:instance) do
+    described_class.new
+  end
+
+  context "with CostEntry" do
+    let(:cost_entry_attributes) do
+      { project_id: 1,
+        cost_type_id: 1,
+        units: 1,
+        spent_on: "date '2012-02-02'",
+        comments: "''",
+        blocked: false,
+        tyear: 2012,
+        tmonth: 2,
+        tweek: 5 }
+    end
+
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :user_id do
+      let(:attributes) { cost_entry_attributes.merge(logged_by_id: principal.id) }
+    end
+
+    it_behaves_like "rewritten record",
+                    CostEntry,
+                    :logged_by_id do
+      let(:attributes) { cost_entry_attributes.merge(user_id: principal.id) }
+    end
   end
 end

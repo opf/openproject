@@ -50,8 +50,8 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
     context "shared with user filter" do
       let(:filter) { Queries::WorkPackages::Filter::SharedWithUserFilter.create! }
 
-      it "is a all principals with access to project dependency" do
-        expect(subject).to be_a(API::V3::Queries::Schemas::AccessToProjectFilterDependencyRepresenter)
+      it "is a shared with user dependency" do
+        expect(subject).to be_a(API::V3::Queries::Schemas::SharedWithUserFilterDependencyRepresenter)
       end
     end
 

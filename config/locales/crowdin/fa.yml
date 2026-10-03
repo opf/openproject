@@ -116,6 +116,7 @@ fa:
         caption: عنوان
         help_text: متن راهنما
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: کلاینت‌های SCIM
       calculated_value_error:
         customized_id: شناسه سفارشی
@@ -644,6 +645,7 @@ fa:
         unknown_property: ویژگی شناخته‌شده‌ای نیست.
         unknown_property_nested: مسیر ناشناخته '%{path}' دارد.
         unremovable: قابل حذف نیست.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: "«Secure Context» ارائه نمی‌کند. از HTTPS یا یک نشانی loopback مانند localhost استفاده کنید.\n"
         user_already_in_department: کاربر %{user_id} از قبل عضو واحد سازمانی %{department_id} است.
         user_in_ldap_managed_department: این کاربر به واحد سازمانی‌ای تعلق دارد که با همگام‌سازی LDAP مدیریت می‌شود و قابل انتقال نیست.
@@ -2488,6 +2490,10 @@ fa:
     work_package: کاربسته
     work_package_id: بسته کاری
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: ورود و ثبت‌نام
   background_jobs:
     status:
@@ -2813,16 +2819,17 @@ fa:
     is_enabled_globally: به‌صورت سراسری فعال است
     multi_value_more:
       other: و %{count} مورد دیگر
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: بدون تخصیص نقش
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: ابتدا باید بسته کاری یا پروژه انتخاب شود
     reorder_alphabetical: مرتب‌سازی مقادیر بر اساس حروف الفبا
     reorder_confirmation: 'هشدار: ترتیب فعلی مقادیر موجود و همه مقادیر ذخیره‌نشده از دست خواهند رفت. مطمئنید می‌خواهید ادامه دهید؟'
     semantic_keys:
       job_title: عنوان شغلی
       none: هیچ‌کدام
-    tab:
-      no_results_content_text: ایجاد فیلد سفارشی جدید
-      no_results_title_text: در حال حاضر هیچ فیلد سفارشی وجود ندارد.
     text_add_new_custom_field: 'برای افزودن فیلدهای سفارشی جدید به پروژه، ابتدا باید آن‌ها را ایجاد کنید تا بتوانید به این پروژه اضافه‌شان کنید.
 
       '
@@ -3256,6 +3263,7 @@ fa:
   error_no_default_work_package_status: هیچ وضعیت پیش‌فرضی برای بسته کاری تعریف نشده است. پیکربندی را بررسی کنید (به «مدیریت -> وضعیت‌های بسته کاری» بروید).
   error_no_type_in_project: هیچ نوعی به این پروژه مرتبط نیست. لطفاً تنظیمات پروژه را بررسی کنید.
   error_omniauth_invalid_auth: اطلاعات احراز هویت بازگشتی از ارائه‌دهنده هویت نامعتبر بود. برای کمک بیشتر با مدیر تماس بگیرید.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: ثبت‌نام از طریق ارائه‌دهنده احراز هویت خارجی Timeout شد. لطفاً دوباره تلاش کنید.
   error_password_change_failed: هنگام تغییر گذرواژه خطایی رخ داد.
   error_pdf_date_range_too_long: بازه تاریخ بسته کاری انتخاب‌شده از حد مجاز خروجی PDF بیشتر است. لطفاً بازه را حداکثر به %{years} سال کاهش دهید.
@@ -4005,6 +4013,7 @@ fa:
   label_go_forward: بازکردن زیرمنوی %{module}
   label_greater_or_equal: ">="
   label_group: گروه
+  label_group_attributes_plural: Group attributes
   label_group_by: گروه‌بندی بر اساس
   label_group_named: گروه %{name}
   label_group_new: گروه جدید
@@ -4410,6 +4419,7 @@ fa:
   label_user_settings: تنظیمات کاربر
   label_users_settings: تنظیمات کاربران
   label_value_x: 'مقدار: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: ویرایش نسخه
   label_version_new: نسخه جدید
   label_version_plural: نسخه‌ها
@@ -6333,6 +6343,7 @@ fa:
         '
       title: اسکن ویروس
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'غیرفعال‌کردن این گزینه، فهرست پیوست‌ها را در Tab فایل‌های بسته کاری برای پروژه‌های جدید پنهان می‌کند. فایل‌های پیوست‌شده در توضیحات بسته کاری همچنان در Storage داخلی پیوست‌ها بارگذاری خواهند شد.
 
         '
@@ -6478,6 +6489,7 @@ fa:
         heading: مرحله جدید
       no_gate: بدون نقطه کنترل
       non_defined: در حال حاضر هیچ مرحله‌ای تعریف نشده است.
+      order_changed: Order successfully changed.
       phase_gates: نقاط کنترل مرحله
       section_header: مرحله‌ها
       start_gate: نقطه کنترل شروع
@@ -6975,6 +6987,7 @@ fa:
             label_enable_all: فعال‌کردن همه
             label_toggle_template: تغییر %{template}
           label: الگوهای خروجی PDF
+          order_changed: Order successfully changed.
         tab: تولید PDF
         templates:
           readonly_error: تا زمانی که به یک نوع منبع پیوند دارد، قابل تغییر نیست.
