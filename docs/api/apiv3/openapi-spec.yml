@@ -395,6 +395,14 @@ paths:
     "$ref": "./paths/program_form.yml"
   "/api/v3/project_phases/{id}":
     "$ref": "./paths/project_phase.yml"
+  "/api/v3/type_schemes":
+    "$ref": "./paths/type_schemes.yml"
+  "/api/v3/type_schemes/{id}":
+    "$ref": "./paths/type_scheme.yml"
+  "/api/v3/projects/{id}/type_scheme":
+    "$ref": "./paths/project_type_scheme.yml"
+  "/api/v3/projects/{id}/available_types":
+    "$ref": "./paths/project_available_types.yml"
   "/api/v3/project_phase_definitions":
     "$ref": "./paths/project_phase_definitions.yml"
   "/api/v3/project_phase_definitions/{id}":
@@ -1054,6 +1062,10 @@ components:
       "$ref": "./components/schemas/project_phase_definition_model.yml"
     ProjectPhaseDefinitionCollectionModel:
       "$ref": "./components/schemas/project_phase_definition_collection_model.yml"
+    TypeSchemeModel:
+      "$ref": "./components/schemas/type_scheme_model.yml"
+    TypeSchemeCollectionModel:
+      "$ref": "./components/schemas/type_scheme_collection_model.yml"
     ProjectStorageCollectionModel:
       "$ref": "./components/schemas/project_storage_collection_model.yml"
     ProjectStorageModel:
@@ -1270,6 +1282,7 @@ tags:
   - "$ref": "./tags/project_phases.yml"
   - "$ref": "./tags/project_phase_definitions.yml"
   - "$ref": "./tags/projects.yml"
+  - "$ref": "./tags/type_schemes.yml"
   - "$ref": "./tags/queries.yml"
   - "$ref": "./tags/query_columns.yml"
   - "$ref": "./tags/query_filters.yml"

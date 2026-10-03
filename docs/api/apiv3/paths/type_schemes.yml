@@ -1,0 +1,65 @@
+# /api/v3/type_schemes
+---
+get:
+  summary: List type schemes
+  operationId: list_type_schemes
+  tags:
+    - Type Schemes
+  description: Lists all type schemes. Requires an authenticated user.
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_collection_model.yml'
+post:
+  summary: Create a type scheme
+  operationId: create_type_scheme
+  tags:
+    - Type Schemes
+  description: |-
+    Creates a type scheme. The body needs a `name` and `typeItems` with exactly one entry marked `default`.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - name
+            - typeItems
+          properties:
+            name:
+              type: string
+            description:
+              type: string
+            typeItems:
+              type: array
+              items:
+                type: object
+                properties:
+                  _links:
+                    type: object
+                    properties:
+                      type:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                  position:
+                    type: integer
+                  default:
+                    type: boolean
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the scheme is invalid, e.g. without exactly one default type.

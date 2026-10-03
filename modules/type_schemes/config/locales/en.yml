@@ -12,6 +12,12 @@ en:
       enabled: "Enabled"
       position: "Position"
       default: "Default"
+    project_settings:
+      title: "Type scheme"
+      scheme: "Type scheme"
+      none: "No scheme (all enabled types)"
+      available_types: "Available types"
+      missing_types: "These types belong to the scheme but are not enabled in this project: %{types}."
     confirm:
       title: "Confirm type scheme changes"
       used_by_projects:

@@ -26,22 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# frozen_string_literal: true
-
-Rails.application.routes.draw do
-  namespace :admin do
-    resources :type_schemes, except: :show do
-      member do
-        post :clone
-        post :deactivate
-      end
-    end
-  end
-
-  resources :projects, only: [] do
-    scope module: "projects" do
-      namespace "settings" do
-        resource :type_scheme, only: %i[show update], controller: "type_scheme"
+module API
+  module V3
+    module TypeSchemes
+      class TypeSchemeCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
       end
     end
   end

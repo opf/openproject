@@ -46,7 +46,14 @@ module OpenProject::TypeSchemes
            caption: :"type_schemes.plural",
            parent: :admin_work_packages
 
-      # Consumed by the project settings page (Task 6). Deliberately not inside a project_module,
+      menu :project_menu,
+           :settings_type_scheme,
+           { controller: "/projects/settings/type_scheme", action: :show },
+           if: ->(project) { User.current.allowed_in_project?(:assign_type_scheme, project) },
+           caption: :"type_schemes.project_settings.title",
+           parent: :settings
+
+      # Consumed by the project settings page. Deliberately not inside a project_module,
       # so it is usable without enabling a module per project.
       project_module nil do
         permission :assign_type_scheme,
@@ -54,6 +61,30 @@ module OpenProject::TypeSchemes
                    permissible_on: :project,
                    require: :member
       end
+    end
+
+    add_api_endpoint "API::V3::Root" do
+      mount ::API::V3::TypeSchemes::TypeSchemesAPI
+    end
+
+    add_api_endpoint "API::V3::Projects::ProjectsAPI", :id do
+      mount ::API::V3::TypeSchemes::ProjectTypeSchemeAPI
+    end
+
+    add_api_path :type_schemes do
+      "#{root}/type_schemes"
+    end
+
+    add_api_path :type_scheme do |id|
+      "#{type_schemes}/#{id}"
+    end
+
+    add_api_path :project_type_scheme do |project_id|
+      "#{project(project_id)}/type_scheme"
+    end
+
+    add_api_path :project_available_types do |project_id|
+      "#{project(project_id)}/available_types"
     end
 
     config.to_prepare do

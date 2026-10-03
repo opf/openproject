@@ -1,0 +1,27 @@
+# /api/v3/projects/{id}/available_types
+---
+get:
+  summary: List the types available for new work packages in a project
+  operationId: list_project_available_types
+  tags:
+    - Type Schemes
+  description: |-
+    Types that can be chosen when creating a work package, in the order defined by the project's type scheme
+    (default type first). Without a scheme these are the types enabled in the project.
+
+    **Required permission:** view work packages
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/collection_model.yml'
+    '403':
+      description: Returned if the user may not view work packages in the project.

@@ -1,0 +1,65 @@
+# Schema: TypeSchemeModel
+---
+type: object
+required:
+  - _type
+  - id
+  - name
+  - active
+  - isDefault
+  - typeItems
+properties:
+  _type:
+    type: string
+    enum:
+      - TypeScheme
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+  description:
+    type:
+      - string
+      - "null"
+  active:
+    type: boolean
+  isDefault:
+    type: boolean
+  typeItems:
+    type: array
+    items:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            type:
+              $ref: './link.yml'
+        position:
+          type: integer
+        default:
+          type: boolean
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time
+example:
+  _type: TypeScheme
+  id: 1
+  name: Software
+  active: true
+  isDefault: false
+  typeItems:
+    - _links:
+        type:
+          href: /api/v3/types/2
+      position: 1
+      default: true
+    - _links:
+        type:
+          href: /api/v3/types/1
+      position: 2
+      default: false

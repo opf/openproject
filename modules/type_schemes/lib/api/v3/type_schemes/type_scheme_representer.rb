@@ -26,22 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# frozen_string_literal: true
+module API
+  module V3
+    module TypeSchemes
+      class TypeSchemeRepresenter < ::API::Decorators::Single
+        include API::Decorators::DateProperty
 
-Rails.application.routes.draw do
-  namespace :admin do
-    resources :type_schemes, except: :show do
-      member do
-        post :clone
-        post :deactivate
-      end
-    end
-  end
+        self_link
 
-  resources :projects, only: [] do
-    scope module: "projects" do
-      namespace "settings" do
-        resource :type_scheme, only: %i[show update], controller: "type_scheme"
+        property :id
+        property :name
+        property :description
+        property :active
+        property :is_default
+
+        property :type_items,
+                 exec_context: :decorator,
+                 getter: ->(*) { type_items }
+
+        date_time_property :created_at
+        date_time_property :updated_at
+
+        def _type
+          "TypeScheme"
+        end
+
+        def type_items
+          represented.items.sort_by(&:position).map do |item|
+            {
+              _links: { type: { href: api_v3_paths.type(item.type_id) } },
+              position: item.position,
+              default: item.is_default
+            }
+          end
+        end
       end
     end
   end

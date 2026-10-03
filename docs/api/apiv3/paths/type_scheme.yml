@@ -1,0 +1,71 @@
+# /api/v3/type_schemes/{id}
+---
+get:
+  summary: Get a type scheme
+  operationId: get_type_scheme
+  tags:
+    - Type Schemes
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_model.yml'
+    '404':
+      description: Returned if the scheme does not exist.
+patch:
+  summary: Update a type scheme
+  operationId: update_type_scheme
+  tags:
+    - Type Schemes
+  description: |-
+    Updates name, description and replaces the `typeItems`. Existing work packages are not changed.
+
+    **Required permission:** administrator
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the resulting scheme is invalid.
+delete:
+  summary: Delete a type scheme
+  operationId: delete_type_scheme
+  tags:
+    - Type Schemes
+  description: |-
+    Deletes a type scheme. Fails with 422 and the names of the projects while the scheme is still assigned.
+
+    **Required permission:** administrator
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '204':
+      description: No Content
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the scheme is assigned to projects.

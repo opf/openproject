@@ -1,0 +1,34 @@
+# /api/v3/projects/{id}/type_scheme
+---
+put:
+  summary: Assign a type scheme to a project
+  operationId: assign_project_type_scheme
+  tags:
+    - Type Schemes
+  description: |-
+    Assigns the scheme with the given `scheme_id` to the project. An empty `scheme_id` removes the assignment.
+
+    **Required permission:** assign type scheme (in the project)
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            scheme_id:
+              type:
+                - integer
+                - "null"
+  responses:
+    '204':
+      description: No Content
+    '403':
+      description: Returned if the user lacks the permission.
+    '422':
+      description: Returned if the scheme is inactive.
