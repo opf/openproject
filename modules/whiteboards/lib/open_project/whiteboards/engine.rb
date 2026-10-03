@@ -71,6 +71,8 @@ module OpenProject::Whiteboards
 
     patches %i[Project]
 
+    replace_principal_references "Whiteboard" => %i[author_id]
+
     add_api_path :whiteboards do
       "#{root}/whiteboards"
     end
