@@ -91,6 +91,15 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.models.manual.pluck(:external_id)).to eq(["hand-typed"])
     end
 
+    it "lets go of a feature bound to a model the previous server offered" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.feature_bindings).to be_empty
+    end
+
     # on_delete: :nullify on the two default_*_model_id foreign keys.
     it "lets go of a connection default that named a model the previous server offered" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))

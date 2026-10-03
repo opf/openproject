@@ -59,7 +59,9 @@ module LlmConnections
     private
 
     # Only a model the server has ruled out is refused. "We could not tell" is the
-    # normal state on a self-hosted server.
+    # normal state on a self-hosted server, and an environment-provisioned default
+    # would otherwise fail on a catalogue row nothing has probed yet. The picker
+    # still offers confirmed models only.
     def default_embedding_model_can_embed
       llm_model = model.default_embedding_model
       return if llm_model.blank?
