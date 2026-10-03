@@ -125,7 +125,7 @@ describe('ProjectTimelineGraphComponent', () => {
     endDate: '2024-01-14',
     status: 'active',
     row: 0,
-    href: '/projects/some-project/backlogs?sprint_ids%5B%5D=20',
+    href: '/projects/some-project/backlogs?sprint_ids=%2220%22',
   };
 
   let fixture:ComponentFixture<ProjectTimelineGraphComponent>;

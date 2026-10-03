@@ -30,16 +30,23 @@
 
 module Backlogs
   BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all, :filters_string) do
-    def self.from_params(params) # rubocop:disable Metrics/AbcSize
+    def self.from_params(params)
       new(
-        bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
-                      id == "inbox" ? "inbox" : id.to_i.nonzero?
-                    end.presence,
-        sprint_ids: Array(params[:sprint_ids]).filter_map { |id| id.to_i.nonzero? }.presence,
+        bucket_ids: parse_ids(params[:bucket_ids]).presence,
+        sprint_ids: parse_ids(params[:sprint_ids]).presence,
         show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false,
         filters_string: params[:filters].presence
       )
     end
+
+    def self.parse_ids(ids)
+      return [] if ids.blank?
+
+      Array(JSON.parse(ids)).filter_map { |id| id == "inbox" ? "inbox" : id.to_s.to_i.nonzero? }
+    rescue JSON::ParserError
+      []
+    end
+    private_class_method :parse_ids
 
     def show_inbox?
       bucket_ids.nil? || bucket_ids.include?("inbox")
@@ -55,13 +62,23 @@ module Backlogs
 
     def to_h
       result = show_all? ? { all: true } : {}
-      result[:bucket_ids] = bucket_ids if bucket_ids
-      result[:sprint_ids] = sprint_ids if sprint_ids
+
+      result[:bucket_ids] = ids_string(bucket_ids) if bucket_ids
+      result[:sprint_ids] = ids_string(sprint_ids) if sprint_ids
       result[:filters] = filters_string if filters_string
       result
     end
 
     alias to_hash to_h
     alias show_all? show_all
+
+    private
+
+    def ids_string(ids)
+      return unless ids
+
+      string_ids = ids.map(&:to_s)
+      (string_ids.one? ? string_ids.first : string_ids).to_json
+    end
   end
 end

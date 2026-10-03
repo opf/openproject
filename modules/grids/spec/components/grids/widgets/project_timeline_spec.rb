@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
+  include Rails.application.routes.url_helpers
+
   let(:project) { create(:project) }
   let(:user) { create(:user) }
   let(:phases_role) { create(:project_role, permissions: [:view_project_phases]) }
@@ -269,7 +271,7 @@ RSpec.describe Grids::Widgets::ProjectTimeline, type: :component do
           "endDate" => sprint.finish_date.iso8601,
           "status" => sprint.status,
           "row" => 0,
-          "href" => Rails.application.routes.url_helpers.project_backlogs_backlog_path(project, sprint_ids: [sprint.id])
+          "href" => project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
         )
       end
 

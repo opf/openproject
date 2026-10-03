@@ -64,8 +64,10 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
       let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
 
       it "links to the backlog filtered by sprint" do
-        expect(rendered_component).to have_link("Planning sprint",
-                                                href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id]))
+        expect(rendered_component).to have_link(
+          "Planning sprint",
+          href: project_backlogs_backlog_path(project, sprint_ids: [sprint.id.to_s].to_json)
+        )
       end
     end
 
