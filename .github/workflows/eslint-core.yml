@@ -8,7 +8,9 @@ on:
     paths:
       - '**.html'
       - '**.js'
+      - '**.mjs'
       - '**.ts'
+      - 'COPYRIGHT_short'
 
 jobs:
   eslint:
