@@ -182,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.0"
+  gem "dalli", "~> 5.1.1"
   gem "redis", "~> 6.0.0"
 end
 
