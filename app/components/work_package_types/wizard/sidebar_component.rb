@@ -74,6 +74,18 @@ module WorkPackageTypes
 
       def status_step?(step) = step != Steps.first
 
+      def status_icon(step)
+        return nil unless status_step?(step)
+
+        if completed?(step)
+          { icon: :"check-circle-fill", color: :success }
+        elsif current?(step)
+          { icon: :"issue-draft", color: :muted }
+        else
+          { icon: :circle, color: :muted }
+        end
+      end
+
       def href_for(step)
         return unless record_persisted?
 
