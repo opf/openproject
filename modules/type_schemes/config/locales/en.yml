@@ -7,24 +7,42 @@ en:
     index:
       projects: "Number of projects"
       clone: "Clone"
-      default_scheme: "default"
+      description: "A type scheme defines which work package types a project can choose, in which order, and which type is preselected for new work packages."
+      actions: "Actions"
+      action_on: "%{action} %{scheme}"
       deactivate: "Deactivate"
+      deactivate_confirm:
+        zero: "Deactivate this type scheme? No project uses it."
+        one: "Deactivate this type scheme? The %{count} project using it will switch to the default scheme."
+        other: "Deactivate this type scheme? The %{count} projects using it will switch to the default scheme."
       activate: "Activate"
+      blank_heading: "No type schemes yet"
+      blank_description: "Type schemes become available once at least one work package type exists."
     form:
       enabled: "Enabled"
       position: "Position"
       default: "Default"
       is_default: "Default scheme for new projects"
       default_scheme_hint: "Every project without an explicit scheme uses it. Make another scheme the default to change this."
-      drag_hint: "Drag the handle to reorder types, or use the arrow buttons (Alt + Up / Down on a row)."
-      drag_handle: "Drag to reorder %{type}"
+      is_default_hint: "Projects without their own choice and all newly created projects use the default scheme."
+      types_hint: "Tick the types of this scheme and choose one default type that is preselected for new work packages. The order is the order in which types are offered. Drag the handle to reorder, or use the arrow buttons (Alt + Up or Down arrow inside a row)."
+      table_caption: "Types of this scheme in display order"
+      reorder: "Reorder"
+      position_of: "Position of %{type}"
+      default_of: "Make %{type} the default type"
+      default_changed: "Default type is now %{type}"
       move_up: "Move %{type} up"
       move_down: "Move %{type} down"
       moved: "%{type} moved to position %{position} of %{total}"
     project_settings:
       title: "Type scheme"
       scheme: "Type scheme"
+      description: "The type scheme decides which work package types can be chosen when work packages are created in this project."
+      default_option: "%{name} (default)"
       available_types: "Available types"
+      available_types_hint: "Types are offered in this order. The type marked as default is preselected for new work packages."
+      no_types: "No types are available for this project."
+      manage_types: "Manage the types enabled in this project."
       missing_types: "These types belong to the scheme but are not enabled in this project: %{types}."
     confirm:
       title: "Confirm type scheme changes"
@@ -61,6 +79,7 @@ en:
               default_scheme_required: cannot be removed directly; make another scheme the default instead.
             base:
               cannot_be_deleted: Type schemes cannot be deleted. Deactivate them instead.
+              conflict: was changed by someone else at the same time, please try again.
         project_type_scheme:
           attributes:
             scheme:

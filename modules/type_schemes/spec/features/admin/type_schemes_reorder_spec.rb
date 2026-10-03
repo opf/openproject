@@ -46,4 +46,24 @@ RSpec.describe "Reordering types in a type scheme", :js do
     expect(page).to have_text("Successful update.")
     expect(scheme.reload.types.first(2)).to eq [story, epic]
   end
+
+  it "moves the focused row with Alt + Arrow Down and keeps focus on the control" do
+    visit edit_admin_type_scheme_path(scheme)
+
+    checkbox = find_by_id("type_scheme_types_#{epic.id}_enabled")
+    checkbox.send_keys([:alt, :down])
+
+    expect(page).to have_css("[role=status]", text: "Epic moved to position 2 of")
+    expect(page.evaluate_script("document.activeElement.id")).to eq "type_scheme_types_#{epic.id}_enabled"
+  end
+
+  it "hands the default over when the default type is unchecked" do
+    visit edit_admin_type_scheme_path(scheme)
+
+    default_item = scheme.items.find_by!(is_default: true)
+    uncheck "type_scheme_types_#{default_item.type_id}_enabled"
+
+    expect(page).to have_field("type_scheme_default_type_#{default_item.type_id}", disabled: true, checked: false)
+    expect(page).to have_css("[role=status]", text: "Default type is now")
+  end
 end

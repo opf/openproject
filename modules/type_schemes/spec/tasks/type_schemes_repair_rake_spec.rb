@@ -26,19 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# frozen_string_literal: true
+require "spec_helper"
+require "rake"
 
-module OpenProject::TypeSchemes
-  module ProjectCreatedListener
-    module_function
+RSpec.describe "rake type_schemes:repair" do # rubocop:disable RSpec/DescribeClass
+  before(:all) do # rubocop:disable RSpec/BeforeAfterAll
+    Rails.application.load_tasks unless Rake::Task.task_defined?("type_schemes:repair")
+  end
 
-    def call(payload)
-      project = payload[:project]
-      return if project.nil? || ProjectTypeScheme.exists?(project_id: project.id)
+  let(:task) { Rake::Task["type_schemes:repair"] }
+  let!(:story) { create(:type, name: "Task") }
+  let!(:project) { create(:project, types: [story]) }
 
-      ::TypeSchemes::SchemeService.assign_default(project)
-    rescue StandardError => e
-      Rails.logger.error("Type scheme assignment failed for project #{project&.id}: #{e.class}: #{e.message}")
-    end
+  after { task.reenable }
+
+  it "defaults to a dry run that writes nothing" do
+    expect { task.invoke }.to output(/Mode: dry_run.*Create 'Default Scheme'.*\[apply\]/m).to_stdout
+    expect(TypeScheme.count).to eq 0
+  end
+
+  it "repairs in apply mode" do
+    expect { task.invoke("apply") }.to output(/Mode: apply/).to_stdout
+
+    expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to be_is_default
+  end
+
+  it "reports a consistent system as clean" do
+    task.invoke("apply")
+    task.reenable
+
+    expect { task.invoke("apply") }.to output(/Nothing to repair/).to_stdout
+  end
+
+  it "aborts on an unknown mode" do
+    expect { task.invoke("boom") }.to raise_error(SystemExit).and output(/mode must be/).to_stderr
   end
 end

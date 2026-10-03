@@ -31,5 +31,22 @@
 module OpenProject
   module TypeSchemes
     require "open_project/type_schemes/engine"
+
+    PATCH_TARGETS = {
+      "WorkPackages::BaseContract" => %i[assignable_types validate_enabled_type],
+      "WorkPackages::SetAttributesService" => %i[assign_default_type]
+    }.freeze
+
+    def self.assert_patch_targets!
+      PATCH_TARGETS.each do |class_name, methods|
+        klass = class_name.constantize
+        missing = methods.reject do |name|
+          klass.method_defined?(name) || klass.private_method_defined?(name)
+        end
+        next if missing.empty?
+
+        raise "openproject-type_schemes patches #{class_name}##{missing.join(', #')}, which core no longer defines"
+      end
+    end
   end
 end

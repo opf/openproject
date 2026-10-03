@@ -45,7 +45,9 @@ RSpec.describe "Project settings type scheme" do
 
       expect(page).to have_text("Successful update.")
       expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq scheme
-      expect(page).to have_css("#available-types li:first-child", text: "Story (Default)")
+      expect(page).to have_css("#available-types li:first-child", text: "Story")
+      expect(page).to have_css("#available-types li:first-child .Label", text: "Default")
+      expect(page).to have_css("#available-types .Label", count: 1)
       expect(page).to have_css("#available-types li", count: 2)
       expect(page).to have_no_css("#available-types li", text: "Bug")
     end
@@ -54,7 +56,8 @@ RSpec.describe "Project settings type scheme" do
       default = create(:type_scheme, name: "Fallback", types: [story, epic], is_default: true)
       visit project_settings_type_scheme_path(project)
 
-      expect(page).to have_select("scheme_id", selected: default.name)
+      expect(page).to have_select("scheme_id", selected: "Fallback (default)")
+      expect(page).to have_css("label[for=scheme_id]", text: "Type scheme")
       expect(page).to have_no_select("scheme_id", with_options: [""])
     end
 

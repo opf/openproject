@@ -75,6 +75,17 @@ RSpec.describe "Type schemes administration" do
       expect(scheme.reload).not_to be_active
     end
 
+    it "marks the default scheme with a label and exposes row actions with the scheme name" do
+      scheme.update!(is_default: true)
+      visit admin_type_schemes_path
+
+      within("tr", text: "Base") do
+        expect(page).to have_css(".Label", text: "Default")
+        expect(page).to have_button("Clone", aria: { label: "Clone Base" })
+        expect(page).to have_link("Base", href: edit_admin_type_scheme_path(scheme))
+      end
+    end
+
     it "offers no way to delete a scheme" do
       visit admin_type_schemes_path
       expect(page).to have_no_button("Delete")

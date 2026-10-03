@@ -117,6 +117,13 @@ module TypeSchemes
           return fail_with(scheme)
         end
 
+        persist(scheme, params)
+      rescue ActiveRecord::RecordNotUnique
+        scheme.errors.add(:base, :conflict)
+        fail_with(scheme)
+      end
+
+      def persist(scheme, params)
         result = nil
         TypeScheme.transaction(requires_new: true) do
           scheme.lock! if scheme.persisted?

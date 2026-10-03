@@ -40,4 +40,16 @@ namespace :type_schemes do
     puts "Projects to assign (#{plan.project_names.size}): #{plan.project_names.join(', ').presence || '-'}"
     puts "No work package is changed; schemes only filter the types offered for new work packages."
   end
+
+  desc "Restore type scheme invariants (default scheme, one default type per scheme, every project assigned). MODE is dry_run (default) or apply"
+  task :repair, [:mode] => :environment do |_task, args|
+    mode = args[:mode].presence || "dry_run"
+    abort "mode must be one of: dry_run, apply" unless %w[dry_run apply].include?(mode)
+
+    report = TypeSchemes::Repair.call(dry_run: mode == "dry_run")
+
+    puts "Mode: #{mode}"
+    puts(report.changed? ? report.findings.map { |finding| "- #{finding}" } : "Nothing to repair.")
+    puts "Run again with [apply] to write these changes." if report.changed? && report.dry_run
+  end
 end

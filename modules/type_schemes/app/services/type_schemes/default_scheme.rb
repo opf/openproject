@@ -52,7 +52,18 @@ module TypeSchemes
       scheme = TypeScheme.active.find_by(is_default: true)
       return if scheme.nil? || scheme.items.exists?(type_id: type.id)
 
-      scheme.items.create!(type:, position: scheme.items.maximum(:position).to_i + 1, is_default: false)
+      scheme.items.create!(type:,
+                           position: scheme.items.maximum(:position).to_i + 1,
+                           is_default: !scheme.items.exists?(is_default: true))
+    rescue StandardError => e
+      Rails.logger.error("[type_schemes] adding type #{type.id} to the default scheme failed: #{e.class}: #{e.message}")
+    end
+
+    def heal_after_type_removed
+      Resolver.reset_cache
+      Repair.call(dry_run: false)
+    rescue StandardError => e
+      Rails.logger.error("[type_schemes] repair after type removal failed: #{e.class}: #{e.message}")
     end
 
     def create!

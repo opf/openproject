@@ -1,59 +1,78 @@
-<%#-- copyright
-OpenProject is an open source project management software.
-Copyright (C) the OpenProject GmbH
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See COPYRIGHT and LICENSE files for more details.
-++#%>
-
 <% html_title t(:label_administration), t("type_schemes.plural") %>
-<%= render Primer::OpenProject::PageHeader.new { |h| h.with_title { t("type_schemes.plural") } } %>
-<p><%= link_to t("type_schemes.new"), new_admin_type_scheme_path, class: "button -primary" %></p>
-<table class="generic-table">
-  <thead>
-    <tr>
-      <th><%= t(:label_name) %></th>
-      <th><%= t("type_schemes.index.projects") %></th>
-      <th><%= t(:label_status) %></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @schemes.each do |scheme| %>
-      <tr>
-        <td><%= scheme.name %><%= " (#{t('type_schemes.index.default_scheme')})" if scheme.is_default %></td>
-        <td><%= @project_counts.fetch(scheme.id, 0) %></td>
-        <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
-        <td>
-          <%= link_to t(:button_edit), edit_admin_type_scheme_path(scheme) %>
-          <%= button_to t("type_schemes.index.clone"), clone_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
-          <% if scheme.active && !scheme.is_default %>
-            <%= button_to t("type_schemes.index.deactivate"), deactivate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline", data: { turbo_confirm: t(:text_are_you_sure) } } %>
-          <% elsif !scheme.active %>
-            <%= button_to t("type_schemes.index.activate"), activate_admin_type_scheme_path(scheme), method: :post, form: { style: "display:inline" } %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("type_schemes.plural") }
+    header.with_description { t("type_schemes.index.description") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       t("type_schemes.plural")]
+    )
+  end
+%>
+
+<%=
+  render Primer::OpenProject::SubHeader.new do |subheader|
+    subheader.with_action_button(
+      scheme: :primary,
+      leading_icon: :plus,
+      label: t("type_schemes.new"),
+      tag: :a,
+      href: new_admin_type_scheme_path,
+      test_selector: "type-schemes-new-button"
+    ) { t("type_schemes.new") }
+  end
+%>
+
+<% if @schemes.empty? %>
+  <%=
+    render Primer::Beta::Blankslate.new(border: true) do |blankslate|
+      blankslate.with_visual_icon(icon: :checklist)
+      blankslate.with_heading(tag: :h2).with_content(t("type_schemes.index.blank_heading"))
+      blankslate.with_description { t("type_schemes.index.blank_description") }
+    end
+  %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <caption class="sr-only"><%= t("type_schemes.plural") %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><%= t(:label_name) %></th>
+            <th scope="col"><%= t("type_schemes.index.projects") %></th>
+            <th scope="col"><%= t(:label_status) %></th>
+            <th scope="col"><span class="sr-only"><%= t("type_schemes.index.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @schemes.each do |scheme| %>
+            <tr>
+              <th scope="row">
+                <%= link_to scheme.name, edit_admin_type_scheme_path(scheme) %>
+                <% if scheme.is_default %>
+                  <%= render(Primer::Beta::Label.new(scheme: :primary, ml: 1)) { t(:label_default) } %>
+                <% end %>
+                <% if scheme.description.present? %>
+                  <div class="color-fg-muted"><%= scheme.description %></div>
+                <% end %>
+              </th>
+              <td><%= scheme.project_assignments.size %></td>
+              <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
+              <td>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_type_scheme_path(scheme), size: :small, mr: 2, mb: 1, "aria-label": t("type_schemes.index.action_on", action: t(:button_edit), scheme: scheme.name))) { t(:button_edit) } %>
+                <%= render "scheme_action", scheme:, path: clone_admin_type_scheme_path(scheme), caption: t("type_schemes.index.clone"), confirm: nil %>
+                <% if scheme.active && !scheme.is_default %>
+                  <%= render "scheme_action", scheme:, path: deactivate_admin_type_scheme_path(scheme), caption: t("type_schemes.index.deactivate"),
+                                              confirm: t("type_schemes.index.deactivate_confirm", count: scheme.project_assignments.size) %>
+                <% elsif !scheme.active %>
+                  <%= render "scheme_action", scheme:, path: activate_admin_type_scheme_path(scheme), caption: t("type_schemes.index.activate"), confirm: nil %>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

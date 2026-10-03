@@ -32,8 +32,8 @@ module OpenProject::TypeSchemes
   module ContractPatch
     def assignable_types
       scope = super
-      allowed = ::TypeSchemes::Resolver.allowed_types(model.project, scope)
-      return scope if allowed.equal?(scope)
+      allowed = scheme_allowed_types(scope)
+      return scope if allowed.nil? || allowed.equal?(scope)
 
       allowed = allowed.to_a
       # Deliberate: the work package's own persisted type stays allowed, so moving it to another
@@ -50,7 +50,21 @@ module OpenProject::TypeSchemes
       return unless model.project && type_context_changed? && errors[:type_id].empty?
       return if model.type_id == model.type_id_was
 
-      errors.add :type_id, :not_in_scheme unless ::TypeSchemes::Resolver.type_allowed?(model.project, model.type_id)
+      errors.add :type_id, :not_in_scheme unless scheme_allows_type?
+    end
+
+    def scheme_allowed_types(scope)
+      ::TypeSchemes::Resolver.allowed_types(model.project, scope)
+    rescue StandardError => e
+      Rails.logger.error("[type_schemes] resolving allowed types failed, using native types: #{e.class}: #{e.message}")
+      nil
+    end
+
+    def scheme_allows_type?
+      ::TypeSchemes::Resolver.type_allowed?(model.project, model.type_id)
+    rescue StandardError => e
+      Rails.logger.error("[type_schemes] type check failed, allowing type: #{e.class}: #{e.message}")
+      true
     end
   end
 end

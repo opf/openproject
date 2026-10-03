@@ -95,6 +95,9 @@ module OpenProject::TypeSchemes
 
     config.to_prepare do
       ::Type.after_create_commit { ::TypeSchemes::DefaultScheme.add_type(self) }
+      ::Type.after_destroy_commit { ::TypeSchemes::DefaultScheme.heal_after_type_removed }
+
+      OpenProject::TypeSchemes.assert_patch_targets!
       ::WorkPackages::BaseContract.prepend(OpenProject::TypeSchemes::ContractPatch)
       ::WorkPackages::SetAttributesService.prepend(OpenProject::TypeSchemes::SetAttributesServicePatch)
     end

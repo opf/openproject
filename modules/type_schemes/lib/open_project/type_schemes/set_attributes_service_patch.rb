@@ -35,15 +35,22 @@ module OpenProject::TypeSchemes
     # Without an explicit type, core picks project.enabled_types.first. With a scheme, use its default.
     def assign_default_type
       super
-      return unless ::TypeSchemes::Resolver.for_project(work_package.project)
-
-      type = ::TypeSchemes::Resolver.allowed_types(work_package.project).first
+      type = scheme_default_type
       return if type.nil? || type == work_package.type
 
       work_package.type = type
       update_duration_to_one_day_for_milestones
       unify_milestone_dates
       reassign_status assignable_statuses
+    end
+
+    def scheme_default_type
+      return unless ::TypeSchemes::Resolver.for_project(work_package.project)
+
+      ::TypeSchemes::Resolver.allowed_types(work_package.project).first
+    rescue StandardError => e
+      Rails.logger.error("[type_schemes] default type lookup failed, keeping core default: #{e.class}: #{e.message}")
+      nil
     end
   end
 end

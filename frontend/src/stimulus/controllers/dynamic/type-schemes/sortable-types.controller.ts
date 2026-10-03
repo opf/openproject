@@ -28,16 +28,22 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-export default class SortableTypesController extends Controller<HTMLElement> {
-  static targets = ['list', 'row', 'position', 'control', 'status'];
+type DropEdge = 'top'|'bottom';
 
-  static values = { movedText: { type: String, default: '' } };
+const rowSelector = ':scope > tr';
+const focusableSelector = 'button, input, select, textarea, a[href]';
+
+export default class SortableTypesController extends Controller<HTMLElement> {
+  static targets = ['list', 'control', 'status'];
+
+  static values = {
+    movedText: { type: String, default: '' },
+    defaultChangedText: { type: String, default: '' },
+  };
 
   declare readonly listTarget:HTMLElement;
 
-  declare readonly rowTargets:HTMLTableRowElement[];
-
-  declare readonly controlTargets:HTMLButtonElement[];
+  declare readonly controlTargets:HTMLElement[];
 
   declare readonly hasStatusTarget:boolean;
 
@@ -45,10 +51,20 @@ export default class SortableTypesController extends Controller<HTMLElement> {
 
   declare readonly movedTextValue:string;
 
+  declare readonly defaultChangedTextValue:string;
+
   private dragged:HTMLTableRowElement|null = null;
 
+  private indicated:HTMLTableRowElement|null = null;
+
   connect() {
-    this.controlTargets.forEach((button) => { button.hidden = false; });
+    this.controlTargets.forEach((control) => { control.hidden = false; });
+    this.renumber();
+    this.syncDefault(false);
+  }
+
+  disconnect() {
+    this.end();
   }
 
   start(event:DragEvent) {
@@ -56,24 +72,36 @@ export default class SortableTypesController extends Controller<HTMLElement> {
     if (!row) { return; }
 
     this.dragged = row;
-    row.setAttribute('data-dragging', 'source');
+    row.dataset.dragging = 'source';
+    row.style.opacity = '0.5';
     if (event.dataTransfer) {
       event.dataTransfer.effectAllowed = 'move';
-      event.dataTransfer.setData('text/plain', row.id || 'type-scheme-row');
+      event.dataTransfer.setData('text/plain', row.dataset.typeName ?? '');
       event.dataTransfer.setDragImage(row, 10, 10);
     }
   }
 
   end() {
-    this.dragged?.removeAttribute('data-dragging');
+    this.clearIndicator();
+    if (this.dragged) {
+      delete this.dragged.dataset.dragging;
+      this.dragged.style.opacity = '';
+    }
     this.dragged = null;
   }
 
   over(event:DragEvent) {
-    if (!this.dragged) { return; }
+    const target = this.rowFor(event.target);
+    if (!this.dragged || !target) { return; }
 
     event.preventDefault();
     if (event.dataTransfer) { event.dataTransfer.dropEffect = 'move'; }
+
+    if (target === this.dragged) {
+      this.clearIndicator();
+    } else {
+      this.showIndicator(target, this.edgeFor(event, target));
+    }
   }
 
   drop(event:DragEvent) {
@@ -82,49 +110,79 @@ export default class SortableTypesController extends Controller<HTMLElement> {
     if (!dragged || !target || target === dragged) { return; }
 
     event.preventDefault();
-    const rect = target.getBoundingClientRect();
-    const after = event.clientY > rect.top + (rect.height / 2);
-    this.listTarget.insertBefore(dragged, after ? target.nextElementSibling : target);
+    const edge = this.edgeFor(event, target);
+    this.clearIndicator();
+    this.listTarget.insertBefore(dragged, edge === 'bottom' ? target.nextElementSibling : target);
     this.renumber();
     this.announce(dragged);
   }
 
   up(event:Event) {
-    this.move(event, -1);
+    this.moveFromControl(event, -1);
   }
 
   down(event:Event) {
-    this.move(event, 1);
+    this.moveFromControl(event, 1);
   }
 
   keydown(event:KeyboardEvent) {
     if (!event.altKey || (event.key !== 'ArrowUp' && event.key !== 'ArrowDown')) { return; }
 
     event.preventDefault();
-    this.move(event, event.key === 'ArrowUp' ? -1 : 1);
+    const row = this.rowFor(event.target);
+    const focused = (event.target as HTMLElement|null)?.closest<HTMLElement>(focusableSelector) ?? null;
+    if (row) { this.move(row, event.key === 'ArrowUp' ? -1 : 1, focused); }
   }
 
-  private move(event:Event, delta:number) {
-    const row = this.rowFor(event.target);
-    if (!row) { return; }
+  toggle() {
+    this.syncDefault(true);
+  }
 
+  private moveFromControl(event:Event, delta:number) {
+    const control = event.currentTarget as HTMLElement|null;
+    const row = this.rowFor(control);
+    if (row) { this.move(row, delta, control); }
+  }
+
+  private move(row:HTMLTableRowElement, delta:number, focusAfter:HTMLElement|null) {
     const rows = this.currentRows();
-    const index = rows.indexOf(row);
-    const swapWith = rows[index + delta];
+    const swapWith = rows[rows.indexOf(row) + delta];
     if (!swapWith) { return; }
 
     this.listTarget.insertBefore(row, delta < 0 ? swapWith : swapWith.nextElementSibling);
     this.renumber();
     this.announce(row);
-    (event.target as HTMLElement).focus();
+    focusAfter?.focus();
   }
 
   private currentRows():HTMLTableRowElement[] {
-    return Array.from(this.listTarget.querySelectorAll<HTMLTableRowElement>(':scope > tr'));
+    return Array.from(this.listTarget.querySelectorAll<HTMLTableRowElement>(rowSelector));
   }
 
   private rowFor(target:EventTarget|null):HTMLTableRowElement|null {
     return (target as HTMLElement|null)?.closest<HTMLTableRowElement>('tr') ?? null;
+  }
+
+  private edgeFor(event:DragEvent, row:HTMLElement):DropEdge {
+    const rect = row.getBoundingClientRect();
+    return event.clientY > rect.top + (rect.height / 2) ? 'bottom' : 'top';
+  }
+
+  private showIndicator(row:HTMLTableRowElement, edge:DropEdge) {
+    if (this.indicated && this.indicated !== row) { this.clearIndicator(); }
+
+    this.indicated = row;
+    row.dataset.dropPosition = edge;
+    const shadow = `inset 0 ${edge === 'top' ? '' : '-'}2px 0 0 var(--fgColor-accent)`;
+    row.querySelectorAll<HTMLElement>('td, th').forEach((cell) => { cell.style.boxShadow = shadow; });
+  }
+
+  private clearIndicator() {
+    if (!this.indicated) { return; }
+
+    delete this.indicated.dataset.dropPosition;
+    this.indicated.querySelectorAll<HTMLElement>('td, th').forEach((cell) => { cell.style.boxShadow = ''; });
+    this.indicated = null;
   }
 
   private renumber() {
@@ -134,14 +192,46 @@ export default class SortableTypesController extends Controller<HTMLElement> {
     });
   }
 
-  private announce(row:HTMLTableRowElement) {
-    if (!this.hasStatusTarget) { return; }
+  private syncDefault(announceChange:boolean) {
+    const enabledRows = this.currentRows().filter((row) => this.enabledBox(row)?.checked);
+    this.currentRows().forEach((row) => {
+      const radio = this.defaultRadio(row);
+      if (!radio) { return; }
 
+      radio.disabled = !this.enabledBox(row)?.checked;
+      if (radio.disabled) { radio.checked = false; }
+    });
+
+    const hasDefault = enabledRows.some((row) => this.defaultRadio(row)?.checked);
+    const fallback = enabledRows[0];
+    if (hasDefault || !fallback) { return; }
+
+    const radio = this.defaultRadio(fallback);
+    if (!radio) { return; }
+
+    radio.checked = true;
+    if (announceChange) {
+      this.say(this.defaultChangedTextValue.replace('%{type}', fallback.dataset.typeName ?? ''));
+    }
+  }
+
+  private enabledBox(row:HTMLElement):HTMLInputElement|null {
+    return row.querySelector<HTMLInputElement>('input[type="checkbox"]');
+  }
+
+  private defaultRadio(row:HTMLElement):HTMLInputElement|null {
+    return row.querySelector<HTMLInputElement>('input[type="radio"]');
+  }
+
+  private announce(row:HTMLTableRowElement) {
     const rows = this.currentRows();
-    const name = row.querySelector('td:nth-child(3)')?.textContent?.trim() ?? '';
-    this.statusTarget.textContent = this.movedTextValue
-      .replace('%{type}', name)
+    this.say(this.movedTextValue
+      .replace('%{type}', row.dataset.typeName ?? '')
       .replace('%{position}', String(rows.indexOf(row) + 1))
-      .replace('%{total}', String(rows.length));
+      .replace('%{total}', String(rows.length)));
+  }
+
+  private say(message:string) {
+    if (this.hasStatusTarget) { this.statusTarget.textContent = message; }
   }
 }

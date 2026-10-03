@@ -1,35 +1,8 @@
-<%#-- copyright
-OpenProject is an open source project management software.
-Copyright (C) the OpenProject GmbH
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License version 3.
-
-OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-Copyright (C) 2006-2013 Jean-Philippe Lang
-Copyright (C) 2010-2013 the ChiliProject Team
-
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-See COPYRIGHT and LICENSE files for more details.
-++#%>
-
 <% html_title @project.name, t("type_schemes.project_settings.title") %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("type_schemes.project_settings.title") }
+    header.with_description { t("type_schemes.project_settings.description") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
        { href: project_settings_general_path(@project.id), text: t("label_project_settings") },
@@ -41,28 +14,42 @@ See COPYRIGHT and LICENSE files for more details.
 <% enabled_ids = @project.enabled_types.pluck(:id) %>
 <% missing = current ? current.types.reject { |type| enabled_ids.include?(type.id) } : [] %>
 <% available = ::TypeSchemes::Resolver.allowed_types(@project, default_first: false).to_a %>
+<% scheme_options = @schemes.map { |scheme| [scheme.is_default ? t("type_schemes.project_settings.default_option", name: scheme.name) : scheme.name, scheme.id] } %>
 
 <%= form_tag project_settings_type_scheme_path(@project), method: :patch do %>
   <div class="form--field">
     <%= label_tag "scheme_id", t("type_schemes.project_settings.scheme"), class: "form--label" %>
     <span class="form--field-container">
-      <%= select_tag "scheme_id",
-                     options_from_collection_for_select(@schemes, :id, :name, current&.id),
-                     class: "form--select" %>
+      <%= select_tag "scheme_id", options_for_select(scheme_options, current&.id), class: "form--select" %>
     </span>
   </div>
-  <%= submit_tag t(:button_save), class: "button -primary" %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) } %>
+  </div>
 <% end %>
 
 <% if missing.any? %>
-  <%= render Primer::Beta::Flash.new(scheme: :warning, mt: 3) do %>
+  <%= render Primer::Beta::Flash.new(scheme: :warning, mt: 3, mb: 3) do %>
     <%= t("type_schemes.project_settings.missing_types", types: missing.map(&:name).to_sentence) %>
+    <% if User.current.allowed_in_project?(:manage_types, @project) %>
+      <%= link_to t("type_schemes.project_settings.manage_types"), project_settings_work_packages_types_path(@project) %>
+    <% end %>
   <% end %>
 <% end %>
 
-<h3><%= t("type_schemes.project_settings.available_types") %></h3>
-<ol id="available-types">
-  <% available.each do |type| %>
-    <li><%= type.name %><%= " (#{t('type_schemes.form.default')})" if current&.default_type == type %></li>
-  <% end %>
-</ol>
+<h2 id="available-types-heading" class="mt-4"><%= t("type_schemes.project_settings.available_types") %></h2>
+<p><%= t("type_schemes.project_settings.available_types_hint") %></p>
+<% if available.any? %>
+  <ol id="available-types" aria-labelledby="available-types-heading">
+    <% available.each do |type| %>
+      <li>
+        <%= type.name %>
+        <% if current&.default_type == type %>
+          <%= render(Primer::Beta::Label.new(scheme: :primary, ml: 1)) { t(:label_default) } %>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+<% else %>
+  <p id="available-types"><%= t("type_schemes.project_settings.no_types") %></p>
+<% end %>

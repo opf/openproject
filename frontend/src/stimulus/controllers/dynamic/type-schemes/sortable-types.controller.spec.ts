@@ -29,24 +29,46 @@
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import SortableTypesController from './sortable-types.controller';
 
+const row = (id:number, name:string, { enabled = true, isDefault = false } = {}) => `
+  <tr data-type-name="${name}">
+    <td><span data-action="dragstart->sortable-types#start dragend->sortable-types#end">handle</span></td>
+    <td><input type="checkbox" aria-label="Enable ${name}" ${enabled ? 'checked' : ''} data-action="change->sortable-types#toggle"></td>
+    <td>${name}</td>
+    <td><input name="type_scheme[types][${id}][position]" value="${id}"></td>
+    <td><input type="radio" name="type_scheme[default_type_id]" value="${id}" aria-label="Default ${name}" ${isDefault ? 'checked' : ''}></td>
+    <td>
+      <span hidden data-sortable-types-target="control">
+        <button type="button" data-action="sortable-types#up">${name} up</button>
+        <button type="button" data-action="sortable-types#down">${name} down</button>
+      </span>
+    </td>
+  </tr>`;
+
 const template = `
-  <div data-controller="sortable-types" data-sortable-types-moved-text-value="%{type} moved to %{position} of %{total}">
-    <table><tbody data-sortable-types-target="list">
-      <tr data-sortable-types-target="row"><td></td><td></td><td>Epic</td>
-        <td><input name="type_scheme[types][1][position]" value="1" data-sortable-types-target="position"></td><td></td>
-        <td><button type="button" hidden data-sortable-types-target="control" data-action="sortable-types#up">Epic up</button>
-            <button type="button" hidden data-sortable-types-target="control" data-action="sortable-types#down">Epic down</button></td></tr>
-      <tr data-sortable-types-target="row"><td></td><td></td><td>Story</td>
-        <td><input name="type_scheme[types][2][position]" value="2" data-sortable-types-target="position"></td><td></td>
-        <td><button type="button" hidden data-sortable-types-target="control" data-action="sortable-types#up">Story up</button>
-            <button type="button" hidden data-sortable-types-target="control" data-action="sortable-types#down">Story down</button></td></tr>
-    </tbody></table>
+  <div data-controller="sortable-types"
+       data-sortable-types-moved-text-value="%{type} moved to position %{position} of %{total}"
+       data-sortable-types-default-changed-text-value="Default type is now %{type}">
+    <table>
+      <tbody data-sortable-types-target="list" data-action="keydown->sortable-types#keydown">
+        ${row(1, 'Epic', { isDefault: true })}
+        ${row(2, 'Story')}
+        ${row(3, 'Bug', { enabled: false })}
+      </tbody>
+    </table>
     <div data-sortable-types-target="status"></div>
   </div>
 `;
 
 describe('SortableTypesController', () => {
   let ctx:StimulusTestContext;
+
+  const positionNames = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[name$="[position]"]'))
+    .map((input) => input.name);
+  const positionValues = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[name$="[position]"]'))
+    .map((input) => input.value);
+  const status = () => document.querySelector('[data-sortable-types-target="status"]')?.textContent;
+  const radio = (name:string) => ctx.screen.getByLabelText<HTMLInputElement>(`Default ${name}`);
+  const enable = (name:string) => ctx.screen.getByLabelText<HTMLInputElement>(`Enable ${name}`);
 
   beforeEach(async () => {
     ctx = await setupStimulusTest({ controllers: { 'sortable-types': SortableTypesController } });
@@ -62,19 +84,74 @@ describe('SortableTypesController', () => {
   it('moves a row down, renumbers positions and announces the move', () => {
     ctx.screen.getByRole('button', { name: 'Epic down' }).click();
 
-    const positions = Array.from(document.querySelectorAll<HTMLInputElement>('input[name$="[position]"]'));
-    expect(positions.map((input) => input.name)).toEqual([
+    expect(positionNames()).toEqual([
       'type_scheme[types][2][position]',
       'type_scheme[types][1][position]',
+      'type_scheme[types][3][position]',
     ]);
-    expect(positions.map((input) => input.value)).toEqual(['1', '2']);
-    expect(document.querySelector('[data-sortable-types-target="status"]')?.textContent).toBe('Epic moved to 2 of 2');
+    expect(positionValues()).toEqual(['1', '2', '3']);
+    expect(status()).toBe('Epic moved to position 2 of 3');
+  });
+
+  it('moves a row up', () => {
+    ctx.screen.getByRole('button', { name: 'Bug up' }).click();
+
+    expect(positionNames()[1]).toBe('type_scheme[types][3][position]');
+    expect(status()).toBe('Bug moved to position 2 of 3');
+  });
+
+  it('keeps focus on the pressed button after the move', () => {
+    const button = ctx.screen.getByRole('button', { name: 'Epic down' });
+    button.focus();
+    button.click();
+
+    expect(document.activeElement).toBe(button);
   });
 
   it('does nothing when moving the first row up', () => {
     ctx.screen.getByRole('button', { name: 'Epic up' }).click();
 
-    const first = document.querySelector<HTMLInputElement>('input[name$="[position]"]');
-    expect(first?.name).toBe('type_scheme[types][1][position]');
+    expect(positionNames()[0]).toBe('type_scheme[types][1][position]');
+    expect(status()).toBe('');
+  });
+
+  it('moves the row with Alt + ArrowDown and keeps focus', () => {
+    const checkbox = enable('Epic');
+    checkbox.focus();
+    checkbox.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', altKey: true, bubbles: true, cancelable: true }));
+
+    expect(positionNames()[1]).toBe('type_scheme[types][1][position]');
+    expect(document.activeElement).toBe(checkbox);
+  });
+
+  it('ignores arrow keys without Alt', () => {
+    enable('Epic').dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }));
+
+    expect(positionNames()[0]).toBe('type_scheme[types][1][position]');
+  });
+
+  it('disables the default radio of rows that are not enabled', () => {
+    expect(radio('Bug')).toBeDisabled();
+    expect(radio('Story')).toBeEnabled();
+  });
+
+  it('hands the default over to the first enabled type when the default type is unchecked', () => {
+    enable('Epic').click();
+
+    expect(radio('Epic')).toBeDisabled();
+    expect(radio('Epic').checked).toBe(false);
+    expect(radio('Story').checked).toBe(true);
+    expect(status()).toBe('Default type is now Story');
+  });
+
+  it('makes a newly enabled type the default when no default is left', () => {
+    enable('Epic').click();
+    enable('Story').click();
+    expect(document.querySelector('input[type="radio"]:checked')).toBeNull();
+
+    enable('Bug').click();
+
+    expect(radio('Bug')).toBeEnabled();
+    expect(radio('Bug').checked).toBe(true);
   });
 });
