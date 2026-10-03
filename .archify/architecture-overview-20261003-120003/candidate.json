@@ -1,0 +1,19 @@
+{"schema_version":1,"diagram_type":"architecture",
+"meta":{"title":"OpenProject Runtime Overview","output":".archify/architecture-overview-20261003-120003/overview.html","quality_profile":"showcase","repository":{"url":"git@github.com:Kaito-Vu/openproject.git","link_mode":"local-only","revision":"38172d11f8f8a9dac21f933b1fdfbdd2fbac6e98"}},
+"components":[
+{"id":"user","type":"external","label":"User","sublabel":"browser","pos":[40,200],"size":[110,60]},
+{"id":"spa","type":"frontend","label":"Angular SPA","sublabel":"frontend/","pos":[230,200],"size":[130,60],"sources":[{"path":"frontend/package.json","line":1,"end_line":5}]},
+{"id":"rails","type":"backend","label":"Rails + Puma","sublabel":"app/ + modules/","pos":[440,200],"size":[130,60],"sources":[{"path":"Gemfile","line":44},{"path":"Gemfile","line":195}]},
+{"id":"db","type":"database","label":"PostgreSQL","sublabel":"primary store","pos":[650,200],"size":[120,60],"sources":[{"path":"docker-compose.yml","line":58,"end_line":69}]},
+{"id":"cache","type":"database","label":"memcached","sublabel":"dalli client","pos":[440,40],"size":[130,60],"sources":[{"path":"Gemfile","line":185}]},
+{"id":"jobs","type":"backend","label":"GoodJob worker","sublabel":"background jobs","pos":[440,360],"size":[130,60],"sources":[{"path":"Gemfile","line":129},{"path":"docker/prod/worker","line":1,"end_line":3}]}
+],
+"connections":[
+{"from":"user","to":"spa","label":"HTTPS","variant":"emphasis"},
+{"from":"spa","to":"rails","label":"REST API","variant":"emphasis"},
+{"from":"rails","to":"db","label":"SQL"},
+{"from":"rails","to":"cache","label":"cache","route":"straight"},
+{"from":"rails","to":"jobs","label":"enqueue","variant":"dashed","route":"straight"},
+{"from":"jobs","to":"db","label":"jobs + SQL","fromSide":"right","toSide":"bottom"}
+],
+"cards":[{"dot":"cyan","title":"Scope","items":["High-level slice from Gemfile and prod Docker scripts","Seeder, proxy, collab server: see compose diagram"]}]}

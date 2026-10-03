@@ -1,0 +1,23 @@
+{"schema_version":2,"diagram_type":"lifecycle",
+"meta":{"title":"Feature Work Package Statuses","output":".archify/lifecycle-feature-status-20261003-120002/status.html","quality_profile":"showcase"},
+"lanes":[{"id":"main","label":"Delivery"},{"id":"side","label":"Test + hold"},{"id":"terminal","label":"Closed out"}],
+"states":[
+{"id":"new","type":"start","label":"New","sublabel":"default","lane":"main","col":0},
+{"id":"spec","type":"active","label":"In specification","lane":"main","col":1},
+{"id":"specified","type":"active","label":"Specified","lane":"main","col":2},
+{"id":"prog","type":"active","label":"In progress","lane":"main","col":3},
+{"id":"dev","type":"active","label":"Developed","lane":"main","col":4},
+{"id":"testing","type":"decision","label":"In testing","lane":"side","col":4},
+{"id":"failed","type":"failure","label":"Test failed","lane":"side","col":3},
+{"id":"hold","type":"waiting","label":"On hold","lane":"side","col":1},
+{"id":"tested","type":"success","label":"Tested","lane":"terminal","col":3},
+{"id":"closed","type":"success","label":"Closed","lane":"terminal","col":4},
+{"id":"rejected","type":"failure","label":"Rejected","lane":"terminal","col":1}
+],
+"transitions":[
+{"from":"new","to":"spec"},{"from":"spec","to":"specified"},{"from":"specified","to":"prog"},{"from":"prog","to":"dev"},
+{"from":"dev","to":"testing"},{"from":"testing","to":"tested","label":"pass"},{"from":"testing","to":"failed","label":"fail","variant":"security"},
+{"from":"failed","to":"prog","label":"rework","variant":"dashed"},{"from":"tested","to":"closed"},
+{"from":"spec","to":"hold","variant":"dashed"},{"from":"spec","to":"rejected","variant":"security"}
+],
+"cards":[{"dot":"amber","title":"Scope","items":["Default seeded status set for the Feature type (app/seeders/standard.yml:1196-1208)","Actual allowed transitions are role-based Workflow rows and configurable"]}]}

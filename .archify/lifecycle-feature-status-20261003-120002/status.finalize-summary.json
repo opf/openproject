@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "finalize",
+  "status": "pass",
+  "type": "lifecycle",
+  "quality": "showcase",
+  "specification": {
+    "path": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\candidate.json",
+    "sha256": "546a37de668c11bda00e0715c6bea46c4e281d1da8c603d312e9d2a043a1d222",
+    "bytes": 1888
+  },
+  "artifact": {
+    "path": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\status.html",
+    "sha256": "afb6eb302e2ebebfa7717422a73fbda7c7538cbf9b3f9cb9e87d131b2b225ae5",
+    "bytes": 759798
+  },
+  "gates": {
+    "validate": "pass",
+    "deliver": "pass",
+    "check": "pass",
+    "browser-check": "pass"
+  },
+  "diagnostics": [],
+  "diagnosticSummary": {
+    "total": 0,
+    "shown": 0,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\status.finalize.json",
+    "summaryReceipt": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\status.finalize-summary.json",
+    "browserCheckReceipt": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\status.browser-check.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.0.1",
+    "availableVersion": "3.0.1",
+    "releaseNotes": null,
+    "checkedAt": "2026-10-03T01:28:02.259Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 1857,
+  "visualReviewRecommendation": {
+    "action": "inspect-route-readability",
+    "signals": {
+      "routesOverSuggestedBends": 1,
+      "routesOverSuggestedStretch": 1
+    },
+    "reason": "Automated gates passed, but crossings or detours still need perceptual review before claiming visual quality.",
+    "affectedRoutes": {
+      "crossings": [],
+      "detours": [
+        {
+          "relationship": {
+            "from": "spec",
+            "to": "rejected",
+            "label": "",
+            "collectionIndex": 10,
+            "artifactIndex": 11
+          },
+          "bends": 4,
+          "stretch": 1.545,
+          "directCorridorBlockers": [
+            {
+              "id": "hold",
+              "label": "On hold",
+              "box": [
+                264,
+                240,
+                140,
+                64
+              ]
+            }
+          ]
+        }
+      ],
+      "truncated": false
+    },
+    "repair": "Trace these relationships at the desktop viewport. For Architecture, use references/architecture-layout-repair.md: reflow a blocked main path or tangled connected scene, and repair an isolated defect locally only when the surrounding composition is accepted. Preserve all semantic content and user-fixed geometry. Rerun finalize once after the edit."
+  }
+}
