@@ -192,6 +192,33 @@ module OpenProject
         end
       end
 
+      # @label Header title form
+      # List whose title is edited in place. The form is declared in both
+      # states and rendered only in the edit state.
+      # @param state [Symbol] select [edit, show]
+      def header_title_form(state: :edit)
+        render OpenProject::Common::BorderBoxListComponent.new(
+          container: "border-box-list-header-title-form-preview"
+        ) do |list|
+          list.with_header(title: "Design & Content", state: state.to_sym, show_drag_handle: true) do |header|
+            header.with_menu do |menu|
+              menu.with_item(label: "Rename")
+            end
+            header.with_title_form(
+              url: "#",
+              method: :patch,
+              input_name: :name,
+              label: "Section name",
+              input_arguments: { value: "Design & Content" },
+              cancel_arguments: { href: "#" }
+            )
+          end
+
+          list.with_item { "Dora Design" }
+          list.with_item { "Carl Content" }
+        end
+      end
+
       # @label Playground
       # @param title_tag [Symbol] select [h2, h3, h4, h5]
       # @param count [Symbol] select [inferred, hidden, explicit, zero]

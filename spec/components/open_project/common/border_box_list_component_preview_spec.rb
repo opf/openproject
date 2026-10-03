@@ -133,4 +133,19 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
     expect(page).to have_text("Add item")
     expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
   end
+
+  it "renders the title form preview in the edit state", :aggregate_failures do
+    render_preview(:header_title_form, from: described_class)
+
+    expect(page).to have_field("Section name", with: "Design & Content")
+    expect(page).to have_button("Save")
+    expect(page).to have_link("Cancel")
+  end
+
+  it "renders the title form preview in the show state", :aggregate_failures do
+    render_preview(:header_title_form, from: described_class, params: { state: "show" })
+
+    expect(page).to have_heading("Design & Content")
+    expect(page).to have_no_field("Section name")
+  end
 end

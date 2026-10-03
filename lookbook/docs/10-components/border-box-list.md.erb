@@ -65,6 +65,7 @@ comparable lists should use headers.
 | `count` | `Integer`, `Boolean`, `nil` | `nil` | Pass `true` to infer the rendered item count, an integer for an explicit value, or `nil`/`false` to hide it |
 | `count_arguments` | `Hash` | `{}` | Forwarded to `Primer::Beta::Counter`. Merged over defaults (`scheme: :primary`, `hide_if_zero: true`) |
 | `collapsed` | `Boolean` | `false` | Whether a collapsible header starts closed |
+| `state` | `Symbol` | `:show` | `:show` or `:edit`. In `:edit` the form declared with `with_title_form` replaces the title |
 
 ### Header slots
 
@@ -72,6 +73,7 @@ comparable lists should use headers.
 |---|---|
 | `with_title` | Block-based alternative to `title:`, for titles that need more than plain text. Takes precedence over `title:` |
 | `with_breadcrumbs` | Breadcrumb trail (`Primer::Beta::Breadcrumbs`) rendered in the title position. The title stays mandatory and renders visually hidden, keeping the list's accessible name. Not available on collapsible headers |
+| `with_title_form` | Standard inline title form (text field, **Save**, **Cancel**), declared with arguments only. Rendered in `state: :edit`, where it replaces the visible title. Not available on collapsible headers or together with breadcrumbs |
 | `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
 | `with_label` | Informational status label (`Primer::Beta::Label`) shown on the title row. Right-aligned, truncated when long, and hidden on small screens, so use it only for supplementary status, never as the sole affordance for an action |
 | `with_action_button` | Button rendered in the header actions area |
@@ -139,6 +141,44 @@ automatically. Breadcrumbs are not available on collapsible headers.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_breadcrumbs, panels: %i[source] %>
 
+### Inline title editing
+
+Use the header's `state:` and `with_title_form` when a list's title is edited
+in place. Declare the form whenever the title can be edited and switch the
+header between `state: :show` (the default) and `state: :edit`.
+
+In the edit state the form replaces the visible title. The title stays in the
+header as a visually hidden heading, so the list keeps its accessible name and
+heading navigation. The drag handle, count, label, action buttons and menu are
+not rendered while the title is edited, even when they are declared. The
+description stays rendered.
+
+The header owns the field and the **Save** and **Cancel** buttons, so they look
+the same in every list. The text field is required, autofocused, has
+autocomplete off and a visually hidden label; `input_arguments:` is merged over
+these defaults. **Cancel** is a link by default and needs `href:`, or
+`tag: :button` with a `data:` action. Its label and scheme are fixed. Callers
+describe the form with arguments:
+
+| Argument | Description |
+|---|---|
+| `url:`, `method:` | Form target. `url:` is required |
+| `model:`, `scope:` | Passed to the form. `model:` is optional |
+| `input_name:` | Name of the text field. Defaults to `:title` |
+| `label:` | Field label, rendered visually hidden. Required |
+| `placeholder:` | Field placeholder |
+| `hidden_fields:` | Hash of input name to value, rendered as hidden inputs. `nil` values are skipped |
+| `input_arguments:` | Merged over the text field defaults, for example `validation_message:` or a `data:` action |
+| `cancel_arguments:` | Merged over the **Cancel** button defaults. Carries behavior: `href:` and `data:`, or `tag: :button` with a `data:` action. `href:` is required unless `tag: :button` is passed. Label and scheme are fixed |
+
+Remaining arguments are forwarded to the form, for example `data:`.
+
+Model errors render below the field with the attribute name prefixed, as in
+other Primer forms. Pass `input_arguments: { validation_message: … }` when the
+message is already a full sentence.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :header_title_form, panels: %i[params source] %>
+
 ### Empty state
 
 When no items are present, the component renders a generic
@@ -155,7 +195,7 @@ system arguments.
 
 - `:static` (default) — renders the generic empty state described above, unless a custom one is declared via `with_empty_state`.
 - `:none` — suppresses the empty state entirely, including any declared `with_empty_state` slot. Use this for grouped lists where a generic blankslate per empty group would be noisy.
-- `:dynamic` — reserved for client-side lifecycle handling on sortable and filtered lists; see lifecycle controller.
+- `:dynamic` — wraps the list in the `border-box-list` controller and parks the empty state in a template, so that it is shown and removed on the client when sorting or filtering empties or fills the list.
 
 <%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_behavior_none, panels: %i[source] %>
 
