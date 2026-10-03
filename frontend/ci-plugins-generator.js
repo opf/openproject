@@ -92,7 +92,7 @@ plugins.forEach((pluginPath, name) => {
   const linkPath = path.join(targetDir, name);
 
   console.log(`Linking frontend of OpenProject plugin ${name} (${linkPath} -> ${linkTarget}).`);
-  fs.symlinkSync(linkTarget, linkPath);
+  fs.symlinkSync(linkTarget, linkPath, 'junction');
 });
 
 const allFrontendPlugins = Array.from(plugins).filter(([, pluginPath]) => {
