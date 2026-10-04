@@ -350,7 +350,7 @@ export function createSortableRoot(options:SortableRootOptions):SortableRoot {
     const trySettle = ():void => {
       if (completed && (finalized || sameList)) {
         clearDiagnostic();
-        setBusy(false);
+        if (!destroyed) setBusy(false);
       }
     };
 
