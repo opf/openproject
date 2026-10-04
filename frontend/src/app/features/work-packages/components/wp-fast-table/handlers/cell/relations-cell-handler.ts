@@ -62,7 +62,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     evt.preventDefault();
 
     // Locate the relation td
-    const td = (evt.target as HTMLElement).closest<HTMLTableColElement>(`.${relationCellTdClassName}`);
+    const td = (evt.target as HTMLElement).closest<HTMLTableCellElement>(`.${relationCellTdClassName}`);
     const columnId = td?.dataset.columnId ?? '';
 
     // Locate the row
