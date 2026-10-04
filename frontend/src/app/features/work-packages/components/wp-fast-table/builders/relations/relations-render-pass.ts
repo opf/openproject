@@ -43,18 +43,13 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { PrimaryRenderPass, type RenderedRowType, RowRenderInfo } from '../primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { relationOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
-
-export interface RelationRenderInfo extends RowRenderInfo {
-  data:{
-    label:string;
-    columnId:string;
-    relationType:RelationColumnType;
-  };
-}
+import {
+  relationOccurrenceKey,
+  type RenderedOccurrence,
+} from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 export class RelationsRenderPass {
   @LazyInject() wpRelations:WorkPackageRelationsService;
@@ -69,7 +64,7 @@ export class RelationsRenderPass {
 
   public relationRowBuilder:RelationRowBuilder;
 
-  renderType = 'relations';
+  renderType:RenderedRowType = 'relations';
 
   constructor(
     readonly injector:Injector,
@@ -130,12 +125,9 @@ export class RelationsRenderPass {
     to:WorkPackageResource,
     type:RelationColumnType,
   ) {
+    const relation = { label, columnId: column.id, relationType: type };
     relationRow.classList.add(...row.additionalClasses);
-    this.relationRowBuilder.appendRelationLabel(
-      relationRow,
-      label,
-      column.id,
-    );
+    this.relationRowBuilder.appendRelationLabel(relationRow, relation.label, relation.columnId);
 
     // Insert next to the work package row
     // If no relations exist until here, directly under the row
@@ -146,33 +138,27 @@ export class RelationsRenderPass {
       `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroupClass(from.id!)}`,
       relationOccurrenceKey(type, from.id!, to.id!),
       {
+        element: relationRow,
         classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
         additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
         workPackage: to,
         belongsTo: from,
         renderType: this.renderType,
         hidden: row.hidden,
-        data: {
-          label,
-          columnId: column.id,
-          relationType: type,
-        },
-      } as RelationRenderInfo,
-      { label, columnId: column.id, relationType: type },
+      },
+      relation,
     );
   }
 
   public refreshRelationRow(
-    renderedRow:RelationRenderInfo,
+    occurrence:RenderedOccurrence,
     workPackage:WorkPackageResource,
     oldRow:HTMLTableRowElement,
-  ) {
+  ):HTMLTableRowElement {
     const newRow = this.relationRowBuilder.refreshRow(workPackage, oldRow);
-    this.relationRowBuilder.appendRelationLabel(
-      newRow,
-      renderedRow.data.label,
-      renderedRow.data.columnId,
-    );
+    if (occurrence.relation) {
+      this.relationRowBuilder.appendRelationLabel(newRow, occurrence.relation.label, occurrence.relation.columnId);
+    }
 
     return newRow;
   }

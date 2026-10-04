@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { RowRenderInfo } from '../primary-render-pass';
+import { type RenderedRowType, RowRenderInfo } from '../primary-render-pass';
 import {
   RelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/relations-render-pass';
@@ -34,7 +34,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ChildRelationsRenderPass extends RelationsRenderPass {
-  renderType = 'child_relations';
+  renderType:RenderedRowType = 'child_relations';
 
   label = this.I18n.t('js.relation_labels.child');
 

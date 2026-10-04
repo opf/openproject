@@ -28,6 +28,7 @@
 
 import { within } from '@testing-library/dom';
 import { buildTable, TableHarness } from './testing/table-harness';
+import { buildWorkPackage } from './testing/work-package-fixture';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
@@ -87,5 +88,39 @@ describe('WorkPackageTable', () => {
 
     expect(harness.row('1')).not.toHaveClass('-pressed');
     expect(harness.row('2')).toHaveClass('-pressed');
+  });
+  describe('refreshing a work package shown in several rows', () => {
+    const occurrence = (key:string) => harness.tbody.querySelector<HTMLTableRowElement>(`[data-occurrence-key="${key}"]`)!;
+    const subjectOf = (key:string) => occurrence(key).querySelector('td.subject')!.textContent.trim();
+    const labelOf = (key:string) => occurrence(key).querySelector('.relation-row--type-label')?.textContent;
+    const relationKeys = ['relation:ofType:1:2', 'relation:children:1:2'];
+
+    beforeEach(async () => {
+      harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2' }],
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }, { id: 'children', children: true }],
+        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      });
+      harness.expand('1', 'relationsOfTypeFollows');
+      await harness.render();
+    });
+
+    it('refreshes every row, including relation rows sharing one row identifier', () => {
+      const labels = relationKeys.map(labelOf);
+      expect(occurrence(relationKeys[0]).dataset.classIdentifier).toBe(occurrence(relationKeys[1]).dataset.classIdentifier);
+
+      harness.table.refreshRows(buildWorkPackage({ id: '2', subject: 'Renamed' }));
+
+      expect(['wp:2', ...relationKeys].map(subjectOf)).toEqual(['Renamed', 'Renamed', 'Renamed']);
+      expect(relationKeys.map(labelOf)).toEqual(labels);
+      expect(labels.every(Boolean)).toBe(true);
+    });
+
+    it('keeps the refreshed row registered with its occurrence', () => {
+      harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+      expect(subjectOf('wp:1')).toBe('Renamed');
+      expect(harness.table.ledger.byElement(harness.row('1'))?.key).toBe('wp:1');
+    });
   });
 });

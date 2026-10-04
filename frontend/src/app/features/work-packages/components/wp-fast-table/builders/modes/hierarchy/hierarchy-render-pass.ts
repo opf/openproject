@@ -31,7 +31,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
-import { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
+import type { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
 import {
   ancestorClassIdentifier,
   hierarchyGroupClass,
@@ -112,7 +112,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       } else {
         // Render a work package root with no parents
         const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
-        row.element = tr;
         this.markRendered(tr, workPackage, hidden);
       }
 
@@ -190,21 +189,15 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // If the work package has deferred children to render,
     // run them through the callback
     deferredChildren.forEach((child:WorkPackageResource) => {
-      this.insertUnderParent(this.getOrBuildRow(child), child.parent || workPackage);
+      this.insertUnderParent(this.indexedOrGiven(child), child.parent ?? workPackage);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
     });
   }
 
-  private getOrBuildRow(workPackage:WorkPackageResource) {
-    let row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[workPackage.id!];
-
-    if (!row) {
-      row = { object: workPackage } as WorkPackageTableRow;
-    }
-
-    return row;
+  private indexedOrGiven(workPackage:WorkPackageResource):WorkPackageResource {
+    return this.workPackageTable.originalRowIndex[workPackage.id!]?.object ?? workPackage;
   }
 
   private buildWithHierarchy(row:WorkPackageTableRow) {
@@ -245,18 +238,17 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     // Insert this row to parent
     const parent = ancestors.at(-1);
-    this.insertUnderParent(row, parent!);
+    this.insertUnderParent(row.object, parent!);
   }
 
   /**
    * Insert the given node as a child of the parent
-   * @param row
+   * @param workPackage
    * @param parent
    */
-  private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResource) {
-    const [tr, hidden] = this.rowBuilder.buildEmpty(row.object);
-    row.element = tr;
-    this.insertAtExistingHierarchy(row.object, tr, parent, hidden, false);
+  private insertUnderParent(workPackage:WorkPackageResource, parent:WorkPackageResource) {
+    const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
+    this.insertAtExistingHierarchy(workPackage, tr, parent, hidden, false);
   }
 
   /**

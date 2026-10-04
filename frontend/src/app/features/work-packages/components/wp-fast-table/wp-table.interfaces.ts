@@ -26,18 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/**
- * Interface of a single row instance handled by the table.
- * May contain references to the current inserted row (if present)
- * or the group it belonged to when initially rendered.
- */
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
+import type { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export interface WorkPackageTableRow {
   object:WorkPackageResource;
   workPackageId:string;
   position:number;
-  element?:HTMLElement;
-  group:GroupObject|null;
 }

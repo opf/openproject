@@ -37,7 +37,7 @@ import { States } from 'core-app/core/states/states.service';
 import { timeOutput } from 'core-app/shared/helpers/debug_output';
 import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { SingleRowBuilder } from './rows/single-row-builder';
-import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
+import { RelationsRenderPass } from './relations/relations-render-pass';
 import { WorkPackageTable } from '../wp-fast-table';
 import {
   ChildRelationsRenderPass,
@@ -48,6 +48,7 @@ import {
   type DraftOccurrence,
   type OccurrenceKey,
   type RenderDraft,
+  type RenderedOccurrence,
   wpOccurrenceKey,
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
@@ -73,9 +74,6 @@ export interface RowRenderInfo {
   renderType:RenderedRowType;
   // Marks if the row is currently hidden to the user
   hidden:boolean;
-  // Additional data by the render passes
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  data?:any;
 }
 
 export abstract class PrimaryRenderPass {
@@ -157,28 +155,33 @@ public readonly injector:Injector,
     return this;
   }
 
-  /**
-   * Refresh a single row using the render pass it was originally created from.
-   * @param row
-   */
-  public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
-    const oldRow = body.querySelector<HTMLTableRowElement>(`.${row.classIdentifier}`)!;
-    let replacement:HTMLElement|null = null;
-
-    switch (row.renderType) {
-      case 'relations':
-        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
-        break;
-      case 'child_relations':
-        replacement = this.childRelations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
-        break;
-      default:
-        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
-        break;
+  public refresh(occurrence:RenderedOccurrence, workPackage:WorkPackageResource):HTMLTableRowElement|null {
+    const oldRow = occurrence.element;
+    if (!oldRow) {
+      return null;
     }
 
-    if (replacement !== null && oldRow) {
+    const replacement = this.refreshedRow(occurrence, workPackage, oldRow);
+    if (replacement !== oldRow) {
       oldRow.replaceWith(replacement);
+      replacement.dataset.occurrenceKey = occurrence.key;
+    }
+
+    return replacement;
+  }
+
+  private refreshedRow(
+    occurrence:RenderedOccurrence,
+    workPackage:WorkPackageResource,
+    oldRow:HTMLTableRowElement,
+  ):HTMLTableRowElement {
+    switch (occurrence.renderType) {
+      case 'relations':
+        return this.relations.refreshRelationRow(occurrence, workPackage, oldRow);
+      case 'child_relations':
+        return this.childRelations.refreshRelationRow(occurrence, workPackage, oldRow);
+      default:
+        return this.rowBuilder.refreshRow(workPackage, oldRow);
     }
   }
 

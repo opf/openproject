@@ -46,7 +46,7 @@ import { RowsBuilder } from './builders/modes/rows-builder';
 import type { PrimaryRenderPass, RenderPassOptions } from './builders/primary-render-pass';
 import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
-import { WorkPackageTableRow } from './wp-table.interfaces';
+import type { WorkPackageTableRow } from './wp-table.interfaces';
 
 interface PendingRender {
   readonly pass:PrimaryRenderPass;
@@ -143,7 +143,7 @@ export class WorkPackageTable {
       // Ensure we get the latest version
       wp = this.apiV3Service.work_packages.cache.current(wpId, wp)!;
 
-      this.originalRowIndex[wpId] = { object: wp, workPackageId: wpId, position: i } as WorkPackageTableRow;
+      this.originalRowIndex[wpId] = { object: wp, workPackageId: wpId, position: i };
       return wpId;
     });
   }
@@ -207,11 +207,10 @@ export class WorkPackageTable {
       return;
     }
 
-    pass.renderedOrder.forEach((row) => {
-      if (row.workPackage?.id === workPackage.id!) {
-        debugLog(`Refreshing rendered row ${row.classIdentifier}`);
-        row.workPackage = workPackage;
-        pass.refresh(row, workPackage, this.tbody);
+    this.ledger.byWorkPackageId(workPackage.id!).forEach((occurrence) => {
+      const replacement = pass.refresh(occurrence, workPackage);
+      if (replacement) {
+        this.ledger.replaceElement(occurrence.key, replacement);
       }
     });
   }

@@ -64,7 +64,7 @@ public readonly injector:Injector,
       if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
       this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
-        if (!row.workPackage || row.renderType === 'relations') {
+        if (!row.workPackage || row.renderType !== 'primary') {
           return;
         }
 
