@@ -33,6 +33,27 @@ require "spec_helper"
 RSpec.describe "Menu item traversal" do
   shared_let(:admin) { create(:admin) }
 
+  it "opens the types list from the administration menu and labels its settings" do
+    login_as(admin)
+    visit admin_index_path
+
+    within("#menu-sidebar") do
+      find(".admin-work-packages-menu-item").click
+    end
+
+    expect(page).to have_current_path(types_path)
+    expect(page).to have_css(".PageHeader-title", text: I18n.t(:label_type_plural))
+
+    within("#menu-sidebar") do
+      expect(all(".types-menu-item, .work-packages-general-menu-item").map(&:text))
+        .to eq([I18n.t(:label_type_plural), I18n.t(:label_type_settings)])
+      expect(page).to have_link(I18n.t(:label_type_settings), href: admin_settings_work_packages_general_path)
+    end
+
+    visit admin_settings_work_packages_general_path
+    expect(page).to have_css(".PageHeader-title", text: I18n.t(:label_type_settings))
+  end
+
   describe "EnterpriseToken management" do
     before do
       login_as(admin)

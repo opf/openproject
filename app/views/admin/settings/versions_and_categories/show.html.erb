@@ -29,14 +29,14 @@
   ++#
 %>
 
-<% html_title t(:label_administration), t(:label_work_package_plural), t(:label_versions_and_categories) -%>
+<% html_title t(:label_administration), t(:label_type_plural), t(:label_versions_and_categories) -%>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t(:label_versions_and_categories) }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_versions_and_categories_path, text: t(:label_work_package_plural), skip_for_mobile: true },
+       { href: types_path, text: t(:label_type_plural), skip_for_mobile: true },
        t(:label_versions_and_categories)]
     )
   end

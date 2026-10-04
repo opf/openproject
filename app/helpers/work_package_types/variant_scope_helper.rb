@@ -60,7 +60,6 @@ module WorkPackageTypes
 
     def administration_breadcrumb_roots
       [{ href: admin_index_path, text: I18n.t("label_administration") },
-       { href: admin_settings_work_packages_general_path, text: I18n.t(:label_work_package_plural) },
        { href: types_path, text: I18n.t(:label_type_plural) }]
     end
   end

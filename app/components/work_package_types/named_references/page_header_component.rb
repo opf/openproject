@@ -47,7 +47,7 @@ module WorkPackageTypes
 
       def breadcrumbs
         [{ href: helpers.admin_index_path, text: t("label_administration") },
-         { href: helpers.admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+         { href: helpers.types_path, text: t(:label_type_plural) },
          { href: helpers.polymorphic_path(model_class), text: model_class.model_name.human(count: 2) },
          record.name]
       end

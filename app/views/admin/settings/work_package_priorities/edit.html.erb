@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_breadcrumbs(
       [
         { href: admin_index_path, text: t("label_administration") },
-        { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+        { href: types_path, text: t(:label_type_plural) },
         { href: url_for(action: :index), text: @enumeration.class.model_name.human(count: :other) },
         @enumeration.name
       ]

@@ -402,21 +402,21 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_general", action: :show },
+            { controller: "/work_package_types/types", action: :index },
             if: ->(_) { User.current.admin? },
-            caption: :label_work_package_plural,
+            caption: :label_type_plural,
             icon: "op-view-list"
-
-  menu.push :work_packages_general,
-            { controller: "/admin/settings/work_packages_general", action: :show },
-            if: ->(_) { User.current.admin? },
-            caption: :label_general,
-            parent: :admin_work_packages
 
   menu.push :types,
             { controller: "/work_package_types/types" },
             if: ->(_) { User.current.admin? },
             caption: :label_type_plural,
+            parent: :admin_work_packages
+
+  menu.push :work_packages_general,
+            { controller: "/admin/settings/work_packages_general", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_type_settings,
             parent: :admin_work_packages
 
   menu.push :form_configurations,
