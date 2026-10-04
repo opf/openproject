@@ -30,6 +30,12 @@
 en:
   js:
     whiteboards:
+      add_work_package:
+        button: "Add work package"
+        invalid: "Enter #ID or a link to a work package of this instance."
+        label: "Work package"
+        placeholder: "#123 or work package link"
+        submit: "Add"
       connection:
         connecting: "Connecting…"
         offline: "Offline – changes are not saved"

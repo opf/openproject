@@ -47,6 +47,10 @@ describe('WorkPackageCard', () => {
     return container.querySelector<HTMLAnchorElement>('[data-test-selector="whiteboard-work-package-card"]')!;
   }
 
+  beforeAll(() => {
+    (globalThis as { IS_REACT_ACT_ENVIRONMENT?:boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+  });
+
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);

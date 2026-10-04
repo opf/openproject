@@ -26,8 +26,10 @@
   gap: 0.5rem
   pointer-events: all
 
-.op-whiteboard-chrome--leave
+.op-whiteboard-chrome--button
   display: inline-flex
+  border: 0
+  cursor: pointer
   align-items: center
   justify-content: center
   width: 2.25rem
@@ -117,3 +119,32 @@
 .op-whiteboard-wp-card_error
   border-style: dashed
   background: var(--bgColor-muted)
+
+.op-whiteboard-add-wp
+  position: relative
+
+.op-whiteboard-add-wp--form
+  position: absolute
+  top: calc(100% + 0.5rem)
+  right: 0
+  z-index: 10
+  display: flex
+  flex-wrap: wrap
+  gap: 0.5rem
+  width: min(20rem, calc(100vw - 2rem))
+  padding: 0.5rem
+  border-radius: var(--borderRadius-medium)
+  background: var(--island-bg-color, var(--bgColor-default))
+  box-shadow: var(--shadow-island, var(--shadow-floating-small))
+
+  input
+    flex: 1
+    min-width: 0
+    // Below 16px, iOS zooms into the page when the input gets focus.
+    font-size: 16px
+
+.op-whiteboard-add-wp--error
+  flex-basis: 100%
+  margin: 0
+  color: var(--fgColor-danger)
+  font-size: 0.75rem

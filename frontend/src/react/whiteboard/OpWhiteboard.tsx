@@ -45,6 +45,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCollaboration } from '../hooks/useCollaboration';
 import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
 import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
+import { AddWorkPackageCard } from './AddWorkPackageCard';
 import { WorkPackageCard } from './WorkPackageCard';
 import { newWorkPackageCardElement, workPackageIdFromCardLink, workPackageIdFromText } from './work-package-cards';
 
@@ -78,7 +79,7 @@ function useOpTheme():Theme {
 function LeaveButton({ leaveUrl }:{ leaveUrl:string }) {
   return (
     <a
-      className="op-whiteboard-chrome--leave"
+      className="op-whiteboard-chrome--button"
       href={leaveUrl}
       aria-label={t('leave')}
       title={t('leave')}
@@ -208,24 +209,36 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
     [],
   );
 
-  const onPaste = useCallback((data:ClipboardData) => {
-    const id = data.text ? workPackageIdFromText(data.text) : null;
-    if (!api || readOnly || !id) return true;
+  const insertWorkPackageCard = useCallback((id:string, position:{ x:number; y:number }) => {
+    if (!api) return;
 
-    const card = newWorkPackageCardElement(id, lastPointerRef.current ?? viewportCenter(api));
+    const card = newWorkPackageCardElement(id, position);
     api.updateScene({
       elements: [...api.getSceneElementsIncludingDeleted(), card],
       appState: { selectedElementIds: { [card.id]: true } },
       captureUpdate: CaptureUpdateAction.IMMEDIATELY,
     });
-    return false;
-  }, [api, readOnly]);
+  }, [api]);
 
+  const onPaste = useCallback((data:ClipboardData) => {
+    const id = data.text ? workPackageIdFromText(data.text) : null;
+    if (!api || readOnly || !id) return true;
+
+    insertWorkPackageCard(id, lastPointerRef.current ?? viewportCenter(api));
+    return false;
+  }, [api, readOnly, insertWorkPackageCard]);
+
+  const addWorkPackageCard = useCallback((id:string) => {
+    if (api) insertWorkPackageCard(id, viewportCenter(api));
+  }, [api, insertWorkPackageCard]);
+
+  const editable = !readOnly && !offline;
   const renderTopRightUI = useCallback(() => (
     <div className="op-whiteboard-chrome">
+      {editable && <AddWorkPackageCard onAdd={addWorkPackageCard} />}
       <LeaveButton leaveUrl={leaveUrl} />
     </div>
-  ), [leaveUrl]);
+  ), [editable, addWorkPackageCard, leaveUrl]);
 
   return (
     <Excalidraw

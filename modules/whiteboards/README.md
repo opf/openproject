@@ -21,7 +21,8 @@ through the same Hocuspocus collaboration server and Yjs/CRDT stack as collabora
   `ExcalidrawYjsBinding`: one `Y.Map` entry per element, `isDeleted` tombstones, version-gated writes, remote changes
   merged with Excalidraw's `reconcileElements` and kept out of the local undo history. Presence (avatars, cursors,
   selections, follow mode) runs over Hocuspocus awareness.
-- Pasting `#123`, `#PROJ-42` or a link to a work package of this instance adds a work package card. The card is an
+- Pasting `#123`, `#PROJ-42` or a link to a work package of this instance, or entering it via the link button in the
+  top right corner (the only way on touch devices, where the canvas offers no paste), adds a work package card. The card is an
   Excalidraw embeddable that stores only the `/wp/:id` link; its content is fetched from API v3 for each viewer, so
   people without access see a placeholder instead of the work package's details.
 
