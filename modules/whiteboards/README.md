@@ -28,6 +28,7 @@ through the same Hocuspocus collaboration server and Yjs/CRDT stack as collabora
 
 ## Known prototype limitations
 
+- Excalidraw libraries are hidden: they are neither persisted nor importable from libraries.excalidraw.com yet.
 - Images are disabled; they should become attachments referenced from the `files` map rather than data URLs in the Y.Doc.
 - No journals/activity, no global search registration, no tombstone garbage collection yet.
 - Concurrent edits to the *same* element resolve last-writer-wins for the whole element.

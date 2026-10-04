@@ -60,6 +60,8 @@ export interface OpWhiteboardProps {
 
 const t = (key:string) => window.I18n.t(`js.whiteboards.${key}`);
 
+const LIBRARY_SIDEBAR_TAB = 'library';
+
 function currentOpTheme():Theme {
   return document.body.dataset.colorMode === 'dark' ? 'dark' : 'light';
 }
@@ -199,7 +201,12 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
   const onChange = useCallback((elements:readonly OrderedExcalidrawElement[], appState:AppState) => {
     bindingRef.current?.onSceneChange(elements);
     awarenessRef.current?.updateSelection(appState.selectedElementIds);
-  }, []);
+    // Libraries are neither persisted nor importable yet, and Excalidraw offers no option to turn
+    // them off. Its triggers are hidden in CSS; this catches the remaining ways to open the tab.
+    if (appState.openSidebar?.tab === LIBRARY_SIDEBAR_TAB) {
+      api?.updateScene({ appState: { openSidebar: null } });
+    }
+  }, [api]);
 
   const onPointerUpdate = useCallback(
     ({ pointer, button }:{ pointer:NonNullable<Collaborator['pointer']>; button:Collaborator['button'] }) => {
