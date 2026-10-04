@@ -46,7 +46,6 @@ import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/compon
 class TestGroupedRenderPass extends GroupedRenderPass {
   public renderRows():this {
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
     this.draft = this.workPackageTable.ledger.beginRender();
     this.doRender();
 
