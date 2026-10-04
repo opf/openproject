@@ -52,6 +52,10 @@ import {
 
 export type RenderedRowType = 'primary'|'relations'|'child_relations';
 
+export interface RenderPassOptions {
+  timeline:boolean;
+}
+
 export interface RowRenderInfo {
   // The rendered row
   element:HTMLTableRowElement;
@@ -85,6 +89,8 @@ export abstract class PrimaryRenderPass {
 
   public draft:RenderDraft;
 
+  private withTimeline = false;
+
   /** Resulting table body */
   public tableBody:DocumentFragment;
 
@@ -115,7 +121,8 @@ public readonly injector:Injector,
    * for timeline and relations.
    * @return {PrimaryRenderPass}
    */
-  public render():this {
+  public render({ timeline }:RenderPassOptions):this {
+    this.withTimeline = timeline;
     timeOutput('Primary render pass', () => {
       // Prepare and reset the render pass
       this.prepare();
@@ -173,14 +180,6 @@ public readonly injector:Injector,
     }
   }
 
-  public get result():RenderedWorkPackage[] {
-    return this.renderedOrder.map((row) => ({
-      classIdentifier: row.classIdentifier,
-      workPackageId: row.workPackage ? row.workPackage.id : null,
-      hidden: row.hidden,
-    }));
-  }
-
   /**
    * Splice a row into a specific location of the current render pass through the given selector.
    *
@@ -222,7 +221,7 @@ public readonly injector:Injector,
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
-    this.draft = this.workPackageTable.ledger.beginRender();
+    this.draft = this.workPackageTable.ledger.beginRender(this.withTimeline);
   }
 
   /**
