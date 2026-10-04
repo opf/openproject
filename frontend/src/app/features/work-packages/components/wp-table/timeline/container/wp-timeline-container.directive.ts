@@ -82,7 +82,6 @@ import {
   zoomLevelOrder,
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
-import Mousetrap from 'mousetrap';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TableUiWork } from 'core-app/features/work-packages/components/wp-fast-table/table-ui-work';
@@ -152,6 +151,9 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     scrollContainer.addEventListener('scroll', onScroll);
     const cleanup = () => {
       uiWork.cancel();
+      this.disposeCells();
+      this.disposeSelectionMode();
+      runCleanup(() => this.resetCursor());
       runCleanup(() => window.removeEventListener('wp-resize.timeline', onResize));
       runCleanup(() => scrollContainer.removeEventListener('scroll', onScroll));
     };
@@ -173,6 +175,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   override ngOnDestroy():void {
     this.releaseAttachment();
+    this.disposeCells();
+    this.disposeSelectionMode();
     this.tables.complete();
     super.ngOnDestroy();
   }
@@ -191,6 +195,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   public timelineBody:HTMLElement;
 
+  private releaseSelectionEscape:() => void = () => undefined;
+
   private selectionParams:{ notification:IToast|null } = {
     notification: null,
   };
@@ -199,7 +205,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
   private refreshRequest = input<void>();
 
-  private collapsedGroupsCellsMap:IGroupCellsMap = {};
+  private collapsedGroupsCellsMap:Record<string, WorkPackageTimelineCell[]> = {};
 
   private orderedRows:RenderedWorkPackage[] = [];
 
@@ -406,49 +412,67 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
   }
 
   forceCursor(cursor:string) {
-    document.querySelectorAll<HTMLElement>(`.${timelineElementCssClass}`).forEach((elem) => elem.style.cursor = cursor);
-    document.querySelectorAll<HTMLElement>('.wp-timeline-cell').forEach((elem) => elem.style.cursor = cursor);
-    document.querySelectorAll<HTMLElement>('.hascontextmenu').forEach((elem) => elem.style.cursor = cursor);
-    document.querySelectorAll<HTMLElement>('.leftHandle').forEach((elem) => elem.style.cursor = cursor);
-    document.querySelectorAll<HTMLElement>('.rightHandle').forEach((elem) => elem.style.cursor = cursor);
+    const root = this.workPackageTable?.tableAndTimelineContainer ?? this.element;
+    root.querySelectorAll<HTMLElement>(
+      `.${timelineElementCssClass}, .wp-timeline-cell, .hascontextmenu, .leftHandle, .rightHandle`,
+    ).forEach((element) => { element.style.cursor = cursor; });
   }
 
   resetCursor() {
-    document.querySelectorAll<HTMLElement>(`.${timelineElementCssClass}`).forEach((elem) => elem.style.cursor = '');
-    document.querySelectorAll<HTMLElement>('.wp-timeline-cell').forEach((elem) => elem.style.cursor = '');
-    document.querySelectorAll<HTMLElement>('.hascontextmenu').forEach((elem) => elem.style.cursor = '');
-    document.querySelectorAll<HTMLElement>('.leftHandle').forEach((elem) => elem.style.cursor = '');
-    document.querySelectorAll<HTMLElement>('.rightHandle').forEach((elem) => elem.style.cursor = '');
+    this.forceCursor('');
   }
 
-  private resetSelectionMode() {
+  private disposeCells():void {
+    runCleanup(() => this.cellsRenderer.destroy());
+    const groups = Object.values(this.collapsedGroupsCellsMap);
+    this.collapsedGroupsCellsMap = {};
+    groups.flat().forEach((cell) => runCleanup(() => cell.clear()));
+  }
+
+  private disposeSelectionMode():void {
     this._viewParameters.activeSelectionMode = null;
     this._viewParameters.selectionModeStart = null;
 
     if (this.selectionParams.notification) {
-      this.toastService.remove(this.selectionParams.notification);
+      const notification = this.selectionParams.notification;
+      this.selectionParams.notification = null;
+      runCleanup(() => this.toastService.remove(notification));
     }
 
-    Mousetrap.unbind('esc');
+    runCleanup(this.releaseSelectionEscape);
+    this.releaseSelectionEscape = () => undefined;
 
-    this.element.classList.remove('active-selection-mode');
-    document.querySelector(`.${timelineMarkerSelectionStartClass}`)?.classList.remove(timelineMarkerSelectionStartClass);
-    this.refreshView();
+    runCleanup(() => this.element?.classList.remove('active-selection-mode'));
+    runCleanup(() => this.element?.querySelectorAll(`.${timelineMarkerSelectionStartClass}`)
+      .forEach((element) => element.classList.remove(timelineMarkerSelectionStartClass)));
   }
 
-  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => any) {
+  private resetSelectionMode() {
+    this.disposeSelectionMode();
+    if (!this.destroyed) this.refreshView();
+  }
+
+  private activateSelectionMode(start:string, callback:(wp:WorkPackageResource) => unknown) {
+    const table = this.workPackageTable;
+    if (!this.attachedTo(table)) return;
+    this.disposeSelectionMode();
     start = start.toString(); // old system bug: ID can be a 'number'
 
     this._viewParameters.activeSelectionMode = (wp:WorkPackageResource) => {
+      if (!this.attachedTo(table)) return;
       callback(wp);
       this.resetSelectionMode();
     };
 
     this._viewParameters.selectionModeStart = start;
-    Mousetrap.bind('esc', (event) => {
-      event.preventDefault();
-      this.resetSelectionMode();
-    });
+    const escape = (event:KeyboardEvent) => {
+      if (event.key === 'Escape' && this.attachedTo(table) && this._viewParameters.activeSelectionMode) {
+        event.preventDefault();
+        this.resetSelectionMode();
+      }
+    };
+    document.addEventListener('keydown', escape, true);
+    this.releaseSelectionEscape = () => document.removeEventListener('keydown', escape, true);
     this.selectionParams.notification = this.toastService.addNotice(this.text.selectionMode);
 
     this.element.classList.add('active-selection-mode');

@@ -25,9 +25,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { Subject } from 'rxjs';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { clearSelectionOnEscape } from 'core-common/selection-escape';
+import { buildWorkPackage } from '../../../wp-fast-table/testing/work-package-fixture';
+import { WorkPackageTimelineCellsRenderer } from '../cells/wp-timeline-cells-renderer';
+import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
 import { nextTask } from 'core-common/testing/timing';
 import { configureTimelineTesting, makeTable, mountTimeline } from '../testing/timeline-harness';
 
@@ -144,4 +149,70 @@ describe('Timeline attachment ownership', () => {
     fireEvent.scroll(second.side);
     expect(second.transport.dayRequests).toHaveLength(secondDays + 1);
   });
+  it.each(['table', 'directive'] as const)('clears normal and collapsed cells on %s disposal without refreshing', (owner) => {
+    const m = mount();
+    const normalClear = vi.fn();
+    const collapsedClear = vi.fn();
+    const normal = { clear: normalClear } as unknown as WorkPackageTimelineCell;
+    const collapsed = { clear: collapsedClear } as unknown as WorkPackageTimelineCell;
+    const owned = m.controller as unknown as {
+      cellsRenderer:WorkPackageTimelineCellsRenderer;
+      collapsedGroupsCellsMap:Record<string, WorkPackageTimelineCell[]>;
+    };
+    owned.cellsRenderer.cells.test = normal;
+    owned.collapsedGroupsCellsMap.test = [collapsed];
+    const refresh = vi.spyOn(m.controller, 'refreshView');
+    if (owner === 'table') m.controller.workPackageTable.destroy();
+    else m.fixture.destroy();
+    expect(normalClear).toHaveBeenCalledOnce();
+    expect(collapsedClear).toHaveBeenCalledOnce();
+    expect(owned.cellsRenderer.cells).toEqual({});
+    expect(owned.collapsedGroupsCellsMap).toEqual({});
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
+  function activateSelection(m:ReturnType<typeof mountTimeline>) {
+    Object.assign(m.injector.get(ToastService), { addNotice: vi.fn(() => ({})), remove: vi.fn() });
+    const refresh = vi.spyOn(m.controller, 'refreshView').mockImplementation(() => undefined);
+    m.controller.startAddRelationFollower(buildWorkPackage({ id: '1' }));
+    return refresh;
+  }
+
+  it('consumes selection-mode Escape before document row selection and releases the next Escape', () => {
+    const m = mount();
+    const clear = vi.fn();
+    const listener = (event:KeyboardEvent) => clearSelectionOnEscape(event, () => true, clear);
+    document.addEventListener('keydown', listener);
+    try {
+      activateSelection(m);
+      fireEvent.keyDown(document.body, { key: 'Escape' });
+      expect(clear).not.toHaveBeenCalled();
+      expect(m.controller.viewParameters.activeSelectionMode).toBeNull();
+      fireEvent.keyDown(document.body, { key: 'Escape' });
+      expect(clear).toHaveBeenCalledOnce();
+    } finally { document.removeEventListener('keydown', listener); }
+  });
+
+  it('disposes only its selection mode and cursor without refreshing', () => {
+    const first = mount();
+    const second = mount();
+    const firstCursor = document.createElement('div');
+    const secondCursor = document.createElement('div');
+    firstCursor.className = secondCursor.className = 'wp-timeline-cell';
+    first.controller.timelineBody.appendChild(firstCursor);
+    second.controller.timelineBody.appendChild(secondCursor);
+    const refresh = activateSelection(first);
+    activateSelection(second);
+    first.controller.forceCursor('crosshair');
+    second.controller.forceCursor('pointer');
+    refresh.mockClear();
+    first.controller.workPackageTable.destroy();
+    expect(firstCursor.style.cursor).toBe('');
+    expect(secondCursor.style.cursor).toBe('pointer');
+    expect(refresh).not.toHaveBeenCalled();
+    fireEvent.keyDown(document.body, { key: 'Escape' });
+    expect(second.controller.viewParameters.activeSelectionMode).toBeNull();
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
 });
