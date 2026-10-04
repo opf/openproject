@@ -34,14 +34,33 @@ module Llm
   # Used by the environment seeder, which must not block on -- or fail because of
   # -- an LLM server that has not finished starting.
   class SyncModelsJob < ApplicationJob
-    # One connection whose sync raises must not leave the connections after it
-    # without a catalogue.
+    class SyncFailed < StandardError; end
+
+    # The usual reason for a failure here is the startup race with the LLM
+    # sidecar this job exists for, so a failed sync retries with backoff rather
+    # than leaving the provisioned connection without its catalogue.
+    retry_on SyncFailed, wait: :polynomially_longer, attempts: 10
+
     def perform
-      LlmConnection.find_each do |connection|
-        LlmConnections::SyncModelsService.new(connection).call
-      rescue StandardError => e
-        Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
-      end
+      failures = LlmConnection.find_each.filter_map { |connection| failure_for(connection) }
+
+      raise SyncFailed, failures.join("; ") if failures.any?
+    end
+
+    private
+
+    # Every connection is attempted before anything is raised. One server still
+    # starting, or one row carrying a format no adapter serves, must not leave
+    # the connections after it without a catalogue, and the retry this job relies
+    # on only needs to know that something failed.
+    def failure_for(connection)
+      result = LlmConnections::SyncModelsService.new(connection).call
+      return if result.success?
+
+      result.errors.to_s
+    rescue StandardError => e
+      Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
+      e.class.to_s
     end
   end
 end
