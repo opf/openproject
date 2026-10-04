@@ -120,34 +120,87 @@
   border-style: dashed
   background: var(--bgColor-muted)
 
-.op-whiteboard-add-wp
+.op-whiteboard-wp-picker
   position: relative
 
-.op-whiteboard-add-wp--form
+.op-whiteboard-wp-picker--trigger
+  font-size: 1.125rem
+  font-weight: var(--base-text-weight-semibold)
+
+.op-whiteboard-wp-picker--popover
   position: absolute
   top: calc(100% + 0.5rem)
   right: 0
   z-index: 10
   display: flex
-  flex-wrap: wrap
+  flex-direction: column
   gap: 0.5rem
-  width: min(20rem, calc(100vw - 2rem))
+  box-sizing: border-box
+  width: min(26rem, calc(100vw - 2rem))
+  max-height: min(28rem, calc(100dvh - 6rem))
   padding: 0.5rem
   border-radius: var(--borderRadius-medium)
   background: var(--island-bg-color, var(--bgColor-default))
   box-shadow: var(--shadow-island, var(--shadow-floating-small))
+  color: var(--fgColor-default)
 
   input
-    flex: 1
-    min-width: 0
+    width: 100%
+    box-sizing: border-box
     // Below 16px, iOS zooms into the page when the input gets focus.
     font-size: 16px
 
-.op-whiteboard-add-wp--error
-  flex-basis: 100%
+.op-whiteboard-wp-picker--popover_sheet
+  position: fixed
+  top: 0.5rem
+  right: 0.5rem
+  left: 0.5rem
+  width: auto
+
+.op-whiteboard-wp-picker--status
   margin: 0
-  color: var(--fgColor-danger)
+  padding: 0 0.25rem
+  color: var(--fgColor-muted)
+  font-size: 0.875rem
+
+.op-whiteboard-wp-picker--results
+  margin: 0
+  padding: 0
+  overflow-y: auto
+  list-style: none
+
+  &:empty
+    display: none
+
+.op-whiteboard-wp-picker--option
+  display: flex
+  flex-direction: column
+  gap: 0.125rem
+  padding: 0.375rem 0.5rem
+  border-radius: var(--borderRadius-medium)
+  cursor: pointer
+  font-size: 0.875rem
+
+  &[aria-selected="true"]
+    background: var(--bgColor-neutral-muted)
+
+.op-whiteboard-wp-picker--option-header
+  display: flex
+  gap: 0.5rem
   font-size: 0.75rem
+  white-space: nowrap
+
+.op-whiteboard-wp-picker--muted
+  color: var(--fgColor-muted)
+
+.op-whiteboard-wp-picker--project
+  overflow: hidden
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-picker--subject
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
 
 .op-whiteboard
   .default-sidebar-trigger,

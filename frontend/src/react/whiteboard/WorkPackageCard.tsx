@@ -28,59 +28,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { workPackageCardLink } from './work-package-cards';
+import {
+  formattedId,
+  loadWorkPackage,
+  resourceId,
+  type WorkPackageData,
+  workPackageReference,
+  type WorkPackageResource,
+} from './work-package-api';
 
-interface HalLink { href:string|null; title?:string }
-
-interface WorkPackageResource {
-  id:number;
-  displayId?:string;
-  subject:string;
-  _links:{
-    type?:HalLink;
-    status?:HalLink;
-    assignee?:HalLink;
-    project?:HalLink;
-  };
-}
-
-type CardData =
-  | { state:'loading' }
-  | { state:'loaded'; workPackage:WorkPackageResource }
-  | { state:'unavailable' }
-  | { state:'error' };
-
-const requests = new Map<string, Promise<CardData>>();
-
-async function requestWorkPackage(id:string):Promise<CardData> {
-  try {
-    const response = await fetch(`${window.appBasePath || ''}/api/v3/work_packages/${encodeURIComponent(id)}`, {
-      credentials: 'same-origin',
-      headers: { Accept: 'application/hal+json', 'X-Requested-With': 'XMLHttpRequest' },
-    });
-
-    if (response.status === 403 || response.status === 404) return { state: 'unavailable' };
-    if (!response.ok) return { state: 'error' };
-
-    return { state: 'loaded', workPackage: await response.json() as WorkPackageResource };
-  } catch {
-    return { state: 'error' };
-  }
-}
-
-function loadWorkPackage(id:string):Promise<CardData> {
-  let request = requests.get(id);
-  if (!request) {
-    request = requestWorkPackage(id);
-    requests.set(id, request);
-    void request.then((data) => {
-      if (data.state === 'error') requests.delete(id);
-    });
-  }
-  return request;
-}
-
-function useWorkPackage(id:string):CardData {
-  const [data, setData] = useState<CardData>({ state: 'loading' });
+function useWorkPackage(id:string):WorkPackageData {
+  const [data, setData] = useState<WorkPackageData>({ state: 'loading' });
 
   useEffect(() => {
     let current = true;
@@ -94,15 +52,7 @@ function useWorkPackage(id:string):CardData {
   return data;
 }
 
-function resourceId(link:HalLink|undefined):string|undefined {
-  return link?.href?.split('/').pop();
-}
-
 const t = (key:string) => window.I18n.t(`js.whiteboards.work_package_card.${key}`);
-
-function formattedId(id:string):string {
-  return /^\d+$/.test(id) ? `#${id}` : id;
-}
 
 function LoadedCard({ workPackage }:{ workPackage:WorkPackageResource }) {
   const { type, status, assignee, project } = workPackage._links;
@@ -112,7 +62,7 @@ function LoadedCard({ workPackage }:{ workPackage:WorkPackageResource }) {
     <>
       <div className="op-whiteboard-wp-card--header">
         <span className={`op-whiteboard-wp-card--type __hl_foreground __hl_uppercase __hl_type_${resourceId(type)}`}>{type?.title}</span>
-        <span className="op-whiteboard-wp-card--id">{formattedId(workPackage.displayId ?? String(workPackage.id))}</span>
+        <span className="op-whiteboard-wp-card--id">{formattedId(workPackageReference(workPackage))}</span>
         {status?.title && (
           <span className={`op-whiteboard-wp-card--status __hl_background __hl_status_${resourceId(status)}`}>{status.title}</span>
         )}

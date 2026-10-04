@@ -30,12 +30,6 @@
 en:
   js:
     whiteboards:
-      add_work_package:
-        button: "Add work package"
-        invalid: "Enter #ID or a link to a work package of this instance."
-        label: "Work package"
-        placeholder: "#123 or work package link"
-        submit: "Add"
       connection:
         connecting: "Connecting…"
         offline: "Offline – changes are not saved"
@@ -54,3 +48,11 @@ en:
         unavailable:
           header: "Work package not available"
           message: "It does not exist or you are not allowed to see it."
+      work_package_picker:
+        button: "Add work package"
+        error: "Search failed. Please try again."
+        hint: "Search by subject, #ID or link."
+        label: "Search work packages"
+        no_results: "No matching work packages."
+        placeholder: "Search work packages"
+        searching: "Searching…"

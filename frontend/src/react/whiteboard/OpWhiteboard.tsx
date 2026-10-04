@@ -45,8 +45,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useCollaboration } from '../hooks/useCollaboration';
 import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
 import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
-import { AddWorkPackageCard } from './AddWorkPackageCard';
 import { WorkPackageCard } from './WorkPackageCard';
+import { WorkPackagePicker } from './WorkPackagePicker';
 import { newWorkPackageCardElement, workPackageIdFromCardLink, workPackageIdFromText } from './work-package-cards';
 
 export interface OpWhiteboardProps {
@@ -168,6 +168,26 @@ function renderEmbeddable(element:NonDeleted<ExcalidrawEmbeddableElement>) {
   return id ? <WorkPackageCard id={id} /> : null;
 }
 
+function isTyping(target:EventTarget|null):boolean {
+  return target instanceof HTMLElement
+    && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+}
+
+function useWorkPackagePickerShortcut(enabled:boolean, openPicker:() => void) {
+  useEffect(() => {
+    if (!enabled) return undefined;
+
+    const onKeyDown = (event:KeyboardEvent) => {
+      if (event.key !== '#' || event.ctrlKey || event.metaKey || event.altKey || isTyping(event.target)) return;
+
+      event.preventDefault();
+      openPicker();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [enabled, openPicker]);
+}
+
 function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
   const doc = provider.document;
   const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
@@ -240,12 +260,23 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
   }, [api, insertWorkPackageCard]);
 
   const editable = !readOnly && !offline;
-  const renderTopRightUI = useCallback(() => (
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const openPicker = useCallback(() => setPickerOpen(true), []);
+  useWorkPackagePickerShortcut(editable, openPicker);
+
+  const renderTopRightUI = useCallback((isMobile:boolean) => (
     <div className="op-whiteboard-chrome">
-      {editable && <AddWorkPackageCard onAdd={addWorkPackageCard} />}
-      <LeaveButton leaveUrl={leaveUrl} />
+      {editable && (
+        <WorkPackagePicker
+          open={pickerOpen}
+          showTrigger={!isMobile}
+          onOpenChange={setPickerOpen}
+          onPick={addWorkPackageCard}
+        />
+      )}
+      {!isMobile && <LeaveButton leaveUrl={leaveUrl} />}
     </div>
-  ), [editable, addWorkPackageCard, leaveUrl]);
+  ), [editable, pickerOpen, addWorkPackageCard, leaveUrl]);
 
   return (
     <Excalidraw
@@ -268,7 +299,8 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
       }}
     >
       <MainMenu>
-        <MainMenu.ItemLink href={leaveUrl}>{t('leave')}</MainMenu.ItemLink>
+        <MainMenu.Item onSelect={() => window.location.assign(leaveUrl)}>{t('leave')}</MainMenu.Item>
+        {editable && <MainMenu.Item onSelect={openPicker}>{t('work_package_picker.button')}</MainMenu.Item>}
         <MainMenu.Separator />
         <MainMenu.DefaultItems.SaveAsImage />
         <MainMenu.DefaultItems.SearchMenu />
