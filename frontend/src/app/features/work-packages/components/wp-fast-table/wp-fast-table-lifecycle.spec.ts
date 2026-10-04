@@ -319,15 +319,19 @@ describe('WorkPackageTable lifecycle', () => {
   it('retires inline-create work and removes its drag registration at disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
     const member = vi.spyOn(harness.injector.get(DragAndDropService), 'remove');
-    const order = harness.injector.get(WorkPackageViewOrderService);
-    const added = deferred<string[]>();
-    vi.spyOn(order, 'add').mockReturnValue(added.promise);
-    const get = vi.spyOn(harness.injector.get(ApiV3Service).work_packages, 'id');
+    const api = harness.injector.get(ApiV3Service);
+    harness.querySpace.query.value!.id = '10';
+    const positions = deferred<QueryOrder>();
+    const update = vi.fn();
+    vi.spyOn(api.queries, 'id').mockReturnValue({ order: { get: () => positions.promise, update } } as unknown as ReturnType<ApiV3Service['queries']['id']>);
+    const get = vi.spyOn(api.work_packages, 'id');
     harness.injector.get(WorkPackageInlineCreateService).newInlineWorkPackageCreated.next('2');
     harness.table.destroy();
     harness.table.destroy();
-    added.resolve(['1', '2']);
-    await added.promise;
+    positions.resolve({});
+    await positions.promise;
+    await Promise.resolve();
+    expect(update).not.toHaveBeenCalled();
     expect(get).not.toHaveBeenCalled();
     expect(member).toHaveBeenCalledExactlyOnceWith(harness.tbody);
   });
@@ -335,7 +339,6 @@ describe('WorkPackageTable lifecycle', () => {
   it('does not redraw after inline-create resource loading finishes after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
     const loaded = new Subject<WorkPackageResource>();
-    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'add').mockResolvedValue(['1']);
     const get = vi.spyOn(harness.injector.get(ApiV3Service).work_packages, 'id')
       .mockReturnValue({ get: () => loaded } as unknown as ReturnType<ApiV3Service['work_packages']['id']>);
     const setup = vi.spyOn(harness.table, 'initialSetup');
@@ -352,10 +355,14 @@ describe('WorkPackageTable lifecycle', () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
     const error = new Error('inline order request');
     let reject!:(reason:unknown) => void;
-    const pending = new Promise<string[]>((_resolve, fail) => { reject = fail; });
-    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'add').mockReturnValue(pending);
+    const pending = new Promise<string>((_resolve, fail) => { reject = fail; });
+    const api = harness.injector.get(ApiV3Service);
+    harness.querySpace.query.value!.id = '10';
+    const update = vi.fn(() => pending);
+    vi.spyOn(api.queries, 'id').mockReturnValue({ order: { get: () => Promise.resolve({}), update } } as unknown as ReturnType<ApiV3Service['queries']['id']>);
     const report = vi.spyOn(harness.injector.get(WorkPackageNotificationService), 'handleRawError');
     harness.injector.get(WorkPackageInlineCreateService).newInlineWorkPackageCreated.next('2');
+    await waitFor(() => expect(update).toHaveBeenCalled());
     harness.table.destroy();
     reject(error);
     await waitFor(() => expect(report).toHaveBeenCalledExactlyOnceWith(error));

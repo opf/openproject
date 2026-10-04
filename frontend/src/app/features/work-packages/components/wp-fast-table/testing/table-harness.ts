@@ -50,6 +50,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
@@ -113,6 +114,10 @@ export interface TableHarnessOptions {
   productionDefaults?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
+  /** Uses the production action registry, including group and hierarchy actions. */
+  builtinDragActions?:boolean;
+  query?:QueryResource;
+  onDropComplete?:(success:boolean) => void;
   /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
   editing?:{ formWritable?:boolean };
   /** The application-wide resource cache; pass one instance to tables that share a page. */
@@ -176,7 +181,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
   const dom = options.dom ?? buildDom();
 
   const groupBy = options.groupBy ?? 'status';
-  const query = buildQuery(
+  const query = options.query ?? buildQuery(
     options.columns ?? ['id', 'subject'],
     options.groups ? groupBy : null,
     options.showHierarchies ?? false,
@@ -291,7 +296,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     drop(sourceId, targetId, edge) {
       return new Promise((resolve) => {
-        dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, resolve);
+        dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, (success) => {
+          options.onDropComplete?.(success);
+          resolve(success);
+        });
       });
     },
 
@@ -386,6 +394,7 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     WorkPackageViewHighlightingService,
     WorkPackageViewRelationColumnsService,
     WorkPackageViewOrderService,
+    { provide: WorkPackagesListService, useValue: {} },
     {
       provide: ApiV3Service,
       useFactory: (states:States) => ({
@@ -455,7 +464,9 @@ export function harnessProviders(dragService:FakeDragAndDropService, options:Tab
     {
       provide: TableDragActionsRegistryService,
       useFactory: (querySpace:IsolatedQuerySpace, injector:Injector) => ({
-        get: () => Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
+        get: () => options.builtinDragActions
+          ? new TableDragActionsRegistryService().get(injector)
+          : Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
       }),
       deps: [IsolatedQuerySpace, Injector],
     },

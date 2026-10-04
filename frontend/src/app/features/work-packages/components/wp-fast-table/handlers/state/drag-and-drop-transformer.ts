@@ -87,10 +87,18 @@ export class DragAndDropTransformer {
       .pipe(takeUntilDestroyed(table.destroyRef))
       .subscribe((wpId) => {
         const notification = this.halNotification;
+        const querySpace = this.querySpace;
+        const query = querySpace.query.value;
+        const orderService = this.wpTableOrder;
+        const api = this.apiV3Service;
+        const order = this.currentOrder;
+        const isCurrent = () => !table.destroyed && querySpace.query.value === query;
+        if (!query || !isCurrent()) return;
         void (async () => {
-          const newOrder = await this.wpTableOrder.add(this.currentOrder, wpId);
-          if (table.destroyed) return;
-          await this.updateRenderedOrder(newOrder);
+          const prepared = await orderService.prepareAdd(query, order, wpId, isCurrent);
+          if (!isCurrent()) return;
+          await prepared.persist();
+          await this.updateRenderedOrder(prepared.order, isCurrent, api);
         })().catch((error:unknown) => notification.handleRawError(error));
       });
 
@@ -142,33 +150,67 @@ export class DragAndDropTransformer {
     }
   }
 
-  /**
-   * Resolve and persist a same-list move, then re-render from the
-   * persisted order. `complete` must always be called to settle the
-   * transaction.
-   */
+  /** Prepare against the live view, then finish every accepted persistence phase. */
   private performMove(intent:DragIntent, complete:(success:boolean) => void):void {
-    if (this.table.destroyed) {
+    const table = this.table;
+    if (table.destroyed) {
       complete(false);
       return;
     }
+    const notification = this.halNotification;
+    const api = this.apiV3Service;
+    const orderService = this.wpTableOrder;
+    const listService = this.wpListService;
+    const actionService = this.actionService;
+    const querySpace = this.querySpace;
+    const sortService = this.wpTableSortBy;
+    const originalQuery = querySpace.query.value;
+    const wpId = intent.sourceId;
+    let workPackage = this.states.workPackages.get(wpId).value;
+    const isCurrent = () => !table.destroyed && querySpace.query.value === originalQuery;
+    let recoverIfCurrent:() => void = () => undefined;
+
     void (async () => {
-      const wpId = intent.sourceId;
-
       try {
-        const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-
-        // Read the order only once the fetch has settled: a query refresh
-        // during it can drop the dragged row, and persisting against the
-        // pre-refresh order would write a position for a row that is gone.
-        const order = this.currentOrder;
-        if (!order.includes(wpId)) {
+        if (!originalQuery) {
           complete(false);
           return;
         }
-
+        workPackage = await firstValueFrom(api.work_packages.id(wpId).get());
+        if (!isCurrent()) {
+          complete(false);
+          return;
+        }
+        // A refresh while loading may remove either endpoint of the intent.
+        const order = this.currentOrder;
+        if (!order.includes(wpId) || (intent.targetId !== null && !order.includes(intent.targetId))) {
+          complete(false);
+          return;
+        }
         const { targetId, edge } = this.resolveEffectiveTarget(intent);
-
+        const renderPass = table.lastRenderPass;
+        const source = locateTableRow(wpId, table.tableAndTimelineContainer);
+        const target = targetId ? locateTableRow(targetId, table.tableAndTimelineContainer) : null;
+        if (!source || (targetId !== null && !target)) {
+          complete(false);
+          return;
+        }
+        const { parentNode, nextSibling } = source;
+        const stillEligible = () => isCurrent()
+          && table.lastRenderPass === renderPass
+          && source.parentNode === table.tbody
+          && (!target || target.parentNode === table.tbody)
+          && this.currentOrder.length === order.length
+          && this.currentOrder.every((id, index) => id === order[index])
+          && actionService.canPickup(workPackage!);
+        recoverIfCurrent = () => {
+          if (!isCurrent() || table.lastRenderPass !== renderPass || source.parentNode !== parentNode) return;
+          parentNode?.insertBefore(source, nextSibling?.parentNode === parentNode ? nextSibling : null);
+        };
+        if (!stillEligible()) {
+          complete(false);
+          return;
+        }
         const newOrder = reorderById({
           list: order,
           getId: (id) => id,
@@ -177,74 +219,64 @@ export class DragAndDropTransformer {
           closestEdge: edge,
           axis: 'vertical',
         });
-        // Returned by identity when the target vanished too, or the drop
-        // changed nothing — either way there is nothing to persist.
+        // A valid unchanged order remains a successful no-op.
         if (newOrder === order) {
           complete(true);
           return;
         }
-        const rowIndex = newOrder.indexOf(wpId);
-
-        const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
-
-        const el = locateTableRow(wpId, this.table.tableAndTimelineContainer);
-        await this.withRowAtTarget(el, targetId, edge, async () => {
-          if (el) {
-            await this.actionService.handleDrop(workPackage, el);
-          }
-        });
-
-        // Awaited so the transaction (and the engine's busy gate) stays open
-        // across the rebuild, not just the DOM-order computation above.
-        await this.updateRenderedOrder(persistedOrder);
-        this.actionService.onNewOrder(persistedOrder);
-
-        // Save the query when switching to manual
-        const query = this.querySpace.query.value;
-        if (query && this.wpTableSortBy.switchToManualSorting(query)) {
-          await this.wpListService.createOrSave(query);
+        const manualSort = !sortService.isManualSortingMode
+          ? sortService.available.find((sort) => sort.column.href?.endsWith('/manualSorting'))
+          : undefined;
+        const preparedOrder = await orderService.prepareMove(originalQuery, order, wpId, newOrder.indexOf(wpId), isCurrent);
+        if (!stillEligible()) {
+          complete(false);
+          return;
         }
+        // Only preparation observes the staged neighbors. Persistence captures no row.
+        if (target) table.tbody.insertBefore(source, edge === 'top' ? target : target.nextSibling);
+        else table.tbody.appendChild(source);
+        const preparedAction = await actionService.prepareDrop(workPackage, source);
+        if (!stillEligible()) {
+          recoverIfCurrent();
+          complete(false);
+          return;
+        }
+        const ownsQuery = (expectedQuery = originalQuery) => !table.destroyed && querySpace.query.value === expectedQuery;
+        const preparedQuery = manualSort ? await listService.prepareSave(originalQuery, ownsQuery) : undefined;
+        if (!stillEligible()) {
+          recoverIfCurrent();
+          complete(false);
+          return;
+        }
+        const refreshLiveView = async (ids:readonly string[]) => {
+          if (!isCurrent()) return;
+          const resources = await Promise.all(Array.from(new Set(ids)).map(
+            (id) => firstValueFrom(api.work_packages.id(id).get()),
+          ));
+          if (!isCurrent()) return;
+          table.initialSetup(resources);
+          actionService.onNewOrder([...ids]);
+        };
+        const reportUiFailure = (error:unknown) => notification.handleRawError(error, workPackage);
 
+        // Acceptance begins at the first write: navigation cannot cancel later phases.
+        await preparedOrder.persist();
+        await preparedAction.persist();
+        recoverIfCurrent = () => {
+          if (isCurrent()) void refreshLiveView(preparedOrder.order).catch(reportUiFailure);
+        };
+        if (preparedQuery && manualSort) {
+          originalQuery.setSortBy([manualSort]);
+          await preparedQuery.persist();
+        }
         complete(true);
-      } catch (e) {
-        this.halNotification.handleRawError(e);
+        recoverIfCurrent();
+      } catch (error:unknown) {
+        recoverIfCurrent();
+        notification.handleRawError(error, workPackage);
         complete(false);
       }
     })();
-  }
-
-  /**
-   * The hierarchy/group-by action services infer the drop's new parent or
-   * group from the row's DOM neighbors (`previousElementSibling` etc). The
-   * engine itself never relocates the row, so it is moved to the resolved
-   * position for the span of `fn`. Restored ONLY on failure — on success
-   * `updateRenderedOrder` tears the row back out via `replaceChildren()`
-   * moments later, so restoring first would visibly snap it back before
-   * that rebuild moves it again.
-   */
-  private async withRowAtTarget(el:HTMLElement|null, targetId:string|null, edge:Edge|null, fn:() => Promise<void>):Promise<void> {
-    if (!el) {
-      await fn();
-      return;
-    }
-
-    const { parentNode, nextSibling } = el;
-    const targetRow = targetId ? locateTableRow(targetId, this.table.tableAndTimelineContainer) : null;
-
-    if (targetRow) {
-      this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
-    } else {
-      this.table.tbody.appendChild(el);
-    }
-
-    try {
-      await fn();
-    } catch (e) {
-      // `fn` may have moved or removed the anchor; insertBefore throws on one
-      // that is no longer a child, so fall back to appending.
-      parentNode?.insertBefore(el, nextSibling?.parentNode === parentNode ? nextSibling : null);
-      throw e;
-    }
   }
 
   /**
@@ -286,20 +318,12 @@ export class DragAndDropTransformer {
   /**
    * Update current rendered order
    */
-  private async updateRenderedOrder(order:string[]) {
-    if (this.table.destroyed) return;
-    order = Array.from(new Set(order));
-
-    const mappedOrder = await Promise.all(
-      order.map(
-        (wpId) => firstValueFrom(this.apiV3Service.work_packages.id(wpId).get()),
-      ),
-    );
-
-    if (this.table.destroyed) return;
-
-    /** Re-render the table */
-    this.table.initialSetup(mappedOrder);
+  private async updateRenderedOrder(order:readonly string[], isCurrent:() => boolean, api:ApiV3Service):Promise<void> {
+    if (!isCurrent()) return;
+    const resources = await Promise.all(Array.from(new Set(order)).map(
+      (id) => firstValueFrom(api.work_packages.id(id).get()),
+    ));
+    if (isCurrent()) this.table.initialSetup(resources);
   }
 
   protected get actionService():TableDragActionService {
