@@ -276,6 +276,7 @@ Rails.application.routes.draw do
   resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
       get :workflow_summary, to: "/workflows/summaries#show"
+      post :enable_all_for_all_projects
     end
 
     member do

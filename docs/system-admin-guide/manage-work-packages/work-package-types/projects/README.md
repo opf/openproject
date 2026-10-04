@@ -16,6 +16,8 @@ For existing projects, work package types can also be activated manually in the 
 
 To activate a work package type for all projects, enable the **Enable for all projects** switch.
 
+To latch **every** type onto **every existing** project in one step, open **Administration → Work packages → Types**, open the page menu (⋯), and choose **Enable all types for all existing projects**. This does not change **Active in new projects**.
+
 If **Enable for all projects** is disabled, a list of projects is displayed. Select the projects for which the work package type should be available and click **Save**.
 
 ![Activate projects for work package types in OpenProject administration](openproject_system_guide_wp_type_activate_projects.png)

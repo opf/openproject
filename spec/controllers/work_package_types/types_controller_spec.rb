@@ -74,6 +74,14 @@ RSpec.describe WorkPackageTypes::TypesController do
         it { expect(response).to have_http_status(:forbidden) }
       end
     end
+
+    describe "POST enable_all_for_all_projects" do
+      describe "the access should be restricted" do
+        before { post :enable_all_for_all_projects }
+
+        it { expect(response).to have_http_status(:forbidden) }
+      end
+    end
   end
 
   context "with an authorized account" do
@@ -235,6 +243,30 @@ RSpec.describe WorkPackageTypes::TypesController do
         expect(response).to have_http_status(:ok)
         expect(second_type.reload.position).to eq(1)
         expect(second_type.position).to be < first_type.reload.position
+      end
+    end
+
+    describe "POST enable_all_for_all_projects" do
+      let!(:custom_type) { create(:type, name: "Bulk enable type") }
+      let!(:project) { create(:project) }
+
+      it "enables types that were missing on existing projects" do
+        expect(project.enabled_types).not_to include(custom_type)
+
+        post :enable_all_for_all_projects
+
+        expect(response).to redirect_to(types_path)
+        expect(project.reload.enabled_types).to include(custom_type)
+        expect(project.type_variant(custom_type)).to eq(custom_type.default_variant)
+      end
+
+      it "does not replace an existing non-default variant" do
+        named = create(:type_variant, type: custom_type, variant_name: "Named")
+        create(:project_type, project:, type: custom_type, variant: named)
+
+        post :enable_all_for_all_projects
+
+        expect(project.reload.type_variant(custom_type)).to eq(named)
       end
     end
   end

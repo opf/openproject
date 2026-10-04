@@ -50,6 +50,18 @@ See COPYRIGHT and LICENSE files for more details.
       ) do |item|
         item.with_leading_visual_icon(icon: :workflow)
       end
+
+      menu.with_item(
+        tag: :a,
+        label: t("types.index.enable_all_for_all_projects"),
+        href: enable_all_for_all_projects_types_path,
+        data: {
+          turbo_method: :post,
+          turbo_confirm: t("types.index.enable_all_for_all_projects_confirm")
+        }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :check)
+      end
     end
   end
 %>

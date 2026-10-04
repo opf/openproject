@@ -7452,6 +7452,13 @@ en:
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
+      enable_all_for_all_projects: "Enable all types for all existing projects"
+      enable_all_for_all_projects_confirm: >
+        Enable every work package type on every existing project? This does not
+        change which types are active in newly created projects.
+      enable_all_for_all_projects_notice:
+        one: "Enabled missing types on 1 project assignment."
+        other: "Enabled missing types on %{count} project assignments."
       make_default: "Activate in new projects"
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type

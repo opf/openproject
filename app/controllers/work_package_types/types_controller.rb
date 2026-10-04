@@ -48,6 +48,15 @@ module WorkPackageTypes
       @types = types_for_index
     end
 
+    # Latch every type onto every existing project. Does not change "Active in new
+    # projects" (is_default / default variant). Projects that already use a
+    # (possibly non-default) variant of the type are left alone.
+    def enable_all_for_all_projects
+      enabled = enable_missing_type_assignments
+      flash[:notice] = I18n.t("types.index.enable_all_for_all_projects_notice", count: enabled)
+      redirect_to action: "index", status: :see_other
+    end
+
     def type
       @type
     end
@@ -154,6 +163,25 @@ module WorkPackageTypes
 
     def page_args
       { page: page_param, per_page: per_page_param }
+    end
+
+    def enable_missing_type_assignments
+      enabled = 0
+
+      ::Type.includes(:variants).find_each do |type|
+        variant = type.default_variant
+        next if variant.blank?
+
+        already_ids = ::ProjectType.where(type_id: type.id).select(:project_id)
+        ::Project.where.not(id: already_ids).find_each do |project|
+          result = ::Projects::Types::AddService
+                     .new(user: current_user, model: project)
+                     .call(variant:)
+          enabled += 1 if result.success?
+        end
+      end
+
+      enabled
     end
 
     def expanded_type_id
