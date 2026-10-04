@@ -91,9 +91,9 @@ module Wikis
 
       it "returns every link with a nil title rather than dropping them" do
         service_result = service.call
-        returned_links = service_result.result
+        returned_links = service_result.result.to_a
 
-        expect(returned_links.count).to eq(page_links.count)
+        expect(returned_links.size).to eq(page_links.count)
         expect(returned_links.map(&:title)).to all(be_nil)
       end
     end
