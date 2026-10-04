@@ -158,6 +158,28 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         end
       end
 
+      context "with a connection that is switched on", with_settings: { llm_features_enabled: true } do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "offers the health checks next to the form" do
+          get llm_connection_path
+
+          expect(page).to have_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      # Nothing checks a connection no feature may use, and the scheduled check
+      # is switched off with it.
+      context "with a connection that is switched off" do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "leaves the health checks out" do
+          get llm_connection_path
+
+          expect(page).to have_no_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
       it "renders the features switch disabled while the environment sets it" do
         allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
         create(:llm_connection, base_url:)
@@ -320,6 +342,14 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response).to have_http_status(:see_other)
         expect(LlmConnection.first.base_url).to eq(base_url)
         expect(Setting.llm_features_enabled?).to be(true)
+      end
+
+      it "still schedules the health check" do
+        allow(Llm::HealthCheckJob).to receive(:toggle_cron_job)
+
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(Llm::HealthCheckJob).to have_received(:toggle_cron_job)
       end
     end
 

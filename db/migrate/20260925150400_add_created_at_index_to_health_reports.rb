@@ -28,32 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  class UpdateService < BaseServices::Update
-    # Whether the catalogue should be refreshed now that the save is through: the
-    # connection points somewhere else than it did, which covers both the first
-    # fill and a later switch of server. Nothing an administrator curated is lost
-    # by refreshing, since the sync keeps manual entries and admin verdicts.
-    #
-    # Callers refresh once the service has returned. BaseContracted#perform runs
-    # inside OpenProject::Mutex.with_advisory_lock_transaction, so a refresh from
-    # in here would hold an open transaction and the connection's advisory lock
-    # for up to the client's twenty-second probe timeout.
-    def self.models_to_refresh?(connection)
-      connection.saved_changes.keys.intersect?(LlmServerValidator::CONNECTION_ATTRIBUTES)
-    end
+# health_reports is shared with the storages and wikis modules, and every one
+# of them reads the newest report for a subject, so the read needs created_at
+# in the index to avoid a sort. The [subject_type, subject_id] prefix serves
+# every lookup the polymorphic index did.
+class AddCreatedAtIndexToHealthReports < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
 
-    private
+  def change
+    add_index :health_reports,
+              %i[subject_type subject_id created_at],
+              algorithm: :concurrently,
+              if_not_exists: true
 
-    def after_perform(service_call)
-      super.tap do
-        next unless service_call.success?
-
-        Setting.llm_features_enabled = model.llm_features_enabled if Setting.llm_features_enabled_writable?
-        # Switching the AI features on or off decides whether the scheduled
-        # health check has anything to do.
-        Llm::HealthCheckJob.toggle_cron_job
-      end
-    end
+    remove_index :health_reports,
+                 %i[subject_type subject_id],
+                 name: "index_health_reports_on_subject",
+                 algorithm: :concurrently,
+                 if_exists: true
   end
 end
