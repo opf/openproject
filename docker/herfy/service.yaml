@@ -1,0 +1,71 @@
+# Cloud Run service definition for Herfy OpenProject.
+# Create/replace with:  gcloud run services replace docker/herfy/service.yaml --region us-central1
+# Replace every <placeholder>. cloudbuild.yaml only swaps the image afterwards.
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: openproject
+  annotations:
+    run.googleapis.com/ingress: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: '1'
+        autoscaling.knative.dev/maxScale: '1'
+        run.googleapis.com/cpu-throttling: 'false'
+        run.googleapis.com/startup-cpu-boost: 'true'
+        run.googleapis.com/execution-environment: gen2
+        run.googleapis.com/network-interfaces: '[{"network":"<vpc>","subnetwork":"<subnet>"}]'
+        run.googleapis.com/vpc-access-egress: private-ranges-only
+    spec:
+      containerConcurrency: 80
+      timeoutSeconds: 300
+      containers:
+        - image: us-central1-docker.pkg.dev/herfy-production/cloud-run-source-deploy/openproject:<sha>
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: '2'
+              memory: 4Gi
+          env:
+            - name: OPENPROJECT_HOST__NAME
+              value: <openproject-host>
+            - name: OPENPROJECT_HTTPS
+              value: 'true'
+            - name: HERFY_CC_ISSUER
+              value: https://controlcenter.herfy.com
+            - name: HERFY_CC_CLIENT_ID
+              value: <app id>
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: op-database-url
+                  key: latest
+            - name: SECRET_KEY_BASE
+              valueFrom:
+                secretKeyRef:
+                  name: op-secret-key-base
+                  key: latest
+            - name: HERFY_CC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: op-cc-client-secret
+                  key: latest
+          volumeMounts:
+            - name: assets
+              mountPath: /var/openproject/assets
+          startupProbe:
+            tcpSocket:
+              port: 80
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 60
+      volumes:
+        - name: assets
+          csi:
+            driver: gcsfuse.run.googleapis.com
+            volumeAttributes:
+              bucketName: <bucket>
+              mountOptions: uid=1000,gid=1000,file-mode=0664,dir-mode=0775,implicit-dirs
