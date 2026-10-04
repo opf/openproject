@@ -36,7 +36,7 @@ import {
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { EditActivationCancelled } from 'core-app/shared/components/fields/edit/edit-form/edit-activation-cancelled';
 import { States } from 'core-app/core/states/states.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
@@ -111,10 +111,17 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     // Activate the field
     form.activate(fieldName)
-      .then((handler:EditFieldHandler) => {
+      .then((handler) => {
+        if (table.destroyed) return;
+        if (!handler) {
+          target.classList.add(readOnlyClassName);
+          return;
+        }
         handler.$onUserActivate.next();
         handler.focus(positionOffset);
       })
-      .catch(() => target.classList.add(readOnlyClassName));
+      .catch((error:unknown) => {
+        if (!(error instanceof EditActivationCancelled) && !table.destroyed) target.classList.add(readOnlyClassName);
+      });
   }
 }

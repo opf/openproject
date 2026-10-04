@@ -28,7 +28,7 @@
 
 import { fireEvent } from '@testing-library/dom';
 import {
-  createEnvironmentInjector, EnvironmentInjector, EventEmitter, Injector, Type,
+  createEnvironmentInjector, DestroyRef, EnvironmentInjector, EventEmitter, Injector, Provider, Type,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
@@ -82,7 +82,6 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
-import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
@@ -94,10 +93,14 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
+  providers?:Provider[];
   /** Retains the root so a replacement table can mount with a fresh injector. */
   dom?:ReturnType<typeof buildDom>;
   columns?:string[];
@@ -166,7 +169,7 @@ const unbuildableColumns:WorkPackageTableConfigurationObject = {
 
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
+  const injector = createEnvironmentInjector([...harnessProviders(dragService, options), ...(options.providers ?? [])], TestBed.inject(EnvironmentInjector));
   injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
@@ -303,19 +306,15 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
-    // The table redraws in a requestAnimationFrame followed by a setTimeout;
-    // wait those out so a pending redraw cannot fire into a destroyed injector.
-    async destroy() {
+    destroy() {
       if (destroyed) {
-        return;
+        return Promise.resolve();
       }
       destroyed = true;
-      await nextFrame();
-      await nextTask();
-      querySpace.stopAllSubscriptions.next();
       table.destroy();
-      if (!options.dom) dom.wrapper.remove();
+      dom.wrapper.remove();
       injector.destroy();
+      return Promise.resolve();
     },
   };
 }
@@ -342,14 +341,27 @@ export class FakeDragAndDropService {
 
 /** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
 class FakeEditingPortalService {
-  create(container:HTMLElement):Promise<EditFieldHandler> {
+  create(container:HTMLElement, _injector:Injector, form:EditForm, _schema:IFieldSchema, fieldName:string, _errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const input = document.createElement('input');
+    input.className = 'inline-edit--field';
     container.appendChild(input);
-    return Promise.resolve({
+    const onDestroy = new Subject<void>();
+    let unregister:() => void = () => undefined;
+    const handler = {
+      onDestroy,
       $onUserActivate: new Subject<void>(),
       focus: () => input.focus(),
-      deactivate: () => input.remove(),
-    } as unknown as EditFieldHandler);
+      deactivate: () => {
+        input.remove();
+        delete form.activeFields[fieldName];
+        onDestroy.next();
+        onDestroy.complete();
+        unregister();
+        form.reset(fieldName);
+      },
+    } as unknown as EditFieldHandler;
+    if (destroyRef) unregister = onDestroySafely(destroyRef, () => handler.deactivate(false));
+    return Promise.resolve(handler);
   }
 }
 

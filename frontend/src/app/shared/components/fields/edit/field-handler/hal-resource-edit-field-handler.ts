@@ -28,7 +28,8 @@
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { Injector } from '@angular/core';
+import { DestroyRef, Injector } from '@angular/core';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { setPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
@@ -70,6 +71,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     public element:HTMLElement,
     protected pathHelper:PathHelperService,
     protected withErrors?:string[],
+    private readonly ownerDestroyRef?:DestroyRef,
   ) {
     super();
 
@@ -190,6 +192,14 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * Close the field, resetting it with its display value.
    */
   public deactivate(focus = false) {
+    if (this.ownerDestroyRef?.destroyed) {
+      runCleanup(() => this.blurActiveField());
+      runCleanup(() => { delete this.form.activeFields[this.fieldName]; });
+      runCleanup(() => this.onDestroy.next());
+      runCleanup(() => this.onDestroy.complete());
+      runCleanup(() => this.form.reset(this.fieldName, focus));
+      return;
+    }
     this.blurActiveField();
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
@@ -203,9 +213,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * @private
    */
   public blurActiveField() {
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
+    const active = document.activeElement;
+    if (!(active instanceof HTMLElement)) return;
+    if (this.ownerDestroyRef?.destroyed && !this.element.contains(active)) return;
+    active.blur();
   }
 
   /**
