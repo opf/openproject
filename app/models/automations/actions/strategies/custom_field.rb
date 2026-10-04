@@ -30,13 +30,15 @@
 
 module Automations::Actions::Strategies::CustomField
   def apply(work_package)
+    return if custom_field.nil?
+
     if work_package.respond_to?(custom_field.attribute_setter)
       set_custom_field_value(work_package)
       validate_custom_field(work_package)
     end
   end
 
-  delegate :required?, to: :custom_field
+  delegate :required?, to: :custom_field, allow_nil: true
 
-  delegate :multi_value?, to: :custom_field
+  delegate :multi_value?, to: :custom_field, allow_nil: true
 end
