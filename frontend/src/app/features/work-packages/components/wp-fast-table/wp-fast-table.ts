@@ -43,10 +43,15 @@ import { GroupedRowsBuilder } from './builders/modes/grouped/grouped-rows-builde
 import { HierarchyRowsBuilder } from './builders/modes/hierarchy/hierarchy-rows-builder';
 import { PlainRowsBuilder } from './builders/modes/plain/plain-rows-builder';
 import { RowsBuilder } from './builders/modes/rows-builder';
-import { PrimaryRenderPass } from './builders/primary-render-pass';
-import { RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
+import type { PrimaryRenderPass, RenderPassOptions } from './builders/primary-render-pass';
+import { type OccurrenceKey, RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import { WorkPackageTableRow } from './wp-table.interfaces';
+
+interface PendingRender {
+  readonly pass:PrimaryRenderPass;
+  readonly timeline:boolean;
+}
 
 export class WorkPackageTable {
   @LazyInject() querySpace:IsolatedQuerySpace;
@@ -86,6 +91,8 @@ export class WorkPackageTable {
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
+  private pendingRender:PendingRender|null = null;
+
   // Work package editing context handler in the table, which handles open forms
   // and their contexts
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
@@ -116,12 +123,6 @@ export class WorkPackageTable {
 
   public get renderedRows():RenderedWorkPackage[] {
     return this.querySpace.tableRendered.getValueOr([]);
-  }
-
-  public findRenderedRow(classIdentifier:string):[number, RenderedWorkPackage] {
-    const index = this.renderedRows.findIndex((row) => row.classIdentifier === classIdentifier);
-
-    return [index, this.renderedRows[index]];
   }
 
   public get rowBuilder():RowsBuilder {
@@ -164,18 +165,7 @@ export class WorkPackageTable {
    */
   public redrawTableAndTimeline() {
     if (this.destroyed) return;
-    const renderPass = this.performRenderPass(false);
-
-    // Insert timeline body
-    this.uiWork.frame(() => {
-      this.tbody.replaceChildren();
-      this.timelineBody.replaceChildren();
-      this.tbody.appendChild(renderPass.tableBody);
-      this.timelineBody.appendChild(renderPass.timeline.timelineBody);
-
-      // Mark rendering event in a timeout to let DOM process
-      this.uiWork.task(() => this.querySpace.tableRendered.putValue(renderPass.result));
-    });
+    this.performRenderPass({ timeline: true });
   }
 
   /**
@@ -183,8 +173,14 @@ export class WorkPackageTable {
    */
   public redrawTable() {
     if (this.destroyed) return;
-    const renderPass = this.performRenderPass();
-    this.querySpace.tableRendered.putValue(renderPass.result);
+    this.performRenderPass({ timeline: false });
+  }
+
+  public setHidden(updates:ReadonlyMap<OccurrenceKey, boolean>):void {
+    if (this.destroyed) return;
+    if (updates.size === 0) return;
+    this.ledger.setHidden(updates);
+    this.publishRendered();
   }
 
   /**
@@ -216,23 +212,29 @@ export class WorkPackageTable {
     return this.configuration.dragAndDropEnabled;
   }
 
-  /**
-   * Perform the render pass
-   * @param insert whether to insert the result (set to false for timeline)
-   */
-  private performRenderPass(insert = true) {
+  private performRenderPass({ timeline }:RenderPassOptions):void {
     this.editing.reset();
-    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
+    const promoted = timeline || this.pendingRender?.timeline === true;
+    const pending:PendingRender = { pass: this.rowBuilder.buildRows({ timeline: promoted }), timeline: promoted };
+    this.pendingRender = pending;
+    this.uiWork.frame(() => this.commitRender(pending));
+  }
 
-    // Insert table body
-    if (insert) {
-      this.uiWork.frame(() => {
-        this.tbody.innerHTML = '';
-        this.tbody.appendChild(renderPass.tableBody);
-      });
+  private commitRender(pending:PendingRender):void {
+    if (this.destroyed || this.pendingRender !== pending) return;
+    this.pendingRender = null;
+    const { pass } = pending;
+    this.tbody.replaceChildren(pass.tableBody);
+    if (pending.timeline) {
+      this.timelineBody.replaceChildren(pass.timeline.timelineBody);
     }
+    this.ledger.commit(pass.draft);
+    this.lastRenderPass = pass;
+    this.publishRendered();
+  }
 
-    return renderPass;
+  private publishRendered():void {
+    this.querySpace.tableRendered.putValue(this.ledger.snapshot());
   }
 
   setGroupsCollapseState(newState:Record<string, boolean>) {

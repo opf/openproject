@@ -41,6 +41,7 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { tableRowClassName } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { GroupHeaderBuilder } from './group-header-builder';
+import type { RenderPassOptions } from '../../primary-render-pass';
 import { GroupedRenderPass } from './grouped-render-pass';
 import { groupedRowClassName, groupIdentifier } from './grouped-rows-helpers';
 import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
@@ -80,7 +81,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
     return this.querySpace.collapsedGroups.value || {};
   }
 
-  public buildRows() {
+  public buildRows(options:RenderPassOptions) {
     const builder = new GroupHeaderBuilder(this.injector);
     return new GroupedRenderPass(
       this.injector,
@@ -88,7 +89,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
       this.getGroupData(),
       builder,
       this.workPackageTable.colspan,
-    ).render();
+    ).render(options);
   }
 
   /**

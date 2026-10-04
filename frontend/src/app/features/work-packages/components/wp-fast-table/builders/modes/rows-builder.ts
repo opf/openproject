@@ -30,7 +30,7 @@ import { Injector } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from '../../wp-fast-table';
-import { PrimaryRenderPass } from '../primary-render-pass';
+import type { PrimaryRenderPass, RenderPassOptions } from '../primary-render-pass';
 
 export abstract class RowsBuilder {
   @LazyInject() public states:States;
@@ -41,7 +41,7 @@ export abstract class RowsBuilder {
   /**
    * Build all rows of the table.
    */
-  public abstract buildRows():PrimaryRenderPass;
+  public abstract buildRows(options:RenderPassOptions):PrimaryRenderPass;
 
   /**
    * Determine if this builder applies to the current view mode.

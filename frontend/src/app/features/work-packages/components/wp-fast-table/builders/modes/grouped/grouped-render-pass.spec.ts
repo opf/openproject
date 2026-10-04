@@ -83,7 +83,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(2);
     expect(rows[0].getAttribute('data-test-selector')).toBe('group-header');
     expect(rows[1].classList.contains(groupedRowClassName(group.index))).toBe(true);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'group-custom-field-16-options', workPackageId: null, hidden: false },
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
@@ -110,7 +111,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0].getAttribute('data-test-selector')).toBe('work-package-row');
     expect(rows[0].classList.contains(groupedRowClassName(group.index))).toBe(false);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
   });

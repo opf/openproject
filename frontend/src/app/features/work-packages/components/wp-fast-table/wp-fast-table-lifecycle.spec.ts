@@ -27,6 +27,7 @@
 //++
 
 import { Subject } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -56,7 +57,7 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
-import { nextFrame } from 'core-common/testing/timing';
+import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { buildWorkPackage } from './testing/work-package-fixture';
 
 function deferred<T>() {
@@ -113,8 +114,9 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.injector.get(States)).toBeDefined();
   });
 
-  it('cannot publish over cards after its frame already ran', async () => {
+  it('publishes within its frame, leaving nothing to overwrite cards after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
+    const shared = harness.querySpace.tableRendered.value;
     const frames:FrameRequestCallback[] = [];
     const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback) => frames.push(callback));
@@ -122,6 +124,7 @@ describe('WorkPackageTable lifecycle', () => {
     try {
       harness.table.redrawTableAndTimeline();
       frames.shift()!(0);
+      expect(harness.querySpace.tableRendered.value).not.toBe(shared);
       harness.table.destroy();
       const cards = [{ classIdentifier: 'wp-card-2', workPackageId: '2', hidden: false }];
       harness.querySpace.tableRendered.putValue(cards);
@@ -140,18 +143,15 @@ describe('WorkPackageTable lifecycle', () => {
     const frames:FrameRequestCallback[] = [];
     const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback) => frames.push(callback));
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     try {
       harness.table.redrawTableAndTimeline();
       harness.table.destroy();
       const cards = [{ classIdentifier: 'wp-card-2', workPackageId: '2', hidden: false }];
       harness.querySpace.tableRendered.putValue(cards);
       frames.shift()!(0);
-      await vi.runAllTimersAsync();
       expect(harness.tbody.innerHTML).toBe(before);
       expect(harness.querySpace.tableRendered.value).toBe(cards);
     } finally {
-      vi.useRealTimers();
       frameSpy.mockRestore();
     }
   });
@@ -174,6 +174,78 @@ describe('WorkPackageTable lifecycle', () => {
     } finally {
       frameSpy.mockRestore();
     }
+  });
+
+  describe('publishing a render', () => {
+    const recordEmissions = (harness:TableHarness, record:() => void = () => undefined) => {
+      const emissions:RenderedWorkPackage[][] = [];
+      const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1)).subscribe((rendered) => {
+        emissions.push(rendered);
+        record();
+      });
+      return { emissions, stop: () => subscription.unsubscribe() };
+    };
+
+    it('publishes a table-only redraw once its rows are in the table', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }] });
+      const oldRow = harness.row('1');
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const atPublish:{ oldRowAttached:boolean, text:string|null }[] = [];
+      const { stop } = recordEmissions(harness, () => atPublish.push({
+        oldRowAttached: harness.tbody.contains(oldRow),
+        text: harness.row('1').textContent,
+      }));
+      try {
+        harness.table.redrawTable();
+        await waitFor(() => expect(atPublish).toHaveLength(1));
+        expect(atPublish).toEqual([{ oldRowAttached: false, text: expect.stringContaining('Rebuilt') as string }]);
+      } finally {
+        stop();
+      }
+    });
+
+    it('keeps the timeline of a full redraw superseded by a table-only one', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+      const oldTimelineRow = harness.timelineRow('1');
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const { emissions, stop } = recordEmissions(harness);
+      try {
+        harness.table.redrawTableAndTimeline();
+        harness.table.redrawTable();
+        await waitFor(() => expect(emissions).toHaveLength(1));
+        await nextFrame();
+        await nextTask();
+        expect(emissions).toHaveLength(1);
+        expect(harness.row('1')).toHaveTextContent('Rebuilt');
+        expect(harness.timelineRow('1')).not.toBe(oldTimelineRow);
+      } finally {
+        stop();
+      }
+    });
+
+    it('drops a superseded render without touching the table', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }] });
+      const before = harness.tbody.innerHTML;
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      const { emissions, stop } = recordEmissions(harness);
+      try {
+        harness.table.originalRowIndex['1'].object.subject = 'First';
+        harness.table.redrawTable();
+        harness.table.originalRowIndex['1'].object.subject = 'Second';
+        harness.table.redrawTable();
+        frames.shift()!(0);
+        expect(harness.tbody.innerHTML).toBe(before);
+        expect(emissions).toHaveLength(0);
+        frames.shift()!(0);
+        expect(harness.row('1')).toHaveTextContent('Second');
+        expect(emissions).toHaveLength(1);
+      } finally {
+        stop();
+        frameSpy.mockRestore();
+      }
+    });
   });
 
   it('leaves all render entry points inert after disposal', async () => {
