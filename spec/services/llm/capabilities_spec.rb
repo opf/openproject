@@ -66,4 +66,32 @@ RSpec.describe Llm::Capabilities do
       end
     end
   end
+
+  describe ".declared_for" do
+    subject(:declared) { described_class.declared_for(raw_metadata) }
+
+    context "with a card declaring embeddings as its output" do
+      let(:raw_metadata) { { "architecture" => { "input_modalities" => ["text"], "output_modalities" => ["embeddings"] } } }
+
+      it "reports embeddings as supported" do
+        expect(declared).to eq(embeddings: :supported)
+      end
+    end
+
+    context "with a card declaring another output" do
+      let(:raw_metadata) { { "architecture" => { "output_modalities" => %w[text image] } } }
+
+      it "reports embeddings as unsupported" do
+        expect(declared).to eq(embeddings: :unsupported)
+      end
+    end
+
+    context "with a card declaring nothing" do
+      let(:raw_metadata) { { "max_model_len" => 8192 } }
+
+      it "says nothing rather than denying the capability" do
+        expect(declared).to eq({})
+      end
+    end
+  end
 end

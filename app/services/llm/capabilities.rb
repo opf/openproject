@@ -75,6 +75,22 @@ module Llm
       states.merge(embeddings: embedding ? :supported : :unsupported)
     end
 
+    # What a model card declares about itself.
+    #
+    # OpenRouter states the output modality on the card, which is the provider
+    # speaking about its own catalogue: better evidence than a name that looks
+    # like an embedding model's, and the only way to type a catalogue far too
+    # large to probe model by model.
+    #
+    # @return [Hash{Symbol => Symbol}] capability => state, empty when the card
+    #   declares nothing
+    def declared_for(raw_metadata)
+      modalities = Array(raw_metadata.to_h.dig("architecture", "output_modalities")).map(&:to_s)
+      return {} if modalities.empty?
+
+      { embeddings: modalities.include?("embeddings") ? :supported : :unsupported }
+    end
+
     def label(capability)
       I18n.t("llm.capabilities.#{capability}.label")
     end
