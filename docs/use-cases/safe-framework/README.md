@@ -21,7 +21,7 @@ This guide contains the following sections:
 | [Project templates](#project-templates) | Using templates to create consistent SAFe portfolio, ART and team setups |
 | [Planning Program Increments](#planning-program-increments) | Using a hierarchy custom field to define Program Increments (PIs) and assign work to PI cycles |
 | [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories and Spikes |
-| [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages, dependencies and PI scope |
+| [Organizing work using table view and Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages, dependencies and PI scope |
 | [Backlogs, Kanban boards, Sprint boards and Team planner](#backlogs-kanban-boards-sprint-boards-and-team-planner) | Organizing work using Backlogs, Kanban boards, Sprint boards and Team planner |
 | [Managing risks](#managing-risks) | Tracking risks with dedicated work packages, probability and impact fields, and saved risk views |
 
@@ -77,17 +77,17 @@ OpenProject offers a **portfolio overview** and project list that can be used to
 
 Custom project lists can be created and saved using your own filter criteria and can display custom project attributes. Individual spaces can also be favorited for easier access.
 
-![SAFe Portfolio overview](safe_portfolio_dashboard.png)
-
 A typical portfolio could contain two ARTs:
 
 - SAFe Portfolio
-  - ART 1
+  - ART 1 
     - Team Atlas
     - Team Hermes
   - ART 2
-    - Team Orion
     - Team Apollo
+    - Team Orion
+
+![SAFe Portfolio overview](safe_portfolio_overview.png)
 
 At the portfolio level, consolidated work package views can combine information from multiple ARTs and teams.
 
@@ -105,7 +105,7 @@ The program contains the projects representing the agile team spaces belonging t
 
 This provides an explicit ART level between the SAFe Portfolio and individual team spaces and makes it possible to coordinate work across teams within the ART.
 
-![Viewing epics, features and stories across teams](art_view_one_sprint.png)
+![Viewing epics, features and stories across teams](art-1-work-packages.png)
 
 Portfolios, programs and projects can each be configured with a number of different elements:
 
@@ -119,7 +119,7 @@ Different [member groups](../../system-admin-guide/users-permissions/groups/) ca
 
 Cross-project views at the program level can then show work from all teams within the ART.
 
-To learn how to configure and work with SAFe-specific work package types, including Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories, Spikes, Objectives and Risks, see [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view).
+To learn how to configure and work with SAFe-specific work package types, including Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories, Spikes, Objectives and Risks, see [Organizing work using table view and Gantt view](#organizing-work-using-table-view-gantt-view).
 
 ## Project templates
 
@@ -155,10 +155,10 @@ Create a hierarchy custom field named, for example, **Program Increment** and ma
 A typical organization using four PIs per year could use a structure such as:
 
 - 2027
-  - PI 2027.1 (01.01.2027 - 31.03.2027) #1
-  - PI 2027.2 (01.04.2027 - 30.06.2027) #2
-  - PI 2027.3 (01.07.2027 - 30.09.2027) #3
-  - PI 2027.4 (01.10.2027 - 31.12.2027) #4
+  - PI #1 (01.01.2027 - 31.03.2027)
+  - PI #2 (01.04.2027 - 30.06.2027)
+  - PI #3 (01.07.2027 - 30.09.2027)
+  - PI #4 (01.10.2027 - 31.12.2027)
 
 Including the start and finish dates in the hierarchy values makes the planning period immediately visible to users. The hierarchy can be extended over time with new years and PIs. Users with the appropriate permissions can maintain the hierarchy values as the planning structure evolves.
 
@@ -284,7 +284,6 @@ A [type template (or default text for description)](../../system-admin-guide/man
 A **Feature**, for example, can be pre-configured to include:
 
 - a short description
-- Capability
 - hypothesis
 - acceptance criteria
 
@@ -300,9 +299,11 @@ Similarly, a template can be defined for **User Stories** so that they can be ex
 
 The work package form can be configured for each type to show the fields and custom fields relevant to that work package.
 
-**Relationship tables** can also be added to the form to provide direct access to related work. For example, a Feature can display its related User Stories and dependencies, while an Objective can show the work packages that contribute to it.
+**Relationship tables** can also be added to the form to provide direct access to related work. For example, an Epic can display its related Features and dependencies, while an Objective can show the work packages that contribute to it.
 
 This complements the dependency and PI Objective views described above by making the same relationships available directly from the individual work package.
+
+![A relationship table shown in an Epic in OpenProject](openproject_safe_use_case_wp_form_relationship_table.png)
 
 ### Custom fields
 
@@ -316,7 +317,7 @@ Similarly, **Business outcome hypothesis**, **Non-functional requirements** and 
 
 The **Program Increment** custom field of type hierarchy is another example: it provides one consistent way to associate different work package types from multiple teams with the same PI.
 
-![Defining a custom field - Class of service](define_custom_field_ClassService.png)
+![Defining a custom field of type hierarchy called "Impact" in OpenProject administration](define_custom_field_type_hierarchy_impact.png)
 
 Custom fields can hold different types of values, including lists, booleans, dates, users and hierarchical values.
 
@@ -340,7 +341,7 @@ For more information, read the [documentation on progress tracking](../../user-g
 
 Progress can be viewed at a team, ART, portfolio or PI level by creating filtered views that show only the information you need.
 
-## Organizing work using table view, Gantt view
+## Organizing work using table view and Gantt view
 
 OpenProject allows you to view work packages in a variety of different ways.
 
@@ -348,7 +349,7 @@ OpenProject allows you to view work packages in a variety of different ways.
 
 The work package table view lets you view and edit work packages of all types, including Epic, Capability, Feature, Enabler, User Story, Objective and Risk, in a tabular format, with one line per work package and different attributes as columns.
 
-![Work package table view](work_package_table_view.png)
+![Work package table view](work_package_table_view.jpg)
 
 These tables are highly customizable and can be [configured](../../user-guide/work-packages/work-package-table-configuration/) to show precisely the information you need. Tables can be **sorted** by attributes such as ID, subject, start date, project, assignee or priority, **grouped** and **filtered** to create highly precise views. They can also show nested parent-child relations in **hierarchy view**.
 
@@ -378,11 +379,17 @@ The **Backlogs**, **Boards** and **Team planner** modules provide complementary 
 
 The [Backlogs module](../../user-guide/backlogs-scrum/) can be used for detailed backlog and sprint planning within an individual team.
 
-Versions remain available in OpenProject for release and version-planning use cases. Program Increments, however, are represented independently using the **Program Increment** hierarchy custom field.
+For teams working within a Program Increment, **backlog buckets** can help organize and sort the PI scope before work is assigned to individual sprints. For example, a team can use a backlog bucket for **PI #1** to collect the work packages that are in scope for that Program Increment, while the **Inbox** contains work that has not yet been assigned.
+
+From there, teams can move work packages from the PI backlog bucket into the appropriate sprint as part of their sprint planning. The sprint area on the right therefore contains only sprints, while backlog buckets remain on the left and help structure the work that is waiting to be planned.
+
+Versions remain available in OpenProject for release and version-planning use cases. Program Increments, however, are represented independently using the **Program Increment** hierarchy custom field. This separation allows teams to use their backlog and release structures without consuming the Version field for Program Increments.
 
 ![Backlog view of one team](Backlogs.png)
 
-This separation allows teams to use their backlog and release structures without consuming the Version field for Program Increments.
+Teams can also have multiple active sprints within a project, supporting parallel work where needed. Once a sprint is started, teams automatically get a dedicated sprint board to manage and track the work within that sprint.
+
+[Automated backlog buckets](https://community.openproject.org/projects/AGILE/work_packages/AGILE-264/activity) are also planned to make organizing work by Program Increment easier.
 
 ### Kanban boards
 
@@ -400,11 +407,11 @@ This makes it possible to see the complete PI scope while retaining information 
 
 ### Sprint boards and Sprint planning
 
-At team level, **Boards** provide a focused view of work planned for a Sprint.
+At team level, **Boards** provide a focused view of work planned for a Sprint. 
 
-Teams can use the Backlogs module to prepare and assign work to a Sprint and then use a Sprint board during execution. 
+Teams can use the Backlogs module to prepare and assign work to a Sprint and then use the automatically created Sprint board during execution. 
 
-A Kanban board can, for example, show work grouped by status so that the team can follow User Stories, Spikes, Bugs and other work through the Sprint workflow.
+A Sprint board can, for example, show work grouped by status so that the team can follow User Stories, Spikes, Bugs and other work through the Sprint workflow.
 
 ![Kanban board for an agile team](openproject_use_case_safe_board_sprint_planning.png)
 
@@ -467,13 +474,12 @@ OpenProject continues to expand its support for agile and scaled agile ways of w
 
 Planned and ongoing improvements include:
 
-- **Agile reporting** for Scrum, Kanban and SAFe, including cross-project reporting at ART and portfolio level. See [Agile reporting in OpenProject](https://www.openproject.org/blog/openproject-agile-reporting/).
+- **Agile reporting** for Scrum, Kanban and SAFe, including sprint reporting and cross-project reporting at ART and portfolio level. See [this blog article](https://www.openproject.org/blog/openproject-agile-reporting/) and the [video on the future of Agile reporting in OpenProject](https://www.youtube.com/watch?v=2FpGM6i40j8).
 - **Better support for Program Increments**, including plans for a dedicated PI object.
 - **Boards for PI planning sessions**, enabling more collaborative visual PI planning workflows. More details [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-265/activity?query_id=7850) and [here](https://community.openproject.org/projects/AGILE/work_packages/AGILE-267/activity?query_id=7850).
 - A **global Backlog module**.
 - Further **board improvements**, such as swimlanes, filters, WIP limits and private and public views.
 - **Global boards** for cross-project planning and visualization.
-- Further Sprint reporting and iteration support.
 
 We are also working on real-time collaborative visual planning functionality that will support use cases such as PI planning workshops, brainstorming and collaborative dependency mapping.
 
