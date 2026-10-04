@@ -41,6 +41,11 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  ancestorOccurrenceKey,
+  type OccurrenceKey,
+  wpOccurrenceKey,
+} from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
@@ -108,7 +113,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         // Render a work package root with no parents
         const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
-        this.tableBody.appendChild(tr);
         this.markRendered(tr, workPackage, hidden);
       }
 
@@ -221,7 +225,6 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
         if (index === 0) {
           // Special case, first ancestor => root without parent
-          this.tableBody.appendChild(ancestorRow);
           this.markRendered(ancestorRow, ancestor, hidden, true);
         } else {
           // This ancestor must be inserted in the last position of its root
@@ -264,7 +267,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    */
   private markRendered(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden = false, isAncestor = false) {
     this.rendered[workPackage.id!] = true;
-    this.renderedOrder.push(this.buildRenderInfo(row, workPackage, hidden, isAncestor));
+    this.registerAppended(this.occurrenceKey(workPackage, isAncestor), this.buildRenderInfo(row, workPackage, hidden, isAncestor));
   }
 
   /**
@@ -284,10 +287,15 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.spliceRow(
       el,
       `${hierarchyRoot},${hierarchyGroup}`,
+      this.occurrenceKey(workPackage, isAncestor),
       this.buildRenderInfo(el, workPackage, hidden, isAncestor),
     );
 
     this.rendered[workPackage.id!] = true;
+  }
+
+  private occurrenceKey(workPackage:WorkPackageResource, isAncestor:boolean):OccurrenceKey {
+    return isAncestor ? ancestorOccurrenceKey(workPackage.id!) : wpOccurrenceKey(workPackage.id!);
   }
 
   private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {

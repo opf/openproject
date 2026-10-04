@@ -47,7 +47,6 @@ export class PlainRenderPass extends PrimaryRenderPass {
       const [tr] = this.rowBuilder.buildEmpty(row.object);
       row.element = tr;
       this.appendRow(row.object, tr);
-      this.tableBody.appendChild(tr);
     });
   }
 }

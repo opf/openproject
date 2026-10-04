@@ -42,11 +42,13 @@ import {
 import {
   GroupHeaderBuilder,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 class TestGroupedRenderPass extends GroupedRenderPass {
   public renderRows():this {
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender();
     this.doRender();
 
     return this;
@@ -134,6 +136,7 @@ function buildWorkPackageTable(rows:WorkPackageTableRow[]):WorkPackageTable {
     configuration: {
       dragAndDropEnabled: false,
     },
+    ledger: new RenderedOccurrenceLedger(),
   } as unknown as WorkPackageTable;
 }
 

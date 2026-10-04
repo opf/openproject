@@ -44,6 +44,7 @@ import { HierarchyRowsBuilder } from './builders/modes/hierarchy/hierarchy-rows-
 import { PlainRowsBuilder } from './builders/modes/plain/plain-rows-builder';
 import { RowsBuilder } from './builders/modes/rows-builder';
 import { PrimaryRenderPass } from './builders/primary-render-pass';
+import { RenderedOccurrenceLedger } from './rendered-occurrence-ledger';
 import { WorkPackageTableEditingContext } from './wp-table-editing';
 import { WorkPackageTableRow } from './wp-table.interfaces';
 
@@ -82,6 +83,8 @@ export class WorkPackageTable {
 
   // Last render pass used for refreshing single rows
   public lastRenderPass:PrimaryRenderPass|null = null;
+
+  public readonly ledger = new RenderedOccurrenceLedger();
 
   // Work package editing context handler in the table, which handles open forms
   // and their contexts

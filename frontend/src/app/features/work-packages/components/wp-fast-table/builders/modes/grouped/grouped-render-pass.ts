@@ -36,6 +36,7 @@ import { WorkPackageTable } from '../../../wp-fast-table';
 import { WorkPackageTableRow } from '../../../wp-table.interfaces';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { PlainRenderPass } from '../plain/plain-render-pass';
+import { groupOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import {
   groupClassNameFor,
   GroupHeaderBuilder,
@@ -78,7 +79,7 @@ export class GroupedRenderPass extends PlainRenderPass {
       if (nextGroup && groupsChanged) {
         const groupClass = groupClassNameFor(nextGroup);
         const rowElement = this.headerBuilder.buildGroupRow(nextGroup, this.colspan);
-        this.appendNonWorkPackageRow(rowElement, groupClass, [groupRowClass]);
+        this.appendNonWorkPackageRow(groupOccurrenceKey(nextGroup.index, 'header'), rowElement, groupClass, [groupRowClass]);
         currentGroup = nextGroup;
       }
 
@@ -196,6 +197,6 @@ export class GroupedRenderPass extends PlainRenderPass {
 
     const groupClass = groupClassNameFor(group);
     const rowElement = this.sumsBuilder.buildSumsRow(group);
-    this.appendNonWorkPackageRow(rowElement, groupClass);
+    this.appendNonWorkPackageRow(groupOccurrenceKey(group.index, 'sums'), rowElement, groupClass);
   }
 }

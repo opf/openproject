@@ -44,6 +44,12 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
 import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
 import invariant from 'tiny-invariant';
+import {
+  type DraftOccurrence,
+  type OccurrenceKey,
+  type RenderDraft,
+  wpOccurrenceKey,
+} from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 export type RenderedRowType = 'primary'|'relations'|'child_relations';
 
@@ -77,6 +83,8 @@ export abstract class PrimaryRenderPass {
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
   public renderedOrder:RowRenderInfo[];
+
+  public draft:RenderDraft;
 
   /** Resulting table body */
   public tableBody:DocumentFragment;
@@ -180,9 +188,15 @@ public readonly injector:Injector,
    * 1. Insert into the document fragment after the last match of the selector
    * 2. Splice into the renderedOrder array.
    */
-  public spliceRow(row:HTMLTableRowElement, selector:string, renderedInfo:RowRenderInfo) {
+  public spliceRow(
+    row:HTMLTableRowElement,
+    selector:string,
+    key:OccurrenceKey,
+    renderedInfo:RowRenderInfo,
+    relation?:DraftOccurrence['relation'],
+  ) {
     // Insert into table using the selector
-    const matches = this.tableBody.querySelectorAll(selector);
+    const matches = this.tableBody.querySelectorAll<HTMLTableRowElement>(selector);
     invariant(matches.length, `No matches found for selector: ${selector}`);
 
     // If it matches multiple, select the last element
@@ -194,6 +208,11 @@ public readonly injector:Injector,
     // Splice the renderedOrder at this exact location
     const index = getNodeIndex(target);
     this.renderedOrder.splice(index + 1, 0, renderedInfo);
+
+    const targetKey = target.dataset.occurrenceKey;
+    invariant(targetKey, `Splice target matched by ${selector} carries no occurrence key`);
+    row.dataset.occurrenceKey = key;
+    this.draft.spliceAfter(targetKey, this.draftOccurrence(key, renderedInfo, relation));
   }
 
   protected prepare() {
@@ -204,6 +223,7 @@ public readonly injector:Injector,
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
     this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender();
   }
 
   /**
@@ -233,9 +253,7 @@ workPackage:WorkPackageResource,
     additionalClasses:string[] = [],
     hidden = false,
 ) {
-    this.tableBody.appendChild(row);
-
-    this.renderedOrder.push({
+    this.registerAppended(wpOccurrenceKey(workPackage.id!), {
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
@@ -252,15 +270,14 @@ workPackage:WorkPackageResource,
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(
-row:HTMLTableRowElement,
+    key:OccurrenceKey,
+    row:HTMLTableRowElement,
     classIdentifer:string,
     additionalClasses:string[] = [],
     hidden = false,
-) {
+  ) {
     row.classList.add(classIdentifer);
-    this.tableBody.appendChild(row);
-
-    this.renderedOrder.push({
+    this.registerAppended(key, {
       element: row,
       classIdentifier: classIdentifer,
       additionalClasses,
@@ -268,5 +285,30 @@ row:HTMLTableRowElement,
       renderType: 'primary',
       hidden,
     });
+  }
+
+  protected registerAppended(key:OccurrenceKey, info:RowRenderInfo) {
+    this.tableBody.appendChild(info.element);
+    this.renderedOrder.push(info);
+    info.element.dataset.occurrenceKey = key;
+    this.draft.append(this.draftOccurrence(key, info));
+  }
+
+  private draftOccurrence(
+    key:OccurrenceKey,
+    info:RowRenderInfo,
+    relation?:DraftOccurrence['relation'],
+  ):DraftOccurrence {
+    return {
+      key,
+      classIdentifier: info.classIdentifier,
+      workPackageId: info.workPackage?.id ?? null,
+      renderType: info.renderType,
+      hidden: info.hidden,
+      element: info.element,
+      additionalClasses: info.additionalClasses,
+      workPackage: info.workPackage,
+      ...(relation && { relation }),
+    };
   }
 }

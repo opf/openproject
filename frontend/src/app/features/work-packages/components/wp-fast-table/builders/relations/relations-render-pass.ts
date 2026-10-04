@@ -46,6 +46,7 @@ import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { relationOccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -143,6 +144,7 @@ export class RelationsRenderPass {
     this.tablePass.spliceRow(
       relationRow,
       `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroupClass(from.id!)}`,
+      relationOccurrenceKey(type, from.id!, to.id!),
       {
         classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
         additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
@@ -156,6 +158,7 @@ export class RelationsRenderPass {
           relationType: type,
         },
       } as RelationRenderInfo,
+      { label, columnId: column.id, relationType: type },
     );
   }
 
