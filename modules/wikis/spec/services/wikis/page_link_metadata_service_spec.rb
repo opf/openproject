@@ -82,19 +82,44 @@ module Wikis
         end
       end
 
-      it "returns the relation without raising, instead of crashing on an empty VALUES clause" do
-        service_result = nil
-        expect { service_result = service.call }.not_to raise_error
-
+      it "returns every link with a nil title" do
+        service_result = service.call
         expect(service_result).to be_success
+
+        returned_links = service_result.result.to_a
+        expect(returned_links.map(&:id)).to match_array(page_links.map(&:id))
+        expect(returned_links.map(&:title)).to all(be_nil)
+      end
+    end
+
+    context "when only some page links resolve" do
+      let(:unresolved_link) { page_links.first }
+
+      before do
+        input = Adapters::Input::PageInfo.build(identifier: unresolved_link.identifier).value_or(nil)
+        allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything)
+                                              .and_return(Failure(:not_found))
       end
 
-      it "returns every link with a nil title rather than dropping them" do
-        service_result = service.call
-        returned_links = service_result.result.to_a
+      it "keeps every link, titling the resolved ones and leaving the unresolved one nil" do
+        titles = service.call.result.to_a.to_h { [it.id, it.title] }
 
-        expect(returned_links.size).to eq(page_links.count)
-        expect(returned_links.map(&:title)).to all(be_nil)
+        expect(titles.keys).to match_array(page_links.map(&:id))
+        expect(titles[unresolved_link.id]).to be_nil
+        (page_links - [unresolved_link]).each do |link|
+          expect(titles[link.id]).to eq("Wikis, now with more cheese! Part #{link.identifier}")
+        end
+      end
+    end
+
+    context "when there are no page links" do
+      let(:relation) { PageLink.none }
+
+      it "returns an empty relation" do
+        service_result = service.call
+
+        expect(service_result).to be_success
+        expect(service_result.result.to_a).to be_empty
       end
     end
 

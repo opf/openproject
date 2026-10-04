@@ -38,12 +38,7 @@ module Wikis
 
     # @return [ServiceResult<ActiveRecord::Relation<Wikis::PageLink>]
     def call
-      @result.result = if relation.any?
-                         enrich_models(fetch_metadata)
-                       else
-                         relation
-                       end
-
+      @result.result = enrich_models(fetch_metadata)
       @result
     end
 
