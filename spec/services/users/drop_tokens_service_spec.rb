@@ -61,4 +61,23 @@ RSpec.describe Users::DropTokensService, type: :model do
       expect(Token::Recovery.exists?(other_reset_token.id)).to be true
     end
   end
+
+  describe "Remember-me token", with_settings: { autologin: 1 } do
+    let!(:autologin_token) { create(:autologin_token, user: input_user) }
+    let!(:other_autologin_token) { create(:autologin_token, user: other_user) }
+
+    it "preserves tokens by default" do
+      subject
+
+      expect(Token::AutoLogin.exists?(autologin_token.id)).to be true
+      expect(Token::AutoLogin.exists?(other_autologin_token.id)).to be true
+    end
+
+    it "removes only the user's tokens when requested" do
+      instance.call!(clear_autologin_tokens: true)
+
+      expect(Token::AutoLogin.exists?(autologin_token.id)).to be false
+      expect(Token::AutoLogin.exists?(other_autologin_token.id)).to be true
+    end
+  end
 end

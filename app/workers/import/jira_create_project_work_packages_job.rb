@@ -44,23 +44,24 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create work_packages for '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
         issues = Import::JiraIssue.where(jira_import:, jira_project_id: arguments[1])
         total = issues.count
-        position = issues.where(id: ..cursor).count
-        (position.to_f / total * 100).round(2)
+        current = issues.where(id: ..cursor).count
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def build_enumerator(jira_import_id, jira_project_id, cursor:)
       @jira_import = Import::JiraImport.find(jira_import_id)
       jira = @jira_import.jira
@@ -85,9 +86,8 @@ module Import
         cursor: cursor
       )
     end
-    # rubocop:enable Metrics/AbcSize
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def each_iteration(jira_issue, _jira_import_id, _jira_project_id)
       jira_issue_key = jira_issue.payload["key"]
       Rails.logger.tagged("jira_import_id:#{_jira_import_id}", "jira_project_id:#{_jira_project_id}",
@@ -110,7 +110,6 @@ module Import
         end
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -121,7 +120,6 @@ module Import
 
     def update_custom_fields_in_type(type, new_custom_fields)
       variant = type.default_variant
-      variant.custom_fields << new_custom_fields
       new_cf_keys = new_custom_fields.map(&:attribute_name)
       groups = variant.attribute_groups.map { |g| [g.key, g.is_a?(Type::QueryGroup) ? [g.query_attribute_name] : g.attributes] }
 
@@ -157,7 +155,7 @@ module Import
       project.work_package_custom_fields << new_cfs if new_cfs.any?
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_type(jira_issue, project)
       issue_type = jira_issue.payload["fields"]["issuetype"]
       type = Type.where("LOWER(name) = LOWER(?)", issue_type["name"]).first
@@ -178,7 +176,6 @@ module Import
       create_reference!(op_leg: type, jira_leg: jira_issue_type, jira_import: @jira_import, uses_existing:)
       type
     end
-    # rubocop:enable Metrics/AbcSize
 
     def enable_type(project, type)
       service_call = Projects::Types::AddService
@@ -221,12 +218,12 @@ module Import
       row = statuses.to_h { |status| [status.id.to_s, ["always"]] }
       status_params = statuses.to_h { |status| [status.id.to_s, row] }
       call = Workflows::BulkUpdateService
-                .new(role: @project_role, variant: type.default_variant, tab: "always")
+                .new(role: @project_role, workflow: type.default_variant.workflow, tab: "always")
                 .call(status_params)
       raise call.message if call.failure?
     end
 
-    # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+    # rubocop:disable-next Metrics/AbcSize, Metrics/PerceivedComplexity
     def create_work_package(jira_issue, project, type, status, priority, custom_field_registry)
       Rails.logger.debug "Creating work package"
 
@@ -244,6 +241,26 @@ module Import
       original_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "originalEstimateSeconds")
       remaining_estimate_seconds = jira_issue.payload.dig("fields", "timetracking", "remainingEstimateSeconds")
 
+      # fixVersions and versions can be hidden in Jira Field Configuration
+      # then they are absent in the API payload as well
+      target_versions =
+        jira_issue
+          .payload["fields"]["fixVersions"]
+          &.map { |v| v.fetch("id") }
+          .then do |origin_ids|
+            Import::JiraVersion
+              .where(jira_import: @jira_import, origin_id: origin_ids)
+              .filter_map { |jira_version| @jira_import.find_op_leg(jira_version) }
+          end
+      observed_in_versions =
+        jira_issue.payload["fields"]["versions"]
+          &.map { |v| v.fetch("id") }
+          .then do |origin_ids|
+            Import::JiraVersion
+              .where(jira_import: @jira_import, origin_id: origin_ids)
+              .filter_map { |jira_version| @jira_import.find_op_leg(jira_version) }
+          end
+
       service_call =
         WorkPackages::CreateService
           .new(user: author || @system_user, contract_class: EmptyContract)
@@ -255,6 +272,8 @@ module Import
             priority:,
             status:,
             assigned_to:,
+            target_versions:,
+            observed_in_versions:,
             due_date: jira_issue.payload.dig("fields", "duedate"),
             estimated_hours: (original_estimate_seconds / 3600.0 if original_estimate_seconds),
             remaining_hours: (remaining_estimate_seconds / 3600.0 if remaining_estimate_seconds),
@@ -289,9 +308,8 @@ module Import
       create_work_package_history(work_package, jira_issue, project)
       work_package
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable-next Metrics/AbcSize
     def create_work_package_history(work_package, jira_issue, project)
       journal_service = Import::JiraImportJournals.new(work_package:)
 
@@ -315,7 +333,6 @@ module Import
 
       journal_service.call(updated_at: jira_issue.payload.dig("fields", "updated"))
     end
-    # rubocop:enable Metrics/AbcSize
 
     def create_member(project, member)
       service_call = Members::CreateService

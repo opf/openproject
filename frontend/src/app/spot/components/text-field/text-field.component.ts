@@ -33,6 +33,7 @@ import {
 } from '@angular/forms';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'spot-text-field',
   templateUrl: './text-field.component.html',
   providers: [{

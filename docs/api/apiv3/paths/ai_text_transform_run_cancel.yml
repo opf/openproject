@@ -1,0 +1,45 @@
+# /api/v3/ai_text_transform_runs/{id}/cancel
+---
+post:
+  summary: Cancel AI text transform run
+  operationId: cancel_ai_text_transform_run
+  tags:
+    - AI
+  description: |-
+    Asks the background job to stop the run. The job checks the request whenever it flushes
+    generated text and then finishes the run with status `cancelled`; a client keeps polling until
+    it sees that status. The request is idempotent: repeating it or sending it for a run that has
+    already finished answers 204 and changes nothing.
+
+    The request has no body, but a `Content-Type: application/json` header is still required.
+
+    **Required permission:** logged in, owner of the run
+  parameters:
+    - description: Run id
+      example: 6f0f2b3c-5a8e-4b2c-9c3d-1e2f3a4b5c6d
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    '204':
+      description: |-
+        Returned if the cancellation was recorded or the run had already finished.
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the run does not exist, has been deleted after its retention period, or
+        belongs to another user.
+
+        **Required permission:** owner of the run

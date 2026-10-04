@@ -180,6 +180,106 @@ RSpec.describe "Cost reports", :aggregate_failures, type: :rails_request do
     end
   end
 
+  describe "the export links" do
+    shared_let(:export_project) { create(:project, enabled_module_names: %i[costs work_package_tracking]) }
+    shared_let(:exporting_user) do
+      create(:user, member_with_permissions: {
+               export_project => %i[view_cost_entries view_time_entries export_work_packages]
+             })
+    end
+
+    before { login_as(exporting_user) }
+
+    def export_href(format)
+      response.parsed_body.at_css("a[data-controller='costs--export'][href*='.#{format}']")["href"]
+    end
+
+    def export_params(format)
+      Rack::Utils.parse_query(URI(export_href(format)).query)
+    end
+
+    it "carries the filters and unit of the requested report" do
+      get project_reporting_cost_reports_path(export_project,
+                                              filters: 'work_package_id =_child_work_packages "42"', unit: "-1")
+
+      %w[xls pdf].each do |format|
+        expect(export_params(format)).to include("filters" => 'work_package_id =_child_work_packages "42"',
+                                                 "unit" => "-1")
+      end
+    end
+
+    it "leaves an unsaved report's timesheet to its default title" do
+      expect do
+        get project_reporting_cost_reports_path(export_project, format: :pdf, filters: ""),
+            headers: { "Accept" => "application/json" }
+      end.to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
+        .with(hash_including(options: hash_including(report_name: nil)))
+    end
+
+    context "with a saved report" do
+      let(:report) do
+        query = CostReportQuery.new.tap { it.where("work_package_id", "=", ["42"]) }
+        CostReport.create!(name: "Saved", principal: exporting_user, public: true, project: export_project, query:)
+      end
+
+      it "exports the report itself with its filters" do
+        get project_reporting_cost_report_path(export_project, report)
+
+        expect(URI(export_href("xls")).path).to eq(project_reporting_cost_report_path(export_project, report, format: :xls))
+        expect(export_params("xls")["filters"]).to eq('work_package_id = "42"')
+      end
+
+      it "names the exported timesheet after the report" do
+        expect do
+          get project_reporting_cost_report_path(export_project, report, format: :pdf, filters: 'user_id = "me"'),
+              headers: { "Accept" => "application/json" }
+        end.to have_enqueued_job(CostReports::PDF::ExportTimesheetJob)
+          .with(hash_including(query: hash_including(filters: 'user_id = "me"'),
+                               options: hash_including(report_name: "Saved")))
+      end
+
+      it "replaces the page header with export links carrying the applied filters" do
+        get project_reporting_cost_report_path(export_project, report, filters: 'user_id = "me"'),
+            headers: { "Turbo-Frame" => "result-table" }
+
+        stream = response.parsed_body.at_css(
+          "turbo-stream[target='#{CostReports::IndexPageHeaderComponent.wrapper_key}']"
+        )
+
+        expect(stream.inner_html)
+          .to include("#{project_reporting_cost_report_path(export_project, report, format: :xls)}?filters=user_id+%3D")
+      end
+    end
+
+    it "keeps an empty filter set instead of falling back to the defaults" do
+      get project_reporting_cost_reports_path(export_project, filters: "")
+
+      expect(export_params("xls")).to include("filters" => "")
+    end
+
+    context "when applying filters, which only reloads the result table frame" do
+      let(:header_stream_selector) do
+        "turbo-stream[action='update'][target='#{CostReports::IndexPageHeaderComponent.wrapper_key}']"
+      end
+
+      it "replaces the page header so the export links carry the applied filters" do
+        get project_reporting_cost_reports_path(export_project, filters: 'user_id = "me"'),
+            headers: { "Turbo-Frame" => "result-table" }
+
+        stream = response.parsed_body.at_css(header_stream_selector)
+
+        expect(stream).to be_present
+        expect(stream.inner_html).to include("cost_reports.xls?filters=user_id+%3D+%22me%22")
+      end
+
+      it "leaves the header alone on a full page load" do
+        get project_reporting_cost_reports_path(export_project, filters: 'user_id = "me"')
+
+        expect(response.parsed_body.at_css(header_stream_selector)).to be_nil
+      end
+    end
+  end
+
   describe "a session left over from before filters lived on the url" do
     let(:legacy_session) do
       { filters: { operators: { spent_on: ">d", user_id: "=" },

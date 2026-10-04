@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectorRef, Directive, OnInit, inject } from '@angular/core';
-import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -43,7 +42,6 @@ export class ActivityPanelBaseController extends UntilDestroyedMixin implements 
   readonly apiV3Service = inject(ApiV3Service);
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly storeService = inject(WpSingleViewService);
   readonly browserDetector = inject(BrowserDetector);
   readonly deviceService = inject(DeviceService);

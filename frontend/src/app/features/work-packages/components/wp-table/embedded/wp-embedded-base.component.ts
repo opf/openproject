@@ -45,6 +45,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit, OnInit, OnChanges {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('configuration') protected providedConfiguration:WorkPackageTableConfigurationObject;
 
   @Input() public uniqueEmbeddedTableName = `embedded-table-${Date.now()}`;

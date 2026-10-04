@@ -43,21 +43,22 @@ RSpec.describe "Configuring the variants a project owns",
     create(:user, member_with_permissions: { project => %i[manage_project_variants] })
   end
 
+  let(:ours_in_project) { { project_id: project, type_id: type.id, variant_id: ours.id } }
+  let(:type_in_project) { "/projects/#{project.identifier}/settings/work_packages/types/#{type.id}" }
+
   before { login_as project_admin }
 
   # Enumerated rather than spot-checked: a tab added to the shared routing concern later
   # without the project scoping is the regression this most needs to catch.
   def tab_paths(variant)
+    args = { project_id: project, type_id: type.id, variant_id: variant.id }
     {
-      "details" => edit_type_details_path(in_project_id: project, type_id: type.id, variant_id: variant.id),
-      "defaults" => edit_type_defaults_path(in_project_id: project, type_id: type.id, variant_id: variant.id),
-      "form configuration" =>
-        edit_type_form_configuration_path(in_project_id: project, type_id: type.id, variant_id: variant.id),
-      "workflow" => edit_type_workflow_path(in_project_id: project, type_id: type.id, variant_id: variant.id),
-      "project attributes" =>
-        edit_type_project_attributes_path(in_project_id: project, type_id: type.id, variant_id: variant.id),
-      "export configuration" =>
-        edit_type_pdf_export_template_index_path(in_project_id: project, type_id: type.id, variant_id: variant.id)
+      "details" => edit_project_type_variant_details_path(**args),
+      "defaults" => edit_project_type_variant_defaults_path(**args),
+      "form configuration" => edit_project_type_variant_form_configuration_path(**args),
+      "workflow" => edit_project_type_variant_workflow_path(**args),
+      "project attributes" => edit_project_type_variant_project_attributes_path(**args),
+      "export configuration" => edit_project_type_variant_pdf_export_template_index_path(**args)
     }
   end
 
@@ -71,7 +72,7 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     it "shows the variant being configured" do
-      get edit_type_details_path(in_project_id: project, type_id: type.id, variant_id: ours.id)
+      get edit_project_type_variant_details_path(**ours_in_project)
 
       expect(response.body).to include("Ours")
     end
@@ -83,14 +84,14 @@ RSpec.describe "Configuring the variants a project owns",
   # status-code assertion on a GET would notice.
   describe "saving what it owns" do
     it "renames it from the details tab" do
-      patch type_details_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
+      patch project_type_variant_details_path(**ours_in_project),
             params: { type_variant: { variant_name: "Renamed" } }
 
       expect(ours.reload.variant_name).to eq("Renamed")
     end
 
     it "sets a default description from the defaults tab" do
-      patch type_defaults_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
+      patch project_type_variant_defaults_path(**ours_in_project),
             params: { work_package_types_forms_defaults_form_model: {
               subject_configuration: "free", pattern: "", default_work_package_description: "Start here"
             } }
@@ -98,18 +99,12 @@ RSpec.describe "Configuring the variants a project owns",
       expect(ours.reload.default_work_package_description).to eq("Start here")
     end
 
-    # Renaming a group is an Enterprise action, so the guard has to be satisfied for the
-    # authorization underneath it to be the thing under test.
-    it "rewrites the form configuration", with_ee: %i[edit_attribute_groups] do
-      groups = [{ type: "attribute",
-                  name: "People",
-                  attributes: [{ key: "assignee", is_cf: nil, is_required: nil, translation: "Assignee" }],
-                  query: nil }]
+    it "leaves the form itself to administration" do
+      put drop_form_configuration_row_path(ours.form_configuration, row_key: "assignee"),
+          params: { target_id: "inactive", position: 1 },
+          as: :turbo_stream
 
-      patch type_form_configuration_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
-            params: { type: { attribute_groups: groups.to_json } }
-
-      expect(ours.reload.attribute_groups.map(&:key)).to eq(%w[People])
+      expect(response).to have_http_status(:forbidden)
     end
   end
 
@@ -118,16 +113,14 @@ RSpec.describe "Configuring the variants a project owns",
   # part of an aspect the project configures, so they belong to it.
   describe "the export tab's per-template settings" do
     it "opens for a template of the variant it owns" do
-      get edit_settings_type_pdf_export_template_path(in_project_id: project, type_id: type.id,
-                                                      variant_id: ours.id, id: "attributes"),
+      get edit_settings_project_type_variant_pdf_export_template_path(**ours_in_project, id: "attributes"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
     end
 
     it "saves them" do
-      patch update_settings_type_pdf_export_template_path(in_project_id: project, type_id: type.id,
-                                                          variant_id: ours.id, id: "attributes"),
+      patch update_settings_project_type_variant_pdf_export_template_path(**ours_in_project, id: "attributes"),
             params: { settings: {} }, as: :turbo_stream
 
       expect(response).not_to have_http_status(:forbidden)
@@ -144,7 +137,7 @@ RSpec.describe "Configuring the variants a project owns",
     end
 
     it "cannot be deleted from here" do
-      delete type_variant_path(in_project_id: project, type_id: type.id, id: theirs.id)
+      delete project_type_variant_path(project_id: project, type_id: type.id, id: theirs.id)
 
       expect(response).to have_http_status(:not_found)
       expect(TypeVariant).to exist(theirs.id)
@@ -162,14 +155,9 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
-  # One route serves both addresses, so the variant segment is optional in each and a project path
-  # without one does generate. What keeps the type's own configuration out of a project's reach is
-  # the lookup: it only ever considers the variants that project owns.
   describe "the type's own configuration" do
-    it "is absent from a project, which addresses no variant" do
-      get edit_type_details_path(in_project_id: project, type_id: type.id)
-
-      expect(response).to have_http_status(:not_found)
+    it "has no address in a project, which only configures the variants it owns" do
+      expect { get "#{type_in_project}/details/edit" }.to raise_error(ActionController::RoutingError)
     end
   end
 
@@ -187,14 +175,14 @@ RSpec.describe "Configuring the variants a project owns",
 
   describe "creating one" do
     it "opens the wizard" do
-      get new_creation_wizard_types_path(in_project_id: project, type_id: type.id)
+      get new_creation_wizard_project_type_variants_path(project_id: project, type_id: type.id)
 
       expect(response).to have_http_status(:ok)
     end
 
     it "creates a variant owned by this project" do
       expect do
-        post creation_wizard_types_path(in_project_id: project, type_id: type.id),
+        post creation_wizard_project_type_variants_path(project_id: project, type_id: type.id),
              params: { type_variant: { variant_name: "Internal" } }
       end.to change { project.owned_type_variants.count }.by(1)
 
@@ -203,7 +191,7 @@ RSpec.describe "Configuring the variants a project owns",
 
     # The owner comes from the route. A body naming another project must not be honoured.
     it "ignores an owner named in the request body" do
-      post creation_wizard_types_path(in_project_id: project, type_id: type.id),
+      post creation_wizard_project_type_variants_path(project_id: project, type_id: type.id),
            params: { type_variant: { variant_name: "Injected", project_id: stranger.id } }
 
       expect(TypeVariant.find_by(variant_name: "Injected").project).to eq(project)
@@ -214,7 +202,7 @@ RSpec.describe "Configuring the variants a project owns",
     it "removes it" do
       variant = create(:project_owned_type_variant, type:, project:, variant_name: "Doomed")
 
-      delete type_variant_path(in_project_id: project, type_id: type.id, id: variant.id)
+      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id)
 
       expect(TypeVariant).not_to exist(variant.id)
     end
@@ -226,38 +214,19 @@ RSpec.describe "Configuring the variants a project owns",
     let(:aspect) { TypeVariant::DEFAULTS }
 
     it "opens the source picker" do
-      get type_configuration_link_dialog_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-          as: :turbo_stream
+      get project_type_variant_configuration_link_dialog_path(**ours_in_project, aspect:), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
     end
 
-    it "links to a global source" do
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: global.id }, as: :turbo_stream
+    it "links the aspect to the type's base variant" do
+      post project_type_variant_configuration_link_switch_path(**ours_in_project, aspect:), as: :turbo_stream
 
-      expect(ours.reload.source_for(aspect)).to eq(global)
-    end
-
-    it "links to a sibling the same project owns" do
-      sibling = create(:project_owned_type_variant, type:, project:, variant_name: "Sibling")
-
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: sibling.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to eq(sibling)
-    end
-
-    # The rule the whole feature turns on, at the endpoint rather than in the picker.
-    it "refuses a source another project owns" do
-      post type_configuration_link_switch_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
-           params: { source_id: theirs.id }, as: :turbo_stream
-
-      expect(ours.reload.source_for(aspect)).to be_nil
+      expect(ours.reload.source_for(aspect)).to eq(type.default_variant)
     end
 
     it "refuses to copy from a source another project owns" do
-      post type_configuration_copy_copy_path(in_project_id: project, type_id: type.id, variant_id: ours.id, aspect:),
+      post project_type_variant_configuration_copy_copy_path(**ours_in_project, aspect:),
            params: { source_id: theirs.id }, as: :turbo_stream
 
       expect(response).not_to have_http_status(:found)
@@ -267,26 +236,21 @@ RSpec.describe "Configuring the variants a project owns",
   describe "copying a workflow" do
     # Opened as a dialog, so there is no HTML template for it in either mount.
     it "opens the copy dialog" do
-      get new_type_workflow_copy_path(in_project_id: project, type_id: type.id, variant_id: ours.id),
-          as: :turbo_stream
+      get new_project_type_variant_workflow_copy_path(**ours_in_project), as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
     end
   end
 
-  # Screens administration alone has. These raised on an unknown permission rather than being
-  # absent, because #authorize reached them before anything had turned the project away.
   describe "the screens a project has no page for" do
-    it "gives 404 for choosing the projects a type is used in" do
-      get edit_type_projects_path(in_project_id: project, type_id: type.id)
-
-      expect(response).to have_http_status(:not_found)
+    it "has no address for choosing the projects a variant is used in" do
+      expect { get "#{type_in_project}/variants/#{ours.id}/projects/edit" }
+        .to raise_error(ActionController::RoutingError)
     end
 
-    it "gives 404 for activating a variant in new projects" do
-      post make_default_type_variant_path(in_project_id: project, type_id: type.id, id: ours.id)
-
-      expect(response).to have_http_status(:not_found)
+    it "has no address for activating a variant in new projects" do
+      expect { post "#{type_in_project}/variants/#{ours.id}/make_default" }
+        .to raise_error(ActionController::RoutingError)
     end
 
     it "leaves both of them to administration" do
@@ -298,14 +262,12 @@ RSpec.describe "Configuring the variants a project owns",
     end
   end
 
-  # Leaving one of these screens has to land on the list it was started from. types_path carries no
-  # project, so naming it while scoped appended the project as a query parameter and pointed at an
-  # administration URL the caller cannot open.
+  # Leaving one of these screens has to land on the list it was started from.
   describe "leaving a variant screen" do
     it "returns to the project's own list after deleting a variant" do
       variant = create(:project_owned_type_variant, type:, project:, variant_name: "Leaving")
 
-      delete type_variant_path(in_project_id: project, type_id: type.id, id: variant.id)
+      delete project_type_variant_path(project_id: project, type_id: type.id, id: variant.id)
 
       expect(response).to redirect_to(project_settings_work_packages_types_path(project))
     end
@@ -325,16 +287,14 @@ RSpec.describe "Configuring the variants a project owns",
   # this is, so the trail does not depend on the menu.
   describe "the wizard's chrome" do
     it "leaves the project menu out" do
-      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                    step: "workflows")
+      get project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows")
 
       expect(response).to have_http_status(:ok)
       expect(response.body).not_to include('id="main-menu"')
     end
 
     it "still says where it is" do
-      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                    step: "workflows")
+      get project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows")
 
       expect(response.body).to include(project_settings_work_packages_types_path(project))
     end
@@ -344,8 +304,7 @@ RSpec.describe "Configuring the variants a project owns",
     # A variant only this project uses is never activated anywhere else, so the step that
     # picks projects must not be reachable, sidebar or URL.
     it "gives 404 for the projects step" do
-      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                    step: "projects")
+      get project_type_variant_creation_wizard_path(**ours_in_project, step: "projects")
 
       expect(response).to have_http_status(:not_found)
     end
@@ -354,7 +313,7 @@ RSpec.describe "Configuring the variants a project owns",
     # one turned out to reach for the matrix.
     it "serves every step it has" do
       WorkPackageTypes::Wizard::Steps.available_for(ours).each do |step|
-        get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id, step:)
+        get project_type_variant_creation_wizard_path(**ours_in_project, step:)
 
         expect(response).to have_http_status(:ok), "expected the #{step} step to render"
       end
@@ -363,17 +322,13 @@ RSpec.describe "Configuring the variants a project owns",
     # Advancing has to skip the step the variant does not have, or the wizard walks the user
     # straight into a 404 on the step after workflows.
     it "advances past the workflows step to the one after projects" do
-      patch type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                      step: "workflows")
+      patch project_type_variant_creation_wizard_path(**ours_in_project, step: "workflows")
 
-      expect(response).to redirect_to(
-        type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id, step: "pdf")
-      )
+      expect(response).to redirect_to(project_type_variant_creation_wizard_path(**ours_in_project, step: "pdf"))
     end
 
     it "still serves the steps it does have" do
-      get type_creation_wizard_path(in_project_id: project, type_id: type.id, variant_id: ours.id,
-                                    step: "defaults")
+      get project_type_variant_creation_wizard_path(**ours_in_project, step: "defaults")
 
       expect(response).to have_http_status(:ok)
     end

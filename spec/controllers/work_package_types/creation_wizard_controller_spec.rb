@@ -113,7 +113,23 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
 
       describe "PATCH update on the workflows step" do
         # The wizard step only advances as the matrix saves via its own turbo endpoint
-        it "advances to the next step" do
+        it "asks for the name of the workflow it started before advancing" do
+          patch :update, params: { type_id: type.id, step: :workflows }, format: :turbo_stream
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(I18n.t("workflows.form.name.label"))
+          expect(response).not_to be_redirect
+        end
+
+        it "advances without asking when another type shares the workflow" do
+          type.default_variant.update!(workflow: create(:type).default_variant.workflow)
+
+          patch :update, params: { type_id: type.id, step: :workflows }, format: :turbo_stream
+
+          expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
+        end
+
+        it "advances rather than failing when the request cannot carry a dialog" do
           patch :update, params: { type_id: type.id, step: :workflows }
 
           expect(response).to redirect_to(type_creation_wizard_path(type, step: :projects))
@@ -177,14 +193,14 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
     let(:user) { create(:user, member_with_permissions: { project => %i[view_project manage_project_variants] }) }
 
     describe "GET new" do
-      before { get :new, params: { in_project_id: project.id, type_id: type.id } }
+      before { get :new, params: { project_id: project.id, type_id: type.id } }
 
       it { expect(response).to have_http_status(:ok) }
 
       context "when the type does not allow project-specific variants" do
         before do
           type.update!(allow_project_variants: false)
-          get :new, params: { in_project_id: project.id, type_id: type.id }
+          get :new, params: { project_id: project.id, type_id: type.id }
         end
 
         it { expect(response).to have_http_status(:not_found) }

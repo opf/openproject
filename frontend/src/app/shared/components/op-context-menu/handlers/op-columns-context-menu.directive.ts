@@ -56,8 +56,10 @@ export class OpColumnsContextMenu extends OpContextMenuTrigger {
   readonly I18n = inject(I18nService);
   readonly confirmDialog = inject(ConfirmDialogService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-column') public column:QueryColumn;
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('opColumnsContextMenu-table') public table:WorkPackageTable;
 
   public text = {

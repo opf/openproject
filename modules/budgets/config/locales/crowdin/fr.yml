@@ -62,7 +62,7 @@ fr:
     budget: Budget
   budgets:
     labor_budget_items:
-      no_rate_at_fixed_date: No hourly rate on %{date}
+      no_rate_at_fixed_date: Aucun taux horaire au %{date}
     widgets:
       budget_by_cost_type:
         blankslate:

@@ -242,10 +242,12 @@ vi:
   label_show: Hiển thị
   label_specific_day: Ngày %{day}
   label_specific_month: Tháng %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Đã hoàn thành
   label_time: thời gian
   label_time_entry_activity_form_description: Những thay đổi đối với hoạt động mục nhập thời gian này sẽ được phản ánh trong tất cả các dự án được kích hoạt.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Bắt đầu lúc %{time}
   label_today_capitalized: hôm nay

@@ -34,6 +34,8 @@ module WorkPackageTypes
       :types
     end
 
-    def index; end
+    def index
+      redirect_to edit_variant_details_path(nil, @type.default_variant) if @variant.nil? || @variant.is_default_variant?
+    end
   end
 end

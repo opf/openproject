@@ -78,7 +78,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
       end
 
       # rubocop:disable Layout/LineLength
-      # rubocop:disable RSpec/ExampleLength
+      # rubocop:disable-next RSpec/ExampleLength
       it "creates appropriate comments on the work package" do
         create_work_packages
 
@@ -123,7 +123,6 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
                    }] }
         expect(work_package.journals.where(cause: cause5).count).to be 1
       end
-      # rubocop:enable RSpec/ExampleLength
       # rubocop:enable Layout/LineLength
 
       it "creates references for imported entities" do
@@ -210,10 +209,9 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
 
       context "when the import is aborting" do
         before do
-          # rubocop:disable RSpec/AnyInstance
+          # rubocop:disable-next RSpec/AnyInstance
           allow_any_instance_of(Import::JiraImport)
             .to receive(:in_state?).with(:import_aborting).and_return(true)
-          # rubocop:enable RSpec/AnyInstance
         end
 
         it "stops iterating and reports the abortion" do
@@ -243,6 +241,160 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
             /Import::JiraUser with jira_user_key JIRAUSER10000 not found! Using DeletedUser instead\./
           ).at_least(:once)
         end
+      end
+
+      context "with version assignments" do
+        let(:op_project) { Project.find_by!(identifier: jira_project_key) }
+
+        let!(:jira_fix_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10001",
+                 payload: { "id" => "10001", "name" => "v1.0" })
+        end
+
+        let!(:jira_affected_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10002",
+                 payload: { "id" => "10002", "name" => "v0.9" })
+        end
+
+        let!(:target_version) { create(:version, name: "v1.0", project: op_project) }
+        let!(:observed_in_version) { create(:version, name: "v0.9", project: op_project) }
+
+        let(:jira_issue_payload) do
+          super().deep_merge(
+            "fields" => {
+              "fixVersions" => [{ "id" => "10001", "name" => "v1.0" }],
+              "versions" => [{ "id" => "10002", "name" => "v0.9" }]
+            }
+          )
+        end
+
+        before do
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_fix_version.class.to_s,
+                 jira_entity_id: jira_fix_version.id.to_s,
+                 op_entity_class: target_version.class.to_s,
+                 op_entity_id: target_version.id.to_s)
+
+          create(:jira_open_project_reference,
+                 jira_import:,
+                 jira_entity_class: jira_affected_version.class.to_s,
+                 jira_entity_id: jira_affected_version.id.to_s,
+                 op_entity_class: observed_in_version.class.to_s,
+                 op_entity_id: observed_in_version.id.to_s)
+        end
+
+        it "assigns target versions from fixVersions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to include(target_version)
+        end
+
+        it "assigns observed_in versions from versions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.observed_in_versions).to include(observed_in_version)
+        end
+      end
+
+      context "when fixVersions and versions are empty" do
+        let(:jira_issue_payload) do
+          super().deep_merge("fields" => { "fixVersions" => [], "versions" => [] })
+        end
+
+        it "creates work package without versions" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to be_empty
+          expect(work_package.observed_in_versions).to be_empty
+        end
+      end
+
+      context "when version reference is not found" do
+        let!(:jira_fix_version) do
+          create(:jira_version,
+                 jira_import:,
+                 jira_project:,
+                 origin_id: "10001",
+                 payload: { "id" => "10001", "name" => "v1.0" })
+        end
+
+        let(:jira_issue_payload) do
+          super().deep_merge(
+            "fields" => {
+              "fixVersions" => [{ "id" => "10001", "name" => "v1.0" }],
+              "versions" => []
+            }
+          )
+        end
+
+        it "creates work package without that version when no reference exists" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.target_versions).to be_empty
+        end
+      end
+    end
+  end
+
+  describe "#progress" do
+    subject(:job) { described_class.new(jira_import.id, jira_project.id) }
+
+    context "when no cursor is set" do
+      it "returns zeros" do
+        expect(job.progress).to eq({ current: 0, total: 0, percentage: 0 })
+      end
+    end
+
+    context "when cursor is set" do
+      let!(:jira_issue2) do
+        payload = jira_issue_payload.deep_dup
+        payload["id"] = "10406"
+        payload["key"] = "DPPP-7"
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10406",
+               jira_project:,
+               payload:)
+      end
+
+      let!(:jira_issue3) do
+        payload = jira_issue_payload.deep_dup
+        payload["id"] = "10407"
+        payload["key"] = "DPPP-8"
+        create(:jira_issue,
+               jira_import:,
+               origin_id: "10407",
+               jira_project:,
+               payload:)
+      end
+
+      it "calculates progress based on cursor position" do
+        jira_import.set_job_cursor(job, jira_issue2.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(2)
+        expect(progress[:percentage]).to eq(66.67)
+      end
+
+      it "returns 100% when all issues are processed" do
+        jira_import.set_job_cursor(job, jira_issue3.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(3)
+        expect(progress[:percentage]).to eq(100.0)
       end
     end
   end

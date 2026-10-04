@@ -4,6 +4,13 @@
     align-items: center
     gap: var(--base-size-8, 8px)
     margin-bottom: var(--base-size-8, 8px)
-    justify-content: space-between
-    // We enforce the height of the small button to avoid different spacings depending on the existence of a copy button in the header
-    height: var(--button-height-small, 28px)
+
+  &--body
+    display: grid
+    grid-template-areas: "content clip_board_copy" "actions actions"
+    grid-template-columns: 1fr auto
+    grid-template-rows: auto auto auto
+    align-items: center
+
+    &--clip_board_copy
+      align-self: flex-start

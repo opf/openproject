@@ -1,19 +1,21 @@
 <% helpers.html_title t(:label_my_time_tracking), "#{t("label_#{mode}")} #{t(:label_list)} #{I18n.l(date)}" -%>
-<%= component_wrapper(tag: "div", data: wrapper_data) do %>
-  <%= render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :list)) %>
-  <%= render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :list)) %>
+<%= render(My::TimeTracking::ViewFrameComponent.new) do %>
+  <%= component_wrapper(tag: "div", data: wrapper_data) do %>
+    <%= render(My::TimeTracking::HeaderComponent.new(mode:, date:, view_mode: :list)) %>
+    <%= render(My::TimeTracking::SubHeaderComponent.new(mode:, date:, view_mode: :list)) %>
 
-  <%= flex_layout(classes: ["my-time-tracking-list-view"]) do |flex| %>
-    <% range.each do |date| %>
-      <% flex.with_row do %>
-        <%= render(Primer::OpenProject::CollapsibleSection.new(test_selector: "section-#{date.iso8601}", collapsed: collapsed?(date))) do |section| %>
-          <% section.with_title { date_title(date) } %>
-          <% section.with_caption { date_caption(date) } %>
-          <% section.with_additional_information do %>
-            <%= render(My::TimeTracking::ListStatsComponent.new(time_entries: grouped_time_entries[date], date: date)) %>
-          <% end %>
-          <% section.with_collapsible_content do %>
-            <%= render(My::TimeTracking::ListWrapperComponent.new(time_entries: grouped_time_entries[date], date: date, mode: mode)) %>
+    <%= flex_layout(classes: ["my-time-tracking-list-view"]) do |flex| %>
+      <% range.each do |date| %>
+        <% flex.with_row do %>
+          <%= render(Primer::OpenProject::CollapsibleSection.new(test_selector: "section-#{date.iso8601}", collapsed: collapsed?(date))) do |section| %>
+            <% section.with_title { date_title(date) } %>
+            <% section.with_caption { date_caption(date) } %>
+            <% section.with_additional_information do %>
+              <%= render(My::TimeTracking::ListStatsComponent.new(time_entries: grouped_time_entries[date], date: date)) %>
+            <% end %>
+            <% section.with_collapsible_content do %>
+              <%= render(My::TimeTracking::ListWrapperComponent.new(time_entries: grouped_time_entries[date], date: date, mode: mode)) %>
+            <% end %>
           <% end %>
         <% end %>
       <% end %>

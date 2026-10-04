@@ -42,8 +42,6 @@ class WorkPackage < ApplicationRecord
   # version rows that the journal snapshot then reads.
   include WorkPackage::Versions
   include WorkPackages::DerivedDates
-  include WorkPackages::SpentTime
-  include WorkPackages::Costs
   include WorkPackages::Relations
   include ::Scopes::Scoped
   include HasMembers
@@ -133,7 +131,6 @@ class WorkPackage < ApplicationRecord
          :allowed_to_via_share_only,
          :for_scheduling,
          :include_derived_dates,
-         :include_spent_time,
          :involving_user,
          :left_join_self_and_descendants,
          :relatable,
@@ -250,11 +247,6 @@ class WorkPackage < ApplicationRecord
   def blocked?
     blockers
       .exists?
-  end
-
-  def add_time_entry(attributes = {})
-    attributes.reverse_merge!(project:, entity: self)
-    time_entries.build(attributes)
   end
 
   def to_s = to_fs
@@ -593,16 +585,16 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the variant that owns the form configuration,
-  # excluding fields that are hidden somewhere in the source
   def self.form_configuration_custom_fields_join(variant_ids)
-    source_table, source_variant_id, excluded = TypeVariant::FormConfigurationSql.source_table(variant_ids)
+    values = variant_ids.map { |id| "(#{id})" }.join(", ")
+    driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"
+    join, form_configuration_id, excluded = TypeVariant.form_configuration_join("wp_variants.own_id")
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
-    "#{source_table} " \
-      "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
-      "AND #{exclusion}"
+    "#{driving_table} #{join} " \
+      "JOIN form_configuration_attributes fca " \
+      "ON fca.custom_field_id = custom_fields.id AND fca.form_configuration_id = #{form_configuration_id} " \
+      "AND fca.form_configuration_group_id IS NOT NULL AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join
 
@@ -643,15 +635,6 @@ class WorkPackage < ApplicationRecord
     @derived_progress_hints ||= {}
   end
 
-  def add_time_entry_for(user, attributes)
-    return if time_entry_blank?(attributes)
-
-    attributes.reverse_merge!(user:,
-                              spent_on: Time.zone.today)
-
-    time_entries.build(attributes)
-  end
-
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
@@ -668,24 +651,6 @@ class WorkPackage < ApplicationRecord
       value = PercentageConverter.parse(value)
     end
     value
-  end
-
-  ##
-  # Checks if the time entry defined by the given attributes is blank.
-  # A time entry counts as blank despite a selected activity if that activity
-  # is simply the default activity and all other attributes are blank.
-  def time_entry_blank?(attributes)
-    return true if attributes.nil?
-
-    key = "activity_id"
-    id = attributes[key]
-    default_id = if id.present?
-                   Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
-                 else
-                   true
-                 end
-
-    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # Default assignment based on category

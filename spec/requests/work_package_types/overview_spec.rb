@@ -38,14 +38,14 @@ RSpec.describe "The overview of a work package type",
 
   before { login_as admin }
 
-  it "serves the overview of a type" do
+  it "redirects a type to its details tab, since only variants have an overview" do
     get type_settings_path(type_id: type.id)
 
-    expect(response).to have_http_status(:ok)
+    expect(response).to redirect_to(edit_type_details_path(type_id: type.id))
   end
 
   it "serves the overview of a named variant" do
-    get type_settings_path(**variant.path_args)
+    get type_variant_settings_path(type_id: type.id, variant_id: variant.id)
 
     expect(response).to have_http_status(:ok)
   end
@@ -68,7 +68,7 @@ RSpec.describe "The overview of a work package type",
     before { login_as project_admin }
 
     it "serves the overview to a member who may manage the project's variants" do
-      get type_settings_path(**owned.path_args)
+      get project_type_variant_settings_path(project_id: project, type_id: type.id, variant_id: owned.id)
 
       expect(response).to have_http_status(:ok)
     end

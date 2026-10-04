@@ -116,6 +116,7 @@ ru:
         caption: Заголовок
         help_text: Текст справки
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клиенты SCIM
       calculated_value_error:
         customized_id: Настраиваемый ID
@@ -178,6 +179,21 @@ ru:
         company: Компания
       favorite:
         favorited: Элемент
+      form_configuration:
+        attribute_groups: Form
+        description: Description
+        name: Name
+        type_variants: Types and variants using this form
+      form_configuration_attribute:
+        attribute_key: Attribute
+        custom_field: Custom field
+        group: Group
+        position: Position
+      form_configuration_group:
+        default_key: Default group
+        kind: Kind
+        label: Label
+        query: Query
       grids/grid:
         column_count: Количество столбцов
         page: Страница
@@ -216,6 +232,21 @@ ru:
         onthefly: Автоматическое создание пользователя
         port: Порт
         tls_certificate_string: SSL-сертификат сервера LDAP
+      llm_capability_verdict:
+        capability: Capability
+        model_id: Model
+        state: State
+      llm_connection:
+        api_format: API format
+        api_key: API key
+        base_url: Host URL
+        default_chat_model: Default chat model
+        default_embedding_model: Default embedding model
+        llm_features_enabled: Enable LLMs for this instance
+      llm_model:
+        admin_context_window: Context window
+        display_name: Display name
+        external: Model name
       mcp_configuration:
         description: Описание
         enabled: Включено
@@ -385,16 +416,13 @@ ru:
       type_variant:
         attribute_groups: Форма
         default_work_package_description: Текст для описания по умолчанию
-        defaults_source: Источник по умолчанию
         enabled_in_new_projects: Активно в новых проектах
-        form_configuration_source: Источник формы
+        linked_aspects: Унаследованная конфигурация
         patterns: Шаблоны
-        pdf_export_source: Источник экспорта PDF
-        project_attributes_source: Источник атрибутов проекта
         project_types: Проекты, в которых используется данный вариант
         variant: Вариант
         variant_name: Название
-        workflows_source: Источник рабочих процессов
+        workflow: Рабочий поток
       user:
         admin: Администратор
         auth_source: Источник аутентификации
@@ -499,6 +527,7 @@ ru:
           title: Рабочие дни
           true: включить нерабочие дни
         journal_internal: Внутренний журнал
+        labels: Метки
         notify: Уведомлять
         observed_in_versions: Наблюдается в версиях
         parent: Родитель
@@ -527,6 +556,10 @@ ru:
         work_package: Пакет работ
       work_package_version:
         kind: Вид
+      workflow:
+        description: Описание
+        name: Имя
+        type_variants: Типы и варианты, использующие этот рабочий процесс
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -612,6 +645,7 @@ ru:
         unknown_property: неизвестное свойство.
         unknown_property_nested: имеет неизвестный путь '%{path}'.
         unremovable: не может быть удалено.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
 
           '
@@ -619,6 +653,10 @@ ru:
         user_in_ldap_managed_department: Этот пользователь принадлежит подразделению, управляемому LDAP синхронизацией, и не может быть перемещен.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
+        ai/text_transform_run:
+          attributes:
+            base:
+              not_available: Данное действие недоступно.
         attachment:
           attributes:
             content_type:
@@ -681,6 +719,16 @@ ru:
           general_consent: Пожалуйста, подтвердите правила и условия пользования.
         favorite:
           already_favorited: уже добавлено.
+        form_configuration:
+          attributes:
+            attribute_groups:
+              attribute_unknown: Invalid work package attribute used.
+              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              group_without_name: Group name can't be blank.
+              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+            base:
+              default_undeletable: The default form cannot be deleted. Mark another form as default first.
         grids/grid:
           end_before_start: конечное значение должно быть больше начального.
           outside: за пределами сетки.
@@ -698,11 +746,41 @@ ru:
               not_unique: уже используется. Пожалуйста, выберите другое имя.
         jira:
           invalid_protocol: Пожалуйста, укажите корректный протокол (http или https)
+        label:
+          attributes:
+            name:
+              blank: Имя не может быть пустым.
+              format: "%{message}"
+              taken: Метка с таким именем уже существует. Пожалуйста, используйте другое имя.
+              too_long: Имя слишком длинное (максимум %{count} символов).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
               format: "%{message}"
               invalid_certificate: 'Указанный сертификат SSL недействителен: %{additional_message}'
+        llm_connection:
+          attributes:
+            api_format:
+              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+            api_key:
+              invalid_api_key: was rejected by the LLM server.
+            base:
+              singleton: Only one LLM connection can be active.
+            base_url:
+              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
+              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
+              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
+              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
+              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
+              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+            custom_headers:
+              invalid: must map header names to plain text values.
+            llm_features_enabled:
+              requires_connection: cannot be turned on before a connection has been configured.
+        llm_model:
+          attributes:
+            external_id:
+              conflicting_capabilities: has capability assertions stored under it that conflict with those of this model.
         meeting:
           error_conflict: Невозможно сохранить, потому что совещание было обновлено кем-то другим за это время. Пожалуйста, перезагрузите страницу.
         member:
@@ -871,45 +949,20 @@ ru:
               in_use_by_work_packages: Этот тип нельзя удалить, пока пакеты работ все еще используют его.
         type_variant:
           attributes:
-            attribute_groups:
-              attribute_unknown: Используется недопустимый атрибут пакета работ.
-              attribute_unknown_name: 'Используется неверный атрибут пакета работ: %{attribute}'
-              duplicate_group: Имя группы '%{group}' используется более одного раза. Имена групп должны быть уникальными.
-              group_without_name: Имя группы не может быть пустым.
-              query_invalid: 'Встроенный запрос ''%{group}'' является недопустимым: %{details}'
             base:
-              borrowed_by_variants: Нельзя удалить, пока его конфигурация повторно используется %{names}.
-              inherits_from_project_owned: 'Данный вариант наследуется от варианта, относящегося к конкретному проекту, и не может быть преобразован в глобальный вариант.
-
-                '
               is_default_variant: Конфигурация по умолчанию для типа не может быть удалена.
               project_variants_not_allowed: Этот тип не позволяет создавать варианты внутри проектов.
               restrict_dependent_destroy:
                 has_many: Невозможно удалить, пока он используется в проектах.
-            defaults_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             enabled_in_new_projects:
               not_available_to_project_owned_variant: не может быть установлен на вариант, принадлежащий проекту.
               taken: уже настроен для другой конфигурации данного типа.
-            form_configuration_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             patterns:
               invalid_tokens: Один или несколько атрибутов внутри поля недействительны. Пожалуйста, исправьте атрибуты перед сохранением.
-            pdf_export_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
-            project_attributes_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
             variant:
               must_belong_to_the_type: должен быть вариантом данного типа.
             workflow:
               not_available_to_this_variant: должен быть рабочим процессом, который может использовать проект.
-            workflows_source_id:
-              must_be_available_to_the_variant: должно быть конфигурацией, которую проект может использовать.
-              would_create_cycle: объединит эти конфигурации в цикл.
         user:
           attributes:
             base:
@@ -1210,6 +1263,11 @@ ru:
         few: Export settings
         many: Export settings
         other: Настройки экспорта
+      form_configuration:
+        one: Form
+        few: Forms
+        many: Forms
+        other: Forms
       forum:
         one: Форум
         few: Forums
@@ -1633,6 +1691,23 @@ ru:
     banners:
       environment_configured_readonly: Эти значения настраиваются через переменные окружения и не могут быть отредактированы.
     custom_styles:
+      branding:
+        desktop:
+          description: По умолчанию используются логотипы OpenProject, но если вы загрузите новые логотипы, то тема автоматически будет изменена на пользовательскую тему. Для лучшего результата мы рекомендуем использовать прозрачный логотип.
+          title: Пользовательские логотипы рабочего стола
+        mobile:
+          description: По умолчанию логотипы OpenProject используются в версии мобильного браузера, это изменение не будет обновлено. Для лучшего результата мы рекомендуем использовать прозрачный логотип.
+          title: Пользовательские мобильные логотипы
+        modes:
+          dark:
+            description: Заголовок приложения будет черным. Мы рекомендуем белый логотип на прозрачном фоне.
+            name: Логотип в темном режиме
+          light:
+            description: Убедитесь, что вы загрузили логотип, который достаточно контрастирует с выбранным цветом заголовка приложения.
+            name: Логотип в светлом режиме
+          light_high_contrast:
+            description: Заголовок приложения будет серым. Мы рекомендуем черный логотип на прозрачном фоне.
+            name: Логотип в режиме высокой контрастности
       color_groups:
         base_colors: Основные цвета
         main_menu: Главное боковое меню
@@ -1648,7 +1723,7 @@ ru:
         primary-button-color: Основная кнопка
       custom_colors: Настроить цвета
       default_colors:
-        description: Define a palette of colors to use elsewhere in the application. These will be available, for example, when choosing a color to represent a status or a type.
+        description: Определите палитру цветов для использования в других частях приложения. Эти цвета будут доступны, например, при выборе цвета для обозначения статуса или типа.
       edit_color: Редактировать %{color}
       fonts:
         file_is_invalid: не является действительным файлом шрифта TTF.
@@ -1665,7 +1740,11 @@ ru:
       tab_interface: Интерфейс
       tab_pdf_export_font: Шрифт для экспорта в PDF
       tab_pdf_export_styles: Стили экспорта PDF
-      theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
+      theme_warning:
+        confirmation: Я понимаю, что это действие нельзя отменить
+        description: Смена темы приведёт к перезаписи настраиваемых стилей и цветов. Созданные параметры оформления будут утрачены.
+        heading: Изменить цветовую схему?
+        title: Изменить цветовую тему
     enterprise:
       add_token: Загрузить токен поддержки корпоративной версии
       book_now: Заказать сейчас
@@ -1767,6 +1846,43 @@ ru:
           button_edit_configuration: Изменить конфигурацию
           button_import_run: Выполнение импорта
           description: С каждым запуском импорта можно импортировать различные наборы данных. Отмена импорта возможна сразу же после завершения процесса проверки, но не после завершения.
+        jobs:
+          JiraCreateCustomFieldsJob:
+            title: Create custom fields
+          JiraCreateProjectJob:
+            title: Create project '%{jira_project_name}'
+          JiraCreateProjectRoleJob:
+            title: Create 'JiraMember' project role
+          JiraCreateProjectVersionsJob:
+            title: Create versions for '%{jira_project_name}'
+          JiraCreateProjectWorkPackageAttachmentsJob:
+            title: Download work package attachments for '%{jira_project_name}'
+          JiraCreateProjectWorkPackagesJob:
+            title: Create work packages for '%{jira_project_name}'
+          JiraCreateUsersJob:
+            title: Create users
+          JiraFetchCustomFieldJob:
+            title: Fetch custom fields
+          JiraFetchIssueTypesJob:
+            title: Fetch issue types
+          JiraFetchPrioritiesJob:
+            title: Fetch priorities
+          JiraFetchProjectIssuesJob:
+            title: Fetch issues for project '%{jira_project_name}'
+          JiraFetchProjectVersionsJob:
+            title: Fetch versions for project '%{jira_project_name}'
+          JiraFetchProjectsJob:
+            title: Fetch projects
+          JiraFetchStatusesJob:
+            title: Fetch statuses
+          JiraFetchUsersJob:
+            title: Fetch users
+          JiraInstanceMetaDataJob:
+            title: Fetching instance meta data
+          JiraProjectsMetaDataJob:
+            title: Fetching meta data about selected projects
+          JiraRevertImportJob:
+            title: Reverting this Jira import run
         project_identifier_taken: 'Вы пытаетесь импортировать проект с уже использованным идентификатором: %{taken_identifier}. Пожалуйста, обновите идентификатор проекта в Jira, затем нажмите «Повторить».'
         remove_error: Запуск импорта Jira не может быть удалён, пока он запущен
         side_panel:
@@ -1795,13 +1911,17 @@ ru:
         step_not_available: Это действие недоступно для текущего состояния импорта.
         title: Выполнение импорта
         wizard:
+          application_trace: Application trace
           button_abort: Прервать
           button_retry: Повторить
+          copy_application_trace: Copy application trace
+          copy_full_trace: Copy full trace
           finalize_dialog:
             confirm: Я понимаю, что это действие не может быть отменено
             confirm_button: Понятно
             description: После завершения импорта его уже нельзя будет отменить. Все импортированные данные будут импортированы навсегда.
             title: Завершить импорт?
+          full_trace: Full trace
           groups:
             configuration:
               title: Настроить импорт
@@ -1820,6 +1940,11 @@ ru:
               few: "%{count} проблем"
               many: "%{count} проблем"
               other: "%{count} проблем"
+            jobs:
+              one: 1 job
+              few: "%{count} jobs"
+              many: "%{count} jobs"
+              other: "%{count} jobs"
             projects:
               one: 1 проект
               few: "%{count} проектов"
@@ -1921,6 +2046,7 @@ ru:
                 issues: Задачи
                 permissions: Разрешения
                 project_ids: Идентификаторы проекта
+                project_versions: Project versions
                 projects: Проекты
                 relations: Отношения между проблемами
                 schemes: Схемы
@@ -1928,7 +2054,7 @@ ru:
                 users: Вовлеченные пользователи и группы
                 workflows: Рабочие процессы на уровне проекта
               label_coming_later: Ожидается позже
-              label_coming_soon: Скоро (Q3 2026)
+              label_coming_soon: Coming soon
               label_import: Выберите проекты, которые Вы хотите импортировать.
               label_info: Пожалуйста, обратите внимание, что этот инструмент импорта находится в бета-версии и не может импортировать все типы данных. Вот краткая информация о том, что хост Jira предлагает для импорта, и что этот инструмент может импортировать прямо сейчас.
               label_progress: Получение данных
@@ -1942,6 +2068,38 @@ ru:
             filter_projects: Фильтр по тексту
             info: Только проекты, в которых владелец токена Jira является участником, выбираются в качестве области импорта.
             title: Выберите проекты для импорта
+          stage_discarded_label: Error
+          stage_in_progress_label: Progress
+          stage_job_error: Error
+          stage_succeeded_label: Completed
+          stages:
+            '1':
+              rest_line_text: ''
+              title: Fetch Jira configuration
+            '2':
+              rest_line_text: Fetching issues and versions for %{projects_number} more projects
+              title: Fetch project issues and versions
+            '3':
+              rest_line_text: ''
+              title: Fetch users and custom fields
+            '4':
+              rest_line_text: ''
+              title: Create users, groups and memberships
+            '5':
+              rest_line_text: ''
+              title: Create roles and custom fields
+            '6':
+              rest_line_text: Creating %{projects_number} more projects
+              title: Create projects
+            '7':
+              rest_line_text: Creating versions for %{projects_number} more projects
+              title: Create project versions
+            '8':
+              rest_line_text: Creating work packages for %{projects_number} more projects
+              title: Create work packages
+            '9':
+              rest_line_text: Downloading attachments for %{projects_number} more projects
+              title: Download attachments
       test:
         api_error: Jira API вернул статус ошибки %{status}. Пожалуйста, проверьте ваш экземпляр Jira URL и API токен.
         connection_error: 'Ошибка соединения: %{message}'
@@ -1960,6 +2118,128 @@ ru:
       caption_with_maximum: 'Действия пользователя над пакетом работ (изменение описания, статуса, значений или добавление комментариев) группируются, если они выполняются в течение этого периода. Этот параметр также регулирует задержки в отправке уведомлений и [webhook](webhook_link). Максимальное значение составляет %{max} минут.
 
         '
+    labels:
+      delete_dialog_component:
+        confirmation: Я понимаю, что это действие нельзя отменить
+        description_html: Это удалит метку <strong>%{name}</strong> из всех пакетов работ во всех проектах.
+        heading: Удалить эту метку?
+        title: Удалить эту метку?
+      dialog_component:
+        create_title: Создать метку
+        rename_title: Переименовать "%{name}"
+      index:
+        description: Все пользователи, способные редактировать пакеты работ, могут свободно помечать пакеты работ как существующими, так и сразу создавать новые. Сюда входят все метки, созданные пользователями во всех проектах.
+      row_component:
+        used_in_work_packages:
+          one: "%{count} пакет работ"
+          few: "%{count} work packages"
+          many: "%{count} work packages"
+          other: "%{count} пакетов работ"
+      sub_header_component:
+        button_add: Метка
+        label_add: Добавить метку
+        search_placeholder: Введите текст для поиска
+      table_component:
+        blank_slate:
+          description: Здесь появятся ярлыки, созданные пользователями на пакетах работ.
+          title: Пока нет меток
+        headers:
+          name: Метка
+          usage: Используется в
+        no_matches:
+          description: Попробуйте изменить поисковой запрос.
+          title: Нет меток, соответствующих вашему запросу
+    llm_connections:
+      delete_api_key:
+        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
+        heading: Remove the stored API key?
+        menu_label: Remove API key
+        success: The API key has been removed.
+        title: Remove API key
+      disabled_notice: LLM features are switched off for this instance. Switch them on here first.
+      disconnect:
+        description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
+        heading: Disconnect from the LLM server?
+        keeps_models: The model list, including any models you added manually, is kept.
+        keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
+        menu_label: Disconnect
+        success: OpenProject has disconnected from the LLM server.
+        title: Disconnect
+      form:
+        api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
+        api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
+        api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
+        api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
+        api_key_placeholder_stored: API key stored
+        api_key_remove: Remove key
+        base_url_caption: The base URL of the server, for example https://example.com/v1.
+        button_connect: Connect
+        label_connecting: Contacting the LLM server…
+        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
+        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
+        server_group: Server
+      show:
+        description: Connect OpenProject to an LLM server so that AI features can use it.
+        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+      tabs:
+        connection: Connection
+        models: Models
+      update:
+        disabled: Saved. LLM features are switched off for this instance.
+        no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
+        success: Successfully connected to the LLM server.
+    llm_models:
+      create:
+        success: "%{model} has been added."
+      destroy:
+        description: The model will no longer be offered to AI features.
+        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        heading: Remove %{model}?
+        success: "%{model} has been removed."
+        title: Remove model
+      edit:
+        description: Edit how OpenProject uses this model.
+      form:
+        context_window: Context window
+        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
+        context_window_known: Leave blank to use %{value}, %{source}.
+        display_name_caption: An optional friendly name shown instead of the model id.
+        external_id_caption: The model name exactly as the server expects it.
+        model_type: Model type
+        model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
+        model_type_chat: Chat model
+        model_type_embedding: Embedding model
+        model_type_unspecified: Not specified
+        state_inherited: Inherit from server (%{state})
+        state_supported: Supported
+        state_unsupported: Not supported
+      index:
+        add_model: Model
+        blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
+        blank_title: No models available
+        context_window: Context window
+        description: Reported by the server on %{fetched_at}.
+        description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
+        filter_label: Filter models
+        identifier: Model
+        kind: Type
+        refresh: Refresh models
+        source: Source
+        source_discovered: Server
+        source_discovered_description: Reported by the server
+        source_manual: Manual
+        source_manual_description: Added manually by an administrator
+        source_withdrawn: Withdrawn
+        source_withdrawn_description: No longer reported by the server
+        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+      new:
+        description: Name a model this server can use but does not advertise, and describe what it can do.
+        title: Add a model
+      refresh:
+        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
+        success: The model list has been refreshed.
+      update:
+        success: "%{model} has been updated."
     mcp_configurations:
       index:
         description: Протокол контекста модели позволяет агентам ИИ предоставлять своим пользователям инструменты и ресурсы, открытые данным экземпляром OpenProject. Эта функция пока находится в стадии бета-версии.
@@ -2220,6 +2500,11 @@ ru:
         ignore: Игнорировать изменения
         save: Сохранить изменения и продолжить
         title: Сохранить изменения, прежде чем продолжить?
+      read_only:
+        edit_action: Редактировать рабочий процесс
+        text_html: 'Вы используете существующий рабочий процесс. Чтобы внести изменения, либо отредактируйте исходный рабочий процесс, либо нажмите <b>+ %{action}</b> выше, чтобы создать новый.
+
+          '
       role_selector:
         label: 'Роль: %{role}'
         no_role: Выберите роль
@@ -2253,6 +2538,7 @@ ru:
           assignee: Дополнительные варианты перехода, доступные исполнителю пакета работ.
           author: Дополнительные варианты перехода, доступные автору пакета работ.
         menu_label: Показаны переходы
+      workflow_button: Рабочий процесс
   ai:
     text_transform:
       errors:
@@ -2261,6 +2547,7 @@ ru:
         timeout: Сервис ИИ не ответил вовремя.
         upstream_error: Сервис ИИ выдал ошибку.
   announcements:
+    content: Content
     is_active: теперь отображается
     is_inactive: теперь не отображается
     show_until: Показать до
@@ -2453,6 +2740,10 @@ ru:
     work_package: Пакет работ
     work_package_id: Пакет работ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Войти и зарегистрироваться
   background_jobs:
     status:
@@ -2780,16 +3071,17 @@ ru:
     is_enabled_globally: Разрешено в глобальном масштабе
     multi_value_more:
       other: и еще %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Роль не назначена
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Сначала необходимо выбрать пакет работ или проект
     reorder_alphabetical: Переупорядочить значения по алфавиту
     reorder_confirmation: 'Предупреждение: Текущий порядок доступных значений, а также все несохраненные значения будут потеряны. Вы уверены, что хотите продолжить?'
     semantic_keys:
       job_title: Должность
       none: Отсутствует
-    tab:
-      no_results_content_text: Создать новое настраиваемое поле
-      no_results_title_text: Нет настраиваемых полей.
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
 
       '
@@ -3265,6 +3557,7 @@ ru:
   error_no_default_work_package_status: Пакету работ не может быть присвоен статус по умолчанию. Пожалуйста, проверьте конфигурацию («Администрирование –> Статус пакета работ»).
   error_no_type_in_project: Тип не связан с этим проектом. Пожалуйста, проверьте параметры проекта.
   error_omniauth_invalid_auth: Информация аутентификации, полученная от поставщика идентификационных данных, является недействительной. Пожалуйста, обратитесь к администратору за дальнейшей помощью.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: Время регистрации через провайдера истекло. Пожалуйста, попробуйте еще раз.
   error_password_change_failed: Произошла ошибка при попытке изменить пароль.
   error_pdf_date_range_too_long: Выбранный диапазон дат пакета работ превышает допустимый лимит экспорта в PDF. Пожалуйста, сократите диапазон до %{years} лет.
@@ -3436,6 +3729,118 @@ ru:
       selected: Выбрано
     include_sub_items: Включить подпроекты
     no_results_text: Нет результатов
+  form_configurations:
+    button: Form
+    change:
+      select:
+        caption: The type shows its work packages with the attribute groups of the form you pick here.
+        label: Form
+        placeholder: Select a form…
+      title: Change form
+    default:
+      label: Default
+      mark: Mark as default
+      marked: "%{name} is now the default form. New types use it."
+      name: Default form
+    form:
+      copy_from:
+        caption: The new form starts with a copy of that form's attribute groups.
+        label: Copy from
+        placeholder: Select a form…
+      description:
+        caption: Add a short description about where and how will this form be used.
+        label: Description
+      edit_title: Edit form
+      name:
+        caption: Pick a name that will let you identify this form later in other places.
+        label: Form name
+      new_title: Create form
+    index:
+      actions:
+        edit: Edit form
+        menu: Actions for %{name}
+        rename: Edit name and description
+      blank_slate:
+        description: Create a form to define the attribute groups a type or variant shows on its work packages.
+        filtered_description: No form matches the current filters.
+        filtered_title: No matching forms
+        title: No forms
+      columns:
+        name: Form name
+        projects: Projects
+        types_and_variants: Types and variants
+      description: Every named work package form in this instance, with the types and variants using it.
+      filters:
+        name: Form
+        name_placeholder: Filter by form name or description…
+        projects_placeholder: Filter projects…
+      projects_count:
+        one: 1 project
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} projects"
+      types_and_variants_count: "%{types} (including %{variants})"
+      types_count:
+        one: 1 type
+        few: "%{count} types"
+        many: "%{count} types"
+        other: "%{count} types"
+      variants_count:
+        one: 1 variant
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} variants"
+    name:
+      fallback: Form
+      implicit: "%{name} form"
+    selector:
+      default: "(Default)"
+      prefix: Form
+      same_as_type: "(same as type)"
+      title: Select form
+    start:
+      copy:
+        caption: Start with an existing form, change it as you wish and save it as a new form.
+        label: Start with a copy of an existing form
+        missing: Select the form to copy, or start from scratch instead.
+        panel_label: Form to copy
+      label: Starting point
+      scratch:
+        caption: Start with the default attribute groups and arrange them yourself.
+        label: Start from scratch
+      title: Configure a new form
+    tab:
+      read_only:
+        edit_action: Edit form
+        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+
+          '
+    usage:
+      dialog:
+        button: View dependent types
+        caption_html: The form %{name} is used in the following types and variants.
+        title: Form used in types
+        variant_of: Variant of %{type}
+        variants: Variants
+      unused: No type or variant uses this form yet.
+      used_by_types:
+        one: This form is used by 1 type. Changes apply to it.
+        few: This form is used by %{count} types. Changes apply to all of them.
+        many: This form is used by %{count} types. Changes apply to all of them.
+        other: This form is used by %{count} types. Changes apply to all of them.
+      used_by_variants:
+        one: This form is used by 1 type or variant.
+        few: This form is used by %{count} types and variants.
+        many: This form is used by %{count} types and variants.
+        other: This form is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Use an existing form for this type with a pre-defined set of attribute groups.
+          label: Use an existing form
+        new:
+          caption: Arrange the attribute groups of a new form for this type.
+          label: Configure a new form
   forums:
     show:
       no_results_title_text: На данный момент сообщений для форума нет.
@@ -3530,14 +3935,14 @@ ru:
       new_features:
         '17_9':
           new_features_list:
-            line_0: Create work packages directly in Documents.
-            line_1: Search and filter work packages in Backlogs.
-            line_2: Choose whether to keep descendants when deleting a work package.
-            line_3: Use the MCP Server to track time, search work packages by their display ID, and more (Professional plan).
-            line_4: Enter planned labor in hours, days, weeks, or months.
-            line_5: See the import progress when using the Jira Migrator.
-            line_6: Use Date alerts in the Community Edition.
-          new_features_title: 'The release contains various new features and improvements, such as:
+            line_0: Создавайте рабочие пакеты непосредственно в разделе «Документы».
+            line_1: Поиск и фильтрация пакетов работ в Бэклоге.
+            line_2: Выберите, сохранять ли потомков при удалении пакета работ.
+            line_3: Используйте сервер MCP для учёта рабочего времени, поиска рабочих пакетов по их идентификатору отображения и других функций (тарифный план «Professional»).
+            line_4: Указывайте запланированные трудозатраты в часах, днях, неделях или месяцах.
+            line_5: Отслеживайте прогресс импорта при использовании Jira Migrator.
+            line_6: Используйте оповещения о дедлайне в версии Community Edition.
+          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
 
             '
         header: Читайте о новых возможностях и обновлениях продуктов.
@@ -3577,6 +3982,7 @@ ru:
       budget_deleted: Бюджет был удален
       import:
         changed_with_diff: "%{field} изменено (%{link})"
+        csv: from CSV
         deleted_with_diff: "%{field} удалено (%{link})"
         field_changed: "%{field} изменено с %{old_value} на %{new_value}"
         field_removed: "%{field} удалено"
@@ -3710,7 +4116,7 @@ ru:
   label_available_project_work_package_categories: Доступные категории рабочих пакетов
   label_available_project_work_package_types: Доступные типы пакетов работ
   label_available_projects: Доступные проекты
-  label_backtrace: Backtrace
+  label_backtrace: Трассировка
   label_backup: Резервное копирование
   label_basic_details: Основные детали
   label_between: между
@@ -3805,8 +4211,6 @@ ru:
   label_custom_field_default_type: Пустой тип
   label_custom_field_new: Новое настраиваемое поле
   label_custom_field_plural: Пользовательские поля
-  label_custom_logo: Пользовательский логотип компьютера
-  label_custom_logo_mobile: Пользовательский логотип мобильного устройства
   label_custom_pdf_export_settings: Настройки экспорта PDF
   label_custom_style: Дизайн
   label_custom_style_description: Выберите, как OpenProject будет выглядеть с помощью тем, выберите цвета по умолчанию, которые Вы будете использовать в приложении, и как будет выглядеть экспорт.
@@ -3830,6 +4234,7 @@ ru:
   label_deleted_custom_field: "(удалено настраиваемое поле)"
   label_deleted_custom_item: "(удалено)"
   label_deleted_custom_option: "(удалённая опция)"
+  label_deleted_version: "(удаленная версия)"
   label_departments: Департаменты
   label_departments_description_html: 'Определите структуру вашей компании, создав подразделения в соответствии с Вашей иерархией подразделений. Это позволит вам отразить структуру подчиненности и обеспечить наглядный и четкий обзор вашей организации в OpenProject. Вы также можете импортировать существующую организационную структуру с помощью [синхронизации отделов по LDAP](ldap_docs_article).
 
@@ -3899,6 +4304,7 @@ ru:
   label_float: Плавающий
   label_folder: Папка
   label_follows: Следует
+  label_form_configuration_plural: Forms
   label_formula: Формула
   label_forum_new: Новый форум
   label_forum_plural: Форумы
@@ -3917,6 +4323,7 @@ ru:
   label_go_forward: Открыть подменю %{module}
   label_greater_or_equal: ">="
   label_group: Группа
+  label_group_attributes_plural: Group attributes
   label_group_by: Группировать по
   label_group_named: Группа %{name}
   label_group_new: Новая группа
@@ -3968,6 +4375,7 @@ ru:
   label_journal_diff: Описание сравнения
   label_jump_to_a_project: Перейти к проекту...
   label_keyword_plural: Ключевые слова
+  label_label_plural: Метки
   label_language: Язык
   label_language_based: Основанный на языке пользователя
   label_languages: Языки
@@ -4321,6 +4729,7 @@ ru:
   label_user_settings: Настройки пользователя
   label_users_settings: Настройки пользователей
   label_value_x: 'Значение: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Изменить версию
   label_version_new: Новый этап
   label_version_plural: Этапы
@@ -4508,6 +4917,42 @@ ru:
     update:
       failure: 'Измененный список не может быть сохранен: %{errors}'
       success: Измененный список был сохранен
+  llm:
+    api_formats:
+      anthropic: Anthropic
+      azure: Azure OpenAI
+      bedrock: AWS Bedrock
+      deepseek: DeepSeek
+      gemini: Google Gemini
+      gpustack: GPUStack
+      mistral: Mistral
+      ollama: Ollama
+      openai: OpenAI
+      openrouter: OpenRouter
+      perplexity: Perplexity
+      vertexai: Google Vertex AI
+      xai: xAI
+    capabilities:
+      embeddings:
+        label: Embeddings
+      function_calling:
+        label: Tool calling
+      reasoning:
+        label: Reasoning
+      structured_output:
+        label: Structured output
+      vision:
+        label: Vision
+    context_window_sources:
+      registry: the figure published for this model
+      server: reported by the server
+    model_kinds:
+      chat: Chat
+      embedding: Embedding
+    verdict_states:
+      supported: supported
+      unknown: not verified
+      unsupported: not supported
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
   macro_unknown: Неизвестный или неподдерживаемый макрос.
@@ -4763,6 +5208,7 @@ ru:
       aggregation: Агрегация
       ai: Искусственный интеллект (AI)
       api_and_webhooks: API и вебхуки
+      llm_connection: LLM settings
       mail_notification: Уведомления по электронной почте
       mails_and_notifications: Письма и уведомления
       mcp_configurations: Протокол контекста модели (MCP)
@@ -5358,6 +5804,7 @@ ru:
   permission_export_projects: Экспорт проектов
   permission_export_work_packages: Экспорт пакетов работ
   permission_header_for_project_module_work_package_tracking: Пакеты работ и диаграммы Гантта
+  permission_import_work_packages: Import work packages
   permission_invite_members_by_email: Пригласить участников по электронной почте
   permission_invite_members_by_email_explanation: 'Позволяет пользователям приглашать новых пользователей по электронной почте. Приглашенные пользователи получат письмо со ссылкой для установки пароля и активации учетной записи. Зависит от разрешения на управление участниками
 
@@ -5741,7 +6188,7 @@ ru:
         variants_not_allowed: Этот тип не позволяет создавать варианты внутри проектов.
       versions:
         no_results_content_text: Создать новую версию
-        no_results_title_text: No versions matching the filter criteria were found for this project.
+        no_results_title_text: Для этого проекта не найдено версий, соответствующих критериям фильтра.
         show_work_packages: Показать пакеты работ
         work_packages_graph: Диаграмма по пакетам работ
       work_package_priorities:
@@ -6057,7 +6504,7 @@ ru:
   setting_default_language: Язык по умолчанию
   setting_default_projects_modules: По умолчанию доступные в новых проектах модули
   setting_default_projects_public: По умолчанию новые проекты видимы всем
-  setting_default_projects_wiki: Enable wiki functionality for new projects by default
+  setting_default_projects_wiki: Включить функциональность вики для новых проектов по умолчанию
   setting_diff_max_lines_displayed: Максимальное количество отображаемых строк diff(разницы)
   setting_disable_password_login: Отключить аутентификацию по паролю
   setting_display_subprojects_work_packages: Отображать пакеты работ подпроектов в основном проекте по умолчанию
@@ -6175,6 +6622,7 @@ ru:
   setting_start_of_week: Начало недели в
   setting_sys_api_description: Веб-сервис управления репозиторием обеспечивает интеграцию и авторизацию пользователя для доступа к репозиторию.
   setting_sys_api_enabled: Разрешить веб-сервис управления репозиторием
+  setting_sys_api_key: API key
   setting_time_format: Время
   setting_total_percent_complete_mode: Расчет общего % завершения полной иерархии
   setting_total_percent_complete_mode_simple_average: Среднее арифметическое
@@ -6238,6 +6686,7 @@ ru:
         '
       title: Сканирование вирусов
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Отключение этой опции скроет список вложений на вкладке "Файлы" пакетов работ для новых проектов. Файлы, прикрепленные в описании пакета работ, по-прежнему будут загружаться во внутреннее хранилище вложений.
 
         '
@@ -6383,6 +6832,7 @@ ru:
         heading: Новый этап
       no_gate: Нет стадии
       non_defined: В настоящее время этапы не определены.
+      order_changed: Order successfully changed.
       phase_gates: Стадии этапа
       section_header: Этапы
       start_gate: Начать стадию
@@ -6588,12 +7038,6 @@ ru:
 
     '
   text_custom_field_possible_values_info: Каждое значение на отдельной строке
-  text_custom_logo_instructions: 'Логотип автоматически масштабируется, чтобы соответствовать заголовку. Для достижения наилучших результатов загрузите белый логотип на прозрачном фоне размером 130×47px. Вы можете добавить столько интервалов внутри этого изображения, сколько захотите.
-
-    '
-  text_custom_logo_mobile_instructions: 'Логотип автоматически масштабируется, чтобы соответствовать заголовку. Для достижения наилучших результатов загрузите белый логотип на прозрачном фоне размером 130×33px. Вы можете добавить столько интервалов внутри этого изображения, сколько захотите.
-
-    '
   text_custom_touch_icon_instructions: 'Это значок, который появляется на вашем мобильном устройстве или планшете, когда вы размещаете закладку на своем рабочем столе. Это должен быть файл изображения в формате PNG размером 180 на 180 пикселей в квадрате. Пожалуйста, убедитесь, что фон изображения не прозрачный, иначе это будет плохо смотреться на iOS.
 
     '
@@ -6740,60 +7184,86 @@ ru:
     help_and_support: Помощь и поддержка
   total_progress: Общий прогресс
   tree_view:
-    label_empty_sub_tree: No items
+    label_empty_sub_tree: Нет элементов
   types:
     comparison:
-      action: Compare variants
+      action: Сравнить варианты
       blankslate:
-        description: Add a second variant to this type to see what sets them apart.
-        title: There is nothing to compare yet
-      description: Compare the variants of this type with the parent type.
+        description: Добавьте второй вариант к данному типу, чтобы понять, чем они отличаются друг от друга.
+        title: Пока сравнивать не с чем
+      description: Сравните варианты данного типа с исходным типом.
       labels:
-        duplicate: Possible duplicate
-        duplicate_of: Configured exactly like %{names}
+        duplicate: Возможный дубликат
+        duplicate_of: Настроен точно так же, как %{names}
         duplicate_of_more:
-          one: "%{names} and 1 more"
+          one: "%{names} и еще 1"
           few: "%{names} and %{count} more"
           many: "%{names} and %{count} more"
-          other: "%{names} and %{count} more"
-        parent_type: Parent type
-        same_as_type: Same as parent type
+          other: "%{names} и %{count} ещё"
+        parent_type: Родительский тип
+        same_as_type: Такой же, как у родительского типа
       rows:
         form:
-          fields: Fields
-          groups: Sections
-          required: Of which required
-          same_as_base: Same as parent type
+          fields: Поля
+          groups: Разделы
+          required: Из которых требуется
+          same_as_base: Такой же, как у родительского типа
         scope:
-          availability: Available to
-          enabled_in_new_projects: Active in new projects
-          projects: Projects
+          availability: Доступно для
+          enabled_in_new_projects: Активно в новых проектах
+          projects: Проекты
         workflows:
-          roles: Roles involved
-          same_as_base: Same as parent type
-          statuses: Statuses
-          transitions: Transitions
+          roles: Участвующие роли
+          same_as_base: Такой же, как у родительского типа
+          statuses: Статусы
+          transitions: Переходы
       sections:
-        configuration: Configuration overview
-        form: Form
-        scope: Scope
-        workflows: Workflows
-      title: Compare variants
-      title_for_type: Compare variants of %{name}
+        configuration: Обзор конфигурации
+        form: Форма
+        scope: Область
+        workflows: Рабочие процессы
+      title: Сравнить варианты
+      title_for_type: Сравнить варианты %{name}
       values:
-        global: All projects
-        inheriting_from: Inheriting from
-        project_specific: Project-specific ([%{project}](project_url))
-        same_as_base: Identical to the parent type
+        global: Все проекты
+        inheriting_from: Наследование от
+        project_specific: Связанные с конкретными проектами ([%{project}](project_url))
+        same_as_base: Идентичен родительскому типу
     creation_wizard:
       add_variant: Добавить вариант в %{name}
       create_type: Создать тип
       create_variant: Создать Вариант
+      descriptions:
+        defaults: Выберите, если участники проекта должны иметь возможность называть рабочие пакеты по своему желанию или если заголовки должны быть сгенерированы автоматически.
+        form_configuration: Это поля, которые участник проекта видит при создании или редактировании пакета работ данного типа.
+        pdf: Настройте, как должны выглядеть PDF-файлы, экспортируемые из пакетов работ данного типа.
+        project_attributes: Вы можете сделать так, чтобы определенные атрибуты проекта отображались во всех пакетах работ данного типа.
+        projects: В каких проектах должен быть доступен этот тип?
       fields:
         variant_name_caption: Называет эту конфигурацию %{type}. Рабочие пакеты по-прежнему используют %{type}.
       finish: Закончить
       placeholder_description: Этот шаг скоро будет доступен.
       progress_label: Шаг %{number} из %{total}
+      start:
+        inherit_description: Страница наследует существующие настройки от другого типа. Впоследствии изменения, внесённые в исходный тип, автоматически отразятся здесь.
+        inherit_title: Использовать те же настройки, что и тип
+        manual_description: Вы можете настроить эту страницу по своему усмотрению или скопировать настройки из другого типа.
+        manual_title: Ручная настройка
+        reuse_heading: Использовать существующую конфигурацию типа
+        reuse_inherit: Для всего остального, вы можете настроить автоматическое использование тех же параметров, что и для типа (%{type_name}), если не хотите никаких отличий, и вручную настраивать только те страницы, на которых вы хотите, чтобы были отличия.
+        reuse_intro: Для каждой из страниц вы можете определить, какую связь она имеет с основным типом.
+        reuse_named: Для рабочих процессов и форм, вы можете использовать существующие конфигурации, чтобы избежать определения различных каждый раз при создании нового типа или варианта. Если конфигурация не соответствует вашим потребностям, вы можете создать новую.
+        submit: Начать
+        type:
+          description: Тип представляет собой конкретный вид элемента, например функцию или ошибку. Он имеет имя, цвет, набор полей, некоторые правила перехода между статусами и другой конфигурацией. Вы можете активировать и использовать различные типы в разных проектах.
+          heading: Создать новый тип
+          lead_html: Вы собираетесь создать новый тип в своём экземпляре.
+          step_by_step: На следующих страницах вы пошагово настроите новый тип.
+        variant:
+          description: Вариант — это альтернативная версия типа, отличающаяся от него несколькими особенностями. Их можно использовать для удовлетворения требований конкретного проекта без необходимости создания совершенно нового типа.
+          heading: Создать новый вариант
+          lead_html: Вы собираетесь создать новый вариант <b>%{type_name}</b> в вашем экземпляре.
+          step_by_step: На следующих страницах вы шаг за шагом настроите этот новый вариант.
       steps:
         defaults: По умолчанию
         details: Детали
@@ -6801,6 +7271,7 @@ ru:
         pdf: Создание PDF
         project_attributes: Атрибуты проекта
         projects: Проекты
+        start: Начать
         workflows: Рабочие потоки
       success: Успешно создано.
     edit:
@@ -6855,6 +7326,7 @@ ru:
             label_enable_all: Включить всё
             label_toggle_template: Переключить %{template}
           label: Шаблоны экспорта в PDF
+          order_changed: Order successfully changed.
         tab: Создать PDF
         templates:
           readonly_error: Не может быть изменено, пока связано с источником типа.
@@ -6869,6 +7341,8 @@ ru:
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         confirm_reset: Вы уверены, что хотите сбросить форму?
         custom_field: Настраиваемое поле
         delete_group: Удалить секцию
@@ -6899,7 +7373,6 @@ ru:
           globally_hint: Измените это в пользовательском поле
           mark: Обязательно в этом типе
           not_a_custom_field: Обязательным для заполнения для одного конкретного типа может быть назначено только одно настраиваемое поле.
-          not_available_when_linked: Данная конфигурация наследуется. Для внесения необходимых изменений настройте её вручную.
           unmark: Не требовать в этом типе
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
@@ -6911,7 +7384,6 @@ ru:
         untitled_group: Безымянная группа
       overview:
         configuration_mode: Режим конфигурации
-        dependents: Зависимые типы и варианты
         mode:
           always_manual: Всегда вручную
           inheriting_from_html: Наследование от %{source_name}
@@ -6965,47 +7437,17 @@ ru:
             title: Скопировать конфигурацию
           invalid_source: Конфигурация не может быть скопирована из выбранного типа. Пожалуйста, выберите другой источник типа.
           success: Конфигурация была скопирована.
-        dependents:
-          blank:
-            description: Ни один другой тип или вариант не наследуется от данной конфигурации
-            title: Нет зависимых типов
-          description:
-            one: Следующая конфигурация унаследована 1 другим типом или вариантом. Любые изменения, которые вы вносите здесь, также повлияют на зависимость.
-            few: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            many: The following configuration is inherited by %{count} other types or variants. Any changes you make here will also affect the dependents.
-            other: Следующая конфигурация унаследована %{count} другими типами или вариантами. Любые изменения, внесенные здесь, также повлияют на зависимости.
-          dialog:
-            description: Эти типы и варианты наследуют конфигурацию этого раздела. Внесенные вами изменения применяются ко всем из них.
-            direct_heading: Прямые зависимые
-            indirect_heading: Зависимости от других типов
-            title: Зависимые типы
-            variant_of_html: Вариант %{type_name}
-            variant_of_via_html: Вариант %{type_name}, унаследованный от %{source_name}
-            via_html: Наследование от %{source_name}
-          title:
-            one: 1 зависимый тип
-            few: "%{count} dependent types"
-            many: "%{count} dependent types"
-            other: "%{count} зависимых типов"
-          view: Просмотр зависимых типов
         exclusions:
           not_inherited: Данная конфигурация не наследуется, поэтому исключать ничего не нужно. Вместо этого отредактируйте конфигурацию напрямую.
           unknown_aspect: Неизвестная секция конфигурации "%{aspect}".
         inherited:
-          change_source: Изменить источник типа
           configure_manually: Настройка вручную
           confirm_dialog:
-            change_source:
-              description_html: Изменив тип источника на %{source_name}, вы перезапишете текущие настройки, что может повлиять на имеющуюся информацию о рабочих пакетах данного типа.
-              heading: Изменить тип источника?
-              title: Изменить тип источника
             check_box: Я понимаю, что это переопределит текущие настройки
             from_manual:
               description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
               heading: Переключить режим конфигурации?
               title: Переключить режим конфигурации
-          description: Данная конфигурация наследуется от исходного типа [%{source_name}](source_url)%{source_suffix}.
-          description_unlinked: Данная конфигурация унаследована от исходного типа %{source_name}%{source_suffix}.
           dialog:
             description: Наследовать эту конфигурацию из исходного типа. Любая новая конфигурация, добавленная в источник, также применяется здесь.
             source_label: Исходный тип
@@ -7013,6 +7455,9 @@ ru:
             submit: Переключить
             title: Наследовать от другого типа
           invalid_source: Конфигурация не может быть унаследована от выбранного типа. Пожалуйста, выберите другой тип источника.
+          mode_description: В данном варианте будут использоваться те же настройки, что и в типе ([%{source_name}](source_url)). Любые изменения, внесенные там, автоматически отразятся и здесь.
+          mode_description_unlinked: В этом варианте будут использоваться те же настройки, что и в типе. Любые изменения, внесенные там, автоматически отразятся и здесь.
+          mode_label: Использовать те же настройки, что и тип
           success: Режим конфигурации переключен.
           title: Наследуемая конфигурация
         manual:
@@ -7021,13 +7466,14 @@ ru:
             description: Все текущие выбранные настройки будут переопределены, что может повлиять на имеющуюся информацию о пакетах работ данного типа.
             heading: Переключить режим конфигурации?
             title: Переключить режим конфигурации
-          copy_from_type: Копировать из другого типа
           description: Настройки не наследуются. Однако вы можете один раз скопировать настройки из другого типа.
           dialog:
             submit: Переключить
             title: Настройка вручную
-          inherit_from_type: Наследовать от другого типа
+          inherit_from_type: Наследовать от родителя
           invalid_mode: Выбранный режим недоступен для этой конфигурации. Пожалуйста, выберите другой режим.
+          mode_description: Настройте эту страницу вручную. Изменения, внесённые в родительский тип, больше не будут влиять на неё.
+          mode_label: Настроить эту страницу вручную
           modes:
             copy:
               caption: Начните с однократного копирования настроек, которые в настоящее время наследуются данной конфигурацией.
@@ -7050,44 +7496,44 @@ ru:
         created_in_html: Создан в %{project}
         delete:
           description: Проекты, в которых используется данный вариант, будут переведены на вариант, который вы выберете ниже, до того как данный вариант будет удален.
-          title: Delete %{name}
+          title: Удалить %{name}
         filter: Фильтр по тексту
         filter_no_results: Нет вариантов, соответствующих этому фильтру
         global_section:
-          description: These variants are available across all projects.
-          title: Global variants
+          description: Эти варианты доступны во всех проектах.
+          title: Глобальные варианты
         project_specific_section:
-          description: These variants are only available within the projects in which they were created.
-          title: Project-specific variants
+          description: Эти варианты доступны только в рамках тех проектов, в которых они были созданы.
+          title: Варианты конкретных проектов
       workflow:
         tab: Рабочие процессы
     index:
-      add_variant: Add a variant to %{name}
+      add_variant: Добавить вариант в %{name}
       add_variant_action: Добавить вариант
-      convert_to_global: Convert to global variant
+      convert_to_global: Преобразовать в глобальный вариант
       convert_to_global_dialog:
-        confirm: Convert
-        text: 'This will make this project-specific variant a global one that is available to all projects. The project admin will no longer be able to edit it.
+        confirm: Преобразовать
+        text: 'В результате данный вариант, относящийся к конкретному проекту, станет глобальным и будет доступен для всех проектов. Администратор проекта больше не сможет его редактировать.
 
           '
-        workflow_text: 'Its workflow "%{name}" belongs to this project and becomes global as well.
+        workflow_text: 'Рабочий процесс «%{name}» относится к данному проекту и также приобретает глобальный статус.
 
           '
-      convert_to_global_notice: "%{name} is now a global variant."
+      convert_to_global_notice: "%{name} теперь является глобальным вариантом."
       convert_to_global_rename:
-        confirm: Convert
-        text: A global variant with this name already exists. Please choose a different name.
-        title: Pick another name for this variant
+        confirm: Преобразовать
+        text: Глобальный вариант с таким именем уже существует. Пожалуйста, выберите другое имя.
+        title: Выберите другое имя для этого варианта
       delete:
-        description: The type will be deleted permanently. This action cannot be undone.
-        description_with_variants: The type and all of its variants will be deleted permanently. This action cannot be undone.
-        heading: Delete type '%{name}'?
+        description: Этот тип будет удален навсегда. Это действие не может быть отменено.
+        description_with_variants: Тип и все его варианты будут удалены навсегда. Это действие нельзя отменить.
+        heading: Удалить тип '%{name}'?
         projects:
-          one: 'The type will be removed from 1 project:'
+          one: 'Тип будет удален из 1 проекта:'
           few: 'The type will be removed from %{count} projects:'
           many: 'The type will be removed from %{count} projects:'
-          other: 'The type will be removed from %{count} projects:'
-        title: Delete type
+          other: 'Тип будет удален из %{count} проектов:'
+        title: Удалить тип
       description: 'Каждая область конфигурации внутри типов и вариантов может быть настроена самостоятельно, ограничена другим типом или полностью связана с источником.
 
         '
@@ -7099,15 +7545,22 @@ ru:
       no_results_content_text: Создать новый тип
       no_results_title_text: В данный момент типы отсутствуют.
       project_variants_count:
-        one: 1 project-specific variant
+        one: 1 вариант конкретного проекта
         few: "%{count} project-specific variants"
         many: "%{count} project-specific variants"
-        other: "%{count} project-specific variants"
+        other: "%{count} вариантов, используемых в конкретных проектах"
       remove_default: Не активировать в новых проектах
       remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
       type_label: Тип
       variant_label: Вариант
     milestone_indicator: Веха
+    patterns:
+      formats:
+        hierarchy_default: По умолчанию (метка и сокращённое название)
+        hierarchy_label: Только метка
+        hierarchy_short: Только сокращённое название
+        weighted_item_list_default: По умолчанию (метка и вес)
+        weighted_item_list_weight: Только вес
   unsupported_browser:
     close_warning: Игнорировать это предупреждение.
     message: На этой странице вы рискуете столкнуться с ошибками и обедненным опытом.
@@ -7299,11 +7752,11 @@ ru:
   version_status_open: открыт
   versions:
     filter_status_labels:
-      closed: Closed
-      locked: Locked
-      open: Open
+      closed: Закрыт
+      locked: Заблокирован
+      open: Открыт
     index:
-      filter_label: Search versions
+      filter_label: Поиск версий
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
       work_packages_in_archived_projects: Эта версия используется совместно с архивными проектами, в которых все еще есть рабочие пакеты, назначенные на эту версию. Они учитываются, но не отображаются в связанных представлениях.
@@ -7495,12 +7948,12 @@ ru:
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Эти пакеты работ охватывают несколько проектов: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: You are trying to delete work packages that have descendants. Do you want to delete them as well?
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        self_only_label: Delete just the selected work packages
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete the selected work packages and their descendants
+        heading: Удалить также всех потомков?
+        question: Вы пытаетесь удалить пакеты работ, у которых есть потомки. Вы хотите их удалить?
+        self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
+        self_only_label: Удалить только выбранные пакеты работ
+        with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
+        with_descendants_label: Удалить выбранные пакеты работ и их потомков
       description: Вы уверены, что хотите удалить выбранные пакеты работ и все связанные с ними данные?
       description_with_all_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
       description_with_descendants: Вы уверены, что хотите удалить выбранные пакеты работ и все их вложенные элементы?
@@ -7574,12 +8027,12 @@ ru:
       confirm_descendants_deletion: Подтверждаю, что все перечисленные выше потомки также будут удалены.
       cross_project_warning_html: 'Пакеты работ из следующих проектов будут удалены: %{projects}'
       descendants_choice:
-        heading: Delete all descendants too?
-        question: This work package has descendants. Do you want to delete them as well?
-        self_only_caption: This will not delete descendants but will remove hierarchical relations.
-        self_only_label: Delete just this work package
-        with_descendants_caption: This will delete all child work packages visible to you. You will have a chance to review the full list in the next step.
-        with_descendants_label: Delete this work package and descendants
+        heading: Удалить также всех потомков?
+        question: У данного рабочего пакета есть дочерние элементы. Хотите удалить их также?
+        self_only_caption: Это не приведёт к удалению потомков, но удалит иерархические связи.
+        self_only_label: Удалить только этот пакет работ
+        with_descendants_caption: Это удалит видимые вам дочерние пакеты работ. В следующем шаге у вас будет возможность просмотреть полный список.
+        with_descendants_label: Удалить этот пакет работ и потомков
       description: Вы уверены, что хотите удалить "%{name}"?
       heading: Удалить этот пакет работ навсегда?
       hidden_descendants_only_warning:
@@ -7603,6 +8056,151 @@ ru:
         few: Вы не можете удалить %{count} потомка, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
         many: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
         other: Вы не можете удалить %{count} потомков, поскольку у вас отсутствуют необходимые права доступа в %{projects}. Они будут сохранены, но иерархическая связь будет потеряна.
+    import:
+      check_file: Check file
+      checking_file: Checking %{filename}
+      clear: Clear
+      csv:
+        file:
+          empty: This file is empty.
+          expired: This file is no longer available. Upload it again.
+          expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
+          invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
+          malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
+          missing: Choose a CSV file to upload.
+          no_rows: This file has column headers but no lines underneath them.
+          too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
+          too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
+          too_many_rows: This file has more lines than can be imported at once. The most is %{limit}.
+        format:
+          unknown: This is not a UTF-8/UTF-16 CSV file. If it came from a spreadsheet, save it again as CSV (UTF-8/UTF-16) and upload that file instead.
+          wrong_encoding: This file is %{encoding} encoded, not UTF-8 or UTF-16. Choose the CSV UTF-8/UTF-16 format when saving, then upload it again.
+        header:
+          ambiguous: and %{other} both mean %{attribute}. Keep one of them.
+          duplicate: appears more than once. Keep one of them.
+          status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
+          unknown: cannot be imported.
+          unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
+          unnamed: This column has no name. Name it or remove the column.
+        job:
+          checking: Checking the file
+          importing: Importing the file
+        row:
+          created_after_updated: must not be later than the value in Updated on.
+          fractional_percentage: must be a whole number of percent, for example 50.
+          future_timestamp: must not be in the future.
+          invalid_date: must be a date written as YYYY-MM-DD.
+          invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
+          not_created: could not be created, and no reason was reported.
+          too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
+          unknown: does not exist.
+          unknown_in_project: does not exist in this project.
+          unknown_user: does not match a user. Use the email address the user signs in with.
+        template:
+          examples:
+            one:
+              description: Explain what the new page has to do.
+              subject: Write the documentation
+            two:
+              description: The error appears after a failed password reset.
+              subject: Fix the login error
+        view_name: CSV import on %{datetime}
+      download_template: Download the template
+      drop_or_click: Drop a CSV file here or click to select one.
+      dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
+      dry_run_label: Check the file first, without importing
+      file_label: CSV file
+      guidance:
+        column_reference: column reference
+        columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
+        limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
+        names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
+        title: Before you start
+      import_file: Import file
+      importing_file: Importing %{filename}
+      intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
+      menu_title: Work packages importer
+      report:
+        announcement:
+          checked: The file has been checked. The report is below.
+          file_rejected: The file was not imported. The report says what is wrong with its column headers.
+          imported: The import has finished. The report is below.
+          rows_rejected: Nothing was imported. The report lists the problems.
+        checked:
+          heading: Ready to import
+          import: Import %{work_packages}
+          kept: The checked file is kept for a few hours, so importing it does not need a second upload.
+          text: Nothing has been created yet. Review the summary below, then import.
+          title:
+            one: 1 line checked, no problems found
+            few: "%{count} lines checked, no problems found"
+            many: "%{count} lines checked, no problems found"
+            other: "%{count} lines checked, no problems found"
+        download_problems: Download as CSV
+        file_rejected:
+          heading: Header line
+          line: line 1 of %{filename}
+          nothing: Nothing was imported. Correct the file and upload it again.
+          text: Correct the headers in the file and upload it again.
+          title: The column headers could not be read
+        headline:
+          accounts:
+            label: Accounts
+            subtitle: assignee, accountable and author
+          dated:
+            label: Lines with dates
+            subtitle: a start or finish date
+          types:
+            label: Types
+            subtitle: used in this file
+          work_packages:
+            label: Work packages
+            subtitle: one for every line
+        imported:
+          again: Import another file
+          heading: Import summary
+          link:
+            one: View the imported work package
+            few: View the %{count} imported work packages
+            many: View the %{count} imported work packages
+            other: View the %{count} imported work packages
+          notifications: Notifications were not sent for these work packages.
+          text_html: Imported from %{filename} on %{date} at %{time}.
+          title: "%{work_packages} created"
+          work_packages: work packages
+        problems:
+          all:
+            one: 1 problem.
+            few: "%{count} problems, all shown."
+            many: "%{count} problems, all shown."
+            other: "%{count} problems, all shown."
+          capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
+          heading: Problems
+        rows_rejected:
+          text: Everything was rolled back. Correct the lines below and upload the file again.
+          title: 'Nothing was imported: %{problems} in %{lines}'
+        table:
+          attribute: Column
+          available: Available values
+          column: Column
+          empty: empty
+          header: Header
+          message: Problem
+          row: Line
+          value: Value
+        x_lines:
+          one: 1 line
+          few: "%{count} lines"
+          many: "%{count} lines"
+          other: "%{count} lines"
+        x_problems:
+          one: 1 problem
+          few: "%{count} problems"
+          many: "%{count} problems"
+          other: "%{count} problems"
+      run_failed: This run did not finish, and nothing was created. Upload the file again.
+      running_note: This runs in the background. Please do not close the page.
+      title: Import work packages
     move:
       bulk_current_type_not_available_in_target_project: 'Типы пакетов работ или их потомков не включены в целевом проекте. Пожалуйста, включите отсутствующие типы в целевом проекте, если вы хотите, чтобы они остались без изменений. В противном случае выберите из списка доступный тип в целевом проекте.
 
@@ -7639,6 +8237,18 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
   workflows:
+    change:
+      confirm:
+        consequence: Existing work packages with these statuses will not be affected. They will remain in the current status but transitions to these statuses will no longer be possible.
+        description: 'The following statuses don’t exist in the workflow you have selected ("%{name}"):'
+        description_blank: The new workflow has no transitions. All status transitions of %{type} will be removed.
+        description_empty: The workflow you have selected ("%{name}") has no transitions. All status transitions of %{type} will be removed.
+        title: Use a different workflow for %{name}?
+      select:
+        caption: The type uses the status transitions of the workflow you pick here.
+        label: Workflow
+        placeholder: Select a workflow…
+      title: Изменить рабочий процесс
     copies:
       form:
         target_role_ids:
@@ -7651,8 +8261,16 @@ ru:
             many: Рабочий процесс успешно скопирован в %{count} ролей.
             other: Рабочий процесс успешно скопирован в %{count} ролей.
       new:
-        title: Копировать рабочий процесс из типа "%{source_type}"
+        dialog_title: Копия рабочего процесса для "%{source}"
     form:
+      copy_from:
+        caption: Новый рабочий процесс начинается с копии переходов статусов этого рабочего процесса.
+        label: Скопировать из
+        placeholder: Выберите рабочий процесс…
+      description:
+        caption: Добавьте краткое описание того, где и как будет использоваться этот рабочий процесс.
+        label: Описание
+      edit_title: Редактирование рабочего процесса
       matrix_caption: Матрица рабочего процесса
       matrix_caption_assignee: Матрица рабочего процесса для назначенного
       matrix_caption_author: Матрица рабочего процесса для автора
@@ -7661,12 +8279,101 @@ ru:
       matrix_check_uncheck_all_in_row_label_html: Переключить переходы от <em>%{old_status}</em> ко всем новым статусам
       matrix_checkbox_label: Разрешить переход от %{old_status} к %{new_status}
       matrix_uncheck_all_label: Запретить все переходы
+      name:
+        caption: Выберите название, которое позволит вам впоследствии идентифицировать этот рабочий процесс в других местах.
+        label: Название рабочего процесса
+      new_title: Создать рабочий процесс
     index:
+      actions:
+        create: Рабочий процесс
+        edit: Редактировать переходы
+        menu: Действия для %{name}
+        rename: Изменить имя и описание
+      blank_slate:
+        description: Создайте рабочий процесс для определения статусных переходов, который может использовать тип или вариант.
+        filtered_description: Ни один рабочий процесс не соответствует текущим фильтрам.
+        filtered_title: Нет подходящих рабочих процессов
+        title: Нет рабочих процессов
+      columns:
+        name: Название рабочего процесса
+        projects: Проекты
+        roles: Роли
+        types_and_variants: Типы и варианты
+      description: Каждый именованный набор переходов статуса с использованием типов и вариантов.
+      filters:
+        name: Рабочий процесс
+        name_placeholder: Фильтр по имени рабочего процесса или описанию…
+        projects_placeholder: Фильтровать проекты…
+      projects_count:
+        one: 1 проект
+        few: "%{count} projects"
+        many: "%{count} projects"
+        other: "%{count} проектов"
+      roles_count:
+        one: 1 роль
+        few: "%{count} roles"
+        many: "%{count} roles"
+        other: "%{count} ролей"
       type_filter:
         label: Фильтр по имени типа…
+      types_and_variants_count: "%{types} (в том числе %{variants})"
+      types_count:
+        one: 1 тип
+        few: "%{count} types"
+        many: "%{count} types"
+        other: "%{count} типов"
+      variants_count:
+        one: 1 вариант
+        few: "%{count} variants"
+        many: "%{count} variants"
+        other: "%{count} вариантов"
+    name:
+      fallback: Рабочий процесс
+      implicit: рабочий процесс %{name}
     page_headers:
       index_component:
         description: Настроить переходы статусов для каждого типа пакета работ.
+    selector:
+      prefix: Workflow
+      same_as_type: "(same as type)"
+      title: Select workflow
+    start:
+      copy:
+        caption: Начните с существующего рабочего процесса, измените его по своему усмотрению и сохраните в качестве нового рабочего процесса.
+        label: Начните с создания копии существующего рабочего процесса
+        missing: Выберите рабочий процесс для копирования или начинайте с нуля.
+        panel_label: Рабочий процесс для копирования
+      label: Отправная точка
+      scratch:
+        caption: Начните с пустого рабочего процесса и создайте его вручную.
+        label: Начать с нуля
+      title: Настроить новый рабочий процесс
+    usage:
+      dialog:
+        button: Просмотр зависимых типов
+        caption_html: Рабочий процесс %{name} используется в следующих типах и вариантах.
+        title: Рабочий процесс, используемый в типах
+        variant_of: Вариант %{type}
+        variants: Варианты
+      unused: Этот рабочий процесс пока не использует ни тип, ни вариант.
+      used_by_types:
+        one: Этот рабочий процесс используется 1 тип. К нему применяются изменения.
+        few: This workflow is used by %{count} types. Changes apply to all of them.
+        many: This workflow is used by %{count} types. Changes apply to all of them.
+        other: Этот рабочий процесс используется %{count} типами. Изменения применяются ко всем им.
+      used_by_variants:
+        one: Этот рабочий процесс используется 1 типом или вариантом.
+        few: This workflow is used by %{count} types and variants.
+        many: This workflow is used by %{count} types and variants.
+        other: This workflow is used by %{count} types and variants.
+    wizard:
+      choice:
+        existing:
+          caption: Использовать существующий рабочий процесс для этого типа с заранее определенным набором переходов статуса для набора ролей.
+          label: Использовать существующий рабочий процесс
+        new:
+          caption: Вручную определить новый рабочий процесс для этого типа, выбрав, для каких ролей разрешены переходы статусов.
+          label: Настроить новый рабочий процесс
   working_days:
     change_button: Изменить рабочие дни
     dialog:

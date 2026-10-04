@@ -269,10 +269,12 @@ ru:
   label_show: Показать
   label_specific_day: День %{day}
   label_specific_month: Месяц %{month}
+  label_stack: Stack
   label_start_and_finished: Время начала и окончания
   label_status_finished: Завершенные
   label_time: Время
   label_time_entry_activity_form_description: Изменения в записи этого времени будут отражаться во всех проектах, где он включен.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Ограничения
   label_timer_since: Начато в %{time}
   label_today_capitalized: Сегодня

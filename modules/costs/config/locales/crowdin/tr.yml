@@ -251,10 +251,12 @@ tr:
   label_show: Göster
   label_specific_day: Gün %{day}
   label_specific_month: Ay %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Tamamlandı
   label_time: Zaman
   label_time_entry_activity_form_description: Bu zaman girişi etkinliğinde yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: "%{time} zamanında başladı"
   label_today_capitalized: Bugün

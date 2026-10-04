@@ -34,6 +34,7 @@ import { WpGraphConfigurationService } from 'core-app/shared/components/work-pac
 import { WpGraphConfiguration } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'widget-wp-graph',
   templateUrl: './wp-graph.component.html',
   styleUrls: ['../wp-table/wp-table.component.sass'],

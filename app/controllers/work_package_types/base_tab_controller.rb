@@ -32,6 +32,7 @@ module WorkPackageTypes
   class BaseTabController < ApplicationController
     include AddressesVariant
     include ::WorkPackageTypes::ConfiguredInScope
+    include ::WorkPackageTypes::VariantRoutes
 
     before_action :find_type
     before_action :find_variant

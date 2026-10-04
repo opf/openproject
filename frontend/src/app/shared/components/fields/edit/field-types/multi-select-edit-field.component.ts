@@ -135,7 +135,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
+    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el));
   }
 
   public onOpen() {

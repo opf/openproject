@@ -39,6 +39,7 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[query-filter]',
   styleUrls: ['./query-filter.component.sass'],
   templateUrl: './query-filter.component.html',
@@ -97,7 +98,7 @@ export class QueryFilterComponent implements OnInit {
   }
 
   public get valueType():string|undefined {
-    if (this.filter.currentSchema && this.filter.currentSchema.values) {
+    if (this.filter.currentSchema?.values) {
       return this.filter.currentSchema.values.type;
     }
 

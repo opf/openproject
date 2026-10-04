@@ -66,7 +66,8 @@ module OpenProject::Backlogs
 
         permission :select_backlog_types_and_statuses,
                    {
-                     "projects/settings/backlogs": %i[show update rebuild_positions]
+                     "projects/settings/backlogs": %i[show update rebuild_positions],
+                     "projects/settings/backlog_estimation_units": %i[show update]
                    },
                    permissible_on: :project,
                    require: :member
@@ -165,12 +166,6 @@ module OpenProject::Backlogs
     additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
 
     extend_api_response(:v3, :work_packages, :work_package,
-                        &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
-
-    # TODO: This should not be necessary as the WorkPackagePayloadRepresenter already inherits from
-    # the WorkPackageRepresenter. But removing this line makes tests fail. It appears that the
-    # patch on the WorkPackageRepresenter in GitHubIntegration is failing if this is removed.
-    extend_api_response(:v3, :work_packages, :work_package_payload,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema,

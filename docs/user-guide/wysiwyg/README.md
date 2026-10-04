@@ -53,7 +53,7 @@ The GFM extension of the CommonMark specs adds a definition for table syntax, wh
 
 You can add emojis to all text editors in OpenProject. Type a colon and a letter, e.g. **:a** into the wiki editor and get a suggested list of emojis you can use.
 
-![Insert an emoji into a WYSIWIG editor in OpenProject](openproject_user_guide_wysiwig_emoji.png)
+![Insert an emoji into a WYSIWYG editor in OpenProject](openproject_user_guide_wysiwig_emoji.png)
 
 ### Autoformatting
 

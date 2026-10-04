@@ -67,6 +67,7 @@ import {
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-list-view',
   templateUrl: './wp-list-view.component.html',
   styleUrls: ['./wp-list-view.component.sass'],
@@ -226,7 +227,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     }
   }
 
-  private openInFullView(workPackageId:string) {
+  protected openInFullView(workPackageId:string) {
     const routingId = resolveRoutingId(this.states, workPackageId);
     const projectIdentifier = this.CurrentProject.identifier;
     window.location.href = this.pathHelper.genericWorkPackagePath(projectIdentifier, routingId) + window.location.search;
@@ -236,7 +237,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
    * Works for both the plain work-packages list and the gantt list, since both
    * mount this component and only differ in their base path (/work_packages vs /gantt).
    */
-  private openInSplitView(workPackageId:string):void {
+  protected openInSplitView(workPackageId:string):void {
     // Previously we checked that via uiRouter (via $transitions.onBefore). Since that got removed,
     // we need to check that here explicitly.
     if (

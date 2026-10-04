@@ -72,10 +72,29 @@ module Import
 
     delegate :client, to: :jira
 
+    def find_op_leg(jira_leg)
+      Import::JiraOpenProjectReference
+        .where(jira_entity_class: jira_leg.class.to_s,
+               jira_entity_id: jira_leg.id,
+               jira_import_id: id)
+        .first
+        &.op_leg
+    end
+
+    def find_jira_leg(op_leg)
+      Import::JiraOpenProjectReference
+        .where(op_entity_class: op_leg.class.to_s,
+               op_entity_id: op_leg.id,
+               jira_import_id: id)
+        .first
+        &.jira_leg
+    end
+
     def project_ids
       (projects || []).pluck("id")
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def destroy_jira_objects
       Import::JiraField.where(jira_import_id: id).destroy_all
       Import::JiraIssue.where(jira_import_id: id).destroy_all

@@ -56,7 +56,10 @@ module Budgets
            icon: "op-budget"
     end
 
-    patch_with_namespace :Projects, :RowComponent
+    include_module "WorkPackages::BudgetAssignment", into: "WorkPackage"
+    prepend_module "Projects::BudgetColumns", into: "Projects::RowComponent"
+    prepend_class_methods "API::V3::WorkPackages::EagerLoading::ChecksumBudget",
+                          into: "API::V3::WorkPackages::EagerLoading::Checksum"
 
     # Allow assigning a budget when moving work packages
     additional_permitted_attributes move_work_package: %i[budget_id]
@@ -89,6 +92,10 @@ module Budgets
       ::Exports::Register.register do
         formatter Project, Projects::Exports::Formatters::BudgetCurrencyAttribute
         formatter Project, Projects::Exports::Formatters::BudgetSpentRatio
+      end
+
+      ::WorkPackage::Exports::Attributes.add_attribute_visibility_check(:budget) do |work_package|
+        User.current.allowed_in_project?(:view_budgets, work_package.project)
       end
 
       OpenProject::ProjectLatestActivity.register on: "Budget"

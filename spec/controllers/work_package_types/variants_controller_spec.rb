@@ -199,21 +199,6 @@ RSpec.describe WorkPackageTypes::VariantsController do
         end
       end
 
-      context "when the variant inherits from a project-specific variant" do
-        before do
-          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
-                                                                                variant_name: "Sibling"))
-        end
-
-        it "refuses via a page reload and a flash, leaving it project-owned" do
-          post :convert_to_global, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
-
-          expect(response.body).to include("reloadPage")
-          expect(flash[:error].to_sentence).to include("inherits from a project-specific variant")
-          expect(variant.reload).to be_project_owned
-        end
-      end
-
       context "for a variant of another type" do
         let(:other_variant) { create(:project_owned_type_variant, project: create(:project)) }
 
@@ -245,20 +230,6 @@ RSpec.describe WorkPackageTypes::VariantsController do
         end
       end
 
-      context "when the variant inherits from a project-specific variant" do
-        before do
-          variant.update!(workflows_source: create(:project_owned_type_variant, type:, project: variant.project,
-                                                                                variant_name: "Sibling"))
-        end
-
-        it "refuses via a page reload and a flash, opening no dialog" do
-          get :convert_to_global_dialog, params: { type_id: type.id, id: variant.id }, format: :turbo_stream
-
-          expect(response.body).to include("reloadPage")
-          expect(response.body).not_to include(WorkPackageTypes::Types::ConvertToGlobalDialogComponent::DIALOG_ID)
-          expect(flash[:error].to_sentence).to include("inherits from a project-specific variant")
-        end
-      end
     end
   end
 

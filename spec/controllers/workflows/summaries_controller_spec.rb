@@ -38,7 +38,7 @@ RSpec.describe Workflows::SummariesController do
 
     before do
       allow(Workflows::StatusTransition)
-        .to receive(:count_by_type_variant_and_role)
+        .to receive(:count_by_workflow_and_role)
         .and_return(counts)
 
       get :show
@@ -60,10 +60,10 @@ RSpec.describe Workflows::SummariesController do
     end
 
     context "when counts is present" do
-      let(:type) { build_stubbed(:type) }
+      let(:workflow) { build_stubbed(:named_workflow) }
       let(:project_role) { build_stubbed(:project_role) }
       let(:global_role) { build_stubbed(:global_role) }
-      let(:counts) { [[type, [[project_role, 25], [global_role, 0]]]] }
+      let(:counts) { [[workflow, [[project_role, 25], [global_role, 0]]]] }
 
       it "assigns the workflows by type and role" do
         expect(assigns[:workflow_counts]).to eql counts

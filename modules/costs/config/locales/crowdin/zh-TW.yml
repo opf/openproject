@@ -242,10 +242,12 @@ zh-TW:
   label_show: 顯示
   label_specific_day: "%{day} 日"
   label_specific_month: "%{month} 月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 已完成
   label_time: 時間
   label_time_entry_activity_form_description: 此時間記錄活動的變更會反映在啟用此功能的所有專案中。
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: 從 %{time}開始
   label_today_capitalized: 今天

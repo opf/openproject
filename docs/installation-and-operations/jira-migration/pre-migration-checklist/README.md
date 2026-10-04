@@ -38,7 +38,6 @@ Review this against how your teams actually use Jira. If anything here would be 
 - [ ] Environment
 - [ ] Security Level
 - [ ] Components (planned: [JIM-107](https://community.openproject.org/projects/JIM/work_packages/JIM-107))
-- [ ] Fix Versions and Affects Versions (planned: [JIM-154](https://community.openproject.org/projects/JIM/work_packages/JIM-154))
 - [ ] Archived issues (skipped entirely, don't appear in OpenProject in any form)
 
 **Not migrated, specific to custom fields:**

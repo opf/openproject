@@ -43,5 +43,39 @@ RSpec.describe Settings::UpdateService do
 
       include_examples "unsuccessful call"
     end
+
+    context "when a non-secret setting receives the secret placeholder" do
+      let(:new_setting_value) { Settings::Definition::SECRET_PLACEHOLDER }
+
+      include_examples "successful call"
+    end
+
+    context "with a secret setting" do
+      let(:setting_definition) { instance_double(Settings::Definition, secret?: true) }
+
+      context "when the secret placeholder is submitted" do
+        let(:new_setting_value) { Settings::Definition::SECRET_PLACEHOLDER }
+
+        it "is successful" do
+          expect(subject).to be_success
+        end
+
+        it "keeps the stored value" do
+          subject
+
+          expect(Setting).not_to have_received(:[]=)
+        end
+      end
+
+      context "when a new value is submitted" do
+        include_examples "successful call"
+      end
+
+      context "when an empty value is submitted" do
+        let(:new_setting_value) { "" }
+
+        include_examples "successful call"
+      end
+    end
   end
 end

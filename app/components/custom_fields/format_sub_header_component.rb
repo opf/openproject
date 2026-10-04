@@ -30,6 +30,8 @@
 
 module CustomFields
   class FormatSubHeaderComponent < ApplicationComponent
+    include AdminRoutes
+
     def initialize(customizable_name:)
       super
       @customizable_name = customizable_name
@@ -41,6 +43,10 @@ module CustomFields
 
     def type
       "#{@customizable_name}CustomField"
+    end
+
+    def new_field_path(format)
+      new_path(type, field_format: format)
     end
 
     def available_format_names

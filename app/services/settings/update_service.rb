@@ -43,6 +43,8 @@ class Settings::UpdateService < BaseServices::BaseContracted
 
   def persist(call)
     params.each do |name, value|
+      next if unchanged_secret?(name, value)
+
       set_setting_value(name, value)
     rescue Setting::NotWritableError
       i18n_name = I18n.t("setting_#{name}", default: name)
@@ -56,6 +58,10 @@ class Settings::UpdateService < BaseServices::BaseContracted
   end
 
   private
+
+  def unchanged_secret?(name, value)
+    Settings::Definition[name].secret? && value == Settings::Definition::SECRET_PLACEHOLDER
+  end
 
   def set_setting_value(name, value)
     old_value = Setting[name]

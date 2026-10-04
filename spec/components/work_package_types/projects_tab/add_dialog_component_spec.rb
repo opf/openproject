@@ -51,7 +51,7 @@ RSpec.describe WorkPackageTypes::ProjectsTab::AddDialogComponent, type: :compone
   end
 
   it "posts to the variant's link action" do
-    expect(page).to have_css("form[action='#{link_type_projects_path(**variant.path_args)}']")
+    expect(page).to have_css("form[action='#{link_type_projects_path(type_id: type.id)}']")
   end
 
   it "names the tree's form field after the field the controller expects" do

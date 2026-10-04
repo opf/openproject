@@ -116,7 +116,8 @@ RSpec.describe AI::TextTransforms::Availability,
       expect(availability.action(action, context).reason).to eq(:template_missing)
 
       type.default_variant.update!(default_work_package_description: "## Steps")
-      expect(availability.action(action, context)).to be_available
+      fresh_context = AI::TextTransforms::Context.for_work_package(work_package.reload)
+      expect(availability.action(action, fresh_context)).to be_available
     end
 
     it "reports a missing context before a missing template" do

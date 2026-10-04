@@ -129,7 +129,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public reset():void {
-    if (this.editor && this.editor.initialized) {
+    if (this.editor?.initialized) {
       this.editor.content = this.rawValue;
 
       this.cdRef.markForCheck();

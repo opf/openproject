@@ -242,10 +242,12 @@ id:
   label_show: Tampilkan
   label_specific_day: Hari %{day}
   label_specific_month: Bulan %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Selesai
   label_time: Waktu
   label_time_entry_activity_form_description: Perubahan pada aktivitas entri waktu ini akan tercermin di semua proyek ketika fitur ini diaktifkan.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Dimulai dari %{time}
   label_today_capitalized: Hari Ini

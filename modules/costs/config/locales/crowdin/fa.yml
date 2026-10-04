@@ -251,10 +251,12 @@ fa:
   label_show: نمایش
   label_specific_day: "%{day} روز"
   label_specific_month: ماه %{month}
+  label_stack: پشته
   label_start_and_finished: زمان‌های شروع و پایان
   label_status_finished: پایان‌یافته
   label_time: زمان
   label_time_entry_activity_form_description: تغییرات این فعالیت ثبت زمان در همه پروژه‌هایی که در آن‌ها فعال است اعمال خواهد شد.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: محدودیت‌ها
   label_timer_since: شروع شده از %{time}
   label_today_capitalized: امروز
@@ -280,8 +282,8 @@ fa:
   permission_edit_rates: ویرایش نرخ (ضرایب پرداختی)
   permission_log_costs: رزرو هزینه‌های واحد
   permission_log_own_costs: رزرو هزینه‌های واحد برای خود
-  permission_manage_default_hourly_rates: Manage default hourly rates
-  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+  permission_manage_default_hourly_rates: مدیریت نرخ‌های ساعتی پیش‌فرض
+  permission_manage_default_hourly_rates_explanation: 'اجازه افزودن، تغییر و حذف نرخ‌های ساعتی پیش‌فرض کاربران و کاربران جایگزین را می‌دهد.
 
     '
   permission_view_cost_entries: مشاهده هزینه‌های رزرو شده

@@ -91,10 +91,8 @@ RSpec.describe "form configuration required attributes", :js do
     end
 
     it "offers nothing for a built-in attribute" do
-      form.open_attribute_menu("priority")
-
-      expect(page).to have_no_text(mark)
-      expect(page).to have_no_text(unmark)
+      expect(page).to have_text("Priority")
+      expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-priority")
     end
   end
 
@@ -120,20 +118,24 @@ RSpec.describe "form configuration required attributes", :js do
     end
   end
 
-  context "with a variant that borrows the form configuration" do
+  context "with a variant sharing its type's form" do
     let!(:owner) { variant_showing(custom_field) }
-    let!(:borrower) { create(:type_variant, type: owner.type) }
+    let!(:sharer) { create(:type_variant, type: owner.type, form_configuration: owner.form_configuration) }
 
     before do
       owner.update!(required_attributes: [custom_field.attribute_name])
-      link_configuration(borrower, source: owner, aspect: TypeVariant::FORM_CONFIGURATION)
-      visit edit_type_form_configuration_path(type_id: borrower.type_id, variant_id: borrower.id)
+      visit edit_type_variant_form_configuration_path(type_id: sharer.type_id, variant_id: sharer.id)
     end
 
-    it "shows the inherited state without a toggle" do
+    it "keeps a required list of its own" do
       expect(page).to have_text("Impact")
+      expect(page).to have_no_css(required_badge(custom_field.attribute_name))
+
+      form.invoke_attribute_action(custom_field.attribute_name, mark)
+
       expect_badge(custom_field.attribute_name, text: in_type_label, scheme: "severe")
-      expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-#{custom_field.attribute_name}")
+      expect(sharer.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
+      expect(owner.reload.required_attributes).to contain_exactly(custom_field.attribute_name)
     end
   end
 end

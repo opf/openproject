@@ -35,6 +35,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-breadcrumb-parent',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -50,6 +51,7 @@ export class WorkPackageBreadcrumbParentComponent {
 
   @Input() workPackage:WorkPackageResource;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSwitch = new EventEmitter<boolean>();
 
   public isSaving = false;
@@ -68,7 +70,7 @@ export class WorkPackageBreadcrumbParentComponent {
   }
 
   public get parent() {
-    return this.workPackage && this.workPackage.parent;
+    return this.workPackage?.parent;
   }
 
   public get active():boolean {

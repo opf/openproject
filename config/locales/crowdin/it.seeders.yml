@@ -73,13 +73,13 @@ it:
           name: Ruolo globale standard
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Correggi la grammatica
         item_1:
-          label: Make concise
+          label: Rendi conciso
         item_2:
-          label: Translate to English
+          label: Traduci in inglese
         item_3:
-          label: Sort into template
+          label: Organizza nel modello
     standard:
       project_phases:
         item_0:
@@ -255,21 +255,21 @@ it:
                 content: |
                   ### Release 1.0
 
-                  _Please document here what this release contains._
+                  _Documenta qui il contenuto di questa release._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * Le macro-attività di questa release sono quelle con versione di destinazione 1.0.
+                  * La data di rilascio corrisponde alla data della milestone *Release v1.0*.
+                  * Apri la [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) per seguire l'avanzamento di tutte le versioni.
+                  * Apri [Impostazioni del progetto &rightarrow; Versioni]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) per collegare un'altra pagina wiki a una versione.
           categories:
             item_0: Categoria 1 (da modificare nelle Impostazioni del progetto)
           queries:
             item_0:
               name: Piano del progetto
             item_1:
-              name: Version 1.1
+              name: Versione 1.1
             item_2:
-              name: Version 1.0
+              name: Versione 1.0
             item_3:
               name: Incarichi
           boards:
@@ -295,21 +295,21 @@ it:
                 options:
                   name: Per cominciare
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Siamo lieti che tu abbia iniziato a usare OpenProject. Ti suggeriamo alcune operazioni per cominciare.
 
-                    _Try the following steps:_
+                    _Prova a seguire questi passaggi:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invita nuovi membri nel progetto*: &rightarrow; vai a [Membri]({{opSetting:base_url}}/projects/your-scrum-project/members) nella navigazione del progetto.
+                    2. *Visualizza il Product backlog e gli Sprint backlog*: &rightarrow; vai a [Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) nella navigazione del progetto.
+                    3. *Crea uno sprint*: &rightarrow; vai a [Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) e fai clic su "+ Sprint" per creare un nuovo sprint. Sposta le macro-attività dal backlog allo sprint per pianificare il lavoro da svolgere. Quando hai terminato, fai clic su "Avvia sprint".
+                    4. *Visualizza la bacheca dello sprint*: &rightarrow; vai a [Bacheche]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; apri la bacheca dello sprint facendo clic sul nome dello sprint.
+                    5. *Crea una nuova macro-attività*: &rightarrow; vai a [Macro-attività &rightarrow; Crea]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Crea e aggiorna un piano di progetto*: &rightarrow; vai a [Piano di progetto](##query:scrum_project__query__project_plan) nella navigazione del progetto.
+                    7. *Attiva altri moduli*: &rightarrow; vai a [Impostazioni del progetto &rightarrow; Moduli]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Qui trovi le nostre [Guide utente](https://www.openproject.org/docs/user-guide/).
+                    Contattaci se hai domande o hai bisogno di assistenza: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Macro-attività

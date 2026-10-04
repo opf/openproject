@@ -143,14 +143,13 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
   end
 
   describe "with a Linked source" do
-    let(:owner) { create(:type).default_variant }
+    let(:source_type) { create(:type) }
+    let(:source) { create(:type_variant, type: source_type) }
 
     before do
-      owner.attribute_groups = [["owner group", %w[assignee]]]
-      owner.save!
-      owner.reload
+      source_type.default_variant.update!(attribute_groups: [["owner group", %w[assignee]]])
 
-      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(source, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     it "copies the configuration the source effectively presents" do
@@ -160,127 +159,24 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::FormConfigurationService do
     end
   end
 
-  describe "when the variant's link excludes elements" do
-    let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
-    let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
-    let!(:solo_field) { create(:work_package_custom_field, field_format: "string") }
-
-    def own_groups
-      TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
-
-      variant.reload.attribute_groups.to_h { |group| [group.key, group.attributes] }
-    end
-
-    before do
-      source.attribute_groups = [
-        ["numbers", [kept_field.attribute_name, excluded_field.attribute_name]],
-        ["solo", [solo_field.attribute_name]],
-        ["people", %w[assignee]]
-      ]
-      source.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
-      source.save!
-      source.reload
-
-      link_configuration(
-        variant,
-        source: source,
-        aspect: TypeVariant::FORM_CONFIGURATION,
-        excluded: [excluded_field.attribute_name, solo_field.attribute_name]
-      )
-    end
-
-    it "copies the narrowed groups and drops the emptied one" do
-      expect(service_call).to be_success
-
-      expect(own_groups.keys).to contain_exactly("numbers", "people")
-      expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
-    end
-
-    it "activates only the custom fields that survived the exclusions" do
-      expect(service_call).to be_success
-
-      expect(variant.reload.custom_field_ids).to contain_exactly(kept_field.id)
-    end
-
-    it "leaves the source's own configuration complete" do
-      service_call
-
-      expect(source.reload.attribute_groups.map(&:key))
-        .to contain_exactly("numbers", "solo", "people")
-      expect(source.custom_field_ids)
-        .to contain_exactly(kept_field.id, excluded_field.id, solo_field.id)
-    end
-
-    context "with exclusions accumulated over a chain" do
-      let(:owner) { create(:type).default_variant }
-
-      before do
-        # Rebuild as owner <- source <- type, each link dropping a little more.
-        TypeVariant::ASPECTS.each { unlink_configuration(variant, aspect: it) }
-        owner.attribute_groups = source.attribute_groups.map { |g| [g.key, g.attributes] }
-        owner.custom_field_ids = [kept_field.id, excluded_field.id, solo_field.id]
-        owner.save!
-
-        source.update!(attribute_groups: [])
-        link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
-                                   excluded: [excluded_field.attribute_name])
-        link_configuration(variant, source: source, aspect: TypeVariant::FORM_CONFIGURATION,
-                                    excluded: [solo_field.attribute_name])
-      end
-
-      it "applies every link's exclusions, not just the nearest one" do
-        expect(service_call).to be_success
-
-        expect(variant.reload.custom_field_ids).to contain_exactly(kept_field.id)
-        expect(own_groups.keys).to contain_exactly("numbers", "people")
-        expect(own_groups["numbers"]).to eq([kept_field.attribute_name])
-      end
-    end
-
-    context "with an excluded query group" do
-      let!(:embedded_query) { create(:query, user: admin, name: "Embedded") }
-
-      before do
-        source.attribute_groups = [
-          ["numbers", [kept_field.attribute_name]],
-          ["related", [embedded_query]]
-        ]
-        source.save!
-        source.reload
-
-        exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION, elements: ["query_#{embedded_query.id}"])
-      end
-
-      it "does not copy the excluded section" do
-        expect(service_call).to be_success
-
-        expect(own_groups.keys).to contain_exactly("numbers")
-      end
-
-      # The copy rebuilds query groups as fresh Query records, so an excluded section must be
-      # dropped before that happens rather than leaving an orphan query behind.
-      it "does not rebuild a query for it" do
-        expect { service_call }.not_to change(Query, :count)
-      end
-    end
-  end
-
   describe "copying from an unrelated Linked type" do
-    let(:owner) { create(:type).default_variant }
+    let(:source_type) { create(:type) }
+    let(:source) { create(:type_variant, type: source_type) }
     let!(:kept_field) { create(:work_package_custom_field, field_format: "string") }
     let!(:excluded_field) { create(:work_package_custom_field, field_format: "string") }
 
     before do
-      owner.attribute_groups = [["numbers", [kept_field.attribute_name, excluded_field.attribute_name]]]
-      owner.custom_field_ids = [kept_field.id, excluded_field.id]
-      owner.save!
-      owner.reload
+      source_type.default_variant.update!(
+        attribute_groups: [["numbers", [kept_field.attribute_name, excluded_field.attribute_name]]],
+        custom_field_ids: [kept_field.id, excluded_field.id]
+      )
 
-      link_configuration(source, source: owner, aspect: TypeVariant::FORM_CONFIGURATION,
+      link_configuration(source, aspect: TypeVariant::FORM_CONFIGURATION,
                                  excluded: [excluded_field.attribute_name])
     end
 
-    # `type` is Independent here, so its own groups are what the reader returns already.
+    # `variant` does not inherit from `source`, so the copy reads `source`'s own presentation,
+    # which already resolves through its link (dropping the excluded field).
     it "copies what that type presents, not the owner's full configuration" do
       expect(service_call).to be_success
 

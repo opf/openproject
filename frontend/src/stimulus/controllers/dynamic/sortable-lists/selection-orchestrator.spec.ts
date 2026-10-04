@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { usePlatform } from 'core-common/testing/platform';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { type MockInstance } from 'vitest';
 import type { SelectionHost } from './selection-orchestrator';
@@ -68,6 +69,8 @@ describe('SelectionOrchestrator', () => {
     };
   }
 
+  const pretendPlatform = usePlatform();
+
   beforeEach(() => {
     busy = false;
     focused = null;
@@ -106,29 +109,11 @@ describe('SelectionOrchestrator', () => {
     window.I18n.store({ en: { js: { sortable_lists: { selection: selectionTranslations } } } });
   });
 
-  const userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
-
   afterEach(() => {
     root.remove();
     document.querySelector('live-region')?.remove();
     announceSpy.mockRestore();
-    restorePlatform();
   });
-
-  function pretendPlatform(platform:string):void {
-    Object.defineProperty(navigator, 'userAgentData', {
-      value: { platform },
-      configurable: true,
-    });
-  }
-
-  function restorePlatform():void {
-    if (userAgentDataDescriptor) {
-      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
-    } else {
-      delete (navigator as { userAgentData?:unknown }).userAgentData;
-    }
-  }
 
   // Type-qualified, because the fixture deliberately holds a section and a
   // work package that share id 1 — the collision a nested topology makes
@@ -353,6 +338,52 @@ describe('SelectionOrchestrator', () => {
     orchestrator.handleEscape(event);
 
     expect(selectedIds()).toEqual(['1']);
+  });
+
+  // The legacy menu never focuses into itself and its host outlives the
+  // menu, so only mounted menu content may hold Escape.
+  it('leaves Escape to a mounted legacy context menu, then clears once it is gone', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1')));
+    const host = document.createElement('div');
+    host.className = 'op-context-menu--overlay';
+    host.innerHTML = '<div role="menu"><span role="menuitem">Item</span></div>';
+    document.body.appendChild(host);
+
+    try {
+      const owned = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(owned, 'target', { value: document.body });
+      orchestrator.handleEscape(owned);
+      expect(selectedIds()).toEqual(['1']);
+      expect(owned.defaultPrevented).toBe(false);
+
+      host.querySelector('[role="menu"]')!.remove();
+      const free = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(free, 'target', { value: document.body });
+      orchestrator.handleEscape(free);
+      expect(selectedIds()).toEqual([]);
+      expect(free.defaultPrevented).toBe(true);
+    } finally {
+      host.remove();
+    }
+  });
+
+  it('leaves Escape to an active legacy modal overlay', () => {
+    const orchestrator = new SelectionOrchestrator(hostFor(root));
+    orchestrator.handleClick(clickOn(item('1')));
+    const overlay = document.createElement('div');
+    overlay.className = 'spot-modal-overlay spot-modal-overlay_active';
+    document.body.appendChild(overlay);
+
+    try {
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'target', { value: document.body });
+      orchestrator.handleEscape(event);
+      expect(selectedIds()).toEqual(['1']);
+      expect(event.defaultPrevented).toBe(false);
+    } finally {
+      overlay.remove();
+    }
   });
 
   describe('announcements', () => {

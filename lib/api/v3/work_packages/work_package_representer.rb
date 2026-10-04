@@ -97,16 +97,6 @@ module API
           }
         end
 
-        link :logTime,
-             cache_if: -> { log_time_allowed? } do
-          next if represented.new_record?
-
-          {
-            href: api_v3_paths.time_entries,
-            title: "Log time on work package '#{represented.subject}'"
-          }
-        end
-
         link :move,
              cache_if: -> { current_user.allowed_in_project?(:move_work_packages, represented.project) } do
           next if represented.new_record?
@@ -311,21 +301,6 @@ module API
           }
         end
 
-        link :timeEntries,
-             cache_if: -> { view_time_entries_allowed? } do
-          next if represented.new_record?
-
-          filters = [
-            { entity_type: { operator: "=", values: ["WorkPackage"] } },
-            { entity_id: { operator: "=", values: [represented.id.to_s] } }
-          ]
-
-          {
-            href: api_v3_paths.path_for(:time_entries, filters:),
-            title: "Time entries"
-          }
-        end
-
         links :children,
               uncacheable: true do
           next if visible_children.empty?
@@ -459,16 +434,6 @@ module API
                  render_nil: true
 
         property :ignore_non_working_days
-
-        property :spent_time,
-                 exec_context: :decorator,
-                 getter: ->(*) do
-                   datetime_formatter.format_duration_from_hours(represented.spent_hours)
-                 end,
-                 if: ->(*) {
-                   view_time_entries_allowed?
-                 },
-                 uncacheable: true
 
         property :done_ratio,
                  as: :percentageDone,
@@ -792,33 +757,6 @@ module API
                                                                                         work_package: represented)
         end
 
-        def view_time_entries_allowed?
-          return @view_time_entries_allowed if defined?(@view_time_entries_allowed)
-
-          @view_time_entries_allowed =
-            current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-            view_own_time_entries_allowed?
-        end
-
-        def view_own_time_entries_allowed?
-          return @view_own_time_entries_allowed if defined?(@view_own_time_entries_allowed)
-
-          @view_own_time_entries_allowed = if represented.new_record?
-                                             current_user.allowed_in_any_work_package?(:view_own_time_entries,
-                                                                                       in_project: represented.project)
-                                           else
-                                             current_user.allowed_in_work_package?(:view_own_time_entries, represented)
-                                           end
-        end
-
-        def log_time_allowed?
-          return @log_time_allowed if defined?(@log_time_allowed)
-
-          @log_time_allowed =
-            current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_work_package?(:log_own_time, represented)
-        end
-
         def view_budgets_allowed?
           return @view_budgets_allowed if defined?(@view_budgets_allowed)
 
@@ -893,10 +831,6 @@ module API
         def derived_remaining_time=(value)
           represented.derived_remaining_hours =
             datetime_formatter.parse_duration_to_hours(value, "derivedRemainingTime", allow_nil: true)
-        end
-
-        def spent_time=(value)
-          # noop
         end
 
         def duration=(value)

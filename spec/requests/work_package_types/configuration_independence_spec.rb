@@ -35,13 +35,12 @@ RSpec.describe "Work package type configuration independence",
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
   shared_let(:type) { create(:type) }
-  shared_let(:source) { create(:type) }
 
   before { login_as admin }
 
   describe "GET dialog" do
     it "renders the manual mode picker with the aspect's modes" do
-      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::FORM_CONFIGURATION),
+      get type_configuration_independence_dialog_path(type_id: type.id, aspect: TypeVariant::PDF_EXPORT),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -72,12 +71,12 @@ RSpec.describe "Work package type configuration independence",
     it "submits back to the variant it was opened for" do
       variant = create(:type_variant, type:)
 
-      get type_configuration_independence_dialog_path(type_id: type.id, variant_id: variant.id,
+      get type_variant_configuration_independence_dialog_path(type_id: type.id, variant_id: variant.id,
                                                       aspect: TypeVariant::DEFAULTS),
           as: :turbo_stream
 
       expect(response.body).to include(
-        type_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
+        type_variant_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
                                                      aspect: TypeVariant::DEFAULTS)
       )
     end
@@ -104,13 +103,13 @@ RSpec.describe "Work package type configuration independence",
     it "submits back to the variant it was opened for" do
       variant = create(:type_variant, type:)
 
-      post type_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
+      post type_variant_configuration_independence_confirm_path(type_id: type.id, variant_id: variant.id,
                                                         aspect: TypeVariant::DEFAULTS),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
       expect(response.body).to include(
-        type_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id,
+        type_variant_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id,
                                                     aspect: TypeVariant::DEFAULTS)
       )
     end
@@ -127,12 +126,12 @@ RSpec.describe "Work package type configuration independence",
 
   describe "POST switch" do
     let(:aspect) { TypeVariant::DEFAULTS }
-    let(:variant) { type.default_variant }
+    let(:variant) { create(:type_variant, type:) }
 
     it "switches to independent, severs the link and reloads the frame" do
-      link_configuration(type, source:, aspect:)
+      link_configuration(variant, aspect:)
 
-      post type_configuration_independence_switch_path(type_id: type.id, aspect:),
+      post type_variant_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 
@@ -146,9 +145,9 @@ RSpec.describe "Work package type configuration independence",
     end
 
     it "flashes an error and keeps the link for an unavailable mode" do
-      link_configuration(type, source:, aspect:)
+      link_configuration(variant, aspect:)
 
-      post type_configuration_independence_switch_path(type_id: type.id, aspect:),
+      post type_variant_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::DEFAULT },
            as: :turbo_stream
 
@@ -158,9 +157,9 @@ RSpec.describe "Work package type configuration independence",
 
     it "requires admin" do
       login_as create(:user)
-      link_configuration(type, source:, aspect:)
+      link_configuration(variant, aspect:)
 
-      post type_configuration_independence_switch_path(type_id: type.id, aspect:),
+      post type_variant_configuration_independence_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            params: { mode: WorkPackageTypes::IndependentMode::EMPTY },
            as: :turbo_stream
 

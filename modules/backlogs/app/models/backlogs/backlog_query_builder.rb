@@ -69,7 +69,7 @@ module Backlogs
       backlog_conditions(bucket_ids:, show_inbox:)
         .map { |extra_filters| build(extra_filters:).results.work_packages }
         .reduce { |relation, other| relation.or(other) }
-        .merge(WorkPackage.in_backlog_for(project: @project))
+        .backlog_eligible
     end
 
     private

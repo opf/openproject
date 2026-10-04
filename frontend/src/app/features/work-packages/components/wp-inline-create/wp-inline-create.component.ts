@@ -60,6 +60,7 @@ import {
 import { delegate, DelegateEvent } from '@knowledgecode/delegate';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[wpInlineCreate]',
   templateUrl: './wp-inline-create.component.html',
   standalone: false,
@@ -194,7 +195,7 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
 
           // Split view on the last inserted id if any
           if (!this.table.configuration.isEmbedded) {
-            this.wpTableFocus.updateFocus(wp.id!);
+            this.wpTableFocus.initializeSelectionAndFocus(wp.id!);
           }
 
           // Notify inline create service
@@ -293,10 +294,19 @@ export class WorkPackageInlineCreateComponent extends UntilDestroyedMixin implem
     return form;
   }
 
+  @HostListener('keydown.escape', ['$event'])
+  public cancelOnEscape(event:KeyboardEvent) {
+    if (this.mode === 'inactive') {
+      return;
+    }
+
+    event.preventDefault();
+    this.resetRow();
+  }
+
   /**
    * Reset the new work package row and refocus on the button
    */
-  @HostListener('keydown.escape')
   public resetRow() {
     this.focus = true;
     this.removeWorkPackageRow();

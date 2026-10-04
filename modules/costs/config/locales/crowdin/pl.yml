@@ -269,10 +269,12 @@ pl:
   label_show: Pokaż
   label_specific_day: Dzień %{day}
   label_specific_month: Miesiąc %{month}
+  label_stack: Stack
   label_start_and_finished: Godziny rozpoczęcia i zakończenia
   label_status_finished: Zakończone
   label_time: Czas
   label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limity
   label_timer_since: Rozpoczęto o %{time}
   label_today_capitalized: Dzisiaj

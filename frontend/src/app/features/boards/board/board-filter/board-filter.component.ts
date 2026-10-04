@@ -44,6 +44,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import * as Turbo from '@hotwired/turbo';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-filter',
   templateUrl: './board-filter.component.html',
   standalone: false,

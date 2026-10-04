@@ -242,10 +242,12 @@ th:
   label_show: แสดง
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: เสร็จสิ้นแล้ว
   label_time: Time
   label_time_entry_activity_form_description: การเปลี่ยนแปลงในกิจกรรมการบันทึกเวลานี้จะส่งผลไปยังทุกโครงการที่เปิดใช้งานกิจกรรมดังกล่าว
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Started at %{time}
   label_today_capitalized: Today

@@ -40,6 +40,7 @@ import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-
       <span class="button--text"> {{text.import}} </span>
     </a>
   `,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'bcf-import-button',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.

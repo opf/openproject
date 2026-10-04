@@ -49,7 +49,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
 
   def setup_custom_field(cf)
     project.work_package_custom_fields << cf
-    type.default_variant.custom_fields << cf
+    type.default_variant.custom_field_ids |= [cf.id]
     # Void the custom field caching
     RequestStore.clear!
     cf
@@ -215,7 +215,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       create(:work_package_custom_field,
              name: "Custom field of type and project").tap do |cf|
         project.work_package_custom_fields << cf
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:custom_field_of_project_not_type) do
@@ -227,14 +227,14 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:custom_field_of_type_not_project) do
       create(:work_package_custom_field,
              name: "Custom field of type not project").tap do |cf|
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:custom_field_for_all_and_type) do
       create(:work_package_custom_field,
              name: "Custom field for all and type",
              is_for_all: true).tap do |cf|
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:custom_field_for_all_not_type) do
@@ -248,9 +248,9 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
              name: "Custom field for all and many types and projects",
              is_for_all: true).tap do |cf|
         project.work_package_custom_fields << cf
-        type.default_variant.custom_fields << cf
+        type.default_variant.custom_field_ids |= [cf.id]
         project2.work_package_custom_fields << cf
-        type2.default_variant.custom_fields << cf
+        type2.default_variant.custom_field_ids |= [cf.id]
       end
     end
 
@@ -294,35 +294,35 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
   end
 
-  describe "#available_custom_fields with a linked form configuration" do
-    let(:source_type) { create(:type) }
-    let(:linked_type) { create(:type) }
-    let(:project) { create(:project, types: [linked_type]) }
-    let(:work_package) { build(:work_package, project:, type: linked_type) }
+  describe "#available_custom_fields with an inherited form configuration" do
+    let(:root_type) { create(:type) }
+    let(:variant) { create(:type_variant, type: root_type) }
+    let(:project) { create(:project, types: [variant]) }
+    let(:work_package) { build(:work_package, project:, type: root_type) }
 
     let!(:source_cf) do
       create(:work_package_custom_field, name: "Source CF").tap do |cf|
         project.work_package_custom_fields << cf
-        source_type.default_variant.custom_fields << cf
+        root_type.default_variant.custom_field_ids |= [cf.id]
       end
     end
-    let!(:linked_own_cf) do
-      create(:work_package_custom_field, name: "Linked own CF").tap do |cf|
+    let!(:variant_own_cf) do
+      create(:work_package_custom_field, name: "Variant own CF").tap do |cf|
         project.work_package_custom_fields << cf
-        linked_type.default_variant.custom_fields << cf
+        variant.custom_field_ids |= [cf.id]
       end
     end
 
     before do
-      link_configuration(linked_type, source: source_type, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
-    it "surfaces the source type's custom fields for the linked type's work package" do
+    it "surfaces the base's custom fields for the variant's work package" do
       expect(described_class.available_custom_fields(work_package)).to include(source_cf)
     end
 
-    it "does not surface the linked type's own leftover custom fields" do
-      expect(described_class.available_custom_fields(work_package)).not_to include(linked_own_cf)
+    it "does not surface the variant's own leftover custom fields" do
+      expect(described_class.available_custom_fields(work_package)).not_to include(variant_own_cf)
     end
 
     it "matches on the physical type id when preloading a batch" do

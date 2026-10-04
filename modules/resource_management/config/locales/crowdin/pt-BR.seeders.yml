@@ -16,6 +16,6 @@ pt-BR:
             user_card:
               name: Membros da equipe
             user_timeline:
-              name: Timeline da equipe
+              name: Linha do tempo da equipe
             generic_allocation:
               filter_name: Desenvolvedor de software

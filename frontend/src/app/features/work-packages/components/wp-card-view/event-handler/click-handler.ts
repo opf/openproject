@@ -32,7 +32,6 @@ import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/co
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
-import { StateService } from '@uirouter/core';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
@@ -40,8 +39,6 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 export class CardClickHandler implements CardEventHandler {
   // Injections
   @LazyInject() deviceService:DeviceService;
-
-  @LazyInject() $state:StateService;
 
   @LazyInject() selectionGestures:WorkPackageViewSelectionGesturesService;
 
@@ -81,19 +78,19 @@ export class CardClickHandler implements CardEventHandler {
       return true;
     }
 
-    this.handleWorkPackage(card, wpId, evt);
+    this.handleWorkPackage(card, wpId, evt, element.dataset.classIdentifier);
 
     return false;
   }
 
-  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent) {
-    this.setSelection(wpId, evt);
+  protected handleWorkPackage(card:WorkPackageCardViewComponent, wpId:string, evt:MouseEvent, classIdentifier?:string) {
+    this.setSelection(wpId, evt, classIdentifier);
 
     card.itemClicked.emit({ workPackageId: wpId, double: false });
   }
 
-  protected setSelection(wpId:string, evt:MouseEvent) {
-    this.selectionGestures.handleClick(wpId, this.wpCardView.renderedCards, evt);
+  protected setSelection(wpId:string, evt:MouseEvent, classIdentifier?:string) {
+    this.selectionGestures.handleClick(wpId, this.wpCardView.renderedCards, evt, classIdentifier);
 
     this.wpTableFocus.updateFocus(wpId);
   }

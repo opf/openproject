@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         menu.with_item(
           label: helpers.label_for_custom_field_format(format),
           tag: :a,
-          href: new_custom_field_path(type: type, field_format: format)
+          href: new_field_path(format)
         )
       end
     end

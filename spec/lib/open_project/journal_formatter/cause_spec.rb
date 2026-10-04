@@ -862,6 +862,25 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
       end
     end
 
+    context "when the work package came from a CSV import" do
+      subject(:cause) do
+        { "type" => "import", "csv" => true }
+      end
+
+      it "renders the CSV import message in HTML" do
+        expect(cause).to render_html_variant(
+          "<strong>#{I18n.t('journals.caused_changes.import')}</strong> " \
+          "#{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+
+      it "renders the CSV import message in plain text" do
+        expect(cause).to render_raw_variant(
+          "#{I18n.t('journals.caused_changes.import')} #{I18n.t('journals.cause_descriptions.import.csv')}"
+        )
+      end
+    end
+
     context "when import_history is empty" do
       subject(:cause) do
         {

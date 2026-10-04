@@ -30,12 +30,7 @@
 
 module Roles
   class RowComponent < OpPrimer::BorderBoxRowComponent
-    MOVE_ITEMS = [
-      { label: :label_sort_highest, direction: "top", icon: :"move-to-top" },
-      { label: :label_sort_higher, direction: "up", icon: :"chevron-up" },
-      { label: :label_sort_lower, direction: "down", icon: :"chevron-down" },
-      { label: :label_sort_lowest, direction: "bottom", icon: :"move-to-bottom" }
-    ].freeze
+    include SortableLists::MoveMenu
 
     alias_method :role, :model
 
@@ -116,7 +111,7 @@ module Roles
         )
 
         edit_action(menu)
-        move_action(menu) if movable?
+        with_move_submenu(menu) if movable?
 
         if deletable?
           menu.with_divider
@@ -128,37 +123,6 @@ module Roles
     def edit_action(menu)
       menu.with_item(label: t(:button_edit), href: edit_role_path(role)) do |item|
         item.with_leading_visual_icon(icon: :pencil)
-      end
-    end
-
-    def move_action(menu)
-      menu.with_item(
-        component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-        label: t(:button_move),
-        select_variant: :none,
-        form_arguments: {},
-        data: { sortable_lists__item_target: "moveMenu" }
-      ) do |submenu|
-        submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-        MOVE_ITEMS.each { move_item(submenu, **it) }
-      end
-    end
-
-    # The `data:` hash must live on the item level so Primer renders it on the ActionList
-    # `<li>`, which is what the item controller targets to compute availability and to
-    # handle the bubbled click.
-    def move_item(submenu, label:, direction:, icon:)
-      submenu.with_item(
-        label: I18n.t(label),
-        tag: :button,
-        data: {
-          sortable_lists__item_target: "moveItem",
-          sortable_lists__item_direction_param: direction,
-          action: "click->sortable-lists--item#move"
-        }
-      ) do |item|
-        item.with_leading_visual_icon(icon:)
       end
     end
 

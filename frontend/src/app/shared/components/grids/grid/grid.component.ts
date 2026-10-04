@@ -61,6 +61,7 @@ export const GRID_PROVIDERS = [
 
 @Component({
   templateUrl: './grid.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'grid',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -95,6 +96,15 @@ export class GridComponent implements OnDestroy, OnInit {
 
   ngOnDestroy() {
     this.uiWidgets.forEach((widget) => widget.destroy());
+  }
+
+  // Cancellation happens on keyup; the keydown half would otherwise clear
+  // an embedded table's selection first.
+  @HostListener('body:keydown', ['$event'])
+  consumeEscapeWhileInteracting(event:KeyboardEvent) {
+    if (event.key === 'Escape' && (this.drag.currentlyDragging || this.resize.currentlyResizing)) {
+      event.preventDefault();
+    }
   }
 
   @HostListener('window:keyup', ['$event'])

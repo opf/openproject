@@ -465,7 +465,7 @@ pt-BR:
         description: Ainda não há participantes.
         heading: Sem participantes
       label:
-        apply_to_upcoming_meetings: Aplique essas alterações a todas as próximas reuniões desta série
+        apply_to_upcoming_meetings: Aplique estas alterações a todas as próximas reuniões desta série
         attended: Participou
         manage_participants: Gerenciar participantes
         mark_all_as_attended: Marcar todas como presente

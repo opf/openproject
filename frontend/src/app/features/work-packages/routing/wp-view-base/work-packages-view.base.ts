@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectorRef, Directive, Injector, OnDestroy, OnInit, inject } from '@angular/core';
-import { StateService, TransitionService } from '@uirouter/core';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { filter, take, withLatestFrom } from 'rxjs/operators';
@@ -96,9 +95,8 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 
 @Directive()
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  injector = inject(Injector);
 
-  readonly $state = inject(StateService);
+  injector = inject(Injector);
 
   readonly states = inject(States);
 
@@ -131,8 +129,6 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
   readonly wpListChecksumService = inject(WorkPackagesListChecksumService);
 
   readonly loadingIndicatorService = inject(LoadingIndicatorService);
-
-  readonly $transitions = inject(TransitionService);
 
   readonly I18n = inject(I18nService);
 
@@ -295,8 +291,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
 
     const rendered = new Set(source);
 
-    for (let i = 0; i < events.length; i++) {
-      const item = events[i];
+    for (const item of events) {
       if (rendered.has(item.id) || item.eventType === 'created') {
         return true;
       }
@@ -325,7 +320,7 @@ export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implement
     );
 
     if (created) {
-      this.wpTableFocus.updateFocus(created.id, false, false);
+      this.wpTableFocus.initializeSelectionAndFocus(created.id, false, false);
     }
   }
 

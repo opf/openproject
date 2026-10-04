@@ -251,25 +251,25 @@ es:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: Versión 1.0
                 content: |
-                  ### Release 1.0
+                  ### Versión 1.0
 
-                  _Please document here what this release contains._
+                  _Describa aquí el contenido de esta versión._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * Los paquetes de trabajo de esta versión son aquellos cuya versión objetivo es la 1.0.
+                  * La fecha de lanzamiento es la fecha del hito *Versión v1.0*.
+                  * Abra la [Hoja de ruta]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) para seguir el progreso de todas las versiones.
+                  * Abra [Configuración del proyecto &rightarrow; Versiones]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) para vincular otra página wiki a una versión.
           categories:
             item_0: Categoría 1 (a modificar en la configuración del proyecto)
           queries:
             item_0:
               name: Planificación del proyecto
             item_1:
-              name: Version 1.1
+              name: Versión 1.1
             item_2:
-              name: Version 1.0
+              name: Versión 1.0
             item_3:
               name: Tareas
           boards:
@@ -295,21 +295,21 @@ es:
                 options:
                   name: Primeros pasos
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    ¡Nos alegra que se haya unido! Le sugerimos que pruebe algunas cosas para empezar a utilizar OpenProject.
 
-                    _Try the following steps:_
+                    _Siga estos pasos:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Invite a nuevos miembros a su proyecto*: &rightarrow; Vaya a [Miembros]({{opSetting:base_url}}/projects/your-scrum-project/members) en el menú de navegación del proyecto.
+                    2. *Consulte su Cartera de producto y sus Trabajos pendientes del sprint*: &rightarrow; Vaya a [Trabajos pendientes]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) en el menú de navegación del proyecto.
+                    3. *Cree un sprint*: &rightarrow; Vaya a [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) y haga clic en «+ Sprint» para crear un nuevo sprint. Traslade los paquetes de trabajo de los trabajos pendientes al sprint para planificar el trabajo que se va a realizar. Cuando esté todo listo, haga clic en «Iniciar sprint».
+                    4. *Consulte su tablero de sprint*: &rightarrow; Vaya a [Tableros]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Abra el tablero del sprint haciendo clic en el nombre del mismo.
+                    5. *Cree un nuevo paquete de trabajo*: &rightarrow; Vaya a [Paquetes de trabajo &rightarrow; Crear]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Cree y actualice un plan de proyecto*: &rightarrow; Vaya a [Plan de proyecto](##query:scrum_project__query__project_plan) en la navegación del proyecto.
+                    7. *Active módulos adicionales*: &rightarrow; Vaya a [Configuración del proyecto &rightarrow; Módulos]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Aquí encontrará nuestras [Guías de usuario](https://www.openproject.org/docs/user-guide/).
+                    No dude en ponerse en contacto con nosotros si tiene alguna pregunta o necesita ayuda. Contacto: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Paquetes de trabajo

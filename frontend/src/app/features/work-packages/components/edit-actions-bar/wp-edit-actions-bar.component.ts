@@ -33,6 +33,7 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-edit-actions-bar',
   standalone: false,
 })
@@ -41,8 +42,10 @@ export class WorkPackageEditActionsBarComponent {
   private editForm = inject(EditFormComponent);
   private cdRef = inject(ChangeDetectorRef);
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCancel = new EventEmitter<void>();
 
   public _saving = false;

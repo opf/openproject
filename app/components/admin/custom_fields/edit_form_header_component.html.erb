@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::PageHeader.new(test_selector: "custom-fields--page-header")) do |header|
-    header.with_title { page_title }
+    header.with_title { header_title }
 
     header.with_breadcrumbs(breadcrumbs_items, selected_item_font_weight: :normal)
 

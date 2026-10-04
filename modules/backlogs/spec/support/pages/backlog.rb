@@ -822,6 +822,32 @@ module Pages
       wait_for_network_idle
     end
 
+    def apply_observed_in_version_filter(version, operator: "is (OR)")
+      open_filters
+      set_filter("observed_in_version_id", "Observed in versions", operator, [version.name])
+      wait_for_network_idle
+    end
+
+    def expect_observed_in_version_option(version, grouped_under:)
+      open_filters
+      selected_filter = select_filter("observed_in_version_id", "Observed in versions")
+      within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+      expect_ng_option(selected_filter, version.name, grouping: grouped_under)
+    end
+
+    def apply_shared_with_user_filter(principal, operator: "is (OR)")
+      open_filters
+      set_filter("shared_with_user", "Shared with users", operator, [principal.name])
+      wait_for_network_idle
+    end
+
+    def expect_shared_with_user_option(principal, present: true)
+      open_filters
+      selected_filter = select_filter("shared_with_user", "Shared with users")
+      within(selected_filter) { find('[data-filter-autocomplete="true"]').click }
+      expect_ng_option(selected_filter, principal.name, present:)
+    end
+
     def apply_milestone_filter(value)
       open_filters
       if page.has_css?(filter_selector("is_milestone"), wait: 0)

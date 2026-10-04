@@ -162,7 +162,7 @@ RSpec.describe Projects::CreateArtifactWorkPackageContract, :check_errors_i18n d
     shared_let(:variant_only_status) { create(:status, name: "Variant only") }
 
     before do
-      unlink_configuration(variant, aspect: TypeVariant::WORKFLOWS)
+      variant.update!(workflow: create(:named_workflow))
       create(:workflow, type: variant, role: role_for_assignee,
                         old_status: variant_only_status, new_status: variant_only_status)
 

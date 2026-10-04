@@ -242,10 +242,12 @@ ja:
   label_show: 表示
   label_specific_day: "%{day}日目"
   label_specific_month: "%{month}月"
+  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 完了しました
   label_time: 時間
   label_time_entry_activity_form_description: このタイムエントリーアクティビティへの変更は有効になっているすべてのプロジェクトに適用されます。
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: "%{time} で開始"
   label_today_capitalized: 今日

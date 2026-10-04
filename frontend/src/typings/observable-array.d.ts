@@ -26,4 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-declare module 'observable-array';
+declare module 'observable-array' {
+  export default class ObservableArray<T> extends Array<T> {
+    constructor(...items:T[]);
+
+    on(type:'change', listener:(event:unknown) => void):this;
+  }
+}

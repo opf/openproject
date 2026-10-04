@@ -37,6 +37,8 @@ RSpec.describe "Work package variants index", :js do
   shared_let(:zeta_variant) { create(:type_variant, type: bug_type, variant_name: "Zeta variant") }
   shared_let(:alfa_variant) { create(:type_variant, type: bug_type, variant_name: "Alpha variant") }
 
+  let(:index_page) { Pages::Types::Index.new }
+
   before { login_as(admin) }
 
   it "makes only types draggable via a drag handle" do
@@ -45,11 +47,10 @@ RSpec.describe "Work package variants index", :js do
     expect(page).to have_text(bug_type.name)
     expect(page).to have_text(feature_type.name)
 
-    expect(page).to have_css("[data-draggable-id='#{bug_type.id}'] .DragHandle", visible: :all)
-    expect(page).to have_css("[data-draggable-id='#{feature_type.id}'] .DragHandle", visible: :all)
-
-    variant_row = page.find(".Box-row", text: alfa_variant.variant_name, visible: :all)
-    expect(variant_row).to have_no_css(".DragHandle", visible: :all)
+    [bug_type, feature_type].each do |type|
+      expect(index_page.type_group(type))
+        .to have_button(accessible_name: "Drag to reorder", count: 1, visible: :all)
+    end
   end
 
   it "links a type's header to its settings page" do
@@ -63,18 +64,18 @@ RSpec.describe "Work package variants index", :js do
 
     expect(page).to have_link(
       alfa_variant.variant_name,
-      href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+      href: type_variant_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
     )
   end
 
   it "counts a type's named variants in a badge on its header" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    index_page.within_type_header(bug_type) do
       expect(page).to have_css(".Counter", text: "2")
     end
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    index_page.within_type_header(feature_type) do
       expect(page).to have_no_css(".Counter")
     end
   end
@@ -84,11 +85,11 @@ RSpec.describe "Work package variants index", :js do
 
     visit types_path
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
+    index_page.within_type_header(feature_type) do
       expect(page).to have_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
+    index_page.within_type_header(bug_type) do
       expect(page).to have_no_css(".Label", text: I18n.t("types.index.enabled_in_new_projects"))
     end
   end
@@ -96,11 +97,10 @@ RSpec.describe "Work package variants index", :js do
   it "offers configure, move and delete on a type" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      expect(page).to have_link(I18n.t(:button_configure))
-      expect(page).to have_button(I18n.t(:button_move))
-      expect(page).to have_link(I18n.t(:button_delete))
+    index_page.within_actions_menu(bug_type) do |menu|
+      expect(menu).to have_selector(:menuitem, "Configure")
+      expect(menu).to have_selector(:menuitem, "Move", exact: true)
+      expect(menu).to have_selector(:menuitem, "Delete")
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe "Work package variants index", :js do
 
       expect(page).to have_link(
         I18n.t(:button_configure),
-        href: type_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
+        href: type_variant_settings_path(type_id: bug_type.id, variant_id: alfa_variant.id)
       )
       expect(page).to have_button(I18n.t(:button_delete))
     end
@@ -136,23 +136,24 @@ RSpec.describe "Work package variants index", :js do
   it "adds a variant to a type from the group's add-variant row" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(index_page.type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
     expect(page).to have_text(I18n.t("types.creation_wizard.add_variant", name: bug_type.name))
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     fill_in TypeVariant.human_attribute_name(:variant_name), with: "Hardware"
     click_on I18n.t(:button_continue)
 
-    expect(bug_type.reload.variants.non_default_variants.pluck(:variant_name))
+    wait_for { bug_type.reload.variants.non_default_variants.pluck(:variant_name) }
       .to contain_exactly("Alpha variant", "Zeta variant", "Hardware")
   end
 
   it "returns to the index when the add-variant wizard is cancelled" do
     visit types_path(expand: bug_type.id)
 
-    within("[data-draggable-id='#{bug_type.id}']") do
+    within(index_page.type_group(bug_type)) do
       click_on I18n.t("types.index.add_variant", name: bug_type.name)
     end
 
@@ -166,10 +167,7 @@ RSpec.describe "Work package variants index", :js do
   it "duplicates a type from its action menu" do
     visit types_path
 
-    within("[data-draggable-id='#{bug_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_duplicate)
-    end
+    index_page.within_actions_menu(bug_type) { |menu| menu.find(:menuitem, "Duplicate").click }
 
     expect(page).to have_text(I18n.t("types.index.duplicate_notice", name: bug_type.name))
     expect(page).to have_text(I18n.t("types.index.duplicate_name", name: bug_type.name))
@@ -181,10 +179,7 @@ RSpec.describe "Work package variants index", :js do
 
     expect(bug_type.position).to be < feature_type.position
 
-    drag_handle = page.find("[data-draggable-id='#{feature_type.id}'] .DragHandle")
-    target = page.find("[data-draggable-id='#{bug_type.id}']")
-
-    drag_n_drop_element(from: drag_handle, to: target)
+    wait_for_turbo_stream { index_page.drag(feature_type, before: bug_type) }
 
     wait_for { feature_type.reload.position }.to be < bug_type.reload.position
   end
@@ -194,13 +189,9 @@ RSpec.describe "Work package variants index", :js do
 
     expect(bug_type.position).to be < feature_type.position
 
-    within("[data-draggable-id='#{feature_type.id}'] .Box-header") do
-      find("action-menu > button").click
-      click_on I18n.t(:button_move)
-      click_on I18n.t(:label_sort_highest)
-    end
+    index_page.move(feature_type, "Move to top")
 
-    expect(page).to have_text(I18n.t(:notice_successful_update))
+    expect(page).to have_text("Successful update.")
     expect(feature_type.reload.position).to be < bug_type.reload.position
   end
 

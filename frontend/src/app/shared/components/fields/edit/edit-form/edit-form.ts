@@ -237,7 +237,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
 
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
-      handler && handler.deactivate(false);
+      handler?.deactivate(false);
 
       if (resetChange) {
         this.change.reset(name);

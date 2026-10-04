@@ -63,7 +63,7 @@ export default class SelectPanelQuickFilterController extends Controller {
     this.visitWith(selectedValues);
   }
 
-  private visitWith(selectedValues:string[]) {
+  protected visitWith(selectedValues:string[]) {
     const params = new URLSearchParams(window.location.search);
     params.delete('page');
 

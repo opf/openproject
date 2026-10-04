@@ -45,6 +45,7 @@ export class AssigneeBoardHeaderComponent {
   readonly pathHelper = inject(PathHelperService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('resource') public user:UserResource;
 
   text = {

@@ -3,6 +3,7 @@ eu:
   activerecord:
     attributes:
       placeholder_user:
+        resource_allocations: Resource allocations
         user_filter: Filter criteria
       resource_allocation:
         allocated_hours: Hours
@@ -23,8 +24,13 @@ eu:
         name: Name
         public: Public
         start_date: Start date
+      work_package:
+        allocated_principals: Allocated resources
+        allocated_time: Allocated
     errors:
       models:
+        placeholder_user:
+          used_in_resource_allocations: This placeholder user is still used in resource allocations. Reassign or remove these allocations before deleting it.
         resource_allocation:
           attributes:
             end_date:
@@ -61,6 +67,9 @@ eu:
       resource_work_package_timeline:
         one: Work packages timeline
         other: Work packages timelines
+  api_v3:
+    undisclosed:
+      allocatedPrincipal: Undisclosed - The allocated user is invisible because of lacking permissions.
   button_next: Next
   ee:
     features:

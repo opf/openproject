@@ -60,8 +60,7 @@ export class BcfApiService {
     // Try to find a target collection or resource
     let current:any = this;
 
-    for (let i = 0; i < parts.length; i++) {
-      const pathOrId:string = parts[i];
+    for (const pathOrId of parts) {
       if (pathOrId in current) {
         // Current has a member named like this URL part
         // descend into it

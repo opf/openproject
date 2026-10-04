@@ -74,21 +74,6 @@ RSpec.describe WorkPackageTypes::DeleteService do
     end
   end
 
-  context "when another type's variant borrows configuration from this one" do
-    let!(:project) { create(:project, types: [type]) }
-
-    before do
-      borrower = create(:type_variant, type: create(:type, name: "Feature"), variant_name: "Borrower")
-      borrower.update_columns(workflows_source_id: type.default_variant.id)
-    end
-
-    it "keeps the type and leaves the projects using it" do
-      expect(service.call).to be_failure
-      expect(type.reload).to be_present
-      expect(project.reload.enabled_types).to contain_exactly(type)
-    end
-  end
-
   context "when the user is not an administrator" do
     subject(:service) { described_class.new(user: create(:user), model: type) }
 

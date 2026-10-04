@@ -27,7 +27,6 @@
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
@@ -35,7 +34,6 @@ import { ProjectResource } from 'core-app/features/hal/resources/project-resourc
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { Observable, of } from 'rxjs';
@@ -53,9 +51,7 @@ import { Observable, of } from 'rxjs';
   standalone: false,
 })
 export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase implements OnInit {
-  wpTableSelection = inject(WorkPackageViewSelectionService);
   recentItemsService = inject(RecentItemsService);
-  readonly $state = inject(StateService);
   readonly currentUserService = inject(CurrentUserService);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -79,10 +75,8 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
   };
 
   public onTabSelected(tab:TabDefinition):void {
-    if (!this.routedFromAngular) {
-      this.activeTab = tab.id;
-      this.cdRef.markForCheck();
-    }
+    this.activeTab = tab.id;
+    this.cdRef.markForCheck();
   }
 
   // enable other parts of the application to trigger an immediate update
@@ -104,7 +98,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
       this.recentItemsService.add(this.workPackage.id);
 
       // Set Focused WP
-      this.wpTableFocus.updateFocus(this.workPackage.id);
+      this.wpTableFocus.initializeSelectionAndFocus(this.workPackage.id);
     }
 
     this.setWorkPackageScopeProperties(this.workPackage);

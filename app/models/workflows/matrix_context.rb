@@ -29,17 +29,21 @@
 #++
 
 module Workflows
-  # The matrix edits one named variant, held below as `variant`. Every configuration read here
-  # is that variant's own: an admin editing a variant means that variant, not whatever a
-  # project would resolve to.
   class MatrixContext
+    include WorkPackageTypes::VariantRoutes
+
     TABS = %w[always author assignee].freeze
     DEFAULT_TAB = "always"
 
-    attr_reader :variant
+    attr_reader :workflow, :variant, :scope_project
 
-    def initialize(variant:, tab: nil, role_ids: nil, status_ids: nil, displayed_status_ids: nil)
+    def initialize(workflow:, variant: nil, scope_project: nil, tab: nil, role_ids: nil, status_ids: nil,
+                   displayed_status_ids: nil, readonly: false, wizard: false)
+      @workflow = workflow
       @variant = variant
+      @scope_project = scope_project
+      @readonly = readonly
+      @wizard = wizard
       @requested_tab = tab
       @requested_role_ids = role_ids
       @requested_status_ids = status_ids_from(status_ids)
@@ -53,7 +57,45 @@ module Workflows
       @tab ||= TABS.include?(@requested_tab.to_s) ? @requested_tab.to_s : DEFAULT_TAB
     end
 
-    def readonly? = variant.linked?(TypeVariant::WORKFLOWS)
+    def standalone? = variant.nil?
+
+    def wizard? = @wizard
+
+    def variant_tab? = !standalone? && !wizard?
+
+    def readonly? = @readonly || variant_tab? || (wizard? && reused?)
+
+    def reused? = !workflow.used_by_one_variant?
+
+    def matrix_path(**)
+      if standalone?
+        routes.workflow_matrix_path(workflow, **)
+      else
+        variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+      end
+    end
+
+    def status_dialog_path(**)
+      if standalone?
+        routes.status_dialog_workflow_matrix_path(workflow, **)
+      else
+        status_dialog_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+      end
+    end
+
+    def confirm_statuses_path(**)
+      if standalone?
+        routes.confirm_statuses_workflow_matrix_path(workflow, **)
+      else
+        confirm_statuses_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+      end
+    end
+
+    def copy_path(**)
+      return routes.new_workflow_copy_path(workflow, **) if standalone?
+
+      new_variant_workflow_copy_path(scope_project, variant, **wizard_params, **)
+    end
 
     def eligible_roles
       @eligible_roles ||= Workflows::StatusTransition.ordered_eligible_roles
@@ -74,7 +116,7 @@ module Workflows
                     elsif roles.any?
                       Status.where(id: saved_status_ids)
                     else
-                      variant.statuses
+                      workflow.statuses
                     end
     end
 
@@ -112,13 +154,17 @@ module Workflows
     end
 
     def workflows
-      @workflows ||= variant
-                       .workflows
+      @workflows ||= workflow
+                       .status_transitions
                        .where(role_id: roles.map(&:id))
                        .select { belongs_to_tab?(it) }
     end
 
     private
+
+    def routes = Rails.application.routes.url_helpers
+
+    def wizard_params = wizard? ? { wizard: true } : {}
 
     def status_ids_from(ids)
       Array(ids).flatten.map(&:to_i)
@@ -135,7 +181,7 @@ module Workflows
     # The baseline a pending selection is compared against: always what the selected roles
     # have saved, never the pending selection itself.
     def saved_status_ids
-      @saved_status_ids ||= roles.flat_map { variant.statuses(role: it, tab:).pluck(:id) }.uniq
+      @saved_status_ids ||= roles.flat_map { workflow.statuses(role: it, tab:).pluck(:id) }.uniq
     end
   end
 end
