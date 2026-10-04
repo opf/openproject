@@ -43,10 +43,11 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
-import { PrimaryRenderPass, type RenderedRowType, RowRenderInfo } from '../primary-render-pass';
+import { PrimaryRenderPass } from '../primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
+  type DraftOccurrence,
   relationOccurrenceKey,
   type RenderedOccurrence,
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
@@ -64,7 +65,7 @@ export class RelationsRenderPass {
 
   public relationRowBuilder:RelationRowBuilder;
 
-  renderType:RenderedRowType = 'relations';
+  renderType:RenderedOccurrence['renderType'] = 'relations';
 
   constructor(
     readonly injector:Injector,
@@ -81,8 +82,8 @@ export class RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = [...this.tablePass.renderedOrder];
-    rendered.forEach((row:RowRenderInfo) => {
+    const rendered = [...this.tablePass.draft.occurrences];
+    rendered.forEach((row) => {
       // We only care for rows that are natural work packages
       if (!row.workPackage) {
         return;
@@ -118,7 +119,7 @@ export class RelationsRenderPass {
 
   protected renderRelationRow(
     relationRow:HTMLTableRowElement,
-    row:RowRenderInfo,
+    row:DraftOccurrence,
     label:string,
     column:QueryColumn,
     from:WorkPackageResource,
@@ -136,17 +137,16 @@ export class RelationsRenderPass {
     this.tablePass.spliceRow(
       relationRow,
       `.${this.relationRowBuilder.classIdentifier(from)},.${relationGroupClass(from.id!)}`,
-      relationOccurrenceKey(type, from.id!, to.id!),
       {
-        element: relationRow,
+        key: relationOccurrenceKey(type, from.id!, to.id!),
         classIdentifier: this.relationRowBuilder.relationClassIdentifier(from, to),
         additionalClasses: row.additionalClasses.concat(['wp-table--relations-additional-row']),
         workPackage: to,
-        belongsTo: from,
+        workPackageId: to.id!,
         renderType: this.renderType,
         hidden: row.hidden,
+        relation,
       },
-      relation,
     );
   }
 

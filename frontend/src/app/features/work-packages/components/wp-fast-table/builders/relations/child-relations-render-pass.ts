@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { type RenderedRowType, RowRenderInfo } from '../primary-render-pass';
+import type { RenderedOccurrence } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 import {
   RelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/relations-render-pass';
@@ -34,7 +34,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ChildRelationsRenderPass extends RelationsRenderPass {
-  renderType:RenderedRowType = 'child_relations';
+  renderType:RenderedOccurrence['renderType'] = 'child_relations';
 
   label = this.I18n.t('js.relation_labels.child');
 
@@ -47,10 +47,10 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
     }
 
     // Render for each original row, clone it since we're modifying the tablepass
-    const rendered = [...this.tablePass.renderedOrder];
+    const rendered = [...this.tablePass.draft.occurrences];
     const missingChildIds:string[] = [];
 
-    rendered.forEach((row:RowRenderInfo) => {
+    rendered.forEach((row) => {
       // We only care for rows that are natural work packages
       if (row.renderType !== 'primary' || !row.workPackage) {
         return;

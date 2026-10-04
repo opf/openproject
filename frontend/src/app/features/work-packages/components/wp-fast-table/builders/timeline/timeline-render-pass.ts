@@ -27,9 +27,10 @@
 //++
 
 import { Injector } from '@angular/core';
-import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
+import { PrimaryRenderPass } from '../primary-render-pass';
 import { TimelineRowBuilder } from './timeline-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
+import { placeholderOccurrenceKey } from '../../rendered-occurrence-ledger';
 
 export class TimelineRenderPass {
   /** Row builders */
@@ -49,12 +50,11 @@ export class TimelineRenderPass {
     this.timelineBuilder = new TimelineRowBuilder(this.injector, this.table);
 
     // Render into timeline fragment
-    this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
-      const wpId = row.workPackage ? row.workPackage.id : null;
-
-      const secondary = this.timelineBuilder.build(wpId);
-      secondary.classList.add(row.classIdentifier, `${row.classIdentifier}-timeline`, ...row.additionalClasses);
-      secondary.dataset.classIdentifier = row.classIdentifier;
+    this.tablePass.draft.occurrences.forEach(({ key, workPackageId, classIdentifier, additionalClasses }) => {
+      if (key === placeholderOccurrenceKey()) return;
+      const secondary = this.timelineBuilder.build(workPackageId);
+      secondary.classList.add(classIdentifier, `${classIdentifier}-timeline`, ...additionalClasses);
+      secondary.dataset.classIdentifier = classIdentifier;
       this.timelineBody.appendChild(secondary);
     });
   }

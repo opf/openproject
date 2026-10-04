@@ -28,7 +28,7 @@
 
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
+import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import type { WorkPackageTableRow } from 'core-app/features/work-packages/components/wp-fast-table/wp-table.interfaces';
@@ -43,6 +43,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   ancestorOccurrenceKey,
+  type DraftOccurrence,
   type OccurrenceKey,
   wpOccurrenceKey,
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
@@ -259,7 +260,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    */
   private markRendered(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden = false, isAncestor = false) {
     this.rendered[workPackage.id!] = true;
-    this.registerAppended(this.occurrenceKey(workPackage, isAncestor), this.buildRenderInfo(row, workPackage, hidden, isAncestor));
+    this.registerAppended(row, this.buildOccurrence(workPackage, hidden, isAncestor));
   }
 
   /**
@@ -276,12 +277,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     const hierarchyGroup = `.__hierarchy-group-${parent.id}`;
 
     // Insert into table
-    this.spliceRow(
-      el,
-      `${hierarchyRoot},${hierarchyGroup}`,
-      this.occurrenceKey(workPackage, isAncestor),
-      this.buildRenderInfo(el, workPackage, hidden, isAncestor),
-    );
+    this.spliceRow(el, `${hierarchyRoot},${hierarchyGroup}`, this.buildOccurrence(workPackage, hidden, isAncestor));
 
     this.rendered[workPackage.id!] = true;
   }
@@ -290,26 +286,17 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     return isAncestor ? ancestorOccurrenceKey(workPackage.id!) : wpOccurrenceKey(workPackage.id!);
   }
 
-  private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {
-    const info:RowRenderInfo = {
-      element: row,
-      classIdentifier: '',
-      additionalClasses: [],
+  private buildOccurrence(workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):Omit<DraftOccurrence, 'element'> {
+    const [ancestorClasses] = this.rowBuilder.ancestorRowData(workPackage);
+
+    return {
+      key: this.occurrenceKey(workPackage, isAncestor),
+      classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id!) : this.rowBuilder.classIdentifier(workPackage),
+      additionalClasses: isAncestor ? [additionalHierarchyRowClassName].concat(ancestorClasses) : ancestorClasses,
       workPackage,
+      workPackageId: workPackage.id!,
       renderType: 'primary',
       hidden,
     };
-
-    const [ancestorClasses, _] = this.rowBuilder.ancestorRowData(workPackage);
-
-    if (isAncestor) {
-      info.additionalClasses = [additionalHierarchyRowClassName].concat(ancestorClasses);
-      info.classIdentifier = ancestorClassIdentifier(workPackage.id!);
-    } else {
-      info.additionalClasses = ancestorClasses;
-      info.classIdentifier = this.rowBuilder.classIdentifier(workPackage);
-    }
-
-    return info;
   }
 }

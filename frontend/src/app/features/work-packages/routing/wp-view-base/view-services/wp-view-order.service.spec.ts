@@ -65,7 +65,7 @@ describe('WorkPackageViewOrderService', () => {
 
   function render() {
     const table = { destroyed: false, configuration: { dragAndDropEnabled: true }, querySpace } as unknown as WorkPackageTable;
-    const pass = { renderedOrder: [] } as unknown as PrimaryRenderPass;
+    const pass = { draft: { occurrences: [] } } as unknown as PrimaryRenderPass;
     new DragDropHandleRenderPass(TestBed.inject(Injector), table, pass).render();
   }
 

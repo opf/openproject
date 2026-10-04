@@ -27,7 +27,7 @@
 //++
 
 import { Injector } from '@angular/core';
-import { PrimaryRenderPass, RowRenderInfo } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
+import { PrimaryRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/primary-render-pass';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -57,24 +57,21 @@ export class HighlightingRenderPass {
     // Get the computed style to identify bright properties
     const styles = window.getComputedStyle(document.body);
 
-    // Render for each original row, clone it since we're modifying the tablepass
-    this.tablePass.renderedOrder.forEach((row:RowRenderInfo, position:number) => {
+    this.tablePass.draft.occurrences.forEach((occurrence) => {
       // We only care for rows that are natural work packages
-      if (!row.workPackage) {
+      if (!occurrence.workPackage) {
         return;
       }
 
       // Get the loaded attribute of the WP
-      const property = row.workPackage[highlightAttribute] as HalResource;
+      const property = occurrence.workPackage[highlightAttribute] as HalResource;
 
       // We only color rows that have an active attribute
       if (!property) {
         return;
       }
 
-      const id = property.id!;
-      const element:HTMLElement = this.tablePass.tableBody.children[position] as HTMLElement;
-      element.classList.add(...Highlighting.backgroundClass(highlightAttribute, id).split(' '));
+      occurrence.element?.classList.add(...Highlighting.backgroundClass(highlightAttribute, property.id!).split(' '));
     });
   }
 

@@ -60,6 +60,8 @@ import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanu
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { buildWorkPackage } from './testing/work-package-fixture';
 import { TimelineRenderPass } from './builders/timeline/timeline-render-pass';
+import { DragDropHandleBuilder } from './builders/drag-and-drop/drag-drop-handle-builder';
+import { placeholderOccurrenceKey } from './rendered-occurrence-ledger';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -374,6 +376,34 @@ describe('WorkPackageTable lifecycle', () => {
     await loaded.promise;
     expect(harness.tbody.innerHTML).toBe(before);
     expect(harness.row('1').firstElementChild).toBe(firstCell);
+  });
+
+  it('uses the latest cached work package when drag positions finish', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    const positions = deferred<QueryOrder>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(positions.promise);
+    const build = vi.spyOn(DragDropHandleBuilder.prototype, 'build');
+    harness.table.redrawTableAndTimeline();
+    await nextFrame();
+
+    const latest = buildWorkPackage({ id: '1', subject: 'Latest' });
+    harness.injector.get(States).workPackages.get('1').putValue(latest);
+    positions.resolve({});
+
+    await waitFor(() => expect(build).toHaveBeenLastCalledWith(latest, undefined));
+  });
+
+  it('registers the drag-and-drop placeholder without rendering it on the timeline', async () => {
+    const harness = await mount({
+      workPackages: [],
+      configuration: { dragAndDropEnabled: true },
+      timelineVisible: true,
+    });
+    const placeholder = harness.tbody.querySelector<HTMLTableRowElement>('.wp--placeholder-row')!;
+
+    expect(placeholder.dataset.occurrenceKey).toBe(placeholderOccurrenceKey());
+    expect(harness.table.ledger.byKey(placeholderOccurrenceKey())?.element).toBe(placeholder);
+    expect(harness.table.timelineBody).toBeEmptyDOMElement();
   });
 
   it('reports a genuinely rejected position load after disposal', async () => {

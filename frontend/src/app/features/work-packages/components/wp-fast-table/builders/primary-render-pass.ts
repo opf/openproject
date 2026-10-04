@@ -42,38 +42,18 @@ import { WorkPackageTable } from '../wp-fast-table';
 import {
   ChildRelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
-import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
 import invariant from 'tiny-invariant';
 import {
   type DraftOccurrence,
   type OccurrenceKey,
   type RenderDraft,
   type RenderedOccurrence,
+  placeholderOccurrenceKey,
   wpOccurrenceKey,
 } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
-export type RenderedRowType = 'primary'|'relations'|'child_relations';
-
 export interface RenderPassOptions {
   timeline:boolean;
-}
-
-export interface RowRenderInfo {
-  // The rendered row
-  element:HTMLTableRowElement;
-  // Unique class name as an identifier to uniquely identify the row in both table and timeline
-  classIdentifier:string;
-  // Additional classes to be added by any secondary render passes
-  additionalClasses:string[];
-  // If this row is a work package, contains a reference to the rendered WP
-  workPackage:WorkPackageResource|null;
-  // If this is an additional row not present, this contains a reference to the WP
-  // it originated from
-  belongsTo?:WorkPackageResource;
-  // The type of row this was rendered from
-  renderType:RenderedRowType;
-  // Marks if the row is currently hidden to the user
-  hidden:boolean;
 }
 
 export abstract class PrimaryRenderPass {
@@ -82,9 +62,6 @@ export abstract class PrimaryRenderPass {
   @LazyInject() states:States;
 
   @LazyInject() I18n!:I18nService;
-
-  /** The rendered order of rows of work package IDs or <null>, if not a work package row */
-  public renderedOrder:RowRenderInfo[];
 
   public draft:RenderDraft;
 
@@ -186,36 +163,19 @@ public readonly injector:Injector,
   }
 
   /**
-   * Splice a row into a specific location of the current render pass through the given selector.
-   *
-   * 1. Insert into the document fragment after the last match of the selector
-   * 2. Splice into the renderedOrder array.
+   * Splice a row into the current render pass after the last row matching the given selector.
    */
-  public spliceRow(
-    row:HTMLTableRowElement,
-    selector:string,
-    key:OccurrenceKey,
-    renderedInfo:RowRenderInfo,
-    relation?:DraftOccurrence['relation'],
-  ) {
-    // Insert into table using the selector
+  public spliceRow(row:HTMLTableRowElement, selector:string, occurrence:Omit<DraftOccurrence, 'element'>) {
     const matches = this.tableBody.querySelectorAll<HTMLTableRowElement>(selector);
     invariant(matches.length, `No matches found for selector: ${selector}`);
 
-    // If it matches multiple, select the last element
     const target = matches[matches.length - 1];
-
-    // Insert the new row AFTER the target
-    target.parentNode!.insertBefore(row, target.nextSibling);
-
-    // Splice the renderedOrder at this exact location
-    const index = getNodeIndex(target);
-    this.renderedOrder.splice(index + 1, 0, renderedInfo);
-
     const targetKey = target.dataset.occurrenceKey;
     invariant(targetKey, `Splice target matched by ${selector} carries no occurrence key`);
-    row.dataset.occurrenceKey = key;
-    this.draft.spliceAfter(targetKey, this.draftOccurrence(key, renderedInfo, relation));
+
+    target.parentNode!.insertBefore(row, target.nextSibling);
+    row.dataset.occurrenceKey = occurrence.key;
+    this.draft.spliceAfter(targetKey, { ...occurrence, element: row });
   }
 
   protected prepare() {
@@ -225,7 +185,6 @@ public readonly injector:Injector,
     this.dragDropHandle = new DragDropHandleRenderPass(this.injector, this.workPackageTable, this);
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
     this.draft = this.workPackageTable.ledger.beginRender(this.withTimeline);
   }
 
@@ -238,8 +197,16 @@ public readonly injector:Injector,
    * Post render shared among all sub passes
    */
   protected postRender():void {
-    if (this.renderedOrder.length === 0 && this.workPackageTable.renderPlaceholderRow) {
-      this.tableBody.appendChild(this.rowBuilder.placeholderRow);
+    if (this.draft.occurrences.length === 0 && this.workPackageTable.renderPlaceholderRow) {
+      this.registerAppended(this.rowBuilder.placeholderRow, {
+        key: placeholderOccurrenceKey(),
+        classIdentifier: 'wp--placeholder-row',
+        additionalClasses: [],
+        workPackage: null,
+        workPackageId: null,
+        renderType: 'primary',
+        hidden: false,
+      });
     }
   }
 
@@ -256,12 +223,13 @@ workPackage:WorkPackageResource,
     additionalClasses:string[] = [],
     hidden = false,
 ) {
-    this.registerAppended(wpOccurrenceKey(workPackage.id!), {
+    this.registerAppended(row, {
+      key: wpOccurrenceKey(workPackage.id!),
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
+      workPackageId: workPackage.id!,
       renderType: 'primary',
-      element: row,
       hidden,
     });
   }
@@ -280,38 +248,20 @@ workPackage:WorkPackageResource,
     hidden = false,
   ) {
     row.classList.add(classIdentifer);
-    this.registerAppended(key, {
-      element: row,
+    this.registerAppended(row, {
+      key,
       classIdentifier: classIdentifer,
       additionalClasses,
       workPackage: null,
+      workPackageId: null,
       renderType: 'primary',
       hidden,
     });
   }
 
-  protected registerAppended(key:OccurrenceKey, info:RowRenderInfo) {
-    this.tableBody.appendChild(info.element);
-    this.renderedOrder.push(info);
-    info.element.dataset.occurrenceKey = key;
-    this.draft.append(this.draftOccurrence(key, info));
-  }
-
-  private draftOccurrence(
-    key:OccurrenceKey,
-    info:RowRenderInfo,
-    relation?:DraftOccurrence['relation'],
-  ):DraftOccurrence {
-    return {
-      key,
-      classIdentifier: info.classIdentifier,
-      workPackageId: info.workPackage?.id ?? null,
-      renderType: info.renderType,
-      hidden: info.hidden,
-      element: info.element,
-      additionalClasses: info.additionalClasses,
-      workPackage: info.workPackage,
-      ...(relation && { relation }),
-    };
+  protected registerAppended(row:HTMLTableRowElement, occurrence:Omit<DraftOccurrence, 'element'>) {
+    this.tableBody.appendChild(row);
+    row.dataset.occurrenceKey = occurrence.key;
+    this.draft.append({ ...occurrence, element: row });
   }
 }
