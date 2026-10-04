@@ -91,6 +91,8 @@ export class WorkPackageTable {
 
   public readonly ledger = new RenderedOccurrenceLedger();
 
+  private readonly requestedRelationTargets = new Set<string>();
+
   private pendingRender:PendingRender|null = null;
 
   // Work package editing context handler in the table, which handles open forms
@@ -154,9 +156,20 @@ export class WorkPackageTable {
     if (this.destroyed) return;
     // Build the row representation
     this.buildIndex(rows);
+    this.requestedRelationTargets.clear();
 
     // Draw work packages
     this.redrawTableAndTimeline();
+  }
+
+  public requestRelationTargets(ids:string[]):string[] {
+    const claimed = Array.from(new Set(ids)).filter((id) => !this.requestedRelationTargets.has(id));
+    claimed.forEach((id) => this.requestedRelationTargets.add(id));
+    return claimed;
+  }
+
+  public releaseRelationTargets(ids:string[]):void {
+    ids.forEach((id) => this.requestedRelationTargets.delete(id));
   }
 
   /**
@@ -225,8 +238,9 @@ export class WorkPackageTable {
     this.pendingRender = null;
     const { pass } = pending;
     this.tbody.replaceChildren(pass.tableBody);
-    if (pending.timeline) {
-      this.timelineBody.replaceChildren(pass.timeline.timelineBody);
+    const timelinePass = pending.timeline ? pass.timeline : null;
+    if (timelinePass) {
+      this.timelineBody.replaceChildren(timelinePass.timelineBody);
     }
     this.ledger.commit(pass.draft);
     this.lastRenderPass = pass;

@@ -96,7 +96,7 @@ export abstract class PrimaryRenderPass {
   public tableBody:DocumentFragment;
 
   /** Additional render pass that handles timeline rendering */
-  public timeline:TimelineRenderPass;
+  public timeline:TimelineRenderPass|null = null;
 
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
@@ -149,9 +149,10 @@ public readonly injector:Injector,
     });
 
     // Synchronize the rows to timeline
-    timeOutput('Timelines render pass', () => {
-      this.timeline.render();
-    });
+    const timelinePass = this.timeline;
+    if (timelinePass) {
+      timeOutput('Timelines render pass', () => timelinePass.render());
+    }
 
     return this;
   }
@@ -215,7 +216,7 @@ public readonly injector:Injector,
   }
 
   protected prepare() {
-    this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
+    this.timeline = this.withTimeline ? new TimelineRenderPass(this.injector, this.workPackageTable, this) : null;
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
     this.childRelations = new ChildRelationsRenderPass(this.injector, this.workPackageTable, this);
     this.dragDropHandle = new DragDropHandleRenderPass(this.injector, this.workPackageTable, this);

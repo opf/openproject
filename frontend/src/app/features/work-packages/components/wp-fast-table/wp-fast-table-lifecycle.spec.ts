@@ -59,6 +59,7 @@ import { TableEditForm } from 'core-app/features/work-packages/components/wp-edi
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { buildWorkPackage } from './testing/work-package-fixture';
+import { TimelineRenderPass } from './builders/timeline/timeline-render-pass';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -438,6 +439,71 @@ describe('WorkPackageTable lifecycle', () => {
     harness.table.destroy();
     reject(error);
     await waitFor(() => expect(report).toHaveBeenCalledExactlyOnceWith(error));
+  });
+
+  describe('with an expanded children column', () => {
+    const mountExpanded = async (options:Omit<TableHarnessOptions, 'workPackages'>) => {
+      const harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }],
+        columns: ['id', 'subject', { id: 'children', children: true }],
+        loadChildren: false,
+        ...options,
+      });
+      harnesses.push(harness);
+      harness.expand('1', 'children');
+      await harness.render();
+      return harness;
+    };
+
+    const settle = async () => {
+      await Promise.resolve();
+      await nextFrame();
+      await nextFrame();
+    };
+
+    it('requests a missing child once until the next initial setup', async () => {
+      const unresolved:WorkPackageResource[] = [];
+      const requireAll = vi.fn(() => (requireAll.mock.calls.length > 3 ? new Promise<WorkPackageResource[]>(() => undefined) : Promise.resolve(unresolved)));
+      const harness = await mountExpanded({ requireAll });
+      await settle();
+      expect(requireAll).toHaveBeenCalledTimes(1);
+      expect(requireAll).toHaveBeenCalledWith(['2']);
+
+      await harness.render();
+      await settle();
+      expect(requireAll).toHaveBeenCalledTimes(2);
+    });
+
+    it('draws the timeline row of a child loaded after the render', async () => {
+      const loaded = deferred<WorkPackageResource[]>();
+      const requireAll = vi.fn(() => loaded.promise);
+      const harness = await mountExpanded({ requireAll, timelineVisible: true });
+      const child = buildWorkPackage({ id: '2' });
+      harness.injector.get(States).workPackages.get('2').putValue(child);
+      loaded.resolve([child]);
+      await settle();
+      expect(harness.tbody.querySelector('[data-occurrence-key="relation:children:1:2"]')).not.toBeNull();
+      expect(harness.timelineRow('2')).toBeInTheDocument();
+    });
+  });
+
+  it('keeps the timeline untouched on a table-only redraw', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+    const timelineRow = harness.timelineRow('1');
+    const tableRow = harness.row('1');
+    const timelineRender = vi.spyOn(TimelineRenderPass.prototype, 'render');
+    harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+
+    harness.table.redrawTable();
+    await harness.nextRender();
+    expect(harness.row('1')).not.toBe(tableRow);
+    expect(harness.timelineRow('1')).toBe(timelineRow);
+    expect(timelineRender).not.toHaveBeenCalled();
+
+    harness.table.redrawTableAndTimeline();
+    await harness.nextRender();
+    expect(timelineRender).toHaveBeenCalledTimes(1);
+    expect(harness.timelineRow('1')).not.toBe(timelineRow);
   });
 
   describe('with two tables showing the same work packages', () => {
