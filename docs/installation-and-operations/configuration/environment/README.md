@@ -121,6 +121,7 @@ For reference, here is an overview of the latest stable version's environment va
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
 
+```text
 | Variable | Default | Description |
 |---|---|---|
 | `OPENPROJECT_2FA` | `{"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0}` |  |
@@ -158,7 +159,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_AUTOLOGIN__COOKIE__PATH` | `"/"` | Cookie path for autologin cookie |
 | `OPENPROJECT_AVAILABLE__LANGUAGES` | `["ca", "cs", "de", "el", "en", "es", "fr", "hu", "id", "it", "ja", "ko", "lt", "nl", "no", "pl", "pt-BR", "pt-PT", "ro", "ru", "sk", "sl", "sv", "tr", "uk", "vi", "zh-CN", "zh-TW"]` | Available languages |
 | `OPENPROJECT_AVATAR__LINK__EXPIRY__SECONDS` | `86400` | Cache duration for avatar image API responses |
-| `OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB` | `1024` | Maximum limit of attachment size to include into application backups |
+| `OPENPROJECT_BACKUP__ATTACHMENT__SIZE__MAX__SUM__MB` | `4096` | Maximum limit of attachment size to include into application backups |
 | `OPENPROJECT_BACKUP__DAILY__LIMIT` | `3` | Maximum number of application backups allowed per day |
 | `OPENPROJECT_BACKUP__ENABLED` | `true` | Enable application backups through the UI |
 | `OPENPROJECT_BACKUP__INCLUDE__ATTACHMENTS` | `true` | Allow inclusion of attachments in application backups |
@@ -239,15 +240,19 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE` | `false` | Enables the admin UI to manage AI text transform actions. |
 | `OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE` | `true` | Allows the display and use of built-in OAuth applications. |
 | `OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE` | `false` |  |
+| `OPENPROJECT_FEATURE__LLM__CONNECTION__ACTIVE` | `false` | Enables the administration page connecting OpenProject to an OpenAI-API-compatible LLM server, and the AI features built on it. |
 | `OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE` | `false` | Allow exporting a meeting with FITKO styling. See #65124 for details. |
+| `OPENPROJECT_FEATURE__PROJECT__SETTINGS__ESTIMATION__UNIT__ACTIVE` | `false` | Enables project settings for the unit of velocity, effort and capacity. See AGILE-198 for details. |
 | `OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE` | `false` | Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress. |
 | `OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE` | `false` |  |
 | `OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE` | `true` | Enables Wiki enhancements, such as the Wikis tab and XWiki integration. |
+| `OPENPROJECT_FEATURE__WORK__PACKAGE__LABELS__ACTIVE` | `false` | Enables labels on work packages, the labels API and the labels administration. See FND-5 for details. |
 | `OPENPROJECT_FEEDS__ENABLED` | `true` | Enable Feeds |
 | `OPENPROJECT_FEEDS__LIMIT` | `15` | Feed content limit |
 | `OPENPROJECT_FILE__MAX__SIZE__DISPLAYED` | `512` | Max size of text files displayed inline |
 | `OPENPROJECT_FIRST__WEEK__OF__YEAR` | `nil` | First week in year contains |
 | `OPENPROJECT_FOG` | `{}` | Configure fog, e.g. when using an S3 uploader |
+| `OPENPROJECT_FOG__DIRECT__UPLOAD__EXPIRES__IN` | `14400` | Expiration time in seconds of the signed forms used for direct uploads |
 | `OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN` | `21600` | Expiration time in seconds of created shared presigned URLs |
 | `OPENPROJECT_FORCE__FORMATTING__HELP__LINK` | `nil` | You can set a custom URL for the help button in the WYSIWYG editor. |
 | `OPENPROJECT_FORCE__HELP__LINK` | `nil` | You can set a custom URL for the help button in application header menu. |
@@ -289,6 +294,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB` | `false` | Deactivate regular synchronization job for groups in case scheduled as a separate cronjob |
 | `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB` | `false` | Deactivate user attributes synchronization from LDAP |
 | `OPENPROJECT_LDAP__USERS__SYNC__STATUS` | `false` | Enable user status (locked/unlocked) synchronization from LDAP |
+| `OPENPROJECT_LLM__FEATURES__ENABLED` | `false` | Enable the AI features backed by the configured LLM connection |
 | `OPENPROJECT_LOG__LEVEL` | `"info"` | Set the OpenProject logger level |
 | `OPENPROJECT_LOG__REQUESTING__USER` | `false` | Log user login, name, and mail address for all requests |
 | `OPENPROJECT_LOGIN__REQUIRED` | `true` | Authentication required |
@@ -379,7 +385,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_SEED__ADMIN__USER__NAME` | `"OpenProject Admin"` | Name to set for the initially created admin user. |
 | `OPENPROJECT_SEED__ADMIN__USER__PASSWORD` | `"admin"` | Password to set for the initially created admin user (Login remains "admin"). |
 | `OPENPROJECT_SEED__ADMIN__USER__PASSWORD__RESET` | `true` | Whether to force a password reset for the initially created admin user. |
-| `OPENPROJECT_SEED__DESIGN` | `nil` | Seed enterprise-edition theme colors and logos through ENV |
+| `OPENPROJECT_SEED__DESIGN` | `nil` | Seed enterprise-edition theme colors and logos through ENV. Set only_when_empty to apply only when no CustomStyle exists. |
 | `OPENPROJECT_SEED__ENTERPRISE__TOKEN` | `nil` | Seed enterprise-edition token through ENV |
 | `OPENPROJECT_SEED__LDAP` | `nil` | Provide an LDAP connection and sync settings through ENV |
 | `OPENPROJECT_SELF__REGISTRATION` | `2` | Self-registration |
@@ -433,6 +439,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_WELCOME__TITLE` | `nil` | Welcome block title |
 | `OPENPROJECT_WIKI__PROVIDERS` | `[]` | Configure external wiki providers through environment variables |
 | `OPENPROJECT_WORK__PACKAGE__DONE__RATIO` | `"field"` | Progress calculation mode |
+| `OPENPROJECT_WORK__PACKAGE__IMPORT__MAX__ROWS` | `5000` | Maximum number of data rows accepted by the work package CSV import. |
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__COLUMNS` | `["id", "subject", "type", "status", "assigned_to", "priority"]` |  |
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTED__ATTRIBUTES` | `["status", "priority", "due_date"]` | Default inline highlighted attributes |
 | `OPENPROJECT_WORK__PACKAGE__LIST__DEFAULT__HIGHLIGHTING__MODE` | `"inline"` | Default highlighting mode |
