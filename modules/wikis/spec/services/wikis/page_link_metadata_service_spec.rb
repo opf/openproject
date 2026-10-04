@@ -87,9 +87,9 @@ module Wikis
       end
 
       it "returns the relation without raising, instead of crashing on an empty VALUES clause" do
-        expect { service.call }.not_to raise_error
+        service_result = nil
+        expect { service_result = service.call }.not_to raise_error
 
-        service_result = service.call
         expect(service_result).to be_success
       end
 
