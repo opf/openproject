@@ -43,10 +43,6 @@ class Automations::Actions::Base < ApplicationRecord
     Array(super)
   end
 
-  def write_raw_values(new_values)
-    self.options = options.is_a?(Hash) ? options.merge("values" => Array(new_values)) : { "values" => Array(new_values) }
-  end
-
   def allowed_values
     raise SubclassResponsibilityError
   end
@@ -94,6 +90,12 @@ class Automations::Actions::Base < ApplicationRecord
 
   def priority
     DEFAULT_PRIORITY
+  end
+
+  protected
+
+  def write_raw_values(new_values)
+    write_store_attribute(:options, :values, Array(new_values))
   end
 
   private
