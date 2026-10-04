@@ -82,8 +82,7 @@ export class GroupedRenderPass extends PlainRenderPass {
         currentGroup = nextGroup;
       }
 
-      row.group = currentGroup;
-      this.buildSingleRow(row);
+      this.buildSingleRow(row, currentGroup);
     });
 
     // Render the last sums row
@@ -160,9 +159,7 @@ export class GroupedRenderPass extends PlainRenderPass {
   /**
    * Enhance a row from the rowBuilder with group information.
    */
-  private buildSingleRow(row:WorkPackageTableRow):void {
-    const { group } = row;
-
+  private buildSingleRow(row:WorkPackageTableRow, group:GroupObject|null):void {
     if (!group) {
       console.warn("All rows should have a group, but this one doesn't %O", row);
     }
@@ -181,7 +178,6 @@ export class GroupedRenderPass extends PlainRenderPass {
       }
     }
 
-    row.element = tr;
     tr.classList.add(...additionalClasses);
     this.appendRow(row.object, tr, additionalClasses, hidden);
   }

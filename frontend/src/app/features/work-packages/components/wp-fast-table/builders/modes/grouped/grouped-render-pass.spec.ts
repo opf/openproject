@@ -158,7 +158,6 @@ function buildTableRow(workPackage:WorkPackageResource):WorkPackageTableRow {
     object: workPackage,
     workPackageId: workPackage.id!,
     position: 0,
-    group: null,
   };
 }
 
