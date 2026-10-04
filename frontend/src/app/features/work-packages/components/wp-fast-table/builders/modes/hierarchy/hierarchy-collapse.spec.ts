@@ -30,6 +30,8 @@ import { fireEvent, waitFor, within } from '@testing-library/dom';
 import { buildTable, TableHarness } from '../../../testing/table-harness';
 import { WorkPackageFixture } from '../../../testing/work-package-fixture';
 import { States } from 'core-app/core/states/states.service';
+import { hierarchyGroupClass } from '../../../helpers/wp-table-hierarchy-helpers';
+import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 
 const parent = { id: '1' };
 const child = { id: '2', ancestors: [parent] };
@@ -98,6 +100,18 @@ describe('Hierarchy table collapse', () => {
       expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
     });
 
+    it('keeps a grandchild hidden under a collapsed parent and an expanded child', async () => {
+      const hierarchies = harness.injector.get(WorkPackageViewHierarchiesService);
+
+      hierarchies.expand('2');
+      hierarchies.collapse('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(hierarchies.current.collapsed).toEqual({ 1: true, 2: false });
+      expect(harness.row('3')).not.toBeVisible();
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+
     it('keeps a parent collapsed across a rerender with changed descendants', async () => {
       toggle('1');
       await waitFor(() => expect(harness.row('2')).not.toBeVisible());
@@ -121,6 +135,28 @@ describe('Hierarchy table collapse', () => {
       await waitFor(() => expect(harness.row('2')).toBeVisible());
       expect(harness.row('5')).toBeVisible();
       expect(harness.renderedState()).toEqual([['1', false], ['2', false], ['5', false], ['4', false]]);
+    });
+
+    it('publishes a fresh rendered state on toggle', async () => {
+      const before = harness.querySpace.tableRendered.value;
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.querySpace.tableRendered.value).not.toBe(before);
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
+    });
+
+    it('ignores a foreign unstamped row in the collapsed hierarchy', async () => {
+      const foreign = document.createElement('tr');
+      foreign.className = `wp-table--row ${hierarchyGroupClass('1')}`;
+      harness.tbody.prepend(foreign);
+
+      toggle('1');
+
+      await waitFor(() => expect(harness.row('2')).not.toBeVisible());
+      expect(harness.querySpace.tableRendered.value).toHaveLength(harness.table.ledger.size);
+      expect(harness.renderedState()).toEqual([['1', false], ['2', true], ['3', true], ['4', false]]);
     });
   });
 
