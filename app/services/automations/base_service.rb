@@ -36,12 +36,18 @@ class Automations::BaseService
   def call(attributes:,
            automation:,
            &)
-    set_attributes(automation, attributes)
+    result = nil
 
-    contract = Automations::CuContract.new(automation, user)
-    result = ServiceResult.new(success: contract.validate && automation.save,
-                               result: automation,
-                               errors: contract.errors)
+    Automation.transaction do
+      set_attributes(automation, attributes)
+
+      contract = Automations::CuContract.new(automation, user)
+      result = ServiceResult.new(success: contract.validate && automation.save,
+                                 result: automation,
+                                 errors: contract.errors)
+
+      raise ActiveRecord::Rollback unless result.success?
+    end
 
     block_with_result(result, &)
   end

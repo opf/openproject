@@ -178,4 +178,24 @@ RSpec.describe Automations::UpdateService do
         .to contain_exactly([:inexistent, [3]])
     end
   end
+
+  describe "#call on a rejected update" do
+    let(:persisted_automation) { create(:automation, :with_button_trigger, name: "Valid name") }
+    let(:custom_field) { create(:string_wp_custom_field) }
+    let(:service) { described_class.new(automation: persisted_automation, user:) }
+
+    it "persists none of the newly added actions" do
+      expect do
+        service.call(attributes: { name: "x" * 300,
+                                   actions: { custom_field.attribute_name.to_sym => ["a value"] } })
+      end.not_to change(Automations::Actions::Base, :count)
+    end
+
+    it "builds the action subclass matching the custom field format" do
+      service.call(attributes: { actions: { custom_field.attribute_name.to_sym => ["a value"] } })
+
+      expect(persisted_automation.reload.actions.map(&:class))
+        .to contain_exactly(Automations::Actions::CustomField::ForString)
+    end
+  end
 end

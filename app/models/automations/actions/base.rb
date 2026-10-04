@@ -63,7 +63,7 @@ class Automations::Actions::Base < ApplicationRecord
   end
 
   def human_name
-    WorkPackage.human_attribute_name(self.class.key)
+    WorkPackage.human_attribute_name(key)
   end
 
   def self.key
