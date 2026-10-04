@@ -2477,6 +2477,7 @@ en:
     groups: "Groups"
     hexcode: "Hex code"
     id: "ID"
+    inexistent: "Inexistent"
     is_default: "Default value"
     is_for_all: "For all projects"
     # kept for backwards compatibility
@@ -2543,6 +2544,30 @@ en:
         Enter one URL per line, for example the address that the browser console shows as blocked.
         During the login, OpenProject allows redirects to the hosts of these URLs.
     login_and_registration: "Login and registration"
+
+  automations:
+    actions:
+      add: "Add action"
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: "Actions"
+    conditions: "Conditions"
+    edit: "Edit automation %{name}"
+    new: "New automation"
+    plural: "Automations"
+    summary:
+      if: "If"
+      none: "None"
+      then: "Then"
+      title: "Summary"
+      when: "When"
+    trigger: "Trigger"
+    triggers:
+      button:
+        button_label: "Button label"
+        label: "Button press"
+      more_coming: "OpenProject will add more trigger types soon."
+      name: "Triggers"
 
   background_jobs:
     status:
