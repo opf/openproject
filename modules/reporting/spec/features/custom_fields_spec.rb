@@ -58,7 +58,7 @@ RSpec.describe "Custom fields reporting", :js do
   end
 
   def custom_value_for(cf, str)
-    cf.custom_options.find { |co| co.value == str }.try(:id)
+    cf.possible_values.find { |item| item.label == str }.try(:id)
   end
 
   current_user { user }
@@ -181,7 +181,7 @@ RSpec.describe "Custom fields reporting", :js do
       end
 
       it "groups by the raw values when an invalid value exists" do
-        expect(work_package2.send(custom_field_2.attribute_getter)).to eq(["invalid not found"])
+        expect(work_package2.custom_value_for(custom_field_2).map(&:value)).to eq(["invalid"])
 
         expect(page).to have_css("#group-by--add-columns")
         expect(page).to have_css("#group-by--add-rows")

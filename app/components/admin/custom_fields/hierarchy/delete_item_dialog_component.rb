@@ -33,6 +33,7 @@ module Admin
     module Hierarchy
       class DeleteItemDialogComponent < ApplicationComponent
         include OpTurbo::Streamable
+        include ItemRoutes
 
         TEST_SELECTOR = "op-custom-fields--delete-item-dialog"
 
@@ -51,13 +52,13 @@ module Admin
 
         private
 
-        def url
-          if @custom_field.is_a?(ProjectCustomField)
-            admin_settings_project_custom_field_item_path(project_custom_field_id: @custom_field.id,
-                                                          id: @hierarchy_item.id)
-          else
-            custom_field_item_path(custom_field_id: @custom_field.id, id: @hierarchy_item.id)
-          end
+        attr_reader :custom_field
+
+        def url = hierarchy_item_path(@hierarchy_item)
+
+        def description
+          key = custom_field.list? ? :list_description : :description
+          I18n.t(key, scope: "custom_fields.admin.items.delete_dialog")
         end
       end
     end

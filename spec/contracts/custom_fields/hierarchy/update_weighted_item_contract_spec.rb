@@ -29,84 +29,39 @@
 #++
 
 require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe CustomFields::Hierarchy::UpdateWeightedItemContract do
-  subject { described_class.new }
+  subject(:result) { described_class.new.call(params) }
 
-  # rubocop:disable Rails/DeprecatedActiveModelErrorsMethods
-  describe "#call" do
-    let!(:impact) { create(:hierarchy_item) }
-    let!(:high) { create(:hierarchy_item, label: "HIGH", weight: 1.17e-12, parent: impact) }
-    let!(:middle) { create(:hierarchy_item, label: "Middle", weight: 1, parent: impact) }
-    let!(:low) { create(:hierarchy_item, label: "low", weight: 9.81e6, parent: impact) }
+  let!(:impact) { create(:hierarchy_item) }
+  let!(:high) { create(:hierarchy_item, label: "HIGH", weight: 1.17e-12, parent: impact) }
+  let!(:middle) { create(:hierarchy_item, label: "Middle", weight: 1, parent: impact) }
+  let(:valid_params) { { item: high, label: "VERY HIGH", weight: 1.17e-11 } }
 
-    context "when all required fields are valid" do
-      it "is valid" do
-        [
-          { item: high, label: "VERY HIGH", weight: 1.17e-12 },
-          { item: high, label: "HIGH", weight: 1.17e-11 }
-        ].each { |params| expect(subject.call(params)).to be_success }
-      end
-    end
+  it_behaves_like "a hierarchy item update contract", sibling_label: "Middle"
 
-    context "when item is a root item" do
-      let(:params) { { item: impact } }
+  context "with its own label kept" do
+    let(:params) { valid_params.merge(label: "HIGH") }
 
-      it("is invalid") do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["cannot be a root item."])
-      end
-    end
-
-    context "when item is not of type 'Item'" do
-      let(:invalid_item) { create(:custom_field) }
-      let(:params) { { item: invalid_item } }
-
-      it("is invalid") do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors.to_h).to include(item: ["must be CustomField::Hierarchy::Item."])
-      end
-    end
-
-    context "when item is not persisted" do
-      let(:item) { build(:hierarchy_item, parent: impact) }
-      let(:params) { { item: } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-        expect(result.errors[:item]).to match_array("must be an already existing item.")
-      end
-    end
-
-    context "when the label already exist in the same hierarchy level" do
-      let(:params) { { item: high, label: "Middle" } }
-
-      it "is invalid" do
-        result = subject.call(params)
-        expect(result).to be_failure
-
-        expect(result.errors[:label]).to match_array("must be unique within the same hierarchy level.")
-      end
-    end
-
-    context "when fields are invalid" do
-      it "is invalid" do
-        [
-          {},
-          { item: nil },
-          { item: high, label: 42 },
-          { item: high, weight: "pi" },
-          { item: high, label: nil, weight: 4 },
-          { item: high, label: "pi", weight: nil },
-          { item: high, label: "pi", weight: "threepointonefour" },
-          { item: high, label: 42, weight: 4 },
-          { item: high, label: "", weight: 4 }
-        ].each { |params| expect(subject.call(params)).to be_failure }
-      end
-    end
+    it { is_expected.to be_success }
   end
-  # rubocop:enable Rails/DeprecatedActiveModelErrorsMethods
+
+  context "without a weight" do
+    let(:params) { valid_params.except(:weight) }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("is missing.") }
+  end
+
+  context "with a blank weight" do
+    let(:params) { valid_params.merge(weight: nil) }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("must be filled.") }
+  end
+
+  context "with a weight that is not a decimal" do
+    let(:params) { valid_params.merge(weight: "threepointonefour") }
+
+    it("rejects it") { expect(result.errors[:weight]).to include("must be a decimal.") }
+  end
 end

@@ -309,7 +309,7 @@ RSpec.describe "Switching types in work package table", :js do
       new_wp = WorkPackage.last
       expect(new_wp.subject).to eq("My subject")
       expect(new_wp.type_id).to eq(type_with_cf.id)
-      expect(new_wp.custom_value_for(custom_field).map(&:typed_value)).to match_array(%w(pineapple mushrooms))
+      expect(new_wp.custom_value_for(custom_field).map { |cv| cv.typed_value.label }).to match_array(%w(pineapple mushrooms))
     end
   end
 end

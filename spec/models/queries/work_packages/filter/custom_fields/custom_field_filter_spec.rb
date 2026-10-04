@@ -116,6 +116,19 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
           expect(instance).not_to be_valid
         end
+
+        context "given a legacy custom option id" do
+          let(:item) { create(:legacy_list_item, custom_field: list_wp_custom_field) }
+
+          before do
+            instance.values = [item.legacy_option_id]
+          end
+
+          it "resolves it to the migrated item, so the filter validates against the current value" do
+            expect(instance.values).to eq([item.id.to_s])
+            expect(instance).to be_valid
+          end
+        end
       end
     end
 
@@ -277,7 +290,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
       it "is list_optional for a list" do
         expect(instance.allowed_values)
-          .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id.to_s] })
+          .to match_array(list_wp_custom_field.possible_values.map { |item| [item.label, item.id.to_s] })
       end
     end
 
@@ -502,21 +515,21 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
       describe "#value_objects" do
         before do
-          instance.values = [custom_field.custom_options.last.id,
-                             custom_field.custom_options.first.id]
+          instance.values = [custom_field.possible_values.last.id,
+                             custom_field.possible_values.first.id]
         end
 
         it "returns an array with custom classes" do
-          expect(instance.value_objects)
-            .to contain_exactly(custom_field.custom_options.last, custom_field.custom_options.first)
+          expect(instance.value_objects.map(&:id))
+            .to contain_exactly(custom_field.possible_values.last.id, custom_field.possible_values.first.id)
         end
 
         it "ignores invalid values" do
           instance.values = ["invalid",
-                             custom_field.custom_options.last.id]
+                             custom_field.possible_values.last.id]
 
-          expect(instance.value_objects)
-            .to contain_exactly(custom_field.custom_options.last)
+          expect(instance.value_objects.map(&:id))
+            .to contain_exactly(custom_field.possible_values.last.id)
         end
       end
     end

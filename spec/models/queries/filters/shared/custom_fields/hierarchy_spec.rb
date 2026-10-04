@@ -37,7 +37,7 @@ RSpec.describe Queries::Filters::Shared::CustomFields::Hierarchy,
   let(:service) { CustomFields::Hierarchy::HierarchicalItemService.new }
   let!(:custom_field) { create(:user_custom_field, :hierarchy, name: "Job title") }
   let!(:developer) do
-    service.insert_item(contract_class: CustomFields::Hierarchy::InsertListItemContract,
+    service.insert_item(contract_class: CustomFields::Hierarchy::InsertHierarchyItemContract,
                         parent: custom_field.hierarchy_root, label: "Developer").value!
   end
 

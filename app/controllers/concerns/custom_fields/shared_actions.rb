@@ -50,14 +50,10 @@ module CustomFields
       end
 
       def update
-        if custom_options_attributes
-          perform_update(get_custom_field_params, tab: :list_items)
-        else
-          perform_update(get_custom_field_params)
-        end
+        perform_update(get_custom_field_params)
       end
 
-      def perform_update(custom_field_params, tab: :edit)
+      def perform_update(custom_field_params) # rubocop:disable Metrics/AbcSize
         call = ::CustomFields::UpdateService
           .new(user: current_user, model: @custom_field)
           .call(custom_field_params)
@@ -66,23 +62,11 @@ module CustomFields
           flash[:notice] = t(:notice_successful_update)
           call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
 
-          redirect_to(update_path(tab))
+          redirect_to(edit_path(@custom_field, id: @custom_field.id))
         else
           flash.now[:error] = I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-          render tab == :list_items ? :list_items : :edit, status: :unprocessable_entity
+          render :edit, status: :unprocessable_entity
         end
-      end
-
-      def reorder_alphabetical
-        reordered_options = @custom_field
-          .custom_options
-          .sort_by(&:value)
-          .each_with_index
-          .map do |custom_option, index|
-            { id: custom_option.id, position: index + 1 }
-          end
-
-        perform_update({ custom_options_attributes: reordered_options }, tab: :list_items)
       end
 
       def destroy
@@ -94,20 +78,6 @@ module CustomFields
         redirect_to index_path(@custom_field, tab: @custom_field.class.name), status: :see_other
       end
 
-      def delete_option
-        if @custom_option.destroy
-          num_deleted = delete_custom_values! @custom_option
-
-          flash[:notice] = I18n.t(
-            :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted:
-          )
-        else
-          flash[:error] = @custom_option.errors.full_messages
-        end
-
-        redirect_to list_item_path(@custom_field, id: @custom_field.id), status: :see_other
-      end
-
       def new_custom_field
         field = ::CustomFields::CreateService.careful_new_custom_field(permitted_params.custom_field_type)
         field.field_format = params[:field_format]
@@ -116,42 +86,6 @@ module CustomFields
 
       def get_custom_field_params
         permitted_params.custom_field
-      end
-
-      def find_custom_option
-        @custom_option = CustomOption.find params[:option_id]
-      end
-
-      def delete_custom_values!(custom_option)
-        CustomValue
-          .where(custom_field_id: custom_option.custom_field_id, value: custom_option.id)
-          .delete_all
-      end
-
-      def prepare_custom_option_position
-        return unless custom_options_attributes
-
-        index = 0
-
-        custom_options_attributes.each_value do |attributes|
-          attributes[:position] = (index = index + 1)
-        end
-      end
-
-      def custom_options_attributes
-        return unless params[:custom_field]
-
-        params[:custom_field][:custom_options_attributes]
-      end
-
-      private
-
-      def update_path(tab)
-        if tab == :list_items
-          list_item_path(@custom_field, id: @custom_field.id)
-        else
-          edit_path(@custom_field, id: @custom_field.id)
-        end
       end
     end
   end

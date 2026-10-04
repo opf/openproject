@@ -338,7 +338,7 @@ module Import
       end
 
       def existing_value_labels(custom_field)
-        labels = format == "hierarchy" ? hierarchy_labels(custom_field) : custom_field.custom_options.pluck(:value)
+        labels = format == "hierarchy" ? hierarchy_labels(custom_field) : custom_field.possible_values.pluck(:label)
         labels.map { |label| option_label(label) }.compact_blank
       end
 
@@ -442,7 +442,7 @@ module Import
         return unless root
 
         service = CustomFields::Hierarchy::HierarchicalItemService.new
-        contract = CustomFields::Hierarchy::InsertListItemContract
+        contract = CustomFields::Hierarchy::InsertHierarchyItemContract
 
         context_group_allowed_values.each do |parent_option|
           insert_hierarchy_option(service, contract, root, parent_option)

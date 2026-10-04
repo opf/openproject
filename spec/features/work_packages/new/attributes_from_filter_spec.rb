@@ -89,7 +89,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
 
     let(:filters) do
       [["type_id", "=", [type_task.id]],
-       [custom_field.column_name, "=", [custom_field.custom_options.detect { |o| o.value == "A" }.id]]]
+       [custom_field.column_name, "=", [custom_field.possible_values.detect { |item| item.label == "A" }.id]]]
     end
 
     it "allows to save with a single value (Regression test #27833)" do
@@ -105,7 +105,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
       )
       wp = WorkPackage.last
       expect(wp.subject).to eq "Foobar!"
-      expect(wp.send(custom_field.attribute_getter)).to eq %w(A)
+      expect(wp.send(custom_field.attribute_getter).map(&:label)).to eq %w(A)
       expect(wp.type_id).to eq type_task.id
     end
   end

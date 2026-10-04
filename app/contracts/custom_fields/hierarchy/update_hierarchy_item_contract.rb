@@ -23,44 +23,37 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
-
-RSpec.describe API::V3::CustomOptions::CustomOptionRepresenter do
-  include API::V3::Utilities::PathHelper
-
-  let(:custom_option) { build_stubbed(:custom_option, custom_field:) }
-  let(:custom_field) { build_stubbed(:list_wp_custom_field) }
-  let(:user) { build_stubbed(:user) }
-  let(:representer) do
-    described_class.new(custom_option, current_user: user)
-  end
-
-  subject { representer.to_json }
-
-  describe "generation" do
-    describe "_links" do
-      it_behaves_like "has a titled link" do
-        let(:link) { "self" }
-        let(:href) { api_v3_paths.custom_option custom_option.id }
-        let(:title) { custom_option.to_s }
+module CustomFields
+  module Hierarchy
+    class UpdateHierarchyItemContract < DryApplicationContract
+      params do
+        required(:item).filled(type?: CustomField::Hierarchy::Item)
+        required(:label).filled(:string)
+        required(:short).maybe(:string)
       end
-    end
 
-    it 'has the type "CustomOption"' do
-      expect(subject).to be_json_eql("CustomOption".to_json).at_path("_type")
-    end
+      rule(:item) do
+        key.failure(:not_persisted) if value.new_record?
+        key.failure(:root_item) if value.root?
+      end
 
-    it "has an id" do
-      expect(subject).to be_json_eql(custom_option.id.to_json).at_path("id")
-    end
+      rule(:label) do
+        next if schema_error?(:item)
 
-    it "has a value" do
-      expect(subject).to be_json_eql(custom_option.to_s.to_json).at_path("value")
+        key.failure(:not_unique) if values[:item].siblings.exists?(label: value)
+      end
+
+      rule(:short) do
+        next if schema_error?(:item)
+        next if value.nil?
+
+        key.failure(:not_unique) if values[:item].siblings.exists?(short: value)
+      end
     end
   end
 end

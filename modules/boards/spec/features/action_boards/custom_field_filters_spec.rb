@@ -98,7 +98,7 @@ RSpec.describe "Custom field filter in boards",
   end
 
   def custom_value_for(str)
-    custom_field.custom_options.find { |co| co.value == str }.try(:id)
+    custom_field.possible_values.find { |item| item.label == str }.try(:id)
   end
 
   before do
@@ -144,7 +144,7 @@ RSpec.describe "Custom field filter in boards",
 
     # Expect custom field to be unchanged
     work_package.reload
-    cv = work_package.custom_value_for(custom_field).map(&:typed_value)
+    cv = work_package.custom_value_for(custom_field).map { |value| value.typed_value.label }
     expect(cv).to eq ["B"]
   end
 end

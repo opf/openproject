@@ -33,7 +33,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
-export const cssClassCustomOption = 'custom-option';
+export const cssClassResourceValue = 'resource-value';
 
 export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
@@ -135,7 +135,7 @@ export class DisplayField<T extends HalResource = HalResource> extends Field {
     const emptyDiv = document.createElement('div');
     emptyDiv.setAttribute('title', this.texts.empty);
     emptyDiv.textContent = this.texts.placeholder;
-    emptyDiv.classList.add(cssClassCustomOption, '-empty');
+    emptyDiv.classList.add(cssClassResourceValue, '-empty');
 
     element.appendChild(emptyDiv);
   }

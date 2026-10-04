@@ -923,7 +923,7 @@ RSpec.describe "API v3 Work package resource",
         let(:target_value) { custom_field.possible_values.last }
 
         let(:value_link) do
-          api_v3_paths.custom_option target_value.id
+          api_v3_paths.custom_field_item target_value.id
         end
 
         let(:value_parameter) do
@@ -949,6 +949,32 @@ RSpec.describe "API v3 Work package resource",
           end
 
           it_behaves_like "lock version updated"
+        end
+      end
+
+      context "when setting a list custom field through a legacy custom option href" do
+        let(:custom_field) { create(:list_wp_custom_field) }
+        let(:item) { create(:legacy_list_item, custom_field:) }
+        let(:params) do
+          valid_params.merge(
+            _links: {
+              custom_field.attribute_name.camelize(:lower) => { href: api_v3_paths.custom_option(item.legacy_option_id) }
+            }
+          )
+        end
+
+        before do
+          allow(User).to receive(:current).and_return current_user
+          work_package.project.work_package_custom_fields << custom_field
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+        end
+
+        include_context "patch request"
+
+        # Without the legacy namespace fallback the href fails to parse and the value
+        # is silently dropped rather than rejected.
+        it "resolves it to the migrated item" do
+          expect(work_package.reload.custom_value_for(custom_field).value).to eq(item.id.to_s)
         end
       end
 

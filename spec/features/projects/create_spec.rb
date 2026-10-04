@@ -204,7 +204,7 @@ RSpec.describe "Projects", "creation", :js do
       expect(project.name).to eq "Foo bar"
       cvs = project.custom_value_for(list_custom_field)
       expect(cvs.count).to eq 2
-      expect(cvs.map(&:typed_value)).to contain_exactly "A", "B"
+      expect(cvs.map { |cv| cv.typed_value.label }).to contain_exactly "A", "B"
     end
   end
 

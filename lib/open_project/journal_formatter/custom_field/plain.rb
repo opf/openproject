@@ -55,10 +55,8 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
 
   def get_modifier_function(custom_field)
     case custom_field.field_format
-    when "hierarchy"
+    when "hierarchy", "list"
       :find_item_value
-    when "list"
-      :find_list_value
     when "user"
       :find_user_value
     when "version"
@@ -99,20 +97,6 @@ class OpenProject::JournalFormatter::CustomField::Plain < JournalFormatter::Base
       next I18n.t(:label_deleted_custom_item) unless items[id]
 
       items[id].ancestry_path
-    end.join(", ")
-  end
-
-  def find_list_value(value, custom_field)
-    ids = value.split(",").map(&:to_i)
-
-    id_value = custom_field
-               .custom_options
-               .where(id: ids)
-               .pluck(:id, :value)
-               .to_h
-
-    ids.map do |id|
-      id_value[id] || I18n.t(:label_deleted_custom_option)
     end.join(", ")
   end
 

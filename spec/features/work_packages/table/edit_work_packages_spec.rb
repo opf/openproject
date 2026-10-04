@@ -195,7 +195,7 @@ RSpec.describe "Inline editing work packages", :js do
       )
 
       work_package.reload
-      expect(work_package.send(custom_fields.first.attribute_getter)).to eq("bar")
+      expect(work_package.send(custom_fields.first.attribute_getter).label).to eq("bar")
       expect(work_package.send(custom_fields.last.attribute_getter)).to eq("my custom text")
 
       # Saveguard to let the background update complete

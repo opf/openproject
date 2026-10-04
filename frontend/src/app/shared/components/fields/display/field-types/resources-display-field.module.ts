@@ -27,7 +27,7 @@
 //++
 
 import { take } from 'lodash-es';
-import { cssClassCustomOption, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { cssClassResourceValue, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
@@ -68,12 +68,12 @@ export class ResourcesDisplayField extends DisplayField {
    */
   protected renderValues(values:any[], element:HTMLElement) {
     const content = document.createDocumentFragment();
-    const abridged = this.optionDiv(this.valueAbridged(values));
+    const abridged = this.valueDiv(this.valueAbridged(values));
 
     content.appendChild(abridged);
 
     if (values.length > 2) {
-      const badge = this.optionDiv(values.length.toString(), 'badge');
+      const badge = this.valueDiv(values.length.toString(), 'badge');
       content.appendChild(badge);
     }
 
@@ -81,12 +81,12 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   /**
-   * Build .custom-option div/span nodes with the given text
+   * Build .resource-value div/span nodes with the given text
    */
-  protected optionDiv(text:string, ...classes:string[]) {
+  protected valueDiv(text:string, ...classes:string[]) {
     const div = document.createElement('div');
     const span = document.createElement('span');
-    div.classList.add(cssClassCustomOption);
+    div.classList.add(cssClassResourceValue);
     span.classList.add(...classes);
     span.textContent = text;
 

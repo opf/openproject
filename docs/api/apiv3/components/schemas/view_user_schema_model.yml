@@ -110,8 +110,10 @@ example:
     hasDefault: false
     writable: true
   customField2:
-    type: CustomOption
+    type: CustomField::Hierarchy::Item
     name: User List cf
+    options:
+      allowsNesting: false
     required: false
     hasDefault: false
     writable: true

@@ -31,8 +31,10 @@ get:
                   hasDefault: false
                   location: _links
                   name: List CF
+                  options:
+                    allowsNesting: false
                   required: false
-                  type: CustomOption
+                  type: CustomField::Hierarchy::Item
                   visibility: default
                   writable: true
                 definingProject:

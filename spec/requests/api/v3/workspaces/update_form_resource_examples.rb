@@ -64,7 +64,7 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
   before do
     workspace.custom_field_values = {
       text_custom_field.id => "CF text",
-      list_custom_field.id => list_custom_field.custom_options.first
+      list_custom_field.id => list_custom_field.possible_values.first
     }
 
     workspace.save
@@ -166,7 +166,7 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
         statusExplanation: { raw: "Something goes awry." },
         _links: {
           list_custom_field.attribute_name(:camel_case) => {
-            href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
+            href: api_v3_paths.custom_field_item(list_custom_field.possible_values.last.id)
           },
           status: {
             href: api_v3_paths.project_status("off_track")
@@ -195,7 +195,7 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
         .at_path("_embedded/payload/customField#{text_custom_field.id}/raw")
 
       expect(body)
-        .to be_json_eql(api_v3_paths.custom_option(list_custom_field.custom_options.last.id).to_json)
+        .to be_json_eql(api_v3_paths.custom_field_item(list_custom_field.possible_values.last.id).to_json)
         .at_path("_embedded/payload/_links/customField#{list_custom_field.id}/href")
 
       expect(body)
@@ -226,7 +226,7 @@ RSpec.shared_examples_for "APIv3 workspace update form" do
         .to eql "CF text"
 
       expect(workspace.send(list_custom_field.attribute_getter))
-        .to eql list_custom_field.custom_options.first.value
+        .to eql list_custom_field.possible_values.first
     end
   end
 

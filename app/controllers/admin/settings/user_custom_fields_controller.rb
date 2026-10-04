@@ -37,17 +37,13 @@ module Admin::Settings
     include FlashMessagesOutputSafetyHelper
     include Admin::Settings::UserCustomFields::ComponentStreams
 
-    helper_method :delete_option_path
-
     menu_item :user_custom_fields_settings
 
     # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :set_sections, only: %i[show index edit update move drop]
     before_action :find_custom_field,
-                  only: %i(show edit update destroy delete_option reorder_alphabetical
-                           move drop attribute_help_text update_attribute_help_text list_items)
-    before_action :prepare_custom_option_position, only: %i(update create)
-    before_action :find_custom_option, only: :delete_option
+                  only: %i(show edit update destroy
+                           move drop attribute_help_text update_attribute_help_text)
     before_action :find_or_initialize_attribute_help_text, only: %i[attribute_help_text update_attribute_help_text]
     # rubocop:enable Rails/LexicallyScopedActionFilter
 
@@ -85,8 +81,6 @@ module Admin::Settings
     end
 
     def edit; end
-
-    def list_items; end
 
     def move
       result = CustomFields::MoveService.new(user: current_user, custom_field: @custom_field).call(

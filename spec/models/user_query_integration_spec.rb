@@ -46,9 +46,9 @@ RSpec.describe UserQuery, "integration" do
     create(:user_custom_field, :date, name: "Birthday")
   end
 
-  shared_let(:developer_option) { job_title_cf.custom_options.find_by(value: "Developer") }
-  shared_let(:designer_option) { job_title_cf.custom_options.find_by(value: "Designer") }
-  shared_let(:pm_option) { job_title_cf.custom_options.find_by(value: "Project Manager") }
+  shared_let(:developer_option) { job_title_cf.possible_values.find_by(label: "Developer") }
+  shared_let(:designer_option) { job_title_cf.possible_values.find_by(label: "Designer") }
+  shared_let(:pm_option) { job_title_cf.possible_values.find_by(label: "Project Manager") }
 
   # Alice is the logged-in user across most examples; she needs view_all_principals
   # so the existing filter/order expectations enumerate every seeded user.
@@ -184,7 +184,7 @@ RSpec.describe UserQuery, "integration" do
       expect(designer_users).to eq([carol])
       expect(pm_users).to eq([dave])
 
-      # CustomOption position drives the order — the seeded `possible_values` order is
+      # Item sort_order drives the order — the seeded `possible_values` order is
       # Developer, Designer, Project Manager, Product Manager.
       first_titles = query.results.to_a.map { |u| u.custom_value_for(job_title_cf)&.value&.to_i }
       expect(first_titles.compact).to eq(first_titles.compact.sort_by do |id|

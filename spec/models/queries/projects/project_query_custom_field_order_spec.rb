@@ -187,7 +187,7 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
   context "for list format" do
     let(:possible_values) { %w[100 3 20] }
-    let(:id_by_value) { custom_field.possible_values.to_h { [it.value, it.id] } }
+    let(:id_by_value) { custom_field.possible_values.to_h { [it.label, it.id] } }
 
     context "if not allowing multi select" do
       include_examples "it sorts" do

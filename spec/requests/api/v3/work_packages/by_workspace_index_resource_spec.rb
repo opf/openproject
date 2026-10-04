@@ -198,6 +198,27 @@ RSpec.describe "GET api/v3/workspace/:id/work_packages", content_type: :json do
       end
     end
 
+    describe "grouping by a list custom field" do
+      let(:custom_field) do
+        create(:list_wp_custom_field, possible_values: %w[Pear]).tap do |cf|
+          workspace.work_package_custom_fields << cf
+          workspace.enabled_types.first.default_variant.custom_field_ids |= [cf.id]
+        end
+      end
+      let(:pear) { custom_field.possible_values.first }
+      let(:query) { { groupBy: custom_field.attribute_name(:camel_case) } }
+      let(:work_packages) do
+        [create(:work_package, project: workspace, type: workspace.enabled_types.first,
+                               custom_values: { custom_field.id => pear.id })]
+      end
+
+      it "links the group to the item its work packages hold, which the table matches rows by" do
+        group = JSON.parse(subject.body)["groups"].find { |g| g["value"] == "Pear" }
+
+        expect(group.dig("_links", "valueLink")).to eq([{ "href" => api_v3_paths.custom_field_item(pear.id), "title" => "Pear" }])
+      end
+    end
+
     describe "displaying sums" do
       let(:query) { { showSums: "true" } }
       let(:work_packages) do

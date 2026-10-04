@@ -132,8 +132,8 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       context "type list" do
         let(:custom_field) { build_stubbed(:list_wp_custom_field) }
 
-        it "is the custom option dependency" do
-          expect(subject).to be_a(API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter)
+        it "is the hierarchy dependency" do
+          expect(subject).to be_a(API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter)
         end
 
         it_behaves_like "includes the cf json_cache_key mixin"

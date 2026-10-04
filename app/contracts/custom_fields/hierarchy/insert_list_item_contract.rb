@@ -31,29 +31,24 @@
 module CustomFields
   module Hierarchy
     class InsertListItemContract < DryApplicationContract
+      config.messages.namespace = :list_item
+
       params do
         required(:parent).filled(type?: CustomField::Hierarchy::Item)
         required(:label).filled(:string)
-        required(:short).maybe(:string)
       end
 
       rule(:parent) do
         next if schema_error?(:parent)
 
         key.failure("must exist") unless value.persisted?
+        key.failure(:nesting_not_allowed) unless value.root?
       end
 
       rule(:label) do
         next if schema_error?(:parent)
 
         key.failure(:not_unique) if values[:parent].children.exists?(label: value)
-      end
-
-      rule(:short) do
-        next if schema_error?(:parent)
-        next if value.nil?
-
-        key.failure(:not_unique) if values[:parent].children.exists?(short: value)
       end
     end
   end

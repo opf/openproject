@@ -95,11 +95,17 @@ class CustomValue < ApplicationRecord
     return false unless custom_field.multi_value?
 
     [custom_field.default_value, value].all?(&:blank?) \
-      || custom_field.default_value&.include?(custom_field.cast_value(value))
+      || Array(custom_field.default_value).include?(comparable_value)
   end
 
   def value_is_same_as_default?
-    custom_field.cast_value(value) == custom_field.default_value
+    comparable_value == custom_field.default_value
+  end
+
+  # CustomField#default_value returns hierarchy item ids as-is (they are stored and compared
+  # by id elsewhere), so comparing against the raw value avoids casting it into the item object.
+  def comparable_value
+    custom_field.hierarchical_list? ? value : custom_field.cast_value(value)
   end
 
   def validate_presence_of_required_value
