@@ -36,18 +36,12 @@ class Automations::BaseService
   def call(attributes:,
            automation:,
            &)
-    result = nil
+    set_attributes(automation, attributes)
 
-    Automation.transaction do
-      set_attributes(automation, attributes)
-
-      contract = Automations::CuContract.new(automation, user)
-      result = ServiceResult.new(success: contract.validate && automation.save,
-                                 result: automation,
-                                 errors: contract.errors)
-
-      raise ActiveRecord::Rollback unless result.success?
-    end
+    contract = Automations::CuContract.new(automation, user)
+    result = ServiceResult.new(success: contract.validate && automation.save,
+                               result: automation,
+                               errors: contract.errors)
 
     block_with_result(result, &)
   end
@@ -87,9 +81,8 @@ class Automations::BaseService
     template = automation.available_actions.detect { |a| a.key == key } ||
                Automations::Actions::Inexistent.new
 
-    new_action = template.dup
+    new_action = automation.actions.build(template.attributes.except("id"))
     new_action.values = values
-    automation.actions << new_action
   end
 
   def set_conditions(automation, conditions_attributes)

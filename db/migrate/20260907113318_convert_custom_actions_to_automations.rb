@@ -131,6 +131,7 @@ class ConvertCustomActionsToAutomations < ActiveRecord::Migration[8.1]
   def create_action_table
     create_table :automation_actions do |t|
       t.references :automation, null: false, foreign_key: true, index: true
+      t.references :custom_field, foreign_key: { on_delete: :cascade }, index: true
       t.string :type, null: false
       t.jsonb :options, null: false, default: {}
       t.integer :position
@@ -164,8 +165,8 @@ class ConvertCustomActionsToAutomations < ActiveRecord::Migration[8.1]
       entries = MigrationAction
         .where(automation_id: automation.id)
         .order(:position, :id)
-        .pluck(:type, :options)
-        .filter_map { |type, options| serialize_action(type, options) }
+        .pluck(:type, :options, :custom_field_id)
+        .filter_map { |type, options, custom_field_id| serialize_action(type, options, custom_field_id) }
 
       automation.update_column(:actions, YAML.dump(entries))
     end
@@ -180,14 +181,14 @@ class ConvertCustomActionsToAutomations < ActiveRecord::Migration[8.1]
 
     parsed.each_with_index do |entry, index|
       key, values = entry
-      type, options = resolve_action(key, values)
+      type, attributes = resolve_action(key, values)
       next unless type
 
       MigrationAction.create!(
         automation_id: automation.id,
         type:,
-        options:,
-        position: index + 1
+        position: index + 1,
+        **attributes
       )
     end
   end
@@ -195,7 +196,7 @@ class ConvertCustomActionsToAutomations < ActiveRecord::Migration[8.1]
   def resolve_action(key, values)
     key_str = key.to_s
     if (sti = ACTION_KEY_TO_STI[key_str])
-      [sti, { values: Array(values) }]
+      [sti, { options: { values: Array(values) } }]
     elsif (match = key_str.match(/\Acustom_field_(\d+)\z/))
       resolve_custom_field_action(match[1].to_i, values)
     end
@@ -208,18 +209,17 @@ class ConvertCustomActionsToAutomations < ActiveRecord::Migration[8.1]
     sti = CUSTOM_FIELD_FORMAT_TO_STI[cf.field_format]
     return unless sti
 
-    [sti, { custom_field_id:, values: Array(values) }]
+    [sti, { custom_field_id:, options: { values: Array(values) } }]
   end
 
-  def serialize_action(type, options)
+  def serialize_action(type, options, custom_field_id)
     options = options.is_a?(Hash) ? options.with_indifferent_access : {}
     values = Array(options["values"]).map(&:to_s)
 
     if (key = ACTION_KEY_TO_STI.invert[type])
       [key, values]
     elsif type.start_with?("Automations::Actions::CustomField::")
-      cf_id = options["custom_field_id"]
-      ["custom_field_#{cf_id}", values] if cf_id
+      ["custom_field_#{custom_field_id}", values] if custom_field_id
     end
   end
 

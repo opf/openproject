@@ -29,7 +29,7 @@
 #++
 
 class Automations::Actions::CustomField < Automations::Actions::Base
-  store_attribute :options, :custom_field_id, :integer
+  belongs_to :custom_field, class_name: "WorkPackageCustomField", optional: true
 
   FORMAT_TO_SUBCLASS = {
     "string" => "Automations::Actions::CustomField::ForString",
@@ -49,22 +49,13 @@ class Automations::Actions::CustomField < Automations::Actions::Base
       subclass = subclass_for(cf)
       next unless subclass
 
-      template = subclass.new(custom_field_id: cf.id)
-      template.instance_variable_set(:@custom_field, cf)
-      template
+      subclass.new(custom_field: cf)
     end
   end
 
   def self.subclass_for(custom_field)
     name = FORMAT_TO_SUBCLASS[custom_field.field_format]
     name&.constantize
-  end
-
-  def custom_field
-    return nil if custom_field_id.blank?
-    return @custom_field if defined?(@custom_field)
-
-    @custom_field = WorkPackageCustomField.find_by(id: custom_field_id)
   end
 
   def key

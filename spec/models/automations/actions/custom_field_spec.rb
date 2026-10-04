@@ -87,15 +87,10 @@ RSpec.describe Automations::Actions::CustomField do
      date_custom_field]
   end
   let(:klass) do
-    allow(WorkPackageCustomField)
-      .to receive(:find_by)
-      .with(id: custom_field.id)
-      .and_return(custom_field)
-
     described_class.subclass_for(custom_field)
   end
   let(:instance) do
-    klass.new(custom_field_id: custom_field.id)
+    klass.new(custom_field:)
   end
 
   describe ".templates" do
@@ -125,7 +120,7 @@ RSpec.describe Automations::Actions::CustomField do
 
   describe "#value" do
     it "can be provided on initialization" do
-      i = klass.new(custom_field_id: custom_field.id, values: [1])
+      i = klass.new(custom_field:, values: [1])
 
       expect(i.values)
         .to eql [1]
@@ -730,6 +725,27 @@ RSpec.describe Automations::Actions::CustomField do
           expect(custom_field_ids).to contain_exactly(custom_field.id, another_custom_field.id)
         end
       end
+    end
+  end
+
+  describe "destroying the custom field" do
+    let(:custom_field) { create(:string_wp_custom_field) }
+    let(:other_custom_field) { create(:string_wp_custom_field) }
+    let(:automation) { create(:automation, :with_button_trigger) }
+
+    before do
+      automation.actions << described_class.subclass_for(custom_field).new(custom_field:, values: ["a"])
+      automation.actions << described_class.subclass_for(other_custom_field).new(custom_field: other_custom_field,
+                                                                                 values: ["b"])
+      automation.actions << Automations::Actions::AssignedTo.new(values: ["1"])
+    end
+
+    it "destroys only the actions referencing it" do
+      expect { custom_field.destroy }
+        .to change { automation.actions.reload.count }.from(3).to(2)
+
+      expect(automation.actions.grep(described_class).map(&:custom_field))
+        .to contain_exactly(other_custom_field)
     end
   end
 end
