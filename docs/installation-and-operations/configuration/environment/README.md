@@ -121,7 +121,6 @@ For reference, here is an overview of the latest stable version's environment va
 <!-- Warning: Anything within the below lines will be overwritten by `rake docs:env_vars` -->
 <!-- BEGIN AUTOMATED SECTION -->
 
-```text
 | Variable | Default | Description |
 |---|---|---|
 | `OPENPROJECT_2FA` | `{"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0}` |  |
@@ -237,16 +236,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_ENTERPRISE__CHARGEBEE__SITE` | `"openproject-enterprise"` | Site name for EE trial service |
 | `OPENPROJECT_ENTERPRISE__PLAN` | `"enterprise-on-premises---basic---euro---1-year"` | Default EE selected plan |
 | `OPENPROJECT_ENTERPRISE__TRIAL__CREATION__HOST` | `"https://start.openproject.com"` | Host for EE trial service |
-| `OPENPROJECT_FEATURE__AI__TEXT__TRANSFORM__ACTIONS__ACTIVE` | `false` | Enables the admin UI to manage AI text transform actions. |
-| `OPENPROJECT_FEATURE__BUILT__IN__OAUTH__APPLICATIONS__ACTIVE` | `true` | Allows the display and use of built-in OAuth applications. |
-| `OPENPROJECT_FEATURE__DEPLOY__TARGETS__ACTIVE` | `false` |  |
-| `OPENPROJECT_FEATURE__LLM__CONNECTION__ACTIVE` | `false` | Enables the administration page connecting OpenProject to an OpenAI-API-compatible LLM server, and the AI features built on it. |
-| `OPENPROJECT_FEATURE__MINUTES__STYLING__MEETING__PDF__ACTIVE` | `false` | Allow exporting a meeting with FITKO styling. See #65124 for details. |
-| `OPENPROJECT_FEATURE__PROJECT__SETTINGS__ESTIMATION__UNIT__ACTIVE` | `false` | Enables project settings for the unit of velocity, effort and capacity. See AGILE-198 for details. |
-| `OPENPROJECT_FEATURE__SPRINT__REPORTS__ACTIVE` | `false` | Enables sprint reporting within the backlogs module. It shows a dashboard with various widgets regarding the sprint progress. |
-| `OPENPROJECT_FEATURE__STORAGE__FILE__PICKING__SELECT__ALL__ACTIVE` | `false` |  |
-| `OPENPROJECT_FEATURE__WIKI__ENHANCEMENTS__ACTIVE` | `true` | Enables Wiki enhancements, such as the Wikis tab and XWiki integration. |
-| `OPENPROJECT_FEATURE__WORK__PACKAGE__LABELS__ACTIVE` | `false` | Enables labels on work packages, the labels API and the labels administration. See FND-5 for details. |
 | `OPENPROJECT_FEEDS__ENABLED` | `true` | Enable Feeds |
 | `OPENPROJECT_FEEDS__LIMIT` | `15` | Feed content limit |
 | `OPENPROJECT_FILE__MAX__SIZE__DISPLAYED` | `512` | Max size of text files displayed inline |

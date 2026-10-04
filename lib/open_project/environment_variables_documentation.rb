@@ -112,7 +112,7 @@ module OpenProject
 
       # The delimited block, markers included, as expected on disk.
       def block
-        "#{BEGIN_MARKER}\n\n```text\n#{[TABLE_HEADER, *table_rows].join("\n")}\n\n#{END_MARKER}"
+        "#{BEGIN_MARKER}\n\n#{[TABLE_HEADER, *table_rows].join("\n")}\n\n#{END_MARKER}"
       end
 
       # The page with its delimited block regenerated.
@@ -129,7 +129,7 @@ module OpenProject
 
       def table_rows
         I18n.with_locale(:en) do
-          sorted_definitions.map do |env_name, definition|
+          documented_definitions.map do |env_name, definition|
             "| `#{env_name}` | `#{rendered_default(definition)}` | #{definition.description} |"
           end
         end
