@@ -37,7 +37,7 @@ export class WorkPackagesQueryViewService {
   protected apiV3Service = inject(ApiV3Service);
 
 
-  create(query:QueryResource):Observable<IView> {
+  create(query:QueryResource, viewType = this.viewType):Observable<IView> {
     if (!query.href) {
       throw new Error('Expected only queries that are created since an href is required');
     }
@@ -53,11 +53,11 @@ export class WorkPackagesQueryViewService {
             },
           },
         },
-        this.viewType,
+        viewType,
       );
   }
 
-  private get viewType() {
+  public get viewType() {
     const { pathname } = window.location;
     if (pathname.includes('/team_planners')) { return 'team_planner'; }
     if (pathname.includes('/calendars')) { return 'work_packages_calendar'; }

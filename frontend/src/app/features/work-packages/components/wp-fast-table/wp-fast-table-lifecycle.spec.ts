@@ -52,6 +52,7 @@ import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-pa
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
@@ -275,7 +276,7 @@ describe('WorkPackageTable lifecycle', () => {
   it('does not replace row cells when positions finish after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
     const loaded = deferred<QueryOrder>();
-    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'withLoadedPositions').mockReturnValue(loaded.promise);
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(loaded.promise);
     harness.table.redrawTableAndTimeline();
     await nextFrame();
     const before = harness.tbody.innerHTML;
@@ -287,12 +288,27 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.row('1').firstElementChild).toBe(firstCell);
   });
 
+  it('does not replace row cells when positions finish for a preceding query', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    const loaded = deferred<QueryOrder>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(loaded.promise);
+    harness.table.redrawTableAndTimeline();
+    await nextFrame();
+    const before = harness.tbody.innerHTML;
+    const firstCell = harness.row('1').firstElementChild;
+    harness.querySpace.query.putValue({ id: 'successor' } as QueryResource);
+    loaded.resolve({ '1': 100 });
+    await loaded.promise;
+    expect(harness.tbody.innerHTML).toBe(before);
+    expect(harness.row('1').firstElementChild).toBe(firstCell);
+  });
+
   it('reports a genuinely rejected position load after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
     const error = new Error('position request');
     let reject!:(reason:unknown) => void;
     const pending = new Promise<QueryOrder>((_resolve, fail) => { reject = fail; });
-    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'withLoadedPositions').mockReturnValue(pending);
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(pending);
     const report = vi.spyOn(harness.injector.get(WorkPackageNotificationService), 'handleRawError');
     harness.table.redrawTableAndTimeline();
     harness.table.destroy();

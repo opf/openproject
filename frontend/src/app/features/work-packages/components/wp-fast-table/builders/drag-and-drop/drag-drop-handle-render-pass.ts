@@ -59,8 +59,9 @@ public readonly injector:Injector,
     }
 
     const notification = this.notification;
-    void this.wpTableOrder.withLoadedPositions().then((positions:QueryOrder) => {
-      if (this.table.destroyed) return;
+    const query = this.table.querySpace.query.value!;
+    void this.wpTableOrder.positionsFor(query).then((positions:QueryOrder) => {
+      if (this.table.destroyed || this.table.querySpace.query.value !== query) return;
       this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
         // We only care for rows that are natural work packages and are not relation sub-rows
         if (!row.workPackage || row.renderType === 'relations') {
