@@ -43,7 +43,7 @@ import { indicatorCollapsedClass } from 'core-app/features/work-packages/compone
 import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
+import type { OccurrenceKey } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 export class HierarchyTransformer {
   @LazyInject() public wpTableHierarchies:WorkPackageViewHierarchiesService;
@@ -87,7 +87,6 @@ export class HierarchyTransformer {
    * Update all currently visible rows to match the selection state.
    */
   private renderHierarchyState(state:WorkPackageViewHierarchies) {
-    const rendered = this.querySpace.tableRendered.value!;
     const root = this.table.tableAndTimelineContainer;
 
     // Show all hierarchies
@@ -99,7 +98,7 @@ export class HierarchyTransformer {
 
     // Mark which rows were hidden by some other hierarchy group
     // (e.g., by a collapsed parent)
-    const collapsed:Record<number, boolean> = {};
+    const hidden = new Map<OccurrenceKey, boolean>();
 
     // Hide all collapsed hierarchies
     Object.entries(state.collapsed).forEach(([wpId, isCollapsed]) => {
@@ -118,24 +117,19 @@ export class HierarchyTransformer {
       }
 
       // Get all affected children rows
-      const affected = Array.from(root.querySelectorAll(`.${hierarchyGroupClass(wpId)}`));
+      const affected = Array.from(root.querySelectorAll<HTMLElement>(`.${hierarchyGroupClass(wpId)}`));
 
       // Hide/Show the descendants.
       affected.forEach((el) => el.classList.toggle(collapsedGroupClass(wpId), isCollapsed));
 
-      // Update the hidden section of the rendered state
       affected
         .filter((el) => el.matches(`.${tableRowClassName}`))
         .forEach((el) => {
-        // Get the index of this row
-        const index = getNodeIndex(el);
-
-        // Update the hidden state
-        if (!collapsed[index]) {
-          rendered[index].hidden = isCollapsed;
-          collapsed[index] = isCollapsed;
-        }
-      });
+          const key = el.dataset.occurrenceKey;
+          if (key && !hidden.get(key)) {
+            hidden.set(key, isCollapsed);
+          }
+        });
     });
 
     // Keep focused on the last element, if any.
@@ -144,6 +138,6 @@ export class HierarchyTransformer {
       scrollTableRowIntoView(state.last, root);
     }
 
-    this.querySpace.tableRendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
+    this.table.setHidden(hidden);
   }
 }
