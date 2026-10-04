@@ -110,39 +110,46 @@ describe('RowClickHandler', () => {
     expect(selectedIds()).toEqual([]);
   });
 
-  it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', async (reverse) => {
-    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
-    const primaryRow = harness.row('2');
-    harness.addRelationRow('2', '1');
+  describe('with a relation row', () => {
+    beforeEach(async () => {
+      await harness.destroy();
+      harness = buildTable({
+        workPackages: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }],
+        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      });
+      harness.expand('1', 'relationsOfTypeFollows');
+      await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
+    });
 
-    const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
-    rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
+    it.each([false, true])('uses the clicked occurrence when a work package appears twice (reverse: %s)', (reverse) => {
+      const primaryRow = harness.row('2');
 
-    expect(selectedIds()).toEqual(['2', '4']);
-  });
+      const rows = reverse ? [harness.row('4'), primaryRow] : [primaryRow, harness.row('4')];
+      rows.forEach((row, index) => fireEvent.click(row, { shiftKey: index === 1 }));
 
-  it('anchors Select All at the targeted duplicate occurrence', async () => {
-    await harness.render([{ id: '1' }, { id: '3' }, { id: '2' }, { id: '4' }]);
-    const primaryRow = harness.row('2');
-    harness.addRelationRow('2', '1');
-    harness.click('1');
+      expect(selectedIds()).toEqual(['2', '4']);
+    });
 
-    expect(fireEvent.keyDown(primaryRow, { key: 'a', ctrlKey: true })).toBe(false);
-    harness.click('4', { shiftKey: true });
+    it('anchors Select All at the targeted duplicate occurrence', () => {
+      harness.click('1');
 
-    expect(selectedIds()).toEqual(['2', '4']);
-  });
+      expect(fireEvent.keyDown(harness.row('2'), { key: 'a', ctrlKey: true })).toBe(false);
+      harness.click('4', { shiftKey: true });
 
-  it('clears an anchor when only its other occurrence survives', () => {
-    const primaryRow = harness.row('2');
-    const relationRow = harness.addRelationRow('2', '1');
-    fireEvent.click(primaryRow);
-    primaryRow.remove();
-    harness.querySpace.tableRendered.putValue(harness.table.renderedRows.filter((row) => row.classIdentifier !== primaryRow.dataset.classIdentifier));
-    harness.click('4', { shiftKey: true });
-    expect(selectedIds()).toEqual(['4']);
-    expect(harness.row('4')).toHaveClass('-checked');
-    expect(relationRow).not.toHaveClass('-checked');
+      expect(selectedIds()).toEqual(['2', '4']);
+    });
+
+    it('clears an anchor when only its other occurrence survives', async () => {
+      fireEvent.click(harness.row('2'));
+      await harness.render([{ id: '1' }, { id: '3' }, { id: '4' }]);
+
+      harness.click('4', { shiftKey: true });
+
+      expect(selectedIds()).toEqual(['4']);
+      expect(harness.row('4')).toHaveClass('-checked');
+      expect(harness.relationRow('1', '2')).not.toHaveClass('-checked');
+    });
   });
 
   it('keeps the range anchored to the first selected row', () => {

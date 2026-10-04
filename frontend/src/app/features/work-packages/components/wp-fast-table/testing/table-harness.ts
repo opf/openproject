@@ -154,8 +154,12 @@ export interface TableHarness {
   render(workPackages?:WorkPackageFixture[]):Promise<RenderedWorkPackage[]>;
   /** Resolves with the next completed table render. */
   nextRender():Promise<RenderedWorkPackage[]>;
+  /** Every rendered work-package row, relation rows included. */
   rows():HTMLTableRowElement[];
+  /** The primary row of a work package, never one of its relation rows. */
   row(workPackageId:string):HTMLTableRowElement;
+  /** The relation row of `to` under `from`, located by its occurrence key. */
+  relationRow(from:string, to:string, type?:string):HTMLTableRowElement;
   timelineRow(workPackageId:string):HTMLElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
@@ -168,7 +172,6 @@ export interface TableHarness {
   dragStart(workPackageId:string):void;
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
-  addRelationRow(workPackageId:string, afterId:string):HTMLTableRowElement;
   /** Expands the relation column of a work package; works before the first render. */
   expand(workPackageId:string, columnId:string):void;
   destroy():Promise<void>;
@@ -268,9 +271,17 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     },
 
     row(workPackageId) {
-      const row = dom.tbody.querySelector<HTMLTableRowElement>(`tr.wp-table--row[data-work-package-id="${workPackageId}"]`);
+      const row = dom.tbody.querySelector<HTMLTableRowElement>(`tr.wp-table--row:not(.wp-table--relations-additional-row)[data-work-package-id="${workPackageId}"]`);
       if (!row) {
         throw new Error(`No rendered row for work package ${workPackageId}`);
+      }
+      return row;
+    },
+
+    relationRow(from, to, type = 'ofType') {
+      const row = dom.tbody.querySelector<HTMLTableRowElement>(`tr[data-occurrence-key="relation:${type}:${from}:${to}"]`);
+      if (!row) {
+        throw new Error(`No rendered ${type} relation row from ${from} to ${to}`);
       }
       return row;
     },
@@ -322,17 +333,6 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
           resolve(success);
         });
       });
-    },
-
-    addRelationRow(workPackageId, afterId) {
-      const row = this.row(workPackageId).cloneNode(true) as HTMLTableRowElement;
-      row.dataset.classIdentifier = `wp-relation-row-${afterId}-to-${workPackageId}`;
-      this.row(afterId).after(row);
-      const rendered = [...table.renderedRows];
-      const index = rendered.findIndex((entry) => entry.classIdentifier === this.row(afterId).dataset.classIdentifier);
-      rendered.splice(index + 1, 0, { classIdentifier: row.dataset.classIdentifier, workPackageId, hidden: false });
-      querySpace.tableRendered.putValue(rendered);
-      return row;
     },
 
     expand(workPackageId, columnId) {
