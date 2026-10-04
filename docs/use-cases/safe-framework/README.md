@@ -21,7 +21,7 @@ This guide contains the following sections:
 | [Project templates](#project-templates) | Using templates to create consistent SAFe portfolio, ART and team setups |
 | [Planning Program Increments](#planning-program-increments) | Using a hierarchy custom field to define Program Increments (PIs) and assign work to PI cycles |
 | [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories and Spikes |
-| [Organizing work using table view and Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages, dependencies and PI scope |
+| [Organizing work using table view and Gantt view](#organizing-work-using-table-view-and-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages, dependencies and PI scope |
 | [Backlogs, Kanban boards, Sprint boards and Team planner](#backlogs-kanban-boards-sprint-boards-and-team-planner) | Organizing work using Backlogs, Kanban boards, Sprint boards and Team planner |
 | [Managing risks](#managing-risks) | Tracking risks with dedicated work packages, probability and impact fields, and saved risk views |
 
@@ -119,7 +119,7 @@ Different [member groups](../../system-admin-guide/users-permissions/groups/) ca
 
 Cross-project views at the program level can then show work from all teams within the ART.
 
-To learn how to configure and work with SAFe-specific work package types, including Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories, Spikes, Objectives and Risks, see [Organizing work using table view and Gantt view](#organizing-work-using-table-view-gantt-view).
+To learn how to configure and work with SAFe-specific work package types, including Strategic Themes, Epics, Capabilities, Enablers, Features, User Stories, Spikes, Objectives and Risks, see [Organizing work using table view and Gantt view](#organizing-work-using-table-view-and-gantt-view).
 
 ## Project templates
 
