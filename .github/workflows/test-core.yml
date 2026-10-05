@@ -41,6 +41,7 @@ jobs:
       gem-hash: ${{ steps.constants.outputs.gem-hash }}
       database-hash: ${{ steps.constants.outputs.database-hash }}
       assets-hash: ${{ steps.constants.outputs.assets-hash }}
+      hocuspocus-hash: ${{ steps.constants.outputs.hocuspocus-hash }}
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -55,6 +56,7 @@ jobs:
         gem-hash=${{ runner.os }}-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         database-hash=${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
         assets-hash=${{ github.sha }}
+        hocuspocus-hash=${{ hashFiles('extensions/op-blocknote-hocuspocus/package-lock.json') }}
         EOF
     - name: Cache DOCKER
       id: cache_docker
@@ -106,9 +108,19 @@ jobs:
         path: |
           public/assets
           config/frontend_assets.manifest.json
-          extensions/op-blocknote-hocuspocus/node_modules
-          tmp/ci-cache/selenium
         key: assets-${{ steps.constants.outputs.assets-hash }}
+    - name: Cache HOCUSPOCUS
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: extensions/op-blocknote-hocuspocus/node_modules
+        key: hocuspocus-${{ steps.constants.outputs.hocuspocus-hash }}
+        restore-keys: |
+          hocuspocus-
+    - name: Cache SELENIUM
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/selenium
+        key: selenium-${{ steps.constants.outputs.docker-hash }}
     - name: Build
       run: bin/ci setup-tests
     - name: APIv3 specification (OpenAPI 3.0)
@@ -193,9 +205,19 @@ jobs:
         path: |
           public/assets
           config/frontend_assets.manifest.json
-          extensions/op-blocknote-hocuspocus/node_modules
-          tmp/ci-cache/selenium
         key: assets-${{ needs.setup.outputs.assets-hash }}
+        fail-on-cache-miss: true
+    - name: Restore HOCUSPOCUS cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: extensions/op-blocknote-hocuspocus/node_modules
+        key: hocuspocus-${{ needs.setup.outputs.hocuspocus-hash }}
+        fail-on-cache-miss: true
+    - name: Restore SELENIUM cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/selenium
+        key: selenium-${{ needs.setup.outputs.docker-hash }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME
       uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
