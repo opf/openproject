@@ -6,7 +6,7 @@ import {
   listAttributes,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
-import { mockAttributeSchema, mockAttributeWorkPackage } from '../../../mocks/workPackageAttributes';
+import { mockAttributeSchema, mockAttributeWorkPackage, mockMilestoneSchema } from '../../../mocks/workPackageAttributes';
 
 const workPackage = mockAttributeWorkPackage as unknown as WorkPackage;
 const options = {
@@ -38,6 +38,10 @@ describe('listAttributes', () => {
     }
   });
 
+  it('keeps the date of a milestone', () => {
+    expect(listAttributes(mockMilestoneSchema).map((attribute) => attribute.key)).toEqual(['subject', 'date', 'status']);
+  });
+
   it('references custom fields by name and other attributes by key', () => {
     expect(attributes.find((attribute) => attribute.key === 'customField1'))
       .toMatchObject({ reference: 'Content owner', label: 'Content owner', customField: true });
@@ -51,6 +55,11 @@ describe('findAttribute', () => {
     expect(findAttribute(mockAttributeSchema, 'Content owner')?.key).toBe('customField1');
     expect(findAttribute(mockAttributeSchema, 'customField1')?.key).toBe('customField1');
     expect(findAttribute(mockAttributeSchema, 'Finish date')?.key).toBe('dueDate');
+  });
+
+  it('prefers a custom field over an attribute key of the same name, as the macros do', () => {
+    const schema = { ...mockAttributeSchema, customField9: { type: 'String', name: 'status' } };
+    expect(findAttribute(schema, 'status')?.key).toBe('customField9');
   });
 
   it('finds nothing the schema does not offer', () => {
@@ -81,6 +90,16 @@ describe('formatAttributeValue', () => {
   it('formats work in hours and duration in days', () => {
     expect(valueOf('estimatedTime')).toBe('24.5 h');
     expect(valueOf('duration')).toBe('5 days');
+  });
+
+  it('formats work in hours however the API folds it into days', () => {
+    const attribute = findAttribute(mockAttributeSchema, 'estimatedTime')!;
+    const work = (estimatedTime:string) =>
+      formatAttributeValue({ ...workPackage, estimatedTime } as WorkPackage, attribute, options);
+
+    expect(work('P1D')).toBe('24 h');
+    expect(work('P2DT2H')).toBe('50 h');
+    expect(work('PT0S')).toBe('0 h');
   });
 
   it('formats numbers, percentages and booleans', () => {

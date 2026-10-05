@@ -31,9 +31,9 @@ describe('work package attribute markdown export', () => {
     });
 
     expect((await editor.blocksToMarkdownLossy()).trim()).toBe(
-      'The designer is workPackageValue:PROJ-57:Designer, '
+      'The designer is workPackageValue:PROJ-57:"Designer", '
       + 'workPackageLabel:PROJ-57:"Content owner": workPackageValue:PROJ-57:"Content owner" '
-      + 'and workPackageLabel:PROJ-57:dueDate',
+      + 'and workPackageLabel:PROJ-57:"dueDate"',
     );
   });
 });
