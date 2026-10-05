@@ -19,6 +19,7 @@ import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { usePressOutside } from '../../hooks/usePressOutside';
 import { useTapActivation } from '../../utils/tapActivation';
 import { useOptionsHost } from '../../utils/optionsHost';
 import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
@@ -157,24 +158,7 @@ export const BlockWorkPackageComponent = ({
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
-  // Touch is listened for in its own right: a tap another element answers
-  // never becomes a mousedown.
-  const { isOpen: isOptionsOpen, close: closeOptions } = options;
-  useEffect(() => {
-    if (!isOptionsOpen) return;
-    const handlePressOutside = (e:Event) => {
-      const path = e.composedPath();
-      if (cardRef.current && !path.includes(cardRef.current)) {
-        closeOptions();
-      }
-    };
-    document.addEventListener('mousedown', handlePressOutside);
-    document.addEventListener('touchstart', handlePressOutside);
-    return () => {
-      document.removeEventListener('mousedown', handlePressOutside);
-      document.removeEventListener('touchstart', handlePressOutside);
-    };
-  }, [isOptionsOpen, closeOptions]);
+  usePressOutside(cardRef, options.isOpen, options.close);
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!block.props.wpid) return;
