@@ -1,14 +1,10 @@
 import type { AllowedValue } from './formSchema';
+import { documentKey } from '../../utils/documentKey';
 
 export type LastSelection = Record<string, AllowedValue>;
 
+// Kept per document: another one comes with its own preconditions.
 let remembered:{ document:string; selection:LastSelection } | undefined;
-
-// Another document comes with its own preconditions, so the selection is kept for
-// the document at hand alone: a page load drops it, a Turbo visit hits the key.
-function documentKey():string {
-  return typeof window === 'undefined' ? '' : window.location.pathname;
-}
 
 export function lastSelection():LastSelection {
   return remembered?.document === documentKey() ? remembered.selection : {};
