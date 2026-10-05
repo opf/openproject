@@ -12,8 +12,9 @@
 
 <%= form_tag admin_type_schemes_path, method: :post do %>
   <%= render "form_fields", scheme: @scheme %>
-  <div class="form--field">
+  <div class="type-scheme-form--actions">
     <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_create) } %>
     <%= render(Primer::Beta::Button.new(tag: :a, href: admin_type_schemes_path)) { t(:button_cancel) } %>
   </div>
+</div>
 <% end %>

@@ -1,0 +1,168 @@
+.type-scheme-form
+  max-width: 960px
+
+  &--section
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    background: var(--bgColor-default)
+    margin-bottom: var(--base-size-16)
+
+  &--section-header
+    padding: var(--base-size-12) var(--base-size-16)
+    border-bottom: 1px solid var(--borderColor-muted)
+    background: var(--bgColor-muted)
+    border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0 0
+
+    h2
+      margin: 0
+      font-size: var(--text-body-size-large, 16px)
+      font-weight: var(--base-text-weight-semibold)
+
+    p
+      margin: var(--base-size-4) 0 0
+      color: var(--fgColor-muted)
+      font-size: var(--text-body-size-small, 12px)
+
+  &--section-body
+    padding: var(--base-size-16)
+
+  &--field
+    display: flex
+    flex-direction: column
+    gap: var(--base-size-4)
+    margin-bottom: var(--base-size-16)
+
+    &:last-child
+      margin-bottom: 0
+
+    label
+      font-weight: var(--base-text-weight-semibold)
+
+    input[type="text"],
+    textarea
+      width: 100%
+      max-width: 100%
+      box-sizing: border-box
+
+  &--hint
+    color: var(--fgColor-muted)
+    font-size: var(--text-body-size-small, 12px)
+
+  &--toggle
+    display: flex
+    align-items: flex-start
+    gap: var(--base-size-8)
+
+    input
+      margin-top: 3px
+
+  &--table
+    width: 100%
+    border-collapse: collapse
+
+    th
+      padding: var(--base-size-8) var(--base-size-12)
+      text-align: left
+      font-size: var(--text-body-size-small, 12px)
+      font-weight: var(--base-text-weight-semibold)
+      color: var(--fgColor-muted)
+      border-bottom: 1px solid var(--borderColor-default)
+      white-space: nowrap
+
+    td
+      padding: var(--base-size-8) var(--base-size-12)
+      border-bottom: 1px solid var(--borderColor-muted)
+      vertical-align: middle
+
+    tbody tr:last-child td
+      border-bottom: 0
+
+    tbody tr:hover
+      background: var(--bgColor-muted)
+
+    // Rows of types that are not part of the scheme fade out so enabled ones stand out.
+    tbody tr:not(:has(input[type="checkbox"]:checked))
+      td:not(:nth-child(2)):not(:nth-child(3))
+        opacity: 0.45
+
+      td:nth-child(3) label
+        color: var(--fgColor-muted)
+
+    tbody tr:has(input[type="checkbox"]:checked)
+      td:nth-child(3) label
+        font-weight: var(--base-text-weight-semibold)
+
+    input[type="number"]
+      width: 4.5rem
+      margin: 0
+
+    td:nth-child(3) label
+      cursor: pointer
+
+  &--col-narrow
+    width: 1%
+    white-space: nowrap
+
+  &--actions
+    position: sticky
+    bottom: 0
+    z-index: 2
+    display: flex
+    gap: var(--base-size-8)
+    padding: var(--base-size-12) var(--base-size-16)
+    margin-top: var(--base-size-16)
+    background: var(--bgColor-default)
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    box-shadow: var(--shadow-floating-small)
+
+.type-scheme-color
+  display: flex
+  align-items: center
+  gap: var(--base-size-8)
+  flex-wrap: wrap
+  min-width: 15rem
+
+  // Palette / custom switch rendered as a compact segmented control.
+  &--modes
+    display: inline-flex
+    border: 1px solid var(--borderColor-default)
+    border-radius: var(--borderRadius-medium)
+    overflow: hidden
+
+  &--mode
+    margin: 0
+    cursor: pointer
+    font-size: var(--text-body-size-small, 12px)
+
+    input
+      position: absolute
+      opacity: 0
+      pointer-events: none
+
+    span
+      display: block
+      padding: var(--base-size-4) var(--base-size-8)
+      color: var(--fgColor-muted)
+
+    input:checked + span
+      background: var(--bgColor-accent-emphasis)
+      color: var(--fgColor-onEmphasis)
+
+    input:focus-visible + span
+      outline: 2px solid var(--focus-outlineColor)
+      outline-offset: -2px
+
+  &--control
+    display: inline-flex
+    align-items: center
+    min-width: 0
+    flex: 1 1 8rem
+
+  .color--preview
+    display: inline-block
+    flex: none
+    width: 1.5rem
+    height: 1.5rem
+    border-radius: var(--borderRadius-small)
+    border: 1px solid var(--borderColor-default)
