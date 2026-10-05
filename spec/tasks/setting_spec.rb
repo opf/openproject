@@ -110,7 +110,7 @@ RSpec.describe Rake::Task, :settings_reset do
   describe "setting:available_envs" do
     include_context "rake"
 
-    it "displays the environment variables exactly as rendered for the documentation" do
+    it "displays the environment variables as the plain text list" do
       expected = "#{OpenProject::EnvironmentVariablesDocumentation.rows.join("\n")}\n"
 
       expect { subject.invoke }

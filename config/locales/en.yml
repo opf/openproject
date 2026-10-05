@@ -2477,6 +2477,7 @@ en:
     groups: "Groups"
     hexcode: "Hex code"
     id: "ID"
+    inexistent: "Inexistent"
     is_default: "Default value"
     is_for_all: "For all projects"
     # kept for backwards compatibility
@@ -2543,6 +2544,30 @@ en:
         Enter one URL per line, for example the address that the browser console shows as blocked.
         During the login, OpenProject allows redirects to the hosts of these URLs.
     login_and_registration: "Login and registration"
+
+  automations:
+    actions:
+      add: "Add action"
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: "Actions"
+    conditions: "Conditions"
+    edit: "Edit automation %{name}"
+    new: "New automation"
+    plural: "Automations"
+    summary:
+      if: "If"
+      none: "None"
+      then: "Then"
+      title: "Summary"
+      when: "When"
+    trigger: "Trigger"
+    triggers:
+      button:
+        button_label: "Button label"
+        label: "Button press"
+      more_coming: "OpenProject will add more trigger types soon."
+      name: "Triggers"
 
   background_jobs:
     status:
@@ -2791,10 +2816,6 @@ en:
 
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: For all projects
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2818,7 +2839,7 @@ en:
           short: "Short name"
           weight: "Weight"
       notice:
-        remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+        remember_items_and_projects: "Remember to set items for this custom field, and to make sure it is used in at least one project."
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -3597,10 +3618,9 @@ en:
       title: "Configure a new form"
     tab:
       read_only:
+        banner_html: >
+          You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
         edit_action: "Edit form"
-        text_html: >
-          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
-          custom fields as required.
     usage:
       dialog:
         button: "View dependent types"
@@ -5251,7 +5271,6 @@ en:
   notice_password_confirmation_failed: "The entered password is not correct."
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
-  notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
   notice_project_not_deleted: "The project wasn't deleted."
   notice_project_not_found: "Project not found."
   notice_requires_enterprise_token: "Enterprise token missing or doesn't allow access to this page."
@@ -5261,9 +5280,6 @@ en:
   notice_successful_create: "Successful creation."
   notice_successful_delete: "Successful deletion."
   notice_successful_update: "Successful update."
-  notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_unsuccessful_create: "Creation failed."
   notice_unsuccessful_create_with_reason: "Creation failed: %{reason}"
@@ -5652,7 +5668,6 @@ en:
   permission_save_bcf_queries: "Save BCF queries"
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
-  permission_select_custom_fields: "Select custom fields"
   permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Select project modules"
   permission_select_project_phases: "Select project phases"
@@ -7163,7 +7178,7 @@ en:
         project_attributes: "Project attributes"
         projects: "Projects"
         start: "Start"
-        workflows: "Workflows"
+        workflows: "Workflow"
       success: "Created successfully."
     edit:
       breadcrumb_variant: "Variant: %{name}"
@@ -7397,7 +7412,7 @@ en:
           description: "These variants are only available within the projects in which they were created."
           title: "Project-specific variants"
       workflow:
-        tab: "Workflows"
+        tab: "Workflow"
     index:
       add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"
@@ -7439,6 +7454,11 @@ en:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: "Type"
       variant_label: "Variant"
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: "Milestone"
     patterns:
       formats:

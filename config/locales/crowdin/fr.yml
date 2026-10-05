@@ -180,20 +180,20 @@ fr:
       favorite:
         favorited: Élément
       form_configuration:
-        attribute_groups: Form
+        attribute_groups: Formulaire
         description: Description
-        name: Name
-        type_variants: Types and variants using this form
+        name: Nom
+        type_variants: Types et variantes utilisant ce formulaire
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
+        attribute_key: Attribut
+        custom_field: Champ personnalisé
+        group: Groupe
         position: Position
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Groupe par défaut
+        kind: Nature
+        label: Libellé
+        query: Requête
       grids/grid:
         column_count: Nombre de colonnes
         page: Page
@@ -233,13 +233,13 @@ fr:
         port: Port
         tls_certificate_string: Certificat SSL du serveur LDAP
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacité
+        model_id: Modèle
+        state: État
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_format: Format d'API
+        api_key: Clé API
+        base_url: URL de l'hôte
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         llm_features_enabled: Enable LLMs for this instance
@@ -2433,6 +2433,7 @@ fr:
     groups: Groupes
     hexcode: Code hexadécimal
     id: ID
+    inexistent: Inexistent
     is_default: Valeur par défaut
     is_for_all: Pour tous les projets
     issue: Lot de travaux
@@ -2497,6 +2498,29 @@ fr:
 
         '
     login_and_registration: Connexion et inscription
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'La tâche a été annulée en raison d''une erreur : %{message}'
@@ -3511,10 +3535,10 @@ fr:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -6930,7 +6954,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         start: Start
-        workflows: Flux de travail
+        workflows: Workflow
       success: Création réussie.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
@@ -7164,7 +7188,7 @@ fr:
           description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
           title: Variantes spécifiques à un projet
       workflow:
-        tab: Flux de travail
+        tab: Workflow
     index:
       add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante

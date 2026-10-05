@@ -33,9 +33,9 @@ de:
       gitlab_pipeline:
         ci_details: CI Details
       gitlab_user:
-        avatar_url: Avatar URL
+        avatar_url: Avatar-URL
         name: Name
-        username: Username
+        username: Benutzername
     errors:
       models:
         gitlab_issue:
@@ -73,12 +73,12 @@ de:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+      updated_at: Aktualisiert am %{date_time}.
+      updated_by: Zuletzt aktualisiert von %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
       copy_sha: Copy SHA to clipboard
-      created_by: Created by %{name}.
+      created_by: Erstellt von %{name}.
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
       branch_name: Branch name
@@ -91,24 +91,24 @@ de:
     issue_closed_referenced_comment: "**Ticket geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     issue_component:
       states:
-        closed: Closed
-        opened: Open
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+        closed: Geschlossen
+        opened: Offen
+      updated_at: Aktualisiert am %{date_time}.
+      updated_by: Zuletzt aktualisiert von %{name}.
     issue_opened_referenced_comment: "**Ticket erstellt:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) erstellt.\n"
     issue_reopened_referenced_comment: "**Wiedereröffnetes Ticket:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.\n"
     merge_request_closed_comment: "**MR geschlossen:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     merge_request_component:
       pipeline_statuses:
-        canceled: Canceled
+        canceled: Abgebrochen
         canceling: Canceling
-        created: Created
-        failed: Failed
-        manual: Manual
-        pending: Pending
+        created: Erstellt
+        failed: Fehlgeschlagen
+        manual: Manuell
+        pending: Ausstehend
         preparing: Preparing
-        running: Running
-        scheduled: Scheduled
+        running: Läuft
+        scheduled: Geplant
         skipped: Skipped
         success: Success
         waiting_for_callback: Waiting for callback

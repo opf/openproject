@@ -36,7 +36,7 @@ RSpec.describe "datetime custom field inplace editor",
   let(:user) { create(:admin, preferences: { time_zone: "Europe/Brussels" }) }
   let(:custom_field) { create(:datetime_wp_custom_field, name: "Detected at") }
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
-  let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+  let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package, type:, project:, custom_values: { custom_field.id => "2026-10-01 12:30:00" })
   end

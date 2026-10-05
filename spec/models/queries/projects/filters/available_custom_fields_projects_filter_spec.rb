@@ -37,73 +37,58 @@ RSpec.describe Queries::Projects::Filters::AvailableCustomFieldsProjectsFilter d
     let(:human_name) { "Available custom fields projects" }
   end
 
-  it_behaves_like "list query filter", scope: false do
-    shared_let(:project) { create(:project) }
+  describe "#available?" do
+    it "is offered to administrators only" do
+      allow(User).to receive(:current).and_return(build_stubbed(:admin))
+      expect(described_class.create!(name: :available_custom_fields_projects, operator: "=")).to be_available
 
-    let(:custom_field_project1) { create(:custom_fields_project, project:) }
-    let(:custom_field_project2) { create(:custom_fields_project, project:) }
-
-    let(:valid_values) do
-      [custom_field_project1.custom_field_id.to_s, custom_field_project2.custom_field_id.to_s]
+      allow(User).to receive(:current).and_return(build_stubbed(:user))
+      expect(described_class.create!(name: :available_custom_fields_projects, operator: "=")).not_to be_available
     end
-    let(:name) { "Available custom fields projects" }
+  end
 
-    describe "#apply_to" do
-      let(:values) { valid_values }
+  describe "#apply_to" do
+    shared_let(:type) { create(:type) }
+    shared_let(:custom_field) { create(:integer_wp_custom_field) }
+    shared_let(:showing) { create(:project, types: [type]) }
+    shared_let(:bystander) { create(:project, no_types: true) }
 
-      let(:custom_field_project_handwritten_sql_subquery) do
-        <<-SQL.squish
-            SELECT "custom_fields_projects"."project_id"
-              FROM "custom_fields_projects"
-              WHERE "custom_fields_projects"."custom_field_id"
-              IN (#{values.join(', ')})
-        SQL
-      end
+    before do
+      base = type.default_variant
+      base.custom_field_ids = [custom_field.id]
+      base.attribute_groups = [["Details", [custom_field.attribute_name]]]
+      base.save!
+    end
 
-      context 'for "="' do
-        let(:operator) { "=" }
+    subject(:filter) do
+      described_class.create!(name: :available_custom_fields_projects, operator:, values: [custom_field.id.to_s])
+    end
 
-        it "is the same as handwriting the query" do
-          handwritten_scope_sql = <<-SQL.squish
-            SELECT "projects".* FROM "projects"
-              WHERE "projects"."id" IN (#{custom_field_project_handwritten_sql_subquery})
-          SQL
+    context 'for "="' do
+      let(:operator) { "=" }
 
-          expect(instance.apply_to(Project).to_sql).to eql handwritten_scope_sql
-        end
-      end
-
-      context 'for "!"' do
-        let(:operator) { "!" }
-
-        it "is the same as handwriting the query" do
-          handwritten_scope_sql = <<-SQL.squish
-            SELECT "projects".* FROM "projects"
-              WHERE "projects"."id" NOT IN (#{custom_field_project_handwritten_sql_subquery})
-          SQL
-
-          expect(instance.apply_to(Project).to_sql).to eql handwritten_scope_sql
-        end
-      end
-
-      context "for an unsupported operator" do
-        let(:operator) { "!=" }
-
-        it "raises an error" do
-          expect { instance.apply_to(Project) }.to raise_error("unsupported operator")
-        end
+      it "keeps the projects whose form configuration shows the field" do
+        expect(filter.apply_to(Project)).to contain_exactly(showing)
       end
     end
 
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [
-          [custom_field_project1.custom_field.name, custom_field_project1.custom_field_id],
-          [custom_field_project2.custom_field.name, custom_field_project2.custom_field_id]
-        ]
+    context 'for "!"' do
+      let(:operator) { "!" }
 
-        expect(instance.allowed_values).to match_array(expected)
+      it "keeps the projects whose form configuration does not" do
+        expect(filter.apply_to(Project)).to include(bystander)
+        expect(filter.apply_to(Project)).not_to include(showing)
       end
+    end
+  end
+
+  describe "#allowed_values" do
+    shared_let(:custom_field) { create(:integer_wp_custom_field, name: "Story points") }
+
+    it "offers the work package custom fields" do
+      filter = described_class.create!(name: :available_custom_fields_projects, operator: "=")
+
+      expect(filter.allowed_values).to include(["Story points", custom_field.id])
     end
   end
 end

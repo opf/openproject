@@ -29,9 +29,25 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, # rubocop:disable Rails/HasAndBelongsToMany
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          foreign_key: "custom_field_id"
+  # A field reaches a project when the variant that project applies shows it. An archived project
+  # is no reach, which is the same answer CustomFields::DetailsComponent gives.
+  def self.project_counts
+    memberships = FormConfigurationAttribute.table_name
+    form_join, form_configuration_id, excluded =
+      TypeVariant.form_configuration_join("project_types.variant_id")
+    exclusion = TypeVariant.excluded_custom_field_condition("#{memberships}.custom_field_id", excluded)
+
+    ProjectType
+      .joins(form_join)
+      .joins(Arel.sql("JOIN #{memberships} ON #{memberships}.form_configuration_id = #{form_configuration_id} " \
+                      "AND #{memberships}.custom_field_id IS NOT NULL " \
+                      "AND #{memberships}.form_configuration_group_id IS NOT NULL AND #{exclusion}"))
+      .where(project_id: Project.active.select(:id))
+      .group("#{memberships}.custom_field_id")
+      .distinct
+      .count(:project_id)
+  end
+
   has_many :form_configuration_memberships, -> { active },
            class_name: "FormConfigurationAttribute",
            foreign_key: :custom_field_id,
@@ -47,7 +63,7 @@ class WorkPackageCustomField < CustomField
   scopes :visible,
          :on_visible_type_and_project
 
-  scope :usable_as_custom_action, -> {
+  scope :usable_as_automation, -> {
     where.not(field_format: %w[hierarchy weighted_item_list])
          .order(:name)
   }

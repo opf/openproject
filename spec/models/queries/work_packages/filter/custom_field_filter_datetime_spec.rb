@@ -38,7 +38,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
   end
 
   let(:custom_field) { create(:datetime_wp_custom_field, name: "Detected at") }
-  let(:project) { create(:project, types: [type], work_package_custom_fields: [custom_field]) }
+  let(:project) { create(:project, types: [type]) }
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
 
   let!(:wp_early) { create(:work_package, type:, project:, custom_values: { custom_field.id => "2026-10-01 06:15:00" }) }

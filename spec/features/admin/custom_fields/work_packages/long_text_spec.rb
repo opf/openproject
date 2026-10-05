@@ -34,7 +34,6 @@ RSpec.describe "custom fields", :js do
 
       editor.set_markdown default_text
 
-      cf_page.set_all_projects true
       click_on "Save"
 
       cf_page.expect_and_dismiss_flash(message: "Successful creation.")

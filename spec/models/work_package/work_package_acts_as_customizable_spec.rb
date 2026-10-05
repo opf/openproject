@@ -48,7 +48,6 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
   end
 
   def setup_custom_field(cf)
-    project.work_package_custom_fields << cf
     type.default_variant.custom_field_ids |= [cf.id]
     # Void the custom field caching
     RequestStore.clear!
@@ -233,14 +232,12 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     let!(:custom_field_of_project_and_type) do
       create(:work_package_custom_field,
              name: "Custom field of type and project").tap do |cf|
-        project.work_package_custom_fields << cf
         type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:custom_field_of_project_not_type) do
       create(:work_package_custom_field,
              name: "Custom field of project not type").tap do |cf|
-        project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_type_not_project) do
@@ -266,9 +263,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       create(:work_package_custom_field,
              name: "Custom field for all and many types and projects",
              is_for_all: true).tap do |cf|
-        project.work_package_custom_fields << cf
         type.default_variant.custom_field_ids |= [cf.id]
-        project2.work_package_custom_fields << cf
         type2.default_variant.custom_field_ids |= [cf.id]
       end
     end
@@ -282,9 +277,10 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
                 .and_call_original
       end
 
-      it "returns all custom fields of the project and type for work_package" do
+      it "returns every custom field the type configures for work_package" do
         expect(work_package.available_custom_fields)
           .to contain_exactly(custom_field_of_project_and_type,
+                              custom_field_of_type_not_project,
                               custom_field_for_all_and_type,
                               custom_field_of_projects_and_types_for_all)
       end
@@ -304,9 +300,10 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     end
 
     context "when not preloading the custom fields" do
-      it "returns all custom fields of the project and type" do
+      it "returns every custom field the type configures" do
         expect(work_package.available_custom_fields)
           .to contain_exactly(custom_field_of_project_and_type,
+                              custom_field_of_type_not_project,
                               custom_field_for_all_and_type,
                               custom_field_of_projects_and_types_for_all)
       end
@@ -321,13 +318,11 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
 
     let!(:source_cf) do
       create(:work_package_custom_field, name: "Source CF").tap do |cf|
-        project.work_package_custom_fields << cf
         root_type.default_variant.custom_field_ids |= [cf.id]
       end
     end
     let!(:variant_own_cf) do
       create(:work_package_custom_field, name: "Variant own CF").tap do |cf|
-        project.work_package_custom_fields << cf
         variant.custom_field_ids |= [cf.id]
       end
     end
@@ -365,11 +360,11 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
     # configuration link, so appending to it could write to the wrong member.
     let!(:root_cf) do
       create(:work_package_custom_field, name: "Root CF",
-                                         projects: [variant_project], types: [root_type])
+                                         types: [root_type])
     end
     let!(:variant_cf) do
       create(:work_package_custom_field, name: "Variant CF",
-                                         projects: [variant_project], types: [variant])
+                                         types: [variant])
     end
 
     it "surfaces the variant's fields" do
@@ -391,7 +386,7 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
       root_project = create(:project, types: [root_type])
       root_work_package = build(:work_package, project: root_project, type: root_type)
       create(:work_package_custom_field, name: "Root project CF",
-                                         projects: [root_project], types: [root_type])
+                                         types: [root_type])
 
       described_class.preload_available_custom_fields([work_package, root_work_package])
 

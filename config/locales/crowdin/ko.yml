@@ -2308,6 +2308,7 @@ ko:
     groups: 그룹
     hexcode: 16진수 코드
     id: ID
+    inexistent: Inexistent
     is_default: 기본값
     is_for_all: 모든 프로젝트용
     issue: 작업 패키지
@@ -2372,6 +2373,29 @@ ko:
 
         '
     login_and_registration: 로그인 및 등록
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: '오류로 인해 작업이 취소되었습니다: %{message}'
@@ -3380,10 +3404,10 @@ ko:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -6768,7 +6792,7 @@ ko:
         project_attributes: 프로젝트 특성
         projects: 프로젝트
         start: Start
-        workflows: 워크플로
+        workflows: Workflow
       success: 성공적으로 생성되었습니다.
     edit:
       breadcrumb_variant: '변형: %{name}'
@@ -7002,7 +7026,7 @@ ko:
           description: 이러한 변형은 생성된 프로젝트 내에서만 사용할 수 있습니다.
           title: 프로젝트별 변형
       workflow:
-        tab: 워크플로
+        tab: Workflow
     index:
       add_variant: "%{name}에 변형 추가"
       add_variant_action: 변형 추가

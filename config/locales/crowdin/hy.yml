@@ -2431,6 +2431,7 @@ hy:
     groups: Խմբեր
     hexcode: Տասնվեցական կոդ
     id: ID
+    inexistent: Inexistent
     is_default: Կանխադրված արժեք
     is_for_all: Բոլոր նախագծերի համար
     issue: Աշխատանքային փաթեթ
@@ -2495,6 +2496,29 @@ hy:
 
         '
     login_and_registration: Մուտք և գրանցում
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: Աշխատանքը չեղարկվել է սխալի պատճառով՝ %{message}
@@ -3509,10 +3533,10 @@ hy:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -6931,7 +6955,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         start: Start
-        workflows: Աշխատանքային հոսքեր
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
@@ -7165,7 +7189,7 @@ hy:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Աշխատանքային հոսքեր
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Ավելացնել տարատեսակ

@@ -33,9 +33,9 @@ ko:
       gitlab_pipeline:
         ci_details: CI 세부 정보
       gitlab_user:
-        avatar_url: Avatar URL
-        name: Name
-        username: Username
+        avatar_url: 아바타 URL
+        name: 이름
+        username: 사용자 이름
     errors:
       models:
         gitlab_issue:
@@ -66,20 +66,20 @@ ko:
     gitlab_user_avatar_url: GitLab 아바타 URL
   gitlab_integration:
     branch_component:
-      copy_name: Copy branch name
-      create_merge_request: Create merge request
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+      copy_name: 브랜치 이름 복사
+      create_merge_request: 병합 요청 만들기
+      updated_at: "%{date_time} 에 수정됨."
+      updated_by: "%{name}에 의해 마지막으로 수정됨."
     commit_component:
-      authored_at: Authored on %{date_time}.
-      copy_sha: Copy SHA to clipboard
-      created_by: Created by %{name}.
+      authored_at: "%{date_time} 에 작성됨."
+      copy_sha: SHA를 클립보드에 복사
+      created_by: "%{name}에 의해 생성됨."
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
-      branch_name: Branch name
-      commit_message: Commit message
-      copy_branch_name: Copy branch name
-      copy_commit_message: Copy commit message
+      branch_name: 브랜치 이름
+      commit_message: 커밋 메시지
+      copy_branch_name: 브랜치 이름 복사
+      copy_commit_message: 커밋 메시지 복사
       copy_create_branch_command: Copy command to create a branch with empty commit
       create_branch_with_empty_commit: Create branch with empty commit
       title: Git quick snippets

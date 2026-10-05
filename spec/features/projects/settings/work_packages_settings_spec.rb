@@ -60,18 +60,6 @@ RSpec.describe "Projects", "work packages settings menu", :js do
       end
     end
 
-    context "when the user has access to the custom fields tab" do
-      let(:permissions) { %i(edit_project view_work_packages select_custom_fields) }
-
-      current_user { create(:user, member_with_permissions: { project => permissions }) }
-
-      it "displays the custom fields tab" do
-        work_packages_settings_page.visit!
-        expect(page).to have_css(".tabnav-tab", text: "Custom fields")
-        expect(page).to have_css("span", text: "There are currently no custom fields available.")
-      end
-    end
-
     context "when the user has access to the internal comments tab", with_ee: %i[internal_comments] do
       let(:permissions) { %i(edit_project view_work_packages) }
 

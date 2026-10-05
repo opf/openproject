@@ -2433,6 +2433,7 @@ es:
     groups: Grupos
     hexcode: Código hexadecimal
     id: ID
+    inexistent: Inexistent
     is_default: Valor predeterminado
     is_for_all: Para todos los proyectos
     issue: Paquete de trabajo
@@ -2497,6 +2498,29 @@ es:
 
         '
     login_and_registration: Inicio de sesión y registro
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'El trabajo ha sido cancelado debido al error: %{message}'
@@ -3505,10 +3529,10 @@ es:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -6918,7 +6942,7 @@ es:
         project_attributes: Atributos del proyecto
         projects: Proyectos
         start: Start
-        workflows: Flujos de trabajo
+        workflows: Workflow
       success: Creado correctamente.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
@@ -7152,7 +7176,7 @@ es:
           description: Estas variantes solo están disponibles en los proyectos en los que se crearon.
           title: Variantes específicas del proyecto
       workflow:
-        tab: Flujos de trabajo
+        tab: Workflow
     index:
       add_variant: Añadir una variante a %{name}
       add_variant_action: Añadir variante
