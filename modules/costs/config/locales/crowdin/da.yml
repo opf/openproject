@@ -256,6 +256,7 @@ da:
   label_status_finished: Afsluttet
   label_time: Tidspunkt
   label_time_entry_activity_form_description: Ændringer i denne tidsregistreringsaktivitet vil blive afspejlet i alle projekter, hvor den er aktiveret.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Startede %{time}
   label_today_capitalized: I dag

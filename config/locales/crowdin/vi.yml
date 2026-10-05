@@ -116,6 +116,7 @@ vi:
         caption: chú thích
         help_text: Văn bản trợ giúp
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: khách hàng SCIM
       calculated_value_error:
         customized_id: ID tùy chỉnh
@@ -644,6 +645,7 @@ vi:
         unknown_property: không phải là một tài sản được biết đến.
         unknown_property_nested: có đường dẫn không xác định '%{path}'.
         unremovable: không thể gỡ bỏ.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'không cung cấp "Bối cảnh an toàn". Sử dụng HTTPS hoặc địa chỉ loopback, chẳng hạn như localhost.
 
           '
@@ -2367,6 +2369,10 @@ vi:
     work_package: Work Package
     work_package_id: Gói công việc
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Đăng nhập và đăng ký
   background_jobs:
     status:
@@ -2694,16 +2700,17 @@ vi:
     is_enabled_globally: Được kích hoạt trên toàn cầu
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Không phân công vai trò
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Lựa chọn gói công việc hoặc dự án là bắt buộc trước tiên
     reorder_alphabetical: Sắp xếp lại các giá trị theo thứ tự bảng chữ cái
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Tạo trường tùy chỉnh mới
-      no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
     text_add_new_custom_field: 'Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
 
       '
@@ -3856,6 +3863,7 @@ vi:
   label_go_forward: Mở menu phụ %{module}
   label_greater_or_equal: ">="
   label_group: nhóm
+  label_group_attributes_plural: Group attributes
   label_group_by: Nhóm theo
   label_group_named: Nhóm %{name}
   label_group_new: Nhóm mới
@@ -4261,6 +4269,7 @@ vi:
   label_user_settings: Cài đặt người dùng
   label_users_settings: Cài đặt người dùng
   label_value_x: 'Giá trị: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Chỉnh sửa phiên bản
   label_version_new: Phiên bản mới
   label_version_plural: phiên bản
@@ -6170,6 +6179,7 @@ vi:
         '
       title: Quét virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Việc tắt tùy chọn này sẽ ẩn danh sách tệp đính kèm trên tab tệp gói công việc cho các dự án mới. Các tệp đính kèm trong phần mô tả của gói công việc sẽ vẫn được tải lên bộ lưu trữ tệp đính kèm nội bộ.
 
         '
@@ -6315,6 +6325,7 @@ vi:
         heading: Giai đoạn mới
       no_gate: Không có cổng
       non_defined: Hiện tại không có giai đoạn nào được xác định.
+      order_changed: Order successfully changed.
       phase_gates: Cổng pha
       section_header: giai đoạn
       start_gate: Cổng bắt đầu
@@ -6811,6 +6822,7 @@ vi:
             label_enable_all: Kích hoạt tất cả
             label_toggle_template: Toggle %{template}
           label: Mẫu xuất PDF
+          order_changed: Order successfully changed.
         tab: Tạo PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

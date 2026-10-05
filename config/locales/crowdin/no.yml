@@ -116,6 +116,7 @@
         caption: Caption
         help_text: Hjelpetekst
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@
         unknown_property: er ikke en kjent egenskap.
         unknown_property_nested: har den ukjente banen '%{path}'.
         unremovable: kan ikke fjernes.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'Ikke oppgi en "Secure Context". Enten bruk HTTPS eller en loopback address, som localhost.
 
           '
@@ -2490,6 +2492,10 @@
     work_package: Arbeidspakke
     work_package_id: Arbeidspakke
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -2817,16 +2823,17 @@
     is_enabled_globally: Er aktivert globalt
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Omorganiser verdier alfabetisk
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Opprett nytt egendefinert felt
-      no_results_title_text: Det er ingen egendefinerte felt for øyeblikket.
     text_add_new_custom_field: 'For å legge til nye egendefinerte felt i et prosjekt må du først opprette dem før du kan legge dem til i dette prosjektet.
 
       '
@@ -4009,6 +4016,7 @@
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_attributes_plural: Group attributes
   label_group_by: Grupper etter
   label_group_named: Gruppe %{name}
   label_group_new: Ny gruppe
@@ -4414,6 +4422,7 @@
   label_user_settings: Brukerinnstillinger
   label_users_settings: Brukerinnstillinger
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Rediger versjon
   label_version_new: Ny versjon
   label_version_plural: Versjoner
@@ -6339,6 +6348,7 @@
         '
       title: Virusskanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deaktivering av dette valget vil skjule listen over vedlegg på arbeidspakkefiler for nye prosjekter. Filene som ligger i beskrivelsen av en arbeidspakke vil fortsatt bli lastet opp i den interne lagringen.
 
         '
@@ -6484,6 +6494,7 @@
         heading: New phase
       no_gate: No gate
       non_defined: Ingen faser definert.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Faser
       start_gate: Start gate
@@ -6979,6 +6990,7 @@
             label_enable_all: Aktiver alle
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.

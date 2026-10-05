@@ -33,15 +33,28 @@ require "support/pages/page"
 module Pages
   module CustomFields
     class Index < Page
-      def path
-        "/custom_fields"
+      TYPE_BY_LABEL = {
+        "Work package" => "WorkPackageCustomField",
+        "Work packages" => "WorkPackageCustomField",
+        "Version" => "VersionCustomField",
+        "Versions" => "VersionCustomField",
+        "Group" => "GroupCustomField",
+        "Groups" => "GroupCustomField",
+        "Spent time" => "TimeEntryCustomField"
+      }.freeze
+
+      def initialize(type = "WorkPackageCustomField")
+        super()
+        @type = type
       end
 
-      def visit_page(customizable_name)
+      def path
+        Rails.application.routes.url_helpers.public_send(:"admin_settings_#{@type.underscore.pluralize}_path")
+      end
+
+      def visit_page(label = nil)
+        @type = TYPE_BY_LABEL.fetch(label.to_s) if label
         visit!
-        within_test_selector("custom-fields--tab-nav") do
-          click_on customizable_name.to_s
-        end
       end
 
       def set_name(name)

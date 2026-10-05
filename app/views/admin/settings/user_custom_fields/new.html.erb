@@ -31,4 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Settings::UserCustomFields::NewFormHeaderComponent.new(@custom_field)) %>
 
-<%= render CustomFields::DetailsComponent.new(@custom_field) %>
+<%= render CustomFields::DetailsComponent.new(@custom_field, form_url: admin_settings_user_custom_fields_path) %>

@@ -1,0 +1,26 @@
+{"schema_version":1,"diagram_type":"architecture",
+"meta":{"title":"OpenProject Production Compose","output":".archify/architecture-compose-20261003-120000/compose.html","quality_profile":"showcase","repository":{"url":"git@github.com:Kaito-Vu/openproject.git","link_mode":"local-only","revision":"38172d11f8f8a9dac21f933b1fdfbdd2fbac6e98"}},
+"components":[
+{"id":"user","type":"external","label":"Browser","sublabel":"HTTPS / WSS","pos":[40,200],"size":[120,60]},
+{"id":"proxy","type":"security","label":"Caddy Proxy","sublabel":":80 → PORT 8080","pos":[230,200],"size":[130,60],"sources":[{"path":"docker-compose.yml","line":76,"end_line":89}]},
+{"id":"web","type":"backend","label":"web (Puma)","sublabel":"Rails :8080","pos":[440,200],"size":[130,60],"sources":[{"path":"docker-compose.yml","line":90,"end_line":112},{"path":"docker/prod/web","line":1,"end_line":20}]},
+{"id":"hocus","type":"backend","label":"hocuspocus","sublabel":"collab editing :1234","pos":[440,40],"size":[130,60],"sources":[{"path":"docker-compose.yml","line":167,"end_line":176}]},
+{"id":"cache","type":"database","label":"memcached","sublabel":"Rails cache","pos":[650,40],"size":[120,60],"sources":[{"path":"docker-compose.yml","line":70,"end_line":75}]},
+{"id":"db","type":"database","label":"PostgreSQL","sublabel":"pgdata volume","pos":[650,200],"size":[120,60],"sources":[{"path":"docker-compose.yml","line":58,"end_line":69}]},
+{"id":"worker","type":"backend","label":"worker","sublabel":"good_job","pos":[440,360],"size":[130,60],"sources":[{"path":"docker-compose.yml","line":134,"end_line":146},{"path":"docker/prod/worker","line":1,"end_line":3}]},
+{"id":"seeder","type":"backend","label":"seeder","sublabel":"migrate + db:seed","pos":[650,360],"size":[120,60],"sources":[{"path":"docker-compose.yml","line":160,"end_line":166},{"path":"docker/prod/seeder","line":1,"end_line":20}]},
+{"id":"entra","type":"external","label":"Microsoft Entra ID","sublabel":"OIDC login","pos":[40,360],"size":[130,60],"sources":[{"path":"docker-compose.yml","line":34,"end_line":44}]}
+],
+"boundaries":[{"kind":"security-group","label":"backend network","wraps":["web","cache","db","worker","seeder","hocus"],"pad":16}],
+"connections":[
+{"from":"user","to":"proxy","label":"HTTPS","variant":"emphasis"},
+{"from":"proxy","to":"web","label":"reverse_proxy","variant":"emphasis"},
+{"from":"proxy","to":"hocus","label":"/hocuspocus","fromSide":"top","toSide":"left"},
+{"from":"web","to":"db","label":"SQL"},
+{"from":"web","to":"cache","label":"memcache"},
+{"from":"worker","to":"db","label":"jobs + SQL","fromSide":"right","toSide":"bottom"},
+{"from":"seeder","to":"db","label":"migrate","variant":"dashed","route":"orthogonal-v"},
+{"from":"web","to":"entra","label":"OIDC","variant":"security","fromSide":"bottom","toSide":"top"},
+{"from":"hocus","to":"web","label":"auth callback","variant":"dashed","route":"straight"}
+],
+"cards":[{"dot":"amber","title":"Startup order","items":["web, worker, cron wait for seeder to complete","deunhealth restarts web when unhealthy"]},{"dot":"cyan","title":"Not drawn","items":["cron (IMAP poll) and deunhealth omitted for clarity"]}]}

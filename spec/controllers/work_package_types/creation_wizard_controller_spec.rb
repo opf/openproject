@@ -56,10 +56,7 @@ RSpec.describe WorkPackageTypes::CreationWizardController do
         end.to change(Type, :count).by(1)
 
         type = Type.find_by!(name: "Critical")
-        expect(response).to redirect_to(
-          type_creation_wizard_path(type, step: :defaults,
-                                          started_form_configuration_id: type.default_variant.form_configuration_id)
-        )
+        expect(response).to redirect_to(type_creation_wizard_path(type, step: :defaults))
       end
 
       context "with invalid params" do

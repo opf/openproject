@@ -33,7 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
   render(
     Admin::CustomFields::EditFormHeaderComponent.new(
       custom_field: @custom_field,
-      selected: :attribute_help_text
+      selected: :attribute_help_text,
+      section_label:,
+      page_title: custom_field_page_title
     )
   )
 %>
@@ -45,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
     primer_form_with(
       model: @attribute_help_text,
       scope: :attribute_help_text,
-      url: update_attribute_help_text_custom_field_path(@custom_field),
+      url: update_attribute_help_text_path(@custom_field),
       method: :put
     ) do |f|
       render AttributeHelpTexts::Form.new(f, hide_attribute_name: true)

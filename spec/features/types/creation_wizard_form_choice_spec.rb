@@ -56,31 +56,122 @@ RSpec.describe "Choosing a form in the type creation wizard", :js do
     Type.find_by!(name:)
   end
 
-  it "opens the form step of a new type on the form it configures itself" do
-    create_type_through_wizard("Incident")
-    click_on I18n.t(:button_continue)
-
-    expect(page).to have_current_path(/step=form_configuration/)
-    expect_chosen("new")
-    expect(page).to have_no_test_selector("form_configuration-selector")
+  def choose_option(name)
+    wait_for_turbo_stream { find_test_selector("form_configuration-choice-#{name}").click }
   end
 
-  it "switches a new type to an existing form and shows it as reused", :aggregate_failures do
-    type = create_type_through_wizard("Incident")
-    click_on I18n.t(:button_continue)
+  def choose_form_start(name)
+    selected = "[data-test-selector='form_configuration-start-#{name}']:checked"
 
-    wait_for_turbo_stream { find_test_selector("form_configuration-choice-existing").click }
+    retry_block do
+      find_test_selector("form_configuration-start-#{name}").click
+      raise "The #{name} option did not take the click" unless page.has_css?(selected, visible: :all, wait: 2)
+    end
+  end
+
+  def switch_to_existing(name)
+    choose_option("existing")
+
     within_dialog I18n.t("form_configurations.change.title") do
       select_autocomplete(find_test_selector("change-form_configuration-select"),
-                          query: "Standard",
+                          query: name,
                           results_selector: "#change-form_configuration-dialog")
       click_on I18n.t(:button_save)
     end
+  end
+
+  it "opens the form step of a new type on the first existing form", :aggregate_failures do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    expect(page).to have_current_path(/step=form_configuration/)
+    expect_chosen("existing")
+    expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
+    expect(type.default_variant.reload.form_configuration).to eq(existing)
+    expect(FormConfiguration.where(name: "Incident form")).to be_empty
+  end
+
+  it "switches a new type to a new form and back to an existing one", :aggregate_failures do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+
+    expect(page).to have_current_path(/started_form_configuration_id=#{type.default_variant.reload.form_configuration_id}/)
+    expect(type.default_variant.form_configuration).not_to eq(existing)
+    expect_chosen("new")
+    expect(page).to have_no_test_selector("form_configuration-selector")
+
+    switch_to_existing("Standard")
 
     expect(page).to have_current_path(/step=form_configuration/)
     expect(type.default_variant.reload.form_configuration).to eq(existing)
     expect_chosen("existing")
     expect(page).to have_test_selector("form_configuration-selector", text: "Standard form")
+  end
+
+  it "asks for the name and description of a new form on the way out", :aggregate_failures do
+    type = create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      expect(page).to have_field("Form name", with: "Incident form")
+      fill_in "Form name", with: "Incident intake"
+      fill_in "Description", with: "Used by the support team"
+      click_on I18n.t(:button_save)
+    end
+
+    expect(page).to have_current_path(/step=project_attributes/)
+    form = type.default_variant.reload.form_configuration
+    expect(form).not_to eq(existing)
+    expect(form.name).to eq("Incident intake")
+    expect(form.description).to eq("Used by the support team")
+  end
+
+  it "keeps asking until the new form has a name" do
+    create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+
+    choose_option("new")
+    within_dialog I18n.t("form_configurations.start.title") do
+      choose_form_start("scratch")
+      click_on I18n.t(:button_continue)
+    end
+    expect_chosen("new")
+
+    click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      fill_in "Form name", with: ""
+      click_on I18n.t(:button_save)
+
+      expect(page).to have_text(I18n.t("activerecord.errors.messages.blank"))
+    end
+
+    expect(page).to have_current_path(/step=form_configuration/)
+  end
+
+  it "moves on without asking while reusing an existing form" do
+    create_type_through_wizard("Incident")
+    click_on I18n.t(:button_continue)
+    expect_chosen("existing")
+
+    click_on I18n.t(:button_continue)
+
+    expect(page).to have_current_path(/step=project_attributes/)
+    expect(page).to have_no_css("dialog[open]")
+    expect(existing.reload.name).to eq("Standard form")
   end
 
   it "opens the form step of a new variant on its type's form" do

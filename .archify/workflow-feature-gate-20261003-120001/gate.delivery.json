@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "6dfce453-25fa-440c-8fce-ad6e343c678b",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "D:\\working\\02.ETC\\openproject\\.archify\\workflow-feature-gate-20261003-120001\\candidate.json",
+  "output": "D:\\working\\02.ETC\\openproject\\.archify\\workflow-feature-gate-20261003-120001\\gate.html",
+  "specification": {
+    "sha256": "f130c646022801be2fe34c2cbfa2a7273c453e6024af78b9cc54420f8a0811cf",
+    "bytes": 1471
+  },
+  "artifact": {
+    "sha256": "048903f177b725a8c8f11e43b8ef7aa929ba1329e8fda8721f5b549a27ca8d0d",
+    "bytes": 748834
+  }
+}

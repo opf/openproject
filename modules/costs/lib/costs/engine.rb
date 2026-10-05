@@ -163,6 +163,13 @@ module Costs
            parent: :admin_costs,
            caption: :enumeration_activities
 
+      menu :admin_menu,
+           :time_entry_custom_fields,
+           { controller: "/admin/settings/time_entry_custom_fields", action: :index },
+           if: ->(*) { User.current.admin? },
+           parent: :admin_costs,
+           caption: :label_time_entry_custom_field_plural
+
       menu :global_menu,
            :my_time_tracking,
            { controller: "/my/time_tracking", action: "index", date: "today" },

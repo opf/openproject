@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "19ffa6d2-b804-4e4e-9bc6-205204ef9707",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\working\\02.ETC\\openproject\\.archify\\architecture-compose-20261003-120000\\candidate.json",
+  "output": "D:\\working\\02.ETC\\openproject\\.archify\\architecture-compose-20261003-120000\\compose.html",
+  "specification": {
+    "sha256": "68774ea480af3d07a86de79e8044e5664a34994b19ccd4ef7b2975331e60f2dd",
+    "bytes": 3143
+  },
+  "artifact": {
+    "sha256": "6d8f8e360c2bfcd0bbca525f805eb29179e5f9dad4b31e040820dcb975b77ce1",
+    "bytes": 760641
+  }
+}

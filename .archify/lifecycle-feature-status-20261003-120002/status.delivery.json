@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "cd66afbc-6268-4167-8ecc-5c19ce803eb5",
+  "status": "current",
+  "command": "deliver",
+  "type": "lifecycle",
+  "input": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\candidate.json",
+  "output": "D:\\working\\02.ETC\\openproject\\.archify\\lifecycle-feature-status-20261003-120002\\status.html",
+  "specification": {
+    "sha256": "546a37de668c11bda00e0715c6bea46c4e281d1da8c603d312e9d2a043a1d222",
+    "bytes": 1888
+  },
+  "artifact": {
+    "sha256": "afb6eb302e2ebebfa7717422a73fbda7c7538cbf9b3f9cb9e87d131b2b225ae5",
+    "bytes": 759798
+  }
+}

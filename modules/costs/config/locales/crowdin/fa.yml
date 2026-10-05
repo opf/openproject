@@ -256,6 +256,7 @@ fa:
   label_status_finished: پایان‌یافته
   label_time: زمان
   label_time_entry_activity_form_description: تغییرات این فعالیت ثبت زمان در همه پروژه‌هایی که در آن‌ها فعال است اعمال خواهد شد.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: محدودیت‌ها
   label_timer_since: شروع شده از %{time}
   label_today_capitalized: امروز

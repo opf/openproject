@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "5d073273-1678-472f-84b6-60087b6eb82c",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "D:\\working\\02.ETC\\openproject\\.archify\\architecture-overview-20261003-120003\\candidate.json",
+  "output": "D:\\working\\02.ETC\\openproject\\.archify\\architecture-overview-20261003-120003\\overview.html",
+  "specification": {
+    "sha256": "50b1a0e190854bece0202465d50271af60251e95c4369bf28535f709ecb508e1",
+    "bytes": 1957
+  },
+  "artifact": {
+    "sha256": "49c050a0b25b4c0dd3ff138913d44fdb3553fd9c67c461c458033c335b73bc03",
+    "bytes": 752862
+  }
+}

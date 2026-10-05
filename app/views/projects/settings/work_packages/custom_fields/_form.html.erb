@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
             <tr class="custom-field-<%= custom_field.id %>">
               <td>
                 <% if current_user.admin? %>
-                <%= link_to custom_field.name, edit_custom_field_path(custom_field.id) %>
+                <%= link_to custom_field.name, edit_admin_settings_work_package_custom_field_path(custom_field) %>
                 <% else %>
                 <%= custom_field.name %>
                 <% end %>

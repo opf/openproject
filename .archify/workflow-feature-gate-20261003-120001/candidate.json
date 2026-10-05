@@ -1,0 +1,18 @@
+{"schema_version":2,"diagram_type":"workflow",
+"meta":{"title":"Enterprise Feature Gate Flow","output":".archify/workflow-feature-gate-20261003-120001/gate.html","quality_profile":"showcase"},
+"lanes":[{"id":"ui","label":"UI"},{"id":"gate","label":"Feature gate"}],
+"mainPath":["req","check","allow","render"],
+"nodes":[
+{"id":"req","lane":"ui","col":0,"type":"frontend","label":"Feature UI","sublabel":"e.g. internal comments","width":140},
+{"id":"check","lane":"gate","col":1,"type":"security","label":"allows_to?(feature)","sublabel":"EnterpriseToken","width":150},
+{"id":"allow","lane":"gate","col":2,"type":"backend","label":"Returns true","sublabel":"hardcoded override","width":140},
+{"id":"render","lane":"ui","col":3,"type":"frontend","label":"Feature enabled","sublabel":"no banner shown","width":140},
+{"id":"banner","lane":"ui","col":2,"type":"cloud","label":"Upsell banner","sublabel":"upstream path only","width":140}
+],
+"edges":[
+{"id":"e1","from":"req","to":"check","label":"ask"},
+{"id":"e2","from":"check","to":"allow","variant":"emphasis"},
+{"id":"e3","from":"allow","to":"render","variant":"emphasis"},
+{"id":"e4","from":"check","to":"banner","label":"if false","variant":"dashed","role":"branch"}
+],
+"cards":[{"dot":"amber","title":"Evidence","items":["app/models/enterprise_token.rb:112 allows_to? returns true","enterprise_token.rb:44 TRUE_FEATURES lists features for the frontend","banner_component.rb:176 feature_available? calls allows_to?"]}]}

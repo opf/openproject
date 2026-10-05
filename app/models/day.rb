@@ -52,7 +52,6 @@ class Day < ApplicationRecord
       from = today.at_beginning_of_month
       to = today.next_month.at_end_of_month
       from_range(from:, to:)
-        .includes(:non_working_days)
         .order("days.id")
     end
 

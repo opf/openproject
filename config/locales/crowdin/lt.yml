@@ -116,6 +116,7 @@ lt:
         caption: Caption
         help_text: Pagalbos tekstas
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ lt:
         unknown_property: yra nežinoma savybė.
         unknown_property_nested: yra nežinomas kelias „%{path}“.
         unremovable: negali būti pašalintas.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
 
           '
@@ -2736,6 +2738,10 @@ lt:
     work_package: Darbų paketas
     work_package_id: Darbų paketas
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
   background_jobs:
     status:
@@ -3063,16 +3069,17 @@ lt:
     is_enabled_globally: Yra įgalintas globaliai
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Perrikiuoti reikšmes alfabeto tvarka
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Sukurti naują pasirinktinį lauką
-      no_results_title_text: Nėra jokių pasirinktinų laukų.
     text_add_new_custom_field: 'Norėdami pridėti naujus pritaikytus laukelius prie projekto, pirmiausia reikia juos sukurti. Tik tada yra galimybė juos pridėti prie šio projekto.
 
       '
@@ -4319,6 +4326,7 @@ lt:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grupė
+  label_group_attributes_plural: Group attributes
   label_group_by: Grupuoti pagal
   label_group_named: Grupė %{name}
   label_group_new: Nauja grupė
@@ -4724,6 +4732,7 @@ lt:
   label_user_settings: Naudotojo nustatymai
   label_users_settings: Naudotojo nustatymai
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Redaguoti versiją
   label_version_new: Nauja versija
   label_version_plural: Versijos
@@ -6690,6 +6699,7 @@ lt:
         '
       title: Virusų tikrinimas
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Išjungus šią parinktį naujų projektų darbo paketų failų kortelėje bus paslėptas priedų sąrašas. Darbo paketų aprašyme prisegti failai bus įkeliami į vidinę priedų saugyklą.
 
         '
@@ -6835,6 +6845,7 @@ lt:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -7332,6 +7343,7 @@ lt:
             label_enable_all: Įjungti visus
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
