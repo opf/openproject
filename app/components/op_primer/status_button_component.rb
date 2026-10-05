@@ -54,7 +54,7 @@ module OpPrimer
     end
 
     def default_button_style
-      :background
+      :background_muted
     end
 
     def disabled?
