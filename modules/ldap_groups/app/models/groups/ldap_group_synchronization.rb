@@ -28,38 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::LdapGroups
-  class Engine < ::Rails::Engine
-    engine_name :openproject_ldap_groups
+module Groups
+  module LdapGroupSynchronization
+    extend ActiveSupport::Concern
 
-    include OpenProject::Plugins::ActsAsOpEngine
-
-    register "openproject-ldap_groups",
-             author_url: "https://github.com/opf/openproject-ldap_groups",
-             bundled: true,
-             settings: {
-               default: {}
-             } do
-      menu :admin_menu,
-           :plugin_ldap_groups,
-           { controller: "/ldap_groups/synchronized_groups", action: :index },
-           parent: :authentication,
-           after: :ldap_authentication,
-           caption: ->(*) { I18n.t("ldap_groups.label_menu_item") },
-           enterprise_feature: "ldap_groups"
+    included do
+      has_many :ldap_groups_synchronized_groups,
+               class_name: "::LdapGroups::SynchronizedGroup",
+               inverse_of: :group,
+               dependent: :destroy
     end
-
-    add_cron_jobs do
-      {
-        "LdapGroups::SynchronizationJob": {
-          cron: "*/30 * * * *", # Run every 30 minutes
-          class: LdapGroups::SynchronizationJob.name
-        }
-      }
-    end
-
-    include_module "LdapAuthSources::LdapGroupSynchronization", into: "LdapAuthSource"
-    include_module "Groups::LdapGroupSynchronization", into: "Group"
-    include_module "Users::LdapGroupMemberships", into: "User"
   end
 end

@@ -28,38 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::LdapGroups
-  class Engine < ::Rails::Engine
-    engine_name :openproject_ldap_groups
+module Groups
+  module LdapDepartmentSynchronization
+    extend ActiveSupport::Concern
 
-    include OpenProject::Plugins::ActsAsOpEngine
+    included do
+      has_many :ldap_departments_synchronized_departments,
+               class_name: "::LdapDepartments::SynchronizedDepartment",
+               foreign_key: :group_id,
+               inverse_of: :group,
+               dependent: :destroy
 
-    register "openproject-ldap_groups",
-             author_url: "https://github.com/opf/openproject-ldap_groups",
-             bundled: true,
-             settings: {
-               default: {}
-             } do
-      menu :admin_menu,
-           :plugin_ldap_groups,
-           { controller: "/ldap_groups/synchronized_groups", action: :index },
-           parent: :authentication,
-           after: :ldap_authentication,
-           caption: ->(*) { I18n.t("ldap_groups.label_menu_item") },
-           enterprise_feature: "ldap_groups"
+      # A department is managed when an LDAP organizational unit is mapped onto it. Only
+      # organizational units can ever be managed, so skip the lookup for regular groups.
+      register_ldap_managed_check do |group|
+        next false if group.new_record?
+        next false unless group.organizational_unit?
+
+        group.ldap_departments_synchronized_departments.exists?
+      end
     end
-
-    add_cron_jobs do
-      {
-        "LdapGroups::SynchronizationJob": {
-          cron: "*/30 * * * *", # Run every 30 minutes
-          class: LdapGroups::SynchronizationJob.name
-        }
-      }
-    end
-
-    include_module "LdapAuthSources::LdapGroupSynchronization", into: "LdapAuthSource"
-    include_module "Groups::LdapGroupSynchronization", into: "Group"
-    include_module "Users::LdapGroupMemberships", into: "User"
   end
 end
