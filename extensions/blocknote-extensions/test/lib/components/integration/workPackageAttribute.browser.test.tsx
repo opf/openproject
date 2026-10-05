@@ -54,6 +54,7 @@ describe('Work package attribute chip', () => {
 
     await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
     expect(chip().getAttribute('title')).toBe('PROJ-321 · Redesign onboarding flow');
+    expect(getComputedStyle(chip()).backgroundColor).toBe('rgb(221, 244, 255)');
   });
 
   it('shows the label of the attribute', async () => {

@@ -25,6 +25,7 @@ import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
 import { useTapActivation } from '../../utils/tapActivation';
+import { usePressOutside } from '../../hooks/usePressOutside';
 import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
@@ -102,23 +103,10 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     toggleOptions();
   });
 
-  // Close the options popover and the preview when the user taps outside the chip
-  useEffect(() => {
-    if (!isSelected && !previewOpen) return;
-    const onPressOutside = (e:Event) => {
-      if (chipRef.current && !chipRef.current.contains(e.target as Node)) {
-        setIsSelected(false);
-        closePreview();
-      }
-    };
-    // Touch as well: a tap another element answers never becomes a mousedown.
-    document.addEventListener('mousedown', onPressOutside);
-    document.addEventListener('touchstart', onPressOutside);
-    return () => {
-      document.removeEventListener('mousedown', onPressOutside);
-      document.removeEventListener('touchstart', onPressOutside);
-    };
-  }, [isSelected, previewOpen, closePreview]);
+  usePressOutside(chipRef, isSelected || previewOpen, () => {
+    setIsSelected(false);
+    closePreview();
+  });
 
   const optionsPopover = (
     <WpOptionsPopover

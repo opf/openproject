@@ -12,7 +12,12 @@ export const en = {
         'work package': 'work package',
         'wp': 'wp',
         'link': 'link',
-        'create': 'create'
+        'create': 'create',
+        'attribute': 'attribute'
+      },
+      'attribute': {
+        'title': 'Work package attribute',
+        'subtext': 'Insert an attribute or custom field of a work package'
       }
     },
     'formattingToolbar': {
@@ -105,7 +110,25 @@ export const en = {
       'yes': 'Yes',
       'no': 'No',
       'days_one': '{{count}} day',
-      'days_other': '{{count}} days'
+      'days_other': '{{count}} days',
+      'display': {
+        'label': 'Label',
+        'value': 'Value',
+        'both': 'Label + value'
+      },
+      'dialog': {
+        'title': 'Insert work package attribute',
+        'workPackage': 'Work package',
+        'attribute': 'Attribute',
+        'attributePlaceholder': 'Select an attribute…',
+        'attributeDisabled': 'Select a work package first',
+        'attributeLoading': 'Loading attributes…',
+        'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
+        'show': 'Show',
+        'preview': 'Preview',
+        'previewEmpty': 'Choose a work package and an attribute',
+        'insert': 'Insert'
+      }
     },
   }
 };
