@@ -13,6 +13,7 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectWorkPackageAttributeSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
@@ -25,6 +26,7 @@ const schema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectWorkPackageAttribute: openProjectWorkPackageAttributeSpec,
   },
 });
 
