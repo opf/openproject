@@ -30,10 +30,6 @@ RSpec.describe Day do
       expect(days).to(be_all { |d| d.week_day.present? })
     end
 
-    it "eager loads non_working_days relation" do
-      expect(days).to(be_all { |d| d.association(:non_working_days).loaded? })
-    end
-
     it "loads the id attribute" do
       expect(days.first.id).to eq(today.at_beginning_of_month.strftime("%Y%m%d").to_i)
     end

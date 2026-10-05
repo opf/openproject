@@ -116,6 +116,7 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клієнти SCIM
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
@@ -646,6 +647,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -2740,6 +2742,10 @@ uk:
     work_package: Робочий пакет
     work_package_id: Робочий пакет
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Вхід і реєстрація
   background_jobs:
     status:
@@ -3067,16 +3073,17 @@ uk:
     is_enabled_globally: Увімкнено у всьому світі
     multi_value_more:
       other: і ще %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Роль не призначено
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Спочатку потрібно вибрати пакет робіт або проєкт
     reorder_alphabetical: Перевпорядкувати значення за алфавітом
     reorder_confirmation: 'Попередження: поточний порядок доступних значень, а також усі незбережені значення буде втрачено. Справді продовжити?'
     semantic_keys:
       job_title: Назва посади
       none: Немає
-    tab:
-      no_results_content_text: Створіть нове спеціальне поле
-      no_results_title_text: Наразі немає спеціальних полів.
     text_add_new_custom_field: 'Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
 
       '
@@ -4319,6 +4326,7 @@ uk:
   label_go_forward: Відкрити підменю %{module}
   label_greater_or_equal: ">="
   label_group: Група
+  label_group_attributes_plural: Group attributes
   label_group_by: Групувати за
   label_group_named: Група %{name}
   label_group_new: Нова група
@@ -4724,6 +4732,7 @@ uk:
   label_user_settings: Налаштування користувача
   label_users_settings: Налаштування користувачів
   label_value_x: 'Значення: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Редагувати версію
   label_version_new: Нова версія
   label_version_plural: Версії
@@ -6692,6 +6701,7 @@ uk:
         '
       title: Перевірка на віруси
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Якщо вимкнути цей параметр, список вкладень буде приховано на вкладці «Файли» пакетів робіт для нових проєктів. Файли, вкладені в опис пакета робіт, усе одно буде додано у внутрішнє сховище вкладень.
 
         '
@@ -6837,6 +6847,7 @@ uk:
         heading: Новий етап
       no_gate: Немає контрольної точки
       non_defined: Наразі не визначено жодних етапів.
+      order_changed: Order successfully changed.
       phase_gates: Контрольні точки етапів
       section_header: Етапи
       start_gate: Початкова контрольна точка
@@ -7333,6 +7344,7 @@ uk:
             label_enable_all: Увімкнути все
             label_toggle_template: Змінити %{template}
           label: Шаблони експорту PDF
+          order_changed: Order successfully changed.
         tab: Згенерувати PDF
         templates:
           readonly_error: Не можна змінити, поки пов'язано з типом джерела.

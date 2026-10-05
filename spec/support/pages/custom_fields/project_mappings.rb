@@ -34,7 +34,7 @@ module Pages
   module CustomFields
     class ProjectMappings < ::Pages::Projects::Index
       def path(project_custom_field)
-        "/custom_fields/#{project_custom_field.id}/projects"
+        "/admin/settings/work_package_custom_fields/#{project_custom_field.id}/projects"
       end
 
       def within_row(project)

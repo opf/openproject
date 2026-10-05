@@ -256,6 +256,7 @@ tr:
   label_status_finished: Tamamlandı
   label_time: Zaman
   label_time_entry_activity_form_description: Bu zaman girişi etkinliğinde yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: "%{time} zamanında başladı"
   label_today_capitalized: Bugün

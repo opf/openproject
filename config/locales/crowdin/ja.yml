@@ -116,6 +116,7 @@ ja:
         caption: Caption
         help_text: ヘルプ テキスト
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIMクライアント
       calculated_value_error:
         customized_id: Customized ID
@@ -646,6 +647,7 @@ ja:
         unknown_property: 既知の財産ではありません。
         unknown_property_nested: has the unknown path '%{path}'。
         unremovable: 削除できません。
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'は「セキュアコンテキスト」を提供していません。HTTPSを使用するか、localhostのようなループバックアドレスを使用してください。
 
           '
@@ -2369,6 +2371,10 @@ ja:
     work_package: ワーク パッケージ
     work_package_id: ワーク パッケージ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: ログインと登録
   background_jobs:
     status:
@@ -2696,16 +2702,17 @@ ja:
     is_enabled_globally: グローバルで有効
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: 最初にワークパッケージまたはプロジェクトの選択が必要です
     reorder_alphabetical: 値をアルファベット順に並べ替える
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: 新しいカスタム フィールドを作成
-      no_results_title_text: 現在、カスタム フィールドはありません。
     text_add_new_custom_field: '新しいカスタムフィールドをプロジェクトに追加するには、それをこのプロジェクトに追加する前に、まず作成する必要があります。
 
       '
@@ -3858,6 +3865,7 @@ ja:
   label_go_forward: "%{module} サブメニューを開く"
   label_greater_or_equal: ">="
   label_group: グループ
+  label_group_attributes_plural: Group attributes
   label_group_by: グループ化
   label_group_named: グループ名 %{name}
   label_group_new: 新規グループ
@@ -4263,6 +4271,7 @@ ja:
   label_user_settings: ユーザー設定
   label_users_settings: ユーザー設定
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: バージョンを編集
   label_version_new: 新しいバージョン
   label_version_plural: バージョン
@@ -6158,6 +6167,7 @@ ja:
         '
       title: ウイルススキャン
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'このオプションを無効にすると、新規プロジェクトのワークパッケージのファイルタブにある添付ファイルリストが非表示になります。ワークパッケージの説明に添付されたファイルは、内部添付ファイルストレージにアップロードされます。
 
         '
@@ -6303,6 +6313,7 @@ ja:
         heading: 新しいフェーズ
       no_gate: ゲートなし
       non_defined: 現在定義されているフェーズはありません。
+      order_changed: Order successfully changed.
       phase_gates: フェーズゲート
       section_header: フェーズ
       start_gate: ゲートを開始
@@ -6800,6 +6811,7 @@ ja:
             label_enable_all: すべて有効
             label_toggle_template: Toggle %{template}
           label: PDF エクスポート テンプレート
+          order_changed: Order successfully changed.
         tab: PDFを生成
         templates:
           readonly_error: Cannot be changed while linked to a source type.

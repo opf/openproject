@@ -36,11 +36,11 @@ module Pages
       def path
         case @tab
         when "items"
-          "/custom_fields/#{@custom_field.id}/items"
+          "/admin/settings/work_package_custom_fields/#{@custom_field.id}/items"
         when "projects"
-          "/custom_fields/#{@custom_field.id}/projects"
+          "/admin/settings/work_package_custom_fields/#{@custom_field.id}/projects"
         else
-          "/custom_fields/#{@custom_field.id}/edit"
+          "/admin/settings/work_package_custom_fields/#{@custom_field.id}/edit"
         end
       end
 

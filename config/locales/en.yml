@@ -2475,6 +2475,7 @@ en:
     groups: "Groups"
     hexcode: "Hex code"
     id: "ID"
+    inexistent: "Inexistent"
     is_default: "Default value"
     is_for_all: "For all projects"
     # kept for backwards compatibility
@@ -2536,6 +2537,30 @@ en:
     work_package_id: "Work package"
   authentication:
     login_and_registration: "Login and registration"
+
+  automations:
+    actions:
+      add: "Add action"
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: "Actions"
+    conditions: "Conditions"
+    edit: "Edit automation %{name}"
+    new: "New automation"
+    plural: "Automations"
+    summary:
+      if: "If"
+      none: "None"
+      then: "Then"
+      title: "Summary"
+      when: "When"
+    trigger: "Trigger"
+    triggers:
+      button:
+        button_label: "Button label"
+        label: "Button press"
+      more_coming: "OpenProject will add more trigger types soon."
+      name: "Triggers"
 
   background_jobs:
     status:
@@ -2876,7 +2901,11 @@ en:
     is_enabled_globally: "Is enabled globally"
     multi_value_more:
       other: "and %{count} more"
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: "No role assignment"
+    overview:
+      description: "In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:"
+      heading: "Settings moved"
     placeholder_version_select: "Work package or project selection is required first"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?"
@@ -2884,9 +2913,6 @@ en:
       job_title: "Job title"
       none: "None"
 
-    tab:
-      no_results_content_text: Create a new custom field
-      no_results_title_text: There are currently no custom fields.
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
       you can add them to this project.
@@ -3589,10 +3615,9 @@ en:
       title: "Configure a new form"
     tab:
       read_only:
+        banner_html: >
+          You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
         edit_action: "Edit form"
-        text_html: >
-          The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark
-          custom fields as required.
     usage:
       dialog:
         button: "View dependent types"
@@ -4118,6 +4143,7 @@ en:
   label_go_forward: "Open %{module} sub-menu"
   label_greater_or_equal: ">="
   label_group: "Group"
+  label_group_attributes_plural: "Group attributes"
   label_group_by: "Group by"
   label_group_named: "Group %{name}"
   label_group_new: "New group"
@@ -4524,6 +4550,7 @@ en:
   label_user_settings: "User settings"
   label_users_settings: "Users settings"
   label_value_x: "Value: %{x}"
+  label_version_custom_field_plural: "Version custom fields"
   label_version_edit: "Edit version"
   label_version_new: "New version"
   label_version_plural: "Versions"
@@ -6529,6 +6556,7 @@ en:
         You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       title: "Virus scanning"
     attachments:
+      attachment_max_size_env_caption: "This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it."
       show_work_package_attachments: >
         Deactivating this option will hide the attachments list on the work packages files tab for new projects. The
         files attached in the description of a work package will still be uploaded in the internal attachments storage.
@@ -7152,7 +7180,7 @@ en:
         project_attributes: "Project attributes"
         projects: "Projects"
         start: "Start"
-        workflows: "Workflows"
+        workflows: "Workflow"
       success: "Created successfully."
     edit:
       breadcrumb_variant: "Variant: %{name}"
@@ -7386,7 +7414,7 @@ en:
           description: "These variants are only available within the projects in which they were created."
           title: "Project-specific variants"
       workflow:
-        tab: "Workflows"
+        tab: "Workflow"
     index:
       add_variant: "Add a variant to %{name}"
       add_variant_action: "Add variant"

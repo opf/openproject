@@ -32,6 +32,10 @@ de:
         labels: Bezeichnung
       gitlab_pipeline:
         ci_details: CI Details
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,13 +65,10 @@ de:
   attributes:
     commit: Commit
     gitlab: GitLab Kennung
-    gitlab_avatar_url: Avatar-URL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
-    gitlab_name: GitLab Name
     gitlab_updated_at: Aktualisiert am
     gitlab_user_avatar_url: GitLab Avatar URL
-    gitlab_username: GitLab Benutzername
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

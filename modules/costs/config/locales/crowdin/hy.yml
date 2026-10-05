@@ -256,6 +256,7 @@ hy:
   label_status_finished: Ավարտված
   label_time: Ժամ
   label_time_entry_activity_form_description: Ժամանակի հաշվառման այս գործունեության փոփոխությունները կարտացոլվեն բոլոր նախագծերում, որտեղ այն միացված է։
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
   label_timer_since: Սկսվել է %{time}-ին
   label_today_capitalized: Այսօր

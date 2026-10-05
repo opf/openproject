@@ -130,13 +130,13 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabMergeRequestRepresenter do
     it_behaves_like "has a titled link" do
       let(:link) { "gitlabUser" }
       let(:href) { api_v3_paths.gitlab_user(gitlab_user.id) }
-      let(:title) { gitlab_user.gitlab_name }
+      let(:title) { gitlab_user.name }
     end
 
     it_behaves_like "has a titled link" do
       let(:link) { "mergedBy" }
       let(:href) { api_v3_paths.gitlab_user(merged_by.id) }
-      let(:title) { merged_by.gitlab_name }
+      let(:title) { merged_by.name }
     end
 
     it_behaves_like "has a link collection" do

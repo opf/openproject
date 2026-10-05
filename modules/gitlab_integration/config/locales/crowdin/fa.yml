@@ -32,6 +32,10 @@ fa:
         labels: برچسب‌ها
       gitlab_pipeline:
         ci_details: جزئیات CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,13 +65,10 @@ fa:
   attributes:
     commit: Commit
     gitlab: شناسهٔ GitLab
-    gitlab_avatar_url: URL آواتار
     gitlab_html_url: URL HTML در GitLab
     gitlab_merge_request: درخواست ادغام
-    gitlab_name: نام GitLab
     gitlab_updated_at: به‌روزرسانی در
     gitlab_user_avatar_url: URL آواتار GitLab
-    gitlab_username: نام کاربری GitLab
   gitlab_integration:
     branch_component:
       copy_name: کپی نام شاخه

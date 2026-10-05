@@ -274,6 +274,7 @@ uk:
   label_status_finished: Готово
   label_time: Час
   label_time_entry_activity_form_description: Зміни цієї дії з введення часу відображатимуться в усіх проєктах, де їх дозволено.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Ліміти
   label_timer_since: Почато о %{time}
   label_today_capitalized: Сьогодні
