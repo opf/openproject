@@ -29,15 +29,38 @@
 #++
 
 require "spec_helper"
-require_relative "../../bulk_services/project_mappings/behaves_like_bulk_project_mapping_create_service"
 
-RSpec.describe CustomFields::CustomFieldProjects::BulkCreateService do
-  shared_let(:custom_field) { create(:wp_custom_field) }
+RSpec.describe "Administration custom fields index", type: :rails_request do
+  shared_let(:type) { create(:type, name: "Bug") }
+  shared_let(:on_a_type) { create(:work_package_custom_field, name: "Severity", types: [type]) }
+  shared_let(:on_no_type) { create(:work_package_custom_field, name: "Orphan") }
 
-  it_behaves_like "BulkServices project mappings create service" do
-    let(:model) { custom_field }
-    let(:model_mapping_class) { CustomFieldsProject }
-    let(:model_foreign_key_id) { :custom_field_id }
-    let(:required_permission) { :select_custom_fields }
+  current_user { create(:admin) }
+
+  it "lists the work package custom fields and the types configuring them" do
+    get admin_settings_work_package_custom_fields_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("Severity").and include("Orphan")
+    expect(response.body).to include("Bug")
+  end
+
+  describe "the projects a field reaches" do
+    shared_let(:reaching) { create(:project, types: [type]) }
+
+    it "counts the projects whose form configuration shows the field" do
+      get admin_settings_work_package_custom_fields_path
+
+      expect(response.body).to include("Used in projects")
+      expect(response.body).to include("1 project")
+    end
+
+    it "does not count an archived project, matching the reminder on the field itself" do
+      reaching.update_columns(active: false)
+
+      get admin_settings_work_package_custom_fields_path
+
+      expect(response.body).to include("no projects")
+    end
   end
 end

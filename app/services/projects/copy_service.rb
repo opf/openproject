@@ -77,7 +77,6 @@ module Projects
       attributes = source_attributes.merge(
         # Clear enabled modules
         enabled_module_names: source_enabled_modules,
-        work_package_custom_fields: source_custom_fields,
 
         # clear PIR settings
         project_creation_wizard_artifact_work_package_id: nil
@@ -176,10 +175,6 @@ module Projects
 
     def duplicate_variant(variant)
       variant.dup.tap { it.project = state.project }
-    end
-
-    def source_custom_fields
-      source.work_package_custom_fields
     end
 
     def source_custom_field_attributes

@@ -28,12 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  module CustomFieldProjects
-    class DeleteService < ::BaseServices::Delete
-      # Mappings have custom deletion rules that are similar to the update rules all derived from the base contract
-      # Reuse the update contract to ensure that the deletion rules are consistent with the update rules
-      def default_contract_class = CustomFields::CustomFieldProjects::UpdateContract
-    end
+class RemoveSelectCustomFieldsPermissionFromRoles < ActiveRecord::Migration[8.0]
+  def up
+    RolePermission.delete_by(permission: "select_custom_fields")
   end
 end

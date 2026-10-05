@@ -50,10 +50,6 @@ module Settings
         User.current.allowed_in_project?(:manage_categories, @project)
       end
 
-      def show_custom_fields?
-        User.current.allowed_in_project?(:select_custom_fields, @project)
-      end
-
       def internal_comments_title
         unless EnterpriseToken.allows_to?(:internal_comments)
           return render(Primer::Beta::Octicon.new(
@@ -82,14 +78,6 @@ module Settings
             name: "categories",
             path: project_settings_work_packages_categories_path,
             label: t("documents.label_categories")
-          }
-        end
-
-        if show_custom_fields?
-          tabs << {
-            name: "custom_fields",
-            path: project_settings_work_packages_custom_fields_path,
-            label: t("attributes.custom_values")
           }
         end
 

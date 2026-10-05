@@ -71,8 +71,7 @@ RSpec.describe "Work package create uses attributes from filters", :js, :seleniu
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       create(:project,
-             types: [type_task],
-             work_package_custom_fields: [custom_field])
+             types: [type_task])
     end
 
     let!(:custom_field) do
