@@ -27,7 +27,7 @@
 //++
 
 import { createExtension } from '@blocknote/core';
-import { EditorState, Plugin, PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 
 // ProseMirror reads the visual viewport only for the window, but on a phone the documents
@@ -35,11 +35,6 @@ import { EditorView } from 'prosemirror-view';
 // keyboard. A caret under the keyboard therefore still counts as visible.
 
 const SCROLL_MARGIN = 5;
-
-// BlockNote splits a block on Enter without `scrollIntoView`, so changes right after the
-// reader's own input are followed too.
-const INPUT_EVENTS = ['keydown', 'beforeinput', 'input', 'compositionend'] as const;
-const TYPING_WINDOW_MS = 500;
 
 // Size only, never `offsetTop`: engines disagree on which viewport client rects are relative to.
 // A pinch-zoomed viewport shrinks for the zoom, not for a keyboard.
@@ -94,9 +89,6 @@ function liftAboveKeyboard(view:EditorView):void {
 function followKeyboard(view:EditorView) {
   const viewport = window.visualViewport;
   let lastKeyboardTop = keyboardTop();
-  let lastInputAt = -Infinity;
-
-  const onInput = ():void => { lastInputAt = performance.now(); };
 
   // Only a caret the keyboard just covered; one the reader scrolled away from stays put.
   const onResize = ():void => {
@@ -105,19 +97,10 @@ function followKeyboard(view:EditorView) {
     if (lastKeyboardTop < previous && view.hasFocus() && caretRect(view).bottom <= previous) liftAboveKeyboard(view);
   };
 
-  INPUT_EVENTS.forEach((type) => view.dom.addEventListener(type, onInput, true));
   viewport?.addEventListener('resize', onResize);
 
   return {
-    update: (_view:EditorView, prevState:EditorState) => {
-      const moved = view.state.doc !== prevState.doc || !view.state.selection.eq(prevState.selection);
-      const typing = performance.now() - lastInputAt < TYPING_WINDOW_MS;
-      if (moved && typing && view.hasFocus()) liftAboveKeyboard(view);
-    },
-    destroy: () => {
-      INPUT_EVENTS.forEach((type) => view.dom.removeEventListener(type, onInput, true));
-      viewport?.removeEventListener('resize', onResize);
-    },
+    destroy: () => viewport?.removeEventListener('resize', onResize),
   };
 }
 

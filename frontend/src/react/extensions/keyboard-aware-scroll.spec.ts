@@ -130,7 +130,7 @@ describe('KeyboardAwareScrollExtension', () => {
       expect(caretBottom()).toBeLessThanOrEqual(keyboardTop());
     });
 
-    it('lifts the line an Enter opens, which BlockNote never scrolls to', async () => {
+    it('lifts the line an Enter opens', async () => {
       await userEvent.keyboard('{Enter}');
 
       expect(caretBottom()).toBeLessThanOrEqual(keyboardTop());
@@ -148,7 +148,7 @@ describe('KeyboardAwareScrollExtension', () => {
       expect(caretBottom()).toBeLessThanOrEqual(keyboardTop());
     });
 
-    it('does not follow a change the reader did not make, such as a collaborator\'s', () => {
+    it('does not follow a change that does not ask to scroll, such as a collaborator\'s', () => {
       view().dispatch(view().state.tr.insertText('x', 1));
 
       expect(scroller.scrollTop).toBe(0);
@@ -246,13 +246,12 @@ describe('KeyboardAwareScrollExtension', () => {
     });
 
     it('stops listening once unmounted', () => {
-      const { dom } = view();
-      const removed = vi.spyOn(dom, 'removeEventListener');
+      const removed = vi.spyOn(viewport, 'removeEventListener');
 
       editor!.unmount();
       editor = undefined;
 
-      expect(removed).toHaveBeenCalledWith('keydown', expect.any(Function), true);
+      expect(removed).toHaveBeenCalledWith('resize', expect.any(Function));
     });
   });
 });
