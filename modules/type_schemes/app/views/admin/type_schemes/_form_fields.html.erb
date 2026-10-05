@@ -34,42 +34,52 @@ See COPYRIGHT and LICENSE files for more details.
   end
   default_locked = scheme.persisted? && scheme.is_default
 %>
-<div class="form--field -required">
-  <%= label_tag "type_scheme_name", TypeScheme.human_attribute_name(:name), class: "form--label" %>
-  <span class="form--field-container"><%= text_field_tag "type_scheme[name]", scheme.name, id: "type_scheme_name", class: "form--text-field", required: true %></span>
-</div>
-<div class="form--field">
-  <%= label_tag "type_scheme_description", TypeScheme.human_attribute_name(:description), class: "form--label" %>
-  <span class="form--field-container"><%= text_area_tag "type_scheme[description]", scheme.description, id: "type_scheme_description", class: "form--text-area", rows: 3 %></span>
-</div>
-<div class="form--field">
-  <%= label_tag "type_scheme_is_default", t("type_schemes.form.is_default"), class: "form--label" %>
-  <span class="form--field-container">
-    <%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default", disabled: default_locked, "aria-describedby": "type_scheme_is_default_hint" %>
-  </span>
-  <span class="form--field-instructions" id="type_scheme_is_default_hint">
-    <%= default_locked ? t("type_schemes.form.default_scheme_hint") : t("type_schemes.form.is_default_hint") %>
-  </span>
-</div>
+<div class="type-scheme-form">
+  <section class="type-scheme-form--section" aria-labelledby="type_scheme_general_title">
+    <div class="type-scheme-form--section-header">
+      <h2 id="type_scheme_general_title"><%= t("type_schemes.form.general") %></h2>
+      <p><%= t("type_schemes.form.general_hint") %></p>
+    </div>
+    <div class="type-scheme-form--section-body">
+      <div class="type-scheme-form--field">
+        <%= label_tag "type_scheme_name", TypeScheme.human_attribute_name(:name) + " *" %>
+        <%= text_field_tag "type_scheme[name]", scheme.name, id: "type_scheme_name", class: "form--text-field", required: true, autofocus: !scheme.persisted? %>
+      </div>
+      <div class="type-scheme-form--field">
+        <%= label_tag "type_scheme_description", TypeScheme.human_attribute_name(:description) %>
+        <%= text_area_tag "type_scheme[description]", scheme.description, id: "type_scheme_description", class: "form--text-area", rows: 3 %>
+      </div>
+      <div class="type-scheme-form--field">
+        <div class="type-scheme-form--toggle">
+          <%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default", disabled: default_locked, "aria-describedby": "type_scheme_is_default_hint" %>
+          <%= label_tag "type_scheme_is_default", t("type_schemes.form.is_default") %>
+        </div>
+        <span class="type-scheme-form--hint" id="type_scheme_is_default_hint">
+          <%= default_locked ? t("type_schemes.form.default_scheme_hint") : t("type_schemes.form.is_default_hint") %>
+        </span>
+      </div>
+    </div>
+  </section>
 
-<fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= TypeScheme.human_attribute_name(:items) %></legend>
-  <p id="type_scheme_types_hint"><%= t("type_schemes.form.types_hint") %></p>
-  <div data-controller="type-schemes--sortable-types"
-       data-type-schemes--sortable-types-moved-text-value="<%= t("type_schemes.form.moved") %>"
-       data-type-schemes--sortable-types-default-changed-text-value="<%= t("type_schemes.form.default_changed") %>">
-    <div class="generic-table--container">
-      <div class="generic-table--results-container">
-        <table class="generic-table" aria-describedby="type_scheme_types_hint">
+  <section class="type-scheme-form--section" aria-labelledby="type_scheme_types_title">
+    <div class="type-scheme-form--section-header">
+      <h2 id="type_scheme_types_title"><%= TypeScheme.human_attribute_name(:items) %></h2>
+      <p id="type_scheme_types_hint"><%= t("type_schemes.form.types_hint") %></p>
+    </div>
+    <div data-controller="type-schemes--sortable-types"
+         data-type-schemes--sortable-types-moved-text-value="<%= t("type_schemes.form.moved") %>"
+         data-type-schemes--sortable-types-default-changed-text-value="<%= t("type_schemes.form.default_changed") %>">
+      <div class="overflow-x-auto">
+        <table class="type-scheme-form--table" aria-describedby="type_scheme_types_hint">
           <caption class="sr-only"><%= t("type_schemes.form.table_caption") %></caption>
           <thead>
             <tr>
-              <th scope="col"><span class="sr-only"><%= t("type_schemes.form.reorder") %></span></th>
-              <th scope="col"><%= t("type_schemes.form.enabled") %></th>
+              <th scope="col" class="type-scheme-form--col-narrow"><span class="sr-only"><%= t("type_schemes.form.reorder") %></span></th>
+              <th scope="col" class="type-scheme-form--col-narrow"><%= t("type_schemes.form.enabled") %></th>
               <th scope="col"><%= Type.model_name.human %></th>
               <th scope="col"><%= t("type_schemes.form.position") %></th>
               <th scope="col"><%= t("type_schemes.form.color") %></th>
-              <th scope="col"><%= t("type_schemes.form.default") %></th>
+              <th scope="col" class="type-scheme-form--col-narrow"><%= t("type_schemes.form.default") %></th>
             </tr>
           </thead>
           <tbody data-type-schemes--sortable-types-target="list"
@@ -78,8 +88,8 @@ See COPYRIGHT and LICENSE files for more details.
               <% item = items[type.id] %>
               <tr data-type-name="<%= type.name %>"
                   data-action="dragover->type-schemes--sortable-types#over drop->type-schemes--sortable-types#drop">
-                <td>
-                  <span hidden data-type-schemes--sortable-types-target="control">
+                <td class="type-scheme-form--col-narrow">
+                  <span hidden data-type-schemes--sortable-types-target="control" class="d-inline-flex flex-items-center">
                     <%= render Primer::OpenProject::DragHandle.new(
                           draggable: true,
                           aria: { hidden: true },
@@ -101,32 +111,36 @@ See COPYRIGHT and LICENSE files for more details.
                         ) %>
                   </span>
                 </td>
-                <td><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", data: { action: "change->type-schemes--sortable-types#toggle" } %></td>
+                <td class="type-scheme-form--col-narrow"><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", data: { action: "change->type-schemes--sortable-types#toggle" } %></td>
                 <td><%= label_tag "type_scheme_types_#{type.id}_enabled", type.name %></td>
                 <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 0, max: 99_999, "aria-label": t("type_schemes.form.position_of", type: type.name) %></td>
                 <td><%= render "color_field", type: type, item: item %></td>
-                <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": t("type_schemes.form.default_of", type: type.name) %></td>
+                <td class="type-scheme-form--col-narrow"><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": t("type_schemes.form.default_of", type: type.name) %></td>
               </tr>
             <% end %>
           </tbody>
         </table>
       </div>
+      <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-type-schemes--sortable-types-target="status"></div>
     </div>
-    <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-type-schemes--sortable-types-target="status"></div>
-  </div>
+  </section>
 
-  <div class="form--field">
-    <%= label_tag "type_scheme_new_type_names", t("type_schemes.form.new_types"), class: "form--label" %>
-    <span class="form--field-container">
-      <%= text_area_tag "type_scheme[new_type_names]",
-                        params.dig(:type_scheme, :new_type_names),
-                        id: "type_scheme_new_type_names",
-                        class: "form--text-area",
-                        rows: 2,
-                        "aria-describedby": "type_scheme_new_types_hint" %>
-    </span>
-    <span class="form--field-instructions" id="type_scheme_new_types_hint">
-      <%= t("type_schemes.form.new_types_hint") %>
-    </span>
-  </div>
-</fieldset>
+  <section class="type-scheme-form--section" aria-labelledby="type_scheme_new_types_title">
+    <div class="type-scheme-form--section-header">
+      <h2 id="type_scheme_new_types_title"><%= t("type_schemes.form.new_types") %></h2>
+    </div>
+    <div class="type-scheme-form--section-body">
+      <div class="type-scheme-form--field">
+        <%= text_area_tag "type_scheme[new_type_names]",
+                          params.dig(:type_scheme, :new_type_names),
+                          id: "type_scheme_new_type_names",
+                          class: "form--text-area",
+                          rows: 2,
+                          "aria-label": t("type_schemes.form.new_types"),
+                          "aria-describedby": "type_scheme_new_types_hint" %>
+        <span class="type-scheme-form--hint" id="type_scheme_new_types_hint">
+          <%= t("type_schemes.form.new_types_hint") %>
+        </span>
+      </div>
+    </div>
+  </section>

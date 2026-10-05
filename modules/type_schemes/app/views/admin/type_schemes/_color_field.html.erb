@@ -52,21 +52,31 @@ See COPYRIGHT and LICENSE files for more details.
 <div data-controller="type-schemes--color"
      data-type-schemes--color-colors-value="<%= color_hex_map %>"
      class="type-scheme-color">
-  <label class="type-scheme-color--mode">
-    <%= radio_button_tag mode_name, "palette", !custom,
-                         id: "#{id_prefix}_color_mode_palette",
-                         data: { type_schemes__color_target: "mode",
-                                 action: "change->type-schemes--color#modeChanged" } %>
-    <%= t("type_schemes.form.color_mode_palette") %>
-  </label>
+  <span class="type-scheme-color--modes" role="group" aria-label="<%= t("type_schemes.form.color_of", type: type.name) %>">
+    <label class="type-scheme-color--mode">
+      <%= radio_button_tag mode_name, "palette", !custom,
+                           id: "#{id_prefix}_color_mode_palette",
+                           data: { type_schemes__color_target: "mode",
+                                   action: "change->type-schemes--color#modeChanged" } %>
+      <span><%= t("type_schemes.form.color_mode_palette") %></span>
+    </label>
+    <label class="type-scheme-color--mode">
+      <%= radio_button_tag mode_name, "custom", custom,
+                           id: "#{id_prefix}_color_mode_custom",
+                           data: { type_schemes__color_target: "mode",
+                                   action: "change->type-schemes--color#modeChanged" } %>
+      <span><%= t("type_schemes.form.color_mode_custom") %></span>
+    </label>
+  </span>
+
+  <span class="color--preview"
+        data-type-schemes--color-target="swatch"
+        style="background-color: <%= selected_hex.presence || 'transparent' %>"
+        aria-hidden="true"></span>
 
   <span class="type-scheme-color--control"
         data-type-schemes--color-target="palette"
         <%= "hidden" if custom %>>
-    <span class="color--preview mr-2"
-          data-type-schemes--color-target="swatch"
-          style="background-color: <%= selected_hex.presence || 'transparent' %>"
-          aria-hidden="true"></span>
     <%= hidden_field_tag id_name, selected_id, id: "#{id_prefix}_color_id",
                          data: { type_schemes__color_target: "select",
                                  action: "change->type-schemes--color#selectChanged" } %>
@@ -76,14 +86,6 @@ See COPYRIGHT and LICENSE files for more details.
                             classes: "ng-select--primerized",
                             update_input: id_name }) %>
   </span>
-
-  <label class="type-scheme-color--mode">
-    <%= radio_button_tag mode_name, "custom", custom,
-                         id: "#{id_prefix}_color_mode_custom",
-                         data: { type_schemes__color_target: "mode",
-                                 action: "change->type-schemes--color#modeChanged" } %>
-    <%= t("type_schemes.form.color_mode_custom") %>
-  </label>
 
   <span class="type-scheme-color--control"
         data-type-schemes--color-target="custom"
