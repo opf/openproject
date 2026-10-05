@@ -17,14 +17,14 @@ interface FieldSchema {
 const CUSTOM_FIELD_KEY = /^customField\d+$/;
 
 // Bookkeeping fields, the derived twins of shown ones, and `version`, which
-// `targetVersions` replaces and the macros already map onto it.
+// `targetVersions` replaces and the macros already map onto it. `date` stays:
+// it is the only date a milestone has.
 const HIDDEN_KEYS = new Set([
   'id',
   'lockVersion',
   'readonly',
   'scheduleManually',
   'ignoreNonWorkingDays',
-  'date',
   'derivedStartDate',
   'derivedDueDate',
   'derivedEstimatedTime',
@@ -52,7 +52,8 @@ export function listAttributes(schema:WorkPackageSchema):WorkPackageAttribute[] 
 
 export function findAttribute(schema:WorkPackageSchema, reference:string):WorkPackageAttribute | undefined {
   const attributes = listAttributes(schema);
-  return attributes.find((attribute) => attribute.reference === reference)
+  return attributes.find((attribute) => attribute.customField && attribute.reference === reference)
+    ?? attributes.find((attribute) => attribute.reference === reference)
     ?? attributes.find((attribute) => attribute.key === reference || attribute.label === reference);
 }
 
@@ -74,14 +75,14 @@ function linkTitles(link:LinkValue | LinkValue[] | null | undefined):string[] {
 
 const ISO_DURATION = /^P(?:(\d+(?:\.\d+)?)D)?(?:T(?:(\d+(?:\.\d+)?)H)?(?:(\d+(?:\.\d+)?)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
 
-function formatDuration(value:string, options:FormatOptions):string {
+function formatDuration(attribute:WorkPackageAttribute, value:string, options:FormatOptions):string {
   const match = ISO_DURATION.exec(value);
   if (!match) return value;
   const [days, hours, minutes, seconds] = match.slice(1).map((part) => Number(part ?? 0));
+  const totalHours = days * 24 + hours + minutes / 60 + seconds / 3600;
   const number = new Intl.NumberFormat(options.locale, { maximumFractionDigits: 2 });
-  // Working days (`duration`) come without a time part, efforts in hours.
-  if (!value.includes('T')) return options.days(days);
-  return `${number.format(days * 24 + hours + minutes / 60 + seconds / 3600)} h`;
+  if (attribute.key === 'duration') return options.days(Math.round(totalHours / 24 * 100) / 100);
+  return `${number.format(totalHours)} h`;
 }
 
 function formatDate(value:string, locale:string):string {
@@ -105,7 +106,7 @@ function formatScalar(attribute:WorkPackageAttribute, value:unknown, options:For
     return attribute.key === 'percentageDone' ? `${formatted}%` : formatted;
   }
   if (typeof value !== 'string') return EMPTY_VALUE;
-  if (attribute.type === 'Duration') return formatDuration(value, options);
+  if (attribute.type === 'Duration') return formatDuration(attribute, value, options);
   if (attribute.type === 'Date') return formatDate(value, options.locale);
   if (attribute.type === 'DateTime') return formatDateTime(value, options.locale);
   return value;
