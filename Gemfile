@@ -209,7 +209,7 @@ gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.13.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
