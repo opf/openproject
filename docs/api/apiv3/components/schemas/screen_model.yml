@@ -1,0 +1,17 @@
+# Screen model
+---
+type: object
+example:
+  _type: Screen
+  id: 1
+  name: Bug create
+  description: Fields shown when creating a bug
+  screenType: create
+  active: true
+  _links:
+    self:
+      href: /api/v3/screens/1
+    schema:
+      href: /api/v3/work_packages/schemas/1-1
+  _embedded:
+    sections: []

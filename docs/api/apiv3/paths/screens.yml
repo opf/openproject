@@ -1,0 +1,41 @@
+# /api/v3/screens
+---
+get:
+  summary: List screens
+  operationId: list_screens
+  tags:
+    - Screens
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_collection_model.yml'
+    '401':
+      description: Returned if the client is not authenticated.
+post:
+  summary: Create a screen
+  operationId: create_screen
+  tags:
+    - Screens
+  description: |-
+    Creates a screen. A screen can be created empty and filled with a layout later.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/screen_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the screen is invalid.

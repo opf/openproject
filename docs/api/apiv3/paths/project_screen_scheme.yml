@@ -1,0 +1,42 @@
+# /api/v3/projects/{id}/screen_scheme
+---
+get:
+  summary: Get the screen scheme assigned to a project
+  operationId: get_project_screen_scheme
+  tags:
+    - Screens
+  description: |-
+    **Required permission:** assign_screen_scheme in the project
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            type: object
+            example:
+              _type: ProjectScreenScheme
+              schemeId: 1
+              _links:
+                self:
+                  href: /api/v3/projects/1/screen_scheme
+                screenScheme:
+                  href: /api/v3/screen_schemes/1
+    '403':
+      description: Returned if the user lacks the permission.
+put:
+  summary: Assign or clear the screen scheme of a project
+  operationId: assign_project_screen_scheme
+  tags:
+    - Screens
+  description: |-
+    Assigns an active scheme, or clears it with `schemeId: null`.
+
+    **Required permission:** assign_screen_scheme in the project
+  responses:
+    '204':
+      description: No Content
+    '403':
+      description: Returned if the user lacks the permission.
+    '422':
+      description: Returned if the scheme is unknown or inactive.

@@ -1,0 +1,41 @@
+# /api/v3/screen_schemes/{id}
+---
+get:
+  summary: Get a screen scheme
+  operationId: get_screen_scheme
+  tags:
+    - Screens
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_scheme_model.yml'
+    '404':
+      description: Returned if the scheme does not exist.
+patch:
+  summary: Update a screen scheme
+  operationId: update_screen_scheme
+  tags:
+    - Screens
+  description: |-
+    Updates name, description, active or the whole `typeItems` list.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/screen_scheme_model.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the update is invalid.

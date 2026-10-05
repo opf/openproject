@@ -1,0 +1,120 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title @project.name, t("screens.project_settings.title") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("screens.project_settings.title") }
+    header.with_breadcrumbs([{ href: project_overview_path(@project.id), text: @project.name },
+                             { href: project_settings_general_path(@project.id), text: t(:label_project_settings) },
+                             t("screens.project_settings.title")])
+  end
+%>
+<%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("screens.project_settings.description") } %>
+<% if @current && !@current.active %>
+  <%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) { t("screens.project_settings.inactive") } %>
+<% end %>
+<%= form_tag project_settings_screen_scheme_path(@project), method: :patch do %>
+  <div class="form--field">
+    <%= label_tag "scheme_id", t("screens.project_settings.scheme"), class: "form--label" %>
+    <span class="form--field-container">
+      <%= select_tag "scheme_id", options_from_collection_for_select(@schemes, :id, :name, @current&.id),
+                     include_blank: t("screens.project_settings.none"), class: "form--select" %>
+    </span>
+    <span class="form--field-instructions"><%= t("screens.project_settings.scheme_hint") %></span>
+  </div>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) } %>
+  </div>
+<% end %>
+
+<h2 class="mt-4"><%= t("screens.project_settings.matrix") %></h2>
+<% if @current.nil? %>
+  <p><%= t("screens.project_settings.no_scheme_assigned") %></p>
+<% else %>
+  <p><%= t("screens.project_settings.matrix_hint", scheme: @current.name) %></p>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <caption class="sr-only"><%= t("screens.project_settings.matrix") %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><%= t("screens.admin.type") %></th>
+            <% ScreenScheme::CONTEXTS.each do |context| %>
+              <th scope="col"><%= t("screens.types.#{context}") %></th>
+            <% end %>
+            <th scope="col"><%= t("screens.project_settings.overrides_native") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @types.each do |type| %>
+            <tr>
+              <th scope="row"><%= type.name %></th>
+              <% ScreenScheme::CONTEXTS.each do |context| %>
+                <% cell = @matrix.dig(type.id, context) || {} %>
+                <td>
+                  <% if cell[:source] == "screen" %>
+                    <%= render(Primer::Beta::Label.new(scheme: :success)) { t("screens.sources.screen") } %>
+                    <%= cell[:screen_name] %>
+                  <% else %>
+                    <%= render(Primer::Beta::Label.new) { t("screens.sources.native") } %>
+                    <span class="color-fg-muted"><%= t("screens.reasons.#{cell[:reason]}") if cell[:reason] %></span>
+                  <% end %>
+                </td>
+              <% end %>
+              <td>
+                <%= link_to t("screens.project_settings.overrides_native_link"),
+                            edit_type_form_configuration_path(type_id: type.id) rescue t("screens.project_settings.overrides_native_link") %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<% if @preview %>
+  <h2 class="mt-4"><%= t("screens.project_settings.inspector") %></h2>
+  <p><%= t("screens.project_settings.inspector_hint") %></p>
+  <ul aria-labelledby="screens-inspector">
+    <% @preview.sections.each do |section| %>
+      <% section[:fields].each do |field| %>
+        <li>
+          <%= field[:label] %>
+          <% if @preview.diagnostics[:hidden_but_placed].include?(field[:key]) %>
+            <%= render(Primer::Beta::Label.new(scheme: :danger)) { t("screens.diagnostics.hidden_but_placed") } %>
+          <% end %>
+          <% if @preview.diagnostics[:unavailable].include?(field[:key]) %>
+            <%= render(Primer::Beta::Label.new(scheme: :attention)) { t("screens.project_settings.unavailable") } %>
+          <% end %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>

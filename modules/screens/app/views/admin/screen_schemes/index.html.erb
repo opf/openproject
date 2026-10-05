@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title t(:label_administration), t("screens.schemes.plural") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("screens.schemes.plural") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t("screens.schemes.plural")])
+  end
+%>
+<%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("screens.schemes.description") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: new_admin_screen_scheme_path, scheme: :primary, mb: 3) { t("screens.schemes.new") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: admin_screens_path, mb: 3, ml: 2) { t("screens.admin.plural") } %>
+
+<% if @schemes.empty? %>
+  <%=
+    render Primer::Beta::Blankslate.new(border: true) do |blankslate|
+      blankslate.with_visual_icon(icon: :checklist)
+      blankslate.with_heading(tag: :h2).with_content(t("screens.schemes.blank_heading"))
+      blankslate.with_description { t("screens.schemes.blank_description") }
+    end
+  %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <caption class="sr-only"><%= t("screens.schemes.plural") %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><%= t(:label_name) %></th>
+            <th scope="col"><%= t("screens.schemes.types") %></th>
+            <th scope="col"><%= t("screens.schemes.used_by") %></th>
+            <th scope="col"><%= t(:label_status) %></th>
+            <th scope="col"><span class="sr-only"><%= t("screens.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @schemes.each do |scheme| %>
+            <tr>
+              <th scope="row">
+                <%= link_to scheme.name, edit_admin_screen_scheme_path(scheme) %>
+                <% if scheme.description.present? %>
+                  <div class="color-fg-muted"><%= scheme.description %></div>
+                <% end %>
+              </th>
+              <td><%= @item_counts.fetch(scheme.id, 0) %></td>
+              <td><%= @project_counts.fetch(scheme.id, 0) %></td>
+              <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
+              <td>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_screen_scheme_path(scheme), size: :small, mr: 2, mb: 1, "aria-label": t("screens.action_on", action: t(:button_edit), name: scheme.name))) { t(:button_edit) } %>
+                <%= render "action", name: scheme.name, path: clone_admin_screen_scheme_path(scheme), caption: t("screens.clone") %>
+                <% if scheme.active %>
+                  <%= render "action", name: scheme.name, path: deactivate_admin_screen_scheme_path(scheme), caption: t("screens.deactivate"), confirm: t("screens.schemes.deactivate_confirm", count: @project_counts.fetch(scheme.id, 0)) %>
+                <% else %>
+                  <%= render "action", name: scheme.name, path: activate_admin_screen_scheme_path(scheme), caption: t("screens.activate") %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

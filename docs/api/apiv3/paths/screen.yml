@@ -1,0 +1,41 @@
+# /api/v3/screens/{id}
+---
+get:
+  summary: Get a screen
+  operationId: get_screen
+  tags:
+    - Screens
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_model.yml'
+    '404':
+      description: Returned if the screen does not exist.
+patch:
+  summary: Update a screen
+  operationId: update_screen
+  tags:
+    - Screens
+  description: |-
+    Updates name, description or active. `screenType` is read-only.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/screen_model.yml'
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the update is invalid.

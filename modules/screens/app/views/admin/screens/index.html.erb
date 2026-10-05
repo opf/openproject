@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title t(:label_administration), t("screens.admin.plural") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("screens.admin.plural") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             t("screens.admin.plural")])
+  end
+%>
+<%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("screens.admin.description") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: new_admin_screen_path, scheme: :primary, mb: 3) { t("screens.admin.new") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: admin_screen_schemes_path, mb: 3, ml: 2) { t("screens.schemes.plural") } %>
+
+<% if @screens.empty? %>
+  <%=
+    render Primer::Beta::Blankslate.new(border: true) do |blankslate|
+      blankslate.with_visual_icon(icon: :checklist)
+      blankslate.with_heading(tag: :h2).with_content(t("screens.admin.blank_heading"))
+      blankslate.with_description { t("screens.admin.blank_description") }
+    end
+  %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <caption class="sr-only"><%= t("screens.admin.plural") %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><%= t("screens.admin.name") %></th>
+            <th scope="col"><%= t("screens.admin.type") %></th>
+            <th scope="col"><%= t("screens.admin.used_by") %></th>
+            <th scope="col"><%= t(:label_status) %></th>
+            <th scope="col"><span class="sr-only"><%= t("screens.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @screens.each do |screen| %>
+            <tr>
+              <th scope="row">
+                <%= link_to screen.name, edit_admin_screen_path(screen) %>
+                <% if screen.description.present? %>
+                  <div class="color-fg-muted"><%= screen.description %></div>
+                <% end %>
+              </th>
+              <td><%= t("screens.types.#{screen.screen_type}") %></td>
+              <td><%= @usage_counts.fetch(screen.id, 0) %></td>
+              <td><%= screen.active ? t(:label_active) : t(:label_inactive) %></td>
+              <td>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_screen_path(screen), size: :small, mr: 2, mb: 1, "aria-label": t("screens.action_on", action: t(:button_edit), name: screen.name))) { t(:button_edit) } %>
+                <%= render "action", name: screen.name, path: clone_admin_screen_path(screen), caption: t("screens.clone") %>
+                <% if screen.active %>
+                  <%= render "action", name: screen.name, path: deactivate_admin_screen_path(screen), caption: t("screens.deactivate"), confirm: t("screens.admin.deactivate_confirm", count: @usage_counts.fetch(screen.id, 0)) %>
+                <% else %>
+                  <%= render "action", name: screen.name, path: activate_admin_screen_path(screen), caption: t("screens.activate") %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

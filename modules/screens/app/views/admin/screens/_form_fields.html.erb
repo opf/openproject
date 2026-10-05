@@ -1,0 +1,136 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  field_options = [
+    [t("screens.admin.native_fields"), @native_fields],
+    [t("screens.admin.custom_fields"), @custom_fields]
+  ]
+  indexed = screen.persisted? ? screen.sections.order(:position, :id) : []
+%>
+
+<div class="form--field">
+  <%= label_tag "screen_name", t("screens.admin.name"), class: "form--label" %>
+  <span class="form--field-container">
+    <%= text_field_tag "screen[name]", screen.name, id: "screen_name", class: "form--text-field", required: true, maxlength: 255 %>
+  </span>
+</div>
+<div class="form--field">
+  <%= label_tag "screen_description", t("screens.admin.description_label", default: t(:label_description)), class: "form--label" %>
+  <span class="form--field-container">
+    <%= text_area_tag "screen[description]", screen.description, id: "screen_description", class: "form--text-area", maxlength: 5000 %>
+  </span>
+</div>
+<% if creating %>
+  <div class="form--field">
+    <%= label_tag "screen_screen_type", t("screens.admin.type"), class: "form--label" %>
+    <span class="form--field-container">
+      <%= select_tag "screen[screen_type]", options_for_select(Screen::TYPES.map { |type| [t("screens.types.#{type}"), type] }, screen.screen_type), class: "form--select" %>
+    </span>
+  </div>
+<% end %>
+
+<div data-controller="screens--sortable"
+     data-action="keydown->screens--sortable#keydown"
+     data-screens--sortable-moved-text-value="<%= t('js.screens.sortable.moved') %>">
+  <div data-screens--sortable-target="list">
+    <% indexed.each_with_index do |section, section_index| %>
+      <fieldset class="screens-section" id="screen-section-<%= section.id %>" data-section-id="<%= section.id %>" data-screens--sortable-target="section">
+        <input type="hidden" name="screen[sections][<%= section_index %>][id]" value="<%= section.id %>">
+        <input type="hidden" name="screen[sections][<%= section_index %>][position]" value="<%= section_index + 1 %>" data-screens--sortable-target="position">
+        <div class="form--field">
+          <%= label_tag "screen_sections_#{section_index}_name", t("screens.admin.section"), class: "form--label" %>
+          <%= text_field_tag "screen[sections][#{section_index}][name]", section.name, id: "screen_sections_#{section_index}_name", class: "form--text-field", maxlength: 255 %>
+          <%= render(Primer::Beta::Button.new(type: :button, size: :small, ml: 2, "data-action": "screens--sortable#removeSection", "aria-label": t("screens.admin.delete_section"))) { t("screens.admin.delete_section") } %>
+        </div>
+        <table class="generic-table">
+          <caption class="sr-only"><%= t("screens.admin.section") %></caption>
+          <thead>
+            <tr>
+              <th scope="col"><%= t("screens.admin.field") %></th>
+              <th scope="col"><%= t("screens.admin.width") %></th>
+              <th scope="col"><%= t("screens.admin.visible") %></th>
+              <th scope="col"><%= t("screens.admin.position") %></th>
+              <th scope="col"><span class="sr-only"><%= t("screens.actions") %></span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% section.items.order(:position, :id).each_with_index do |item, item_index| %>
+              <tr id="screen-item-<%= item.id %>" tabindex="-1" data-screens--sortable-target="item" data-field-key="<%= item.field_key %>">
+                <td>
+                  <%= item.field_key %>
+                  <input type="hidden" name="screen[sections][<%= section_index %>][items][<%= item_index %>][id]" value="<%= item.id %>">
+                  <input type="hidden" name="screen[sections][<%= section_index %>][items][<%= item_index %>][field_key]" value="<%= item.field_key %>">
+                  <input type="hidden" name="screen[sections][<%= section_index %>][items][<%= item_index %>][section_id]" value="<%= section.id %>" data-screens--sortable-target="itemSection">
+                </td>
+                <td>
+                  <%= select_tag "screen[sections][#{section_index}][items][#{item_index}][width]", options_for_select(ScreenItem::WIDTHS.map { |width| [t("screens.widths.#{width}"), width] }, item.width), class: "form--select" %>
+                </td>
+                <td>
+                  <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][visible]", "0", id: nil %>
+                  <%= check_box_tag "screen[sections][#{section_index}][items][#{item_index}][visible]", "1", item.visible %>
+                </td>
+                <td>
+                  <%= number_field_tag "screen[sections][#{section_index}][items][#{item_index}][position]", item_index + 1, min: 0, max: 99_999, data: { "screens--sortable-target": "itemPosition" } %>
+                </td>
+                <td>
+                  <%= render(Primer::Beta::Button.new(type: :button, size: :small, mr: 1, "data-action": "screens--sortable#up", "aria-label": t("screens.admin.move_up"))) { t("screens.admin.move_up") } %>
+                  <%= render(Primer::Beta::Button.new(type: :button, size: :small, mr: 1, "data-action": "screens--sortable#down", "aria-label": t("screens.admin.move_down"))) { t("screens.admin.move_down") } %>
+                  <%= render(Primer::Beta::Button.new(type: :button, size: :small, "data-action": "screens--sortable#removeItem", "aria-label": t("screens.admin.delete_item"))) { t("screens.admin.delete_item") } %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="form--field">
+          <%= label_tag "add_field_#{section_index}", t("screens.admin.add_field"), class: "form--label" %>
+          <span class="form--field-container">
+            <%= select_tag "add_field_#{section_index}", grouped_options_for_select(field_options), id: "add_field_#{section_index}", include_blank: t("screens.admin.search_fields"), data: { "screens--sortable-target": "fieldSelect" }, class: "form--select" %>
+            <%= render(Primer::Beta::Button.new(type: :button, size: :small, ml: 2, "data-action": "screens--sortable#addItem")) { t("screens.admin.add_field") } %>
+          </span>
+        </div>
+      </fieldset>
+    <% end %>
+  </div>
+  <p>
+    <%= render(Primer::Beta::Button.new(type: :button, "data-action": "screens--sortable#addSection")) { t("screens.admin.add_section") } %>
+    <%= render(Primer::Beta::Button.new(type: :button, "data-action": "screens--sortable#saveOrder")) { t("screens.admin.save_order") } %>
+  </p>
+  <div aria-live="polite" data-screens--sortable-target="status" class="sr-only"></div>
+</div>
+
+<template data-screens--sortable-target="sectionTemplate">
+  <fieldset class="screens-section" data-screens--sortable-target="section">
+    <div class="form--field">
+      <label class="form--label" for="screen_sections___INDEX___name"><%= t("screens.admin.section") %></label>
+      <input type="text" name="screen[sections][__INDEX__][name]" id="screen_sections___INDEX___name" class="form--text-field" maxlength="255">
+      <input type="hidden" name="screen[sections][__INDEX__][position]" value="" data-screens--sortable-target="position">
+      <button type="button" class="Button Button--small" data-action="screens--sortable#removeSection"><%= t("screens.admin.delete_section") %></button>
+    </div>
+  </fieldset>
+</template>

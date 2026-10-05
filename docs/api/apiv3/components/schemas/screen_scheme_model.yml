@@ -1,0 +1,18 @@
+# Screen scheme model
+---
+type: object
+example:
+  _type: ScreenScheme
+  id: 1
+  name: Dev
+  description: null
+  active: true
+  typeItems:
+    - _links:
+        type:
+          href: /api/v3/types/1
+        createScreen:
+          href: /api/v3/screens/1
+  _links:
+    self:
+      href: /api/v3/screen_schemes/1

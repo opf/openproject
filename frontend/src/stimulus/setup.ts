@@ -64,6 +64,7 @@ import CreatedPlaceholderUserController from './controllers/dynamic/resource-man
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
+import ScreensSortableController from './controllers/dynamic/screens/sortable.controller';
 
 import AutoSubmit from '@stimulus-components/auto-submit';
 import RevealController from '@stimulus-components/reveal';
@@ -134,6 +135,7 @@ OpenProjectStimulusApplication.preregister('resource-management--created-placeho
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);
+OpenProjectStimulusApplication.preregister('screens--sortable', ScreensSortableController);
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
