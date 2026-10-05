@@ -1,5 +1,12 @@
 import { http, HttpResponse } from 'msw';
-import { ATTRIBUTE_SCHEMA_HREF, mockAttributeSchema, mockAttributeWorkPackage } from './workPackageAttributes';
+import {
+  ATTRIBUTE_SCHEMA_HREF,
+  MILESTONE_SCHEMA_HREF,
+  mockAttributeSchema,
+  mockAttributeWorkPackage,
+  mockMilestoneSchema,
+  mockMilestoneWorkPackage,
+} from './workPackageAttributes';
 
 export const mockWorkPackage = {
   id: 123,
@@ -223,6 +230,7 @@ function sortsByHierarchy(request:Request):boolean {
 /*  Any other id answers as a copy of the first work package, as with the single resource.  */
 export function workPackageFor(id:string) {
   if (id === '321' || id === 'PROJ-321') return mockAttributeWorkPackage;
+  if (id === '654' || id === 'PROJ-654') return mockMilestoneWorkPackage;
   if (id === '999') return mockCreatedWorkPackage;
   if (id === '789' || id === 'DWPS-1') return mockWorkPackageWithSemanticId;
   if (id === '456') return mockWorkPackage2;
@@ -323,6 +331,7 @@ export const handlers = [
   ),
 
   http.get(`http://localhost:3000${ATTRIBUTE_SCHEMA_HREF}`, () => HttpResponse.json(mockAttributeSchema)),
+  http.get(`http://localhost:3000${MILESTONE_SCHEMA_HREF}`, () => HttpResponse.json(mockMilestoneSchema)),
 
   http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) =>
     HttpResponse.json(workPackageFor(String(params.id)))

@@ -1,6 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
-import { StyleSheetManager } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { AlertIcon, SyncIcon, XIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
@@ -12,6 +10,7 @@ import type { FormField } from './formSchema';
 import { controlIdOf, FormFieldControl, SUBJECT_KEY } from './FormFieldControl';
 import { useCreateWorkPackageForm } from './useCreateWorkPackageForm';
 import { useGrowthTransition } from './useGrowthTransition';
+import { FullPagePortal, keepFocusInside, usePageScrollLock } from '../WorkPackage/modal';
 import {
   Body,
   BodyContent,
@@ -30,14 +29,6 @@ import {
   Spinner,
 } from './atoms';
 
-const FOCUSABLE_SELECTOR = [
-  'a[href]',
-  'button:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  'textarea:not([disabled])',
-].join(', ');
-
 const Alert = ({ children, ...rest }:{ children:React.ReactNode } & React.ComponentProps<typeof Notice>) => (
   <Notice $error {...rest}>
     <AlertIcon size={14} />
@@ -45,75 +36,8 @@ const Alert = ({ children, ...rest }:{ children:React.ReactNode } & React.Compon
   </Notice>
 );
 
-interface FullPagePortalProps {
-  colorScheme?:string;
-  fontFamily?:string;
-  children:React.ReactNode;
-}
-
-const FullPagePortal = ({ colorScheme, fontFamily, children }:FullPagePortalProps) => createPortal(
-  <StyleSheetManager target={document.head}>
-    <div
-      data-color-scheme={colorScheme}
-      style={{ '--bn-font-family': fontFamily } as React.CSSProperties}
-    >
-      {children}
-    </div>
-  </StyleSheetManager>,
-  document.body
-);
-
-function colorSchemeOf(anchorEl?:HTMLElement | null):string | undefined {
-  return anchorEl?.closest('[data-color-scheme]')?.getAttribute('data-color-scheme') ?? undefined;
-}
-
-// BlockNote declares its font on ".bn-root", which the portal leaves behind.
-function fontFamilyOf(anchorEl?:HTMLElement | null):string | undefined {
-  if (!anchorEl) return undefined;
-  return getComputedStyle(anchorEl).getPropertyValue('--bn-font-family').trim() || undefined;
-}
-
-// Only the body has to be held: the modal is portalled out of the editor, so
-// nothing the editor scrolls is an ancestor of it any more.
-function usePageScrollLock():void {
-  useEffect(() => {
-    const { style } = document.body;
-    const previous = { overflow: style.overflow, paddingRight: style.paddingRight };
-    // Room the scrollbar leaves behind, so the page does not jump sideways.
-    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
-
-    style.overflow = 'hidden';
-    if (scrollbar > 0) style.paddingRight = `${scrollbar}px`;
-
-    return () => {
-      style.overflow = previous.overflow;
-      style.paddingRight = previous.paddingRight;
-    };
-  }, []);
-}
-
 const controlIn = (panel:HTMLElement | null, key:string):HTMLElement | null =>
   panel?.querySelector<HTMLElement>(`[id="${controlIdOf(key)}"]`) ?? null;
-
-function keepFocusInside(panel:HTMLElement | null, event:React.KeyboardEvent):void {
-  if (!panel) return;
-
-  const focusable = Array.from(panel.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR))
-    .filter((element) => element.offsetParent !== null);
-  if (focusable.length === 0) return;
-
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-  const root = panel.getRootNode() as Document | ShadowRoot;
-
-  if (event.shiftKey && root.activeElement === first) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && root.activeElement === last) {
-    event.preventDefault();
-    first.focus();
-  }
-}
 
 export interface CreateWorkPackageModalProps {
   anchorEl?:HTMLElement | null;
@@ -200,7 +124,7 @@ export const CreateWorkPackageModal = ({ anchorEl, initialSubject, onCreated, on
   );
 
   return (
-    <FullPagePortal colorScheme={colorSchemeOf(anchorEl)} fontFamily={fontFamilyOf(anchorEl)}>
+    <FullPagePortal anchorEl={anchorEl}>
       <Overlay
         onMouseDown={() => { if (!isDirty) onCancel(); }}
       >
