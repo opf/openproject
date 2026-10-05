@@ -187,27 +187,27 @@ class EnterpriseToken < ApplicationRecord
       end
 
       def subscriber
-        "markasoftware-free-enterprise-mode"
+        "ETC-JSC"
       end
 
       def company
-        "markasoftware"
+        "ETC Join Stock Company"
       end
 
       def domain
-        "markasoftware.com"
+        "op.etc.vn"
       end
 
       def issued_at
-        Time.zone.today - 1
+        Time.zone.today
       end
-
+      
       def starts_at
-        Time.zone.today - 1
+        Time.zone.today.beginning_of_year
       end
-
+      
       def expires_at
-        Time.zone.today + 1
+        Time.zone.today.end_of_year
       end
 
       def reprieve_days
@@ -227,7 +227,7 @@ class EnterpriseToken < ApplicationRecord
       end
 
       def plan
-        "markasoftware_free_enterprise_mode"
+        "enterprise"
       end
 
       def features
@@ -269,15 +269,15 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def subscriber
-    "markasoftware-free-enterprise-mode"
+    "enterprise-mode"
   end
 
   def company
-    "markasoftware"
+    "ETC JSC"
   end
 
   def domain
-    "markasoftware.com"
+    "op.etc.vn"
   end
 
   def issued_at
@@ -309,7 +309,7 @@ class EnterpriseToken < ApplicationRecord
   end
 
   def plan
-    "markasoftware_free_enterprise_mode"
+    "enterprise_mode"
   end
 
   def features
