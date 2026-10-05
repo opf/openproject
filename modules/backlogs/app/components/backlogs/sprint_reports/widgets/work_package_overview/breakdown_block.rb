@@ -54,7 +54,7 @@ module Backlogs
 
             Primer::Beta::Text.new(**system_arguments)
           end
-          renders_one :story_points, ->(**system_arguments) do
+          renders_one :secondary_metric, ->(**system_arguments) do
             system_arguments[:tag] ||= :p
             system_arguments[:color] ||= :muted
             system_arguments[:mb] ||= 2
