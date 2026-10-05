@@ -44,7 +44,16 @@ jobs:
       hocuspocus-hash: ${{ steps.constants.outputs.hocuspocus-hash }}
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
-    - &checkout
+    - name: Restore REPO cache
+      id: cache_repo
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with: &repo-cache-with
+        path: |
+          .
+          !.git
+        key: repo-${{ github.sha }}
+    - name: Checkout
+      if: steps.cache_repo.outputs.cache-hit != 'true'
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
@@ -54,6 +63,10 @@ jobs:
           /docs/api
           /docs/installation-and-operations
         sparse-checkout-cone-mode: false
+    - name: Save REPO cache
+      if: steps.cache_repo.outputs.cache-hit != 'true'
+      uses: runs-on/cache/save@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with: *repo-cache-with
     - name: Constants
       id: constants
       run: |
@@ -146,7 +159,15 @@ jobs:
     timeout-minutes: 10
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
-    - *checkout
+    - &restore-repo-cache
+      name: Restore REPO cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: |
+          .
+          !.git
+        key: repo-${{ github.sha }}
+        fail-on-cache-miss: true
     - &restore-docker-cache
       name: Restore DOCKER cache
       uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
@@ -198,7 +219,7 @@ jobs:
     timeout-minutes: 30
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
-    - *checkout
+    - *restore-repo-cache
     - *restore-docker-cache
     - *restore-gem-cache
     - *restore-database-cache
