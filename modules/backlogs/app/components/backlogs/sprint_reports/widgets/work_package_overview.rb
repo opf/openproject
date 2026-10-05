@@ -47,21 +47,91 @@ module Backlogs
         def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
-          return 0 if total_work_packages_count.zero? || resolved_work_packages_count.zero?
+          return 0 if progress_denominator.zero? || progress_numerator.zero?
 
-          [resolved_work_packages_count * 100 / total_work_packages_count, 1].max
+          [(progress_numerator * 100 / progress_denominator).floor, 1].max
+        end
+
+        def show_secondary_metric?
+          !project.estimation_unit_none?
+        end
+
+        def secondary_metric_text(block)
+          if project.estimation_unit_time?
+            DurationConverter.output(block.estimated_hours)
+          else
+            t("backlogs.story_points", count: block.story_points)
+          end
+        end
+
+        def secondary_metric_change_text
+          if project.estimation_unit_time?
+            hours_change_text
+          else
+            story_points_change_text
+          end
         end
 
         private
 
+        def hours_change_text
+          t(
+            ".blocks.changed_after_start.change_html",
+            added: DurationConverter.output(breakdown.changed_after_start.added_estimated_hours),
+            removed: DurationConverter.output(breakdown.changed_after_start.removed_estimated_hours),
+            divider: divider_text
+          )
+        end
+
+        def story_points_change_text
+          t(
+            ".blocks.changed_after_start.story_points_change",
+            added: breakdown.changed_after_start.added_story_points,
+            removed: breakdown.changed_after_start.removed_story_points
+          )
+        end
+
+        def progress_numerator
+          metric_value(breakdown.completed)
+        end
+
+        def progress_denominator
+          metric_value(breakdown.completed) + metric_value(breakdown.unfinished)
+        end
+
+        def metric_value(block)
+          case active_metric
+          when :time
+            block.estimated_hours
+          when :story_points
+            block.story_points
+          else
+            block.work_package_count
+          end
+        end
+
         def resolved_summary_text
           t(
-            ".resolved_summary",
+            ".resolved_summary.#{active_metric}",
             percentage: helpers.number_to_percentage(resolved_percentage, precision: 0),
-            resolved: resolved_work_packages_count,
-            total: total_work_packages_count,
-            count: total_work_packages_count
+            resolved: format_metric(progress_numerator),
+            total: format_metric(progress_denominator),
+            count: progress_denominator
           )
+        end
+
+        def format_metric(value)
+          active_metric == :time ? DurationConverter.output(value) : value
+        end
+
+        def active_metric
+          if project.estimation_unit_time?
+            :time
+          elsif project.estimation_unit_story_points?
+            :story_points
+          else
+            :work_packages
+          end
         end
 
         def resolved_work_packages_count
