@@ -44,6 +44,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
   context "when the sprint has started" do
     current_user { build_stubbed(:user) }
 
+    let(:metric) { :story_points }
     let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
     let(:planned) do
       SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, estimated_hours: 20)
@@ -63,7 +64,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     before do
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
 
-      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
+      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:, metric:).and_return(breakdown)
       allow(breakdown).to receive_messages(
         initially_planned: planned,
         changed_after_start: changed,
@@ -129,6 +130,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
 
     context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+      let(:metric) { :estimated_hours }
+
       before { project.estimation_unit = "time" }
 
       it "shows estimated time instead of story points for each block" do
@@ -159,6 +162,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
     end
 
     context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+      let(:metric) { nil }
+
       before { project.estimation_unit = "none" }
 
       it "shows only the work package counts, without story points or estimated time" do

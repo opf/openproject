@@ -148,7 +148,16 @@ module Backlogs
         end
 
         def breakdown
-          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
+          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:, metric: breakdown_metric)
+        end
+
+        def breakdown_metric
+          case active_metric
+          when :time
+            :estimated_hours
+          when :story_points
+            :story_points
+          end
         end
 
         def divider_text

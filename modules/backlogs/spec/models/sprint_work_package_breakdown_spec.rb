@@ -56,10 +56,11 @@ RSpec.describe SprintWorkPackageBreakdown do
   let(:type_feature) { create(:type_feature) }
   let(:issue_open) { create(:status, name: "Open", is_default: true) }
   let(:issue_closed) { create(:status, name: "Closed", is_closed: true) }
+  let(:metric) { :story_points }
 
   current_user { create(:user, member_with_roles: { project => role }) }
 
-  subject(:breakdown) { described_class.new(sprint:, project:) }
+  subject(:breakdown) { described_class.new(sprint:, project:, metric:) }
 
   around do |example|
     travel_to(Time.zone.local(2024, 6, 20, 12, 0)) { example.run }
@@ -150,15 +151,24 @@ RSpec.describe SprintWorkPackageBreakdown do
     end
 
     it "reports the sprint's current state, since neither reference date has actually happened yet" do
-      expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: 8)
-      expect(breakdown.completed).to have_attributes(work_package_count: 0, story_points: 0, estimated_hours: 0)
-      expect(breakdown.unfinished).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: 8)
+      expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: nil)
+      expect(breakdown.completed).to have_attributes(work_package_count: 0, story_points: 0, estimated_hours: nil)
+      expect(breakdown.unfinished).to have_attributes(work_package_count: 1, story_points: 5, estimated_hours: nil)
       expect(breakdown.changed_after_start).to have_attributes(
         added_count: 0, removed_count: 0, added_story_points: 0, removed_story_points: 0,
-        added_estimated_hours: 0, removed_estimated_hours: 0
+        added_estimated_hours: nil, removed_estimated_hours: nil
       )
       expect(breakdown.added_after_start_ids).to be_empty
       expect(breakdown.removed_after_start_ids).to be_empty
+    end
+
+    context "when tracking estimated hours instead" do
+      let(:metric) { :estimated_hours }
+
+      it "reports the sprint's current state using the hours sum, leaving story points untracked" do
+        expect(breakdown.initially_planned).to have_attributes(work_package_count: 1, story_points: nil, estimated_hours: 8)
+        expect(breakdown.unfinished).to have_attributes(work_package_count: 1, story_points: nil, estimated_hours: 8)
+      end
     end
   end
 
@@ -194,16 +204,29 @@ RSpec.describe SprintWorkPackageBreakdown do
     it "counts the work packages assigned to the sprint at the reference date, excluding other projects" do
       expect(breakdown.initially_planned.work_package_count).to eq(2)
       expect(breakdown.initially_planned.story_points).to eq(8)
-      expect(breakdown.initially_planned.estimated_hours).to eq(16)
+      expect(breakdown.initially_planned.estimated_hours).to be_nil
     end
 
     it "splits completed vs. unfinished by the project's done statuses" do
       expect(breakdown.completed.work_package_count).to eq(1)
       expect(breakdown.completed.story_points).to eq(3)
-      expect(breakdown.completed.estimated_hours).to eq(6)
+      expect(breakdown.completed.estimated_hours).to be_nil
       expect(breakdown.unfinished.work_package_count).to eq(1)
       expect(breakdown.unfinished.story_points).to eq(5)
-      expect(breakdown.unfinished.estimated_hours).to eq(10)
+      expect(breakdown.unfinished.estimated_hours).to be_nil
+    end
+
+    context "when tracking estimated hours instead" do
+      let(:metric) { :estimated_hours }
+
+      it "sums estimated hours instead of story points, leaving story points untracked" do
+        expect(breakdown.initially_planned.work_package_count).to eq(2)
+        expect(breakdown.initially_planned.story_points).to be_nil
+        expect(breakdown.initially_planned.estimated_hours).to eq(16)
+
+        expect(breakdown.completed.estimated_hours).to eq(6)
+        expect(breakdown.unfinished.estimated_hours).to eq(10)
+      end
     end
   end
 
@@ -244,8 +267,22 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(result.removed_count).to eq(0)
         expect(result.added_story_points).to eq(2 + 3)
         expect(result.removed_story_points).to eq(0)
-        expect(result.added_estimated_hours).to eq(3 + 4)
-        expect(result.removed_estimated_hours).to eq(0)
+        expect(result.added_estimated_hours).to be_nil
+        expect(result.removed_estimated_hours).to be_nil
+      end
+
+      context "when tracking estimated hours instead" do
+        let(:metric) { :estimated_hours }
+
+        it "counts the additions using the estimated hours sum, leaving story points untracked" do
+          result = breakdown.changed_after_start
+          expect(result.added_count).to eq(2)
+          expect(result.removed_count).to eq(0)
+          expect(result.added_estimated_hours).to eq(3 + 4)
+          expect(result.removed_estimated_hours).to eq(0)
+          expect(result.added_story_points).to be_nil
+          expect(result.removed_story_points).to be_nil
+        end
       end
     end
 
@@ -267,8 +304,8 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(result.removed_count).to eq(1)
         expect(result.added_story_points).to eq(0)
         expect(result.removed_story_points).to eq(4)
-        expect(result.added_estimated_hours).to eq(0)
-        expect(result.removed_estimated_hours).to eq(9)
+        expect(result.added_estimated_hours).to be_nil
+        expect(result.removed_estimated_hours).to be_nil
       end
     end
 
@@ -291,8 +328,8 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(result.removed_count).to eq(0)
         expect(result.added_story_points).to eq(0)
         expect(result.removed_story_points).to eq(0)
-        expect(result.added_estimated_hours).to eq(0)
-        expect(result.removed_estimated_hours).to eq(0)
+        expect(result.added_estimated_hours).to be_nil
+        expect(result.removed_estimated_hours).to be_nil
       end
     end
 
@@ -316,8 +353,8 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(result.removed_count).to eq(1)
         expect(result.added_story_points).to eq(0)
         expect(result.removed_story_points).to eq(6)
-        expect(result.added_estimated_hours).to eq(0)
-        expect(result.removed_estimated_hours).to eq(11)
+        expect(result.added_estimated_hours).to be_nil
+        expect(result.removed_estimated_hours).to be_nil
       end
     end
   end
