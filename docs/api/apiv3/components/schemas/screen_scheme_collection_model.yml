@@ -1,0 +1,13 @@
+# Screen scheme collection model
+---
+type: object
+example:
+  _type: Collection
+  total: 1
+  count: 1
+  _embedded:
+    elements:
+      - _type: ScreenScheme
+        id: 1
+        name: Dev
+        active: true

@@ -1,0 +1,13 @@
+# Screen collection model
+---
+type: object
+example:
+  _type: Collection
+  total: 1
+  count: 1
+  _embedded:
+    elements:
+      - _type: Screen
+        id: 1
+        name: Bug create
+        screenType: create

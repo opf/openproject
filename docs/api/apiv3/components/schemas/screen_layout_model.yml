@@ -1,0 +1,41 @@
+# Screen layout model
+---
+type: object
+example:
+  _type: ScreenLayout
+  source: screen
+  reason: null
+  context: create
+  stateSource: field_rules
+  _links:
+    self:
+      href: /api/v3/projects/1/types/1/screens/create
+    project:
+      href: /api/v3/projects/1
+    type:
+      href: /api/v3/types/1
+    screen:
+      href: /api/v3/screens/1
+    schema:
+      href: /api/v3/work_packages/schemas/1-1
+  sections:
+    - id: 1
+      name: General
+      position: 1
+      fields:
+        - key: subject
+          label: Subject
+          position: 1
+          width: full
+          state:
+            required: true
+            readOnly: false
+            defaultValue: null
+  diagnostics:
+    unavailable: []
+    hiddenButPlaced: []
+    requiredNotPlaced: []
+    notVisible: []
+    skipped: []
+    emptyCreateScreen: false
+    error: false

@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title t(:label_administration), t("screens.admin.plural"), t("screens.admin.confirm.title") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("screens.admin.confirm.title") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_screens_path, text: t("screens.admin.plural") },
+                             { href: edit_admin_screen_path(@screen), text: @screen.name },
+                             t("screens.admin.confirm.title")])
+  end
+%>
+<%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) do %>
+  <p class="mb-2"><%= t("screens.admin.confirm.intro", name: @screen.name,
+                                                        schemes: t("screens.admin.confirm.schemes", count: @impact[:scheme_count]),
+                                                        projects: t("screens.admin.confirm.projects", count: @impact[:project_count])) %></p>
+<% end %>
+<p><%= t("screens.admin.confirm.no_data_change") %></p>
+<%= form_tag admin_screen_path(@screen), method: :patch do %>
+  <%= hidden_field_tag :confirm, "1" %>
+  <%= hidden_field_tag "screen[name]", @screen_params[:name], id: nil %>
+  <%= hidden_field_tag "screen[description]", @screen_params[:description], id: nil %>
+  <% Array(@screen_params[:sections]).each_with_index do |section, section_index| %>
+    <%= hidden_field_tag "screen[sections][#{section_index}][id]", section[:id], id: nil %>
+    <%= hidden_field_tag "screen[sections][#{section_index}][name]", section[:name], id: nil %>
+    <% Array(section[:items]).each_with_index do |item, item_index| %>
+      <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][id]", item[:id], id: nil %>
+      <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][field_key]", item[:field_key], id: nil %>
+      <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][width]", item[:width], id: nil %>
+      <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][visible]", item[:visible], id: nil %>
+      <%= hidden_field_tag "screen[sections][#{section_index}][items][#{item_index}][position]", item[:position], id: nil %>
+    <% end %>
+  <% end %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_confirm) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_screens_path, scheme: :invisible)) { t(:button_cancel) } %>
+  </div>
+<% end %>

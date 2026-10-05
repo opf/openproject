@@ -1,0 +1,23 @@
+# /api/v3/screens/{id}/layout
+---
+put:
+  summary: Replace the whole layout of a screen
+  operationId: update_screen_layout
+  tags:
+    - Screens
+  description: |-
+    Replaces every section and item of the screen in one transaction. Requires an `If-Match` header
+    holding the screen's ETag.
+
+    **Required permission:** administrator
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_model.yml'
+    '409':
+      description: Returned if the `If-Match` header does not match the current ETag.
+    '428':
+      description: Returned if the `If-Match` header is missing.

@@ -407,6 +407,20 @@ paths:
     "$ref": "./paths/project_field_rule_scheme.yml"
   "/api/v3/projects/{id}/types/{type_id}/field_rules":
     "$ref": "./paths/project_type_field_rules.yml"
+  "/api/v3/screens":
+    "$ref": "./paths/screens.yml"
+  "/api/v3/screens/{id}":
+    "$ref": "./paths/screen.yml"
+  "/api/v3/screens/{id}/layout":
+    "$ref": "./paths/screen_layout.yml"
+  "/api/v3/screen_schemes":
+    "$ref": "./paths/screen_schemes.yml"
+  "/api/v3/screen_schemes/{id}":
+    "$ref": "./paths/screen_scheme.yml"
+  "/api/v3/projects/{id}/screen_scheme":
+    "$ref": "./paths/project_screen_scheme.yml"
+  "/api/v3/projects/{id}/types/{type_id}/screens/{context}":
+    "$ref": "./paths/project_type_screen_layout.yml"
   "/api/v3/type_schemes":
     "$ref": "./paths/type_schemes.yml"
   "/api/v3/type_schemes/{id}":
@@ -1082,6 +1096,16 @@ components:
       "$ref": "./components/schemas/field_rule_scheme_model.yml"
     FieldRuleSchemeCollectionModel:
       "$ref": "./components/schemas/field_rule_scheme_collection_model.yml"
+    ScreenModel:
+      "$ref": "./components/schemas/screen_model.yml"
+    ScreenCollectionModel:
+      "$ref": "./components/schemas/screen_collection_model.yml"
+    ScreenSchemeModel:
+      "$ref": "./components/schemas/screen_scheme_model.yml"
+    ScreenSchemeCollectionModel:
+      "$ref": "./components/schemas/screen_scheme_collection_model.yml"
+    ScreenLayoutModel:
+      "$ref": "./components/schemas/screen_layout_model.yml"
     TypeSchemeModel:
       "$ref": "./components/schemas/type_scheme_model.yml"
     TypeSchemeCollectionModel:

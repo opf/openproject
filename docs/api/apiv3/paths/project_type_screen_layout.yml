@@ -1,0 +1,26 @@
+# /api/v3/projects/{id}/types/{type_id}/screens/{context}
+---
+get:
+  summary: Resolve the effective screen layout
+  operationId: get_project_type_screen_layout
+  tags:
+    - Screens
+  description: |-
+    Returns the layout for a project, type and context, merged with the field rules. `context` is
+    one of `create`, `edit`, `view`, `transition`. Diagnostics are only returned to administrators
+    or users with the `assign_screen_scheme` permission.
+
+    **Required permission:** view_work_packages in the project
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_layout_model.yml'
+    '403':
+      description: Returned if the user lacks the permission.
+    '404':
+      description: Returned if the project is not visible or the type is not enabled in it.
+    '422':
+      description: Returned if the context is invalid.

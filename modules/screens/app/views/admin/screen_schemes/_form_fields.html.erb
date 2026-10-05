@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  items = scheme.persisted? ? scheme.items.index_by(&:type_id) : {}
+  screens_by_type = @screens_by_type || Screen.order(:name).group_by(&:screen_type)
+%>
+<div class="form--field">
+  <%= label_tag "scheme_name", t(:label_name), class: "form--label" %>
+  <span class="form--field-container">
+    <%= text_field_tag "scheme[name]", scheme.name, id: "scheme_name", class: "form--text-field", required: true, maxlength: 255 %>
+  </span>
+</div>
+<div class="form--field">
+  <%= label_tag "scheme_description", t(:label_description), class: "form--label" %>
+  <span class="form--field-container">
+    <%= text_area_tag "scheme[description]", scheme.description, id: "scheme_description", class: "form--text-area", maxlength: 5000 %>
+  </span>
+</div>
+
+<p class="color-fg-muted"><%= t("screens.schemes.form_hint") %></p>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <caption class="sr-only"><%= t("screens.schemes.types_caption") %></caption>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("screens.schemes.field") %></th>
+          <% ScreenScheme::CONTEXTS.each do |context| %>
+            <th scope="col"><%= t("screens.types.#{context}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% Type.order(:position).each do |type| %>
+          <% item = items[type.id] %>
+          <tr>
+            <th scope="row"><%= type.name %></th>
+            <% ScreenScheme::CONTEXTS.each do |context| %>
+              <% slot = "#{context}_screen_id" %>
+              <td>
+                <%= select_tag "scheme[types][#{type.id}][#{slot}]",
+                               options_from_collection_for_select(screens_by_type.fetch(context.to_s, []), :id, :name, item&.public_send(slot)),
+                               include_blank: t("screens.schemes.no_screen"), class: "form--select" %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

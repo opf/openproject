@@ -1,0 +1,41 @@
+# /api/v3/screen_schemes
+---
+get:
+  summary: List screen schemes
+  operationId: list_screen_schemes
+  tags:
+    - Screens
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_scheme_collection_model.yml'
+    '401':
+      description: Returned if the client is not authenticated.
+post:
+  summary: Create a screen scheme
+  operationId: create_screen_scheme
+  tags:
+    - Screens
+  description: |-
+    Creates a screen scheme. `typeItems` maps each type to its screens per context.
+
+    **Required permission:** administrator
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/screen_scheme_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/screen_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '422':
+      description: Returned if the scheme is invalid.

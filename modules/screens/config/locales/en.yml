@@ -1,0 +1,251 @@
+en:
+  permission_assign_screen_scheme: "Assign screen scheme"
+  screens:
+    plural: "Screens"
+    singular: "Screen"
+    actions: "Actions"
+    action_on: "%{action} %{name}"
+    clone: "Clone"
+    activate: "Activate"
+    deactivate: "Deactivate"
+    copy_of: "Copy of %{name}"
+    types:
+      create: "Create"
+      edit: "Edit"
+      view: "View"
+      transition: "Transition"
+    widths:
+      full: "Full"
+      half: "Half"
+    status:
+      active: "Active"
+      inactive: "Inactive"
+    sources:
+      native: "Native"
+      screen: "Screen"
+    reasons:
+      no_scheme: "No screen scheme is assigned."
+      scheme_inactive: "The assigned screen scheme is inactive."
+      type_not_in_scheme: "The type is not configured in the screen scheme."
+      type_not_in_project: "The type is not enabled in this project."
+      no_usable_screen: "No usable screen is configured for this context."
+      error: "The screen layout could not be resolved, the native layout is used."
+    skipped:
+      inactive: "The screen is inactive."
+      type_mismatch: "The screen type does not match the slot."
+      no_slot: "No screen is assigned to this slot."
+    diagnostics:
+      unavailable: "Unavailable fields"
+      hidden_but_placed: "Hidden by field rules"
+      hiddenButPlaced: "Hidden by field rules"
+      required_not_placed: "Required fields not placed"
+      requiredNotPlaced: "Required fields not placed"
+      empty_create_screen: "This create screen has no fields."
+      hidden_and_required: "Hidden and required"
+    admin:
+      plural: "Screens"
+      singular: "Screen"
+      description: "A screen decides which fields appear in which section and order for a context. Assign screens to types in a screen scheme."
+      new: "New screen"
+      edit: "Edit screen"
+      blank_heading: "No screens yet"
+      blank_description: "Create a screen to arrange the fields of a create, edit, view or transition context."
+      name: "Name"
+      type: "Type"
+      used_by: "Used by"
+      status: "Status"
+      no_sections: "No sections yet"
+      add_section: "Add section"
+      no_items: "Drag a field here"
+      add_field: "Add field"
+      add_field_label: "Field"
+      search_fields: "Search fields"
+      native_fields: "Native fields"
+      custom_fields: "Custom fields"
+      no_fields_available: "Every available field is already placed."
+      section: "Section"
+      field: "Field"
+      position: "Position"
+      width: "Width"
+      visible: "Visible"
+      move_up: "Up"
+      move_down: "Down"
+      move_to_section: "Move to section"
+      save_order: "Save order"
+      delete_item: "Remove field"
+      delete_section: "Remove section"
+      deactivate_confirm:
+        zero: "Deactivate this screen? No screen scheme uses it."
+        one: "This screen is used by %{count} scheme. Projects using it will fall back to the native layout. Continue?"
+        other: "This screen is used by %{count} schemes. Projects using them will fall back to the native layout. Continue?"
+      confirm:
+        title: "Confirm screen changes"
+        intro: "The screen \"%{name}\" is used by %{schemes} and %{projects}."
+        schemes:
+          zero: "no screen scheme"
+          one: "%{count} screen scheme"
+          other: "%{count} screen schemes"
+        projects:
+          zero: "no project"
+          one: "%{count} project"
+          other: "%{count} projects"
+        no_data_change: "Changes apply to new requests immediately. Existing work packages are never changed."
+      warnings:
+        hidden_but_placed: "Hidden by field rules but placed on this screen."
+        unavailable: "Not available in some projects, ignored there."
+        required_not_placed: "Required fields are not placed on this create screen."
+        empty_create_screen: "This create screen has no fields."
+        hidden_and_required: "A field is both hidden and required."
+      errors:
+        unknown_field: "is not a placeable field."
+        duplicate_field: "is already placed on this screen."
+        too_many_sections: "must not contain more than %{count} sections."
+        too_many_items: "must not contain more than %{count} items."
+        in_use: "cannot be changed because the screen is in use."
+        invalid_position: "is outside the allowed range."
+    schemes:
+      plural: "Screen schemes"
+      singular: "Screen scheme"
+      description: "A screen scheme maps a screen to each context of a work package type. Assign a scheme to projects in their project settings."
+      new: "New screen scheme"
+      edit: "Edit screen scheme"
+      no_screens: "There are no screens yet. Create some first to assign them to a type."
+      types_heading: "Screen per type and context"
+      types_caption: "Screen per work package type and context"
+      blank_heading: "No screen schemes yet"
+      blank_description: "Create a scheme to map work package types to screens."
+      deactivate_confirm:
+        zero: "Deactivate this scheme? No project uses it."
+        one: "This scheme is used by %{count} project. Its screens stop applying there. Continue?"
+        other: "This scheme is used by %{count} projects. Its screens stop applying there. Continue?"
+      form_hint: "Choose a screen for each context. Contexts without a screen keep the native layout."
+      used_by: "Used by"
+      field: "Field"
+      no_screen: "Native"
+      errors:
+        too_many_scheme_rows: "must not contain more than %{count} rows."
+    project_settings:
+      title: "Screen scheme"
+      description: "The scheme decides which fields appear in which section for each type and context in this project."
+      scheme: "Screen scheme"
+      none: "Native layout"
+      scheme_hint: "Only active schemes can be assigned."
+      no_schemes: "There are no active screen schemes yet. An administrator can create one under Administration, Work packages, Screens."
+      inactive: "The assigned scheme is inactive, so its screens do not apply."
+      matrix: "Effective layout"
+      matrix_hint: "Layout of the scheme \"%{scheme}\" for the types enabled in this project."
+      no_scheme_assigned: "No scheme is assigned, so work packages follow the native form configuration."
+      inspector: "Field inspector"
+      inspector_hint: "Fields placed for the selected type and context."
+      select_type: "Type"
+      overrides_native: "Overrides native"
+      overrides_native_link: "Form configuration"
+      not_applied: "Not applied"
+      unavailable: "Unavailable"
+      not_visible: "Not visible"
+      no_fields: "No field is placed for this context."
+    confirm:
+      title: "Confirm screen layout changes"
+      field_rules_impact: "The field rules of this project report problems with the layout:"
+    repair:
+      report: "Repaired %{orphan_rules} orphan items and %{invalid_rules} invalid entries."
+  activerecord:
+    attributes:
+      screen:
+        name: Name
+        description: Description
+        screen_type: Type
+        active: Active
+      screen_section:
+        name: Name
+        position: Position
+      screen_item:
+        field_key: Field
+        position: Position
+        width: Width
+        visible: Visible
+      screen_scheme:
+        name: Name
+        description: Description
+        items: Types
+      screen_scheme_item:
+        type: Type
+        create_screen: Create screen
+        edit_screen: Edit screen
+        view_screen: View screen
+        transition_screen: Transition screen
+      project_screen_scheme:
+        scheme: Screen scheme
+    errors:
+      models:
+        screen:
+          attributes:
+            name:
+              blank: cannot be blank.
+              taken: is already taken.
+              too_long: is too long (maximum is %{count} characters).
+            description:
+              too_long: is too long (maximum is %{count} characters).
+            screen_type:
+              blank: cannot be blank.
+              inclusion: is not a valid screen type.
+            base:
+              cannot_be_deleted: Screens cannot be deleted. Deactivate them instead.
+        screen_section:
+          attributes:
+            name:
+              blank: cannot be blank.
+              taken: must be unique within the screen.
+              too_long: is too long (maximum is %{count} characters).
+            position:
+              not_an_integer: must be a whole number.
+              greater_than_or_equal_to: must be greater than or equal to %{count}.
+              less_than: must be less than %{count}.
+        screen_item:
+          attributes:
+            field_key:
+              blank: cannot be blank.
+              invalid: must be a lowercase field key.
+              taken: is already placed on this screen.
+              too_long: is too long (maximum is %{count} characters).
+            width:
+              inclusion: is not a valid width.
+            position:
+              not_an_integer: must be a whole number.
+              greater_than_or_equal_to: must be greater than or equal to %{count}.
+              less_than: must be less than %{count}.
+        screen_scheme:
+          attributes:
+            name:
+              blank: cannot be blank.
+              taken: is already taken.
+              too_long: is too long (maximum is %{count} characters).
+            description:
+              too_long: is too long (maximum is %{count} characters).
+            items:
+              duplicate_types: must not contain the same type more than once.
+              too_many: must not contain more than %{count} rows.
+            base:
+              cannot_be_deleted: Screen schemes cannot be deleted. Deactivate them instead.
+        screen_scheme_item:
+          attributes:
+            type_id:
+              taken: must be unique within the scheme.
+            base:
+              at_least_one_screen: needs at least one screen.
+            create_screen:
+              context_mismatch: must be a create screen.
+            edit_screen:
+              context_mismatch: must be an edit screen.
+            view_screen:
+              context_mismatch: must be a view screen.
+            transition_screen:
+              context_mismatch: must be a transition screen.
+        project_screen_scheme:
+          attributes:
+            scheme:
+              inactive: must be active.
+  js:
+    screens:
+      sortable:
+        moved: "%{field} moved to %{section}, position %{position} of %{total}"
