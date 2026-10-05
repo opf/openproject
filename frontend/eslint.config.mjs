@@ -27,9 +27,7 @@
 //++
 
 import eslint from '@eslint/js';
-import { readFileSync } from 'node:fs';
 import globals from 'globals';
-import { fileURLToPath } from 'node:url';
 import tseslint from 'typescript-eslint';
 import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
@@ -37,32 +35,14 @@ import stylistic from '@stylistic/eslint-plugin';
 import headers from 'eslint-plugin-headers';
 
 import { defineConfig, globalIgnores } from 'eslint/config';
-
-const copyrightPath = fileURLToPath(new URL('../COPYRIGHT_short', import.meta.url));
-const copyrightHeader = [
-  '-- copyright',
-  ...readFileSync(copyrightPath, 'utf8')
-    .trimEnd()
-    .split(/\r?\n/)
-    .map((line) => line ? ` ${line}` : ''),
-  '++',
-].join('\n');
+import { copyrightHeaderOptions } from './copyright.mjs';
 
 export default defineConfig([
   {
     files: ['**/*.{js,mjs,cjs,ts,tsx,mts,cts}'],
     plugins: { headers },
     rules: {
-      'headers/header-format': [
-        'error',
-        {
-          source: 'string',
-          content: copyrightHeader,
-          style: 'line',
-          linePrefix: '',
-          trailingNewlines: 2,
-        },
-      ],
+      'headers/header-format': ['error', copyrightHeaderOptions],
     },
   },
   {
