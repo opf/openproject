@@ -5897,6 +5897,11 @@ en:
           Select which project attributes should be included in the project initiation request.
           This list only includes [project attributes](project_attributes_url) enabled for for this project.
       custom_fields:
+        column_name: "Custom field"
+        column_variants: "Variants"
+        description: >
+          These custom fields appear on this project's work packages. Which ones appear follows
+          from the variant each type applies.
         no_results_title_text: There are currently no custom fields available.
       forums:
         no_results_content_text: Create a new forum
