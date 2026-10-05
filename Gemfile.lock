@@ -129,6 +129,11 @@ PATH
     openproject-documents (1.0.0)
 
 PATH
+  remote: modules/field_rules
+  specs:
+    openproject-field_rules (1.0.0)
+
+PATH
   remote: modules/gantt
   specs:
     openproject-gantt (1.0.0)
@@ -208,6 +213,11 @@ PATH
     openproject-resource_management (1.0.0)
 
 PATH
+  remote: modules/screens
+  specs:
+    openproject-screens (1.0.0)
+
+PATH
   remote: modules/storages
   specs:
     openproject-storages (1.0.0)
@@ -225,11 +235,6 @@ PATH
       messagebird-rest (>= 1.4.2, < 5.1.0)
       rotp (~> 6.1)
       webauthn (~> 3.0)
-
-PATH
-  remote: modules/field_rules
-  specs:
-    openproject-field_rules (1.0.0)
 
 PATH
   remote: modules/type_schemes
@@ -1704,6 +1709,7 @@ DEPENDENCIES
   openproject-boards!
   openproject-calendar!
   openproject-documents!
+  openproject-field_rules!
   openproject-gantt!
   openproject-github_integration!
   openproject-gitlab_integration!
@@ -1718,11 +1724,11 @@ DEPENDENCIES
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
+  openproject-screens!
   openproject-storages!
   openproject-team_planner!
   openproject-token (~> 8.13.0)
   openproject-two_factor_authentication!
-  openproject-field_rules!
   openproject-type_schemes!
   openproject-webhooks!
   openproject-wikis!
@@ -2091,6 +2097,7 @@ CHECKSUMS
   openproject-boards (1.0.0)
   openproject-calendar (1.0.0)
   openproject-documents (1.0.0)
+  openproject-field_rules (1.0.0)
   openproject-gantt (1.0.0)
   openproject-github_integration (1.0.0)
   openproject-gitlab_integration (3.0.0)
@@ -2105,11 +2112,11 @@ CHECKSUMS
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
+  openproject-screens (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
   openproject-token (8.13.0) sha256=b9f570200021db72a1b74b88af756552b12c830db22641725dba9d7fd2a942d0
   openproject-two_factor_authentication (1.0.0)
-  openproject-field_rules (1.0.0)
   openproject-type_schemes (1.0.0)
   openproject-webhooks (1.0.0)
   openproject-wikis (1.0.0)

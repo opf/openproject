@@ -37,6 +37,8 @@ export default class SortableController extends Controller<HTMLElement> {
     movedText: { type: String, default: '' },
   };
 
+  declare readonly hasListTarget:boolean;
+
   declare readonly listTarget:HTMLElement;
 
   declare readonly sectionTargets:HTMLElement[];
