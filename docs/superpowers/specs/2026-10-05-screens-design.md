@@ -86,9 +86,9 @@ project_screen_schemes id, project_id FK cascade UNIQUE, scheme_id FK (RESTRICT,
 
 * **Không** UNIQUE trên `position` (tránh lỗi giữa chừng khi dịch chuyển). `position` là cột thường; validate số nguyên `0..99_999` như F01/F02; service chuẩn hoá về `1..n` liên tục sau mỗi thay đổi.
 * Đặt tên khớp F02 (`scheme_id`, `type_id`); ánh xạ với idea ở §7.1.
-* Giới hạn: 20 section/screen, 100 item/screen, 200 dòng/scheme. Thực thi trong `screen.with_lock` / `scheme.with_lock` **sau** khi lấy khoá (tránh race POST đồng thời); mã lỗi `too_many_sections`, `too_many_items`, `too_many_scheme_rows`.
+* Giới hạn (hằng trên model: `Screen::MAX_SECTIONS`, `Screen::MAX_ITEMS`, `ScreenScheme::MAX_ROWS`): 20 section/screen, 100 item/screen, 200 dòng/scheme. Thực thi trong `screen.with_lock` / `scheme.with_lock` **sau** khi lấy khoá (tránh race POST đồng thời); mã lỗi `too_many_sections`, `too_many_items`, `too_many_scheme_rows`.
 * Slot ↔ `screen_type` khớp nhau (`create_screen_id` chỉ nhận screen `create`…) được enforce ở model và `invariants_spec` (không có CHECK DB khả thi).
-* Migration `modules/screens/db/migrate/20261005200000_create_screens.rb`, `down` thả theo thứ tự phụ thuộc, không động bảng core, gỡ module chỉ bỏ 6 bảng.
+* Migration `modules/screens/db/migrate/20261005210000_create_screens.rb` (mã `20261005200000` đã được `type_schemes` dùng), `down` thả theo thứ tự phụ thuộc, không động bảng core, gỡ module chỉ bỏ 6 bảng.
 
 Quy tắc model:
 
@@ -157,7 +157,7 @@ Thuật toán:
 7. F02 có: gắn `state = { required, readOnly, defaultValue }` cho từng field và `stateSource: "field_rules"`; không có: `state: null`, `stateSource: null`.
 8. Trả `ResolvedScreen` immutable (`Data.define`).
 
-Fail-open: `rescue StandardError` ⇒ `OpenProject.logger.error` + `Rails.error.report(e, handled: true, context: { project_id:, type_id:, context: })`, trả `native` với `reason: error`, `diagnostics.error = true`. Trong môi trường test, re-raise trừ khi example gắn tag `:fail_open`. Không ghi DB trong resolver.
+Fail-open: `rescue StandardError` ⇒ `OpenProject.logger.error` + `Rails.error.report(e, handled: true, context: { project_id:, type_id:, context: })`, trả `native` với `reason: error`, `diagnostics.error = true`. Cờ module-local `::Screens::Resolver.raise_on_error` (mặc định `false`) cho phép test kiểm chứng re-raise; không đổi `spec_helper` của repo. Không ghi DB trong resolver.
 
 ## 7. API v3 (HAL)
 
@@ -206,7 +206,7 @@ Phản hồi resolver (`_type: "ScreenLayout"`):
 
 `source: "native"` ⇒ `sections: []`, `reason` ∈ `no_scheme|scheme_inactive|type_not_in_scheme|no_usable_screen|error`, client dùng `_attributeGroups` của schema. Tên `state` dùng cùng ngôn ngữ F02 (`defaultValue`).
 
-Ánh xạ lỗi → định danh API v3: `unknown_field`, `invalid_width`, `invalid_position`, `duplicate_field`, `context_mismatch`, `invalid_context`, `too_many_*` ⇒ `PropertyConstraintViolation` (422, `details.attribute`); `required_not_placed` (Tầng 1) ⇒ `MultipleErrors` (422); `in_use`/`cannot_be_deleted` ⇒ 422 `PropertyConstraintViolation`; `screenType` đổi ⇒ `PropertyIsReadOnly`; body sai ⇒ `InvalidRequestBody`; `If-Match` lệch ⇒ `UpdateConflict`. Cảnh báo không phải lỗi: trả trong `diagnostics` của 200/201.
+Ánh xạ lỗi → định danh API v3: `unknown_field`, `invalid_width`, `invalid_position`, `duplicate_field`, `context_mismatch`, `invalid_context`, `too_many_*` ⇒ `PropertyConstraintViolation` (422, `details.attribute`); `required_not_placed` (Tầng 1) ⇒ `MultipleErrors` (422); `in_use` (do `ScreenService` phát khi thao tác bị chặn vì đang dùng) và `cannot_be_deleted` (model `destroy`) ⇒ 422 `PropertyConstraintViolation`; `screenType` đổi ⇒ `PropertyIsReadOnly`; body sai ⇒ `InvalidRequestBody`; `If-Match` lệch ⇒ `UpdateConflict`, thiếu ⇒ 428. ETag là cơ chế mới (không có tiền lệ F02): `screen.updated_at.utc.iso8601(6)`, `GET` trả header `ETag`. Cảnh báo không phải lỗi: trả trong `diagnostics` của 200/201.
 
 * `add_api_path`: `screens`, `screen`, `screen_layout`, `screen_sections`, `screen_section`, `screen_items`, `screen_item`, `screen_schemes`, `screen_scheme`, `project_screen_scheme`, `project_type_screen_layout`.
 * OpenAPI: `docs/api/apiv3/paths/` và `docs/api/apiv3/components/schemas/*_model.yml` (+ `*_collection_model.yml`) **cho từng endpoint trong lát phát hành nó**.
