@@ -3,11 +3,27 @@ import type { WorkPackage } from '../openProjectTypes';
 import { OpenProjectApiError, fetchWorkPackage } from '../services/openProjectApi';
 
 const workPackageCache:Record<number, WorkPackage> = {};
+const pendingRequests = new Map<number, Promise<WorkPackage>>();
 
 export function clearWorkPackageCache():void {
   for (const key in workPackageCache) {
     delete workPackageCache[key as unknown as number];
   }
+  pendingRequests.clear();
+}
+
+function loadWorkPackage(wpid:number):Promise<WorkPackage> {
+  let pending = pendingRequests.get(wpid);
+  if (!pending) {
+    pending = fetchWorkPackage(wpid)
+      .then((data) => {
+        workPackageCache[wpid] = data;
+        return data;
+      })
+      .finally(() => pendingRequests.delete(wpid));
+    pendingRequests.set(wpid, pending);
+  }
+  return pending;
 }
 
 export function useWorkPackage(wpid:number|undefined) {
@@ -31,9 +47,7 @@ export function useWorkPackage(wpid:number|undefined) {
     setError(null);
     setUnauthorized(false);
     try {
-      const data = await fetchWorkPackage(wpid);
-      workPackageCache[wpid] = data;
-      setWorkPackage(data);
+      setWorkPackage(await loadWorkPackage(wpid));
     } catch (error) {
       if (error instanceof OpenProjectApiError && error.responseStatus === 404) {
         setUnauthorized(true);

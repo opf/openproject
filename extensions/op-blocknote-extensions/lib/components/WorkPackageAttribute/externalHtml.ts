@@ -27,8 +27,8 @@ export function normalizeDisplay(display:string | undefined):AttributeDisplay {
 }
 
 // The macro syntax only accepts these characters inside quotes.
-function macroSegment(segment:string):string {
-  return /[\s:."]/.test(segment) ? `"${segment}"` : segment;
+function macroId(id:string):string {
+  return /[\s:"]/.test(id) ? `"${id}"` : id;
 }
 
 export function attributeMacro(
@@ -36,7 +36,7 @@ export function attributeMacro(
   reference:string,
   attribute:string,
 ):string {
-  return `workPackage${kind}:${macroSegment(reference)}:${macroSegment(attribute)}`;
+  return `workPackage${kind}:${macroId(reference)}:"${attribute}"`;
 }
 
 export function computeWorkPackageAttributeExternalData(
