@@ -62,3 +62,13 @@ export const mockAttributeWorkPackage = {
     customField1: [{ title: 'Jean Cérien', href: '/api/v3/users/4' }, { title: 'Hugo Martins', href: '/api/v3/users/5' }],
   },
 };
+
+export const MILESTONE_SCHEMA_HREF = '/api/v3/work_packages/schemas/1-3';
+
+export const mockMilestoneSchema = {
+  _type: 'Schema',
+  subject: field('String', 'Subject'),
+  date: field('Date', 'Date'),
+  status: field('Status', 'Status', '_links'),
+  _links: { self: { href: MILESTONE_SCHEMA_HREF } },
+};
