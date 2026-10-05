@@ -150,9 +150,7 @@ module OpenProject::Backlogs
 
     assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
 
-    patches %i[PermittedParams
-               WorkPackage
-               Project]
+    patches %i[WorkPackage Project]
 
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService
@@ -164,7 +162,7 @@ module OpenProject::Backlogs
     patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
-    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
+    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id story_points]
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)

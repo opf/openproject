@@ -28,23 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::PermittedParamsPatch
-  def self.included(base)
-    base.prepend InstanceMethods
-  end
+require "rails_helper"
 
-  module InstanceMethods
-    def update_work_package(args = {})
-      permitted_params = super
-
-      backlogs_params = params.require(:work_package).permit(:story_points)
-      permitted_params.merge!(backlogs_params)
-
-      permitted_params
-    end
-
-    def backlog_filters
-      params.permit(:all, :filters, bucket_ids: [], sprint_ids: [])
+RSpec.describe PermittedParams do
+  describe ".permitted_attributes" do
+    it "permits the backlogs attributes for work packages" do
+      expect(described_class.permitted_attributes[:new_work_package])
+        .to include(:sprint_id, :backlog_bucket_id, :story_points)
     end
   end
 end
