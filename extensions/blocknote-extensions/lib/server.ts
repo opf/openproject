@@ -32,3 +32,15 @@ export type {
   WorkPackageInlineExternalData,
   WorkPackageInlineProps,
 } from './components/InlineWorkPackage/externalHtml';
+
+export { attributeInlineConfig } from './components/WorkPackageAttribute/inlineConfig';
+export { openProjectWorkPackageAttributeStaticInlineSpec } from './components/WorkPackageAttribute/staticSpec';
+export {
+  buildWorkPackageAttributeExternalDOM,
+  computeWorkPackageAttributeExternalData,
+  parseWorkPackageAttributeExternalHTML,
+} from './components/WorkPackageAttribute/externalHtml';
+export type {
+  WorkPackageAttributeExternalData,
+  WorkPackageAttributeProps,
+} from './components/WorkPackageAttribute/externalHtml';
