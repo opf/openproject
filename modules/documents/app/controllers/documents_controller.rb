@@ -33,6 +33,7 @@ class DocumentsController < ApplicationController
   include FlashMessagesOutputSafetyHelper
   include PaginationHelper
   include OpTurbo::ComponentStream
+  include Collaboration::SessionContext
 
   default_search_scope :documents
 
@@ -61,7 +62,7 @@ class DocumentsController < ApplicationController
     @attachments = @document.attachments.order(Arel.sql("created_at DESC"))
 
     if @document.collaborative? && Setting.real_time_text_collaboration_enabled?
-      setup_collaboration_context
+      setup_collaboration_context(@document)
       derive_show_edit_state_from_params
     end
   end
@@ -214,24 +215,6 @@ class DocumentsController < ApplicationController
         .call(title: I18n.t(:label_document_new), project: @project, type_id: DocumentType.default.id)
 
     redirect_to document_path(call.result, state: :edit)
-  end
-
-  def setup_collaboration_context # rubocop:disable Metrics/AbcSize
-    return unless current_user.allowed_in_project?(:view_documents, @project)
-
-    token_result = Documents::OAuth::TokenWithMetadataService
-      .new(user: current_user, document: @document, project: @project)
-      .call
-
-    if token_result.failure?
-      Rails.logger.error("Failed to generate token payload for document #{@document.id}: #{token_result.errors}")
-      return
-    end
-
-    @token_payload = token_result.result[:encrypted_token]
-    @resource_url = token_result.result[:resource_url]
-    @readonly = token_result.result[:readonly]
-    @token_expires_in_seconds = token_result.result[:expires_in_seconds]
   end
 
   def update_header_component_via_turbo_stream(state: :show)

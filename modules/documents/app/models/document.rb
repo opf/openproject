@@ -29,6 +29,8 @@
 #++
 
 class Document < ApplicationRecord
+  include Collaboration::Collaborative
+
   enum :kind, {
     classic: "classic",
     collaborative: "collaborative"
@@ -39,6 +41,10 @@ class Document < ApplicationRecord
 
   acts_as_attachable delete_permission: :manage_documents,
                      add_permission: :manage_documents
+
+  collaborative_content view_permission: :view_documents,
+                        edit_permission: :manage_documents,
+                        api_path: :document
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },

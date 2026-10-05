@@ -1,0 +1,62 @@
+.op-whiteboard-canvas-layout
+  height: 100%
+  overflow: hidden
+
+  body,
+  .op-whiteboard-canvas-layout--main
+    height: 100%
+    margin: 0
+    overflow: hidden
+
+.op-whiteboard
+  display: block
+  height: 100dvh
+  width: 100vw
+
+.op-whiteboard--loading
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  color: var(--fgColor-muted)
+
+.op-whiteboard-chrome
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  pointer-events: all
+
+.op-whiteboard-chrome--leave
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  width: 2.25rem
+  height: 2.25rem
+  border-radius: var(--borderRadius-medium)
+  background: var(--island-bg-color, var(--bgColor-default))
+  box-shadow: var(--shadow-island, none)
+  color: var(--icon-fill-color, var(--fgColor-default))
+
+  &:hover
+    background: var(--button-hover-bg, var(--bgColor-muted))
+
+.op-whiteboard-chrome--status
+  font-size: 0.75rem
+  padding: 0.25rem 0.5rem
+  border-radius: var(--borderRadius-medium)
+
+  &::before
+    content: "●"
+    margin-right: 0.25rem
+
+.op-whiteboard-chrome--status_saved::before
+  color: var(--fgColor-success)
+
+.op-whiteboard-chrome--status_saving::before
+  color: var(--fgColor-attention)
+
+.op-whiteboard-chrome--status_delayed
+  color: var(--fgColor-attention)
+
+.op-whiteboard-chrome--status_offline
+  color: var(--fgColor-danger)
