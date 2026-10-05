@@ -1497,6 +1497,9 @@ module Settings
         allowed: -> { Setting::WorkPackageIdentifier::ALLOWED_VALUES },
         default: "classic"
       },
+      work_package_inline_edit: {
+        default: false
+      },
       work_package_list_default_highlighted_attributes: {
         default: ["status", "priority", "due_date"],
         allowed: -> {

@@ -43,6 +43,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -60,6 +61,8 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
   @LazyInject() halEditing:HalResourceEditingService;
 
   @LazyInject() I18n!:I18nService;
+
+  @LazyInject() configuration!:ConfigurationService;
 
   /** We cache the previously used fields to avoid reinitialization */
   private fieldCache:Record<string, DisplayField> = {};
@@ -163,11 +166,28 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
 
     const schema = this.schema(resource, change);
-    if (this.isAttributeEditable(schema, name)) {
+    if (this.isAttributeEditable(schema, name) && this.inlineEditingAllowed()) {
       span.classList.add(editableClassName);
       span.setAttribute('role', 'button');
     } else {
       span.classList.add(readOnlyClassName);
+    }
+  }
+
+  /**
+   * Inline editing in the work package table can be switched off by an administrator. When it is,
+   * table fields are not shown as editable so the click-to-edit affordance (hover border, editable
+   * cursor) does not appear. Other contexts (details view, timeline) are unaffected.
+   */
+  private inlineEditingAllowed():boolean {
+    if (this.container !== 'table') {
+      return true;
+    }
+
+    try {
+      return this.configuration.inlineEditEnabled();
+    } catch {
+      return true;
     }
   }
 

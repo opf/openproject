@@ -88,6 +88,11 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       expect(subject).to be_json_eql([1, 50, 100].to_json).at_path("perPageOptions")
     end
 
+    it "indicates whether inline editing is enabled" do
+      allow(Setting).to receive(:work_package_inline_edit?).and_return(true)
+      expect(subject).to be_json_eql(true.to_json).at_path("inlineEditEnabled")
+    end
+
     describe "timeFormat" do
       context "with time format", with_settings: { time_format: "%I:%M %p" } do
         it "indicates the timeFormat" do

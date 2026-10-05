@@ -79,6 +79,10 @@ export class ConfigurationService {
     return !!this.prepareAttachmentURL;
   }
 
+  public inlineEditEnabled():boolean {
+    return this.configuration.inlineEditEnabled;
+  }
+
   public get prepareAttachmentURL():string|undefined {
     return this.configuration.prepareAttachment?.href;
   }
