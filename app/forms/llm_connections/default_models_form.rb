@@ -31,10 +31,6 @@
 module LlmConnections
   class DefaultModelsForm < ApplicationForm
     form do |f|
-      # An autocompleter rather than a select: a gateway reports hundreds of
-      # models, and every one of them would otherwise be inlined as an option in
-      # the page body. decorated: true serialises the list into the element, so
-      # this needs no endpoint of its own.
       f.autocompleter(
         name: :default_chat_model_id,
         label: LlmConnection.human_attribute_name(:default_chat_model_id),
