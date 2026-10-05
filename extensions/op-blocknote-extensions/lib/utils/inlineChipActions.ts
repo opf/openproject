@@ -61,13 +61,17 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
  * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
  * are unique in the document, so only those can be found reliably.
  */
-export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
+export function findPendingInlineChip(
+  doc:ProsemirrorNode,
+  wpid:string,
+  type:string = INLINE_WP_TYPE,
+):FoundInlineChip | null {
   if (!wpid.startsWith(PENDING_PREFIX)) return null;
 
   let found:FoundInlineChip | null = null;
   doc.descendants((node, position) => {
     if (found) return false;
-    if (node.type.name === INLINE_WP_TYPE && node.attrs.wpid === wpid) {
+    if (node.type.name === type && node.attrs.wpid === wpid) {
       found = { position, node };
       return false;
     }

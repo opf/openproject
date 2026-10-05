@@ -4,6 +4,7 @@ import { initializeOpBlockNoteExtensions } from '../lib';
 import { clearWorkPackageCache } from '../lib/hooks/useWorkPackage';
 import { clearWorkPackageSchemaCache } from '../lib/hooks/useWorkPackageSchema';
 import { forgetLastSelection } from '../lib/components/CreateWorkPackage/lastSelection';
+import { forgetAttributeChoice } from '../lib/components/WorkPackageAttribute/lastChoice';
 import { clearPickerCache } from '../lib/components/CreateWorkPackage/usePickerOptions';
 import { whenCreateWorkPackagePermissionKnown } from '../lib/services/openProjectApi';
 
@@ -11,6 +12,7 @@ beforeEach(() => {
   clearWorkPackageCache();
   clearWorkPackageSchemaCache();
   forgetLastSelection();
+  forgetAttributeChoice();
   clearPickerCache();
 });
 

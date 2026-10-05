@@ -615,15 +615,13 @@ export const SuggestionItem = styled.div<{ $focused:boolean; $selected?:boolean 
   font-size: 0.9em;
   cursor: pointer;
   /*  The picked one stays marked wherever the focus wanders, as OpenProject
-      keeps the current project marked, and deeper than what is merely hovered.  */
+      keeps the current project marked, and deeper than what is merely hovered.
+      The pointer moves the focus, so hovering needs no mark of its own: one
+      would linger on the row the keys have since left.  */
   background: ${({ $focused, $selected }) => {
     if ($selected) return 'var(--op-create-wp-selected-bg)';
     return $focused ? 'var(--op-item-hover-bg)' : 'transparent';
   }};
-
-  &:hover {
-    background: ${({ $selected }) => ($selected ? 'var(--op-create-wp-selected-bg)' : 'var(--op-item-hover-bg)')};
-  }
 
   // Forced colours drop the background, so the mark has to be an outline.
   @media (forced-colors: active) {
