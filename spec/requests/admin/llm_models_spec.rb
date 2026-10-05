@@ -38,16 +38,12 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models(markup = page)
-    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+  def offered_default_models
+    items = page.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
     ids = JSON.parse(items).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
-
-  # Nokogiri does not descend into a <template>, which is where a turbo stream
-  # carries its markup.
-  def streamed_markup = Capybara.string(response.body.gsub(%r{</?template>}, ""))
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
