@@ -58,7 +58,7 @@ RSpec.describe "Administration custom fields index", type: :rails_request do
     it "does not count an archived project, matching the reminder on the field itself" do
       reaching.update_columns(active: false)
 
-      get custom_fields_path
+      get admin_settings_work_package_custom_fields_path
 
       expect(response.body).to include("no projects")
     end

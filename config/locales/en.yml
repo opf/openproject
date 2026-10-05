@@ -3621,11 +3621,6 @@ en:
         banner_html: >
           You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
         edit_action: "Edit form"
-<<<<<<< HEAD
-=======
-        text_html: >
-          You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
->>>>>>> f141aafff01 (Drive-by fix for the label of forms)
     usage:
       dialog:
         button: "View dependent types"
