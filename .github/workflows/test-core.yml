@@ -43,7 +43,7 @@ jobs:
         persist-credentials: false
     - name: Cache DOCKER
       id: cache_docker
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
@@ -58,35 +58,35 @@ jobs:
         mkdir -p tmp/ci-cache/docker
         docker save openproject-ci -o tmp/ci-cache/docker/image.tar
     - name: Cache GEM
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-trixie-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache DATABASE
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: |
           db/structure.sql
           config/database.yml
         key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
     - name: Cache ASSETS
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: |
           public/assets
@@ -117,21 +117,21 @@ jobs:
         persist-credentials: false
     - &restore-docker-cache
       name: Restore DOCKER cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/docker
         key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
         fail-on-cache-miss: true
     - &restore-gem-cache
       name: Restore GEM cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         fail-on-cache-miss: true
     - &restore-database-cache
       name: Restore DATABASE cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: |
           db/structure.sql
@@ -139,7 +139,7 @@ jobs:
         key: database-${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/runtime-logs
         key: runtime-logs-units-${{ github.head_ref || github.ref }}-${{ github.sha }}
@@ -173,7 +173,7 @@ jobs:
     - *restore-gem-cache
     - *restore-database-cache
     - name: Restore ASSETS cache
-      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: |
           public/assets
@@ -183,7 +183,7 @@ jobs:
         key: assets-${{ github.sha }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
         path: tmp/ci-cache/runtime-logs
         key: runtime-logs-features-${{ github.head_ref || github.ref }}-${{ github.sha }}
