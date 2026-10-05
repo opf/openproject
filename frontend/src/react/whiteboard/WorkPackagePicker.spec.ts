@@ -142,6 +142,10 @@ describe('WorkPackagePicker', () => {
     expect(onOpenChange).not.toHaveBeenCalled();
   });
 
+  it('uses an input type that Excalidraw does not intercept keystrokes from', () => {
+    expect(input().type).toBe('text');
+  });
+
   it('closes on escape', () => {
     press('Escape');
 

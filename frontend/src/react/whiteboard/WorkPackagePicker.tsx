@@ -181,8 +181,10 @@ export function WorkPackagePicker({ open, showTrigger, onOpenChange, onPick }:Wo
           className={`op-whiteboard-wp-picker--popover ${showTrigger ? '' : 'op-whiteboard-wp-picker--popover_sheet'}`}
           data-test-selector="whiteboard-work-package-picker"
         >
+          {/* Excalidraw only leaves keystrokes alone in text, number and password inputs; in any other
+              input it handles shortcuts like h, Backspace and the arrow keys itself. */}
           <input
-            type="search"
+            type="text"
             role="combobox"
             autoComplete="off"
             autoCapitalize="off"
