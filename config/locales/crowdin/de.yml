@@ -1538,7 +1538,7 @@ de:
           description: Sie können bei jedem Importlauf verschiedene Datensätze importieren. Es ist möglich, einen Importlauf unmittelbar danach rückgängig zu machen, aber nicht nach dem Abschluss-Schritt.
         jobs:
           JiraCreateCustomFieldsJob:
-            title: Create custom fields
+            title: Benutzerdefinierte Felder erstellen
           JiraCreateProjectJob:
             title: Create project '%{jira_project_name}'
           JiraCreateProjectRoleJob:
@@ -1550,23 +1550,23 @@ de:
           JiraCreateProjectWorkPackagesJob:
             title: Create work packages for '%{jira_project_name}'
           JiraCreateUsersJob:
-            title: Create users
+            title: Benutzer erstellen
           JiraFetchCustomFieldJob:
-            title: Fetch custom fields
+            title: Benutzerdefinierte Felder abrufen
           JiraFetchIssueTypesJob:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
-            title: Fetch priorities
+            title: Prioritäten abrufen
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
-            title: Fetch projects
+            title: Projekte abrufen
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
-            title: Fetch users
+            title: Benutzer abrufen
           JiraInstanceMetaDataJob:
             title: Fetching instance meta data
           JiraProjectsMetaDataJob:
@@ -1720,7 +1720,7 @@ de:
                 issues: Tickets
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
-                project_versions: Project versions
+                project_versions: Projektversionen
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
@@ -1728,7 +1728,7 @@ de:
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
               label_coming_later: Kommt später
-              label_coming_soon: Coming soon
+              label_coming_soon: Demnächst verfügbar
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               label_progress: Daten werden abgerufen
@@ -1742,38 +1742,38 @@ de:
             filter_projects: Nach Text filtern
             info: Nur Projekte, bei denen der Besitzer des Jira Token Mitglied ist, sind für den Import auswählbar.
             title: Projekte zum Importieren auswählen
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
-          stage_succeeded_label: Completed
+          stage_discarded_label: Fehler
+          stage_in_progress_label: Fortschritt
+          stage_job_error: Fehler
+          stage_succeeded_label: Abgeschlossen
           stages:
             '1':
               rest_line_text: ''
-              title: Fetch Jira configuration
+              title: Jira-Konfiguration abrufen
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Benutzer und benutzerdefinierte Felder abrufen
             '4':
               rest_line_text: ''
               title: Create users, groups and memberships
             '5':
               rest_line_text: ''
-              title: Create roles and custom fields
+              title: Rollen und benutzerdefinierte Felder erstellen
             '6':
               rest_line_text: Creating %{projects_number} more projects
-              title: Create projects
+              title: Projekte erstellen
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              title: Projektversionen erstellen
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
-              title: Create work packages
+              title: Arbeitspakete erstellen
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Anhänge herunterladen
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -3594,7 +3594,7 @@ de:
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_item: "(gelöschter Eintrag)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(gelöschte Version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
 
