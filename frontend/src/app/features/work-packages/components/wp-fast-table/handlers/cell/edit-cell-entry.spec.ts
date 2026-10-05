@@ -95,4 +95,15 @@ describe('Edit cell entry', () => {
       expect(harness.focus.focusedWorkPackage).toBe('1');
     });
   });
+
+  describe('when inline editing is disabled', () => {
+    beforeEach(() => renderTable({ editing: {}, inlineEditEnabled: false }));
+
+    it('does not open an editor even for an editable field', async () => {
+      fireEvent.click(subjectField('1'));
+
+      await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
+      expect(harness.focus.focusedWorkPackage).toBe('2');
+    });
+  });
 });

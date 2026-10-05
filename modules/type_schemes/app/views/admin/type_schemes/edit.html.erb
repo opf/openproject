@@ -1,0 +1,19 @@
+<% html_title t(:label_administration), t("type_schemes.plural"), t("type_schemes.edit") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("type_schemes.edit") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_type_schemes_path, text: t("type_schemes.plural") },
+       t("type_schemes.edit")]
+    )
+  end
+%>
+
+<%= form_tag admin_type_scheme_path(@scheme), method: :patch, data: { turbo: false } do %>
+  <%= render "form_fields", scheme: @scheme %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_save) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_type_schemes_path)) { t(:button_cancel) } %>
+  </div>
+<% end %>

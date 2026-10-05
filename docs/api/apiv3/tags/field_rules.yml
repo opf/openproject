@@ -1,0 +1,19 @@
+---
+description: |-
+  Field rules tighten the native work package form per project and type: a rule can hide a field, make it required,
+  make it read-only for users, or give it a default value for new work packages. A **field rule set** holds the rules,
+  a **field rule scheme** assigns a rule set to each type, and a scheme is assigned to projects.
+
+  Rules never add data and never delete existing values. Hidden fields keep their stored value (still returned in work
+  package payloads) but cannot be written. Rule sets and schemes cannot be deleted, only deactivated.
+
+  ## Local Properties of a rule set
+
+  | Property    | Description                                              | Type   | Supported operations |
+  | :---------: | -------------------------------------------------------- | ------ | -------------------- |
+  | id          | Rule set id                                              | Integer| READ                 |
+  | name        | Unique name                                              | String | READ / WRITE         |
+  | description |                                                          | String | READ / WRITE         |
+  | active      | Inactive rule sets do not apply                          | Boolean| READ / WRITE         |
+  | rules       | Objects with `fieldKey`, `hidden`, `required`, `readOnly`, `enforceOnUpdate`, `defaultValue`, `position` | Array | READ / WRITE |
+name: Field Rules

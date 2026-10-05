@@ -116,6 +116,9 @@ module API
         property :allowed_link_protocols,
                  getter: ->(*) { Setting::AllowedLinkProtocols.all }
 
+        property :inline_edit_enabled,
+                 getter: ->(*) { Setting.work_package_inline_edit? }
+
         property :user_preferences,
                  embedded: true,
                  exec_context: :decorator,

@@ -1,0 +1,25 @@
+---
+description: |-
+  A type scheme limits, orders and defaults the work package types that can be chosen when a work package is created
+  or its type is changed in the projects the scheme is assigned to. Every project has a scheme: projects without an explicit assignment use the default scheme, whose default type is Task. Type schemes cannot be deleted, only deactivated. Existing work packages are never modified.
+
+  ## Actions
+
+  | Link   | Description                              | Condition                    |
+  | :----: | ---------------------------------------- | ---------------------------- |
+  | create | Create a type scheme                     | **Permission**: administrator |
+  | update | Update a type scheme                     | **Permission**: administrator |
+
+  ## Local Properties
+
+  | Property    | Description                                          | Type    | Constraints | Supported operations |
+  | :---------: | ---------------------------------------------------- | ------- | ----------- | -------------------- |
+  | id          | Type scheme id                                       | Integer | x > 0       | READ                 |
+  | name        | Unique name                                          | String  | not null    | READ / WRITE         |
+  | description |                                                      | String  |             | READ / WRITE         |
+  | active      | Inactive schemes cannot be assigned                  | Boolean |             | READ / WRITE         |
+  | isDefault   | Default scheme (exactly one; used by new projects)   | Boolean |             | READ / WRITE         |
+  | typeItems   | Ordered types with exactly one `default: true` entry | Array   |             | READ / WRITE         |
+  | createdAt   | Time of creation                                     | DateTime |            | READ                 |
+  | updatedAt   | Time of the most recent change                       | DateTime |            | READ                 |
+name: Type Schemes

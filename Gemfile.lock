@@ -227,6 +227,16 @@ PATH
       webauthn (~> 3.0)
 
 PATH
+  remote: modules/field_rules
+  specs:
+    openproject-field_rules (1.0.0)
+
+PATH
+  remote: modules/type_schemes
+  specs:
+    openproject-type_schemes (1.0.0)
+
+PATH
   remote: modules/webhooks
   specs:
     openproject-webhooks (1.0.0)
@@ -1711,6 +1721,8 @@ DEPENDENCIES
   openproject-team_planner!
   openproject-token (~> 8.13.0)
   openproject-two_factor_authentication!
+  openproject-field_rules!
+  openproject-type_schemes!
   openproject-webhooks!
   openproject-wikis!
   openproject-xls_export!
@@ -2096,6 +2108,8 @@ CHECKSUMS
   openproject-team_planner (1.0.0)
   openproject-token (8.13.0) sha256=b9f570200021db72a1b74b88af756552b12c830db22641725dba9d7fd2a942d0
   openproject-two_factor_authentication (1.0.0)
+  openproject-field_rules (1.0.0)
+  openproject-type_schemes (1.0.0)
   openproject-webhooks (1.0.0)
   openproject-wikis (1.0.0)
   openproject-xls_export (1.0.0)

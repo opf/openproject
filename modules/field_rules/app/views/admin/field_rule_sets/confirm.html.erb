@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title t(:label_administration), t("field_rules.plural"), t("field_rules.confirm.title") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("field_rules.confirm.title") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_field_rule_sets_path, text: t("field_rules.rule_sets.plural") },
+                             { href: edit_admin_field_rule_set_path(@rule_set), text: @rule_set.name },
+                             t("field_rules.confirm.title")])
+  end
+%>
+<%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) do %>
+  <p class="mb-2"><%= t("field_rules.confirm.rule_set_intro", name: @rule_set.name) %></p>
+  <ul id="field-rule-impact">
+    <li><%= t("field_rules.confirm.schemes", count: @impact[:scheme_count]) %></li>
+    <li><%= t("field_rules.confirm.projects", count: @impact[:project_count]) %></li>
+    <li><%= t("field_rules.confirm.work_packages", count: @impact[:work_package_count]) %></li>
+  </ul>
+<% end %>
+<p><%= t("field_rules.confirm.no_data_change") %></p>
+<%= form_tag admin_field_rule_set_path(@rule_set), method: :patch do %>
+  <%= hidden_field_tag :confirm, "1" %>
+  <% @rule_set_params.to_h.except("rules").each do |key, value| %>
+    <%= hidden_field_tag "rule_set[#{key}]", value, id: nil %>
+  <% end %>
+  <% (@rule_set_params[:rules] || {}).to_h.each do |field, attrs| %>
+    <% attrs.each do |key, value| %>
+      <%= hidden_field_tag "rule_set[rules][#{field}][#{key}]", value, id: nil %>
+    <% end %>
+  <% end %>
+  <div class="form--field">
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_confirm) } %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: admin_field_rule_sets_path, scheme: :invisible)) { t(:button_cancel) } %>
+  </div>
+<% end %>

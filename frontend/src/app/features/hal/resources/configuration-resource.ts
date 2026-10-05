@@ -49,6 +49,7 @@ export class ConfigurationResource extends HalResource {
   public maximumAPIV3PageSize:number;
   public perPageOptions:number[];
   public allowedLinkProtocols?:string[];
+  public inlineEditEnabled:boolean;
   public dateFormat:string|null;
   public timeFormat:string|null;
   public durationFormat:DurationFormat;

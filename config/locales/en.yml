@@ -6505,6 +6505,7 @@ en:
   setting_work_package_done_ratio_status_caption_html: >-
     Each status has a <i>% Complete</i> value associated with it.
     Changing status will change <i>% Complete</i>.
+  setting_work_package_inline_edit: "Enable inline editing in the work package list"
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_work_package_list_default_highlighting_mode: "Default highlighting mode"
   setting_work_package_multiple_versions: "Multiple target versions"

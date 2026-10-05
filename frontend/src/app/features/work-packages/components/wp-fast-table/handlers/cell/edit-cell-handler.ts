@@ -38,6 +38,7 @@ import { getPosition } from 'core-app/shared/helpers/set-click-position/set-clic
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { States } from 'core-app/core/states/states.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
@@ -50,6 +51,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   @LazyInject() public states:States;
 
   @LazyInject() public halEditing:HalResourceEditingService;
+
+  @LazyInject() public configuration:ConfigurationService;
 
   // Keep a reference to all
 
@@ -70,6 +73,10 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   }
 
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {
+    if (!this.configuration.inlineEditEnabled()) {
+      return;
+    }
+
     debugLog('Starting editing on cell: ', evt.target);
 
     // Don't intercept clicks on anchor elements - let the browser follow the link

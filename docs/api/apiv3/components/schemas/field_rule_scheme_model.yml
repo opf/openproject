@@ -1,0 +1,43 @@
+# Schema: FieldRuleSchemeModel
+---
+type: object
+required:
+  - _type
+  - id
+  - name
+  - active
+  - typeItems
+properties:
+  _type:
+    type: string
+    enum:
+      - FieldRuleScheme
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+  description:
+    type:
+      - string
+      - "null"
+  active:
+    type: boolean
+  typeItems:
+    type: array
+    items:
+      type: object
+      properties:
+        _links:
+          type: object
+          properties:
+            type:
+              $ref: './link.yml'
+            ruleSet:
+              $ref: './link.yml'
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time

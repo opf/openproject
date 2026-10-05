@@ -1,0 +1,51 @@
+# /api/v3/type_schemes/{id}
+---
+get:
+  summary: Get a type scheme
+  operationId: get_type_scheme
+  tags:
+    - Type Schemes
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_model.yml'
+    '404':
+      description: Returned if the scheme does not exist.
+patch:
+  summary: Update a type scheme
+  operationId: update_type_scheme
+  tags:
+    - Type Schemes
+  description: |-
+    Updates name, description and replaces the `typeItems`. `newTypeNames` creates new work package types (each name is created once, or reused when it matches an existing type) and appends them to the scheme; when `typeItems` is omitted the existing items are kept and only the new types are added. `colorId`/`colorHex` set the color of each type and live on the `typeItems` entries (a color with the same hexcode is reused, otherwise created). `isDefault: true` makes this scheme the default scheme for projects (the previous default is unset); the default flag cannot be removed directly. `active: false` deactivates the scheme and moves its projects to the default scheme; the default scheme cannot be deactivated. Existing work packages are not changed. Type schemes cannot be deleted.
+
+    **Required permission:** administrator
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/type_scheme_model.yml'
+    '403':
+      description: Returned if the user is not an administrator.
+    '404':
+      description: Returned if the scheme does not exist.
+    '422':
+      description: Returned if the resulting scheme is invalid.

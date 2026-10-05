@@ -1,0 +1,132 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  items = scheme.items.index_by(&:type_id)
+  all_types = Type.order(:position).sort_by.with_index do |type, index|
+    item = items[type.id]
+    item ? [0, item.position, index] : [1, 0, index]
+  end
+  default_locked = scheme.persisted? && scheme.is_default
+%>
+<div class="form--field -required">
+  <%= label_tag "type_scheme_name", TypeScheme.human_attribute_name(:name), class: "form--label" %>
+  <span class="form--field-container"><%= text_field_tag "type_scheme[name]", scheme.name, id: "type_scheme_name", class: "form--text-field", required: true %></span>
+</div>
+<div class="form--field">
+  <%= label_tag "type_scheme_description", TypeScheme.human_attribute_name(:description), class: "form--label" %>
+  <span class="form--field-container"><%= text_area_tag "type_scheme[description]", scheme.description, id: "type_scheme_description", class: "form--text-area", rows: 3 %></span>
+</div>
+<div class="form--field">
+  <%= label_tag "type_scheme_is_default", t("type_schemes.form.is_default"), class: "form--label" %>
+  <span class="form--field-container">
+    <%= check_box_tag "type_scheme[is_default]", "1", scheme.is_default, id: "type_scheme_is_default", disabled: default_locked, "aria-describedby": "type_scheme_is_default_hint" %>
+  </span>
+  <span class="form--field-instructions" id="type_scheme_is_default_hint">
+    <%= default_locked ? t("type_schemes.form.default_scheme_hint") : t("type_schemes.form.is_default_hint") %>
+  </span>
+</div>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= TypeScheme.human_attribute_name(:items) %></legend>
+  <p id="type_scheme_types_hint"><%= t("type_schemes.form.types_hint") %></p>
+  <div data-controller="type-schemes--sortable-types"
+       data-type-schemes--sortable-types-moved-text-value="<%= t("type_schemes.form.moved") %>"
+       data-type-schemes--sortable-types-default-changed-text-value="<%= t("type_schemes.form.default_changed") %>">
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table" aria-describedby="type_scheme_types_hint">
+          <caption class="sr-only"><%= t("type_schemes.form.table_caption") %></caption>
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only"><%= t("type_schemes.form.reorder") %></span></th>
+              <th scope="col"><%= t("type_schemes.form.enabled") %></th>
+              <th scope="col"><%= Type.model_name.human %></th>
+              <th scope="col"><%= t("type_schemes.form.position") %></th>
+              <th scope="col"><%= t("type_schemes.form.color") %></th>
+              <th scope="col"><%= t("type_schemes.form.default") %></th>
+            </tr>
+          </thead>
+          <tbody data-type-schemes--sortable-types-target="list"
+                 data-action="keydown->type-schemes--sortable-types#keydown">
+            <% all_types.each_with_index do |type, index| %>
+              <% item = items[type.id] %>
+              <tr data-type-name="<%= type.name %>"
+                  data-action="dragover->type-schemes--sortable-types#over drop->type-schemes--sortable-types#drop">
+                <td>
+                  <span hidden data-type-schemes--sortable-types-target="control">
+                    <%= render Primer::OpenProject::DragHandle.new(
+                          draggable: true,
+                          aria: { hidden: true },
+                          data: { action: "dragstart->type-schemes--sortable-types#start dragend->type-schemes--sortable-types#end" }
+                        ) %>
+                    <%= render Primer::Beta::IconButton.new(
+                          icon: :"chevron-up",
+                          scheme: :invisible,
+                          size: :small,
+                          "aria-label": t("type_schemes.form.move_up", type: type.name),
+                          data: { action: "type-schemes--sortable-types#up" }
+                        ) %>
+                    <%= render Primer::Beta::IconButton.new(
+                          icon: :"chevron-down",
+                          scheme: :invisible,
+                          size: :small,
+                          "aria-label": t("type_schemes.form.move_down", type: type.name),
+                          data: { action: "type-schemes--sortable-types#down" }
+                        ) %>
+                  </span>
+                </td>
+                <td><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", data: { action: "change->type-schemes--sortable-types#toggle" } %></td>
+                <td><%= label_tag "type_scheme_types_#{type.id}_enabled", type.name %></td>
+                <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 0, max: 99_999, "aria-label": t("type_schemes.form.position_of", type: type.name) %></td>
+                <td><%= render "color_field", type: type, item: item %></td>
+                <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": t("type_schemes.form.default_of", type: type.name) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-type-schemes--sortable-types-target="status"></div>
+  </div>
+
+  <div class="form--field">
+    <%= label_tag "type_scheme_new_type_names", t("type_schemes.form.new_types"), class: "form--label" %>
+    <span class="form--field-container">
+      <%= text_area_tag "type_scheme[new_type_names]",
+                        params.dig(:type_scheme, :new_type_names),
+                        id: "type_scheme_new_type_names",
+                        class: "form--text-area",
+                        rows: 2,
+                        "aria-describedby": "type_scheme_new_types_hint" %>
+    </span>
+    <span class="form--field-instructions" id="type_scheme_new_types_hint">
+      <%= t("type_schemes.form.new_types_hint") %>
+    </span>
+  </div>
+</fieldset>

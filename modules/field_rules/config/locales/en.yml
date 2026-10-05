@@ -1,0 +1,143 @@
+en:
+  permission_assign_field_rule_scheme: "Assign field rule scheme"
+  field_rules:
+    plural: "Field rules"
+    actions: "Actions"
+    action_on: "%{action} %{name}"
+    clone: "Clone"
+    activate: "Activate"
+    deactivate: "Deactivate"
+    rule_sets:
+      plural: "Field rule sets"
+      singular: "Field rule set"
+      description: "A field rule set hides, requires, locks or pre-fills work package fields. Assign rule sets to types in a field rule scheme."
+      new: "New field rule set"
+      edit: "Edit field rule set"
+      rules: "Rules"
+      schemes: "Schemes"
+      blank_heading: "No field rule sets yet"
+      blank_description: "Create a rule set to control which fields are hidden, required, read-only or pre-filled."
+      deactivate_confirm:
+        zero: "Deactivate this rule set? No scheme uses it."
+        one: "This rule set is used by %{count} scheme. Projects using it will fall back to the native form behaviour. Continue?"
+        other: "This rule set is used by %{count} schemes. Projects using them will fall back to the native form behaviour. Continue?"
+      fields_heading: "Field settings"
+      form_hint: "Rules only tighten the native form configuration: a hidden field is not shown or writable, a required field must be filled when creating, a read-only field cannot be changed by users. Fields without any setting are left untouched."
+      combination_hidden: "A hidden field cannot also be required or read-only. Ticking Hidden turns off the other settings of that field."
+      combination_read_only_required: "A field that is both required and read-only needs a default value, otherwise nobody could create a work package."
+      combination_enforce: "Enforce on update only matters for required fields: it also checks the field whenever an existing work package is edited."
+      combination_default: "A default value pre-fills the field when a work package is created. Fields without a default value input cannot be pre-filled."
+      fields_caption: "Configurable work package fields: hidden, required, read-only, enforce on update and default value"
+      native_required: "Already required by custom field settings"
+      not_active_in_projects:
+        one: "Not enabled in %{count} project. The rule is ignored there."
+        other: "Not enabled in %{count} projects. The rule is ignored there."
+      default_unavailable: "A default value is not available for this field"
+      default_user_id: "User ID"
+      field: "Field"
+      hidden: "Hidden"
+      required: "Required"
+      read_only: "Read-only"
+      enforce_on_update: "Enforce on update"
+      default_value: "Default value"
+    schemes:
+      plural: "Field rule schemes"
+      description: "A field rule scheme assigns a rule set to each work package type. Assign a scheme to projects in their project settings."
+      new: "New field rule scheme"
+      edit: "Edit field rule scheme"
+      types: "Types"
+      types_heading: "Rule set per type"
+      no_rule_sets: "There are no field rule sets yet. Create one first to assign it to a type."
+      projects: "Projects"
+      blank_heading: "No field rule schemes yet"
+      blank_description: "Create a scheme to map work package types to field rule sets."
+      deactivate_confirm:
+        zero: "Deactivate this scheme? No project uses it."
+        one: "This scheme is used by %{count} project. Its rules stop applying there. Continue?"
+        other: "This scheme is used by %{count} projects. Its rules stop applying there. Continue?"
+      form_hint: "Choose a rule set for each type. Types without a rule set keep the native behaviour."
+      types_caption: "Rule set per work package type"
+      no_rules: "No rules (native behaviour)"
+    confirm:
+      title: "Confirm field rule changes"
+      rule_set_intro: "The field rule set \"%{name}\" is shared. Saving your changes affects:"
+      schemes:
+        one: "%{count} field rule scheme"
+        other: "%{count} field rule schemes"
+      projects:
+        zero: "no projects"
+        one: "%{count} project"
+        other: "%{count} projects"
+      work_packages:
+        zero: "no existing work packages"
+        one: "%{count} existing work package"
+        other: "%{count} existing work packages"
+      no_data_change: "Changes apply to new edits immediately. Existing values are never changed."
+      scheme_in_use:
+        one: "This scheme is used by %{count} project. Changes will affect that project."
+        other: "This scheme is used by %{count} projects. Changes will affect all those projects."
+    project_settings:
+      title: "Field rule scheme"
+      description: "The scheme decides which fields are hidden, required, read-only or pre-filled for each type in this project."
+      scheme: "Field rule scheme"
+      none: "No scheme (native behaviour)"
+      scheme_hint: "Only active schemes can be assigned."
+      no_schemes: "There are no active field rule schemes yet. An administrator can create one under Administration, Work packages, Field rules."
+      inactive: "The assigned scheme is inactive, so its rules do not apply."
+      effective: "Effective rules per type"
+      effective_hint: "Rules of the scheme \"%{scheme}\" for the types enabled in this project."
+      no_scheme_assigned: "No scheme is assigned, so work packages follow the native form configuration."
+      no_rule_set: "No rule set, native behaviour"
+      no_rules: "This rule set has no rules."
+      not_applied: "Not applied"
+      field_not_active: "Field not enabled in this project, ignored"
+      default_value: "default %{value}"
+  activerecord:
+    attributes:
+      field_rule_set:
+        name: Name
+        description: Description
+        rules: Rules
+      field_rule_scheme:
+        name: Name
+        description: Description
+        items: Types
+      project_field_rule_scheme:
+        scheme: Field rule scheme
+    errors:
+      messages:
+        required_by_field_rules: "is required for %{type} work packages."
+      models:
+        field_rule_set:
+          attributes:
+            rules:
+              duplicate_fields: must not contain the same field more than once.
+              too_many: must not contain more than %{count} rules.
+            base:
+              cannot_be_deleted: Field rule sets cannot be deleted. Deactivate them instead.
+              conflict: was changed by someone else at the same time, please try again.
+        field_rule:
+          attributes:
+            field_key:
+              unknown_field: is not a configurable field.
+            hidden:
+              custom_field_required: cannot be set because the custom field itself is required.
+            read_only:
+              custom_field_required: needs a default value because the custom field itself is required.
+            required:
+              hidden_and_required: cannot be combined with hidden.
+              read_only_required_without_default: needs a default value when the field is also read-only.
+            default_value:
+              invalid_default: is not a valid value for this field.
+        field_rule_scheme:
+          attributes:
+            items:
+              duplicate_types: must not contain the same type more than once.
+              too_many: must not contain more than %{count} types.
+            base:
+              cannot_be_deleted: Field rule schemes cannot be deleted. Deactivate them instead.
+              conflict: was changed by someone else at the same time, please try again.
+        project_field_rule_scheme:
+          attributes:
+            scheme:
+              inactive: must be active.

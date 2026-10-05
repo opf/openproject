@@ -22,6 +22,8 @@ Manage work package settings, types, statuses, workflows and other work package 
 | [Project attributes](work-package-types/project-attributes) | Configure which project attributes are displayed in work packages of a specific type. |
 | [Projects](work-package-types/projects)                     | Configure for which projects a work package type is activated. |
 | [Generate PDF](work-package-types/pdf-export)               | Configure PDF exports for a work package type.               |
+| [Field rules](field-rules)                                  | Hide, require, lock and pre-fill fields per project and type. |
+| [Type schemes](type-schemes)                                | Limit and order the types available per project.             |
 | [Status](work-package-status)                               | Create and manage work package statuses.                     |
 | [Versions and categories](versions-and-categories)          | Manage work package versions and categories.                 |
 | [Priorities](work-package-priorities)                       | Create and manage work package priorities.                   |

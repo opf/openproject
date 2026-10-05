@@ -326,4 +326,7 @@ export class WorkPackageBaseResource extends HalResource {
 export const WorkPackageResource = Attachable(WorkPackageBaseResource);
 
 export interface WorkPackageResource extends WorkPackageBaseResource, WorkPackageResourceLinks, WorkPackageResourceEmbedded {
+  estimatedTime?:string|null;
+  spentTime?:string|null;
+  remainingTime?:string|null;
 }

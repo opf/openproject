@@ -1,0 +1,37 @@
+<% html_title t(:label_administration), t("type_schemes.plural"), t("type_schemes.confirm.title") %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("type_schemes.confirm.title") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: admin_type_schemes_path, text: t("type_schemes.plural") },
+       { href: edit_admin_type_scheme_path(@scheme), text: @scheme.name },
+       t("type_schemes.confirm.title")]
+    )
+  end
+%>
+
+<%= render(Primer::Beta::Flash.new(scheme: :warning, mb: 3)) { t("type_schemes.confirm.used_by_projects", count: @impact[:project_count]) } %>
+
+<% if @impact[:work_package_counts].any? %>
+  <ul class="mb-3">
+    <% @impact[:work_package_counts].each do |type_id, count| %>
+      <li><%= t("type_schemes.confirm.type_in_use", type: @types[type_id].name, count: count) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_tag admin_type_scheme_path(@scheme), method: :patch do %>
+  <%= hidden_field_tag :confirm, "1" %>
+  <% @scheme_params.to_h.except("types").each do |key, value| %>
+    <%= hidden_field_tag "type_scheme[#{key}]", value, id: nil %>
+  <% end %>
+  <% (@scheme_params[:types] || {}).to_h.each do |type_id, attrs| %>
+    <% attrs.each do |key, value| %>
+      <%= hidden_field_tag "type_scheme[types][#{type_id}][#{key}]", value, id: nil %>
+    <% end %>
+  <% end %>
+  <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit)) { t(:button_confirm) } %>
+  <%= render(Primer::Beta::Button.new(tag: :a, href: admin_type_schemes_path)) { t(:button_cancel) } %>
+<% end %>

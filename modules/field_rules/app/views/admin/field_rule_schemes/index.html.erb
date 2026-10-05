@@ -1,0 +1,93 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% html_title t(:label_administration), t("field_rules.schemes.plural") %>
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("field_rules.schemes.plural") }
+    header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
+                             { href: admin_field_rule_sets_path, text: t("field_rules.plural") },
+                             t("field_rules.schemes.plural")])
+  end
+%>
+<%= render Primer::Beta::Text.new(tag: :p, color: :muted) { t("field_rules.schemes.description") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: new_admin_field_rule_scheme_path, scheme: :primary, mb: 3) { t("field_rules.schemes.new") } %>
+<%= render Primer::Beta::Button.new(tag: :a, href: admin_field_rule_sets_path, mb: 3, ml: 2) { t("field_rules.rule_sets.plural") } %>
+
+<% if @schemes.empty? %>
+  <%=
+    render Primer::Beta::Blankslate.new(border: true) do |blankslate|
+      blankslate.with_visual_icon(icon: :checklist)
+      blankslate.with_heading(tag: :h2).with_content(t("field_rules.schemes.blank_heading"))
+      blankslate.with_description { t("field_rules.schemes.blank_description") }
+    end
+  %>
+<% else %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <caption class="sr-only"><%= t("field_rules.schemes.plural") %></caption>
+        <thead>
+          <tr>
+            <th scope="col"><%= t(:label_name) %></th>
+            <th scope="col"><%= t("field_rules.schemes.types") %></th>
+            <th scope="col"><%= t("field_rules.schemes.projects") %></th>
+            <th scope="col"><%= t(:label_status) %></th>
+            <th scope="col"><span class="sr-only"><%= t("field_rules.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @schemes.each do |scheme| %>
+            <% project_count = @project_counts.fetch(scheme.id, 0) %>
+            <tr>
+              <th scope="row">
+                <%= link_to scheme.name, edit_admin_field_rule_scheme_path(scheme) %>
+                <% if scheme.description.present? %>
+                  <div class="color-fg-muted"><%= scheme.description %></div>
+                <% end %>
+              </th>
+              <td><%= scheme.items.size %></td>
+              <td><%= project_count %></td>
+              <td><%= scheme.active ? t(:label_active) : t(:label_inactive) %></td>
+              <td>
+                <%= render(Primer::Beta::Button.new(tag: :a, href: edit_admin_field_rule_scheme_path(scheme), size: :small, mr: 2, mb: 1, "aria-label": t("field_rules.action_on", action: t(:button_edit), name: scheme.name))) { t(:button_edit) } %>
+                <%= render "admin/field_rule_sets/action", name: scheme.name, path: clone_admin_field_rule_scheme_path(scheme), caption: t("field_rules.clone"), confirm: nil %>
+                <% if scheme.active %>
+                  <%= render "admin/field_rule_sets/action", name: scheme.name, path: deactivate_admin_field_rule_scheme_path(scheme), caption: t("field_rules.deactivate"),
+                                                              confirm: t("field_rules.schemes.deactivate_confirm", count: project_count) %>
+                <% else %>
+                  <%= render "admin/field_rule_sets/action", name: scheme.name, path: activate_admin_field_rule_scheme_path(scheme), caption: t("field_rules.activate"), confirm: nil %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,53 @@
+# Schema: FieldRuleSetModel
+---
+type: object
+required:
+  - _type
+  - id
+  - name
+  - active
+  - rules
+properties:
+  _type:
+    type: string
+    enum:
+      - FieldRuleSet
+  id:
+    type: integer
+    minimum: 1
+  name:
+    type: string
+  description:
+    type:
+      - string
+      - "null"
+  active:
+    type: boolean
+  rules:
+    type: array
+    items:
+      type: object
+      properties:
+        fieldKey:
+          type: string
+          example: custom_field_12
+        hidden:
+          type: boolean
+        required:
+          type: boolean
+        readOnly:
+          type: boolean
+        enforceOnUpdate:
+          type: boolean
+        defaultValue:
+          type:
+            - string
+            - "null"
+        position:
+          type: integer
+  createdAt:
+    type: string
+    format: date-time
+  updatedAt:
+    type: string
+    format: date-time

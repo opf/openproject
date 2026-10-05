@@ -43,6 +43,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
 import { WorkPackageTable } from '../wp-fast-table';
 import { EditCellHandler } from './cell/edit-cell-handler';
+import { HoverPreviewHandler } from './row/hover-preview-handler';
 import { RelationsCellHandler } from './cell/relations-cell-handler';
 import { ContextMenuClickHandler } from './context-menu/context-menu-click-handler';
 import { ContextMenuKeyboardHandler } from './context-menu/context-menu-keyboard-handler';
@@ -78,6 +79,8 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     () => new HierarchyClickHandler(this.injector),
     // Clicking or pressing Enter on a single cell, editable or not
     () => new EditCellHandler(this.injector),
+    // Hovering a row shows a preview of basic work package information
+    () => new HoverPreviewHandler(this.injector),
     // Clicking on the details view
     () => new WorkPackageStateLinksHandler(this.injector),
     // Clicking on the row (not within a cell)

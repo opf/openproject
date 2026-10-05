@@ -1,0 +1,82 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "spec_helper"
+
+RSpec.describe "Project settings type scheme" do
+  shared_let(:epic) { create(:type, name: "Epic") }
+  shared_let(:story) { create(:type, name: "Story") }
+  shared_let(:bug) { create(:type, name: "Bug") }
+  shared_let(:project) { create(:project, types: [epic, story, bug]) }
+  shared_let(:scheme) { create(:type_scheme, name: "Dev", types: [story, epic]) }
+
+  context "with assign_type_scheme permission" do
+    current_user { create(:user, member_with_permissions: { project => %i[assign_type_scheme view_work_packages] }) }
+
+    it "assigns a scheme and lists the available types in order" do
+      visit project_settings_type_scheme_path(project)
+      select "Dev", from: "scheme_id"
+      click_button "Save"
+
+      expect(page).to have_text("Successful update.")
+      expect(ProjectTypeScheme.find_by(project_id: project.id).scheme).to eq scheme
+      expect(page).to have_css("#available-types li:first-child", text: "Story")
+      expect(page).to have_css("#available-types li:first-child .Label", text: "Default")
+      expect(page).to have_css("#available-types .Label", count: 1)
+      expect(page).to have_css("#available-types li", count: 2)
+      expect(page).to have_no_css("#available-types li", text: "Bug")
+    end
+
+    it "has no empty option and shows the default scheme when none is assigned" do
+      default = create(:type_scheme, name: "Fallback", types: [story, epic], is_default: true)
+      visit project_settings_type_scheme_path(project)
+
+      expect(page).to have_select("scheme_id", selected: "Fallback (default)")
+      expect(page).to have_css("label[for=scheme_id]", text: "Type scheme")
+      expect(page).to have_no_select("scheme_id", with_options: [""])
+    end
+
+    it "warns about scheme types not enabled in the project" do
+      other = create(:type, name: "Spike")
+      extended = create(:type_scheme, name: "Extended", types: [story, other])
+      TypeSchemes::SchemeService.assign(project, extended)
+
+      visit project_settings_type_scheme_path(project)
+      expect(page).to have_text("not enabled in this project: Spike")
+    end
+  end
+
+  context "without the permission" do
+    current_user { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+    it "is forbidden" do
+      visit project_settings_type_scheme_path(project)
+      expect(page).to have_text("You are not authorized")
+    end
+  end
+end

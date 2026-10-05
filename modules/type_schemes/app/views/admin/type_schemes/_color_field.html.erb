@@ -1,0 +1,96 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  type = local_assigns.fetch(:type)
+  item = local_assigns[:item]
+  key = type.id.to_s
+  id_prefix = "type_scheme_types_#{type.id}"
+  mode_name = "type_scheme[types][#{type.id}][color_mode]"
+  id_name = "type_scheme[types][#{type.id}][color_id]"
+  hex_name = "type_scheme[types][#{type.id}][color_hex]"
+
+  selected_id = params.dig(:type_scheme, :types, key, :color_id).presence&.to_i || item&.color_id
+  selected_hex = params.dig(:type_scheme, :types, key, :color_hex).presence || item&.color&.hexcode
+  mode = (params.dig(:type_scheme, :types, key, :color_mode).presence || "palette").to_s
+  custom = mode == "custom"
+
+  color_options = Color.order(:name).map do |color|
+    option = { name: color.name, value: color.id }
+    option[:selected] = true if color.id == selected_id
+    option
+  end
+  colors_json = color_options.to_json
+  color_hex_map = Color.order(:name).each_with_object({}) { |color, map| map[color.id] = color.hexcode }.to_json
+%>
+
+<div data-controller="type-schemes--color"
+     data-type-schemes--color-colors-value="<%= color_hex_map %>"
+     class="type-scheme-color">
+  <label class="type-scheme-color--mode">
+    <%= radio_button_tag mode_name, "palette", !custom,
+                         id: "#{id_prefix}_color_mode_palette",
+                         data: { type_schemes__color_target: "mode",
+                                 action: "change->type-schemes--color#modeChanged" } %>
+    <%= t("type_schemes.form.color_mode_palette") %>
+  </label>
+
+  <span class="type-scheme-color--control"
+        data-type-schemes--color-target="palette"
+        <%= "hidden" if custom %>>
+    <span class="color--preview mr-2"
+          data-type-schemes--color-target="swatch"
+          style="background-color: <%= selected_hex.presence || 'transparent' %>"
+          aria-hidden="true"></span>
+    <%= hidden_field_tag id_name, selected_id, id: "#{id_prefix}_color_id",
+                         data: { type_schemes__color_target: "select",
+                                 action: "change->type-schemes--color#selectChanged" } %>
+    <%= content_tag("opce-colors-autocompleter", "",
+                    class: "colors-autocomplete form--select-container",
+                    data: { colors: colors_json,
+                            classes: "ng-select--primerized",
+                            update_input: id_name }) %>
+  </span>
+
+  <label class="type-scheme-color--mode">
+    <%= radio_button_tag mode_name, "custom", custom,
+                         id: "#{id_prefix}_color_mode_custom",
+                         data: { type_schemes__color_target: "mode",
+                                 action: "change->type-schemes--color#modeChanged" } %>
+    <%= t("type_schemes.form.color_mode_custom") %>
+  </label>
+
+  <span class="type-scheme-color--control"
+        data-type-schemes--color-target="custom"
+        <%= "hidden" unless custom %>>
+    <%= color_field_tag hex_name, selected_hex.presence || "#000000",
+                        id: "#{id_prefix}_color_hex",
+                        data: { type_schemes__color_target: "picker",
+                                action: "input->type-schemes--color#pickerChanged" } %>
+  </span>
+</div>

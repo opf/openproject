@@ -1,0 +1,91 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  definition = ::FieldRules::Fields.definition(key)
+  value = (rule&.default_value).to_s
+  field_name = "rule_set[rules][#{key}][default_value]"
+  input_id = "rule_set_#{key}_default_value"
+  common = { id: input_id, "aria-label": "#{t('field_rules.rule_sets.default_value')}: #{label}" }
+  kind = definition&.default_type
+  if kind == :custom_field
+    custom_field = custom_fields[::FieldRules::Fields.custom_field_id(key)]
+    kind =
+      case custom_field&.field_format
+      when "int" then :integer
+      when "float" then :float
+      when "bool" then :bool
+      when "date" then :date
+      when "list" then :list
+      when "string", "text", "link" then :string
+      else :unsupported
+      end
+  end
+  kind = :unsupported if kind.nil? && value.blank?
+%>
+<% if kind == :text %>
+  <%= text_area_tag field_name, value, common.merge(class: "form--text-area", rows: 2, maxlength: 5000) %>
+<% elsif kind == :string %>
+  <%= text_field_tag field_name, value, common.merge(class: "form--text-field", maxlength: 5000) %>
+<% elsif kind == :date %>
+  <%= date_field_tag field_name, value, common.merge(class: "form--text-field") %>
+<% elsif kind == :hours %>
+  <%= number_field_tag field_name, value, common.merge(class: "form--text-field", min: 0.01, step: 0.01) %>
+<% elsif kind == :integer %>
+  <%= number_field_tag field_name, value, common.merge(class: "form--text-field", step: 1) %>
+<% elsif kind == :float %>
+  <%= number_field_tag field_name, value, common.merge(class: "form--text-field", step: "any") %>
+<% elsif kind == :bool %>
+  <%= select_tag field_name, options_for_select([[t(:general_text_Yes), "true"], [t(:general_text_No), "false"]], value),
+                 common.merge(class: "form--select", include_blank: true) %>
+<% elsif kind == :list %>
+  <%= select_tag field_name, options_for_select(custom_field.custom_options.map { |option| [option.value, option.id.to_s] }, value),
+                 common.merge(class: "form--select", include_blank: true) %>
+<% elsif kind == :priority %>
+  <% priorities = IssuePriority.where(active: true).or(IssuePriority.where(id: value.to_i)).order(:position) %>
+  <%= select_tag field_name, options_for_select(priorities.map { |priority| [priority.name, priority.id.to_s] }, value),
+                 common.merge(class: "form--select", include_blank: true) %>
+<% elsif kind == :category %>
+  <% categories = Category.includes(:project).order(:name).group_by { |category| category.project.name } %>
+  <%= select_tag field_name,
+                 grouped_options_for_select(categories.sort.map { |project, list| [project, list.map { |category| [category.name, category.id.to_s] }] }, value),
+                 common.merge(class: "form--select", include_blank: true) %>
+<% elsif kind == :user %>
+  <% @field_rule_users ||= User.active.ordered_by_name.limit(201).to_a %>
+  <% if @field_rule_users.size > 200 %>
+    <%= number_field_tag field_name, value, common.merge(class: "form--text-field", min: 1, step: 1, placeholder: t("field_rules.rule_sets.default_user_id")) %>
+  <% else %>
+    <% users = @field_rule_users.map { |user| [user.name, user.id.to_s] } %>
+    <%= select_tag field_name, options_for_select(users, value), common.merge(class: "form--select", include_blank: true) %>
+  <% end %>
+<% elsif kind == :unsupported %>
+  <span aria-hidden="true">&mdash;</span>
+  <span class="sr-only"><%= t("field_rules.rule_sets.default_unavailable") %></span>
+<% else %>
+  <%= text_field_tag field_name, value, common.merge(class: "form--text-field", maxlength: 5000) %>
+<% end %>

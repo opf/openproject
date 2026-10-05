@@ -1,0 +1,108 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%
+  rules = rule_set.rules.reject(&:marked_for_destruction?).index_by(&:field_key)
+  keys = ::FieldRules::Fields.configurable_keys
+  custom_fields = WorkPackageCustomField.where(id: keys.filter_map { |key| ::FieldRules::Fields.custom_field_id(key) }).index_by(&:id)
+  enabled_counts = CustomFieldsProject.group(:custom_field_id).count
+  project_total = Project.count
+%>
+<div class="form--field -required">
+  <%= label_tag "rule_set_name", FieldRuleSet.human_attribute_name(:name), class: "form--label" %>
+  <span class="form--field-container"><%= text_field_tag "rule_set[name]", rule_set.name, id: "rule_set_name", class: "form--text-field", required: true, maxlength: 255 %></span>
+</div>
+<div class="form--field">
+  <%= label_tag "rule_set_description", FieldRuleSet.human_attribute_name(:description), class: "form--label" %>
+  <span class="form--field-container"><%= text_area_tag "rule_set[description]", rule_set.description, id: "rule_set_description", class: "form--text-area", rows: 3, maxlength: 5000 %></span>
+</div>
+
+<h2 class="mt-4"><%= t("field_rules.rule_sets.fields_heading") %></h2>
+<p><%= t("field_rules.rule_sets.form_hint") %></p>
+<ul id="field-rule-combinations" class="mb-3">
+  <li><%= t("field_rules.rule_sets.combination_hidden") %></li>
+  <li><%= t("field_rules.rule_sets.combination_read_only_required") %></li>
+  <li><%= t("field_rules.rule_sets.combination_enforce") %></li>
+  <li><%= t("field_rules.rule_sets.combination_default") %></li>
+</ul>
+
+<div class="generic-table--container" data-controller="disable-when-checked">
+  <div class="generic-table--results-container">
+    <table class="generic-table" id="field-rules-table">
+      <caption class="sr-only"><%= t("field_rules.rule_sets.fields_caption") %></caption>
+      <thead>
+        <tr>
+          <th scope="col"><%= t("field_rules.rule_sets.field") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.hidden") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.required") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.read_only") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.enforce_on_update") %></th>
+          <th scope="col"><%= t("field_rules.rule_sets.default_value") %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% keys.each do |key| %>
+          <% rule = rules[key] %>
+          <% label = ::FieldRules::Fields.label(key) %>
+          <% custom_field = custom_fields[::FieldRules::Fields.custom_field_id(key)] %>
+          <% hidden = rule&.hidden || false %>
+          <% error_id = "rule_set_#{key}_errors" %>
+          <tr>
+            <th scope="row">
+              <%= label %>
+              <% if custom_field&.is_required? %>
+                <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 1)) { t("field_rules.rule_sets.native_required") } %>
+              <% end %>
+              <% if custom_field && !custom_field.is_for_all? && (inactive = project_total - enabled_counts.fetch(custom_field.id, 0)).positive? %>
+                <div class="color-fg-muted f6"><%= t("field_rules.rule_sets.not_active_in_projects", count: inactive) %></div>
+              <% end %>
+              <% if rule&.errors&.any? %>
+                <div class="color-fg-danger f6" id="<%= error_id %>"><%= rule.errors.full_messages.to_sentence %></div>
+              <% end %>
+            </th>
+            <% %w[hidden required read_only enforce_on_update].each do |state| %>
+              <% cause = state == "hidden" %>
+              <td>
+                <%= check_box_tag "rule_set[rules][#{key}][#{state}]", "1", rule&.public_send(state) && (cause || !hidden),
+                                  id: "rule_set_#{key}_#{state}",
+                                  disabled: !cause && hidden,
+                                  "aria-label": "#{t("field_rules.rule_sets.#{state}")}: #{label}",
+                                  "aria-describedby": ["field-rule-combinations", (error_id if rule&.errors&.any?)].compact.join(" "),
+                                  "aria-invalid": (rule&.errors&.any? ? "true" : nil),
+                                  data: { "disable-when-checked-target": cause ? "cause" : "effect", "target-name": key } %>
+              </td>
+            <% end %>
+            <td>
+              <%= render "admin/field_rule_sets/default_input", key:, rule:, label:, custom_fields: %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

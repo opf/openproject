@@ -88,6 +88,7 @@ import { buildGroup, buildWorkPackage, GroupFixture, WorkPackageFixture } from '
 import { EditingPortalService } from 'core-app/shared/components/fields/edit/editing-portal/editing-portal-service';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
@@ -107,6 +108,8 @@ export interface TableHarnessOptions {
   dragAction?:Partial<TableDragActionService>;
   /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
   editing?:{ formWritable?:boolean };
+  /** Whether the inline-edit setting is on; defaults to true so existing specs keep editing. */
+  inlineEditEnabled?:boolean;
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
   /** Shows the timeline side through the query, as a saved Gantt view does. */
@@ -415,6 +418,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
       },
     },
     { provide: BannersService, useValue: { eeShowBanners: false } },
+    { provide: ConfigurationService, useValue: { inlineEditEnabled: () => options.inlineEditEnabled ?? true } },
     { provide: PathHelperService, useValue: { genericWorkPackagePath: () => '/work_packages/1' } },
     { provide: CausedUpdatesService, useValue: { add: () => undefined } },
     { provide: UrlParamsService, useValue: { currentDetailsRouteParams: () => null, basePathWithoutDetails: () => '' } },

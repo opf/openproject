@@ -1,0 +1,26 @@
+# Caddy reverse proxy for the standalone OpenProject compose stacks.
+# Mounted read-only at /etc/caddy/Caddyfile inside the proxy service.
+#
+#   CADDY_SITE_ADDRESS  site address. A bare hostname (e.g. openproject.example.com)
+#                       enables automatic HTTPS via ACME. ":8080" serves plain HTTP.
+#                       "http://host" forces HTTP.
+#   ACME_CA             ACME directory. Point staging at the Let's Encrypt staging
+#                       directory to avoid rate limits; production uses the default.
+#
+# Caddy terminates TLS for the app and forwards WebSocket traffic for /hocuspocus
+# to the bundled hocuspocus service, stripping the prefix as upstream expects.
+{
+	acme_ca {$ACME_CA}
+}
+
+{$CADDY_SITE_ADDRESS} {
+	encode zstd gzip
+
+	handle_path /hocuspocus* {
+		reverse_proxy hocuspocus:1234
+	}
+
+	handle {
+		reverse_proxy web:8080
+	}
+}
