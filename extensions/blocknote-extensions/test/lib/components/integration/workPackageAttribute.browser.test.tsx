@@ -1,6 +1,8 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
+import { http, HttpResponse } from 'msw';
 import { renderEditor } from '../../../helpers/renderEditor';
+import { worker } from '../../../mocks/browser';
 import {
   buildWorkPackageAttributeExternalDOM,
   computeWorkPackageAttributeExternalData,
@@ -26,16 +28,59 @@ function pasteHtml(html:string, plain:string) {
   el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true }));
 }
 
-describe('Work package attribute chip', () => {
-  it('renders the attribute it references', async () => {
-    renderEditor({
-      initialContent: [{
-        type: 'paragraph',
-        content: ['Owner: ', { type: 'openProjectWorkPackageAttribute', props }],
-      }],
-    });
+afterEach(() => {
+  worker.resetHandlers();
+});
 
-    await expect.element(page.getByText('Content owner')).toBeVisible();
+function renderAttribute(attribute:string, display:string, wpid = '321') {
+  renderEditor({
+    initialContent: [{
+      type: 'paragraph',
+      content: ['See ', { type: 'openProjectWorkPackageAttribute', props: { wpid, displayId: 'PROJ-321', attribute, display } }],
+    }],
+  });
+}
+
+function chip() {
+  const element = document.querySelector('.op-bn-wp-attribute');
+  if (!element) throw new Error('No attribute chip rendered');
+  return element;
+}
+
+describe('Work package attribute chip', () => {
+  it('shows the value of the attribute', async () => {
+    renderAttribute('Content owner', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
+    expect(chip().getAttribute('title')).toBe('PROJ-321 · Redesign onboarding flow');
+  });
+
+  it('shows the label of the attribute', async () => {
+    renderAttribute('status', 'label');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Status'));
+  });
+
+  it('shows label and value', async () => {
+    renderAttribute('status', 'both');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Status: In progress'));
+  });
+
+  it('says so when the work package no longer has the attribute', async () => {
+    renderAttribute('Designer', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Designer unavailable'));
+  });
+
+  it('says so when the work package cannot be seen', async () => {
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/321', () =>
+        HttpResponse.json({ message: 'Not found' }, { status: 404 }))
+    );
+    renderAttribute('status', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Work package unavailable: no permission'));
   });
 
   it('is recreated from its external HTML', async () => {
