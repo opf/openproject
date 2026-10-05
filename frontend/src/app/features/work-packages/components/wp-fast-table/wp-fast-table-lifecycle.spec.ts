@@ -179,6 +179,33 @@ describe('WorkPackageTable lifecycle', () => {
     }
   });
 
+  it.each(['redrawTableAndTimeline', 'redrawTable'] as const)(
+    'a table destroyed with a pending render never inserts nor publishes (%s)',
+    async (redraw) => {
+      const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+      const tableBefore = harness.tbody.innerHTML;
+      const timelineBefore = harness.table.timelineBody.innerHTML;
+      const shared = harness.querySpace.tableRendered.value;
+      const generation = harness.table.ledger.generation;
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      try {
+        harness.table[redraw]();
+        expect(frames).toHaveLength(1);
+        harness.table.destroy();
+        frames.forEach((frame) => frame(0));
+        expect(harness.tbody.innerHTML).toBe(tableBefore);
+        expect(harness.table.timelineBody.innerHTML).toBe(timelineBefore);
+        expect(harness.querySpace.tableRendered.value).toBe(shared);
+        expect(harness.table.ledger.generation).toBe(generation);
+      } finally {
+        frameSpy.mockRestore();
+      }
+    },
+  );
+
   describe('publishing a render', () => {
     const recordEmissions = (harness:TableHarness, record:() => void = () => undefined) => {
       const emissions:RenderedWorkPackage[][] = [];
