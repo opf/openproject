@@ -55,32 +55,58 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <% type_creation_path = new_creation_wizard_types_path %>
 <%=
-  render(Primer::OpenProject::SubHeader.new) do |subheader|
-    subheader.with_action_button(
-      scheme: :primary,
-      leading_icon: :plus,
-      label: t(:label_type_new),
-      test_selector: "op-admin-types--button-new",
-      tag: :a,
-      href: type_creation_path
-    ) do
-      t("activerecord.attributes.work_package.type")
+  form_tag(
+    types_path, method: :get,
+                data: { controller: "auto-submit", "auto-submit-delay-value": 300,
+                        turbo_frame: WorkPackageTypes::Types::GroupedListComponent::FRAME_ID,
+                        turbo_action: "replace" }
+  ) do
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_filter_input(
+        name: "query",
+        value: @query,
+        label: t("types.index.filter"),
+        placeholder: t("types.index.filter"),
+        leading_visual: { icon: :search, size: :small },
+        data: { action: "input->auto-submit#submit" }
+      )
+
+      subheader.with_action_button(
+        scheme: :primary,
+        leading_icon: :plus,
+        label: t(:label_type_new),
+        test_selector: "op-admin-types--button-new",
+        tag: :a,
+        href: type_creation_path
+      ) do
+        t("activerecord.attributes.work_package.type")
+      end
     end
   end
 %>
 
-<% if @types.any? %>
-  <%= render WorkPackageTypes::Types::GroupedListComponent.new(
-        types: @types,
-        expanded_type_id: @expanded_type_id,
-        page_args: @page_args
-      ) %>
-<% else %>
-  <%=
-    no_results_box(
-      action_url: type_creation_path,
-      display_action: true,
-      custom_action_text: t("types.index.no_results_content_text")
-    )
-  %>
+<%= render WorkPackageTypes::MigratedVariantsBannerComponent.new(variants: TypeVariant.all) %>
+
+<%= turbo_frame_tag(WorkPackageTypes::Types::GroupedListComponent::FRAME_ID, target: "_top") do %>
+  <% if @types.any? %>
+    <%= render WorkPackageTypes::Types::GroupedListComponent.new(
+          types: @types,
+          expanded_type_id: @expanded_type_id,
+          page_args: @page_args,
+          query: @query
+        ) %>
+  <% elsif @query %>
+    <%= render(Primer::Beta::Blankslate.new(border: true, test_selector: "types-filter-no-results")) do |blankslate|
+          blankslate.with_visual_icon(icon: :search)
+          blankslate.with_heading(tag: :h3) { t("types.index.filter_no_results") }
+        end %>
+  <% else %>
+    <%=
+      no_results_box(
+        action_url: type_creation_path,
+        display_action: true,
+        custom_action_text: t("types.index.no_results_content_text")
+      )
+    %>
+  <% end %>
 <% end %>

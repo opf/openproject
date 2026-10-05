@@ -7399,6 +7399,9 @@ en:
             Each variant can inherit, copy or have its own custom configuration for the default
             template, custom fields, workflows and preferences.
           title: "No variants exist for this type"
+        created_by_migration_filter:
+          all: "All"
+          migrated: "Migrated"
         created_in_html: "Created in %{project}"
         delete:
           description: "The projects using this variant will be switched to the variant you choose below before this variant is deleted."
@@ -7429,6 +7432,7 @@ en:
         confirm: "Convert"
         text: "A global variant with this name already exists. Please choose a different name."
         title: "Pick another name for this variant"
+      created_by_migration: "Migrated"
       delete:
         description: "The type will be deleted permanently. This action cannot be undone."
         description_with_variants: "The type and all of its variants will be deleted permanently. This action cannot be undone."
@@ -7443,7 +7447,16 @@ en:
       duplicate_name: "Copy of %{name}"
       duplicate_notice: "%{name} was duplicated."
       enabled_in_new_projects: "Active in new projects"
+      filter: "Filter by name"
+      filter_no_results: "No types match this filter"
       make_default: "Activate in new projects"
+      migrated_variants_banner:
+        cleanup: >
+          To clean them up, delete a variant and move the projects that use it to another one.
+        text: >
+          Project-specific custom field configurations were migrated automatically to variants, so
+          that each project keeps the custom fields it had. These variants are shown with a "%{label}"
+          label.
       make_default_notice: "%{name} is now activated in new projects."
       no_results_content_text: Create a new type
       no_results_title_text: There are currently no types.
