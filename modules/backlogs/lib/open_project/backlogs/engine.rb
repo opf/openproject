@@ -159,7 +159,6 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateContract
     patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
     patch_with_namespace :Queries, :Copy, :FiltersMapper
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
     additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id story_points]
@@ -253,6 +252,9 @@ module OpenProject::Backlogs
       ::TypeVariant.add_default_mapping(:other, :position)
       ::TypeVariant.add_default_mapping(:details, :sprint)
       ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:sprint)
+      ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load |= %i[sprint backlog_bucket]
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter
