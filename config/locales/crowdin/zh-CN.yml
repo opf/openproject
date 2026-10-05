@@ -2312,6 +2312,7 @@ zh-CN:
     groups: 组
     hexcode: 十六进制代码
     id: ID
+    inexistent: Inexistent
     is_default: 默认值
     is_for_all: 应用到所有项目
     issue: 工作包
@@ -2376,6 +2377,29 @@ zh-CN:
 
         '
     login_and_registration: 登录和注册
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 由于错误，作业已被取消：%{message}
@@ -3364,10 +3388,10 @@ zh-CN:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -6748,7 +6772,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         start: Start
-        workflows: 工作流
+        workflows: Workflow
       success: 创建成功。
     edit:
       breadcrumb_variant: 变体：%{name}
@@ -6982,7 +7006,7 @@ zh-CN:
           description: 这些变体仅在创建它们的项目内使用。
           title: 项目特定变体
       workflow:
-        tab: 工作流
+        tab: Workflow
     index:
       add_variant: 将变体添加到 %{name}
       add_variant_action: 添加变体

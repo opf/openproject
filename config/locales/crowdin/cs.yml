@@ -2681,6 +2681,7 @@ cs:
     groups: Skupiny
     hexcode: Hex kód
     id: ID
+    inexistent: Inexistent
     is_default: Výchozí hodnota
     is_for_all: Pro všechny projekty
     issue: Pracovní balíček
@@ -2745,6 +2746,29 @@ cs:
 
         '
     login_and_registration: Přihlášení a registrace
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Úkol byl zrušen z důvodu chyby: %{message}'
@@ -3813,10 +3837,10 @@ cs:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -7297,7 +7321,7 @@ cs:
         project_attributes: Project attributes
         projects: Projects
         start: Start
-        workflows: Workflows
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -7531,7 +7555,7 @@ cs:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant

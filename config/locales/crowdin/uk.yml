@@ -2683,6 +2683,7 @@ uk:
     groups: Групи
     hexcode: Двійковий код
     id: "№"
+    inexistent: Inexistent
     is_default: Значення за замовчуванням
     is_for_all: Для усіх проектів
     issue: Робочий пакет
@@ -2747,6 +2748,29 @@ uk:
 
         '
     login_and_registration: Вхід і реєстрація
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Завдання скасовано через помилку: %{message}'
@@ -3815,10 +3839,10 @@ uk:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -7291,7 +7315,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         start: Start
-        workflows: Робочі процеси
+        workflows: Workflow
       success: Успішно створено.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
@@ -7525,7 +7549,7 @@ uk:
           description: Ці варіанти доступні лише в рамках тих проєктів, у яких вони були створені.
           title: Варіанти для проєкту
       workflow:
-        tab: Робочі процеси
+        tab: Workflow
     index:
       add_variant: Додати варіант для об’єкта «%{name}»
       add_variant_action: Додати варіант
