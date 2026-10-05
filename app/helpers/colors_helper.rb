@@ -66,6 +66,10 @@ module ColorsHelper
     "__hl_background #{hl_color_class(name, model)}"
   end
 
+  def hl_background_muted_class(name, model)
+    "__hl_background_muted #{hl_color_class(name, model)}"
+  end
+
   def hl_foreground_class(name, model)
     "__hl_foreground #{hl_color_class(name, model)}"
   end

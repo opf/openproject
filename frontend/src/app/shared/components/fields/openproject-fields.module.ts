@@ -45,7 +45,6 @@ import { SelectAutocompleterRegisterService } from 'core-app/shared/components/f
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { WorkPackageEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/work-package-edit-field.component';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
-import { ProjectStatusEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/project-status-edit-field.component';
 import { PlainFormattableEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component';
 import { AttributeValueMacroComponent } from 'core-app/shared/components/fields/macros/attribute-value-macro.component';
 import { AttributeLabelMacroComponent } from 'core-app/shared/components/fields/macros/attribute-label-macro.component';
@@ -124,7 +123,6 @@ import { FormsModule } from '@angular/forms';
     EditFormComponent,
     DisplayFieldComponent,
     EditableAttributeFieldComponent,
-    ProjectStatusEditFieldComponent,
     AttributeValueMacroComponent,
     AttributeLabelMacroComponent,
 

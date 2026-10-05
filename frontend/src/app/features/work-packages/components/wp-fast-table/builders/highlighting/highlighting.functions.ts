@@ -47,6 +47,10 @@ export namespace Highlighting {
     return `__hl_background ${resourceClass(property, id)}`;
   }
 
+  export function backgroundMutedClass(property:string, id:string|number) {
+    return `__hl_background_muted ${resourceClass(property, id)}`;
+  }
+
   export function foregroundClass(property:string, id:string|number) {
     return `__hl_foreground ${resourceClass(property, id)}`;
   }
