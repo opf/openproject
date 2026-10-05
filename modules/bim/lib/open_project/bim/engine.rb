@@ -143,7 +143,6 @@ module OpenProject::Bim
 
     patch_with_namespace :OpenProject, :CustomStyles, :ColorThemes
     patch_with_namespace :API, :V3, :Activities, :ActivityRepresenter
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
 
     patch_with_namespace :DemoData, :QueryBuilder
     patch_with_namespace :DemoData, :ProjectSeeder
@@ -153,6 +152,8 @@ module OpenProject::Bim
     config.to_prepare do
       # needed for `#bcf_issue?` calls in the work package representer
       ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load << :bcf_issue
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:bcf_issue)
     end
 
     extend_api_response(:v3, :work_packages, :work_package) do
