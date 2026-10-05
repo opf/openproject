@@ -28,19 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::OpenIDConnect::Patches::UserPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+module Sessions
+  module OidcSessionLink
+    extend ActiveSupport::Concern
 
-    base.class_eval do
-      has_many :oidc_user_tokens, class_name: "OpenIDConnect::UserToken", foreign_key: "user_id"
+    included do
+      has_one :oidc_session_link,
+              class_name: "OpenIDConnect::UserSessionLink",
+              foreign_key: "session_id",
+              inverse_of: :session,
+              dependent: nil # Rows are removed by the on_delete: :cascade foreign key.
     end
-  end
-
-  module ClassMethods
-  end
-
-  module InstanceMethods
   end
 end
