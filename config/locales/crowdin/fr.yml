@@ -180,20 +180,20 @@ fr:
       favorite:
         favorited: Élément
       form_configuration:
-        attribute_groups: Form
+        attribute_groups: Formulaire
         description: Description
-        name: Name
-        type_variants: Types and variants using this form
+        name: Nom
+        type_variants: Types et variantes utilisant ce formulaire
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
+        attribute_key: Attribut
+        custom_field: Champ personnalisé
+        group: Groupe
         position: Position
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Groupe par défaut
+        kind: Nature
+        label: Libellé
+        query: Requête
       grids/grid:
         column_count: Nombre de colonnes
         page: Page
@@ -233,13 +233,13 @@ fr:
         port: Port
         tls_certificate_string: Certificat SSL du serveur LDAP
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacité
+        model_id: Modèle
+        state: État
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_format: Format d'API
+        api_key: Clé API
+        base_url: URL de l'hôte
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         llm_features_enabled: Enable LLMs for this instance
