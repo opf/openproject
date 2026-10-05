@@ -45,3 +45,15 @@ vendor/bundle
 vendor/hocuspocus
 /public/assets
 /config/frontend_assets.manifest.json
+
+# Not part of the application image; keeps unrelated edits from busting `COPY . .`
+.superpowers
+.devcontainer
+.vscode
+.idea
+extensions
+tools
+docker/dev
+docker/ci
+docker/pullpreview
+docker/caddy

@@ -15,12 +15,16 @@ volumes:
 x-op-restart-policy: &restart_policy
   restart: unless-stopped
 x-op-image: &image
-  # Use BUILD_TARGET=slim-bim for the BIM edition.
+  # Set OPENPROJECT_EDITION=bim for the BIM edition.
   image: openproject/openproject:${TAG:-local}
   build:
     context: .
     dockerfile: docker/prod/Dockerfile
-    target: ${BUILD_TARGET:-slim}
+    target: ${BUILD_TARGET:-production}
+    args:
+      EDITION: ${OPENPROJECT_EDITION:-standard}
+      VERSION: ${TAG:-production}
+      REVISION: ${GIT_SHA:-unknown}
 x-op-app: &app
   <<: [*image, *restart_policy]
   environment:

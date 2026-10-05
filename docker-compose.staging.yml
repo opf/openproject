@@ -34,7 +34,11 @@ x-image: &image
   build:
     context: .
     dockerfile: docker/prod/Dockerfile
-    target: ${BUILD_TARGET:-slim}
+    target: ${BUILD_TARGET:-staging}
+    args:
+      EDITION: ${OPENPROJECT_EDITION:-standard}
+      VERSION: ${TAG:-staging}
+      REVISION: ${GIT_SHA:-unknown}
 
 x-app: &app
   <<: [*image, *restart]
@@ -204,6 +208,7 @@ services:
     build:
       context: ./extensions/op-blocknote-hocuspocus
       dockerfile: Dockerfile
+      target: ${HOCUSPOCUS_BUILD_TARGET:-staging}
     <<: *restart
     environment:
       SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"

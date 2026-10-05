@@ -1,0 +1,10 @@
+node_modules
+test
+coverage
+.git
+*.md
+Dockerfile
+.dockerignore
+eslint.config.mjs
+vitest.config.mjs
+tsconfig.json

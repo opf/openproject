@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM golang:1.25-alpine3.22 AS build
 ARG TARGETOS=linux
 ARG TARGETARCH
@@ -7,10 +8,13 @@ ARG COMMIT=unknown
 ENV CGO_ENABLED=0 GOTOOLCHAIN=local GOFLAGS=-mod=readonly
 WORKDIR /src
 COPY go.mod go.sum ./
-RUN go mod download && go mod verify
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download && go mod verify
 COPY cmd/ ./cmd/
 COPY internal/ ./internal/
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -buildvcs=false \
+RUN --mount=type=cache,target=/go/pkg/mod \
+    --mount=type=cache,target=/root/.cache/go-build \
+    GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -trimpath -buildvcs=false \
     -ldflags="-s -w -X 'main.version=${VERSION}' -X 'main.buildDate=${CREATED}' -X 'main.commit=${COMMIT}'" \
     -o /out/app ./cmd/app
 

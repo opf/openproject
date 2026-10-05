@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG RUBY_VERSION="4.0.7"
 ARG DEBIAN_BASE="trixie"
 # Add SBOM scan context for intermediate steps
@@ -179,3 +180,44 @@ ENTRYPOINT ["./docker/prod/entrypoint.sh"]
 
 # Set default command to launch the all-in-one configuration supervised by supervisord
 CMD ["./docker/prod/supervisord"]
+
+# =============================================================================
+# Environment targets for the standalone compose stacks (web/worker/cron/seeder
+# all run the same image with a different command). They share every layer up to
+# app-runtime-slim, so building several of them only costs the thin layer below.
+#   docker build -f docker/prod/Dockerfile --target production .
+# Use --build-arg EDITION=bim for the BIM edition.
+# =============================================================================
+FROM app-runtime-slim AS env-base
+
+ARG EDITION=standard
+ARG VERSION=unknown
+ARG REVISION=unknown
+ARG CREATED=unknown
+
+ENV OPENPROJECT_EDITION=$EDITION
+
+LABEL org.opencontainers.image.title="OpenProject" \
+      org.opencontainers.image.vendor="OpenProject GmbH" \
+      org.opencontainers.image.licenses="GPL-3.0-only" \
+      org.opencontainers.image.source="https://github.com/opf/openproject" \
+      org.opencontainers.image.version=$VERSION \
+      org.opencontainers.image.revision=$REVISION \
+      org.opencontainers.image.created=$CREATED
+
+USER $APP_USER
+EXPOSE 8080
+VOLUME ["$APP_DATA_PATH"]
+STOPSIGNAL SIGTERM
+ENTRYPOINT ["./docker/prod/entrypoint-slim.sh"]
+CMD ["./docker/prod/web"]
+
+# local: allocator defaults, nothing hardened.
+FROM env-base AS local
+
+# staging and production: jemalloc, matching what runs in production.
+FROM env-base AS staging
+ENV USE_JEMALLOC=true
+
+FROM env-base AS production
+ENV USE_JEMALLOC=true
