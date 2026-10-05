@@ -105,7 +105,7 @@ module Admin
     end
 
     def find_scheme
-      @scheme = TypeScheme.find(params[:id])
+      @scheme = TypeScheme.includes(items: :color).find(params[:id])
     end
 
     def bounded_position(value)
@@ -113,7 +113,8 @@ module Admin
     end
 
     def permitted_scheme_params
-      params.require(:type_scheme).permit(:name, :description, :is_default, :default_type_id, types: {})
+      params.require(:type_scheme).permit(:name, :description, :is_default, :default_type_id,
+                                          :new_type_names, types: {})
     end
 
     # Builds the symbol-keyed hash SchemeService expects from the form fields.
@@ -122,11 +123,21 @@ module Admin
       default_id = permitted[:default_type_id].to_s
       rows = (permitted[:types] || {}).to_h.select { |_, v| v.respond_to?(:key?) && v["enabled"] == "1" }
       items = rows.map do |type_id, v|
-        { type_id: type_id.to_i.clamp(0, 2_147_483_647), position: bounded_position(v["position"]),
-          is_default: type_id == default_id }
+        { type_id: type_id.to_i.clamp(0, 2_147_483_647),
+          position: bounded_position(v["position"]),
+          is_default: type_id == default_id,
+          color_mode: v["color_mode"].presence,
+          color_id: v["color_id"].presence,
+          color_hex: v["color_hex"].presence }
       end
       { name: permitted[:name], description: permitted[:description],
-        is_default: permitted[:is_default] == "1", items: }
+        is_default: permitted[:is_default] == "1",
+        new_type_names: new_type_names_param(permitted),
+        items: }
+    end
+
+    def new_type_names_param(permitted)
+      permitted[:new_type_names].to_s.split(/[\n,]/).map(&:strip).reject(&:blank?)
     end
   end
 end

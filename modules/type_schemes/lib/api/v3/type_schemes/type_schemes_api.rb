@@ -49,8 +49,19 @@ module API
                 item = item.with_indifferent_access
                 { type_id: safe_int(item[:type_id] || item[:typeId] || type_id_from_link(item), max: MAX_ID),
                   position: safe_int(item[:position], max: MAX_POSITION),
-                  is_default: ActiveModel::Type::Boolean.new.cast(item[:default]) || false }
+                  is_default: ActiveModel::Type::Boolean.new.cast(item[:default]) || false,
+                  color_id: safe_int(item[:color_id] || item[:colorId], max: MAX_ID),
+                  color_hex: (item[:colorHex] || item[:color_hex]).to_s.presence }
               end
+            end
+
+            raw_new = body[:newTypeNames] || body[:new_type_names]
+            if raw_new
+              unless raw_new.is_a?(Array) && raw_new.all? { |name| name.is_a?(String) || name.is_a?(Numeric) }
+                raise ::API::Errors::BadRequest.new("newTypeNames must be a list of strings.")
+              end
+
+              params[:new_type_names] = raw_new.map(&:to_s)
             end
             params
           end
@@ -81,7 +92,7 @@ module API
         resources :type_schemes do
           get do
             authorize_logged_in
-            schemes = TypeScheme.includes(:items).order(:name).to_a
+            schemes = TypeScheme.includes(items: :color).order(:name).to_a
             TypeSchemeCollectionRepresenter.new(schemes,
                                                 self_link: api_v3_paths.type_schemes,
                                                 current_user:)
@@ -98,7 +109,7 @@ module API
 
           route_param :id, type: Integer do
             after_validation do
-              @scheme = TypeScheme.includes(:items).find(params[:id])
+              @scheme = TypeScheme.includes(items: :color).find(params[:id])
             end
 
             get do

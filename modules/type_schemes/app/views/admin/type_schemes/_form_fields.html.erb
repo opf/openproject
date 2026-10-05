@@ -68,6 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
               <th scope="col"><%= t("type_schemes.form.enabled") %></th>
               <th scope="col"><%= Type.model_name.human %></th>
               <th scope="col"><%= t("type_schemes.form.position") %></th>
+              <th scope="col"><%= t("type_schemes.form.color") %></th>
               <th scope="col"><%= t("type_schemes.form.default") %></th>
             </tr>
           </thead>
@@ -103,6 +104,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <td><%= check_box_tag "type_scheme[types][#{type.id}][enabled]", "1", item.present?, id: "type_scheme_types_#{type.id}_enabled", data: { action: "change->type-schemes--sortable-types#toggle" } %></td>
                 <td><%= label_tag "type_scheme_types_#{type.id}_enabled", type.name %></td>
                 <td><%= number_field_tag "type_scheme[types][#{type.id}][position]", item&.position || index + 1, id: "type_scheme_types_#{type.id}_position", min: 0, max: 99_999, "aria-label": t("type_schemes.form.position_of", type: type.name) %></td>
+                <td><%= render "color_field", type: type, item: item %></td>
                 <td><%= radio_button_tag "type_scheme[default_type_id]", type.id, item&.is_default, id: "type_scheme_default_type_#{type.id}", "aria-label": t("type_schemes.form.default_of", type: type.name) %></td>
               </tr>
             <% end %>
@@ -111,5 +113,20 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
     <div class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-type-schemes--sortable-types-target="status"></div>
+  </div>
+
+  <div class="form--field">
+    <%= label_tag "type_scheme_new_type_names", t("type_schemes.form.new_types"), class: "form--label" %>
+    <span class="form--field-container">
+      <%= text_area_tag "type_scheme[new_type_names]",
+                        params.dig(:type_scheme, :new_type_names),
+                        id: "type_scheme_new_type_names",
+                        class: "form--text-area",
+                        rows: 2,
+                        "aria-describedby": "type_scheme_new_types_hint" %>
+    </span>
+    <span class="form--field-instructions" id="type_scheme_new_types_hint">
+      <%= t("type_schemes.form.new_types_hint") %>
+    </span>
   </div>
 </fieldset>

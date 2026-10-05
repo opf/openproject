@@ -57,6 +57,32 @@ RSpec.describe "Type schemes administration" do
     expect(scheme.default_type).to eq type_b
   end
 
+  it "creates a new type from the scheme form and adds it to the scheme" do
+    visit new_admin_type_scheme_path
+    fill_in "type_scheme_name", with: "With new type"
+    fill_in "type_scheme_new_type_names", with: "Sub-Tasks\nSpike"
+    click_button "Create"
+
+    expect(page).to have_text("Successful creation.")
+    scheme = TypeScheme.find_by!(name: "With new type")
+    expect(scheme.types.map(&:name)).to eq(%w[Sub-Tasks Spike])
+    expect(scheme.default_type.name).to eq("Sub-Tasks")
+  end
+
+  it "stores a color per type" do
+    color = create(:color)
+    visit new_admin_type_scheme_path
+    fill_in "type_scheme_name", with: "Colored"
+    check "type_scheme_types_#{type_a.id}_enabled"
+    choose "type_scheme_default_type_#{type_a.id}"
+    page.execute_script("document.getElementById('type_scheme_types_#{type_a.id}_color_id').value = '#{color.id}'")
+    click_button "Create"
+
+    expect(page).to have_text("Successful creation.")
+    scheme = TypeScheme.find_by!(name: "Colored")
+    expect(scheme.items.first.color).to eq(color)
+  end
+
   context "with an existing scheme" do
     let!(:scheme) { create(:type_scheme, name: "Base", types: [type_a, type_b]) }
 

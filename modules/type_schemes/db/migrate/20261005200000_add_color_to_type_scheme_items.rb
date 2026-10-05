@@ -28,13 +28,14 @@
 
 # frozen_string_literal: true
 
-class TypeSchemeItem < ApplicationRecord
-  self.table_name = "type_scheme_items"
+class AddColorToTypeSchemeItems < ActiveRecord::Migration[8.1]
+  def change
+    add_reference :type_scheme_items,
+                  :color,
+                  index: { name: :index_type_scheme_items_on_color_id },
+                  foreign_key: { on_delete: :nullify }
 
-  after_save { ::TypeSchemes::Resolver.reset_cache }
-  after_destroy { ::TypeSchemes::Resolver.reset_cache }
-  belongs_to :scheme, class_name: "TypeScheme", inverse_of: :items
-  belongs_to :type
-  belongs_to :color, optional: true
-  validates :position, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than: 100_000 }
+    # The color is a per-type property of the scheme, not a shared scheme color.
+    remove_reference :type_schemes, :color, if_exists: true
+  end
 end

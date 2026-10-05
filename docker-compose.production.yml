@@ -1,20 +1,20 @@
 # =============================================================================
-# OpenProject - LOCAL stack (standalone, built from this repository).
-# Plain HTTP on http://localhost:${PORT}. Not hardened, do not use publicly.
+# OpenProject - PRODUCTION stack (standalone, built from this repository).
 #
-#   cp .env.local.example .env.local
-#   $EDITOR .env.local
-#   docker compose --env-file .env.local -f docker-compose.local.yml up -d --build
+#   cp .env.production.example .env.production
+#   $EDITOR .env.production
+#   docker compose --env-file .env.production -f docker-compose.production.yml up -d --build
 #
-#   docker compose --env-file .env.local -f docker-compose.local.yml logs -f web worker
-#   docker compose --env-file .env.local -f docker-compose.local.yml down
+#   docker compose --env-file .env.production -f docker-compose.production.yml ps
+#   docker compose --env-file .env.production -f docker-compose.production.yml logs -f web worker
+#   docker compose --env-file .env.production -f docker-compose.production.yml down
 #
-# Local integrations (Nextcloud, ...) need SSRF protection relaxed, and Entra
-# only accepts http redirect URIs for localhost:
-# http://localhost:${PORT}/auth/entra/callback
+# TLS/HTTPS is terminated by the bundled Caddy proxy. With a public DNS name in
+# OPENPROJECT_HOST__NAME, Caddy obtains and renews certificates automatically
+# (ports 80 and 443 must be reachable).
 # =============================================================================
 
-name: openproject-local
+name: openproject-production
 
 networks:
   frontend:
@@ -30,7 +30,7 @@ x-restart: &restart
   restart: unless-stopped
 
 x-image: &image
-  image: openproject/openproject:${TAG:-local}
+  image: openproject/openproject:${TAG:-17}
   build:
     context: .
     dockerfile: docker/prod/Dockerfile
@@ -39,33 +39,32 @@ x-image: &image
 x-app: &app
   <<: [*image, *restart]
   environment:
-    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-false}"
-    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:-localhost:8080}"
+    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
+    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:?set OPENPROJECT_HOST__NAME}"
     OPENPROJECT_ADDITIONAL__HOST__NAMES: "${OPENPROJECT_ADDITIONAL__HOST__NAMES:-web}"
-    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-false}"
+    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-true}"
     OPENPROJECT_LOG__LEVEL: "${OPENPROJECT_LOG__LEVEL:-info}"
-    OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST: "${OPENPROJECT_SSRF_PROTECTION_IP_ALLOWLIST:-0.0.0.0/0,::0/0}"
     OPENPROJECT_RAILS__CACHE__STORE: memcache
     OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
     OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: "${COLLABORATIVE_SERVER_URL:-ws://${OPENPROJECT_HOST__NAME:-localhost:8080}/hocuspocus}"
-    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: "${COLLABORATIVE_SERVER_SECRET:-local-hocuspocus-secret}"
-    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:-local-db-password}@db/openproject?pool=20&encoding=unicode&reconnect=true}"
-    RAILS_MIN_THREADS: "${RAILS_MIN_THREADS:-1}"
-    RAILS_MAX_THREADS: "${RAILS_MAX_THREADS:-4}"
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: "${COLLABORATIVE_SERVER_URL:-wss://${OPENPROJECT_HOST__NAME}/hocuspocus}"
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: "${RAILS_MIN_THREADS:-4}"
+    RAILS_MAX_THREADS: "${RAILS_MAX_THREADS:-16}"
     IMAP_ENABLED: "${IMAP_ENABLED:-false}"
-    SECRET_KEY_BASE: "${SECRET_KEY_BASE:-local-dev-secret-key-base-not-for-production}"
-    # Microsoft Entra ID (OIDC). Redirect URI: http://<OPENPROJECT_HOST__NAME>/auth/entra/callback
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_DISPLAY__NAME: "${ENTRA_DISPLAY_NAME:-Microsoft}"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_HOST: login.microsoftonline.com
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_IDENTIFIER: "${ENTRA_CLIENT_ID:?set ENTRA_CLIENT_ID}"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_SECRET: "${ENTRA_CLIENT_SECRET:?set ENTRA_CLIENT_SECRET}"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_ISSUER: "https://login.microsoftonline.com/${ENTRA_TENANT_ID:?set ENTRA_TENANT_ID}/v2.0"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_SCOPE: "[openid,email,profile]"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_AUTHORIZATION__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/authorize"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_TOKEN__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/token"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_USERINFO__ENDPOINT: "https://graph.microsoft.com/oidc/userinfo"
-    # OPENPROJECT_OPENID__CONNECT_ENTRA_END__SESSION__ENDPOINT: "https://login.microsoftonline.com/${ENTRA_TENANT_ID}/oauth2/v2.0/logout"
+    SECRET_KEY_BASE: "${SECRET_KEY_BASE:?set SECRET_KEY_BASE}"
+    # Microsoft Entra ID (OIDC). Redirect URI: https://<OPENPROJECT_HOST__NAME>/auth/entra/callback
+    OPENPROJECT_OPENID__CONNECT_ENTRA_DISPLAY__NAME: "${ENTRA_DISPLAY_NAME:-Microsoft}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_HOST: login.microsoftonline.com
+    OPENPROJECT_OPENID__CONNECT_ENTRA_IDENTIFIER: "${ENTRA_CLIENT_ID:?set ENTRA_CLIENT_ID}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SECRET: "${ENTRA_CLIENT_SECRET:?set ENTRA_CLIENT_SECRET}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_ISSUER: "https://login.microsoftonline.com/${ENTRA_TENANT_ID:?set ENTRA_TENANT_ID}/v2.0"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SCOPE: "[openid,email,profile]"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_AUTHORIZATION__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/authorize"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_TOKEN__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/token"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_USERINFO__ENDPOINT: "https://graph.microsoft.com/oidc/userinfo"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_END__SESSION__ENDPOINT: "https://login.microsoftonline.com/${ENTRA_TENANT_ID}/oauth2/v2.0/logout"
   volumes:
     - "${OPDATA:-opdata}:/var/openproject/assets"
 
@@ -75,12 +74,10 @@ services:
     <<: *restart
     stop_grace_period: "3s"
     environment:
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-local-db-password}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}"
       POSTGRES_DB: openproject
     volumes:
       - "${PGDATA:-pgdata}:/var/lib/postgresql/data"
-    ports:
-      - "127.0.0.1:5432:5432"
     networks:
       - backend
     healthcheck:
@@ -100,14 +97,15 @@ services:
     image: caddy:2.11.6-alpine
     <<: *restart
     environment:
-      CADDY_SITE_ADDRESS: "${CADDY_SITE_ADDRESS:-:8080}"
+      CADDY_SITE_ADDRESS: "${CADDY_SITE_ADDRESS:-${OPENPROJECT_HOST__NAME:?set OPENPROJECT_HOST__NAME}}"
       ACME_CA: "${ACME_CA:-https://acme-v02.api.letsencrypt.org/directory}"
     volumes:
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     ports:
-      - "${PORT:-8080}:8080"
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
     depends_on:
       web:
         condition: service_started
@@ -208,9 +206,9 @@ services:
       dockerfile: Dockerfile
     <<: *restart
     environment:
-      SECRET: "${COLLABORATIVE_SERVER_SECRET:-local-hocuspocus-secret}"
+      SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"
       OPENPROJECT_URL: "${OPENPROJECT_URL:-http://web:8080}"
-      OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-false}"
+      OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
     networks:
       - backend
       - frontend

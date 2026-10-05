@@ -220,7 +220,7 @@ export default class SortableTypesController extends Controller<HTMLElement> {
   }
 
   private defaultRadio(row:HTMLElement):HTMLInputElement|null {
-    return row.querySelector<HTMLInputElement>('input[type="radio"]');
+    return row.querySelector<HTMLInputElement>('input[type="radio"][name$="[default_type_id]"]');
   }
 
   private announce(row:HTMLTableRowElement) {

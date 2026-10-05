@@ -14,6 +14,7 @@
 <% enabled_ids = @project.enabled_types.pluck(:id) %>
 <% missing = current ? current.types.reject { |type| enabled_ids.include?(type.id) } : [] %>
 <% available = ::TypeSchemes::Resolver.allowed_types(@project, default_first: false).to_a %>
+<% item_colors = current ? current.items.index_by(&:type_id) : {} %>
 <% scheme_options = @schemes.map { |scheme| [scheme.is_default ? t("type_schemes.project_settings.default_option", name: scheme.name) : scheme.name, scheme.id] } %>
 
 <%= form_tag project_settings_type_scheme_path(@project), method: :patch do %>
@@ -43,6 +44,7 @@
   <ol id="available-types" aria-labelledby="available-types-heading">
     <% available.each do |type| %>
       <li>
+        <%= icon_for_color(item_colors[type.id]&.color, class: "mr-1") if item_colors[type.id]&.color %>
         <%= type.name %>
         <% if current&.default_type == type %>
           <%= render(Primer::Beta::Label.new(scheme: :primary, ml: 1)) { t(:label_default) } %>

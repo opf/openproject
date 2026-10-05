@@ -56,9 +56,16 @@ module API
             {
               _links: { type: { href: api_v3_paths.type(item.type_id) } },
               position: item.position,
-              default: item.is_default
+              default: item.is_default,
+              color: color_hash(item.color)
             }
           end
+        end
+
+        def color_hash(color)
+          return if color.nil?
+
+          { id: color.id, name: color.name, hexcode: color.hexcode }
         end
       end
     end

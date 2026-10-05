@@ -22,6 +22,22 @@
   "engines": {
     "node": "^24.15.0"
   },
+  "overrides": {
+    "@tiptap/core": "3.31.3",
+    "@tiptap/pm": "3.31.3",
+    "@tiptap/react": "3.31.3",
+    "@tiptap/extensions": "3.31.3",
+    "@tiptap/extension-bold": "3.31.3",
+    "@tiptap/extension-bubble-menu": "3.31.3",
+    "@tiptap/extension-code": "3.31.3",
+    "@tiptap/extension-floating-menu": "3.31.3",
+    "@tiptap/extension-horizontal-rule": "3.31.3",
+    "@tiptap/extension-italic": "3.31.3",
+    "@tiptap/extension-paragraph": "3.31.3",
+    "@tiptap/extension-strike": "3.31.3",
+    "@tiptap/extension-text": "3.31.3",
+    "@tiptap/extension-underline": "3.31.3"
+  },
   "dependencies": {
     "@blocknote/server-util": "^0.51.3",
     "@hocuspocus/extension-logger": "^4.7.0",

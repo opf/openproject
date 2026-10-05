@@ -125,6 +125,11 @@ db/*.sql
 /.env
 /docker-compose.override.yml
 
+# Standalone deployment environments (never commit real secrets)
+/.env.local
+/.env.production
+/.env.staging
+
 # Local development direnv files
 /.envrc
 /.direnv

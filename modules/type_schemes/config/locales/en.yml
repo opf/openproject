@@ -34,6 +34,12 @@ en:
       move_up: "Move %{type} up"
       move_down: "Move %{type} down"
       moved: "%{type} moved to position %{position} of %{total}"
+      new_types: "Add new types"
+      new_types_hint: "Enter one name per line or separated by commas. Each new name creates a work package type available in the whole instance, and adds it to this scheme. A name that already exists is matched regardless of case and is added without creating a duplicate. New types start without a color; set it in the color column once they appear in the list."
+      color: "Color"
+      color_mode_palette: "Choose from list"
+      color_mode_custom: "Custom color"
+      too_many_new_types: "You can add at most %{count} new types at once."
     project_settings:
       title: "Type scheme"
       scheme: "Type scheme"

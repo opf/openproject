@@ -1,21 +1,214 @@
-# Staging on top of docker-compose.yml (same as prod, own image tag, verbose logs).
-#   docker compose -f docker-compose.yml -f docker-compose.staging.yml up -d --build
-# Use a separate .env / host + OIDC app registration, and a different project name
-# (-p openproject-staging) if it shares a host with prod.
+# =============================================================================
+# OpenProject - STAGING stack (standalone, built from this repository).
+# Mirrors production but with verbose logging and its own image tag / project.
+#
+#   cp .env.staging.example .env.staging
+#   $EDITOR .env.staging
+#   docker compose --env-file .env.staging -f docker-compose.staging.yml up -d --build
+#
+#   docker compose --env-file .env.staging -f docker-compose.staging.yml logs -f web worker
+#   docker compose --env-file .env.staging -f docker-compose.staging.yml down
+#
+# Use a separate host name and Entra ID app registration than production.
+# TLS/HTTPS is terminated by the bundled Caddy proxy. Point ACME_CA at the
+# Let's Encrypt staging directory to avoid rate limits.
+# =============================================================================
 
-x-staging-env: &staging_env
-  OPENPROJECT_LOG__LEVEL: debug
+name: openproject-staging
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  pgdata:
+  opdata:
+  caddy_data:
+  caddy_config:
+
+x-restart: &restart
+  restart: unless-stopped
+
+x-image: &image
+  image: openproject/openproject:${TAG:-staging}
+  build:
+    context: .
+    dockerfile: docker/prod/Dockerfile
+    target: ${BUILD_TARGET:-slim}
+
+x-app: &app
+  <<: [*image, *restart]
+  environment:
+    OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
+    OPENPROJECT_HOST__NAME: "${OPENPROJECT_HOST__NAME:?set OPENPROJECT_HOST__NAME}"
+    OPENPROJECT_ADDITIONAL__HOST__NAMES: "${OPENPROJECT_ADDITIONAL__HOST__NAMES:-web}"
+    OPENPROJECT_HSTS: "${OPENPROJECT_HSTS:-false}"
+    OPENPROJECT_LOG__LEVEL: "${OPENPROJECT_LOG__LEVEL:-debug}"
+    OPENPROJECT_RAILS__CACHE__STORE: memcache
+    OPENPROJECT_CACHE__MEMCACHE__SERVER: cache:11211
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL: "${COLLABORATIVE_SERVER_URL:-wss://${OPENPROJECT_HOST__NAME}/hocuspocus}"
+    OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"
+    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@db/openproject?pool=20&encoding=unicode&reconnect=true}"
+    RAILS_MIN_THREADS: "${RAILS_MIN_THREADS:-2}"
+    RAILS_MAX_THREADS: "${RAILS_MAX_THREADS:-8}"
+    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
+    SECRET_KEY_BASE: "${SECRET_KEY_BASE:?set SECRET_KEY_BASE}"
+    # Microsoft Entra ID (OIDC). Redirect URI: https://<OPENPROJECT_HOST__NAME>/auth/entra/callback
+    OPENPROJECT_OPENID__CONNECT_ENTRA_DISPLAY__NAME: "${ENTRA_DISPLAY_NAME:-Microsoft}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_HOST: login.microsoftonline.com
+    OPENPROJECT_OPENID__CONNECT_ENTRA_IDENTIFIER: "${ENTRA_CLIENT_ID:?set ENTRA_CLIENT_ID}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SECRET: "${ENTRA_CLIENT_SECRET:?set ENTRA_CLIENT_SECRET}"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_ISSUER: "https://login.microsoftonline.com/${ENTRA_TENANT_ID:?set ENTRA_TENANT_ID}/v2.0"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_SCOPE: "[openid,email,profile]"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_AUTHORIZATION__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/authorize"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_TOKEN__ENDPOINT: "/${ENTRA_TENANT_ID}/oauth2/v2.0/token"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_USERINFO__ENDPOINT: "https://graph.microsoft.com/oidc/userinfo"
+    OPENPROJECT_OPENID__CONNECT_ENTRA_END__SESSION__ENDPOINT: "https://login.microsoftonline.com/${ENTRA_TENANT_ID}/oauth2/v2.0/logout"
+  volumes:
+    - "${OPDATA:-opdata}:/var/openproject/assets"
 
 services:
+  db:
+    image: postgres:${POSTGRES_VERSION:-17-alpine}
+    <<: *restart
+    stop_grace_period: "3s"
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}"
+      POSTGRES_DB: openproject
+    volumes:
+      - "${PGDATA:-pgdata}:/var/lib/postgresql/data"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d openproject"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  cache:
+    image: memcached:1.6-alpine
+    <<: *restart
+    networks:
+      - backend
+
+  proxy:
+    image: caddy:2.11.6-alpine
+    <<: *restart
+    environment:
+      CADDY_SITE_ADDRESS: "${CADDY_SITE_ADDRESS:-${OPENPROJECT_HOST__NAME:?set OPENPROJECT_HOST__NAME}}"
+      ACME_CA: "${ACME_CA:-https://acme-v02.api.letsencrypt.org/directory}"
+    volumes:
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    depends_on:
+      web:
+        condition: service_started
+      hocuspocus:
+        condition: service_started
+    networks:
+      - frontend
+
   web:
-    image: openproject/openproject:${TAG:-staging}
-    environment: *staging_env
+    <<: *app
+    command: ./docker/prod/web
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+    labels:
+      - deunhealth.restart.on.unhealthy=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}/health_checks/default"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  # Optional sidecar: restarts containers whose Docker healthcheck turns unhealthy.
+  # Opt-in via the "deunhealth" profile because it mounts the Docker socket:
+  #   docker compose ... --profile deunhealth up -d
+  deunhealth:
+    <<: *restart
+    image: openproject/deunhealth:${DEUNHEALTH_TAG:-local}
+    build:
+      context: ./tools/deunhealth
+      dockerfile: Dockerfile.distroless
+    profiles: ["deunhealth"]
+    network_mode: none
+    # Runs as nonroot (65532) and needs the docker socket's group to talk to it.
+    # Linux: DOCKER_GID=$(stat -c %g /var/run/docker.sock)
+    group_add:
+      - "${DOCKER_GID:-0}"
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      LOG_LEVEL: info
+
   worker:
-    image: openproject/openproject:${TAG:-staging}
-    environment: *staging_env
+    <<: *app
+    command: ./docker/prod/worker
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+
   cron:
-    image: openproject/openproject:${TAG:-staging}
-    environment: *staging_env
+    <<: *app
+    command: ./docker/prod/cron
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+      seeder:
+        condition: service_completed_successfully
+
   seeder:
-    image: openproject/openproject:${TAG:-staging}
-    environment: *staging_env
+    <<: *app
+    command: ./docker/prod/seeder
+    restart: on-failure
+    networks:
+      - backend
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+
+  hocuspocus:
+    image: openproject/hocuspocus:${HOCUSPOCUS_TAG:-17.9.1-patched}
+    build:
+      context: ./extensions/op-blocknote-hocuspocus
+      dockerfile: Dockerfile
+    <<: *restart
+    environment:
+      SECRET: "${COLLABORATIVE_SERVER_SECRET:?set COLLABORATIVE_SERVER_SECRET}"
+      OPENPROJECT_URL: "${OPENPROJECT_URL:-http://web:8080}"
+      OPENPROJECT_HTTPS: "${OPENPROJECT_HTTPS:-true}"
+    networks:
+      - backend
+      - frontend

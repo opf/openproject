@@ -92,6 +92,7 @@ export class ColorsAutocompleterComponent implements OnInit {
   public onModelChange(color:{ name:string, value:string }) {
     if (color && this.updateInputField) {
       this.updateInputField.value = color.value;
+      this.updateInputField.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 

@@ -259,4 +259,102 @@ RSpec.describe TypeSchemes::SchemeService do
       expect(result).to be_failure
     end
   end
+
+  describe "adding new types" do
+    let(:admin) { create(:admin) }
+
+    before { User.current = admin }
+    after { User.current = nil }
+
+    it "creates a new type and makes it the default when the scheme had none" do
+      result = described_class.create(name: "New", new_type_names: ["Sub-Tasks"])
+
+      expect(result).to be_success
+      scheme = result.result
+      expect(scheme.types.map(&:name)).to eq(["Sub-Tasks"])
+      expect(scheme.default_type.name).to eq("Sub-Tasks")
+    end
+
+    it "appends new types after the existing items and keeps the default" do
+      scheme = create(:type_scheme, types: [epic])
+
+      result = described_class.update(scheme, new_type_names: ["Sub-Tasks"])
+
+      expect(result).to be_success
+      expect(scheme.reload.types.map(&:name)).to eq([epic.name, "Sub-Tasks"])
+      expect(scheme.default_type).to eq(epic)
+    end
+
+    it "reuses an existing type instead of duplicating it" do
+      existing = create(:type, name: "Sub-Tasks")
+
+      result = described_class.create(name: "New", new_type_names: ["sub-tasks"])
+
+      expect(result).to be_success
+      expect(result.result.types).to eq([existing])
+      expect(Type.where("LOWER(name) = ?", "sub-tasks").count).to eq(1)
+    end
+
+    it "does not create the type when the scheme is invalid" do
+      expect do
+        result = described_class.create(name: "", new_type_names: ["Sub-Tasks"])
+        expect(result).to be_failure
+      end.not_to change(Type, :count)
+    end
+  end
+
+  describe "per-type colors" do
+    let(:color) { create(:color) }
+
+    def item(overrides = {})
+      { type_id: epic.id, position: 1, is_default: true }.merge(overrides)
+    end
+
+    it "stores a palette color on the item" do
+      result = described_class.create(name: "Palette", items: [item(color_id: color.id)])
+
+      expect(result).to be_success
+      expect(result.result.items.first.color).to eq(color)
+    end
+
+    it "creates a color from a custom hexcode and reuses it case-insensitively" do
+      result = described_class.create(name: "Custom",
+                                      items: [item(color_mode: "custom", color_hex: "#a1b2c3")])
+      expect(result).to be_success
+
+      resolved = Color.find_by("LOWER(hexcode) = ?", "#a1b2c3")
+      expect(resolved).to be_present
+      expect(result.result.items.first.color).to eq(resolved)
+
+      again = described_class.create(name: "Custom 2",
+                                     items: [item(color_mode: "custom", color_hex: "#A1B2C3")])
+      expect(again.result.items.first.color).to eq(resolved)
+      expect(Color.where("LOWER(hexcode) = ?", "#a1b2c3").count).to eq(1)
+    end
+
+    it "keeps the palette color in palette mode even when a hexcode is present" do
+      result = described_class.create(name: "Mode",
+                                      items: [item(color_mode: "palette", color_id: color.id,
+                                                   color_hex: "#a1b2c3")])
+
+      expect(result.result.items.first.color).to eq(color)
+    end
+
+    it "ignores an invalid hexcode" do
+      result = described_class.create(name: "Invalid hex",
+                                      items: [item(color_mode: "custom", color_hex: "nope")])
+
+      expect(result).to be_success
+      expect(result.result.items.first.color).to be_nil
+    end
+
+    it "clears the color when neither palette nor hex is given" do
+      scheme = create(:type_scheme, types: [epic])
+      scheme.items.first.update!(color:)
+
+      described_class.update(scheme, items: [item(color_id: nil, color_hex: nil, color_mode: nil)])
+
+      expect(scheme.reload.items.first.color).to be_nil
+    end
+  end
 end

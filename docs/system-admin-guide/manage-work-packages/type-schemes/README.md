@@ -12,13 +12,17 @@ A type scheme limits which work package types can be chosen when a work package 
 
 Every project always has a type scheme. Projects without an explicit assignment, and all newly created projects, use the **Default Scheme**, whose default type is **Task**. New types are added to the default scheme automatically.
 
-A scheme only references existing types. It never creates types and never changes existing work packages.
+A scheme references existing types and can also create new ones. It never changes existing work packages.
 
 ## Create a scheme
 
 1. Go to *Administration → Work packages → Type schemes* and click **New type scheme**.
 2. Enter a name and an optional description.
 3. Tick the types that belong to the scheme and choose exactly one **Default** type. If you untick the default type, the first remaining ticked type becomes the default.
+
+   To add a type that does not exist yet, enter one name per line (or separated by commas) in **Add new types**. Each new name creates a work package type available in the whole instance and adds it to the scheme. A name matching an existing type is matched regardless of case and is reused without creating a duplicate. Newly created types are also added to the default scheme automatically.
+
+   Each type has its own **Color**. Choose one from the list (a swatch previews the selection) or choose **Custom color** and use the color picker; a custom color is stored as a regular color and reused when the same value is picked again. Colors are stored per scheme, so the same type can look different in another scheme. Types created from **Add new types** start without a color; set it in the Color column once the row appears.
 4. Reorder the types: drag the handle with the mouse, or use the up and down arrow buttons in each row (they work with keyboard, touch and screen readers). With the keyboard you can also press Alt + Up arrow or Alt + Down arrow while focus is inside a row. Each move is announced to screen readers and keyboard focus stays on the control you used. The *Position* number of every row is updated automatically and can still be edited by hand, for example when JavaScript is disabled.
 5. Optionally tick **Default scheme for new projects** to make this scheme the default. Exactly one scheme is always the default; making another scheme the default unsets the previous one, and the flag cannot be removed directly.
 

@@ -96,6 +96,65 @@ RSpec.describe "API v3 type schemes" do
       expect(TypeScheme.find(id)).to have_attributes(name: "Renamed", types: [epic])
     end
 
+    it "creates a new type and adds it to the scheme" do
+      post api_v3_paths.type_schemes, { name: "WithNew", newTypeNames: ["Sub-Tasks"] }.to_json, headers
+
+      expect(last_response).to have_http_status(:created)
+      scheme = TypeScheme.find(json["id"])
+      expect(scheme.types.map(&:name)).to eq(["Sub-Tasks"])
+      expect(scheme.default_type.name).to eq("Sub-Tasks")
+    end
+
+    it "stores and returns per-type colors" do
+      color = create(:color)
+      body = { name: "Colored",
+               typeItems: [{ _links: { type: { href: api_v3_paths.type(bug.id) } },
+                             position: 1, default: true, colorId: color.id }] }
+
+      post api_v3_paths.type_schemes, body.to_json, headers
+
+      expect(last_response).to have_http_status(:created)
+      expect(json["typeItems"].first["color"]).to include("id" => color.id, "hexcode" => color.hexcode)
+      expect(TypeScheme.find(json["id"]).items.first.color).to eq(color)
+    end
+
+    it "resolves a custom color hexcode on an item" do
+      body = { name: "Hex",
+               typeItems: [{ _links: { type: { href: api_v3_paths.type(bug.id) } },
+                             position: 1, default: true, colorHex: "#a1b2c3" }] }
+
+      post api_v3_paths.type_schemes, body.to_json, headers
+
+      expect(last_response).to have_http_status(:created)
+      expect(json["typeItems"].first["color"]).to include("hexcode" => "#A1B2C3")
+      expect(TypeScheme.find(json["id"]).items.first.color.hexcode).to eq("#A1B2C3")
+    end
+
+    it "appends new types on update without dropping existing items" do
+      target = create(:type_scheme, name: "Append", types: [story])
+
+      patch api_v3_paths.type_scheme(target.id), { newTypeNames: ["Sub-Tasks"] }.to_json, headers
+
+      expect(last_response).to have_http_status(:ok)
+      expect(target.reload.types.map(&:name)).to eq([story.name, "Sub-Tasks"])
+      expect(target.default_type).to eq(story)
+    end
+
+    it "reuses an existing type instead of creating a duplicate" do
+      existing = create(:type, name: "Sub-Tasks")
+
+      post api_v3_paths.type_schemes, { name: "Reuse", newTypeNames: ["sub-tasks"] }.to_json, headers
+
+      expect(last_response).to have_http_status(:created)
+      expect(TypeScheme.find(json["id"]).types).to eq([existing])
+      expect(Type.where("LOWER(name) = ?", "sub-tasks").count).to eq(1)
+    end
+
+    it "rejects a non-list newTypeNames payload" do
+      post api_v3_paths.type_schemes, { name: "Bad", newTypeNames: "Sub-Tasks" }.to_json, headers
+      expect(last_response).to have_http_status(:bad_request)
+    end
+
     it "does not offer deletion" do
       delete api_v3_paths.type_scheme(scheme.id)
       expect(last_response.status).to be_in([404, 405])

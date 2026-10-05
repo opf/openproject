@@ -40,6 +40,17 @@ properties:
           type: integer
         default:
           type: boolean
+        color:
+          type:
+            - object
+            - "null"
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            hexcode:
+              type: string
   createdAt:
     type: string
     format: date-time
@@ -58,8 +69,13 @@ example:
           href: /api/v3/types/2
       position: 1
       default: true
+      color:
+        id: 1
+        name: Green
+        hexcode: "#008000"
     - _links:
         type:
           href: /api/v3/types/1
       position: 2
       default: false
+      color: null

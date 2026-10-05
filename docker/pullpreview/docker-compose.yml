@@ -31,7 +31,7 @@ x-defaults: &defaults
 
 services:
   proxy:
-    image: caddy:2
+    image: caddy:2.11.6-alpine
     restart: unless-stopped
     command: "caddy run --config /etc/caddy/Caddyfile"
     networks:

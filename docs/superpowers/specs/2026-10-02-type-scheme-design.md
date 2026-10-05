@@ -6,7 +6,7 @@ Nguồn: [docs/ideas/idea-01.md](../../ideas/idea-01.md) · Ngày: 2026-10-02 ·
 
 Thêm lớp quản trị **Type Scheme** (idea gọi là Issue Type Scheme) giữa Project và Work Package Type:
 Project → Scheme → danh sách Type được phép **tạo mới**, có thứ tự và Type mặc định.
-Scheme chỉ tham chiếu `Type` native, không tạo Type mới, không sửa dữ liệu Work Package.
+Scheme tham chiếu `Type` native; admin có thể tạo `Type` mới ngay trong form scheme (xem §14). Scheme không sửa dữ liệu Work Package.
 
 ## 2. Kết quả discovery (đã kiểm chứng trong code)
 
@@ -133,3 +133,18 @@ Thay thế các điểm tương ứng ở §3, §5, §7, §8.
 
 **13.3 Kéo-thả sắp xếp**
 - Form admin: mỗi dòng Type có handle kéo-thả (HTML5 DnD) + nút Lên/Xuống bàn phím (Alt+↑/↓) + vùng `aria-live` thông báo; vị trí được ghi lại vào ô `position` (vẫn sửa được khi tắt JS). Stimulus controller `type-schemes--sortable-types`.
+
+## 14. Yêu cầu bổ sung (2026-10-05): tạo Type mới trong scheme + màu
+
+**14.1 Tạo Type mới từ form/API scheme**
+- Thêm ô **Add new types** (`type_scheme[new_type_names]`, mỗi dòng hoặc phân tách bằng dấu phẩy) ở form admin, và trường `newTypeNames` (mảng chuỗi) ở API v3 `POST/PATCH /api/v3/type_schemes`.
+- `TypeSchemes::TypeCreator` tạo Type qua `WorkPackageTypes::CreateService` (giữ nguyên validation + side-effect native: base variant/workflow/form configuration), dedupe không phân biệt hoa thường và tái sử dụng Type đã tồn tại.
+- Type mới được thêm vào cuối danh sách items của scheme (không default, trừ khi scheme chưa có default). Type mới vẫn tự vào Default Scheme qua hook `Type.after_create_commit` hiện có (§13.1).
+- Việc tạo Type nằm trong transaction của `SchemeService` nên nếu scheme không hợp lệ thì Type cũng bị rollback.
+- Giới hạn `TypeCreator::MAX_NAMES = 50` tên mỗi lần.
+
+**14.2 Màu theo từng type**
+- `type_scheme_items.color_id` (FK `colors`, nullable): mỗi type trong scheme có màu riêng; cùng một `Type` có thể khác màu ở các scheme khác nhau. Không có màu dùng chung ở cấp scheme.
+- Form admin: mỗi dòng type có cột **Color** với hai chế độ (Stimulus `type-schemes--color`): **Choose from list** = `opce-colors-autocompleter` (dropdown có swatch, cùng component với form Type) kèm swatch xem trước; **Custom color** = color picker (hex). Picker map hexcode về `Color`: tái dùng theo hexcode (không phân biệt hoa/thường), chưa có thì tạo mới.
+- Type tạo qua "Add new types" bắt đầu **chưa có màu**; đặt màu ở cột Color sau khi dòng xuất hiện.
+- API v3: `typeItems[].colorId` (palette) / `typeItems[].colorHex` (custom) khi ghi; `typeItems[].color` dạng object `{id,name,hexcode}` khi đọc. Không còn `color` ở cấp scheme.

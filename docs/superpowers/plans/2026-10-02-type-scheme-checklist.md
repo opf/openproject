@@ -45,6 +45,14 @@ Plan: [2026-10-02-type-scheme.md](2026-10-02-type-scheme.md) · Spec: [../specs/
 - [x] **Task 12 — Kéo-thả sắp xếp Type** (spec §13.3)
   - [x] Stimulus controller + view + i18n + spec
 
+- [x] **Task 13 — Tạo Type mới trong scheme** (spec §14.1)
+  - [x] `TypeCreator`, `new_type_names` ở `SchemeService`/controller/API, ô UI "Add new types", i18n, OpenAPI
+  - [x] Specs: `type_creator_spec`, `scheme_service_spec`, API request, feature admin
+- [x] **Task 14 — Màu theo từng type** (spec §14.2)
+  - [x] Migration `color_id` cho `type_scheme_items` (bỏ màu dùng chung ở `type_schemes`), model/representer, i18n, OpenAPI
+  - [x] Mỗi dòng type có cột Color, hai chế độ (Stimulus `type-schemes--color`): `opce-colors-autocompleter` (dropdown có swatch) + swatch xem trước, hoặc color picker (hex → tái dùng/tạo `Color`)
+  - [x] Specs: service/creator/API/feature + Stimulus spec
+
 ## Việc cuối
 
 - [ ] Final whole-branch review (cần chạy RSpec thật — chưa chạy được trong môi trường Ruby 3.3.6)

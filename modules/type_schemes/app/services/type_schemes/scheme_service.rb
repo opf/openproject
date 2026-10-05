@@ -31,6 +31,7 @@
 module TypeSchemes
   class SchemeService
     MAX_ITEMS = 500
+    HEX_COLOR = /\A#?([0-9a-fA-F]{6})\z/
 
     class << self
       def create(params) = save(TypeScheme.new, params)
@@ -38,7 +39,10 @@ module TypeSchemes
 
       def clone(scheme)
         copy = TypeScheme.new(name: clone_name(scheme), description: scheme.description, active: scheme.active)
-        scheme.items.each { |i| copy.items.build(type_id: i.type_id, position: i.position, is_default: i.is_default) }
+        scheme.items.each do |item|
+          copy.items.build(type_id: item.type_id, position: item.position,
+                           is_default: item.is_default, color_id: item.color_id)
+        end
         copy.save ? ok(copy) : fail_with(copy)
       end
 
@@ -108,15 +112,6 @@ module TypeSchemes
       end
 
       def save(scheme, params)
-        if duplicate_types?(params[:items])
-          scheme.errors.add(:items, :duplicate_types)
-          return fail_with(scheme)
-        end
-        if params[:items] && params[:items].size > MAX_ITEMS
-          scheme.errors.add(:items, :too_many, count: MAX_ITEMS)
-          return fail_with(scheme)
-        end
-
         persist(scheme, params)
       rescue ActiveRecord::RecordNotUnique
         scheme.errors.add(:base, :conflict)
@@ -132,11 +127,92 @@ module TypeSchemes
             result = fail_with(scheme)
             raise ActiveRecord::Rollback
           end
-          prepare_items(scheme, params[:items]) if params.key?(:items)
+
+          items = params[:items]
+          if params[:new_type_names].present?
+            created = TypeCreator.call(params[:new_type_names])
+            if created.failure?
+              created.errors.full_messages.each { |message| scheme.errors.add(:base, message) }
+              result = fail_with(scheme)
+              raise ActiveRecord::Rollback
+            end
+            items = merge_new_types(items || current_items(scheme), created.result)
+          end
+
+          if items
+            if duplicate_types?(items)
+              scheme.errors.add(:items, :duplicate_types)
+              result = fail_with(scheme)
+              raise ActiveRecord::Rollback
+            end
+            if items.size > MAX_ITEMS
+              scheme.errors.add(:items, :too_many, count: MAX_ITEMS)
+              result = fail_with(scheme)
+              raise ActiveRecord::Rollback
+            end
+            prepare_items(scheme, items)
+          end
+
           result = scheme.save ? ok(scheme) : fail_with(scheme)
           raise ActiveRecord::Rollback if result.failure?
         end
         result
+      end
+
+      def current_items(scheme)
+        scheme.items.reject(&:marked_for_destruction?).map do |item|
+          { type_id: item.type_id, position: item.position, is_default: item.is_default, color_id: item.color_id }
+        end
+      end
+
+      # Appends the freshly created types as enabled items after the existing ones.
+      # If none of the items is marked default, the first one becomes it so an
+      # active scheme keeps exactly one default.
+      def merge_new_types(items, types)
+        merged = items.map { |item| item.dup }
+        known = merged.map { |item| item[:type_id].to_i }
+        position = merged.map { |item| item[:position].to_i }.max.to_i + 1
+
+        types.each do |type|
+          next if known.include?(type.id)
+
+          merged << { type_id: type.id, position:, is_default: false }
+          known << type.id
+          position += 1
+        end
+
+        merged.first[:is_default] = true if merged.any? && merged.none? { |item| item[:is_default] }
+        merged
+      end
+
+      # "custom" (or a hexcode with no explicit mode) resolves to a Color by its
+      # hexcode, creating one on demand; otherwise an existing Color id is used.
+      def resolve_color(params, id_key:, hex_key:, mode_key:)
+        mode = params[mode_key].presence
+        if mode == "custom" || (mode.nil? && params[hex_key].present?)
+          color_id_for_hex(params[hex_key])
+        else
+          Color.where(id: params[id_key].presence).pick(:id)
+        end
+      end
+
+      def color_id_for_hex(value)
+        hex = normalize_hex(value)
+        return if hex.nil?
+
+        Color.where("LOWER(hexcode) = ?", hex).pick(:id) || create_color(hex)
+      end
+
+      def normalize_hex(value)
+        match = HEX_COLOR.match(value.to_s.strip)
+        "##{match[1].downcase}" if match
+      end
+
+      def create_color(hex)
+        Color.create(name: hex, hexcode: hex).id
+      rescue StandardError => e
+        Rails.logger.error("[type_schemes] creating color #{hex} failed: #{e.class}: #{e.message}")
+        nil
       end
 
       def apply_default_flag(scheme, params)
@@ -166,6 +242,7 @@ module TypeSchemes
         end
         wanted.each do |type_id, attrs|
           item = scheme.items.find { |i| i.type_id == type_id } || scheme.items.build(type_id:)
+          item.color_id = resolve_color(attrs, id_key: :color_id, hex_key: :color_hex, mode_key: :color_mode)
           item.assign_attributes(position: attrs[:position] || 0, is_default: attrs[:is_default] || false)
         end
       end

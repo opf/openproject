@@ -19,7 +19,14 @@ post:
   tags:
     - Type Schemes
   description: |-
-    Creates a type scheme. The body needs a `name` and `typeItems` with exactly one entry marked `default`.
+    Creates a type scheme. The body needs a `name` and exactly one item marked `default`.
+
+    Types are referenced through `typeItems` (existing types) and/or `newTypeNames`.
+    Each name in `newTypeNames` creates a new work package type available in the whole
+    instance and adds it to the scheme; a name matching an existing type (regardless of
+    case) reuses that type. When no item is marked `default`, the first item becomes the
+    default. Colors are set per item through `colorId` or `colorHex`; new types start
+    without a color.
 
     **Required permission:** administrator
   requestBody:
@@ -29,7 +36,6 @@ post:
           type: object
           required:
             - name
-            - typeItems
           properties:
             name:
               type: string
@@ -52,6 +58,19 @@ post:
                     type: integer
                   default:
                     type: boolean
+                  colorId:
+                    type:
+                      - integer
+                      - "null"
+                    description: ID of the color of this type in the scheme. Send null to remove it.
+                  colorHex:
+                    type: string
+                    description: Custom color hexcode for this type (e.g. "#a1b2c3"). Takes precedence over colorId and creates the color if none matches.
+            newTypeNames:
+              type: array
+              description: Names of work package types to create and add to the scheme.
+              items:
+                type: string
   responses:
     '201':
       description: Created
