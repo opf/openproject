@@ -31,8 +31,9 @@ ARG APP_USER_UID
 ARG APP_USER_GID
 
 RUN groupadd --force --gid $APP_USER_GID $APP_USER && \
-  useradd -d $APP_PATH -m $APP_USER -s /bin/bash --uid $APP_USER_UID --gid $APP_USER_GID && \
-  chown -R $APP_USER:$APP_USER /usr/local/bundle
+  useradd -d /home/$APP_USER -m $APP_USER -s /bin/bash --uid $APP_USER_UID --gid $APP_USER_GID && \
+  mkdir -p $APP_PATH && \
+  chown -R $APP_USER:$APP_USER /usr/local/bundle $APP_PATH
 
 ENV CI=true
 ENV RAILS_ENV=test
