@@ -1132,7 +1132,7 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
-    plaintext (0.3.7)
+    plaintext (0.4.0)
       activesupport (> 2.2.1)
       nokogiri (~> 1.10, >= 1.10.4)
       rubyzip (>= 1.2.0)
@@ -1724,7 +1724,7 @@ DEPENDENCIES
   parallel_tests (~> 4.0)
   pdf-inspector (~> 1.2)
   pg (~> 1.6.2)
-  plaintext (~> 0.3.7)
+  plaintext (~> 0.4.0)
   prawn (~> 2.4)
   pry!
   pry-byebug (~> 3.12.0)
@@ -2177,7 +2177,7 @@ CHECKSUMS
   pg (1.6.3-x86_64-darwin) sha256=ee2e04a17c0627225054ffeb43e31a95be9d7e93abda2737ea3ce4a62f2729d6
   pg (1.6.3-x86_64-linux) sha256=5d9e188c8f7a0295d162b7b88a768d8452a899977d44f3274d1946d67920ae8d
   pg (1.6.3-x86_64-linux-musl) sha256=9c9c90d98c72f78eb04c0f55e9618fe55d1512128e411035fe229ff427864009
-  plaintext (0.3.7) sha256=3b923152ee84d98898d459e9442ec9cca84d2acdbb8d232e2bcf41c5723e70d5
+  plaintext (0.4.0) sha256=c41ecbcc64e0cb46bcb7bb032885f77ab3e0727d8c636e330ca03fcac359e866
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
