@@ -130,6 +130,5 @@ module OpenProject::Reporting
 
     prepend_module "OpenProject::Reporting::Patches::CustomFieldsControllerPatch",
                    into: "Admin::Settings::CustomFieldsBaseController"
-    patch_with_namespace :BasicData, :SettingSeeder
   end
 end

@@ -27,6 +27,8 @@ module OpenProject::Calendar
              bundled: true,
              settings: {} do
       project_module :calendar_view, dependencies: :work_package_tracking do
+        enabled_by_default!
+
         permission :view_calendar,
                    { "calendar/calendars": %i[index show split_view split_create new],
                      "calendar/menus": %i[show] },

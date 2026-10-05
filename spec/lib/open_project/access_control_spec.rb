@@ -461,7 +461,7 @@ RSpec.describe OpenProject::AccessControl do
         state = condition_state
         described_class.map do |map|
           map.project_module :conditional_module do |mod|
-            mod.enabled_by_default! { state[:enabled] }
+            mod.enabled_by_default! if: -> { state[:enabled] }
             mod.permission :conditional_module_permission, { dont: :care }, permissible_on: :project
           end
         end

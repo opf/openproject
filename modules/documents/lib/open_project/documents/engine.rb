@@ -52,6 +52,8 @@ module OpenProject::Documents
       end
 
       project_module :documents do |_map|
+        enabled_by_default! if: -> { Setting.real_time_text_collaboration_enabled? }
+
         permission :view_documents,
                    {
                      documents: %i[

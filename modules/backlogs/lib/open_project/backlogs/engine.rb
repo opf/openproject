@@ -52,6 +52,8 @@ module OpenProject::Backlogs
              bundled: true,
              settings:) do
       project_module :backlogs, dependencies: :work_package_tracking do
+        enabled_by_default!
+
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/filters": :show,
@@ -152,7 +154,6 @@ module OpenProject::Backlogs
                WorkPackage
                Project]
 
-    patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService
     patch_with_namespace :WorkPackages, :SetAttributesService
