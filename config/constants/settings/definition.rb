@@ -621,12 +621,6 @@ module Settings
         writable: false,
         default: 7.days
       },
-      good_job_engine_basic_auth: {
-        description: "Allow basic authentication for GoodJob web interface by setting a password",
-        format: :string,
-        default: nil,
-        secret: true
-      },
       hashed_token_pepper: {
         description: "Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). " \
                      "Auto-initialized on first use. " \

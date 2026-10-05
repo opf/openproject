@@ -8,6 +8,12 @@ sidebar_navigation:
 
 OpenProject provides different means of monitoring and auditing your application.
 
+## Background job dashboard
+
+Administrators can inspect and manage background jobs under **Administration → System settings → GoodJob dashboard**.
+The dashboard uses the OpenProject administrator session, including its session timeout. Direct access to
+`/admin/good_job` uses the same authorization.
+
 ## Logging information
 
 In production, OpenProject uses [Lograge formatter](https://github.com/roidrage/lograge) `key_value` logger by default. Every request will result in the following `info` log level:

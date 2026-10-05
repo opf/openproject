@@ -248,7 +248,6 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_FORCED__SINGLE__PAGE__SIZE` | `250` | Forced page size for manually sorted work package views |
 | `OPENPROJECT_GOOD__JOB__CLEANUP__PRESERVED__JOBS__BEFORE__SECONDS__AGO` | `604800` |  |
 | `OPENPROJECT_GOOD__JOB__ENABLE__CRON` | `true` |  |
-| `OPENPROJECT_GOOD__JOB__ENGINE__BASIC__AUTH` | `nil` | Allow basic authentication for GoodJob web interface by setting a password |
 | `OPENPROJECT_GOOD__JOB__MAX__CACHE` | `10000` |  |
 | `OPENPROJECT_GOOD__JOB__MAX__THREADS` | `20` |  |
 | `OPENPROJECT_GOOD__JOB__QUEUES` | `"*"` |  |

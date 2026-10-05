@@ -4142,6 +4142,7 @@ en:
   label_global: "Global"
   label_global_modules: "Global modules"
   label_global_roles: "Global roles"
+  label_good_job_dashboard: "GoodJob dashboard"
   label_go_back: "Go back one menu level"
   label_go_forward: "Open %{module} sub-menu"
   label_greater_or_equal: ">="

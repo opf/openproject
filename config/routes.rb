@@ -899,6 +899,11 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resource :good_job_dashboard, only: :show, controller: :good_job_dashboard
+    get "settings/plugin/openproject_good_job_dashboard", to: "good_job_dashboard#legacy_settings"
+    post "settings/plugin/openproject_good_job_dashboard", to: "good_job_dashboard#removed_settings"
+    mount GoodJob::Engine => "good_job", as: :good_job_admin
+
     namespace :settings do
       resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
@@ -1575,9 +1580,5 @@ Rails.application.routes.draw do
 
   if Rails.env.development?
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
-
-  if Rails.env.development? || OpenProject::Configuration.good_job_engine_basic_auth.present?
-    mount GoodJob::Engine => "good_job"
   end
 end
