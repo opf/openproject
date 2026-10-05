@@ -18,31 +18,46 @@ describe('computeWorkPackageAttributeExternalData', () => {
 
   it('emits the value macro by default', () => {
     expect(text({ wpid: '57', displayId: 'PROJ-57', attribute: 'status' }))
-      .toBe('workPackageValue:PROJ-57:status');
+      .toBe('workPackageValue:PROJ-57:"status"');
   });
 
   it('emits the label macro', () => {
     expect(text({ wpid: '57', displayId: 'PROJ-57', attribute: 'status', display: 'label' }))
-      .toBe('workPackageLabel:PROJ-57:status');
+      .toBe('workPackageLabel:PROJ-57:"status"');
   });
 
   it('emits label and value macros', () => {
     expect(text({ wpid: '57', displayId: 'PROJ-57', attribute: 'status', display: 'both' }))
-      .toBe('workPackageLabel:PROJ-57:status: workPackageValue:PROJ-57:status');
+      .toBe('workPackageLabel:PROJ-57:"status": workPackageValue:PROJ-57:"status"');
   });
 
   it('falls back to the numeric id', () => {
-    expect(text({ wpid: '57', attribute: 'status' })).toBe('workPackageValue:57:status');
+    expect(text({ wpid: '57', attribute: 'status' })).toBe('workPackageValue:57:"status"');
   });
 
-  it('quotes attribute names the macro cannot take bare', () => {
+  it('keeps attribute names with spaces and colons in one segment', () => {
     expect(text({ wpid: '57', attribute: 'Content owner' })).toBe('workPackageValue:57:"Content owner"');
-    expect(text({ wpid: '57', attribute: 'Release 1.2' })).toBe('workPackageValue:57:"Release 1.2"');
     expect(text({ wpid: '57', attribute: 'Ratio:x' })).toBe('workPackageValue:57:"Ratio:x"');
   });
 
   it('treats an unknown display as value', () => {
-    expect(text({ wpid: '57', attribute: 'status', display: 'bogus' })).toBe('workPackageValue:57:status');
+    expect(text({ wpid: '57', attribute: 'status', display: 'bogus' })).toBe('workPackageValue:57:"status"');
+  });
+
+  // The matcher OpenProject applies to rendered text, from
+  // lib/open_project/text_formatting/matchers/attribute_macros.rb.
+  const MACRO = /(\w+)(Label|Value)(?::(?:([^":\s]+)|"([^"]+)"))?(?::([^":\s.]+|"([^"]+)"))(?::(multiline|singleline)\b)?/;
+
+  it.each([
+    ['followed by a comma', (macro:string) => `Owner ${macro}, see above`],
+    ['in parentheses', (macro:string) => `(${macro})`],
+  ])('is matched up to the attribute when %s', (_, surround) => {
+    for (const attribute of ['status', 'singleline']) {
+      const match = MACRO.exec(surround(text({ wpid: '57', displayId: 'PROJ-57', attribute })!))!;
+      expect(match[3]).toBe('PROJ-57');
+      expect(match[6]).toBe(attribute);
+      expect(match[7]).toBeUndefined();
+    }
   });
 });
 

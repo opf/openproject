@@ -3,6 +3,7 @@ import { page, userEvent } from 'vitest/browser';
 import { http, HttpResponse } from 'msw';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { worker } from '../../../mocks/browser';
+import { requestsDuring } from '../../../helpers/requestHelpers';
 import {
   buildWorkPackageAttributeExternalDOM,
   computeWorkPackageAttributeExternalData,
@@ -65,6 +66,20 @@ describe('Work package attribute chip', () => {
     renderAttribute('status', 'both');
 
     await vi.waitFor(() => expect(chip().textContent).toBe('Status: In progress'));
+  });
+
+  it('loads a work package once for all of its WP attributes', async () => {
+    const attribute = (name:string) =>
+      ({ type: 'openProjectWorkPackageAttribute', props: { wpid: '321', displayId: 'PROJ-321', attribute: name, display: 'value' } });
+
+    const requested = await requestsDuring('/api/v3/work_packages/321', async () => {
+      renderEditor({
+        initialContent: [{ type: 'paragraph', content: [attribute('status'), ' ', attribute('assignee'), ' ', attribute('Content owner')] }],
+      });
+      await expect.element(page.getByText('Mira Hofmann')).toBeVisible();
+    });
+
+    expect(requested).toHaveLength(1);
   });
 
   it('says so when the work package no longer has the attribute', async () => {
