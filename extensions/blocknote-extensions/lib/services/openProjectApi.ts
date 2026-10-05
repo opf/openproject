@@ -9,6 +9,7 @@ import type {
   WorkPackage,
   WorkPackageForm,
   WorkPackagePayload,
+  WorkPackageSchema,
 } from '../openProjectTypes';
 
 let baseUrl = 'https://openproject.local';
@@ -188,6 +189,13 @@ export async function fetchWorkPackages(ids:readonly number[]):Promise<WorkPacka
   const workPackages = (await Promise.all(chunks.map(fetchWorkPackagesPaged))).flat();
   const requested = new Set(wanted);
   return workPackages.filter((workPackage) => requested.has(workPackage.id));
+}
+
+export function fetchWorkPackageSchema(href:string):Promise<WorkPackageSchema> {
+  if (!href.startsWith('/api/v3/work_packages/schemas/')) {
+    return Promise.reject(new OpenProjectApiError(`Unexpected schema href: ${href}`));
+  }
+  return get<WorkPackageSchema>(href);
 }
 
 export function fetchStatuses():Promise<StatusCollection> {
