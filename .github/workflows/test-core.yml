@@ -92,7 +92,7 @@ jobs:
           public/assets
           config/frontend_assets.manifest.json
           extensions/op-blocknote-hocuspocus/node_modules
-          .cache/selenium
+          tmp/ci-cache/selenium
         key: assets-${{ github.sha }}
     - name: Build
       run: bin/ci setup-tests
@@ -179,7 +179,7 @@ jobs:
           public/assets
           config/frontend_assets.manifest.json
           extensions/op-blocknote-hocuspocus/node_modules
-          .cache/selenium
+          tmp/ci-cache/selenium
         key: assets-${{ github.sha }}
         fail-on-cache-miss: true
     - name: Cache TEST RUNTIME

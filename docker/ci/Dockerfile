@@ -39,6 +39,8 @@ ENV RAILS_ENV=test
 ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
 ENV CAPYBARA_BIND_ADDRESS=0.0.0.0
 ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
+# change from default $HOME/.cache/selenium
+ENV SE_CACHE_PATH=$APP_PATH/tmp/ci-cache/selenium
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 
