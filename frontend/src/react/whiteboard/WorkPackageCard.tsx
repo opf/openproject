@@ -54,6 +54,20 @@ function useWorkPackage(id:string):WorkPackageData {
 
 const t = (key:string) => window.I18n.t(`js.whiteboards.work_package_card.${key}`);
 
+function CardSubject({ id, children }:{ id:string; children:React.ReactNode }) {
+  return (
+    <a
+      className="op-whiteboard-wp-card--subject"
+      href={workPackageCardLink(id)}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-whiteboard-card-subject
+    >
+      {children}
+    </a>
+  );
+}
+
 function LoadedCard({ workPackage }:{ workPackage:WorkPackageResource }) {
   const { type, status, assignee, project } = workPackage._links;
   const meta = [assignee?.title, project?.title].filter(Boolean).join(' · ');
@@ -67,7 +81,7 @@ function LoadedCard({ workPackage }:{ workPackage:WorkPackageResource }) {
           <span className={`op-whiteboard-wp-card--status __hl_background __hl_status_${resourceId(status)}`}>{status.title}</span>
         )}
       </div>
-      <div className="op-whiteboard-wp-card--subject">{workPackage.subject}</div>
+      <CardSubject id={workPackageReference(workPackage)}>{workPackage.subject}</CardSubject>
       {meta && <div className="op-whiteboard-wp-card--meta">{meta}</div>}
     </>
   );
@@ -79,7 +93,7 @@ function PlaceholderCard({ id, state }:{ id:string; state:'loading'|'unavailable
       <div className="op-whiteboard-wp-card--header">
         <span className="op-whiteboard-wp-card--id">{formattedId(id)}</span>
       </div>
-      <div className="op-whiteboard-wp-card--subject">{t(`${state}.header`)}</div>
+      <CardSubject id={id}>{t(`${state}.header`)}</CardSubject>
       {state !== 'loading' && <div className="op-whiteboard-wp-card--meta">{t(`${state}.message`)}</div>}
     </>
   );
@@ -89,16 +103,13 @@ export function WorkPackageCard({ id }:{ id:string }) {
   const data = useWorkPackage(id);
 
   return (
-    <a
+    <div
       className={`op-whiteboard-wp-card op-whiteboard-wp-card_${data.state}`}
-      href={workPackageCardLink(id)}
-      target="_blank"
-      rel="noopener noreferrer"
       data-test-selector="whiteboard-work-package-card"
     >
       {data.state === 'loaded'
         ? <LoadedCard workPackage={data.workPackage} />
         : <PlaceholderCard id={id} state={data.state} />}
-    </a>
+    </div>
   );
 }

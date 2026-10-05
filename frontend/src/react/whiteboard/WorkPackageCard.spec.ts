@@ -44,7 +44,7 @@ describe('WorkPackageCard', () => {
       await Promise.resolve();
     });
     await act(async () => { await new Promise((resolve) => { setTimeout(resolve); }); });
-    return container.querySelector<HTMLAnchorElement>('[data-test-selector="whiteboard-work-package-card"]')!;
+    return container.querySelector<HTMLElement>('[data-test-selector="whiteboard-work-package-card"]')!;
   }
 
   beforeAll(() => {
@@ -82,7 +82,9 @@ describe('WorkPackageCard', () => {
     expect(card.textContent).toContain('Ada Lovelace · Rocket');
     expect(card.querySelector('.op-whiteboard-wp-card--type')!.classList).toContain('__hl_type_2');
     expect(card.querySelector('.op-whiteboard-wp-card--status')!.classList).toContain('__hl_status_7');
-    expect(card.getAttribute('href')).toMatch(/\/wp\/5001$/);
+    expect(card.querySelectorAll('a')).toHaveLength(1);
+    expect(card.querySelector('a[data-whiteboard-card-subject]')!.getAttribute('href')).toMatch(/\/wp\/5001$/);
+    expect(card.querySelector('a')!.textContent).toBe('Plan the launch');
   });
 
   it('shows a placeholder without details when the user may not see the work package', async () => {

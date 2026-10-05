@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { restoreElements } from '@excalidraw/excalidraw';
+import { newElementWith, restoreElements } from '@excalidraw/excalidraw';
 import type { ExcalidrawElement, ExcalidrawEmbeddableElement } from '@excalidraw/excalidraw/element/types';
 import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
@@ -88,6 +88,7 @@ export function newWorkPackageCardElement(id:string, center:{ x:number; y:number
     x: center.x - (WORK_PACKAGE_CARD_SIZE.width / 2),
     y: center.y - (WORK_PACKAGE_CARD_SIZE.height / 2),
     ...WORK_PACKAGE_CARD_SIZE,
+    customData: { hideLink: true },
     strokeColor: 'transparent',
     backgroundColor: 'transparent',
     seed: Math.floor(Math.random() * 2 ** 31),
@@ -96,4 +97,16 @@ export function newWorkPackageCardElement(id:string, center:{ x:number; y:number
 
   const [element] = restoreElements([skeleton as ExcalidrawElement], null);
   return element as ExcalidrawEmbeddableElement;
+}
+
+export function isWorkPackageCard(element:ExcalidrawElement, context = currentCardContext()):element is ExcalidrawEmbeddableElement {
+  return element.type === 'embeddable' && workPackageIdFromCardLink(element.link, context) !== null;
+}
+
+// Cards placed before the hideLink flag existed still show Excalidraw's link icon and popup.
+export function cardsWithoutHiddenLink(elements:readonly ExcalidrawElement[], context = currentCardContext()):ExcalidrawElement[]|null {
+  const migrated = elements.filter((element) => !element.isDeleted && isWorkPackageCard(element, context) && !element.customData?.hideLink);
+  if (migrated.length === 0) return null;
+
+  return migrated.map((element) => newElementWith(element, { customData: { ...element.customData, hideLink: true } }));
 }

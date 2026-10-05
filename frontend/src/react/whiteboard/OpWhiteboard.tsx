@@ -47,7 +47,14 @@ import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
 import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
 import { WorkPackageCard } from './WorkPackageCard';
 import { WorkPackagePicker } from './WorkPackagePicker';
-import { newWorkPackageCardElement, workPackageIdFromCardLink, workPackageIdFromText } from './work-package-cards';
+import { useCardSubjectClicks } from './card-subject-clicks';
+import {
+  cardsWithoutHiddenLink,
+  isWorkPackageCard,
+  newWorkPackageCardElement,
+  workPackageIdFromCardLink,
+  workPackageIdFromText,
+} from './work-package-cards';
 
 export interface OpWhiteboardProps {
   provider:HocuspocusProvider;
@@ -188,6 +195,12 @@ function useWorkPackagePickerShortcut(enabled:boolean, openPicker:() => void) {
   }, [enabled, openPicker]);
 }
 
+function selectedWorkPackageCard(elements:readonly OrderedExcalidrawElement[], appState:AppState):boolean {
+  const selectedIds = Object.keys(appState.selectedElementIds);
+  const selected = selectedIds.length === 1 ? elements.find((element) => element.id === selectedIds[0]) : undefined;
+  return selected !== undefined && isWorkPackageCard(selected);
+}
+
 function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
   const doc = provider.document;
   const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
@@ -196,6 +209,8 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
   const lastPointerRef = useRef<{ x:number; y:number }|null>(null);
   const saveState = useSaveState(provider);
   const theme = useOpTheme();
+  const [canvasRoot, setCanvasRoot] = useState<HTMLDivElement|null>(null);
+  useCardSubjectClicks(canvasRoot);
 
   const initialData = useMemo<ExcalidrawInitialDataState>(
     () => ({ elements: ExcalidrawYjsBinding.storedElements(doc), scrollToContent: true }),
@@ -226,7 +241,22 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
     if (appState.openSidebar?.tab === LIBRARY_SIDEBAR_TAB) {
       api?.updateScene({ appState: { openSidebar: null } });
     }
-  }, [api]);
+    // Activating an embeddable hands pointer events to its content, which would stop cards from being dragged.
+    if (appState.activeEmbeddable?.state === 'active' && isWorkPackageCard(appState.activeEmbeddable.element)) {
+      api?.updateScene({ appState: { activeEmbeddable: null } });
+    }
+    if (appState.showHyperlinkPopup && selectedWorkPackageCard(elements, appState)) {
+      api?.updateScene({ appState: { showHyperlinkPopup: false } });
+    }
+    const migratedCards = readOnly ? null : cardsWithoutHiddenLink(elements);
+    if (migratedCards) {
+      const migrated = new Map(migratedCards.map((card) => [card.id, card]));
+      api?.updateScene({
+        elements: elements.map((element) => migrated.get(element.id) ?? element),
+        captureUpdate: CaptureUpdateAction.NEVER,
+      });
+    }
+  }, [api, readOnly]);
 
   const onPointerUpdate = useCallback(
     ({ pointer, button }:{ pointer:NonNullable<Collaborator['pointer']>; button:Collaborator['button'] }) => {
@@ -279,40 +309,42 @@ function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode,
   ), [editable, pickerOpen, addWorkPackageCard, leaveUrl]);
 
   return (
-    <Excalidraw
-      excalidrawAPI={setApi}
-      initialData={initialData}
-      onChange={onChange}
-      onPointerUpdate={onPointerUpdate}
-      onPaste={onPaste}
-      validateEmbeddable={validateEmbeddable}
-      renderEmbeddable={renderEmbeddable}
-      isCollaborating
-      viewModeEnabled={readOnly || offline}
-      langCode={langCode}
-      theme={theme}
-      name={title}
-      renderTopRightUI={renderTopRightUI}
-      UIOptions={{
-        canvasActions: { loadScene: false, saveToActiveFile: false, clearCanvas: !readOnly, toggleTheme: false },
-        tools: { image: false },
-      }}
-    >
-      <MainMenu>
-        <MainMenu.Item onSelect={() => window.location.assign(leaveUrl)}>{t('leave')}</MainMenu.Item>
-        {editable && <MainMenu.Item onSelect={openPicker}>{t('work_package_picker.button')}</MainMenu.Item>}
-        <MainMenu.Separator />
-        <MainMenu.DefaultItems.SaveAsImage />
-        <MainMenu.DefaultItems.SearchMenu />
-        <MainMenu.DefaultItems.Help />
-        {!readOnly && <MainMenu.DefaultItems.ClearCanvas />}
-        <MainMenu.Separator />
-        <MainMenu.DefaultItems.ChangeCanvasBackground />
-      </MainMenu>
-      <Footer>
-        <ConnectionStatus offline={offline} saveState={saveState} />
-      </Footer>
-    </Excalidraw>
+    <div ref={setCanvasRoot} className="op-whiteboard--canvas">
+      <Excalidraw
+        excalidrawAPI={setApi}
+        initialData={initialData}
+        onChange={onChange}
+        onPointerUpdate={onPointerUpdate}
+        onPaste={onPaste}
+        validateEmbeddable={validateEmbeddable}
+        renderEmbeddable={renderEmbeddable}
+        isCollaborating
+        viewModeEnabled={readOnly || offline}
+        langCode={langCode}
+        theme={theme}
+        name={title}
+        renderTopRightUI={renderTopRightUI}
+        UIOptions={{
+          canvasActions: { loadScene: false, saveToActiveFile: false, clearCanvas: !readOnly, toggleTheme: false },
+          tools: { image: false },
+        }}
+      >
+        <MainMenu>
+          <MainMenu.Item onSelect={() => window.location.assign(leaveUrl)}>{t('leave')}</MainMenu.Item>
+          {editable && <MainMenu.Item onSelect={openPicker}>{t('work_package_picker.button')}</MainMenu.Item>}
+          <MainMenu.Separator />
+          <MainMenu.DefaultItems.SaveAsImage />
+          <MainMenu.DefaultItems.SearchMenu />
+          <MainMenu.DefaultItems.Help />
+          {!readOnly && <MainMenu.DefaultItems.ClearCanvas />}
+          <MainMenu.Separator />
+          <MainMenu.DefaultItems.ChangeCanvasBackground />
+        </MainMenu>
+        <Footer>
+          <ConnectionStatus offline={offline} saveState={saveState} />
+        </Footer>
+      </Excalidraw>
+    </div>
   );
 }
 

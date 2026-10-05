@@ -26,7 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { ExcalidrawElement } from '@excalidraw/excalidraw/element/types';
 import {
+  cardsWithoutHiddenLink,
+  isWorkPackageCard,
   newWorkPackageCardElement,
   WORK_PACKAGE_CARD_SIZE,
   workPackageCardLink,
@@ -87,6 +90,35 @@ describe('work package cards on whiteboards', () => {
       expect(element.y).toBe(300 - (WORK_PACKAGE_CARD_SIZE.height / 2));
       expect(element.id).toBeTruthy();
       expect(element.version).toBeGreaterThan(0);
+      expect(element.customData).toEqual({ hideLink: true });
+    });
+  });
+
+  describe('cardsWithoutHiddenLink', () => {
+    const embeddable = (overrides:Partial<ExcalidrawElement>) => ({
+      ...newWorkPackageCardElement('7', { x: 0, y: 0 }, context),
+      customData: undefined,
+      ...overrides,
+    }) as ExcalidrawElement;
+
+    it('flags cards placed before the link chrome was hidden', () => {
+      const legacyCard = embeddable({ id: 'legacy' });
+      const [migrated] = cardsWithoutHiddenLink([legacyCard], context)!;
+
+      expect(migrated.id).toBe('legacy');
+      expect(migrated.customData).toEqual({ hideLink: true });
+      expect(migrated.version).toBeGreaterThan(legacyCard.version);
+    });
+
+    it('leaves flagged cards, deleted cards and other embeddables alone', () => {
+      const elements = [
+        newWorkPackageCardElement('7', { x: 0, y: 0 }, context),
+        embeddable({ id: 'deleted', isDeleted: true }),
+        embeddable({ id: 'video', link: 'https://www.youtube.com/watch?v=abc' }),
+      ];
+
+      expect(cardsWithoutHiddenLink(elements, context)).toBeNull();
+      expect(isWorkPackageCard(elements[2], context)).toBe(false);
     });
   });
 });

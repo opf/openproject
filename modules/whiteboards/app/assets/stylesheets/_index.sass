@@ -13,6 +13,9 @@
   height: 100dvh
   width: 100vw
 
+.op-whiteboard--canvas
+  height: 100%
+
 .op-whiteboard--loading
   display: flex
   align-items: center
@@ -80,9 +83,6 @@
   font-size: 0.875rem
   text-decoration: none
 
-  &:hover
-    text-decoration: none
-    border-color: var(--borderColor-accent-emphasis)
 
 .op-whiteboard-wp-card--header
   display: flex
@@ -207,3 +207,11 @@
   .sidebar-tab-trigger[id$="-trigger-library"],
   .context-menu li[data-testid="addToLibrary"]
     display: none
+
+  .excalidraw__embeddable-container__inner:has(.op-whiteboard-wp-card) .excalidraw__embeddable-hint
+    display: none
+
+  // Excalidraw colors every link inside its container.
+  .op-whiteboard-wp-card--subject
+    color: inherit
+    text-decoration: none
