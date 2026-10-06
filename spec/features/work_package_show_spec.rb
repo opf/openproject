@@ -86,4 +86,13 @@ RSpec.describe "Work package show page", :selenium do
     page.find_test_selector("op-wp-breadcrumb--hierarchy-element", text: grand_parent.subject).click
     expect(page).to have_current_path project_work_packages_path(project) + "/#{grand_parent.id}/activity", wait: 10
   end
+
+  context "as an accessible page" do
+    it "is AXe clean", :js do
+      wp_page = Pages::FullWorkPackage.new(work_package)
+      wp_page.visit!
+      wp_page.expect_attributes type: work_package.type.name.upcase
+      expect(page).to be_axe_clean.within("#content")
+    end
+  end
 end

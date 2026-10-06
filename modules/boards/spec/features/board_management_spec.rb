@@ -295,6 +295,16 @@ RSpec.describe "Board management spec", :js, :selenium do
 
       board_index.expect_board board_view.name
     end
+
+    context "as an accessible page" do
+      it "is AXe clean" do
+        board_view
+        board_index.visit!
+        board_index.open_board board_view
+        expect(page).to have_test_selector("op-board-list", wait: 10)
+        expect(page).to be_axe_clean.within("#content")
+      end
+    end
   end
 
   context "with view permission only" do

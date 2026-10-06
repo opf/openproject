@@ -31,6 +31,7 @@ import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -41,6 +42,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 })
 export class ScrollableTabsComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
   private cdRef = inject(ChangeDetectorRef);
+  private I18n = inject(I18nService);
   injector = inject(Injector);
 
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef<HTMLElement>;
@@ -62,6 +64,11 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   @Input() public hideRightButton = true;
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
+
+  public text = {
+    scrollLeft: this.I18n.t('js.label_scroll_left'),
+    scrollRight: this.I18n.t('js.label_scroll_right'),
+  };
 
   counters:Record<string, Observable<number>> = {};
 

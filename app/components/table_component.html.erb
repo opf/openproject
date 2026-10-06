@@ -55,7 +55,9 @@ See COPYRIGHT and LICENSE files for more details.
             <% end %>
             <th>
               <%# last column for buttons %>
-              <div class="generic-table--empty-header"></div>
+              <div class="generic-table--empty-header">
+                <span class="sr-only"><%= I18n.t(:label_actions) %></span>
+              </div>
             </th>
           </tr>
         </thead>

@@ -2,9 +2,9 @@
   component_wrapper do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
       if @meeting.template?
-        section.with_title { t(:label_meeting_series_details) }
+        section.with_title(tag: :h3) { t(:label_meeting_series_details) }
       else
-        section.with_title { t(:label_meeting_details) }
+        section.with_title(tag: :h3) { t(:label_meeting_details) }
       end
 
       if @meeting.editable?

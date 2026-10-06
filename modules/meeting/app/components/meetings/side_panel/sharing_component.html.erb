@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper do
     render(Primer::OpenProject::SidePanel::Section.new) do |section|
-      section.with_title { t(:label_meeting_template_sharing) }
+      section.with_title(tag: :h3) { t(:label_meeting_template_sharing) }
 
       flex_layout do |content|
         content.with_row do
