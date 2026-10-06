@@ -28,21 +28,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin
-  module Settings
-    class ExternalLinksSettingsForm < ApplicationForm
-      settings_form do |sf|
-        helpers.call_hook(:component_admin_settings_external_redirect, form: sf)
+module Admin::Settings
+  class PagesController < ::Admin::SettingsController
+    helper_method :settings_page
 
-        sf.check_box(
-          name: :capture_external_links,
-          caption: I18n.t(:setting_capture_external_links_text)
-        )
-        sf.check_box(
-          name: :capture_external_links_require_login,
-          caption: I18n.t(:setting_capture_external_links_require_login_text)
-        )
-      end
+    current_menu_item do |controller|
+      controller.settings_page.menu_item
+    end
+
+    def settings_page
+      @settings_page ||= ::Settings::Pages.fetch(params.require(:settings_page))
+    end
+
+    protected
+
+    def settings_params
+      params
+        .expect(settings: [*permit_filters])
+        .to_h
+        .to_h { |name, value| [name, settings_page.entry(name).parse_param(value)] }
+        .with_indifferent_access
+    end
+
+    def success_callback(_call)
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to settings_page_path
+    end
+
+    def failure_callback(call)
+      flash[:error] = call.message || I18n.t(:notice_internal_server_error)
+      redirect_to settings_page_path
+    end
+
+    private
+
+    def permit_filters
+      restricted_keys = PermittedParams::AllowedSettings.restricted_keys
+
+      settings_page
+        .entries
+        .reject { restricted_keys.include?(it.name) }
+        .map(&:permit_filter)
+    end
+
+    def settings_page_path
+      public_send(settings_page.path_helper)
     end
   end
 end

@@ -28,29 +28,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module Settings
+  class PageSectionForm < ApplicationForm
+    extend Dry::Initializer[undefined: false]
+    include Settings::FormHelper
 
-RSpec.describe Admin::Settings::GeneralSettings::WelcomeBlockForm, type: :forms do
-  include_context "with rendered form"
+    option :section
+    option :form_hook, optional: true
 
-  let(:form_arguments) { { url: "/foo", model: false, scope: :settings } }
+    settings_form do |sf|
+      helpers.call_hook(form_hook, form: sf) if form_hook
 
-  subject(:rendered_form) do
-    vc_render_form
-    page
-  end
-
-  it "renders", :aggregate_failures do
-    expect(rendered_form).to have_field "Welcome block title", type: :text do |field|
-      expect(field["name"]).to eq "settings[welcome_title]"
+      section.visible_entries.each do |entry|
+        sf.public_send(entry.input, name: entry.name, **input_options(entry))
+      end
     end
 
-    expect(rendered_form).to have_field "Welcome block text", type: :textarea, visible: :hidden do |field|
-      expect(field["name"]).to eq "settings[welcome_text]"
+    private
+
+    def input_options(entry)
+      options = entry.input_options
+      options[:caption] = caption(entry) unless options.key?(:caption)
+      options.merge!(unit_options(entry.name, entry.ui[:unit])) if entry.ui[:unit]
+      options.compact
     end
 
-    expect(rendered_form).to have_field "Display welcome block on homescreen", type: :checkbox do |field|
-      expect(field["name"]).to eq "settings[welcome_on_homescreen]"
+    def caption(entry)
+      case caption = entry.ui[:caption]
+      when Proc then @view_context.instance_exec(&caption)
+      when Symbol then @view_context.t(caption)
+      when nil then setting_caption(entry.name)
+      else caption
+      end
+    end
+
+    def unit_options(name, unit)
+      id = "settings_#{name}_unit"
+
+      {
+        trailing_visual: { text: { id:, text: I18n.t(unit) } },
+        aria: { describedby: id }
+      }
     end
   end
 end

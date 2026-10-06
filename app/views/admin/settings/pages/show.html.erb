@@ -27,41 +27,49 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:label_general) %>
+<% menu_node = settings_page.menu_node %>
+<% html_title t(:label_administration), menu_node.caption %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_general) }
+    header.with_title { menu_node.caption }
     header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t("label_administration") },
-       { href: admin_settings_general_path, text: t(:label_system_settings), skip_for_mobile: true },
-       t(:label_general)]
+      [
+        { href: admin_index_path, text: t("label_administration") },
+        *settings_page.menu_ancestors.map { |node| { href: url_for(node.url), text: node.caption, skip_for_mobile: true } },
+        menu_node.caption
+      ]
     )
   end
 %>
 
+<% if settings_page.enterprise_feature %>
+  <%= render(EnterpriseEdition::BannerComponent.new(settings_page.enterprise_feature)) %>
+<% end %>
+
 <%=
   settings_primer_form_with(
-    url: admin_settings_general_path,
+    url: public_send(settings_page.path_helper),
     scope: :settings,
     method: :patch
   ) do |f|
 %>
-  <%= render(Admin::Settings::GeneralSettingsForm.new(f, guessed_host: @guessed_host)) %>
+  <% settings_page.sections.each_with_index do |section, index| %>
+    <% if section.heading %>
+      <%=
+        render(Primer::Beta::Subhead.new(mt: 3)) do |component|
+          component.with_heading(tag: :h3, size: :medium) { t(section.heading) }
+        end
+      %>
+    <% end %>
 
-  <%= call_hook(:view_settings_general_form) %>
+    <% section_form = Settings::PageSectionForm.new(f, section:, form_hook: (settings_page.form_hook if index.zero?)) %>
+    <% if section == settings_page.sections.last %>
+      <%= render(Primer::Forms::FormList.new(section_form, Admin::Settings::Save.new(f))) %>
+    <% else %>
+      <%= render(section_form) %>
+    <% end %>
 
-  <%=
-    render(Primer::Beta::Subhead.new(mt: 3)) do |component|
-      component.with_heading(tag: :h3, size: :medium) { t(:setting_welcome_text) }
-    end
-  %>
-  <%=
-    render(
-      Primer::Forms::FormList.new(
-        Admin::Settings::GeneralSettings::WelcomeBlockForm.new(f),
-        Admin::Settings::Save.new(f)
-      )
-    )
-  %>
+    <%= call_hook(settings_page.view_hook) if settings_page.view_hook && index.zero? %>
+  <% end %>
 <% end %>

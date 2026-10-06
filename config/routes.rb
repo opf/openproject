@@ -900,9 +900,14 @@ Rails.application.routes.draw do
 
   namespace :admin do
     namespace :settings do
-      resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
+      Settings::Pages.auto_rendered.each do |settings_page|
+        resource settings_page.key,
+                 controller: "/admin/settings/pages",
+                 only: %i[show update],
+                 defaults: { settings_page: settings_page.key.to_s }
+      end
+
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
-      resource :external_links, controller: "/admin/settings/external_links_settings", only: %i[show update]
       resource :exports, controller: "/admin/settings/exports_settings", only: %i[show update]
       resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
       resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]

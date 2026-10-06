@@ -36,7 +36,8 @@ module Settings
 
     DEFINITIONS = { # rubocop:disable Metrics/CollectionLiteralLength
       activity_days_default: {
-        default: 30
+        default: 30,
+        ui: { unit: :label_day_plural }
       },
       after_first_login_redirect_url: {
         format: :string,
@@ -62,7 +63,18 @@ module Settings
       allowed_link_protocols: {
         format: :array,
         description: "Allowed protocols for links in the WYSIWYG editor and formatted texts",
-        default: []
+        default: [],
+        ui: {
+          caption: -> {
+            t(:setting_allowed_link_protocols_text_html,
+              tel_code: tag.code("tel"),
+              element_code: tag.code("element"),
+              http_code: tag.code("http"),
+              https_code: tag.code("https"),
+              mailto_code: tag.code("mailto"))
+          },
+          parse: ->(protocols) { protocols.map { it.strip.downcase.gsub(/[^a-z0-9+\-.]+/, "") } }
+        }
       },
       apiv3_cors_enabled: {
         description: "Enable CORS headers for APIv3 server responses",
@@ -557,7 +569,8 @@ module Settings
       # Maximum size of files that can be displayed
       # inline through the file viewer (in KB)
       file_max_size_displayed: {
-        default: 512
+        default: 512,
+        ui: { unit: :"number.human.storage_units.units.kb" }
       },
       first_week_of_year: {
         default: nil,
@@ -642,7 +655,8 @@ module Settings
         default_by_env: {
           # We do not want to set a localhost host name in production
           production: nil
-        }
+        },
+        ui: { caption: -> { "#{t(:label_example)}: #{request.host_with_port}" } }
       },
       additional_host_names: {
         description: "Additional allowed host names for the application.",
@@ -932,7 +946,10 @@ module Settings
       # Requires a migration to be written
       # replace Setting#per_page_options_array
       per_page_options: {
-        default: "20, 100"
+        default: "20, 100",
+        ui: {
+          caption: -> { safe_join([t(:text_comma_separated), t(:text_notice_too_many_values_are_inperformant)], tag.br) }
+        }
       },
       percent_complete_on_status_closed: {
         description: "Describes how % complete should change when setting a work package status to a closed one",
@@ -1141,7 +1158,15 @@ module Settings
       },
       # Display update / security badge, enabled by default
       security_badge_displayed: {
-        default: true
+        default: true,
+        ui: {
+          caption: -> {
+            t(:text_notice_security_badge_displayed_html,
+              information_panel_label: t(:label_information),
+              more_info_url: ::OpenProject::Static::Links.url_for(:security_badge_documentation),
+              information_panel_path: info_admin_index_path)
+          }
+        }
       },
       security_badge_url: {
         description: "URL of the update check badge",
@@ -1452,7 +1477,8 @@ module Settings
       },
       welcome_text: {
         format: :string,
-        default: nil
+        default: nil,
+        ui: { input: :rich_text_area }
       },
       welcome_title: {
         format: :string,
@@ -1528,11 +1554,13 @@ module Settings
       capture_external_links: {
         description: "Redirect external links through a warning page before leaving the application",
         default: false,
+        ui: { caption: :setting_capture_external_links_text },
         writable: -> { EnterpriseToken.allows_to?(:capture_external_links) }
       },
       capture_external_links_require_login: {
         description: "Require users to be logged in before being able to navigate to external links",
         default: false,
+        ui: { caption: :setting_capture_external_links_require_login_text },
         writable: -> { EnterpriseToken.allows_to?(:capture_external_links) }
       }
     }.freeze
@@ -1542,7 +1570,8 @@ module Settings
                   :env_alias,
                   :string_values,
                   :persist_on_first_read,
-                  :secret
+                  :secret,
+                  :ui
 
     attr_writer :value,
                 :description,
@@ -1558,7 +1587,8 @@ module Settings
                    env_alias: nil,
                    string_values: false,
                    persist_on_first_read: false,
-                   secret: false)
+                   secret: false,
+                   ui: {})
       self.name = name.to_s
       self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
@@ -1569,6 +1599,7 @@ module Settings
       self.string_values = string_values
       self.persist_on_first_read = persist_on_first_read
       self.secret = secret
+      self.ui = ui.freeze
 
       if persist_on_first_read && !writable
         raise ArgumentError, "Settings using persist_on_first_read need to be writable"
@@ -1699,6 +1730,7 @@ module Settings
       #  from the ENV OPENPROJECT_2FA as well.
       # @param [TrueClass|FalseClass] disallow_override Disables the usual possibility of overriding the value
       #   from ENV or configuration file.
+      # @param [Hash] ui Hints for rendering the setting on an administration page, see {Settings::Pages}.
       def add(name,
               default:,
               default_by_env: {},
@@ -1710,6 +1742,7 @@ module Settings
               string_values: false,
               persist_on_first_read: false,
               secret: false,
+              ui: {},
               disallow_override: false)
         name = name.to_sym
         return if exists?(name)
@@ -1724,7 +1757,8 @@ module Settings
                          env_alias:,
                          string_values:,
                          persist_on_first_read:,
-                         secret:)
+                         secret:,
+                         ui:)
         override_value(definition) unless disallow_override
         all[name] = definition
       end
