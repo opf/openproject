@@ -39,14 +39,16 @@ RSpec.shared_context "with real database commits" do
       raise "Enclosing transaction prevents genuine concurrency"
     end
 
+    settings_rows = Setting.pluck(:name, :value).map { |name, value| { name:, value: } }
+
     begin
       example.run
     ensure
-      Setting.clear_cache
       ActiveRecord::Tasks::DatabaseTasks.truncate_all("test")
+      Setting.insert_all!(settings_rows) if settings_rows.any?
+      Setting.clear_cache
       Rails.cache.clear
       RequestStore.clear!
-      initialize_test_settings
     end
   end
 end
