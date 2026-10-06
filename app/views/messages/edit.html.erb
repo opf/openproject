@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         f,
         submit_label: t(:button_save),
         replying: @message.parent.present?,
-        cancel_href: project_forum_topic_path(@project, @forum, @message)
+        cancel_href: @message.parent ? message_anchor_path(@message) : project_forum_topic_path(@project, @forum, @message)
       )
     )
   end

@@ -141,7 +141,7 @@ RSpec.describe PermittedParams do
   describe "#reply" do
     let(:attribute) { :reply }
     let(:hash) do
-      %w(content subject).index_with("value")
+      %w(content).index_with("value")
     end
 
     it_behaves_like "allows params"
