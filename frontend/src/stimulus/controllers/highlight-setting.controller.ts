@@ -45,6 +45,11 @@ export default class HighlightSettingController extends ApplicationController {
   }
 
   private findContainer(name:string):HTMLElement|null {
+    const marked = document.querySelector<HTMLElement>(`[data-setting-name="${name}"]`);
+    if (marked) {
+      return marked.closest<HTMLElement>('.FormControl-checkbox-wrap, .FormControl') ?? marked;
+    }
+
     const fields = Array.from(document.querySelectorAll<HTMLElement>(
       `[name="settings[${name}]"]:not([type="hidden"]), [name^="settings[${name}]["]:not([type="hidden"])`,
     ));

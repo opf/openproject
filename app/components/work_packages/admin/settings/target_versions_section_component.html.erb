@@ -36,7 +36,13 @@
       <% box.with_row(icon: :info) { scoped_t(:"planned_changes.single_value") } %>
     <% end %>
 
-    <%= render(WorkPackages::Admin::Settings::NoticeBoxComponent.new(heading: scoped_t(:"action_required.heading"), mt: 3)) do |box| %>
+    <%= render(
+          WorkPackages::Admin::Settings::NoticeBoxComponent.new(
+            heading: scoped_t(:"action_required.heading"),
+            mt: 3,
+            data: { setting_name: "work_package_multiple_versions" }
+          )
+        ) do |box| %>
       <% if multiple_versions_writable? %>
         <% box.with_row(icon: :tools) { scoped_t(:"action_required.manual_conversion_hint") } %>
       <% else %>

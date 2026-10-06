@@ -110,6 +110,10 @@ Settings::Pages.draw do
     setting :work_packages_identifier, label: :"settings.work_packages.work_package_identifier"
   end
 
+  page :versions_and_categories, menu_item: :versions_and_categories, custom: true do
+    setting :work_package_multiple_versions, form_field: false, if: -> { !Setting.work_package_multiple_versions? }
+  end
+
   page :progress_tracking, menu_item: :progress_tracking, custom: true do
     setting :work_package_done_ratio
     setting :total_percent_complete_mode
@@ -242,6 +246,17 @@ Settings::Pages.draw do
     setting :lost_password
     setting :brute_force_block_after_failed_logins
     setting :brute_force_block_minutes
+  end
+
+  page :llm_connection, menu_item: :llm_connection, custom: true do
+    setting :llm_features_enabled,
+            form_field: false,
+            label: -> { LlmConnection.human_attribute_name(:llm_features_enabled) },
+            caption: :"admin.llm_connections.form.llm_features_enabled_caption"
+  end
+
+  page :text_transform_actions, menu_item: :text_transform_actions, custom: true do
+    setting :ai_text_transform_actions_enabled, form_field: false
   end
 
   page :attachments, menu_item: :attachments, custom: true, label: :"settings.general" do

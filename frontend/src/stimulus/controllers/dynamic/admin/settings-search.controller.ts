@@ -44,6 +44,16 @@ export default class SettingsSearchController extends ApplicationController {
     if (!treeView) return;
 
     treeView.filterFn = (node, query) => this.filter(node, query);
+    this.refilter(treeView);
+  }
+
+  // The controller is loaded lazily, so the filter may already have been
+  // applied with the default filter function.
+  private refilter(treeView:HTMLElement) {
+    const input = treeView.querySelector<HTMLInputElement>('[data-target~="filterable-tree-view.filterInput"]');
+    if (input?.value) {
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }
   }
 
   private filter(node:HTMLElement, query:string):Range[]|null {

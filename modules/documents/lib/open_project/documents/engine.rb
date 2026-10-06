@@ -104,6 +104,23 @@ module OpenProject::Documents
       Redmine::Search.register :documents
     end
 
+    initializer "documents.settings_pages" do
+      ::Settings::Pages.draw do
+        page :document_collaboration, menu_item: :document_collaboration_settings, custom: true do
+          setting :real_time_text_collaboration_enabled, form_field: false
+
+          section :server, heading: nil, if: -> { Setting.real_time_text_collaboration_enabled? } do
+            setting :collaborative_editing_hocuspocus_url,
+                    label: :"documents.admin.collaboration_settings.hocuspocus_server_url.label",
+                    caption: :"documents.admin.collaboration_settings.hocuspocus_server_url.caption"
+            setting :collaborative_editing_hocuspocus_secret,
+                    label: :"documents.admin.collaboration_settings.hocuspocus_server_secret.label",
+                    caption: :"documents.admin.collaboration_settings.hocuspocus_server_secret.caption"
+          end
+        end
+      end
+    end
+
     activity_provider :documents, class_name: "Activities::DocumentActivityProvider", default: false
 
     patches %i[Project]

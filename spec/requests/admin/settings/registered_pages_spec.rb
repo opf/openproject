@@ -29,14 +29,16 @@
 
 require "spec_helper"
 
-RSpec.describe "Registered settings pages", :settings_reset, type: :rails_request, with_ee: %i[sso_auth_providers] do
+RSpec.describe "Registered settings pages",
+               :settings_reset,
+               type: :rails_request,
+               with_ee: %i[sso_auth_providers],
+               with_flag: { llm_connection: true, ai_text_transform_actions: true } do
   shared_let(:admin) { create(:admin) }
 
   before { login_as(admin) }
 
-  def rendered_setting_names(url)
-    get url
-
+  def rendered_setting_names
     response
       .parsed_body
       .css("[name^='settings[']")
@@ -45,12 +47,33 @@ RSpec.describe "Registered settings pages", :settings_reset, type: :rails_reques
       .uniq
   end
 
-  Settings::Pages.all.each do |settings_page|
-    it "lists exactly the settings rendered on the #{settings_page.key} page" do
-      url = url_for(**settings_page.url, only_path: true)
-      registered = settings_page.sections.flat_map(&:visible_entries).map(&:name)
+  def marked_setting_names
+    response.parsed_body.css("[data-setting-name]").map { it["data-setting-name"].to_sym }.uniq
+  end
 
-      expect(rendered_setting_names(url)).to match_array(registered)
+  shared_examples "registered settings pages" do
+    Settings::Pages.all.each do |settings_page|
+      it "lists exactly the settings rendered on the #{settings_page.key} page", :aggregate_failures do
+        get url_for(**settings_page.url, only_path: true)
+
+        entries = settings_page.sections.flat_map(&:visible_entries)
+        form_fields, other = entries.partition(&:form_field?)
+
+        expect(rendered_setting_names).to match_array(form_fields.map(&:name))
+        expect(other.map(&:name) - marked_setting_names).to be_empty
+      end
     end
+  end
+
+  it_behaves_like "registered settings pages"
+
+  context "with optional states enabled",
+          with_settings: {
+            work_package_multiple_versions: false,
+            real_time_text_collaboration_enabled: true,
+            collaborative_editing_hocuspocus_url: "wss://hocuspocus.example.com",
+            collaborative_editing_hocuspocus_secret: "secret"
+          } do
+    it_behaves_like "registered settings pages"
   end
 end

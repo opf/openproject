@@ -39,7 +39,7 @@ RSpec.describe "Searching settings in the administration", :js do
   end
 
   def search_for(query)
-    find_test_selector("op-admin-settings-search--filter").fill_in(with: query)
+    find_test_selector("op-admin-settings-search--filter", wait: 20).fill_in(with: query)
   end
 
   it "filters the settings tree and highlights the selected setting" do
@@ -52,7 +52,7 @@ RSpec.describe "Searching settings in the administration", :js do
       click_on "Host name"
     end
 
-    expect(page).to have_current_path admin_settings_general_path
+    expect(page).to have_current_path admin_settings_general_path, wait: 20
     expect(page).to have_css(".op-setting--highlighted", text: "Host name")
   end
 
@@ -81,6 +81,15 @@ RSpec.describe "Searching settings in the administration", :js do
       expect(page).to have_link "Minimum length"
       expect(page).to have_no_link "Enable password reset"
     end
+  end
+
+  it "highlights settings not changed through a form field", with_flag: { ai_text_transform_actions: true } do
+    search_for "text transform"
+
+    within_test_selector("op-admin-settings-search") { click_on "Enable text transform actions" }
+
+    expect(page).to have_current_path admin_text_transform_actions_path, wait: 20
+    expect(page).to have_css(".op-setting--highlighted[data-setting-name='ai_text_transform_actions_enabled']")
   end
 
   it "finds settings by their description" do

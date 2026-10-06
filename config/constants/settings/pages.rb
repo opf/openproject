@@ -53,6 +53,11 @@ module Settings
   #
   # Any other hint (e.g. `input_width`, `rows`) is passed on to the input.
   #
+  # Settings changed through something other than a "settings[<name>]" form
+  # field on their page (e.g. a toggle or a dialog) are registered with
+  # `form_field: false`. The element representing them needs a
+  # `data-setting-name` attribute for the settings search to highlight it.
+  #
   # @example
   #   Settings::Pages.draw do
   #     page :general, menu_item: :settings_general do
@@ -78,7 +83,12 @@ module Settings
       def initialize(name, **hints)
         @name = name.to_sym
         @condition = hints.delete(:if)
+        @form_field = hints.delete(:form_field) { true }
         @ui = hints
+      end
+
+      def form_field?
+        @form_field
       end
 
       def definition

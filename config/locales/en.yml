@@ -6425,6 +6425,9 @@ en:
   setting_project_gantt_query: "Project portfolio Gantt view"
   setting_project_gantt_query_text: "You can modify the query that is used to display Gantt chart from the project overview page."
   setting_protocol: "Protocol"
+  setting_real_time_text_collaboration_enabled: "Real-time collaboration"
+  setting_real_time_text_collaboration_enabled_caption: >
+    Allows multiple users to edit a document at the same time. Requires a working Hocuspocus server.
   setting_registration_footer: "Registration footer"
   setting_registration_footer_caption: "This text is displayed in the footer of the registration page. Use the HTML editor to format the text for each selected language."
   setting_repositories_automatic_managed_vendor: "Automatic repository vendor type"

@@ -39,11 +39,9 @@ RSpec.describe Settings::SearchTree do
   subject(:tree) { described_class.new(vc_test_controller.view_context, hidden_menu_items:) }
 
   def find_node(nodes, *labels)
-    labels.reduce(nodes) do |level, label|
-      node = level.find { it.label == label }
-      raise "No node #{label.inspect} among #{level.map(&:label).inspect}" unless node
-
-      labels.last == label ? node : node.children
+    labels.reduce(nil) do |node, label|
+      level = node ? node.children : nodes
+      level.find { it.label == label } || raise("No node #{label.inspect} among #{level.map(&:label).inspect}")
     end
   end
 
@@ -77,6 +75,25 @@ RSpec.describe Settings::SearchTree do
 
     it "omits menu items without registered settings" do
       expect(tree.nodes.map(&:label)).not_to include("Overview", "Information")
+    end
+
+    it "omits the multiple versions conversion once it is done" do
+      expect(find_node(tree.nodes, "Work packages").children.map(&:label)).not_to include("Versions and categories")
+    end
+
+    it "describes real-time collaboration independently of its state" do
+      node = find_node(tree.nodes, "Documents", "Real-time collaboration", "Real-time collaboration")
+
+      expect(node.description)
+        .to eq "Allows multiple users to edit a document at the same time. Requires a working Hocuspocus server."
+    end
+
+    context "with the multiple versions conversion pending", with_settings: { work_package_multiple_versions: false } do
+      it "lists the conversion below its menu item" do
+        node = find_node(tree.nodes, "Work packages", "Versions and categories", "Multiple target versions")
+
+        expect(node.href).to eq "/admin/settings/versions_and_categories?highlight=work_package_multiple_versions"
+      end
     end
 
     context "with a hidden menu item" do
