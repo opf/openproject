@@ -48,18 +48,16 @@ module Pages::Messages
     end
 
     def expect_listed(subject:, replies: nil, last_message: nil)
-      subject = find("table tr td.subject", text: subject)
-
-      row = subject.find(:xpath, "..")
+      row = find("[data-test-selector^='topic-row-']", text: subject)
 
       within(row) do
-        expect(page).to have_css("td.replies", text: replies) if replies
-        expect(page).to have_css("td.last_message", text: last_message) if last_message
+        expect(page).to have_css(".replies_count", text: replies) if replies
+        expect(page).to have_css(".last_reply", text: last_message) if last_message
       end
     end
 
     def expect_num_replies(amount)
-      expect(page).to have_css("td.replies", text: amount)
+      expect(page).to have_css("[data-test-selector^='topic-row-'] .replies_count", text: amount)
     end
   end
 end
