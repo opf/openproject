@@ -58,7 +58,7 @@ module Pages::Messages
       previous_message_id = Message.maximum(:id)
       find(".ck-content").base.send_keys text
 
-      click_button "Submit"
+      click_button "Reply"
 
       expect(page).to have_css(".forum-message--comments", text:)
 

@@ -76,7 +76,7 @@ RSpec.describe "messages", :js, :selenium do
     create_page.set_subject "The message is"
     create_page.click_save
 
-    expect_flash(type: :error, message: "Content can't be blank")
+    expect(page).to have_text("Content can't be blank")
     SeleniumHubWaiter.wait
     create_page.add_text "There is no message here"
 
