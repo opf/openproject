@@ -37,6 +37,7 @@ module Backlogs
     def build_card
       WorkPackageCardComponent.new(
         work_package:,
+        project:,
         menu_src:,
         **card_arguments
       )
