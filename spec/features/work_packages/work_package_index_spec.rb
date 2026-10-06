@@ -29,7 +29,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work Packages", "index view", :js do
+RSpec.describe "Work Packages", "index view", :js, :selenium do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
 
@@ -51,8 +51,10 @@ RSpec.describe "Work Packages", "index view", :js do
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_content("No work packages to display")
+        expect(page).to have_text("No work packages to display")
       end
+
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 
@@ -72,8 +74,10 @@ RSpec.describe "Work Packages", "index view", :js do
 
       within("#content") do
         wp_table.expect_title("All open", editable: true)
-        expect(page).to have_content("No work packages to display")
+        expect(page).to have_text("No work packages to display")
       end
+
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 end
