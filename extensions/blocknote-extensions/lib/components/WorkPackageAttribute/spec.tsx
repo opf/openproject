@@ -11,7 +11,7 @@ export const openProjectWorkPackageAttributeSpec = createReactInlineContentSpec(
   {
     render: ({ inlineContent, contentRef, editor, updateInlineContent }) => (
       <WorkPackageAttributeChip
-        props={{
+        content={{
           ...inlineContent.props,
           displayId: inlineContent.props.displayId || inlineContent.props.wpid,
         }}

@@ -19,9 +19,11 @@ const Menu = styled.div.attrs({
 })`
   ${defaultWpVariables}
   --op-attribute-menu-label: var(--fgColor-muted, #59636e);
+  --op-attribute-menu-check: var(--fgColor-accent, #0969da);
 
   [data-color-scheme="dark"] & {
     --op-attribute-menu-label: var(--fgColor-muted, #9198a1);
+    --op-attribute-menu-check: var(--fgColor-accent, #4493f8);
   }
 
   position: absolute;
@@ -62,6 +64,7 @@ const MenuItem = styled.button.attrs({ type: 'button', role: 'menuitemradio' })`
 const Check = styled.span<{ $visible:boolean }>`
   display: inline-flex;
   width: 16px;
+  color: var(--op-attribute-menu-check);
   visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
 `;
 
