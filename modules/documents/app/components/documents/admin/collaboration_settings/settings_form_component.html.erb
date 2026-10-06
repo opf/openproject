@@ -63,7 +63,11 @@
     end
   else
     render(
-      Primer::Beta::Blankslate.new(border: true, test_selector: "collaboration-settings-disabled-notice")
+      Primer::Beta::Blankslate.new(
+        border: true,
+        test_selector: "collaboration-settings-disabled-notice",
+        data: { setting_name: "real_time_text_collaboration_enabled" }
+      )
     ) do |component|
       component.with_visual_icon(icon: :pencil)
       component.with_heading(tag: :h2).with_content(I18n.t("documents.admin.enable_text_collaboration.heading"))

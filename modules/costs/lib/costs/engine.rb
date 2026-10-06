@@ -213,6 +213,30 @@ module Costs
       ::Settings::Definition.add "time_entries_past_month_grace_days", default: 0, format: :integer, allowed: (0..)
     end
 
+    initializer "costs.settings_pages" do
+      ::Settings::Pages.draw do
+        page :time, menu_item: :costs_settings, custom: true, label: :label_time do
+          setting :allow_tracking_start_and_end_times
+          setting :enforce_tracking_start_and_end_times
+          setting :time_entries_max_hours_per_entry
+          setting :time_entries_max_hours_per_day
+          setting :time_entries_prohibit_logging_on_non_working_days
+          setting :time_entries_limit_to_user_working_hours
+          setting :time_entries_prohibit_logging_for_past_months
+          setting :time_entries_past_month_grace_days
+        end
+
+        page :costs,
+             menu_item: :costs_settings,
+             custom: true,
+             label: :label_costs,
+             url: { controller: "/admin/costs_settings", action: :show } do
+          setting :costs_currency
+          setting :costs_currency_format
+        end
+      end
+    end
+
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
     replace_principal_references "CostEntry" => %i[logged_by_id user_id]

@@ -26,25 +26,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Admin
-  module Settings
-    module GeneralSettings
-      class WelcomeBlockForm < ApplicationForm
-        settings_form do |sf|
-          sf.text_field(name: :welcome_title, input_width: :medium)
+require "spec_helper"
 
-          sf.rich_text_area(
-            name: :welcome_text,
-            cols: 60,
-            rows: 5,
-            id: "settings_welcome_text",
-            rich_text_options: {}
-          )
+RSpec.describe "auto-rendered settings page routes" do
+  Settings::Pages.auto_rendered.each do |settings_page|
+    context "for the #{settings_page.key} page" do
+      let(:path) { "/admin/settings/#{settings_page.key}" }
+      let(:target) { { controller: "admin/settings/pages", settings_page: settings_page.key.to_s } }
 
-          sf.check_box(name: :welcome_on_homescreen)
-        end
+      it "routes GET to the page" do
+        expect(get(path)).to route_to(**target, action: "show")
+      end
+
+      it "routes PATCH to the page" do
+        expect(patch(path)).to route_to(**target, action: "update")
+      end
+
+      it "generates the path from the page's controller and key" do
+        expect(url_for(**target, action: "show", only_path: true)).to eq path
       end
     end
   end

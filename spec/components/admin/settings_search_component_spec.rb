@@ -26,29 +26,29 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Admin::Settings
-  class GeneralSettingsController < ::Admin::SettingsController
-    menu_item :settings_general
+require "rails_helper"
 
-    def settings_params
-      super.tap do |settings|
-        settings["allowed_link_protocols"] = settings["allowed_link_protocols"]
-          .split(/\r?\n/)
-          .map { |protocol| protocol.strip.downcase.gsub(/[^a-z0-9+\-.]+/, "") }
-      end
+RSpec.describe Admin::SettingsSearchComponent, type: :component do
+  subject(:rendered_component) do
+    render_inline(described_class.new)
+    page
+  end
+
+  context "as an admin" do
+    current_user { build_stubbed(:admin) }
+
+    it "renders a button opening the lazily loaded settings tree", :aggregate_failures do
+      expect(rendered_component).to have_button "Search settings"
+      expect(rendered_component).to have_css("turbo-frame[src='/admin/settings_search'][loading='lazy']", visible: :all)
     end
+  end
 
-    def extra_permitted_filters
-      # attachment_whitelist is normally permitted as an array parameter.
-      # Explicitly permit it as a string here.
-      [:allowed_link_protocols]
-    end
+  context "as a regular user" do
+    current_user { build_stubbed(:user) }
 
-    def show
-      super
-      @guessed_host = request.host_with_port.dup
+    it "renders nothing" do
+      expect(rendered_component).to have_no_css("*")
     end
   end
 end

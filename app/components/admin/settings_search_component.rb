@@ -28,29 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module Admin
+  class SettingsSearchComponent < ApplicationComponent
+    FRAME_ID = "op-admin-settings-search-frame"
 
-RSpec.describe Admin::Settings::GeneralSettings::WelcomeBlockForm, type: :forms do
-  include_context "with rendered form"
-
-  let(:form_arguments) { { url: "/foo", model: false, scope: :settings } }
-
-  subject(:rendered_form) do
-    vc_render_form
-    page
-  end
-
-  it "renders", :aggregate_failures do
-    expect(rendered_form).to have_field "Welcome block title", type: :text do |field|
-      expect(field["name"]).to eq "settings[welcome_title]"
-    end
-
-    expect(rendered_form).to have_field "Welcome block text", type: :textarea, visible: :hidden do |field|
-      expect(field["name"]).to eq "settings[welcome_text]"
-    end
-
-    expect(rendered_form).to have_field "Display welcome block on homescreen", type: :checkbox do |field|
-      expect(field["name"]).to eq "settings[welcome_on_homescreen]"
+    def render?
+      User.current.admin?
     end
   end
 end

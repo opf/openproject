@@ -28,8 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class ExternalLinksSettingsController < ::Admin::SettingsController
-    menu_item :settings_external_links
+module Settings
+  class PageSectionForm < ApplicationForm
+    extend Dry::Initializer[undefined: false]
+
+    option :section
+    option :form_hook, optional: true
+
+    settings_form do |sf|
+      helpers.call_hook(form_hook, form: sf) if form_hook
+
+      section.visible_entries.each do |entry|
+        sf.public_send(entry.input, name: entry.name, **input_options(entry))
+      end
+    end
+
+    private
+
+    def input_options(entry)
+      options = entry.input_options
+      options[:label] = entry.label(@view_context)
+      options[:caption] = entry.caption(@view_context)
+      options.merge!(unit_options(entry.name, entry.ui[:unit])) if entry.ui[:unit]
+      options.compact
+    end
+
+    def unit_options(name, unit)
+      id = "settings_#{name}_unit"
+
+      {
+        trailing_visual: { text: { id:, text: I18n.t(unit) } },
+        aria: { describedby: id }
+      }
+    end
   end
 end

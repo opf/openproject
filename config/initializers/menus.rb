@@ -588,13 +588,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :calendars_and_dates
 
   menu.push :settings,
-            { controller: "/admin/settings/general_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "general" },
             if: ->(_) { User.current.admin? },
             caption: :label_system_settings,
             icon: "gear"
 
   menu.push :settings_general,
-            { controller: "/admin/settings/general_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "general" },
             if: ->(_) { User.current.admin? },
             caption: :label_general,
             parent: :settings
@@ -606,7 +606,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :settings
 
   menu.push :settings_external_links,
-            { controller: "/admin/settings/external_links_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "external_links" },
             if: ->(_) { User.current.admin? },
             caption: :label_external_links,
             parent: :settings

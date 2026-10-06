@@ -27,21 +27,29 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(class: "op-admin-settings-form-wrapper") do %>
-  <%=
-    render(
-      Primer::Forms::ToggleSwitchForm.new(
-        name: SETTING_NAME,
-        label: t(:"setting_#{SETTING_NAME}"),
-        src: toggle_setting_admin_text_transform_actions_path,
-        csrf_token: form_authenticity_token,
-        status_label_position: :start,
-        checked: enabled?,
-        enabled: writable?,
-        data: { turbo: true, setting_name: SETTING_NAME },
-        test_selector: "toggle-ai-text-transform-actions-enabled",
-        mb: 3
-      )
-    )
-  %>
+<%= render(Primer::Box.new(px: 2, pb: 2, data: { test_selector: "op-admin-settings-search" })) do %>
+  <%= render(
+        Primer::Alpha::Overlay.new(
+          title: t("admin.settings_search.title"),
+          visually_hide_title: true,
+          anchor_side: :outside_bottom,
+          anchor_align: :start,
+          size: :large,
+          padding: :none,
+          role: :dialog
+        )
+      ) do |overlay| %>
+    <% overlay.with_show_button(block: true, data: { test_selector: "op-admin-settings-search--button" }) do |button| %>
+      <% button.with_leading_visual_icon(icon: :search) %>
+      <%= t("admin.settings_search.button") %>
+    <% end %>
+
+    <% overlay.with_body(classes: "op-admin-settings-search--body") do %>
+      <%= helpers.turbo_frame_tag FRAME_ID,
+                                  src: helpers.admin_settings_search_path,
+                                  loading: :lazy,
+                                  target: "_top",
+                                  class: "op-admin-settings-search--frame" %>
+    <% end %>
+  <% end %>
 <% end %>

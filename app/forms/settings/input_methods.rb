@@ -50,6 +50,20 @@ module Settings
       end
     end
 
+    # Creates a number input for a setting.
+    #
+    # The minimum and maximum are taken from the setting's allowed values if
+    # they are a range.
+    #
+    # Any options passed to this method will override the default options.
+    #
+    # @param name [Symbol] The name of the setting
+    # @param options [Hash] Additional options for the text field
+    # @return [Object] The text field input
+    def number_field(name:, **)
+      text_field(name:, type: :number, **range_options(setting_allowed_values(name)), **)
+    end
+
     # Creates a text area input for a setting.
     #
     # The text field label is set from translating the key "setting_<name>".
@@ -240,6 +254,15 @@ module Settings
     end
 
     private
+
+    def range_options(allowed)
+      return {} unless allowed.is_a?(Range)
+
+      {
+        min: allowed.begin,
+        max: allowed.exclude_end? && allowed.end ? allowed.end - 1 : allowed.end
+      }.compact
+    end
 
     def build_radio_button_group_values(group, name:, values:, button_options:)
       Array(values).each do |value|

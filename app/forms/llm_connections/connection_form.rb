@@ -35,7 +35,7 @@ module LlmConnections
         name: :llm_features_enabled,
         label: LlmConnection.human_attribute_name(:llm_features_enabled),
         caption: I18n.t("admin.llm_connections.form.llm_features_enabled_caption"),
-        data: { target_name: "llm_features_enabled", show_when_checked_target: "cause" }
+        data: { target_name: "llm_features_enabled", show_when_checked_target: "cause", setting_name: "llm_features_enabled" }
       )
 
       f.fieldset_group(

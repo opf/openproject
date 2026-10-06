@@ -29,19 +29,33 @@
 #++
 
 module Admin
-  module Settings
-    class ExternalLinksSettingsForm < ApplicationForm
-      settings_form do |sf|
-        helpers.call_hook(:component_admin_settings_external_redirect, form: sf)
+  module SettingsSearch
+    class TreeComponent < ApplicationComponent
+      def initialize(tree:)
+        super()
+        @tree = tree
+      end
 
-        sf.check_box(
-          name: :capture_external_links,
-          caption: I18n.t(:setting_capture_external_links_text)
-        )
-        sf.check_box(
-          name: :capture_external_links_require_login,
-          caption: I18n.t(:setting_capture_external_links_require_login_text)
-        )
+      private
+
+      def add_node(parent, node)
+        if node.children.any?
+          parent.with_sub_tree(label: node.label, href: node.href, select_variant: :none, data: node_data(node)) do |sub_tree|
+            node.children.each { add_node(sub_tree, it) }
+          end
+        else
+          parent.with_leaf(label: leaf_label(node), href: node.href, select_variant: :none, data: node_data(node))
+        end
+      end
+
+      def leaf_label(node)
+        return node.label if node.description.blank?
+
+        safe_join([node.label, tag.span(node.description, class: "sr-only")])
+      end
+
+      def node_data(node)
+        { node_id: node.key, test_selector: "op-admin-settings-search--node" }
       end
     end
   end

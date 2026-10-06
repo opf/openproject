@@ -51,7 +51,7 @@ RSpec.describe "Allowed link protocols", :js do
     find_by_id("settings_allowed_link_protocols").set(custom_protocols.join("\n"))
 
     click_on "Save"
-    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
 
     RequestStore.clear!
     expect(Setting.allowed_link_protocols).to match_array(custom_protocols)
@@ -63,7 +63,7 @@ RSpec.describe "Allowed link protocols", :js do
     find_by_id("settings_allowed_link_protocols").set(custom_protocols.join("\n"))
 
     click_on "Save"
-    expect(page).to have_text I18n.t(:notice_successful_update)
+    expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
 
     RequestStore.clear!
     expect(Setting.allowed_link_protocols).to contain_exactly("http+ssh", "foax")
