@@ -28,29 +28,35 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::BaseComponent.new(tag: :div, data: controller_data, test_selector: "ai-text-transform-result")) do %>
-  <%= render(Primer::BaseComponent.new(tag: :span, id: ANCHOR_ID, classes: "op-ai-result-overlay--anchor", "aria-hidden": true)) %>
   <%=
     render(
-      Primer::Alpha::Overlay.new(
-        id: OVERLAY_ID,
-        title: label(:title),
+      Primer::BaseComponent.new(
+        tag: :div,
+        id: PANEL_ID,
         role: :dialog,
-        popover: :manual,
-        size: :large,
-        padding: :none,
-        anchor: ANCHOR_ID,
-        anchor_side: :outside_bottom,
-        anchor_align: :end,
-        classes: "op-ai-result-overlay",
+        aria: { label: label(:title) },
+        position: :fixed,
+        display: :flex,
+        direction: :column,
+        hidden: true,
+        classes: "op-ai-result-panel",
         data: target(:overlay)
       )
-    ) do |overlay|
-      overlay.with_header(divider: true, classes: "op-ai-result-overlay--handle", data: target(:handle)) { section(:title) }
-
+    ) do
       safe_join(
         [
-          render(Primer::Alpha::Overlay::Body.new(classes: "op-ai-result-overlay--body")) { section(:body) },
-          render(Primer::Alpha::Overlay::Footer.new(show_divider: true, align_content: :start)) { section(:footer) },
+          render(Primer::Beta::BorderBox.new(flex: 1, overflow: :hidden, display: :flex, direction: :column, box_shadow: :extra_large)) do |box|
+            box.with_header(data: target(:handle), classes: "op-ai-result-panel--handle") do
+              flex_layout(align_items: :center, justify_content: :space_between) do |header|
+                header.with_column { section(:title) }
+                header.with_column do
+                  render(Primer::Beta::CloseButton.new("aria-label": label(:close), data: action(:dismiss)))
+                end
+              end
+            end
+            box.with_body(flex: 1, overflow: :auto) { section(:body) }
+            box.with_footer(bg: :subtle) { section(:footer) }
+          end,
           section(:resize_handles)
         ]
       )

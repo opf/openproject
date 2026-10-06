@@ -36,6 +36,7 @@ module AI
     class ResultOverlayComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include API::V3::Utilities::PathHelper
+      include ResultPaneHelpers
 
       OVERLAY_ID = "ai-text-transform-result"
       ANCHOR_ID = "ai-text-transform-result-anchor"
@@ -48,9 +49,18 @@ module AI
 
       private
 
+      def variant = "overlay"
+
+      def css_prefix = "op-ai-result-overlay"
+
+      def section(name)
+        render(ResultPaneSectionComponent.new(section: name, css_prefix:))
+      end
+
       def controller_data
         {
           controller: "ai-text-transform-result-overlay",
+          ai_text_transform_result_overlay_variant_value: variant,
           ai_text_transform_result_overlay_runs_url_value: api_v3_paths.ai_text_transform_runs,
           ai_text_transform_result_overlay_render_url_value: helpers.ai_text_transform_preview_path,
           ai_text_transform_result_overlay_editor_gone_value: label(:editor_gone),
@@ -60,18 +70,6 @@ module AI
           ai_text_transform_result_overlay_copied_value: label(:copied),
           ai_text_transform_result_overlay_copy_value: label(:copy)
         }
-      end
-
-      def target(name)
-        { ai_text_transform_result_overlay_target: name }
-      end
-
-      def action(name)
-        { action: "click->ai-text-transform-result-overlay##{name}" }
-      end
-
-      def label(key)
-        I18n.t("ai.text_transform.popover.#{key}")
       end
     end
   end

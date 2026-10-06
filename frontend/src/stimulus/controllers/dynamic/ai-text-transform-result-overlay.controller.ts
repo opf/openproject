@@ -47,7 +47,8 @@ const MIN_HEIGHT = 240;
 const DEMO_FAULT_PARAM = 'ai_demo_fault';
 
 /**
- * Demo (AI-126): the AI result pane, a wrapper around Primer::Alpha::Overlay. It runs the action
+ * Demo (AI-126): the AI result pane, a wrapper around Primer::Alpha::Overlay or, for comparison, a
+ * Primer::Beta::BorderBox (variant value). It runs the action
  * chosen in the editor's AI menu, shows the text while it streams in and replaces the editor content
  * on request. Dragging and resizing are feature code on this wrapper; the overlay itself is unchanged.
  */
@@ -58,6 +59,7 @@ export default class AiTextTransformResultOverlayController extends Controller<H
   ];
 
   static values = {
+    variant: { type: String, default: 'overlay' },
     runsUrl: String,
     renderUrl: String,
     editorGone: String,
@@ -82,6 +84,7 @@ export default class AiTextTransformResultOverlayController extends Controller<H
   declare readonly doneFooterTarget:HTMLElement;
   declare readonly errorFooterTarget:HTMLElement;
   declare readonly copyLabelTarget:HTMLElement;
+  declare readonly variantValue:string;
   declare readonly runsUrlValue:string;
   declare readonly renderUrlValue:string;
   declare readonly editorGoneValue:string;
@@ -113,12 +116,14 @@ export default class AiTextTransformResultOverlayController extends Controller<H
   private readonly onResizeMove = (event:PointerEvent) => this.resize(event);
   private readonly onResizeUp = () => this.endResize();
   private readonly onToggle = (event:Event) => this.toggled(event as ToggleEvent);
+  private readonly onKeydown = (event:KeyboardEvent) => this.keydown(event);
 
   connect():void {
     window.addEventListener(AI_TEXT_TRANSFORM_START_EVENT, this.onStart);
     [this.handleTarget, this.gripTarget].forEach((el) => el.addEventListener('pointerdown', this.onPointerDown));
     this.resizeTargets.forEach((el) => el.addEventListener('pointerdown', this.onResizeDown));
     this.overlayTarget.addEventListener('toggle', this.onToggle);
+    document.addEventListener('keydown', this.onKeydown);
   }
 
   disconnect():void {
@@ -126,6 +131,7 @@ export default class AiTextTransformResultOverlayController extends Controller<H
     [this.handleTarget, this.gripTarget].forEach((el) => el.removeEventListener('pointerdown', this.onPointerDown));
     this.resizeTargets.forEach((el) => el.removeEventListener('pointerdown', this.onResizeDown));
     this.overlayTarget.removeEventListener('toggle', this.onToggle);
+    document.removeEventListener('keydown', this.onKeydown);
     this.endDrag();
     this.endResize();
     this.stopRun();
@@ -263,27 +269,52 @@ export default class AiTextTransformResultOverlayController extends Controller<H
     }
   }
 
+  // The Overlay variant is a manual popover in the browser's top layer; the BorderBox variant
+  // is a plain element toggled through `hidden`.
+  private get usesPopover():boolean {
+    return this.variantValue === 'overlay';
+  }
+
   private get overlayOpen():boolean {
-    return this.overlayTarget.matches(':popover-open');
+    return this.usesPopover ? this.overlayTarget.matches(':popover-open') : !this.overlayTarget.hidden;
   }
 
   private showOverlay():void {
-    if (!this.overlayOpen) {
+    if (this.overlayOpen) {
+      return;
+    }
+    if (this.usesPopover) {
       this.overlayTarget.showPopover();
+    } else {
+      this.overlayTarget.hidden = false;
     }
   }
 
   private hideOverlay():void {
-    if (this.overlayOpen) {
+    if (!this.overlayOpen) {
+      return;
+    }
+    if (this.usesPopover) {
       this.overlayTarget.hidePopover();
+    } else {
+      this.overlayTarget.hidden = true;
+      this.closed();
     }
   }
 
   private toggled(event:ToggleEvent):void {
-    if (event.newState !== 'closed') {
-      return;
+    if (event.newState === 'closed') {
+      this.closed();
     }
+  }
 
+  private keydown(event:KeyboardEvent):void {
+    if (event.key === 'Escape' && this.overlayOpen) {
+      this.hideOverlay();
+    }
+  }
+
+  private closed():void {
     if (this.client?.running) {
       void this.client.cancel();
     }
@@ -416,6 +447,14 @@ export default class AiTextTransformResultOverlayController extends Controller<H
   // through stylesheet rules that outrank it.
   private pin(left:number, top:number):void {
     const { style, classList } = this.overlayTarget;
+    if (!this.usesPopover) {
+      style.left = `${left}px`;
+      style.top = `${top}px`;
+      style.right = 'auto';
+      style.bottom = 'auto';
+      return;
+    }
+
     style.setProperty('--op-ai-result-left', `${left}px`);
     style.setProperty('--op-ai-result-top', `${top}px`);
     classList.add('op-ai-result-overlay_pinned');
