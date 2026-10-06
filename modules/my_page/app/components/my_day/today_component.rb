@@ -30,6 +30,8 @@
 
 module MyDay
   class TodayComponent < ApplicationComponent
+    include OpTurbo::Streamable
+
     COLOR_SCHEMES = { morning: :attention, afternoon: :accent, evening: :done }.freeze
 
     def initialize(today:)
@@ -47,6 +49,13 @@ module MyDay
         t("my_day.open_tasks", count: today.open_count),
         t("my_day.meetings", count: today.meetings.size)
       ].join(" · ")
+    end
+
+    # Wide enough for "start–end" in the configured time format, so meeting times and task
+    # checkboxes line up.
+    def lead_width
+      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
+      "#{(latest.length * 2) + 2}ch"
     end
 
     def row_arguments(day_part, **)

@@ -51,8 +51,7 @@ module My
     def today
       return if !my_day? || params[:tab] == "dashboard"
 
-      call = MyDay::ProjectService.new(current_user).call
-      MyDay::Today.new(user: current_user, project: call.result) if call.success?
+      MyDay::Today.for(current_user)
     end
   end
 end

@@ -33,23 +33,27 @@ module MyDay
     include OpPrimer::ComponentHelpers
     include AvatarHelper
 
-    LEAD_WIDTH = "4rem"
     SOON_MINUTES = 60
 
-    def initialize(meeting:, user:, scheme:)
+    def initialize(meeting:, user:, scheme:, lead_width:)
       super()
       @meeting = meeting
       @user = user
       @scheme = scheme
+      @lead_width = lead_width
     end
 
     private
 
-    attr_reader :meeting, :user, :scheme
+    attr_reader :meeting, :user, :scheme, :lead_width
 
     def start_time = local_time(meeting.start_time)
 
     def end_time = local_time(meeting.end_time)
+
+    def duration
+      OpenProject::Common::DurationComponent.new(meeting.duration, :hours, abbreviated: true).text
+    end
 
     def local_time(time)
       helpers.format_time(time, include_date: false, time_zone: user.time_zone)

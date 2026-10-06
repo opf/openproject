@@ -35,11 +35,11 @@ RSpec.describe MyDay::Today do
   let!(:role) do
     create(:project_role, permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR + %i[view_work_packages])
   end
-  let(:meeting_project) { create(:project, enabled_module_names: %w[meetings]) }
+  let(:meeting_project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
   let(:user) do
     create(:user,
            preferences: { time_zone: "Europe/Berlin" },
-           member_with_permissions: { meeting_project => %i[view_meetings] })
+           member_with_permissions: { meeting_project => %i[view_meetings view_work_packages] })
   end
   let(:project) { MyDay::ProjectService.new(user).call.result }
   let(:day_part) { WorkPackageCustomField.for_semantic_key(:day_part) }
@@ -80,6 +80,21 @@ RSpec.describe MyDay::Today do
     it "counts only open tasks" do
       expect(today.open_count).to eq(2)
       expect(section(:evening).open_count).to eq(0)
+    end
+  end
+
+  describe "references" do
+    let(:visible_work_package) { create(:work_package, project: meeting_project) }
+    let(:hidden_work_package) { create(:work_package) }
+
+    before do
+      create(:work_package, project:, type: task, due_date: Date.new(2026, 10, 6),
+                            subject: "Work on ##{visible_work_package.id} and ##{hidden_work_package.id}")
+    end
+
+    it "finds the referenced work packages the user can see" do
+      expect(today.references.values.uniq).to contain_exactly(visible_work_package)
+      expect(today.references[visible_work_package.id.to_s]).to eq(visible_work_package)
     end
   end
 

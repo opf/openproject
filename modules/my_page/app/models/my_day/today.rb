@@ -32,7 +32,7 @@ module MyDay
   # What the user has planned for today: their "My work" tasks due today and the meetings they take
   # part in, split into day parts. Tasks without a day part count as morning.
   class Today
-    DAY_PARTS = SetupService::DAY_PARTS
+    DAY_PARTS = DayPartField::DAY_PARTS
     AFTERNOON_FROM = 12
     EVENING_FROM = 17
 
@@ -44,6 +44,11 @@ module MyDay
 
     attr_reader :user, :project, :date
 
+    def self.for(user)
+      call = ProjectService.new(user).call
+      new(user:, project: call.result) if call.success?
+    end
+
     def initialize(user:, project:)
       @user = user
       @project = project
@@ -54,13 +59,15 @@ module MyDay
       @sections ||= DAY_PARTS.map do |day_part|
         Section.new(day_part:,
                     meetings: meetings.select { day_part_at(it.start_time) == day_part },
-                    work_packages: work_packages.select { day_part_of(it) == day_part })
+                    work_packages: work_packages.select { day_part_field.day_part_of(it) == day_part })
       end
     end
 
     def open_count = sections.sum(&:open_count)
 
-    def now?(day_part) = day_part_at(Time.current) == day_part
+    def current_day_part = day_part_at(Time.current)
+
+    def now?(day_part) = current_day_part == day_part
 
     def meetings
       @meetings ||= Meeting
@@ -82,6 +89,17 @@ module MyDay
                            .to_a
     end
 
+    # Work packages the user can see that today's task subjects reference, by every id they may be
+    # written with.
+    def references
+      @references ||= WorkPackage
+                        .visible(user)
+                        .where_display_id_in(work_packages.flat_map { it.subject.scan(CreateTaskService::REFERENCE) }.flatten)
+                        .includes(:status)
+                        .flat_map { [[it.id.to_s, it], [it.display_id.to_s, it]] }
+                        .to_h
+    end
+
     private
 
     def day_part_at(time)
@@ -93,18 +111,8 @@ module MyDay
       end
     end
 
-    def day_part_of(work_package)
-      option_id = work_package.custom_value_for(day_part_field)&.value.to_i
-
-      DAY_PARTS[day_part_option_ids.index(option_id) || 0]
-    end
-
     def day_part_field
-      @day_part_field ||= WorkPackageCustomField.for_semantic_key(:day_part)
-    end
-
-    def day_part_option_ids
-      @day_part_option_ids ||= day_part_field.custom_options.order(:position).pluck(:id)
+      @day_part_field ||= DayPartField.find
     end
   end
 end

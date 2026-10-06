@@ -33,8 +33,6 @@ module MyDay
   # of the first non-milestone type whose form shows it. The field is the anchor: the variant is
   # found through it, so renaming any of these in the administration keeps My Day working.
   class SetupService
-    DAY_PARTS = %i[morning afternoon evening].freeze
-
     def call
       OpenProject::Mutex.with_advisory_lock(TypeVariant, "my_day_setup") do
         variant = existing_variant
@@ -77,7 +75,7 @@ module MyDay
       WorkPackageCustomField.create!(
         name: I18n.t("my_day.day_part.name"),
         field_format: "list",
-        possible_values: DAY_PARTS.map { I18n.t("my_day.day_part.#{it}") },
+        possible_values: DayPartField::DAY_PARTS.map { I18n.t("my_day.day_part.#{it}") },
         semantic_key: :day_part
       )
     end
