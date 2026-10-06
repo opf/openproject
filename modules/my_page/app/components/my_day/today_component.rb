@@ -31,8 +31,16 @@
 module MyDay
   class TodayComponent < ApplicationComponent
     include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
     COLOR_SCHEMES = { morning: :attention, afternoon: :accent, evening: :done }.freeze
+
+    # Wide enough for "start–end" in the configured time format, so meeting times and task
+    # checkboxes line up.
+    def self.lead_width(helpers)
+      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
+      "#{(latest.length * 2) + 2}ch"
+    end
 
     def initialize(today:)
       super()
@@ -51,12 +59,7 @@ module MyDay
       ].join(" · ")
     end
 
-    # Wide enough for "start–end" in the configured time format, so meeting times and task
-    # checkboxes line up.
-    def lead_width
-      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
-      "#{(latest.length * 2) + 2}ch"
-    end
+    def lead_width = self.class.lead_width(helpers)
 
     def row_arguments(day_part, **)
       { border: :bottom, px: 3, py: 2, test_selector: "my-day-#{day_part}", ** }

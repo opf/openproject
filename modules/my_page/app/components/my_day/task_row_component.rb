@@ -32,16 +32,30 @@ module MyDay
   class TaskRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(work_package:, lead_width:, references:)
+    def initialize(work_package:, lead_width:, references:, day_part: nil)
       super()
       @work_package = work_package
       @lead_width = lead_width
       @references = references
+      @day_part = day_part
     end
 
     private
 
-    attr_reader :work_package, :lead_width, :references
+    attr_reader :work_package, :lead_width, :references, :day_part
+
+    def inbox? = day_part.nil?
+
+    # Where the Move menu can send the task: the other day parts today, or into today from the Inbox.
+    def move_targets
+      today = inbox? ? %w[today] : DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
+
+      (today + %w[tomorrow]).map { [it, t("my_day.move_to.#{it}")] }
+    end
+
+    def plan_path(to) = my_day_task_plan_path(work_package, to:, view: (:inbox if inbox?))
+
+    def plan_form_arguments = { method: :patch, data: { turbo_stream: true } }
 
     # The subject as text, with each visible referenced work package in place of its reference.
     def subject_parts

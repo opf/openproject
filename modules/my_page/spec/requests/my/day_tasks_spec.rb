@@ -38,7 +38,7 @@ RSpec.describe "My Day tasks", :skip_csrf, type: :rails_request do
   let!(:role) do
     create(:project_role,
            permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR +
-             %i[view_work_packages add_work_packages edit_work_packages])
+             %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations])
   end
   let!(:workflow) { create(:status_transition, type: task_type, role:, old_status: status, new_status: closed_status) }
   let(:user) { create(:user) }
@@ -99,6 +99,34 @@ RSpec.describe "My Day tasks", :skip_csrf, type: :rails_request do
         subject
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "moving tasks", with_flag: { my_day: true } do
+    let(:task) { MyDay::CreateTaskService.new(user:).call(subject: "Book train", day_part: :morning).result }
+    let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+    it "moves a task to another day part" do
+      patch(my_day_task_plan_path(task, to: :evening), headers:)
+
+      expect(response).to have_http_status(:ok)
+      expect(MyDay::DayPartField.find.day_part_of(task.reload)).to eq(:evening)
+    end
+
+    context "when planning from the Inbox" do
+      let!(:left_over) do
+        MyDay::CreateTaskService.new(user:).call(subject: "Left over", day_part: :afternoon).result.tap do |task|
+          task.update_columns(start_date: user.today - 3, due_date: user.today - 3)
+        end
+      end
+
+      it "plans it for today and re-renders the Inbox with its counter" do
+        patch(my_day_task_plan_path(left_over, to: :today, view: :inbox), headers:)
+
+        expect(left_over.reload.due_date).to eq(user.today)
+        expect(response.body).to include('target="my-day-inbox-component"')
+        expect(response.body).to include('target="my-day-inbox-counter"')
       end
     end
   end

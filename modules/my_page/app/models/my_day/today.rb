@@ -89,15 +89,8 @@ module MyDay
                            .to_a
     end
 
-    # Work packages the user can see that today's task subjects reference, by every id they may be
-    # written with.
     def references
-      @references ||= WorkPackage
-                        .visible(user)
-                        .where_display_id_in(work_packages.flat_map { it.subject.scan(CreateTaskService::REFERENCE) }.flatten)
-                        .includes(:status, :project, :type)
-                        .flat_map { [[it.id.to_s, it], [it.display_id.to_s, it]] }
-                        .to_h
+      @references ||= References.for(user, work_packages)
     end
 
     private
