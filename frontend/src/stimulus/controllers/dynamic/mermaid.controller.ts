@@ -27,10 +27,14 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { renderMermaidDiagrams } from 'core-common/mermaid';
+import { destroyMermaidDiagrams, renderMermaidDiagrams } from 'core-common/mermaid';
 
 export default class MermaidController extends Controller<HTMLElement> {
   connect() {
     renderMermaidDiagrams(this.element);
+  }
+
+  disconnect() {
+    destroyMermaidDiagrams(this.element);
   }
 }

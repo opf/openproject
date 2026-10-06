@@ -26,9 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import mermaid from 'mermaid';
+import type { SvgToolbelt, ZoomFeature } from 'svg-toolbelt';
 
 export const MERMAID_SELECTOR = 'pre[lang="mermaid"], code.language-mermaid';
+
+const zoomables = new WeakMap<HTMLElement, SvgToolbelt>();
 
 export function mermaidDiagramNodes(element:HTMLElement):HTMLElement[] {
   const nodes = new Set<HTMLElement>();
@@ -40,10 +42,53 @@ export function mermaidDiagramNodes(element:HTMLElement):HTMLElement[] {
   return Array.from(nodes);
 }
 
-// Mermaid marks a node `data-processed` before it awaits the render, so it
-// cannot be used to tell a painted diagram from a pending one.
-function markRendered(node:HTMLElement):void {
-  node.dataset.mermaidState = node.querySelector('svg') ? 'rendered' : 'failed';
+// Pan listens on `document`, so an instance outlives the node it was built on.
+export function destroyMermaidDiagrams(element:HTMLElement):void {
+  mermaidDiagramNodes(element).forEach((node) => {
+    zoomables.get(node)?.destroy();
+    zoomables.delete(node);
+  });
+}
+
+function makeZoomable(node:HTMLElement, Toolbelt:typeof SvgToolbelt):void {
+  const zoomable = new Toolbelt(node);
+  zoomable.init();
+
+  // Wheel zoom swallows page scroll over a diagram. ZoomFeature#destroy only
+  // detaches that listener, so the controls and keyboard keep zooming.
+  (zoomable.features.zoom as ZoomFeature).destroy();
+
+  zoomables.set(node, zoomable);
+}
+
+async function render(nodes:HTMLElement[]):Promise<void> {
+  const [{ default: mermaid }, { SvgToolbelt: Toolbelt }] = await Promise.all([
+    import('mermaid'),
+    import('svg-toolbelt'),
+  ]);
+
+  mermaid.initialize({
+    securityLevel: 'strict',
+    startOnLoad: false,
+  });
+
+  try {
+    await mermaid.run({ nodes });
+  } catch (error) {
+    console.error(error);
+  }
+
+  nodes.forEach((node) => {
+    // Mermaid marks a node `data-processed` before it awaits the render, so it
+    // cannot be used to tell a painted diagram from a pending one.
+    const painted = node.querySelector('svg') !== null;
+
+    node.dataset.mermaidState = painted ? 'rendered' : 'failed';
+
+    if (painted) {
+      makeZoomable(node, Toolbelt);
+    }
+  });
 }
 
 export function renderMermaidDiagrams(element:HTMLElement):void {
@@ -53,13 +98,5 @@ export function renderMermaidDiagrams(element:HTMLElement):void {
     return;
   }
 
-  mermaid.initialize({
-    securityLevel: 'strict',
-    startOnLoad: false,
-  });
-
-  void mermaid
-    .run({ nodes })
-    .catch(console.error)
-    .finally(() => nodes.forEach(markRendered));
+  void render(nodes);
 }

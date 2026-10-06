@@ -30,12 +30,14 @@ import { DisplayField } from 'core-app/shared/components/fields/display/display-
 import { ApplicationRef } from '@angular/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ExpressionService } from 'core-app/core/expression/expression.service';
-import { renderMermaidDiagrams } from 'core-common/mermaid';
+import { destroyMermaidDiagrams, renderMermaidDiagrams } from 'core-common/mermaid';
 
 export class FormattableDisplayField extends DisplayField {
   @LazyInject() readonly appRef:ApplicationRef;
 
   public render(element:HTMLElement, displayText:string, options:any = {}):void {
+    destroyMermaidDiagrams(element);
+
     const div = document.createElement('div');
 
     div.classList.add(

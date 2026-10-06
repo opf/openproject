@@ -29,6 +29,25 @@
     text-align: center
     background-color: transparent
     border: none
+    overflow: hidden
+
+    .svg-toolbelt-controls
+      background: var(--bgColor-default)
+      border: 1px solid var(--borderColor-default)
+
+      button
+        background: var(--bgColor-default)
+        border-color: var(--borderColor-default)
+        color: var(--fgColor-default)
+
+        &:hover
+          background-color: var(--bgColor-neutral-muted)
+          border-color: var(--borderColor-emphasis)
+          color: var(--fgColor-default)
+
+    .svg-toolbelt-zoom-indicator
+      background-color: var(--bgColor-emphasis)
+      color: var(--fgColor-onEmphasis)
 
   &--language
     margin-top: 0.5rem
