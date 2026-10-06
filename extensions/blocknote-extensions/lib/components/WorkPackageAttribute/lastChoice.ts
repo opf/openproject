@@ -1,4 +1,4 @@
-import type { AttributeChoice } from './pending';
+import type { AttributeChoice } from './types';
 import { documentKey } from '../../utils/documentKey';
 
 let remembered:{ document:string, choice:AttributeChoice } | undefined;
