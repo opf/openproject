@@ -99,6 +99,14 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
         expect(filters.bucket_ids).to eq([1, "inbox"])
       end
     end
+
+    context "when bucket_ids are duplicate" do
+      let(:params) { { bucket_ids: '[1, "inbox", 1]' } }
+
+      it "keeps only the deduplicated valid ids" do
+        expect(filters.bucket_ids).to eq([1, "inbox"])
+      end
+    end
   end
 
   describe "#bucket_ids_without_inbox" do
@@ -153,6 +161,14 @@ RSpec.describe Backlogs::BacklogFilters, type: :model do
 
       it "coerces it to integer" do
         expect(filters.sprint_ids).to eq([3])
+      end
+    end
+
+    context "when sprint_ids are duplicate" do
+      let(:params) { { sprint_ids: "[1, 1, 2]" } }
+
+      it "keeps only the deduplicated valid ids" do
+        expect(filters.sprint_ids).to eq([1, 2])
       end
     end
   end
