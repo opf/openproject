@@ -89,7 +89,8 @@ RSpec.describe "My page", type: :rails_request do
       expect(page).to have_test_selector("my-day-meeting-duration", text: "15 mins")
       expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches")
       expect(page).to have_test_selector("my-day-planned", text: "Branch tracking via GitLab webhook")
-      expect(page).to have_test_selector("my-day-task-morning", text: meeting_project.name)
+      expect(page).to have_test_selector("my-day-task-meta", text: meeting_project.name)
+      expect(page).to have_test_selector("my-day-task-meta", text: "Quick task", count: 2)
       expect(page).to have_test_selector("my-day-reference", count: 1)
 
       expect(page).to have_test_selector("my-page-tabs")

@@ -50,13 +50,25 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
     <% end %>
-    <%= flex_layout(mt: 1) do |meta| %>
-      <% meta.with_column(mr: 3) do %>
+    <%= flex_layout(align_items: :center, mt: 1, test_selector: "my-day-task-meta") do |meta| %>
+      <% if planned_work_package %>
+        <% meta.with_column(mr: 2) do %>
+          <%= render(WorkPackages::HighlightedTypeComponent.new(work_package: planned_work_package, font_size: :small)) %>
+        <% end %>
+      <% else %>
+        <% meta.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("my_day.quick_task") } %>
+        <% end %>
+      <% end %>
+      <% meta.with_column(mr: 2) do %>
         <%= render(Primer::Beta::Text.new(font_family: :mono, color: :muted, font_size: :small)) { shown_work_package.formatted_id } %>
       <% end %>
-      <% meta_items.each do |item| %>
-        <% meta.with_column(mr: 3) do %>
-          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { item } %>
+      <% if planned_work_package %>
+        <% meta.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { planned_work_package.project.name } %>
+        <% end %>
+        <% meta.with_column do %>
+          <%= render(WorkPackages::StatusBadgeComponent.new(status: planned_work_package.status)) %>
         <% end %>
       <% end %>
     <% end %>

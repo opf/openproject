@@ -12,6 +12,7 @@ en:
     dashboard: "Dashboard"
     empty_section: "Nothing planned."
     now: "Now"
+    quick_task: "Quick task"
     mark_done: "Mark as done"
     mark_open: "Mark as not done"
     added_to: "Added to %{day_part} in My Page."
