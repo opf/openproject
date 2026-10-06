@@ -40,6 +40,7 @@ class ForumsController < ApplicationController
 
   include SortHelper
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   def index
     @forums = @project.forums
@@ -79,12 +80,12 @@ class ForumsController < ApplicationController
   end
 
   def set_topics
-    @topics =  @forum
-               .topics
-               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
-               .includes(:author, last_reply: :author)
-               .page(page_param)
-               .per_page(per_page_param)
+    @topics = @forum
+              .topics
+              .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
+              .includes(:author, last_reply: :author)
+              .page(page_param)
+              .per_page(per_page_param)
   end
 
   def new; end
@@ -110,10 +111,16 @@ class ForumsController < ApplicationController
   end
 
   def move
-    @forum.update!(permitted_params.forum_move)
+    moved = move_in_direction
 
-    flash[:notice] = t(:notice_successful_update)
-    redirect_to project_forums_path(@project)
+    if moved
+      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+      update_via_turbo_stream(component: index_component, method: :morph)
+    else
+      render_error_flash_message_via_turbo_stream(message: I18n.t("forums.index.could_not_be_moved"))
+    end
+
+    respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
   end
 
   def destroy
@@ -125,8 +132,18 @@ class ForumsController < ApplicationController
 
   private
 
+  def index_component
+    Forums::IndexComponent.new(forums: @project.forums, project: @project)
+  end
+
+  def move_in_direction
+    move_to = permitted_params.forum_move[:move_to]
+
+    move_to.in?(%w[highest higher lower lowest]) && @forum.update(move_to:)
+  end
+
   def find_forum
-    @forum = @project.forums.find(params[:id])
+    @forum = @project.forums.find(params.expect(:id))
   end
 
   def new_forum
