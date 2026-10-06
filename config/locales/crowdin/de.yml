@@ -1523,7 +1523,7 @@ de:
       tab_pdf_export_font: Schriftart für den PDF-Export
       tab_pdf_export_styles: PDF-Exportstile
       theme_warning:
-        confirmation: I understand that this action cannot be reversed
+        confirmation: Mir ist klar, dass dieser Vorgang nicht rückgängig gemacht werden kann
         description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
         heading: Farbschema ändern?
         title: Farbschema ändern
@@ -1632,15 +1632,15 @@ de:
           JiraCreateCustomFieldsJob:
             title: Benutzerdefinierte Felder erstellen
           JiraCreateProjectJob:
-            title: Create project '%{jira_project_name}'
+            title: Projekt ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectRoleJob:
-            title: Create 'JiraMember' project role
+            title: Projektrolle ‚JiraMember‘ erstellen
           JiraCreateProjectVersionsJob:
-            title: Create versions for '%{jira_project_name}'
+            title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Anhänge zum Arbeitspaket für ‚%{jira_project_name}‘ herunterladen
           JiraCreateProjectWorkPackagesJob:
-            title: Create work packages for '%{jira_project_name}'
+            title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
           JiraCreateUsersJob:
             title: Benutzer erstellen
           JiraFetchCustomFieldJob:
@@ -1850,12 +1850,12 @@ de:
               title: Benutzer und benutzerdefinierte Felder abrufen
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: Benutzer, Gruppen und Mitgliedschaften erstellen
             '5':
               rest_line_text: ''
               title: Rollen und benutzerdefinierte Felder erstellen
             '6':
-              rest_line_text: Creating %{projects_number} more projects
+              rest_line_text: "%{projects_number} weitere Projekte erstellen"
               title: Projekte erstellen
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
@@ -1897,8 +1897,8 @@ de:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} Arbeitspaket"
+          other: "%{count} Arbeitspakete"
       sub_header_component:
         button_add: Bezeichnung
         label_add: Bezeichnung hinzufügen
@@ -1911,7 +1911,7 @@ de:
           name: Bezeichnung
           usage: Verwendet in
         no_matches:
-          description: Try a different search term.
+          description: Versuchen Sie es mit einem anderen Suchbegriff.
           title: No labels match your search
     llm_connections:
       delete_api_key:
@@ -1971,7 +1971,7 @@ de:
         external_id_caption: The model name exactly as the server expects it.
         model_type: Modelltyp
         model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
+        model_type_chat: Chat-Modell
         model_type_embedding: Embedding model
         model_type_unspecified: Nicht angegeben
         state_inherited: Vom Server erben (%{state})
@@ -2500,27 +2500,27 @@ de:
     login_and_registration: Anmeldung und Registrierung
   automations:
     actions:
-      add: Add action
+      add: Aktion hinzufügen
       assigned_to:
         executing_user_value: "(Assign to executing user)"
-      name: Actions
-    conditions: Conditions
-    edit: Edit automation %{name}
-    new: New automation
-    plural: Automations
+      name: Aktionen
+    conditions: Bedingungen
+    edit: Automatisierung %{name} bearbeiten
+    new: Neue Automatisierung
+    plural: Automatisierungen
     summary:
-      if: If
-      none: None
-      then: Then
-      title: Summary
-      when: When
-    trigger: Trigger
+      if: Falls
+      none: Keine
+      then: Dann
+      title: Zusammenfassung
+      when: Wann
+    trigger: Auslöser
     triggers:
       button:
         button_label: Button label
-        label: Button press
+        label: Tastendruck
       more_coming: OpenProject will add more trigger types soon.
-      name: Triggers
+      name: Auslöser
   background_jobs:
     status:
       cancelled_due_to: 'Job wurde aufgrund eines Fehlers abgebrochen: %{message}'
@@ -2755,10 +2755,6 @@ de:
     plural: Benutzerdefinierte Aktionen
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Für alle Projekte" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
-          heading: Für alle Projekte
       hierarchy:
         subitems:
           one: 1 Unterelement
@@ -2782,7 +2778,7 @@ de:
           short: Kurzname
           weight: Gewichtung
       notice:
-        remember_items_and_projects: Denken Sie daran, Einträge und Projekte in den jeweiligen Registerkarten für dieses benutzerdefinierte Feld festzulegen.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Sie können jedem Benutzer, dem dieses Projektattribut zugewiesen wurde, automatisch eine bestimmte Projektrolle zuweisen, unabhängig von der ursprünglichen Rolle dieses Benutzers in diesem Projekt.
         dialog:
@@ -4648,12 +4644,12 @@ de:
       reasoning:
         label: Reasoning
       structured_output:
-        label: Structured output
+        label: Strukturierte Ausgabe
       vision:
         label: Vision
     context_window_sources:
       registry: the figure published for this model
-      server: reported by the server
+      server: vom Server gemeldet
     model_kinds:
       chat: Chat
       embedding: Einbettung
@@ -5148,7 +5144,6 @@ de:
   notice_principals_found_single: |-
     Es wurde ein Ergebnis gefunden.
     Drücke Tab um es zu fokussieren.
-  notice_project_cannot_update_custom_fields: 'Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}'
   notice_project_not_deleted: Das Projekt wurde nicht gelöscht.
   notice_project_not_found: Projekt nicht gefunden.
   notice_requires_enterprise_token: Kein Enterprise-Token vorhanden oder das vorhandene Token erlaubt keinen Zugriff auf diese Seite.
@@ -5158,9 +5153,6 @@ de:
   notice_successful_create: Erfolgreich angelegt.
   notice_successful_delete: Erfolgreich gelöscht.
   notice_successful_update: Erfolgreich aktualisiert.
-  notice_successful_update_custom_fields_added_to_project: |
-    Erfolgreich aktualisiert. Die benutzerdefinierten Felder der aktivierten Typen werden automatisch
-    im Arbeitspaket-Formular aktiviert. <a href="%{url}" target="_blank">Siehe mehr</a>.
   notice_to_many_principals_to_display: |-
     Es gibt zu viele Treffer.
     Bitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben.
@@ -5541,7 +5533,6 @@ de:
   permission_save_bcf_queries: BCF-Abfragen speichern
   permission_save_queries: Ansichten speichern
   permission_search_project: Projekt suchen
-  permission_select_custom_fields: Benutzerdefinierte Felder verwalten
   permission_select_project_custom_fields: Projektattribute auswählen
   permission_select_project_modules: Projektmodule auswählen
   permission_select_project_phases: Projektphase auswählen
@@ -6933,12 +6924,12 @@ de:
         inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
         inherit_title: Use the same settings as the type
         manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
+        manual_title: Manuelle Konfiguration
         reuse_heading: Reuse existing type configuration
         reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
         reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
         reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
-        submit: Start
+        submit: Beginn
         type:
           description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
           heading: Neuen Typ erstellen
@@ -6956,7 +6947,7 @@ de:
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
-        start: Start
+        start: Beginn
         workflows: Workflow
       success: Erfolgreich angelegt.
     edit:
@@ -7236,6 +7227,11 @@ de:
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Meilenstein
     patterns:
       formats:
@@ -7714,7 +7710,7 @@ de:
         one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
         other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     import:
-      check_file: Check file
+      check_file: Datei prüfen
       checking_file: Checking %{filename}
       clear: Clear
       csv:
@@ -7724,7 +7720,7 @@ de:
           expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
           invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
           malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
-          missing: Choose a CSV file to upload.
+          missing: Wählen Sie eine CSV-Datei zum Hochladen aus.
           no_rows: This file has column headers but no lines underneath them.
           too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
           too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
@@ -7750,8 +7746,8 @@ de:
           invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
           not_created: could not be created, and no reason was reported.
           too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
-          unknown: does not exist.
-          unknown_in_project: does not exist in this project.
+          unknown: existiert nicht.
+          unknown_in_project: existiert in diesem Projekt nicht.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
           examples:
@@ -7784,16 +7780,16 @@ de:
           imported: The import has finished. The report is below.
           rows_rejected: Nothing was imported. The report lists the problems.
         checked:
-          heading: Ready to import
-          import: Import %{work_packages}
+          heading: Bereit zum Importieren
+          import: "%{work_packages} importieren"
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
-            other: "%{count} lines checked, no problems found"
+            one: 1 Zeile geprüft, keine Probleme festgestellt
+            other: "%{count} Zeilen geprüft, keine Probleme festgestellt"
         download_problems: Als CSV herunterladen
         file_rejected:
-          heading: Header line
+          heading: Kopfzeile
           line: Zeile 1 von %{filename}
           nothing: Nothing was imported. Correct the file and upload it again.
           text: Correct the headers in the file and upload it again.
@@ -7819,31 +7815,31 @@ de:
             other: "%{count} importierte Arbeitspakete ansehen"
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
-          title: "%{work_packages} created"
+          title: "%{work_packages} erstellt"
           work_packages: Arbeitspakete
         problems:
           all:
             one: 1 Problem.
             other: "%{count} Probleme, alle angezeigt."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
-          heading: Problems
+          heading: Probleme
         rows_rejected:
           text: Everything was rolled back. Correct the lines below and upload the file again.
           title: 'Nothing was imported: %{problems} in %{lines}'
         table:
-          attribute: Column
-          available: Available values
-          column: Column
-          empty: empty
+          attribute: Spalte
+          available: Verfügbare Werte
+          column: Spalte
+          empty: leer
           header: Header
           message: Problem
-          row: Line
-          value: Value
+          row: Zeile
+          value: Wert
         x_lines:
-          one: 1 line
+          one: 1 Zeile
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: 1 Problem
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
@@ -7988,8 +7984,8 @@ de:
         button: View dependent types
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
-        variant_of: Variant of %{type}
-        variants: Variants
+        variant_of: Variante von %{type}
+        variants: Varianten
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.

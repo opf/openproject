@@ -3003,10 +3003,6 @@ cs:
     plural: Vlastní akce
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Toto vlastní pole je povoleno ve všech projektech, protože je zaškrtnuta možnost "Pro všechny projekty". U jednotlivých projektů jej nelze deaktivovat.
-          heading: Pro všechny projekty
       hierarchy:
         subitems:
           one: 1 dílčí položka
@@ -3030,7 +3026,7 @@ cs:
           short: Krátký název
           weight: Váha
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -5477,7 +5473,6 @@ cs:
   notice_password_confirmation_failed: Zadané heslo není správné.
   notice_principals_found_multiple: "Nalezeno %{number} výsledků. \nStiskněte Tab pro přechod na první výsledek."
   notice_principals_found_single: "Existuje jeden výsledek. \n Záložka pro zaměření."
-  notice_project_cannot_update_custom_fields: 'Nemůžete aktualizovat dostupné vlastní pole projektu. Projekt je neplatný: %{errors}'
   notice_project_not_deleted: Projekt nebyl odstraněn.
   notice_project_not_found: Projekt nebyl nalezen.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5487,9 +5482,6 @@ cs:
   notice_successful_create: Úspěšně vytvořeno.
   notice_successful_delete: Úspěšné odstranění.
   notice_successful_update: Úspěšná aktualizace.
-  notice_successful_update_custom_fields_added_to_project: |
-    Úspěšná aktualizace. Vlastní pole aktivovaných typů jsou automaticky aktivována
-    na formuláři pracovního balíčku. <a href="%{url}" target="_blank">Viz více</a>.
   notice_to_many_principals_to_display: |-
     Je zde příliš mnoho výsledků.
     Narrow down hledání zadáním jména nového člena (nebo skupiny).
@@ -5874,7 +5866,6 @@ cs:
   permission_save_bcf_queries: Uložit dotazy BCF
   permission_save_queries: Uložit pohled
   permission_search_project: Hledat projekt
-  permission_select_custom_fields: Vybrat vlastní pole
   permission_select_project_custom_fields: Vyberte atributy projektu
   permission_select_project_modules: Vyberte moduly projektu
   permission_select_project_phases: Select project phases
@@ -7602,6 +7593,13 @@ cs:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        many: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

@@ -2878,10 +2878,6 @@ ro:
     plural: Acțiuni personalizate
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: Pentru toate proiectele
       hierarchy:
         subitems:
           one: 1 subelement
@@ -2905,7 +2901,7 @@ ro:
           short: Nume scurt
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -5315,7 +5311,6 @@ ro:
   notice_principals_found_single: |-
     Există un singur rezultat
      Tab pentru a-l concentra.
-  notice_project_cannot_update_custom_fields: 'Nu poți actualiza câmpurile particularizate disponibile ale proiectului. Proiectul este invalid: %{errors}'
   notice_project_not_deleted: Proiectul nu a fost şters.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5325,9 +5320,6 @@ ro:
   notice_successful_create: Creare reuşită.
   notice_successful_delete: Ştergere reuşită.
   notice_successful_update: Actualizare reușită.
-  notice_successful_update_custom_fields_added_to_project: |
-    Actualizare reușită. Câmpurile personalizate ale tipurilor activate sunt activate automat
-    în formularul Pachet de lucru. <a href="%{url}" target="_blank">Vezi mai multe</a>.
   notice_to_many_principals_to_display: Există prea multe rezultate. Restrânge căutarea prin tastarea numelui noului membru (sau grup).
   notice_unsuccessful_create: Creation failed.
   notice_unsuccessful_create_with_reason: 'Creation failed: %{reason}'
@@ -5706,7 +5698,6 @@ ro:
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Salvare vizualizări
   permission_search_project: Caută proiect
-  permission_select_custom_fields: Selectează câmpuri personalizate
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_modules: Selectare module proiect
   permission_select_project_phases: Selectează faze proiect
@@ -7414,6 +7405,12 @@ ro:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

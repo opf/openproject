@@ -2632,10 +2632,6 @@ vi:
     plural: Tác vụ tùy chỉnh
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Trường tùy chỉnh này được bật trong tất cả các dự án vì tùy chọn "Dành cho tất cả dự án" được chọn. Nó không thể bị vô hiệu hóa đối với các dự án riêng lẻ.
-          heading: Đối với tất cả các dự án
       hierarchy:
         subitems:
           one: 1 mục phụ
@@ -2659,7 +2655,7 @@ vi:
           short: Tên viết tắt
           weight: cân nặng
       notice:
-        remember_items_and_projects: Hãy nhớ đặt các mục và dự án trong các tab tương ứng cho trường tùy chỉnh này.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Bạn có thể tự động cấp một vai trò dự án nhất định cho bất kỳ người dùng nào được gán cho thuộc tính dự án này, bất kể vai trò ban đầu của người dùng đó trong dự án đó là gì.
         dialog:
@@ -4993,7 +4989,6 @@ vi:
   notice_password_confirmation_failed: Mật khẩu đã nhập không chính xác.
   notice_principals_found_multiple: "Có %{number} kết quả được tìm thấy. \n Tab để tập trung vào kết quả đầu tiên."
   notice_principals_found_single: "Có một kết quả. \n Tab để tập trung vào nó."
-  notice_project_cannot_update_custom_fields: 'Bạn không thể cập nhật các mục tùy chỉnh có sẵn của dự án. Dự án không hợp lệ: %{errors}'
   notice_project_not_deleted: Dự án không bị xóa.
   notice_project_not_found: Dự án không được tìm thấy.
   notice_requires_enterprise_token: Mã thông báo doanh nghiệp bị thiếu hoặc không cho phép truy cập vào trang này.
@@ -5003,9 +4998,6 @@ vi:
   notice_successful_create: Sáng tạo thành công.
   notice_successful_delete: Xóa thành công.
   notice_successful_update: Cập nhật thành công.
-  notice_successful_update_custom_fields_added_to_project: |
-    Cập nhật thành công. Các trường tùy chỉnh của các loại đã kích hoạt sẽ tự động được kích hoạt
-    trên biểu mẫu gói công việc. <a href="%{url}" target="_blank">Xem thêm</a>.
   notice_to_many_principals_to_display: |-
     Có quá nhiều kết quả.
     Thu hẹp tìm kiếm bằng cách nhập tên của thành viên (hoặc nhóm) mới.
@@ -5382,7 +5374,6 @@ vi:
   permission_save_bcf_queries: Lưu truy vấn BCF
   permission_save_queries: Lưu các chế độ xem
   permission_search_project: Tìm kiếm dự án
-  permission_select_custom_fields: Chọn trường tùy chỉnh
   permission_select_project_custom_fields: Chọn thuộc tính dự án
   permission_select_project_modules: Chọn mô-đun dự án
   permission_select_project_phases: Chọn giai đoạn dự án
@@ -7068,6 +7059,10 @@ vi:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

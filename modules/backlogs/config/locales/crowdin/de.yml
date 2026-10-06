@@ -359,7 +359,7 @@ de:
             label: Story points
           time:
             caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            label: Arbeitszeitschätzung
       backlog_sharing:
         options:
           no_sharing:

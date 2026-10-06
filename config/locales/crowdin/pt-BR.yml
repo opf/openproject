@@ -2755,10 +2755,6 @@ pt-BR:
     plural: Ações personalizadas
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Este campo personalizado está ativado em todos os projetos, pois a opção “Para todos os projetos” está selecionada. Não é possível desativá-lo para projetos individuais.
-          heading: Para todos os projetos
       hierarchy:
         subitems:
           one: 1 subitem
@@ -2782,7 +2778,7 @@ pt-BR:
           short: Nome abreviado
           weight: Peso
       notice:
-        remember_items_and_projects: Lembre-se de configurar itens e projetos nas respectivas abas para este campo personalizado.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Você pode conceder automaticamente uma função específica no projeto a qualquer usuário atribuído a este atributo, independentemente da função original desse usuário no projeto.
         dialog:
@@ -5148,7 +5144,6 @@ pt-BR:
     Existe(m) %{number} resultado(s) encontrado(s).
     Tecle tab para ir ao primeiro resultado.
   notice_principals_found_single: Existe um resultado. Tecle tab para ir para ele.
-  notice_project_cannot_update_custom_fields: 'Você não pode atualizar campos personalizados disponíveis do projeto. O projeto é inválido: %{errors}'
   notice_project_not_deleted: O projeto não foi excluído.
   notice_project_not_found: Projeto não encontrado.
   notice_requires_enterprise_token: O token Enterprise está ausente ou não permite acesso a esta página.
@@ -5158,9 +5153,6 @@ pt-BR:
   notice_successful_create: Criado com sucesso.
   notice_successful_delete: Exclusão bem sucedida.
   notice_successful_update: Atualizado com sucesso.
-  notice_successful_update_custom_fields_added_to_project: |
-    Atualização bem-sucedida. Os campos personalizados dos tipos ativados são ativados automaticamente
-    no formulário do pacote de trabalho. <a href="%{url}" target="_blank">Ver mais</a>.
   notice_to_many_principals_to_display: Existem muitos resultados. Reduza a busca, digitando o nome do novo membro (ou grupo).
   notice_unsuccessful_create: Falha na criação.
   notice_unsuccessful_create_with_reason: 'Falha na criação: %{reason}'
@@ -5539,7 +5531,6 @@ pt-BR:
   permission_save_bcf_queries: Salvar consultas a BCF
   permission_save_queries: Salvar visões
   permission_search_project: Buscar projeto
-  permission_select_custom_fields: Selecionar campos personalizados
   permission_select_project_custom_fields: Selecione os atributos do projeto
   permission_select_project_modules: Selecionar módulos do projeto
   permission_select_project_phases: Selecionar fases de projeto
@@ -7222,6 +7213,11 @@ pt-BR:
       remove_default_notice: "%{name} não está mais ativado em novos projetos."
       type_label: Tipo
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Marco
     patterns:
       formats:

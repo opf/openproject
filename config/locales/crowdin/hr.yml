@@ -2878,10 +2878,6 @@ hr:
     plural: Custom actions
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: Za sve projekte
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2905,7 +2901,7 @@ hr:
           short: Short name
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -5309,7 +5305,6 @@ hr:
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
-  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available custom fields. The project is invalid: %{errors}'
   notice_project_not_deleted: Projekt nije izbrisan.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5319,9 +5314,6 @@ hr:
   notice_successful_create: Uspješno kreirano.
   notice_successful_delete: Brisanje uspješno.
   notice_successful_update: Ažuriranje je uspješno završeno.
-  notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: |-
     Prikazano je previše rezultata.
     Sužite rezultate pretrage na način da unesete ime novog člana (ili grupe).
@@ -5704,7 +5696,6 @@ hr:
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Save views
   permission_search_project: Search project
-  permission_select_custom_fields: Select custom fields
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_modules: Odaberi module projekta
   permission_select_project_phases: Select project phases
@@ -7414,6 +7405,12 @@ hr:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

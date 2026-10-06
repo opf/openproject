@@ -2634,10 +2634,6 @@ ja:
     plural: カスタムアクション
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: "「すべてのプロジェクトで」オプションがチェックされているため、このカスタムフィールドはすべてのプロジェクトで有効になります。個々のプロジェクトでは無効にすることはできません。"
-          heading: 全プロジェクト向け
       hierarchy:
         subitems:
           one: 1 個の子項目があります
@@ -2661,7 +2657,7 @@ ja:
           short: ショートネーム
           weight: Weight
       notice:
-        remember_items_and_projects: このカスタムフィールドの各タブに項目とプロジェクトを設定することを忘れないでください。
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -4985,7 +4981,6 @@ ja:
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "%{number} の検索結果があります。 \n タブで最初の結果へフォーカスします。"
   notice_principals_found_single: "1 つの結果があります。 \n タブでフォーカスします。"
-  notice_project_cannot_update_custom_fields: 'プロジェクトの有効なカスタムフィールドを更新できません。プロジェクトは無効です: %{errors}'
   notice_project_not_deleted: プロジェクトを削除していません。
   notice_project_not_found: プロジェクトが見つかりません。
   notice_requires_enterprise_token: エンタープライズトークンが見つからないか、このページへのアクセスを許可していません。
@@ -4995,9 +4990,6 @@ ja:
   notice_successful_create: 正常に作成しました。
   notice_successful_delete: 正常に削除しました。
   notice_successful_update: 正常に更新しました。
-  notice_successful_update_custom_fields_added_to_project: |
-    更新に成功しました。有効化されたタイプのカスタムフィールドは、ワークパッケージフォームで
-    自動的に有効化されます。 <a href="%{url}" target="_blank">詳細は</a> を参照してください。
   notice_to_many_principals_to_display: 検索結果が多すぎです。新たにメンバー名（またはグループ名）を入力して検索を絞り込んでください。
   notice_unsuccessful_create: 作成に失敗しました
   notice_unsuccessful_create_with_reason: 作成失敗： %{reason}
@@ -5374,7 +5366,6 @@ ja:
   permission_save_bcf_queries: BCF クエリを保存
   permission_save_queries: ビューを保存
   permission_search_project: プロジェクトを検索
-  permission_select_custom_fields: カスタムフィールドの選択
   permission_select_project_custom_fields: プロジェクト属性の選択
   permission_select_project_modules: プロジェクトでモジュールの選択
   permission_select_project_phases: プロジェクトフェーズの選択
@@ -7057,6 +7048,10 @@ ja:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

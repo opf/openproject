@@ -2753,10 +2753,6 @@ fa:
     plural: اقدامات سفارشی
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: این فیلد سفارشی در همه پروژه‌ها فعال است، زیرا گزینه «برای همه پروژه‌ها» انتخاب شده است. نمی‌توان آن را برای پروژه‌ای به‌صورت جداگانه غیرفعال کرد.
-          heading: برای همه پروژه‌ها
       hierarchy:
         subitems:
           one: ۱ زیرمورد
@@ -2780,7 +2776,7 @@ fa:
           short: نام کوتاه
           weight: وزن
       notice:
-        remember_items_and_projects: به یاد داشته باشید موارد و پروژه‌ها را در تب‌های مربوط به این فیلد سفارشی تنظیم کنید.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: می‌توانید صرف‌نظر از نقش اصلی کاربر در پروژه، یک نقش پروژه مشخص را به‌طور خودکار به هر کاربری که به این ویژگی پروژه تخصیص داده شده اعطا کنید.
         dialog:
@@ -5141,7 +5137,6 @@ fa:
   notice_password_confirmation_failed: گذرواژه واردشده صحیح نیست.
   notice_principals_found_multiple: "%{number} نتیجه یافت شد. \n برای تمرکز روی اولین نتیجه Tab را فشار دهید."
   notice_principals_found_single: "یک نتیجه یافت شد. \n برای تمرکز روی آن Tab را فشار دهید."
-  notice_project_cannot_update_custom_fields: 'نمی‌توانید فیلدهای سفارشی موجود پروژه را به‌روزرسانی کنید. پروژه نامعتبر است: %{errors}'
   notice_project_not_deleted: پروژه حذف نشد.
   notice_project_not_found: پروژه یافت نشد.
   notice_requires_enterprise_token: توکن Enterprise وجود ندارد یا اجازه دسترسی به این صفحه را نمی‌دهد.
@@ -5151,9 +5146,6 @@ fa:
   notice_successful_create: ایجاد با موفقیت انجام شد.
   notice_successful_delete: حذف با موفقیت انجام شد.
   notice_successful_update: به‌روزرسانی با موفقیت انجام شد.
-  notice_successful_update_custom_fields_added_to_project: |
-    به‌روزرسانی با موفقیت انجام شد. فیلدهای سفارشی نوع‌های فعال‌شده به‌طور خودکار
-    در فرم بسته کاری فعال می‌شوند. <a href="%{url}" target="_blank">اطلاعات بیشتر</a>.
   notice_to_many_principals_to_display: |-
     تعداد نتایج بسیار زیاد است.
     با تایپ نام عضو جدید (یا گروه) جستجو را محدود کنید.
@@ -5534,7 +5526,6 @@ fa:
   permission_save_bcf_queries: ذخیره Queryهای BCF
   permission_save_queries: ذخیره نماها
   permission_search_project: جستجوی پروژه
-  permission_select_custom_fields: انتخاب فیلدهای سفارشی
   permission_select_project_custom_fields: انتخاب ویژگی‌های پروژه
   permission_select_project_modules: انتخاب ماژول‌های پروژه
   permission_select_project_phases: انتخاب مرحله‌های پروژه
@@ -7234,6 +7225,11 @@ fa:
       remove_default_notice: "%{name} دیگر در پروژه‌های جدید فعال نیست."
       type_label: نوع
       variant_label: گونه
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: نقطه عطف
     patterns:
       formats:

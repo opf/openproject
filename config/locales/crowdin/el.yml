@@ -2755,10 +2755,6 @@ el:
     plural: Προσαρμοσμένες ενέργειες
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: Για όλα τα έργα
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2782,7 +2778,7 @@ el:
           short: Short name
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -5146,7 +5142,6 @@ el:
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "Βρέθηκαν %{number} αποτελέσματα. \n Πατήστε Tab για να εστιάσετε στο πρώτο αποτέλεσμα."
   notice_principals_found_single: "Υπάρχει ένα αποτέλεσμα. \n Πατήστε Tab για να εστιάσετε σε αυτό."
-  notice_project_cannot_update_custom_fields: 'Δεν μπορείτε να ενημερώσετε τα διαθέσιμα προσαρμοσμένα πεδία του έργου. Το έργο δεν είναι έγκυρο: %{errors}'
   notice_project_not_deleted: Το έργο δεν διαγράφηκε.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5156,9 +5151,6 @@ el:
   notice_successful_create: Επιτυχής δημιουργία.
   notice_successful_delete: Επιτυχής διαγραφή.
   notice_successful_update: Επιτυχής ενημέρωση.
-  notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: |-
     Υπάρχουν πάρα πολλά αποτελέσματα.
     Περιορίστε την αναζήτηση πληκτρολογώντας το όνομα του νέου μέλους (ή ομάδας).
@@ -5539,7 +5531,6 @@ el:
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Αποθήκευση προβολών
   permission_search_project: Search project
-  permission_select_custom_fields: Select custom fields
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_modules: Επιλογή ενοτήτων έργου
   permission_select_project_phases: Select project phases
@@ -7235,6 +7226,11 @@ el:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:
