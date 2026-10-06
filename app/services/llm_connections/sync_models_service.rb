@@ -53,20 +53,20 @@ module LlmConnections
 
       ServiceResult.success(result: connection)
     rescue Llm::Client::Error => e
-      failed("failed: #{e.class} #{e.message}", e.message)
+      failed(e, "failed: #{e.class} #{e.message}", e.message)
     rescue ActiveRecord::ActiveRecordError => e
       # Two syncs racing find_or_initialize_by can hit a uniqueness violation.
-      failed("could not be stored: #{e.class}", e.class.to_s)
+      failed(e, "could not be stored: #{e.class}", e.class.to_s)
     end
 
     private
 
     attr_reader :connection
 
-    def failed(reason, errors)
+    def failed(error, reason, errors)
       Rails.logger.info { "LLM model sync for #{connection.base_url} #{reason}" }
 
-      ServiceResult.failure(errors:)
+      ServiceResult.failure(errors:, result: error)
     end
 
     def adapter
