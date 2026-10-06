@@ -71,7 +71,7 @@ module Llm
       end
 
       def default_chat_model
-        check_default(:default_chat_model, subject.default_chat_model_id)
+        check_default(:default_chat_model, subject.default_chat_model)
       end
 
       # Only meaningful once something wants embeddings; otherwise an unset
@@ -79,14 +79,14 @@ module Llm
       def default_embedding_model
         return pass_check(:default_embedding_model) if OpenProject::Llm::Features.for_kind(:embedding).empty?
 
-        check_default(:default_embedding_model, subject.default_embedding_model_id)
+        check_default(:default_embedding_model, subject.default_embedding_model)
       end
 
-      def check_default(key, model_id)
-        if model_id.blank?
+      def check_default(key, llm_model)
+        if llm_model.nil?
           warn_check(key, :default_model_unset)
-        elsif subject.available_model_ids.exclude?(model_id)
-          warn_check(key, :default_model_missing, context: { model: model_id })
+        elsif subject.available_model_ids.exclude?(llm_model.external_id)
+          warn_check(key, :default_model_missing, context: { model: llm_model.external_id })
         else
           pass_check(key)
         end

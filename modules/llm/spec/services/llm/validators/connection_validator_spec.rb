@@ -224,6 +224,44 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
       expect(result.code).to eq(:catalogue_stale)
       expect(result.context[:fetched_at]).to eq(I18n.l(synced_at.to_date))
     end
+
+    it "passes a default chat model the server offers" do
+      connection.update!(default_chat_model: connection.models.find_by!(external_id: "qwen3.6-27b"))
+
+      expect(result_for(:models, :default_chat_model).state).to eq(:success)
+    end
+
+    it "names a default chat model the server no longer offers" do
+      default = connection.models.find_by!(external_id: "qwen3.6-27b")
+      connection.update!(default_chat_model: default)
+      default.update!(active: false)
+
+      result = result_for(:models, :default_chat_model)
+
+      expect(result.state).to eq(:warning)
+      expect(result.code).to eq(:default_model_missing)
+      expect(result.context[:model]).to eq("qwen3.6-27b")
+    end
+
+    context "with an embedding feature available", with_flag: { llm_connection: true, semantic_search: true } do
+      it "passes a default embedding model the server offers" do
+        connection.update!(default_embedding_model: connection.models.find_by!(external_id: "bge-m3"))
+
+        expect(result_for(:models, :default_embedding_model).state).to eq(:success)
+      end
+
+      it "names a default embedding model the server no longer offers" do
+        default = connection.models.find_by!(external_id: "bge-m3")
+        connection.update!(default_embedding_model: default)
+        default.update!(active: false)
+
+        result = result_for(:models, :default_embedding_model)
+
+        expect(result.state).to eq(:warning)
+        expect(result.code).to eq(:default_model_missing)
+        expect(result.context[:model]).to eq("bge-m3")
+      end
+    end
   end
 
   describe "the features group" do
