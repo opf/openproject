@@ -79,8 +79,12 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_css(".op-forum-post-stem + #message-#{message.id}")
     end
 
-    it "links its subject to its anchor" do
-      expect(rendered_component).to have_link("RE: Release planning", href: /#message-#{message.id}\z/)
+    it "leaves out its subject, which only repeats the topic's" do
+      expect(rendered_component).to have_no_text("RE: Release planning")
+    end
+
+    it "links its timestamp to its anchor" do
+      expect(rendered_component).to have_link(href: /#message-#{message.id}\z/)
     end
 
     it "offers copying a link and quoting", :aggregate_failures do

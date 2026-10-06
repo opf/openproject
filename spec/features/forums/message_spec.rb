@@ -122,8 +122,7 @@ RSpec.describe "messages", :js, :selenium do
       show_page.expect_current_path(message)
       show_page.expect_num_replies(1)
 
-      show_page.expect_reply(subject: "RE: The message is",
-                             content: "But, but there should be one")
+      show_page.expect_reply(content: "But, but there should be one")
 
       message
     end
@@ -150,21 +149,17 @@ RSpec.describe "messages", :js, :selenium do
 
     show_page.visit!
     quote = show_page.quote(quoted_message: reply,
-                            subject: "And now to something completely different",
                             content: "No, there really isn't\n\n")
 
     show_page.expect_current_path(quote)
 
     show_page.expect_num_replies(2)
-    show_page.expect_reply(reply: quote,
-                           subject: "And now to something completely different",
-                           content: "No, there really isn't")
+    show_page.expect_reply(reply: quote, content: "No, there really isn't")
 
     expect(page).to have_css("blockquote", text: "But, but there should be one")
 
     # Quoting the first message
-    show_page.quote(subject: "Also quoting the first message",
-                    content: "Should also work")
+    show_page.quote(content: "Should also work")
 
     show_page.expect_num_replies(3)
 
@@ -172,6 +167,6 @@ RSpec.describe "messages", :js, :selenium do
     click_link forum.name
     index_page.expect_listed(subject: "The message is",
                              replies: 3,
-                             last_message: "Also quoting the first message")
+                             last_message: "RE: The message is")
   end
 end

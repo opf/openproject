@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
                .page(@offset)
                .per_page(per_page_param)
 
-    @reply = Message.new(subject: "RE: #{@message.subject}", parent: @topic, forum: @topic.forum)
+    @reply = Message.new(parent: @topic, forum: @topic.forum)
     render action: "show", layout: !request.xhr?
   end
 
@@ -141,12 +141,10 @@ class MessagesController < ApplicationController
   end
 
   def quote
-    subject = @message.subject
-    subject = "RE: #{subject}" unless subject.starts_with?("RE:")
     content = build_quote(author: @message.author, text: @message.content)
 
     respond_to do |format|
-      format.json { render json: { subject:, content: }, escape: true }
+      format.json { render json: { content: }, escape: true }
       format.any { head :not_acceptable }
     end
   end
@@ -181,7 +179,7 @@ class MessagesController < ApplicationController
   end
 
   def create_reply(forum, parent)
-    create_message(forum, permitted_params.reply.merge(parent:))
+    create_message(forum, permitted_params.reply.merge(parent:, subject: "RE: #{parent.subject}".truncate(255)))
   end
 
   def build_quote(author:, text:)

@@ -66,7 +66,7 @@ module Pages::Messages
       Message.last
     end
 
-    def quote(content:, quoted_message: nil, subject: nil)
+    def quote(content:, quoted_message: nil)
       if quoted_message
         within_test_selector("forum-post-#{quoted_message.id}") do
           click_on accessible_name: "Message actions"
@@ -81,17 +81,10 @@ module Pages::Messages
 
       sleep 1
 
-      scroll_to_element find("#reply .ck-content")
-      fill_in "reply_subject", with: subject if subject
-
       editor = find("#reply .ck-content")
       editor.base.send_keys content
 
-      # For some reason, capybara will click on
-      # the button to add another attachment when being told to click on "Submit".
-      # Therefor, submitting by enter key.
-      subject_field = find_by_id("reply_subject")
-      subject_field.native.send_keys(:return)
+      click_button "Reply"
 
       text = (quoted_message || Message.first).content
       expect(page).to have_css("[data-test-selector^='forum-post-'] blockquote", text:)
@@ -99,11 +92,10 @@ module Pages::Messages
       Message.last
     end
 
-    def expect_reply(subject:, content:, reply: nil)
+    def expect_reply(content:, reply: nil)
       card = reply ? find_test_selector("forum-post-#{reply.id}") : all("[data-test-selector^='forum-post-']").last
 
       within(card) do
-        expect(page).to have_text(subject)
         expect(page).to have_text(content)
       end
     end
