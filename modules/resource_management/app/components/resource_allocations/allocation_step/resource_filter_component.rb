@@ -39,9 +39,7 @@ module ResourceAllocations
         component_wrapper do
           next if placeholder_user.nil?
 
-          render(Primer::Box.new(mt: 2)) do
-            safe_join([staffed_from_text, criteria_label, criteria_text].compact)
-          end
+          safe_join([staffed_from_text, criteria_label, criteria_text].compact)
         end
       end
 

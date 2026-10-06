@@ -41,7 +41,7 @@ module ResourceAllocations
       def call
         component_wrapper do
           if @allocation.principal.is_a?(DeletedUser)
-            render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mt: 2,
+            render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert,
                                              test_selector: "op-resource-allocation-assignee-deleted")) do
               I18n.t("resource_management.allocate_resource_dialog.deleted_assignee")
             end

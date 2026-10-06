@@ -55,8 +55,11 @@ module ResourceAllocations
         )
 
         f.html_content do
-          render(ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation: model)) +
-            render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
+          render(ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation: model))
+        end
+
+        f.html_content do
+          render(ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation: model))
         end
       end
 
