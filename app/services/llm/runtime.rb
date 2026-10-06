@@ -138,9 +138,7 @@ module Llm
     end
 
     def connection_default
-      default = feature.embedding? ? connection.default_embedding_model : connection.default_chat_model
-
-      default&.external_id
+      connection.default_model_for(feature)&.external_id
     end
 
     # Only a definite :unsupported blocks. An :unknown verdict -- which is the

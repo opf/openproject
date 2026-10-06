@@ -54,8 +54,8 @@ module LlmConnections
     end
 
     def inherit_label
-      if default_model_id.present?
-        I18n.t("admin.llm_feature_bindings.inherit_with_default", model: default_model_id)
+      if default_model
+        I18n.t("admin.llm_feature_bindings.inherit_with_default", model: default_model.name)
       else
         I18n.t("admin.llm_feature_bindings.inherit_without_default")
       end
@@ -87,8 +87,8 @@ module LlmConnections
 
     attr_reader :feature, :connection, :binding
 
-    def default_model_id
-      feature.embedding? ? connection.default_embedding_model_id : connection.default_chat_model_id
+    def default_model
+      connection.default_model_for(feature)
     end
 
     def form_url
