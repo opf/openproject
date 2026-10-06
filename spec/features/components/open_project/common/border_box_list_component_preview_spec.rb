@@ -133,4 +133,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, :component_pr
     expect(page).to have_text("Add item")
     expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
   end
+
+  describe "accessibility", :selenium do
+    described_class.examples.each do |example|
+      it "passes axe-core accessibility tests for the #{example} preview" do
+        visit_preview(example, from: described_class)
+
+        expect(page).to be_axe_clean.within ".viewcomponent-preview--content"
+      end
+    end
+  end
 end
