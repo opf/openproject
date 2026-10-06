@@ -75,4 +75,27 @@ RSpec.describe LlmFeatureBinding do
       expect(binding.errors.details[:llm_connection]).to include(error: :blank)
     end
   end
+
+  describe "inheriting the connection default" do
+    let(:connection) do
+      create(:llm_connection, :with_models,
+             default_chat_model_identifier: "qwen3.6-27b",
+             default_embedding_model_identifier: "bge-m3")
+    end
+
+    it "resolves to the identifier the server knows the default model by" do
+      binding = bind(nil).tap(&:save!)
+
+      expect(binding.resolved_model_id).to eq("qwen3.6-27b")
+      expect(binding).not_to be_dangling
+    end
+
+    it "writes that identifier down when the binding is locked" do
+      binding = connection.feature_bindings.create!(feature_key: "semantic_search")
+
+      binding.update!(locked_at: Time.current)
+
+      expect(binding.reload.model_id).to eq("bge-m3")
+    end
+  end
 end

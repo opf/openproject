@@ -139,6 +139,8 @@ class LlmConnection < ApplicationRecord
 
   def chat_model_ids = available_model_ids - embedding_model_ids
 
+  def default_model_for(feature) = feature.embedding? ? default_embedding_model : default_chat_model
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end
