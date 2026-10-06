@@ -77,7 +77,7 @@ module Meetings::PDF::Minutes::Agenda
   end
 
   def write_agenda_items(section, section_index)
-    section.agenda_items.each_with_index do |item, index|
+    section.ordered_agenda_items.each_with_index do |item, index|
       write_optional_page_break
       with_vertical_margin(styles.agenda_item_margins) do
         write_agenda_item(item, section_index, index)

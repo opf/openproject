@@ -64,6 +64,19 @@ $meeting-agenda-item--presenter-width--mobile: 150px
     .custom-presenter-flex
       margin-left: 0
 
+.op-meeting-agenda-item-vote-score
+  min-height: 28px
+
+  @media (hover: hover) and (pointer: fine)
+    &--actions
+      opacity: 0
+      pointer-events: none
+
+    &:hover &--actions,
+    &:focus-within &--actions
+      opacity: 1
+      pointer-events: auto
+
 // Highlight agenda item when linked to it
 .op-meeting-agenda-item-wrapper
   &:target

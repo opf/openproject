@@ -47,6 +47,7 @@ module OpenProject::Meeting
                                   presentation generate_pdf_dialog history project_items],
                      "meetings/filters": %i[show],
                      "meetings/menus": %i[show],
+                     meeting_agenda_item_votes: %i[create],
                      work_package_meetings_tab: %i[index count],
                      recurring_meetings: %i[index show new create download_ics]
                    },
@@ -67,7 +68,8 @@ module OpenProject::Meeting
         permission :edit_meetings,
                    {
                      meetings: %i[edit cancel_edit update update_title change_state change_sharing toggle_notifications_dialog
-                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode],
+                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode
+                                  agenda_sorting_dialog update_agenda_sorting],
                      recurring_meetings: %i[edit cancel_edit update update_title details_dialog update_details
                                             notify end_series end_series_dialog],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting refresh_form],

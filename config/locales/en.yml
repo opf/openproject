@@ -178,6 +178,7 @@ en:
         uid: "Client ID"
       emoji_reaction:
         reactable: "Reacted on"
+        reaction: "Reaction"
       enterprise_token:
         active_user_count_restriction: "Active users"
         encoded_token: "Enterprise support token"

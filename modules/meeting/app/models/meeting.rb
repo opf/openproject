@@ -157,6 +157,8 @@ class Meeting < ApplicationRecord
     system: "system"
   }, prefix: :sharing, validate: { allow_nil: true }
 
+  enum :agenda_sorting_mode, { manual: 0, vote_based: 1 }, prefix: :agenda_sorting, validate: true
+
   # Debounce meeting emails by one minute
   # this is currently hard coded
   def self.journal_aggregation_time_minutes
@@ -199,12 +201,24 @@ class Meeting < ApplicationRecord
               .pick(
                 Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.updated_at END)"),
                 Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_sections.updated_at END)"),
-                Arel.sql("MAX(meeting_outcomes.updated_at)")
+                Arel.sql("MAX(meeting_outcomes.updated_at)"),
+                Arel.sql("MAX(CASE WHEN meeting_sections.backlog = FALSE THEN meeting_agenda_items.reactions_changed_at END)")
               )
 
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)
+  end
+
+  def ordered_agenda_items
+    items = agenda_items.joins(:meeting_section).where(meeting_sections: { backlog: false })
+    items = items.with_vote_score if agenda_sorting_vote_based?
+
+    ordering = ["meeting_sections.position ASC"]
+    ordering << "vote_score DESC" if agenda_sorting_vote_based?
+    ordering.push("meeting_agenda_items.position ASC", "meeting_agenda_items.id ASC")
+
+    items.reorder(Arel.sql(ordering.join(", ")))
   end
 
   def start_month

@@ -39,8 +39,7 @@ module API
 
           def agenda_items(meeting)
             # backlog: false is to not have duplicates for one-time meetings
-            items = agenda_item_includes(meeting.agenda_items.joins(:meeting_section)
-                                                .where(meeting_sections: { backlog: false })).to_a
+            items = agenda_item_includes(meeting.ordered_agenda_items).to_a
 
             if meeting.backlog.present?
               items + agenda_item_includes(meeting.backlog.agenda_items).to_a

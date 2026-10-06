@@ -42,7 +42,7 @@ module MeetingSections
 
       @meeting = meeting_section.meeting
       @meeting_section = meeting_section
-      @meeting_agenda_items = meeting_section.agenda_items
+      @meeting_agenda_items = meeting_section.ordered_agenda_items.includes(:emoji_reactions)
       @first_and_last = first_and_last
       @form_hidden = form_hidden
       @form_type = form_type
@@ -90,6 +90,8 @@ module MeetingSections
     end
 
     def drag_and_drop_target_config
+      return {} if @meeting.agenda_sorting_vote_based? && !@meeting_section.backlog?
+
       {
         meetings__drag_and_drop_target: "container",
         "target-container-accessor": ".Box > ul", # the accessor of the container that contains the drag and drop items

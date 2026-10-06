@@ -61,7 +61,7 @@ module MeetingAgendaItems
     end
 
     def drag_and_drop_enabled?
-      return false if presentation_mode?
+      return false if presentation_mode? || @meeting_agenda_item.vote_based_ordering?
 
       !@meeting.closed? && User.current.allowed_in_project?(:manage_agendas, @meeting.project)
     end
@@ -131,6 +131,33 @@ module MeetingAgendaItems
                      } }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
+    end
+
+    def vote_action_items(menu)
+      return unless voting_enabled?
+
+      MeetingAgendaItem.allowed_emoji_reactions.each do |reaction|
+        menu.with_item(
+          label: "#{EmojiReaction.emoji(reaction)} #{vote_label(reaction)}",
+          href: project_meeting_agenda_item_vote_path(@meeting.project, @meeting, @meeting_agenda_item, reaction:),
+          form_arguments: { method: :post },
+          test_selector: "agenda-item-vote-#{reaction}"
+        )
+      end
+    end
+
+    def voting_enabled?
+      @meeting_agenda_item.votable? && !presentation_mode?
+    end
+
+    def vote_selected?(reaction)
+      @current_vote = @meeting_agenda_item.vote_by(User.current) unless defined?(@current_vote)
+      @current_vote == reaction
+    end
+
+    def vote_label(reaction)
+      label_key = vote_selected?(reaction) ? "remove_#{reaction}" : reaction
+      t("meeting.agenda_sorting.#{label_key}")
     end
 
     def convert_to_work_package_action_item(menu)
@@ -309,6 +336,8 @@ module MeetingAgendaItems
     end
 
     def move_actions(menu)
+      return if @meeting_agenda_item.vote_based_ordering?
+
       return unless editable?
 
       move_action_item(menu, :highest, t("label_agenda_item_move_to_top"), "move-to-top") unless first?

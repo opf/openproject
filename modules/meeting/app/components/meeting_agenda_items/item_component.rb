@@ -98,13 +98,22 @@ module MeetingAgendaItems
         classes: "op-meeting-agenda-item-wrapper",
         data: {
           id: @meeting_agenda_item.id,
-          "draggable-id": @meeting_agenda_item.id,
-          "draggable-type": "agenda-item",
-          "drop-url": drop_project_meeting_agenda_item_path(@meeting_agenda_item.meeting.project,
-                                                            @meeting_agenda_item.meeting,
-                                                            @meeting_agenda_item,
-                                                            current_occurrence: @current_occurrence)
-        }
+        }.merge(draggable_arguments)
+      }
+    end
+
+    def draggable_arguments
+      return {} if @meeting_agenda_item.vote_based_ordering?
+
+      {
+        "draggable-id": @meeting_agenda_item.id,
+        "draggable-type": "agenda-item",
+        "drop-url": drop_project_meeting_agenda_item_path(
+          @meeting_agenda_item.meeting.project,
+          @meeting_agenda_item.meeting,
+          @meeting_agenda_item,
+          current_occurrence: @current_occurrence
+        )
       }
     end
   end
