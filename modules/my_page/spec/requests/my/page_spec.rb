@@ -102,6 +102,20 @@ RSpec.describe "My page", type: :rails_request do
       expect(response.body).not_to include("opce-my-page")
     end
 
+    context "on the Inbox tab" do
+      let(:path) { my_page_path(tab: :inbox) }
+
+      before { work_package.update_columns(due_date: nil, start_date: nil) }
+
+      it "shows the backlog" do
+        subject
+
+        expect(page).to have_test_selector("my-day-inbox")
+        expect(page).to have_test_selector("my-day-inbox-task", text: "Book train to the offsite")
+        expect(page).to have_css("##{MyDay::InboxCounter::ID}", text: "1")
+      end
+    end
+
     context "on the dashboard tab" do
       let(:path) { my_page_path(tab: :dashboard) }
 

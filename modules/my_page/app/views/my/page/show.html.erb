@@ -7,11 +7,19 @@
 
     if my_day
       header.with_tab_nav(label: t("my_page.label"), test_selector: "my-page-tabs") do |tab_nav|
-        tab_nav.with_tab(selected: today.present?, href: my_page_path) do |tab|
-          tab.with_text { t("my_day.today") }
+        tab_nav.with_tab(selected: tab == "today", href: my_page_path) do |item|
+          item.with_text { t("my_day.today") }
         end
-        tab_nav.with_tab(selected: today.nil?, href: my_page_path(tab: :dashboard)) do |tab|
-          tab.with_text { t("my_day.dashboard") }
+        tab_nav.with_tab(selected: tab == "inbox", href: my_page_path(tab: :inbox)) do |item|
+          item.with_text { t("my_day.inbox.title") }
+          item.with_counter(
+            count: MyDay::Inbox.for(current_user)&.count.to_i,
+            hide_if_zero: true,
+            id: MyDay::InboxCounter::ID
+          )
+        end
+        tab_nav.with_tab(selected: tab == "dashboard", href: my_page_path(tab: :dashboard)) do |item|
+          item.with_text { t("my_day.dashboard") }
         end
       end
     end
@@ -20,6 +28,8 @@
 
 <% if today %>
   <%= render(MyDay::TodayComponent.new(today:)) %>
+<% elsif inbox %>
+  <%= render(MyDay::InboxComponent.new(inbox:)) %>
 <% else %>
   <%= angular_component_tag "opce-my-page" %>
 <% end %>

@@ -34,15 +34,15 @@ module My
 
     before_action :require_login
     before_action :require_my_day
-    before_action :find_task, only: :update
-    no_authorization_required! :create, :update, :create_from_work_package
+    before_action :find_task, only: %i[update plan]
+    no_authorization_required! :create, :update, :plan, :create_from_work_package
 
     def create
       call = MyDay::CreateTaskService
                .new(user: current_user)
                .call(subject: task_params[:subject], day_part: task_params[:day_part])
 
-      respond_with_today(call)
+      respond_with_view(call)
     end
 
     def update
@@ -50,7 +50,13 @@ module My
                .new(user: current_user, work_package: @task)
                .call(done: ActiveModel::Type::Boolean.new.cast(params[:done]))
 
-      respond_with_today(call)
+      respond_with_view(call)
+    end
+
+    def plan
+      call = MyDay::PlanTaskService.new(user: current_user, work_package: @task).call(to: params[:to])
+
+      respond_with_view(call)
     end
 
     def create_from_work_package
@@ -85,9 +91,9 @@ module My
       params.expect(task: %i[subject day_part])
     end
 
-    def respond_with_today(call)
+    def respond_with_view(call)
       if call.success?
-        replace_via_turbo_stream(component: MyDay::TodayComponent.new(today: MyDay::Today.for(current_user)))
+        refresh_view_via_turbo_stream
       else
         render_error_flash_message_via_turbo_stream(message: call.message)
       end
@@ -95,8 +101,22 @@ module My
       respond_with_turbo_streams(status: call) do |format|
         format.html do
           flash[:error] = call.message if call.failure?
-          redirect_to my_page_path, status: :see_other
+          redirect_to my_page_path(tab: params[:view]), status: :see_other
         end
+      end
+    end
+
+    def refresh_view_via_turbo_stream
+      replace_via_turbo_stream(component: current_view_component)
+      turbo_streams << turbo_stream.replace(MyDay::InboxCounter::ID,
+                                            MyDay::InboxCounter.new(user: current_user).render_in(view_context))
+    end
+
+    def current_view_component
+      if params[:view] == "inbox"
+        MyDay::InboxComponent.new(inbox: MyDay::Inbox.for(current_user))
+      else
+        MyDay::TodayComponent.new(today: MyDay::Today.for(current_user))
       end
     end
   end

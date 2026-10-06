@@ -39,7 +39,7 @@ module My
     def show
       respond_to do |format|
         format.html do
-          render locals: { menu_name: :global_menu, my_day: my_day?, today: }
+          render locals: { menu_name: :global_menu, my_day: my_day?, tab: current_tab, today:, inbox: }
         end
       end
     end
@@ -48,10 +48,18 @@ module My
 
     def my_day? = OpenProject::FeatureDecisions.my_day_active?
 
-    def today
-      return if !my_day? || params[:tab] == "dashboard"
+    def current_tab
+      return "dashboard" unless my_day?
 
-      MyDay::Today.for(current_user)
+      %w[inbox dashboard].include?(params[:tab]) ? params[:tab] : "today"
+    end
+
+    def today
+      MyDay::Today.for(current_user) if current_tab == "today"
+    end
+
+    def inbox
+      MyDay::Inbox.for(current_user) if current_tab == "inbox"
     end
   end
 end
