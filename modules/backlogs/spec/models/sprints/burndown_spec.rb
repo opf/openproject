@@ -189,11 +189,56 @@ RSpec.describe Sprints::Burndown do
       end
     end
 
+    context "when the sprint was completed before its planned finish date" do
+      let(:completed_at) { at_hour(first_thursday, 17) }
+
+      it "stops where the sprint did, short of zero" do
+        expect(burndown.guideline.last.at).to eq completed_at
+        expect(burndown.guideline.last.value).to be > 0.0
+      end
+
+      # Sampling only day ends would leave it hanging at the previous midnight, visibly short of
+      # the Remaining series it is read against.
+      it "meets the close partway through that day rather than at the midnight before it" do
+        expect(burndown.guideline.last.value)
+          .to be < day_end_values(burndown.guideline, [first_wednesday])[first_wednesday]
+      end
+
+      context "when the sprint was stopped on a non-working day" do
+        let(:completed_at) { at_hour(saturday, 11) }
+
+        it "arrives flat, that day carrying no decline to spend" do
+          expect(burndown.guideline.last.at).to eq completed_at
+          expect(burndown.guideline.last.value)
+            .to eq day_end_values(burndown.guideline, [first_friday])[first_friday]
+        end
+      end
+
+      # Spending the shares over the shortened range instead would steepen the line and read as
+      # though the sprint had always been planned to end on the day it did.
+      it "declines at the pace the whole plan set, not at one that would have landed on zero" do
+        expect(day_end_values(burndown.guideline, [first_monday, first_tuesday])
+                 .transform_values { it.round(3) })
+          .to eq(first_monday => 9.351, first_tuesday => 8.312)
+      end
+    end
+
     context "with a sprint spanning a single working day" do
       let(:finish_date) { first_monday }
 
       it "spends everything on that day" do
         expect(burndown.guideline.map(&:value)).to eq [10.0, 0.0]
+      end
+    end
+
+    # The plan buys no capacity on a day nobody works, so the whole value has to be spent by the
+    # Friday; the tail is the line already at zero rather than still arriving there.
+    context "when the sprint is planned to finish on a non-working day" do
+      let(:finish_date) { saturday }
+
+      it "lands on zero on the last working day and runs flat to the planned finish" do
+        expect(day_end_values(burndown.guideline, [first_friday, saturday]).values).to all(eq 0.0)
+        expect(burndown.guideline.last.at).to eq saturday.in_time_zone.end_of_day
       end
     end
 
@@ -301,6 +346,14 @@ RSpec.describe Sprints::Burndown do
 
       it "extends past the planned finish date" do
         expect(burndown.non_working_intervals.last).to eq next_saturday..next_sunday
+      end
+    end
+
+    context "when the sprint was completed before the weekend it was planned across" do
+      let(:completed_at) { at_hour(first_thursday, 17) }
+
+      it "paints no band past where the chart closes" do
+        expect(burndown.non_working_intervals).to be_empty
       end
     end
   end

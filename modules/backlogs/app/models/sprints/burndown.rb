@@ -34,7 +34,8 @@
 # - +remaining+ -- the story points still open, summed from the work package journals at every
 #   tick between the sprint's start and now.
 # - +guideline+ -- the constant reduction the sprint was planned with, declining from what was
-#   open at the start to zero on the planned finish date. Time passing does not move it.
+#   open at the start to zero on the planned finish date. Time passing does not move it, and a
+#   sprint that finished early leaves it stopped above zero rather than redrawn steeper.
 # - +projection+ -- the same decline to planned finish date taken up from where remaining leaves off,
 #   drawn only while the sprint can still meet that date.
 # - +non_working_intervals+ -- date ranges as opposed to Points like the actual series. They are a fact
@@ -48,11 +49,12 @@
 # - +measured_until+ -- how far the remaining series is sampled - where measuring stops and
 #   projecting begins. The current time for a running sprint, the time it finished for a finished
 #   one, and nothing at all for one that has yet to begin.
-# - +planned_finish+ -- where the guideline and the projection have to arrive, whatever the
-#   sprint actually did; overrunning does not move it.
-# - +charted_until+ -- where the chart closes: the later of the plan and where the sprint got
-#   to. The two divert only for a sprint that finished early, whose guideline still has to reach
-#   the date it was declining to.
+# - +planned_finish+ -- the date the guideline and the projection are spent against, whatever the
+#   sprint actually did; overrunning does not move it. It is what sets their slope rather than
+#   where they necessarily end.
+# - +charted_until+ -- where the sprint got to (for a completed sprint) or is planned to go to
+#   (for a running sprint). If the sprint is running longer than planned, there is no plan any more
+#   and the current time is used instead.
 #
 # The span between +charted_from+ and +charted_until+ sets the resolution -- hourly while that is
 # small enough to render, daily beyond it, nothing at all beyond a year.
@@ -144,16 +146,12 @@ module Sprints
                                                             zone:)
     end
 
-    # Where the chart begins.
     def charted_from
       timeframe.effective_start
     end
 
-    # Where the chart ends: the later of where the sprint got to and where it was planned to end.
-    # The plan is what the later of the two is for -- a sprint finished early still has to reach
-    # the date its guideline declines to.
     def charted_until
-      @charted_until ||= [timeframe.effective_finish, planned_finish].max
+      timeframe.effective_finish
     end
 
     # How far the chart reaches, which both of its limits are stated against. Whole days, because
@@ -181,35 +179,56 @@ module Sprints
         remaining.last.at < planned_finish
     end
 
-    # Spends the value across the working days left, leaving non working days flat. A series
-    # beginning partway through a day only has the rest of that day, so it takes a proportionate
-    # share of the value and the whole days after it each carry more to still reach zero on time.
+    # One straight line, measured in working days rather than in clock time: +drop+ is what a whole
+    # day takes, and every point is that slope applied to the distance still to run. Non working
+    # days are no distance at all, which is what leaves them flat, and only two points can land
+    # inside a day -- the one the series opens on (print start or end of remaining) and,
+    # where the chart closes before the plan does, the one it closes on.
     def decline_from(origin)
-      from = origin.at.in_time_zone(zone)
-      days = days_until_planned_finish(from)
-      shares = days.map { available_share(it, from) }
+      origin_from = origin.at.in_time_zone(zone)
+      days = days_until_planned_finish(origin_from)
 
-      return [origin] if shares.sum.zero?
+      return [origin] if days.none?(&:working)
 
-      days.each_with_object([origin]).with_index do |(day, points), index|
-        points << declined_point(origin, day, share_ahead(shares, index))
+      drop = origin.value / still_ahead(days, days.first, origin_from)
+
+      points = decline_samples(days).map do |day, at|
+        Point.new(at:, value: drop * still_ahead(days, day, at))
+      end
+
+      points.prepend(origin)
+    end
+
+    # What the plan has left to spend after +from+, which falls inside +day+. Taken at the
+    # origin it is the whole capacity, and at the last sample it is nothing.
+    def still_ahead(days, day, from)
+      working_days_after(days, day.date) + part_of_day_after(day, from)
+    end
+
+    # Each day paired with the last moment the series has a value in it: the day's close, or where
+    # the chart closes when that comes first. Days lying wholly beyond the close drop out.
+    def decline_samples(days)
+      days.filter_map do |day|
+        end_of_day = day.date.in_time_zone(zone).end_of_day
+
+        if end_of_day <= charted_until
+          [day, end_of_day]
+        elsif day.date <= charted_until.to_date
+          [day, charted_until]
+        end
       end
     end
 
-    # The portion of the whole still to come after +index+. Reading it forwards rather than
-    # subtracting what is behind leaves the last day an empty slice, so the series lands on zero.
-    def share_ahead(shares, index)
-      shares[(index + 1)..].sum / shares.sum
+    # The number of working days the plan still has after +date+.
+    def working_days_after(days, date)
+      days.count { it.working && it.date > date }
     end
 
-    def declined_point(origin, day, ahead)
-      Point.new(at: day.date.in_time_zone(zone).end_of_day, value: origin.value * ahead)
-    end
-
-    # How much of +day+ is left to the series, as a fraction of a whole day.
-    def available_share(day, from)
+    # The part of +day+ lying after +from+, as a fraction of a whole one. It is zero at a day's
+    # close, which is where every sample sits but the two that can fall inside a day: the one the
+    # series opens on and, where the chart closes before the plan does, the one it closes on.
+    def part_of_day_after(day, from)
       return 0.0 unless day.working
-      return 1.0 unless day.date == from.to_date
 
       (from.end_of_day - from) / 1.day.to_i
     end
