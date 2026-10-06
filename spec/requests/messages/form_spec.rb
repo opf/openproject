@@ -98,4 +98,53 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
       expect(topic.reload).to have_attributes(subject: "Renamed", sticky?: true)
     end
   end
+
+  describe "replying" do
+    current_user { author }
+
+    it "offers only the message content, hanging from the thread's stem", :aggregate_failures do
+      get project_forum_topic_path(project, forum, topic)
+
+      expect(html).to have_no_css("h2", text: "Reply")
+      expect(html).to have_no_field("Subject")
+      expect(html).to have_css("#reply > .op-forum-post-stem:first-child + form")
+    end
+
+    it "titles the reply after its topic" do
+      post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { content: "Agreed" } }
+
+      expect(topic.children.last).to have_attributes(subject: "RE: Release planning", content: "Agreed")
+    end
+
+    it "ignores a subject posted with a reply" do
+      post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { subject: "Hijacked", content: "Agreed" } }
+
+      expect(topic.children.last.subject).to eq("RE: Release planning")
+    end
+
+    it "fits the reply title within the subject length of a long topic subject" do
+      topic.update_column(:subject, "x" * 255)
+
+      post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { content: "Agreed" } }
+
+      expect(topic.children.last.subject).to start_with("RE: xxx").and(have_attributes(length: 255))
+    end
+
+    it "cancels editing a reply back to that reply in its thread" do
+      reply = create(:message, forum:, parent: topic, author:, subject: "RE: Release planning")
+
+      get edit_project_forum_topic_path(project, forum, reply)
+
+      expect(html).to have_link("Cancel",
+                                href: "#{project_forum_topic_path(project, forum, topic)}?r=#{reply.id}#message-#{reply.id}")
+    end
+
+    it "offers no subject when editing a reply" do
+      reply = create(:message, forum:, parent: topic, author:, subject: "RE: Release planning")
+
+      get edit_project_forum_topic_path(project, forum, reply)
+
+      expect(html).to have_no_field("Subject")
+    end
+  end
 end

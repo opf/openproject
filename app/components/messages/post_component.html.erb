@@ -49,21 +49,16 @@
               helpers.primer_link_to_user(message.author, scheme: :primary, font_weight: :bold, hover_card: true)
             end
           end
-          if reply?
-            byline.with_column(mr: 2, classes: "ellipsis") do
-              render(
-                Primer::Beta::Link.new(
-                  href: helpers.message_anchor_path(message),
-                  scheme: :secondary,
-                  underline: false,
-                  font_size: :small,
-                  data: { turbo: false }
-                )
-              ) { message.subject }
-            end
-          end
           byline.with_column do
-            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { helpers.format_time(message.created_at) }
+            render(
+              Primer::Beta::Link.new(
+                href: helpers.message_anchor_path(message),
+                scheme: :secondary,
+                underline: false,
+                font_size: :small,
+                data: { turbo: false }
+              )
+            ) { helpers.format_time(message.created_at) }
           end
         end
         header.with_column(ml: 1) { action_menu }

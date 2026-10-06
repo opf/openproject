@@ -50,7 +50,7 @@ RSpec.describe "Forum topic page", :js do
     end
 
     expect(page).to have_css("#reply .ck-content", text: "wrote")
-    expect(page).to have_css("#reply h2", text: "Reply", obscured: false)
+    expect(page).to have_css("#reply .ck-toolbar", obscured: false)
     expect(page).to have_css("#reply :focus")
   end
 
@@ -58,7 +58,7 @@ RSpec.describe "Forum topic page", :js do
     reply = create(:message, forum:, parent: topic, subject: "RE: Release planning")
     show_page.visit!
 
-    within_test_selector("forum-post-#{reply.id}") { click_link "RE: Release planning" }
+    within_test_selector("forum-post-#{reply.id}") { find("a[href$='#message-#{reply.id}']").click }
 
     expect(page).to have_css("#message-#{reply.id}:target")
   end
