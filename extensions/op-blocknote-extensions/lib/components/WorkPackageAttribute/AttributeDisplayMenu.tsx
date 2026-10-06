@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { CheckIcon } from '@primer/octicons-react';
 import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
-import { PopoverPortal, useAnchoredPopover } from '../WorkPackage/anchoredPopover';
+import { PopoverPortal, useAnchoredPopover, type PopoverSide } from '../WorkPackage/anchoredPopover';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import { useTapActivation } from '../../utils/tapActivation';
 import type { AttributeDisplay } from './externalHtml';
@@ -34,6 +34,7 @@ const Menu = styled.div.attrs({
   padding: var(--spacer-s);
   min-width: 180px;
   line-height: 1.4;
+  overflow-y: auto;
 `;
 
 const MenuLabel = styled.div`
@@ -70,11 +71,12 @@ const Check = styled.span<{ $visible:boolean }>`
 
 export interface AttributeDisplayMenuProps {
   anchorEl:HTMLElement | null;
+  placement?:PopoverSide;
   active:AttributeDisplay;
   onPick:(display:AttributeDisplay) => void;
 }
 
-export const AttributeDisplayMenu = ({ anchorEl, active, onPick }:AttributeDisplayMenuProps) => {
+export const AttributeDisplayMenu = ({ anchorEl, placement = 'below', active, onPick }:AttributeDisplayMenuProps) => {
   const { t } = useTranslation();
   const menuRef = useRef<HTMLDivElement>(null);
   const tapProps = useTapActivation();
@@ -82,7 +84,7 @@ export const AttributeDisplayMenu = ({ anchorEl, active, onPick }:AttributeDispl
   useAnchoredPopover({
     anchorEl,
     popoverRef: menuRef,
-    placement: 'below',
+    placement,
     offset: MENU_OFFSET,
     maxHeight: MAX_MENU_HEIGHT,
   });

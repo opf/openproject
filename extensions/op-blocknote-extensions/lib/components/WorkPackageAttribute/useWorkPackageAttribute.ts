@@ -5,9 +5,14 @@ import { useWorkPackageSchema } from '../../hooks/useWorkPackageSchema';
 import type { WorkPackage } from '../../openProjectTypes';
 import { findAttribute, formatAttributeValue, type WorkPackageAttribute } from './attributes';
 
-export type ResolvedAttribute =
-  | { state:'loading' | 'unauthorized' | 'error' | 'missing' }
-  | { state:'ready', workPackage:WorkPackage, attribute:WorkPackageAttribute, value:string };
+export interface ReadyAttribute {
+  state:'ready';
+  workPackage:WorkPackage;
+  attribute:WorkPackageAttribute;
+  value:string;
+}
+
+export type ResolvedAttribute = { state:'loading' | 'unauthorized' | 'error' | 'missing' } | ReadyAttribute;
 
 export function useAttributeFormatOptions() {
   const { t, i18n } = useTranslation();
