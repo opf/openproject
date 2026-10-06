@@ -1,0 +1,105 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<% can_manage = User.current.allowed_in_project?(:manage_whiteboards, @project) %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t(:label_whiteboard_plural) }
+    header.with_breadcrumbs(
+      [{ href: project_overview_path(@project.id), text: @project.name },
+       t(:label_whiteboard_plural)]
+    )
+
+    if can_manage
+      header.with_action_button(
+        tag: :a,
+        scheme: :primary,
+        mobile_icon: :plus,
+        mobile_label: t(:label_whiteboard),
+        href: project_whiteboards_path(@project),
+        data: { turbo_method: :post, test_selector: "new-whiteboard-button" }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t(:label_whiteboard)
+      end
+    end
+  end
+%>
+
+<% if @whiteboards.empty? %>
+  <%=
+    render(Primer::Beta::Blankslate.new(border: true)) do |component|
+      component.with_visual_icon(icon: :paintbrush)
+      component.with_heading(tag: :h2).with_content(t("whiteboards.blankslate.heading"))
+      component.with_description_content(t("whiteboards.blankslate.description"))
+    end
+  %>
+<% else %>
+  <%=
+    render(Primer::Beta::BorderBox.new(test_selector: "whiteboards-list")) do |box|
+      @whiteboards.each do |whiteboard|
+        box.with_row do
+          flex_layout(justify_content: :space_between, align_items: :center) do |row|
+            row.with_column do
+              render(Primer::Beta::Link.new(href: whiteboard_path(whiteboard), font_weight: :bold, data: { turbo: false })) do
+                whiteboard.title
+              end
+            end
+            row.with_column(display: :flex, align_items: :center) do
+              concat(
+                render(Primer::Beta::Text.new(color: :subtle, font_size: :small, mr: 2)) do
+                  t("whiteboards.updated_by", author: whiteboard.author.name, time: time_ago_in_words(whiteboard.updated_at))
+                end
+              )
+              if can_manage
+                concat(
+                  render(Primer::Alpha::ActionMenu.new(test_selector: "whiteboard-actions-#{whiteboard.id}")) do |menu|
+                    menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": t("whiteboards.actions"))
+                    menu.with_item(
+                      label: t(:button_rename),
+                      href: rename_dialog_whiteboard_path(whiteboard),
+                      content_arguments: { data: { controller: "async-dialog" } }
+                    ) do |item|
+                      item.with_leading_visual_icon(icon: :pencil)
+                    end
+                  end
+                )
+              end
+            end
+          end
+        end
+      end
+    end
+  %>
+<% end %>
+
+<% html_title(t(:label_whiteboard_plural)) %>

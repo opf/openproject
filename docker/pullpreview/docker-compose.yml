@@ -78,7 +78,8 @@ services:
       - db
 
   hocuspocus:
-    image: openproject/hocuspocus:latest
+    build:
+      context: ./extensions/op-blocknote-hocuspocus
     depends_on:
       - web
     networks:

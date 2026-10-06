@@ -26,35 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BlockNoteSchema } from "@blocknote/core";
-import { ServerBlockNoteEditor } from "@blocknote/server-util";
 import type { beforeHandleMessagePayload, onAuthenticatePayload, onLoadDocumentPayload, onStoreDocumentPayload, onTokenSyncPayload } from "@hocuspocus/server";
 import { Extension } from "@hocuspocus/server";
-import {
-  openProjectWorkPackageStaticBlockSpec,
-  openProjectWorkPackageStaticInlineSpec,
-} from "op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
 import type { ApiResponseDocument } from "../types";
 import { fetchResource } from "../services/resourceService";
+import { adapterFor } from "../adapters";
 
-export const editorSchema = BlockNoteSchema.create().extend({
-  blockSpecs: {
-    openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
-  },
-  inlineContentSpecs: {
-    openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
-  },
-});
+export { createEditor, editorSchema } from "../adapters/blockNoteDocumentAdapter";
 
 function printLog(message:string) {
   console.log(`[${new Date().toISOString()}] ${message}`);
-}
-
-export function createEditor() {
-  return ServerBlockNoteEditor.create({ schema: editorSchema });
 }
 
 export class OpenProjectApi implements Extension {
@@ -76,6 +60,8 @@ export class OpenProjectApi implements Extension {
     if (tokenExpiresAtDate <= new Date()) {
       throw new Error('Unauthorized: Token already expired.');
     }
+
+    adapterFor(resourceUrl);
 
     data.context.resourceUrl = resourceUrl;
     data.context.token = result.decryptedToken;
@@ -143,20 +129,13 @@ export class OpenProjectApi implements Extension {
     }
 
     const base64Data = Buffer.from(Y.encodeStateAsUpdate(data.document)).toString("base64");
-
-    // Create a copy of the document to avoid side effects
-    const editor = createEditor();
-    const tempYdoc = new Y.Doc();
-    Y.applyUpdate(tempYdoc, Y.encodeStateAsUpdate(data.document));
-    const tempFragment = tempYdoc.getXmlFragment("document-store");
-    const editorData = editor.yXmlFragmentToBlocks(tempFragment);
-    const markdownData = await editor.blocksToMarkdownLossy(editorData);
+    const attributes = await adapterFor(resourceUrl).storeAttributes(data.document);
 
     const response = await fetchResource(resourceUrl, data.lastContext.token, {
       method: "PATCH",
       body: JSON.stringify({
         content_binary: base64Data,
-        description: markdownData,
+        ...attributes,
       }),
     });
 

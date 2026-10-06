@@ -31,7 +31,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import {
   PROVIDER_AUTH_ERROR_EVENT,
   ProviderAuthErrorKind,
-} from 'core-stimulus/services/documents/token-refresh.service';
+} from 'core-stimulus/services/collaboration/token-refresh.service';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**

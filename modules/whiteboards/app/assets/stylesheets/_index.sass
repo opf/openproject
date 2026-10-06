@@ -1,0 +1,217 @@
+.op-whiteboard-canvas-layout
+  height: 100%
+  overflow: hidden
+
+  body,
+  .op-whiteboard-canvas-layout--main
+    height: 100%
+    margin: 0
+    overflow: hidden
+
+.op-whiteboard
+  display: block
+  height: 100dvh
+  width: 100vw
+
+.op-whiteboard--canvas
+  height: 100%
+
+.op-whiteboard--loading
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 100%
+  color: var(--fgColor-muted)
+
+.op-whiteboard-chrome
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  pointer-events: all
+
+.op-whiteboard-chrome--button
+  display: inline-flex
+  border: 0
+  cursor: pointer
+  align-items: center
+  justify-content: center
+  width: 2.25rem
+  height: 2.25rem
+  border-radius: var(--borderRadius-medium)
+  background: var(--island-bg-color, var(--bgColor-default))
+  box-shadow: var(--shadow-island, none)
+  color: var(--icon-fill-color, var(--fgColor-default))
+
+  &:hover
+    background: var(--button-hover-bg, var(--bgColor-muted))
+
+.op-whiteboard-chrome--status
+  font-size: 0.75rem
+  padding: 0.25rem 0.5rem
+  border-radius: var(--borderRadius-medium)
+
+  &::before
+    content: "●"
+    margin-right: 0.25rem
+
+.op-whiteboard-chrome--status_saved::before
+  color: var(--fgColor-success)
+
+.op-whiteboard-chrome--status_saving::before
+  color: var(--fgColor-attention)
+
+.op-whiteboard-chrome--status_delayed
+  color: var(--fgColor-attention)
+
+.op-whiteboard-chrome--status_offline
+  color: var(--fgColor-danger)
+
+.op-whiteboard-wp-card
+  display: flex
+  flex-direction: column
+  gap: 0.25rem
+  box-sizing: border-box
+  width: 100%
+  height: 100%
+  padding: 0.5rem 0.75rem
+  overflow: hidden
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+  background: var(--bgColor-default)
+  color: var(--fgColor-default)
+  font-family: var(--fontStack-system)
+  font-size: 0.875rem
+  text-decoration: none
+
+
+.op-whiteboard-wp-card--header
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  font-size: 0.75rem
+  white-space: nowrap
+
+.op-whiteboard-wp-card--id
+  color: var(--fgColor-muted)
+
+.op-whiteboard-wp-card--status
+  margin-left: auto
+  padding: 0 0.5rem
+  border-radius: var(--borderRadius-full)
+  overflow: hidden
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-card--subject
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+  overflow: hidden
+  font-weight: var(--base-text-weight-semibold)
+
+.op-whiteboard-wp-card--meta
+  overflow: hidden
+  color: var(--fgColor-muted)
+  font-size: 0.75rem
+  white-space: nowrap
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-card_unavailable,
+.op-whiteboard-wp-card_error
+  border-style: dashed
+  background: var(--bgColor-muted)
+
+.op-whiteboard-wp-picker
+  position: relative
+
+.op-whiteboard-wp-picker--trigger
+  font-size: 1.125rem
+  font-weight: var(--base-text-weight-semibold)
+
+.op-whiteboard-wp-picker--popover
+  position: absolute
+  top: calc(100% + 0.5rem)
+  right: 0
+  z-index: 10
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+  box-sizing: border-box
+  width: min(26rem, calc(100vw - 2rem))
+  max-height: min(28rem, calc(100dvh - 6rem))
+  padding: 0.5rem
+  border-radius: var(--borderRadius-medium)
+  background: var(--island-bg-color, var(--bgColor-default))
+  box-shadow: var(--shadow-island, var(--shadow-floating-small))
+  color: var(--fgColor-default)
+
+  input
+    width: 100%
+    box-sizing: border-box
+    // Below 16px, iOS zooms into the page when the input gets focus.
+    font-size: 16px
+
+.op-whiteboard-wp-picker--popover_sheet
+  position: fixed
+  top: 0.5rem
+  right: 0.5rem
+  left: 0.5rem
+  width: auto
+
+.op-whiteboard-wp-picker--status
+  margin: 0
+  padding: 0 0.25rem
+  color: var(--fgColor-muted)
+  font-size: 0.875rem
+
+.op-whiteboard-wp-picker--results
+  margin: 0
+  padding: 0
+  overflow-y: auto
+  list-style: none
+
+  &:empty
+    display: none
+
+.op-whiteboard-wp-picker--option
+  display: flex
+  flex-direction: column
+  gap: 0.125rem
+  padding: 0.375rem 0.5rem
+  border-radius: var(--borderRadius-medium)
+  cursor: pointer
+  font-size: 0.875rem
+
+  &[aria-selected="true"]
+    background: var(--bgColor-neutral-muted)
+
+.op-whiteboard-wp-picker--option-header
+  display: flex
+  gap: 0.5rem
+  font-size: 0.75rem
+  white-space: nowrap
+
+.op-whiteboard-wp-picker--muted
+  color: var(--fgColor-muted)
+
+.op-whiteboard-wp-picker--project
+  overflow: hidden
+  text-overflow: ellipsis
+
+.op-whiteboard-wp-picker--subject
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.op-whiteboard
+  .default-sidebar-trigger,
+  .sidebar-tab-trigger[id$="-trigger-library"],
+  .context-menu li[data-testid="addToLibrary"]
+    display: none
+
+  .excalidraw__embeddable-container__inner:has(.op-whiteboard-wp-card) .excalidraw__embeddable-hint
+    display: none
+
+  // Excalidraw colors every link inside its container.
+  .op-whiteboard-wp-card--subject
+    color: inherit
+    text-decoration: none

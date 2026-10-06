@@ -1,0 +1,359 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { CaptureUpdateAction, Excalidraw, Footer, MainMenu } from '@excalidraw/excalidraw';
+import type { ClipboardData } from '@excalidraw/excalidraw/clipboard';
+import type {
+  ExcalidrawEmbeddableElement,
+  NonDeleted,
+  OrderedExcalidrawElement,
+  Theme,
+} from '@excalidraw/excalidraw/element/types';
+import type {
+  AppState,
+  Collaborator,
+  ExcalidrawImperativeAPI,
+  ExcalidrawInitialDataState,
+} from '@excalidraw/excalidraw/types';
+import type { HocuspocusProvider, onStatelessParameters } from '@hocuspocus/provider';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCollaboration } from '../hooks/useCollaboration';
+import { ExcalidrawYjsBinding } from './excalidraw-yjs-binding';
+import { WhiteboardAwareness, type WhiteboardUser } from './whiteboard-awareness';
+import { WorkPackageCard } from './WorkPackageCard';
+import { WorkPackagePicker } from './WorkPackagePicker';
+import { useCardSubjectClicks } from './card-subject-clicks';
+import {
+  cardsWithoutHiddenLink,
+  isWorkPackageCard,
+  newWorkPackageCardElement,
+  workPackageIdFromCardLink,
+  workPackageIdFromText,
+} from './work-package-cards';
+
+export interface OpWhiteboardProps {
+  provider:HocuspocusProvider;
+  user:WhiteboardUser;
+  readOnly:boolean;
+  title:string;
+  leaveUrl:string;
+  langCode:string;
+}
+
+const t = (key:string) => window.I18n.t(`js.whiteboards.${key}`);
+
+const LIBRARY_SIDEBAR_TAB = 'library';
+
+function currentOpTheme():Theme {
+  return document.body.dataset.colorMode === 'dark' ? 'dark' : 'light';
+}
+
+function useOpTheme():Theme {
+  const [theme, setTheme] = useState(currentOpTheme);
+
+  useEffect(() => {
+    const update = () => setTheme(currentOpTheme());
+    window.addEventListener('op:theme-changed', update);
+    return () => window.removeEventListener('op:theme-changed', update);
+  }, []);
+
+  return theme;
+}
+
+function LeaveButton({ leaveUrl }:{ leaveUrl:string }) {
+  return (
+    <a
+      className="op-whiteboard-chrome--button"
+      href={leaveUrl}
+      aria-label={t('leave')}
+      title={t('leave')}
+      data-test-selector="whiteboard-leave"
+    >
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor">
+        <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z" />
+      </svg>
+    </a>
+  );
+}
+
+type SaveState = { kind:'saved'; at:Date|null } | { kind:'saving' } | { kind:'delayed' };
+
+const SAVE_DELAYED_AFTER_MS = 20_000;
+
+function useSaveState(provider:HocuspocusProvider):SaveState {
+  const [state, setState] = useState<SaveState>({ kind: 'saved', at: null });
+
+  useEffect(() => {
+    let delayTimer:ReturnType<typeof setTimeout>|null = null;
+    const clearDelayTimer = () => {
+      if (delayTimer !== null) clearTimeout(delayTimer);
+      delayTimer = null;
+    };
+
+    const onUpdate = () => {
+      setState((current) => (current.kind === 'delayed' ? current : { kind: 'saving' }));
+      delayTimer ??= setTimeout(() => setState({ kind: 'delayed' }), SAVE_DELAYED_AFTER_MS);
+    };
+    const onStateless = ({ payload }:onStatelessParameters) => {
+      if (payload !== 'storeEvent') return;
+      clearDelayTimer();
+      setState({ kind: 'saved', at: new Date() });
+    };
+    const warnAboutUnsentChanges = (event:BeforeUnloadEvent) => {
+      if (provider.hasUnsyncedChanges) event.preventDefault();
+    };
+
+    provider.document.on('update', onUpdate);
+    provider.on('stateless', onStateless);
+    window.addEventListener('beforeunload', warnAboutUnsentChanges);
+
+    return () => {
+      clearDelayTimer();
+      provider.document.off('update', onUpdate);
+      provider.off('stateless', onStateless);
+      window.removeEventListener('beforeunload', warnAboutUnsentChanges);
+    };
+  }, [provider]);
+
+  return state;
+}
+
+function saveStateLabel(state:SaveState):string {
+  if (state.kind === 'saving') return t('save.saving');
+  if (state.kind === 'delayed') return t('save.delayed');
+  if (!state.at) return t('save.saved');
+
+  const time = state.at.toLocaleTimeString(window.I18n.locale, { hour: '2-digit', minute: '2-digit' });
+  return window.I18n.t('js.whiteboards.save.saved_at', { time });
+}
+
+function ConnectionStatus({ offline, saveState }:{ offline:boolean; saveState:SaveState }) {
+  const state = offline ? 'offline' : saveState.kind;
+  return (
+    <span className={`op-whiteboard-chrome--status op-whiteboard-chrome--status_${state}`} data-test-selector="whiteboard-connection-status">
+      {offline ? t('connection.offline') : saveStateLabel(saveState)}
+    </span>
+  );
+}
+
+function viewportCenter(api:ExcalidrawImperativeAPI) {
+  const { width, height, scrollX, scrollY, zoom } = api.getAppState();
+  return { x: (width / 2 / zoom.value) - scrollX, y: (height / 2 / zoom.value) - scrollY };
+}
+
+function validateEmbeddable(link:string):true|undefined {
+  return workPackageIdFromCardLink(link) ? true : undefined;
+}
+
+function renderEmbeddable(element:NonDeleted<ExcalidrawEmbeddableElement>) {
+  const id = workPackageIdFromCardLink(element.link);
+  return id ? <WorkPackageCard id={id} /> : null;
+}
+
+function isTyping(target:EventTarget|null):boolean {
+  return target instanceof HTMLElement
+    && (target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName));
+}
+
+function useWorkPackagePickerShortcut(enabled:boolean, openPicker:() => void) {
+  useEffect(() => {
+    if (!enabled) return undefined;
+
+    const onKeyDown = (event:KeyboardEvent) => {
+      if (event.key !== '#' || event.ctrlKey || event.metaKey || event.altKey || isTyping(event.target)) return;
+
+      event.preventDefault();
+      openPicker();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [enabled, openPicker]);
+}
+
+function selectedWorkPackageCard(elements:readonly OrderedExcalidrawElement[], appState:AppState):boolean {
+  const selectedIds = Object.keys(appState.selectedElementIds);
+  const selected = selectedIds.length === 1 ? elements.find((element) => element.id === selectedIds[0]) : undefined;
+  return selected !== undefined && isWorkPackageCard(selected);
+}
+
+function WhiteboardCanvas({ provider, user, readOnly, title, leaveUrl, langCode, offline }:OpWhiteboardProps & { offline:boolean }) {
+  const doc = provider.document;
+  const [api, setApi] = useState<ExcalidrawImperativeAPI|null>(null);
+  const bindingRef = useRef<ExcalidrawYjsBinding|null>(null);
+  const awarenessRef = useRef<WhiteboardAwareness|null>(null);
+  const lastPointerRef = useRef<{ x:number; y:number }|null>(null);
+  const saveState = useSaveState(provider);
+  const theme = useOpTheme();
+  const [canvasRoot, setCanvasRoot] = useState<HTMLDivElement|null>(null);
+  useCardSubjectClicks(canvasRoot);
+
+  const initialData = useMemo<ExcalidrawInitialDataState>(
+    () => ({ elements: ExcalidrawYjsBinding.storedElements(doc), scrollToContent: true }),
+    [doc],
+  );
+
+  useEffect(() => {
+    if (!api) return undefined;
+
+    const binding = new ExcalidrawYjsBinding(doc, api, readOnly);
+    const awareness = new WhiteboardAwareness(provider, user, (collaborators) => api.updateScene({ collaborators }));
+    bindingRef.current = binding;
+    awarenessRef.current = awareness;
+
+    return () => {
+      binding.destroy();
+      awareness.destroy();
+      bindingRef.current = null;
+      awarenessRef.current = null;
+    };
+  }, [api, doc, provider, readOnly, user]);
+
+  const onChange = useCallback((elements:readonly OrderedExcalidrawElement[], appState:AppState) => {
+    bindingRef.current?.onSceneChange(elements);
+    awarenessRef.current?.updateSelection(appState.selectedElementIds);
+    // Libraries are neither persisted nor importable yet, and Excalidraw offers no option to turn
+    // them off. Its triggers are hidden in CSS; this catches the remaining ways to open the tab.
+    if (appState.openSidebar?.tab === LIBRARY_SIDEBAR_TAB) {
+      api?.updateScene({ appState: { openSidebar: null } });
+    }
+    // Activating an embeddable hands pointer events to its content, which would stop cards from being dragged.
+    if (appState.activeEmbeddable?.state === 'active' && isWorkPackageCard(appState.activeEmbeddable.element)) {
+      api?.updateScene({ appState: { activeEmbeddable: null } });
+    }
+    if (appState.showHyperlinkPopup && selectedWorkPackageCard(elements, appState)) {
+      api?.updateScene({ appState: { showHyperlinkPopup: false } });
+    }
+    const migratedCards = readOnly ? null : cardsWithoutHiddenLink(elements);
+    if (migratedCards) {
+      const migrated = new Map(migratedCards.map((card) => [card.id, card]));
+      api?.updateScene({
+        elements: elements.map((element) => migrated.get(element.id) ?? element),
+        captureUpdate: CaptureUpdateAction.NEVER,
+      });
+    }
+  }, [api, readOnly]);
+
+  const onPointerUpdate = useCallback(
+    ({ pointer, button }:{ pointer:NonNullable<Collaborator['pointer']>; button:Collaborator['button'] }) => {
+      lastPointerRef.current = pointer;
+      awarenessRef.current?.updatePointer(pointer, button);
+    },
+    [],
+  );
+
+  const insertWorkPackageCard = useCallback((id:string, position:{ x:number; y:number }) => {
+    if (!api) return;
+
+    const card = newWorkPackageCardElement(id, position);
+    api.updateScene({
+      elements: [...api.getSceneElementsIncludingDeleted(), card],
+      appState: { selectedElementIds: { [card.id]: true } },
+      captureUpdate: CaptureUpdateAction.IMMEDIATELY,
+    });
+  }, [api]);
+
+  const onPaste = useCallback((data:ClipboardData) => {
+    const id = data.text ? workPackageIdFromText(data.text) : null;
+    if (!api || readOnly || !id) return true;
+
+    insertWorkPackageCard(id, lastPointerRef.current ?? viewportCenter(api));
+    return false;
+  }, [api, readOnly, insertWorkPackageCard]);
+
+  const addWorkPackageCard = useCallback((id:string) => {
+    if (api) insertWorkPackageCard(id, viewportCenter(api));
+  }, [api, insertWorkPackageCard]);
+
+  const editable = !readOnly && !offline;
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const openPicker = useCallback(() => setPickerOpen(true), []);
+  useWorkPackagePickerShortcut(editable, openPicker);
+
+  const renderTopRightUI = useCallback((isMobile:boolean) => (
+    <div className="op-whiteboard-chrome">
+      {editable && (
+        <WorkPackagePicker
+          open={pickerOpen}
+          showTrigger={!isMobile}
+          onOpenChange={setPickerOpen}
+          onPick={addWorkPackageCard}
+        />
+      )}
+      {!isMobile && <LeaveButton leaveUrl={leaveUrl} />}
+    </div>
+  ), [editable, pickerOpen, addWorkPackageCard, leaveUrl]);
+
+  return (
+    <div ref={setCanvasRoot} className="op-whiteboard--canvas">
+      <Excalidraw
+        excalidrawAPI={setApi}
+        initialData={initialData}
+        onChange={onChange}
+        onPointerUpdate={onPointerUpdate}
+        onPaste={onPaste}
+        validateEmbeddable={validateEmbeddable}
+        renderEmbeddable={renderEmbeddable}
+        isCollaborating
+        viewModeEnabled={readOnly || offline}
+        langCode={langCode}
+        theme={theme}
+        name={title}
+        renderTopRightUI={renderTopRightUI}
+        UIOptions={{
+          canvasActions: { loadScene: false, saveToActiveFile: false, clearCanvas: !readOnly, toggleTheme: false },
+          tools: { image: false },
+        }}
+      >
+        <MainMenu>
+          <MainMenu.Item onSelect={() => window.location.assign(leaveUrl)}>{t('leave')}</MainMenu.Item>
+          {editable && <MainMenu.Item onSelect={openPicker}>{t('work_package_picker.button')}</MainMenu.Item>}
+          <MainMenu.Separator />
+          <MainMenu.DefaultItems.SaveAsImage />
+          <MainMenu.DefaultItems.SearchMenu />
+          <MainMenu.DefaultItems.Help />
+          {!readOnly && <MainMenu.DefaultItems.ClearCanvas />}
+          <MainMenu.Separator />
+          <MainMenu.DefaultItems.ChangeCanvasBackground />
+        </MainMenu>
+        <Footer>
+          <ConnectionStatus offline={offline} saveState={saveState} />
+        </Footer>
+      </Excalidraw>
+    </div>
+  );
+}
+
+export default function OpWhiteboard(props:OpWhiteboardProps) {
+  const { isLoading, offlineMode } = useCollaboration(props.provider);
+
+  if (isLoading) {
+    return <div className="op-whiteboard--loading">{t('connection.connecting')}</div>;
+  }
+
+  return <WhiteboardCanvas {...props} offline={offlineMode} />;
+}
