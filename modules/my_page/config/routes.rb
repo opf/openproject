@@ -28,5 +28,7 @@
 Rails.application.routes.draw do
   namespace :my do
     get "/page", to: "page#show"
+    post "/day/tasks", to: "day_tasks#create", as: :day_tasks
+    patch "/day/tasks/:id", to: "day_tasks#update", as: :day_task
   end
 end

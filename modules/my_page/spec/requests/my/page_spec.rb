@@ -54,16 +54,40 @@ RSpec.describe "My page", type: :rails_request do
   end
 
   context "with the my_day flag", with_flag: { my_day: true } do
+    around { |example| travel_to(Time.zone.parse("2026-10-06 08:00")) { example.run } }
+
+    let(:meeting_project) { create(:project, enabled_module_names: %w[meetings work_package_tracking]) }
+    let!(:meeting) do
+      create(:meeting, project: meeting_project, title: "XWiki daily", duration: 0.25,
+                       start_time: user.time_zone.parse("#{user.today} 09:30"))
+    end
+    let(:referenced) { create(:work_package, project: meeting_project, subject: "Show GitLab branches") }
     let!(:work_package) do
       create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
                             subject: "Book train to the offsite", due_date: user.today)
+    end
+    let!(:task_with_reference) do
+      create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
+                            subject: "Write down questions on ##{referenced.id} for the sync", due_date: user.today)
+    end
+
+    before do
+      create(:member, project: meeting_project, principal: user,
+                      roles: [create(:project_role, permissions: %i[view_meetings view_work_packages])])
+      create(:meeting_participant, meeting:, user:)
     end
 
     it "opens on Today" do
       subject
 
+      expect(page).to have_test_selector("my-day-meeting-morning", text: "09:30 AM–09:45 AM")
+      expect(page).to have_test_selector("my-day-meeting-duration", text: "15 mins")
+      expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches")
+
       expect(page).to have_test_selector("my-page-tabs")
       expect(page).to have_test_selector("my-day-today")
+      expect(page).to have_test_selector("my-day-quick-add")
+      expect(page).to have_css("segmented-control [aria-current=true]", text: "Morning")
       expect(page).to have_test_selector("my-day-task-morning", text: "Book train to the offsite")
       expect(page).to have_test_selector("my-day-empty-afternoon", text: "Nothing planned.")
       expect(response.body).not_to include("opce-my-page")

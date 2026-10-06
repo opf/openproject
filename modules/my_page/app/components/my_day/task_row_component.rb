@@ -32,24 +32,37 @@ module MyDay
   class TaskRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(work_package:)
+    def initialize(work_package:, lead_width:, references:)
       super()
       @work_package = work_package
+      @lead_width = lead_width
+      @references = references
     end
 
     private
 
-    attr_reader :work_package
+    attr_reader :work_package, :lead_width, :references
+
+    # The subject as text, with each visible referenced work package in place of its reference.
+    def subject_parts
+      work_package.subject.split(CreateTaskService::REFERENCE).each_with_index.map do |part, index|
+        index.even? ? part : references.fetch(part) { "##{part}" }
+      end
+    end
 
     def closed? = work_package.closed?
 
-    def check_box_arguments
+    def toggle_label = closed? ? t("my_day.mark_open") : t("my_day.mark_done")
+
+    def toggle_button_arguments
       {
-        name: "work_package_closed_#{work_package.id}",
-        label: work_package.subject,
-        visually_hide_label: true,
-        checked: closed?,
-        disabled: true
+        icon: closed? ? :"check-circle-fill" : :circle,
+        color: closed? ? :success : :muted,
+        scheme: :invisible,
+        size: :small,
+        type: :submit,
+        aria: { label: toggle_label },
+        test_selector: "my-day-toggle"
       }
     end
 

@@ -12,6 +12,15 @@ en:
     dashboard: "Dashboard"
     empty_section: "Nothing planned."
     now: "Now"
+    mark_done: "Mark as done"
+    mark_open: "Mark as not done"
+    errors:
+      cannot_close: "The workflow doesn't allow closing this task."
+      cannot_reopen: "The workflow doesn't allow reopening this task."
+    quick_add:
+      label: "New task for today"
+      placeholder: "Add a task. #123 links a work package"
+      submit: "Add"
     agenda: "Agenda"
     meeting_one_time: "Meeting · One-time"
     meeting_recurring: "Meeting · Recurring"

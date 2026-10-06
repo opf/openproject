@@ -27,9 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Box.new(test_selector: "my-day-today")) do %>
+<%= component_wrapper(data: { test_selector: "my-day-today" }) do %>
   <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 2)) { t("my_day.today") } %>
   <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, test_selector: "my-day-summary")) { summary } %>
+
+  <%= render(Primer::Box.new(mt: 3)) do %>
+    <%= render(MyDay::QuickAddComponent.new(selected: today.current_day_part)) %>
+  <% end %>
 
   <% today.sections.each do |section| %>
     <% scheme = COLOR_SCHEMES.fetch(section.day_part) %>
@@ -44,13 +48,13 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% section.meetings.each do |meeting| %>
         <%= render(Primer::Box.new(**row_arguments(section.day_part, bg: :subtle, test_selector: "my-day-meeting-#{section.day_part}"))) do %>
-          <%= render(MyDay::MeetingRowComponent.new(meeting:, user: today.user, scheme:)) %>
+          <%= render(MyDay::MeetingRowComponent.new(meeting:, user: today.user, scheme:, lead_width:)) %>
         <% end %>
       <% end %>
 
       <% section.work_packages.each do |work_package| %>
         <%= render(Primer::Box.new(**row_arguments(section.day_part, test_selector: "my-day-task-#{section.day_part}"))) do %>
-          <%= render(MyDay::TaskRowComponent.new(work_package:)) %>
+          <%= render(MyDay::TaskRowComponent.new(work_package:, lead_width:, references: today.references)) %>
         <% end %>
       <% end %>
     <% end %>
