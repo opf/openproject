@@ -46,6 +46,8 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
   def forum_order = project.forums.reload.map(&:name)
 
   describe "PUT /projects/:project_id/forums/:id/move" do
+    let(:drop_params) { { list_type: "forum", list_id: "", prev_id: "" } }
+
     it "moves the forum in the requested direction" do
       put move_project_forum_path(project, general), params: { forum: { move_to: "lowest" } }, as: :turbo_stream
 
@@ -66,6 +68,57 @@ RSpec.describe "Forum reordering", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:unprocessable_entity)
       expect(response.body).to include("Forum could not be moved.")
+      expect(forum_order).to eq(["General", "Support", "Off-topic"])
+    end
+
+    it "moves the forum to the top for a blank anchor" do
+      put move_project_forum_path(project, offtopic), params: drop_params, as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(forum_order).to eq(["Off-topic", "General", "Support"])
+    end
+
+    it "moves down after an anchor" do
+      put move_project_forum_path(project, general), params: drop_params.merge(prev_id: offtopic.id), as: :turbo_stream
+
+      expect(forum_order).to eq(["Support", "Off-topic", "General"])
+    end
+
+    it "moves up after an anchor" do
+      put move_project_forum_path(project, offtopic), params: drop_params.merge(prev_id: general.id), as: :turbo_stream
+
+      expect(forum_order).to eq(["General", "Off-topic", "Support"])
+    end
+
+    it "refuses an anchor from another project without changing either order", :aggregate_failures do
+      foreign = create(:forum, name: "Foreign")
+
+      put move_project_forum_path(project, general), params: drop_params.merge(prev_id: foreign.id), as: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include("The item cannot be moved to the requested position.")
+      expect(forum_order).to eq(["General", "Support", "Off-topic"])
+    end
+
+    {
+      "unknown anchor" => { list_type: "forum", list_id: "", prev_id: "999999" },
+      "wrong list type" => { list_type: "status", list_id: "", prev_id: "" },
+      "missing list type" => { list_id: "", prev_id: "" },
+      "nonblank list ID" => { list_type: "forum", list_id: "1", prev_id: "" },
+      "array anchor" => { list_type: "forum", list_id: "", prev_id: [""] }
+    }.each do |description, request_params|
+      it "refuses #{description} without changing order", :aggregate_failures do
+        put move_project_forum_path(project, offtopic), params: request_params, as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(forum_order).to eq(["General", "Support", "Off-topic"])
+      end
+    end
+
+    it "refuses a self-anchor without changing order" do
+      put move_project_forum_path(project, support), params: drop_params.merge(prev_id: support.id), as: :turbo_stream
+
+      expect(response).to have_http_status(:unprocessable_entity)
       expect(forum_order).to eq(["General", "Support", "Off-topic"])
     end
 

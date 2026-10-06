@@ -49,6 +49,10 @@ module Forums
       User.current.allowed_in_project?(:manage_forums, project)
     end
 
+    def first_row?(forum) = forum.id == row_ids.first
+
+    def last_row?(forum) = forum.id == row_ids.last
+
     def has_actions? = manageable?
 
     def mobile_title = I18n.t(:label_forum_plural)
@@ -60,5 +64,33 @@ module Forums
     def blank_title = I18n.t("forums.index.no_results_title_text")
 
     def blank_description = nil
+
+    def container_data
+      return {} unless manageable?
+
+      {
+        controller: "sortable-lists sortable-lists--list",
+        sortable_lists_move_url_template_value: move_url_template,
+        sortable_lists_sortable_lists__list_outlet: "##{container_id}",
+        sortable_lists_sortable_lists__item_outlet: "##{container_id} [data-controller~='sortable-lists--item']",
+        sortable_lists__list_type_value: Forum::SORTABLE_LIST_TYPE,
+        sortable_lists__list_accepted_type_value: Forum::SORTABLE_LIST_TYPE,
+        sortable_lists__list_name_value: I18n.t(:label_forum_plural),
+        sortable_lists__list_rows_container_element: ":scope > .#{rows_container_class}"
+      }
+    end
+
+    private
+
+    def row_ids
+      @row_ids ||= rows.map(&:id)
+    end
+
+    # Built from the route helper so relative-URL-root installations keep working;
+    # {id} is expanded client-side.
+    def move_url_template
+      id_placeholder = "__id__"
+      move_project_forum_path(project, id_placeholder).sub(id_placeholder, "{id}")
+    end
   end
 end

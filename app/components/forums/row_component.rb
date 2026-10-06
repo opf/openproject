@@ -32,18 +32,34 @@ module Forums
   class RowComponent < OpPrimer::BorderBoxRowComponent
     alias_method :forum, :model
 
-    delegate :project, to: :table
+    delegate :project, :manageable?, :first_row?, :last_row?, to: :table
     delegate :topics_count, :messages_count, to: :forum
 
     def row_css_id = "forum-#{forum.id}"
 
-    def row_data = { test_selector: "forum-row-#{forum.id}" }
+    def row_data
+      data = { test_selector: "forum-row-#{forum.id}" }
+      return data unless manageable?
+
+      data.merge(
+        controller: "sortable-lists--item",
+        sortable_lists__item_target: "preview",
+        sortable_lists__item_id_value: forum.id,
+        sortable_lists__item_type_value: Forum::SORTABLE_LIST_TYPE,
+        sortable_lists__item_label_value: forum.name
+      )
+    end
 
     def name
-      flex_layout do |flex|
-        flex.with_row { name_link }
-        flex.with_row(mt: 1) do
-          render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) { forum.description }
+      flex_layout(align_items: :flex_start) do |flex|
+        flex.with_column(mr: 2) { drag_handle } if manageable?
+        flex.with_column do
+          flex_layout do |text|
+            text.with_row { name_link }
+            text.with_row(mt: 1) do
+              render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) { forum.description }
+            end
+          end
         end
       end
     end
@@ -54,7 +70,7 @@ module Forums
 
       flex_layout do |flex|
         flex.with_row(classes: "ellipsis") do
-          render(Primer::Beta::Link.new(href: helpers.message_anchor_path(message), underline: false)) { message.subject }
+          render(Primer::Beta::Link.new(href: last_message_path(message), underline: false)) { message.subject }
         end
         flex.with_row do
           render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) { helpers.message_byline(message) }
@@ -65,6 +81,15 @@ module Forums
     def button_links = [action_menu]
 
     private
+
+    def last_message_path(message)
+      project_forum_topic_path(project, forum, message.parent_id || message.id, r: message.id, anchor: "message-#{message.id}")
+    end
+
+    def drag_handle
+      render(Primer::OpenProject::DragHandle.new(classes: "hide-when-print",
+                                                 data: { sortable_lists__item_target: "handle" }))
+    end
 
     def name_link
       render(Primer::Beta::Link.new(href: project_forum_path(project, forum), underline: false)) do
@@ -93,11 +118,11 @@ module Forums
     end
 
     def move_items(menu)
-      unless forum.first?
+      unless first_row?(forum)
         move_item(menu, :highest, t(:label_sort_highest), "move-to-top")
         move_item(menu, :higher, t(:label_sort_higher), "chevron-up")
       end
-      unless forum.last?
+      unless last_row?(forum)
         move_item(menu, :lower, t(:label_sort_lower), "chevron-down")
         move_item(menu, :lowest, t(:label_sort_lowest), "move-to-bottom")
       end

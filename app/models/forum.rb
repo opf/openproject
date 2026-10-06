@@ -29,6 +29,10 @@
 #++
 
 class Forum < ApplicationRecord
+  include Lists::MoveAfterAnchor
+
+  SORTABLE_LIST_TYPE = "forum"
+
   belongs_to :project
   has_many :topics, -> {
     where("#{Message.table_name}.parent_id IS NULL")
