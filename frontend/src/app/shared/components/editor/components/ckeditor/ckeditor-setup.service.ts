@@ -161,6 +161,14 @@ export class CKEditorSetupService {
         ui: uiLocale,
         content: contentLanguage,
       },
+      mermaid: {
+        lazyLoad: () => import('mermaid').then((m) => m.default),
+        config: {
+          startOnLoad: false,
+          securityLevel: 'strict',
+          theme: 'default',
+        },
+      },
       link: {},
       storageKey: context.storageKey,
       // Constrained editors have no macro dropdown by default; add one when macros are present.

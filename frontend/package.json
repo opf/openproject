@@ -146,6 +146,7 @@
     "lodash-es": "^4.17.21",
     "luxon": "^3.7.2",
     "mdx-embed": "^1.1.2",
+    "mermaid": "^12.1.0",
     "mime": "^4.1.0",
     "moment": "^2.31.0",
     "moment-timezone": "^0.6.4",
