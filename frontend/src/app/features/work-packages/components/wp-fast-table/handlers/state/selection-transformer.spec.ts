@@ -185,6 +185,37 @@ describe('SelectionTransformer', () => {
     expect(selection.getSelectedWorkPackageIds()).toEqual(['2']);
     lifetime.destroy();
     injector.destroy();
+  });
+
+  it('prunes selection only after its own table has committed', () => {
+    const tableRendered = new Subject<RenderedWorkPackage[]>();
+    const retainRendered = vi.fn();
+    const ledger = { generation: 0 };
+    const parent = TestBed.inject(EnvironmentInjector);
+    const injector = createEnvironmentInjector([
+      { provide: IsolatedQuerySpace, useValue: { tableRendered: { values$: () => tableRendered }, stopAllSubscriptions: new Subject<void>() } },
+      { provide: WorkPackageViewSelectionService, useValue: { live$: () => new Subject(), retainRendered, hasSelectionState: false, reset: vi.fn() } },
+      { provide: WorkPackageViewFocusService, useValue: { whenChanged: () => new Subject(), ifShouldFocus: vi.fn(), isFocused: vi.fn(() => false) } },
+      { provide: FocusHelperService, useValue: { focus: vi.fn() } },
+    ], parent);
+    const lifetime = Injector.create({ providers: [], parent: injector });
+    const root = document.createElement('div');
+    document.body.append(root);
+    new SelectionTransformer(injector, {
+      injector, destroyRef: lifetime.get(DestroyRef), tableAndTimelineContainer: root, renderedRows: [], ledger,
+    } as unknown as WorkPackageTable);
+
+    const stale = [{ workPackageId: '2', classIdentifier: 'wp-card-2', hidden: false }];
+    tableRendered.next(stale);
+    expect(retainRendered).not.toHaveBeenCalled();
+
+    ledger.generation = 1;
+    const own = [{ workPackageId: '1', classIdentifier: 'wp-row-1', hidden: false }];
+    tableRendered.next(own);
+    expect(retainRendered).toHaveBeenCalledExactlyOnceWith(own);
+
+    lifetime.destroy();
+    injector.destroy();
     root.remove();
   });
 });

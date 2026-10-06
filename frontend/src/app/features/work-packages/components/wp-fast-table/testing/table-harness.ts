@@ -140,6 +140,8 @@ export interface TableHarnessOptions {
   timelineVisible?:boolean;
   requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
   loadPositions?:() => Promise<QueryOrder>;
+  /** Runs against the fresh injector before the handler registry attaches, to seed state a predecessor view left behind; resolving a view service here constructs it ahead of the transformers, as production does. */
+  beforeAttach?:(injector:Injector) => void;
 }
 
 export interface TableHarness {
@@ -227,6 +229,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
     itemClicked: new EventEmitter<{ workPackageId:string, double:boolean }>(),
     stateLinkClicked: new EventEmitter<{ workPackageId:string, requestedState:string }>(),
   };
+  options.beforeAttach?.(injector);
   new TableHandlerRegistry(injector).attachTo({ workPackageTable: table, ...outputs });
 
   let fixtures = options.workPackages;

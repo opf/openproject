@@ -56,12 +56,14 @@ export class SelectionTransformer {
     public readonly table:WorkPackageTable) {
     const destroyRef = table.destroyRef;
 
-    // Focus a single selection when active
     this.querySpace.tableRendered.values$()
       .pipe(
         takeUntilDestroyed(destroyRef),
       )
-      .subscribe(() => {
+      .subscribe((rows) => {
+        if (table.ledger.generation > 0) {
+          this.wpTableSelection.retainRendered(rows);
+        }
         this.wpTableFocus.ifShouldFocus((wpId:string) => {
           const root = table.tableAndTimelineContainer;
           const element = locateTableRow(wpId, root);
