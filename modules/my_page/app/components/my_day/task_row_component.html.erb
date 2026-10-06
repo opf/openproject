@@ -1,0 +1,48 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout(align_items: :flex_start) do |row| %>
+  <% row.with_column(mr: 3, style: "width: #{MyDay::MeetingRowComponent::LEAD_WIDTH}; flex-shrink: 0", display: :flex, justify_content: :flex_end) do %>
+    <%= render(Primer::Alpha::CheckBox.new(**check_box_arguments)) %>
+  <% end %>
+  <% row.with_column(flex: 1) do %>
+    <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { work_package.subject } %>
+    <%= flex_layout(mt: 1) do |meta| %>
+      <% meta.with_column(mr: 3) do %>
+        <%= render(Primer::Beta::Text.new(font_family: :mono, color: :muted, font_size: :small)) { work_package.formatted_id } %>
+      <% end %>
+      <% meta.with_column(mr: 3) do %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { work_package.type.name } %>
+      <% end %>
+      <% meta.with_column do %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { work_package.status.name } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

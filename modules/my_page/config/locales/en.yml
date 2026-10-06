@@ -7,3 +7,32 @@ en:
         other: "My pages"
   my_page:
     label: "My page"
+  my_day:
+    today: "Today"
+    dashboard: "Dashboard"
+    empty_section: "Nothing planned."
+    now: "Now"
+    agenda: "Agenda"
+    meeting_one_time: "Meeting · One-time"
+    meeting_recurring: "Meeting · Recurring"
+    starts_in:
+      one: "in 1 min"
+      other: "in %{count} min"
+    open_tasks:
+      one: "1 open task"
+      other: "%{count} open tasks"
+    meetings:
+      one: "1 meeting"
+      other: "%{count} meetings"
+    time_range:
+      morning: "until 12:00"
+      afternoon: "12:00 to 17:00"
+      evening: "after 17:00"
+    project_name: "My work"
+    variant_name: "My work"
+    form_name: "My work"
+    day_part:
+      name: "Day part"
+      morning: "Morning"
+      afternoon: "Afternoon"
+      evening: "Evening"
