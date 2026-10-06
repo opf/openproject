@@ -109,7 +109,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
       end
 
-      context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+      context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
         before { project.update!(estimation_unit: "none") }
 
         it "renders no velocity total" do
@@ -400,6 +400,16 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css('li[role="presentation"]:nth-child(2)')
           expect(page).to have_css('li[role="presentation"]:nth-child(5)')
+        end
+
+        context "when the project estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+          before { project.update!(estimation_unit: "none") }
+
+          it "hides the burndown chart menu item, since there is nothing to burn down" do
+            rendered_component
+
+            expect(menu_items).not_to include("Burndown chart")
+          end
         end
       end
 

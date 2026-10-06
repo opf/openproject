@@ -215,7 +215,7 @@ module Backlogs
     end
 
     def show_burndown_link?
-      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active?
+      sprint.active? && !OpenProject::FeatureDecisions.sprint_reports_active? && !project.estimation_unit_none?
     end
 
     def show_report_link?
