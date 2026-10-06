@@ -576,13 +576,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :calendars_and_dates
 
   menu.push :date_format,
-            { controller: "/admin/settings/date_format_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "date_format" },
             if: ->(_) { User.current.admin? },
             caption: :label_date_format,
             parent: :calendars_and_dates
 
   menu.push :icalendar,
-            { controller: "/admin/settings/icalendar_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "icalendar" },
             if: ->(_) { User.current.admin? },
             caption: :label_calendar_subscriptions,
             parent: :calendars_and_dates
@@ -600,7 +600,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :settings
 
   menu.push :settings_languages,
-            { controller: "/admin/settings/languages_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "languages" },
             if: ->(_) { User.current.admin? },
             caption: :label_languages,
             parent: :settings
@@ -612,7 +612,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :settings
 
   menu.push :settings_exports,
-            { controller: "/admin/settings/exports_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "exports" },
             if: ->(_) { User.current.admin? },
             caption: :label_export_plural,
             parent: :settings
@@ -630,13 +630,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :settings
 
   menu.push :mail_and_notifications,
-            { controller: "/admin/settings/aggregation_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "aggregation" },
             if: ->(_) { User.current.admin? },
             caption: :"menus.admin.mails_and_notifications",
             icon: "mail"
 
   menu.push :notification_settings,
-            { controller: "/admin/settings/aggregation_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "aggregation" },
             if: ->(_) { User.current.admin? },
             caption: :"menus.admin.aggregation",
             parent: :mail_and_notifications
@@ -648,7 +648,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :mail_and_notifications
 
   menu.push :incoming_mails,
-            { controller: "/admin/settings/incoming_mails_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "incoming_mails" },
             if: ->(_) { User.current.admin? },
             caption: :label_incoming_emails,
             parent: :mail_and_notifications

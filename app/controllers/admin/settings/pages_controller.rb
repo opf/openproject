@@ -50,6 +50,10 @@ module Admin::Settings
         .with_indifferent_access
     end
 
+    def update_service
+      settings_page.update_service
+    end
+
     def success_callback(_call)
       flash[:notice] = t(:notice_successful_update)
       redirect_to settings_page_path

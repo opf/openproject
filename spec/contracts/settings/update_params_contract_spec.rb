@@ -86,4 +86,33 @@ RSpec.describe Settings::UpdateParamsContract do
       it_behaves_like "contract is valid"
     end
   end
+
+  describe "start_of_week and first_week_of_year validation" do
+    let(:message) do
+      I18n.t("settings.date_format.first_date_of_week_and_year_set",
+             first_week_setting_name: I18n.t(:setting_first_week_of_year),
+             day_of_week_setting_name: I18n.t(:setting_start_of_week))
+    end
+
+    context "when both are set" do
+      let(:params) { { start_of_week: "1", first_week_of_year: "4" } }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when both are blank" do
+      let(:params) { { start_of_week: "", first_week_of_year: "" } }
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when only one of them is set" do
+      let(:params) { { start_of_week: "1", first_week_of_year: "" } }
+
+      it "is invalid" do
+        expect(contract).not_to be_valid
+        expect(contract.errors.full_messages).to include(message)
+      end
+    end
+  end
 end

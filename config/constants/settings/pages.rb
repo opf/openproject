@@ -48,10 +48,11 @@ module Settings
   #   context. Defaults to the "setting_<name>" translation.
   # * `caption`: like `label`, defaulting to the "setting_<name>_caption(_html)"
   #   translation.
-  # * `unit`: translation key of a unit shown next to number fields.
+  # * `unit`: like `label`, a unit shown next to number fields.
   # * `parse`: a lambda transforming the submitted value before it is saved.
   #
-  # Any other hint (e.g. `input_width`, `rows`) is passed on to the input.
+  # Any other hint (e.g. `input_width`, `rows`, `values`) is passed on to the
+  # input, with lambdas evaluated in the view context.
   #
   # Settings changed through something other than a "settings[<name>]" form
   # field on their page (e.g. a toggle or a dialog) are registered with
@@ -121,6 +122,14 @@ module Settings
 
       def label(view_context)
         resolve_text(ui[:label], view_context) || I18n.t("setting_#{name}")
+      end
+
+      def unit(view_context)
+        resolve_text(ui[:unit], view_context)
+      end
+
+      def writable?
+        Setting.public_send(:"#{name}_writable?")
       end
 
       def caption(view_context)
@@ -196,13 +205,14 @@ module Settings
       attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :form_hook, :view_hook
 
       def initialize(key, menu_item:, custom: false, tab: nil, label: nil, url: nil,
-                     enterprise_feature: nil, form_hook: nil, view_hook: nil)
+                     update_service: nil, enterprise_feature: nil, form_hook: nil, view_hook: nil)
         @key = key
         @menu_item = menu_item
         @custom = custom
         @tab = tab
         @label = label
         @url = url
+        @update_service = update_service
         @enterprise_feature = enterprise_feature
         @form_hook = form_hook
         @view_hook = view_hook
@@ -211,6 +221,14 @@ module Settings
 
       def custom?
         @custom
+      end
+
+      def update_service
+        @update_service&.then { it.is_a?(String) ? it.constantize : it } || ::Settings::UpdateService
+      end
+
+      def writable?
+        sections.flat_map(&:visible_entries).any?(&:writable?)
       end
 
       def setting(name, **)

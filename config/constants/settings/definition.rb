@@ -206,7 +206,21 @@ module Settings
         # Manually managed list with languages that have ~50+ translation ratio in Crowdin
         # https://crowdin.com/project/openproject
         default: %w[ca cs de el en es fr hu id it ja ko lt nl no pl pt-BR pt-PT ro ru sk sl sv tr uk vi zh-CN zh-TW].freeze,
-        allowed: -> { Redmine::I18n.all_languages }
+        allowed: -> { Redmine::I18n.all_languages },
+        ui: {
+          values: -> {
+            all_languages.map { translate_language(it) }.sort_by(&:first).map do |name, code|
+              if code == Setting.default_language
+                [t(:"settings.language_name_being_default", language_name: name), code,
+                 { label_arguments: { lang: code }, disabled: true, checked: true }]
+              else
+                [name, code, { label_arguments: { lang: code } }]
+              end
+            end
+          },
+          # The default language is always available, but its disabled check box is not submitted.
+          parse: ->(languages) { languages | [Setting.default_language] }
+        }
       },
       avatar_link_expiration_seconds: {
         description: "Cache duration for avatar image API responses",
@@ -348,6 +362,7 @@ module Settings
       },
       csv_escape_formulas: {
         default: true,
+        ui: { caption: :setting_csv_escape_formulas_text },
         description: "Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)"
       },
       database_cipher_key: {
@@ -360,6 +375,11 @@ module Settings
       date_format: {
         format: :string,
         default: nil,
+        ui: {
+          input: :select_list,
+          values: -> { Settings::Definition[:date_format].allowed.map { [Date.current.strftime(it), it] } },
+          include_blank: -> { t(:label_language_based) }
+        },
         allowed: [
           "%Y-%m-%d",
           "%d/%m/%Y",
@@ -575,7 +595,16 @@ module Settings
       first_week_of_year: {
         default: nil,
         format: :integer,
-        allowed: [1, 4]
+        allowed: [1, 4],
+        ui: {
+          input: :select_list,
+          values: -> { [[day_name(1), 1], [day_name(4), 4]] },
+          include_blank: -> { t(:label_language_based) },
+          caption: -> {
+            t("settings.date_format.first_week_of_year_text_html",
+              link: OpenProject::Static::Links.url_for(:date_format_settings_documentation))
+          }
+        }
       },
       fog: {
         description: "Configure fog, e.g. when using an S3 uploader",
@@ -753,7 +782,24 @@ module Settings
       },
       journal_aggregation_time_minutes: {
         default: 5,
-        allowed: 0..120
+        allowed: 0..120,
+        ui: {
+          unit: -> { t("datetime.units.minute_abbreviated", count: 2) },
+          caption: -> {
+            safe_join(
+              [
+                render(Primer::Beta::Text.new(tag: :p)) do
+                  link_translate("admin.journal_aggregation.caption_with_maximum",
+                                 i18n_args: { max: Settings::Definition[:journal_aggregation_time_minutes].allowed.max },
+                                 links: { webhook_link: admin_outgoing_webhooks_path })
+                end,
+                render(Primer::OpenProject::InlineMessage.new(scheme: :warning, size: :small)) do
+                  render(Primer::Beta::Text.new(tag: :p)) { t("text_hint_disable_with_0") }
+                end
+              ]
+            )
+          }
+        }
       },
       ldap_force_no_page: {
         description: "Force LDAP to respond as a single page, in case paged responses do not work with your server.",
@@ -824,13 +870,16 @@ module Settings
         secret: true
       },
       mail_handler_body_delimiters: {
-        default: ""
+        default: "",
+        ui: { input: :text_area, caption: :text_line_separated }
       },
       mail_handler_body_delimiter_regex: {
-        default: ""
+        default: "",
+        ui: { caption: :text_regexp_multiline }
       },
       mail_handler_ignore_filenames: {
-        default: "signature.asc"
+        default: "signature.asc",
+        ui: { input: :text_area, caption: :"incoming_mails.ignore_filenames" }
       },
       mail_suffix_separators: {
         default: "+"
@@ -1395,7 +1444,12 @@ module Settings
       start_of_week: {
         default: nil,
         format: :integer,
-        allowed: [1, 6, 7]
+        allowed: [1, 6, 7],
+        ui: {
+          input: :select_list,
+          values: -> { [[day_name(1), 1], [day_name(6), 6], [day_name(7), 7]] },
+          include_blank: -> { t(:label_language_based) }
+        }
       },
       statsd: {
         description: "enable statsd metrics (currently puma only) by configuring host",
@@ -1431,6 +1485,11 @@ module Settings
       time_format: {
         format: :string,
         default: nil,
+        ui: {
+          input: :select_list,
+          values: -> { Settings::Definition[:time_format].allowed.map { [Time.current.strftime(it), it] } },
+          include_blank: -> { t(:label_language_based) }
+        },
         allowed: [
           "%H:%M",
           "%I:%M %p"
@@ -1509,7 +1568,8 @@ module Settings
         allowed: 1000..10_000
       },
       work_packages_projects_export_limit: {
-        default: 500
+        default: 500,
+        ui: { caption: :setting_work_packages_projects_export_limit_text }
       },
       work_packages_bulk_request_limit: {
         default: 10

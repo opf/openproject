@@ -114,6 +114,27 @@ RSpec.describe Settings::PageSectionForm, type: :forms do
     end
   end
 
+  context "for the languages page" do
+    subject(:rendered_form) { render_section(Settings::Pages.fetch(:languages).sections.first) }
+
+    it "renders the available languages with the default one checked and disabled", :aggregate_failures do
+      expect(rendered_form).to have_field "settings[available_languages][]", type: :hidden, with: ""
+      expect(rendered_form).to have_field "English (default)", type: :checkbox, checked: true, disabled: true,
+                                                               fieldset: "Available languages"
+      expect(rendered_form).to have_element :label, text: "Español", lang: "es"
+      expect(rendered_form).to have_element :label, text: "简体中文", lang: "zh-CN"
+    end
+  end
+
+  context "for the date format page" do
+    subject(:rendered_form) { render_section(Settings::Pages.fetch(:date_format).sections.first) }
+
+    it "renders selects with the values given as hints", :aggregate_failures do
+      expect(rendered_form).to have_select "Time", with_options: ["Based on user's language", Time.current.strftime("%H:%M")]
+      expect(rendered_form).to have_select "Week starts on", with_options: %w[Monday Saturday Sunday]
+    end
+  end
+
   context "for the external links page" do
     subject(:rendered_form) do
       render_section(Settings::Pages.fetch(:external_links).sections.first,

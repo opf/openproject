@@ -68,6 +68,41 @@ RSpec.describe Admin::Settings::PagesController do
       expect(Setting.allowed_link_protocols).to eq %w[ftp sftp]
     end
 
+    context "for a page with its own update service",
+            with_settings: { available_languages: %w[en de ja], default_language: "de" } do
+      subject { patch :update, params: { settings_page: "languages", settings: { available_languages: %w[en ja] } } }
+
+      it "applies the service's side effects" do
+        user_fr = create(:user, language: "fr")
+        user_ja = create(:user, language: "ja")
+
+        subject
+
+        expect(user_fr.reload.language).to eq "de"
+        expect(user_ja.reload.language).to eq "ja"
+      end
+
+      it "keeps the default language available" do
+        subject
+
+        expect(Setting.available_languages).to contain_exactly("en", "ja", "de")
+      end
+    end
+
+    context "with invalid settings" do
+      subject do
+        patch :update, params: { settings_page: "date_format", settings: { start_of_week: "1", first_week_of_year: "" } }
+      end
+
+      it "redirects back to the page with the validation error", :aggregate_failures do
+        subject
+
+        expect(response).to redirect_to admin_settings_date_format_path
+        expect(flash[:error]).to include I18n.t(:setting_first_week_of_year)
+        expect(Setting.start_of_week).to be_nil
+      end
+    end
+
     context "with settings not shown on the page" do
       let(:settings) { { app_title: "Renamed", login_required: "0" } }
 

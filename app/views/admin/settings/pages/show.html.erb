@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% section_form = Settings::PageSectionForm.new(f, section:, form_hook: (settings_page.form_hook if index.zero?)) %>
     <% if section == settings_page.sections.last %>
-      <%= render(Primer::Forms::FormList.new(section_form, Admin::Settings::Save.new(f))) %>
+      <%= render(Primer::Forms::FormList.new(section_form, Admin::Settings::Save.new(f, disabled: !settings_page.writable?))) %>
     <% else %>
       <%= render(section_form) %>
     <% end %>

@@ -58,12 +58,12 @@ Settings::Pages.draw do
     setting :capture_external_links_require_login
   end
 
-  page :languages, menu_item: :settings_languages, custom: true do
+  page :languages, menu_item: :settings_languages, update_service: "Settings::LanguageUpdateService" do
     setting :available_languages
   end
 
-  page :exports, menu_item: :settings_exports, custom: true do
-    setting :work_packages_projects_export_limit
+  page :exports, menu_item: :settings_exports do
+    setting :work_packages_projects_export_limit, input_width: :xsmall
     setting :csv_escape_formulas
   end
 
@@ -142,19 +142,19 @@ Settings::Pages.draw do
     setting :working_days
   end
 
-  page :date_format, menu_item: :date_format, custom: true do
-    setting :date_format
-    setting :time_format
-    setting :start_of_week
-    setting :first_week_of_year
+  page :date_format, menu_item: :date_format do
+    setting :date_format, input_width: :medium
+    setting :time_format, input_width: :medium
+    setting :start_of_week, input_width: :medium
+    setting :first_week_of_year, input_width: :medium
   end
 
-  page :icalendar, menu_item: :icalendar, custom: true do
+  page :icalendar, menu_item: :icalendar do
     setting :ical_enabled
   end
 
-  page :aggregation, menu_item: :notification_settings, custom: true do
-    setting :journal_aggregation_time_minutes
+  page :aggregation, menu_item: :notification_settings do
+    setting :journal_aggregation_time_minutes, input_width: :medium
   end
 
   page :mail_notifications, menu_item: :mail_notifications, custom: true do
@@ -183,10 +183,10 @@ Settings::Pages.draw do
     end
   end
 
-  page :incoming_mails, menu_item: :incoming_mails, custom: true do
-    setting :mail_handler_body_delimiters
+  page :incoming_mails, menu_item: :incoming_mails do
+    setting :mail_handler_body_delimiters, rows: 5
     setting :mail_handler_body_delimiter_regex
-    setting :mail_handler_ignore_filenames
+    setting :mail_handler_ignore_filenames, rows: 5
   end
 
   page :api, menu_item: :api, custom: true do

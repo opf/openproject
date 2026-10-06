@@ -94,7 +94,13 @@ module OpenProject::Calendar
     initializer "calendar.configuration" do
       ::Settings::Definition.add "ical_enabled",
                                  default: true,
-                                 format: :boolean
+                                 format: :boolean,
+                                 ui: {
+                                   caption: -> {
+                                     t("settings.icalendar.enable_subscriptions_text_html",
+                                       link: OpenProject::Static::Links.url_for(:ical_docs))
+                                   }
+                                 }
     end
   end
 end

@@ -34,6 +34,7 @@ module Settings
 
     validate :journal_aggregation_time_minutes_is_within_bounds
     validate :restricted_password_login_requires_sso_provider
+    validate :start_of_week_and_first_week_of_year_are_set_together
 
     protected
 
@@ -52,6 +53,16 @@ module Settings
       return if Users::PasswordLogin.omniauth_configured?
 
       errors.add :base, :password_login_requires_sso_provider
+    end
+
+    def start_of_week_and_first_week_of_year_are_set_together
+      return unless params.key?(:start_of_week) || params.key?(:first_week_of_year)
+      return unless params[:start_of_week].present? ^ params[:first_week_of_year].present?
+
+      errors.add :base,
+                 I18n.t("settings.date_format.first_date_of_week_and_year_set",
+                        first_week_setting_name: I18n.t(:setting_first_week_of_year),
+                        day_of_week_setting_name: I18n.t(:setting_start_of_week))
     end
   end
 end

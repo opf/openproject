@@ -39,6 +39,7 @@ module Settings
       helpers.call_hook(form_hook, form: sf) if form_hook
 
       section.visible_entries.each do |entry|
+        submit_empty_selection(sf, entry.name) if entry.input == :check_box_group
         sf.public_send(entry.input, name: entry.name, **input_options(entry))
       end
     end
@@ -46,18 +47,22 @@ module Settings
     private
 
     def input_options(entry)
-      options = entry.input_options
+      options = entry.input_options.transform_values { it.is_a?(Proc) ? @view_context.instance_exec(&it) : it }
       options[:label] = entry.label(@view_context)
       options[:caption] = entry.caption(@view_context)
-      options.merge!(unit_options(entry.name, entry.ui[:unit])) if entry.ui[:unit]
+      options.merge!(unit_options(entry.name, entry.unit(@view_context))) if entry.ui[:unit]
       options.compact
+    end
+
+    def submit_empty_selection(form, name)
+      form.hidden(name: "settings[#{name}][]", value: "", scope_name_to_model: false, scope_id_to_model: false)
     end
 
     def unit_options(name, unit)
       id = "settings_#{name}_unit"
 
       {
-        trailing_visual: { text: { id:, text: I18n.t(unit) } },
+        trailing_visual: { text: { id:, text: unit } },
         aria: { describedby: id }
       }
     end

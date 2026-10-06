@@ -909,8 +909,6 @@ Rails.application.routes.draw do
                  settings_page: settings_page.key.to_s
       end
 
-      resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
-      resource :exports, controller: "/admin/settings/exports_settings", only: %i[show update]
       resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
       resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
@@ -922,8 +920,6 @@ Rails.application.routes.draw do
         end
       end
 
-      resource :incoming_mails, controller: "/admin/settings/incoming_mails_settings", only: %i[show update]
-      resource :aggregation, controller: "/admin/settings/aggregation_settings", only: %i[show update]
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
       resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
@@ -1090,8 +1086,6 @@ Rails.application.routes.draw do
         post :confirm_changes
       end
       resource :users, controller: "/admin/settings/users_settings", only: %i[show update]
-      resource :date_format, controller: "/admin/settings/date_format_settings", only: %i[show update]
-      resource :icalendar, controller: "/admin/settings/icalendar_settings", only: %i[show update]
 
       resources :project_reserved_identifiers, only: %i[index destroy] do
         collection do
