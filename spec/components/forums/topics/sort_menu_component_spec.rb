@@ -28,37 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/messages/base"
+require "rails_helper"
 
-module Pages::Messages
-  class Index < ::Pages::Messages::Base
-    attr_accessor :project
+RSpec.describe Forums::Topics::SortMenuComponent, type: :component do
+  subject(:rendered_component) do
+    render_inline(described_class.new(forum:, sort_criteria:))
+  end
 
-    def initialize(project)
-      self.project = project
+  shared_let(:forum) { create(:forum) }
+
+  let(:sort_criteria) do
+    SortHelper::SortCriteria.new.tap do |criteria|
+      criteria.available_criteria = %w[created_at replies updated_at]
+      criteria.from_param("created_at")
     end
+  end
 
-    def path
-      project_forums_path(project)
-    end
+  it "links every order to the forum with its sort param", :aggregate_failures do
+    base = "/projects/#{forum.project.identifier}/forums/#{forum.id}"
 
-    def click_create_message
-      click_on "Message"
+    expect(rendered_component).to have_link("Recent activity", href: "#{base}?sort=updated_at%3Adesc", visible: :all)
+    expect(rendered_component).to have_link("Oldest", href: "#{base}?sort=created_at", visible: :all)
+    expect(rendered_component).to have_link("Most replies", href: "#{base}?sort=replies%3Adesc", visible: :all)
+  end
 
-      ::Pages::Messages::Create.new(project.forums.first)
-    end
-
-    def expect_listed(subject:, replies: nil, last_message: nil)
-      row = find("[data-test-selector^='topic-row-']", text: subject)
-
-      within(row) do
-        expect(page).to have_css(".replies_count", text: replies) if replies
-        expect(page).to have_css(".last_reply", text: last_message) if last_message
-      end
-    end
-
-    def expect_num_replies(amount)
-      expect(page).to have_css("[data-test-selector^='topic-row-'] .replies_count", text: amount)
-    end
+  it "checks the current order only" do
+    expect(rendered_component).to have_css("[aria-checked='true']", text: /\A\s*Oldest\s*\z/, count: 1, visible: :all)
   end
 end

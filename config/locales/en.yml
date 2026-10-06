@@ -3651,6 +3651,13 @@ en:
       no_results_title_text: "There are currently no forums."
     show:
       no_results_title_text: There are currently no posts for the forum.
+      sort:
+        fewest_replies: "Fewest replies"
+        most_replies: "Most replies"
+        newest: "Newest"
+        oldest: "Oldest"
+        oldest_activity: "Oldest activity"
+        recent_activity: "Recent activity"
   general_csv_decimal_separator: "."
 
   general_csv_encoding: "UTF-8"

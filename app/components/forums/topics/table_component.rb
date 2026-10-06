@@ -28,37 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/messages/base"
+module Forums
+  module Topics
+    class TableComponent < OpPrimer::BorderBoxTableComponent
+      columns :subject, :author, :created_at, :replies_count, :last_reply
+      main_column :subject, :last_reply
+      mobile_columns :subject
 
-module Pages::Messages
-  class Index < ::Pages::Messages::Base
-    attr_accessor :project
+      options :forum
 
-    def initialize(project)
-      self.project = project
-    end
+      delegate :project, to: :forum
 
-    def path
-      project_forums_path(project)
-    end
-
-    def click_create_message
-      click_on "Message"
-
-      ::Pages::Messages::Create.new(project.forums.first)
-    end
-
-    def expect_listed(subject:, replies: nil, last_message: nil)
-      row = find("[data-test-selector^='topic-row-']", text: subject)
-
-      within(row) do
-        expect(page).to have_css(".replies_count", text: replies) if replies
-        expect(page).to have_css(".last_reply", text: last_message) if last_message
+      def headers
+        [
+          [:subject, { caption: Message.human_attribute_name(:subject) }],
+          [:author, { caption: Message.human_attribute_name(:author) }],
+          [:created_at, { caption: Message.human_attribute_name(:created_at) }],
+          [:replies_count, { caption: I18n.t(:label_reply_plural) }],
+          [:last_reply, { caption: I18n.t(:label_message_last) }]
+        ]
       end
-    end
 
-    def expect_num_replies(amount)
-      expect(page).to have_css("[data-test-selector^='topic-row-'] .replies_count", text: amount)
+      def mobile_title = I18n.t(:label_topic_plural)
+
+      def container_id = "forum-topics-table"
+
+      def blank_icon = :"comment-discussion"
+
+      def blank_title = I18n.t("forums.show.no_results_title_text")
+
+      def blank_description = nil
     end
   end
 end
