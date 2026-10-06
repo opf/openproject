@@ -43,4 +43,18 @@ module MessagesHelper
       anchor: "message-#{message.id}"
     )
   end
+
+  def message_anchor_path(message)
+    project_forum_topic_path(
+      message.forum.project,
+      message.forum,
+      message.root,
+      r: message.id,
+      anchor: "message-#{message.id}"
+    )
+  end
+
+  def message_byline(message)
+    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+  end
 end
