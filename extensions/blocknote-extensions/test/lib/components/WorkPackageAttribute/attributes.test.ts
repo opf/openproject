@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   EMPTY_VALUE,
   findAttribute,
+  formattedHtmlOf,
   formatAttributeValue,
   listAttributes,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
@@ -25,15 +26,20 @@ describe('listAttributes', () => {
 
   it('lists what the schema offers, in schema order', () => {
     expect(attributes.map((attribute) => attribute.key)).toEqual([
-      'subject', 'duration', 'startDate', 'dueDate', 'estimatedTime', 'percentageDone', 'createdAt',
+      'subject', 'description', 'duration', 'startDate', 'dueDate', 'estimatedTime', 'percentageDone', 'createdAt',
       'assignee', 'responsible', 'type', 'status', 'priority', 'targetVersions',
-      'customField1', 'customField2', 'customField3', 'customField5',
+      'customField1', 'customField2', 'customField3', 'customField4', 'customField5',
     ]);
   });
 
-  it('leaves out long text, bookkeeping and derived fields', () => {
+  it('marks long text as a block', () => {
+    const blocks = attributes.filter((attribute) => attribute.block).map((attribute) => attribute.key);
+    expect(blocks).toEqual(['description', 'customField4']);
+  });
+
+  it('leaves out bookkeeping and derived fields', () => {
     const keys = attributes.map((attribute) => attribute.key);
-    for (const hidden of ['description', 'customField4', 'lockVersion', 'id', 'scheduleManually', 'derivedStartDate', 'version']) {
+    for (const hidden of ['lockVersion', 'id', 'scheduleManually', 'derivedStartDate', 'version']) {
       expect(keys).not.toContain(hidden);
     }
   });
@@ -64,7 +70,19 @@ describe('findAttribute', () => {
 
   it('finds nothing the schema does not offer', () => {
     expect(findAttribute(mockAttributeSchema, 'Designer')).toBeUndefined();
-    expect(findAttribute(mockAttributeSchema, 'description')).toBeUndefined();
+    expect(findAttribute(mockAttributeSchema, 'lockVersion')).toBeUndefined();
+  });
+});
+
+describe('formattedHtmlOf', () => {
+  it('gives the long text as OpenProject rendered it', () => {
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'description')!))
+      .toBe('<p>Kick-off <strong>notes</strong></p>');
+  });
+
+  it('gives nothing for an empty long text or another attribute', () => {
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'Notes')!)).toBe('');
+    expect(formattedHtmlOf(workPackage, findAttribute(mockAttributeSchema, 'subject')!)).toBe('');
   });
 });
 

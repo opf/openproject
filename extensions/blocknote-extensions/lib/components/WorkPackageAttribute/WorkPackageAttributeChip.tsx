@@ -1,25 +1,17 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
-import { formatWorkPackageId } from '../../utils/id';
-import { useTapActivation } from '../../utils/tapActivation';
-import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
-import { usePressOutside } from '../../hooks/usePressOutside';
 import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
-import { normalizeDisplay, type AttributeDisplay } from './externalHtml';
+import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import type { AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { getPendingAttribute } from './pending';
 import { lastAttributeChoice, rememberAttributeChoice } from './lastChoice';
 import { InsertAttributeModal } from './InsertAttributeModal';
 import { AttributeDisplayMenu } from './AttributeDisplayMenu';
 import { AttributeChip } from './atoms';
-import { WorkPackageAttributeView } from './WorkPackageAttributeView';
-
-interface AttributeProps {
-  wpid:string;
-  displayId:string;
-  attribute:string;
-  display:string;
-}
+import { attributeTitle, WorkPackageAttributeView } from './WorkPackageAttributeView';
+import { useAttributeDisplayMenu } from './useAttributeDisplayMenu';
+import type { AttributeProps } from './types';
 
 interface WorkPackageAttributeChipProps {
   content:AttributeProps;
@@ -32,46 +24,26 @@ interface WorkPackageAttributeChipProps {
 function ResolvedAttributeChip({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeChipProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
-  const chipRef = useRef<HTMLElement | null>(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const tapProps = useTapActivation();
-  useSuppressFormattingToolbar(editor, menuOpen);
-
-  usePressOutside(chipRef, menuOpen, () => setMenuOpen(false));
-
-  const title = resolved.state === 'ready'
-    ? `${formatWorkPackageId(resolved.workPackage.displayId)} · ${resolved.workPackage.subject}`
-    : formatWorkPackageId(displayId);
+  const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({ editor, display, onDisplayChange });
 
   return (
     <AttributeChip
       ref={(node:HTMLElement | null) => {
-        chipRef.current = node;
+        elementRef.current = node;
         contentRef?.(node);
       }}
-      title={title}
+      title={attributeTitle(resolved, displayId)}
       role="button"
       aria-haspopup="menu"
       aria-expanded={menuOpen}
       $selected={menuOpen}
       data-drag-handle
-      {...tapProps((event) => {
-        event?.preventDefault();
-        event?.stopPropagation();
-        setMenuOpen((open) => !open);
-      })}
+      {...toggleProps}
     >
       <WorkPackageAttributeView resolved={resolved} display={display} reference={attribute} />
-      {menuOpen && onDisplayChange && (
-        <AttributeDisplayMenu
-          // eslint-disable-next-line react-hooks/refs
-          anchorEl={chipRef.current}
-          active={normalizeDisplay(display)}
-          onPick={(picked) => {
-            setMenuOpen(false);
-            if (picked !== normalizeDisplay(display)) onDisplayChange(picked);
-          }}
-        />
+      {menuOpen && (
+        // eslint-disable-next-line react-hooks/refs
+        <AttributeDisplayMenu anchorEl={elementRef.current} active={active} onPick={pick} />
       )}
     </AttributeChip>
   );
@@ -84,7 +56,6 @@ export function WorkPackageAttributeChip({ content, editor, contentRef, onDispla
   if (pending) {
     return (
       <AttributeChip
-        $selected={false}
         ref={(node:HTMLElement | null) => {
           setAnchorEl(node);
           contentRef?.(node);
@@ -94,9 +65,10 @@ export function WorkPackageAttributeChip({ content, editor, contentRef, onDispla
           <InsertAttributeModal
             anchorEl={anchorEl}
             prefill={lastAttributeChoice()}
-            onInsert={(choice) => {
+            offersLongText={BLOCK_ATTRIBUTE_TYPE in ((editor?.schema.blockSchema ?? {}) as Record<string, unknown>)}
+            onInsert={(choice, kind) => {
               rememberAttributeChoice(choice);
-              pending.onInsert(choice);
+              pending.onInsert(choice, kind);
             }}
             onCancel={pending.onCancel}
           />

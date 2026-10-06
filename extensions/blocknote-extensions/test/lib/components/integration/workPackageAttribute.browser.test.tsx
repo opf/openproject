@@ -4,6 +4,7 @@ import { http, HttpResponse } from 'msw';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { worker } from '../../../mocks/browser';
 import { requestsDuring } from '../../../helpers/requestHelpers';
+import { mockAttributeWorkPackage } from '../../../mocks/workPackageAttributes';
 import {
   buildWorkPackageAttributeExternalDOM,
   computeWorkPackageAttributeExternalData,
@@ -21,7 +22,7 @@ function attributeProps(editor:{ document:{ content?:InlineNode[] }[] }) {
 }
 
 function pasteHtml(html:string, plain:string) {
-  const el = document.querySelector('[contenteditable]');
+  const el = document.querySelector('.bn-editor');
   if (!(el instanceof HTMLElement)) throw new Error('No [contenteditable] to paste into');
   const dt = new DataTransfer();
   dt.setData('text/html', html);
@@ -129,5 +130,87 @@ describe('Work package attribute chip', () => {
     await vi.waitFor(() => {
       expect(attributeProps(editor)).toEqual([props]);
     });
+  });
+});
+
+describe('Long text work package attribute', () => {
+  it('can be dragged to another place', async () => {
+    let editor:{ document:{ type:string }[] } | undefined;
+    renderEditor({
+      onEditor: (instance) => { editor = instance; },
+      initialContent: [
+        { type: 'paragraph', content: 'First' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+        { type: 'paragraph', content: 'Last' },
+      ],
+    });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+
+    const frame = document.querySelector('.op-bn-wp-attribute-block')!;
+    const dropTarget = page.getByText('Last').element().closest('[data-node-type="blockOuter"]')!;
+    await userEvent.dragAndDrop(frame, dropTarget);
+
+    await vi.waitFor(() => expect(editor!.document.map((block) => block.type))
+      .toEqual(['paragraph', 'paragraph', 'openProjectWorkPackageAttributeBlock']));
+    // BlockNote leaves its hidden drag preview until the next drag starts.
+    document.querySelectorAll('.bn-drag-preview').forEach((preview) => preview.remove());
+  });
+});
+
+describe('Work package attributes in a read-only editor', () => {
+  const longText = { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } };
+  const inline = { type: 'openProjectWorkPackageAttribute', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'status', display: 'value' } };
+
+  it('offer no menu to change what they show', async () => {
+    renderEditor({ editable: false, initialContent: [{ type: 'paragraph', content: [inline] }, longText] });
+    await expect.element(page.getByText('Kick-off')).toBeVisible();
+    await expect.element(page.getByText('In progress')).toBeVisible();
+
+    await userEvent.click(page.getByText('Kick-off'));
+    await userEvent.click(page.getByText('In progress'));
+
+    expect(document.querySelector('[data-testid="attribute-display-menu"]')).toBeNull();
+  });
+});
+
+describe('Long text work package attribute from external HTML', () => {
+  it('is recreated as a block rather than a paragraph of its macro', async () => {
+    let editor:{ document:{ type:string, props?:Record<string, unknown> }[] } | undefined;
+    renderEditor({ onEditor: (instance) => { editor = instance; } });
+    await userEvent.click(page.getByRole('textbox'));
+
+    const block = { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'both' };
+    const data = computeWorkPackageAttributeExternalData(block, 'block')!;
+    pasteHtml(buildWorkPackageAttributeExternalDOM(data, document).outerHTML, data.text);
+
+    await vi.waitFor(() => expect(editor!.document.find((entry) => entry.type === 'openProjectWorkPackageAttributeBlock')?.props)
+      .toEqual(block));
+  });
+});
+
+describe('Display menu of a long text taller than the screen', () => {
+  it('shows all its options on its own background', async () => {
+    const longText = '<p>' + 'A long line of text. '.repeat(400) + '</p>';
+    worker.use(
+      http.get('http://localhost:3000/api/v3/work_packages/321', () =>
+        HttpResponse.json({ ...mockAttributeWorkPackage, description: { format: 'markdown', raw: '', html: longText } }))
+    );
+    renderEditor({
+      initialContent: [
+        { type: 'paragraph', content: 'Before' },
+        { type: 'openProjectWorkPackageAttributeBlock', props: { wpid: '321', displayId: 'PROJ-321', attribute: 'description', display: 'value' } },
+      ],
+    });
+    await expect.element(page.getByText('A long line', { exact: false }).first()).toBeVisible();
+
+    await userEvent.click(document.querySelector('.op-bn-wp-attribute-block')!);
+    const menu = page.getByTestId('attribute-display-menu').element();
+    const menuBox = menu.getBoundingClientRect();
+
+    for (const option of Array.from(menu.querySelectorAll('[role="menuitemradio"]'))) {
+      const box = option.getBoundingClientRect();
+      expect(box.bottom).toBeLessThanOrEqual(menuBox.bottom);
+    }
+    expect(menu.scrollHeight).toBeLessThanOrEqual(menu.clientHeight);
   });
 });
