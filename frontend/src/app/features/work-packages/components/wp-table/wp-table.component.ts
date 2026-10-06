@@ -154,6 +154,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
         description: I18n.t('js.work_packages.no_results.description'),
       },
       limitedResults: (count:number, total:number) => I18n.t('js.work_packages.limited_results', { count, total }),
+      sorting: I18n.t('js.label_sorting'),
       tableSummary: I18n.t('js.work_packages.table.summary'),
       tableSummaryHints: [
         I18n.t('js.work_packages.table.text_inline_edit'),
