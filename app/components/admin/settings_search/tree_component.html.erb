@@ -27,29 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Box.new(px: 2, pb: 2, data: { test_selector: "op-admin-settings-search" })) do %>
-  <%= render(
-        Primer::Alpha::Overlay.new(
-          title: t("admin.settings_search.title"),
-          visually_hide_title: true,
-          anchor_side: :outside_bottom,
-          anchor_align: :start,
-          size: :large,
-          padding: :none,
-          role: :dialog
-        )
-      ) do |overlay| %>
-    <% overlay.with_show_button(block: true, data: { test_selector: "op-admin-settings-search--button" }) do |button| %>
-      <% button.with_leading_visual_icon(icon: :search) %>
-      <%= t("admin.settings_search.button") %>
-    <% end %>
-
-    <% overlay.with_body(classes: "op-admin-settings-search--body") do %>
-      <%= helpers.turbo_frame_tag FRAME_ID,
-                                  src: helpers.admin_settings_search_path,
-                                  loading: :lazy,
-                                  target: "_top",
-                                  class: "op-admin-settings-search--frame" %>
+<%= helpers.turbo_frame_tag Admin::SettingsSearchComponent::FRAME_ID, class: "op-admin-settings-search--frame" do %>
+  <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-search--tree", data: { controller: "admin--settings-search" })) do %>
+    <%= render(
+          Primer::OpenProject::FilterableTreeView.new(
+            show_search_highlighting: true,
+            tree_view_arguments: { node_variant: :anchor },
+            include_sub_items_check_box_arguments: { hidden: true },
+            filter_mode_control_arguments: { hidden: true },
+            filter_input_arguments: {
+              autofocus: true,
+              autocomplete: "off",
+              placeholder: t("admin.settings_search.filter_placeholder"),
+              data: { test_selector: "op-admin-settings-search--filter" }
+            },
+            no_results_node_arguments: { label: t("admin.settings_search.no_results") }
+          )
+        ) do |tree_view| %>
+      <% @tree.nodes.each { add_node(tree_view, it) } %>
     <% end %>
   <% end %>
 <% end %>

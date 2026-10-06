@@ -899,6 +899,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    resource :settings_search, only: :show
+
     namespace :settings do
       Settings::Pages.auto_rendered.each do |settings_page|
         resource settings_page.key,

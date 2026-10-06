@@ -29,11 +29,11 @@
 #++
 
 module Admin
-  class SettingsSearchComponent < ApplicationComponent
-    FRAME_ID = "op-admin-settings-search-frame"
+  class SettingsSearchesController < ApplicationController
+    before_action :require_admin
 
-    def render?
-      User.current.admin?
+    def show
+      render Admin::SettingsSearch::TreeComponent.new(tree: ::Settings::SearchTree.new(view_context)), layout: false
     end
   end
 end

@@ -32,28 +32,64 @@ type FilterFn = (node:HTMLElement, query:string, filterMode?:string) => Range[]|
 
 interface FilterableTreeViewElement extends HTMLElement {
   filterFn:FilterFn;
-  defaultFilterFn:FilterFn;
 }
 
-// Keeps all settings below a matching menu item or tab visible, as searching
-// for e.g. "passwords" should list every setting of that page.
+// Matches every word of the query regardless of order and punctuation
+// (e.g. "self registration" finds "Self-registration") against a node's own
+// text and the labels of its ancestors, so searching for a menu item or tab
+// lists all settings below it.
 export default class SettingsSearchController extends ApplicationController {
   connect() {
     const treeView = this.element.querySelector<FilterableTreeViewElement>('filterable-tree-view');
     if (!treeView) return;
 
-    treeView.filterFn = (node, query, filterMode) => {
-      const ranges = treeView.defaultFilterFn(node, query, filterMode);
-      if (ranges !== null || !this.ancestorMatches(node, query)) return ranges;
-
-      return [];
-    };
+    treeView.filterFn = (node, query) => this.filter(node, query);
   }
 
-  private ancestorMatches(node:HTMLElement, query:string):boolean {
-    const path = JSON.parse(node.dataset.path ?? '[]') as string[];
-    const lowercaseQuery = query.toLowerCase();
+  private filter(node:HTMLElement, query:string):Range[]|null {
+    const words = this.words(query);
+    if (words.length === 0) return [];
 
-    return path.slice(0, -1).some((label) => label.toLowerCase().includes(lowercaseQuery));
+    const ownWords = this.words(node.textContent ?? '');
+    const ancestorWords = this.words(this.ancestorLabels(node).join(' '));
+    const searchable = [...ownWords, ...ancestorWords];
+
+    const matches = words.every((word) => searchable.some((candidate) => candidate.includes(word)));
+    if (!matches) return null;
+
+    return this.highlightRanges(node, words);
+  }
+
+  private words(text:string):string[] {
+    return text
+      .toLocaleLowerCase()
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter((word) => word.length > 0);
+  }
+
+  private ancestorLabels(node:HTMLElement):string[] {
+    const path = JSON.parse(node.dataset.path ?? '[]') as string[];
+
+    return path.slice(0, -1);
+  }
+
+  private highlightRanges(node:HTMLElement, words:string[]):Range[] {
+    const ranges:Range[] = [];
+    const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
+
+    for (let textNode = walker.nextNode(); textNode; textNode = walker.nextNode()) {
+      const text = textNode.textContent?.toLocaleLowerCase() ?? '';
+
+      words.forEach((word) => {
+        for (let index = text.indexOf(word); index !== -1; index = text.indexOf(word, index + word.length)) {
+          const range = new Range();
+          range.setStart(textNode, index);
+          range.setEnd(textNode, index + word.length);
+          ranges.push(range);
+        }
+      });
+    }
+
+    return ranges;
   }
 }

@@ -33,12 +33,17 @@ RSpec.describe "Searching settings in the administration", :js do
   current_user { create(:admin) }
 
   before do
-    visit admin_index_path
+    visit admin_settings_working_days_and_hours_path
+
+    within("#main-menu") { click_on "Search settings" }
+  end
+
+  def search_for(query)
+    find_test_selector("op-admin-settings-search--filter").fill_in(with: query)
   end
 
   it "filters the settings tree and highlights the selected setting" do
-    click_on "Search settings"
-    find_test_selector("op-admin-settings-search--filter").fill_in(with: "host name")
+    search_for "host name"
 
     within_test_selector("op-admin-settings-search") do
       expect(page).to have_link "Host name"
@@ -51,9 +56,17 @@ RSpec.describe "Searching settings in the administration", :js do
     expect(page).to have_css(".op-setting--highlighted", text: "Host name")
   end
 
+  it "ignores punctuation and word order" do
+    search_for "registration self"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Self-registration"
+      expect(page).to have_no_link "Application title"
+    end
+  end
+
   it "lists all settings below a matching menu item or tab" do
-    click_on "Search settings"
-    find_test_selector("op-admin-settings-search--filter").fill_in(with: "passwords")
+    search_for "passwords"
 
     within_test_selector("op-admin-settings-search") do
       expect(page).to have_link "Minimum length"
@@ -61,9 +74,17 @@ RSpec.describe "Searching settings in the administration", :js do
     end
   end
 
+  it "combines words matching a tab and a setting" do
+    search_for "passwords minimum"
+
+    within_test_selector("op-admin-settings-search") do
+      expect(page).to have_link "Minimum length"
+      expect(page).to have_no_link "Enable password reset"
+    end
+  end
+
   it "finds settings by their description" do
-    click_on "Search settings"
-    find_test_selector("op-admin-settings-search--filter").fill_in(with: "comma separated")
+    search_for "comma separated"
 
     within_test_selector("op-admin-settings-search") do
       expect(page).to have_link "Objects per page options"

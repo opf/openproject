@@ -26,14 +26,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Admin
-  class SettingsSearchComponent < ApplicationComponent
-    FRAME_ID = "op-admin-settings-search-frame"
+require "spec_helper"
 
-    def render?
-      User.current.admin?
+RSpec.describe "Admin settings search tree", type: :rails_request do
+  before do
+    login_as(user)
+    get admin_settings_search_path
+  end
+
+  context "as an admin" do
+    let(:user) { create(:admin) }
+
+    it "renders the settings tree in its turbo frame", :aggregate_failures do
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body.at_css("turbo-frame##{Admin::SettingsSearchComponent::FRAME_ID}")).to be_present
+      expect(response.body).to include("/admin/settings/general?highlight=app_title")
+    end
+  end
+
+  context "as a regular user" do
+    let(:user) { create(:user) }
+
+    it "is forbidden" do
+      expect(response).to have_http_status(:forbidden)
     end
   end
 end

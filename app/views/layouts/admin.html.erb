@@ -29,4 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% @page_header_title = t(:label_administration) %>
 
+<% content_for :main_menu_top do %>
+  <%= render(Admin::SettingsSearchComponent.new) %>
+<% end %>
+
 <%= render template: "layouts/base", locals: { menu_name: :admin_menu } %>

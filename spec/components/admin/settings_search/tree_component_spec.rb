@@ -29,26 +29,34 @@
 
 require "rails_helper"
 
-RSpec.describe Admin::SettingsSearchComponent, type: :component do
+RSpec.describe Admin::SettingsSearch::TreeComponent, type: :component do
+  let(:node) { Settings::SearchTree::Node }
+  let(:nodes) do
+    [
+      node.new(key: "settings", label: "System settings", description: nil, href: "/admin/settings/general", children: [
+                 node.new(key: "general-app_title", label: "Application title", description: "Shown in the header",
+                          href: "/admin/settings/general?highlight=app_title", children: [])
+               ])
+    ]
+  end
+  let(:tree) { instance_double(Settings::SearchTree, nodes:) }
+
   subject(:rendered_component) do
-    render_inline(described_class.new)
+    render_inline(described_class.new(tree:))
     page
   end
 
-  context "as an admin" do
-    current_user { build_stubbed(:admin) }
-
-    it "renders a button opening the lazily loaded settings tree", :aggregate_failures do
-      expect(rendered_component).to have_button "Search settings"
-      expect(rendered_component).to have_css("turbo-frame[src='/admin/settings_search'][loading='lazy']", visible: :all)
-    end
+  it "renders the menu hierarchy with settings as links", :aggregate_failures do
+    expect(rendered_component).to have_link "System settings", href: "/admin/settings/general", visible: :all
+    expect(rendered_component).to have_link "Application title", href: "/admin/settings/general?highlight=app_title",
+                                                                 visible: :all
   end
 
-  context "as a regular user" do
-    current_user { build_stubbed(:user) }
+  it "includes the description as searchable, visually hidden text" do
+    expect(rendered_component).to have_css(".sr-only", text: "Shown in the header", visible: :all)
+  end
 
-    it "renders nothing" do
-      expect(rendered_component).to have_no_css("*")
-    end
+  it "renders a filter input" do
+    expect(rendered_component).to have_field placeholder: "Search by name or description"
   end
 end
