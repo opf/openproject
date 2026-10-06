@@ -17,6 +17,19 @@
     overflow: visible
     white-space: pre-wrap
 
+  &[lang="mermaid"]:not([data-mermaid-state])
+    // The source would be painted as a code block until mermaid swaps in the SVG.
+    visibility: hidden
+
+    @at-root .op-uc-container_editing &
+      visibility: visible
+
+  &[lang="mermaid"][data-mermaid-state="rendered"]
+    padding: 0
+    text-align: center
+    background-color: transparent
+    border: none
+
   &--language
     margin-top: 0.5rem
     margin-bottom: -0.5rem
