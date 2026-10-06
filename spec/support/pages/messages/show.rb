@@ -57,7 +57,7 @@ module Pages::Messages
     def reply(text)
       find(".ck-content").base.send_keys text
 
-      click_button "Submit"
+      click_button "Reply"
 
       expect(page).to have_css(".forum-message--comments", text:)
 

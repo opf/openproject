@@ -93,24 +93,18 @@ See COPYRIGHT and LICENSE files for more details.
   <% if !@topic.locked? && authorize_for('messages', 'reply') %>
     <div id="reply" data-forum-messages-target="reply">
 
-      <hr class="form--separator">
-
-      <%= labelled_tabular_form_for @reply,
-                                    as: :reply,
-                                    url: reply_to_project_forum_topic_path(@project, @forum, @topic),
-                                    html: {
-                                      multipart: true,
-                                      id: 'message-form',
-                                      class: 'form',
-                                      data: { turbo: false }
-                                    } do |f| %>
-        <%= render partial: 'form', locals: { f: f, replying: true } %>
-
-        <hr class="form--separator">
-
-        <%= f.button t(:button_submit), class: 'button -primary -primary -with-icon icon-checkmark' %>
-      <% end %>
-      <div id="preview"></div>
+      <%=
+        primer_form_with(
+          model: @reply,
+          scope: :reply,
+          url: reply_to_project_forum_topic_path(@project, @forum, @topic),
+          method: :post,
+          multipart: true,
+          data: { turbo: false }
+        ) do |f|
+          render(Messages::Form.new(f, submit_label: t(:button_reply), replying: true))
+        end
+      %>
     </div>
   <% end %>
 </div>
