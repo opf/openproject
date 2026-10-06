@@ -72,15 +72,13 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
                              visible: :all)
   end
 
-  it "shows a deleted user as muted text with an icon, even to a user who may not see them" do
+  it "shows a deleted user with their avatar, even to a user who may not see them" do
     deleted_user = create(:deleted_user)
     allocation = build_stubbed(:resource_allocation, principal: deleted_user, allocated_time: 60 * 60)
 
     render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
 
-    expect(page).to have_css(".op-rm-timeline-bar--label.color-fg-muted", text: deleted_user.name)
-    expect(page).to have_css(".octicon-x-circle")
-    expect(page).to have_no_css("opce-principal")
+    expect(page).to have_css("opce-principal")
     expect(page).to have_no_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
     expect(page).to have_css("tool-tip", text: deleted_user.name, visible: :all)
   end

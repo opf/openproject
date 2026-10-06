@@ -117,10 +117,9 @@ RSpec.describe ResourceAllocations::ListItemComponent, type: :component do
       context "when the deleted user is #{visibility_label} to the user" do
         let(:visible) { visibility }
 
-        it "shows the deleted user as muted text with an icon instead of an avatar" do
-          expect(rendered).to have_css(".color-fg-muted", text: deleted_user.name)
-          expect(rendered).to have_css(".octicon-x-circle")
-          expect(rendered).to have_no_css("avatar-fallback")
+        it "shows the deleted user with their avatar" do
+          expect(rendered).to have_text(deleted_user.name)
+          expect(rendered).to have_css("avatar-fallback[data-unique-id='#{deleted_user.id}']")
           expect(rendered).to have_no_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
         end
 

@@ -146,10 +146,9 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
     let(:allocations) { [assigned_allocation(deleted_user)] }
     let(:visible_principal_ids) { Set.new }
 
-    it "names the deleted user as muted text with an icon instead of an avatar" do
-      expect(rendered).to have_no_css(".AvatarStack")
-      expect(rendered).to have_css(".octicon-x-circle")
-      expect(rendered).to have_css(".color-fg-muted", text: deleted_user.name)
+    it "names the deleted user with their avatar" do
+      expect(rendered).to have_css("avatar-fallback[data-unique-id='#{deleted_user.id}']")
+      expect(rendered).to have_text(deleted_user.name)
       expect(rendered).to have_no_text("1 user")
     end
   end
@@ -160,12 +159,11 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::AllocatedMembersComponent,
     let(:allocations) { [assigned_allocation(deleted_user), assigned_allocation(assignee)] }
     let(:visible_principal_ids) { Set[assignee.id] }
 
-    it "leads with the visible member, stacks only their avatar and names the deleted user in the tooltip" do
-      expect(rendered).to have_css("avatar-fallback", count: 1)
-      expect(rendered).to have_css("avatar-fallback[data-unique-id='#{assignee.id}']")
-      expect(rendered).to have_text("Michael Johnson")
+    it "stacks both avatars and names both members in the tooltip" do
+      expect(rendered).to have_css("avatar-fallback", count: 2)
       expect(rendered).to have_text("+1")
       expect(rendered).to have_css("tool-tip", text: deleted_user.name, visible: :all)
+      expect(rendered).to have_css("tool-tip", text: "Michael Johnson", visible: :all)
     end
   end
 

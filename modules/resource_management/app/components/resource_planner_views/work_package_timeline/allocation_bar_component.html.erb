@@ -1,10 +1,7 @@
 <div class="op-rm-timeline-bar" id="<%= label_tooltip_id %>">
   <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
 
-  <% if deleted_user? %>
-    <%= render(Primer::Beta::Octicon.new(icon: :"x-circle", size: :small, color: :muted)) %>
-    <span class="op-rm-timeline-bar--label color-fg-muted"><%= allocation.principal.name %></span>
-  <% elsif principal_visible? %>
+  <% if principal_visible? %>
     <%= avatar(
           allocation.principal,
           size: "mini",

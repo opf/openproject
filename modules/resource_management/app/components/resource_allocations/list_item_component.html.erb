@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(leading_visual) %>
   <% end %>
   <%= row.with_column(flex: 1) do %>
-    <%= render(Primer::Beta::Text.new(font_size: :small, color: deleted_user? ? :muted : nil)) { name } %>
+    <%= render(Primer::Beta::Text.new(font_size: :small)) { name } %>
   <% end %>
   <%= row.with_column do %>
     <%= render(Primer::Beta::Label.new(size: :large)) { duration } %>
