@@ -91,7 +91,7 @@ class LlmFeatureBinding < ApplicationRecord
   def default_model_id
     return if feature.nil?
 
-    feature.embedding? ? llm_connection.default_embedding_model_id : llm_connection.default_chat_model_id
+    llm_connection.default_model_for(feature)&.external_id
   end
 
   def feature_registered
