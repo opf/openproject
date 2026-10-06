@@ -22,7 +22,7 @@
       (keydown.escape)="reset($event)"
       (keydown.enter)="save($event)"
       [attr.placeholder]="text.input_placeholder"
-      [attr.title]="text.input_title"
+      [attr.aria-label]="text.input_title"
       [(ngModel)]="selectedTitle"
       [disabled]="inFlight"
       [ngClass]="{ '-error': isEmpty, '-changed': showSave }"

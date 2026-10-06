@@ -32,13 +32,13 @@
           <thead class="-sticky">
             <tr>
               @if (configuration.dragAndDropEnabled) {
-                <th class="wp-table--manual-sort-th -short hide-when-print">
+                <td class="wp-table--manual-sort-th -short hide-when-print">
                   <div class="generic-table--empty-header">
                     @if (manualSortEnabled) {
                       <op-icon icon-classes="icon-sort-by" />
                     }
                   </div>
-                </th>
+                </td>
               }
               @if (baselineEnabled) {
                 <th class="wp-table--baseline-th -short hide-when-print">
