@@ -40,22 +40,13 @@ def aggregate_mocked_settings(example, settings)
   settings
 end
 
+# Snapshots Settings::Definition before the group and restores it after
+# each example. Use (tag `:settings_reset`) when a spec adds, resets or
+# overrides definitions or stubs configuration.yml; `with_settings:` alone
+# doesn't need it.
 RSpec.shared_context "with settings reset" do
-  let(:definitions_snapshot) { instance_variable_get(:@definitions_snapshot) }
-
-  # Snapshot per-Definition mutable state once, captured early enough that
-  # legitimate boot-time mutations (e.g. the 2FA plugin's TokenStrategyManager
-  # populating `active_strategies`) are part of the baseline. Definition
-  # objects are mutated in place by `override_value`, so a shallow `@all.dup`
-  # doesn't restore them — both copies point at the same mutated object.
   before(:context) do
-    @definitions_snapshot = Settings::Definition.all.transform_values do |definition|
-      {
-        definition: definition,
-        value: definition.instance_variable_get(:@value).deep_dup,
-        writable: definition.instance_variable_get(:@writable)
-      }
-    end.freeze
+    @definitions_snapshot = SettingsDefinitionsSnapshot.capture
   end
 
   def reset(setting, **definitions)
@@ -86,23 +77,7 @@ RSpec.shared_context "with settings reset" do
   end
 
   after do
-    # Rewind in-place @value/@writable mutations on each original Definition.
-    definitions_snapshot.each_value do |snap|
-      snap[:definition].instance_variable_set(:@value, snap[:value].deep_dup)
-      snap[:definition].instance_variable_set(:@writable, snap[:writable])
-    end
-
-    # Rebuild @all from the snapshot, dropping Definitions added during the
-    # test (e.g. `described_class.add(:bogus)`).
-    Settings::Definition.instance_variable_set(
-      :@all,
-      definitions_snapshot.transform_values { |snap| snap[:definition] }
-    )
-
-    # Clear block-style overrides registered via add_value_override and the
-    # cached file config so the next test re-reads from disk.
-    Settings::Definition.clear_value_overrides
-    Settings::Definition.instance_variable_set(:@file_config, nil)
+    @definitions_snapshot.restore # rubocop:disable RSpec/InstanceVariable
   end
 end
 
