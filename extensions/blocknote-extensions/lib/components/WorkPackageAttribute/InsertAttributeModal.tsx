@@ -23,15 +23,16 @@ import {
   Panel,
   RequiredMark,
 } from '../CreateWorkPackage/atoms';
-import { findAttribute, formatAttributeValue, listAttributes } from './attributes';
-import type { AttributeDisplay } from './externalHtml';
-import type { AttributeChoice } from './pending';
-import { WorkPackageAttributeView } from './WorkPackageAttributeView';
-import { useAttributeFormatOptions } from './useWorkPackageAttribute';
+import { findAttribute, formatAttributeValue, listAttributes, type WorkPackageAttribute } from './attributes';
+import type { AttributeDisplay, AttributeNodeKind } from './externalHtml';
+import type { AttributeChoice } from './types';
+import { WorkPackageAttributeBlockView, WorkPackageAttributeView } from './WorkPackageAttributeView';
+import { useAttributeFormatOptions, type ReadyAttribute } from './useWorkPackageAttribute';
 import { WorkPackagePicker } from './WorkPackagePicker';
 import {
   AttributeSurface,
   AttributeFieldLabel,
+  BlockPreview,
   DisabledControl,
   DisplayOption,
   DisplayOptions,
@@ -54,14 +55,25 @@ const PREVIEW_EDITOR_VARIABLES = [
 
 const DISPLAYS:AttributeDisplay[] = ['label', 'value', 'both'];
 
+const isOffered = (attribute:WorkPackageAttribute, offersLongText:boolean) => offersLongText || !attribute.block;
+
+const AttributePreview = ({ resolved, display }:{ resolved:ReadyAttribute, display:AttributeDisplay }) => {
+  const view = { resolved, display, reference: resolved.attribute.reference };
+  return resolved.attribute.block
+    ? <BlockPreview><WorkPackageAttributeBlockView {...view} /></BlockPreview>
+    : <AttributeSurface><WorkPackageAttributeView {...view} /></AttributeSurface>;
+};
+
 export interface InsertAttributeModalProps {
   anchorEl?:HTMLElement | null;
   prefill?:AttributeChoice;
-  onInsert:(choice:AttributeChoice) => void;
+  // Long text needs the block spec, which an editor may not have registered.
+  offersLongText:boolean;
+  onInsert:(choice:AttributeChoice, kind:AttributeNodeKind) => void;
   onCancel:() => void;
 }
 
-export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:InsertAttributeModalProps) => {
+export const InsertAttributeModal = ({ anchorEl, prefill, offersLongText, onInsert, onCancel }:InsertAttributeModalProps) => {
   const { t } = useTranslation();
   const panelRef = useRef<HTMLDivElement>(null);
   usePageScrollLock();
@@ -88,8 +100,12 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
   const schema = loadedPicked ? cachedWorkPackageSchema(loaded) : undefined;
   const schemaError = unauthorized || !!error || (loadedPicked && !schema);
 
-  const attributes = useMemo(() => (schema ? listAttributes(schema) : []), [schema]);
-  const selected = schema && attribute ? findAttribute(schema, attribute) : undefined;
+  const attributes = useMemo(
+    () => (schema ? listAttributes(schema).filter((option) => isOffered(option, offersLongText)) : []),
+    [schema, offersLongText],
+  );
+  const found = schema && attribute ? findAttribute(schema, attribute) : undefined;
+  const selected = found && isOffered(found, offersLongText) ? found : undefined;
 
   useEffect(() => {
     if (!schema || !attribute || findAttribute(schema, attribute) || !workPackage) return;
@@ -123,7 +139,7 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
       displayId: workPackage.displayId,
       attribute: selected.reference,
       display,
-    });
+    }, selected.block ? 'block' : 'inline');
   };
 
   const attributeControl = workPackage && schema
@@ -245,18 +261,15 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
               <PreviewBox data-testid="insert-attribute-preview">
                 {workPackage && selected
                   ? (
-                    <AttributeSurface>
-                      <WorkPackageAttributeView
-                        resolved={{
-                          state: 'ready',
-                          workPackage,
-                          attribute: selected,
-                          value: formatAttributeValue(workPackage, selected, formatOptions),
-                        }}
-                        display={display}
-                        reference={selected.reference}
-                      />
-                    </AttributeSurface>
+                    <AttributePreview
+                      resolved={{
+                        state: 'ready',
+                        workPackage,
+                        attribute: selected,
+                        value: formatAttributeValue(workPackage, selected, formatOptions),
+                      }}
+                      display={display}
+                    />
                   )
                   : <PreviewPlaceholder>{t('workPackageAttribute.dialog.previewEmpty')}</PreviewPlaceholder>}
               </PreviewBox>
