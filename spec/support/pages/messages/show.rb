@@ -42,44 +42,50 @@ module Pages::Messages
     end
 
     def expect_content(content)
-      expect(page).to have_css(".forum-message .wiki", text: content)
+      within_test_selector("forum-post-#{message.id}") do
+        expect(page).to have_css(".op-uc-container", text: content)
+      end
     end
 
     def expect_no_replies
-      expect(page).to have_no_content("Replies")
+      expect(page).to have_test_selector("topic-summary", text: "No replies yet")
     end
 
     def expect_num_replies(num)
-      expect(page).to have_content("Replies (#{num})")
+      expect(page).to have_test_selector("topic-summary", text: num == 1 ? "1 reply" : "#{num} replies")
     end
 
     def reply(text)
       previous_message_id = Message.maximum(:id)
-      find(".ck-content").base.send_keys text
+      find("#reply .ck-content").base.send_keys text
 
       click_button "Reply"
 
-      expect(page).to have_css(".forum-message--comments", text:)
+      expect(page).to have_css("[data-test-selector^='forum-post-']", text:)
 
       latest_message_after(previous_message_id)
     end
 
     def quote(content:, quoted_message: nil, subject: nil)
       if quoted_message
-        within "#message-#{quoted_message.id} .contextual" do
+        within_test_selector("forum-post-#{quoted_message.id}") do
+          click_on accessible_name: "Message actions"
           click_on "Quote"
         end
       else
-        page.find_test_selector("message-quote-button").click
+        within_test_selector("forum-post-#{message.id}") do
+          click_on accessible_name: "Message actions"
+          click_on "Quote"
+        end
       end
 
       quoted_text = (quoted_message || Message.first).content
       expect(page).to have_css("#reply .ck-content blockquote", text: quoted_text, wait: 20)
 
-      scroll_to_element find(".ck-content")
+      scroll_to_element find("#reply .ck-content")
       fill_in "reply_subject", with: subject if subject
 
-      editor = find(".ck-content")
+      editor = find("#reply .ck-content")
       editor.base.send_keys content
 
       # For some reason, capybara will click on
@@ -89,18 +95,17 @@ module Pages::Messages
       subject_field = find_by_id("reply_subject")
       subject_field.native.send_keys(:return)
 
-      expect(page).to have_css(".forum-message--comments blockquote", text: quoted_text)
+      expect(page).to have_css("[data-test-selector^='forum-post-'] blockquote", text: quoted_text)
 
       latest_message_after(previous_message_id)
     end
 
     def expect_reply(subject:, content:, reply: nil)
-      selector = ".comment"
-      selector += "#message-#{reply.id}" if reply
+      card = reply ? find_test_selector("forum-post-#{reply.id}") : all("[data-test-selector^='forum-post-']").last
 
-      within(selector) do
-        expect(page).to have_content(subject)
-        expect(page).to have_content(content)
+      within(card) do
+        expect(page).to have_text(subject)
+        expect(page).to have_text(content)
       end
     end
 
