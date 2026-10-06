@@ -35,7 +35,7 @@ import { WorkPackageViewBaseService } from 'core-app/features/work-packages/rout
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
-import { BatchSelection, SelectionItem } from 'core-common/batch-selection';
+import { BatchSelection, SelectionItem, selectionKey } from 'core-common/batch-selection';
 import {
   anchoredOccurrence,
   occurrenceRangeIds,
@@ -170,6 +170,21 @@ export class WorkPackageViewSelectionService extends WorkPackageViewBaseService<
     });
     this.publish();
     this.opContextMenu.close();
+  }
+
+  /**
+   * Keeps only members that `rows` render, hidden rows included.
+   *
+   * @remarks
+   * Never adds and publishes only when membership or the anchor changed.
+   * The owning table calls this after each of its own publications once
+   * it has committed; the card view and Boards never do.
+   */
+  public retainRendered(rows:readonly RenderedWorkPackage[]):void {
+    const live = new Set(selectableOccurrences(rows).map((row) => selectionKey(this.item(row.workPackageId!))));
+    if (this.model.prune(live)) {
+      this.publish();
+    }
   }
 
   public getSelectedWorkPackages():WorkPackageResource[] {
