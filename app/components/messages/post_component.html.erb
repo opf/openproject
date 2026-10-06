@@ -1,0 +1,80 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%= render(Primer::Box.new(border: :left, classes: "op-forum-post-stem")) if reply? %>
+<%=
+  render(
+    border_box_container(
+      id: "message-#{message.id}",
+      classes: "op-forum-post",
+      data: { test_selector: "forum-post-#{message.id}" }
+    )
+  ) do |box|
+    box.with_header do
+      flex_layout(align_items: :center, justify_content: :space_between) do |header|
+        header.with_column(flex_layout: true, flex_wrap: :wrap, align_items: :center) do |byline|
+          if message.author
+            byline.with_column(mr: 2) do
+              render(Users::AvatarComponent.new(user: message.author, show_name: false, size: :mini))
+            end
+            byline.with_column(mr: 2) do
+              helpers.primer_link_to_user(message.author, scheme: :primary, font_weight: :bold, hover_card: true)
+            end
+          end
+          if reply?
+            byline.with_column(mr: 2, classes: "ellipsis") do
+              render(
+                Primer::Beta::Link.new(
+                  href: helpers.message_anchor_path(message),
+                  scheme: :secondary,
+                  underline: false,
+                  font_size: :small,
+                  data: { turbo: false }
+                )
+              ) { message.subject }
+            end
+          end
+          byline.with_column do
+            render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { helpers.format_time(message.created_at) }
+          end
+        end
+        header.with_column(ml: 1) { action_menu }
+      end
+    end
+
+    box.with_body do
+      concat(content_tag(:div, helpers.format_text(message, :content, attachments: message.attachments), class: "op-uc-container"))
+      if message.attachments.any?
+        concat(helpers.list_attachments(helpers.message_attachment_representer(message)))
+      end
+    end
+  end
+%>

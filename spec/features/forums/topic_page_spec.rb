@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,46 +26,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Messages
-  class ShowPageHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include ApplicationHelper
-    include WatchersHelper
+require "spec_helper"
 
-    def initialize(topic:)
-      super
-      @topic = topic
+RSpec.describe "Forum topic page", :js do
+  shared_let(:forum) { create(:forum) }
+  shared_let(:user) { create(:user, member_with_permissions: { forum.project => %i[view_messages add_messages] }) }
+  shared_let(:topic) do
+    create(:message, forum:, subject: "Release planning", content: (1..80).map { "Paragraph #{it}" }.join("\n\n"))
+  end
+
+  let(:show_page) { Pages::Messages::Show.new(topic) }
+
+  before { login_as(user) }
+
+  it "brings the reply box into view with the quote ready to edit", :aggregate_failures do
+    show_page.visit!
+
+    within_test_selector("forum-post-#{topic.id}") do
+      click_on accessible_name: "Message actions"
+      click_on "Quote"
     end
 
-    def breadcrumb_items
-      [
-        { href: project_overview_path(project.id), text: project.name },
-        { href: project_forums_path(project), text: t(:label_forum_plural) },
-        { href: project_forum_path(project, forum), text: forum.name },
-        @topic.subject
-      ]
-    end
+    expect(page).to have_css("#reply .ck-content", text: "wrote")
+    expect(page).to have_css("#reply h2", text: "Reply", obscured: false)
+    expect(page).to have_css("#reply :focus")
+  end
 
-    private
+  it "highlights a reply when following its link on the page" do
+    reply = create(:message, forum:, parent: topic, subject: "RE: Release planning")
+    show_page.visit!
 
-    def forum = @topic.forum
+    within_test_selector("forum-post-#{reply.id}") { click_link "RE: Release planning" }
 
-    def project = forum.project
-
-    def summary
-      parts = [started, t("forums.topic.replies", count: @topic.replies_count)]
-      parts << t("forums.topic.participants", count: participants_count) if participants_count.positive?
-      safe_join(parts, " · ")
-    end
-
-    def started
-      t("forums.topic.started_html", time: render(OpPrimer::RelativeTimeComponent.new(datetime: @topic.created_at, prefix: "")))
-    end
-
-    def participants_count
-      @participants_count ||= Message.where(id: @topic.id).or(Message.where(parent_id: @topic.id)).distinct.count(:author_id)
-    end
+    expect(page).to have_css("#message-#{reply.id}:target")
   end
 end

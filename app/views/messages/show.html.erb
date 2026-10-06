@@ -27,86 +27,33 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render Messages::ShowPageHeaderComponent.new(topic: @topic, message: @message, forum: @forum, project:@project) %>
+<%= render Messages::ShowPageHeaderComponent.new(topic: @topic) %>
 
-<% content_controller 'forum-messages' %>
+<% content_controller "forum-messages" %>
 
-<% title avatar(@topic.author) + h(@topic.subject) %>
+<%= render(Messages::PostComponent.new(message: @topic, topic: @topic)) %>
 
-<div class="forum-message">
-  <p class="author additional-information"><%= authoring @topic.created_at, @topic.author %></p>
-  <div class="wiki op-uc-container">
-    <%= format_text(@topic, :content, attachments: @topic.attachments) %>
-  </div>
+<% if @replies.any? %>
+  <%= render(Messages::PostComponent.with_collection(@replies, topic: @topic)) %>
+  <%= pagination_links_full @replies, per_page_links: false %>
+<% end %>
 
-  <% resource = message_attachment_representer(@topic) %>
-  <%= list_attachments(resource) %>
-
-</div>
-<br>
-
-<div class="forum-message--comments comments">
-  <% unless @replies.empty? %>
-    <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
-    <% @replies.each do |message| %>
-      <div class="comment" id="message-<%= message.id %>">
-        <div class="contextual">
-          <%= link_to(icon_wrapper('icon-context icon-quote', t(:button_quote)),
-                      { action: 'quote', id: message },
-                      title: t(:button_quote),
-                      class: 'boards--quote-button no-decoration-on-hover',
-                      data: { 'action': 'forum-messages#quote' },
-                      alt: t(:button_quote)) if !@topic.locked? && authorize_for("messages", "reply") %>
-          <%= link_to(icon_wrapper('icon-context icon-edit', t(:button_edit)),
-                      { action: 'edit', id: message },
-                      title: t(:button_edit),
-                      class: 'no-decoration-on-hover',
-                      alt: t(:button_edit)) if message.editable_by?(User.current) %>
-          <%= link_to(icon_wrapper('icon-context icon-delete', t(:button_delete)),
-                      { action: 'destroy', id: message },
-                      data: { turbo_method: :delete, turbo_confirm: t(:text_are_you_sure) },
-                      title: t(:button_delete),
-                      class: 'no-decoration-on-hover',
-                      alt: t(:button_delete)) if message.destroyable_by?(User.current) %>
-        </div>
-        <h4 class="author additional-information">
-          <%= avatar(message.author) %>
-          <%= link_to h(message.subject), project_forum_topic_path(@project, @forum, @topic,
-                                                     r: message,
-                                                     page: @offset,
-                                                     anchor: "message-#{message.id}") %>
-          -
-          <%= authoring message.created_at, message.author %>
-        </h4>
-        <div class="wiki op-uc-container">
-          <%= format_text message, :content, attachments: message.attachments %>
-        </div>
-        <% if message.attachments.any? %>
-          <% resource = message_attachment_representer(message) %>
-          <%= list_attachments(resource) %>
-        <% end %>
-      </div>
-    <% end %>
-    <%= pagination_links_full @replies, per_page_links: false %>
+<% if !@topic.locked? && authorize_for("messages", "reply") %>
+  <%= content_tag(:section, id: "reply", data: { "forum-messages-target": "reply" }) do %>
+    <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 3, mt: 4, mb: 3)) { t(:button_reply) } %>
+    <%=
+      primer_form_with(
+        model: @reply,
+        scope: :reply,
+        url: reply_to_project_forum_topic_path(@project, @forum, @topic),
+        method: :post,
+        multipart: true,
+        data: { turbo: false }
+      ) do |f|
+        render(Messages::Form.new(f, submit_label: t(:button_reply), replying: true))
+      end
+    %>
   <% end %>
-
-  <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-    <div id="reply" data-forum-messages-target="reply">
-
-      <%=
-        primer_form_with(
-          model: @reply,
-          scope: :reply,
-          url: reply_to_project_forum_topic_path(@project, @forum, @topic),
-          method: :post,
-          multipart: true,
-          data: { turbo: false }
-        ) do |f|
-          render(Messages::Form.new(f, submit_label: t(:button_reply), replying: true))
-        end
-      %>
-    </div>
-  <% end %>
-</div>
+<% end %>
 
 <% html_title h(@topic.subject) %>

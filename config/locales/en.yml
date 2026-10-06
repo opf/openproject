@@ -3658,6 +3658,16 @@ en:
         oldest: "Oldest"
         oldest_activity: "Oldest activity"
         recent_activity: "Recent activity"
+    topic:
+      message_actions: "Message actions"
+      participants:
+        one: "1 participant"
+        other: "%{count} participants"
+      replies:
+        one: "1 reply"
+        other: "%{count} replies"
+        zero: "No replies yet"
+      started_html: "Started %{time}"
   general_csv_decimal_separator: "."
 
   general_csv_encoding: "UTF-8"
