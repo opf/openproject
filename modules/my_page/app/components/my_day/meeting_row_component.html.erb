@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= flex_layout(align_items: :center) do |row| %>
+<%= flex_layout(align_items: :flex_start) do |row| %>
   <% row.with_column(mr: 3, text_align: :right, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0") do %>
     <%= render(Primer::Beta::Text.new(font_weight: :bold, color: scheme)) { start_time } %><%= render(Primer::Beta::Text.new(color: :muted)) { "–#{end_time}" } %>
   <% end %>
@@ -37,14 +37,16 @@ See COPYRIGHT and LICENSE files for more details.
     <% if starts_in %>
       <%= render(Primer::Beta::Text.new(color: :danger, font_size: :small, font_weight: :semibold, ml: 2)) { starts_in } %>
     <% end %>
-  <% end %>
-  <% row.with_column(mr: 2) do %>
-    <%= render(Primer::Beta::Label.new(scheme: :secondary)) { kind } %>
-  <% end %>
-  <% if participants.any? %>
-    <% row.with_column(mr: 2) do %>
-      <%= render(Primer::OpenProject::AvatarStack.new(tooltipped: true, body_arguments: { label: participants.map(&:name).join(", ") })) do |stack| %>
-        <% participants.each { |participant| stack.with_avatar_with_fallback(**avatar_options(participant)) } %>
+    <%= flex_layout(align_items: :center, mt: 1) do |meta| %>
+      <% meta.with_column(mr: 2) do %>
+        <%= render(Primer::Beta::Label.new(scheme: :secondary)) { kind } %>
+      <% end %>
+      <% if participants.any? %>
+        <% meta.with_column do %>
+          <%= render(Primer::OpenProject::AvatarStack.new(tooltipped: true, body_arguments: { label: participants.map(&:name).join(", ") })) do |stack| %>
+            <% participants.each { |participant| stack.with_avatar_with_fallback(**avatar_options(participant)) } %>
+          <% end %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>
