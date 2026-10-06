@@ -48,9 +48,6 @@ en:
           attributes:
             query:
               must_be_work_package_query: must be a work package query.
-        work_package:
-          is_not_a_valid_target_for_resource_allocations: "Work package #%{id} is not a valid target for reassigning the resource allocations."
-          nullify_is_not_valid_for_resource_allocations: "Resource allocations can not be assigned to a project."
     models:
       resource_allocation:
         one: Resource Allocation
