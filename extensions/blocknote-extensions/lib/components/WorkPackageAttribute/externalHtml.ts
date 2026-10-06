@@ -3,6 +3,7 @@
 // attributes inserted with CKEditor.
 
 import { isPendingWpid } from '../../utils/pending';
+import { BLOCK_ATTRIBUTE_TYPE, INLINE_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
 
 export type AttributeDisplay = 'label' | 'value' | 'both';
 
@@ -13,14 +14,19 @@ export interface WorkPackageAttributeProps {
   display?:string;
 }
 
+// Long text attributes are blocks, everything else sits inline. A block wraps
+// its macro in a paragraph, so the markdown export keeps it apart from its
+// neighbours while the paragraph parser leaves the block itself alone.
+export type AttributeNodeKind = 'inline' | 'block';
+
+const NODES = {
+  inline: { tag: 'span', marker: 'data-inline-content-type', type: INLINE_ATTRIBUTE_TYPE },
+  block: { tag: 'div', marker: 'data-block-content-type', type: BLOCK_ATTRIBUTE_TYPE },
+} as const;
+
 export interface WorkPackageAttributeExternalData {
-  attrs:{
-    'data-inline-content-type':'openProjectWorkPackageAttributeInline';
-    'data-wpid':string;
-    'data-display-id':string;
-    'data-attribute':string;
-    'data-display':AttributeDisplay;
-  };
+  tag:'span' | 'div';
+  attrs:Record<string, string>;
   text:string;
 }
 
@@ -43,6 +49,7 @@ export function attributeMacro(
 
 export function computeWorkPackageAttributeExternalData(
   props:WorkPackageAttributeProps,
+  kind:AttributeNodeKind = 'inline',
 ):WorkPackageAttributeExternalData | null {
   const { wpid, attribute } = props;
   if (!wpid || isPendingWpid(wpid) || !attribute) return null;
@@ -52,9 +59,11 @@ export function computeWorkPackageAttributeExternalData(
   const label = attributeMacro('Label', displayId, attribute);
   const value = attributeMacro('Value', displayId, attribute);
   const text = display === 'label' ? label : display === 'value' ? value : `${label}: ${value}`;
+  const node = NODES[kind];
   return {
+    tag: node.tag,
     attrs: {
-      'data-inline-content-type': 'openProjectWorkPackageAttributeInline',
+      [node.marker]: node.type,
       'data-wpid': wpid,
       'data-display-id': displayId,
       'data-attribute': attribute,
@@ -68,20 +77,24 @@ export function buildWorkPackageAttributeExternalDOM(
   data:WorkPackageAttributeExternalData,
   doc:Document,
 ):HTMLElement {
-  const element = doc.createElement('span');
+  const element = doc.createElement(data.tag);
   for (const [name, value] of Object.entries(data.attrs)) {
     element.setAttribute(name, value);
   }
-  element.textContent = data.text;
+  if (data.tag === 'div') {
+    element.appendChild(doc.createElement('p')).textContent = data.text;
+  } else {
+    element.textContent = data.text;
+  }
   return element;
 }
 
 export function parseWorkPackageAttributeExternalHTML(
   element:HTMLElement,
+  kind:AttributeNodeKind = 'inline',
 ):WorkPackageAttributeProps | undefined {
-  if (element.getAttribute('data-inline-content-type') !== 'openProjectWorkPackageAttributeInline') {
-    return undefined;
-  }
+  const node = NODES[kind];
+  if (element.getAttribute(node.marker) !== node.type) return undefined;
   return {
     wpid: element.getAttribute('data-wpid') ?? '',
     displayId: element.getAttribute('data-display-id') ?? '',

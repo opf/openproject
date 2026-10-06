@@ -1,6 +1,7 @@
 import { createReactInlineContentSpec } from '@blocknote/react';
 import { attributeInlineConfig } from './inlineConfig';
 import { WorkPackageAttributeInline } from './WorkPackageAttributeInline';
+import { attributePropsOf } from './types';
 import {
   computeWorkPackageAttributeExternalData,
   parseWorkPackageAttributeExternalHTML,
@@ -11,10 +12,7 @@ export const openProjectWorkPackageAttributeInlineSpec = createReactInlineConten
   {
     render: ({ inlineContent, contentRef, editor, updateInlineContent }) => (
       <WorkPackageAttributeInline
-        content={{
-          ...inlineContent.props,
-          displayId: inlineContent.props.displayId || inlineContent.props.wpid,
-        }}
+        content={attributePropsOf(inlineContent.props)}
         editor={editor}
         contentRef={contentRef}
         onDisplayChange={(display) => updateInlineContent({
