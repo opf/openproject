@@ -235,8 +235,10 @@ RSpec.describe "Sprint index", :js do
       sprints_page.visit!
 
       sprints_page.expect_sprint_present(shared_sprint)
-      sprints_page.expect_sprint_name_link(shared_sprint,
-                                           href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id]))
+      sprints_page.expect_sprint_name_link(
+        shared_sprint,
+        href: project_backlogs_backlog_path(receiving_project, sprint_ids: [shared_sprint.id.to_s].to_json)
+      )
     end
   end
 
@@ -279,8 +281,10 @@ RSpec.describe "Sprint index", :js do
     it "links the sprint name according to status" do
       sprints_page.visit!
 
-      sprints_page.expect_sprint_name_link(planning_sprint,
-                                           href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id]))
+      sprints_page.expect_sprint_name_link(
+        planning_sprint,
+        href: project_backlogs_backlog_path(project, sprint_ids: [planning_sprint.id.to_s].to_json)
+      )
       sprints_page.expect_sprint_name_link(active_sprint, href: project_backlogs_sprint_taskboard_path(project, active_sprint))
 
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)

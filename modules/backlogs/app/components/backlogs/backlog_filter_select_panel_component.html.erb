@@ -1,56 +1,83 @@
-<%= form_with(
-      url: project_backlogs_backlog_path(project),
-      method: :get,
-      id: clear_form_id,
-      data: { turbo_frame: "backlogs_container", turbo_action: "advance" }
-    ) do %>
-  <% filter_fields_for.each do |input| %>
-    <%= hidden_field_tag *input %>
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::SelectPanel.new(
+        select_variant: :multiple,
+        fetch_strategy: :local,
+        title: t(".select_panel_title"),
+        data: {
+          controller: "backlogs--filter-select-panel",
+          backlogs__filter_select_panel_filter_key_value: filter_field,
+          backlogs__filter_select_panel_base_url_value: project_backlogs_backlog_path(project),
+          action: "itemActivated->backlogs--filter-select-panel#refreshButtons \
+                   panelClosed->backlogs--filter-select-panel#revertOnClose"
+        }
+      )
+    ) do |panel| %>
+  <% panel.with_show_button(**show_button_arguments) do |button| %>
+    <% button.with_trailing_visual_counter(**counter_arguments) %>
+    <% button.with_trailing_action_icon(icon: :"triangle-down", color: :default) %>
+    <%= t(".label_#{filter_field_name}_filter", count:) %>
   <% end %>
-<% end %>
 
-<%= primer_form_with(
-      url: project_backlogs_backlog_path(project), method: :get,
-      data: { turbo_frame: "backlogs_container", turbo_action: "advance" }
-    ) do |f| %>
-  <% filter_fields_for.each do |input| %>
-    <%= hidden_field_tag *input %>
+  <% items.each do |item|
+       panel.with_item(
+         label: item.name,
+         active: selected_ids&.include?(item.id) || false,
+         content_arguments: { data: { value: item.id } }
+       )
+     end %>
+
+  <% panel.with_footer(show_divider: true) do %>
+    <%= render(
+          Primer::Beta::Button.new(
+            scheme: :secondary,
+            type: :button,
+            disabled: selected_ids.blank?,
+            data: {
+              action: "click->backlogs--filter-select-panel#clear",
+              backlogs__filter_select_panel_target: "clearButton"
+            }
+          )
+        ) { t(:button_clear) } %>
+
+    <%= render(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            type: :button,
+            disabled: true,
+            data: {
+              action: "click->backlogs--filter-select-panel#apply",
+              backlogs__filter_select_panel_target: "applyButton"
+            }
+          )
+        ) { t(:button_apply) } %>
   <% end %>
-  <%= render(
-        Primer::Alpha::SelectPanel.new(
-          select_variant: :multiple,
-          fetch_strategy: :local,
-          form_arguments: { builder: f, name: filter_field },
-          title: t(".select_panel_title")
-        )
-      ) do |panel| %>
-        <% panel.with_show_button(**show_button_arguments) do |button| %>
-          <% button.with_trailing_visual_counter(**counter_arguments) %>
-          <% button.with_trailing_action_icon(icon: :"triangle-down", color: :default) %>
-          <%= t(".label_#{filter_field_name}_filter", count:) %>
-        <% end %>
-
-        <% items.each do |item|
-             panel.with_item(
-               label: item.name,
-               active: selected_ids&.include?(item.id) || false,
-               content_arguments: { data: { value: item.id } }
-             )
-           end %>
-
-        <% panel.with_footer(show_divider: true) do %>
-          <%= render(
-                Primer::Beta::Button.new(
-                  scheme: :secondary,
-                  type: :submit,
-                  form: clear_form_id,
-                  data: { turbo_submits_with: t(:button_clear) }
-                )
-              ) { t(:button_clear) } %>
-
-          <%= render(
-                Primer::Beta::Button.new(scheme: :primary, type: :submit)
-              ) { t(:button_apply) } %>
-        <% end %>
-      <% end %>
 <% end %>

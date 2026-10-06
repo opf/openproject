@@ -141,13 +141,13 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active sprint filter hides the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Agile Sprint 2"
         end
 
         context "when the active sprint filter includes the target sprint" do
-          let(:filter_params) { { sprint_ids: [sprint.id, other_sprint.id] } }
+          let(:filter_params) { { sprint_ids: [sprint.id.to_s, other_sprint.id.to_s].to_json } }
 
           it "emits no flash", :aggregate_failures do
             expect(response).to be_successful
@@ -204,7 +204,7 @@ RSpec.describe Backlogs::WorkPackagesController do
 
         context "when the active bucket filter hides the inbox" do
           let(:bucket) { create(:backlog_bucket, project:) }
-          let(:filter_params) { { bucket_ids: [bucket.id] } }
+          let(:filter_params) { { bucket_ids: [bucket.id.to_s].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "Inbox"
         end
@@ -259,7 +259,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         context "when the active bucket filter hides the target bucket" do
-          let(:filter_params) { { bucket_ids: ["inbox"] } }
+          let(:filter_params) { { bucket_ids: ["inbox"].to_json } }
 
           include_examples "shows a flash message after moving a work package that turns invisible", "My Bucket"
         end

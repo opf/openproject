@@ -54,7 +54,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     scopes :backlog_eligible
     scopes :in_backlog_for
-    scopes :in_inbox_for
     scopes :without_status_considered_closed
     scopes :without_excluded_type
   end
