@@ -37,7 +37,7 @@ const singleLineTemplate = `
       </span>
     </div>
     <div data-expandable-text-target="expander">
-      <button type="button">Toggle</button>
+      <button type="button" aria-label="Expand text">…</button>
     </div>
   </div>
 `;
@@ -51,7 +51,7 @@ const multiLineTemplate = `
       <p>Line four is hidden by the clamp.</p>
     </div>
     <div data-expandable-text-target="expander">
-      <button type="button">Toggle</button>
+      <button type="button" aria-label="Expand text">…</button>
     </div>
   </div>
 `;
@@ -130,6 +130,22 @@ describe('ExpandableTextController', () => {
         await ctx.nextFrame();
 
         expect(truncateEl).toHaveClass('Truncate--expanded');
+      });
+    });
+
+    describe('server-rendered label', () => {
+      const serverLabelTemplate = singleLineTemplate.replace('aria-label="Expand text"', 'aria-label="Server-rendered label"');
+
+      it('is kept on connect', async () => {
+        await ctx.mount(serverLabelTemplate);
+
+        expect(ctx.screen.getByRole('button', { hidden: true })).toHaveAttribute('aria-label', 'Server-rendered label');
+      });
+
+      it('is kept on connect without an expanded value attribute', async () => {
+        await ctx.mount(serverLabelTemplate.replace(' data-expandable-text-expanded-value="false"', ''));
+
+        expect(ctx.screen.getByRole('button', { hidden: true })).toHaveAttribute('aria-label', 'Server-rendered label');
       });
     });
 

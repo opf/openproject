@@ -81,9 +81,13 @@ export default class ExpandableTextController extends Controller<HTMLElement> {
     this.abortController?.abort();
   }
 
-  expandedValueChanged(value:boolean) {
+  expandedValueChanged(value:boolean, previousValue?:boolean) {
     if (this.inlineValue && this.hasExpanderTarget) {
-      this.expanderButton.setAttribute('aria-label', value ? I18n.t('js.label_collapse_text') : I18n.t('js.label_expand_text'));
+      // The collapsed label is server-rendered. Translations may not be loaded
+      // yet when the controller connects, so it is only written on a change.
+      if (value !== Boolean(previousValue)) {
+        this.expanderButton.setAttribute('aria-label', value ? I18n.t('js.label_collapse_text') : I18n.t('js.label_expand_text'));
+      }
       this.expanderButton.setAttribute('aria-expanded', String(value));
 
       if (this.modeValue === 'multi_line') {
