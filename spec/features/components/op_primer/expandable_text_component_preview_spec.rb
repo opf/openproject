@@ -76,4 +76,77 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, :component_preview, :js
       ".op-vertical-truncate[style*='--op-vertical-truncate-lines: 2'][data-expandable-text-target='truncate']"
     )
   end
+
+  describe "accessibility", :selenium do
+    let(:preview_content) { ".viewcomponent-preview--content" }
+
+    it "passes axe-core accessibility tests for the default preview, collapsed and expanded" do
+      visit_preview(:default, from: described_class)
+
+      expect(page).to have_button(accessible_name: "Show full text", aria: { expanded: false })
+      expect(page).to be_axe_clean.within preview_content
+
+      click_button accessible_name: "Show full text"
+
+      expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to be_axe_clean.within preview_content
+    end
+
+    it "passes axe-core accessibility tests for the hidden_for_short_texts preview" do
+      visit_preview(:hidden_for_short_texts, from: described_class)
+
+      expect(page).to have_text("Short text")
+      expect(page).to have_no_button(accessible_name: "Show full text")
+      expect(page).to be_axe_clean.within preview_content
+    end
+
+    it "passes axe-core accessibility tests for the in_table preview, collapsed and expanded" do
+      visit_preview(:in_table, from: described_class)
+
+      expect(page).to have_button(accessible_name: "Show full text", count: 2)
+      expect(page).to be_axe_clean.within preview_content
+
+      within(:row, "Create and manage public saved views for work packages") do
+        click_button accessible_name: "Show full text"
+      end
+
+      expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to be_axe_clean.within preview_content
+    end
+
+    it "passes axe-core accessibility tests for the multi_line preview, collapsed and expanded" do
+      visit_preview(:multi_line, from: described_class)
+
+      expect(page).to have_button(accessible_name: "Show full text", aria: { expanded: false })
+      expect(page).to be_axe_clean.within preview_content
+
+      click_button accessible_name: "Show full text"
+
+      expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to be_axe_clean.within preview_content
+    end
+
+    it "passes axe-core accessibility tests for the dialog preview, closed and open" do
+      visit_preview(:dialog, from: described_class)
+
+      expect(page).to have_button(accessible_name: "Show full text")
+      expect(page).to be_axe_clean.within preview_content
+
+      click_button accessible_name: "Show full text"
+
+      expect(page).to have_selector(:dialog)
+      wait_for_size_animation_completion("dialog[open]")
+      expect(page).to be_axe_clean.within preview_content
+    end
+
+    it "passes axe-core accessibility tests for the playground preview with a custom dialog" do
+      visit_preview(:playground, from: described_class, params: { truncate: :multi_line, expansion: :dialog })
+
+      click_button accessible_name: "Show full text"
+
+      expect(page).to have_selector(:dialog, "Full text")
+      wait_for_size_animation_completion("dialog[open]")
+      expect(page).to be_axe_clean.within preview_content
+    end
+  end
 end
