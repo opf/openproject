@@ -35,7 +35,7 @@ module My
     before_action :require_login
     before_action :require_my_day
     before_action :find_task, only: :update
-    no_authorization_required! :create, :update
+    no_authorization_required! :create, :update, :create_from_work_package
 
     def create
       call = MyDay::CreateTaskService
@@ -51,6 +51,21 @@ module My
                .call(done: ActiveModel::Type::Boolean.new.cast(params[:done]))
 
       respond_with_today(call)
+    end
+
+    def create_from_work_package
+      work_package = WorkPackage.visible(current_user).find_by_display_id(params[:work_package_id])
+      return render_404 unless work_package
+
+      call = MyDay::AddWorkPackageService.new(user: current_user).call(work_package:)
+
+      if call.success?
+        render_success_flash_message_via_turbo_stream(message: call.message)
+      else
+        render_error_flash_message_via_turbo_stream(message: call.message)
+      end
+
+      respond_with_turbo_streams(status: call)
     end
 
     private

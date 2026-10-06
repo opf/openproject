@@ -84,7 +84,7 @@ module MyDay
       @work_packages ||= project
                            .work_packages
                            .where(due_date: date)
-                           .includes(:status, :custom_values)
+                           .includes(:status, :type, :project, :custom_values)
                            .order(:id)
                            .to_a
     end
@@ -95,7 +95,7 @@ module MyDay
       @references ||= WorkPackage
                         .visible(user)
                         .where_display_id_in(work_packages.flat_map { it.subject.scan(CreateTaskService::REFERENCE) }.flatten)
-                        .includes(:status)
+                        .includes(:status, :project)
                         .flat_map { [[it.id.to_s, it], [it.display_id.to_s, it]] }
                         .to_h
     end

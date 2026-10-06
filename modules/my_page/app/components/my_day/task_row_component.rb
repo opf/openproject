@@ -50,6 +50,25 @@ module MyDay
       end
     end
 
+    # A task that only references a work package stands for that work package, so the row shows it
+    # instead of the reference.
+    def planned_work_package
+      return @planned_work_package if defined?(@planned_work_package)
+
+      parts = subject_parts.reject { it.is_a?(String) && it.blank? }
+      @planned_work_package = parts.first if parts.one? && parts.first.is_a?(WorkPackage)
+    end
+
+    def shown_work_package = planned_work_package || work_package
+
+    def meta_items
+      [
+        shown_work_package.project.name,
+        (work_package.type.name unless planned_work_package),
+        shown_work_package.status.name
+      ].compact
+    end
+
     def closed? = work_package.closed?
 
     def toggle_label = closed? ? t("my_day.mark_open") : t("my_day.mark_done")
@@ -68,7 +87,7 @@ module MyDay
 
     def subject_link_arguments
       {
-        href: work_package_path(work_package),
+        href: work_package_path(shown_work_package),
         scheme: closed? ? :secondary : :primary,
         font_weight: :semibold,
         style: ("text-decoration: line-through" if closed?)

@@ -30,5 +30,6 @@ Rails.application.routes.draw do
     get "/page", to: "page#show"
     post "/day/tasks", to: "day_tasks#create", as: :day_tasks
     patch "/day/tasks/:id", to: "day_tasks#update", as: :day_task
+    post "/day/work_packages/:work_package_id", to: "day_tasks#create_from_work_package", as: :day_work_package
   end
 end

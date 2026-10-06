@@ -103,6 +103,31 @@ RSpec.describe "My Day tasks", :skip_csrf, type: :rails_request do
     end
   end
 
+  describe "adding a work package", with_flag: { my_day: true } do
+    let(:team_project) { create(:project) }
+    let!(:work_package) { create(:work_package, project: team_project) }
+    let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+    subject { post my_day_work_package_path(work_package.display_id), headers: }
+
+    context "when the user can see it" do
+      before { create(:member, project: team_project, principal: user, roles: [role]) }
+
+      it "plans it for today and confirms with a flash" do
+        expect { subject }.to change(WorkPackage, :count).by(1)
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Added to")
+      end
+    end
+
+    context "when the user cannot see it" do
+      it "is not found" do
+        expect { subject }.not_to change(WorkPackage, :count)
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
   context "without the my_day flag" do
     it "is not found" do
       subject

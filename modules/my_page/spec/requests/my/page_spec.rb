@@ -66,6 +66,11 @@ RSpec.describe "My page", type: :rails_request do
       create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
                             subject: "Book train to the offsite", due_date: user.today)
     end
+    let(:planned) { create(:work_package, project: meeting_project, subject: "Branch tracking via GitLab webhook") }
+    let!(:planned_task) do
+      create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
+                            subject: "##{planned.id}", due_date: user.today)
+    end
     let!(:task_with_reference) do
       create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
                             subject: "Write down questions on ##{referenced.id} for the sync", due_date: user.today)
@@ -83,6 +88,9 @@ RSpec.describe "My page", type: :rails_request do
       expect(page).to have_test_selector("my-day-meeting-morning", text: "09:30 AM–09:45 AM")
       expect(page).to have_test_selector("my-day-meeting-duration", text: "15 mins")
       expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches")
+      expect(page).to have_test_selector("my-day-planned", text: "Branch tracking via GitLab webhook")
+      expect(page).to have_test_selector("my-day-task-morning", text: meeting_project.name)
+      expect(page).to have_test_selector("my-day-reference", count: 1)
 
       expect(page).to have_test_selector("my-page-tabs")
       expect(page).to have_test_selector("my-day-today")
