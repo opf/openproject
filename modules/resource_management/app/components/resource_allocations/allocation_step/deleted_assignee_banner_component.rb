@@ -30,10 +30,8 @@
 
 module ResourceAllocations
   module AllocationStep
-    class MissingWorkingHoursBannerComponent < ApplicationComponent
+    class DeletedAssigneeBannerComponent < ApplicationComponent
       include OpTurbo::Streamable
-
-      I18N_SCOPE = "resource_management.allocate_resource_dialog.missing_working_hours"
 
       def initialize(allocation:)
         super
@@ -42,43 +40,13 @@ module ResourceAllocations
 
       def call
         component_wrapper do
-          if unscheduled_range
-            render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert, mt: 2)) { warning_text }
+          if @allocation.principal.is_a?(DeletedUser)
+            render(Primer::Alpha::Banner.new(scheme: :warning, icon: :alert,
+                                             test_selector: "op-resource-allocation-assignee-deleted")) do
+              I18n.t("resource_management.allocate_resource_dialog.deleted_assignee")
+            end
           end
         end
-      end
-
-      private
-
-      def user
-        @allocation.principal unless @allocation.principal.is_a?(DeletedUser)
-      end
-
-      def allocation_range
-        return if @allocation.start_date.blank? || @allocation.end_date.blank?
-
-        @allocation.start_date..@allocation.end_date
-      end
-
-      def unscheduled_range
-        return @unscheduled_range if defined?(@unscheduled_range)
-
-        @unscheduled_range =
-          if user.present? && allocation_range
-            ResourceAllocations::Availability.new(user:).unscheduled_range(allocation_range)
-          end
-      end
-
-      def warning_text
-        if unscheduled_range == allocation_range
-          I18n.t("#{I18N_SCOPE}.none")
-        else
-          I18n.t("#{I18N_SCOPE}.partial", dates: date_range(unscheduled_range))
-        end
-      end
-
-      def date_range(range)
-        "#{helpers.format_date(range.begin)} - #{helpers.format_date(range.end)}"
       end
     end
   end

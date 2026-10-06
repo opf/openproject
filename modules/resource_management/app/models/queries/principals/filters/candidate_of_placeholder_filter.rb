@@ -28,25 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Principals
-  class AllocatablePrincipalQuery < PrincipalQuery
-    def default_scope
-      Principal
-        .where(id: User.visible(user).active.select(:id))
-        .or(Principal.where(id: PlaceholderUser.allocatable(user).select(:id)))
-        .ordered_by_name
-    end
+class Queries::Principals::Filters::CandidateOfPlaceholderFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    PlaceholderUser.allocatable(User.current).pluck(:lastname, :id)
   end
 
-  ::Queries::Register.register(AllocatablePrincipalQuery) do
-    filter Filters::AllocatableInProjectFilter
-    filter Filters::TypeFilter
-    filter Filters::AnyNameAttributeFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::NameFilter
-    filter Filters::AllocatableIdFilter
-    filter Filters::CandidateOfPlaceholderFilter
+  def type
+    :list
+  end
 
-    order Orders::NameOrder
+  def available_operators
+    [::Queries::Operators::Equals]
+  end
+
+  def self.key
+    :candidate_of_placeholder
+  end
+
+  def apply_to(query_scope)
+    candidate_ids = PlaceholderUser
+                      .allocatable(User.current)
+                      .where(id: values)
+                      .flat_map { |placeholder| placeholder.candidate_query.results.pluck(:id) }
+
+    query_scope.where(id: candidate_ids)
   end
 end

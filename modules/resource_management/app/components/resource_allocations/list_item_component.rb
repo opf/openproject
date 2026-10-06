@@ -58,7 +58,7 @@ module ResourceAllocations
     attr_reader :allocation, :project
 
     def visible?
-      @visible
+      @visible || deleted_user?
     end
 
     def overbooked?
@@ -67,6 +67,10 @@ module ResourceAllocations
 
     def menu?
       @editable && visible?
+    end
+
+    def deleted_user?
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def context_menu

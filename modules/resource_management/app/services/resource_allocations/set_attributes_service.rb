@@ -32,6 +32,14 @@ module ResourceAllocations
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
+    def set_attributes(params)
+      super
+
+      if model.principal_id_changed? && model.principal.present?
+        model.change_by_system { model.principal_assigned_by = user }
+      end
+    end
+
     def set_default_attributes(_params)
       model.change_by_system do
         # This service bypasses the request/approval flow and allocates directly;
@@ -39,10 +47,6 @@ module ResourceAllocations
         model.state ||= "allocated"
         model.requested_by = user
         model.reviewed_by = user
-        # When a user is picked while creating the allocation, the requester is
-        # also the one who assigned them. Later (re)assignment in the Staffing
-        # view sets this to whoever made that assignment instead.
-        model.principal_assigned_by = user if model.principal.present?
       end
     end
   end
