@@ -284,9 +284,23 @@ and `443` and redirect those requests to the specific container. To make it happ
 define for your services to your `/etc/hosts`.
 
 ```shell
-127.0.0.1   openproject.local openproject-assets.local traefik.local
-::1         openproject.local openproject-assets.local traefik.local
+127.0.0.1   openproject.local openproject-assets.local traefik.local hocuspocus.local
+::1         openproject.local openproject-assets.local traefik.local hocuspocus.local
 ```
+
+Each optional service under `docker/dev` that you run behind the proxy needs its own entry:
+
+| Service       | Host name             |
+|---------------|-----------------------|
+| Garage        | `garage.local`        |
+| GitLab        | `gitlab.local`        |
+| Jira Software | `jira-software.local` |
+| Keycloak      | `keycloak.local`      |
+| Nextcloud     | `nextcloud.local`     |
+| SquashTM      | `squashtm.local`      |
+| XWiki         | `xwiki.local`         |
+
+When adding a new service, the host name is the one used in its traefik `Host(...)` rule.
 
 ### Local certificate authority
 
@@ -472,6 +486,7 @@ to have Nextcloud running to test the Nextcloud-OpenProject integration. To do t
    ca-bundle mounted.
 2. Make sure step-ca can reach it to validate it for SSH. In `docker/dev/tls/docker-compose.override.yml`, add the host
    to the `aliases` section of the traefik networking.
+3. Add the host name to your `/etc/hosts` (see [Resolving host names](#resolving-host-names)).
 
 ### Alternative: Using Let's encrypt
 
@@ -602,7 +617,7 @@ Upon setting up all the things correctly, we can see a login with `keycloak` opt
 ## Garage Service (local S3 storage backend)
 
 Within `docker/dev/garage` a compose file is provided for running a local [Garage](https://garagehq.deuxfleurs.fr/) instance, an S3 compatible data store which can be used for simulating uploads of files to S3.
-Without TLS, its S3 API is available on `http://localhost:3900`. When running with TLS support, it is accessible on `https://garage.local`.
+Without TLS, its S3 API is available on `http://localhost:3900`. When running with TLS support, it is accessible on `https://garage.local`, which requires adding `garage.local` to your `/etc/hosts` (see [Resolving host names](#resolving-host-names)).
 
 ### Running the Garage Instance
 
