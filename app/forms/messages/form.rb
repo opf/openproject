@@ -31,15 +31,16 @@
 module Messages
   class Form < ApplicationForm
     form do |f|
-      f.text_field(
-        name: :subject,
-        label: Message.human_attribute_name(:subject),
-        required: true,
-        autofocus: !replying?,
-        autocomplete: "off",
-        input_width: :large,
-        data: { "forum-messages-target": "subject" }
-      )
+      unless replying?
+        f.text_field(
+          name: :subject,
+          label: Message.human_attribute_name(:subject),
+          required: true,
+          autofocus: true,
+          autocomplete: "off",
+          input_width: :large
+        )
+      end
 
       if moderating?
         f.check_box(name: :sticky, label: I18n.t("js.label_board_sticky"))
@@ -57,6 +58,7 @@ module Messages
       f.rich_text_area(
         name: :content,
         label: I18n.t(:description_message_content),
+        visually_hide_label: replying?,
         required: true,
         rich_text_options: {
           with_text_formatting: true,
