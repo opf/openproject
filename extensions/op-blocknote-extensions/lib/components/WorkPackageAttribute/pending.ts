@@ -1,6 +1,6 @@
 import type { AnyEditor } from '../../editorTypes';
 import { makePendingWpid, PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
-import { findPendingInlineChip } from '../../utils/inlineChipActions';
+import { findPendingInlineChip, removePendingInlineChip } from '../../utils/inlineChipActions';
 import { attributeInlineConfig } from './inlineConfig';
 import type { AttributeDisplay } from './externalHtml';
 
@@ -43,10 +43,7 @@ export function insertPendingAttribute(editor:AnyEditor):void {
     registry.delete(pendingWpid);
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid, attributeInlineConfig.type);
     editor.focus();
-    if (!found) return;
-    editor.transact((tr) => {
-      tr.delete(found.position, found.position + found.node.nodeSize);
-    });
+    if (found) removePendingInlineChip(editor, found);
   };
 
   registry.set(pendingWpid, { onInsert, onCancel });

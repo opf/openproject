@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { AlertIcon, XIcon } from '@primer/octicons-react';
+import { AlertIcon, HistoryIcon, XIcon } from '@primer/octicons-react';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useColors } from '../../services/colors';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
@@ -21,88 +20,40 @@ import {
   HeaderTitle,
   IconButton,
   Overlay,
-  Panel,
-  PickerControl,
   RequiredMark,
 } from '../CreateWorkPackage/atoms';
 import { findAttribute, formatAttributeValue, listAttributes } from './attributes';
 import type { AttributeDisplay } from './externalHtml';
 import type { AttributeChoice } from './pending';
-import { AttributeChipSurface, WorkPackageAttributeView } from './WorkPackageAttributeChip';
+import { WorkPackageAttributeView } from './WorkPackageAttributeView';
 import { useAttributeFormatOptions } from './useWorkPackageAttribute';
 import { WorkPackagePicker } from './WorkPackagePicker';
+import {
+  AttributeChipSurface,
+  AttributeFieldLabel,
+  AttributePanel,
+  DisabledControl,
+  DisplayOption,
+  DisplayOptions,
+  LinkButton,
+  PrefillNote,
+  PreviewBox,
+  PreviewLabel,
+  PreviewPlaceholder,
+} from './atoms';
 
 const ATTRIBUTE_CONTROL_ID = 'op-bn-wp-attribute-select';
-
 const WORK_PACKAGE_CONTROL_ID = 'op-bn-wp-attribute-work-package';
+const DISPLAY_LABEL_ID = 'op-bn-wp-attribute-display';
 
 // What the chip in the preview is drawn with.
 const EDITOR_VARIABLES = [
   '--bn-colors-editor-text',
-  '--bn-colors-highlights-blue-text',
+  '--bn-colors-editor-background',
   '--bn-border-radius',
 ];
 
 const DISPLAYS:AttributeDisplay[] = ['label', 'value', 'both'];
-
-const AttributeLabel = styled(FieldLabel)<{ $disabled:boolean }>`
-  color: ${({ $disabled }) => ($disabled ? 'var(--op-create-wp-muted)' : 'var(--op-create-wp-text)')};
-`;
-
-// Tripled to outweigh the doubled rules the control shares with the form.
-const DisabledControl = styled(PickerControl)`
-  &&&:disabled {
-    background: var(--op-create-wp-neutral);
-    color: var(--op-create-wp-muted);
-    cursor: not-allowed;
-    opacity: 1;
-  }
-`;
-
-const DisplayOptions = styled.div.attrs({ role: 'radiogroup' })`
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2px;
-  padding: 3px;
-  border-radius: var(--bn-border-radius-medium, 8px);
-  background: var(--op-create-wp-neutral);
-`;
-
-const DisplayOption = styled.button.attrs({ type: 'button', role: 'radio' })<{ $active:boolean }>`
-  && {
-    padding: 6px var(--spacer-m);
-    border: 1px solid ${({ $active }) => ($active ? 'var(--op-create-wp-control-border)' : 'transparent')};
-    border-radius: var(--bn-border-radius-small, 6px);
-    background: ${({ $active }) => ($active ? 'var(--op-create-wp-surface)' : 'transparent')};
-    color: ${({ $active }) => ($active ? 'var(--op-create-wp-text)' : 'var(--op-create-wp-muted)')};
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: ${({ $active }) => ($active ? 600 : 500)};
-    cursor: pointer;
-  }
-`;
-
-const PreviewLabel = styled.div`
-  margin-bottom: var(--spacer-s);
-  font-size: 12px;
-  color: var(--op-create-wp-muted);
-`;
-
-const PreviewBox = styled.div`
-  min-height: 44px;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-  padding: var(--spacer-m) var(--spacer-l);
-  border: 1px solid var(--op-create-wp-border);
-  border-radius: var(--bn-border-radius-small, 6px);
-  background: var(--op-create-wp-neutral);
-  font-size: 14px;
-`;
-
-const PreviewPlaceholder = styled.span`
-  color: var(--op-create-wp-placeholder);
-  font-size: 13px;
-`;
 
 export interface InsertAttributeModalProps {
   anchorEl?:HTMLElement | null;
@@ -118,16 +69,17 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
   useColors();
   const formatOptions = useAttributeFormatOptions();
 
+  const [prefilled, setPrefilled] = useState(prefill);
   const [picked, setPicked] = useState<WorkPackage | null>(null);
   const [attribute, setAttribute] = useState(prefill?.attribute ?? '');
   const [attributeLabel, setAttributeLabel] = useState(prefill?.attribute ?? '');
   const [display, setDisplay] = useState<AttributeDisplay>(prefill?.display ?? 'value');
   const [notice, setNotice] = useState<string | null>(null);
 
-  const prefilledId = !picked && prefill ? Number(prefill.wpid) : undefined;
+  const prefilledId = !picked && prefilled ? Number(prefilled.wpid) : undefined;
   const { workPackage: prefilledWorkPackage } = useWorkPackage(prefilledId);
   const workPackage = picked ?? prefilledWorkPackage;
-  const { schema } = useWorkPackageSchema(workPackage?._links?.schema?.href);
+  const { schema, error: schemaError, retry: retrySchema } = useWorkPackageSchema(workPackage?._links?.schema?.href);
 
   const attributes = useMemo(() => (schema ? listAttributes(schema) : []), [schema]);
   const selected = schema && attribute ? findAttribute(schema, attribute) : undefined;
@@ -147,6 +99,14 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
 
   const pickWorkPackage = (chosen:WorkPackage) => {
     setPicked(chosen);
+    setNotice(null);
+  };
+
+  const clearPrefill = () => {
+    setPrefilled(undefined);
+    setPicked(null);
+    setAttribute('');
+    setDisplay('value');
     setNotice(null);
   };
 
@@ -180,16 +140,16 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
         id={ATTRIBUTE_CONTROL_ID}
         disabled
         readOnly
-        placeholder={workPackage
-          ? t('workPackageAttribute.dialog.attributeLoading')
-          : t('workPackageAttribute.dialog.attributeDisabled')}
+        placeholder={!workPackage
+          ? t('workPackageAttribute.dialog.attributeDisabled')
+          : t(schemaError ? 'workPackageAttribute.dialog.attributeUnavailable' : 'workPackageAttribute.dialog.attributeLoading')}
       />
     );
 
   return (
     <FullPagePortal anchorEl={anchorEl} carriedVariables={EDITOR_VARIABLES}>
       <Overlay onMouseDown={onCancel}>
-        <Panel
+        <AttributePanel
           ref={panelRef}
           tabIndex={-1}
           aria-label={t('workPackageAttribute.dialog.title')}
@@ -209,6 +169,16 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
 
           <Body>
             <BodyContent>
+              {prefilled && (
+                <PrefillNote>
+                  <span>
+                    <HistoryIcon size={14} />
+                    {t('workPackageAttribute.dialog.prefilled')}
+                  </span>
+                  <LinkButton onClick={clearPrefill}>{t('createWorkPackage.clear')}</LinkButton>
+                </PrefillNote>
+              )}
+
               <FieldRow>
                 <FieldLabel htmlFor={WORK_PACKAGE_CONTROL_ID}>
                   {t('workPackageAttribute.dialog.workPackage')}
@@ -218,18 +188,27 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
                   id={WORK_PACKAGE_CONTROL_ID}
                   label={t('workPackageAttribute.dialog.workPackage')}
                   selected={workPackage}
-                  autoFocus={!prefill}
+                  autoFocus={!prefilled}
                   onPick={pickWorkPackage}
                   onEscape={onCancel}
                 />
               </FieldRow>
 
               <FieldRow>
-                <AttributeLabel htmlFor={ATTRIBUTE_CONTROL_ID} $disabled={!workPackage}>
+                <AttributeFieldLabel htmlFor={ATTRIBUTE_CONTROL_ID} $disabled={!workPackage}>
                   {t('workPackageAttribute.dialog.attribute')}
                   <RequiredMark> *</RequiredMark>
-                </AttributeLabel>
+                </AttributeFieldLabel>
                 {attributeControl}
+                {workPackage && schemaError && (
+                  <FieldHint $error role="alert">
+                    <AlertIcon size={14} />
+                    <span>
+                      {t('workPackageAttribute.dialog.loadFailed', { id: formatWorkPackageId(workPackage.displayId) })}{' '}
+                      <LinkButton onClick={retrySchema}>{t('workPackageAttribute.dialog.retry')}</LinkButton>
+                    </span>
+                  </FieldHint>
+                )}
                 {notice && (
                   <FieldHint role="status">
                     <AlertIcon size={14} />
@@ -239,10 +218,10 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
               </FieldRow>
 
               <FieldRow>
-                <FieldLabel as="div" id={`${ATTRIBUTE_CONTROL_ID}-show`}>
+                <FieldLabel as="div" id={DISPLAY_LABEL_ID}>
                   {t('workPackageAttribute.dialog.show')}
                 </FieldLabel>
-                <DisplayOptions aria-labelledby={`${ATTRIBUTE_CONTROL_ID}-show`}>
+                <DisplayOptions aria-labelledby={DISPLAY_LABEL_ID}>
                   {DISPLAYS.map((option) => (
                     <DisplayOption
                       key={option}
@@ -283,14 +262,13 @@ export const InsertAttributeModal = ({ anchorEl, prefill, onInsert, onCancel }:I
             <Button
               type="button"
               $primary
-              data-testid="insert-attribute-submit"
               disabled={!workPackage || !selected}
               onClick={insert}
             >
               {t('workPackageAttribute.dialog.insert')}
             </Button>
           </Footer>
-        </Panel>
+        </AttributePanel>
       </Overlay>
     </FullPagePortal>
   );

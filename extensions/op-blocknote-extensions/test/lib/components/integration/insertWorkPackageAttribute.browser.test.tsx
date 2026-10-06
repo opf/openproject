@@ -4,7 +4,7 @@ import { http, HttpResponse } from 'msw';
 import { renderEditor } from '../../../helpers/renderEditor';
 import { openWorkPackageAttributeDialog, SEARCH_PLACEHOLDER } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
-import { mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
+import { ATTRIBUTE_SCHEMA_HREF, mockAttributeWorkPackage, mockMilestoneWorkPackage } from '../../../mocks/workPackageAttributes';
 
 interface InlineNode { type:string, props?:Record<string, unknown> }
 
@@ -22,6 +22,7 @@ const preview = () => page.getByTestId('insert-attribute-preview');
 const insertButton = () => page.getByRole('button', { name: 'Insert', exact: true });
 
 const workPackageField = () => page.getByRole('combobox', { name: 'Work package' });
+const selectedWorkPackage = () => page.getByTestId('op-bn-wp-attribute-work-package-selected');
 
 async function pickWorkPackage(term:string, subject:string) {
   await userEvent.fill(workPackageField(), term);
@@ -46,6 +47,16 @@ afterEach(() => {
 });
 
 describe('Insert work package attribute', () => {
+  it('starts in the work package field', async () => {
+    await openWorkPackageAttributeDialog();
+    await expect.element(page.getByRole('option', { name: /Work package attribute/ })).not.toBeInTheDocument();
+    expect(getComputedStyle(workPackageField().element(), '::placeholder').opacity).toBe('1');
+
+    await vi.waitFor(() => expect(document.activeElement).toBe(workPackageField().element()));
+    await userEvent.keyboard('Redesign');
+    await expect.element(page.getByRole('option', { name: /Redesign onboarding flow/ })).toBeVisible();
+  });
+
   it('offers attributes only once a work package is chosen', async () => {
     await openWorkPackageAttributeDialog();
 
@@ -55,6 +66,7 @@ describe('Insert work package attribute', () => {
     expect(attributeStyle.backgroundColor).not.toBe(getComputedStyle(workPackageField().element()).backgroundColor);
     await expect.element(preview()).toHaveTextContent('Choose a work package and an attribute');
     await expect.element(insertButton()).toBeDisabled();
+    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(239, 242, 245)');
   });
 
   it('draws its preview with the colors of the editor it was opened from', async () => {
@@ -62,7 +74,7 @@ describe('Insert work package attribute', () => {
     const editorStyle = getComputedStyle(document.querySelector('.bn-container')!);
     const dialogStyle = getComputedStyle(dialog().element());
 
-    for (const name of ['--bn-colors-highlights-blue-text', '--bn-colors-editor-text']) {
+    for (const name of ['--bn-colors-editor-background', '--bn-colors-editor-text']) {
       expect(editorStyle.getPropertyValue(name)).not.toBe('');
       expect(dialogStyle.getPropertyValue(name)).toBe(editorStyle.getPropertyValue(name));
     }
@@ -102,7 +114,10 @@ describe('Insert work package attribute', () => {
     await pickWorkPackage('Test', subject);
     await pickAttribute('Subject');
 
-    await expect.element(workPackageField()).toHaveValue(`PROJ-321 ${subject}`);
+    const reference = selectedWorkPackage().getByText('Feature').element();
+    expect(reference.getBoundingClientRect().width).toBeGreaterThan(reference.getBoundingClientRect().height);
+    const layer = selectedWorkPackage().element();
+    expect(layer.scrollWidth).toBeLessThanOrEqual(layer.clientWidth);
     const box = preview().element();
     expect(box.scrollWidth).toBeLessThanOrEqual(box.clientWidth);
   });
@@ -113,6 +128,7 @@ describe('Insert work package attribute', () => {
     await pickAttribute('Status');
 
     await expect.element(preview()).toHaveTextContent('In progress');
+    expect(getComputedStyle(insertButton().element()).backgroundColor).toBe('rgb(9, 105, 218)');
     await userEvent.click(page.getByRole('radio', { name: 'Label + value' }));
     await expect.element(preview()).toHaveTextContent('Status: In progress');
 
@@ -139,7 +155,7 @@ describe('Insert work package attribute', () => {
     await userEvent.click(page.getByRole('button', { name: 'Cancel' }));
 
     await expect.element(dialog()).not.toBeInTheDocument();
-    expect(attributeProps()).toEqual([]);
+    expect(editor.document[0].content).toEqual([]);
   });
 
   it('closes on Escape', async () => {
@@ -148,6 +164,23 @@ describe('Insert work package attribute', () => {
 
     await expect.element(dialog()).not.toBeInTheDocument();
     expect(attributeProps()).toEqual([]);
+  });
+
+  it('says so when the attributes cannot be loaded, and loads them again on request', async () => {
+    worker.use(
+      http.get(`http://localhost:3000${ATTRIBUTE_SCHEMA_HREF}`, () => HttpResponse.json({}, { status: 500 }), { once: true })
+    );
+    await openWorkPackageAttributeDialog();
+    await pickWorkPackage('Redesign', 'Redesign onboarding flow');
+
+    await expect.element(page.getByRole('alert')).toHaveTextContent('The attributes of PROJ-321 could not be loaded. Try again');
+    await expect.element(page.getByPlaceholder('Attributes unavailable')).toBeDisabled();
+
+    await userEvent.click(page.getByRole('button', { name: 'Try again' }));
+
+    await expect.element(page.getByRole('alert')).not.toBeInTheDocument();
+    await pickAttribute('Status');
+    await expect.element(preview()).toHaveTextContent('In progress');
   });
 
   it('says so when another work package lacks the chosen attribute', async () => {
@@ -171,6 +204,8 @@ describe('Insert work package attribute', () => {
     const heading = getComputedStyle(page.getByTestId('attribute-display-menu').getByText('Show').element());
     expect(heading.opacity).toBe('1');
     expect(heading.color).toBe('rgb(89, 99, 110)');
+    const check = page.getByRole('menuitemradio', { name: 'Value', exact: true }).element().querySelector('svg')!;
+    expect(getComputedStyle(check).color).toBe('rgb(9, 105, 218)');
     await userEvent.click(page.getByRole('menuitemradio', { name: 'Label', exact: true }));
 
     await expect.element(page.getByRole('button', { name: 'Status', exact: true })).toBeVisible();
@@ -178,24 +213,43 @@ describe('Insert work package attribute', () => {
     expect(attributeProps()[0]).toMatchObject({ display: 'label' });
   });
 
+  it('keeps the results in the list while it closes after a pick', async () => {
+    await openWorkPackageAttributeDialog();
+    await userEvent.fill(workPackageField(), 'Redesign');
+    await userEvent.click(page.getByRole('option', { name: /Redesign onboarding flow/ }));
+
+    expect(document.body.textContent).not.toContain('No results');
+  });
+
   it('keeps the picked work package until another one is picked', async () => {
     await openWorkPackageAttributeDialog();
     await pickWorkPackage('Redesign', 'Redesign onboarding flow');
-    await expect.element(workPackageField()).toHaveValue('PROJ-321 Redesign onboarding flow');
+    await expect.element(workPackageField()).toHaveValue('');
+    await expect.element(workPackageField()).toHaveAttribute('aria-describedby', 'op-bn-wp-attribute-work-package-selected');
+
+    const marking = () => getComputedStyle(selectedWorkPackage().element().firstElementChild!).backgroundColor;
+    const unmarked = marking();
+    await userEvent.click(workPackageField());
+    expect(marking()).not.toBe(unmarked);
+    await userEvent.keyboard('be');
+    await expect.element(selectedWorkPackage()).not.toBeInTheDocument();
+    await expect.element(workPackageField()).toHaveValue('be');
+    await userEvent.keyboard('{Escape}');
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
 
     await userEvent.fill(workPackageField(), 'beta');
     await expect.element(page.getByRole('option', { name: /Public beta/ })).toBeVisible();
     await userEvent.keyboard('{Escape}');
 
-    await expect.element(workPackageField()).toHaveValue('PROJ-321 Redesign onboarding flow');
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
     await expect.element(dialog()).toBeVisible();
 
     await userEvent.fill(workPackageField(), 'beta');
     await userEvent.click(page.getByRole('radio', { name: 'Label', exact: true }));
-    await expect.element(workPackageField()).toHaveValue('PROJ-321 Redesign onboarding flow');
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
   });
 
-  it('prefills the next invocation with the previous choice', async () => {
+  it('prefills the next invocation with the previous choice, which can be cleared', async () => {
     await openWorkPackageAttributeDialog();
     await pickWorkPackage('Redesign', 'Redesign onboarding flow');
     await pickAttribute('Status');
@@ -206,8 +260,18 @@ describe('Insert work package attribute', () => {
     await userEvent.keyboard('{End}');
     await openWorkPackageAttributeDialog();
 
-    await expect.element(workPackageField()).toHaveValue('PROJ-321 Redesign onboarding flow');
+    await expect.element(page.getByText('Prefilled with your last selection')).toBeVisible();
+    await expect.element(selectedWorkPackage()).toHaveTextContent('PROJ-321FeatureRedesign onboarding flow');
     await expect.element(preview()).toHaveTextContent('Status: In progress');
     await expect.element(page.getByRole('radio', { name: 'Label + value' })).toHaveAttribute('aria-checked', 'true');
+
+    await userEvent.click(page.getByRole('button', { name: 'Clear' }));
+
+    await expect.element(page.getByText('Prefilled with your last selection')).not.toBeInTheDocument();
+    await expect.element(selectedWorkPackage()).not.toBeInTheDocument();
+    await expect.element(workPackageField()).toHaveValue('');
+    await vi.waitFor(() => expect(document.activeElement).toBe(workPackageField().element()));
+    await expect.element(page.getByRole('radio', { name: 'Value', exact: true })).toHaveAttribute('aria-checked', 'true');
+    await expect.element(preview()).toHaveTextContent('Choose a work package and an attribute');
   });
 });

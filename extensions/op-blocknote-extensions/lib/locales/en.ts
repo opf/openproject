@@ -17,7 +17,7 @@ export const en = {
       },
       'attribute': {
         'title': 'Work package attribute',
-        'subtext': 'Insert an attribute or custom field of a work package'
+        'subtext': 'Insert a live attribute or custom field'
       }
     },
     'formattingToolbar': {
@@ -123,6 +123,10 @@ export const en = {
         'attributePlaceholder': 'Select an attribute…',
         'attributeDisabled': 'Select a work package first',
         'attributeLoading': 'Loading attributes…',
+        'attributeUnavailable': 'Attributes unavailable',
+        'loadFailed': 'The attributes of {{id}} could not be loaded.',
+        'retry': 'Try again',
+        'prefilled': 'Prefilled with your last selection',
         'notAvailable': '"{{attribute}}" is not available on {{id}}. Choose another attribute.',
         'show': 'Show',
         'preview': 'Preview',

@@ -3,7 +3,7 @@ import { LinkIcon, PlusIcon, TagIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { findPendingInlineChip } from '../utils/inlineChipActions';
+import { findPendingInlineChip, removePendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import { canCreateWorkPackages } from '../services/openProjectApi.ts';
@@ -45,9 +45,7 @@ function buildOnCancel(
     const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (found) {
       editor.focus();
-      editor.transact((tr) => {
-        tr.delete(found.position, found.position + found.node.nodeSize);
-      });
+      removePendingInlineChip(editor, found);
     }
     clearInlineWpCallbacks(pendingWpid);
   };

@@ -80,6 +80,16 @@ export function findPendingInlineChip(
   return found;
 }
 
+export function removePendingInlineChip(editor:AnyEditor, found:FoundInlineChip):void {
+  const end = found.position + found.node.nodeSize;
+  const doc = editor.prosemirrorState.doc;
+  const spacerEnd = end < doc.content.size && doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+
+  editor.transact((tr) => {
+    tr.delete(found.position, spacerEnd);
+  });
+}
+
 /** The inline content one chip is inserted from. */
 export function chipContentOf(workPackage:WorkPackage, size:InlineWpSize):ChipContent {
   return {
