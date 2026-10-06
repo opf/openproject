@@ -30,6 +30,7 @@ import { BlockNoteEditorOptions, BlockNoteSchema, User } from '@blocknote/core';
 import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { CollaborationCursorLabelFitExtension } from '../extensions/collaboration-cursor-label-fit';
+import { KeyboardAwareScrollExtension } from '../extensions/keyboard-aware-scroll';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
@@ -99,6 +100,7 @@ export function OpBlockNoteEditor({
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
         ExternalLinkA11yExtension,
+        KeyboardAwareScrollExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
