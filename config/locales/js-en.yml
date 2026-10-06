@@ -590,6 +590,8 @@ en:
     label_reset: "Reset"
     label_resize_project_menu: "Resize project menu"
     label_save_as: "Save as"
+    label_scroll_left: "Scroll left"
+    label_scroll_right: "Scroll right"
     label_search_columns: "Search a column"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"
