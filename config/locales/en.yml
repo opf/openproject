@@ -3645,6 +3645,10 @@ en:
           caption: "Arrange the attribute groups of a new form for this type."
           label: "Configure a new form"
   forums:
+    index:
+      could_not_be_moved: "Forum could not be moved."
+      forum_actions: "Forum actions"
+      no_results_title_text: "There are currently no forums."
     show:
       no_results_title_text: There are currently no posts for the forum.
   general_csv_decimal_separator: "."

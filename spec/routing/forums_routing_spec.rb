@@ -86,17 +86,15 @@ RSpec.describe ForumsController do
                                                                                  id: "44")
   }
 
-  it "connects GET /projects/:project/forums/:forum/move to forums#move" do
-    expect(get("/projects/1/forums/1/move")).to route_to(controller: "forums",
+  it "connects PUT /projects/:project/forums/:forum/move to forums#move" do
+    expect(put("/projects/1/forums/1/move")).to route_to(controller: "forums",
                                                          action: "move",
                                                          project_id: "1",
                                                          id: "1")
   end
 
-  it "connects POST /projects/:project/forums/:forum/move to forums#move" do
-    expect(post("/projects/1/forums/1/move")).to route_to(controller: "forums",
-                                                          action: "move",
-                                                          project_id: "1",
-                                                          id: "1")
+  it "routes no other verb to forums#move" do
+    expect(get("/projects/1/forums/1/move")).not_to be_routable
+    expect(post("/projects/1/forums/1/move")).not_to be_routable
   end
 end

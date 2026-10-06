@@ -28,34 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MessagesHelper
-  def message_attachment_representer(message)
-    ::API::V3::Posts::PostRepresenter.new(message,
-                                          current_user:,
-                                          embed_links: true)
-  end
+module Forums
+  class TableComponent < OpPrimer::BorderBoxTableComponent
+    columns :name, :topics_count, :messages_count, :last_message
+    main_column :name, :last_message
+    mobile_columns :name
 
-  def message_url(message)
-    project_forum_topic_url(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+    options :project
 
-  def message_anchor_path(message)
-    project_forum_topic_path(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+    def headers
+      [
+        [:name, { caption: Forum.model_name.human }],
+        [:topics_count, { caption: I18n.t(:label_topic_plural) }],
+        [:messages_count, { caption: I18n.t(:label_message_plural) }],
+        [:last_message, { caption: I18n.t(:label_message_last) }]
+      ]
+    end
 
-  def message_byline(message)
-    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+    def manageable?
+      User.current.allowed_in_project?(:manage_forums, project)
+    end
+
+    def has_actions? = manageable?
+
+    def mobile_title = I18n.t(:label_forum_plural)
+
+    def container_id = "forums-table"
+
+    def blank_icon = :"comment-discussion"
+
+    def blank_title = I18n.t("forums.index.no_results_title_text")
+
+    def blank_description = nil
   end
 end

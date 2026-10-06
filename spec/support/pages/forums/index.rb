@@ -28,34 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MessagesHelper
-  def message_attachment_representer(message)
-    ::API::V3::Posts::PostRepresenter.new(message,
-                                          current_user:,
-                                          embed_links: true)
-  end
+require "support/pages/page"
 
-  def message_url(message)
-    project_forum_topic_url(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+module Pages
+  module Forums
+    class Index < ::Pages::Page
+      attr_reader :project
 
-  def message_anchor_path(message)
-    project_forum_topic_path(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+      def initialize(project)
+        super()
+        @project = project
+      end
 
-  def message_byline(message)
-    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+      def path = project_forums_path(project)
+
+      def expect_listed(*names, first_rowindex: 2)
+        expect(page).to have_css(row_selector, count: names.size)
+        names.each.with_index(first_rowindex) do |name, rowindex|
+          expect(page).to have_selector(:row, name, rowindex:)
+        end
+      end
+
+      def within_forum(forum, &)
+        within_test_selector("forum-row-#{forum.id}", &)
+      end
+
+      def click_forum_action(forum, action:)
+        within_forum(forum) do
+          click_on accessible_name: "Forum actions"
+          click_on action
+        end
+      end
+
+      def drag_forum(from_index:, to_index:)
+        drag_and_drop_list(from: from_index, to: to_index, elements: row_selector, handler: ".DragHandle")
+      end
+
+      private
+
+      def row_selector = "[data-test-selector^='forum-row-']"
+    end
   end
 end

@@ -206,34 +206,6 @@ RSpec.describe ForumsController do
     end
   end
 
-  describe "#move" do
-    let!(:forum) { create(:forum, project: project, position: 1) }
-    let!(:forum2) { create(:forum, project: project, position: 2) }
-    let!(:forum3) { create(:forum, project: project, position: 3) }
-
-    context "when the user is not allowed to manage forums" do
-      it "renders 403 forbidden" do
-        post :move, params: { project_id: project.id, id: forum3.id, forum: { move_to: "higher" } }
-        expect(response).to have_http_status(:forbidden)
-      end
-    end
-
-    context "when the user is allowed to manage forums" do
-      let(:permissions) { %i[view_messages manage_forums] }
-
-      it "moves the forum and redirects to index" do
-        post :move, params: { project_id: project.id, id: forum3.id, forum: { move_to: "higher" } }
-
-        expect(response).to redirect_to project_forums_path(project)
-        expect(flash[:notice]).to eq(I18n.t(:notice_successful_update))
-
-        expect(forum.reload.position).to eq(1)
-        expect(forum2.reload.position).to eq(3)
-        expect(forum3.reload.position).to eq(2)
-      end
-    end
-  end
-
   describe "#update" do
     context "when the user is not allowed to manage forums" do
       it "renders 403 forbidden" do

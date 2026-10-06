@@ -28,34 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MessagesHelper
-  def message_attachment_representer(message)
-    ::API::V3::Posts::PostRepresenter.new(message,
-                                          current_user:,
-                                          embed_links: true)
+require "spec_helper"
+
+RSpec.describe "Forums index", :js do
+  shared_let(:project) { create(:project) }
+  shared_let(:manager) { create(:user, member_with_permissions: { project => %i[view_messages manage_forums] }) }
+  shared_let(:general) { create(:forum, project:, name: "General") }
+  shared_let(:support) { create(:forum, project:, name: "Support") }
+  shared_let(:offtopic) { create(:forum, project:, name: "Off-topic") }
+
+  let(:forums_page) { Pages::Forums::Index.new(project) }
+
+  # Reordering persists across examples, so each one starts from a known order.
+  before do
+    [general, support, offtopic].each_with_index { |forum, index| forum.update_column(:position, index + 1) }
+    login_as(manager)
   end
 
-  def message_url(message)
-    project_forum_topic_url(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+  it "reorders forums through the action menu" do
+    forums_page.visit!
+    forums_page.expect_listed("General", "Support", "Off-topic")
 
-  def message_anchor_path(message)
-    project_forum_topic_path(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
+    forums_page.click_forum_action(general, action: "Move to bottom")
 
-  def message_byline(message)
-    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+    expect(page).to have_text("Successful update.")
+    forums_page.expect_listed("Support", "Off-topic", "General")
+
+    forums_page.click_forum_action(offtopic, action: "Move up")
+
+    forums_page.expect_listed("Off-topic", "Support", "General")
   end
 end

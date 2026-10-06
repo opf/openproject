@@ -28,34 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MessagesHelper
-  def message_attachment_representer(message)
-    ::API::V3::Posts::PostRepresenter.new(message,
-                                          current_user:,
-                                          embed_links: true)
-  end
+module Forums
+  class IndexComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
-  def message_url(message)
-    project_forum_topic_url(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
-
-  def message_anchor_path(message)
-    project_forum_topic_path(
-      message.forum.project,
-      message.forum,
-      message.root,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
-
-  def message_byline(message)
-    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+    options :forums
+    options :project
   end
 end

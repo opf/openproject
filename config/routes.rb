@@ -698,9 +698,7 @@ Rails.application.routes.draw do
       end
 
       member do
-        get :confirm_destroy
-        get :move
-        post :move
+        put :move
       end
     end
 
