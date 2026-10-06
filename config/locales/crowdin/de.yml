@@ -1540,15 +1540,15 @@ de:
           JiraCreateCustomFieldsJob:
             title: Benutzerdefinierte Felder erstellen
           JiraCreateProjectJob:
-            title: Create project '%{jira_project_name}'
+            title: Projekt ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectRoleJob:
-            title: Create 'JiraMember' project role
+            title: Projektrolle ‚JiraMember‘ erstellen
           JiraCreateProjectVersionsJob:
-            title: Create versions for '%{jira_project_name}'
+            title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Anhänge zum Arbeitspaket für ‚%{jira_project_name}‘ herunterladen
           JiraCreateProjectWorkPackagesJob:
-            title: Create work packages for '%{jira_project_name}'
+            title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
           JiraCreateUsersJob:
             title: Benutzer erstellen
           JiraFetchCustomFieldJob:
@@ -1758,12 +1758,12 @@ de:
               title: Benutzer und benutzerdefinierte Felder abrufen
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: Benutzer, Gruppen und Mitgliedschaften erstellen
             '5':
               rest_line_text: ''
               title: Rollen und benutzerdefinierte Felder erstellen
             '6':
-              rest_line_text: Creating %{projects_number} more projects
+              rest_line_text: "%{projects_number} weitere Projekte erstellen"
               title: Projekte erstellen
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
