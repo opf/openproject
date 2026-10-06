@@ -1,0 +1,58 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Box.new(test_selector: "my-day-today")) do %>
+  <%= render(Primer::Beta::Heading.new(tag: :h2, font_size: 2)) { t("my_day.today") } %>
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, test_selector: "my-day-summary")) { summary } %>
+
+  <% today.sections.each do |section| %>
+    <% scheme = COLOR_SCHEMES.fetch(section.day_part) %>
+    <%= render(Primer::Box.new(mt: 4, test_selector: "my-day-section-#{section.day_part}")) do %>
+      <%= render(MyDay::SectionHeaderComponent.new(section:, scheme:, now: today.now?(section.day_part))) %>
+
+      <% if section.empty? %>
+        <%= render(Primer::Box.new(**row_arguments(section.day_part, test_selector: "my-day-empty-#{section.day_part}"))) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted)) { t("my_day.empty_section") } %>
+        <% end %>
+      <% end %>
+
+      <% section.meetings.each do |meeting| %>
+        <%= render(Primer::Box.new(**row_arguments(section.day_part, bg: :subtle, test_selector: "my-day-meeting-#{section.day_part}"))) do %>
+          <%= render(MyDay::MeetingRowComponent.new(meeting:, user: today.user, scheme:)) %>
+        <% end %>
+      <% end %>
+
+      <% section.work_packages.each do |work_package| %>
+        <%= render(Primer::Box.new(**row_arguments(section.day_part, test_selector: "my-day-task-#{section.day_part}"))) do %>
+          <%= render(MyDay::TaskRowComponent.new(work_package:)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -39,9 +39,20 @@ module My
     def show
       respond_to do |format|
         format.html do
-          render locals: { menu_name: :global_menu }
+          render locals: { menu_name: :global_menu, my_day: my_day?, today: }
         end
       end
+    end
+
+    private
+
+    def my_day? = OpenProject::FeatureDecisions.my_day_active?
+
+    def today
+      return if !my_day? || params[:tab] == "dashboard"
+
+      call = MyDay::ProjectService.new(current_user).call
+      MyDay::Today.new(user: current_user, project: call.result) if call.success?
     end
   end
 end

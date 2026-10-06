@@ -35,6 +35,11 @@ module MyPage
       MyPage::GridRegistration.register!
     end
 
+    initializer "my_page.feature_decisions" do
+      OpenProject::FeatureDecisions.add :my_day,
+                                        description: "Turns My Page into a personal Today view with quick tasks."
+    end
+
     initializer "my_page.conversion" do
       require Rails.root.join("config/constants/ar_to_api_conversions")
 

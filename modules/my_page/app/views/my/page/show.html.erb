@@ -4,7 +4,22 @@
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t("my_page.label") }
     header.with_breadcrumbs(nil)
+
+    if my_day
+      header.with_tab_nav(label: t("my_page.label"), test_selector: "my-page-tabs") do |tab_nav|
+        tab_nav.with_tab(selected: today.present?, href: my_page_path) do |tab|
+          tab.with_text { t("my_day.today") }
+        end
+        tab_nav.with_tab(selected: today.nil?, href: my_page_path(tab: :dashboard)) do |tab|
+          tab.with_text { t("my_day.dashboard") }
+        end
+      end
+    end
   end
 %>
 
-<%= angular_component_tag "opce-my-page" %>
+<% if today %>
+  <%= render(MyDay::TodayComponent.new(today:)) %>
+<% else %>
+  <%= angular_component_tag "opce-my-page" %>
+<% end %>
