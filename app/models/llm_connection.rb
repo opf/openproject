@@ -93,8 +93,14 @@ class LlmConnection < ApplicationRecord
   end
 
   def configured_from_env?
-    Setting.llm_connection.present?
+    Setting.llm_connection.present? && provisioned_from_env?
   end
+
+  # Reads the stored marker: SetAttributesService clears the attribute before the
+  # contract asks, which must not let a crafted save unlock the record.
+  def provisioned_from_env? = persisted? && env_provisioned_at_in_database.present?
+
+  def env_pending? = Setting.llm_connection.present? && !provisioned_from_env?
 
   # Every model that can be addressed today: discovered and still offered, plus
   # anything an administrator entered by hand.

@@ -59,12 +59,10 @@ module Admin
     # Clears the credential and switches the AI features off, keeping the endpoint
     # and the catalogue. Deliberately not a destroy.
     def disconnect
-      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
-
-      ApplicationRecord.transaction do
-        clear_api_key
+      cleared = clear_api_key_unless_configured_from_env do
         Setting.llm_features_enabled = false if Setting.llm_features_enabled_writable?
       end
+      return redirect_with_error(t(".configured_from_env")) unless cleared
 
       redirect_with_notice(t(".success"))
     end
@@ -77,9 +75,7 @@ module Admin
     # the contract: removing a credential must always be possible, even against
     # a server that would reject the resulting unauthenticated probe.
     def delete_api_key
-      return redirect_with_error(t(".configured_from_env")) if @connection.configured_from_env?
-
-      clear_api_key
+      return redirect_with_error(t(".configured_from_env")) unless clear_api_key_unless_configured_from_env
 
       redirect_with_notice(t(".success"))
     end
@@ -90,8 +86,16 @@ module Admin
       render_404 unless @connection.persisted?
     end
 
-    def clear_api_key
-      @connection.update_columns(api_key: nil, updated_at: Time.current)
+    # Judged on the committed row under the connection's advisory lock: a seed
+    # applying the environment's values holds that lock until it commits.
+    def clear_api_key_unless_configured_from_env
+      OpenProject::Mutex.with_advisory_lock_transaction(@connection) do
+        next false if @connection.reload.configured_from_env?
+
+        @connection.update_columns(api_key: nil, env_provisioned_at: nil, updated_at: Time.current)
+        yield if block_given?
+        true
+      end
     end
 
     def set_connection

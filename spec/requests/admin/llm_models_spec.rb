@@ -195,7 +195,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
 
       it "shows the default read-only when the environment owns the connection" do
-        connection = create(:llm_connection, :with_models, base_url:)
+        connection = create(:llm_connection, :with_models, :provisioned_from_env, base_url:)
         connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
         allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
@@ -860,12 +860,22 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     end
 
     it "refuses a default the environment owns" do
+      connection.update_columns(env_provisioned_at: Time.current)
       allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
-      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b" } }
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
-      expect(flash[:error]).to be_present
+      expect(flash[:error]).to include(I18n.t("activerecord.errors.messages.configured_via_env"))
+    end
+
+    it "stores a default while the environment's values have not been applied yet" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(connection.reload.default_chat_model).to eq(chat_model)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
     end
 
     it "is refused to a non-admin" do

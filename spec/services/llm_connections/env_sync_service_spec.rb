@@ -49,6 +49,39 @@ RSpec.describe LlmConnections::EnvSyncService do
       expect(connection.base_url).to eq("https://other.example.com/v1")
       expect(connection.default_chat_model.external_id).to eq("qwen3.6-27b")
     end
+
+    it "marks the connection as written by the environment" do
+      expect(result).to be_success
+
+      expect(connection.reload.env_provisioned_at).to be_present
+    end
+
+    # The second write would change the marker if it carried another time, and
+    # clear it if it carried none.
+    it "stamps both of its writes with the same time" do
+      expect(result).to be_success
+
+      expect(result.result.saved_changes).not_to have_key("env_provisioned_at")
+    end
+  end
+
+  context "when an administrator's save commits while the seed waits for the connection's lock" do
+    let(:env_config) { { "base_url" => "https://example.com/v1", "api_key" => "sk-stored" } }
+
+    before do
+      saved = false
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_wrap_original do |original, *args, &block|
+        LlmConnection.where(id: connection.id).update_all(base_url: "https://admin.example/v1") unless saved
+        saved = true
+        original.call(*args, &block)
+      end
+    end
+
+    it "writes the environment's values over it" do
+      expect(result).to be_success
+
+      expect(connection.reload.base_url).to eq("https://example.com/v1")
+    end
   end
 
   context "with custom headers as a JSON object" do
@@ -114,6 +147,21 @@ RSpec.describe LlmConnections::EnvSyncService do
       expect(connection.api_key).to eq("sk-stored")
       expect(connection.default_chat_model_id).to be_nil
     end
+
+    it "does not mark the connection as written by the environment" do
+      expect(result).to be_failure
+
+      expect(connection.reload.env_provisioned_at).to be_nil
+    end
+
+    it "keeps the time the environment last wrote the connection" do
+      applied_at = 1.day.ago.change(usec: 0)
+      connection.update_columns(env_provisioned_at: applied_at)
+
+      expect(result).to be_failure
+
+      expect(connection.reload.env_provisioned_at).to eq(applied_at)
+    end
   end
 
   context "when the connection itself is invalid" do
@@ -122,6 +170,21 @@ RSpec.describe LlmConnections::EnvSyncService do
     it "fails and keeps the stored connection as it was" do
       expect(result).to be_failure
       expect(connection.reload.base_url).to eq("https://example.com/v1")
+    end
+
+    it "does not mark the connection as written by the environment" do
+      expect(result).to be_failure
+
+      expect(connection.reload.env_provisioned_at).to be_nil
+    end
+
+    it "keeps the time the environment last wrote the connection" do
+      applied_at = 1.day.ago.change(usec: 0)
+      connection.update_columns(env_provisioned_at: applied_at)
+
+      expect(result).to be_failure
+
+      expect(connection.reload.env_provisioned_at).to eq(applied_at)
     end
   end
 end

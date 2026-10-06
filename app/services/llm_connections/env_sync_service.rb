@@ -57,12 +57,17 @@ module LlmConnections
     def call
       result = nil
 
-      ApplicationRecord.transaction(requires_new: true) do
-        result = write(attributes)
-        raise ActiveRecord::Rollback if result.failure?
+      OpenProject::Mutex.with_advisory_lock_transaction(LlmConnection.active_connection) do
+        ApplicationRecord.transaction(requires_new: true) do
+          # Loaded again under the lock. A copy read before an administrator's
+          # save committed would take the environment's values for unchanged
+          # and not write them.
+          result = write(attributes, model: LlmConnection.active_connection)
+          raise ActiveRecord::Rollback if result.failure?
 
-        result = write(default_model_references(result.result), model: result.result)
-        raise ActiveRecord::Rollback if result.failure?
+          result = write(default_model_references(result.result), model: result.result)
+          raise ActiveRecord::Rollback if result.failure?
+        end
       end
 
       result
@@ -93,12 +98,16 @@ module LlmConnections
       ActiveRecord::Type::Boolean.new.deserialize(config[:enabled])
     end
 
-    def write(attributes, model: LlmConnection.active_connection)
+    def write(attributes, model:)
       UpdateService
         .new(user: User.system,
              model:,
              contract_class: EnvironmentUpdateContract)
-        .call(**attributes)
+        .call(**attributes, env_provisioned_at:)
+    end
+
+    def env_provisioned_at
+      @env_provisioned_at ||= Time.current
     end
 
     # The environment names a model, and on a fresh installation nothing has

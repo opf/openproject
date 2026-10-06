@@ -60,6 +60,29 @@ RSpec.describe EnvData::LlmConnectionSeeder do
     it "enqueues the initial catalogue fill" do
       expect { seed }.to have_enqueued_job(Llm::SyncModelsJob)
     end
+
+    it "locks the connection to the environment" do
+      seed
+
+      expect(LlmConnection.active_connection).to be_configured_from_env
+    end
+  end
+
+  context "when an administrator saved a connection before the first seed", with_settings: {
+    llm_connection: { "base_url" => "https://example.com/v1", "api_key" => "sk-from-env" }
+  } do
+    let!(:connection) { create(:llm_connection, base_url: "https://admin.example/v1", api_key: "sk-admin") }
+
+    it "replaces it with the environment's values and locks it" do
+      expect(connection).not_to be_configured_from_env
+
+      seed
+
+      connection.reload
+      expect(connection.base_url).to eq("https://example.com/v1")
+      expect(connection.api_key).to eq("sk-from-env")
+      expect(connection).to be_configured_from_env
+    end
   end
 
   # The seeder runs on every container start, so a refresh here would repeatedly

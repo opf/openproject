@@ -28,23 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module LlmConnections
-  # Used when the connection is provisioned from the environment.
-  #
-  # Inherits from BaseContract, not UpdateContract: seeding must never reach out
-  # to the LLM server, because the container it runs in may well start before the
-  # server does. It also lifts the "configured from environment is read-only"
-  # guard, since this is the code path that legitimately writes those values.
-  class EnvironmentUpdateContract < BaseContract
-    attribute :custom_headers
-    attribute :env_provisioned_at
-
-    def not_configured_from_env = nil
-
-    # On a fresh installation the seed runs before any model synchronisation, so
-    # there is no catalogue to validate a default model against. A wrong id is
-    # surfaced afterwards, the same way as a model that vanished: the binding
-    # shows as no longer offered.
-    def default_models_offered_by_server = nil
+class AddEnvProvisionedAtToLlmConnections < ActiveRecord::Migration[8.1]
+  def change
+    add_column :llm_connections, :env_provisioned_at, :datetime
   end
 end

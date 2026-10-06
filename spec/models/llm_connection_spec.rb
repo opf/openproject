@@ -197,6 +197,55 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe "provisioning from the environment" do
+    context "with the environment configuring a connection",
+            with_settings: { llm_connection: { "base_url" => "https://example.com/v1" } } do
+      it "is pending, not locked, while no connection is stored" do
+        connection = described_class.active_connection
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).to be_env_pending
+      end
+
+      it "is pending, not locked, for a connection an administrator saved" do
+        connection = create(:llm_connection)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).to be_env_pending
+      end
+
+      it "is locked once the environment has written the connection" do
+        connection = create(:llm_connection, :provisioned_from_env)
+
+        expect(connection).to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+
+      it "stays locked while the stored marker is only cleared in memory" do
+        connection = create(:llm_connection, :provisioned_from_env)
+        connection.env_provisioned_at = nil
+
+        expect(connection).to be_configured_from_env
+      end
+    end
+
+    context "without the environment configuring a connection" do
+      it "is neither locked nor pending for a connection the environment once wrote" do
+        connection = create(:llm_connection, :provisioned_from_env)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+
+      it "is neither locked nor pending for a connection an administrator saved" do
+        connection = create(:llm_connection)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+    end
+  end
+
   # The environment seeder and direct writes reach the model without the
   # contract, so these have to hold on the model itself.
   describe "validations" do
