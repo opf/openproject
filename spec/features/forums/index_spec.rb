@@ -58,4 +58,29 @@ RSpec.describe "Forums index", :js do
 
     forums_page.expect_listed("Off-topic", "Support", "General")
   end
+
+  it "reorders forums by dragging them after a morph", :selenium do
+    visit forums_page.path
+
+    wait_for_turbo_stream { forums_page.drag_forum(from_index: 2, to_index: 0) }
+
+    forums_page.expect_listed("Off-topic", "General", "Support")
+    expect(project.forums.reload.map(&:name)).to eq(["Off-topic", "General", "Support"])
+
+    forums_page.reload!
+    forums_page.expect_listed("Off-topic", "General", "Support")
+  end
+
+  context "without the manage forums permission" do
+    let(:reader) { create(:user, member_with_permissions: { project => %i[view_messages] }) }
+
+    before { login_as(reader) }
+
+    it "offers neither drag handles nor actions", :aggregate_failures do
+      forums_page.visit!
+
+      expect(page).to have_no_css(".DragHandle")
+      expect(page).to have_no_button("Forum actions")
+    end
+  end
 end
