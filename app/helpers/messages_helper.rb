@@ -39,7 +39,7 @@ module MessagesHelper
     project_forum_topic_url(
       message.forum.project,
       message.forum,
-      message.root,
+      message.parent_id || message.id,
       r: message.id,
       anchor: "message-#{message.id}"
     )
@@ -49,7 +49,7 @@ module MessagesHelper
     project_forum_topic_path(
       message.forum.project,
       message.forum,
-      message.root,
+      message.parent_id || message.id,
       r: message.id,
       anchor: "message-#{message.id}"
     )
