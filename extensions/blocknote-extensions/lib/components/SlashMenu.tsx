@@ -48,7 +48,7 @@ function buildOnCancel(
 ):() => void {
   return () => {
     editor.focus();
-    removePendingInlineChip(editor, pendingWpid);
+    removePendingInlineChip(editor, pendingWpid, { withSpacer: true });
     clearInlineWpCallbacks(pendingWpid);
   };
 }
