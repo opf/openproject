@@ -19,23 +19,32 @@ export function loadWorkPackageSchema(href:string):Promise<WorkPackageSchema> {
   return pending;
 }
 
+interface LoadedSchema {
+  href:string;
+  attempt:number;
+  schema:WorkPackageSchema | null;
+}
+
 export function useWorkPackageSchema(href:string | undefined) {
-  const [loaded, setLoaded] = useState<{ href:string, schema:WorkPackageSchema | null } | null>(null);
+  const [loaded, setLoaded] = useState<LoadedSchema | null>(null);
+  // A failed request leaves the cache, so another attempt asks the server again.
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     if (!href) return;
     let current = true;
     loadWorkPackageSchema(href).then(
-      (schema) => { if (current) setLoaded({ href, schema }); },
-      () => { if (current) setLoaded({ href, schema: null }); },
+      (schema) => { if (current) setLoaded({ href, attempt, schema }); },
+      () => { if (current) setLoaded({ href, attempt, schema: null }); },
     );
     return () => { current = false; };
-  }, [href]);
+  }, [href, attempt]);
 
-  const settled = !!href && loaded?.href === href;
+  const settled = !!href && loaded?.href === href && loaded.attempt === attempt;
   return {
     schema: settled ? loaded.schema : null,
     loading: !!href && !settled,
     error: settled && !loaded.schema,
+    retry: () => setAttempt((count) => count + 1),
   };
 }
