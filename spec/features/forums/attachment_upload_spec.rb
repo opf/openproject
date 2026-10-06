@@ -65,11 +65,14 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Create"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 1)
+    expect(page).to have_css("#content .op-uc-container img", count: 1)
     expect(page).to have_content("Image uploaded on creation")
     attachments_list.expect_attached("image.png")
 
-    page.find_test_selector("message-edit-button").click
+    within_test_selector("forum-post-#{Message.last.id}") do
+      click_on accessible_name: "Message actions"
+      click_on "Edit"
+    end
 
     editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
@@ -80,7 +83,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     click_link_or_button "Save"
     wait_for_network_idle
 
-    expect(page).to have_css("#content .wiki img", count: 2)
+    expect(page).to have_css("#content .op-uc-container img", count: 2)
     expect(page).to have_content("Image uploaded on creation")
     expect(page).to have_content("Image uploaded the second time")
 
@@ -108,7 +111,10 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     wait_for_network_idle
 
     attachments_list.expect_attached("image.png")
-    page.find_test_selector("message-edit-button").click
+    within_test_selector("forum-post-#{Message.last.id}") do
+      click_on accessible_name: "Message actions"
+      click_on "Edit"
+    end
     wait_for_network_idle
 
     retry_block do

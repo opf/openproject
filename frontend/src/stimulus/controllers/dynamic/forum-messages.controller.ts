@@ -58,6 +58,12 @@ export default class ForumMessagesController extends Controller {
 
   private insertQuoteInReply({ subject, content }:QuoteResult):void {
     this.subjectTarget.value = subject;
-    retrieveCkEditorInstance(this.replyTarget)?.setData(content);
+
+    const editor = retrieveCkEditorInstance(this.replyTarget);
+    editor?.setData(content);
+
+    // Focusing cancels a smooth scroll still in flight, so the focus has to come first.
+    editor?.editing.view.focus();
+    this.replyTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
