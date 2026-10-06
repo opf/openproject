@@ -26,11 +26,14 @@
 //++
 
 import { fireEvent, waitFor } from '@testing-library/dom';
+import { States } from 'core-app/core/states/states.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { usePlatform } from 'core-common/testing/platform';
+import { nextFrame } from 'core-common/testing/timing';
 import { buildTable, TableHarness } from '../../testing/table-harness';
 import { buildGroup, buildWorkPackage } from '../../testing/work-package-fixture';
 
@@ -228,6 +231,150 @@ describe('Selection reconciliation with the rendered scope', () => {
       expect(harness.rowIds()).toEqual(['1', '2']);
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
       expect(harness.relationRow('1', '2')).toHaveClass('-checked');
+    });
+  });
+
+  describe('around creation', () => {
+    beforeEach(async () => {
+      harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+      await harness.render();
+    });
+
+    it('keeps a work package created into an empty selection while it is rendered', async () => {
+      harness.focus.initializeSelectionAndFocus('3');
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['3']);
+      await harness.render([{ id: '1' }, { id: '2' }, { id: '3' }]);
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['3']);
+      expect(harness.row('3')).toHaveClass('-checked');
+    });
+
+    it('prunes a work package created outside the rendered scope', async () => {
+      harness.focus.initializeSelectionAndFocus('3');
+      await harness.render([{ id: '1' }, { id: '2' }]);
+      expect(harness.selection.isEmpty).toBe(true);
+      expect(harness.focus.focusedWorkPackage).toBe('3');
+    });
+
+    it('leaves an existing batch alone when a work package is created', async () => {
+      harness.click('1');
+      harness.focus.initializeSelectionAndFocus('3');
+      await harness.render([{ id: '1' }, { id: '2' }, { id: '3' }]);
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    });
+  });
+
+  describe('around loading', () => {
+    const newStatus = { href: '/api/v3/statuses/1' };
+    const inProgressStatus = { href: '/api/v3/statuses/2' };
+
+    it('treats an old-ledger collapse publication as settled', async () => {
+      harness = buildTable({
+        workPackages: [
+          { id: '1', attributes: { status: newStatus } },
+          { id: '2', attributes: { status: inProgressStatus } },
+        ],
+        groups: [
+          { value: 'New', href: newStatus.href, count: 1 },
+          { value: 'In progress', href: inProgressStatus.href, count: 1 },
+        ],
+      });
+      await harness.render();
+      harness.click('1');
+      harness.selection.initializeSelection(['1', '5']);
+      harness.querySpace.tableRendered.clear('loading the next query');
+
+      fireEvent.click(harness.groupHeader(0).querySelector('.expander')!);
+      await waitFor(() => expect(harness.row('1')).not.toBeVisible());
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+      await harness.render([
+        { id: '1', attributes: { status: newStatus } },
+        { id: '5', attributes: { status: inProgressStatus } },
+      ]);
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+    });
+
+    it('prunes a member present only as a child that loads after the first commit', async () => {
+      let resolveChildren!:(children:WorkPackageResource[]) => void;
+      const loaded = new Promise<WorkPackageResource[]>((resolve) => { resolveChildren = resolve; });
+      harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }],
+        columns: ['id', 'subject', { id: 'children', children: true }],
+        loadChildren: false,
+        requireAll: () => loaded,
+        beforeAttach: (injector) => injector.get(WorkPackageViewSelectionService).initializeSelection(['2']),
+      });
+      harness.expand('1', 'children');
+      await harness.render();
+      expect(harness.selection.isEmpty).toBe(true);
+
+      const child = buildWorkPackage({ id: '2' });
+      harness.injector.get(States).workPackages.get('2').putValue(child);
+      const redrawn = harness.nextRender();
+      resolveChildren([child]);
+      await redrawn;
+      await nextFrame();
+
+      expect(harness.relationRow('1', '2', 'children')).toBeInTheDocument();
+      expect(harness.selection.isEmpty).toBe(true);
+    });
+  });
+
+  describe('with two tables sharing the resource cache', () => {
+    let other:TableHarness;
+
+    beforeEach(async () => {
+      const states = new States();
+      harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }], states });
+      other = buildTable({ workPackages: [{ id: '1' }, { id: '2' }], states });
+      await harness.render();
+      await other.render();
+    });
+
+    afterEach(() => other.destroy());
+
+    it('prunes only its own query space', async () => {
+      harness.click('2');
+      other.click('2');
+      await harness.render([{ id: '1' }]);
+      expect(harness.selection.isEmpty).toBe(true);
+      expect(other.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+      expect(other.row('2')).toHaveClass('-checked');
+    });
+  });
+
+  describe('pointer and keyboard parity', () => {
+    const fixtures = [{ id: '1' }, { id: '2' }, { id: '3' }];
+    const reduced = [{ id: '1' }, { id: '3' }];
+
+    it('reconciles the same membership to the same result', async () => {
+      harness = buildTable({ workPackages: fixtures });
+      await harness.render();
+      harness.click('1');
+      harness.click('3', { shiftKey: true });
+      await harness.render(reduced);
+      const byPointer = harness.selection.getSelectedWorkPackageIds();
+      await harness.destroy();
+
+      harness = buildTable({ workPackages: fixtures });
+      await harness.render();
+      fireEvent.keyDown(harness.row('1'), { key: 'a', ctrlKey: true });
+      await harness.render(reduced);
+
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(byPointer);
+      expect(byPointer).toEqual(['1', '3']);
+    });
+  });
+
+  describe('and the focused work package', () => {
+    it('leaves focus state untouched when the focused member is pruned', async () => {
+      harness = buildTable({ workPackages: [{ id: '1' }, { id: '2' }] });
+      await harness.render();
+      harness.click('2');
+      harness.focus.updateFocus('2');
+      await harness.render([{ id: '1' }]);
+      expect(harness.selection.isEmpty).toBe(true);
+      expect(harness.focus.focusedWorkPackage).toBe('2');
     });
   });
 });
