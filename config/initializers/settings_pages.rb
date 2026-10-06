@@ -67,22 +67,28 @@ Settings::Pages.draw do
     setting :csv_escape_formulas
   end
 
-  page :repositories, menu_item: :settings_repositories, custom: true do
+  page :repositories, menu_item: :settings_repositories do
     setting :autofetch_changesets
-    setting :repository_storage_cache_minutes
+    setting :repository_storage_cache_minutes, input_width: :small
     setting :sys_api_enabled
-    setting :sys_api_key
+    setting :sys_api_key, input_width: :medium, depends_on: { setting: :sys_api_enabled }
     setting :enabled_scm
-    setting :repositories_automatic_managed_vendor
-    setting :repositories_encodings
-    setting :repository_log_display_limit
-    setting :repository_truncate_at
-    setting :repository_checkout_data, label: :setting_repository_checkout_display
-    setting :commit_ref_keywords
-    setting :commit_fix_keywords
-    setting :commit_fix_status_id, label: -> { I18n.t(%i[setting_commit_fix_keywords label_applied_status]).join(": ") }
-    setting :commit_logtime_enabled
-    setting :commit_logtime_activity_id
+    setting :repositories_automatic_managed_vendor, input_width: :medium
+    setting :repositories_encodings, input_width: :medium
+    setting :repository_log_display_limit, input_width: :xsmall
+    setting :repository_truncate_at, input_width: :xsmall
+
+    section :checkout, heading: :"repositories.checkout.instructions" do
+      setting :repository_checkout_data
+    end
+
+    section :commit_messages, heading: :text_work_packages_ref_in_commit_messages do
+      setting :commit_ref_keywords
+      setting :commit_fix_keywords
+      setting :commit_fix_status_id
+      setting :commit_logtime_enabled
+      setting :commit_logtime_activity_id, input_width: :medium, depends_on: { setting: :commit_logtime_enabled }
+    end
   end
 
   page :users, menu_item: :user_settings, custom: true do
@@ -189,13 +195,19 @@ Settings::Pages.draw do
     setting :mail_handler_ignore_filenames, rows: 5
   end
 
-  page :api, menu_item: :api, custom: true do
+  page :api, menu_item: :api do
     setting :api_tokens_enabled
-    setting :apiv3_max_page_size
+    setting :apiv3_max_page_size, input_width: :xsmall, min: 50
     setting :apiv3_write_readonly_attributes
-    setting :apiv3_docs_enabled
-    setting :apiv3_cors_enabled
-    setting :apiv3_cors_origins
+
+    section :docs, heading: :setting_apiv3_docs do
+      setting :apiv3_docs_enabled
+    end
+
+    section :cors, heading: :setting_apiv3_cors_title do
+      setting :apiv3_cors_enabled
+      setting :apiv3_cors_origins, rows: 5, depends_on: { setting: :apiv3_cors_enabled }
+    end
   end
 
   page :authentication,

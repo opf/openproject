@@ -909,7 +909,6 @@ Rails.application.routes.draw do
                  settings_page: settings_page.key.to_s
       end
 
-      resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
       resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
@@ -921,7 +920,6 @@ Rails.application.routes.draw do
       end
 
       resource :mail_notifications, controller: "/admin/settings/mail_notifications_settings", only: %i[show update]
-      resource :api, controller: "/admin/settings/api_settings", only: %i[show update]
       # It is important to have this named something else than "work_packages".
       # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
       resource :work_packages_general, controller: "/admin/settings/work_packages_general", only: %i[show update]

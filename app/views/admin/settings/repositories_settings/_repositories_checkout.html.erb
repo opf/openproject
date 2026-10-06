@@ -1,10 +1,5 @@
 <%# locals: (f:) %>
 
-<%=
-  render(Primer::Beta::Subhead.new(mt: 3)) do |component|
-    component.with_heading(tag: :h3, size: :medium) { t("repositories.checkout.instructions") }
-  end
-%>
 <%= f.fields_for(:repository_checkout_data) do |repository_checkout_fields| %>
   <% OpenProject::SCM::Manager.registered.each do |vendor, klass| %>
     <%= render Primer::OpenProject::CollapsibleSection.new(collapsed: true, display: :block, mb: 3) do |section| %>

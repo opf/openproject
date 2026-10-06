@@ -43,12 +43,17 @@ module Settings
   # be overridden per page. Hints understood by the generic rendering:
   #
   # * `input`: the `Settings::InputMethods` method to render the setting with,
-  #   derived from the definition's format and allowed values if omitted.
+  #   derived from the definition's format and allowed values if omitted. A
+  #   lambda receiving the form and the entry renders a custom input instead.
   # * `label`: a translation key, a string, or a lambda evaluated in the view
   #   context. Defaults to the "setting_<name>" translation.
   # * `caption`: like `label`, defaulting to the "setting_<name>_caption(_html)"
   #   translation.
+  # * `warning`: like `label`, a warning shown below the caption.
   # * `unit`: like `label`, a unit shown next to number fields.
+  # * `depends_on`: `{ setting: :other }` shows the setting only while the
+  #   other one is checked, `{ setting: :other, value: :x }` only while the
+  #   other one has the given value.
   # * `parse`: a lambda transforming the submitted value before it is saved.
   #
   # Any other hint (e.g. `input_width`, `rows`, `values`) is passed on to the
@@ -77,7 +82,7 @@ module Settings
     RADIO_BUTTON_GROUP_LIMIT = 5
 
     class Entry
-      OWN_HINTS = %i[input label caption unit parse].freeze
+      OWN_HINTS = %i[input label caption warning unit parse depends_on].freeze
 
       attr_reader :name, :condition
 
@@ -115,6 +120,8 @@ module Settings
       def permit_filter
         if input == :check_box_group
           { name => [] }
+        elsif definition.format == :hash
+          { name => {} }
         else
           name
         end
@@ -126,6 +133,14 @@ module Settings
 
       def unit(view_context)
         resolve_text(ui[:unit], view_context)
+      end
+
+      def warning(view_context)
+        resolve_text(ui[:warning], view_context)
+      end
+
+      def depends_on
+        ui[:depends_on]
       end
 
       def writable?
@@ -247,6 +262,12 @@ module Settings
 
       def entry(name)
         entries.find { it.name == name.to_sym }
+      end
+
+      def dependency_causes
+        entries.filter_map(&:depends_on).to_h do |dependency|
+          [dependency[:setting], dependency.key?(:value) ? :value : :checked]
+        end
       end
 
       def path_helper

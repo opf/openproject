@@ -51,7 +51,8 @@ See COPYRIGHT and LICENSE files for more details.
   settings_primer_form_with(
     url: public_send(settings_page.path_helper),
     scope: :settings,
-    method: :patch
+    method: :patch,
+    data: { controller: "show-when-checked show-when-value-selected" }
   ) do |f|
 %>
   <% settings_page.sections.each_with_index do |section, index| %>
@@ -63,7 +64,12 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     <% end %>
 
-    <% section_form = Settings::PageSectionForm.new(f, section:, form_hook: (settings_page.form_hook if index.zero?)) %>
+    <% section_form = Settings::PageSectionForm.new(
+          f,
+          section:,
+          form_hook: (settings_page.form_hook if index.zero?),
+          dependency_causes: settings_page.dependency_causes
+        ) %>
     <% if section == settings_page.sections.last %>
       <%= render(Primer::Forms::FormList.new(section_form, Admin::Settings::Save.new(f, disabled: !settings_page.writable?))) %>
     <% else %>

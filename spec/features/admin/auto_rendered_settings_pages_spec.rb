@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,15 +26,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
-#
 
 require "spec_helper"
 
-RSpec.describe Admin::Settings::RepositoriesSettingsController do
-  shared_let(:user) { create(:admin) }
+RSpec.describe "Auto-rendered settings pages", :js do
+  current_user { create(:admin) }
 
-  current_user { user }
+  it "shows settings depending on a check box once it is checked and saves them" do
+    visit admin_settings_api_path
 
-  include_examples "GET #show requires admin permission and renders template", path: "repositories_settings"
+    expect(page).to have_field "Enable CORS", checked: false
+    expect(page).to have_no_field "API V3 Cross-Origin Resource Sharing (CORS) allowed origins"
+
+    check "Enable CORS"
+    fill_in "API V3 Cross-Origin Resource Sharing (CORS) allowed origins", with: "https://a.example.com\nhttps://b.example.com"
+    click_on "Save"
+
+    expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
+
+    RequestStore.clear!
+    expect(Setting.apiv3_cors_enabled?).to be true
+    expect(Setting.apiv3_cors_origins).to eq %w[https://a.example.com https://b.example.com]
+  end
 end

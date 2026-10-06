@@ -34,32 +34,92 @@ module Settings
 
     option :section
     option :form_hook, optional: true
+    option :dependency_causes, default: proc { {} }
 
     settings_form do |sf|
       helpers.call_hook(form_hook, form: sf) if form_hook
 
       section.visible_entries.each do |entry|
-        submit_empty_selection(sf, entry.name) if entry.input == :check_box_group
-        sf.public_send(entry.input, name: entry.name, **input_options(entry))
+        if entry.depends_on
+          sf.group(**dependent_group_options(entry.depends_on)) { render_entry(it, entry) }
+        else
+          render_entry(sf, entry)
+        end
       end
     end
 
     private
 
+    def render_entry(form, entry)
+      return instance_exec(form, entry, &entry.input) if entry.input.is_a?(Proc)
+
+      submit_empty_selection(form, entry.name) if entry.input == :check_box_group
+      form.public_send(entry.input, name: entry.name, **input_options(entry))
+    end
+
     def input_options(entry)
-      options = entry.input_options.transform_values { it.is_a?(Proc) ? @view_context.instance_exec(&it) : it }
-      options[:label] = entry.label(@view_context)
-      options[:caption] = entry.caption(@view_context)
-      options.merge!(unit_options(entry.name, entry.unit(@view_context))) if entry.ui[:unit]
-      options.compact
+      hints = evaluated_hints(entry)
+
+      {
+        **hints,
+        label: entry.label(@view_context),
+        caption: caption(entry),
+        **unit_options(entry),
+        **cause_options(entry, hints)
+      }.compact
+    end
+
+    def evaluated_hints(entry)
+      entry.input_options.transform_values { it.is_a?(Proc) ? @view_context.instance_exec(&it) : it }
+    end
+
+    def caption(entry)
+      caption = entry.caption(@view_context)
+      warning = entry.warning(@view_context)
+      return caption unless warning
+
+      @view_context.safe_join([
+        (render(Primer::Beta::Text.new(tag: :p)) { caption } if caption),
+        render(Primer::OpenProject::InlineMessage.new(scheme: :warning, size: :small)) do
+          render(Primer::Beta::Text.new(tag: :p)) do
+            @view_context.safe_join([render(Primer::Beta::Text.new(tag: :strong)) { "#{I18n.t(:warning)}:" }, warning], " ")
+          end
+        end
+      ].compact)
+    end
+
+    def cause_options(entry, hints)
+      return {} unless dependency_causes.key?(entry.name)
+
+      target = dependency_causes[entry.name] == :value ? :show_when_value_selected_target : :show_when_checked_target
+      { data: { **hints.fetch(:data, {}), target => "cause", target_name: entry.name } }
+    end
+
+    def dependent_group_options(dependency)
+      cause = dependency[:setting]
+
+      if dependency.key?(:value)
+        {
+          hidden: Setting[cause].to_s != dependency[:value].to_s,
+          data: { show_when_value_selected_target: "effect", target_name: cause, value: dependency[:value] }
+        }
+      else
+        {
+          hidden: !Setting[cause],
+          data: { show_when_checked_target: "effect", show_when: "checked", target_name: cause }
+        }
+      end
     end
 
     def submit_empty_selection(form, name)
       form.hidden(name: "settings[#{name}][]", value: "", scope_name_to_model: false, scope_id_to_model: false)
     end
 
-    def unit_options(name, unit)
-      id = "settings_#{name}_unit"
+    def unit_options(entry)
+      unit = entry.unit(@view_context)
+      return {} unless unit
+
+      id = "settings_#{entry.name}_unit"
 
       {
         trailing_visual: { text: { id:, text: unit } },

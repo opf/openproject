@@ -1,9 +1,0 @@
-<%= render(Primer::Beta::Text.new(tag: :p)) do %>
-  <%= I18n.t(:setting_apiv3_max_page_size_instructions) %>
-<% end %>
-<%= render(Primer::OpenProject::InlineMessage.new(scheme: :warning, size: :small)) do %>
-  <%= render(Primer::Beta::Text.new(tag: :p)) do %>
-    <%= render(Primer::Beta::Text.new(tag: :strong).with_content("#{I18n.t(:warning)}:")) %>
-    <%= I18n.t(:setting_apiv3_max_page_size_warning) %>
-  <% end %>
-<% end %>
