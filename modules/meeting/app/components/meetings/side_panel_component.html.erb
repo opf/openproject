@@ -3,9 +3,10 @@
     render(Primer::OpenProject::SidePanel.new) do |panel|
       desktop_grid_row_arguments = { display: [:none, nil, :table_cell] }
 
-      unless @meeting.onetime_template?
-        panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting))
+      panel.with_section(Meetings::SidePanel::DetailsComponent.new(meeting: @meeting)) unless @meeting.onetime_template?
+      panel.with_section(agenda_sorting_mode_selector)
 
+      unless @meeting.onetime_template?
         if @meeting.editable? && !@meeting.draft?
           panel.with_section(email_updates_mode_selector)
         end

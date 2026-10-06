@@ -67,4 +67,10 @@ class MeetingSection < ApplicationRecord
       agenda_items.maximum(:position) + 1
     end
   end
+
+  def ordered_agenda_items
+    return agenda_items unless meeting.agenda_sorting_vote_based? && !backlog?
+
+    agenda_items.with_vote_score.reorder(Arel.sql("vote_score DESC"), :position, :id)
+  end
 end
