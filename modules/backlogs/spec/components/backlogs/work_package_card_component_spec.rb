@@ -44,7 +44,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   subject(:rendered_component) do
-    render_inline(described_class.new(work_package:, menu_src:))
+    render_inline(described_class.new(work_package:, project:, menu_src:))
   end
 
   it "renders the common work package card" do
@@ -55,6 +55,15 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   it "renders story points as the card metric" do
     expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")
+  end
+
+  it "never dereferences work_package.project, relying on the caller-supplied project instead" do
+    unloaded_work_package = WorkPackage.find(work_package.id)
+    expect(unloaded_work_package.association(:project).loaded?).to be false
+
+    render_inline(described_class.new(work_package: unloaded_work_package, project:, menu_src:))
+
+    expect(unloaded_work_package.association(:project).loaded?).to be false
   end
 
   context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
@@ -104,7 +113,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "supports caller-provided metric content" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }
     end
 
@@ -118,13 +127,15 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "forwards extra system arguments to the common card root" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+    rendered = render_inline(
+      described_class.new(work_package:, project:, menu_src:, data: { controller: "backlogs--work-package" })
+    )
 
     expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
   end
 
   it "supports inline menu items through the menu slot" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|
         menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
       end

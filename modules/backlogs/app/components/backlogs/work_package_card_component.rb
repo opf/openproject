@@ -30,14 +30,15 @@
 
 module Backlogs
   class WorkPackageCardComponent < ApplicationComponent
-    attr_reader :work_package, :menu_src
+    attr_reader :work_package, :project, :menu_src
 
     delegate :with_menu, :with_metric, to: :card
 
-    def initialize(work_package:, menu_src: nil, **system_arguments)
+    def initialize(work_package:, project:, menu_src: nil, **system_arguments)
       super()
 
       @work_package = work_package
+      @project = project
       @menu_src = menu_src
       @system_arguments = system_arguments
     end
@@ -51,7 +52,7 @@ module Backlogs
     private
 
     def render_metric(common_card)
-      case work_package.project.estimation_unit
+      case project.estimation_unit
       when Project::BACKLOGS_UNIT_STORY_POINTS
         common_card.with_metric { render(Backlogs::StoryPointsComponent.new(work_package:)) }
       when Project::BACKLOGS_UNIT_TIME
