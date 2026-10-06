@@ -61,14 +61,6 @@ module MyDay
 
     def shown_work_package = planned_work_package || work_package
 
-    def meta_items
-      [
-        shown_work_package.project.name,
-        (work_package.type.name unless planned_work_package),
-        shown_work_package.status.name
-      ].compact
-    end
-
     def closed? = work_package.closed?
 
     def toggle_label = closed? ? t("my_day.mark_open") : t("my_day.mark_done")

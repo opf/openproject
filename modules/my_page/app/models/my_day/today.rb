@@ -95,7 +95,7 @@ module MyDay
       @references ||= WorkPackage
                         .visible(user)
                         .where_display_id_in(work_packages.flat_map { it.subject.scan(CreateTaskService::REFERENCE) }.flatten)
-                        .includes(:status, :project)
+                        .includes(:status, :project, :type)
                         .flat_map { [[it.id.to_s, it], [it.display_id.to_s, it]] }
                         .to_h
     end
