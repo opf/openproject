@@ -10,6 +10,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
@@ -23,6 +24,7 @@ import mantineStylesUrl from '@blocknote/mantine/style.css?url';
 const defaultSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
