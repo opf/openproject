@@ -28,34 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MessagesHelper
-  def message_attachment_representer(message)
-    ::API::V3::Posts::PostRepresenter.new(message,
-                                          current_user:,
-                                          embed_links: true)
+require "spec_helper"
+
+RSpec.describe MessagesHelper do
+  shared_let(:forum) { create(:forum) }
+  shared_let(:topic) { create(:message, forum:) }
+  shared_let(:reply) { create(:message, forum:, parent: topic) }
+
+  # Every reply card on a thread page builds this link, so it must not load the reply's topic.
+  let(:loaded_reply) { Message.includes(forum: :project).find(reply.id) }
+  let(:topic_path) { "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}" }
+
+  describe "#message_anchor_path" do
+    it "links a reply on its topic page without loading the topic", :aggregate_failures do
+      expect(helper.message_anchor_path(loaded_reply)).to eq("#{topic_path}?r=#{reply.id}#message-#{reply.id}")
+      expect(loaded_reply.association(:parent)).not_to be_loaded
+    end
   end
 
-  def message_url(message)
-    project_forum_topic_url(
-      message.forum.project,
-      message.forum,
-      message.parent_id || message.id,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
-
-  def message_anchor_path(message)
-    project_forum_topic_path(
-      message.forum.project,
-      message.forum,
-      message.parent_id || message.id,
-      r: message.id,
-      anchor: "message-#{message.id}"
-    )
-  end
-
-  def message_byline(message)
-    [message.author&.name, format_time(message.created_at)].compact.join(" · ")
+  describe "#message_url" do
+    it "links a reply on its topic page without loading the topic", :aggregate_failures do
+      expect(helper.message_url(loaded_reply)).to end_with("#{topic_path}?r=#{reply.id}#message-#{reply.id}")
+      expect(loaded_reply.association(:parent)).not_to be_loaded
+    end
   end
 end
