@@ -81,11 +81,19 @@ export function findPendingInlineChip(
 }
 
 /** Removes a pending chip, if it is still in the document, and says whether it was. */
-export function removePendingInlineChip(editor:AnyEditor, wpid:string):boolean {
+export function removePendingInlineChip(
+  editor:AnyEditor,
+  wpid:string,
+  { type = INLINE_WP_TYPE, withSpacer = false }:{ type?:string; withSpacer?:boolean } = {},
+):boolean {
   return editor.transact((tr) => {
-    const found = findPendingInlineChip(tr.doc, wpid);
-    if (found) tr.delete(found.position, found.position + found.node.nodeSize);
-    return found !== null;
+    const found = findPendingInlineChip(tr.doc, wpid, type);
+    if (!found) return false;
+
+    const end = found.position + found.node.nodeSize;
+    const spacerEnd = withSpacer && end < tr.doc.content.size && tr.doc.textBetween(end, end + 1) === ' ' ? end + 1 : end;
+    tr.delete(found.position, spacerEnd);
+    return true;
   });
 }
 

@@ -1,25 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import type { WorkPackage } from '../../openProjectTypes';
 import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDropdown';
 import { typeColor } from '../../services/colors';
 import { formatWorkPackageId } from '../../utils/id';
 import { WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
 import { Suggestions, usePickerMotion } from '../CreateWorkPackage/Suggestions';
-import { TextControl, TypeaheadWrapper } from '../CreateWorkPackage/atoms';
+import { PickerControl, TrailingActions, TypeaheadWrapper } from '../CreateWorkPackage/atoms';
 import type { ListedValue } from '../CreateWorkPackage/formSchema';
+import { PickerToggle } from '../CreateWorkPackage/PickerToggle';
+import { SelectedSubject, SelectedText, SelectedWorkPackage, WorkPackageReference } from './atoms';
 
 const BLUR_DELAY = 150;
 
-// Kept whole: the subject next to it is what gives way.
-const Reference = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacer-m);
-  flex-shrink: 0;
-  white-space: nowrap;
-`;
+const Reference = ({ workPackage }:{ workPackage:WorkPackage }) => (
+  <WorkPackageReference>
+    <WorkPackageId as="span" $compact>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
+    {workPackage._links?.type?.title && (
+      <WorkPackageType as="span" $compact $color={typeColor(workPackage)}>
+        {workPackage._links.type.title}
+      </WorkPackageType>
+    )}
+  </WorkPackageReference>
+);
 
 interface WorkPackagePickerProps {
   id:string;
@@ -30,8 +33,6 @@ interface WorkPackagePickerProps {
   onEscape:() => void;
 }
 
-const referenceOf = (workPackage:WorkPackage) =>
-  `${formatWorkPackageId(workPackage.displayId)} ${workPackage.subject}`;
 
 // The search of "Link existing work package" in the look of the pickers
 // of the create form.
@@ -41,7 +42,9 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   // Typing replaces the picked work package only once another one is picked.
   const [editing, setEditing] = useState(false);
+  const [marked, setMarked] = useState(false);
   const listId = `${id}-list`;
+  const selectedId = `${id}-selected`;
 
   const {
     searchQuery,
@@ -63,14 +66,21 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
 
   useEffect(() => () => clearTimeout(blurTimerRef.current), []);
 
+  const onListClosed = useCallback(() => {
+    onClosed();
+    if (!editing) setSearchQuery('');
+  }, [onClosed, editing, setSearchQuery]);
+
+  // The query stays until the list has rolled up, so its rows do not empty out on the way.
   const restore = () => {
     setEditing(false);
-    setSearchQuery('');
     setIsDropdownOpen(false);
+    if (!mounted) setSearchQuery('');
   };
 
   function pick(workPackage:WorkPackage) {
     restore();
+    setMarked(false);
     onPick(workPackage);
   }
 
@@ -84,13 +94,15 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
     levelSize: searchResults.length,
   }));
   const optionId = (index:number) => `${id}-option-${index}`;
+  const showsSelected = !!selected && !editing;
   const workPackageOf = (option:{ href:string }) =>
     searchResults.find((workPackage) => String(workPackage.id) === option.href);
 
   return (
     <TypeaheadWrapper>
-      <TextControl
+      <PickerControl
         id={id}
+        $namesPick
         ref={setInputEl}
         type="text"
         role="combobox"
@@ -101,12 +113,14 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
         aria-activedescendant={isDropdownOpen && options[focusedIndex] ? optionId(focusedIndex) : undefined}
         autoComplete="off"
         spellCheck={false}
-        placeholder={t('search.placeholder')}
-        value={editing || !selected ? searchQuery : referenceOf(selected)}
-        onFocus={(event) => {
+        aria-describedby={showsSelected ? selectedId : undefined}
+        placeholder={showsSelected ? undefined : t('search.placeholder')}
+        value={editing ? searchQuery : ''}
+        onFocus={() => {
           clearTimeout(blurTimerRef.current);
-          if (!editing) event.target.select();
+          setMarked(true);
         }}
+        onMouseDown={() => setMarked(true)}
         onChange={(event) => {
           setEditing(true);
           setSearchQuery(event.target.value);
@@ -123,10 +137,29 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
           else onEscape();
         }}
         onBlur={() => {
+          setMarked(false);
           clearTimeout(blurTimerRef.current);
           blurTimerRef.current = setTimeout(restore, BLUR_DELAY);
         }}
       />
+
+      {showsSelected && (
+        <SelectedWorkPackage id={selectedId} data-testid={selectedId}>
+          <SelectedText $marked={marked}>
+            <Reference workPackage={selected} />
+            <SelectedSubject>{selected.subject}</SelectedSubject>
+          </SelectedText>
+        </SelectedWorkPackage>
+      )}
+
+      <TrailingActions>
+        <PickerToggle
+          isOpen={isDropdownOpen}
+          controls={listId}
+          testId={`${id}-toggle`}
+          onToggle={() => inputEl?.focus()}
+        />
+      </TrailingActions>
 
       {mounted && (
         <Suggestions
@@ -144,20 +177,10 @@ export const WorkPackagePicker = ({ id, label, selected, autoFocus, onPick, onEs
           onToggleExpanded={() => undefined}
           leadingOf={(option) => {
             const workPackage = workPackageOf(option);
-            if (!workPackage) return null;
-            return (
-              <Reference>
-                <WorkPackageId as="span" $compact>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
-                {workPackage._links?.type?.title && (
-                  <WorkPackageType as="span" $compact $color={typeColor(workPackage)}>
-                    {workPackage._links.type.title}
-                  </WorkPackageType>
-                )}
-              </Reference>
-            );
+            return workPackage ? <Reference workPackage={workPackage} /> : null;
           }}
           open={open}
-          onClosed={onClosed}
+          onClosed={onListClosed}
         >
           {loading ? t('createWorkPackage.loading') : t(error ? 'search.error' : 'search.noResults')}
         </Suggestions>

@@ -3,7 +3,6 @@ import { documentKey } from '../../utils/documentKey';
 
 let remembered:{ document:string, choice:AttributeChoice } | undefined;
 
-
 export function lastAttributeChoice():AttributeChoice | undefined {
   return remembered?.document === documentKey() ? remembered.choice : undefined;
 }
