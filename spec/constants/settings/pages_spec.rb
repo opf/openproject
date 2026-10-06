@@ -168,8 +168,8 @@ RSpec.describe Settings::Pages do
   end
 
   describe "core pages" do
-    it "only lists settings that have a definition and a derivable input", :aggregate_failures do
-      described_class.all.flat_map(&:entries).each do |entry|
+    it "only lists settings with a derivable input on auto-rendered pages", :aggregate_failures do
+      described_class.auto_rendered.flat_map(&:entries).each do |entry|
         expect { entry.input }.not_to raise_error, "for #{entry.name}"
       end
     end

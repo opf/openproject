@@ -2246,6 +2246,11 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    settings_search:
+      button: "Search settings"
+      filter_placeholder: "Search by name or description"
+      no_results: "No settings found"
+      title: "Search settings"
     text_transform_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
@@ -6268,6 +6273,7 @@ en:
     Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: "Infected file action"
   setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_target: "ClamAV socket or host"
   setting_api_tokens_enabled: "Enable API tokens"
   setting_api_tokens_enabled_caption: >
     Decide whether users can create personal API tokens in their account settings. These tokens can be used to access the different

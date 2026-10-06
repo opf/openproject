@@ -36,6 +36,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<%= render(Admin::SettingsSearchComponent.new(tree: Settings::SearchTree.new(self))) %>
+
 <div class="menu-blocks--container" data-test-selector="menu-blocks--container">
   <% @menu_nodes.each do |menu_node| -%>
     <%= link_to menu_node.url, { class: "menu-block", "data-test-selector": "menu-block" } do %>

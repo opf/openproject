@@ -294,7 +294,8 @@ module ApplicationHelper
 
   def body_data_attributes(local_assigns)
     {
-      controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
+      controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links",
+                   "highlight-target-element highlight-setting",
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",

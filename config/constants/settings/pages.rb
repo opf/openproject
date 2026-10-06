@@ -34,15 +34,20 @@ module Settings
   # Each page is linked to an entry of the admin menu and lists its settings
   # in order, optionally grouped into sections. Pages not marked as `custom`
   # are rendered and updated by `Admin::Settings::PagesController` without a
-  # dedicated template or controller.
+  # dedicated template or controller. Custom pages render themselves and are
+  # registered so their settings can be found in the settings search. Several
+  # pages may share a menu entry, e.g. one per tab (`tab:` and `label:`) or
+  # served by another controller (`url:`).
   #
   # Rendering hints are taken from the setting definition's `ui` hash and can
   # be overridden per page. Hints understood by the generic rendering:
   #
   # * `input`: the `Settings::InputMethods` method to render the setting with,
   #   derived from the definition's format and allowed values if omitted.
-  # * `caption`: a translation key, a string, or a lambda evaluated in the
-  #   view context. Defaults to the "setting_<name>_caption(_html)" translation.
+  # * `label`: a translation key, a string, or a lambda evaluated in the view
+  #   context. Defaults to the "setting_<name>" translation.
+  # * `caption`: like `label`, defaulting to the "setting_<name>_caption(_html)"
+  #   translation.
   # * `unit`: translation key of a unit shown next to number fields.
   # * `parse`: a lambda transforming the submitted value before it is saved.
   #
@@ -66,7 +71,7 @@ module Settings
     RADIO_BUTTON_GROUP_LIMIT = 5
 
     class Entry
-      OWN_HINTS = %i[input caption unit parse].freeze
+      OWN_HINTS = %i[input label caption unit parse].freeze
 
       attr_reader :name, :condition
 
@@ -104,12 +109,30 @@ module Settings
         end
       end
 
+      def label(view_context)
+        resolve_text(ui[:label], view_context) || I18n.t("setting_#{name}")
+      end
+
+      def caption(view_context)
+        resolve_text(ui[:caption], view_context) ||
+          view_context.t("setting_#{name}_caption_html", default: nil) ||
+          I18n.t("setting_#{name}_caption", default: nil)
+      end
+
       def parse_param(value)
         value = value.split(/\r?\n/).compact_blank if array_from_text?(value)
         ui[:parse] ? ui[:parse].call(value) : value
       end
 
       private
+
+      def resolve_text(text, view_context)
+        case text
+        when Proc then view_context.instance_exec(&text)
+        when Symbol then view_context.t(text)
+        else text
+        end
+      end
 
       def array_from_text?(value)
         definition.format == :array && value.is_a?(String)
@@ -137,11 +160,12 @@ module Settings
     end
 
     class Section
-      attr_reader :key, :heading, :entries
+      attr_reader :key, :heading, :entries, :condition
 
-      def initialize(key, heading: nil)
+      def initialize(key, heading: nil, **options)
         @key = key
         @heading = heading
+        @condition = options[:if]
         @entries = []
       end
 
@@ -149,18 +173,26 @@ module Settings
         entries << Entry.new(name, **)
       end
 
+      def visible?
+        condition.nil? || condition.call
+      end
+
       def visible_entries
-        entries.select(&:visible?)
+        visible? ? entries.select(&:visible?) : []
       end
     end
 
     class Page
-      attr_reader :key, :menu_item, :sections, :enterprise_feature, :form_hook, :view_hook
+      attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :form_hook, :view_hook
 
-      def initialize(key, menu_item:, custom: false, enterprise_feature: nil, form_hook: nil, view_hook: nil)
+      def initialize(key, menu_item:, custom: false, tab: nil, label: nil, url: nil,
+                     enterprise_feature: nil, form_hook: nil, view_hook: nil)
         @key = key
         @menu_item = menu_item
         @custom = custom
+        @tab = tab
+        @label = label
+        @url = url
         @enterprise_feature = enterprise_feature
         @form_hook = form_hook
         @view_hook = view_hook
@@ -176,8 +208,8 @@ module Settings
         @sections.last.setting(name, **)
       end
 
-      def section(key, heading: :"setting_#{key}", &)
-        section = @sections.find { it.key == key } || Section.new(key, heading:).tap { @sections << it }
+      def section(key, heading: :"setting_#{key}", **, &)
+        section = @sections.find { it.key == key } || Section.new(key, heading:, **).tap { @sections << it }
         section.instance_exec(&)
       end
 
@@ -193,13 +225,24 @@ module Settings
         :"admin_settings_#{key}_path"
       end
 
-      def menu_node
-        Redmine::MenuManager.items(:admin_menu).find { it.name == menu_item } ||
+      def url(menu = Pages.admin_menu)
+        base = @url || (custom? ? menu_node(menu).url : auto_rendered_url)
+        tab ? base.merge(tab:) : base
+      end
+
+      def menu_node(menu = Pages.admin_menu)
+        menu.find { it.name == menu_item } ||
           raise(ArgumentError, "No admin menu item #{menu_item.inspect} for settings page #{key.inspect}")
       end
 
-      def menu_ancestors
-        Array(menu_node.parentage).reject(&:root?).reverse
+      def menu_ancestors(menu = Pages.admin_menu)
+        Array(menu_node(menu).parentage).reject(&:root?).reverse
+      end
+
+      private
+
+      def auto_rendered_url
+        { controller: "/admin/settings/pages", action: :show, settings_page: key.to_s }
       end
     end
 
@@ -229,6 +272,10 @@ module Settings
 
       def auto_rendered
         all.reject(&:custom?)
+      end
+
+      def admin_menu
+        Redmine::MenuManager.items(:admin_menu)
       end
 
       private

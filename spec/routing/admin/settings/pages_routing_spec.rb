@@ -26,40 +26,26 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Settings
-  class PageSectionForm < ApplicationForm
-    extend Dry::Initializer[undefined: false]
+require "spec_helper"
 
-    option :section
-    option :form_hook, optional: true
+RSpec.describe "auto-rendered settings page routes" do
+  Settings::Pages.auto_rendered.each do |settings_page|
+    context "for the #{settings_page.key} page" do
+      let(:path) { "/admin/settings/#{settings_page.key}" }
+      let(:target) { { controller: "admin/settings/pages", settings_page: settings_page.key.to_s } }
 
-    settings_form do |sf|
-      helpers.call_hook(form_hook, form: sf) if form_hook
-
-      section.visible_entries.each do |entry|
-        sf.public_send(entry.input, name: entry.name, **input_options(entry))
+      it "routes GET to the page" do
+        expect(get(path)).to route_to(**target, action: "show")
       end
-    end
 
-    private
+      it "routes PATCH to the page" do
+        expect(patch(path)).to route_to(**target, action: "update")
+      end
 
-    def input_options(entry)
-      options = entry.input_options
-      options[:label] = entry.label(@view_context)
-      options[:caption] = entry.caption(@view_context)
-      options.merge!(unit_options(entry.name, entry.ui[:unit])) if entry.ui[:unit]
-      options.compact
-    end
-
-    def unit_options(name, unit)
-      id = "settings_#{name}_unit"
-
-      {
-        trailing_visual: { text: { id:, text: I18n.t(unit) } },
-        aria: { describedby: id }
-      }
+      it "generates the path from the page's controller and key" do
+        expect(url_for(**target, action: "show", only_path: true)).to eq path
+      end
     end
   end
 end

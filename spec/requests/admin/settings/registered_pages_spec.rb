@@ -26,40 +26,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
 
-module Settings
-  class PageSectionForm < ApplicationForm
-    extend Dry::Initializer[undefined: false]
+require "spec_helper"
 
-    option :section
-    option :form_hook, optional: true
+RSpec.describe "Registered settings pages", :settings_reset, type: :rails_request, with_ee: %i[sso_auth_providers] do
+  shared_let(:admin) { create(:admin) }
 
-    settings_form do |sf|
-      helpers.call_hook(form_hook, form: sf) if form_hook
+  before { login_as(admin) }
 
-      section.visible_entries.each do |entry|
-        sf.public_send(entry.input, name: entry.name, **input_options(entry))
-      end
-    end
+  def rendered_setting_names(url)
+    get url
 
-    private
+    response
+      .parsed_body
+      .css("[name^='settings[']")
+      .map { it["name"][/\Asettings\[([^\]]+)\]/, 1].to_sym }
+      .select { Settings::Definition.exists?(it) }
+      .uniq
+  end
 
-    def input_options(entry)
-      options = entry.input_options
-      options[:label] = entry.label(@view_context)
-      options[:caption] = entry.caption(@view_context)
-      options.merge!(unit_options(entry.name, entry.ui[:unit])) if entry.ui[:unit]
-      options.compact
-    end
+  Settings::Pages.all.each do |settings_page|
+    it "lists exactly the settings rendered on the #{settings_page.key} page" do
+      url = url_for(**settings_page.url, only_path: true)
+      registered = settings_page.sections.flat_map(&:visible_entries).map(&:name)
 
-    def unit_options(name, unit)
-      id = "settings_#{name}_unit"
-
-      {
-        trailing_visual: { text: { id:, text: I18n.t(unit) } },
-        aria: { describedby: id }
-      }
+      expect(rendered_setting_names(url)).to match_array(registered)
     end
   end
 end

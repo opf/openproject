@@ -75,6 +75,7 @@ import { BeforeunloadController } from './controllers/beforeunload.controller';
 import ExternalLinksController from './controllers/external-links.controller';
 import DisableWhenClickedController from 'core-stimulus/controllers/disable-when-clicked.controller';
 import HighlightTargetElementController from 'core-stimulus/controllers/highlight-target-element.controller';
+import HighlightSettingController from 'core-stimulus/controllers/highlight-setting.controller';
 import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.controller';
 import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
@@ -125,6 +126,7 @@ OpenProjectStimulusApplication.preregister('auto-theme-switcher', AutoThemeSwitc
 OpenProjectStimulusApplication.preregister('theme-selector', ThemeSelectorController);
 OpenProjectStimulusApplication.preregister('external-links', ExternalLinksController);
 OpenProjectStimulusApplication.preregister('highlight-target-element', HighlightTargetElementController);
+OpenProjectStimulusApplication.preregister('highlight-setting', HighlightSettingController);
 OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeController);
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);

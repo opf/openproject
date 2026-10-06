@@ -904,7 +904,7 @@ Rails.application.routes.draw do
         resource settings_page.key,
                  controller: "/admin/settings/pages",
                  only: %i[show update],
-                 defaults: { settings_page: settings_page.key.to_s }
+                 settings_page: settings_page.key.to_s
       end
 
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
