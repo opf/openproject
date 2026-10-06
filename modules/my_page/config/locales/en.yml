@@ -14,7 +14,10 @@ en:
     now: "Now"
     mark_done: "Mark as done"
     mark_open: "Mark as not done"
+    added_to: "Added to %{day_part} in My Page."
+    already_planned: "This work package is already in Today."
     errors:
+      unavailable: "My Day is not available for you."
       cannot_close: "The workflow doesn't allow closing this task."
       cannot_reopen: "The workflow doesn't allow reopening this task."
     quick_add:

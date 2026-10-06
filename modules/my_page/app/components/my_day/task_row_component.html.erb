@@ -35,26 +35,29 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
   <% row.with_column(flex: 1) do %>
-    <% subject_parts.each do |part| %>
-      <% if part.is_a?(WorkPackage) %>
-        <%= render(Primer::Beta::Link.new(href: work_package_path(part), border: true, border_radius: 2, px: 1, bg: :subtle, test_selector: "my-day-reference")) do %>
-          <%= render(Primer::Beta::Text.new(font_family: :mono, font_size: :small)) { part.formatted_id } %>
-          <%= render(Primer::Beta::Text.new(font_size: :small, color: :muted, text_transform: :uppercase)) { part.status.name } %>
-          <%= render(Primer::Beta::Text.new(color: :default)) { part.subject } %>
+    <% if planned_work_package %>
+      <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "my-day-planned")) { planned_work_package.subject } %>
+    <% else %>
+      <% subject_parts.each do |part| %>
+        <% if part.is_a?(WorkPackage) %>
+          <%= render(Primer::Beta::Link.new(href: work_package_path(part), border: true, border_radius: 2, px: 1, bg: :subtle, test_selector: "my-day-reference")) do %>
+            <%= render(Primer::Beta::Text.new(font_family: :mono, font_size: :small)) { part.formatted_id } %>
+            <%= render(Primer::Beta::Text.new(font_size: :small, color: :muted, text_transform: :uppercase)) { part.status.name } %>
+            <%= render(Primer::Beta::Text.new(color: :default)) { part.subject } %>
+          <% end %>
+        <% elsif part.present? %>
+          <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { part } %>
         <% end %>
-      <% elsif part.present? %>
-        <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { part } %>
       <% end %>
     <% end %>
     <%= flex_layout(mt: 1) do |meta| %>
       <% meta.with_column(mr: 3) do %>
-        <%= render(Primer::Beta::Text.new(font_family: :mono, color: :muted, font_size: :small)) { work_package.formatted_id } %>
+        <%= render(Primer::Beta::Text.new(font_family: :mono, color: :muted, font_size: :small)) { shown_work_package.formatted_id } %>
       <% end %>
-      <% meta.with_column(mr: 3) do %>
-        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { work_package.type.name } %>
-      <% end %>
-      <% meta.with_column do %>
-        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { work_package.status.name } %>
+      <% meta_items.each do |item| %>
+        <% meta.with_column(mr: 3) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { item } %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

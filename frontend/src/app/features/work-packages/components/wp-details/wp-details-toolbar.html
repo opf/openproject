@@ -15,6 +15,9 @@
   @if (displayReminderButton$ | async) {
     <wp-reminder-button [workPackage]="workPackage"
        />
+    @if (displayAddToTodayButton) {
+      <wp-add-to-today-button [workPackage]="workPackage" />
+    }
   }
 
   <button class="button dropdown-relative"
