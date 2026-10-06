@@ -138,6 +138,16 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include(llm_models_path)
       end
 
+      it "names the default model a feature inherits" do
+        default = connection.models.find_by!(external_id: "qwen3.6-27b")
+        default.update!(display_name: "Qwen 3.6")
+        connection.update!(default_chat_model: default)
+
+        get llm_feature_bindings_path
+
+        expect(response.body).to include("Use the default (Qwen 3.6)")
+      end
+
       # An unconfirmed capability is not a capability: offering such a model
       # invites a choice that fails much later, at index time.
       it "offers an embedding feature only models known to create embeddings" do
