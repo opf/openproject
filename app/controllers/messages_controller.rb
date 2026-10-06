@@ -38,27 +38,14 @@ class MessagesController < ApplicationController
   no_authorization_required! :edit, :update, :destroy
 
   include AttachmentsHelper
-  include PaginationHelper
-
-  REPLIES_PER_PAGE = 100 unless const_defined?(:REPLIES_PER_PAGE)
 
   # Show a topic and its replies
-  def show # rubocop:disable Metrics/AbcSize
+  def show
     @topic = @message.root
-
-    @offset = params[:page]
-    # Find the page of the requested reply
-    if params[:r] && @offset.nil?
-      offset = @topic.children.where(["#{Message.table_name}.id < ?", params[:r].to_i]).count
-      @offset = 1 + (offset / REPLIES_PER_PAGE)
-    end
-
     @replies = @topic
                .children
                .includes(:author, :attachments, :project, forum: :project)
                .order(created_at: :asc)
-               .page(@offset)
-               .per_page(per_page_param)
 
     @reply = Message.new(parent: @topic, forum: @topic.forum)
     render action: "show", layout: !request.xhr?

@@ -35,7 +35,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if @replies.any? %>
   <%= render(Messages::PostComponent.with_collection(@replies, topic: @topic)) %>
-  <%= pagination_links_full @replies, per_page_links: false %>
 <% end %>
 
 <% if !@topic.locked? && authorize_for("messages", "reply") %>
