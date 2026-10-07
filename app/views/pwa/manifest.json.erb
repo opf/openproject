@@ -8,7 +8,10 @@
     scope: root_path,
     display: "standalone",
     theme_color:,
-    background_color: theme_color
+    background_color: theme_color,
+    icons: [192, 512].map do |size|
+      { src: image_path("pwa/icon-#{size}.png"), sizes: "#{size}x#{size}", type: "image/png" }
+    end
   }
 %>
 <%== JSON.pretty_generate(manifest) %>
