@@ -16,6 +16,7 @@ Please choose an area that you would like to read about:
 |---------------------------------------------------------|:------------------------------------------------------------------------------|
 | [Application architecture](../application-architecture) | An introduction of the application architecture used at OpenProject.          |
 | [State management](state-management)                    | How does the frontend handle state and react to changes?                      |
+| [Global settings](global-settings)                      | How are global settings defined, rendered and found in the settings search?  |
 | [HAL resources](hal-resources)                          | What are HAL resources and how are they used in the frontend?                 |
 | [Permissions](permissions)                              | How are roles and permissions handled in OpenProject code?                    |
 | [Translations](translations)                            | How are translations used and built?                                          |
