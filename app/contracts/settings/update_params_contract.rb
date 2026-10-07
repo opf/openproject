@@ -37,6 +37,7 @@ module Settings
     validate :start_of_week_and_first_week_of_year_are_set_together
     validate :mail_from_is_an_email
     validate :default_projects_modules_include_dependencies
+    validate :enforced_start_and_end_times_are_allowed
 
     protected
 
@@ -55,6 +56,13 @@ module Settings
       return if Users::PasswordLogin.omniauth_configured?
 
       errors.add :base, :password_login_requires_sso_provider
+    end
+
+    def enforced_start_and_end_times_are_allowed
+      allowed = ActiveRecord::Type::Boolean.new.cast(params[:allow_tracking_start_and_end_times])
+      enforced = ActiveRecord::Type::Boolean.new.cast(params[:enforce_tracking_start_and_end_times])
+
+      errors.add :base, I18n.t("setting_enforce_without_allow") if enforced && !allowed
     end
 
     def default_projects_modules_include_dependencies

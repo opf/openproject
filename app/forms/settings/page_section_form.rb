@@ -65,7 +65,8 @@ module Settings
         label: entry.label(@view_context),
         caption: caption(entry),
         **unit_options(entry),
-        **cause_options(entry, hints)
+        **cause_options(entry, hints),
+        **({ disabled: true } if entry.enterprise_disabled?)
       }.compact
     end
 

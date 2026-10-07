@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <% if settings_page.enterprise_feature %>
-  <%= render(EnterpriseEdition::BannerComponent.new(settings_page.enterprise_feature)) %>
+  <%= render(EnterpriseEdition::BannerComponent.new(settings_page.enterprise_feature, **settings_page.enterprise_banner)) %>
 <% end %>
 
 <%= instance_exec(&settings_page.before_form) if settings_page.before_form %>
@@ -72,6 +72,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%=
         render(Primer::Beta::Subhead.new(mt: 3)) do |component|
           component.with_heading(tag: :h3, size: :medium) { t(section.heading) }
+          component.with_description { t(section.description) } if section.description
         end
       %>
     <% end %>

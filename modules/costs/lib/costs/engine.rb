@@ -136,7 +136,7 @@ module Costs
       # Menu extensions
       menu :admin_menu,
            :admin_costs,
-           { controller: "/admin/time_settings", action: :show },
+           { controller: "/admin/settings/pages", action: :show, settings_page: "time" },
            if: Proc.new { User.current.admin? },
            caption: :project_module_costs,
            after: :enterprise,
@@ -144,7 +144,7 @@ module Costs
 
       menu :admin_menu,
            :costs_settings,
-           { controller: "/admin/time_settings", action: :show },
+           { controller: "/admin/settings/pages", action: :show, settings_page: "time" },
            if: Proc.new { User.current.admin? },
            caption: :label_defaults_and_limits,
            parent: :admin_costs
@@ -215,24 +215,43 @@ module Costs
 
     initializer "costs.settings_pages" do
       ::Settings::Pages.draw do
-        page :time, menu_item: :costs_settings, custom: true, label: :label_time do
-          setting :allow_tracking_start_and_end_times
-          setting :enforce_tracking_start_and_end_times
-          setting :time_entries_max_hours_per_entry
-          setting :time_entries_max_hours_per_day
-          setting :time_entries_prohibit_logging_on_non_working_days
-          setting :time_entries_limit_to_user_working_hours
-          setting :time_entries_prohibit_logging_for_past_months
-          setting :time_entries_past_month_grace_days
+        page :time,
+             menu_item: :costs_settings,
+             label: :label_time,
+             url: { controller: "/admin/settings/pages", action: :show, settings_page: "time" },
+             enterprise_feature: :time_entry_time_restrictions,
+             enterprise_banner: { variant: :medium, image: "enterprise/exact-time-tracking.png", dismissable: false } do
+          section :start_and_finish, heading: :label_start_and_finished, description: :description_time_settings do
+            setting :allow_tracking_start_and_end_times
+            setting :enforce_tracking_start_and_end_times, enterprise_feature: :time_entry_time_restrictions
+          end
+
+          section :restrictions, heading: :label_time_entry_restrictions, description: :description_time_entry_restrictions do
+            setting :time_entries_max_hours_per_entry, input_width: :small, enterprise_feature: :time_entry_time_restrictions
+            setting :time_entries_max_hours_per_day, input_width: :small, enterprise_feature: :time_entry_time_restrictions
+            setting :time_entries_prohibit_logging_on_non_working_days, enterprise_feature: :time_entry_time_restrictions
+            setting :time_entries_limit_to_user_working_hours, enterprise_feature: :time_entry_time_restrictions
+            setting :time_entries_prohibit_logging_for_past_months, enterprise_feature: :time_entry_time_restrictions
+            setting :time_entries_past_month_grace_days,
+                    input_width: :small,
+                    enterprise_feature: :time_entry_time_restrictions,
+                    depends_on: { setting: :time_entries_prohibit_logging_for_past_months }
+          end
         end
 
         page :costs,
              menu_item: :costs_settings,
-             custom: true,
              label: :label_costs,
-             url: { controller: "/admin/costs_settings", action: :show } do
-          setting :costs_currency
-          setting :costs_currency_format
+             url: { controller: "/admin/settings/pages", action: :show, settings_page: "costs" } do
+          section :costs, heading: :label_costs, description: :description_costs_settings do
+            setting :costs_currency, input_width: :xsmall
+            setting :costs_currency_format,
+                    input: :select_list,
+                    input_width: :small,
+                    values: -> {
+                      [[t(:setting_costs_currency_format_prefix), "%u %n"], [t(:setting_costs_currency_format_suffix), "%n %u"]]
+                    }
+          end
         end
       end
     end

@@ -132,12 +132,14 @@ Rails.application.routes.draw do
 
     resource :costs,
              only: %i[show update],
-             controller: "costs_settings",
-             as: "costs_settings"
+             controller: "/admin/settings/pages",
+             as: "costs_settings",
+             settings_page: "costs"
 
     resource :time,
              only: %i[show update],
-             controller: "time_settings",
-             as: "time_settings"
+             controller: "/admin/settings/pages",
+             as: "time_settings",
+             settings_page: "time"
   end
 end

@@ -54,6 +54,7 @@ module Settings
   # * `caption`: like `label`, defaulting to the "setting_<name>_caption(_html)"
   #   translation.
   # * `warning`: like `label`, a warning shown below the caption.
+  # * `enterprise_feature`: disables the input unless the feature is available.
   # * `unit`: like `label`, a unit shown next to number fields.
   # * `depends_on`: `{ setting: :other }` shows the setting only while the
   #   other one is checked, `{ setting: :other, value: :x }` only while the
@@ -86,7 +87,7 @@ module Settings
     RADIO_BUTTON_GROUP_LIMIT = 5
 
     class Entry
-      OWN_HINTS = %i[input label caption warning unit parse depends_on].freeze
+      OWN_HINTS = %i[input label caption warning unit parse depends_on enterprise_feature].freeze
 
       attr_reader :name, :condition
 
@@ -151,6 +152,10 @@ module Settings
         Setting.public_send(:"#{name}_writable?")
       end
 
+      def enterprise_disabled?
+        ui[:enterprise_feature].present? && !EnterpriseToken.allows_to?(ui[:enterprise_feature])
+      end
+
       def caption(view_context)
         resolve_text(ui[:caption], view_context) ||
           view_context.t("setting_#{name}_caption_html", default: nil) ||
@@ -198,11 +203,12 @@ module Settings
     end
 
     class Section
-      attr_reader :key, :heading, :entries, :condition
+      attr_reader :key, :heading, :description, :entries, :condition
 
-      def initialize(key, heading: nil, **options)
+      def initialize(key, heading: nil, description: nil, **options)
         @key = key
         @heading = heading
+        @description = description
         @condition = options[:if]
         @entries = []
       end
@@ -221,12 +227,12 @@ module Settings
     end
 
     class Page
-      attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :form_hook, :view_hook,
-                  :before_form, :after_form
+      attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :enterprise_banner, :form_hook,
+                  :view_hook, :before_form, :after_form
 
       def initialize(key, menu_item:, custom: false, tab: nil, label: nil, url: nil,
-                     update_service: nil, enterprise_feature: nil, form_hook: nil, view_hook: nil,
-                     before_form: nil, after_form: nil)
+                     update_service: nil, enterprise_feature: nil, enterprise_banner: {}, form_hook: nil,
+                     view_hook: nil, before_form: nil, after_form: nil)
         @key = key
         @menu_item = menu_item
         @custom = custom
@@ -235,6 +241,7 @@ module Settings
         @url = url
         @update_service = update_service
         @enterprise_feature = enterprise_feature
+        @enterprise_banner = enterprise_banner
         @form_hook = form_hook
         @view_hook = view_hook
         @before_form = before_form
@@ -288,6 +295,8 @@ module Settings
       end
 
       def tab_page(tab)
+        return self if tab.blank?
+
         tabs.find { it.tab == tab && !it.custom? } || self
       end
 
@@ -296,7 +305,7 @@ module Settings
       end
 
       def routed?
-        !custom? && route_key == key
+        !custom? && @url.nil? && route_key == key
       end
 
       def menu_node(menu = Pages.admin_menu)

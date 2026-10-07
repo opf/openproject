@@ -65,14 +65,14 @@ RSpec.describe "Time settings",
         expect(page).to have_field(I18n.t(:setting_time_entries_prohibit_logging_for_past_months), disabled: false)
       end
 
-      it "disables the grace period while logging for past months is not prohibited" do
+      it "hides the grace period while logging for past months is not prohibited" do
         Setting.time_entries_prohibit_logging_for_past_months = false
         get "/admin/time"
 
-        expect(page).to have_field(I18n.t(:setting_time_entries_past_month_grace_days), disabled: true)
+        expect(page).to have_field(I18n.t(:setting_time_entries_past_month_grace_days), visible: :hidden)
       end
 
-      it "enables the grace period once logging for past months is prohibited" do
+      it "shows the grace period once logging for past months is prohibited" do
         Setting.time_entries_prohibit_logging_for_past_months = true
         get "/admin/time"
 
