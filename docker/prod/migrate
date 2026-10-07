@@ -7,7 +7,7 @@ SCHEMA_LOADED=$(psql -qtAX -v ON_ERROR_STOP=1 "$DB_URL" -c \
 
 if [[ "$SCHEMA_LOADED" = "f" ]]; then
 	echo "Initialising database"
-	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:structure:load
+	DISABLE_DATABASE_ENVIRONMENT_CHECK=1 bundle exec rake db:schema:load
 else
 	echo "Executing database migrations..."
 	bundle exec rake db:migrate
