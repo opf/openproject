@@ -31,8 +31,6 @@
 class My::DateTimeFormatForm < ApplicationForm
   include Redmine::I18n
 
-  # TODO Gregor:
-  #   - [ ] Add sub heading
   form do |f|
     f.select_list(
       name: :date_format,
