@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { isPendingWpid } from '../../utils/pending';
 import { BLOCK_WP_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { useColors } from '../../services/colors';
 import type { AttributeDisplay } from './display';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { pendingAttributes } from './pending';
@@ -24,6 +25,7 @@ interface WorkPackageAttributeInlineProps {
 function ResolvedAttributeInline({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeInlineProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
+  useColors();
   const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({ editor, display, onDisplayChange });
 
   return (

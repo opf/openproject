@@ -6,6 +6,7 @@ import type {
   OpenProjectApiErrorBody,
   OpenProjectConfiguration,
   OpenProjectResponse,
+  PriorityCollection,
   StatusCollection,
   TypeCollection,
   Weekday,
@@ -239,6 +240,21 @@ export async function fetchNonWorkingDays(year:number):Promise<string[]> {
 
   const data = await get<HalCollection<NonWorkingDay>>(`/api/v3/days/non_working?${params.toString()}`);
   return (data._embedded?.elements ?? []).map((day) => day.date);
+}
+
+export function fetchPriorities():Promise<PriorityCollection> {
+  return get<PriorityCollection>('/api/v3/priorities').catch((error:unknown) => {
+    console.error('[OpenProjectApi] fetchPriorities failed:', error);
+    // eslint-disable-next-line @typescript-eslint/prefer-promise-reject-errors
+    return Promise.reject(error);
+  });
+}
+
+const USER_HREF = /^\/api\/v3\/users\/\d+$/;
+
+/** Only users have a picture; groups and placeholder users stay with their initials. */
+export function avatarUrlOf(principalHref:string | null | undefined):string | undefined {
+  return principalHref && USER_HREF.test(principalHref) ? `${proxyUrl}${principalHref}/avatar` : undefined;
 }
 
 /*  Beyond one page of them a listing is searched rather than browsed.  */

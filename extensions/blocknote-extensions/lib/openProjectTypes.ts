@@ -13,6 +13,7 @@ export interface WorkPackage {
     assignee:{ title:string; href:string } | null;
     type:{ title:string; href:string } | null;
     parent?:{ title:string; href:string } | null;
+    priority?:{ title:string; href:string } | null;
     project?:{ title:string; href:string } | null;
     schema?:{ href:string };
   } | null;
@@ -44,6 +45,19 @@ export interface TypeCollection {
       id:string;
       name:string;
       color:string;
+      _links:{
+        self:{ href:string };
+      };
+    }[];
+  };
+}
+
+export interface PriorityCollection {
+  _embedded?:{
+    elements?:{
+      id:string;
+      name:string;
+      color?:string | null;
       _links:{
         self:{ href:string };
       };
