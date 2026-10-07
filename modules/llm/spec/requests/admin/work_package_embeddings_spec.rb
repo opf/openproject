@@ -23,45 +23,49 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  scope "admin" do
-    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      collection do
-        delete :api_key, action: :delete_api_key
-        get :delete_api_key_dialog
-        get :disconnect_dialog
-        post :disconnect
+require "spec_helper"
+require_module_spec_helper
+
+RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request,
+               with_flag: { llm_connection: true } do
+  describe "POST /admin/work_package_embeddings/reindex" do
+    context "as admin" do
+      before { login_as create(:admin) }
+
+      it "enqueues IndexWorkPackagesJob" do
+        expect { post reindex_work_package_embeddings_path }
+          .to have_enqueued_job(Llm::IndexWorkPackagesJob)
       end
 
-      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
-        post :create_health_status_report
-      end
-    end
+      it "redirects to the feature bindings page" do
+        post reindex_work_package_embeddings_path
 
-    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
-      collection do
-        get :search, defaults: { format: :turbo_stream }
-        post :refresh
-        patch :defaults, action: :update_defaults
-      end
-
-      member do
-        get :delete_dialog
+        expect(response).to redirect_to(llm_feature_bindings_path)
       end
     end
 
-    # Keyed by feature key rather than by record id: the binding is an attribute
-    # of a registered feature, and a feature may not have a row yet.
-    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
+    context "as a non-admin" do
+      before { login_as create(:user) }
 
-    resources :work_package_embeddings, only: [], controller: "admin/work_package_embeddings" do
-      collection do
-        post :reindex
+      it "is forbidden" do
+        post reindex_work_package_embeddings_path
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with the feature flag off", with_flag: { llm_connection: false } do
+      before { login_as create(:admin) }
+
+      it "returns 404" do
+        post reindex_work_package_embeddings_path
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

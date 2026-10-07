@@ -28,41 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  scope "admin" do
-    resource :llm_connection, only: %i[show update], controller: "admin/llm_connections" do
-      collection do
-        delete :api_key, action: :delete_api_key
-        get :delete_api_key_dialog
-        get :disconnect_dialog
-        post :disconnect
-      end
+module Admin
+  class WorkPackageEmbeddingsController < ApplicationController
+    layout "admin"
 
-      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
-        post :create_health_status_report
-      end
+    before_action :require_admin
+    before_action :require_feature
+
+    def reindex
+      Llm::IndexWorkPackagesJob.perform_later
+      flash[:notice] = t("admin.work_package_embeddings.reindex.enqueued")
+      redirect_to llm_feature_bindings_path, status: :see_other
     end
 
-    resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
-      collection do
-        get :search, defaults: { format: :turbo_stream }
-        post :refresh
-        patch :defaults, action: :update_defaults
-      end
+    private
 
-      member do
-        get :delete_dialog
-      end
-    end
-
-    # Keyed by feature key rather than by record id: the binding is an attribute
-    # of a registered feature, and a feature may not have a row yet.
-    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
-
-    resources :work_package_embeddings, only: [], controller: "admin/work_package_embeddings" do
-      collection do
-        post :reindex
-      end
+    def require_feature
+      render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
     end
   end
 end

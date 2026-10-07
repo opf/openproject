@@ -44,4 +44,11 @@
       <% end %>
     <% end %>
   <% end %>
+
+  <% if feature.embedding? %>
+    <%= button_to t("admin.work_package_embeddings.reindex.button"),
+                  reindex_work_package_embeddings_path,
+                  method: :post,
+                  class: "Button Button--secondary Button--small mt-3" %>
+  <% end %>
 <% end %>
