@@ -83,17 +83,26 @@ RSpec.describe "My page", type: :rails_request do
       create_list(:meeting_participant, 4, meeting:)
     end
 
-    it "opens on Today" do
+    it "shows meetings with their time, duration and participants" do
       subject
 
       expect(page).to have_test_selector("my-day-meeting-morning", text: "09:30 AM–09:45 AM")
       expect(page).to have_test_selector("my-day-meeting-duration", text: "15 mins")
       expect(page).to have_test_selector("my-day-meeting-morning", text: "+2")
-      expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches")
+    end
+
+    it "describes quick tasks and planned work packages alike, by type and id" do
+      subject
+
+      expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches", count: 1)
       expect(page).to have_test_selector("my-day-planned", text: "Branch tracking via GitLab webhook")
-      expect(page).to have_test_selector("my-day-task-meta", text: meeting_project.name)
-      expect(page).to have_test_selector("my-day-task-meta", text: "Quick task", count: 2)
-      expect(page).to have_test_selector("my-day-reference", count: 1)
+      expect(page).to have_test_selector("my-day-task-meta", text: planned.type.name.upcase)
+      expect(page).to have_test_selector("my-day-task-meta", text: "QUICK TASK", count: 2)
+      expect(page).to have_no_css(".op-status-badge")
+    end
+
+    it "opens on Today" do
+      subject
 
       expect(page).to have_test_selector("my-page-tabs")
       expect(page).to have_test_selector("my-day-today")
