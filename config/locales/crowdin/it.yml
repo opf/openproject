@@ -116,6 +116,7 @@ it:
         caption: Didascalia
         help_text: Testo guida
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Client SCIM
       calculated_value_error:
         customized_id: ID personalizzato
@@ -644,6 +645,7 @@ it:
         unknown_property: non è una proprietà conosciuta.
         unknown_property_nested: ha il percorso sconosciuto '%{path}'.
         unremovable: non può essere rimosso.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
 
           '
@@ -2435,6 +2437,7 @@ it:
     groups: Gruppi
     hexcode: Codice esadecimale
     id: ID
+    inexistent: Inexistent
     is_default: Valore predefinito
     is_for_all: Per tutti progetti
     issue: Macro-attività
@@ -2494,7 +2497,34 @@ it:
     work_package: Macro-attività
     work_package_id: Macro-attività
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Accesso e registrazione
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Il lavoro è stato annullato a causa di un errore: %{message}'
@@ -2729,10 +2759,6 @@ it:
     plural: Azioni personalizzate
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Questo campo personalizzato è attivato in tutti i progetti, poiché l'opzione "Per tutti i progetti" è selezionata. Non può essere disattivato per i singoli progetti.
-          heading: Per tutti i progetti
       hierarchy:
         subitems:
           one: 1 sottoelemento
@@ -2756,7 +2782,7 @@ it:
           short: Abbreviazione
           weight: Peso
       notice:
-        remember_items_and_projects: Ricorda di impostare elementi e progetti nelle rispettive schede per questo campo personalizzato.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Puoi assegnare automaticamente uno specifico ruolo di progetto a qualsiasi utente associato a questo attributo di progetto, indipendentemente dal ruolo originario dell'utente nel progetto.
         dialog:
@@ -2821,16 +2847,17 @@ it:
     is_enabled_globally: Abilitato a livello globale
     multi_value_more:
       other: e altri %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Nessuna assegnazione di ruolo
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Prima è necessario selezionare la macro-attività o il progetto
     reorder_alphabetical: Riordina i valori alfabeticamente
     reorder_confirmation: 'Attenzione: l''ordine attuale dei valori disponibili e tutti i valori non salvati andranno persi. Vuoi continuare?'
     semantic_keys:
       job_title: Titolo professionale
       none: Nessuno
-    tab:
-      no_results_content_text: Crea un nuovo campo personalizzato
-      no_results_title_text: Al momento non esistono campi personalizzati.
     text_add_new_custom_field: 'Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
 
       '
@@ -3508,10 +3535,10 @@ it:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4012,6 +4039,7 @@ it:
   label_go_forward: Apri sottomenu %{module}
   label_greater_or_equal: ">="
   label_group: Gruppo
+  label_group_attributes_plural: Group attributes
   label_group_by: Raggruppa per
   label_group_named: Gruppo %{name}
   label_group_new: Nuovo gruppo
@@ -4417,6 +4445,7 @@ it:
   label_user_settings: Impostazioni utente
   label_users_settings: Impostazioni utenti
   label_value_x: 'Valore: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Modifica versione
   label_version_new: Nuova versione
   label_version_plural: Versioni
@@ -5115,7 +5144,6 @@ it:
   notice_password_confirmation_failed: La password inserita non è corretta.
   notice_principals_found_multiple: "Trovati %{number} risultati. \n Premi Tab per evidenziare il primo."
   notice_principals_found_single: "Trovato un solo risultato. \n Premi Tab per evidenziarlo."
-  notice_project_cannot_update_custom_fields: 'Non è possibile aggiornare i campi personalizzati del progetto disponibili. Il progetto non è valido: %{errors}'
   notice_project_not_deleted: Il progetto non è stato eliminato.
   notice_project_not_found: Progetto non trovato.
   notice_requires_enterprise_token: Il token Enterprise è assente o non consente l'accesso a questa pagina.
@@ -5125,9 +5153,6 @@ it:
   notice_successful_create: Creato con successo.
   notice_successful_delete: Cancellato con successo.
   notice_successful_update: Aggiornato con successo.
-  notice_successful_update_custom_fields_added_to_project: |
-    Aggiornamento riuscito. I campi personalizzati dei tipi attivati ​​vengono attivati ​​automaticamente
-    sul modulo della macro-attività. <a href="%{url}" target="_blank">Maggiori dettagli</a>.
   notice_to_many_principals_to_display: |-
     Ci sono troppi risultati.
     Affina la ricerca digitando il nome del nuovo membro (o gruppo).
@@ -5508,7 +5533,6 @@ it:
   permission_save_bcf_queries: Salva query BCF
   permission_save_queries: Salva viste
   permission_search_project: Cerca progetto
-  permission_select_custom_fields: Seleziona campi personalizzati
   permission_select_project_custom_fields: Selezionare gli attributi del progetto
   permission_select_project_modules: Seleziona moduli del progetto
   permission_select_project_phases: Seleziona fase di progetto
@@ -6339,6 +6363,7 @@ it:
         '
       title: Scansione antivirus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'La disattivazione di questa opzione nasconderà l''elenco degli allegati nella scheda dei file delle macro-attività per i nuovi progetti. I file allegati nella descrizione di una macro-attività verranno comunque caricati nell''archivio interno degli allegati.
 
         '
@@ -6484,6 +6509,7 @@ it:
         heading: Nuova fase
       no_gate: Nessun controllo
       non_defined: Nessuna fase è attualmente definita.
+      order_changed: Order successfully changed.
       phase_gates: Controlli di fase
       section_header: Fasi
       start_gate: Inizia controllo
@@ -6922,7 +6948,7 @@ it:
         project_attributes: Attributi del progetto
         projects: Progetti
         start: Start
-        workflows: Flussi di lavoro
+        workflows: Workflow
       success: Creazione completata.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
@@ -6976,6 +7002,7 @@ it:
             label_enable_all: Abilita tutto
             label_toggle_template: Attiva/disattiva %{template}
           label: Modelli di esportazione PDF
+          order_changed: Order successfully changed.
         tab: Genera PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -7155,7 +7182,7 @@ it:
           description: Queste varianti sono disponibili solo nei progetti in cui sono state create.
           title: Varianti specifiche del progetto
       workflow:
-        tab: Flussi di lavoro
+        tab: Workflow
     index:
       add_variant: Aggiungi una variante a %{name}
       add_variant_action: Aggiungi variante
@@ -7198,6 +7225,11 @@ it:
       remove_default_notice: "%{name} non è più attivo in nuovi progetti."
       type_label: Tipo
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

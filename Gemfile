@@ -143,7 +143,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.15.0"
+gem "lograge", "~> 0.15.1"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -209,7 +209,7 @@ gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.13.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 

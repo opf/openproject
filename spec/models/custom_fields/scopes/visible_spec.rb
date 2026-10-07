@@ -60,8 +60,7 @@ RSpec.describe CustomFields::Scopes::Visible do
       let!(:invisible_wp_cf) { create(:string_wp_custom_field) }
       let!(:project) do
         create(:project, types: [type], members: { current_user => create(:project_role) }) do |p|
-          p.work_package_custom_fields << visible_wp_cf
-          type.default_variant.custom_fields = [visible_wp_cf, invisible_wp_cf]
+          type.default_variant.custom_fields = [visible_wp_cf]
         end
       end
 

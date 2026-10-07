@@ -118,7 +118,7 @@ de:
       currently_offline: Sie sind derzeit offline.
     label_attachment_author: Autor des Dokuments
     label_categories: Kategorien
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: Zuletzt gespeichert %{time}.
     menu:
       all: Alle Dokumente
       collaboration_settings: Echtzeit-Kollaboration

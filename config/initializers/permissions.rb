@@ -279,13 +279,6 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      require: :member
 
-      map.permission :select_custom_fields,
-                     {
-                       "projects/settings/work_packages/custom_fields": %i[show update]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
       map.permission :add_subprojects,
                      { projects: %i[new create],
                        "projects/identifier_suggestion": %i[show] },
@@ -337,6 +330,8 @@ Rails.application.reloader.to_prepare do
     end
 
     map.project_module :work_package_tracking, order: 90 do |wpt|
+      wpt.enabled_by_default!
+
       wpt.permission :view_work_packages,
                      {
                        versions: %i[index show status_by],
@@ -563,6 +558,8 @@ Rails.application.reloader.to_prepare do
     end
 
     map.project_module :news do |news|
+      news.enabled_by_default!
+
       news.permission :view_news,
                       { news: %i[index show] },
                       permissible_on: :project,

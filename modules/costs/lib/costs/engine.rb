@@ -38,6 +38,8 @@ module Costs
 
     register "costs", author_url: "https://www.openproject.org", bundled: true, settings: { menu_item: :costs_settings } do
       project_module :costs do
+        enabled_by_default!
+
         permission :view_time_entries,
                    {},
                    permissible_on: :project,
@@ -202,7 +204,6 @@ module Costs
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
 
-    prepend_module "BasicData::EnableCostsModuleByDefault", into: "BasicData::SettingSeeder"
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"

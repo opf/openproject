@@ -146,6 +146,8 @@ Naming/MethodParameterName:
     - cf # custom fields are commonly abbreviated like that
     - to # pairs with `from` for ranges, as in Day.from_range(from:, to:)
     - "on"
+    - "if" # conditional options, as in enabled_by_default!(if: -> { ... })
+    - "if"
 
 Naming/PredicatePrefix:
   ForbiddenPrefixes:

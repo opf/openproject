@@ -251,11 +251,12 @@ de:
   label_show: Anzeigen
   label_specific_day: Tag %{day}
   label_specific_month: Monat %{month}
-  label_stack: Stack
+  label_stack: Stapel
   label_start_and_finished: Start- und Endzeiten
   label_status_finished: Abgeschlossen
   label_time: Zeit
   label_time_entry_activity_form_description: Änderungen an dieser Aktivität für Zeitbuchungen werden in allen verwendenden Projekten sichtbar.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Beschränkungen
   label_timer_since: Begonnen um %{time}
   label_today_capitalized: Heute

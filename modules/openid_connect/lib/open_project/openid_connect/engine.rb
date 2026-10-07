@@ -56,7 +56,10 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-custom.png
     )
 
-    patches %i[Sessions::UserSession Group User GroupUser]
+    include_module "Sessions::OidcSessionLink", into: "Sessions::UserSession"
+    include_module "Groups::OidcGroupLinks", into: "Group"
+    include_module "Users::OidcUserTokens", into: "User"
+    include_module "GroupUsers::OidcGroupMemberships", into: "GroupUser"
 
     class_inflection_override("openid_connect" => "OpenIDConnect")
 

@@ -116,6 +116,7 @@ ms:
         caption: Caption
         help_text: Teks bantuan
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -646,6 +647,7 @@ ms:
         unknown_property: bukan ciri-ciri yang diketahui.
         unknown_property_nested: mempunyai laluan yang tidak diketahui '%{path}'.
         unremovable: tidak dapat dikeluarkan.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.
 
           '
@@ -2312,6 +2314,7 @@ ms:
     groups: Kumpulan
     hexcode: Kod Hex
     id: ID
+    inexistent: Inexistent
     is_default: Nilai default
     is_for_all: Untuk semua projek
     issue: Pakej kerja
@@ -2375,7 +2378,34 @@ ms:
     work_package: Pakej kerja
     work_package_id: Pakej kerja
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Pekerjaan dibatalkan disebabkan oleh ralat: %{message}'
@@ -2610,10 +2640,6 @@ ms:
     plural: Tindakan tersuai
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Medan tersuai ini didayakan dalam semua projek kerana pilihan "Untuk semua projek" ditandakan. Ia tidak boleh dinyahaktifkan untuk projek individu.
-          heading: Untuk semua projek
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2637,7 +2663,7 @@ ms:
           short: Nama pendek
           weight: Weight
       notice:
-        remember_items_and_projects: Ingat untuk menetapkan item dan projek dalam tab masing-masing untuk medan tersuai ini.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2702,16 +2728,17 @@ ms:
     is_enabled_globally: Adalah diaktifkan secara global
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Susun semula nilai mengikut abjad
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Cipta ruangan tersuai baharu
-      no_results_title_text: Tiada ruangan tersuai pada masa ini.
     text_add_new_custom_field: 'Untuk menambah ruang tersuai ke projek, anda perlu menciptanya terlebih dahulu sebelum anda boleh menambahnya ke projek ini.
 
       '
@@ -3367,10 +3394,10 @@ ms:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -3869,6 +3896,7 @@ ms:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Kumpulan
+  label_group_attributes_plural: Group attributes
   label_group_by: Kumpulkan mengikut
   label_group_named: Kumpulan %{name}
   label_group_new: Kumpulan baharu
@@ -4276,6 +4304,7 @@ ms:
   label_user_settings: Tetapan pengguna
   label_users_settings: Tetapan pengguna
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Versi edit
   label_version_new: Versi baharu
   label_version_plural: Versi-versi
@@ -4964,7 +4993,6 @@ ms:
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "Terdapat %{number} hasil ditemui. \n Tab untuk memfokuskan hasil pertama."
   notice_principals_found_single: "Terdapat satu hasil. \n Tab untuk fokuskan."
-  notice_project_cannot_update_custom_fields: 'Anda tidak boleh mengemas kini ruang tersuai tersedia projek. Projek tersebut tidak sah: %{errors}'
   notice_project_not_deleted: Projek tersebut tidak dipadam.
   notice_project_not_found: Projek tidak ditemui.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -4974,9 +5002,6 @@ ms:
   notice_successful_create: Penciptaan yang berjaya.
   notice_successful_delete: Pemadaman yang berjaya.
   notice_successful_update: Kemas kini berjaya.
-  notice_successful_update_custom_fields_added_to_project: 'Naik taraf berjaya. Jenis ruang tersuai yang aktif telah diaktifkan di borang pakej kerja secara automatik. <a href="%{url}" target="_blank">Lihat lebih lagi</a>.
-
-    '
   notice_to_many_principals_to_display: |-
     Terlalu banyak hasil.
     Spesifikasikan pencarian dengan masukkan nama ahli baru (atau kumpulan).
@@ -5355,7 +5380,6 @@ ms:
   permission_save_bcf_queries: Simpan pertanyaan BCF
   permission_save_queries: Simpan paparan
   permission_search_project: Cari projek
-  permission_select_custom_fields: Pilih ruang tersuai
   permission_select_project_custom_fields: Pilih atribut projek
   permission_select_project_modules: Pilih modul projek
   permission_select_project_phases: Select project phases
@@ -6175,6 +6199,7 @@ ms:
         '
       title: Pengimbasan virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Nyahaktifkan pilihan ini akan menyorokkamenyembunyikan senarai lampiran di tab fail pakej kerja untuk projek baharu. Fail yang dilampirkan di deskripsi pakej kerja masih akan dimuat naik di storan lampiran dalaman.
 
         '
@@ -6322,6 +6347,7 @@ ms:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6758,7 +6784,7 @@ ms:
         project_attributes: Project attributes
         projects: Projects
         start: Start
-        workflows: Workflows
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6812,6 +6838,7 @@ ms:
             label_enable_all: Dayakan semua
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Hasilkan PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -6991,7 +7018,7 @@ ms:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
@@ -7032,6 +7059,10 @@ ms:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

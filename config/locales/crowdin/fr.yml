@@ -116,6 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -179,20 +180,20 @@ fr:
       favorite:
         favorited: Élément
       form_configuration:
-        attribute_groups: Form
+        attribute_groups: Formulaire
         description: Description
-        name: Name
-        type_variants: Types and variants using this form
+        name: Nom
+        type_variants: Types et variantes utilisant ce formulaire
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
+        attribute_key: Attribut
+        custom_field: Champ personnalisé
+        group: Groupe
         position: Position
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Groupe par défaut
+        kind: Nature
+        label: Libellé
+        query: Requête
       grids/grid:
         column_count: Nombre de colonnes
         page: Page
@@ -232,13 +233,13 @@ fr:
         port: Port
         tls_certificate_string: Certificat SSL du serveur LDAP
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacité
+        model_id: Modèle
+        state: État
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_format: Format d'API
+        api_key: Clé API
+        base_url: URL de l'hôte
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         llm_features_enabled: Enable LLMs for this instance
@@ -644,6 +645,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -2431,6 +2433,7 @@ fr:
     groups: Groupes
     hexcode: Code hexadécimal
     id: ID
+    inexistent: Inexistent
     is_default: Valeur par défaut
     is_for_all: Pour tous les projets
     issue: Lot de travaux
@@ -2490,7 +2493,34 @@ fr:
     work_package: Lot de travaux
     work_package_id: Lot de travaux
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Connexion et inscription
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'La tâche a été annulée en raison d''une erreur : %{message}'
@@ -2723,10 +2753,6 @@ fr:
     plural: Actions personnalisées
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Ce champ personnalisé est activé dans tous les projets, car l'option « Pour tous les projets » est cochée. Il ne peut pas être désactivé pour les projets individuels.
-          heading: Pour tous les projets
       hierarchy:
         subitems:
           one: 1 sous-élément
@@ -2750,7 +2776,7 @@ fr:
           short: Nom abrégé
           weight: Poids
       notice:
-        remember_items_and_projects: N'oubliez pas de définir les éléments et les projets dans les onglets respectifs de ce champ personnalisé.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Vous pouvez automatiquement accorder un rôle donné dans le projet à tout utilisateur associé à cet attribut de projet, quel que soit son rôle initial dans ce projet.
         dialog:
@@ -2815,16 +2841,17 @@ fr:
     is_enabled_globally: Est activé globalement
     multi_value_more:
       other: et %{count} autres
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Aucune attribution de rôle
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: La sélection d'un lot de travaux ou d'un projet est requise en premier lieu
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
       job_title: Intitulé du poste
       none: Aucun
-    tab:
-      no_results_content_text: Créer un nouveau champ personnalisé
-      no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -3504,10 +3531,10 @@ fr:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4008,6 +4035,7 @@ fr:
   label_go_forward: Ouvrir le sous-menu %{module}
   label_greater_or_equal: ">="
   label_group: Groupe
+  label_group_attributes_plural: Group attributes
   label_group_by: Grouper par
   label_group_named: Groupe %{name}
   label_group_new: Nouveau groupe
@@ -4413,6 +4441,7 @@ fr:
   label_user_settings: Paramètres de l'utilisateur
   label_users_settings: Paramètres des utilisateurs
   label_value_x: 'Valeur : %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Modifier la version
   label_version_new: Nouvelle version
   label_version_plural: Versions
@@ -5112,7 +5141,6 @@ fr:
   notice_password_confirmation_failed: Le mot de passe saisi est incorrect.
   notice_principals_found_multiple: Il y a %{number} résultats trouvés. Tabulation pour sélectionner le premier résultat.
   notice_principals_found_single: Il y a un seul résultat. Tabulation pour le sélectionner.
-  notice_project_cannot_update_custom_fields: 'Vous ne pouvez pas mettre à jour les champs personnalisés disponibles du projet. Le projet n''est pas valide : %{errors}'
   notice_project_not_deleted: Le projet n'a pas été supprimé.
   notice_project_not_found: Projet introuvable.
   notice_requires_enterprise_token: Le jeton Enterprise est manquant ou n'autorise pas l'accès à cette page.
@@ -5122,9 +5150,6 @@ fr:
   notice_successful_create: Création réussie.
   notice_successful_delete: Suppression réussie.
   notice_successful_update: Mise à jour réussie.
-  notice_successful_update_custom_fields_added_to_project: |
-    Mise à jour réussie. Les champs personnalisés des types activés sont automatiquement activés
-    sur le formulaire du lot de travaux. <a href="%{url}" target="_blank">Voir plus</a>.
   notice_to_many_principals_to_display: |-
     Il y a trop de résultats.
     Limitez la recherche en tapant le nom du nouveau membre (ou groupe).
@@ -5505,7 +5530,6 @@ fr:
   permission_save_bcf_queries: Enregistrer les requêtes BCF
   permission_save_queries: Enregistrer les vues
   permission_search_project: Rechercher un projet
-  permission_select_custom_fields: Sélectionner les champs personnalisés
   permission_select_project_custom_fields: Sélectionner les attributs du projet
   permission_select_project_modules: Sélectionner modules de projet
   permission_select_project_phases: Sélectionner les phases du projet
@@ -6336,6 +6360,7 @@ fr:
         '
       title: Analyse de virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes.
 
         '
@@ -6481,6 +6506,7 @@ fr:
         heading: Nouvelle phase
       no_gate: Aucune porte
       non_defined: Aucune phase n'est actuellement définie.
+      order_changed: Order successfully changed.
       phase_gates: Portes de phase
       section_header: Phases
       start_gate: Porte de début
@@ -6919,7 +6945,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         start: Start
-        workflows: Flux de travail
+        workflows: Workflow
       success: Création réussie.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
@@ -6973,6 +6999,7 @@ fr:
             label_enable_all: Activer tout
             label_toggle_template: Activer/désactiver %{template}
           label: Modèles d'exportation PDF
+          order_changed: Order successfully changed.
         tab: Générer un fichier PDF
         templates:
           readonly_error: Ne peut pas être modifié tant qu'il est lié à un type source.
@@ -7152,7 +7179,7 @@ fr:
           description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
           title: Variantes spécifiques à un projet
       workflow:
-        tab: Flux de travail
+        tab: Workflow
     index:
       add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante
@@ -7195,6 +7222,11 @@ fr:
       remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Jalon
     patterns:
       formats:

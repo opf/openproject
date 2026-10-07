@@ -116,6 +116,7 @@ ca:
         caption: Caption
         help_text: Text d'ajuda
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ ca:
         unknown_property: no és una propietat coneguda.
         unknown_property_nested: té la ruta desconeguda '%{path}'.
         unremovable: no es pot eliminar.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'no està proveint un "Context Segur". Utilitza HTTPS o bé una adreça de retroalimentació, com un host local.
 
           '
@@ -2431,6 +2433,7 @@ ca:
     groups: Grups
     hexcode: Codi hexadecimal
     id: Id
+    inexistent: Inexistent
     is_default: Valor per defecte
     is_for_all: Per tots els projectes
     issue: Paquet de treball
@@ -2490,7 +2493,34 @@ ca:
     work_package: Paquet de treball
     work_package_id: Paquet de treball
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'La feina s''ha cancel·lat a causa d''un error: %{message}'
@@ -2725,10 +2755,6 @@ ca:
     plural: Accions personalitzades
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: Per tots els projectes
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2752,7 +2778,7 @@ ca:
           short: Short name
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2817,16 +2843,17 @@ ca:
     is_enabled_globally: És habilitat globalment
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorganitza els valors alfabèticament
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Crea un camp personalitzat nou
-      no_results_title_text: Actualment no hi ha camps personalitzats.
     text_add_new_custom_field: 'Per afegir nous camps personalitzats a un projecte primer has de crear-los abans de poder-los afegir a aquest projecte.
 
       '
@@ -3504,10 +3531,10 @@ ca:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4008,6 +4035,7 @@ ca:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Grup
+  label_group_attributes_plural: Group attributes
   label_group_by: Agrupa per
   label_group_named: 'Grup: %{name}'
   label_group_new: Nou grup
@@ -4413,6 +4441,7 @@ ca:
   label_user_settings: Configuració de l'usuari
   label_users_settings: Configuració d'usuaris
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edita la versió
   label_version_new: Nova versió
   label_version_plural: Versions
@@ -5113,7 +5142,6 @@ ca:
   notice_principals_found_single: |-
     S'han trobat un resultat.
     Prem per focalitzar-lo.
-  notice_project_cannot_update_custom_fields: 'No pots actualitzar els camps personalitzats disponibles del projecte. El projecte no és vàlid: %{errors}'
   notice_project_not_deleted: El projecte no s'ha suprimit.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5123,9 +5151,6 @@ ca:
   notice_successful_create: Creat correctament.
   notice_successful_delete: Esborrat correctament.
   notice_successful_update: S'ha modificat correctament.
-  notice_successful_update_custom_fields_added_to_project: 'Actualitzat correctament. Els camps personalitzats dels estils activats s''activen automàticament en el formulari del paquet de treball. <a href="%{url}" target="_blank">Veure més</a>.
-
-    '
   notice_to_many_principals_to_display: |-
     Hi ha massa resultats.
     Afini la cerca escrivint el nom del nou membre (o grup).
@@ -5506,7 +5531,6 @@ ca:
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Desar les vistes
   permission_search_project: Search project
-  permission_select_custom_fields: Selecciona camps personalitzats
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_modules: Selecciona els mòduls del projecte
   permission_select_project_phases: Select project phases
@@ -6327,6 +6351,7 @@ ca:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6472,6 +6497,7 @@ ca:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6915,7 +6941,7 @@ ca:
         project_attributes: Project attributes
         projects: Projects
         start: Start
-        workflows: Workflows
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6969,6 +6995,7 @@ ca:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -7148,7 +7175,7 @@ ca:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
@@ -7191,6 +7218,11 @@ ca:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

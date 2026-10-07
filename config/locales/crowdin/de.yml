@@ -116,6 +116,7 @@ de:
         caption: Untertitel
         help_text: Hilfe-Text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM-Clients
       calculated_value_error:
         customized_id: Benutzerdefinierte ID
@@ -180,19 +181,19 @@ de:
         favorited: Favorisiert
       form_configuration:
         attribute_groups: Form
-        description: Description
+        description: Beschreibung
         name: Name
         type_variants: Types and variants using this form
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
+        attribute_key: Attribut
+        custom_field: Benutzerdefiniertes Feld
+        group: Gruppe
         position: Position
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Standardgruppe
+        kind: Art
+        label: Bezeichnung
+        query: Abfrage
       grids/grid:
         column_count: Anzahl der Spalten
         page: Seite
@@ -232,20 +233,20 @@ de:
         port: Port
         tls_certificate_string: LDAP-Server SSL-Zertifikat
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Fähigkeit
+        model_id: Modell
+        state: Status
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
+        api_format: API-Format
+        api_key: API-Schlüssel
+        base_url: Host-URL
         default_chat_model: Default chat model
         default_embedding_model: Default embedding model
         llm_features_enabled: Enable LLMs for this instance
       llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
+        admin_context_window: Kontextfenster
+        display_name: Anzeigename
+        external: Modellname
       mcp_configuration:
         description: Beschreibung
         enabled: Aktiviert
@@ -526,7 +527,7 @@ de:
           title: Werktage
           true: Mit Wochenenden
         journal_internal: Internes Journal
-        labels: Labels
+        labels: Bezeichnungen
         notify: Benachrichtigung
         observed_in_versions: Festgestellt in Versionen
         parent: Übergeordnetes Arbeitspaket
@@ -556,7 +557,7 @@ de:
       work_package_version:
         kind: Art
       workflow:
-        description: Description
+        description: Beschreibung
         name: Name
         type_variants: Types and variants using this workflow
     errors:
@@ -644,6 +645,7 @@ de:
         unknown_property: ist kein bekanntes Attribut.
         unknown_property_nested: hat den unerwarteten Pfad '%{path}'.
         unremovable: kann nicht entfernt werden.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
 
           '
@@ -654,7 +656,7 @@ de:
         ai/text_transform_run:
           attributes:
             base:
-              not_available: This action is not available.
+              not_available: Diese Aktion ist nicht verfügbar.
         attachment:
           attributes:
             content_type:
@@ -718,10 +720,10 @@ de:
         form_configuration:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
+              attribute_unknown: Ungültige Arbeitspaket-Attribute verwendet.
+              attribute_unknown_name: 'Ungültige Arbeitspaket-Attribute verwendet: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
+              group_without_name: Gruppenname darf nicht leer sein.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
             base:
               default_undeletable: The default form cannot be deleted. Mark another form as default first.
@@ -745,7 +747,7 @@ de:
         label:
           attributes:
             name:
-              blank: Name cannot be empty.
+              blank: Name darf nicht leer sein.
               format: "%{message}"
               taken: A label with this name already exists. Please use another one.
               too_long: Name is too long (maximum is %{count} characters).
@@ -759,7 +761,7 @@ de:
             api_format:
               not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
             api_key:
-              invalid_api_key: was rejected by the LLM server.
+              invalid_api_key: wurde vom LLM-Server abgelehnt.
             base:
               singleton: Only one LLM connection can be active.
             base_url:
@@ -1481,13 +1483,13 @@ de:
         modes:
           dark:
             description: The app header will be black. We recommend a white logo on transparent background.
-            name: Dark mode logo
+            name: Logo für dunklen Modus
           light:
             description: Make sure to upload a logo that has enough contrast with the app header colour selected.
-            name: Light mode logo
+            name: Logo für hellen Modus
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
-            name: High contrast mode logo
+            name: Logo für Hochkontrastmodus
       color_groups:
         base_colors: Grundfarben
         main_menu: Haupt-Seitenmenü
@@ -1521,10 +1523,10 @@ de:
       tab_pdf_export_font: Schriftart für den PDF-Export
       tab_pdf_export_styles: PDF-Exportstile
       theme_warning:
-        confirmation: I understand that this action cannot be reversed
+        confirmation: Mir ist klar, dass dieser Vorgang nicht rückgängig gemacht werden kann
         description: Changing the theme will overwrite the custom styles and colors. The created design values will be lost.
-        heading: Change color theme?
-        title: Change color theme
+        heading: Farbschema ändern?
+        title: Farbschema ändern
     enterprise:
       add_token: Enterprise edition Support Token hochladen
       book_now: Jetzt buchen
@@ -1628,35 +1630,35 @@ de:
           description: Sie können bei jedem Importlauf verschiedene Datensätze importieren. Es ist möglich, einen Importlauf unmittelbar danach rückgängig zu machen, aber nicht nach dem Abschluss-Schritt.
         jobs:
           JiraCreateCustomFieldsJob:
-            title: Create custom fields
+            title: Benutzerdefinierte Felder erstellen
           JiraCreateProjectJob:
-            title: Create project '%{jira_project_name}'
+            title: Projekt ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectRoleJob:
-            title: Create 'JiraMember' project role
+            title: Projektrolle ‚JiraMember‘ erstellen
           JiraCreateProjectVersionsJob:
-            title: Create versions for '%{jira_project_name}'
+            title: Versionen für ‚%{jira_project_name}‘ erstellen
           JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: Anhänge zum Arbeitspaket für ‚%{jira_project_name}‘ herunterladen
           JiraCreateProjectWorkPackagesJob:
-            title: Create work packages for '%{jira_project_name}'
+            title: Arbeitspakete für ‚%{jira_project_name}‘ erstellen
           JiraCreateUsersJob:
-            title: Create users
+            title: Benutzer erstellen
           JiraFetchCustomFieldJob:
-            title: Fetch custom fields
+            title: Benutzerdefinierte Felder abrufen
           JiraFetchIssueTypesJob:
             title: Fetch issue types
           JiraFetchPrioritiesJob:
-            title: Fetch priorities
+            title: Prioritäten abrufen
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
             title: Fetch versions for project '%{jira_project_name}'
           JiraFetchProjectsJob:
-            title: Fetch projects
+            title: Projekte abrufen
           JiraFetchStatusesJob:
             title: Fetch statuses
           JiraFetchUsersJob:
-            title: Fetch users
+            title: Benutzer abrufen
           JiraInstanceMetaDataJob:
             title: Fetching instance meta data
           JiraProjectsMetaDataJob:
@@ -1810,7 +1812,7 @@ de:
                 issues: Tickets
                 permissions: Berechtigungen
                 project_ids: Projektkennungen
-                project_versions: Project versions
+                project_versions: Projektversionen
                 projects: Projekte
                 relations: Beziehungen zwischen Tickets
                 schemes: Schemas
@@ -1818,7 +1820,7 @@ de:
                 users: Beteiligte Benutzer und Gruppen
                 workflows: Workflows auf Projektebene
               label_coming_later: Kommt später
-              label_coming_soon: Coming soon
+              label_coming_soon: Demnächst verfügbar
               label_import: Wählen Sie die Projekte aus, die Sie importieren möchten.
               label_info: Bitte beachten Sie, dass dieses Import-Tool in der Beta ist und nicht alle Arten von Daten importieren kann. Hier ist eine Zusammenfassung dessen, was die Jira Instanz für den Import bietet und was dieses Tool gerade importieren kann.
               label_progress: Daten werden abgerufen
@@ -1832,38 +1834,38 @@ de:
             filter_projects: Nach Text filtern
             info: Nur Projekte, bei denen der Besitzer des Jira Token Mitglied ist, sind für den Import auswählbar.
             title: Projekte zum Importieren auswählen
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
-          stage_succeeded_label: Completed
+          stage_discarded_label: Fehler
+          stage_in_progress_label: Fortschritt
+          stage_job_error: Fehler
+          stage_succeeded_label: Abgeschlossen
           stages:
             '1':
               rest_line_text: ''
-              title: Fetch Jira configuration
+              title: Jira-Konfiguration abrufen
             '2':
               rest_line_text: Fetching issues and versions for %{projects_number} more projects
               title: Fetch project issues and versions
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Benutzer und benutzerdefinierte Felder abrufen
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: Benutzer, Gruppen und Mitgliedschaften erstellen
             '5':
               rest_line_text: ''
-              title: Create roles and custom fields
+              title: Rollen und benutzerdefinierte Felder erstellen
             '6':
-              rest_line_text: Creating %{projects_number} more projects
-              title: Create projects
+              rest_line_text: "%{projects_number} weitere Projekte erstellen"
+              title: Projekte erstellen
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              title: Projektversionen erstellen
             '8':
               rest_line_text: Creating work packages for %{projects_number} more projects
-              title: Create work packages
+              title: Arbeitspakete erstellen
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Anhänge herunterladen
       test:
         api_error: Jira API hat den Fehlerstatus %{status} zurückgegeben. Bitte überprüfen Sie die URL Ihrer Jira-Instanz und Ihr API-Token.
         connection_error: 'Verbindungsfehler: %{message}'
@@ -1886,56 +1888,56 @@ de:
       delete_dialog_component:
         confirmation: I understand that this action is not reversible
         description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        heading: Diese Bezeichnung löschen?
+        title: Diese Bezeichnung löschen?
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: Bezeichnung erstellen
+        rename_title: "„%{name}“ umbenennen"
       index:
         description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} Arbeitspaket"
+          other: "%{count} Arbeitspakete"
       sub_header_component:
-        button_add: Label
-        label_add: Add label
+        button_add: Bezeichnung
+        label_add: Bezeichnung hinzufügen
         search_placeholder: Type here to search
       table_component:
         blank_slate:
           description: Labels created by users on work packages will appear here.
-          title: No labels yet
+          title: Noch keine Bezeichnungen
         headers:
-          name: Label
-          usage: Used in
+          name: Bezeichnung
+          usage: Verwendet in
         no_matches:
-          description: Try a different search term.
+          description: Versuchen Sie es mit einem anderen Suchbegriff.
           title: No labels match your search
     llm_connections:
       delete_api_key:
         description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
-        title: Remove API key
+        heading: Gespeicherten API-Schlüssel löschen?
+        menu_label: API-Schlüssel entfernen
+        success: Der API-Schlüssel wurde entfernt.
+        title: API-Schlüssel entfernen
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
         description: OpenProject will stop using the LLM server. AI features will be unavailable until you connect again.
         heading: Disconnect from the LLM server?
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
-        menu_label: Disconnect
+        menu_label: Trennen
         success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
+        title: Trennen
       form:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
+        api_key_placeholder_stored: API-Schlüssel gespeichert
+        api_key_remove: Schlüssel entfernen
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        button_connect: Verbinden
         label_connecting: Contacting the LLM server…
         llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
         server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
@@ -1944,8 +1946,8 @@ de:
         description: Connect OpenProject to an LLM server so that AI features can use it.
         description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
       tabs:
-        connection: Connection
-        models: Models
+        connection: Verbindung
+        models: Modelle
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
@@ -1956,47 +1958,47 @@ de:
       destroy:
         description: The model will no longer be offered to AI features.
         description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
-        heading: Remove %{model}?
-        success: "%{model} has been removed."
-        title: Remove model
+        heading: "%{model} entfernen?"
+        success: "%{model} wurde entfernt."
+        title: Modell entfernen
       edit:
         description: Edit how OpenProject uses this model.
       form:
-        context_window: Context window
+        context_window: Kontextfenster
         context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
         context_window_known: Leave blank to use %{value}, %{source}.
         display_name_caption: An optional friendly name shown instead of the model id.
         external_id_caption: The model name exactly as the server expects it.
-        model_type: Model type
+        model_type: Modelltyp
         model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
-        model_type_chat: Chat model
+        model_type_chat: Chat-Modell
         model_type_embedding: Embedding model
-        model_type_unspecified: Not specified
-        state_inherited: Inherit from server (%{state})
-        state_supported: Supported
-        state_unsupported: Not supported
+        model_type_unspecified: Nicht angegeben
+        state_inherited: Vom Server erben (%{state})
+        state_supported: Unterstützt
+        state_unsupported: Nicht unterstützt
       index:
-        add_model: Model
+        add_model: Modell
         blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
-        blank_title: No models available
-        context_window: Context window
+        blank_title: Keine Modelle verfügbar
+        context_window: Kontextfenster
         description: Reported by the server on %{fetched_at}.
         description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
-        filter_label: Filter models
-        identifier: Model
-        kind: Type
-        refresh: Refresh models
-        source: Source
+        filter_label: Modelle filtern
+        identifier: Modell
+        kind: Typ
+        refresh: Modelle auffrischen
+        source: Quelle
         source_discovered: Server
-        source_discovered_description: Reported by the server
+        source_discovered_description: Vom Server gemeldet
         source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
+        source_manual_description: Von einem Administrator manuell hinzugefügt
+        source_withdrawn: Zurückgezogen
+        source_withdrawn_description: Wird vom Server nicht mehr gemeldet
         stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
       new:
         description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
+        title: Modell hinzufügen
       refresh:
         failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
         success: The model list has been refreshed.
@@ -2299,7 +2301,7 @@ de:
         timeout: Der KI-Dienst hat nicht rechtzeitig geantwortet.
         upstream_error: Der KI-Dienst hat eine Fehlermeldung zurückgegeben.
   announcements:
-    content: Content
+    content: Inhalt
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
     show_until: Anzeigen bis
@@ -2431,6 +2433,7 @@ de:
     groups: Gruppen
     hexcode: Fabcode (Hex)
     id: ID
+    inexistent: Inexistent
     is_default: Standardwert
     is_for_all: Für alle Projekte
     issue: Arbeitspaket
@@ -2490,7 +2493,34 @@ de:
     work_package: Arbeitspaket
     work_package_id: Arbeitspaket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Anmeldung und Registrierung
+  automations:
+    actions:
+      add: Aktion hinzufügen
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Aktionen
+    conditions: Bedingungen
+    edit: Automatisierung %{name} bearbeiten
+    new: Neue Automatisierung
+    plural: Automatisierungen
+    summary:
+      if: Falls
+      none: Keine
+      then: Dann
+      title: Zusammenfassung
+      when: Wann
+    trigger: Auslöser
+    triggers:
+      button:
+        button_label: Button label
+        label: Tastendruck
+      more_coming: OpenProject will add more trigger types soon.
+      name: Auslöser
   background_jobs:
     status:
       cancelled_due_to: 'Job wurde aufgrund eines Fehlers abgebrochen: %{message}'
@@ -2725,10 +2755,6 @@ de:
     plural: Benutzerdefinierte Aktionen
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Dieses Projekt-Attribut ist in allen Projekten aktiviert, da die Option "Für alle Projekte" aktiviert ist. Es kann nicht für einzelne Projekte deaktiviert werden.
-          heading: Für alle Projekte
       hierarchy:
         subitems:
           one: 1 Unterelement
@@ -2752,7 +2778,7 @@ de:
           short: Kurzname
           weight: Gewichtung
       notice:
-        remember_items_and_projects: Denken Sie daran, Einträge und Projekte in den jeweiligen Registerkarten für dieses benutzerdefinierte Feld festzulegen.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Sie können jedem Benutzer, dem dieses Projektattribut zugewiesen wurde, automatisch eine bestimmte Projektrolle zuweisen, unabhängig von der ursprünglichen Rolle dieses Benutzers in diesem Projekt.
         dialog:
@@ -2817,16 +2843,17 @@ de:
     is_enabled_globally: Für alle Projekte aktiviert
     multi_value_more:
       other: und %{count} weitere
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Keine Rollenzuweisung
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Einstellungen verschoben
     placeholder_version_select: Zunächst muss ein Arbeitspaket oder ein Projekt ausgewählt werden
     reorder_alphabetical: Alphabetisch umsortieren
     reorder_confirmation: 'Warnung: Die aktuelle Reihenfolge der verfügbaren Werte sowie alle nicht gespeicherten Werte gehen verloren. Sind Sie sicher, dass Sie fortfahren möchten?'
     semantic_keys:
       job_title: Stellenbezeichnung
       none: Keine
-    tab:
-      no_results_content_text: Neues benutzerdefiniertes Feld anlegen
-      no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
 
       '
@@ -3437,18 +3464,18 @@ de:
         placeholder: Select a form…
       title: Change form
     default:
-      label: Default
-      mark: Mark as default
+      label: Standard
+      mark: Als Standard festlegen
       marked: "%{name} is now the default form. New types use it."
       name: Default form
     form:
       copy_from:
         caption: The new form starts with a copy of that form's attribute groups.
-        label: Copy from
+        label: Kopieren von
         placeholder: Select a form…
       description:
         caption: Add a short description about where and how will this form be used.
-        label: Description
+        label: Beschreibung
       edit_title: Edit form
       name:
         caption: Pick a name that will let you identify this form later in other places.
@@ -3457,8 +3484,8 @@ de:
     index:
       actions:
         edit: Edit form
-        menu: Actions for %{name}
-        rename: Edit name and description
+        menu: Aktionen für %{name}
+        rename: Name und Beschreibung bearbeiten
       blank_slate:
         description: Create a form to define the attribute groups a type or variant shows on its work packages.
         filtered_description: No form matches the current filters.
@@ -3466,28 +3493,28 @@ de:
         title: No forms
       columns:
         name: Form name
-        projects: Projects
-        types_and_variants: Types and variants
+        projects: Projekte
+        types_and_variants: Typen und Varianten
       description: Every named work package form in this instance, with the types and variants using it.
       filters:
         name: Form
         name_placeholder: Filter by form name or description…
         projects_placeholder: Filter projects…
       projects_count:
-        one: 1 project
-        other: "%{count} projects"
+        one: 1 Projekt
+        other: "%{count} Projekte"
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
-        other: "%{count} types"
+        one: 1 Typ
+        other: "%{count} Typen"
       variants_count:
-        one: 1 variant
-        other: "%{count} variants"
+        one: 1 Variante
+        other: "%{count} Varianten"
     name:
       fallback: Form
       implicit: "%{name} form"
     selector:
-      default: "(Default)"
+      default: "(Standard)"
       prefix: Form
       same_as_type: "(same as type)"
       title: Select form
@@ -3497,24 +3524,24 @@ de:
         label: Start with a copy of an existing form
         missing: Select the form to copy, or start from scratch instead.
         panel_label: Form to copy
-      label: Starting point
+      label: Startpunkt
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
         label: Start from scratch
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
         caption_html: The form %{name} is used in the following types and variants.
         title: Form used in types
-        variant_of: Variant of %{type}
-        variants: Variants
+        variant_of: Variante von %{type}
+        variants: Varianten
       unused: No type or variant uses this form yet.
       used_by_types:
         one: This form is used by 1 type. Changes apply to it.
@@ -3667,7 +3694,7 @@ de:
       budget_deleted: Budget wurde gelöscht
       import:
         changed_with_diff: "%{field} geändert (%{link})"
-        csv: from CSV
+        csv: aus CSV
         deleted_with_diff: "%{field} gelöscht (%{link})"
         field_changed: "%{field} geändert von %{old_value} zu %{new_value}"
         field_removed: "%{field} entfernt"
@@ -3919,7 +3946,7 @@ de:
   label_deleted_custom_field: "(gelöschtes benutzerdefiniertes Feld)"
   label_deleted_custom_item: "(gelöschter Eintrag)"
   label_deleted_custom_option: "(gelöschte Option)"
-  label_deleted_version: "(deleted version)"
+  label_deleted_version: "(gelöschte Version)"
   label_departments: Organisation
   label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [eine synchronisierte LDAP-Abteilung](ldap_docs_article) importieren.
 
@@ -4008,6 +4035,7 @@ de:
   label_go_forward: Öffne %{module} Untermenü
   label_greater_or_equal: ">="
   label_group: Gruppe
+  label_group_attributes_plural: Gruppenattribute
   label_group_by: Gruppieren nach
   label_group_named: Gruppe %{name}
   label_group_new: Neue Gruppe
@@ -4059,7 +4087,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_jump_to_a_project: Zu einem Projekt springen...
   label_keyword_plural: Schlüsselwörter
-  label_label_plural: Labels
+  label_label_plural: Bezeichnungen
   label_language: Sprache
   label_language_based: Sprachabhängig
   label_languages: Sprachen
@@ -4413,6 +4441,7 @@ de:
   label_user_settings: Benutzereinstellungen
   label_users_settings: Benutzereinstellungen
   label_value_x: 'Wert: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Version bearbeiten
   label_version_new: Neue Version
   label_version_plural: Versionen
@@ -4609,25 +4638,25 @@ de:
       xai: xAI
     capabilities:
       embeddings:
-        label: Embeddings
+        label: Einbettungen
       function_calling:
         label: Tool calling
       reasoning:
         label: Reasoning
       structured_output:
-        label: Structured output
+        label: Strukturierte Ausgabe
       vision:
         label: Vision
     context_window_sources:
       registry: the figure published for this model
-      server: reported by the server
+      server: vom Server gemeldet
     model_kinds:
       chat: Chat
-      embedding: Embedding
+      embedding: Einbettung
     verdict_states:
-      supported: supported
-      unknown: not verified
-      unsupported: not supported
+      supported: unterstützt
+      unknown: nicht verifiziert
+      unsupported: nicht unterstützt
   macro_execution_error: Fehler beim Ausführen des Makros %{macro_name}
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
   macro_unknown: Unbekanntes oder nicht unterstütztes Makro.
@@ -4871,7 +4900,7 @@ de:
       aggregation: Zusammenfassungen
       ai: Künstliche Intelligenz (AI)
       api_and_webhooks: API und Webhooks
-      llm_connection: LLM settings
+      llm_connection: LLM-Einstellungen
       mail_notification: Mailbenachrichtigung
       mails_and_notifications: E-Mails und Benachrichtigungen
       mcp_configurations: Model Context Protocol (MCP)
@@ -5115,7 +5144,6 @@ de:
   notice_principals_found_single: |-
     Es wurde ein Ergebnis gefunden.
     Drücke Tab um es zu fokussieren.
-  notice_project_cannot_update_custom_fields: 'Sie können die benutzerdefinierten Felder dieses Projekts nicht aktualisieren. Das Projekt ist ungültig: %{errors}'
   notice_project_not_deleted: Das Projekt wurde nicht gelöscht.
   notice_project_not_found: Projekt nicht gefunden.
   notice_requires_enterprise_token: Kein Enterprise-Token vorhanden oder das vorhandene Token erlaubt keinen Zugriff auf diese Seite.
@@ -5125,9 +5153,6 @@ de:
   notice_successful_create: Erfolgreich angelegt.
   notice_successful_delete: Erfolgreich gelöscht.
   notice_successful_update: Erfolgreich aktualisiert.
-  notice_successful_update_custom_fields_added_to_project: |
-    Erfolgreich aktualisiert. Die benutzerdefinierten Felder der aktivierten Typen werden automatisch
-    im Arbeitspaket-Formular aktiviert. <a href="%{url}" target="_blank">Siehe mehr</a>.
   notice_to_many_principals_to_display: |-
     Es gibt zu viele Treffer.
     Bitte engen Sie die Suche ein, indem sie den Namen der Person (oder der Gruppe) eingeben.
@@ -5469,7 +5494,7 @@ de:
   permission_export_projects: Projekte exportieren
   permission_export_work_packages: Arbeitspakete exportieren
   permission_header_for_project_module_work_package_tracking: Arbeitspakete und Gantt-Diagramme
-  permission_import_work_packages: Import work packages
+  permission_import_work_packages: Arbeitspakete importieren
   permission_invite_members_by_email: Mitglieder per E-Mail einladen
   permission_invite_members_by_email_explanation: 'Ermöglicht es Benutzern, neue Mitglieder per E-Mail einzuladen. Eingeladene Benutzer erhalten eine E-Mail mit einem Link, über den sie ihr Passwort festlegen und ihr Konto aktivieren können. Abhängig von der Berechtigung zur Mitgliederverwaltung
 
@@ -5508,7 +5533,6 @@ de:
   permission_save_bcf_queries: BCF-Abfragen speichern
   permission_save_queries: Ansichten speichern
   permission_search_project: Projekt suchen
-  permission_select_custom_fields: Benutzerdefinierte Felder verwalten
   permission_select_project_custom_fields: Projektattribute auswählen
   permission_select_project_modules: Projektmodule auswählen
   permission_select_project_phases: Projektphase auswählen
@@ -6275,7 +6299,7 @@ de:
   setting_start_of_week: Wochenanfang am
   setting_sys_api_description: Der Web-Service für Projektarchiv-Verwaltung erlaubt Integration und Nutzer-Autorisierung für den Zugriff auf Projektarchive.
   setting_sys_api_enabled: Den Web-Service zur Projektarchiv-Verwaltung aktivieren
-  setting_sys_api_key: API key
+  setting_sys_api_key: API-Schlüssel
   setting_time_format: Zeit
   setting_total_percent_complete_mode: Berechnung des Gesamtwerts % abgeschlossen in Hierarchien
   setting_total_percent_complete_mode_simple_average: Einfacher Durchschnitt
@@ -6339,6 +6363,7 @@ de:
         '
       title: Virenscan
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Wenn Sie diese Option deaktivieren, wird die Liste der Anhänge auf dem Dateien Tab von Arbeitspaketen für neue Projekte ausgeblendet. Die Dateien, die in der Beschreibung eines Arbeitspakets angehängt sind, werden weiterhin in den internen Speicher für Anhänge hochgeladen.
 
         '
@@ -6484,6 +6509,7 @@ de:
         heading: Neue Phase
       no_gate: Kein Gate
       non_defined: Derzeit sind keine Phasen definiert.
+      order_changed: Order successfully changed.
       phase_gates: Phasen Gates
       section_header: Phasen
       start_gate: Gate zum Beginn
@@ -6898,20 +6924,20 @@ de:
         inherit_description: The page inherits existing configuration from another type. Changes to the source are then automatically reflected here.
         inherit_title: Use the same settings as the type
         manual_description: You can configure this page freely as you wish or copy over configuration from another type.
-        manual_title: Manual configuration
+        manual_title: Manuelle Konfiguration
         reuse_heading: Reuse existing type configuration
         reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
         reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
         reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
-        submit: Start
+        submit: Beginn
         type:
           description: A type represents a specific kind of item, like a feature or a bug. It has a name, a color, a set of fields, some rules to transition between statuses and other configuration. You can activate and use different types in different projects.
-          heading: Create a new type
+          heading: Neuen Typ erstellen
           lead_html: You are about to create a new type in your instance.
           step_by_step: You will configure a new type step-by-step in the following pages.
         variant:
           description: A variant is an alternate version of a type with a few differences. You can use them to meet project-specific requirements without creating a whole new type.
-          heading: Create a new variant
+          heading: Neue Variante erstellen
           lead_html: You are about to create a new variant of <b>%{type_name}</b> in your instance.
           step_by_step: You will configure this new variant step-by-step in the following pages.
       steps:
@@ -6921,8 +6947,8 @@ de:
         pdf: PDF-Erstellung
         project_attributes: Projektattribute
         projects: Projekte
-        start: Start
-        workflows: Workflows
+        start: Beginn
+        workflows: Workflow
       success: Erfolgreich angelegt.
     edit:
       breadcrumb_variant: 'Variante: %{name}'
@@ -6978,6 +7004,7 @@ de:
             label_enable_all: Alles aktivieren
             label_toggle_template: "%{template} umschalten"
           label: PDF-Exportvorlagen
+          order_changed: Order successfully changed.
         tab: PDF generieren
         templates:
           readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.
@@ -7157,7 +7184,7 @@ de:
           description: Diese Varianten sind nur innerhalb der Projekte verfügbar, in denen sie erstellt wurden.
           title: Projektspezifische Varianten
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Variante zu %{name} hinzufügen
       add_variant_action: Variante hinzufügen
@@ -7200,13 +7227,18 @@ de:
       remove_default_notice: "%{name} ist in neuen Projekten nicht länger aktiviert."
       type_label: Typ
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Meilenstein
     patterns:
       formats:
         hierarchy_default: Default (label and short)
-        hierarchy_label: Label only
+        hierarchy_label: Nur Bezeichnung
         hierarchy_short: Short only
-        weighted_item_list_default: Default (label and weight)
+        weighted_item_list_default: Standard (Bezeichnung und Gewichtung)
         weighted_item_list_weight: Weight only
   unsupported_browser:
     close_warning: Diese Warnung ignorieren.
@@ -7678,17 +7710,17 @@ de:
         one: Sie können eine Unteraufgabe nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie wird nicht gelöscht, die Verknüpfung zum Elternelement wird jedoch entfernt.
         other: Sie können %{count} Unteraufgaben nicht löschen, da Ihnen die erforderlichen Berechtigungen in %{projects} fehlen. Sie bleiben erhalten, deren Verknüpfungen zum Elternelement werden jedoch entfernt.
     import:
-      check_file: Check file
+      check_file: Datei prüfen
       checking_file: Checking %{filename}
       clear: Clear
       csv:
         file:
-          empty: This file is empty.
+          empty: Diese Datei ist leer.
           expired: This file is no longer available. Upload it again.
           expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
           invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
           malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
-          missing: Choose a CSV file to upload.
+          missing: Wählen Sie eine CSV-Datei zum Hochladen aus.
           no_rows: This file has column headers but no lines underneath them.
           too_large: This file is %{size}. The largest file this instance accepts is %{limit}. Split the lines across several files, or ask an administrator to raise the limit.
           too_large_before_upload: This file is larger than the %{limit} this instance accepts. Split the lines across several files, or ask an administrator to raise the limit.
@@ -7700,7 +7732,7 @@ de:
           ambiguous: and %{other} both mean %{attribute}. Keep one of them.
           duplicate: appears more than once. Keep one of them.
           status_based: cannot be imported while progress is calculated from the status. An administrator changes this under Administration, Work packages, Progress tracking.
-          unknown: cannot be imported.
+          unknown: kann nicht importiert werden.
           unknown_with_suggestion: cannot be imported. Did you mean %{suggestion}?
           unnamed: This column has no name. Name it or remove the column.
         job:
@@ -7709,13 +7741,13 @@ de:
         row:
           created_after_updated: must not be later than the value in Updated on.
           fractional_percentage: must be a whole number of percent, for example 50.
-          future_timestamp: must not be in the future.
+          future_timestamp: darf nicht in der Zukunft liegen.
           invalid_date: must be a date written as YYYY-MM-DD.
           invalid_timestamp: must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.
           not_created: could not be created, and no reason was reported.
           too_many_cells: has %{count} cells but the header has %{expected}. A value containing the separator has to be quoted.
-          unknown: does not exist.
-          unknown_in_project: does not exist in this project.
+          unknown: existiert nicht.
+          unknown_in_project: existiert in diesem Projekt nicht.
           unknown_user: does not match a user. Use the email address the user signs in with.
         template:
           examples:
@@ -7726,18 +7758,18 @@ de:
               description: The error appears after a failed password reset.
               subject: Fix the login error
         view_name: CSV import on %{datetime}
-      download_template: Download the template
+      download_template: Vorlage herunterladen
       drop_or_click: Drop a CSV file here or click to select one.
       dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
       dry_run_label: Check the file first, without importing
-      file_label: CSV file
+      file_label: CSV-Datei
       guidance:
         column_reference: column reference
         columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
         limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
         names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
         title: Before you start
-      import_file: Import file
+      import_file: Datei importieren
       importing_file: Importing %{filename}
       intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
       menu_title: Work packages importer
@@ -7748,70 +7780,70 @@ de:
           imported: The import has finished. The report is below.
           rows_rejected: Nothing was imported. The report lists the problems.
         checked:
-          heading: Ready to import
-          import: Import %{work_packages}
+          heading: Bereit zum Importieren
+          import: "%{work_packages} importieren"
           kept: The checked file is kept for a few hours, so importing it does not need a second upload.
           text: Nothing has been created yet. Review the summary below, then import.
           title:
-            one: 1 line checked, no problems found
-            other: "%{count} lines checked, no problems found"
-        download_problems: Download as CSV
+            one: 1 Zeile geprüft, keine Probleme festgestellt
+            other: "%{count} Zeilen geprüft, keine Probleme festgestellt"
+        download_problems: Als CSV herunterladen
         file_rejected:
-          heading: Header line
-          line: line 1 of %{filename}
+          heading: Kopfzeile
+          line: Zeile 1 von %{filename}
           nothing: Nothing was imported. Correct the file and upload it again.
           text: Correct the headers in the file and upload it again.
           title: The column headers could not be read
         headline:
           accounts:
-            label: Accounts
+            label: Konten
             subtitle: assignee, accountable and author
           dated:
-            label: Lines with dates
+            label: Zeilen mit Datumsangaben
             subtitle: a start or finish date
           types:
-            label: Types
-            subtitle: used in this file
+            label: Typen
+            subtitle: in dieser Datei verwendet
           work_packages:
-            label: Work packages
+            label: Arbeitspakete
             subtitle: one for every line
         imported:
-          again: Import another file
+          again: Weitere Datei importieren
           heading: Import summary
           link:
-            one: View the imported work package
-            other: View the %{count} imported work packages
+            one: Importiertes Arbeitspaket ansehen
+            other: "%{count} importierte Arbeitspakete ansehen"
           notifications: Notifications were not sent for these work packages.
           text_html: Imported from %{filename} on %{date} at %{time}.
-          title: "%{work_packages} created"
-          work_packages: work packages
+          title: "%{work_packages} erstellt"
+          work_packages: Arbeitspakete
         problems:
           all:
-            one: 1 problem.
-            other: "%{count} problems, all shown."
+            one: 1 Problem.
+            other: "%{count} Probleme, alle angezeigt."
           capped: "%{count} problems, the first %{shown} shown. Download the list for all of them."
-          heading: Problems
+          heading: Probleme
         rows_rejected:
           text: Everything was rolled back. Correct the lines below and upload the file again.
           title: 'Nothing was imported: %{problems} in %{lines}'
         table:
-          attribute: Column
-          available: Available values
-          column: Column
-          empty: empty
+          attribute: Spalte
+          available: Verfügbare Werte
+          column: Spalte
+          empty: leer
           header: Header
           message: Problem
-          row: Line
-          value: Value
+          row: Zeile
+          value: Wert
         x_lines:
-          one: 1 line
+          one: 1 Zeile
           other: "%{count} lines"
         x_problems:
-          one: 1 problem
+          one: 1 Problem
           other: "%{count} problems"
       run_failed: This run did not finish, and nothing was created. Upload the file again.
       running_note: This runs in the background. Please do not close the page.
-      title: Import work packages
+      title: Arbeitspakete importieren
     move:
       bulk_current_type_not_available_in_target_project: 'Die Typen der Arbeitspakete oder deren Unterelemente sind im Zielprojekt nicht aktiviert. Bitte aktivieren Sie die fehlenden Typen im Zielprojekt, wenn Sie möchten, dass diese unverändert bleiben. Andernfalls wählen Sie bitte einen im Zielprojekt verfügbaren Typ aus der Liste aus.
 
@@ -7876,7 +7908,7 @@ de:
         placeholder: Select a workflow…
       description:
         caption: Add a short description about where and how will this workflow be used.
-        label: Description
+        label: Beschreibung
       edit_title: Edit workflow
       matrix_caption: Workflow-Matrix
       matrix_caption_assignee: Workflow-Matrix für Zugewiesene
@@ -7894,7 +7926,7 @@ de:
       actions:
         create: Workflow
         edit: Edit transitions
-        menu: Actions for %{name}
+        menu: Aktionen für %{name}
         rename: Edit name and description
       blank_slate:
         description: Create a workflow to define the status transitions a type or variant may use.
@@ -7903,29 +7935,29 @@ de:
         title: No workflows
       columns:
         name: Workflow name
-        projects: Projects
-        roles: Roles
-        types_and_variants: Types and variants
+        projects: Projekte
+        roles: Rollen
+        types_and_variants: Typen und Varianten
       description: Every named set of status transitions in this instance, with the types and variants using it.
       filters:
         name: Workflow
         name_placeholder: Filter by workflow name or description…
-        projects_placeholder: Filter projects…
+        projects_placeholder: Projekte filtern …
       projects_count:
-        one: 1 project
-        other: "%{count} projects"
+        one: 1 Projekt
+        other: "%{count} Projekte"
       roles_count:
-        one: 1 role
-        other: "%{count} roles"
+        one: 1 Rolle
+        other: "%{count} Rollen"
       type_filter:
         label: Typen nach Name filtern…
       types_and_variants_count: "%{types} (including %{variants})"
       types_count:
-        one: 1 type
-        other: "%{count} types"
+        one: 1 Typ
+        other: "%{count} Typen"
       variants_count:
-        one: 1 variant
-        other: "%{count} variants"
+        one: 1 Variante
+        other: "%{count} Varianten"
     name:
       fallback: Workflow
       implicit: "%{name} workflow"
@@ -7952,8 +7984,8 @@ de:
         button: View dependent types
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
-        variant_of: Variant of %{type}
-        variants: Variants
+        variant_of: Variante von %{type}
+        variants: Varianten
       unused: No type or variant uses this workflow yet.
       used_by_types:
         one: This workflow is used by 1 type. Changes apply to it.

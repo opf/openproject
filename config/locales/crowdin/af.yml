@@ -116,6 +116,7 @@ af:
         caption: Caption
         help_text: Help text
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM clients
       calculated_value_error:
         customized_id: Customized ID
@@ -644,6 +645,7 @@ af:
         unknown_property: is not a known property.
         unknown_property_nested: has the unknown path '%{path}'.
         unremovable: cannot be removed.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
@@ -2431,6 +2433,7 @@ af:
     groups: Groepe
     hexcode: Hex kode
     id: ID
+    inexistent: Inexistent
     is_default: Standaardwaarde
     is_for_all: Vir alle projekte
     issue: Werkspakket
@@ -2490,7 +2493,34 @@ af:
     work_package: Werkspakket
     work_package_id: Werkspakket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Login and registration
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Job was cancelled due to error: %{message}'
@@ -2725,10 +2755,6 @@ af:
     plural: Pasgemaakte aksies
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: Vir alle projekte
       hierarchy:
         subitems:
           one: 1 sub-item
@@ -2752,7 +2778,7 @@ af:
           short: Short name
           weight: Weight
       notice:
-        remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2817,16 +2843,17 @@ af:
     is_enabled_globally: Is enabled globally
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: No role assignment
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Work package or project selection is required first
     reorder_alphabetical: Reorder values alphabetically
     reorder_confirmation: 'Warning: The current order of available values as well as all unsaved values will be lost. Are you sure you want to continue?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Create a new custom field
-      no_results_title_text: There are currently no custom fields.
     text_add_new_custom_field: 'To add new custom fields to a project you first need to create them before you can add them to this project.
 
       '
@@ -3506,10 +3533,10 @@ af:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4010,6 +4037,7 @@ af:
   label_go_forward: Open %{module} sub-menu
   label_greater_or_equal: ">="
   label_group: Groep
+  label_group_attributes_plural: Group attributes
   label_group_by: Groepeer volgens
   label_group_named: Group %{name}
   label_group_new: Nuwe groep
@@ -4415,6 +4443,7 @@ af:
   label_user_settings: User settings
   label_users_settings: Users settings
   label_value_x: 'Value: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edit version
   label_version_new: New version
   label_version_plural: Weergawes
@@ -5114,7 +5143,6 @@ af:
   notice_password_confirmation_failed: The entered password is not correct.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
-  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available custom fields. The project is invalid: %{errors}'
   notice_project_not_deleted: The project wasn't deleted.
   notice_project_not_found: Project not found.
   notice_requires_enterprise_token: Enterprise token missing or doesn't allow access to this page.
@@ -5124,9 +5152,6 @@ af:
   notice_successful_create: Successful creation.
   notice_successful_delete: Successful deletion.
   notice_successful_update: Successful update.
-  notice_successful_update_custom_fields_added_to_project: |
-    Successful update. The custom fields of the activated types are automatically activated
-    on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: |-
     There are too many results.
     Narrow down the search by typing in the name of the new member (or group).
@@ -5507,7 +5532,6 @@ af:
   permission_save_bcf_queries: Save BCF queries
   permission_save_queries: Save views
   permission_search_project: Search project
-  permission_select_custom_fields: Select custom fields
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_modules: Select project modules
   permission_select_project_phases: Select project phases
@@ -6340,6 +6364,7 @@ af:
         '
       title: Virus scanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Deactivating this option will hide the attachments list on the work packages files tab for new projects. The files attached in the description of a work package will still be uploaded in the internal attachments storage.
 
         '
@@ -6485,6 +6510,7 @@ af:
         heading: New phase
       no_gate: No gate
       non_defined: No phases are currently defined.
+      order_changed: Order successfully changed.
       phase_gates: Phase gates
       section_header: Phases
       start_gate: Start gate
@@ -6928,7 +6954,7 @@ af:
         project_attributes: Project attributes
         projects: Projects
         start: Start
-        workflows: Workflows
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6982,6 +7008,7 @@ af:
             label_enable_all: Enable all
             label_toggle_template: Toggle %{template}
           label: PDF Export templates
+          order_changed: Order successfully changed.
         tab: Generate PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -7161,7 +7188,7 @@ af:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
@@ -7204,6 +7231,11 @@ af:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:

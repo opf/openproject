@@ -407,7 +407,6 @@ RSpec.describe "API v3 Work package resource",
                  field_format: "string",
                  name: "Department",
                  is_required: true,
-                 projects: [project],
                  types: [type])
         end
 

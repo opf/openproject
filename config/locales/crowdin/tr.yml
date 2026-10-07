@@ -116,6 +116,7 @@ tr:
         caption: Başlık
         help_text: Yardım metni
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM istemcileri
       calculated_value_error:
         customized_id: Özelleştirilmiş Kimlik
@@ -648,6 +649,7 @@ tr:
         unknown_property: bilinen bir özellik değildir.
         unknown_property_nested: "'%{path}' bilinmeyen yolu var."
         unremovable: kaldırılamadı.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
 
           '
@@ -2437,6 +2439,7 @@ tr:
     groups: Gruplar
     hexcode: Hex kodu
     id: ID
+    inexistent: Inexistent
     is_default: Varsayılan değer
     is_for_all: Tüm projeler için
     issue: İş paketi
@@ -2496,7 +2499,34 @@ tr:
     work_package: İş paketi
     work_package_id: İş paketi
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Giriş ve kayıt
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'İş, hata nedeniyle iptal edildi: %{message}'
@@ -2731,10 +2761,6 @@ tr:
     plural: Özel eylemler
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: '"Tüm projeler için" seçeneği işaretli olduğu için bu proje niteliği tüm projelerde etkindir. Projeler için bağımsız olarak devre dışı bırakılamaz.'
-          heading: Tüm projeler için
       hierarchy:
         subitems:
           one: 1 alt öğe
@@ -2758,7 +2784,7 @@ tr:
           short: Kısa adı
           weight: Weight
       notice:
-        remember_items_and_projects: Bu özel alan için ilgili sekmelerde öğeleri ve projeleri ayarlamayı unutmayın.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: You can automatically grant a certain project role to any user assigned to this project attribute, regardless of that user’s original role in that project.
         dialog:
@@ -2823,16 +2849,17 @@ tr:
     is_enabled_globally: Genel için etkinleştirildi
     multi_value_more:
       other: and %{count} more
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Rol ataması yok
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Öncelikle iş paketi veya proje seçimi gereklidir
     reorder_alphabetical: Değerleri alfabetik olarak yeniden sıralayın
     reorder_confirmation: 'Uyarı: Mevcut değerlerin mevcut sırası ve kaydedilmemiş tüm değerler kaybolacaktır. Devam etmek istediğinizden emin misiniz?'
     semantic_keys:
       job_title: Job title
       none: None
-    tab:
-      no_results_content_text: Yeni bir özel alan oluştur
-      no_results_title_text: Şu anda özel bir alan bulunmamakta.
     text_add_new_custom_field: 'Bir projeye yeni özel alanlar eklemeden önce onları oluşturmalısınız.
 
       '
@@ -3512,10 +3539,10 @@ tr:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4016,6 +4043,7 @@ tr:
   label_go_forward: "%{module} alt menüsünü açın"
   label_greater_or_equal: ">="
   label_group: Grup
+  label_group_attributes_plural: Group attributes
   label_group_by: Grupla
   label_group_named: "%{name} Grubu"
   label_group_new: Yeni grup
@@ -4421,6 +4449,7 @@ tr:
   label_user_settings: Kullanıcı ayarları
   label_users_settings: Kullanıcı ayarları
   label_value_x: 'Değer: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Sürümü düzenle
   label_version_new: Yeni sürüm
   label_version_plural: Sürümler
@@ -5122,7 +5151,6 @@ tr:
     %{number} sonuç bulundu.
     İlk sonuç için TABa basın.
   notice_principals_found_single: "Bir sonuç bulundu. \n Ona gitmek için TABa basın."
-  notice_project_cannot_update_custom_fields: 'Projenin kullanılabilir özel alanları güncelleştirilemiyor. Proje geçersiz: %{errors}'
   notice_project_not_deleted: Proje silinemedi.
   notice_project_not_found: Proje bulunamadı.
   notice_requires_enterprise_token: Kurumsal belirteç eksik veya bu sayfaya erişime izin vermiyor.
@@ -5132,9 +5160,6 @@ tr:
   notice_successful_create: Oluşturma başarılı.
   notice_successful_delete: Silme başarılı.
   notice_successful_update: Güncelleme başarılı.
-  notice_successful_update_custom_fields_added_to_project: 'Başarılı güncelleme. Etkinleştirilen türlerin özel alanları, iş paketi formunda otomatik olarak etkinleştirilir. <a href="%{url}" target="_blank">Daha fazlasını görün</a>.
-
-    '
   notice_to_many_principals_to_display: Çok fazla sonuç var. Yeni üyenin (veya grubun) adını yazarak aramayı daraltın.
   notice_unsuccessful_create: Oluşturulamadı.
   notice_unsuccessful_create_with_reason: 'Oluşturma başarısız oldu: %{reason}'
@@ -5513,7 +5538,6 @@ tr:
   permission_save_bcf_queries: BCF sorgularını kaydetme
   permission_save_queries: Görünüm kaydetmek
   permission_search_project: Projeyi ara
-  permission_select_custom_fields: Özel alanları seçin
   permission_select_project_custom_fields: Proje özniteliklerini seçme
   permission_select_project_modules: Proje modülleri seçmek
   permission_select_project_phases: Proje aşamalarını seçin
@@ -6344,6 +6368,7 @@ tr:
         '
       title: Virüs taraması
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Bu seçeneğin devre dışı bırakılması, yeni projeler için iş paketleri dosyaları sekmesindeki ekler listesini gizleyecektir. Bir iş paketinin açıklamasına eklenen dosyalar dahili ekler deposuna yüklenmeye devam edecektir.
 
         '
@@ -6489,6 +6514,7 @@ tr:
         heading: Yeni aşama
       no_gate: Kapı yok
       non_defined: Şu anda herhangi bir faz tanımlanmamıştır.
+      order_changed: Order successfully changed.
       phase_gates: Aşama kapıları
       section_header: Fazlar
       start_gate: Başlangıç kapısı
@@ -6926,7 +6952,7 @@ tr:
         project_attributes: Project attributes
         projects: Projects
         start: Start
-        workflows: Workflows
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6980,6 +7006,7 @@ tr:
             label_enable_all: Tümünü etkinleştir
             label_toggle_template: Toggle %{template}
           label: PDF Dışa Aktarma şablonları
+          order_changed: Order successfully changed.
         tab: PDF oluşturma
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -7159,7 +7186,7 @@ tr:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Workflows
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Add variant
@@ -7202,6 +7229,11 @@ tr:
       remove_default_notice: "%{name} is no longer activated in new projects."
       type_label: Type
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milestone
     patterns:
       formats:
