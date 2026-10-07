@@ -9,6 +9,7 @@ required:
   - startTime
   - endTime
   - duration
+  - agendaSortingMode
   - createdAt
   - updatedAt
 properties:
@@ -57,6 +58,14 @@ properties:
       - in_progress
       - cancelled
       - closed
+  agendaSortingMode:
+    type: string
+    description: |-
+      The agenda sorting mode. Defaults to `manual`. In `vote_based` mode, items
+      are ordered by their net vote score within each section; sections remain manually sorted.
+    enum:
+      - manual
+      - vote_based
   sharing:
     type: string
     description: |-

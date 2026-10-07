@@ -116,10 +116,7 @@ class MeetingPresentationController < ApplicationController
   end
 
   def sorted_agenda_item_ids
-    @sorted_agenda_item_ids ||= @meeting.sections
-                                        .includes(:agenda_items)
-                                        .order(:position)
-                                        .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
+    @sorted_agenda_item_ids ||= @meeting.ordered_agenda_items.map(&:id)
   end
 
   helper_method :sorted_agenda_item_ids

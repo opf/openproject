@@ -30,6 +30,11 @@
 #
 
 class MeetingAgendaItem < ApplicationRecord
+  include Reactable
+
+  self.allowed_emoji_reactions = %w[thumbs_up thumbs_down].freeze
+  self.single_emoji_reaction_per_user = true
+
   ITEM_TYPES = {
     simple: 0,
     work_package: 1
@@ -54,6 +59,14 @@ class MeetingAgendaItem < ApplicationRecord
   default_scope { order(:position) }
 
   scope :with_includes_to_render, -> { includes(:author, :meeting) }
+  scope :with_vote_score, -> {
+    select("meeting_agenda_items.*", <<~SQL.squish)
+      (SELECT COALESCE(SUM(CASE emoji_reactions.reaction WHEN 'thumbs_up' THEN 1 WHEN 'thumbs_down' THEN -1 ELSE 0 END), 0)
+       FROM emoji_reactions
+       WHERE emoji_reactions.reactable_type = 'MeetingAgendaItem'
+         AND emoji_reactions.reactable_id = meeting_agenda_items.id) AS vote_score
+    SQL
+  }
 
   def self.linked_to_work_package(work_package)
     where(<<~SQL.squish, wp_id: work_package.id)
@@ -87,6 +100,7 @@ class MeetingAgendaItem < ApplicationRecord
   before_validation :add_to_latest_meeting_section
   before_save :update_meeting_to_match_section
   after_update :delete_default_section_if_last_item_moved, if: :saved_change_to_meeting_section_id?
+  after_update :clear_votes_on_meeting_change, if: :saved_change_to_meeting_id?
   after_destroy :delete_default_section_if_last_item_deleted
 
   def add_to_latest_meeting_section
@@ -157,8 +171,35 @@ class MeetingAgendaItem < ApplicationRecord
     !meeting&.closed?
   end
 
+  def vote_based_ordering?
+    !in_backlog? && meeting.agenda_sorting_vote_based?
+  end
+
+  def votable?(user = User.current)
+    vote_based_ordering? && !meeting.template? && !meeting.closed? && !meeting.cancelled? &&
+      user.allowed_in_project?(:view_meetings, meeting.project)
+  end
+
+  def vote_score
+    return self[:vote_score].to_i if has_attribute?(:vote_score)
+
+    emoji_reactions.sum(Arel.sql("CASE reaction WHEN 'thumbs_up' THEN 1 WHEN 'thumbs_down' THEN -1 ELSE 0 END"))
+  end
+
+  def vote_by(user)
+    if emoji_reactions.loaded?
+      emoji_reactions.detect { |reaction| reaction.user_id == user.id }&.reaction
+    else
+      emoji_reactions.find_by(user_id: user.id)&.reaction
+    end
+  end
+
+  def clear_votes_on_meeting_change
+    emoji_reactions.destroy_all
+  end
+
   def copy_attributes
-    attributes.except("id", "meeting_id")
+    attributes.except("id", "meeting_id", "reactions_changed_at")
   end
 
   def in_backlog?

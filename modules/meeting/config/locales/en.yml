@@ -31,6 +31,7 @@ en:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: "Sorting mode"
         duration: "Duration"
         end_time: "End time"
         location: "Location"
@@ -96,6 +97,7 @@ en:
 
       models:
         meeting_agenda_item:
+          vote_based_sorting_required: "Voting requires vote-based agenda sorting."
           section_not_belong_to_meeting: "Section does not belong to the same meeting."
           user_invalid: "is not a valid participant."
         meeting_participant:
@@ -335,6 +337,20 @@ en:
   label_view_meeting_series: "View meeting series"
   label_write_outcome: "Write outcome"
   meeting:
+    agenda_sorting:
+      title: "Sorting mode"
+      manual: "Manual"
+      vote_based: "Vote-based"
+      manual_description: "Arrange agenda items yourself. Switching back restores the manual order."
+      vote_based_description: "Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted."
+      sorted_by_votes: "Agenda sorted by votes."
+      score: "Score: %{score}"
+      thumbs_up: "Upvote"
+      thumbs_down: "Downvote"
+      remove_thumbs_up: "Remove upvote"
+      remove_thumbs_down: "Remove downvote"
+      manual_order_disabled: "Agenda items are ordered by votes. Switch to manual sorting to reorder them."
+      invalid_reaction: "Only upvotes and downvotes are allowed on agenda items."
     attachments:
       onetime_template: "These attached files will be included in all future meetings using this template."
       series_template: "These attached files will be included in all future meetings in the series."

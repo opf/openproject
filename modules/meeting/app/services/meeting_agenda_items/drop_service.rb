@@ -47,6 +47,7 @@ module MeetingAgendaItems
       service_call = validate_permission
       service_call = validate_meeting_existence if service_call.success?
       service_call = validate_meeting_agenda_item_editable if service_call.success?
+      service_call = validate_manual_ordering if service_call.success?
 
       service_call = perform_drop(service_call, params) if service_call.success?
 
@@ -98,6 +99,15 @@ module MeetingAgendaItems
 
     private
 
+    def validate_manual_ordering
+      if @meeting_agenda_item.vote_based_ordering? && params[:target_id].to_i == @meeting_agenda_item.meeting_section_id
+        @meeting_agenda_item.errors.add :base, I18n.t("meeting.agenda_sorting.manual_order_disabled")
+        ServiceResult.failure(result: @meeting_agenda_item, errors: @meeting_agenda_item.errors)
+      else
+        ServiceResult.success
+      end
+    end
+
     def journalize_move
       return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
 
@@ -129,6 +139,8 @@ module MeetingAgendaItems
     end
 
     def update_position(new_position)
+      return if @meeting_agenda_item.vote_based_ordering?
+
       @meeting_agenda_item.insert_at(new_position)
     end
 

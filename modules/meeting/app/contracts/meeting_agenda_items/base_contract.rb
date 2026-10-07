@@ -38,6 +38,7 @@ module MeetingAgendaItems
 
     validate :presenter_can_participate
     validate :validate_work_package_visible
+    validate :validate_manual_position
 
     attribute :meeting
     attribute :work_package
@@ -50,6 +51,12 @@ module MeetingAgendaItems
     attribute :presenter
 
     private
+
+    def validate_manual_position
+      if model.persisted? && model.position_changed? && !model.meeting_section_id_changed? && model.vote_based_ordering?
+        errors.add :position, I18n.t("meeting.agenda_sorting.manual_order_disabled")
+      end
+    end
 
     def presenter_can_participate # rubocop:disable Metrics/AbcSize
       return unless model.new_record? || model.presenter_id_changed?

@@ -1,0 +1,31 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: @meeting,
+      method: :put,
+      url: update_agenda_sorting_project_meeting_path(@meeting.project, @meeting),
+      data: { turbo: true, turbo_stream: true, controller: "meetings--form" }
+    ) do |form|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          flex_layout do |body|
+            body.with_row { render(BaseErrorsComponent.new(@meeting, mb: 3)) }
+            body.with_row { render(Meeting::AgendaSorting.new(form)) }
+            body.with_row { render(Meeting::LockVersion.new(form)) }
+          end
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |footer|
+            footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": "agenda-sorting-dialog" })) do
+              t("button_cancel")
+            end
+            footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
+              t("button_save")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

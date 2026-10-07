@@ -1,0 +1,6 @@
+<%=
+  render(Primer::Alpha::Dialog.new(id: "agenda-sorting-dialog", title: t("meeting.agenda_sorting.title"), size: :medium_portrait)) do |dialog|
+    dialog.with_header(variant: :large)
+    render(Meetings::AgendaSortingFormComponent.new(meeting: @meeting))
+  end
+%>

@@ -64,7 +64,8 @@ RSpec.describe "API v3 Meeting schema resource", content_type: :json do
     end
 
     it "has the expected schema properties", :aggregate_failures do
-      %w[id title location duration startTime endTime state project lockVersion createdAt updatedAt].each do |prop|
+      %w[id title location duration startTime endTime state agendaSortingMode project
+         lockVersion createdAt updatedAt].each do |prop|
         expect(subject.body).to have_json_path(prop)
       end
     end
@@ -79,6 +80,12 @@ RSpec.describe "API v3 Meeting schema resource", content_type: :json do
       expect(subject.body)
         .to be_json_eql(false.to_json)
         .at_path("endTime/writable")
+    end
+
+    it "describes the allowed sorting modes", :aggregate_failures do
+      expect(subject.body).to be_json_eql("String".to_json).at_path("agendaSortingMode/type")
+      expect(subject.body).to be_json_eql(true.to_json).at_path("agendaSortingMode/writable")
+      expect(subject.body).to be_json_eql(true.to_json).at_path("agendaSortingMode/hasDefault")
     end
 
     context "without permission" do

@@ -38,6 +38,13 @@
     %>
     <%= helpers.primer_link_to_user(@meeting.author, underline: true) %>.
   <% end %>
+  <% if @meeting.agenda_sorting_vote_based? %>
+    <%=
+      render(Primer::Beta::Text.new(ml: 1, test_selector: "agenda-sorting-mode")) do
+        t("meeting.agenda_sorting.sorted_by_votes")
+      end
+    %>
+  <% end %>
   <%=
     render(Primer::Beta::Text.new(ml: 1, mr: 1)) do
       t("label_meeting_last_updated")

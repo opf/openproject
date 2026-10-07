@@ -95,6 +95,35 @@ RSpec.describe RecurringMeetings::InitOccurrenceService, type: :model do
         expect { instance.call(**params) }
           .to change { series.meetings.not_templated.count }.by(1)
       end
+
+      context "with a vote-based template" do
+        before do
+          series.template.update!(agenda_sorting_mode: :vote_based)
+        end
+
+        it "copies the sorting mode and starts with zero-score agenda items" do
+          expect(service_result).to be_success
+          expect(created_meeting.reload).to be_agenda_sorting_vote_based
+          expect(created_meeting.ordered_agenda_items.map(&:title))
+            .to eq(series.template.ordered_agenda_items.map(&:title))
+          expect(created_meeting.ordered_agenda_items.map(&:vote_score)).to eq([0])
+          expect(created_meeting.ordered_agenda_items.first.votable?(user)).to be(true)
+        end
+
+        it "keeps votes independent between occurrences" do
+          expect(service_result).to be_success
+          voted_item = created_meeting.ordered_agenda_items.first
+          vote = MeetingAgendaItems::VoteService.new(user:, meeting_agenda_item: voted_item).call(reaction: :thumbs_up)
+          expect(vote).to be_success
+
+          next_occurrence = instance.call(start_time: start_time + 1.day)
+
+          expect(next_occurrence).to be_success
+          expect(next_occurrence.result.reload).to be_agenda_sorting_vote_based
+          expect(next_occurrence.result.ordered_agenda_items.map(&:vote_score)).to eq([0])
+          expect(voted_item.reload.vote_score).to eq(1)
+        end
+      end
     end
 
     context "when a non-cancelled occurrence already exists for the slot" do
@@ -109,6 +138,15 @@ RSpec.describe RecurringMeetings::InitOccurrenceService, type: :model do
 
       it "does not create another meeting" do
         expect { instance.call(**params) }.not_to change(Meeting, :count)
+      end
+
+      it "preserves the existing occurrence's mode when the template changes" do
+        expect(existing).to be_agenda_sorting_manual
+        series.template.update!(agenda_sorting_mode: :vote_based)
+
+        expect(service_result).to be_success
+        expect(created_meeting).to eq(existing)
+        expect(created_meeting.reload).to be_agenda_sorting_manual
       end
     end
 

@@ -32,6 +32,9 @@ module Reactable
   extend ActiveSupport::Concern
 
   included do
+    class_attribute :allowed_emoji_reactions, default: nil
+    class_attribute :single_emoji_reaction_per_user, default: false
+
     has_many :emoji_reactions, as: :reactable, dependent: :destroy
   end
 end

@@ -29,6 +29,15 @@
 
 module MeetingAgendaItems
   class SetAttributesService < ::BaseServices::SetAttributes
+    def perform
+      if model.persisted? && model.vote_based_ordering? && params.key?(:move_to)
+        model.errors.add :base, I18n.t("meeting.agenda_sorting.manual_order_disabled")
+        return ServiceResult.failure(result: model, errors: model.errors)
+      end
+
+      super
+    end
+
     def set_default_attributes(_params)
       model.change_by_system do
         model.author = user

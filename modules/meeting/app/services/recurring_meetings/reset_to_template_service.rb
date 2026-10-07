@@ -88,7 +88,8 @@ module RecurringMeetings
         copy_agenda_from_template
         copy_participants_from_template
         meeting.update!(
-          { title: template.title, location: template.location, duration: template.duration }
+          { title: template.title, location: template.location, duration: template.duration,
+            agenda_sorting_mode: template.agenda_sorting_mode }
             .merge(extra_params)
         )
         journalize_copied_agenda(meeting)
