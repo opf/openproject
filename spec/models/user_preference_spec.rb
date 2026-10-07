@@ -248,6 +248,74 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe "#date_format" do
+    context "with setting set", with_settings: { date_format: "%Y-%m-%d" } do
+      context "with preference set" do
+        let(:preferences) { { "date_format" => "%Y.%m.%d" } }
+
+        it "returns the preference value" do
+          expect(preference.date_format).to eql "%Y.%m.%d"
+        end
+      end
+
+      context "without preference set" do
+        it "returns the setting value" do
+          expect(preference.date_format).to eql "%Y-%m-%d"
+        end
+      end
+    end
+
+    context "without default configured" do
+      context "with preference set" do
+        let(:preferences) { { "date_format" => "%Y.%m.%d" } }
+
+        it "returns the preference value" do
+          expect(preference.date_format).to eql "%Y.%m.%d"
+        end
+      end
+
+      context "without preference set" do
+        it "returns empty value" do
+          expect(preference.date_format).to be_nil
+        end
+      end
+    end
+  end
+
+  describe "#time_format" do
+    context "with setting", with_settings: { time_format: "%Hh%M" } do
+      context "with preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(preference.time_format).to eql "%H:%M"
+        end
+      end
+
+      context "without preference set" do
+        it "returns the setting value" do
+          expect(preference.time_format).to eql "%Hh%M"
+        end
+      end
+    end
+
+    context "without setting" do
+      context "with preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(preference.time_format).to eql "%H:%M"
+        end
+      end
+
+      context "without preference set" do
+        it "returns empty value" do
+          expect(preference.time_format).to be_nil
+        end
+      end
+    end
+  end
+
   describe "#theme" do
     context "when none is specified" do
       it "defaults to light" do
