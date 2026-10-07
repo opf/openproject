@@ -56,9 +56,6 @@ import {
   SelectAutocompleterRegisterService,
 } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
 import {
-  ProjectStatusEditFieldComponent,
-} from 'core-app/shared/components/fields/edit/field-types/project-status-edit-field.component';
-import {
   PlainFormattableEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component';
 import {
@@ -145,9 +142,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'versions',
         ['targetVersions'],
       )
-      .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Program', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours']);
 

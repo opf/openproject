@@ -108,7 +108,7 @@
 @mixin hl_color_variables
   @include hl_lightness_switch(0.35)
   // For light mode, we invert the switch to make the text lighter (that's why we subtract from 1)
-  // Further, the lightness switch is set to a lower value than in dark mode
+  // Further, the lightness switch threshold is set to a lower value than in dark mode
   --hl-lighten-by: calc((0.35 - var(--hl-perceived-lightness)) * 100 * (1 - var(--hl-lightness-switch)))
 
   body[data-color-mode="dark"] &
