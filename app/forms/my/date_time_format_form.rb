@@ -33,12 +33,11 @@ class My::DateTimeFormatForm < ApplicationForm
 
   # TODO Gregor:
   #   - [ ] Add sub heading
-  #   - [ ] Make "fallback" label more specific
   form do |f|
     f.select_list(
       name: :date_format,
       label: I18n.t(:setting_date_format),
-      include_blank: I18n.t(:label_language_based),
+      include_blank: I18n.t(:label_language_and_region_default),
       input_width: :medium
     ) do |list|
       Settings::Definition[:date_format].allowed.each do |format|
@@ -50,7 +49,7 @@ class My::DateTimeFormatForm < ApplicationForm
       label: I18n.t(:setting_time_format),
       name: :time_format,
       input_width: :medium,
-      include_blank: I18n.t(:label_language_based)
+      include_blank: I18n.t(:label_language_and_region_default)
     ) do |list|
       Settings::Definition[:time_format].allowed.each do |format|
         list.option(label: Time.current.strftime(format), value: format)
