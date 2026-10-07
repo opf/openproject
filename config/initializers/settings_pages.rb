@@ -306,19 +306,30 @@ Settings::Pages.draw do
     setting :ai_text_transform_actions_enabled, form_field: false
   end
 
-  page :attachments, menu_item: :attachments, custom: true, label: :"settings.general" do
+  page :attachments, menu_item: :attachments, label: :"settings.general" do
     setting :show_work_package_attachments
-    setting :attachment_max_size
-    setting :attachment_whitelist
+    setting :attachment_max_size, input_width: :xsmall
+    setting :attachment_whitelist, rows: 5
   end
 
   page :virus_scanning,
        menu_item: :attachments,
        custom: true,
        label: :"settings.antivirus.title",
+       if: -> { Setting.antivirus_scan_available? },
        url: { controller: "/admin/settings/virus_scanning_settings", action: :show } do
     setting :antivirus_scan_mode
     setting :antivirus_scan_target, if: -> { Setting.antivirus_scan_mode != :disabled }
     setting :antivirus_scan_action, if: -> { Setting.antivirus_scan_mode != :disabled }
   end
+
+  page :quarantined_attachments,
+       menu_item: :attachments,
+       custom: true,
+       label: :"antivirus_scan.quarantined_attachments.title",
+       url: { controller: "/admin/attachments/quarantined_attachments", action: :index },
+       if: -> {
+         Setting.antivirus_scan_available? &&
+           (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
+       }
 end

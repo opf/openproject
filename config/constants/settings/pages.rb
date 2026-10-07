@@ -232,7 +232,7 @@ module Settings
 
       def initialize(key, menu_item:, custom: false, tab: nil, label: nil, url: nil,
                      update_service: nil, enterprise_feature: nil, enterprise_banner: {}, form_hook: nil,
-                     view_hook: nil, before_form: nil, after_form: nil)
+                     view_hook: nil, before_form: nil, after_form: nil, **options)
         @key = key
         @menu_item = menu_item
         @custom = custom
@@ -246,11 +246,16 @@ module Settings
         @view_hook = view_hook
         @before_form = before_form
         @after_form = after_form
+        @condition = options[:if]
         @sections = []
       end
 
       def custom?
         @custom
+      end
+
+      def visible?
+        @condition.nil? || @condition.call
       end
 
       def update_service
@@ -291,7 +296,7 @@ module Settings
       end
 
       def tabs
-        Pages.all.select { it.menu_item == menu_item && it.label }
+        Pages.all.select { it.menu_item == menu_item && it.label && it.visible? }
       end
 
       def tab_page(tab)

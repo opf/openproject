@@ -62,7 +62,7 @@ module Settings
     end
 
     def page_nodes(item)
-      @pages_by_menu_item.fetch(item.name, []).flat_map do |page|
+      @pages_by_menu_item.fetch(item.name, []).select(&:visible?).flat_map do |page|
         leaves = setting_nodes(page)
 
         if page.label && leaves.any?

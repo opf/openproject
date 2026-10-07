@@ -218,7 +218,7 @@ module OpenProject::Storages
 
       menu :admin_menu,
            :attachments,
-           { controller: "/admin/settings/attachments_settings", action: :show },
+           { controller: "/admin/settings/pages", action: :show, settings_page: "attachments" },
            if: ->(_) { User.current.admin? },
            caption: :"attributes.attachments",
            parent: :files

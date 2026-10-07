@@ -912,7 +912,6 @@ Rails.application.routes.draw do
       resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
       resource :authentication, controller: "/admin/settings/authentication_settings", only: %i[show update]
-      resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
       resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update] do
         collection do
           post :av_form

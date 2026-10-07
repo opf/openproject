@@ -83,6 +83,7 @@ RSpec.describe "Hide attachments", :js do
 
       uncheck(checkbox_label)
       click_on("Save")
+      expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
 
       # Check db directly to avoid cache being used.
       expect(Setting.find_by(name: "show_work_package_attachments").value).to be_falsey
@@ -90,6 +91,7 @@ RSpec.describe "Hide attachments", :js do
 
       check(checkbox_label)
       click_on("Save")
+      expect_and_dismiss_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_checked_field(checkbox_label)
       expect(Setting.find_by(name: "show_work_package_attachments").value).to be_truthy
     end

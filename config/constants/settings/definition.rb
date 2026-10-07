@@ -128,11 +128,18 @@ module Settings
         default: "utf-8"
       },
       attachment_max_size: {
-        default: 5120
+        default: 5120,
+        ui: {
+          unit: :"number.human.storage_units.units.kb",
+          caption: -> { t("settings.attachments.attachment_max_size_env_caption") unless Setting.attachment_max_size_writable? }
+        }
       },
       # Existing setting
       attachment_whitelist: {
-        default: []
+        default: [],
+        ui: {
+          caption: -> { t("settings.attachments.whitelist_text_html", ext_example: "*.jpg", mime_example: "image/jpeg") }
+        }
       },
       ##
       # Carrierwave storage type. Possible values are, among others, :file and :fog.
@@ -1125,7 +1132,8 @@ module Settings
         description: "Show work package attachments by default.",
         format: :boolean,
         default: true,
-        writable: true
+        writable: true,
+        ui: { caption: :"settings.attachments.show_work_package_attachments" }
       },
       https: {
         description: "Set assumed connection security for the Rails processes",
