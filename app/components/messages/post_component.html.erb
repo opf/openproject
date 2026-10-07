@@ -35,6 +35,7 @@
     border_box_container(
       id: "message-#{message.id}",
       classes: "op-forum-post",
+      **(@focus ? { tabindex: -1, autofocus: true } : {}),
       data: { test_selector: "forum-post-#{message.id}" }
     )
   ) do |box|
