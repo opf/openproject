@@ -40,7 +40,7 @@ module MeetingAgendaItems
                    first_and_last: [],
                    current_occurrence: nil,
                    presentation_mode: false,
-                   slide: 1,
+                   slide: nil,
                    started_at: nil)
       super
 
@@ -135,6 +135,7 @@ module MeetingAgendaItems
                          @meeting_agenda_item.meeting,
                          @meeting_agenda_item,
                          presentation_mode: @presentation_mode,
+                         slide: @slide,
                          current_occurrence: @current_occurrence
                        ),
                        method: "GET"
