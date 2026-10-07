@@ -80,6 +80,7 @@ RSpec.describe "My page", type: :rails_request do
       create(:member, project: meeting_project, principal: user,
                       roles: [create(:project_role, permissions: %i[view_meetings view_work_packages])])
       create(:meeting_participant, meeting:, user:)
+      create_list(:meeting_participant, 4, meeting:)
     end
 
     it "opens on Today" do
@@ -87,6 +88,7 @@ RSpec.describe "My page", type: :rails_request do
 
       expect(page).to have_test_selector("my-day-meeting-morning", text: "09:30 AM–09:45 AM")
       expect(page).to have_test_selector("my-day-meeting-duration", text: "15 mins")
+      expect(page).to have_test_selector("my-day-meeting-morning", text: "+2")
       expect(page).to have_test_selector("my-day-reference", text: "Show GitLab branches")
       expect(page).to have_test_selector("my-day-planned", text: "Branch tracking via GitLab webhook")
       expect(page).to have_test_selector("my-day-task-meta", text: meeting_project.name)
@@ -98,7 +100,7 @@ RSpec.describe "My page", type: :rails_request do
       expect(page).to have_test_selector("my-day-quick-add")
       expect(page).to have_css("segmented-control [aria-current=true]", text: "Morning")
       expect(page).to have_test_selector("my-day-task-morning", text: "Book train to the offsite")
-      expect(page).to have_test_selector("my-day-empty-afternoon", text: "Nothing planned.")
+      expect(page).to have_test_selector("my-day-section-afternoon", text: "Nothing planned.")
       expect(response.body).not_to include("opce-my-page")
     end
 

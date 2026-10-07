@@ -62,7 +62,7 @@ module MyDay
     def lead_width = self.class.lead_width(helpers)
 
     def row_arguments(day_part, **)
-      { border: :bottom, px: 3, py: 2, test_selector: "my-day-#{day_part}", ** }
+      { border: :bottom, px: 2, py: 1, test_selector: "my-day-#{day_part}", ** }
     end
   end
 end

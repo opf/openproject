@@ -51,7 +51,8 @@ module MyDay
         placeholder: t("my_day.quick_add.placeholder"),
         required: true,
         autocomplete: "off",
-        full_width: true
+        full_width: true,
+        size: :small
       }
     end
   end

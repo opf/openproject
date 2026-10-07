@@ -36,14 +36,8 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% today.sections.each do |section| %>
     <% scheme = COLOR_SCHEMES.fetch(section.day_part) %>
-    <%= render(Primer::Box.new(mt: 4, test_selector: "my-day-section-#{section.day_part}")) do %>
+    <%= render(Primer::Box.new(mt: 3, test_selector: "my-day-section-#{section.day_part}")) do %>
       <%= render(MyDay::SectionHeaderComponent.new(section:, scheme:, now: today.now?(section.day_part))) %>
-
-      <% if section.empty? %>
-        <%= render(Primer::Box.new(**row_arguments(section.day_part, test_selector: "my-day-empty-#{section.day_part}"))) do %>
-          <%= render(Primer::Beta::Text.new(color: :muted)) { t("my_day.empty_section") } %>
-        <% end %>
-      <% end %>
 
       <% section.meetings.each do |meeting| %>
         <%= render(Primer::Box.new(**row_arguments(section.day_part, bg: :subtle, test_selector: "my-day-meeting-#{section.day_part}"))) do %>

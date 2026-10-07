@@ -27,9 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= flex_layout(align_items: :center, px: 2, pb: 2, border: :bottom, border_color:) do |header| %>
+<%= flex_layout(align_items: :center, px: 2, pb: 1, border: :bottom, border_color:) do |header| %>
   <% header.with_column(mr: 2) do %>
-    <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { title } %>
+    <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 5)) { title } %>
   <% end %>
   <% header.with_column(mr: 2) do %>
     <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { time_range } %>

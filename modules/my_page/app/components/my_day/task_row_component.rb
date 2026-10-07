@@ -32,6 +32,10 @@ module MyDay
   class TaskRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
+    # Fixed widths keep the meta of every row in the same columns, whether it describes a quick task
+    # or a planned work package.
+    META_WIDTHS = { planned_for: "9rem", kind: "7rem", id: "6rem", project: "8rem", status: "7rem" }.freeze
+
     def initialize(work_package:, lead_width:, references:, day_part: nil)
       super()
       @work_package = work_package
@@ -51,6 +55,10 @@ module MyDay
       today = inbox? ? %w[today] : DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
 
       (today + %w[tomorrow]).map { [it, t("my_day.move_to.#{it}")] }
+    end
+
+    def meta_cell(name)
+      { mr: 2, classes: "min-width-0", style: "width: #{META_WIDTHS.fetch(name)}; flex-shrink: 0" }
     end
 
     def plan_path(to) = my_day_task_plan_path(work_package, to:, view: (:inbox if inbox?))

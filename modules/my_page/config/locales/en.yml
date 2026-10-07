@@ -16,7 +16,7 @@ en:
       title: "Inbox"
       description: "Tasks left over from earlier days and tasks without a date land here."
       empty: "Inbox zero. Nice."
-    move: "Move"
+    task_actions: "Task actions"
     planned_for: "Planned for %{date}"
     move_to:
       morning: "To Morning"

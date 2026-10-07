@@ -34,6 +34,7 @@ module MyDay
     include AvatarHelper
 
     SOON_MINUTES = 60
+    SHOWN_PARTICIPANTS = 3
 
     def initialize(meeting:, user:, scheme:, lead_width:)
       super()
@@ -70,6 +71,14 @@ module MyDay
 
     def participants
       meeting.participants.filter_map(&:user)
+    end
+
+    def shown_participants = participants.first(SHOWN_PARTICIPANTS)
+
+    def hidden_participants_count = participants.size - shown_participants.size
+
+    def avatar_stack_arguments
+      { tooltipped: true, disable_expand: true, body_arguments: { label: participants.map(&:name).join(", ") } }
     end
 
     def avatar_options(participant)
