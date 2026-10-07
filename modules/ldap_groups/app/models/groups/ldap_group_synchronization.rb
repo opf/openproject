@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,20 +26,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module OpenProject::Backlogs::Patches::ChecksumPatch
-  extend ActiveSupport::Concern
+module Groups
+  module LdapGroupSynchronization
+    extend ActiveSupport::Concern
 
-  included do
-    singleton_class.prepend PrependedClassMethods
-  end
-
-  module PrependedClassMethods
-    protected
-
-    def checksum_associations
-      super + [:sprint]
+    included do
+      has_many :ldap_groups_synchronized_groups,
+               class_name: "::LdapGroups::SynchronizedGroup",
+               inverse_of: :group,
+               dependent: :destroy
     end
   end
 end

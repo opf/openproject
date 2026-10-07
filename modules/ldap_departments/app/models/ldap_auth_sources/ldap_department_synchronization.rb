@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,18 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Bim::Patches::API::V3::WorkPackages::EagerLoading::ChecksumPatch
-  def self.included(base)
-    class << base
-      prepend ClassMethods
-    end
-  end
+module LdapAuthSources
+  module LdapDepartmentSynchronization
+    extend ActiveSupport::Concern
 
-  module ClassMethods
-    protected
+    included do
+      has_many :ldap_departments_synchronized_trees,
+               class_name: "::LdapDepartments::SynchronizedTree",
+               inverse_of: :ldap_auth_source,
+               dependent: :destroy
 
-    def checksum_associations
-      super + %i[bcf_issue]
+      has_many :ldap_departments_synchronized_departments,
+               class_name: "::LdapDepartments::SynchronizedDepartment",
+               inverse_of: :ldap_auth_source,
+               dependent: :destroy
     end
   end
 end

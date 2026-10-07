@@ -28,23 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::PermittedParamsPatch
-  def self.included(base)
-    base.prepend InstanceMethods
-  end
+module Users
+  module LdapGroupMemberships
+    extend ActiveSupport::Concern
 
-  module InstanceMethods
-    def update_work_package(args = {})
-      permitted_params = super
-
-      backlogs_params = params.require(:work_package).permit(:story_points)
-      permitted_params.merge!(backlogs_params)
-
-      permitted_params
-    end
-
-    def backlog_filters
-      params.permit(:all, :filters, bucket_ids: [], sprint_ids: [])
+    included do
+      has_many :ldap_groups_memberships,
+               class_name: "::LdapGroups::Membership",
+               inverse_of: :user,
+               dependent: :destroy
     end
   end
 end

@@ -52,6 +52,8 @@ module OpenProject::Backlogs
              bundled: true,
              settings:) do
       project_module :backlogs, dependencies: :work_package_tracking do
+        enabled_by_default!
+
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/filters": :show,
@@ -148,11 +150,8 @@ module OpenProject::Backlogs
 
     assets %w(enterprise/multiple-active-sprints-light.png enterprise/multiple-active-sprints-dark.png)
 
-    patches %i[PermittedParams
-               WorkPackage
-               Project]
+    patches %i[WorkPackage Project]
 
-    patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :Projects, :CopyService
     patch_with_namespace :Projects, :SetAttributesService
     patch_with_namespace :WorkPackages, :SetAttributesService
@@ -160,10 +159,9 @@ module OpenProject::Backlogs
     patch_with_namespace :WorkPackages, :UpdateContract
     patch_with_namespace :Projects, :Copy, :WorkPackagesDependentService
     patch_with_namespace :Queries, :Copy, :FiltersMapper
-    patch_with_namespace :API, :V3, :WorkPackages, :EagerLoading, :Checksum
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
 
-    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id]
+    additional_permitted_attributes new_work_package: %i[backlog_bucket_id sprint_id story_points]
 
     extend_api_response(:v3, :work_packages, :work_package,
                         &::OpenProject::Backlogs::Patches::API::WorkPackageRepresenter.extension)
@@ -254,6 +252,9 @@ module OpenProject::Backlogs
       ::TypeVariant.add_default_mapping(:other, :position)
       ::TypeVariant.add_default_mapping(:details, :sprint)
       ::TypeVariant.add_default_mapping(:details, :backlog_bucket)
+
+      ::API::V3::WorkPackages::EagerLoading::Checksum.add_checksum_associations(:sprint)
+      ::API::V3::WorkPackages::WorkPackageRepresenter.to_eager_load |= %i[sprint backlog_bucket]
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter

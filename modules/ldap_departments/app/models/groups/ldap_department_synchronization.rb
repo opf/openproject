@@ -23,41 +23,30 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Storages::Patches::API::V3::WorkPackages::WorkPackagePayloadRepresenterPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+module Groups
+  module LdapDepartmentSynchronization
+    extend ActiveSupport::Concern
 
-    base.class_eval do
-      property :file_links,
-               exec_context: :decorator,
-               getter: ->(*) {},
-               setter: ->(fragment:, **) do
-                 next unless fragment.is_a?(Array)
+    included do
+      has_many :ldap_departments_synchronized_departments,
+               class_name: "::LdapDepartments::SynchronizedDepartment",
+               foreign_key: :group_id,
+               inverse_of: :group,
+               dependent: :destroy
 
-                 ids = fragment.map do |link|
-                   ::API::Utilities::ResourceLinkParser.parse_id link["href"],
-                                                                 property: :file_link,
-                                                                 expected_version: "3",
-                                                                 expected_namespace: :file_links
-                 end
+      # A department is managed when an LDAP organizational unit is mapped onto it. Only
+      # organizational units can ever be managed, so skip the lookup for regular groups.
+      register_ldap_managed_check do |group|
+        next false if group.new_record?
+        next false unless group.organizational_unit?
 
-                 represented.file_links_ids = ids
-               end,
-               skip_render: ->(*) { true },
-               linked_resource: true,
-               uncacheable: true
+        group.ldap_departments_synchronized_departments.exists?
+      end
     end
-  end
-
-  module ClassMethods
-  end
-
-  module InstanceMethods
   end
 end

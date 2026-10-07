@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,20 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Boards::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+require "rails_helper"
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      if original_data["default_projects_modules"]&.exclude? "board_view"
-        original_data["default_projects_modules"] << "board_view"
-      end
-
-      original_data
+RSpec.describe PermittedParams do
+  describe ".permitted_attributes" do
+    it "permits the backlogs attributes for work packages" do
+      expect(described_class.permitted_attributes[:new_work_package])
+        .to include(:sprint_id, :backlog_bucket_id, :story_points)
     end
   end
 end

@@ -28,19 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::OpenIDConnect::Patches::GroupPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+module Groups
+  module OidcGroupLinks
+    extend ActiveSupport::Concern
 
-    base.class_eval do
-      has_many :oidc_group_links, class_name: "OpenIDConnect::GroupLink"
+    included do
+      has_many :oidc_group_links,
+               class_name: "OpenIDConnect::GroupLink",
+               inverse_of: :group,
+               dependent: nil # Rows are removed by the on_delete: :cascade foreign key.
     end
-  end
-
-  module ClassMethods
-  end
-
-  module InstanceMethods
   end
 end

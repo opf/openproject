@@ -28,19 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::OpenIDConnect::Patches::UserPatch
-  def self.included(base) # :nodoc:
-    base.extend(ClassMethods)
-    base.include(InstanceMethods)
+module Users
+  module OtpCredentials
+    extend ActiveSupport::Concern
 
-    base.class_eval do
-      has_many :oidc_user_tokens, class_name: "OpenIDConnect::UserToken", foreign_key: "user_id"
+    included do
+      has_many :otp_tokens, class_name: "TwoFactorAuthentication::LoginToken", dependent: :destroy
+      has_many :otp_devices, class_name: "TwoFactorAuthentication::Device", dependent: :destroy
+      has_many :otp_backup_codes, class_name: "TwoFactorAuthentication::BackupCode", dependent: :destroy
     end
-  end
-
-  module ClassMethods
-  end
-
-  module InstanceMethods
   end
 end

@@ -54,6 +54,16 @@ module API
                 .to_h
             end
 
+            def checksum_associations
+              @checksum_associations ||= %i[status author responsible assigned_to priority category type]
+            end
+
+            # Only singular associations (belongs_to/has_one) are supported, as a has_many
+            # would multiply the rows of the left_joins in fetch_checksums_for.
+            def add_checksum_associations(*association_names)
+              @checksum_associations = checksum_associations | association_names
+            end
+
             protected
 
             # Versions are a has_many, which would multiply rows in the
@@ -78,10 +88,6 @@ module API
               <<-SQL
                 MD5(CONCAT(#{md5_parts.join(', ')}))
               SQL
-            end
-
-            def checksum_associations
-              %i[status author responsible assigned_to priority category type]
             end
 
             def md5_checksum_table_name(association_name)

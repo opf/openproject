@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,20 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Reporting::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module Users
+  module LdapDepartmentMemberships
+    extend ActiveSupport::Concern
 
-  module InstanceMethods
-    def data
-      original_data = super
-
-      if original_data["default_projects_modules"]&.exclude? "reporting_module"
-        original_data["default_projects_modules"] << "reporting_module"
-      end
-
-      original_data
+    included do
+      has_many :ldap_departments_memberships,
+               class_name: "::LdapDepartments::Membership",
+               inverse_of: :user,
+               dependent: :destroy
     end
   end
 end

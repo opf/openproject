@@ -41,6 +41,8 @@ module OpenProject::Meeting
              author_url: "https://www.openproject.org",
              bundled: true do
       project_module :meetings do
+        enabled_by_default!
+
         permission :view_meetings,
                    {
                      meetings: %i[index show check_for_updates download_ics
@@ -176,7 +178,6 @@ module OpenProject::Meeting
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
     patches %i[Project Journal]
-    patch_with_namespace :BasicData, :SettingSeeder
 
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],

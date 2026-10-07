@@ -28,22 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::SettingSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
-  end
+module API
+  module V3
+    module WorkPackages
+      module ViewBudgetsPermission
+        def view_budgets_allowed?
+          return @view_budgets_allowed if defined?(@view_budgets_allowed)
 
-  module InstanceMethods
-    ##
-    # Overrides data to include backlogs as a default project module.
-    def data
-      original_data = super
-
-      if original_data["default_projects_modules"]&.exclude? "backlogs"
-        original_data["default_projects_modules"] << "backlogs"
+          @view_budgets_allowed = current_user.allowed_in_project?(:view_budgets, represented.project)
+        end
       end
-
-      original_data
     end
   end
 end

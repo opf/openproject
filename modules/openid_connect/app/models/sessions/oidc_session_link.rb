@@ -28,10 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::WorkPackages::EagerLoading::ChecksumBudget
-  protected
+module Sessions
+  module OidcSessionLink
+    extend ActiveSupport::Concern
 
-  def checksum_associations
-    super + [:budget]
+    included do
+      has_one :oidc_session_link,
+              class_name: "OpenIDConnect::UserSessionLink",
+              foreign_key: "session_id",
+              inverse_of: :session,
+              dependent: nil # Rows are removed by the on_delete: :cascade foreign key.
+    end
   end
 end
