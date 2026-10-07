@@ -77,12 +77,14 @@ See COPYRIGHT and LICENSE files for more details.
       %>
     <% end %>
 
-    <% section_form = Settings::PageSectionForm.new(
-          f,
-          section:,
-          form_hook: (settings_page.form_hook if index.zero?),
-          dependency_causes: settings_page.dependency_causes
-        ) %>
+    <%
+      section_form = Settings::PageSectionForm.new(
+        f,
+        section:,
+        form_hook: (settings_page.form_hook if index.zero?),
+        dependency_causes: settings_page.dependency_causes
+      )
+    %>
     <% if section == settings_page.sections.last %>
       <%= render(Primer::Forms::FormList.new(section_form, Admin::Settings::Save.new(f, disabled: !settings_page.writable?))) %>
     <% else %>
