@@ -26,7 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, screen, waitFor, within } from '@testing-library/dom';
+import { Controller } from '@hotwired/stimulus';
 import { vi, type Mock } from 'vitest';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -44,12 +45,18 @@ describe('Type form configuration controller', () => {
   let request:Mock;
   let show:Mock;
   let originalOpenProject:typeof window.OpenProject;
+  const filterLists = vi.fn();
+
+  class FilterListStub extends Controller {
+    filterLists = filterLists;
+  }
 
   beforeAll(async () => {
     ({ default: TypeFormConfigurationController } = await import('./main.controller'));
   });
 
   beforeEach(async () => {
+    filterLists.mockClear();
     request = vi.fn().mockResolvedValue({ html: '', headers: new Headers() });
     show = vi.fn();
     originalOpenProject = window.OpenProject;
@@ -63,7 +70,10 @@ describe('Type form configuration controller', () => {
     } as unknown as typeof window.OpenProject;
 
     ctx = await setupStimulusTest({
-      controllers: { 'admin--type-form-configuration--main': TypeFormConfigurationController },
+      controllers: {
+        'admin--type-form-configuration--main': TypeFormConfigurationController,
+        'filter--filter-list': FilterListStub,
+      },
     });
   });
 
@@ -91,6 +101,83 @@ describe('Type form configuration controller', () => {
     `);
     return ctx.getController<TypeFormConfigurationControllerType>('admin--type-form-configuration--main');
   }
+
+  async function renderEditor({ editing = false } = {}) {
+    await ctx.mount(`
+      <section aria-label="Form editor"
+               data-controller="admin--type-form-configuration--main"
+               data-action="sortable-lists:before-move->admin--type-form-configuration--main#confirmDiscardingEdit turbo:morph-element->admin--type-form-configuration--main#reapplyInactiveFilter"
+               data-admin--type-form-configuration--main-add-group-url-value="/forms/1/group/add_group"
+               data-admin--type-form-configuration--main-no-filter-query-value="{}">
+        <div data-controller="filter--filter-list"></div>
+        <div data-admin--type-form-configuration--main-target="inactiveContainer">
+          <ul aria-label="Inactive attributes"><li>Assignee</li></ul>
+        </div>
+        <div data-admin--type-form-configuration--main-target="groupsContainer">
+          <section aria-label="Details" ${editing ? 'data-edit-mode="true"' : ''}></section>
+        </div>
+      </section>
+    `);
+    return within(screen.getByRole('region', { name: 'Form editor' }));
+  }
+
+  function fireBeforeMove(element:HTMLElement) {
+    return fireEvent(element, new CustomEvent('sortable-lists:before-move', { bubbles: true, cancelable: true }));
+  }
+
+  function fireMorph(element:HTMLElement) {
+    return fireEvent(element, new CustomEvent('turbo:morph-element', { bubbles: true }));
+  }
+
+  describe('confirming a move while a group editor is open', () => {
+    it('does not ask when no editor is open', async () => {
+      const editor = await renderEditor();
+      const confirm = vi.spyOn(window, 'confirm');
+
+      expect(fireBeforeMove(editor.getByRole('list'))).toBe(true);
+      expect(confirm).not.toHaveBeenCalled();
+    });
+
+    it('cancels the move when the user declines', async () => {
+      const editor = await renderEditor({ editing: true });
+      vi.spyOn(window, 'confirm').mockReturnValue(false);
+
+      expect(fireBeforeMove(editor.getByRole('list'))).toBe(false);
+    });
+
+    it('lets the move proceed when the user accepts', async () => {
+      const editor = await renderEditor({ editing: true });
+      const confirm = vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+      expect(fireBeforeMove(editor.getByRole('list'))).toBe(true);
+      expect(confirm).toHaveBeenCalledOnce();
+    });
+  });
+
+  describe('keeping the inactive filter applied across morphs', () => {
+    it('re-applies the filter once after the inactive list was morphed', async () => {
+      const editor = await renderEditor();
+      filterLists.mockClear();
+      const row = editor.getByText('Assignee');
+
+      fireMorph(row);
+      fireMorph(row);
+
+      await waitFor(() => expect(filterLists).toHaveBeenCalledOnce());
+      await ctx.nextFrame();
+      expect(filterLists).toHaveBeenCalledOnce();
+    });
+
+    it('ignores morphs outside the inactive list', async () => {
+      const editor = await renderEditor();
+      filterLists.mockClear();
+
+      fireMorph(editor.getByRole('region', { name: 'Details' }));
+      await ctx.nextFrame();
+
+      expect(filterLists).not.toHaveBeenCalled();
+    });
+  });
 
   it('binds the declared services after connect', async () => {
     const controller = await renderConfiguration();

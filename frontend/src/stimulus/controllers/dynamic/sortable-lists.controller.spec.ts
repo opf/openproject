@@ -58,7 +58,7 @@ vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-prev
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { usePlatform } from 'core-common/testing/platform';
-import { waitFor } from '@testing-library/dom';
+import { fireEvent, waitFor } from '@testing-library/dom';
 import { type Mock, type MockInstance } from 'vitest';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -1182,6 +1182,93 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).toHaveBeenCalledOnce();
     const body = fetchMock.mock.lastCall?.[1] as { body:FormData };
     expect(body.body.get('prev_id')).toBe('2');
+  });
+
+  describe('before-move', () => {
+    function rootController(root:HTMLElement) {
+      return ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+    }
+
+    it('skips the reorder, the request and the announcement when a menu move is cancelled', async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const listener = vi.fn((event:Event) => event.preventDefault());
+      root.addEventListener('sortable-lists:before-move', listener);
+
+      rootController(root).moveInDirection(firstSourceItem, 'down');
+      await flushPromises();
+
+      expect(listener).toHaveBeenCalledOnce();
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(fetchMock).not.toHaveBeenCalled();
+      expect(announcedMessages()).toEqual([]);
+    });
+
+    it('keeps a multi-selection when a menu move is cancelled', async () => {
+      const { root, items } = renderSelectableRoot();
+      await ctx.nextFrame();
+      fireEvent.click(items[1]);
+      fireEvent.click(items[2], { ctrlKey: true });
+      announceSpy.mockClear();
+      root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
+
+      rootController(root).moveInDirection(items[0], 'down');
+
+      expect(items[0]).not.toHaveAttribute('data-batch-selected');
+      expect(items[1]).toHaveAttribute('data-batch-selected');
+      expect(items[2]).toHaveAttribute('data-batch-selected');
+      expect(announcedMessages()).toEqual([]);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('skips a cancelled drop', async () => {
+      const { root, sourceList, targetList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      root.addEventListener('sortable-lists:before-move', (event) => event.preventDefault());
+
+      await dropCurrentItemOnList(firstSourceItem, targetList);
+
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(itemIds(targetList)).toEqual(['4', '5']);
+      expect(fetchMock).not.toHaveBeenCalled();
+    });
+
+    it('describes the move and proceeds when nobody cancels', async () => {
+      const { root, sourceList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+
+      rootController(root).moveInDirection(firstSourceItem, 'down');
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }],
+        listType: 'backlog_bucket',
+        listId: '1',
+        previousItemId: '2',
+      }]);
+      expect(itemIds(sourceList)).toEqual(['2', '1', '3']);
+    });
+
+    it('describes a drop on another list and proceeds when nobody cancels', async () => {
+      const { root, sourceList, targetList, firstSourceItem } = renderFixture();
+      await ctx.nextFrame();
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+
+      await dropCurrentItemOnList(firstSourceItem, targetList);
+
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }],
+        listType: 'sprint',
+        listId: '1',
+        previousItemId: '5',
+      }]);
+      expect(itemIds(sourceList)).toEqual(['2', '3']);
+      expect(itemIds(targetList)).toEqual(['4', '5', '1']);
+      expect(fetchMock).toHaveBeenCalledOnce();
+    });
   });
 
   it('refuses a directional move for a non-movable item', async () => {
@@ -2726,6 +2813,23 @@ describe('Sortable lists controller', () => {
       expect(body.get('prev_id')).toBe('2');
       // both rows moved contiguously after item 2:
       expect(rowIdsIn(list1)).toEqual(['2', '1', '3']);
+    });
+
+    it('describes every selected item of a batch drop before moving it', async () => {
+      const details:unknown[] = [];
+      root.addEventListener('sortable-lists:before-move', (event) => details.push((event as CustomEvent).detail));
+      selectItems(item1, item3);
+
+      await simulateDrop({ source: item1, targetList: list2, targetItem: list2.firstElementChild as HTMLElement, edge: 'bottom' });
+
+      await waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+      expect(details).toEqual([{
+        items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '3' }],
+        listType: 'sprint',
+        listId: '1',
+        previousItemId: '4',
+      }]);
+      expect(rowIdsIn(list2)).toEqual(['4', '1', '3', '5']);
     });
 
     it('submits an independent pick and a Shift-built range in DOM order', async () => {

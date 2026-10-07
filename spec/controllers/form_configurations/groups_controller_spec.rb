@@ -252,21 +252,4 @@ RSpec.describe FormConfigurations::GroupsController do
       expect(variant.reload.attribute_groups.map(&:key)).not_to include(group_name)
     end
   end
-
-  describe "PUT #drop", with_ee: %i[edit_attribute_groups] do
-    it "reorders groups using the requested position" do
-      form.update!(attribute_groups: [
-                     [:details, %w[priority]],
-                     ["Custom group", %w[version]],
-                     [:people, %w[assignee]]
-                   ])
-
-      put :drop,
-          params: { form_configuration_id: form.id, key: "Custom group", position: 1 },
-          format: :turbo_stream
-
-      expect(response).to have_http_status(:ok)
-      expect(variant.reload.attribute_groups.map(&:key)).to eq(["Custom group", :details, :people])
-    end
-  end
 end

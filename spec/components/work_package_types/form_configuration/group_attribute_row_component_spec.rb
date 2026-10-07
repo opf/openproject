@@ -19,7 +19,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "renders the drag handle and actions menu in editable mode", :aggregate_failures do
-    render_inline(described_class.new(attribute:, context: editor_context, index: 0, total_count: 2))
+    render_inline(described_class.new(attribute:, context: editor_context, total_count: 2))
 
     expect(page).to have_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_test_selector("type-form-configuration-attribute-actions-assignee")
@@ -27,7 +27,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "omits the handle and actions menu when readonly", :aggregate_failures do
-    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
+    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2))
 
     expect(page).to have_no_test_selector("type-form-configuration-attribute-handle-assignee")
     expect(page).to have_no_test_selector("type-form-configuration-attribute-actions-assignee")
@@ -35,7 +35,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   end
 
   it "renders built-in attributes as secondary labels" do
-    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
+    render_inline(described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2))
 
     expect(page).to have_css(".Label.Label--secondary", text: I18n.t("label_builtin"))
   end
@@ -44,7 +44,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   # hands it this attribute's key and label, and asks for it only in read-only mode.
   describe "the exclusion toggle" do
     def render_row(exclusions:, readonly: true)
-      render_inline(described_class.new(attribute:, context: editor_context(readonly:, exclusions:), index: 0, total_count: 2))
+      render_inline(described_class.new(attribute:, context: editor_context(readonly:, exclusions:), total_count: 2))
     end
 
     it "is not rendered in editable mode" do
@@ -73,9 +73,22 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     end
 
     it "shows a muted field format label" do
-      render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
+      render_inline(described_class.new(attribute:, context: editor_context(readonly: true), total_count: 2))
 
       expect(page).to have_css(".color-fg-muted.text-small", text: attribute[:field_format_label])
     end
+  end
+
+  it "offers the four shared move items", :aggregate_failures do
+    render_inline(described_class.new(attribute:, context: editor_context, total_count: 3))
+
+    expect(page).to have_css("[data-sortable-lists--item-target='moveItem']", count: 4, visible: :all)
+    expect(page).to have_no_link("Move up", visible: :all)
+  end
+
+  it "offers no move items for the only attribute" do
+    render_inline(described_class.new(attribute:, context: editor_context, total_count: 1))
+
+    expect(page).to have_no_css("[data-sortable-lists--item-target='moveItem']", visible: :all)
   end
 end

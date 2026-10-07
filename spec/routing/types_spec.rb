@@ -57,18 +57,8 @@ RSpec.describe "types routes" do
     end
 
     it do
-      expect(put("/forms/42/group/move?#{query}&move_to=higher"))
-        .to route_to("form_configurations/groups#move", form_configuration_id: "42", key:, move_to: "higher")
-    end
-
-    it do
       expect(patch("/forms/42/group/update_query?#{query}"))
         .to route_to("form_configurations/groups#update_query", form_configuration_id: "42", key:)
-    end
-
-    it do
-      expect(put("/forms/42/group/drop?#{query}"))
-        .to route_to("form_configurations/groups#drop", form_configuration_id: "42", key:)
     end
 
     it do
@@ -79,6 +69,26 @@ RSpec.describe "types routes" do
     it do
       expect(post("/forms/42/group/add_group"))
         .to route_to("form_configurations/groups#add_group", form_configuration_id: "42")
+    end
+  end
+
+  describe "form configuration moves (addressed by record id)" do
+    it do
+      expect(put("/forms/42/groups/7/move"))
+        .to route_to("form_configurations/groups#move", form_configuration_id: "42", id: "7")
+    end
+
+    it do
+      expect(put("/forms/42/attributes/7/move"))
+        .to route_to("form_configurations/attributes#move", form_configuration_id: "42", id: "7")
+    end
+
+    it "no longer routes the key-addressed group move" do
+      expect(put("/forms/42/group/move")).not_to be_routable
+    end
+
+    it "no longer routes the key-addressed row drop" do
+      expect(put("/forms/42/rows/priority/drop")).not_to be_routable
     end
   end
 

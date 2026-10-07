@@ -29,28 +29,24 @@
 #++
 
 module WorkPackageTypes
-  module FormConfigurationRows
-    class DeleteService < ::BaseServices::BaseCallable
-      include ::WorkPackageTypes::FormConfiguration::Concern
-
-      def initialize(user:, form_configuration:, row_key:)
-        super(user:, form_configuration:)
-        @row_key = row_key
-      end
+  module FormConfiguration
+    module LayoutLock
+      SUFFIX = "layout"
 
       private
 
-      def perform_locked
-        row = find_row(@row_key)
-        return failure_with_message(I18n.t("types.edit.form_configuration.not_found")) unless row
+      def with_layout_lock(form_configuration)
+        result = nil
 
-        attributes = row[:group].attributes.dup
-        attributes.delete_at(row[:index])
-        row[:group].attributes = attributes
-
-        persist_groups(active_groups).tap do |call|
-          call.result = row[:group] if call.success?
+        ::FormConfiguration.transaction(requires_new: true) do
+          # rubocop:disable-next Lint/EmptyBlock -- transaction-scoped: the lock outlives the block
+          OpenProject::Mutex.with_advisory_lock_transaction(form_configuration, SUFFIX) {}
+          form_configuration.reload
+          result = yield
+          raise ActiveRecord::Rollback if result.failure?
         end
+
+        result
       end
     end
   end
