@@ -50,6 +50,27 @@ export function destroyMermaidDiagrams(element:HTMLElement):void {
   });
 }
 
+// A pan, or a gesture started on the controls, ends in a click that the
+// surrounding display field reads as a request to edit. Swallow that one
+// click, but leave a plain click on the diagram alone.
+function swallowGestureClicks(node:HTMLElement, zoomable:SvgToolbelt):void {
+  let swallow = false;
+
+  zoomable.on('pan', () => { swallow = true; });
+
+  node.addEventListener('mousedown', (event) => {
+    const target = event.target;
+
+    swallow = target instanceof Element && target.closest('.svg-toolbelt-controls') !== null;
+  }, true);
+
+  node.addEventListener('click', (event) => {
+    if (swallow) {
+      event.stopPropagation();
+    }
+  }, true);
+}
+
 function makeZoomable(node:HTMLElement, Toolbelt:typeof SvgToolbelt):void {
   const zoomable = new Toolbelt(node);
   zoomable.init();
@@ -58,6 +79,7 @@ function makeZoomable(node:HTMLElement, Toolbelt:typeof SvgToolbelt):void {
   // detaches that listener, so the controls and keyboard keep zooming.
   (zoomable.features.zoom as ZoomFeature).destroy();
 
+  swallowGestureClicks(node, zoomable);
   zoomables.set(node, zoomable);
 }
 

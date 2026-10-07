@@ -3,7 +3,7 @@
     if journal.notes.present?
       flex_layout do |journal_container|
         journal_container.with_row do
-          render(Primer::Box.new(mt: 1, classes: "op-uc-container")) do
+          render(Primer::Box.new(mt: 1, classes: "op-uc-container", data: { controller: "mermaid" })) do
             format_text(journal, :notes)
           end
         end
