@@ -28,42 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class My::LocaleForm < ApplicationForm
+class My::DateTimeFormatForm < ApplicationForm
   include Redmine::I18n
 
+  # TODO Gregor:
+  #   - [ ] Add sub heading
+  #   - [ ] Make "fallback" label more specific
   form do |f|
     f.select_list(
-      name: :language,
-      label: attribute_name(:language),
-      required: true,
-      include_blank: include_auto? ? I18n.t(:label_auto_option) : false,
+      name: :date_format,
+      label: I18n.t(:setting_date_format),
+      include_blank: I18n.t(:label_language_based),
       input_width: :medium
     ) do |list|
-      available_languages.each do |label, value|
-        list.option(label:, value:, lang: value)
+      Settings::Definition[:date_format].allowed.each do |format|
+        list.option(label: Time.zone.today.strftime(format), value: format)
       end
     end
 
-    f.fields_for(:pref, model.pref, nested: false) do |builder|
-      ::My::TimeZoneForm.new(builder)
+    f.select_list(
+      label: I18n.t(:setting_time_format),
+      name: :time_format,
+      input_width: :medium,
+      include_blank: I18n.t(:label_language_based)
+    ) do |list|
+      Settings::Definition[:time_format].allowed.each do |format|
+        list.option(label: Time.current.strftime(format), value: format)
+      end
     end
-
-    f.fields_for(:pref, model.pref, nested: false) do |builder|
-      ::My::DateTimeFormatForm.new(builder)
-    end
-
-    f.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
-  end
-
-  private
-
-  def include_auto?
-    valid_languages.to_set == all_languages.to_set
-  end
-
-  def available_languages
-    @available_languages ||= valid_languages
-      .map { translate_language(it) }
-      .sort_by(&:first)
   end
 end
