@@ -33,9 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Messages::PostComponent.new(message: @topic, topic: @topic)) %>
 
-<% if @replies.any? %>
-  <%= render(Messages::PostComponent.with_collection(@replies, topic: @topic)) %>
-<% end %>
+<%= render(Messages::ThreadSegmentsComponent.new(topic: @topic, segments: @segments)) %>
 
 <% if !@topic.locked? && authorize_for("messages", "reply") %>
   <%= content_tag(:section, id: "reply", data: { "forum-messages-target": "reply" }) do %>

@@ -52,4 +52,27 @@ RSpec.describe "Forum topic thread", type: :rails_request, with_settings: { per_
 
     expect(html).to have_css("#message-#{replies.last.id}")
   end
+
+  context "with a long thread" do
+    shared_let(:long_topic) { create(:message, forum:, subject: "Long") }
+    shared_let(:long_replies) do
+      Array.new(65) { |i| create(:message, forum:, parent: long_topic, created_at: long_topic.created_at + (i + 1).minutes) }
+    end
+
+    it "shows the opening post, a gap and the latest page", :aggregate_failures do
+      get project_forum_topic_path(forum.project, forum, long_topic)
+
+      expect(html).to have_css("[data-test-selector^='forum-post-']", count: 21)
+      expect(html).to have_css("[data-test-selector='forum-thread-gap']", count: 1, text: /(?<!\d)5 of 65 replies in between/)
+      expect(html).to have_css("#message-#{long_replies.last.id}")
+    end
+
+    it "shows a hidden reply a link points to, between two gaps", :aggregate_failures do
+      # Reply 26 sits on the second page (replies 21–40), clear of both the first page and the latest one (46–65).
+      get project_forum_topic_path(forum.project, forum, long_topic, r: long_replies[25].id)
+
+      expect(html).to have_css("#message-#{long_replies[25].id}")
+      expect(html).to have_css("[data-test-selector='forum-thread-gap']", count: 2)
+    end
+  end
 end
