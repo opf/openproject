@@ -131,6 +131,39 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
       expect(topic.children.last).to have_attributes(subject: "RE: Release planning", content: "Agreed")
     end
 
+    it "lands on the new reply" do
+      post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { content: "Agreed" } }
+
+      reply = topic.children.last
+      expect(response).to redirect_to("#{project_forum_topic_path(project, forum, topic)}?r=#{reply.id}#message-#{reply.id}")
+    end
+
+    it "brings the reply box back into view after posting it" do
+      get project_forum_topic_path(project, forum, topic)
+
+      expect(html.find("#reply form")[:action]).to eq("#{reply_to_project_forum_topic_path(project, forum, topic)}#reply")
+    end
+
+    it "re-renders the thread with the field error for a blank reply", :aggregate_failures do
+      post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { content: "" } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(topic.children).to be_empty
+      expect(html).to have_test_selector("forum-post-#{topic.id}")
+      expect(html).to have_css("#reply", text: "Content can't be blank")
+      expect(html).to have_no_test_selector("message-form-errors")
+    end
+
+    it "shows errors no field displays above the reply box", :aggregate_failures do
+      someone_elses_file = create(:attachment, container: nil, author: moderator)
+
+      post reply_to_project_forum_topic_path(project, forum, topic),
+           params: { reply: { content: "Agreed" }, attachments: { "0" => { id: someone_elses_file.id } } }
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(html).to have_css("#reply #{test_selector('message-form-errors')}", text: "Attachments does not exist")
+    end
+
     it "ignores a subject posted with a reply" do
       post reply_to_project_forum_topic_path(project, forum, topic), params: { reply: { subject: "Hijacked", content: "Agreed" } }
 
