@@ -312,6 +312,15 @@ module OpenProject
           expect(format_date(Date.today))
             .to eql Date.today.strftime("%d %m %Y")
         end
+
+        context "with a date_format preference" do
+          current_user { build_stubbed(:user, preferences: { date_format: "%Y-%m-%d" }) }
+
+          it "adheres to the preference" do
+            expect(format_date(Time.zone.today))
+              .to eql Time.zone.today.strftime("%Y-%m-%d")
+          end
+        end
       end
 
       valid_languages.each do |lang|
@@ -387,6 +396,27 @@ module OpenProject
         time_format: "%H:%M",
         date_format: "%Y-%m-%d"
       } do
+        it "renders date and hours" do
+          expect(format_time(now))
+            .to eql "2011-02-20 15:45"
+        end
+
+        it "renders only hours" do
+          expect(format_time(now, include_date: false))
+            .to eql "15:45"
+        end
+      end
+
+      context "with a different user preference" do
+        current_user do
+          build_stubbed(:user,
+                        preferences: {
+                          time_zone: user_time_zone,
+                          date_format: "%Y-%m-%d",
+                          time_format: "%H:%M"
+                        })
+        end
+
         it "renders date and hours" do
           expect(format_time(now))
             .to eql "2011-02-20 15:45"
