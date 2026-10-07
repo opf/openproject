@@ -56,14 +56,8 @@ module Forums
         reply = topic.last_reply
         return if reply.nil?
 
-        flex_layout do |flex|
-          flex.with_row(classes: "ellipsis") do
-            render(Primer::Beta::Link.new(href: reply_path(reply), underline: false)) { reply.subject }
-          end
-          flex.with_row do
-            render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) { helpers.message_byline(reply) }
-          end
-        end
+        time = render(Primer::Beta::Link.new(href: reply_path(reply), underline: false)) { helpers.format_time(reply.created_at) }
+        safe_join([reply.author&.name, time].compact, " · ")
       end
 
       private
