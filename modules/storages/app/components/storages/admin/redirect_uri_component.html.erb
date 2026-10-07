@@ -13,7 +13,7 @@
       grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-redirect-uri-description') do
         concat(render(Primer::Beta::Text.new) { provider_redirect_uri_description })
         if storage.oauth_client&.persisted?
-          concat(render(Primer::Beta::ClipboardCopy.new('aria-label': I18n.t('storages.instructions.one_drive.copy_redirect_uri'),
+          concat(render(Primer::Beta::ClipboardCopy.new('aria-label': I18n.t('storages.instructions.onedrive.copy_redirect_uri'),
                                                         value: storage.oauth_client.redirect_uri)))
         end
       end
