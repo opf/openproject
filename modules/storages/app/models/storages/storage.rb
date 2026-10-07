@@ -94,11 +94,6 @@ module Storages
 
       def disallowed_by_enterprise_token? = !allowed_by_enterprise_token?
 
-      # TODO: Compatibility Method To be Removed once all references are removed - 2025-07-14 @mereghost
-      def shorten_provider_type(provider_type)
-        provider_type.constantize.short_provider_name.to_s
-      end
-
       def extract_part_from_piped_string(text, index)
         return if text.nil?
 

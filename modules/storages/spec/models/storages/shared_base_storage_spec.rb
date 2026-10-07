@@ -48,27 +48,6 @@ RSpec.shared_examples_for "base storage" do
         ).to eq(:onedrive)
       end
     end
-
-    context "when provider_type is unknown" do
-      it "raises an error", :aggregate_failures do
-        expect do
-          described_class.shorten_provider_type("Storages::Nextcloud")
-        end.to raise_error("Unknown provider_type! Given: Storages::Nextcloud. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages:NextcloudStorage")
-        end.to raise_error("Unknown provider_type! Given: Storages:NextcloudStorage. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages::NextcloudStorag")
-        end.to raise_error("Unknown provider_type! Given: Storages::NextcloudStorag. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-        expect do
-          described_class.shorten_provider_type("Storages::UnknownStorage")
-        end.to raise_error("Unknown provider_type! Given: Storages::UnknownStorage. " \
-                           "Known provider types are defined in Storages::Storage::PROVIDER_TYPE_SHORT_NAMES.")
-      end
-    end
   end
 
   describe "#create" do

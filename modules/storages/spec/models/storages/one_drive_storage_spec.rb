@@ -37,7 +37,7 @@ RSpec.describe Storages::OneDriveStorage do
   it_behaves_like "base storage"
 
   describe "#provider_type?" do
-    it { expect(storage).to be_a_provider_type_onedrive }
+    it { expect(storage).to be_a_provider_type_one_drive }
     it { expect(storage).not_to be_a_provider_type_nextcloud }
   end
 
