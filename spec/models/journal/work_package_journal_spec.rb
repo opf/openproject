@@ -65,6 +65,33 @@ RSpec.describe Journal::WorkPackageJournal do
       expect(rendered).to include(I18n.t(:text_journal_permission_denied))
     end
 
+    it "renders a custom field that has since been deleted as such" do
+      deleted = create(:string_wp_custom_field, projects: [project], types: [type])
+      key = "custom_fields_#{deleted.id}"
+      deleted.destroy!
+
+      rendered = journal.render_detail([key, ["894", nil]])
+
+      expect(rendered).to include(I18n.t(:label_deleted_custom_field))
+      expect(rendered).not_to include(I18n.t(:text_journal_permission_denied))
+    end
+
+    it "does not render a permission error on a journal created after a custom field was deleted",
+       with_settings: { journal_aggregation_time_minutes: 0 } do
+      custom_field = create(:list_wp_custom_field, projects: [project], types: [type])
+      updated_work_package = create(:work_package, project:, type:, subject: "Before")
+      updated_work_package.update!(custom_field_values: { custom_field.id => custom_field.custom_options.first.id })
+      custom_field.destroy!
+
+      updated_work_package.reload.update!(subject: "After")
+
+      last_journal = updated_work_package.last_journal
+      rendered = last_journal.details.filter_map { |detail| last_journal.render_detail(detail) }
+
+      expect(rendered).to contain_exactly(a_string_including("After"),
+                                          a_string_including(I18n.t(:label_deleted_custom_field)))
+    end
+
     describe "the backing visibility check (N+1 guard)" do
       let(:formatter) { OpenProject::JournalFormatter::CustomField::Plain.new(journal) }
 
