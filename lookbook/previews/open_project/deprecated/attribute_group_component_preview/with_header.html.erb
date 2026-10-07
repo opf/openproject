@@ -1,4 +1,6 @@
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+      component.with_header(title: "A Title", description: "A description")
+
       component.with_attribute(key: "Some key") { "A value" }
 
       component.with_attribute(key: "With icons") { op_icon("icon-checkmark") }

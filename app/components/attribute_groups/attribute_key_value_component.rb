@@ -29,7 +29,13 @@
 #++
 
 module AttributeGroups
-  class AttributeKeyValueComponent < ::ApplicationComponent
-    options :key, :value
+  class AttributeKeyValueComponent < ::Primer::Component
+    attr_reader :key
+
+    def initialize(key:)
+      super()
+
+      @key = key
+    end
   end
 end

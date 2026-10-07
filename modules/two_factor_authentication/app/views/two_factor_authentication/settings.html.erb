@@ -30,35 +30,25 @@
       </p>
       <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
             if configuration["active_strategies"].empty?
-              component.with_attribute(
-                key: t("two_factor_authentication.settings.label_active_strategies"),
-                value: t(:label_none)
-              )
+              component.with_attribute(key: t("two_factor_authentication.settings.label_active_strategies")) { t(:label_none) }
             else
               strategies = configuration["active_strategies"].map do |key|
                 content_tag(:span) do
                   t("two_factor_authentication.strategies.#{key}")
                 end
               end
-              component.with_attribute(
-                key: t("two_factor_authentication.settings.label_active_strategies"),
-                value: safe_join(strategies, tag(:br))
-              )
+              component.with_attribute(key: t("two_factor_authentication.settings.label_active_strategies")) { safe_join(strategies, tag(:br)) }
             end
 
-            component.with_attribute(
-              key: t("two_factor_authentication.settings.label_enforced"),
-              value: !!configuration["enforced"] ? t(:general_text_Yes) : t(:general_text_No)
-            )
+            component.with_attribute(key: t("two_factor_authentication.settings.label_enforced")) { !!configuration["enforced"] ? t(:general_text_Yes) : t(:general_text_No) }
 
-            component.with_attribute(
-              key: t("two_factor_authentication.settings.label_remember"),
-              value: if configuration["allow_remember_for_days"].to_i == 0
-                       t(:label_disabled)
-                     else
-                       "#{configuration['allow_remember_for_days']} (#{t(:label_day_plural)})"
-                     end
-            )
+            component.with_attribute(key: t("two_factor_authentication.settings.label_remember")) do
+              if configuration["allow_remember_for_days"].to_i == 0
+                t(:label_disabled)
+              else
+                "#{configuration['allow_remember_for_days']} (#{t(:label_day_plural)})"
+              end
+            end
           end %>
     </fieldset>
     <% if Setting.plugin_openproject_two_factor_authentication_writable? %>

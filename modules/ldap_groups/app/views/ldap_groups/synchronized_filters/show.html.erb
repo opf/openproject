@@ -15,34 +15,18 @@
 
 <section class="admin--edit-section">
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
-        component.with_attribute(
-          key: @filter.class.human_attribute_name(:name),
-          value: @filter.name
-        )
-        component.with_attribute(
-          key: @filter.class.human_attribute_name(:group_name_attribute),
-          value: @filter.group_name_attribute
-        )
-        component.with_attribute(
-          key: @filter.class.human_attribute_name(:base_dn),
-          value: @filter.used_base_dn
-        )
-        component.with_attribute(
-          key: @filter.class.human_attribute_name(:sync_users),
-          value: if @filter.sync_users
-                   checked_image @filter.sync_users
-                 else
-                   t(:general_text_no)
-                 end
-        )
-        component.with_attribute(
-          key: @filter.class.human_attribute_name(:filter_string),
-          value: @filter.filter_string
-        )
-        component.with_attribute(
-          key: t("ldap_groups.synchronized_groups.plural"),
-          value: @filter.groups.count
-        )
+        component.with_attribute(key: @filter.class.human_attribute_name(:name)) { @filter.name }
+        component.with_attribute(key: @filter.class.human_attribute_name(:group_name_attribute)) { @filter.group_name_attribute }
+        component.with_attribute(key: @filter.class.human_attribute_name(:base_dn)) { @filter.used_base_dn }
+        component.with_attribute(key: @filter.class.human_attribute_name(:sync_users)) do
+          if @filter.sync_users
+            checked_image @filter.sync_users
+          else
+            t(:general_text_no)
+          end
+        end
+        component.with_attribute(key: @filter.class.human_attribute_name(:filter_string)) { @filter.filter_string }
+        component.with_attribute(key: t("ldap_groups.synchronized_groups.plural")) { @filter.groups.count }
       end %>
 </section>
 

@@ -27,8 +27,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="attributes-group--header">
-  <div class="attributes-group--header-container">
-    <h3 class="attributes-group--header-text"><%= title %></h3>
-  </div>
-</div>
+<%=
+  render(Primer::Beta::Subhead.new(**system_arguments)) do |component|
+    component.with_heading(tag:, size:) { title }
+    component.with_description { description } if description
+  end
+%>

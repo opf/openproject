@@ -62,7 +62,7 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
       "Raw Content"
     end
 
-    expect(page).to have_css(".attributes-group--content", text: "Raw Content")
+    expect(page).to have_no_text("Raw Content")
 
     aggregate_failures "group header" do
       expect(page).to have_css(".attributes-group")

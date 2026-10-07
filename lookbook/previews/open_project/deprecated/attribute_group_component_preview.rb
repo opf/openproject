@@ -33,6 +33,8 @@ module OpenProject
     # @logical_path OpenProject/deprecated
     class AttributeGroupComponentPreview < Lookbook::Preview
       def default; end
+
+      def with_header; end
     end
   end
 end

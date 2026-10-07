@@ -33,10 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
   <% component.with_header(title: t(:label_details)) %>
 
-  <% component.with_attribute(
-       key: @application.class.human_attribute_name(:uid),
-       value: @application.uid
-     ) %>
+  <% component.with_attribute(key: @application.class.human_attribute_name(:uid)) { @application.uid } %>
 
   <% if flash[:_application_secret] %>
     <% component.with_attribute(
@@ -60,35 +57,23 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% component.with_attribute(
-       key: @application.class.human_attribute_name(:scopes),
-       value: oauth_scope_translations(@application)
-     ) %>
+  <% component.with_attribute(key: @application.class.human_attribute_name(:scopes)) { oauth_scope_translations(@application) } %>
 
   <% component.with_attribute(
        key: @application.class.human_attribute_name(:confidential),
-       value: @application.confidential? ? t(:general_text_Yes) : t(:general_text_No)
-     ) %>
+     ) { @application.confidential? ? t(:general_text_Yes) : t(:general_text_No) } %>
 
   <% component.with_attribute(
        key: @application.class.human_attribute_name(:enabled),
-       value: @application.enabled? ? t(:general_text_Yes) : t(:general_text_No)
-     ) %>
+     ) { @application.enabled? ? t(:general_text_Yes) : t(:general_text_No) } %>
 
   <% component.with_attribute(
        key: @application.class.human_attribute_name(:redirect_uri),
-       value: safe_join(@application.redirect_uri.split("\n"), tag(:br))
-     ) %>
+     ) { safe_join(@application.redirect_uri.split("\n"), tag(:br)) } %>
 
   <% if !@application.client_credentials_user_id %>
-    <% component.with_attribute(
-         key: I18n.t(:"doorkeeper.auth_url"),
-         value: oauth_authorization_url
-       ) %>
+    <% component.with_attribute(key: I18n.t(:"doorkeeper.auth_url")) { oauth_authorization_url } %>
   <% end %>
 
-  <% component.with_attribute(
-       key: I18n.t(:"doorkeeper.access_token_url"),
-       value: oauth_token_url
-     ) %>
+  <% component.with_attribute(key: I18n.t(:"doorkeeper.access_token_url")) { oauth_token_url } %>
 <% end %>

@@ -29,7 +29,18 @@
 #++
 
 module AttributeGroups
-  class AttributeGroupHeaderComponent < ::ApplicationComponent
-    options :title
+  class AttributeGroupHeaderComponent < ::Primer::Component
+    DEFAULT_TAG = :h3
+    TAG_OPTIONS = %i[h2 h3 h4 h5 h6].freeze
+
+    attr_reader :title, :tag, :size, :description, :system_arguments
+
+    def initialize(title:, description: nil, tag: DEFAULT_TAG, size: :medium, **system_arguments)
+      super(**system_arguments)
+      @title = title
+      @description = description
+      @tag = fetch_or_fallback(TAG_OPTIONS, tag, DEFAULT_TAG)
+      @size = size
+    end
   end
 end

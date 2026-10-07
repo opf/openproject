@@ -16,22 +16,15 @@
 
 <div class="account--section">
   <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
-        component.with_attribute(
-          key: ::Webhooks::Webhook.human_attribute_name("events"),
-          value: @webhook.event_names.join(", ")
-        )
-        component.with_attribute(
-          key: ::Webhooks::Webhook.human_attribute_name("events"),
-          value: if @webhook.all_projects?
-                   t(:label_all)
-                 else
-                   @webhook.projects.join(", ")
-                 end
-        )
-        component.with_attribute(
-          key: ::Webhooks::Webhook.human_attribute_name("description"),
-          value: @webhook.description
-        )
+        component.with_attribute(key: ::Webhooks::Webhook.human_attribute_name("events")) { @webhook.event_names.join(", ") }
+        component.with_attribute(key: ::Webhooks::Webhook.human_attribute_name("events")) do
+          if @webhook.all_projects?
+            t(:label_all)
+          else
+            @webhook.projects.join(", ")
+          end
+        end
+        component.with_attribute(key: ::Webhooks::Webhook.human_attribute_name("description")) { @webhook.description }
       end %>
 </div>
 
