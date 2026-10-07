@@ -44,8 +44,8 @@ export interface ResourceAllocationEvent {
   classNames:string[];
   allocationId:number;
   hours:number;
-  finishBy:string;
-  formattedFinishBy:string;
+  finishBy?:string|null;
+  formattedFinishBy?:string|null;
   typeId?:number;
   workPackageId?:string;
   workPackageFormattedId?:string;
@@ -89,13 +89,22 @@ export function renderAllocationCard(allocation:ResourceAllocationEvent, day:str
     <div class="te-entry-card">
       <div class="te-entry-card--duration">${displayDuration(allocation.hours)}</div>
       ${renderWorkPackage(allocation)}
-      <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
-        ${icon(calendarIconData)}
-        ${allocation.finishBy === today
-          ? I18n.t('js.resource_management.my_work.finish_today')
-          : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
-      </div>
+      ${renderFinishBy(allocation, day, today)}
       <div class="te-entry-card--icon">${icon(opPersonAssignedIconData)}</div>
+    </div>`;
+}
+
+function renderFinishBy(allocation:ResourceAllocationEvent, day:string, today:string):TemplateResult|typeof nothing {
+  if (!allocation.finishBy || !allocation.formattedFinishBy) {
+    return nothing;
+  }
+
+  return html`
+    <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
+      ${icon(calendarIconData)}
+      ${allocation.finishBy === today
+        ? I18n.t('js.resource_management.my_work.finish_today')
+        : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
     </div>`;
 }
 

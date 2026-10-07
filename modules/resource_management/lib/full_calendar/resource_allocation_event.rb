@@ -76,7 +76,7 @@ module FullCalendar
       {
         allocationId: allocation.id,
         hours: (scheduled_entry.minutes / 60.0).round(2),
-        finishBy: allocation.end_date.iso8601,
+        finishBy: allocation.end_date&.iso8601,
         formattedFinishBy: format_date(allocation.end_date)
       }.merge(visible ? work_package_attributes : {})
     end
