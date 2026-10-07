@@ -38,9 +38,10 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
     build_stubbed(:user).tap do |user|
       allow(user)
         .to receive(:preference)
-        .and_return(build_stubbed(:user_preference))
+        .and_return(build_stubbed(:user_preference, settings: preferences))
     end
   end
+  let(:preferences) { {} }
   let(:embed_links) { false }
   let(:representer) do
     described_class.new(represented, current_user:, embed_links:)
@@ -109,6 +110,16 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
         it "indicates the timeFormat" do
           expect(subject)
             .to be_json_eql(nil.to_json)
+            .at_path("timeFormat")
+        end
+      end
+
+      context "with a user preference", with_settings: { time_format: "%H:%M" } do
+        let(:preferences) { { "time_format" => "%I:%M %p" } }
+
+        it "indicates the user's timeFormat" do
+          expect(subject)
+            .to be_json_eql("hh:mm a".to_json)
             .at_path("timeFormat")
         end
       end
@@ -183,6 +194,16 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
         it "indicates the dateFormat" do
           expect(subject)
             .to be_json_eql("MMMM DD, YYYY".to_json)
+            .at_path("dateFormat")
+        end
+      end
+
+      context "with a user preference", with_settings: { date_format: "%Y-%m-%d" } do
+        let(:preferences) { { "date_format" => "%d.%m.%Y" } }
+
+        it "indicates the user's dateFormat" do
+          expect(subject)
+            .to be_json_eql("DD.MM.YYYY".to_json)
             .at_path("dateFormat")
         end
       end
