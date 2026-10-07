@@ -17,11 +17,7 @@
       end
       if @attribute[:field_format_label].present?
         left.with_column(ml: 2) do
-          if @attribute[:is_cf]
-            render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
-          else
-            render(Primer::Beta::Label.new(scheme: :secondary, size: :medium)) { @attribute[:field_format_label] }
-          end
+          render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
         end
       end
       if required_label.present?

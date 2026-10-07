@@ -33,6 +33,28 @@ module ::TypesHelper
 
   SETTINGS_TAB = "settings"
 
+  # Maps the `type:` strings declared in WorkPackageSchemaRepresenter's built-in
+  # attributes to a human-readable label.
+  BUILTIN_TYPE_LABELS = {
+    "User" => -> { User.model_name.human },
+    "Project" => -> { Project.model_name.human },
+    "WorkPackage" => -> { WorkPackage.model_name.human },
+    "Budget" => -> { Budget.model_name.human },
+    "Type" => -> { ::Type.model_name.human },
+    "Status" => -> { Status.model_name.human },
+    "Category" => -> { Category.model_name.human },
+    "Version" => -> { Version.model_name.human },
+    "Priority" => -> { IssuePriority.model_name.human },
+    "ProjectPhase" => -> { Project::Phase.model_name.human },
+    "String" => -> { I18n.t(:label_string) },
+    "Formattable" => -> { I18n.t(:label_text) },
+    "Integer" => -> { I18n.t(:label_integer) },
+    "Boolean" => -> { I18n.t(:label_boolean) },
+    "Date" => -> { I18n.t(:label_date) },
+    "DateTime" => -> { I18n.t(:label_date_and_time) },
+    "Duration" => -> { I18n.t(:label_duration) }
+  }.freeze
+
   # rubocop:disable Rails/HelperInstanceVariable
   def types_tabs # rubocop:disable Metrics/AbcSize
     project = variant_scope_project
@@ -223,7 +245,18 @@ module ::TypesHelper
     if represented[:is_cf]
       label_for_custom_field_format(represented[:field_format])
     else
-      I18n.t("label_builtin")
+      label_for_builtin_type(represented[:type])
     end
+  end
+
+  def label_for_builtin_type(type)
+    return I18n.t("label_builtin") if type.blank?
+
+    # Multi-valued attributes (e.g. target_versions) carry a "[]"-prefixed type,
+    # e.g. "[]Version", but share the same label as their singular counterpart.
+    label = BUILTIN_TYPE_LABELS[type.delete_prefix("[]")]
+    return I18n.t("label_builtin") if label.nil?
+
+    label.call
   end
 end
