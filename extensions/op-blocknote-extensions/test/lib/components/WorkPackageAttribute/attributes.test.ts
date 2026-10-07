@@ -5,6 +5,8 @@ import {
   formattedHtmlOf,
   formatAttributeValue,
   listAttributes,
+  principalsOf,
+  valueKindOf,
 } from '../../../../lib/components/WorkPackageAttribute/attributes';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 import { mockAttributeSchema, mockAttributeWorkPackage, mockMilestoneSchema } from '../../../mocks/workPackageAttributes';
@@ -134,5 +136,40 @@ describe('formatAttributeValue', () => {
   it('formats in the given locale', () => {
     const attribute = findAttribute(mockAttributeSchema, 'startDate')!;
     expect(formatAttributeValue(workPackage, attribute, { ...options, locale: 'de' })).toBe('14.09.2026');
+  });
+});
+
+describe('valueKindOf', () => {
+  const kindOf = (reference:string) => valueKindOf(findAttribute(mockAttributeSchema, reference)!);
+
+  it('tells type, status and priority apart, as each is shown in its own way', () => {
+    expect(kindOf('type')).toBe('type');
+    expect(kindOf('status')).toBe('status');
+    expect(kindOf('priority')).toBe('priority');
+  });
+
+  it('takes every attribute holding users for people, custom fields too', () => {
+    expect(kindOf('assignee')).toBe('principal');
+    expect(kindOf('Content owner')).toBe('principal');
+  });
+
+  it('leaves everything else plain', () => {
+    expect(kindOf('targetVersions')).toBe('plain');
+    expect(kindOf('Department')).toBe('plain');
+  });
+});
+
+describe('principalsOf', () => {
+  const principals = (reference:string) => principalsOf(workPackage, findAttribute(mockAttributeSchema, reference)!);
+
+  it('lists everyone an attribute holds, with where to find them', () => {
+    expect(principals('Content owner')).toEqual([
+      { name: 'Jean Cérien', href: '/api/v3/users/4' },
+      { name: 'Hugo Martins', href: '/api/v3/users/5' },
+    ]);
+  });
+
+  it('lists nobody for an empty attribute', () => {
+    expect(principals('responsible')).toEqual([]);
   });
 });

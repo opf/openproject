@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { BlockNoteEditor } from '@blocknote/core';
 import { PENDING_PREFIX } from '../InlineWorkPackage/callbacks';
 import { BLOCK_ATTRIBUTE_TYPE } from '../../utils/nodeTypes';
+import { useColors } from '../../services/colors';
 import type { AttributeDisplay } from './externalHtml';
 import { useWorkPackageAttribute } from './useWorkPackageAttribute';
 import { getPendingAttribute } from './pending';
@@ -24,6 +25,7 @@ interface WorkPackageAttributeChipProps {
 function ResolvedAttributeChip({ content, editor, contentRef, onDisplayChange }:WorkPackageAttributeChipProps) {
   const { wpid, displayId, attribute, display } = content;
   const resolved = useWorkPackageAttribute(wpid, attribute);
+  useColors();
   const { elementRef, menuOpen, active, pick, toggleProps } = useAttributeDisplayMenu({ editor, display, onDisplayChange });
 
   return (

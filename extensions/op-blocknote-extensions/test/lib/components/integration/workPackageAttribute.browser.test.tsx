@@ -133,6 +133,57 @@ describe('Work package attribute chip', () => {
   });
 });
 
+describe('Values of work package attributes', () => {
+  const avatars = () => Array.from(chip().querySelectorAll<HTMLElement>('.op-bn-wp-attribute--avatar'));
+
+  it('puts a dot in the color of the status before it', async () => {
+    renderAttribute('status', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('In progress'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(149, 165, 166)'));
+  });
+
+  it('puts a dot in the color of the priority before it', async () => {
+    renderAttribute('priority', 'both');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Priority: High'));
+    await vi.waitFor(() => expect(getComputedStyle(chip().querySelector('.op-bn-wp-attribute--dot')!).backgroundColor).toBe('rgb(231, 76, 60)'));
+  });
+
+  it('writes the type in capitals, as work packages show it', async () => {
+    renderAttribute('type', 'value');
+
+    await expect.element(page.getByTestId('op-bn-work-package--type')).toHaveTextContent('Feature');
+    const type = page.getByTestId('op-bn-work-package--type').element();
+    expect(getComputedStyle(type).textTransform).toBe('uppercase');
+  });
+
+  it('shows the picture of a user who has one', async () => {
+    renderAttribute('assignee', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Mira Hofmann'));
+    expect(avatars().map((avatar) => avatar.dataset.initials)).toEqual(['MH']);
+    await vi.waitFor(() => expect(getComputedStyle(avatars()[0].querySelector('img')!).visibility).toBe('visible'));
+  });
+
+  it('shows the initials of everyone without a picture', async () => {
+    renderAttribute('Content owner', 'value');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Jean Cérien, Hugo Martins'));
+    expect(avatars().map((avatar) => avatar.dataset.initials)).toEqual(['JC', 'HM']);
+    expect(getComputedStyle(avatars()[0], '::before').content).toBe('"JC"');
+    await vi.waitFor(() => expect(avatars()[0].querySelector('img')).not.toBeNull());
+    expect(getComputedStyle(avatars()[0].querySelector('img')!).visibility).toBe('hidden');
+  });
+
+  it('decorates nothing when only the label is shown', async () => {
+    renderAttribute('assignee', 'label');
+
+    await vi.waitFor(() => expect(chip().textContent).toBe('Assignee'));
+    expect(avatars()).toEqual([]);
+  });
+});
+
 describe('Long text work package attribute', () => {
   it('can be dragged to another place', async () => {
     let editor:{ document:{ type:string }[] } | undefined;
