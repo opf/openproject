@@ -469,6 +469,8 @@ class User < Principal
 
   def reload(*)
     @time_zone = nil
+    @date_format = nil
+    @time_format = nil
 
     super
   end

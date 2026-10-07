@@ -989,6 +989,38 @@ RSpec.describe User do
     end
   end
 
+  describe "#date_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.date_format).to eql ""
+
+        user.pref.update!(settings: { "date_format" => "%d-%m-%Y" })
+
+        expect(user.date_format).to eql ""
+
+        expect(user.reload.date_format).to eql "%d-%m-%Y"
+      end
+    end
+  end
+
+  describe "#time_format" do
+    context "when the prefs change" do
+      let(:user) { create(:user) }
+
+      it "returns the new format after a reload" do
+        expect(user.time_format).to eql ""
+
+        user.pref.update!(settings: { "time_format" => "%H×%M" })
+
+        expect(user.time_format).to eql ""
+
+        expect(user.reload.time_format).to eql "%H×%M"
+      end
+    end
+  end
+
   describe "#find_by_mail" do
     let!(:user1) { create(:user, mail: "foo+test@example.org") }
     let!(:user2) { create(:user, mail: "foo@example.org") }
