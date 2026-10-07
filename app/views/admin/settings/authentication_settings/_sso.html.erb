@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%=
     settings_primer_form_with(
       scope: :settings,
-      url: admin_settings_authentication_path(tab: params[:tab]),
+      url: admin_settings_authentication_sso_path,
       method: :patch,
       data: { controller: "show-when-value-selected" }
     ) do |f|

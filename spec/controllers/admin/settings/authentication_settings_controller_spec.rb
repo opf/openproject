@@ -35,64 +35,7 @@ RSpec.describe Admin::Settings::AuthenticationSettingsController do
 
   current_user { user }
 
-  include_examples "GET #show requires admin permission and renders template", path: "authentication_settings"
-
   describe "PATCH #update" do
-    describe "registration_footer" do
-      let(:old_settings) do
-        {
-          registration_footer: {
-            "de" => "Old German registration footer",
-            "en" => "Old English registration footer"
-          }
-        }
-      end
-
-      let(:new_settings) do
-        {
-          registration_footer: {
-            "de" => "New German registration footer",
-            "en" => "New English registration footer"
-          }
-        }
-      end
-
-      before do
-        old_settings.each_key do |key|
-          Setting[key] = old_settings[key]
-        end
-      end
-
-      describe "when writable" do
-        before do
-          patch "update", params: { settings: new_settings }
-        end
-
-        it "is successful" do
-          expect(response).to redirect_to(admin_settings_authentication_path)
-        end
-
-        it "changes the registration_footer" do
-          expect(Setting.registration_footer).to eq new_settings[:registration_footer]
-        end
-      end
-
-      describe "when non-writable (set via env var)" do
-        before do
-          allow(Setting).to receive(:registration_footer_writable?).and_return(false)
-          patch "update", params: { settings: new_settings }
-        end
-
-        it "is successful" do
-          expect(response).to redirect_to(admin_settings_authentication_path)
-        end
-
-        it "does not change the registration_footer" do
-          expect(Setting.registration_footer).to eq old_settings[:registration_footer]
-        end
-      end
-    end
-
     describe "password_login_bypass_principal_ids" do
       shared_let(:bypass_user) { create(:user, login: "breakglass") }
       shared_let(:bypass_group) { create(:group) }

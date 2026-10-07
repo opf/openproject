@@ -27,31 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% menu_node = settings_page.menu_node %>
-<% html_title t(:label_administration), menu_node.caption %>
-
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { menu_node.caption }
-    header.with_breadcrumbs(
-      [
-        { href: admin_index_path, text: t("label_administration") },
-        *settings_page.menu_ancestors.map { |node| { href: url_for(node.url), text: node.caption, skip_for_mobile: true } },
-        menu_node.caption
-      ]
-    )
-
-    if settings_page.tabs.many?
-      header.with_tab_nav(label: nil) do |tab_nav|
-        settings_page.tabs.each do |tab_page|
-          tab_nav.with_tab(selected: tab_page == settings_page, href: url_for(tab_page.url)) do |tab|
-            tab.with_text { t(tab_page.label) }
-          end
-        end
-      end
-    end
-  end
-%>
+<%= render "admin/settings/pages/header", settings_page: %>
 
 <% if settings_page.enterprise_feature %>
   <%= render(EnterpriseEdition::BannerComponent.new(settings_page.enterprise_feature, **settings_page.enterprise_banner)) %>
@@ -59,12 +35,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= instance_exec(&settings_page.before_form) if settings_page.before_form %>
 
+<% form_data = instance_exec(&settings_page.form_data) %>
+
 <%=
   settings_primer_form_with(
     url: url_for(settings_page.url),
     scope: :settings,
     method: :patch,
-    data: { controller: "show-when-checked show-when-value-selected" }
+    data: {
+      **form_data,
+      controller: ["show-when-checked show-when-value-selected", form_data[:controller]].compact.join(" ")
+    }
   ) do |f|
 %>
   <% settings_page.sections.each_with_index do |section, index| %>

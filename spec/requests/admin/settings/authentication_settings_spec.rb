@@ -30,169 +30,73 @@
 
 require "spec_helper"
 
-RSpec.describe "Authentication Settings",
-               :skip_csrf,
-               type: :rails_request do
-  let(:admin) { create(:admin) }
+RSpec.describe "Authentication settings", :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
 
-  before do
-    login_as(admin)
-  end
+  before { login_as(admin) }
 
-  describe "GET /admin/settings/authentication?tab=passwords" do
-    context "with password login enabled" do
+  describe "PATCH the registration tab" do
+    describe "registration_footer" do
+      let(:old_settings) do
+        {
+          registration_footer: {
+            "de" => "Old German registration footer",
+            "en" => "Old English registration footer"
+          }
+        }
+      end
+
+      let(:new_settings) do
+        {
+          registration_footer: {
+            "de" => "New German registration footer",
+            "en" => "New English registration footer"
+          }
+        }
+      end
+
       before do
-        get "/admin/settings/authentication.html?tab=passwords"
+        old_settings.each_key do |key|
+          Setting[key] = old_settings[key]
+        end
       end
 
-      it "shows password settings" do
-        expect(response).to have_http_status(:success)
+      describe "when writable" do
+        before do
+          patch admin_settings_authentication_path(tab: "registration"), params: { settings: new_settings }
+        end
 
-        expect(page).to have_field(I18n.t(:setting_lost_password), disabled: false)
-        expect(page).to have_field(I18n.t(:setting_brute_force_block_after_failed_logins), disabled: false)
+        it "is successful" do
+          expect(response).to redirect_to(admin_settings_authentication_path(tab: "registration"))
+        end
+
+        it "changes the registration_footer" do
+          expect(Setting.registration_footer).to eq new_settings[:registration_footer]
+        end
       end
-    end
 
-    context "with password login disabled", with_settings: { password_login: "none" } do
-      before do
-        get "/admin/settings/authentication.html?tab=passwords"
-      end
+      describe "when non-writable (set via env var)" do
+        before do
+          allow(Setting).to receive(:registration_footer_writable?).and_return(false)
+          patch admin_settings_authentication_path(tab: "registration"), params: { settings: new_settings }
+        end
 
-      it "disables password settings" do
-        expect(response).to have_http_status(:success)
+        it "is successful" do
+          expect(response).to redirect_to(admin_settings_authentication_path(tab: "registration"))
+        end
 
-        expect(page).to have_field(I18n.t(:setting_lost_password), disabled: true)
-        expect(page).to have_field(I18n.t(:setting_brute_force_block_after_failed_logins), disabled: true)
+        it "does not change the registration_footer" do
+          expect(Setting.registration_footer).to eq old_settings[:registration_footer]
+        end
       end
     end
   end
 
-  describe "GET /admin/settings/authentication?tab=sso", with_ee: %i[sso_auth_providers] do
-    let!(:provider) { create(:oidc_provider) }
-    let!(:bypass_user) { create(:user, login: "breakglass") }
+  describe "GET with the tab of the hand-written SSO page" do
+    it "redirects to that page" do
+      get admin_settings_authentication_path(tab: "sso")
 
-    before do
-      Setting.password_login = "except_sso"
-      Setting.password_login_bypass_principal_ids = [bypass_user.id.to_s]
-      get "/admin/settings/authentication.html?tab=sso"
-    end
-
-    it "shows the password login policy" do
-      expect(response).to have_http_status(:success)
-
-      expect(page).to have_field(I18n.t(:setting_password_login_except_sso), disabled: false)
-      expect(page).to have_link("/login/internal", href: internal_signin_path)
-    end
-
-    it "preselects the exempt principals" do
-      input_value = page.find("opce-user-autocompleter")["data-input-value"]
-
-      expect(JSON.parse(input_value)).to eq [bypass_user.id]
-    end
-
-    it "shows the bypass principals only when password login is disallowed" do
-      expect(page).to have_css("opce-user-autocompleter", visible: :visible)
-
-      Setting.password_login = "all"
-      get "/admin/settings/authentication.html?tab=sso"
-
-      expect(page).to have_no_css("opce-user-autocompleter", visible: :visible)
-    end
-
-    it "explains the bypass principals" do
-      expect(page).to have_text(
-        "Even when password login in disabled, these users and groups will be able to use their password to sign in."
-      )
-    end
-  end
-
-  describe "GET /admin/settings/authentication?tab=sso without an SSO provider",
-           with_ee: %i[sso_auth_providers] do
-    before do
-      Setting.password_login = "except_sso"
-      get "/admin/settings/authentication.html?tab=sso"
-    end
-
-    it "warns that password login restrictions are unavailable" do
-      expect(page).to have_text("Password login restrictions are unavailable because no SSO provider is currently enabled.")
-    end
-
-    it "disables the password login settings" do
-      expect(page).to have_select(
-        I18n.t(:setting_omniauth_direct_login_provider),
-        disabled: true
-      )
-      expect(Setting.omniauth_direct_login_provider).to be_blank
-      expect(page).to have_field(I18n.t(:setting_password_login_all), disabled: true)
-      expect(page).to have_field(I18n.t(:setting_password_login_except_sso), disabled: true)
-      expect(page.find("opce-user-autocompleter", visible: :visible)["data-disabled"]).to eq "true"
-    end
-  end
-
-  describe "GET /admin/settings/authentication?tab=sso with password login configured by the environment",
-           :settings_reset,
-           with_ee: %i[sso_auth_providers],
-           with_env: { "OPENPROJECT_DISABLE__PASSWORD__LOGIN" => "true" } do
-    let!(:provider) { create(:oidc_provider) }
-
-    before do
-      reset(:disable_password_login)
-      reset(:password_login)
-      get "/admin/settings/authentication.html?tab=sso"
-    end
-
-    it "shows that the setting cannot be edited" do
-      expect(page).to have_text(
-        "The following settings are configured through the environment and cannot be edited here:"
-      )
-      expect(page).to have_css("li", exact_text: "Password login")
-    end
-
-    it "disables the password login group" do
-      expect(page).to have_field(I18n.t(:setting_password_login_none), disabled: true, checked: true)
-      expect(page.find("opce-user-autocompleter", visible: :visible)["data-disabled"]).to eq "false"
-    end
-  end
-
-  describe "GET /admin/settings/authentication?tab=sso with multiple settings configured by the environment",
-           with_ee: %i[sso_auth_providers] do
-    let!(:provider) { create(:oidc_provider) }
-    let!(:bypass_user) { create(:user) }
-
-    before do
-      Setting.password_login = "except_sso"
-      Setting.password_login_bypass_principal_ids = [bypass_user.id.to_s]
-      allow(Setting).to receive_messages(
-        password_login_writable?: false,
-        password_login_bypass_principal_ids_writable?: false
-      )
-
-      get "/admin/settings/authentication.html?tab=sso"
-    end
-
-    it "disables the bypass principal inputs and shows the environment banner" do
-      expect(page.find("opce-user-autocompleter", visible: :visible)["data-disabled"]).to eq "true"
-      expect(page).to have_css(
-        'input[name="settings[password_login_bypass_principal_ids][]"][disabled]',
-        visible: :all
-      )
-      expect(page).to have_text("The following settings are configured through the environment and cannot be edited here:")
-      expect(page).to have_css("li", exact_text: "Password login")
-      expect(page).to have_css("li", exact_text: "Users and groups who may still use a password")
-    end
-  end
-
-  describe "PATCH /admin/settings/authentication?tab=passwords" do
-    context "when all password requirement checkboxes are unchecked" do
-      before do
-        Setting.password_active_rules = %w[lowercase uppercase]
-        patch "/admin/settings/authentication.html?tab=passwords",
-              params: { settings: { password_active_rules: [""] } }
-      end
-
-      it "saves an empty list of active rules" do
-        expect(Setting.password_active_rules).to eq([])
-      end
+      expect(response).to redirect_to admin_settings_authentication_sso_path(tab: "sso")
     end
   end
 end

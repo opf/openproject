@@ -36,6 +36,8 @@ module Admin::Settings
       controller.settings_page.menu_item
     end
 
+    before_action :redirect_to_custom_tab
+
     def settings_page
       @settings_page ||= ::Settings::Pages.fetch(params.require(:settings_page)).tab_page(params[:tab])
     end
@@ -44,7 +46,8 @@ module Admin::Settings
 
     def settings_params
       params
-        .expect(settings: [*permit_filters])
+        .fetch(:settings, {})
+        .permit(*permit_filters)
         .to_h
         .to_h { |name, value| [name, settings_page.entry(name).parse_param(value)] }
         .with_indifferent_access
@@ -65,6 +68,10 @@ module Admin::Settings
     end
 
     private
+
+    def redirect_to_custom_tab
+      redirect_to url_for(settings_page.url) if settings_page.custom?
+    end
 
     def permit_filters
       restricted_keys = PermittedParams::AllowedSettings.restricted_keys

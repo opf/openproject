@@ -666,13 +666,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :api_and_webhooks
 
   menu.push :authentication,
-            { controller: "/admin/settings/authentication_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "authentication" },
             if: ->(_) { User.current.admin? },
             caption: :label_authentication,
             icon: "shield-lock"
 
   menu.push :authentication_settings,
-            { controller: "/admin/settings/authentication_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "authentication" },
             if: ->(_) { User.current.admin? },
             caption: :"authentication.login_and_registration",
             parent: :authentication

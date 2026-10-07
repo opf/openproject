@@ -42,12 +42,16 @@ module Settings
       after_first_login_redirect_url: {
         format: :string,
         description: "URL users logging in for the first time will be redirected to (e.g., a help screen)",
-        default: nil
+        default: nil,
+        ui: { caption: :setting_after_first_login_redirect_url_text_html }
       },
       after_login_default_redirect_url: {
         description: "Override URL to which logged in users are redirected instead of the Home page",
         format: :string,
-        default: nil
+        default: nil,
+        ui: {
+          caption: -> { t(:setting_after_login_default_redirect_url_example_html, example_code: content_tag(:code, "/my/page")) }
+        }
       },
       ai_text_transform_actions_enabled: {
         description: "Enable AI text transform actions in the rich text editor",
@@ -217,7 +221,14 @@ module Settings
       autologin: {
         format: :integer,
         default: 0,
-        allowed: [1, 7, 14, 30, 60, 90, 365]
+        allowed: [1, 7, 14, 30, 60, 90, 365],
+        ui: {
+          input: :select_list,
+          values: -> {
+            [[t(:label_disabled), 0],
+             *Settings::Definition[:autologin].allowed.map { [t("datetime.distance_in_words.x_days", count: it), it] }]
+          }
+        }
       },
       autologin_cookie_name: {
         description: "Cookie name for autologin cookie",
@@ -295,11 +306,13 @@ module Settings
       },
       brute_force_block_minutes: {
         description: "Number of minutes to block users after presumed brute force attack",
-        default: 30
+        default: 30,
+        ui: { caption: -> { t("text_hint_disable_with_0") }, unit: :label_minute_plural }
       },
       brute_force_block_after_failed_logins: {
         description: "Number of login attempts per user before assuming brute force attack",
-        default: 20
+        default: 20,
+        ui: { caption: -> { t("text_hint_disable_with_0") } }
       },
       cache_expires_in_seconds: {
         description: "Expiration time for memcache entries, empty for no expiration be default",
@@ -860,7 +873,8 @@ module Settings
         default: true
       },
       invitation_expiration_days: {
-        default: 7
+        default: 7,
+        ui: { unit: -> { t("datetime.units.day.other") } }
       },
       journal_aggregation_time_minutes: {
         default: 5,
@@ -1047,13 +1061,17 @@ module Settings
         default_by_env: {
           test: []
         },
-        allowed: %w[lowercase uppercase numeric special]
+        allowed: %w[lowercase uppercase numeric special],
+        ui: {
+          values: -> { OpenProject::Passwords::Evaluator.known_rules.map { [t("label_password_rule_#{it}"), it] } }
+        }
       },
       password_count_former_banned: {
         default: 0
       },
       password_days_valid: {
-        default: 0
+        default: 0,
+        ui: { caption: -> { t("text_hint_disable_with_0") } }
       },
       password_login: {
         description: "Who may authenticate with a password: all users, everyone except OmniAuth-linked " \
@@ -1213,7 +1231,8 @@ module Settings
       registration_footer: {
         default: {
           "en" => ""
-        }
+        },
+        ui: { input: :multi_language_text_select }
       },
       registration_rate_limit: {
         format: :integer,
@@ -1392,7 +1411,21 @@ module Settings
       },
       self_registration: {
         default: 2,
-        format: :integer
+        format: :integer,
+        ui: {
+          input: :radio_button_group,
+          values: -> { Setting::SelfRegistration::VALUES.map { |name, value| { name:, value: } } },
+          button_options: { data: { action: "admin--registration#updateWarningVisibility" } },
+          caption: -> {
+            safe_join([
+                        t(:setting_self_registration_caption),
+                        render(Primer::Alpha::Banner.new(scheme: :warning,
+                                                         data: { admin__registration_target: "warningToast" },
+                                                         hidden: !Setting::SelfRegistration.unsupervised_registration?,
+                                                         my: 2)) { t(:setting_self_registration_warning) }
+                      ])
+          }
+        }
       },
       sendmail_arguments: {
         description: "Arguments to call sendmail with in case it is configured as outgoing email setup",
@@ -1420,7 +1453,8 @@ module Settings
         default: false
       },
       session_ttl: {
-        default: 120
+        default: 120,
+        ui: { caption: :setting_session_ttl_hint, unit: :label_minute_plural }
       },
       show_community_links: {
         description: "Enable or disable links to OpenProject community instances",

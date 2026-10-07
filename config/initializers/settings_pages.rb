@@ -245,17 +245,13 @@ Settings::Pages.draw do
     end
   end
 
-  page :authentication,
-       menu_item: :authentication_settings,
-       custom: true,
-       tab: "login",
-       label: :"settings.authentication.login" do
-    setting :autologin
+  page :authentication, menu_item: :authentication_settings, tab: "login", label: :"settings.authentication.login" do
+    setting :autologin, input_width: :medium
     setting :session_ttl_enabled
-    setting :session_ttl
+    setting :session_ttl, input_width: :small, min: 0, depends_on: { setting: :session_ttl_enabled }
     setting :log_requesting_user
-    setting :after_first_login_redirect_url
-    setting :after_login_default_redirect_url
+    setting :after_first_login_redirect_url, input_width: :large
+    setting :after_login_default_redirect_url, input_width: :large
   end
 
   page :authentication_sso,
@@ -263,6 +259,7 @@ Settings::Pages.draw do
        custom: true,
        tab: "sso",
        label: :"settings.authentication.sso",
+       url: { controller: "/admin/settings/authentication_settings", action: :show },
        enterprise_feature: :sso_auth_providers do
     setting :omniauth_direct_login_provider
     setting :oauth_allow_remapping_of_existing_users
@@ -272,27 +269,42 @@ Settings::Pages.draw do
 
   page :authentication_registration,
        menu_item: :authentication_settings,
-       custom: true,
        tab: "registration",
-       label: :"settings.authentication.registration" do
+       label: :"settings.authentication.registration",
+       form_data: -> {
+         {
+           controller: "admin--registration",
+           admin__registration_target: "selfRegistrationRadioGroup",
+           admin__registration_activation_by_email_value: Setting::SelfRegistration.value(key: :activation_by_email),
+           admin__registration_automatic_activation_value: Setting::SelfRegistration.value(key: :automatic_activation)
+         }
+       } do
     setting :login_required
     setting :self_registration
-    setting :invitation_expiration_days
+    setting :invitation_expiration_days, input_width: :small, min: 0, max: 100
     setting :registration_footer
   end
 
+  password_login_disabled = -> { Users::PasswordLogin.none? }
+
   page :authentication_passwords,
        menu_item: :authentication_settings,
-       custom: true,
        tab: "passwords",
-       label: :"settings.passwords" do
-    setting :password_min_length
-    setting :password_active_rules
-    setting :password_days_valid
-    setting :password_count_former_banned
-    setting :lost_password
-    setting :brute_force_block_after_failed_logins
-    setting :brute_force_block_minutes
+       label: :"settings.passwords",
+       before_form: -> {
+         if Users::PasswordLogin.none?
+           render(Primer::Alpha::Banner.new(icon: :info, my: 2)) do
+             link_translate(:note_password_login_disabled_link, links: { configuration_url: %i[password_login] })
+           end
+         end
+       } do
+    setting :password_min_length, input_width: :small, disabled: password_login_disabled
+    setting :password_active_rules, disabled: password_login_disabled
+    setting :password_days_valid, input_width: :small, min: 0, disabled: password_login_disabled
+    setting :password_count_former_banned, input_width: :small, min: 0, disabled: password_login_disabled
+    setting :lost_password, disabled: password_login_disabled
+    setting :brute_force_block_after_failed_logins, input_width: :small, min: 0, disabled: password_login_disabled
+    setting :brute_force_block_minutes, input_width: :small, min: 0, disabled: password_login_disabled
   end
 
   page :llm_connection, menu_item: :llm_connection, custom: true do

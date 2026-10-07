@@ -27,13 +27,30 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%# locals: (settings_page:) %>
+
+<% menu_node = settings_page.menu_node %>
+<% html_title t(:label_administration), menu_node.caption %>
+
 <%=
-  settings_primer_form_with(
-    scope: :settings,
-    url: admin_settings_authentication_path(tab: params[:tab]),
-    method: :patch,
-    data: { controller: "show-when-checked", show_when_checked_visibility_class: "d-none" }
-  ) do |f|
-    render(Settings::AuthenticationSettingsForm.new(f))
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { menu_node.caption }
+    header.with_breadcrumbs(
+      [
+        { href: admin_index_path, text: t("label_administration") },
+        *settings_page.menu_ancestors.map { |node| { href: url_for(node.url), text: node.caption, skip_for_mobile: true } },
+        menu_node.caption
+      ]
+    )
+
+    if settings_page.tabs.many?
+      header.with_tab_nav(label: nil) do |tab_nav|
+        settings_page.tabs.each do |tab_page|
+          tab_nav.with_tab(selected: tab_page == settings_page, href: url_for(tab_page.url)) do |tab|
+            tab.with_text { t(tab_page.label) }
+          end
+        end
+      end
+    end
   end
 %>
