@@ -48,9 +48,11 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
   context "when sticky and locked" do
     let(:topic) { create(:message, forum:, sticky: true, locked: true) }
 
+    before { rendered_component }
+
     it "marks both with a labelled icon", :aggregate_failures do
-      expect(rendered_component).to have_css("[data-test-selector='topic-sticky'][aria-label='Sticky']")
-      expect(rendered_component).to have_css("[data-test-selector='topic-locked'][aria-label='Locked']")
+      expect(find_test_selector("topic-sticky")["aria-label"]).to eq("Sticky")
+      expect(find_test_selector("topic-locked")["aria-label"]).to eq("Locked")
     end
   end
 

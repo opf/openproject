@@ -42,8 +42,7 @@ RSpec.describe Messages::ShowPageHeaderComponent, type: :component do
 
   it "tells when the topic started" do
     expect(rendered_component).to have_test_selector("topic-summary", text: "Started")
-    expect(rendered_component)
-      .to have_css("[data-test-selector='topic-summary'] relative-time[datetime='#{topic.created_at.iso8601}']")
+    expect(find_test_selector("topic-summary")).to have_css("relative-time[datetime='#{topic.created_at.iso8601}']")
   end
 
   context "with replies from the topic's author and someone else" do

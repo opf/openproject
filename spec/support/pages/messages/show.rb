@@ -101,11 +101,11 @@ module Pages::Messages
     end
 
     def within_gap(index = 0, &)
-      within(all("[data-test-selector='forum-thread-gap']")[index], &)
+      within(all(test_selector("forum-thread-gap"))[index], &)
     end
 
     def expect_no_gap
-      expect(page).to have_no_css("[data-test-selector='forum-thread-gap']")
+      expect(page).to have_no_test_selector("forum-thread-gap")
     end
 
     def expect_current_path(reply = nil)

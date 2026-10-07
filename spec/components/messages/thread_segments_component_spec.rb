@@ -49,7 +49,7 @@ RSpec.describe Messages::ThreadSegmentsComponent, type: :component do
 
   it "renders the replies, then the gap", :aggregate_failures do
     expect(rendered_component).to have_css("#message-#{replies.first.id}")
-    expect(rendered_component).to have_css("#message-#{replies.last.id} ~ [data-test-selector='forum-thread-gap']")
+    expect(rendered_component).to have_css("#message-#{replies.last.id} ~ #{test_selector('forum-thread-gap')}")
   end
 
   it "focuses nothing on a page render" do

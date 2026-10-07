@@ -48,7 +48,8 @@ RSpec.describe "Forum topic list", type: :rails_request do
 
   def checked_sort
     Capybara.string(response.body)
-            .find("[data-test-selector='forum-topics-sort'] [aria-checked='true']", visible: :all)
+            .find(:test_id, "forum-topics-sort", visible: :all)
+            .find("[aria-checked='true']", visible: :all)
             .text.strip
   end
 
