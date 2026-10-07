@@ -74,11 +74,28 @@ RSpec.describe "POST work package assign to me", :skip_csrf, type: :rails_reques
   context "when the user cannot see the work package" do
     let(:user) { create(:user) }
 
-    it "responds as if it did not exist" do
+    it "responds as if it did not exist and tells the user so" do
       request
 
       expect(response).to have_http_status(:not_found)
+      expect(response).to have_turbo_stream(action: "flash")
+      expect(response.body).to include("Banner--error")
       expect(work_package.reload.assigned_to).to be_nil
+    end
+  end
+
+  context "when assigning fails unexpectedly" do
+    before do
+      allow(WorkPackages::UpdateService).to receive(:new).and_raise(StandardError, "boom")
+    end
+
+    it "tells the user something went wrong" do
+      request
+
+      expect(response).to have_http_status(:internal_server_error)
+      expect(response).to have_turbo_stream(action: "flash")
+      expect(response.body).to include("Banner--error")
+      expect(response).not_to have_turbo_stream(action: "dispatchEvent")
     end
   end
 end
