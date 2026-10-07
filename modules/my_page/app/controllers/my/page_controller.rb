@@ -39,7 +39,7 @@ module My
     def show
       respond_to do |format|
         format.html do
-          render locals: { menu_name: :global_menu, my_day: my_day?, tab: current_tab, today:, inbox: }
+          render locals: { menu_name: :global_menu, my_day: my_day?, tab: current_tab, today:, upcoming:, unplanned: }
         end
       end
     end
@@ -51,15 +51,19 @@ module My
     def current_tab
       return "dashboard" unless my_day?
 
-      %w[inbox dashboard].include?(params[:tab]) ? params[:tab] : "today"
+      %w[upcoming unplanned dashboard].include?(params[:tab]) ? params[:tab] : "today"
     end
 
     def today
       MyDay::Today.for(current_user) if current_tab == "today"
     end
 
-    def inbox
-      MyDay::Inbox.for(current_user) if current_tab == "inbox"
+    def upcoming
+      MyDay::Upcoming.for(current_user) if current_tab == "upcoming"
+    end
+
+    def unplanned
+      MyDay::Unplanned.for(current_user) if current_tab == "unplanned"
     end
   end
 end

@@ -108,15 +108,15 @@ module My
 
     def refresh_view_via_turbo_stream
       replace_via_turbo_stream(component: current_view_component)
-      turbo_streams << turbo_stream.replace(MyDay::InboxCounter::ID,
-                                            MyDay::InboxCounter.new(user: current_user).render_in(view_context))
+      turbo_streams << turbo_stream.replace(MyDay::UnplannedCounter::ID,
+                                            MyDay::UnplannedCounter.new(user: current_user).render_in(view_context))
     end
 
     def current_view_component
-      if params[:view] == "inbox"
-        MyDay::InboxComponent.new(inbox: MyDay::Inbox.for(current_user))
-      else
-        MyDay::TodayComponent.new(today: MyDay::Today.for(current_user))
+      case params[:view]
+      when "unplanned" then MyDay::UnplannedComponent.new(unplanned: MyDay::Unplanned.for(current_user))
+      when "upcoming" then MyDay::UpcomingComponent.new(upcoming: MyDay::Upcoming.for(current_user))
+      else MyDay::TodayComponent.new(today: MyDay::Today.for(current_user))
       end
     end
   end

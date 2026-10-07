@@ -29,21 +29,41 @@
 #++
 
 module MyDay
-  # The number of open Inbox items on the Inbox tab, replaced after every change to the plan.
-  class InboxCounter < ApplicationComponent
-    ID = "my-day-inbox-counter"
+  # The user's personal backlog: open "My work" tasks that are not planned for today or later,
+  # either left over from an earlier day or never planned.
+  class Unplanned
+    attr_reader :user, :project
 
-    def initialize(user:)
-      super()
-      @user = user
+    def self.for(user)
+      call = ProjectService.new(user).call
+      new(user:, project: call.result) if call.success?
     end
 
-    def call
-      render(Primer::Beta::Counter.new(count: Inbox.for(user)&.count.to_i, hide_if_zero: true, id: ID))
+    def initialize(user:, project:)
+      @user = user
+      @project = project
+    end
+
+    def work_packages
+      @work_packages ||= project
+                           .work_packages
+                           .with_status_open
+                           .where(left_over_or_undated)
+                           .includes(:type, :project, :custom_values)
+                           .order(due_date.asc.nulls_last, id: :desc)
+                           .to_a
+    end
+
+    def count = work_packages.size
+
+    def references
+      @references ||= References.for(user, work_packages)
     end
 
     private
 
-    attr_reader :user
+    def due_date = WorkPackage.arel_table[:due_date]
+
+    def left_over_or_undated = due_date.eq(nil).or(due_date.lt(user.today))
   end
 end

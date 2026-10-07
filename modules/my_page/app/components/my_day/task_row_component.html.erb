@@ -31,8 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% row.with_column(mr: 3, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0", display: :flex, justify_content: :flex_end) do %>
     <%= form_with(url: my_day_task_path(work_package), method: :patch) do %>
       <%= hidden_field_tag :done, !closed?, id: nil %>
-      <% if inbox? %>
-        <%= hidden_field_tag :view, :inbox, id: nil %>
+      <% if view_param %>
+        <%= hidden_field_tag :view, view_param, id: nil %>
       <% end %>
       <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
     <% end %>
@@ -58,7 +58,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
   <% row.with_column(mr: 2, flex_shrink: 0) do %>
     <%= flex_layout(align_items: :center, test_selector: "my-day-task-meta") do |meta| %>
-      <% if inbox? %>
+      <% if unplanned? %>
         <% meta.with_column(**meta_cell(:planned_for)) do %>
           <% if work_package.due_date %>
             <%= render(Primer::Beta::Text.new(color: :severe, font_size: :small)) { t("my_day.planned_for", date: helpers.format_date(work_package.due_date)) } %>
@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% move_targets.each do |to, label| %>
         <% menu.with_item(label:, href: plan_path(to), form_arguments: plan_form_arguments) %>
       <% end %>
-      <% unless inbox? %>
+      <% if can_unplan? %>
         <% menu.with_divider %>
         <% menu.with_item(label: t("my_day.move_to.remove"), href: plan_path(:remove), form_arguments: plan_form_arguments) %>
       <% end %>

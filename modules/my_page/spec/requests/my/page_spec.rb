@@ -104,17 +104,35 @@ RSpec.describe "My page", type: :rails_request do
       expect(response.body).not_to include("opce-my-page")
     end
 
-    context "on the Inbox tab" do
-      let(:path) { my_page_path(tab: :inbox) }
+    context "on the Upcoming tab" do
+      let(:path) { my_page_path(tab: :upcoming) }
+
+      before do
+        work_package.update_columns(due_date: user.today + 1, start_date: user.today + 1)
+        meeting.update_columns(start_time: meeting.start_time + 1.day)
+      end
+
+      it "lists the coming working days" do
+        subject
+
+        expect(page).to have_test_selector("my-day-upcoming")
+        expect(page).to have_test_selector("my-day-upcoming-day", text: "Tomorrow")
+        expect(page).to have_test_selector("my-day-upcoming-task", text: "Book train to the offsite")
+        expect(page).to have_test_selector("my-day-upcoming-meeting", text: "Meeting · One-time")
+      end
+    end
+
+    context "on the Unplanned tab" do
+      let(:path) { my_page_path(tab: :unplanned) }
 
       before { work_package.update_columns(due_date: nil, start_date: nil) }
 
       it "shows the backlog" do
         subject
 
-        expect(page).to have_test_selector("my-day-inbox")
-        expect(page).to have_test_selector("my-day-inbox-task", text: "Book train to the offsite")
-        expect(page).to have_css("##{MyDay::InboxCounter::ID}", text: "1")
+        expect(page).to have_test_selector("my-day-unplanned")
+        expect(page).to have_test_selector("my-day-unplanned-task", text: "Book train to the offsite")
+        expect(page).to have_css("##{MyDay::UnplannedCounter::ID}", text: "1")
       end
     end
 

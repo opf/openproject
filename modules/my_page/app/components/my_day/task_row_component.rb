@@ -36,32 +36,39 @@ module MyDay
     # or a planned work package.
     META_WIDTHS = { planned_for: "9rem", kind: "7rem", id: "6rem", project: "8rem", status: "7rem" }.freeze
 
-    def initialize(work_package:, lead_width:, references:, day_part: nil)
+    def initialize(work_package:, lead_width:, references:, view: :today, day_part: nil)
       super()
       @work_package = work_package
       @lead_width = lead_width
       @references = references
+      @view = view
       @day_part = day_part
     end
 
     private
 
-    attr_reader :work_package, :lead_width, :references, :day_part
+    attr_reader :work_package, :lead_width, :references, :view, :day_part
 
-    def inbox? = day_part.nil?
+    def unplanned? = view == :unplanned
 
-    # Where the Move menu can send the task: the other day parts today, or into today from the Inbox.
+    # Where the Move menu can send the task: the other day parts when it is planned for today,
+    # otherwise into today; and tomorrow, unless that is already its day.
     def move_targets
-      today = inbox? ? %w[today] : DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
+      targets = view == :today ? DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s] : %w[today]
+      targets << "tomorrow" unless work_package.due_date == User.current.today + 1
 
-      (today + %w[tomorrow]).map { [it, t("my_day.move_to.#{it}")] }
+      targets.map { [it, t("my_day.move_to.#{it}")] }
     end
+
+    def can_unplan? = !unplanned?
 
     def meta_cell(name)
       { mr: 2, classes: "min-width-0", style: "width: #{META_WIDTHS.fetch(name)}; flex-shrink: 0" }
     end
 
-    def plan_path(to) = my_day_task_plan_path(work_package, to:, view: (:inbox if inbox?))
+    def view_param = (view unless view == :today)
+
+    def plan_path(to) = my_day_task_plan_path(work_package, to:, view: view_param)
 
     def plan_form_arguments = { method: :patch, data: { turbo_stream: true } }
 

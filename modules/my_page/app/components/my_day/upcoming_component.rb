@@ -29,41 +29,45 @@
 #++
 
 module MyDay
-  # The user's personal backlog: open "My work" tasks that are not planned for today or later,
-  # either left over from an earlier day or never planned.
-  class Inbox
-    attr_reader :user, :project
+  class UpcomingComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    def self.for(user)
-      call = ProjectService.new(user).call
-      new(user:, project: call.result) if call.success?
-    end
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-    end
-
-    def work_packages
-      @work_packages ||= project
-                           .work_packages
-                           .with_status_open
-                           .where(left_over_or_undated)
-                           .includes(:type, :project, :custom_values)
-                           .order(due_date.asc.nulls_last, id: :desc)
-                           .to_a
-    end
-
-    def count = work_packages.size
-
-    def references
-      @references ||= References.for(user, work_packages)
+    def initialize(upcoming:)
+      super()
+      @upcoming = upcoming
     end
 
     private
 
-    def due_date = WorkPackage.arel_table[:due_date]
+    attr_reader :upcoming
 
-    def left_over_or_undated = due_date.eq(nil).or(due_date.lt(user.today))
+    def lead_width = TodayComponent.lead_width(helpers)
+
+    def day_name(date)
+      date == upcoming.user.today + 1 ? t("my_day.upcoming.tomorrow") : I18n.l(date, format: "%A")
+    end
+
+    def counts(day)
+      return t("my_day.empty_section") if day.empty?
+
+      [
+        t("my_day.open_tasks", count: day.open_count),
+        (t("my_day.meetings", count: day.meetings.size) if day.meetings.any?)
+      ].compact.join(" · ")
+    end
+
+    def start_time(occurrence)
+      helpers.format_time(occurrence.start_time, include_date: false, time_zone: upcoming.user.time_zone)
+    end
+
+    def meeting_kind(occurrence)
+      recurring = occurrence.series || occurrence.meeting.recurring_meeting_id
+      recurring ? t("my_day.meeting_recurring") : t("my_day.meeting_one_time")
+    end
+
+    def occurrence_path(occurrence)
+      occurrence.meeting ? meeting_path(occurrence.meeting) : recurring_meeting_path(occurrence.series)
+    end
   end
 end

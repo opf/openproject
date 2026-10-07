@@ -29,17 +29,17 @@
 #++
 
 module MyDay
-  class InboxComponent < ApplicationComponent
+  class UnplannedComponent < ApplicationComponent
     include OpTurbo::Streamable
 
-    def initialize(inbox:)
+    def initialize(unplanned:)
       super()
-      @inbox = inbox
+      @unplanned = unplanned
     end
 
     private
 
-    attr_reader :inbox
+    attr_reader :unplanned
 
     def lead_width = TodayComponent.lead_width(helpers)
   end

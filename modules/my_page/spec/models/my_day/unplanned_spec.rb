@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe MyDay::Inbox do
+RSpec.describe MyDay::Unplanned do
   let!(:task) { create(:type_task) }
   let!(:role) do
     create(:project_role, permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR + %i[view_work_packages])
@@ -51,12 +51,12 @@ RSpec.describe MyDay::Inbox do
     create(:work_package, project:, type: task, subject: "Tomorrow", due_date: Date.new(2026, 10, 7))
   end
 
-  subject(:inbox) { described_class.new(user:, project:) }
+  subject(:unplanned) { described_class.new(user:, project:) }
 
   around { |example| travel_to(Time.zone.parse("2026-10-06 08:00")) { example.run } }
 
   it "holds open tasks left over from earlier days, then those without a date" do
-    expect(inbox.work_packages).to eq([left_over, undated])
-    expect(inbox.count).to eq(2)
+    expect(unplanned.work_packages).to eq([left_over, undated])
+    expect(unplanned.count).to eq(2)
   end
 end
