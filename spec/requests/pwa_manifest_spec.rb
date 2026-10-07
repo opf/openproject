@@ -60,6 +60,7 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
 
     it "installs as a standalone window named after the instance, rooted at the instance" do
       expect(manifest).to include("name" => "Acme Projects",
+                                  "short_name" => "Acme",
                                   "display" => "standalone",
                                   "id" => "/",
                                   "start_url" => "/",

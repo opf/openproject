@@ -3,6 +3,7 @@
 
   manifest = {
     name: Setting.app_title,
+    short_name: pwa_short_name,
     id: root_path,
     start_url: root_path,
     scope: root_path,
@@ -12,6 +13,6 @@
     icons: [192, 512].map do |size|
       { src: image_path("pwa/icon-#{size}.png"), sizes: "#{size}x#{size}", type: "image/png" }
     end
-  }
+  }.compact
 %>
 <%== JSON.pretty_generate(manifest) %>
