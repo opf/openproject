@@ -32,20 +32,18 @@ class MessagesController < ApplicationController
   menu_item :forums
   default_search_scope :messages
   before_action :find_project_and_forum
-  before_action :find_message, only: %i[show edit update destroy reply quote]
+  before_action :find_message, only: %i[show edit update destroy reply quote replies]
   before_action :authorize, except: %i[edit update destroy]
   # Checked inside the method.
   no_authorization_required! :edit, :update, :destroy
 
   include AttachmentsHelper
+  include OpTurbo::ComponentStream
 
   # Show a topic and its replies
   def show
     @topic = @message.root
-    @replies = @topic
-               .children
-               .includes(:author, :attachments, :project, forum: :project)
-               .order(created_at: :asc)
+    @segments = Messages::ThreadLayout.new(@topic).segments(target_id: params[:r])
 
     @reply = Message.new(parent: @topic, forum: @topic.forum)
     render action: "show", layout: !request.xhr?
@@ -134,6 +132,18 @@ class MessagesController < ApplicationController
       format.json { render json: { content: }, escape: true }
       format.any { head :not_acceptable }
     end
+  end
+
+  def replies # rubocop:disable Metrics/AbcSize
+    take = params[:take]
+    return head(:bad_request) unless take.in?(%w[next previous all])
+
+    topic = @message.root
+    segments = Messages::ThreadLayout.new(topic).gap_segments(after_id: params[:after], before_id: params[:before], take:)
+    content = Messages::ThreadSegmentsComponent.new(topic:, segments:, focus_first: true)
+
+    turbo_streams << turbo_stream.replace(Messages::RepliesGapComponent.dom_id(params[:after], params[:before]), content)
+    respond_with_turbo_streams
   end
 
   private
