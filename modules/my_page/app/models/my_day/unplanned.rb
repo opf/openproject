@@ -31,19 +31,7 @@
 module MyDay
   # The user's personal backlog: open "My work" tasks that are not planned for today or later,
   # either left over from an earlier day or never planned.
-  class Unplanned
-    attr_reader :user, :project
-
-    def self.for(user)
-      call = ProjectService.new(user).call
-      new(user:, project: call.result) if call.success?
-    end
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-    end
-
+  class Unplanned < View
     def work_packages
       @work_packages ||= project
                            .work_packages
@@ -55,10 +43,6 @@ module MyDay
     end
 
     def count = work_packages.size
-
-    def references
-      @references ||= References.for(user, work_packages)
-    end
 
     private
 

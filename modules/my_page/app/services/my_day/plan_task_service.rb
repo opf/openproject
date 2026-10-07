@@ -55,15 +55,10 @@ module MyDay
       when "today" then dates(user.today)
       when "tomorrow" then dates(user.today + 1)
       when "remove" then dates(nil)
-      else dates(user.today).merge(day_part(to))
+      else dates(user.today).merge(DayPartField.find.attributes_for(to))
       end
     end
 
     def dates(date) = { start_date: date, due_date: date }
-
-    def day_part(to)
-      field = DayPartField.find
-      { "custom_field_#{field.id}": field.option_id_for(to) }
-    end
   end
 end

@@ -31,32 +31,16 @@
 module MyDay
   # What the user has planned for today: their "My work" tasks due today and the meetings they take
   # part in, split into day parts. Tasks without a day part count as morning.
-  class Today
-    DAY_PARTS = DayPartField::DAY_PARTS
+  class Today < View
     AFTERNOON_FROM = 12
     EVENING_FROM = 17
 
-    Section = Data.define(:day_part, :meetings, :work_packages) do
-      def open_count = work_packages.count { !it.closed? }
+    Section = Data.define(:day_part, :meetings, :work_packages) { include Group }
 
-      def empty? = meetings.empty? && work_packages.empty?
-    end
-
-    attr_reader :user, :project, :date
-
-    def self.for(user)
-      call = ProjectService.new(user).call
-      new(user:, project: call.result) if call.success?
-    end
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-      @date = user.today
-    end
+    def date = user.today
 
     def sections
-      @sections ||= DAY_PARTS.map do |day_part|
+      @sections ||= DayPartField::DAY_PARTS.map do |day_part|
         Section.new(day_part:,
                     meetings: meetings.select { day_part_at(it.start_time) == day_part },
                     work_packages: work_packages.select { day_part_field.day_part_of(it) == day_part })
@@ -87,10 +71,6 @@ module MyDay
                            .includes(:status, :type, :project, :custom_values)
                            .order(:id)
                            .to_a
-    end
-
-    def references
-      @references ||= References.for(user, work_packages)
     end
 
     private

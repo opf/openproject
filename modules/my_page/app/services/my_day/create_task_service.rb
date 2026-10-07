@@ -32,8 +32,6 @@ module MyDay
   # Creates a task in the user's "My work" project, due today in the given day part. Work packages
   # referenced as #123 or ##PROJ-42 get a "relates to" link the user is allowed to add.
   class CreateTaskService
-    REFERENCE = /(?<![\w#])\#{1,3}(#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}|\d+)\b/
-
     def initialize(user:)
       @user = user
     end
@@ -50,31 +48,22 @@ module MyDay
     attr_reader :user
 
     def create_task(project, subject, day_part)
-      day_part_field = DayPartField.find
-
       WorkPackages::CreateService
         .new(user:)
         .call(project:,
-              type: SetupService.new.call.result.type,
+              type: project.project_types.first.type,
               subject: subject.to_s.strip,
               start_date: user.today,
               due_date: user.today,
-              "custom_field_#{day_part_field.id}": day_part_field.option_id_for(day_part))
+              **DayPartField.find.attributes_for(day_part))
     end
 
     def link_references(task)
-      referenced_work_packages(task).each do |work_package|
+      (References.for(user, [task]).values.uniq - [task]).each do |work_package|
         Relations::CreateService
           .new(user:)
           .call(from: task, to: work_package, relation_type: Relation::TYPE_RELATES)
       end
-    end
-
-    def referenced_work_packages(task)
-      ids = task.subject.scan(REFERENCE).flatten.uniq
-      return WorkPackage.none if ids.empty?
-
-      WorkPackage.visible(user).where_display_id_in(ids).where.not(id: task.id)
     end
   end
 end

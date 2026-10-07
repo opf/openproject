@@ -29,21 +29,8 @@
 #++
 
 module MyDay
-  class TodayComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
+  class TodayComponent < BaseComponent
     COLOR_SCHEMES = { morning: :attention, afternoon: :accent, evening: :done }.freeze
-
-    # Wide enough for a meeting's "start–end" in the configured time format and for a task's id
-    # followed by its checkbox, so that meeting and task titles start at the same point.
-    def self.lead_width(helpers)
-      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
-      time_width = (latest.length * 2) + 2
-      id_and_checkbox_width = TaskRowComponent::ID_CHARACTERS + 5
-
-      "#{[time_width, id_and_checkbox_width].max}ch"
-    end
 
     def initialize(today:)
       super()
@@ -62,10 +49,21 @@ module MyDay
       ].join(" · ")
     end
 
-    def lead_width = self.class.lead_width(helpers)
-
     def row_arguments(day_part, **)
       { border: :bottom, px: 2, py: 1, test_selector: "my-day-#{day_part}", ** }
+    end
+
+    def subject_field_arguments
+      {
+        name: "task[subject]",
+        label: t("my_day.quick_add.label"),
+        visually_hide_label: true,
+        placeholder: t("my_day.quick_add.placeholder"),
+        required: true,
+        autocomplete: "off",
+        full_width: true,
+        size: :small
+      }
     end
   end
 end

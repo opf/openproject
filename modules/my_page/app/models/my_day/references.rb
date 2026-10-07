@@ -32,8 +32,10 @@ module MyDay
   # Work packages the user can see that task subjects reference, keyed by every id they may be
   # written with.
   class References
+    PATTERN = /(?<![\w#])\#{1,3}(#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}|\d+)\b/
+
     def self.for(user, work_packages)
-      ids = work_packages.flat_map { it.subject.scan(CreateTaskService::REFERENCE) }.flatten
+      ids = work_packages.flat_map { it.subject.scan(PATTERN) }.flatten
 
       WorkPackage
         .visible(user)

@@ -68,8 +68,6 @@ module MyDay
       targets.map { [it, t("my_day.move_to.#{it}")] }
     end
 
-    def can_unplan? = !unplanned?
-
     # Quick tasks and planned work packages share one look: the type in its colour, with own tasks
     # named as quick tasks.
     def kind_name
@@ -92,7 +90,7 @@ module MyDay
 
     # The subject as text, with each visible referenced work package in place of its reference.
     def subject_parts
-      work_package.subject.split(CreateTaskService::REFERENCE).each_with_index.map do |part, index|
+      work_package.subject.split(References::PATTERN).each_with_index.map do |part, index|
         index.even? ? part : references.fetch(part) { "##{part}" }
       end
     end

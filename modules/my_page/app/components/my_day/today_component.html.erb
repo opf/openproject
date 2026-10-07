@@ -30,14 +30,46 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper(data: { test_selector: "my-day-today" }) do %>
   <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, test_selector: "my-day-summary")) { summary } %>
 
-  <%= render(Primer::Box.new(mt: 2)) do %>
-    <%= render(MyDay::QuickAddComponent.new(selected: today.current_day_part)) %>
+  <%= form_with(url: my_day_tasks_path, scope: :task, method: :post, class: "mt-2", data: { test_selector: "my-day-quick-add" }) do %>
+    <%= flex_layout(align_items: :center) do |row| %>
+      <% row.with_column(flex: 1, mr: 2) do %>
+        <%= render(Primer::Alpha::TextField.new(**subject_field_arguments)) %>
+      <% end %>
+      <% row.with_column(mr: 2) do %>
+        <div data-controller="filter--segmented-control" data-action="itemActivated->filter--segmented-control#activate">
+          <%= hidden_field_tag "task[day_part]", today.current_day_part, id: nil, data: { "filter--segmented-control-target": "field" } %>
+          <%= render(Primer::Alpha::SegmentedControl.new("aria-label": t("my_day.day_part.name"), size: :small)) do |control| %>
+            <% MyDay::DayPartField::DAY_PARTS.each do |day_part| %>
+              <% control.with_item(label: t("my_day.day_part.#{day_part}"), selected: day_part == today.current_day_part, data: { value: day_part }) %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <% row.with_column do %>
+        <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, size: :small)) { t("my_day.quick_add.submit") } %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <% today.sections.each do |section| %>
     <% scheme = COLOR_SCHEMES.fetch(section.day_part) %>
     <%= render(Primer::Box.new(mt: 3, test_selector: "my-day-section-#{section.day_part}")) do %>
-      <%= render(MyDay::SectionHeaderComponent.new(section:, scheme:, now: today.now?(section.day_part))) %>
+      <%= flex_layout(align_items: :center, px: 2, pb: 1, border: :bottom, border_color: :"#{scheme}_emphasis") do |header| %>
+        <% header.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 5)) { t("my_day.day_part.#{section.day_part}") } %>
+        <% end %>
+        <% header.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { t("my_day.time_range.#{section.day_part}") } %>
+        <% end %>
+        <% if today.now?(section.day_part) %>
+          <% header.with_column do %>
+            <%= render(Primer::Beta::Label.new(scheme:, test_selector: "my-day-now")) { t("my_day.now") } %>
+          <% end %>
+        <% end %>
+        <% header.with_column(ml: :auto) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { counts(section) } %>
+        <% end %>
+      <% end %>
 
       <% section.meetings.each do |meeting| %>
         <%= render(Primer::Box.new(**row_arguments(section.day_part, bg: :subtle, test_selector: "my-day-meeting-#{section.day_part}"))) do %>
