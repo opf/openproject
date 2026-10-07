@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { User } from '@blocknote/core/comments';
+import { User } from '@blocknote/core';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { useEffect, useRef } from 'react';
 import * as Y from 'yjs';
