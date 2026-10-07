@@ -100,6 +100,14 @@ module Pages::Messages
       end
     end
 
+    def within_gap(index = 0, &)
+      within(all("[data-test-selector='forum-thread-gap']")[index], &)
+    end
+
+    def expect_no_gap
+      expect(page).to have_no_css("[data-test-selector='forum-thread-gap']")
+    end
+
     def expect_current_path(reply = nil)
       replies_to = reply ? "r=#{reply.id}" : nil
       super(replies_to)
