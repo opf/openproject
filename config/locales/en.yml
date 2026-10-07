@@ -4041,7 +4041,7 @@ en:
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
-  label_date_format: "Date format"
+  label_date_and_time_formats: "Date and time formats"
   label_date_from: "From"
   label_date_from_to: "From %{start} to %{end}"
   label_date_to: "To"
