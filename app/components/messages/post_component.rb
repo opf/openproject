@@ -53,6 +53,30 @@ module Messages
       !topic.locked? && User.current.allowed_in_project?(:add_messages, project)
     end
 
+    def byline # rubocop:disable Metrics/AbcSize
+      flex_layout(align_items: :center, justify_content: :space_between) do |line|
+        line.with_column(flex_layout: true, flex_wrap: :wrap, align_items: :center) do |author_and_time|
+          if message.author
+            author_and_time.with_column(mr: 2) do
+              render(Users::AvatarComponent.new(user: message.author, show_name: false, size: :mini))
+            end
+            author_and_time.with_column(mr: 2) do
+              helpers.primer_link_to_user(message.author, scheme: :primary, font_weight: :bold, hover_card: true)
+            end
+          end
+          author_and_time.with_column { anchor_link }
+        end
+        line.with_column(ml: 1) { action_menu }
+      end
+    end
+
+    def anchor_link
+      render(Primer::Beta::Link.new(href: helpers.message_anchor_path(message), scheme: :secondary, underline: false,
+                                    font_size: :small, data: { turbo: false })) do
+        helpers.format_time(message.created_at)
+      end
+    end
+
     def action_menu # rubocop:disable Metrics/AbcSize
       render(Primer::Alpha::ActionMenu.new(test_selector: "message-actions-#{message.id}")) do |menu|
         menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": t("forums.topic.message_actions"))
