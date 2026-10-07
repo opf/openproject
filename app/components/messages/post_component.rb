@@ -32,8 +32,6 @@ module Messages
   class PostComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    with_collection_parameter :message
-
     def initialize(message:, topic:, focus: false)
       super
       @message = message
