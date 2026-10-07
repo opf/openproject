@@ -389,7 +389,10 @@ class MeetingsController < ApplicationController
 
   def fetch_templates
     selected_project = Project.visible.find_by(id: params.dig(:meeting, :project_id))
-    meeting = Meeting.new(project: selected_project)
+    meeting = Meeting.new(project: selected_project,
+                          **prefilled_attributes(Meeting,
+                                                 title: params.dig(:meeting, :title),
+                                                 user_ids: submitted_participant_ids))
 
     update_via_turbo_stream(
       component: Meetings::Index::FormComponent.new(meeting: meeting, project: nil)
@@ -513,12 +516,26 @@ class MeetingsController < ApplicationController
     service = meeting.is_a?(RecurringMeeting) ? ::RecurringMeetings::SetAttributesService : ::Meetings::SetAttributesService
     call = service
       .new(user: current_user, model: meeting, contract_class: EmptyContract)
-      .call(project: @project)
+      .call(project: @project, **prefilled_attributes(meeting.class, title: params[:title], user_ids: params[:participant_ids]))
 
     @meeting = call.result
 
     # When coming from the "Create from template" button, load the template to hide the form field
     @copy_from = Meeting.templates_visible_in_project(@project).find_by(id: params[:template_id]) if params[:template_id].present?
+  end
+
+  # A title and participants handed to the new meeting dialog, e.g. from a task in My Day. Participants
+  # are only taken for one-time meetings and always include the creator.
+  def prefilled_attributes(meeting_class, title:, user_ids:)
+    attributes = { title: title.presence }.compact
+    users = User.visible(current_user).active.where(id: Array(user_ids).compact_blank)
+    return attributes if meeting_class != Meeting || users.empty?
+
+    attributes.merge(participants_attributes: ([current_user] + users).uniq.map { { user_id: it.id, invited: true } })
+  end
+
+  def submitted_participant_ids
+    Array(params.dig(:meeting, :participants_attributes)).filter_map { it[:user_id] }
   end
 
   def global_upcoming_meetings

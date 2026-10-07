@@ -35,11 +35,14 @@ module MyDay
 
     COLOR_SCHEMES = { morning: :attention, afternoon: :accent, evening: :done }.freeze
 
-    # Wide enough for "start–end" in the configured time format, so meeting times and task
-    # checkboxes line up.
+    # Wide enough for a meeting's "start–end" in the configured time format and for a task's id
+    # followed by its checkbox, so that meeting and task titles start at the same point.
     def self.lead_width(helpers)
       latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
-      "#{(latest.length * 2) + 2}ch"
+      time_width = (latest.length * 2) + 2
+      id_and_checkbox_width = TaskRowComponent::ID_CHARACTERS + 5
+
+      "#{[time_width, id_and_checkbox_width].max}ch"
     end
 
     def initialize(today:)

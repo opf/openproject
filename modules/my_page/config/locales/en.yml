@@ -12,6 +12,8 @@ en:
     dashboard: "Dashboard"
     empty_section: "Nothing planned."
     now: "Now"
+    create_meeting: "Create meeting"
+    meeting_with: "Meeting with %{names}"
     upcoming:
       title: "Upcoming"
       tomorrow: "Tomorrow"
