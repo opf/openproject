@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: { test_selector: "my-day-upcoming" }) do %>
+  <% upcoming.days.each do |day| %>
+    <%= render(Primer::Box.new(mt: 3, test_selector: "my-day-upcoming-day")) do %>
+      <%= flex_layout(align_items: :baseline, px: 2, pb: 1, border: :bottom) do |header| %>
+        <% header.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { day.date.day.to_s } %>
+        <% end %>
+        <% header.with_column(mr: 2) do %>
+          <%= render(Primer::Beta::Text.new(font_weight: :semibold, color: :muted)) { day_name(day.date) } %>
+        <% end %>
+        <% header.with_column(ml: :auto) do %>
+          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { counts(day) } %>
+        <% end %>
+      <% end %>
+
+      <% day.meetings.each do |occurrence| %>
+        <%= flex_layout(align_items: :center, px: 2, py: 1, border: :bottom, bg: :subtle, test_selector: "my-day-upcoming-meeting") do |row| %>
+          <% row.with_column(mr: 3, text_align: :right, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0") do %>
+            <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :accent)) { start_time(occurrence) } %>
+          <% end %>
+          <% row.with_column(flex: 1, mr: 3, classes: "min-width-0") do %>
+            <%= render(Primer::Beta::Truncate.new) do %>
+              <%= render(Primer::Beta::Link.new(href: occurrence_path(occurrence), scheme: :primary, font_weight: :semibold)) { occurrence.title } %>
+            <% end %>
+          <% end %>
+          <% row.with_column(flex_shrink: 0) do %>
+            <%= render(Primer::Beta::Label.new(scheme: :secondary)) { meeting_kind(occurrence) } %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% day.work_packages.each do |work_package| %>
+        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "my-day-upcoming-task")) do %>
+          <%= render(MyDay::TaskRowComponent.new(work_package:, lead_width:, references: upcoming.references, view: :upcoming)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

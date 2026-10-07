@@ -27,18 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: { test_selector: "my-day-inbox" }) do %>
-  <% if inbox.work_packages.empty? %>
-    <%= render(Primer::Beta::Blankslate.new(test_selector: "my-day-inbox-empty")) do |blankslate| %>
-      <% blankslate.with_visual_icon(icon: :inbox) %>
-      <% blankslate.with_heading(tag: :h3).with_content(t("my_day.inbox.empty")) %>
-      <% blankslate.with_description { t("my_day.inbox.description") } %>
+<%= component_wrapper(data: { test_selector: "my-day-unplanned" }) do %>
+  <% if unplanned.work_packages.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(test_selector: "my-day-unplanned-empty")) do |blankslate| %>
+      <% blankslate.with_visual_icon(icon: :"check-circle") %>
+      <% blankslate.with_heading(tag: :h3).with_content(t("my_day.unplanned.empty")) %>
+      <% blankslate.with_description { t("my_day.unplanned.description") } %>
     <% end %>
   <% else %>
     <%= render(Primer::Box.new(border: :top)) do %>
-      <% inbox.work_packages.each do |work_package| %>
-        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "my-day-inbox-task")) do %>
-          <%= render(MyDay::TaskRowComponent.new(work_package:, lead_width:, references: inbox.references)) %>
+      <% unplanned.work_packages.each do |work_package| %>
+        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "my-day-unplanned-task")) do %>
+          <%= render(MyDay::TaskRowComponent.new(work_package:, lead_width:, references: unplanned.references, view: :unplanned)) %>
         <% end %>
       <% end %>
     <% end %>

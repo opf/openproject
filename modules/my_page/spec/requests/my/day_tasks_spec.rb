@@ -114,19 +114,19 @@ RSpec.describe "My Day tasks", :skip_csrf, type: :rails_request do
       expect(MyDay::DayPartField.find.day_part_of(task.reload)).to eq(:evening)
     end
 
-    context "when planning from the Inbox" do
+    context "when planning from Unplanned" do
       let!(:left_over) do
         MyDay::CreateTaskService.new(user:).call(subject: "Left over", day_part: :afternoon).result.tap do |task|
           task.update_columns(start_date: user.today - 3, due_date: user.today - 3)
         end
       end
 
-      it "plans it for today and re-renders the Inbox with its counter" do
-        patch(my_day_task_plan_path(left_over, to: :today, view: :inbox), headers:)
+      it "plans it for today and re-renders Unplanned with its counter" do
+        patch(my_day_task_plan_path(left_over, to: :today, view: :unplanned), headers:)
 
         expect(left_over.reload.due_date).to eq(user.today)
-        expect(response.body).to include('target="my-day-inbox-component"')
-        expect(response.body).to include('target="my-day-inbox-counter"')
+        expect(response.body).to include('target="my-day-unplanned-component"')
+        expect(response.body).to include('target="my-day-unplanned-counter"')
       end
     end
   end

@@ -10,12 +10,15 @@
         tab_nav.with_tab(selected: tab == "today", href: my_page_path) do |item|
           item.with_text { t("my_day.today") }
         end
-        tab_nav.with_tab(selected: tab == "inbox", href: my_page_path(tab: :inbox)) do |item|
-          item.with_text { t("my_day.inbox.title") }
+        tab_nav.with_tab(selected: tab == "upcoming", href: my_page_path(tab: :upcoming)) do |item|
+          item.with_text { t("my_day.upcoming.title") }
+        end
+        tab_nav.with_tab(selected: tab == "unplanned", href: my_page_path(tab: :unplanned)) do |item|
+          item.with_text { t("my_day.unplanned.title") }
           item.with_counter(
-            count: MyDay::Inbox.for(current_user)&.count.to_i,
+            count: MyDay::Unplanned.for(current_user)&.count.to_i,
             hide_if_zero: true,
-            id: MyDay::InboxCounter::ID
+            id: MyDay::UnplannedCounter::ID
           )
         end
         tab_nav.with_tab(selected: tab == "dashboard", href: my_page_path(tab: :dashboard)) do |item|
@@ -28,8 +31,10 @@
 
 <% if today %>
   <%= render(MyDay::TodayComponent.new(today:)) %>
-<% elsif inbox %>
-  <%= render(MyDay::InboxComponent.new(inbox:)) %>
+<% elsif upcoming %>
+  <%= render(MyDay::UpcomingComponent.new(upcoming:)) %>
+<% elsif unplanned %>
+  <%= render(MyDay::UnplannedComponent.new(unplanned:)) %>
 <% else %>
   <%= angular_component_tag "opce-my-page" %>
 <% end %>
