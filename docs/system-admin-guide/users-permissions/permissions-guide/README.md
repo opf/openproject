@@ -39,6 +39,9 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Manage members** – Allows users to add, remove and manage project members and their roles.
 
+  > [!WARNING]
+  > Users with this permission can assign any project role to any member, including roles with permissions they themselves do not have. This also applies to their own membership, so they can grant themselves every permission available in the project. Only grant **Manage members** to roles you would trust with full administrative access to the project.
+
 - **Invite members by email** – Allows users to invite project members by email. This includes both new users to the OpenProject instance and existing users who are not visible to them because of the current [user visibility settings](../user-visibility).
 
   > [!NOTE]
@@ -62,7 +65,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
   > When a user copies a project, they are assigned the configured **New role for users that create projects** in the new project. Depending on your configuration, this role may grant additional permissions compared to their role in the source project.
   >
   > To access the **Copy** action from **Project settings**, users must also be able to open the project settings, which typically requires the **Edit project** permission. Alternatively, users can create a new project from a project template.
-  
+
 - **Manage dashboards** – Allows users to create and edit project dashboards.
 
 - **Manage files in project** – Allows users to manage project file storages.
@@ -77,7 +80,7 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 ## Work packages and Gantt chart permissions
 
-- **View work packages** – Allows users to view work packages. 
+- **View work packages** – Allows users to view work packages.
 - **Add work packages** – Allows users to create work packages.
 - **Edit work packages** – Allows users to edit work packages.
 - **Move work packages** – Allows users to move work packages between projects.
@@ -94,11 +97,11 @@ Most permissions are self-explanatory. This guide explains the purpose of each p
 
 - **Write internal comments** – Allows users to create internal comments.
 - **Edit own internal comments** – Allows users to edit their own internal comments.
-- **Moderate internal comments** – Allows users to edit internal comments created by any user. 
+- **Moderate internal comments** – Allows users to edit internal comments created by any user.
   > [!IMPORTANT]
   > Users with this permission can edit internal comments created by other users.
 
-- **Add attachments** – Allows users to upload attachments to work packages. 
+- **Add attachments** – Allows users to upload attachments to work packages.
   > [!NOTE]
   > This permission works independently of **Edit work packages**.
 
@@ -227,6 +230,7 @@ Some permissions depend on additional permissions or have behavior that is not i
 
 | Permission | Additional information |
 |------------|------------------------|
+| Manage members | Allows assigning any project role, including to oneself. Effectively grants full administrative access to the project. |
 | Invite members by email | Requires **Manage members**. |
 | Copy projects | Users are assigned the configured **New role for users that create projects** in the copied project. <br>Accessing **Copy** from **Project settings** typically also requires **Edit project**. |
 | Add attachments | Can be granted independently of **Edit work packages**. |
