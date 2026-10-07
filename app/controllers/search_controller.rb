@@ -42,6 +42,10 @@ class SearchController < ApplicationController
     if @tokens.any?
       @results, @results_count = search_results(@tokens)
 
+      if search_params[:filter] == "work_packages"
+        @semantic_results = load_semantic_results
+      end
+
       if search_params[:previous].nil?
         limit_results_first_page
       else
@@ -169,5 +173,16 @@ class SearchController < ApplicationController
 
   def scope_class(scope)
     scope.singularize.camelcase.constantize
+  end
+
+  def load_semantic_results
+    ids = Search::SemanticResult.ids(@question, current_user)
+    return WorkPackage.none if ids.empty?
+
+    WorkPackage
+      .visible(current_user)
+      .where(id: ids)
+      .includes(:project, :status)
+      .order(Arel.sql("array_position(ARRAY[#{ids.join(',')}]::int[], work_packages.id)"))
   end
 end

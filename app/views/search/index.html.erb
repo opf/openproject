@@ -81,6 +81,24 @@ See COPYRIGHT and LICENSE files for more details.
                               scope: search_params[:scope],
                             } %>
 
+  <% if @semantic_results&.any? %>
+    <h3><%= t("global_search.semantic_results.heading") %></h3>
+    <dl id="semantic-search-results">
+      <% @semantic_results.each do |wp| %>
+        <dt class="work_package">
+          <%= icon_wrapper("icon-context icon-work_package", wp.subject) %>
+          <span class="project"><%= wp.project.name %></span>
+          <span> - </span>
+          <%= link_to "##{wp.id} #{wp.subject}", work_package_path(wp) %>
+        </dt>
+        <dd>
+          <span class="description"><%= wp.status.name %></span>
+          <span class="author"><%= format_time(wp.updated_at) %></span>
+        </dd>
+      <% end %>
+    </dl>
+  <% end %>
+
 <% else %>
   <h3><%= t(:label_result_plural) %> (<%= @results_count&.values&.sum || 0 %>)</h3>
 
