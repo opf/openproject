@@ -21,29 +21,44 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import moment from 'moment';
 import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
-import { DateTimeEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/datetime-edit-field.component';
-import { OpSharedModule } from 'core-app/shared/shared.module';
 
-@NgModule({
-  imports: [
-    CommonModule,
-    OpSharedModule,
-  ],
-  declarations: [
-    DateEditFieldComponent,
-    DateTimeEditFieldComponent,
-  ],
-  exports: [
-    DateEditFieldComponent,
-    DateTimeEditFieldComponent,
-  ],
+@Component({
+  template: `
+    <op-basic-single-datetime-picker [(ngModel)]="value"
+      (keydown.escape)="onCancel()"
+      (keydown.enter)="handler.handleUserSubmit()"
+      (picked)="handler.handleUserSubmit()"
+      class="inline-edit--field"
+      [id]="handler.htmlId"
+      [required]="required"
+      [disabled]="inFlight"
+      [opAutofocus]="autofocus"
+     />
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class DateEditFieldModule { }
+export class DateTimeEditFieldComponent extends DateEditFieldComponent {
+  public override parseValue(data:string):string|null {
+    return this.validOrNull(data);
+  }
+
+  public override formatter(data:string):string|null {
+    return this.validOrNull(data);
+  }
+
+  private validOrNull(data:string):string|null {
+    if (moment(data, moment.ISO_8601, true).isValid()) {
+      return data;
+    }
+    return null;
+  }
+}

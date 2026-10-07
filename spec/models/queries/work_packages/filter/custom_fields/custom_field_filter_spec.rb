@@ -39,6 +39,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
   let(:user_wp_custom_field) { build_stubbed(:user_wp_custom_field) }
   let(:version_wp_custom_field) { build_stubbed(:version_wp_custom_field) }
   let(:date_wp_custom_field) { build_stubbed(:date_wp_custom_field) }
+  let(:datetime_wp_custom_field) { build_stubbed(:datetime_wp_custom_field) }
   let(:string_wp_custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:link_wp_custom_field) { build_stubbed(:link_wp_custom_field) }
   let(:hierarchy_wp_custom_field) { build_stubbed(:wp_custom_field, :hierarchy) }
@@ -52,6 +53,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
      user_wp_custom_field,
      version_wp_custom_field,
      date_wp_custom_field,
+     datetime_wp_custom_field,
      string_wp_custom_field,
      link_wp_custom_field,
      hierarchy_wp_custom_field]
@@ -206,6 +208,15 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
       it "is date for a date" do
         expect(instance.type)
           .to be(:date)
+      end
+    end
+
+    describe "datetime" do
+      let(:cf_accessor) { datetime_wp_custom_field.column_name }
+
+      it "is datetime for a datetime" do
+        expect(instance.type)
+          .to be(:datetime)
       end
     end
 
@@ -399,6 +410,12 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
     context "for a date custom field" do
       let(:custom_field) { date_wp_custom_field }
+
+      it_behaves_like "availability checked"
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_wp_custom_field }
 
       it_behaves_like "availability checked"
     end

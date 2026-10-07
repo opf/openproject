@@ -72,6 +72,8 @@ class CustomFieldFormBuilder < TabularFormBuilder
     case field_format.try(:edit_as)
     when "date"
       date_picker(field, input_options)
+    when "datetime"
+      datetime_picker(field, input_options)
     when "text"
       text_area(field, input_options.merge(with_text_formatting: true, macros: "wiki", editor_type: "constrained"))
     when "bool"
