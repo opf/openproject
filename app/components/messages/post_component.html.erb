@@ -39,31 +39,8 @@
       data: { test_selector: "forum-post-#{message.id}" }
     )
   ) do |box|
-    box.with_header do
-      flex_layout(align_items: :center, justify_content: :space_between) do |header|
-        header.with_column(flex_layout: true, flex_wrap: :wrap, align_items: :center) do |byline|
-          if message.author
-            byline.with_column(mr: 2) do
-              render(Users::AvatarComponent.new(user: message.author, show_name: false, size: :mini))
-            end
-            byline.with_column(mr: 2) do
-              helpers.primer_link_to_user(message.author, scheme: :primary, font_weight: :bold, hover_card: true)
-            end
-          end
-          byline.with_column do
-            render(
-              Primer::Beta::Link.new(
-                href: helpers.message_anchor_path(message),
-                scheme: :secondary,
-                underline: false,
-                font_size: :small,
-                data: { turbo: false }
-              )
-            ) { helpers.format_time(message.created_at) }
-          end
-        end
-        header.with_column(ml: 1) { action_menu }
-      end
+    if reply?
+      box.with_header(py: 2, test_selector: "message-header") { byline }
     end
 
     box.with_body do
@@ -71,6 +48,10 @@
       if message.attachments.any?
         concat(helpers.list_attachments(helpers.message_attachment_representer(message)))
       end
+    end
+
+    unless reply?
+      box.with_footer(py: 2, test_selector: "message-signature") { byline }
     end
   end
 %>

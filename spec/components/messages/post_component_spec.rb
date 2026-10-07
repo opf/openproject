@@ -49,8 +49,11 @@ RSpec.describe Messages::PostComponent, type: :component do
     expect(rendered_component).to have_css("#message-#{topic.id}", text: "Opening post")
   end
 
-  it "names the author" do
-    expect(rendered_component).to have_link("Alice Author")
+  it "signs the opening post at the bottom rather than heading it", :aggregate_failures do
+    expect(rendered_component).to have_no_test_selector("message-header")
+    expect(rendered_component).to have_test_selector("message-signature", text: "Alice Author")
+    expect(rendered_component)
+      .to have_css("[data-test-selector='message-signature'] [data-test-selector='message-actions-#{topic.id}']")
   end
 
   it "starts the thread without a stem above it" do
@@ -74,6 +77,11 @@ RSpec.describe Messages::PostComponent, type: :component do
 
   context "for a reply" do
     let(:message) { create(:message, forum:, parent: topic, author:, subject: "RE: Release planning") }
+
+    it "heads the reply with its author", :aggregate_failures do
+      expect(rendered_component).to have_test_selector("message-header", text: "Alice Author")
+      expect(rendered_component).to have_no_test_selector("message-signature")
+    end
 
     it "hangs from the thread's stem" do
       expect(rendered_component).to have_css(".op-forum-post-stem + #message-#{message.id}")
