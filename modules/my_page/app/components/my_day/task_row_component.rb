@@ -34,7 +34,11 @@ module MyDay
 
     # Fixed widths keep the meta of every row in the same columns, whether it describes a quick task
     # or a planned work package.
-    META_WIDTHS = { planned_for: "9rem", kind: "8rem", id: "7rem" }.freeze
+    META_WIDTHS = { planned_for: "9rem", kind: "8rem" }.freeze
+
+    # Ids sit before the checkbox in the lead column; longer ones are truncated.
+    ID_CHARACTERS = 8
+    ID_MAX_WIDTH = "#{ID_CHARACTERS}ch".freeze
 
     def initialize(work_package:, lead_width:, references:, view: :today, day_part: nil)
       super()
@@ -54,7 +58,11 @@ module MyDay
     # Where the Move menu can send the task: the other day parts when it is planned for today,
     # otherwise into today; and tomorrow, unless that is already its day.
     def move_targets
-      targets = view == :today ? DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s] : %w[today]
+      targets = case view
+                when :today then DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
+                when :unplanned then []
+                else %w[today]
+                end
       targets << "tomorrow" unless work_package.due_date == User.current.today + 1
 
       targets.map { [it, t("my_day.move_to.#{it}")] }
@@ -101,6 +109,16 @@ module MyDay
     def shown_work_package = planned_work_package || work_package
 
     def closed? = work_package.closed?
+
+    def meeting_command
+      return @meeting_command if defined?(@meeting_command)
+
+      @meeting_command = (MeetingCommand.for(work_package, helpers.current_user) unless closed?)
+    end
+
+    def new_meeting_path
+      new_dialog_meetings_path(title: meeting_command.title, participant_ids: meeting_command.participants.map(&:id))
+    end
 
     def toggle_label = closed? ? t("my_day.mark_open") : t("my_day.mark_done")
 

@@ -98,7 +98,27 @@ RSpec.describe "My page", type: :rails_request do
       expect(page).to have_test_selector("my-day-planned", text: "Branch tracking via GitLab webhook")
       expect(page).to have_test_selector("my-day-task-meta", text: planned.type.name.upcase)
       expect(page).to have_test_selector("my-day-task-meta", text: "QUICK TASK", count: 2)
+      expect(page).to have_test_selector("my-day-task-id", text: planned.formatted_id)
       expect(page).to have_no_css(".op-status-badge")
+    end
+
+    context "with a /meeting task" do
+      let(:colleague) do
+        create(:user, login: "sakura", member_with_permissions: { meeting_project => %i[view_meetings] })
+      end
+      let!(:meeting_task) do
+        create(:work_package, project: MyDay::ProjectService.new(user).call.result, type: task,
+                              subject: "Set up a /meeting with @#{colleague.login} about wiki permissions",
+                              due_date: user.today)
+      end
+
+      it "offers to create the meeting, prefilled" do
+        subject
+
+        link = page.find("[data-test-selector='my-day-create-meeting']")
+        expect(link[:href]).to include("title=Wiki+permissions").and include("participant_ids%5B%5D=#{colleague.id}")
+        expect(link["data-controller"]).to eq("async-dialog")
+      end
     end
 
     it "opens on Today" do

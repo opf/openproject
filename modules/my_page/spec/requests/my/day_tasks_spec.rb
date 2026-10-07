@@ -121,6 +121,13 @@ RSpec.describe "My Day tasks", :skip_csrf, type: :rails_request do
         end
       end
 
+      it "offers to plan it for today with one click" do
+        get my_page_path(tab: :unplanned)
+
+        form = page.find("[data-test-selector='my-day-plan-today']").ancestor("form")
+        expect(form[:action]).to eq(my_day_task_plan_path(left_over, to: :today, view: :unplanned))
+      end
+
       it "plans it for today and re-renders Unplanned with its counter" do
         patch(my_day_task_plan_path(left_over, to: :today, view: :unplanned), headers:)
 
