@@ -44,6 +44,7 @@ module MeetingAgendaItems
       first_and_last: [],
       current_occurrence: nil,
       presentation_mode: false,
+      slide: 1,
       started_at: nil
     )
       super
@@ -55,6 +56,7 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
       @started_at = started_at
     end
 
@@ -91,7 +93,7 @@ module MeetingAgendaItems
     end
 
     def show_component_params
-      child_component_params.merge(first_and_last: @first_and_last).compact
+      child_component_params.merge(first_and_last: @first_and_last, slide: @slide).compact
     end
 
     def wrapper_arguments
