@@ -62,4 +62,43 @@ RSpec.describe "Forum topic page", :js do
 
     expect(page).to have_css("#message-#{reply.id}:target")
   end
+
+  context "with a long thread" do
+    let!(:replies) do
+      Array.new(45) do |i|
+        create(:message, forum:, parent: topic, content: "Reply #{i + 1}", created_at: topic.created_at + (i + 1).minutes)
+      end
+    end
+
+    it "opens the hidden replies on demand, from either side", :aggregate_failures do
+      show_page.visit!
+      url = page.current_url
+
+      show_page.within_gap { click_on "Load next 13 replies" }
+      expect(page).to have_css("#message-#{replies[0].id}")
+      expect(page).to have_css("#message-#{replies[0].id}:focus")
+
+      show_page.within_gap { click_on "Load the 12 replies in between" }
+      expect(page).to have_css("#message-#{replies[20].id}")
+      show_page.expect_no_gap
+      expect(page).to have_css("[data-test-selector^='forum-post-']", count: 46)
+
+      expect(page.current_url).to eq(url)
+    end
+
+    it "loads the previous replies above the latest ones" do
+      show_page.visit!
+
+      show_page.within_gap { click_on "Load previous 12 replies" }
+
+      expect(page).to have_css("#message-#{replies[13].id}")
+      expect(page).to have_no_css("#message-#{replies[12].id}")
+    end
+
+    it "highlights a hidden reply a link points to" do
+      visit project_forum_topic_path(forum.project, forum, topic, r: replies[10].id, anchor: "message-#{replies[10].id}")
+
+      expect(page).to have_css("#message-#{replies[10].id}:target")
+    end
+  end
 end
