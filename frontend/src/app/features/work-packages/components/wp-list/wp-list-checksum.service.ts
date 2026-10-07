@@ -63,6 +63,13 @@ export class WorkPackagesListChecksumService {
    */
   private selfInitiatedUrlChange = false;
 
+  /**
+   * When true, query state changes are tracked (checksum, visibleChecksum$) but never
+   * written to the page URL or browser history. Used for embedded tables (widgets,
+   * form configuration), which must not alter the URL of the page hosting them.
+   */
+  public urlSyncDisabled = false;
+
   public consumeSelfInitiatedUrlChangeFlag():boolean {
     const value = this.selfInitiatedUrlChange;
     this.selfInitiatedUrlChange = false;
@@ -182,6 +189,10 @@ export class WorkPackagesListChecksumService {
   private maintainUrlQueryState(id:string|null, checksum:string|null):Promise<void> {
     this.visibleChecksum = checksum;
     this.visibleChecksum$.next(checksum);
+
+    if (this.urlSyncDisabled) {
+      return Promise.resolve();
+    }
 
     const url = new URL(window.location.href);
 
