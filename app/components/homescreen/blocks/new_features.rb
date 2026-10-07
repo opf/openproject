@@ -69,11 +69,11 @@ module Homescreen
       end
 
       def new_features
-        I18n.t("#{base_i18n_key}.new_features_list").values
+        @new_features ||= WhatsNew::Release.current.features
       end
 
       def teaser_exists?
-        I18n.exists?(base_i18n_key)
+        new_features.any?
       end
 
       def base_i18n_key

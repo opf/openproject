@@ -239,6 +239,14 @@ class UserPreference < ApplicationRecord
     dismissed_enterprise_banners[feature.to_s] = Time.zone.now.utc
   end
 
+  def whats_new_read_keys(version_key)
+    whats_new_read_items.fetch(version_key.to_s, [])
+  end
+
+  def mark_whats_new_read(version_key, key)
+    whats_new_read_items[version_key.to_s] = (whats_new_read_keys(version_key) | [key.to_s])
+  end
+
   def supported_settings_method?(method_name)
     UserPreferences::Schema.properties.include?(method_name.to_s.gsub(/\?|=\z/, ""))
   end
