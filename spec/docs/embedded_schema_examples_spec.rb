@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe "Examples embedded in APIv3 schemas" do # rubocop:disable RSpec/DescribeClass
-  schema_names = Dir[ # rubocop:disable RSpec/LeakyLocalVariable
+  # rubocop:disable-next RSpec/LeakyLocalVariable
+  schema_names = Dir[
     Rails.root.join("docs/api/apiv3/components/schemas/*").to_s
   ].map { |f| File.basename(f).split(".", 2).first }.grep(/model$/)
 
