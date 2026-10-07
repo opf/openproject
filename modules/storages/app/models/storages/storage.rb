@@ -88,6 +88,10 @@ module Storages
                   .to_h.with_indifferent_access
       end
 
+      def provider_type_for(klass)
+        provider_types.transform_values(&:to_s).invert.fetch(klass)
+      end
+
       def short_provider_name = raise SubclassResponsibilityError
 
       def allowed_by_enterprise_token? = true

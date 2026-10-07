@@ -300,7 +300,7 @@ module Storages
       end
 
       def current_step_contract(storage)
-        storage_name = storage.is_a?(String) ? Storage.shorten_provider_type(storage) : storage.to_s
+        storage_name = storage.is_a?(String) ? Storage.provider_type_for(storage) : storage.to_s
         origin_component = params[:origin_component].presence || "general_information"
 
         Adapters::Registry.resolve("#{storage_name}.contracts.#{origin_component}")

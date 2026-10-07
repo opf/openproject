@@ -173,11 +173,11 @@ storage_docs:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/
   nextcloud_sso:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/nextcloud/oidc-sso
-  one_drive_drive_id_guide:
+  onedrive_drive_id_guide:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-guide/
-  one_drive_oauth_application:
+  onedrive_oauth_application:
     href: https://portal.azure.com/
-  one_drive_setup:
+  onedrive_setup:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/
   sharepoint_drive_id_guide:
     href: https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-guide/
