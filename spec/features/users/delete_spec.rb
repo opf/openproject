@@ -150,8 +150,8 @@ RSpec.describe "user deletion:", :js, :selenium, driver: :firefox_en do
 
       visit admin_settings_users_path
 
-      find_by_id("settings_users_deletable_by_admins").set(true)
-      find_by_id("settings_users_deletable_by_self").set(true)
+      check I18n.t(:setting_users_deletable_by_admins)
+      check I18n.t(:setting_users_deletable_by_self)
 
       click_on "Save"
 

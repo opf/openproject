@@ -35,6 +35,7 @@ module Settings
     validate :journal_aggregation_time_minutes_is_within_bounds
     validate :restricted_password_login_requires_sso_provider
     validate :start_of_week_and_first_week_of_year_are_set_together
+    validate :mail_from_is_an_email
 
     protected
 
@@ -53,6 +54,13 @@ module Settings
       return if Users::PasswordLogin.omniauth_configured?
 
       errors.add :base, :password_login_requires_sso_provider
+    end
+
+    def mail_from_is_an_email
+      return unless params.key?(:mail_from)
+      return if ::EmailValidator.valid?(params[:mail_from])
+
+      errors.add :base, "#{I18n.t(:setting_mail_from)} #{I18n.t('activerecord.errors.messages.email')}"
     end
 
     def start_of_week_and_first_week_of_year_are_set_together

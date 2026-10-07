@@ -216,28 +216,26 @@ module Settings
       end
     end
 
-    def multi_language_text_select(name:, current_language: I18n.locale.to_s)
-      # Add select list to switch
-      object.select_list(
-        name: :"#{name}_lang", # Should be excluded by settings params
-        input_width: :small,
-        id: "lang-for-#{name}",
-        class: "lang-select-switch",
-        label: setting_label(name),
-        caption: setting_caption(name),
-        include_blank: false
-      ) do |select|
-        lang_options_for_select(false).each do |label, value|
-          select.option(
-            value:,
-            label:,
-            selected: value == current_language
-          )
+    def multi_language_text_select(name:, current_language: I18n.locale.to_s, label: setting_label(name),
+                                   caption: setting_caption(name), **)
+      object.group(data: { controller: "admin--multi-lang-text-setting" }) do |group|
+        group.select_list(
+          name: :"#{name}_lang", # Should be excluded by settings params
+          input_width: :small,
+          id: "lang-for-#{name}",
+          label:,
+          caption:,
+          include_blank: false,
+          data: { admin__multi_lang_text_setting_target: "select" }
+        ) do |select|
+          lang_options_for_select(false).each do |option_label, value|
+            select.option(value:, label: option_label, selected: value == current_language)
+          end
         end
-      end
 
-      object.fields_for(name) do |builder|
-        MultiLangForm.new(builder, name:, current_language:)
+        group.fields_for(name) do |builder|
+          MultiLangForm.new(builder, name:, current_language:)
+        end
       end
     end
 

@@ -334,7 +334,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "people"
 
   menu.push :user_settings,
-            { controller: "/admin/settings/users_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "users" },
             if: ->(_) { User.current.admin? },
             caption: :label_users_settings,
             parent: :users_and_permissions
@@ -402,13 +402,13 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :users_and_permissions
 
   menu.push :admin_work_packages,
-            { controller: "/admin/settings/work_packages_general", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "work_packages_general" },
             if: ->(_) { User.current.admin? },
             caption: :label_work_package_plural,
             icon: "op-view-list"
 
   menu.push :work_packages_general,
-            { controller: "/admin/settings/work_packages_general", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "work_packages_general" },
             if: ->(_) { User.current.admin? },
             caption: :label_general,
             parent: :admin_work_packages
@@ -642,7 +642,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :mail_and_notifications
 
   menu.push :mail_notifications,
-            { controller: "/admin/settings/mail_notifications_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "mail_notifications" },
             if: ->(_) { User.current.admin? },
             caption: :"menus.admin.mail_notification",
             parent: :mail_and_notifications

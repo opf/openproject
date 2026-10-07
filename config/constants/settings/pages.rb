@@ -34,7 +34,9 @@ module Settings
   # Each page is linked to an entry of the admin menu and lists its settings
   # in order, optionally grouped into sections. Pages not marked as `custom`
   # are rendered and updated by `Admin::Settings::PagesController` without a
-  # dedicated template or controller. Custom pages render themselves and are
+  # dedicated template or controller. Lambdas given as `before_form` and
+  # `after_form` render additional content around the form in the view
+  # context. Custom pages render themselves and are
   # registered so their settings can be found in the settings search. Several
   # pages may share a menu entry, e.g. one per tab (`tab:` and `label:`) or
   # served by another controller (`url:`).
@@ -217,10 +219,12 @@ module Settings
     end
 
     class Page
-      attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :form_hook, :view_hook
+      attr_reader :key, :menu_item, :tab, :label, :sections, :enterprise_feature, :form_hook, :view_hook,
+                  :before_form, :after_form
 
       def initialize(key, menu_item:, custom: false, tab: nil, label: nil, url: nil,
-                     update_service: nil, enterprise_feature: nil, form_hook: nil, view_hook: nil)
+                     update_service: nil, enterprise_feature: nil, form_hook: nil, view_hook: nil,
+                     before_form: nil, after_form: nil)
         @key = key
         @menu_item = menu_item
         @custom = custom
@@ -231,6 +235,8 @@ module Settings
         @enterprise_feature = enterprise_feature
         @form_hook = form_hook
         @view_hook = view_hook
+        @before_form = before_form
+        @after_form = after_form
         @sections = []
       end
 

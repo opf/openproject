@@ -91,25 +91,47 @@ Settings::Pages.draw do
     end
   end
 
-  page :users, menu_item: :user_settings, custom: true do
-    setting :default_language
-    setting :user_default_timezone
-    setting :default_auto_hide_popups, label: :"activerecord.attributes.user_preference.auto_hide_popups"
-    setting :user_format
-    setting :user_can_change_email
-    setting :users_deletable_by_admins
-    setting :users_deletable_by_self
-    setting :consent_required
-    setting :consent_info
-    setting :consent_decline_mail
+  page :users, menu_item: :user_settings do
+    section :default_preferences, heading: :"settings.user.default_preferences" do
+      setting :default_language, input_width: :medium
+      setting :user_default_timezone, input_width: :large
+      setting :default_auto_hide_popups
+    end
+
+    section :display_format, heading: :"settings.user.display_format" do
+      setting :user_format, input_width: :medium
+    end
+
+    section :account, heading: :"settings.user.account" do
+      setting :user_can_change_email
+    end
+
+    section :deletion, heading: :"settings.user.deletion" do
+      setting :users_deletable_by_admins
+      setting :users_deletable_by_self
+    end
+
+    section :consent, heading: :label_consent_settings do
+      setting :consent_required
+      setting :consent_info
+      setting :consent_time
+      setting :consent_decline_mail, input_width: :medium
+    end
   end
 
-  page :work_packages_general, menu_item: :work_packages_general, custom: true do
+  # It is important to have this named something else than "work_packages".
+  # Otherwise the angular ui-router will also recognize that as a WorkPackage page and apply according classes.
+  page :work_packages_general, menu_item: :work_packages_general do
     setting :cross_project_work_package_relations
     setting :display_subprojects_work_packages
     setting :work_package_startdate_is_adddate
-    setting :work_package_list_default_highlighting_mode
-    setting :work_package_list_default_highlighted_attributes
+    setting :work_package_list_default_highlighting_mode, input_width: :medium
+    setting :work_package_list_default_highlighted_attributes,
+            depends_on: { setting: :work_package_list_default_highlighting_mode, value: "inline" }
+
+    section :columns, heading: :setting_column_options do
+      setting :work_package_list_default_columns, form_field: false
+    end
   end
 
   page :work_packages_identifier, menu_item: :work_packages_identifier, custom: true do
@@ -163,29 +185,43 @@ Settings::Pages.draw do
     setting :journal_aggregation_time_minutes, input_width: :medium
   end
 
-  page :mail_notifications, menu_item: :mail_notifications, custom: true do
+  page :mail_notifications,
+       menu_item: :mail_notifications,
+       before_form: -> {
+         unless ActionMailer::Base.perform_deliveries
+           render(Primer::Alpha::Banner.new(mb: 3)) { t(:text_email_delivery_not_configured) }
+         end
+       },
+       after_form: -> {
+         if ActionMailer::Base.perform_deliveries
+           render(Primer::Beta::Link.new(href: test_email_admin_index_path, data: { turbo_method: :post },
+                                         font_weight: :bold, display: :block, mt: 3)) do
+             t(:label_send_test_email)
+           end
+         end
+       } do
     section :mails, heading: nil, if: -> { ActionMailer::Base.perform_deliveries } do
-      setting :mail_from
+      setting :mail_from, input_width: :medium
       setting :bcc_recipients
       setting :plain_text_mail
-      setting :emails_salutation
+      setting :emails_salutation, input_width: :medium
       setting :emails_header
       setting :emails_footer
     end
 
     section :delivery, heading: :text_setup_mail_configuration,
                        if: -> { OpenProject::Configuration["email_delivery_configuration"] != "legacy" } do
-      setting :email_delivery_method
-      setting :smtp_address
-      setting :smtp_port
-      setting :smtp_domain
-      setting :smtp_authentication
-      setting :smtp_user_name
-      setting :smtp_password
-      setting :smtp_enable_starttls_auto
-      setting :smtp_ssl
-      setting :sendmail_location
-      setting :sendmail_arguments
+      setting :email_delivery_method, input_width: :small
+      setting :smtp_address, input_width: :medium, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_port, input_width: :xsmall, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_domain, input_width: :medium, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_authentication, input_width: :small, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_user_name, input_width: :medium, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_password, input_width: :medium, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_enable_starttls_auto, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :smtp_ssl, depends_on: { setting: :email_delivery_method, value: :smtp }
+      setting :sendmail_location, depends_on: { setting: :email_delivery_method, value: :sendmail }
+      setting :sendmail_arguments, depends_on: { setting: :email_delivery_method, value: :sendmail }
     end
   end
 

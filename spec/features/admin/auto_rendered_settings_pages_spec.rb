@@ -48,4 +48,25 @@ RSpec.describe "Auto-rendered settings pages", :js do
     expect(Setting.apiv3_cors_enabled?).to be true
     expect(Setting.apiv3_cors_origins).to eq %w[https://a.example.com https://b.example.com]
   end
+
+  it "shows settings depending on a selected value only while it is selected", with_settings: { email_delivery_method: :smtp } do
+    visit admin_settings_mail_notifications_path
+
+    expect(page).to have_field "SMTP server"
+    expect(page).to have_no_field "Location of the sendmail executable"
+
+    select "sendmail", from: "Email delivery method"
+
+    expect(page).to have_no_field "SMTP server"
+    expect(page).to have_field "Location of the sendmail executable", disabled: :all
+  end
+
+  it "edits the text of the selected language for multi language settings" do
+    visit admin_settings_mail_notifications_path
+    expect(page).to have_css("[contenteditable=true]", count: 2, wait: 20)
+
+    find_by_id("lang-for-emails_header").select("Deutsch")
+
+    expect(page).to have_css("textarea[name='settings[emails_header][de]']", visible: :all)
+  end
 end

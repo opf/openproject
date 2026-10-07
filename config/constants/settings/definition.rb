@@ -370,20 +370,33 @@ module Settings
       },
       consent_decline_mail: {
         format: :string,
-        default: nil
+        default: nil,
+        ui: { caption: :"consent.contact_mail_instructions" }
       },
       # Time after which users have to have consented to what ever they need to consent
       # to (depending on other settings) such as a privacy policy.
       consent_time: {
         default: nil,
-        format: :datetime
+        format: :datetime,
+        ui: {
+          input: :check_box,
+          label: :"consent.text_update_consent_time",
+          checked: -> { Setting.consent_time.blank? },
+          caption: -> {
+            t("consent.update_consent_last_time",
+              update_time: Setting.consent_time.present? ? format_time(Setting.consent_time) : t(:label_never))
+          },
+          # Checking the box asks users to consent again, so it sets the time to now instead of storing a flag.
+          parse: ->(value) { value == "1" ? Time.zone.now.iso8601 : Setting.consent_time&.iso8601 }
+        }
       },
       # Additional info about what the user is consenting to (optional).
       consent_info: {
         default: {
           en: "## Consent\n\nYou need to agree to the [privacy and security policy]" +
             "(https://www.openproject.org/data-privacy-and-security/) of this OpenProject instance."
-        }
+        },
+        ui: { input: :multi_language_text_select }
       },
       # Indicates whether or not users need to consent to something such as privacy policy.
       consent_required: {
@@ -432,7 +445,8 @@ module Settings
       },
       default_auto_hide_popups: {
         description: "Whether to automatically hide success notifications by default",
-        default: true
+        default: true,
+        ui: { label: :"activerecord.attributes.user_preference.auto_hide_popups" }
       },
       # user configuration
       default_comment_sort_order: {
@@ -445,7 +459,11 @@ module Settings
       },
       default_language: {
         default: "en",
-        allowed: -> { Redmine::I18n.all_languages }
+        allowed: -> { Redmine::I18n.all_languages },
+        ui: {
+          input: :select_list,
+          values: -> { all_lang_options_for_select }
+        }
       },
       default_projects_modules: {
         default: -> {
@@ -557,7 +575,15 @@ module Settings
       email_delivery_method: {
         format: :symbol,
         default: nil,
-        env_alias: "EMAIL_DELIVERY_METHOD"
+        env_alias: "EMAIL_DELIVERY_METHOD",
+        ui: {
+          input: :select_list,
+          values: -> { [:smtp, :sendmail, *(:letter_opener if Rails.env.development?)].map { [it.to_s, it] } },
+          include_blank: -> { t(:label_not_configured) },
+          caption: -> {
+            t(:text_email_delivery_letter_opener) if Rails.env.development? && Setting.email_delivery_method == :letter_opener
+          }
+        }
       },
       email_limit_per_day: {
         format: :integer,
@@ -571,19 +597,25 @@ module Settings
       },
       emails_salutation: {
         allowed: %i[firstname name],
-        default: :firstname
+        default: :firstname,
+        ui: {
+          input: :select_list,
+          values: -> { [[User.human_attribute_name(:firstname), :firstname], [t("mail.salutation_full_name"), :name]] }
+        }
       },
       emails_footer: {
         default: {
           "en" => ""
         },
-        string_values: true
+        string_values: true,
+        ui: { input: :multi_language_text_select }
       },
       emails_header: {
         default: {
           "en" => ""
         },
-        string_values: true
+        string_values: true,
+        ui: { input: :multi_language_text_select }
       },
       # use email address as login, hide login in registration form
       email_login: {
@@ -1381,7 +1413,8 @@ module Settings
       smtp_authentication: {
         format: :string,
         default: "plain",
-        env_alias: "SMTP_AUTHENTICATION"
+        env_alias: "SMTP_AUTHENTICATION",
+        ui: { input: :select_list, values: -> { %w[none plain login cram_md5].map { [it, it] } } }
       },
       smtp_enable_starttls_auto: {
         format: :boolean,
@@ -1547,7 +1580,20 @@ module Settings
       user_default_timezone: {
         default: nil,
         format: :string,
-        allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil]
+        allowed: ActiveSupport::TimeZone.all.map { |tz| tz.tzinfo.canonical_identifier }.sort.uniq + [nil],
+        ui: {
+          input: :select_list,
+          include_blank: true,
+          values: -> {
+            UserPreferences::UpdateContract
+              .assignable_time_zones
+              .group_by { it.tzinfo.canonical_zone }
+              .map do |canonical_zone, zones|
+                offset = ActiveSupport::TimeZone.seconds_to_utc_offset(canonical_zone.base_utc_offset)
+                ["(UTC#{offset}) #{zones.map(&:name).join(', ')}", canonical_zone.identifier]
+              end
+          }
+        }
       },
       users_deletable_by_admins: {
         default: false
@@ -1569,7 +1615,11 @@ module Settings
       },
       user_format: {
         default: :firstname_lastname,
-        allowed: -> { User::USER_FORMATS_STRUCTURE.keys }
+        allowed: -> { User::USER_FORMATS_STRUCTURE.keys },
+        ui: {
+          input: :select_list,
+          values: -> { User::USER_FORMATS_STRUCTURE.keys.map { [User.current.name(it), it] } }
+        }
       },
       web: {
         description: "Web worker count and threads configuration",
@@ -1636,16 +1686,44 @@ module Settings
         default: ["status", "priority", "due_date"],
         allowed: -> {
           Query.available_columns(nil).select(&:highlightable).map(&:name).map(&:to_s)
+        },
+        ui: {
+          values: -> { Query.available_columns(nil).select(&:highlightable).map { [it.caption, it.name.to_s] } }
         }
       },
       work_package_list_default_highlighting_mode: {
         format: :string,
         default: -> { "inline" },
-        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) }
+        allowed: -> { Query::QUERY_HIGHLIGHTING_MODES.map(&:to_s) },
+        ui: {
+          input: :select_list,
+          values: -> { Query::Highlighting::QUERY_HIGHLIGHTING_MODES.map { [t("settings.highlighting.mode_long.#{it}"), it.to_s] } }
+        }
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],
-        allowed: -> { Query.new.displayable_columns.map { |c| c.name.to_s } }
+        allowed: -> { Query.new.displayable_columns.map { |c| c.name.to_s } },
+        ui: {
+          label: :setting_column_options,
+          input: ->(form, _entry) {
+            view = @view_context
+            form.html_content do
+              view.content_tag(:div, data: { setting_name: "work_package_list_default_columns" }) do
+                view.angular_component_tag "opce-draggable-autocompleter",
+                                           inputs: {
+                                             options: view.work_packages_columns_options,
+                                             selected: view.selected_work_packages_columns_options,
+                                             protected: view.protected_work_packages_columns_options,
+                                             name: "settings[work_package_list_default_columns][]",
+                                             id: "setting_column_options",
+                                             inputLabel: view.t(:"queries.configure_view.columns.input_label"),
+                                             inputPlaceholder: view.t(:"queries.configure_view.columns.input_placeholder"),
+                                             dragAreaLabel: view.t(:"queries.configure_view.columns.drag_area_label")
+                                           }
+              end
+            end
+          }
+        }
       },
       work_package_startdate_is_adddate: {
         default: false

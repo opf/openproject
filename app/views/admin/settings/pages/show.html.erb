@@ -47,6 +47,8 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(EnterpriseEdition::BannerComponent.new(settings_page.enterprise_feature)) %>
 <% end %>
 
+<%= instance_exec(&settings_page.before_form) if settings_page.before_form %>
+
 <%=
   settings_primer_form_with(
     url: public_send(settings_page.path_helper),
@@ -79,3 +81,5 @@ See COPYRIGHT and LICENSE files for more details.
     <%= call_hook(settings_page.view_hook) if settings_page.view_hook && index.zero? %>
   <% end %>
 <% end %>
+
+<%= instance_exec(&settings_page.after_form) if settings_page.after_form %>

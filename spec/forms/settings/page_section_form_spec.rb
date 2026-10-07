@@ -193,6 +193,33 @@ RSpec.describe Settings::PageSectionForm, type: :forms do
     end
   end
 
+  context "for the default preferences section of the users page" do
+    subject(:rendered_form) { render_page_section(:users, 0) }
+
+    it "renders the time zones grouping cities with the same identifier", :aggregate_failures do
+      expect(rendered_form).to have_css("option[value='America/Los_Angeles']", text: "(UTC-08:00) Pacific Time (US & Canada)")
+      expect(rendered_form).to have_css("option[value='Europe/Berlin']", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
+    end
+  end
+
+  context "for the consent section of the users page" do
+    subject(:rendered_form) { render_page_section(:users, 4) }
+
+    it "renders a language switch wired to the multi language controller", :aggregate_failures do
+      expect(rendered_form).to have_css("[data-controller='admin--multi-lang-text-setting']")
+      expect(rendered_form).to have_select "Consent information text" do |select|
+        expect(select["data-admin--multi-lang-text-setting-target"]).to eq "select"
+      end
+      expect(rendered_form).to have_field "settings[consent_info][de]", type: :hidden, visible: :all do |field|
+        expect(field["data-admin--multi-lang-text-setting-target"]).to eq "langFor"
+      end
+    end
+
+    it "checks the consent time reset while no consent time is set" do
+      expect(rendered_form).to have_field "settings[consent_time]", type: :checkbox, checked: true
+    end
+  end
+
   context "for the external links page" do
     subject(:rendered_form) do
       render_section(Settings::Pages.fetch(:external_links).sections.first,

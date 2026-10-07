@@ -179,7 +179,7 @@ RSpec.describe "Authentication Stages" do
 
       # Update consent date
       visit admin_settings_users_path
-      find_by_id("toggle_consent_time").set(true)
+      check I18n.t("consent.text_update_consent_time")
 
       click_on "Save"
       expect_flash(message: "Successful update.")
