@@ -1,0 +1,50 @@
+name: test.yml
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  units:
+    name: Units
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22.19'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Dependencies
+        id: npm-i
+        run: npm i
+
+      - name: Install Playwright Browsers
+        id: install-playwright
+        run: npx playwright install --with-deps
+
+      - name: build
+        id: npm-build
+        run: npm run build
+
+      - name: verify ESM bundle has no raw require of externals
+        id: verify-bundle
+        run: |
+          externals=$(jq -r '.buildExternals | join("|")' package.json)
+          pattern="\(\"($externals)(/[^\"]*)?\"\)"
+          if grep -qE "$pattern" dist/op-blocknote-extensions.es.js; then
+            echo "::error::ESM bundle contains a raw require() of an externalized module"
+            grep -nE "$pattern" dist/op-blocknote-extensions.es.js
+            exit 1
+          fi
+
+      - name: run tests
+        id: npm-test
+        run: CI=1 npm test

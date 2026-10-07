@@ -1,0 +1,82 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { KeyboardEvent, RefObject } from 'react';
+import type { WorkPackage } from '../openProjectTypes';
+import { MAX_SEARCH_RESULTS, useWorkPackageSearch } from './useWorkPackageSearch';
+
+interface UseWorkPackageSearchDropdownOptions {
+  onSelect:(wp:WorkPackage) => void;
+  onEscape:() => void;
+}
+
+interface UseWorkPackageSearchDropdownResult {
+  searchQuery:string;
+  setSearchQuery:(q:string) => void;
+  searchResults:WorkPackage[];
+  loading:boolean;
+  error:string | null;
+  focusedIndex:number;
+  setFocusedIndex:(i:number) => void;
+  isDropdownOpen:boolean;
+  setIsDropdownOpen:(open:boolean) => void;
+
+  // Exposed so SearchDropdown can set it in onMouseDown before blur fires
+  isSelectingRef:RefObject<boolean>;
+  handleKeyDown:(e:KeyboardEvent<HTMLInputElement>) => void;
+}
+
+export function useWorkPackageSearchDropdown({
+  onSelect,
+  onEscape,
+}:UseWorkPackageSearchDropdownOptions):UseWorkPackageSearchDropdownResult {
+  const { searchQuery, setSearchQuery, searchResults: allResults, loading, error } = useWorkPackageSearch();
+  const searchResults = useMemo(() => allResults.slice(0, MAX_SEARCH_RESULTS), [allResults]);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFocusedIndex(searchResults.length > 0 ? 0 : -1);
+  }, [searchResults]);
+
+  // useRef instead of useState changing this flag must not trigger a re-render,
+  // it only needs to be readable in the onBlur timeout in SearchDropdown.
+  const isSelectingRef = useRef(false);
+
+  const handleKeyDown = (e:KeyboardEvent<HTMLInputElement>) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (!isDropdownOpen) setIsDropdownOpen(true);
+        setFocusedIndex((p) => Math.min(p + 1, searchResults.length - 1));
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setFocusedIndex((p) => Math.max(p - 1, 0));
+        break;
+      case 'Enter':
+        if (focusedIndex >= 0 && searchResults[focusedIndex]) {
+          e.preventDefault();
+          isSelectingRef.current = true;
+          onSelect(searchResults[focusedIndex]);
+        }
+        break;
+      case 'Escape':
+        onEscape();
+        break;
+    }
+  };
+
+  return {
+    searchQuery,
+    setSearchQuery,
+    searchResults,
+    loading,
+    error,
+    focusedIndex,
+    setFocusedIndex,
+    isDropdownOpen,
+    setIsDropdownOpen,
+    isSelectingRef,
+    handleKeyDown,
+  };
+}
