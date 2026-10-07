@@ -107,7 +107,22 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
 
       expect(html).to have_no_css("h2", text: "Reply")
       expect(html).to have_no_field("Subject")
-      expect(html).to have_css("#reply > .op-forum-post-stem:first-child + form")
+      expect(html).to have_css("#reply > .op-forum-post-stem:first-child + .op-forum-reply--box > form")
+    end
+
+    it "uses the compact editor of the work package activity, keeping its revisions per topic", :aggregate_failures do
+      get project_forum_topic_path(project, forum, topic)
+
+      editor = html.find("#reply opce-ckeditor-augmented-textarea", visible: :all)
+      expect(editor[:class]).to include("ck-editor-primer-adjusted")
+      expect(editor["data-editor-type"]).to eq('"constrained"')
+      expect(editor["data-storage-key"]).to eq(%("forum-topic-#{topic.id}-reply-new"))
+    end
+
+    it "keeps the full editor for topics" do
+      get new_project_forum_topic_path(project, forum)
+
+      expect(html.find("opce-ckeditor-augmented-textarea", visible: :all)["data-editor-type"]).to be_nil
     end
 
     it "titles the reply after its topic" do
