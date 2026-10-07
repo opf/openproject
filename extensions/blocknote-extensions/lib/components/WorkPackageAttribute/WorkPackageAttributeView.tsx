@@ -1,15 +1,51 @@
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatWorkPackageId } from '../../utils/id';
-import { EMPTY_VALUE, formattedHtmlOf } from './attributes';
+import { priorityColor, statusColor, typeColor } from '../../services/colors';
+import { WorkPackageType } from '../WorkPackage/atoms';
+import { EMPTY_VALUE, formattedHtmlOf, principalsOf, valueKindOf } from './attributes';
 import { normalizeDisplay } from './externalHtml';
-import type { ResolvedAttribute } from './useWorkPackageAttribute';
+import type { ReadyAttribute, ResolvedAttribute } from './useWorkPackageAttribute';
+import { PrincipalAvatar } from './PrincipalAvatar';
 import {
   AttributeBlockBody,
   AttributeBlockTitle,
   AttributeLabelText,
   AttributeValueText,
   MutedText,
+  Unbroken,
+  ValueDot,
 } from './atoms';
+
+function AttributeValue({ resolved }:{ resolved:ReadyAttribute }) {
+  const { workPackage, attribute, value } = resolved;
+  if (value === EMPTY_VALUE) return <AttributeValueText>{value}</AttributeValueText>;
+
+  const kind = valueKindOf(attribute);
+  switch (kind) {
+    case 'type':
+      return <WorkPackageType as="span" $compact $color={typeColor(workPackage)}>{value}</WorkPackageType>;
+    case 'status':
+    case 'priority': {
+      const dotColor = kind === 'status' ? statusColor(workPackage) : priorityColor(workPackage);
+      return <AttributeValueText><Unbroken><ValueDot $color={dotColor} />{value}</Unbroken></AttributeValueText>;
+    }
+    case 'principal':
+      return (
+        <AttributeValueText>
+          {principalsOf(workPackage, attribute).map((principal, index) => (
+            // Keyed by who it is, so that another user does not inherit a loaded picture.
+            <Fragment key={`${index}:${principal.href ?? principal.name}`}>
+              {index > 0 && ', '}
+              <Unbroken><PrincipalAvatar principal={principal} />{principal.name}</Unbroken>
+            </Fragment>
+          ))}
+        </AttributeValueText>
+      );
+    default:
+      return <AttributeValueText>{value}</AttributeValueText>;
+  }
+}
 
 export function WorkPackageAttributeView({ resolved, display, reference }:{
   resolved:ResolvedAttribute,
@@ -26,11 +62,11 @@ export function WorkPackageAttributeView({ resolved, display, reference }:{
 
   const shown = normalizeDisplay(display);
   if (shown === 'label') return <AttributeLabelText>{resolved.attribute.label}</AttributeLabelText>;
-  if (shown === 'value') return <AttributeValueText>{resolved.value}</AttributeValueText>;
+  if (shown === 'value') return <AttributeValue resolved={resolved} />;
   return (
     <>
       <AttributeLabelText>{resolved.attribute.label}: </AttributeLabelText>
-      <AttributeValueText>{resolved.value}</AttributeValueText>
+      <AttributeValue resolved={resolved} />
     </>
   );
 }
