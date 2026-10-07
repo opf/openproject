@@ -113,6 +113,7 @@ sr:
       criteria:
         empty: No criteria set.
         label: Criteria
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
@@ -127,6 +128,7 @@ sr:
         schedule_note: This user works %{schedule}.
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Allocate
       success_message: Resource allocated.
       title: Allocate resource

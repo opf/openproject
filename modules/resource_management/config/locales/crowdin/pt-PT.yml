@@ -107,6 +107,7 @@ pt-PT:
       criteria:
         empty: Não foram definidos critérios.
         label: Critérios
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: O utilizador selecionado não tem horário de trabalho configurado para estas datas, pelo que se considera que não tem disponibilidade.
         partial: O utilizador selecionado não tem horário de trabalho configurado para %{dates}, pelo que esses dias são considerados como sem disponibilidade.
@@ -121,6 +122,7 @@ pt-PT:
         schedule_note: Este utilizador trabalha %{schedule}.
         submit: Atribuir horas extraordinárias
         title: Quer atribuir horas extraordinárias ao utilizador?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Atribuir
       success_message: Recurso atribuído.
       title: Atribuir recurso
