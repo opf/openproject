@@ -90,7 +90,7 @@ fi
 
 echo -e "\nImported database"
 
-OP_VERSION=15
+OP_VERSION=14
 
 set -o pipefail # we want exit codes to make it through tee too
 
@@ -126,7 +126,7 @@ while [ $? -eq 0 ]; do
     echo -e "\nPerforming migration background jobs if any have been enqueued...\n"
 
     # performing any new background jobs enqueued by the migration above
-    docker run --rm -e OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK=true -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rails runner "GoodJob::Job.where(performed_at: nil).where('created_at > ?', Time.zone.at($SECONDS_SINCE_EPOCH)).find_each { it.perform lock_id: 1 }" 2>&1 | tee $OUTPUT_BUFFER
+    docker run --rm -e OPENPROJECT_DISABLE__SECRET_KEY_BASE__CHECK=true -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rails runner "GoodJob::Job.where(performed_at: nil).where('created_at > ?', Time.zone.at($SECONDS_SINCE_EPOCH)).find_each { |job| job.respond_to?(:perform) ? job.perform(lock_id: 1) : job.head_execution.perform }" 2>&1 | tee $OUTPUT_BUFFER
 
     if [ $? -gt 0 ]; then
       >&2 echo -e "\The execution of some background jobs failed. See output above."
