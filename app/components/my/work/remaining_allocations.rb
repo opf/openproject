@@ -34,12 +34,12 @@ module My
     # is taken off, mirroring remainingHours in the stack and calendar views.
     class RemainingAllocations
       # `allocations` is a ResourceAllocations::AllocatedTimeFor, or nil when allocations are
-      # not shown at all.
-      def self.call(allocations:, time_entries:, dates:)
+      # not shown at all. `dates` narrows them down to part of the dates they were loaded for.
+      def self.call(allocations:, time_entries:, dates: nil)
         new(allocations:, time_entries:, dates:).call
       end
 
-      def initialize(allocations:, time_entries:, dates:)
+      def initialize(allocations:, time_entries:, dates: nil)
         @allocations = allocations
         @time_entries = time_entries
         @dates = dates
@@ -50,7 +50,7 @@ module My
         return [] unless @allocations
 
         @allocations.items.filter_map do |entry|
-          next unless @dates.include?(entry.allocated_on)
+          next if @dates&.exclude?(entry.allocated_on)
 
           visible = @allocations.visible?(entry)
           hours = ((entry.minutes / 60.0) - logged_hours_on(entry, visible:)).round(2)

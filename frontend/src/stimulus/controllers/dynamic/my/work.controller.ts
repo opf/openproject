@@ -45,6 +45,7 @@ import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 import { renderDayTotal, renderFooterTotals } from 'core-stimulus/helpers/fullcalendar-footer-helpers';
 import { ONGOING_CLASS_NAME, renderTimeEntryCard, type TimeEntryCard, type TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 import { openTimeEntryDialog, reloadMyWorkView } from 'core-stimulus/helpers/time-entry-dialog';
+import { EntryMenus, WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
 import {
   remainingAllocations,
   renderAllocationCard,
@@ -106,8 +107,10 @@ export default class MyWorkController extends Controller {
   declare readonly csrfToken:string;
 
   private calendar:Calendar;
+  private entryMenus = new EntryMenus(this.element);
   private DEFAULT_TIMED_EVENT_DURATION = '01:00';
   private boundListener = this.dialogCloseListener.bind(this);
+  private reloadView = () => reloadMyWorkView(this.element);
 
   initialize() {
     useAngularServices(this);
@@ -128,10 +131,13 @@ export default class MyWorkController extends Controller {
 
     // handle dialog close event
     document.addEventListener('dialog:close', this.boundListener);
+    document.addEventListener(WORK_PACKAGE_UPDATED_EVENT, this.reloadView);
   }
 
   disconnect():void {
     document.removeEventListener('dialog:close', this.boundListener);
+    document.removeEventListener(WORK_PACKAGE_UPDATED_EVENT, this.reloadView);
+    this.entryMenus.destroy();
 
     // Clean up calendar when controller disconnects
     if (this.calendar) {
@@ -278,17 +284,13 @@ export default class MyWorkController extends Controller {
         this.calendar.setOption('defaultTimedEventDuration', this.DEFAULT_TIMED_EVENT_DURATION);
       },
       eventClick: (info) => {
-        if (info.event.extendedProps.allocationId) {
-          return;
-        }
-
-        // A link in the card leads somewhere of its own, and the click can land on an icon
-        // inside it rather than on the anchor.
+        // The stop button of a running timer leads somewhere of its own, and the click can
+        // land on its icon rather than on the anchor.
         if ((info.jsEvent.target as HTMLElement).closest('a[href]')) {
           return;
         }
 
-        openTimeEntryDialog(this.turboRequests, `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`);
+        this.entryMenus.open(info.event.id, info.jsEvent, info.el);
       },
       viewDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
       eventDidMount: () => { setTimeout(() => this.addTotalFooter(), 100); },
@@ -307,7 +309,7 @@ export default class MyWorkController extends Controller {
     if (info.event.extendedProps.allocationId) {
       const allocation = { ...info.event.extendedProps, title: info.event.title } as ResourceAllocationEvent;
 
-      return renderAllocationCard(allocation, info.event.startStr.slice(0, 10), this.todayValue, this.pathHelperService);
+      return renderAllocationCard(allocation, info.event.startStr.slice(0, 10), this.todayValue);
     }
 
     const entry = { ...info.event.extendedProps, id: info.event.id } as TimeEntryCard;

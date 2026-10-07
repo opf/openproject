@@ -40,21 +40,7 @@ module My
       end
 
       def action_menu
-        return nil if !(can_modify_time_entry? || can_delete_time_entry?)
-
-        render(Primer::Alpha::ActionMenu.new) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("label_more"), scheme: :invisible)
-
-          with_item_group(menu) do
-            if time_entry.ongoing?
-              stop_timer_action_button(menu)
-            else
-              edit_action_button(menu)
-            end
-          end
-
-          with_item_group(menu) { delete_action_button(menu) } if can_delete_time_entry?
-        end
+        render(My::Work::TimeEntryActionMenuComponent.new(time_entry:))
       end
 
       def spent_on
@@ -112,54 +98,6 @@ module My
 
       private
 
-      def stop_timer_action_button(menu)
-        menu.with_item(
-          content_arguments: {
-            data: {
-              "turbo-stream" => true
-            }
-          },
-          tag: :a,
-          label: t("button_stop_timer"),
-          href: dialog_time_entry_path(time_entry, onlyMe: true)
-        ) do |item|
-          item.with_leading_visual_icon(icon: "op-stopwatch-stop")
-        end
-      end
-
-      def edit_action_button(menu)
-        menu.with_item(
-          content_arguments: {
-            data: {
-              "turbo-stream" => true
-            }
-          },
-          tag: :a,
-          label: t("label_edit"),
-          href: dialog_time_entry_path(time_entry, onlyMe: true)
-        ) do |item|
-          item.with_leading_visual_icon(icon: :pencil)
-        end
-      end
-
-      def delete_action_button(menu)
-        menu.with_item(
-          scheme: :danger,
-          content_arguments: {
-            data: {
-              "turbo" => true,
-              "turbo-method" => :delete,
-              "turbo-confirm" => t("js.text_are_you_sure")
-            }
-          },
-          href: time_entry_path(time_entry, no_dialog: true),
-          label: t("label_delete"),
-          tag: :a
-        ) do |item|
-          item.with_leading_visual_icon(icon: :trash)
-        end
-      end
-
       def ongoing_time
         time = format_time(time_entry.created_at, include_date: !time_entry.created_at.today?)
         I18n.t("label_timer_since", time:)
@@ -182,14 +120,6 @@ module My
 
       def time_entry
         model
-      end
-
-      def can_delete_time_entry?
-        TimeEntries::DeleteContract.new(time_entry, User.current).valid?
-      end
-
-      def can_modify_time_entry?
-        TimeEntries::UpdateContract.new(time_entry, User.current).valid?
       end
     end
   end

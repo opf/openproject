@@ -29,7 +29,6 @@
 import { html, nothing, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 import { calendarIconData, opPersonAssignedIconData, toDOMString } from '@openproject/octicons-angular';
-import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 import type { TimeEntryEvent } from 'core-stimulus/helpers/time-entry-event';
 
@@ -45,8 +44,8 @@ export interface ResourceAllocationEvent {
   classNames:string[];
   allocationId:number;
   hours:number;
-  finishBy:string;
-  formattedFinishBy:string;
+  finishBy?:string|null;
+  formattedFinishBy?:string|null;
   typeId?:number;
   workPackageId?:string;
   workPackageFormattedId?:string;
@@ -85,40 +84,39 @@ const icon = (data:Parameters<typeof toDOMString>[0]) => unsafeHTML(toDOMString(
   class: 'octicon',
 }));
 
-export function renderAllocationCard(
-  allocation:ResourceAllocationEvent,
-  day:string,
-  today:string,
-  pathHelperService:PathHelperService,
-):TemplateResult {
+export function renderAllocationCard(allocation:ResourceAllocationEvent, day:string, today:string):TemplateResult {
   return html`
     <div class="te-entry-card">
       <div class="te-entry-card--duration">${displayDuration(allocation.hours)}</div>
-      ${renderWorkPackage(allocation, pathHelperService)}
-      <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
-        ${icon(calendarIconData)}
-        ${allocation.finishBy === today
-          ? I18n.t('js.resource_management.my_work.finish_today')
-          : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
-      </div>
+      ${renderWorkPackage(allocation)}
+      ${renderFinishBy(allocation, day, today)}
       <div class="te-entry-card--icon">${icon(opPersonAssignedIconData)}</div>
     </div>`;
 }
 
-function renderWorkPackage(allocation:ResourceAllocationEvent, pathHelperService:PathHelperService):TemplateResult {
+function renderFinishBy(allocation:ResourceAllocationEvent, day:string, today:string):TemplateResult|typeof nothing {
+  if (!allocation.finishBy || !allocation.formattedFinishBy) {
+    return nothing;
+  }
+
+  return html`
+    <div class="te-entry-card--finish-by ${allocation.finishBy === day ? 'te-entry-card--finish-by-attention' : ''}">
+      ${icon(calendarIconData)}
+      ${allocation.finishBy === today
+        ? I18n.t('js.resource_management.my_work.finish_today')
+        : I18n.t('js.resource_management.my_work.finish_by', { date: allocation.formattedFinishBy })}
+    </div>`;
+}
+
+function renderWorkPackage(allocation:ResourceAllocationEvent):TemplateResult {
   if (!allocation.workPackageId) {
     return html`<div class="te-entry-card--subject">${allocation.title}</div>`;
   }
 
   return html`
     <div class="te-entry-card--subject" title="${allocation.workPackageSubject}">
-      <a class="Link--primary Link"
-         href="${pathHelperService.workPackageShortPath(allocation.workPackageId)}">${allocation.workPackageFormattedId}</a>:
-      ${allocation.workPackageSubject}
+      ${allocation.workPackageFormattedId}: ${allocation.workPackageSubject}
     </div>
-    ${allocation.projectIdentifier ? html`
-      <div class="te-entry-card--project" title="${allocation.projectName}">
-        <a class="Link--secondary Link"
-           href="${pathHelperService.projectPath(allocation.projectIdentifier)}">${allocation.projectName}</a>
-      </div>` : nothing}`;
+    ${allocation.projectName ? html`
+      <div class="te-entry-card--project" title="${allocation.projectName}">${allocation.projectName}</div>` : nothing}`;
 }

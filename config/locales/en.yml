@@ -5075,6 +5075,13 @@ en:
       confirmation_required: "You need to enter your account password to confirm this change."
       title: "Confirm your password to continue"
     work:
+      actions:
+        assign_to_me: "Assign work package to me"
+        delete_time_entry: "Delete time entry"
+        edit_time_entry: "Edit time entry"
+        log_time_from_allocation: "Log time from allocation"
+        open_project: "Open project"
+        open_work_package: "Open work package"
       entries_filter:
         all: "All entries"
         allocated: "Allocations only"
@@ -7873,6 +7880,8 @@ en:
       requires_description: "Marks the related work package as a requirement to this one"
 
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: "The work packages could not be copied."
       could_not_be_deleted: "The following work packages could not be deleted:"
