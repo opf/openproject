@@ -79,7 +79,6 @@ RSpec.describe "Hide attachments", :js do
       login_as create(:admin)
       visit admin_settings_attachments_path
 
-      Rails.logger.error "[MARCELLOGGER] #{Setting.all.pluck(:name).inspect}"
       expect(page).to have_checked_field(checkbox_label)
 
       uncheck(checkbox_label)
