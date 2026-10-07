@@ -29,10 +29,7 @@
 #++
 
 module MyDay
-  class UpcomingComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
+  class UpcomingComponent < BaseComponent
     def initialize(upcoming:)
       super()
       @upcoming = upcoming
@@ -42,19 +39,8 @@ module MyDay
 
     attr_reader :upcoming
 
-    def lead_width = TodayComponent.lead_width(helpers)
-
     def day_name(date)
       date == upcoming.user.today + 1 ? t("my_day.upcoming.tomorrow") : I18n.l(date, format: "%A")
-    end
-
-    def counts(day)
-      return t("my_day.empty_section") if day.empty?
-
-      [
-        t("my_day.open_tasks", count: day.open_count),
-        (t("my_day.meetings", count: day.meetings.size) if day.meetings.any?)
-      ].compact.join(" · ")
     end
 
     def start_time(occurrence)

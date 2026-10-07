@@ -31,31 +31,13 @@
 module MyDay
   # The user's next working days after today: their "My work" tasks planned for each day and the
   # meetings they take part in, including occurrences of recurring series not created yet.
-  class Upcoming
+  class Upcoming < View
     DAYS_AHEAD = 7
 
-    Day = Data.define(:date, :meetings, :work_packages) do
-      def open_count = work_packages.count { !it.closed? }
-
-      def empty? = meetings.empty? && work_packages.empty?
-    end
+    Day = Data.define(:date, :meetings, :work_packages) { include Group }
 
     # A meeting as Upcoming lists it: an existing meeting, or a scheduled occurrence of a series.
-    Occurrence = Data.define(:title, :start_time, :end_time, :meeting, :series) do
-      def link_target = meeting || series
-    end
-
-    attr_reader :user, :project
-
-    def self.for(user)
-      call = ProjectService.new(user).call
-      new(user:, project: call.result) if call.success?
-    end
-
-    def initialize(user:, project:)
-      @user = user
-      @project = project
-    end
+    Occurrence = Data.define(:title, :start_time, :end_time, :meeting, :series)
 
     def days
       @days ||= dates.map do |date|
@@ -63,10 +45,6 @@ module MyDay
                 meetings: meetings.select { local_date(it.start_time) == date },
                 work_packages: work_packages.select { it.due_date == date })
       end
-    end
-
-    def references
-      @references ||= References.for(user, work_packages)
     end
 
     private

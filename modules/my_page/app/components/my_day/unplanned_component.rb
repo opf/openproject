@@ -29,8 +29,13 @@
 #++
 
 module MyDay
-  class UnplannedComponent < ApplicationComponent
-    include OpTurbo::Streamable
+  class UnplannedComponent < BaseComponent
+    COUNTER_ID = "my-day-unplanned-counter"
+
+    # The number of open tasks on the Unplanned tab, replaced after every change to the plan.
+    def self.counter_arguments(user)
+      { count: Unplanned.for(user)&.count.to_i, hide_if_zero: true, id: COUNTER_ID }
+    end
 
     def initialize(unplanned:)
       super()
@@ -40,7 +45,5 @@ module MyDay
     private
 
     attr_reader :unplanned
-
-    def lead_width = TodayComponent.lead_width(helpers)
   end
 end

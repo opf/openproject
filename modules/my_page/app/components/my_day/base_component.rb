@@ -29,31 +29,28 @@
 #++
 
 module MyDay
-  class QuickAddComponent < ApplicationComponent
+  # Shared by the Today, Upcoming and Unplanned views, which refresh themselves via Turbo Streams.
+  class BaseComponent < ApplicationComponent
+    include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
-
-    def initialize(selected:)
-      super()
-      @selected = selected.to_s
-    end
 
     private
 
-    attr_reader :selected
+    # Wide enough for a meeting's "start–end" in the configured time format and for a task's id
+    # followed by its checkbox, so that meeting and task titles start at the same point.
+    def lead_width
+      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
 
-    def day_parts = DayPartField::DAY_PARTS.map(&:to_s)
+      "#{[(latest.length * 2) + 2, TaskRowComponent::ID_CHARACTERS + 5].max}ch"
+    end
 
-    def subject_field_arguments
-      {
-        name: "task[subject]",
-        label: t("my_day.quick_add.label"),
-        visually_hide_label: true,
-        placeholder: t("my_day.quick_add.placeholder"),
-        required: true,
-        autocomplete: "off",
-        full_width: true,
-        size: :small
-      }
+    def counts(group)
+      return t("my_day.empty_section") if group.empty?
+
+      [
+        t("my_day.open_tasks", count: group.open_count),
+        (t("my_day.meetings", count: group.meetings.size) if group.meetings.any?)
+      ].compact.join(" · ")
     end
   end
 end

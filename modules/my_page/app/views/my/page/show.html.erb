@@ -15,11 +15,7 @@
         end
         tab_nav.with_tab(selected: tab == "unplanned", href: my_page_path(tab: :unplanned)) do |item|
           item.with_text { t("my_day.unplanned.title") }
-          item.with_counter(
-            count: MyDay::Unplanned.for(current_user)&.count.to_i,
-            hide_if_zero: true,
-            id: MyDay::UnplannedCounter::ID
-          )
+          item.with_counter(**MyDay::UnplannedComponent.counter_arguments(current_user))
         end
         tab_nav.with_tab(selected: tab == "dashboard", href: my_page_path(tab: :dashboard)) do |item|
           item.with_text { t("my_day.dashboard") }

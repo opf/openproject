@@ -36,8 +36,6 @@ module MyDay
 
     attr_reader :custom_field
 
-    delegate :id, to: :custom_field
-
     def self.find
       new(WorkPackageCustomField.for_semantic_key(:day_part))
     end
@@ -52,8 +50,9 @@ module MyDay
       DAY_PARTS[option_ids.index(option_id) || 0]
     end
 
-    def option_id_for(day_part)
-      option_ids[DAY_PARTS.index(day_part.to_sym) || 0]
+    # Work package attributes that put a task into the given day part.
+    def attributes_for(day_part)
+      { "custom_field_#{custom_field.id}": option_ids[DAY_PARTS.index(day_part.to_sym) || 0] }
     end
 
     private

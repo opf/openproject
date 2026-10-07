@@ -29,33 +29,29 @@
 #++
 
 module MyDay
-  class SectionHeaderComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
+  # A view of the user's "My work" project: Today, Upcoming or Unplanned.
+  class View
+    # Days and day parts group meetings and tasks alike.
+    module Group
+      def open_count = work_packages.count { !it.closed? }
 
-    def initialize(section:, scheme:, now:)
-      super()
-      @section = section
-      @scheme = scheme
-      @now = now
+      def empty? = meetings.empty? && work_packages.empty?
     end
 
-    private
+    attr_reader :user, :project
 
-    attr_reader :section, :scheme, :now
+    def self.for(user)
+      call = ProjectService.new(user).call
+      new(user:, project: call.result) if call.success?
+    end
 
-    def title = t("my_day.day_part.#{section.day_part}")
+    def initialize(user:, project:)
+      @user = user
+      @project = project
+    end
 
-    def time_range = t("my_day.time_range.#{section.day_part}")
-
-    def border_color = :"#{scheme}_emphasis"
-
-    def counts
-      return t("my_day.empty_section") if section.empty?
-
-      [
-        t("my_day.open_tasks", count: section.open_count),
-        (t("my_day.meetings", count: section.meetings.size) if section.meetings.any?)
-      ].compact.join(" · ")
+    def references
+      @references ||= References.for(user, work_packages)
     end
   end
 end

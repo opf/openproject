@@ -108,8 +108,8 @@ module My
 
     def refresh_view_via_turbo_stream
       replace_via_turbo_stream(component: current_view_component)
-      turbo_streams << turbo_stream.replace(MyDay::UnplannedCounter::ID,
-                                            MyDay::UnplannedCounter.new(user: current_user).render_in(view_context))
+      counter = Primer::Beta::Counter.new(**MyDay::UnplannedComponent.counter_arguments(current_user))
+      turbo_streams << turbo_stream.replace(MyDay::UnplannedComponent::COUNTER_ID, counter.render_in(view_context))
     end
 
     def current_view_component

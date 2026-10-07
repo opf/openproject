@@ -40,11 +40,11 @@ module MyDay
       end
     end
 
+    private
+
     def day_part_field
       @day_part_field ||= WorkPackageCustomField.for_semantic_key(:day_part) || create_day_part_field
     end
-
-    private
 
     def existing_variant
       TypeVariant

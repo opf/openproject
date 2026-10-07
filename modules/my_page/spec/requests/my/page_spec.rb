@@ -161,7 +161,7 @@ RSpec.describe "My page", type: :rails_request do
 
         expect(page).to have_test_selector("my-day-unplanned")
         expect(page).to have_test_selector("my-day-unplanned-task", text: "Book train to the offsite")
-        expect(page).to have_css("##{MyDay::UnplannedCounter::ID}", text: "1")
+        expect(page).to have_css("##{MyDay::UnplannedComponent::COUNTER_ID}", text: "1")
       end
     end
 
