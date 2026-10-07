@@ -112,7 +112,9 @@ module LlmConnections
 
     # The environment names a model, and on a fresh installation nothing has
     # asked the server for a catalogue yet, so the row it must reference is
-    # entered here the way an administrator would enter it by hand.
+    # entered here the way an administrator would enter it by hand. A row the
+    # server reported is claimed the same way: a refresh against another
+    # deployment deletes discovered rows, and with them the default.
     def default_model_references(connection)
       { default_chat_model_id: model_row_id(connection, config[:default_chat_model]),
         default_embedding_model_id: model_row_id(connection, config[:default_embedding_model]) }
@@ -121,7 +123,7 @@ module LlmConnections
     def model_row_id(connection, external_id)
       return if external_id.blank?
 
-      connection.models.create_with(manual: true).find_or_create_by!(external_id:).id
+      connection.models.find_or_initialize_by(external_id:).tap { it.update!(manual: true) }.id
     end
   end
 end

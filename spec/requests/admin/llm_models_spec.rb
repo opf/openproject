@@ -740,6 +740,144 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    # The seed creates the models the environment names as manual rows, and the
+    # connection's defaults point at them.
+    describe "a model the environment names as a default" do
+      let!(:env_default) { create(:llm_model, :manual, llm_connection: connection, external_id: "env-chat") }
+      let!(:hand_typed) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+      let(:refusal) { I18n.t("admin.llm_models.configured_from_env") }
+
+      before do
+        connection.update_columns(default_chat_model_id: env_default.id, env_provisioned_at: Time.current)
+        allow(Setting).to receive(:llm_connection)
+                            .and_return({ "base_url" => base_url, "default_chat_model" => "env-chat" })
+      end
+
+      it "offers no delete action for it, unlike other models entered by hand" do
+        get llm_models_path
+
+        expect(page).to have_css("[data-test-selector='llm-model--edit-#{env_default.id}']", visible: :all)
+        expect(page).to have_no_css("[data-test-selector='llm-model--delete-#{env_default.id}']", visible: :all)
+        expect(page).to have_css("[data-test-selector='llm-model--delete-#{hand_typed.id}']", visible: :all)
+      end
+
+      it "refuses to open the delete dialog" do
+        get delete_dialog_llm_model_path(env_default), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+      end
+
+      it "refuses to delete it and keeps the default" do
+        delete llm_model_path(env_default)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(LlmModel.where(id: env_default.id)).to exist
+        expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+      end
+
+      it "does not offer to rename it" do
+        get edit_llm_model_path(env_default)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("llm_model[external_id]")
+      end
+
+      it "refuses to rename it" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier is not sent as a string" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: false } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier only reads like the current one" do
+        env_default.update_columns(external_id: "true")
+
+        patch llm_model_path(env_default), params: { llm_model: { external_id: true } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("true")
+      end
+
+      context "when a seed applies the environment's values after the request loaded the connection" do
+        before do
+          connection.update_columns(env_provisioned_at: nil)
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_wrap_original do |original, *args, &block|
+            LlmConnection.where(id: connection.id).update_all(env_provisioned_at: Time.current)
+            original.call(*args, &block)
+          end
+        end
+
+        it "refuses to delete it" do
+          delete llm_model_path(env_default)
+
+          expect(flash[:error]).to eq(refusal)
+          expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+        end
+
+        it "refuses to rename it" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(flash[:error]).to eq(refusal)
+          expect(env_default.reload.external_id).to eq("env-chat")
+        end
+      end
+
+      context "when the environment no longer configures the connection" do
+        before { allow(Setting).to receive(:llm_connection).and_return({}) }
+
+        it "ends the environment's hold on the connection when the former default is deleted" do
+          delete llm_model_path(env_default)
+
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+
+        it "ends the environment's hold on the connection when the former default is renamed" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(env_default.reload.external_id).to eq("renamed")
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+      end
+
+      it "still takes a context window and capability assertions" do
+        patch llm_model_path(env_default),
+              params: { llm_model: { admin_context_window: "32768", capability_vision: "unsupported" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(env_default.reload.context_window).to eq(32_768)
+        expect(connection.capability_verdicts.for_model("env-chat").pluck(:capability, :state))
+          .to include(%w[vision unsupported])
+      end
+
+      it "still deletes another model entered by hand" do
+        delete llm_model_path(hand_typed)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(LlmModel.where(id: hand_typed.id)).to be_empty
+      end
+
+      context "when the environment has not applied its values yet" do
+        before { connection.update_columns(env_provisioned_at: nil) }
+
+        it "deletes it like any other model entered by hand" do
+          delete llm_model_path(env_default)
+
+          expect(LlmModel.where(id: env_default.id)).to be_empty
+          expect(connection.reload.default_chat_model_id).to be_nil
+        end
+      end
+    end
+
     # Two administrators saving the same free identifier both pass the
     # uniqueness validation, so the second save only fails at the index.
     describe "an identifier taken after the uniqueness validation passed" do

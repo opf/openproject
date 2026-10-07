@@ -65,6 +65,26 @@ RSpec.describe LlmConnections::EnvSyncService do
     end
   end
 
+  # The previous server reported the model, so the row the default points at
+  # was discovered rather than entered by the seed.
+  context "when the environment moves to another server and names a model the previous one reported",
+          :llm_server_helpers, :webmock do
+    let(:env_config) { { "base_url" => "https://other.example.com/v1", "default_chat_model" => "qwen3.6-27b" } }
+
+    before do
+      connection.update!(connection_fingerprint: connection.settings_fingerprint)
+      mock_llm_models_response("https://other.example.com/v1")
+    end
+
+    it "keeps it as the default through a refresh against the new server" do
+      expect(result).to be_success
+
+      expect(LlmConnections::SyncModelsService.new(connection.reload).call).to be_success
+
+      expect(connection.reload.default_chat_model&.external_id).to eq("qwen3.6-27b")
+    end
+  end
+
   context "when an administrator's save commits while the seed waits for the connection's lock" do
     let(:env_config) { { "base_url" => "https://example.com/v1", "api_key" => "sk-stored" } }
 

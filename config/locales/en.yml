@@ -1870,6 +1870,7 @@ en:
         no_models: "Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab."
         success: "Successfully connected to the LLM server."
     llm_models:
+      configured_from_env: "The environment configures this model as a default, so it cannot be removed or renamed here."
       create:
         success: "%{model} has been added."
       defaults:

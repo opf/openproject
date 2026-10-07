@@ -102,6 +102,11 @@ class LlmConnection < ApplicationRecord
 
   def env_pending? = Setting.llm_connection.present? && !provisioned_from_env?
 
+  def env_named_default?(llm_model)
+    configured_from_env? &&
+      LlmModel::CONNECTION_DEFAULTS.any? { attribute_in_database(it) == llm_model.id }
+  end
+
   # Every model that can be addressed today: discovered and still offered, plus
   # anything an administrator entered by hand.
   def available_model_ids
