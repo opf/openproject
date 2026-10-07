@@ -52,8 +52,7 @@ RSpec.describe Messages::PostComponent, type: :component do
   it "signs the opening post at the bottom rather than heading it", :aggregate_failures do
     expect(rendered_component).to have_no_test_selector("message-header")
     expect(rendered_component).to have_test_selector("message-signature", text: "Alice Author")
-    expect(rendered_component)
-      .to have_css("[data-test-selector='message-signature'] [data-test-selector='message-actions-#{topic.id}']")
+    expect(find_test_selector("message-signature")).to have_test_selector("message-actions-#{topic.id}")
   end
 
   it "starts the thread without a stem above it" do
