@@ -23,31 +23,5 @@
     if exclusion_toggle.render?
       row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
     end
-
-    if ee_available? && !readonly?
-      row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
-        render(Primer::Alpha::ActionMenu.new) do |menu|
-          menu.with_show_button(
-            icon: "kebab-horizontal",
-            scheme: :invisible,
-            size: :small,
-            classes: "type-form-configuration-page--actions-button",
-            test_selector: "type-form-configuration-query-actions-#{@group[:key]}",
-            "aria-label": t("types.edit.form_configuration.row_actions")
-          )
-
-          menu.with_item(
-            label: t("types.edit.form_configuration.edit_query"),
-            test_selector: "type-form-configuration-edit-query-#{@group[:key]}",
-            tag: :button,
-            content_arguments: {
-              data: { action: "click->admin--type-form-configuration--main#editQuery" }
-            }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :pencil)
-          end
-        end
-      end
-    end
   end
 %>

@@ -49,7 +49,7 @@ module Components
       end
 
       def inactive_drop
-        inactive_group.find("[data-test-selector='type-form-configuration-inactive-list']")
+        inactive_group.find(".Box > ul")
       end
 
       def expect_empty
@@ -57,7 +57,9 @@ module Components
       end
 
       def find_group(name)
-        page.find(:xpath, group_xpath(name))
+        page.find_test_selector("type-form-configuration-groups-container")
+            .find(:heading, text: name, exact_text: true)
+            .ancestor("[data-group-key]")
       end
 
       def attribute_selector(attribute)
@@ -225,7 +227,7 @@ module Components
 
       def group_order
         page.within_test_selector("type-form-configuration-groups-container") do
-          all(":scope > [data-group-key] .Box-header span.text-bold", visible: true).map(&:text)
+          all(":scope > [data-group-key] .Box-header", visible: true).map { it.find(:heading).text }
         end
       end
 
@@ -246,13 +248,7 @@ module Components
       private
 
       def drop_container_for(target)
-        inactive_list_selector = "[data-test-selector='type-form-configuration-inactive-list']"
-
-        if target.has_css?(inactive_list_selector, wait: 0)
-          target.find(inactive_list_selector)
-        else
-          target.find(".Box ul")
-        end
+        target.find(".Box > ul")
       end
 
       def displayed_relation_filter_label(relation_filter)
@@ -260,8 +256,7 @@ module Components
       end
 
       def fill_group_name(name)
-        input = page.find_test_selector("type-form-configuration-group-name-input", wait: 10)
-        input.set(name)
+        page.fill_in I18n.t("types.edit.form_configuration.group_name_label"), with: name
       end
 
       def open_group_menu(name)
@@ -313,8 +308,10 @@ module Components
       end
 
       def save_group
-        page.find_test_selector("type-form-configuration-group-save", wait: 10).click
-        expect(page).to have_no_selector(page.test_selector("type-form-configuration-group-name-input"))
+        page.within_test_selector("type-form-configuration-groups-container") do
+          click_button I18n.t(:button_save)
+        end
+        expect(page).to have_no_field(I18n.t("types.edit.form_configuration.group_name_label"))
       end
 
       def wait_for_turbo
@@ -322,23 +319,6 @@ module Components
           wait_for_reload
         else
           SeleniumHubWaiter.wait
-        end
-      end
-
-      def group_xpath(name)
-        <<~XPATH.squish
-          //*[@data-group-key]
-            [.//span[contains(concat(' ', normalize-space(@class), ' '), ' text-bold ')
-            and normalize-space()=#{xpath_literal(name)}]]
-        XPATH
-      end
-
-      def xpath_literal(value)
-        if value.include?("'")
-          parts = value.split("'").map { |part| "'#{part}'" }
-          %(concat(#{parts.join(%q{, "'", })}))
-        else
-          "'#{value}'"
         end
       end
     end

@@ -39,42 +39,5 @@
     if exclusion_toggle.render?
       row.with_column(py: 1, mr: 2) { render(exclusion_toggle) }
     end
-
-    if show_required_action?
-      row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
-        render(Primer::Alpha::ActionMenu.new) do |menu|
-          menu.with_show_button(**actions_button_arguments)
-
-          menu.with_item(**toggle_required_item_arguments) do |item|
-            item.with_leading_visual_icon(icon: toggle_required_icon)
-            item.with_description { toggle_required_hint } if required_action_disabled?
-          end
-        end
-      end
-    end
-
-    unless readonly?
-      row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
-        render(Primer::Alpha::ActionMenu.new) do |menu|
-          menu.with_show_button(**actions_button_arguments)
-
-          if multiple_attributes?
-            with_move_items(menu)
-            menu.with_divider
-          end
-
-          menu.with_item(
-            label: t("button_delete"),
-            test_selector: "type-form-configuration-delete-attribute-#{@attribute[:key]}",
-            scheme: :danger,
-            tag: :a,
-            href: row_destroy_path,
-            content_arguments: { data: { turbo_method: :delete, turbo_stream: true } }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
-        end
-      end
-    end
   end
 %>

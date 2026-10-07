@@ -27,61 +27,57 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  component_wrapper(
-    data: wrapper_data
-  ) do
-    render(border_box_container(mt: 3, mb: (last? ? 3 : 0), padding: :condensed, data: box_data)) do |box|
-      # The group item resolves its menu as the first action-menu inside it: the header stays above the rows.
-      box.with_header(font_weight: :bold) do
-        render(
-          WorkPackageTypes::FormConfiguration::GroupHeaderComponent.new(
-            group: @group,
-            context: @context,
-            ee_available: ee_available?,
-            first: first?,
-            last: last?,
-            edit_mode: edit_mode?,
-            form_model: @form_model
-          )
+<%= component_wrapper(data: wrapper_data) do %>
+  <%= render(
+        OpenProject::Common::BorderBoxListComponent.new(
+          container: list_container,
+          empty_state_behavior:,
+          padding: :condensed,
+          mt: 3,
+          mb: (last? ? 3 : 0),
+          data: box_data
         )
-      end
+      ) do |list| %>
+    <%# The group item resolves its menu as the first action-menu inside it: the header stays above the rows. %>
+    <% list.with_header(**header_arguments) do |header| %>
+      <% unless readonly? %>
+        <% header.with_menu(**group_menu_arguments) { |menu| group_menu_items(menu) } %>
+        <% header.with_title_form(**title_form_arguments) %>
+      <% end %>
+    <% end %>
 
-      if query_group?
-        box.with_row do
-          render(
-            WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
-              group: @group,
-              ee_available: ee_available?,
-              readonly: readonly?,
-              exclusions:
-            )
-          )
-        end
-      elsif attributes.empty? && !readonly?
-        box.with_row(data: { "empty-list-item": true }) do
-          flex_layout(align_items: :center) do |empty_row|
-            empty_row.with_column(mr: 2, classes: "type-form-configuration-page--row-alignment-spacer")
-            empty_row.with_column(flex: 1) do
-              render(Primer::Beta::Text.new(color: :subtle, font_style: :italic)) do
-                t("types.edit.form_configuration.empty_group_hint")
-              end
-            end
-          end
-        end
-      elsif !attributes.empty?
-        attributes.each do |attribute|
-          box.with_row(data: attribute_item_data(attribute)) do
-            render(
-              WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent.new(
-                attribute:,
-                context: @context,
-                total_count: attributes.length
+    <% if query_group? %>
+      <% list.with_item do |item| %>
+        <% if ee_available? && !readonly? %>
+          <% item.with_menu(**query_menu_arguments) { |menu| query_menu_items(menu) } %>
+        <% end %>
+        <%= render(
+              WorkPackageTypes::FormConfiguration::GroupQueryRowComponent.new(
+                group: @group,
+                ee_available: ee_available?,
+                readonly: readonly?,
+                exclusions:
               )
-            )
-          end
-        end
-      end
-    end
-  end
-%>
+            ) %>
+      <% end %>
+    <% else %>
+      <% attributes.each do |attribute| %>
+        <% list.with_item(data: attribute_item_data(attribute)) do |item| %>
+          <% row = attribute_row(attribute) %>
+          <% if row.menu? %>
+            <% item.with_menu(**row.menu_arguments) { |menu| row.menu_items(menu) } %>
+          <% end %>
+          <%= render(row) %>
+        <% end %>
+      <% end %>
+
+      <% if droppable_list? %>
+        <% list.with_empty_state(
+             title: t("types.edit.form_configuration.empty_group_title"),
+             description: t("types.edit.form_configuration.empty_group_hint"),
+             drop_target_label: t("types.edit.form_configuration.empty_group_drop_label")
+           ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

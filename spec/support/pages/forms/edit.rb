@@ -44,7 +44,7 @@ module Pages
       end
 
       def group(name)
-        groups_container.find(".Box-header .text-bold", text: name, exact_text: true).ancestor(".Box")
+        groups_container.find(:heading, text: name, exact_text: true).ancestor(".Box")
       end
 
       def expect_group_order(*names)
@@ -64,11 +64,19 @@ module Pages
       end
 
       def expect_group_in_view(name)
-        expect(groups_container).to have_css(".Box-header .text-bold", text: name, exact_text: true, obscured: false)
+        expect(groups_container).to have_selector(:heading, text: name, exact_text: true, obscured: false)
       end
 
       def expect_group_out_of_view(name)
-        expect(groups_container).to have_css(".Box-header .text-bold", text: name, exact_text: true, obscured: true)
+        expect(groups_container).to have_selector(:heading, text: name, exact_text: true, obscured: true)
+      end
+
+      def expect_empty_state(group_name)
+        expect(group(group_name)).to have_heading(I18n.t("types.edit.form_configuration.empty_group_title"))
+      end
+
+      def expect_no_empty_state(group_name)
+        expect(group(group_name)).to have_no_heading(I18n.t("types.edit.form_configuration.empty_group_title"))
       end
 
       def expect_attributes(group_name, *keys)
@@ -151,6 +159,16 @@ module Pages
         expect(page).to have_field(with: name)
       end
 
+      def expect_inactive_empty_state
+        expect(page.find_by_id("type-form-configuration-inactive-container"))
+          .to have_heading(I18n.t("types.edit.form_configuration.no_inactive_attributes"))
+      end
+
+      def expect_no_inactive_empty_state
+        expect(page.find_by_id("type-form-configuration-inactive-container"))
+          .to have_no_heading(I18n.t("types.edit.form_configuration.no_inactive_attributes"))
+      end
+
       def filter_inactive(text)
         page.fill_in I18n.t("types.edit.form_configuration.filter_inactive"), with: text
       end
@@ -166,14 +184,14 @@ module Pages
       end
 
       def group_name_in(header)
-        name = header.first(".text-bold", minimum: 0, wait: false)
-        return name.text if name
+        field = header.first(:field, I18n.t("types.edit.form_configuration.group_name_label"), minimum: 0, wait: false)
+        return field.value if field
 
-        header.find_field(I18n.t("types.edit.form_configuration.group_name_label")).value
+        header.find(:heading).text
       end
 
       def inactive_list
-        page.find(".type-form-configuration-page--inactive-list")
+        page.find_by_id("type-form-configuration-inactive-container").find(".Box > ul")
       end
 
       def row(key)
