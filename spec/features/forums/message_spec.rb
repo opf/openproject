@@ -132,7 +132,7 @@ RSpec.describe "messages", :js, :selenium do
 
     index_page.expect_listed(subject: "The message is",
                              replies: 1,
-                             last_message: "RE: The message is")
+                             last_message: other_user.name)
 
     # Creating a reply will have sent a mail to the first user who was watching the forum
     expect(ActionMailer::Base.deliveries.size)
@@ -167,6 +167,6 @@ RSpec.describe "messages", :js, :selenium do
     click_link forum.name
     index_page.expect_listed(subject: "The message is",
                              replies: 3,
-                             last_message: "RE: The message is")
+                             last_message: user.name)
   end
 end

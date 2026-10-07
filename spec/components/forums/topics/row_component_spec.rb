@@ -55,22 +55,27 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
   end
 
   context "with a last reply" do
-    before do
-      create(:message, forum:, parent: topic, subject: "RE: Release planning")
-      topic.reload
+    let(:replier) { create(:user, firstname: "Bob", lastname: "Replier") }
+    let!(:reply) { create(:message, forum:, parent: topic, author: replier, subject: "RE: Release planning") }
+
+    before { topic.reload }
+
+    it "names who replied last, linking the time to the reply", :aggregate_failures do
+      expect(rendered_component).to have_css(".last_reply", text: "Bob Replier")
+      expect(rendered_component).to have_link(href: /\?r=#{reply.id}#message-#{reply.id}\z/)
     end
 
-    it "links the last reply" do
-      expect(rendered_component).to have_link("RE: Release planning")
+    it "leaves out the reply's subject, which only repeats the topic's" do
+      expect(rendered_component).to have_no_text("RE: Release planning")
     end
 
     it "gives the last reply a cell that does not clip its byline" do
       # The byline holds an author and a timestamp on its own line, which an ellipsis cell clips mid-date.
-      expect(rendered_component).to have_css(".last_reply:not(.ellipsis)", text: "RE: Release planning")
+      expect(rendered_component).to have_css(".last_reply:not(.ellipsis)", text: "Bob Replier")
     end
 
     it "leaves the last reply out of the stacked phone layout" do
-      expect(rendered_component).to have_css(".last_reply.op-border-box-grid__row-item--no-mobile", text: "RE: Release planning")
+      expect(rendered_component).to have_css(".last_reply.op-border-box-grid__row-item--no-mobile", text: "Bob Replier")
     end
   end
 
