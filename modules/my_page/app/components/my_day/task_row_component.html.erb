@@ -66,26 +66,10 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
       <% meta.with_column(**meta_cell(:kind)) do %>
-        <% if planned_work_package %>
-          <%= render(Primer::Beta::Truncate.new) do %>
-            <%= render(WorkPackages::HighlightedTypeComponent.new(work_package: planned_work_package, font_size: :small)) %>
-          <% end %>
-        <% else %>
-          <%= render(Primer::Beta::Label.new(scheme: :accent)) { t("my_day.quick_task") } %>
-        <% end %>
+        <%= render(Primer::Beta::Truncate.new(font_size: :small, classes: kind_classes)) { kind_name } %>
       <% end %>
       <% meta.with_column(**meta_cell(:id)) do %>
         <%= render(Primer::Beta::Truncate.new(font_family: :mono, color: :muted, font_size: :small)) { shown_work_package.formatted_id } %>
-      <% end %>
-      <% meta.with_column(**meta_cell(:project)) do %>
-        <% if planned_work_package %>
-          <%= render(Primer::Beta::Truncate.new(color: :muted, font_size: :small)) { planned_work_package.project.name } %>
-        <% end %>
-      <% end %>
-      <% meta.with_column(**meta_cell(:status)) do %>
-        <% if planned_work_package %>
-          <%= render(WorkPackages::StatusBadgeComponent.new(status: planned_work_package.status)) %>
-        <% end %>
       <% end %>
     <% end %>
   <% end %>

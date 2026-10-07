@@ -34,7 +34,7 @@ module MyDay
 
     # Fixed widths keep the meta of every row in the same columns, whether it describes a quick task
     # or a planned work package.
-    META_WIDTHS = { planned_for: "9rem", kind: "7rem", id: "6rem", project: "8rem", status: "7rem" }.freeze
+    META_WIDTHS = { planned_for: "9rem", kind: "8rem", id: "7rem" }.freeze
 
     def initialize(work_package:, lead_width:, references:, view: :today, day_part: nil)
       super()
@@ -61,6 +61,16 @@ module MyDay
     end
 
     def can_unplan? = !unplanned?
+
+    # Quick tasks and planned work packages share one look: the type in its colour, with own tasks
+    # named as quick tasks.
+    def kind_name
+      planned_work_package ? planned_work_package.type.name.upcase : t("my_day.quick_task").upcase
+    end
+
+    def kind_classes
+      helpers.class_names("__hl_uppercase", helpers.hl_foreground_class("type", shown_work_package.type))
+    end
 
     def meta_cell(name)
       { mr: 2, classes: "min-width-0", style: "width: #{META_WIDTHS.fetch(name)}; flex-shrink: 0" }
