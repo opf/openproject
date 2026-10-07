@@ -33,6 +33,26 @@ module Meetings
     extend ActiveSupport::Concern
 
     included do
+      helper_method :sorted_agenda_item_ids
+
+      def sorted_agenda_item_ids(meeting = @meeting)
+        meeting.sections
+               .includes(:agenda_items)
+               .order(:position)
+               .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
+      end
+
+      def replace_presentation_show_via_turbo_stream(current_id:)
+        replace_via_turbo_stream(
+          component: Meetings::PresentationMode::ShowComponent.new(
+            meeting: @meeting,
+            sorted_agenda_item_ids:,
+            current_id:,
+            started_at: @started_at
+          )
+        )
+      end
+
       def update_header_component_via_turbo_stream(meeting: @meeting, state: :show)
         update_via_turbo_stream(
           component: Meetings::HeaderComponent.new(

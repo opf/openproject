@@ -37,7 +37,9 @@ See COPYRIGHT and LICENSE files for more details.
         @agenda_item.meeting.project,
         @agenda_item.meeting,
         @agenda_item,
-        datetime: @datetime
+        datetime: @datetime,
+        presentation_mode: @presentation_mode || nil,
+        started_at: @started_at
       )
     ) do |f|
       render(Meeting::AddToSection.new(f, wrapper_id: "move-to-next-meeting-dialog", occurrence: @next_occurrence, move_to_section: false))
