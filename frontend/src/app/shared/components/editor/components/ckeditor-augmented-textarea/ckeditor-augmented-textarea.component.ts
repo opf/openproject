@@ -75,6 +75,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   @Input() public removePlugins:string[] = [];
 
+  @Input() public additionalToolbarItems:string[] = [];
+
   @Input() public resource?:object;
 
   @Input() public turboMode = false;
@@ -158,6 +160,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
       field: this.wrappedTextArea.name,
       previewContext: this.previewContext,
       removePlugins: this.removePlugins,
+      additionalToolbarItems: this.additionalToolbarItems,
       storageKey: this.storageKey,
     };
     if (this.readOnly) {
