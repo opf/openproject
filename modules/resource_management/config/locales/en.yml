@@ -202,6 +202,8 @@ en:
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Add View
     public_caption: >-

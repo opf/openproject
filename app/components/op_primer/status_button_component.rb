@@ -53,6 +53,10 @@ module OpPrimer
       raise SubclassResponsibilityError
     end
 
+    def default_button_style
+      :background
+    end
+
     def disabled?
       @disabled
     end
@@ -70,10 +74,11 @@ module OpPrimer
 
     def button_arguments
       title = @button_arguments.fetch(:title) { default_button_title }
+      style = @button_arguments.fetch(:style) { default_button_style }
 
       {
         title:,
-        classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, :background)),
+        classes: class_names(@button_arguments[:classes], highlight_class_name(@current_status, style)),
         disabled: disabled?,
         aria: {
           label: title
@@ -89,6 +94,8 @@ module OpPrimer
         helpers.hl_foreground_class(status.color_namespace, status.color_ref)
       when :background
         helpers.hl_background_class(status.color_namespace, status.color_ref)
+      when :background_muted
+        helpers.hl_background_muted_class(status.color_namespace, status.color_ref)
       end
     end
   end

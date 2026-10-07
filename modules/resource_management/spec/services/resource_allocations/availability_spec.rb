@@ -121,6 +121,15 @@ RSpec.describe ResourceAllocations::Availability do
       expect(scheduled_minutes).to eq(960)
       expect(schedule.capacity_on(monday)).to eq(480)
     end
+
+    it "dates each entry with the day it is placed on" do
+      allocate(960, start_date: monday, end_date: tuesday)
+
+      schedule = availability.optimal_schedule
+
+      expect(schedule.entries_on(monday).map(&:allocated_on)).to eq([monday])
+      expect(schedule.entries_on(tuesday).map(&:allocated_on)).to eq([tuesday])
+    end
   end
 
   describe "#fits?" do

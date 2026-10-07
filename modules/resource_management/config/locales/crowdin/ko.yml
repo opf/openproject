@@ -101,6 +101,7 @@ ko:
       criteria:
         empty: 기준이 설정되지 않았습니다.
         label: 기준
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: 선택한 사용자는 해당 날짜에 구성된 근무 시간이 없으므로 근무 가능 시간이 없는 것으로 간주됩니다.
         partial: 선택한 사용자는 %{dates}에 구성된 근무 시간이 없으므로 해당 날짜에 근무 가능 시간이 없는 것으로 간주됩니다.
@@ -115,6 +116,7 @@ ko:
         schedule_note: 이 사용자는 %{schedule}에 근무합니다.
         submit: 초과 근무 할당
         title: 해당 사용자에게 초과 근무를 할당하시겠습니까?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: 할당
       success_message: 리소스가 할당되었습니다.
       title: 리소스 할당

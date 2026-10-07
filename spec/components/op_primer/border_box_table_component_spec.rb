@@ -246,6 +246,41 @@ RSpec.describe OpPrimer::BorderBoxTableComponent, :aggregate_failures, type: :co
     it_behaves_like "indexing rows", rowcount: 4, first: 2, last: 4, footer: false
   end
 
+  context "with rows that have no button links" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+
+    before do
+      row_class.define_method(:button_links) { [] }
+    end
+
+    it "still renders an actions cell so that the row fills the grid" do
+      expect(rendered_component).to have_selector :row, class: "Box-row", count: 2 do |row|
+        expect(row).to have_selector :role, :cell, count: 1, class: "op-border-box-grid__row-action", aria: { colindex: 3 }
+      end
+    end
+  end
+
+  context "with rows of different kinds" do
+    let(:rows) { build_stubbed_list(:project, 2) }
+    let(:other_row_class) do
+      Class.new(OpPrimer::BorderBoxRowComponent) do
+        def name = "Other #{model.name}"
+        def description = nil
+      end
+    end
+
+    before do
+      stub_const("OtherBorderBoxRowComponent", other_row_class)
+      special = rows.last
+      table_class.define_method(:row_class_for) { |row| row == special ? OtherBorderBoxRowComponent : row_class }
+    end
+
+    it "renders each row with the row class chosen for it" do
+      expect(rendered_component).to have_selector :row, text: rows.first.name, rowindex: 2
+      expect(rendered_component).to have_selector :row, text: "Other #{rows.last.name}", rowindex: 3
+    end
+  end
+
   context "with a page of a paginated collection" do
     let(:rows) do
       WillPaginate::Collection.create(2, 3, 10) do |pager|

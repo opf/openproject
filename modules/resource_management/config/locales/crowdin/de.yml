@@ -107,6 +107,7 @@ de:
       criteria:
         empty: Es wurden keine Kriterien festgelegt.
         label: Kriterien
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Für den ausgewählten Benutzer sind für den ausgewählten Zeitraum keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
         partial: Für den ausgewählten Benutzer sind für den Zeitraum %{dates} keine Arbeitszeiten konfiguriert, daher kann keine Kapazität ermittelt werden.
@@ -121,6 +122,7 @@ de:
         schedule_note: Dieser Benutzer arbeitet %{schedule}.
         submit: Überstunden zuweisen
         title: Möchten Sie dem Benutzer Überstunden zuweisen?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Zuweisen
       success_message: Ressource zugewiesen.
       title: Ressourcen zuweisen

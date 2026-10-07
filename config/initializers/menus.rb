@@ -106,6 +106,16 @@ Redmine::MenuManager.map :top_menu do |menu|
             if: ->(*) do
               User.current.logged?
             end
+
+  menu.push :my_work,
+            { controller: "/my/work", action: "index" },
+            after: :my_page,
+            context: :my,
+            caption: :label_my_work,
+            if: ->(*) do
+              User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
+            end,
+            icon: :clock
 end
 
 Redmine::MenuManager.map :quick_add_menu do |menu|
@@ -191,11 +201,20 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: "person",
             caption: I18n.t("my_page.label")
 
+  menu.push :my_work,
+            { controller: "/my/work", action: "index", date: "today" },
+            after: :my_page,
+            caption: :label_my_work,
+            if: ->(*) do
+              User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
+            end,
+            icon: :clock
+
   menu.push :portfolios,
             { controller: "/portfolios", action: "index" },
             caption: I18n.t("label_portfolio_plural"),
             icon: "briefcase",
-            after: :my_page,
+            after: :my_work,
             if: ->(_) {
               (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||

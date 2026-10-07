@@ -107,6 +107,7 @@ sv:
       criteria:
         empty: Inga kriterier angivna.
         label: Kriterier
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
         partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
@@ -121,6 +122,7 @@ sv:
         schedule_note: Den här användaren arbetar %{schedule}.
         submit: Tilldela övertid
         title: Vill du tilldela användaren övertid?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Tilldela
       success_message: Resursen har tilldelats.
       title: Tilldela resurs

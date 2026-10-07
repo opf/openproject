@@ -119,6 +119,7 @@ pl:
       criteria:
         empty: Nie ustawiono kryteriów.
         label: Kryteria
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Dla wybranego użytkownika nie skonfigurowano godzin pracy w tych terminach, dlatego uznaje się, że nie ma on dostępności.
         partial: Dla wybranego użytkownika nie skonfigurowano godzin pracy w terminach %{dates}, dlatego dni te są traktowane jako dni bez dostępności.
@@ -133,6 +134,7 @@ pl:
         schedule_note: Ten użytkownik pracuje %{schedule}.
         submit: Przydziel nadgodziny
         title: Czy chcesz przydzielić nadgodziny użytkownikowi?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Przydziel
       success_message: Zasób przydzielono.
       title: Przydziel zasób
