@@ -44,10 +44,10 @@ class My::DateTimeFormatForm < ApplicationForm
     end
 
     f.select_list(
-      label: I18n.t(:setting_time_format),
       name: :time_format,
-      input_width: :medium,
+      label: I18n.t(:setting_time_format),
       include_blank: I18n.t(:label_system_or_language_default),
+      input_width: :medium
     ) do |list|
       Settings::Definition[:time_format].allowed.each do |format|
         list.option(label: Time.current.strftime(format), value: format)
