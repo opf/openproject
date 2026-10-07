@@ -53,27 +53,29 @@ module OAuth
         required: true
       )
 
-      f.check_box_group(
-        name: :scopes,
-        label: Doorkeeper::Application.human_attribute_name(:scopes),
-        caption: I18n.t("oauth.application.instructions.scopes")
-      ) do |group|
-        Doorkeeper.configuration.scopes.each do |scope|
-          group.check_box(
-            name: :scopes,
-            label: I18n.exists?(scope, scope: "oauth.scopes") ? "#{I18n.t(scope, scope: 'oauth.scopes')} (#{scope})" : scope,
-            required: true,
-            value: scope
-          )
-        end
-      end
-
       f.check_box(
         name: :confidential,
         label: Doorkeeper::Application.human_attribute_name(:confidential),
         caption: I18n.t("oauth.application.instructions.confidential"),
         required: true
       )
+
+      f.check_box_group(
+        name: :scopes,
+        label: Doorkeeper::Application.human_attribute_name(:scopes),
+        caption: I18n.t("oauth.application.instructions.scopes")
+      ) do |group|
+        Doorkeeper.configuration.scopes.each do |scope|
+          checkbox_options = {
+            name: :scopes,
+            label: I18n.exists?(scope, scope: "oauth.scopes") ? "#{I18n.t(scope, scope: 'oauth.scopes')} (#{scope})" : scope,
+            required: true,
+            value: scope
+          }
+          checkbox_options[:caption] = I18n.t(scope, scope: "oauth.scopes.explanations_admin") if I18n.exists?(scope, scope: "oauth.scopes.explanations_admin")
+          group.check_box(**checkbox_options)
+        end
+      end
 
       f.fieldset_group(
         title: I18n.t("oauth.application.client_credentials"),

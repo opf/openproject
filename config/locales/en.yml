@@ -5345,7 +5345,7 @@ en:
       confidential: Confidential
       instructions:
         client_credential_user_id: "Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow."
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
+        confidential: "Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can."
         enabled: "Enable this application, allowing it to obtain access tokens."
         name: "The name of your application. This will be displayed to users upon authorization."
         page_description: "OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users."
@@ -5398,6 +5398,9 @@ en:
     scopes:
       api_v3: "Access to APIv3"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      explanations_admin:
+        api_v3: "Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf."
+        mcp: "Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents."
       mcp: "Access to Model Context Protocol"
       mcp_text: "Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents."
 
