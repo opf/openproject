@@ -112,7 +112,7 @@ module Messages
     def load_messages(indices)
       Message
         .where(id: reply_ids.values_at(*indices))
-        .includes(:author, :attachments, :project, forum: :project)
+        .includes(:author, :attachments, :parent, :project, forum: :project)
         .index_by(&:id)
     end
   end
