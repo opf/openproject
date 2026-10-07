@@ -32,6 +32,8 @@ import { Extension } from "@hocuspocus/server";
 import {
   openProjectWorkPackageStaticBlockSpec,
   openProjectWorkPackageStaticInlineSpec,
+  openProjectWorkPackageAttributeStaticInlineSpec,
+  openProjectWorkPackageAttributeStaticBlockSpec,
 } from "@openproject/blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
@@ -43,9 +45,11 @@ import { createLogger } from "../logger";
 export const editorSchema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeStaticBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
+    openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeStaticInlineSpec,
   },
 });
 
