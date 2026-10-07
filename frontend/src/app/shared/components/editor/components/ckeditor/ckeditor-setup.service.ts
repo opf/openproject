@@ -31,10 +31,13 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { Injectable, inject } from '@angular/core';
 import {
   ICKEditorContext,
+  ICKEditorInstance,
   ICKEditorStatic,
   ICKEditorWatchdog,
+  OpenProjectEditorConfig,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
-import { Constructor } from '@angular/cdk/schematics';
+import type { ToolbarConfigItem } from '@ckeditor/ckeditor5-core';
+import type { EditorWatchdog } from '@ckeditor/ckeditor5-watchdog';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export type ICKEditorType = 'full'|'constrained';
@@ -58,7 +61,7 @@ declare global {
   interface Window {
     OPConstrainedEditor:ICKEditorStatic;
     OPClassicEditor:ICKEditorStatic;
-    OPEditorWatchdog:Constructor<ICKEditorWatchdog>;
+    OPEditorWatchdog:typeof EditorWatchdog;
   }
 }
 
@@ -112,6 +115,14 @@ export class CKEditorSetupService {
       .createWatchdog(editorClass, contentWrapper, config)
       .then((watchdog:ICKEditorWatchdog) => {
         const { editor } = watchdog;
+        if (!editor) {
+          throw new Error('CKEditor watchdog has no editor after creation.');
+        }
+
+        const toolbar = editor.ui.view.toolbar.element;
+        if (!toolbar) {
+          throw new Error('CKEditor toolbar has not been rendered.');
+        }
         const updateLastUpdated = () => {
           const editable = wrapper.querySelector<HTMLElement>('.ck-editor__editable_inline');
           if (!editable) {
@@ -120,11 +131,11 @@ export class CKEditorSetupService {
 
           editable.dataset.lastUpdated = String(new Date().getTime());
         };
-        toolbarWrapper.appendChild(editor.ui.view.toolbar.element);
+        toolbarWrapper.appendChild(toolbar);
 
         // Allow custom events on wrapper to set/get data for debugging
         wrapper.addEventListener('op:ckeditor:autosave', () => {
-          editor.config.get('autosave').save(editor);
+          void editor.config.get('autosave')?.save?.(editor);
         });
         wrapper.addEventListener('op:ckeditor:setData', (event:CustomEvent<string>) => {
           editor.setData(event.detail);
@@ -135,22 +146,22 @@ export class CKEditorSetupService {
           updateLastUpdated();
         });
         wrapper.addEventListener('op:ckeditor:getData', (event:CustomEvent<(data:string) => void>) => {
-          event.detail(editor.getData({ trim: false }));
+          event.detail(editor.getData({ trim: 'none' }));
         });
 
         return watchdog;
       });
   }
 
-  private createConfig(context:ICKEditorContext, initialData:string|null) {
+  private createConfig(context:ICKEditorContext, initialData:string|null):OpenProjectEditorConfig {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
     const resolvedContext:ICKEditorContext = { ...context, macros: this.resolveMacros(context.macros) };
 
-    const config = {
+    const config:OpenProjectEditorConfig = {
       openProject: this.createContext(resolvedContext),
       removePlugins: context.removePlugins,
-      initialData,
+      initialData: initialData ?? undefined,
       ui: {
         poweredBy: {
           side: 'left',
@@ -187,9 +198,9 @@ export class CKEditorSetupService {
   private createWatchdog(
     editorClass:ICKEditorStatic,
     contentWrapper:HTMLElement,
-    config:unknown,
+    config:OpenProjectEditorConfig,
   ):Promise<ICKEditorWatchdog> {
-    const watchdog = new window.OPEditorWatchdog();
+    const watchdog = new window.OPEditorWatchdog<ICKEditorInstance>(null);
 
     watchdog.setCreator(() => editorClass.createCustomized(contentWrapper, config));
     watchdog.setDestructor((editor) => editor.destroy());
@@ -203,12 +214,9 @@ export class CKEditorSetupService {
    * Load the ckeditor asset
    */
   private async load():Promise<void> {
-    // untyped modules cannot be dynamically imported
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const loadEditorScript = import('core-vendor/ckeditor/ckeditor');
 
-    const promises = [loadEditorScript];
+    const promises:Promise<unknown>[] = [loadEditorScript];
 
     if (I18n.locale !== 'en') {
       promises.push(this.loadLocale());
@@ -226,7 +234,7 @@ export class CKEditorSetupService {
     }
   }
 
-  private createContext(context:ICKEditorContext):unknown {
+  private createContext(context:ICKEditorContext):OpenProjectEditorConfig['openProject'] {
     return {
       context,
       helpURL: this.PathHelper.textFormattingHelp(),
@@ -235,8 +243,9 @@ export class CKEditorSetupService {
   }
 
   // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
-  private constrainedToolbarWithMacroList():string[] {
-    const items = [...(window.OPConstrainedEditor.defaultConfig?.toolbar?.items ?? [])];
+  private constrainedToolbarWithMacroList():ToolbarConfigItem[] {
+    const toolbar = window.OPConstrainedEditor.defaultConfig?.toolbar;
+    const items = [...(Array.isArray(toolbar) ? toolbar : toolbar?.items ?? [])];
 
     if (!items.includes('macroList')) {
       const anchor = items.indexOf('blockQuote');

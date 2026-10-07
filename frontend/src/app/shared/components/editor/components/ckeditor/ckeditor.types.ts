@@ -26,105 +26,34 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import type { AutosaveConfig } from '@ckeditor/ckeditor5-autosave';
+import type { LinkConfig } from '@ckeditor/ckeditor5-link';
+import type { EditorConfig } from '@ckeditor/ckeditor5-core';
+import type { DecoupledEditor } from '@ckeditor/ckeditor5-editor-decoupled';
+import type { EditorWatchdog } from '@ckeditor/ckeditor5-watchdog';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   ICKEditorMacroType,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
-export interface CKEditorEvent {
-  stop:() => void;
-}
+export type ICKEditorInstance = DecoupledEditor;
 
-export interface CKEditorListenOptions {
-  priority:string;
-}
+export type ICKEditorWatchdog = EditorWatchdog<ICKEditorInstance>;
 
-export interface CKEditorDomEventData {
-  altKey:boolean;
-  shiftKey:boolean;
-  ctrlKey:boolean;
-  metaKey:boolean;
-  keyCode:number;
-}
+export type ICKEditorStatic = typeof DecoupledEditor & {
+  createCustomized(el:string|HTMLElement, config:OpenProjectEditorConfig):Promise<ICKEditorInstance>;
+};
 
-export interface CKEditorFocusTracker {
-  isFocused:boolean;
-  on(event:string, callback:(evt:unknown, name:string, value:boolean) => void):void;
-}
-
-export interface ICKEditorInstance {
-  id:string;
-
-  state:string;
-
-  getData(options?:{ trim:boolean }):string;
-
-  setData(content:string):void;
-
-  destroy():void;
-
-  enableReadOnlyMode(lockId:string):void;
-
-  disableReadOnlyMode(lockId:string):void;
-
-  on(event:string, callback:() => unknown):void;
-
-  listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
-
-  model:{
-    on(ev:string, callback:() => unknown):void
-    fire(ev:string, data:unknown):void
-    document:{
-      on(ev:string, callback:() => unknown):void
-    };
+export interface OpenProjectEditorConfig extends EditorConfig {
+  autosave?:AutosaveConfig;
+  link?:LinkConfig;
+  openProject:{
+    context:ICKEditorContext;
+    helpURL:string;
+    pluginContext:unknown;
   };
-  editing:{
-    view:{
-      focus():void;
-      document:Document
-    }
-  };
-  config:{
-    get(name:'autosave'):{ save(editor:ICKEditorInstance):void };
-  };
-  ui:{
-    focusTracker:CKEditorFocusTracker;
-    view:{ toolbar:{ element:HTMLElement } };
-  };
-  element:HTMLElement;
-}
-
-export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
-
-  createCustomized(el:string|HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
-
-  defaultConfig?:{ toolbar?:{ items:string[] } };
-}
-
-export type ICKEditorState = 'initializing'|'ready'|'crashed'|'crashedPermanently'|'destroyed';
-
-export interface ICKEditorError {
-  message:string;
-  stack?:string;
-}
-
-export interface ICKEditorWatchdog {
-  setCreator(callback:(elementOrData:unknown, editorConfig:unknown) => Promise<ICKEditorInstance>):void;
-
-  setDestructor(callback:(editor:ICKEditorInstance) => void):void;
-
-  create(elementOrData:unknown, editorConfig:unknown):Promise<ICKEditorInstance>;
-
-  destroy():void;
-
-  on(listener:'stateChange', callback:() => void):void;
-
-  on(listener:'error', callback:(evt:Event, args:{ error:ICKEditorError }) => void):void;
-
-  editor:ICKEditorInstance;
-  state:ICKEditorState;
+  storageKey?:string;
 }
 
 export interface ICKEditorContext {
