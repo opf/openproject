@@ -52,22 +52,22 @@ See COPYRIGHT and LICENSE files for more details.
       f.select_list name: :date_format,
                     values: Settings::Definition[:date_format].allowed.collect { |f| [Time.zone.today.strftime(f), f] },
                     input_width: :medium,
-                    include_blank: t(:label_language_based)
+                    include_blank: t(:label_user_preference_or_locale)
 
       f.select_list name: :time_format,
                     values: Settings::Definition[:time_format].allowed.collect { |f| [Time.current.strftime(f), f] },
                     input_width: :medium,
-                    include_blank: t(:label_language_based)
+                    include_blank: t(:label_user_preference_or_locale)
 
       f.select_list name: :start_of_week,
                     values: [[day_name(1), 1], [day_name(6), 6], [day_name(7), 7]],
                     input_width: :medium,
-                    include_blank: t(:label_language_based)
+                    include_blank: t(:label_locale_based)
 
       f.select_list name: :first_week_of_year,
                     values: [[day_name(1), 1], [day_name(4), 4]],
                     input_width: :medium,
-                    include_blank: t(:label_language_based),
+                    include_blank: t(:label_locale_based),
                     caption: t("settings.date_format.first_week_of_year_text_html",
                                link: OpenProject::Static::Links.url_for(:date_format_settings_documentation))
 
