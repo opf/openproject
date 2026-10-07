@@ -64,7 +64,7 @@ module LlmConnections
     attr_reader :connection
 
     def failed(error, reason, errors)
-      Rails.logger.info { "LLM model sync for #{connection.base_url} #{reason}" }
+      Rails.logger.info { "LLM model sync for connection #{connection.id} #{reason}" }
 
       ServiceResult.failure(errors:, result: error)
     end
@@ -82,7 +82,7 @@ module LlmConnections
       return cards if oversized.empty?
 
       Rails.logger.warn do
-        "LLM server at #{connection.base_url} listed #{oversized.size} models with an id longer than " \
+        "The LLM server of connection #{connection.id} listed #{oversized.size} models with an id longer than " \
           "#{LlmModel::MAX_EXTERNAL_ID_LENGTH} characters; skipping them"
       end
       fitting
@@ -92,7 +92,7 @@ module LlmConnections
       return cards if cards.size <= MAX_CARDS
 
       Rails.logger.warn do
-        "LLM server at #{connection.base_url} listed #{cards.size} models; storing the first #{MAX_CARDS}"
+        "The LLM server of connection #{connection.id} listed #{cards.size} models; storing the first #{MAX_CARDS}"
       end
       cards.first(MAX_CARDS)
     end
