@@ -164,7 +164,7 @@ This menu also lets you rename a section, move it or delete the entire section b
 
 #### Add an agenda item
 
-If you select the **Agenda item** option, you can name that item, add notes, set the anticipated duration in minutes and select a user to be displayed next to the agenda item.  This could for example be a meeting or a project member that is accountable for the item or someone who will present that particular topic. 
+If you select the **Agenda item** option, you can name that item, add notes, set the anticipated duration in minutes and select a user to be displayed next to the agenda item.  This could for example be a meeting or a project member that is accountable for the item or someone who will present that particular topic. To show long notes as multiple slides in presentation mode, separate them with horizontal lines (see [Split an agenda item into multiple slides](#split-an-agenda-item-into-multiple-slides)).
 
 ![Add an agenda item to a meeting section](openproject_userguide_meetings_add_section_items.png)
 
@@ -535,6 +535,21 @@ To exit the presentation mode click the Exit presentation button in the header.
 
 > [!NOTE]
 > Some browsers may block automatic full-screen mode. In this case you can manually enable full-screen using the browser controls.
+
+### Split an agenda item into multiple slides
+
+If the notes of an agenda item are too long to fit on the screen, you can split them into multiple slides, so that you do not need to scroll during the presentation.
+
+To do so, edit the agenda item and insert a horizontal line at every point where a new slide should begin, using the **Horizontal line** button in the toolbar of the notes editor. If you prefer Markdown, a line containing only `---` has the same effect.
+
+In presentation mode, every part of the notes between two horizontal lines is shown as a separate slide. The title, duration, presenter and outcomes of the agenda item remain visible on every slide. The footer shows the current slide next to the agenda progress, e.g. _3 of 7 · Slide 2/4_.
+
+The _Previous/Next_ buttons and the arrow keys first move through the slides of the current agenda item before continuing with the previous or next agenda item. When moving back to a previous agenda item, its last slide is shown.
+
+If you edit an agenda item during the presentation, the editor shows all of its notes. After saving, the presentation returns to the slide you were on.
+
+> [!NOTE]
+> Horizontal lines only split the notes in presentation mode. On the meeting page and in exports, the notes are shown in full, with the horizontal lines as separators.
 
 ## Export a meeting
 
