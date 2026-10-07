@@ -48,6 +48,11 @@ export interface CKEditorDomEventData {
   keyCode:number;
 }
 
+export interface CKEditorFocusTracker {
+  isFocused:boolean;
+  on(event:string, callback:(evt:unknown, name:string, value:boolean) => void):void;
+}
+
 export interface ICKEditorInstance {
   id:string;
 
@@ -80,15 +85,20 @@ export interface ICKEditorInstance {
       document:Document
     }
   };
-  config:any;
-  ui:any;
+  config:{
+    get(name:'autosave'):{ save(editor:ICKEditorInstance):void };
+  };
+  ui:{
+    focusTracker:CKEditorFocusTracker;
+    view:{ toolbar:{ element:HTMLElement } };
+  };
   element:HTMLElement;
 }
 
 export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  create(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
-  createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  createCustomized(el:string|HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
   defaultConfig?:{ toolbar?:{ items:string[] } };
 }
@@ -97,15 +107,15 @@ export type ICKEditorState = 'initializing'|'ready'|'crashed'|'crashedPermanentl
 
 export interface ICKEditorError {
   message:string;
-  stack:any;
+  stack?:string;
 }
 
 export interface ICKEditorWatchdog {
-  setCreator(callback:(elementOrData:any, editorConfig:any) => Promise<ICKEditorInstance>):void;
+  setCreator(callback:(elementOrData:unknown, editorConfig:unknown) => Promise<ICKEditorInstance>):void;
 
   setDestructor(callback:(editor:ICKEditorInstance) => void):void;
 
-  create(elementOrData:any, editorConfig:any):Promise<ICKEditorInstance>;
+  create(elementOrData:unknown, editorConfig:unknown):Promise<ICKEditorInstance>;
 
   destroy():void;
 
