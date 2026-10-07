@@ -175,8 +175,8 @@ To develop with OpenProject locally
 ```sh
 npm run build
 npm pack
-cp op-blocknote-extensions-*.tgz ../openproject/frontend
-cd ../openproject/frontend
+cp op-blocknote-extensions-*.tgz ../../frontend
+cd ../../frontend
 npm i -S op-blocknote-extensions-*.tgz
 ```
 
@@ -184,6 +184,6 @@ This should make sure that the package is available for OpenProject even if runn
 
 ### Releases
 
-To publish a new release, update the version in package.json and merge the changes into the release branch. This will generate a new Git tag according to the version and release a new version of the package.
+This package used to live in https://github.com/opf/op-blocknote-extensions, which published the releases referenced above. New versions are no longer released from there.
 
 For existing releases, see https://github.com/opf/op-blocknote-extensions/releases/.
