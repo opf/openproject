@@ -2,7 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi, type MockInstance } fr
 import {
   canCreateWorkPackages,
   createWorkPackage,
+  avatarUrlOf,
   fetchAllowedValues,
+  fetchPriorities,
   fetchStatuses,
   fetchTypes,
   fetchWorkPackage,
@@ -165,6 +167,14 @@ describe('openProjectApi', () => {
 
       await searchWorkPackages('test query');
       expect(calledUrl(fetchSpy.mock.calls, 3)).toContain(`${proxyUrl}/api/v3/work_packages?`);
+
+      await fetchPriorities();
+      expect(calledUrl(fetchSpy.mock.calls, 4)).toBe(`${proxyUrl}/api/v3/priorities`);
+    });
+
+    it('loads the pictures of users from the proxyUrl, which authorizes them', () => {
+      initOpenProjectApi({ baseUrl, proxyUrl });
+      expect(avatarUrlOf('/api/v3/users/3')).toBe(`${proxyUrl}/api/v3/users/3/avatar`);
     });
 
     it('sends a write to the proxyUrl as well', async () => {
@@ -891,6 +901,16 @@ describe('openProjectApi', () => {
         fetchSpy.mockRestore();
         consoleSpy.mockRestore();
       }
+    });
+  });
+
+  describe('avatarUrlOf', () => {
+    it('has a picture for users only', () => {
+      initOpenProjectApi({ baseUrl: 'https://example.com' });
+
+      expect(avatarUrlOf('/api/v3/groups/4')).toBeUndefined();
+      expect(avatarUrlOf('/api/v3/placeholder_users/5')).toBeUndefined();
+      expect(avatarUrlOf(null)).toBeUndefined();
     });
   });
 });
