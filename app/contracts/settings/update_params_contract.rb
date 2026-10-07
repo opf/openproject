@@ -36,6 +36,7 @@ module Settings
     validate :restricted_password_login_requires_sso_provider
     validate :start_of_week_and_first_week_of_year_are_set_together
     validate :mail_from_is_an_email
+    validate :default_projects_modules_include_dependencies
 
     protected
 
@@ -54,6 +55,23 @@ module Settings
       return if Users::PasswordLogin.omniauth_configured?
 
       errors.add :base, :password_login_requires_sso_provider
+    end
+
+    def default_projects_modules_include_dependencies
+      enabled_modules = Array(params[:default_projects_modules]).compact_blank.map(&:to_sym)
+
+      OpenProject::AccessControl.modules.each do |project_module|
+        next unless enabled_modules.include?(project_module[:name])
+        next if (Array(project_module[:dependencies]) - enabled_modules).empty?
+
+        errors.add :base, missing_module_dependencies_message(project_module)
+      end
+    end
+
+    def missing_module_dependencies_message(project_module)
+      I18n.t("settings.projects.missing_dependencies",
+             module: I18n.t("project_module_#{project_module[:name]}"),
+             dependencies: project_module[:dependencies].map { I18n.t("project_module_#{it}") }.join(", "))
     end
 
     def mail_from_is_an_email

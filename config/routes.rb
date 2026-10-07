@@ -902,7 +902,7 @@ Rails.application.routes.draw do
     resource :settings_search, only: :show
 
     namespace :settings do
-      Settings::Pages.auto_rendered.each do |settings_page|
+      Settings::Pages.routed.each do |settings_page|
         resource settings_page.key,
                  controller: "/admin/settings/pages",
                  only: %i[show update],
@@ -936,7 +936,6 @@ Rails.application.routes.draw do
 
       resource :progress_tracking, controller: "/admin/settings/progress_tracking", only: %i[show update]
       resource :projects, controller: "/admin/settings/projects_settings", only: %i[show update]
-      resource :new_project, controller: "/admin/settings/new_project_settings", only: %i[show update]
       resources :project_phase_definitions,
                 controller: "/admin/settings/project_phase_definitions",
                 except: :show do

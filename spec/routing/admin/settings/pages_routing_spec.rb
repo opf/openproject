@@ -30,7 +30,7 @@
 require "spec_helper"
 
 RSpec.describe "auto-rendered settings page routes" do
-  Settings::Pages.auto_rendered.each do |settings_page|
+  Settings::Pages.routed.each do |settings_page|
     context "for the #{settings_page.key} page" do
       let(:path) { "/admin/settings/#{settings_page.key}" }
       let(:target) { { controller: "admin/settings/pages", settings_page: settings_page.key.to_s } }

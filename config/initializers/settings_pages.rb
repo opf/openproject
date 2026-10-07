@@ -148,20 +148,19 @@ Settings::Pages.draw do
     setting :percent_complete_on_status_closed
   end
 
-  page :new_project, menu_item: :new_project_settings, custom: true, tab: "settings", label: :label_setting_plural do
+  page :new_project, menu_item: :new_project_settings, tab: "settings", label: :label_setting_plural do
     setting :default_projects_public
     setting :default_projects_wiki
     setting :default_projects_modules
-    setting :new_project_user_role_id
+    setting :new_project_user_role_id, input_width: :medium
   end
 
   page :new_project_notifications,
        menu_item: :new_project_settings,
-       custom: true,
        tab: "notifications",
        label: :label_notification_center_plural do
     setting :new_project_send_confirmation_email
-    setting :new_project_notification_text
+    setting :new_project_notification_text, depends_on: { setting: :new_project_send_confirmation_email }
   end
 
   page :working_days_and_hours, menu_item: :working_days_and_hours, custom: true do

@@ -494,7 +494,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             parent: :admin_projects_settings
 
   menu.push :new_project_settings,
-            { controller: "/admin/settings/new_project_settings", action: :show },
+            { controller: "/admin/settings/pages", action: :show, settings_page: "new_project" },
             if: ->(_) { User.current.admin? },
             caption: :label_project_new,
             parent: :admin_projects_settings

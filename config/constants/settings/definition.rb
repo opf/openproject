@@ -474,7 +474,14 @@ module Settings
             base_modules
           end
         },
-        allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
+        allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) },
+        ui: {
+          values: -> {
+            OpenProject::AccessControl.available_project_modules(sorted: true).map do |project_module|
+              [t("project_module_#{project_module}", default: project_module.to_s.humanize), project_module.to_s]
+            end
+          }
+        }
       },
       default_projects_public: {
         default: false
@@ -966,7 +973,23 @@ module Settings
       new_project_user_role_id: {
         format: :integer,
         default: nil,
-        allowed: -> { Role.pluck(:id) }
+        allowed: -> { Role.pluck(:id) },
+        ui: {
+          input: :select_list,
+          include_blank: false,
+          # The configured role is listed even when it lost the permissions required to be assignable
+          # to project creators, so that admins see and can change the current selection.
+          values: -> {
+            assignable = ProjectRole.assignable_to_project_creator.to_a
+            configured = ProjectRole.givable.find_by(id: Setting.new_project_user_role_id)
+
+            options = assignable.map { [it.name, it.id] }
+            if configured && assignable.exclude?(configured)
+              options << [t(:label_role_missing_permissions, role: configured.name), configured.id]
+            end
+            options
+          }
+        }
       },
       new_project_send_confirmation_email: {
         format: :boolean,
@@ -974,7 +997,15 @@ module Settings
       },
       new_project_notification_text: {
         format: :string,
-        default: ""
+        default: "",
+        ui: {
+          input: :rich_text_area,
+          required: true,
+          value: -> {
+            Setting.new_project_notification_text.presence || t("admin.settings.new_project.notification_text_default")
+          },
+          rich_text_options: { showAttachments: false, editorType: "constrained" }
+        }
       },
       notifications_hidden: {
         default: false

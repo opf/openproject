@@ -34,7 +34,9 @@ module Settings
   # Each page is linked to an entry of the admin menu and lists its settings
   # in order, optionally grouped into sections. Pages not marked as `custom`
   # are rendered and updated by `Admin::Settings::PagesController` without a
-  # dedicated template or controller. Lambdas given as `before_form` and
+  # dedicated template or controller. Pages sharing a menu entry and having a
+  # `label` are shown as tabs of one page, selected by their `tab`, with only
+  # the first auto-rendered one getting a route. Lambdas given as `before_form` and
   # `after_form` render additional content around the form in the view
   # context. Custom pages render themselves and are
   # registered so their settings can be found in the settings search. Several
@@ -276,13 +278,25 @@ module Settings
         end
       end
 
-      def path_helper
-        :"admin_settings_#{key}_path"
-      end
-
       def url(menu = Pages.admin_menu)
         base = @url || (custom? ? menu_node(menu).url : auto_rendered_url)
         tab ? base.merge(tab:) : base
+      end
+
+      def tabs
+        Pages.all.select { it.menu_item == menu_item && it.label }
+      end
+
+      def tab_page(tab)
+        tabs.find { it.tab == tab && !it.custom? } || self
+      end
+
+      def route_key
+        (tabs.find { !it.custom? } || self).key
+      end
+
+      def routed?
+        !custom? && route_key == key
       end
 
       def menu_node(menu = Pages.admin_menu)
@@ -297,7 +311,7 @@ module Settings
       private
 
       def auto_rendered_url
-        { controller: "/admin/settings/pages", action: :show, settings_page: key.to_s }
+        { controller: "/admin/settings/pages", action: :show, settings_page: route_key.to_s }
       end
     end
 
@@ -327,6 +341,10 @@ module Settings
 
       def auto_rendered
         all.reject(&:custom?)
+      end
+
+      def routed
+        all.select(&:routed?)
       end
 
       def admin_menu

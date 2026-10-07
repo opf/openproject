@@ -37,7 +37,7 @@ module Admin::Settings
     end
 
     def settings_page
-      @settings_page ||= ::Settings::Pages.fetch(params.require(:settings_page))
+      @settings_page ||= ::Settings::Pages.fetch(params.require(:settings_page)).tab_page(params[:tab])
     end
 
     protected
@@ -76,7 +76,7 @@ module Admin::Settings
     end
 
     def settings_page_path
-      public_send(settings_page.path_helper)
+      url_for(settings_page.url)
     end
   end
 end

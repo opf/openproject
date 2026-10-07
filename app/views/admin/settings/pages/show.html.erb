@@ -40,6 +40,16 @@ See COPYRIGHT and LICENSE files for more details.
         menu_node.caption
       ]
     )
+
+    if settings_page.tabs.many?
+      header.with_tab_nav(label: nil) do |tab_nav|
+        settings_page.tabs.each do |tab_page|
+          tab_nav.with_tab(selected: tab_page == settings_page, href: url_for(tab_page.url)) do |tab|
+            tab.with_text { t(tab_page.label) }
+          end
+        end
+      end
+    end
   end
 %>
 
@@ -51,7 +61,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   settings_primer_form_with(
-    url: public_send(settings_page.path_helper),
+    url: url_for(settings_page.url),
     scope: :settings,
     method: :patch,
     data: { controller: "show-when-checked show-when-value-selected" }
