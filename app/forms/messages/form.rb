@@ -60,11 +60,13 @@ module Messages
         label: I18n.t(:description_message_content),
         visually_hide_label: replying?,
         required: true,
+        **reply_editor_arguments,
         rich_text_options: {
           with_text_formatting: true,
           resource:,
           previewContext: helpers.preview_context(model),
-          turboMode: false
+          turboMode: false,
+          **reply_editor_options
         }
       )
 
@@ -92,6 +94,18 @@ module Messages
     end
 
     def relocatable? = moderating? && model.persisted?
+
+    def reply_editor_arguments
+      return {} unless replying?
+
+      { classes: "ck-editor-primer-adjusted", wrapper_classes: "op-forum-reply-editor" }
+    end
+
+    def reply_editor_options
+      return {} unless replying?
+
+      { editor_type: "constrained", storageKey: "forum-topic-#{model.parent_id}-reply-#{model.id || 'new'}" }
+    end
 
     def resource
       API::V3::Posts::PostRepresenter.new(model, current_user: User.current, embed_links: true)
