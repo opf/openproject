@@ -131,6 +131,38 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
   end
 
+  describe "the theme-color tags" do
+    let(:tags) { 'meta[name="theme-color"]' }
+
+    def sign_in_with_theme(theme)
+      login_as create(:user, preferences: { theme: })
+      get "/my/page"
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "paints the title bar in the header colour for a light preference" do
+      sign_in_with_theme("light")
+
+      expect(page).to have_css(%(#{tags}[content="#1A67A3"]), count: 1, visible: :all)
+      expect(page).to have_no_css("#{tags}[media]", visible: :all)
+    end
+
+    it "paints the title bar in the dark header colour for a dark preference" do
+      sign_in_with_theme("dark")
+
+      expect(page).to have_css(%(#{tags}[content="#010409"]), count: 1, visible: :all)
+      expect(page).to have_no_css("#{tags}[media]", visible: :all)
+    end
+
+    it "follows the operating system when the preference syncs with it" do
+      sign_in_with_theme("sync_with_os")
+
+      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: light)"][content="#1A67A3"]), visible: :all)
+      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: dark)"][content="#010409"]), visible: :all)
+    end
+  end
+
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
     it "serves no manifest" do
       expect { get "/manifest" }.to raise_error(ActionController::RoutingError)
@@ -140,6 +172,12 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       get "/login"
 
       expect(page).to have_no_css('link[rel="manifest"]', visible: :all)
+    end
+
+    it "renders no theme-color tag" do
+      get "/login"
+
+      expect(page).to have_no_css('meta[name="theme-color"]', visible: :all)
     end
   end
 end

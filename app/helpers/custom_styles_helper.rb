@@ -31,6 +31,9 @@
 module CustomStylesHelper
   include TabsHelper
 
+  # Primer's --bgColor-inset in dark themes, which the header uses there. A meta tag cannot resolve the CSS variable.
+  DARK_HEADER_BG_COLOR = "#010409"
+
   def pdf_tab?
     selected = selected_tab(design_tabs)
     selected && selected[:pdf]
@@ -105,11 +108,26 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def header_bg_color
+  def header_bg_color(color_mode = :light)
+    return DARK_HEADER_BG_COLOR if color_mode == :dark
+
     overwritten = DesignColor.overwritten.find { it.variable == "header-bg-color" } if apply_custom_styles?
 
     overwritten&.hexcode ||
       color_theme(OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME).dig(:colors, "header-bg-color")
+  end
+
+  def theme_color_tags
+    pref = User.current.pref
+
+    if pref.sync_with_os_theme?
+      safe_join(UserPreference::COLOR_MODES.map do |color_mode|
+        tag.meta(name: "theme-color", content: header_bg_color(color_mode),
+                 media: "(prefers-color-scheme: #{color_mode})")
+      end, "\n")
+    else
+      tag.meta(name: "theme-color", content: header_bg_color(pref.dark_color_mode? ? :dark : :light))
+    end
   end
 
   def mobile_logo_present?

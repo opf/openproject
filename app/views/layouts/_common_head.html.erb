@@ -32,6 +32,7 @@
 <%= render "common/favicons" %>
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
   <%= tag.link rel: "manifest", href: pwa_manifest_path %>
+  <%= theme_color_tags %>
 <% end %>
 
 <%# Include CLI assets (development) or prod build assets %>
