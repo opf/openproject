@@ -120,6 +120,7 @@ describe('Inline chip - unavailable work package', () => {
       expect(document.querySelector('.op-bn-inline-wp .octicon-eye-closed')).not.toBeNull();
     });
 
+    await userEvent.unhover(page.getByRole('img'));
     await userEvent.hover(page.getByRole('img'));
 
     await expect.element(page.getByTestId('wp-preview')).toBeVisible();
