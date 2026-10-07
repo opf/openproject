@@ -176,13 +176,6 @@ class SearchController < ApplicationController
   end
 
   def load_semantic_results
-    ids = Search::SemanticResult.ids(@question, current_user)
-    return WorkPackage.none if ids.empty?
-
-    WorkPackage
-      .visible(current_user)
-      .where(id: ids)
-      .includes(:project, :status)
-      .order(Arel.sql("array_position(ARRAY[#{ids.join(',')}]::int[], work_packages.id)"))
+    Search::SemanticResult.for(@question, current_user)
   end
 end
