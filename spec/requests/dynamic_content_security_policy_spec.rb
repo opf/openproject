@@ -75,6 +75,13 @@ RSpec.describe "" do
       expect(csp["font-src"].count("'self'")).to eq(1)
     end
 
+    it "restricts manifest-src to 'self'" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["manifest-src"]).to eq(["'self'"])
+    end
+
     it "includes 'self' in img-src CSP directive" do
       get "/"
 
