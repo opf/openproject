@@ -82,10 +82,6 @@ module My
         end
       end
 
-      #  def scheme
-      #    :neutral
-      #  end
-
       private
 
       def hidden_work_package
