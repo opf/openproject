@@ -36,3 +36,26 @@ that restrict agenda-item reactions to one upvote or downvote per user.
 
 A dedicated voting permission, voter lists, separate upvote/downvote totals,
 and a frozen historical ranking are outside this MVP.
+
+## API v3
+
+Meetings expose `agendaSortingMode` as a string: `manual` or `vote_based`.
+Set it on creation or via `PATCH /api/v3/meetings/:id` with the current
+`lockVersion`. Changing the mode requires `edit_meetings`. The meeting schema
+lists the two allowed values; other values are rejected with HTTP 422.
+
+Agenda items expose a read-only `voteScore` and, when voting is available,
+`upvote` and `downvote` action links. Call either action without a request body:
+
+- `POST /api/v3/meeting_agenda_items/:id/upvote`
+- `POST /api/v3/meeting_agenda_items/:id/downvote`
+
+The same actions are available below
+`/api/v3/meetings/:meeting_id/agenda_items/:id`. Each action toggles that vote,
+just like the UI: repeating it removes the vote, and the opposite action
+replaces it. HTTP 200 returns the updated agenda item, including its score.
+Voting requires only `view_meetings`, not `manage_agendas`.
+
+Both actions return HTTP 400 when the meeting uses manual sorting, without
+changing existing votes. Other voting restrictions return HTTP 403; missing
+or invisible resources (including cancelled meetings) return HTTP 404.

@@ -299,6 +299,14 @@ paths:
     "$ref": "./paths/meeting_agenda_items.yml"
   "/api/v3/meeting_agenda_items/{id}":
     "$ref": "./paths/meeting_agenda_item.yml"
+  "/api/v3/meeting_agenda_items/{id}/upvote":
+    "$ref": "./paths/meeting_agenda_item_upvote.yml"
+  "/api/v3/meeting_agenda_items/{id}/downvote":
+    "$ref": "./paths/meeting_agenda_item_downvote.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{id}/upvote":
+    "$ref": "./paths/meeting_agenda_item_upvote_by_meeting.yml"
+  "/api/v3/meetings/{meeting_id}/agenda_items/{id}/downvote":
+    "$ref": "./paths/meeting_agenda_item_downvote_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes":
     "$ref": "./paths/meeting_agenda_item_outcomes.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}":

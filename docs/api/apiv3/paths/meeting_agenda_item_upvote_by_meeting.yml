@@ -1,0 +1,49 @@
+---
+post:
+  summary: Toggle an agenda item upvote
+  operationId: upvote_meeting_agenda_item_by_meeting
+  tags:
+    - Meetings
+  description: |-
+    Toggles the current user's upvote. Repeating the same action removes the vote;
+    the opposite action replaces it. Each user has at most one vote per item.
+    No request body is required. Voting requires `view_meetings` and vote-based sorting.
+    Votes do not change manual positions or section ordering.
+  parameters:
+    - name: meeting_id
+      in: path
+      required: true
+      description: Meeting identifier
+      schema:
+        type: integer
+    - name: id
+      in: path
+      required: true
+      description: Agenda item identifier
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: The updated agenda item, including its net vote score.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_agenda_item_model.yml"
+    '400':
+      description: The meeting is not in vote-based sorting mode. Existing votes are unchanged.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+    '403':
+      description: Voting is unavailable for closed meetings, templates, or backlog items.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+    '404':
+      description: The item or meeting does not exist or is invisible to the client.
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"

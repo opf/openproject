@@ -31,6 +31,7 @@ en:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: "Sorting mode"
         duration: "Duration"
         end_time: "End time"
         location: "Location"
@@ -96,6 +97,7 @@ en:
 
       models:
         meeting_agenda_item:
+          vote_based_sorting_required: "Voting requires vote-based agenda sorting."
           section_not_belong_to_meeting: "Section does not belong to the same meeting."
           user_invalid: "is not a valid participant."
         meeting_participant:

@@ -119,6 +119,7 @@ RSpec.describe MeetingAgendaItems::VoteService do
 
     it "rejects voting" do
       expect(service_call).to be_failure
+      expect(service_call.errors).to be_of_kind(:base, :vote_based_sorting_required)
       expect(agenda_item.emoji_reactions).to be_empty
     end
   end
@@ -129,6 +130,7 @@ RSpec.describe MeetingAgendaItems::VoteService do
       Meeting.find(meeting.id).update!(agenda_sorting_mode: :manual)
 
       expect(service_call).to be_failure
+      expect(service_call.errors).to be_of_kind(:base, :vote_based_sorting_required)
       expect(agenda_item.emoji_reactions).to be_empty
     end
   end

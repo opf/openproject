@@ -68,6 +68,8 @@ module API
             get &::API::V3::Utilities::Endpoints::Show.new(model: MeetingAgendaItem).mount
 
             mount ::API::V3::MeetingOutcomes::OutcomesByAgendaItemAPI
+
+            mount VotesAPI
           end
         end
       end

@@ -48,6 +48,8 @@ module API
             patch &::API::V3::Utilities::Endpoints::Update.new(model: MeetingAgendaItem).mount
 
             delete &::API::V3::Utilities::Endpoints::Delete.new(model: MeetingAgendaItem).mount
+
+            mount VotesAPI
           end
         end
       end
