@@ -105,6 +105,13 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
+  def header_bg_color
+    overwritten = DesignColor.overwritten.find { it.variable == "header-bg-color" } if apply_custom_styles?
+
+    overwritten&.hexcode ||
+      color_theme(OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME).dig(:colors, "header-bg-color")
+  end
+
   def mobile_logo_present?
     return false unless apply_custom_styles?
 

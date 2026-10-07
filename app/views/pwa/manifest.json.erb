@@ -1,0 +1,14 @@
+<%
+  theme_color = header_bg_color
+
+  manifest = {
+    name: Setting.app_title,
+    id: root_path,
+    start_url: root_path,
+    scope: root_path,
+    display: "standalone",
+    theme_color:,
+    background_color: theme_color
+  }
+%>
+<%== JSON.pretty_generate(manifest) %>
