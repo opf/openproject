@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Messages::PostComponent, type: :component do
   subject(:rendered_component) do
-    render_inline(described_class.new(message:, topic:))
+    render_inline(described_class.new(message:))
   end
 
   shared_let(:project) { create(:project) }

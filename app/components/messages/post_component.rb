@@ -32,22 +32,23 @@ module Messages
   class PostComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(message:, topic:, focus: false)
+    def initialize(message:, focus: false)
       super
       @message = message
-      @topic = topic
       @focus = focus
     end
 
     private
 
-    attr_reader :message, :topic
+    attr_reader :message
 
     def reply? = message.parent_id.present?
 
-    def project = topic.project
+    def topic = message.parent || message
 
-    def forum = topic.forum
+    def project = message.project
+
+    def forum = message.forum
 
     def quotable?
       !topic.locked? && User.current.allowed_in_project?(:add_messages, project)

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_controller "forum-messages" %>
 
-<%= render(Messages::PostComponent.new(message: @topic, topic: @topic)) %>
+<%= render(Messages::PostComponent.new(message: @topic)) %>
 
 <%= render(Messages::ThreadSegmentsComponent.new(topic: @topic, segments: @segments)) %>
 
