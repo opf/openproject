@@ -89,8 +89,11 @@ class MessagesController < ApplicationController
 
     if call.success?
       call_hook(:controller_messages_reply_after_save, params:, message: @reply)
+      redirect_to helpers.message_anchor_path(@reply)
+    else
+      @segments = Messages::ThreadLayout.new(@topic).segments
+      render action: :show, status: :unprocessable_entity
     end
-    redirect_to project_forum_topic_path(@project, @forum, @topic, r: @reply)
   end
 
   # Edit a message

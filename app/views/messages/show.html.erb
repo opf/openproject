@@ -38,20 +38,21 @@ See COPYRIGHT and LICENSE files for more details.
 <% if !@topic.locked? && authorize_for("messages", "reply") %>
   <%= content_tag(:section, id: "reply", class: "op-forum-reply", data: { "forum-messages-target": "reply" }) do %>
     <%= render(Primer::Box.new(border: :left, classes: "op-forum-post-stem")) %>
-    <%=
-      render(Primer::Box.new(bg: :subtle, p: 3, classes: "op-forum-reply--box")) do
+    <%= render(Primer::Box.new(bg: :subtle, p: 3, classes: "op-forum-reply--box")) do %>
+      <%= render(Messages::FormErrorsComponent.new(message: @reply)) %>
+      <%=
         primer_form_with(
           model: @reply,
           scope: :reply,
-          url: reply_to_project_forum_topic_path(@project, @forum, @topic),
+          url: reply_to_project_forum_topic_path(@project, @forum, @topic, anchor: "reply"),
           method: :post,
           multipart: true,
           data: { turbo: false }
         ) do |f|
           render(Messages::Form.new(f, submit_label: t(:button_reply), replying: true))
         end
-      end
-    %>
+      %>
+    <% end %>
   <% end %>
 <% end %>
 
