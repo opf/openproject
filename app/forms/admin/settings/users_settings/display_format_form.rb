@@ -28,15 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class UsersSettingsController < ::Admin::SettingsController
-    menu_item :user_settings
-
-    def settings_params
-      super.tap do |settings|
-        if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"
-          settings["consent_time"] = Time.zone.now.iso8601
+module Admin
+  module Settings
+    class UsersSettings::DisplayFormatForm < ApplicationForm
+      settings_form do |sf|
+        sf.fieldset_group(title: I18n.t(:"settings.user.display_format")) do |fg|
+          fg.select_list(name: :user_format, values: user_format_options)
         end
+      end
+
+      private
+
+      def user_format_options
+        User::USER_FORMATS_STRUCTURE.keys.map { [User.current.name(it), it] }
       end
     end
   end

@@ -28,14 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class UsersSettingsController < ::Admin::SettingsController
-    menu_item :user_settings
-
-    def settings_params
-      super.tap do |settings|
-        if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"
-          settings["consent_time"] = Time.zone.now.iso8601
+module Admin
+  module Settings
+    class UsersSettings::AccountForm < ApplicationForm
+      settings_form do |sf|
+        sf.fieldset_group(title: I18n.t(:"settings.user.account")) do |fg|
+          fg.check_box(name: :user_can_change_email)
         end
       end
     end
