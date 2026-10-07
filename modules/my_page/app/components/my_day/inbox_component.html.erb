@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% else %>
     <%= render(Primer::Box.new(border: :top)) do %>
       <% inbox.work_packages.each do |work_package| %>
-        <%= render(Primer::Box.new(border: :bottom, px: 3, py: 2, test_selector: "my-day-inbox-task")) do %>
+        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "my-day-inbox-task")) do %>
           <%= render(MyDay::TaskRowComponent.new(work_package:, lead_width:, references: inbox.references)) %>
         <% end %>
       <% end %>

@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% row.with_column(mr: 2) do %>
       <div data-controller="filter--segmented-control" data-action="itemActivated->filter--segmented-control#activate">
         <%= hidden_field_tag "task[day_part]", selected, id: nil, data: { "filter--segmented-control-target": "field" } %>
-        <%= render(Primer::Alpha::SegmentedControl.new("aria-label": t("my_day.day_part.name"))) do |control| %>
+        <%= render(Primer::Alpha::SegmentedControl.new("aria-label": t("my_day.day_part.name"), size: :small)) do |control| %>
           <% day_parts.each do |day_part| %>
             <% control.with_item(label: t("my_day.day_part.#{day_part}"), selected: day_part == selected, data: { value: day_part }) %>
           <% end %>
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     <% end %>
     <% row.with_column do %>
-      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { t("my_day.quick_add.submit") } %>
+      <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, size: :small)) { t("my_day.quick_add.submit") } %>
     <% end %>
   <% end %>
 <% end %>

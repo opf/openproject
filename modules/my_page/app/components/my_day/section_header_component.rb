@@ -50,6 +50,8 @@ module MyDay
     def border_color = :"#{scheme}_emphasis"
 
     def counts
+      return t("my_day.empty_section") if section.empty?
+
       [
         t("my_day.open_tasks", count: section.open_count),
         (t("my_day.meetings", count: section.meetings.size) if section.meetings.any?)
