@@ -460,11 +460,11 @@ class User < Principal
   end
 
   def date_format
-    @date_format ||= pref.date_format || Setting.date_format
+    @date_format ||= pref.date_format || ""
   end
 
   def time_format
-    @time_format ||= pref.time_format || Setting.time_format
+    @time_format ||= pref.time_format || ""
   end
 
   def reload(*)
