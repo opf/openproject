@@ -331,8 +331,8 @@ Settings::Pages.draw do
        if: -> { Setting.antivirus_scan_available? },
        url: { controller: "/admin/settings/virus_scanning_settings", action: :show } do
     setting :antivirus_scan_mode
-    setting :antivirus_scan_target, if: -> { Setting.antivirus_scan_mode != :disabled }
-    setting :antivirus_scan_action, if: -> { Setting.antivirus_scan_mode != :disabled }
+    setting :antivirus_scan_target
+    setting :antivirus_scan_action
   end
 
   page :quarantined_attachments,

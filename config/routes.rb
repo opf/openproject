@@ -915,11 +915,7 @@ Rails.application.routes.draw do
                controller: "/admin/settings/authentication_settings",
                path: "authentication/sso",
                only: %i[show update]
-      resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update] do
-        collection do
-          post :av_form
-        end
-      end
+      resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update]
 
       resource :work_packages_identifier, controller: "/admin/settings/work_packages_identifier", only: %i[show update] do
         get :status, on: :member

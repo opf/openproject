@@ -38,39 +38,61 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render EnterpriseEdition::BannerComponent.new(:virus_scanning) %>
 
-<%= styled_form_tag(
-      admin_settings_virus_scanning_path,
-      method: :patch,
-      data: {
-        controller: "refresh-on-form-changes",
-        "refresh-on-form-changes-target": "form",
-        "refresh-on-form-changes-turbo-stream-url-value": url_for(action: "av_form")
-      }
-    ) do %>
-  <div class="form--field">
-    <%= setting_select :antivirus_scan_mode,
-                       [
-                         [t(:label_disabled_uppercase), :disabled],
-                         ["ClamAV (Socket)", :clamav_socket],
-                         ["ClamAV (Host)", :clamav_host]
-                       ],
-                       disabled: !EnterpriseToken.allows_to?(:virus_scanning),
-                       container_class: "-wide",
-                       data: {
-                         action: "refresh-on-form-changes#triggerTurboStream"
-                       } %>
-    <div class="form--field-instructions">
-      <p><%= t(
-               "settings.antivirus.modes.description_html",
-               disabled_option: t(:label_disabled_uppercase),
-               socket_option: "ClamAV (Socket)",
-               host_option: "ClamAV (Host)"
-             ) %></p>
-    </div>
-  </div>
+<%=
+  settings_primer_form_with(
+    url: admin_settings_virus_scanning_path,
+    scope: :settings,
+    method: :patch,
+    data: { controller: "show-when-value-selected" }
+  ) do |f|
+    render_inline_settings_form(f) do |form|
+      form.select_list(
+        name: :antivirus_scan_mode,
+        values: [
+          [t(:label_disabled_uppercase), :disabled],
+          ["ClamAV (Socket)", :clamav_socket],
+          ["ClamAV (Host)", :clamav_host]
+        ],
+        disabled: !EnterpriseToken.allows_to?(:virus_scanning),
+        input_width: :medium,
+        caption: t(
+          "settings.antivirus.modes.description_html",
+          disabled_option: t(:label_disabled_uppercase),
+          socket_option: "ClamAV (Socket)",
+          host_option: "ClamAV (Host)"
+        ),
+        data: { show_when_value_selected_target: "cause", target_name: "antivirus_scan_mode" }
+      )
 
-  <%= render partial: "av_form", locals: { selected: Setting.antivirus_scan_mode } %>
-  <%= styled_button_tag t(:button_save),
-                        disabled: !EnterpriseToken.allows_to?(:virus_scanning),
-                        class: "-primary -with-icon icon-checkmark" %>
-<% end %>
+      form.group(
+        hidden: Setting.antivirus_scan_mode == :disabled,
+        data: { show_when_value_selected_target: "effect", target_name: "antivirus_scan_mode", not_value: "disabled" }
+      ) do |group|
+        group.text_field(
+          name: :antivirus_scan_target,
+          input_width: :large,
+          caption: safe_join(
+            [
+              t("settings.antivirus.modes.clamav_socket_html", example: content_tag(:code, "/var/run/clamav/clamd.ctl")),
+              t("settings.antivirus.modes.clamav_host_html", example: content_tag(:code, "remotehost:1024"))
+            ],
+            tag.br
+          )
+        )
+
+        group.select_list(
+          name: :antivirus_scan_action,
+          values: [[t("settings.antivirus.actions.quarantine"), :quarantine], [t("settings.antivirus.actions.delete"), :delete]],
+          input_width: :medium,
+          caption: t(
+            "settings.antivirus.actions.instructions_html",
+            quarantine_option: t("settings.antivirus.actions.quarantine"),
+            delete_option: t("settings.antivirus.actions.delete")
+          )
+        )
+      end
+
+      form.submit(disabled: !EnterpriseToken.allows_to?(:virus_scanning))
+    end
+  end
+%>

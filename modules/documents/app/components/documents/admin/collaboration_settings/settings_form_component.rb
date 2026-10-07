@@ -35,19 +35,17 @@ module Documents
       class SettingsFormComponent < ApplicationComponent
         include OpPrimer::FormHelpers
 
-        delegate :writable_setting?, to: :helpers
-
         def initialize(errors: nil)
           super()
           @errors = errors
         end
 
         def none_writable_settings?
-          settings.none? { writable_setting?(it) }
+          settings.none? { Setting.public_send(:"#{it}_writable?") }
         end
 
         def some_unwritable_settings?
-          settings.any? { !writable_setting?(it) }
+          settings.any? { !Setting.public_send(:"#{it}_writable?") }
         end
 
         def validation_message_for(attribute)

@@ -48,18 +48,38 @@ See COPYRIGHT and LICENSE files for more details.
 
   <section class="form--section">
     <fieldset class="form--fieldset">
-      <div class="form--field">
-        <%= setting_text_field :hours_per_day,
-                               type: :number,
-                               container_class: "-wide" %>
-        <div class="form--field-instructions"><%= t("setting_hours_per_day_explanation") %></div>
-      </div>
-      <div class="form--field">
-        <%= setting_select :duration_format,
-                           Settings::Definition[:duration_format].allowed.collect { |f| [t("setting_duration_format_#{f}"), f] },
-                           container_class: "-wide" %>
-        <div class="form--field-instructions"><%= t("setting_duration_format_instructions") %></div>
-      </div>
+      <%=
+        render(
+          Primer::Alpha::TextField.new(
+            name: "settings[hours_per_day]",
+            id: "settings_hours_per_day",
+            label: t(:setting_hours_per_day),
+            caption: t("setting_hours_per_day_explanation"),
+            type: :number,
+            value: Setting.hours_per_day,
+            disabled: !Setting.hours_per_day_writable?,
+            input_width: :small,
+            mb: 3
+          )
+        )
+      %>
+      <%=
+        render(
+          Primer::Alpha::Select.new(
+            name: "settings[duration_format]",
+            id: "settings_duration_format",
+            label: t(:setting_duration_format),
+            caption: t("setting_duration_format_instructions"),
+            disabled: !Setting.duration_format_writable?,
+            input_width: :medium,
+            mb: 3
+          )
+        ) do |select|
+          Settings::Definition[:duration_format].allowed.each do |format|
+            select.option(label: t("setting_duration_format_#{format}"), value: format, selected: Setting.duration_format == format)
+          end
+        end
+      %>
     </fieldset>
   </section>
 
@@ -77,11 +97,26 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t("working_days.info") %>
       </p>
 
-      <div class="form--field op-working-days-admin-settings--day-selectors" id="setting_working_days">
-        <%= setting_multiselect :working_days,
-                                I18n.t("date.day_names").rotate.zip(WeekDay::DAY_RANGE),
-                                direction: :horizontal %>
-      </div>
+      <%= hidden_field_tag "settings[working_days][]", "", id: nil %>
+      <%=
+        render(
+          Primer::Alpha::CheckBoxGroup.new(
+            name: "settings[working_days]",
+            label: t(:setting_working_days),
+            visually_hide_label: true,
+            id: "setting_working_days"
+          )
+        ) do |group|
+          I18n.t("date.day_names").rotate.zip(WeekDay::DAY_RANGE).each do |day_name, day|
+            group.check_box(
+              label: day_name,
+              value: day,
+              checked: Setting.working_days.map(&:to_i).include?(day),
+              disabled: !Setting.working_days_writable?
+            )
+          end
+        end
+      %>
     </fieldset>
   </section>
 

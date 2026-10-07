@@ -30,7 +30,6 @@
 
 module Settings
   module InputMethods
-    include ::SettingsHelper
     include FormHelper
 
     # Creates a text field input for a setting.

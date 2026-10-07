@@ -36,18 +36,6 @@ module Admin::Settings
     before_action :require_ee, except: :show # rubocop:disable Rails/LexicallyScopedActionFilter
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
 
-    def av_form
-      selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
-
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(:attachments_av_subform,
-                                                    partial: "admin/settings/virus_scanning_settings/av_form",
-                                                    locals: { selected: })
-        end
-      end
-    end
-
     private
 
     def require_ee
