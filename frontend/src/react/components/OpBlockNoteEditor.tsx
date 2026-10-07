@@ -39,6 +39,8 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectWorkPackageAttributeSpec,
+  openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useHashWpMenu,
@@ -64,9 +66,11 @@ export interface OpBlockNoteEditorProps {
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
     openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageAttributeBlock: openProjectWorkPackageAttributeBlockSpec(),
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectWorkPackageAttribute: openProjectWorkPackageAttributeSpec,
   },
 });
 
