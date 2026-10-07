@@ -55,6 +55,8 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
   subject(:generated) { representer.to_json }
 
   it { expect(subject).to have_json_path("timeZone") }
+  it { expect(subject).to have_json_path("dateFormat") }
+  it { expect(subject).to have_json_path("timeFormat") }
   it { expect(subject).to have_json_path("commentSortDescending") }
   it { expect(subject).to have_json_path("disableKeyboardShortcuts") }
   it { expect(subject).to have_json_path("warnOnLeavingUnsaved") }
@@ -74,6 +76,42 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
 
       it "shows the canonical time zone" do
         expect(subject).to be_json_eql("Europe/Paris".to_json).at_path("timeZone")
+      end
+    end
+  end
+
+  describe "dateFormat", with_settings: { date_format: "%Y-%m-%d" } do
+    context "without a date format set" do
+      let(:preference) { build(:user_preference, date_format: "") }
+
+      it "shows the instance default" do
+        expect(subject).to be_json_eql("%Y-%m-%d".to_json).at_path("dateFormat")
+      end
+    end
+
+    context "with a date format set" do
+      let(:preference) { build(:user_preference, date_format: "%d.%m.%Y") }
+
+      it "shows the date format" do
+        expect(subject).to be_json_eql("%d.%m.%Y".to_json).at_path("dateFormat")
+      end
+    end
+  end
+
+  describe "timeFormat", with_settings: { time_format: "%H:%M" } do
+    context "without a time format set" do
+      let(:preference) { build(:user_preference, time_format: "") }
+
+      it "shows the instance default" do
+        expect(subject).to be_json_eql("%H:%M".to_json).at_path("timeFormat")
+      end
+    end
+
+    context "with a time format set" do
+      let(:preference) { build(:user_preference, time_format: "%I:%M %p") }
+
+      it "shows the time format" do
+        expect(subject).to be_json_eql("%I:%M %p".to_json).at_path("timeFormat")
       end
     end
   end

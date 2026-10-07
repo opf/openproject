@@ -15,6 +15,8 @@ example:
   commentSortDescending: true
   disableKeyboardShortcuts: false
   timeZone: "Europe/Berlin"
+  dateFormat: "%Y-%m-%d"
+  timeFormat: "%H:%M"
   warnOnLeavingUnsaved: true
   notifications:
     - watched: false
