@@ -67,7 +67,7 @@ RSpec.describe "Loading hidden forum replies", type: :rails_request do
   it "closes the gap with take all" do
     load_replies("all")
 
-    expect(stream).to have_no_css("[data-test-selector='forum-thread-gap']")
+    expect(stream).to have_no_test_selector("forum-thread-gap")
   end
 
   it "rejects an unknown take" do
