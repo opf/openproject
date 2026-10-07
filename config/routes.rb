@@ -1468,6 +1468,11 @@ Rails.application.routes.draw do
         }
     get "/work/refresh" => "work#refresh",
         as: :work_refresh
+    get "/work/entry_menus/time_entries/:id" => "work/entry_menus#time_entry",
+        as: :work_time_entry_menu
+    get "/work/entry_menus/allocations/:id/:date" => "work/entry_menus#allocation",
+        as: :work_allocation_menu,
+        constraints: { date: /\d{4}-\d{2}-\d{2}/ }
 
     get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
     get "/time-tracking/*rest" => redirect { |params, _req|

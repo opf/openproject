@@ -101,6 +101,19 @@ RSpec.describe My::Work::AllocationActionMenuComponent, type: :component do
     end
   end
 
+  context "when rendering the items only" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(allocation:, navigation: true, list_only: true))
+    end
+
+    it "renders the list of the menu without a menu around it" do
+      expect(rendered_component).to have_css("ul[role='menu']")
+      expect(rendered_component).to have_no_css("action-menu")
+      expect(rendered_component).to have_link("Open work package")
+      expect(rendered_component).to have_link("Log time from allocation")
+    end
+  end
+
   context "when the work package is not visible" do
     let(:visible) { false }
     let(:navigation) { true }

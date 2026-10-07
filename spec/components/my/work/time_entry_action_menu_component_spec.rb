@@ -65,6 +65,28 @@ RSpec.describe My::Work::TimeEntryActionMenuComponent, type: :component do
       expect(rendered_component).to have_link("Open work package", href: "/work_packages/#{work_package.id}")
       expect(rendered_component).to have_link("Open project", href: "/projects/#{project.identifier}")
     end
+
+    context "when the time entry is not logged on a work package" do
+      let(:time_entry) { create(:time_entry, :on_meeting, user:) }
+
+      it "still links to its project" do
+        expect(rendered_component).to have_link("Open project", href: "/projects/#{time_entry.project.identifier}")
+        expect(rendered_component).to have_no_link("Open work package")
+      end
+    end
+  end
+
+  context "when rendering the items only" do
+    subject(:rendered_component) do
+      render_inline(described_class.new(time_entry:, navigation: true, list_only: true))
+    end
+
+    it "renders the list of the menu without a menu around it" do
+      expect(rendered_component).to have_css("ul[role='menu']")
+      expect(rendered_component).to have_no_css("action-menu")
+      expect(rendered_component).to have_link("Open work package")
+      expect(rendered_component).to have_link("Edit time entry")
+    end
   end
 
   context "when the user may neither edit nor delete the time entry" do

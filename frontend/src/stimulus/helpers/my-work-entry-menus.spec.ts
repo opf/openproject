@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,10 +50,39 @@ describe('EntryMenus', () => {
 
   afterEach(() => vi.restoreAllMocks());
 
-  it('opens the menu of the clicked event at the pointer', () => {
+  it('opens the menu of the clicked event anchored on an empty element at the pointer inside it', () => {
     new EntryMenus(root).open('42', new MouseEvent('click', { clientX: 10, clientY: 20 }), card);
 
-    expect(openAtPoint).toHaveBeenCalledWith(10, 20, card);
+    const [x, y, anchor] = openAtPoint.mock.calls[0];
+    const anchorRect = anchor.getBoundingClientRect();
+
+    expect([x, y]).toEqual([10, 20]);
+    expect(anchor.parentElement).toBe(card);
+    expect(anchorRect.left).toBeCloseTo(10, 0);
+    expect(anchorRect.top).toBeCloseTo(20, 0);
+    expect([anchorRect.width, anchorRect.height]).toEqual([0, 0]);
+  });
+
+  it('hands focus returned to the anchor on to the clicked event', () => {
+    new EntryMenus(root).open('42', new MouseEvent('click'), card);
+    const [, , anchor] = openAtPoint.mock.calls[0];
+    document.body.focus();
+
+    anchor.focus();
+
+    expect(document.activeElement).toBe(card);
+  });
+
+  it('keeps a single anchor around', () => {
+    const entryMenus = new EntryMenus(root);
+    entryMenus.open('42', new MouseEvent('click'), card);
+    entryMenus.open('42', new MouseEvent('click'), card);
+
+    expect(card.children).toHaveLength(1);
+
+    entryMenus.destroy();
+
+    expect(card.children).toHaveLength(0);
   });
 
   it('focuses the clicked event first, so that the menu does not open as if reached by keyboard', () => {
@@ -68,5 +96,36 @@ describe('EntryMenus', () => {
     new EntryMenus(root).open('43', new MouseEvent('click'), card);
 
     expect(openAtPoint).not.toHaveBeenCalled();
+  });
+
+  describe('with deferred items', () => {
+    let fragment:HTMLElement & { loading?:string };
+
+    beforeEach(() => {
+      fragment = document.createElement('include-fragment');
+      fragment.setAttribute('loading', 'lazy');
+      root.querySelector('[data-my-work-menu-for="42"] action-menu')!.appendChild(fragment);
+    });
+
+    it('loads them and opens the menu only once they replaced the loading indicator', () => {
+      new EntryMenus(root).open('42', new MouseEvent('click', { clientX: 10, clientY: 20 }), card);
+
+      expect(fragment.loading).toBe('eager');
+      expect(openAtPoint).not.toHaveBeenCalled();
+
+      fragment.dispatchEvent(new CustomEvent('include-fragment-replaced'));
+
+      expect(openAtPoint).toHaveBeenCalledExactlyOnceWith(10, 20, expect.any(HTMLElement));
+    });
+
+    it('drops a pending open once another event is clicked', () => {
+      const entryMenus = new EntryMenus(root);
+      entryMenus.open('42', new MouseEvent('click'), card);
+      entryMenus.open('43', new MouseEvent('click'), card);
+
+      fragment.dispatchEvent(new CustomEvent('include-fragment-replaced'));
+
+      expect(openAtPoint).not.toHaveBeenCalled();
+    });
   });
 });

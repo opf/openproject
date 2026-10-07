@@ -32,35 +32,48 @@ module My
   module Work
     # `navigation` adds links to the work package and project, for the views whose cards
     # carry no links of their own. A work package the user cannot see offers nothing.
+    # `list_only` renders just the items, as the deferred content of a menu rendered with a `src`.
     class AllocationActionMenuComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
       options :allocation
-      options navigation: false
+      options navigation: false,
+              list_only: false
 
       delegate :work_package, to: :allocation
+
+      def self.menu_id(scheduled_entry)
+        "my-work-allocation-menu-#{scheduled_entry.allocation.id}-#{scheduled_entry.allocated_on.iso8601}"
+      end
 
       def render?
         allocation.visible? && (navigation || can_assign? || can_log_time?)
       end
 
       def call
-        render(Primer::Alpha::ActionMenu.new(menu_id:)) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("label_more"), scheme: :invisible)
-
-          with_item_group(menu) { navigation_items(menu) } if navigation
-          with_item_group(menu) do
-            assign_item(menu) if can_assign?
-            log_time_item(menu) if can_log_time?
+        if list_only
+          render(Primer::Alpha::ActionMenu::List.new(menu_id:)) { |list| menu_items(list) }
+        else
+          render(Primer::Alpha::ActionMenu.new(menu_id:)) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("label_more"), scheme: :invisible)
+            menu_items(menu)
           end
         end
       end
 
       def menu_id
-        "my-work-allocation-menu-#{allocation.scheduled_entry.allocation.id}-#{allocation.allocated_on.iso8601}"
+        self.class.menu_id(allocation.scheduled_entry)
       end
 
       private
+
+      def menu_items(menu)
+        with_item_group(menu) { navigation_items(menu) } if navigation
+        with_item_group(menu) do
+          assign_item(menu) if can_assign?
+          log_time_item(menu) if can_log_time?
+        end
+      end
 
       def navigation_items(menu)
         menu.with_item(tag: :a, href: work_package_path(work_package), label: t("my.work.actions.open_work_package")) do |item|
