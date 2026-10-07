@@ -126,6 +126,8 @@ export interface ICKEditorContext {
   field?:string;
   // Specific removing of plugins
   removePlugins?:string[];
+  // Toolbar items added to the editor type's default toolbar
+  additionalToolbarItems?:string[];
   // Set of enabled macro plugins or false to disable all
   macros?:ICKEditorMacroType;
   // Additional options like the text orientation of the editors content
