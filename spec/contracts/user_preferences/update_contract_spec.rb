@@ -210,6 +210,14 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like "contract is valid"
     end
 
+    context "without a time_zone but an unassignable default", with_settings: { user_default_timezone: "Nowhere" } do
+      let(:settings) do
+        {}
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
     context "with a full time_zone" do
       let(:settings) do
         {
