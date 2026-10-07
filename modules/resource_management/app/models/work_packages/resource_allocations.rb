@@ -32,6 +32,11 @@ module WorkPackages::ResourceAllocations
   extend ActiveSupport::Concern
 
   included do
+    has_many :resource_allocations,
+             as: :entity,
+             dependent: :destroy,
+             inverse_of: :entity
+
     has_many :allocated_resource_allocations,
              -> { allocated },
              class_name: "ResourceAllocation",
