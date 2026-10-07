@@ -46,7 +46,7 @@ module Messages
     def render_segment(segment)
       case segment
       in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map { render(Messages::PostComponent.new(message: it, topic: @topic, focus: focused?(it))) })
+        safe_join(messages.map { render(Messages::PostComponent.new(message: it, focus: focused?(it))) })
       in Messages::ThreadLayout::Gap
         render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment))
       end
