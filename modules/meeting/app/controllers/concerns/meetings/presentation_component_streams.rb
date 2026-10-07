@@ -64,6 +64,7 @@ module Meetings
             meeting: @meeting,
             sorted_agenda_item_ids:,
             current_item: @meeting_agenda_item,
+            current_slide: @current_slide,
             started_at: @started_at
           )
         )
@@ -74,7 +75,8 @@ module Meetings
           component: MeetingAgendaItems::ItemComponent::ShowComponent.new(
             meeting_agenda_item: @meeting_agenda_item,
             current_occurrence: @meeting,
-            presentation_mode: true
+            presentation_mode: true,
+            slide: @current_slide
           )
         )
       end

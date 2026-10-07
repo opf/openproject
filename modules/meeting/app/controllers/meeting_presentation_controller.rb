@@ -37,7 +37,7 @@ class MeetingPresentationController < ApplicationController
 
   before_action :find_meeting
   before_action :check_presentable
-  before_action :determine_current_id
+  before_action :determine_current_position
   before_action :set_started_at
   before_action :find_agenda_item, only: [:check_for_updates]
 
@@ -83,36 +83,45 @@ class MeetingPresentationController < ApplicationController
     end
   end
 
-  def determine_current_id
-    return nil if params[:current_id].blank?
+  def determine_current_position
+    @current_slide = params.fetch(:slide, 1).to_i
+    return if params[:current_id].blank?
 
     @current_id = params[:current_id].to_i
-    return if params[:action_type].blank?
-
-    # In case we have a navigation action, determine the new current id
-    @current_id = navigate_from_current_id(@current_id)
+    navigate_from_current_position if params[:action_type].present?
   end
 
-  def navigate_from_current_id(current_id)
-    current_index = sorted_agenda_item_ids.index(current_id)
-    return current_id if current_index.nil?
+  def navigate_from_current_position
+    current_index = sorted_agenda_item_ids.index(@current_id)
+    return if current_index.nil?
+
+    current_slides = @meeting.agenda_items.find(@current_id).slides
+    @current_slide = current_slides.clamp(@current_slide)
 
     case params[:action_type]
     when "next"
-      navigate_next(current_index, current_id)
+      navigate_next(current_index, current_slides.count)
     when "previous"
-      navigate_previous(current_index, current_id)
-    else
-      current_id
+      navigate_previous(current_index)
     end
   end
 
-  def navigate_next(current_index, fallback_id)
-    current_index < sorted_agenda_item_ids.size - 1 ? sorted_agenda_item_ids[current_index + 1] : fallback_id
+  def navigate_next(current_index, slide_count)
+    if @current_slide < slide_count
+      @current_slide += 1
+    elsif current_index < sorted_agenda_item_ids.size - 1
+      @current_id = sorted_agenda_item_ids[current_index + 1]
+      @current_slide = 1
+    end
   end
 
-  def navigate_previous(current_index, fallback_id)
-    current_index.positive? ? sorted_agenda_item_ids[current_index - 1] : fallback_id
+  def navigate_previous(current_index)
+    if @current_slide > 1
+      @current_slide -= 1
+    elsif current_index.positive?
+      @current_id = sorted_agenda_item_ids[current_index - 1]
+      @current_slide = @meeting.agenda_items.find(@current_id).slides.count
+    end
   end
 
   def sorted_agenda_item_ids

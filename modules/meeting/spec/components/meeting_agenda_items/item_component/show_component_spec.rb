@@ -145,4 +145,35 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
       end
     end
   end
+
+  describe "notes split into slides" do
+    let(:meeting) { create(:meeting, project:) }
+    let(:meeting_agenda_item) do
+      create(:meeting_agenda_item, meeting:, notes: "First slide\n\n---\n\nSecond slide")
+    end
+
+    context "in presentation mode" do
+      subject(:rendered_component) do
+        render_inline(described_class.new(meeting_agenda_item:, presentation_mode: true, slide: 2))
+      end
+
+      it "renders only the current slide" do
+        expect(rendered_component).to have_text("Second slide")
+        expect(rendered_component).to have_no_text("First slide")
+        expect(rendered_component).to have_no_css("hr")
+      end
+    end
+
+    context "when not in presentation mode" do
+      subject(:rendered_component) do
+        render_inline(described_class.new(meeting_agenda_item:, slide: 2))
+      end
+
+      it "renders all notes" do
+        expect(rendered_component).to have_text("First slide")
+        expect(rendered_component).to have_text("Second slide")
+        expect(rendered_component).to have_css("hr")
+      end
+    end
+  end
 end

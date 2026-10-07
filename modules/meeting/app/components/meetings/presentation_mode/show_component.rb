@@ -35,9 +35,9 @@ module Meetings
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      attr_reader :meeting
+      attr_reader :meeting, :current_slide
 
-      def initialize(meeting:, sorted_agenda_item_ids:, current_id: nil, started_at: nil)
+      def initialize(meeting:, sorted_agenda_item_ids:, current_id: nil, current_slide: 1, started_at: nil)
         super()
 
         @initial = current_id.nil?
@@ -47,6 +47,7 @@ module Meetings
         @agenda_item_ids = sorted_agenda_item_ids
         @current_id = current_id.nil? ? @agenda_item_ids.first : current_id.to_i
         @current_index = sorted_agenda_item_ids.index(@current_id)
+        @current_slide = current_slide
       end
 
       # Define the interval so it can be overriden through tests

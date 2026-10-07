@@ -115,7 +115,7 @@
       grid.with_area(:notes, tag: :div) do
         if @meeting_agenda_item.notes.present?
           render(Primer::Box.new(classes: notes_classes, mt: 1)) do
-            format_text(@meeting_agenda_item, :notes)
+            formatted_notes
           end
         end
       end

@@ -39,7 +39,8 @@ module MeetingAgendaItems
     def initialize(meeting_agenda_item:,
                    first_and_last: [],
                    current_occurrence: nil,
-                   presentation_mode: false)
+                   presentation_mode: false,
+                   slide: 1)
       super
 
       @meeting_agenda_item = meeting_agenda_item
@@ -48,6 +49,7 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
     end
 
     def wrapper_uniq_by
@@ -413,6 +415,14 @@ module MeetingAgendaItems
                        )
                      } }) do |item|
         item.with_leading_visual_icon(icon: "op-move")
+      end
+    end
+
+    def formatted_notes
+      if presentation_mode?
+        @meeting_agenda_item.slides.content(@slide)
+      else
+        format_text(@meeting_agenda_item, :notes)
       end
     end
 

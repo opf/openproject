@@ -9,7 +9,7 @@
             scheme: :link,
             color: has_previous? ? :default : :subtle,
             underline: false,
-            href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "previous", started_at: @started_at),
+            href: navigation_path("previous"),
             data: { "meetings--presentation-target": "previousButton" },
             disabled: !has_previous?
           )
@@ -30,6 +30,10 @@
   <div class="op-meeting-presentation--progress">
     <div class="op-meeting-presentation--progress-text">
       <%= progress_text %>
+      <% if slide_progress_text %>
+        &middot;
+        <%= render(Primer::Beta::Text.new(color: :subtle, font_weight: :normal, test_selector: "meeting-presentation-slide-progress")) { slide_progress_text } %>
+      <% end %>
     </div>
     <div class="op-meeting-presentation--timer">
       <%= running_time %>
@@ -43,7 +47,7 @@
             scheme: :link,
             color: :default,
             underline: false,
-            href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "next", started_at: @started_at),
+            href: navigation_path("next"),
             data: { "meetings--presentation-target": "nextButton" },
             disabled: !has_next?
           )
