@@ -80,7 +80,7 @@ RSpec.describe OAuth::ApplicationsController do
     end
 
     it do
-      get :edit, params: { id: 1, application: { name: "foo" } }
+      get :edit, params: { id: 1, doorkeeper_application: { name: "foo" } }
       expect(response.status).to be 200
       expect(response).to render_template :edit
     end
@@ -89,7 +89,7 @@ RSpec.describe OAuth::ApplicationsController do
   describe "#create" do
     it do
       post :create, params: {
-        application: {
+        doorkeeper_application: {
           name: "foo",
           redirect_uri: "urn:ietf:wg:oauth:2.0:oob"
         }
@@ -111,7 +111,7 @@ RSpec.describe OAuth::ApplicationsController do
     end
 
     it do
-      patch :update, params: { id: 1, application: { name: "foo" } }
+      patch :update, params: { id: 1, doorkeeper_application: { name: "foo" } }
       expect(response).to redirect_to action: :index
     end
   end

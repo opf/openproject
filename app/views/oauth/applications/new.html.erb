@@ -32,6 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { t("oauth.application.new") }
+    header.with_description { t("oauth.application.instructions.register_intro") }
     header.with_breadcrumbs(
       [{ href: admin_index_path, text: t(:label_administration) },
        { href: admin_settings_authentication_path, text: t(:label_authentication) },
@@ -41,17 +42,10 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= labelled_tabular_form_for @application,
-                              url: { action: "create" },
-                              html: { class: nil, autocomplete: "off" },
-                              as: :application do |f| %>
-
-  <p>
-    <%= t("oauth.application.instructions.register_intro") %>
-  </p>
-
-  <%= render partial: "form", locals: { f: f } %>
-  <p>
-    <%= styled_button_tag t(:button_create), class: "-primary -with-icon icon-checkmark" %>
-  </p>
+<%= settings_primer_form_with(
+        model: @application,
+        url: { action: "create" }
+        # TODO: html { autocomplete: "off" }
+      ) do |f| %>
+  <%= render OAuth::ApplicationsForm.new(f) %>
 <% end %>
