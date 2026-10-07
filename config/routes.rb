@@ -1456,6 +1456,21 @@ Rails.application.routes.draw do
       delete :revoke_ical_token
       delete :revoke_ical_meeting_token
     end
+
+    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
+        as: :work,
+        constraints: {
+          mode: /day|week|workweek|month/,
+          view_mode: /list|calendar|stack/,
+          date: /(\d{4}-\d{2}-\d{2}|today)/
+        }
+    get "/work/refresh" => "work#refresh",
+        as: :work_refresh
+
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking/*rest" => redirect { |params, _req|
+      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    }
   end
 
   scope controller: "my" do

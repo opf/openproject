@@ -1,0 +1,167 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module My
+  class WorkController < ApplicationController
+    include OpTurbo::ComponentStream
+    include My::WorkHelper
+
+    before_action :require_login, :view_mode, :mode, :date
+
+    no_authorization_required!(:index, :refresh)
+
+    menu_item :my_work
+
+    layout "global"
+
+    helper_method :list_view_component
+
+    def index
+      remember_view
+
+      load_entries(displayed_dates)
+    end
+
+    def refresh
+      # for the month we have the whole week in the table, for the rest it's the day
+      load_entries(mode == :month ? date.all_week : date..date)
+
+      update_via_turbo_stream(
+        component: My::Work::ListWrapperComponent.new(time_entries: @time_entries, allocations: @allocations, date:, mode:)
+      )
+      update_via_turbo_stream(
+        component: My::Work::ListStatsComponent.new(time_entries: @time_entries, allocations: @allocations, date:, mode:)
+      )
+
+      respond_with_turbo_streams
+    end
+
+    private
+
+    def date
+      @date ||= parsed_date || current_date
+    end
+
+    def workweek
+      workweek_days(date)
+    end
+
+    def displayed_dates
+      case mode
+      when :day then date..date
+      when :workweek then workweek
+      when :week then date.all_week
+      when :month then date.all_month
+      end
+    end
+
+    def parsed_date
+      if params[:date].present?
+        if params[:date] == "today"
+          current_date
+        else
+          begin
+            Date.iso8601(params[:date])
+          rescue StandardError
+            nil
+          end
+        end
+      end
+    end
+
+    def remember_view
+      return if params[:view_mode].blank?
+
+      preference = User.current.pref
+      return if preference.my_work_view_mode == view_mode.to_s && preference.my_work_mode == mode.to_s
+
+      preference.update(my_work_view_mode: view_mode.to_s, my_work_mode: mode.to_s)
+    end
+
+    # A narrow screen has no room for a week, so regardless of settings we default to the day view
+    def default_mode
+      return "day" if mobile?
+
+      User.current.pref.my_work_mode.presence || "workweek"
+    end
+
+    def mode
+      @mode ||= begin
+        requested = (params[:mode].presence || default_mode).to_sym
+
+        # The mode switcher already hides the month for the stack; this covers a URL
+        # asking for one directly.
+        requested == :month && view_mode == :stack ? :workweek : requested
+      end
+    end
+
+    def default_view_mode
+      remembered = User.current.pref.my_work_view_mode
+      return remembered if remembered.present?
+
+      if TimeEntry.can_track_start_and_end_time?
+        "calendar"
+      else
+        "list"
+      end
+    end
+
+    def view_mode
+      @view_mode ||= (params[:view_mode].presence || default_view_mode).to_sym
+    end
+
+    def entries
+      @entries ||= My::Work::EntriesFilterComponent::FILTERS.find { |filter| filter.to_s == params[:entries] } || :all
+    end
+
+    def current_date
+      Time.zone.today
+    end
+
+    def load_entries(dates)
+      @time_entries = entries == :allocated ? [] : TimeEntries::TrackedTimeFor.new(user: User.current, dates:).items
+      @allocations = ResourceAllocations::AllocatedTimeFor.new(user: User.current, dates:) unless entries == :logged
+    end
+
+    def list_view_component
+      component_class = case view_mode
+                        when :list then My::Work::ListComponent
+                        when :stack then My::Work::StackComponent
+                        else My::Work::CalendarComponent
+                        end
+
+      component_class.new(time_entries: @time_entries, allocations: @allocations, entries:, mode:, date:)
+    end
+
+    def mobile?
+      browser.device.mobile?
+    end
+  end
+end
