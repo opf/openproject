@@ -152,6 +152,10 @@ en:
       title: "Delete backlog bucket?"
 
     burndown_chart:
+      series:
+        guideline: "Guideline"
+        projection: "Remaining story points (projection)"
+        remaining: "Remaining story points"
       show:
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
         blankslate_title: "No burndown data available"
@@ -332,9 +336,6 @@ en:
         invalid_target_type: "list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id."
         missing_target: "list_type or list_id must be present."
 
-  burndown:
-    story_points: "Story points"
-    story_points_ideal: "Story points (ideal)"
 
   ee:
     features:

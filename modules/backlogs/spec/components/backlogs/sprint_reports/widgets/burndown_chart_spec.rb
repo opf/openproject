@@ -30,43 +30,94 @@
 
 require "rails_helper"
 
-# This is just a quick smoke test of the burndown chart.
-# Long term, ideally there should be a proper integration test that inspects what the user
-# can actually see. For now, this is too time-intensive.
 RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component do
-  let(:project) { build_stubbed(:project) }
-  let(:sprint) { build_stubbed(:sprint, project:, start_date: 1.week.ago.to_date, finish_date: 1.week.from_now.to_date) }
-
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
-  context "when the sprint has a date range set" do
-    let(:burndown) do
-      # 5 + 3 = 8 points remain on every collected day because both WPs were
-      # present from the sprint start and have not been completed.
-      # The ideal starts at the sprint total and decreases linearly to zero.
-      instance_double(
-        Burndown,
-        days: [Time.zone.today - 2.days, Time.zone.today - 1.day, Time.zone.today],
-        series: { story_points: [8.0, 6.0, 4.0], story_points_ideal: [8.0, 4.0, 0.0] }
-      )
-    end
+  shared_let(:project) { create(:project) }
+  shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
 
-    before { allow(Burndown).to receive(:new).with(sprint, project).and_return(burndown) }
+  let(:monday) { Date.new(2026, 10, 12) }
+  let(:friday) { Date.new(2026, 10, 16) }
+  let(:saturday) { Date.new(2026, 10, 17) }
+  let(:sunday) { Date.new(2026, 10, 18) }
+  let(:second_friday) { Date.new(2026, 10, 23) }
+  let(:now) { monday.in_time_zone + 3.days + 12.hours }
+
+  let(:sprint) do
+    create(:sprint, project:, start_date: monday, finish_date: second_friday, started_at: monday.in_time_zone + 9.hours)
+  end
+
+  current_user { create(:user, member_with_roles: { project => role }) }
+
+  def chart_data
+    JSON.parse(rendered_component.at("opce-burndown-chart")["chart-data"])
+  end
+
+  before { week_with_saturday_and_sunday_as_weekend }
+
+  around do |example|
+    travel_to(now) { example.run }
+  end
+
+  context "when the sprint has a date range set" do
+    before do
+      create(:work_package, project:, sprint:, status: open_status,
+                            journals: { monday.in_time_zone + 9.hours => { story_points: 10 } })
+    end
 
     it "renders the burndown chart element" do
       expect(rendered_component).to have_element(:"opce-burndown-chart")
     end
 
-    it "sets chart-data with labels and the expected dataset labels" do
-      chart_data = JSON.parse(rendered_component.at("opce-burndown-chart")["chart-data"])
+    it "carries each series under a stable id and a translated label" do
+      expect(chart_data["series"].pluck("id", "label"))
+        .to eq([["remaining", "Remaining story points"],
+                ["guideline", "Guideline"],
+                ["projection", "Remaining story points (projection)"]])
+    end
 
-      expect(chart_data["labels"]).to be_an(Array)
-      expect(chart_data["datasets"].pluck("label")).to contain_exactly("Story points", "Story points (ideal)")
+    it "sends points as x/y pairs" do
+      first = chart_data["series"].first["data"].first
+
+      expect(first["x"]).to eq (monday.in_time_zone + 9.hours).utc.iso8601(3)
+      expect(first["y"]).to eq 10.0
+    end
+
+    # Remaining comes back from Ticks already in UTC, so it would read the same either way. The
+    # guideline is placed at day ends in the viewer's zone, which is the only place the payload's
+    # conversion does any work -- and a zoned offset would still parse on the far side, so nothing
+    # but this would notice it going missing.
+    context "with a viewer east of UTC" do
+      current_user do
+        create(:user, member_with_roles: { project => role }, preferences: { time_zone: "Asia/Kolkata" })
+      end
+
+      it "sends the guideline's day ends as UTC instants rather than zoned ones" do
+        guideline = chart_data["series"].find { |series| series["id"] == "guideline" }
+
+        expect(guideline["data"].second["x"]).to eq "2026-10-12T18:29:59.999Z"
+      end
+    end
+
+    it "sends the step, without which the chart cannot name a tick's period" do
+      expect(chart_data["step"]).to eq "hour"
+    end
+
+    it "sends the non working days of the charted range" do
+      expect(chart_data["nonWorkingIntervals"])
+        .to eq([{ "from" => saturday.iso8601, "to" => sunday.iso8601 }])
+    end
+
+    it "leaves out a series that has no points" do
+      sprint.update!(completed_at: now)
+
+      expect(chart_data["series"].pluck("id")).to eq %w[remaining guideline]
     end
   end
 
   context "when the sprint has no date range set" do
-    let(:sprint) { build_stubbed(:sprint, project:, start_date: nil, finish_date: nil) }
+    let(:sprint) { create(:sprint, project:, start_date: nil, finish_date: nil) }
 
     it "renders a blankslate instead of the chart" do
       expect(rendered_component).to have_no_element(:"opce-burndown-chart")
