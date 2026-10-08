@@ -23,6 +23,7 @@
     "@types/jquery": "^4.0.1",
     "@types/jquery-migrate": "^3.3.3",
     "@types/lodash-es": "^4.17.12",
+    "@types/luxon": "^3.7.6",
     "@types/mousetrap": "^1.6.3",
     "@types/node": "^26.6.3",
     "@types/pako": "^2.0.4",
