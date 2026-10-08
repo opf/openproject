@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "rails_helper"
 
 Rails.root.glob("lookbook/previews/**/*_preview.rb").each { |f| require f.to_s }
