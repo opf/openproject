@@ -108,7 +108,7 @@ export class VelocityChartComponent {
           beginAtZero: true,
           grace: '10%',
           grid: { color: gridColor },
-          ticks: { color: fontColor },
+          ticks: { color: fontColor, maxTicksLimit: 3 },
           title: { display: true, text: yAxisTitle, color: fontColor },
         },
       },

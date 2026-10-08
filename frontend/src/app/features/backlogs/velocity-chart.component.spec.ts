@@ -161,6 +161,10 @@ describe('VelocityChartComponent', () => {
     expect(yScale.title).toEqual(expect.objectContaining({ display: true, text: 'Story points' }));
   });
 
+  it('limits the y axis to three ticks', () => {
+    expect(options().scales!.y!.ticks).toEqual(expect.objectContaining({ maxTicksLimit: 3 }));
+  });
+
   describe('x axis labels', () => {
     const tickLabel = (label:string) => {
       const callback = options().scales!.x!.ticks!.callback as unknown as
