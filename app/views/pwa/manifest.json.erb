@@ -8,6 +8,12 @@
     start_url: root_path,
     scope: root_path,
     display: "standalone",
+    prefer_related_applications: true,
+    related_applications: [
+      { platform: "play",
+        id: "org.openproject.app",
+        url: "https://play.google.com/store/apps/details?id=org.openproject.app" }
+    ],
     theme_color:,
     background_color: theme_color,
     icons: [192, 512].map do |size|

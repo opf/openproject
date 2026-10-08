@@ -67,6 +67,17 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
                                   "scope" => "/")
     end
 
+    it "points Android visitors at the native mobile app" do
+      expect(manifest).to include(
+        "prefer_related_applications" => true,
+        "related_applications" => [
+          { "platform" => "play",
+            "id" => "org.openproject.app",
+            "url" => "https://play.google.com/store/apps/details?id=org.openproject.app" }
+        ]
+      )
+    end
+
     it "paints the window in the default header colour" do
       expect(manifest).to include("theme_color" => "#1A67A3")
     end
