@@ -1015,6 +1015,55 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the work package was created from a forum message" do
+    shared_let(:forum) { create(:forum) }
+    shared_let(:topic) { create(:message, forum:, subject: "Release planning") }
+    shared_let(:reply) { create(:message, forum:, parent: topic) }
+
+    subject(:cause) { { "type" => "forum_message", "message_id" => reply.id } }
+
+    let(:reply_path) do
+      "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}?r=#{reply.id}#message-#{reply.id}"
+    end
+
+    context "when the user can see the message" do
+      current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages] }) }
+
+      it do
+        expect(cause).to render_html_variant(
+          "<strong>Created from forum message</strong> #{link_to('Release planning', reply_path)}"
+        )
+      end
+
+      it { expect(cause).to render_raw_variant("Created from forum message Release planning") }
+
+      it "escapes a malicious topic subject when rendering HTML", :aggregate_failures do
+        topic.update_column(:subject, "<script>alert('xss')</script>")
+
+        expect(cause).to render_html_variant(a_string_including("&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;"))
+        expect(cause).not_to render_html_variant(a_string_including("<script>"))
+      end
+    end
+
+    context "when the user cannot see the message" do
+      current_user { create(:user) }
+
+      it "says where the work package came from without naming the topic", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> ")
+        expect(cause).to render_raw_variant("Created from forum message")
+      end
+    end
+
+    context "when the message has been deleted" do
+      subject(:cause) { { "type" => "forum_message", "message_id" => 0 } }
+
+      it "marks it deleted", :aggregate_failures do
+        expect(cause).to render_html_variant("<strong>Created from forum message</strong> (deleted)")
+        expect(cause).to render_raw_variant("Created from forum message (deleted)")
+      end
+    end
+  end
+
   context "when the change was caused by adding the work package to a meeting" do
     shared_let(:meeting) { create(:meeting, title: "Weekly sync") }
     subject(:cause) do
