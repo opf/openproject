@@ -38,16 +38,12 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models(markup = page)
-    items = markup.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
+  def offered_default_models
+    items = page.find("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")["data-items"]
     ids = JSON.parse(items).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
-
-  # Nokogiri does not descend into a <template>, which is where a turbo stream
-  # carries its markup.
-  def streamed_markup = Capybara.string(response.body.gsub(%r{</?template>}, ""))
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -170,7 +166,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         get llm_models_path
 
-        expect(response.body).to include("Default models")
+        expect(response.body).to include(I18n.t("admin.llm_models.defaults.heading"))
         # An embedding model is a different kind of model, not a chat choice.
         expect(offered_default_models).to contain_exactly("qwen3.6-27b")
       end
@@ -190,8 +186,8 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         get llm_models_path
 
-        expect(response.body).to include("No models available")
-        expect(response.body).not_to include("Default models")
+        expect(response.body).to include(I18n.t("admin.llm_models.index.blank_title"))
+        expect(page).to have_no_test_selector("llm-connection--defaults-form")
       end
 
       it "shows the default read-only when the environment owns the connection" do
@@ -236,7 +232,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response).to redirect_to(llm_models_path)
       expect(connection.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
-      expect(flash[:notice]).to eq("The model list has been refreshed.")
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.refresh.success"))
     end
 
     it "says so when the server cannot be reached" do
@@ -978,7 +974,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response).to redirect_to(llm_models_path)
       expect(connection.reload.default_chat_model).to eq(chat_model)
-      expect(flash[:notice]).to eq("The default models have been saved.")
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
       expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
     end
 

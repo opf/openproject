@@ -266,6 +266,17 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(llm_model.context_window).to eq(128_000)
     end
 
+    it "takes the window from max_model_len when the card also names a context_length" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "qwen3.6-27b", context_length: 262_144, max_model_len: 32_768 }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      expect(llm_model.context_window).to eq(32_768)
+      expect(llm_model.context_window_source).to eq(:server)
+    end
+
     it "falls back to the registry for a server that lists bare ids" do
       mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
 
