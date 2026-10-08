@@ -27,14 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
-
-<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
-
-<%= render(Grids::WidgetGridComponent.new(mb: 3)) do |grid| %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::Goal, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageOverview, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::VelocityChart, @sprint, @project) %>
-  <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
+<%= widget_wrapper do |container| %>
+  <% container.with_body do %>
+    <%= flex_layout do |body| %>
+      <% body.with_row(mb: 3) do %>
+        <%= render(Primer::Alpha::Stack.new(direction: :horizontal, justify: :center, wrap: :wrap, gap: :spacious)) do %>
+          <%= render(Primer::Beta::Text.new) do %>
+            <%= velocity_label %>
+            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { formatted_velocity } %>
+          <% end %>
+          <%= render(Primer::Beta::Text.new) do %>
+            <%= average_label %>
+            <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { formatted_average } %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% body.with_row do %>
+        <%= helpers.angular_component_tag "opce-velocity-chart", "chart-data": chart_data, class: "d-block" %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>

@@ -243,6 +243,16 @@ en:
         breadcrumb: Report
         title: "%{sprint} report"
       widgets:
+        velocity_chart:
+          average:
+            one: "Average of last sprint:"
+            other: "Average of last %{count} sprints:"
+          committed: "Committed"
+          completed: "Completed"
+          story_points: "%{value} SP"
+          title: "Velocity chart"
+          velocity: "%{sprint}:"
+          y_axis_title: "Story points"
         work_package_graph:
           title: "Work packages graph"
         work_package_overview:
