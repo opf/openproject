@@ -32,13 +32,20 @@
     max-height: 75dvh
     overflow: hidden
     margin: var(--base-size-16)
-    margin-right: 0
+    margin-right: 0 // So that the scrollbar will be on the right side of the overlay
 
   &--frame,
   &--tree
     display: flex
     max-height: 100%
     flex-basis: 100%
+
+  &--tree-view
+    flex: 1
+    min-width: 0
+
+    .FilterableTreeViewLayout > .Stack
+      padding-right: var(--base-size-16)
 
 @keyframes op-setting-highlight-fade
   to
