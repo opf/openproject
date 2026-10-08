@@ -36,8 +36,8 @@ function dateFilterRow(type:string, operator:string, singleDay:string, dateRange
         <option value="<>d" ${operator === '<>d' ? 'selected' : ''}>between</option>
       </select>
       <div data-filter-name="created_at" data-filter--filters-form-target="filterValueContainer">
-        <input id="created_at" data-filter--filters-form-target="singleDay" value="${singleDay}">
-        <input id="created_at" data-filter--filters-form-target="dateRange" value="${dateRange}">
+        <input id="view_created_at" data-filter-name="created_at" data-filter--filters-form-target="singleDay" value="${singleDay}">
+        <input id="view_created_at" data-filter-name="created_at" data-filter--filters-form-target="dateRange" value="${dateRange}">
       </div>
     </div>
   `;

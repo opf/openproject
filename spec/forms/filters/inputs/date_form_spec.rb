@@ -74,6 +74,13 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
       days_input = rendered_form.find(:element, "data-filter--filters-form-target": "days", visible: :all)
       expect(days_input["hidden"]).to eq("hidden")
     end
+
+    it "passes the filter name on to both date pickers" do
+      expected_attributes = { "data-filter--filters-form-target" => "singleDay", "data-filter-name" => filter.name.to_s }
+      expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                            "data-input-attributes": expected_attributes.to_json,
+                                            visible: :all
+    end
   end
 
   context "with a between-dates operator (<>d)" do

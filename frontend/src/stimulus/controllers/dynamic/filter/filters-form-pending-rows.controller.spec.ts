@@ -287,7 +287,7 @@ describe('Filters form pending rows', () => {
           </select>
           <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer">
             <input id="dates_interval" aria-label="Dates interval range" value="${rangeValue}"
-              data-filter--filters-form-target="dateRange">
+              data-filter-name="dates_interval" data-filter--filters-form-target="dateRange">
           </div>
         </div>
       </div>`;

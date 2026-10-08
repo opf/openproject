@@ -736,12 +736,12 @@ export default class FiltersFormController extends Controller {
 
       value = [dateValue].filter((v) => v !== '');
     } else if (operator === this.onDateOperator) {
-      const dateValue = this.findTargetById(filterName, this.singleDayTargets)?.value ?? '';
+      const dateValue = this.findTargetByName(filterName, this.singleDayTargets)?.value ?? '';
 
       value = [timestamps ? this.dayStart(dateValue) : dateValue].filter((v) => v !== '');
     } else if (operator === this.betweenDatesOperator) {
       // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
-      const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value ?? '';
+      const rangeValue = this.findTargetByName(filterName, this.dateRangeTargets)?.value ?? '';
       const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
 
       if (fromValue === '' && toValue === '') {
@@ -775,14 +775,6 @@ export default class FiltersFormController extends Controller {
       targets,
       targetFilter,
     );
-  }
-
-  private findTargetById<T extends HTMLElement>(
-    filterName:string,
-    targets:T[],
-    targetFilter?:FilterFunc<T>,
-  ):T | undefined {
-    return this.findTargetBy(filterName, (target:T) => target.id, targets, targetFilter);
   }
 
   private findTargetBy<T extends HTMLElement>(
