@@ -33,6 +33,8 @@
 
 module Redmine
   module I18n
+    extend self
+
     include ActionView::Helpers::NumberHelper
 
     IN_CONTEXT_TRANSLATION_CODE = :lol
