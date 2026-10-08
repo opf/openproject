@@ -35,11 +35,6 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
     filter_name = @filter.name
     values = operand_values
 
-    # The multi name intentionally uses @filter.name (not operand_name) because
-    # parseDateFilterValue in filters-form.controller.ts locates the datepicker
-    # inputs via findTargetById(filterName, …), which matches the id derived from
-    # the multi name. Switching to operand_name would require migrating that
-    # lookup to findTargetByName and adding data-filter-name to the picker inputs.
     group.multi(name: filter_name, label: filter_name, visually_hide_label: true,
                 class: ["advanced-filters--filter-value"],
                 data: {
@@ -116,7 +111,7 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
       value: value || "",
       datepicker_options: {
         inDialog: @dialog_id,
-        input_attributes: { "data-filter--filters-form-target" => "singleDay" }
+        input_attributes: { "data-filter--filters-form-target" => "singleDay", "data-filter-name" => filter_name }
       }.compact,
       data: { "filter-name": filter_name }
     )
@@ -132,7 +127,7 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
       value: value || "-",
       datepicker_options: {
         inDialog: @dialog_id,
-        input_attributes: { "data-filter--filters-form-target" => "dateRange" }
+        input_attributes: { "data-filter--filters-form-target" => "dateRange", "data-filter-name" => filter_name }
       }.compact,
       data: { "filter-name": filter_name }
     )
