@@ -618,6 +618,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_general,
             parent: :settings
 
+  menu.push :good_job_dashboard,
+            { controller: "/admin/good_job_dashboard", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_good_job_dashboard,
+            parent: :settings
+
   menu.push :settings_languages,
             { controller: "/admin/settings/languages_settings", action: :show },
             if: ->(_) { User.current.admin? },
