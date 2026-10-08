@@ -3662,6 +3662,7 @@ en:
         recent_activity: "Recent activity"
       topic: "Topic"
     topic:
+      create_work_package: "Create work package"
       gap:
         load_previous:
           one: "Load previous reply"
@@ -3676,6 +3677,7 @@ en:
         other: "%{count} replies"
         zero: "No replies yet"
       started_html: "Started %{time}"
+      view_work_package: "View %{id}"
   general_csv_decimal_separator: "."
 
   general_csv_encoding: "UTF-8"

@@ -65,6 +65,28 @@ RSpec.describe Messages::PostComponent, type: :component do
     expect(rendered_component).to have_link("Quote", visible: :all)
   end
 
+  it "offers no work package creation without the permission" do
+    expect(rendered_component).to have_no_link("Create work package", visible: :all)
+  end
+
+  context "with permission to add work packages" do
+    let(:permissions) { %i[view_messages add_messages view_work_packages add_work_packages] }
+
+    it "offers creating a work package from the message, through a dialog" do
+      dialog_path = "/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}/work_package/new"
+
+      expect(rendered_component).to have_link("Create work package", href: dialog_path, visible: :all)
+    end
+
+    context "in a project without work package tracking" do
+      before { project.update!(enabled_module_names: project.enabled_module_names - %w[work_package_tracking]) }
+
+      it "offers no work package creation" do
+        expect(rendered_component).to have_no_link("Create work package", visible: :all)
+      end
+    end
+  end
+
   context "with permission to edit and delete messages on the opening post" do
     let(:permissions) { %i[view_messages add_messages edit_messages delete_messages] }
 

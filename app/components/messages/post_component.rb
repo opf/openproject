@@ -84,6 +84,7 @@ module Messages
 
         copy_link_item(menu)
         quote_item(menu) if quotable?
+        create_work_package_item(menu) if work_package_creatable?
         edit_item(menu) if message.editable_by?(User.current)
         with_item_group(menu) { delete_item(menu) } if reply? && message.destroyable_by?(User.current)
       end
@@ -102,6 +103,19 @@ module Messages
                      href: quote_project_forum_topic_path(project, forum, message),
                      content_arguments: { data: { action: "forum-messages#quote" } }) do |item|
         item.with_leading_visual_icon(icon: :quote)
+      end
+    end
+
+    def work_package_creatable?
+      User.current.allowed_in_project?(:add_work_packages, project)
+    end
+
+    def create_work_package_item(menu)
+      menu.with_item(label: t("forums.topic.create_work_package"),
+                     href: new_project_forum_topic_work_package_path(project, forum, message),
+                     test_selector: "message-create-work-package-#{message.id}",
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :"issue-opened")
       end
     end
 
