@@ -43,7 +43,7 @@ RSpec.describe "Forum topic list", type: :rails_request do
   before { busy.update_column(:replies_count, 5) }
 
   def listed_subjects
-    Capybara.string(response.body).all("[data-test-selector^='topic-row-'] .subject").map { it.text.strip }
+    Capybara.string(response.body).all("[data-test-selector^='topic-row-'] .subject a").map { it.text.strip }
   end
 
   def checked_sort
