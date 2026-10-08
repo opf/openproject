@@ -86,7 +86,8 @@ module Type::Attributes
       OpenProject::Cache.fetch_request_cached("all_work_package_form_attributes",
                                               *wp_cf_cache_parts,
                                               EXCLUDED.length,
-                                              merge_date) do
+                                              merge_date,
+                                              OpenProject::FeatureDecisions.work_package_labels_active?) do
         calculate_all_work_package_form_attributes(merge_date)
       end
     end
@@ -138,6 +139,10 @@ module Type::Attributes
     def skipped_attribute?(key, definition)
       # We always want to include the priority even if its required
       return false if key == "priority"
+
+      # Remove once the work_package_labels feature flag is removed; show_if
+      # on the schema representer property is never evaluated here.
+      return true if key == "labels" && !OpenProject::FeatureDecisions.work_package_labels_active?
 
       EXCLUDED.include?(key) || definition[:required]
     end
