@@ -34,7 +34,9 @@ module Llm
       SANITIZER = Rails::Html::FullSanitizer.new
 
       def self.for(work_package)
-        description = SANITIZER.sanitize(work_package.description.to_s)
+        description = SANITIZER.sanitize(work_package.description.to_s.gsub("<", " <"))
+                               .gsub(/[ \t]+/, " ")
+                               .gsub(/^ | $/, "")
         [work_package.subject, description].join("\n").strip
       end
     end
