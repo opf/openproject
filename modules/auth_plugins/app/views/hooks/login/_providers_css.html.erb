@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% OpenProject::Plugins::AuthPlugin.providers.each do |provider| %>
   <% if provider[:icon] %>
-    <style type="text/css">
+    <style>
       #content .login-auth-providers a.auth-provider.auth-provider-<%= provider[:name] %> {
         background-image: url('<%= asset_path(provider[:icon]) %>');
       }
