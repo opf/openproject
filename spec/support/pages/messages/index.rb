@@ -43,7 +43,7 @@ module Pages::Messages
     end
 
     def click_create_message
-      click_on "Message"
+      click_on "Topic"
 
       ::Pages::Messages::Create.new(project.forums.first)
     end
