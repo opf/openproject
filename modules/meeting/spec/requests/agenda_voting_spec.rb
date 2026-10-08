@@ -17,7 +17,7 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
 
     expect(response).to have_http_status(:ok)
     expect(agenda_item.reload.vote_score).to eq(1)
-    expect(Nokogiri::HTML.fragment(response.body).text.squish).to include("Score: 1", "Remove upvote")
+    expect(Nokogiri::HTML.fragment(response.body).text.squish).to include("Votes: 1", "Remove upvote")
     expect(response.body).to include('method="morph"')
   end
 
@@ -26,12 +26,15 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
     get project_meeting_path(project, meeting)
 
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body.text.squish).to include("Upvote", "Downvote", "Score: 0")
+    expect(response.parsed_body.text.squish).to include("Upvote", "Downvote", "Votes: 0")
     expect(response.parsed_body.at_css(".meeting-infoline").text.squish)
       .to include("Created by #{meeting.author.name}. Agenda sorted by votes. Last updated")
     expect(response.body).not_to include(edit_project_meeting_agenda_item_path(project, meeting, agenda_item))
     expect(response.body).not_to include('draggable-type="agenda-item"')
     expect(response.parsed_body.css(".op-meeting-agenda-item-vote-score button").size).to eq(2)
+    sorting = response.parsed_body.at_css('[data-test-selector="agenda-sorting-mode-selector"]')
+    expect(sorting.text.squish).to include("Sorting mode", "Vote-based")
+    expect(sorting.at_css('[data-test-selector="agenda-sorting-mode-selector-button"]')).to be_nil
   end
 
   it "rejects voting by a user without view permission" do
@@ -58,6 +61,17 @@ RSpec.describe "Meeting agenda voting", :skip_csrf, type: :rails_request do
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include("Sorting mode", "Manual", "Vote-based")
+  end
+
+  it "offers editors a sidebar sorting control in manual mode" do
+    login_as editor
+    meeting.update!(agenda_sorting_mode: :manual)
+    get project_meeting_path(project, meeting)
+
+    sorting = response.parsed_body.at_css('[data-test-selector="agenda-sorting-mode-selector"]')
+    expect(sorting.text.squish).to include("Sorting mode", "Manual", "Change sorting mode")
+    expect(sorting.at_css("a")[:href]).to eq(agenda_sorting_dialog_project_meeting_path(project, meeting))
+    expect(sorting.at_css(".octicon-sort-desc")).to be_present
   end
 
   it "allows editors to change sorting mode without changing positions" do

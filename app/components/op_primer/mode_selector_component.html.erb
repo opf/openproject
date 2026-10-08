@@ -1,0 +1,33 @@
+<%=
+  component_wrapper(data: { "test-selector": @test_selector }) do
+    render(Primer::OpenProject::SidePanel::Section.new) do |section|
+      section.with_title { @title }
+
+      if @show_button
+        section.with_footer_button(
+          color: :accent,
+          tag: :a,
+          href: @path,
+          classes: "hide-when-print",
+          data: { "turbo-stream": true, "turbo-method": @method, "test-selector": "#{@test_selector}-button" }
+        ) do |button|
+          button.with_leading_visual_icon(icon: @button_icon)
+          @button_label
+        end
+      end
+
+      flex_layout do |flex|
+        flex.with_row do
+          concat(render(Primer::Beta::Text.new(color: :subtle, font_weight: :semibold)) { "#{@state} " })
+          concat(render(Primer::Beta::Text.new(color: :subtle)) { @description })
+        end
+
+        if !@show_button && @alt_text.present?
+          flex.with_row(mt: 2) do
+            render(Primer::Beta::Text.new(color: :subtle)) { @alt_text }
+          end
+        end
+      end
+    end
+  end
+%>

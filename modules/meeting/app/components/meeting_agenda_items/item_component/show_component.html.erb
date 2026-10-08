@@ -117,39 +117,7 @@
       grid.with_area(:notes, tag: :div) do
         component_collection do |body|
           if @meeting_agenda_item.vote_based_ordering?
-            body.with_component(Primer::Box.new(classes: "op-meeting-agenda-item-vote-score", mb: 1)) do
-              flex_layout(align_items: :center) do |score|
-                score.with_column do
-                  render(Primer::Beta::Text.new(color: :subtle, font_size: :small, test_selector: "agenda-item-vote-score")) do
-                    t("meeting.agenda_sorting.score", score: @meeting_agenda_item.vote_score)
-                  end
-                end
-
-                if voting_enabled?
-                  score.with_column(ml: 1, classes: "op-meeting-agenda-item-vote-score--actions hide-when-print") do
-                    flex_layout do |actions|
-                      MeetingAgendaItem.allowed_emoji_reactions.each do |reaction|
-                        actions.with_column(mr: 1) do
-                          form_with(url: project_meeting_agenda_item_vote_path(@meeting.project, @meeting, @meeting_agenda_item, reaction:), method: :post) do
-                            render(
-                              Primer::Beta::Button.new(
-                                type: :submit,
-                                size: :small,
-                                scheme: vote_selected?(reaction) ? :default : :invisible,
-                                aria: { label: vote_label(reaction), pressed: vote_selected?(reaction) },
-                                test_selector: "agenda-item-score-vote-#{reaction}"
-                              )
-                            ) do
-                              EmojiReaction.emoji(reaction)
-                            end
-                          end
-                        end
-                      end
-                    end
-                  end
-                end
-              end
-            end
+            body.with_component(MeetingAgendaItems::VoteControlsComponent.new(meeting_agenda_item: @meeting_agenda_item, voting_enabled: voting_enabled?))
           end
           if @meeting_agenda_item.notes.present?
             body.with_component(Primer::Box.new(classes: notes_classes, mt: 1)) do

@@ -19,8 +19,7 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
   end
 
   def set_sorting_mode(mode)
-    find('[data-test-selector="op-meetings-header-action-trigger"]').click
-    click_on "Sorting mode"
+    find('[data-test-selector="agenda-sorting-mode-selector-button"]').click
 
     within("dialog#agenda-sorting-dialog") do
       choose mode
@@ -49,15 +48,15 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
     expect(page).to have_no_css('.op-meeting-agenda-item-wrapper [data-draggable-type="agenda-item"]')
 
     vote_on_item(second_item, "👍 Upvote")
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: 1")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 1", visible: :all)
     expect_item_order(second_item, first_item)
 
     vote_on_item(second_item, "👎 Downvote")
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: -1")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: -1", visible: :all)
     expect_item_order(first_item, second_item)
 
     vote_on_item(second_item, "👎 Remove downvote")
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: 0")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 0", visible: :all)
     expect(second_item.emoji_reactions).to be_empty
   end
 
@@ -68,12 +67,12 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
 
     set_sorting_mode("Vote-based")
     vote_on_item(second_item, "👍 Upvote")
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: 1")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 1", visible: :all)
     expect_item_order(second_item, first_item)
 
     set_sorting_mode("Manual")
     expect_item_order(first_item, second_item)
-    expect(page).to have_no_text("Score:")
+    expect(page).to have_no_text("Votes:")
     expect(second_item.reload.vote_score).to eq(1)
     expect(first_item.reload.position).to eq(1)
     expect(second_item.position).to eq(2)
@@ -83,30 +82,30 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
     login_as viewer
     visit project_meeting_path(project, meeting)
 
-    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score")
-    actions = score_line.find(".op-meeting-agenda-item-vote-score--actions", visible: :all)
-    expect(actions.style("opacity")["opacity"]).to eq("0")
+    find(".meeting-infoline").hover
+    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score", visible: :all)
+    expect(score_line.style("opacity")["opacity"]).to eq("0")
 
     score_line.hover
-    expect(actions.style("opacity")["opacity"]).to eq("1")
+    expect(score_line.style("opacity")["opacity"]).to eq("1")
     within(score_line) { find('button[aria-label="Upvote"]').click }
 
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: 1")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 1", visible: :all)
     expect_item_order(second_item, first_item)
 
-    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score")
+    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score", visible: :all)
     score_line.hover
     expect(score_line).to have_css('button[aria-label="Remove upvote"][aria-pressed="true"]')
     within(score_line) { find('button[aria-label="Downvote"]').click }
 
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: -1")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: -1", visible: :all)
     expect_item_order(first_item, second_item)
 
-    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score")
+    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score", visible: :all)
     score_line.hover
     within(score_line) { find('button[aria-label="Remove downvote"]').click }
 
-    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Score: 0")
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 0", visible: :all)
     expect(second_item.emoji_reactions).to be_empty
   end
 
@@ -117,7 +116,22 @@ RSpec.describe "Meeting agenda voting", :js, :selenium do
     find("#meeting-agenda-item-#{second_item.id} [data-test-selector='op-meeting-agenda-actions']").send_keys(:tab)
 
     score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score")
-    expect(score_line.find(".op-meeting-agenda-item-vote-score--actions").style("opacity")["opacity"]).to eq("1")
+    expect(score_line.style("opacity")["opacity"]).to eq("1")
     expect(score_line).to have_css('button[aria-label="Upvote"]:focus')
+  end
+
+  it "keeps votes and buttons visible on mobile without hovering" do
+    login_as viewer
+    original_size = page.current_window.size
+    page.current_window.resize_to(400, 900)
+    visit project_meeting_path(project, meeting)
+
+    score_line = find("#meeting-agenda-item-#{second_item.id} .op-meeting-agenda-item-vote-score")
+    expect(score_line.style("opacity")["opacity"]).to eq("1")
+    expect(score_line).to have_text("Votes: 0")
+    within(score_line) { find('button[aria-label="Upvote"]').click }
+    expect(page).to have_css("#meeting-agenda-item-#{second_item.id}", text: "Votes: 1")
+  ensure
+    page.current_window.resize_to(*original_size)
   end
 end

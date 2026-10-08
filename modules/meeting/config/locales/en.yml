@@ -339,12 +339,13 @@ en:
   meeting:
     agenda_sorting:
       title: "Sorting mode"
+      change: "Change sorting mode"
       manual: "Manual"
       vote_based: "Vote-based"
       manual_description: "Arrange agenda items yourself. Switching back restores the manual order."
       vote_based_description: "Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted."
       sorted_by_votes: "Agenda sorted by votes."
-      score: "Score: %{score}"
+      votes: "Votes: %{count}"
       thumbs_up: "Upvote"
       thumbs_down: "Downvote"
       remove_thumbs_up: "Remove upvote"

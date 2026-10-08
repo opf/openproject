@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -40,6 +41,21 @@ module Meetings
     end
 
     private
+
+    def agenda_sorting_mode_selector
+      mode = @meeting.agenda_sorting_mode
+
+      OpPrimer::ModeSelectorComponent.new(
+        title: I18n.t("meeting.agenda_sorting.title"),
+        state: I18n.t("meeting.agenda_sorting.#{mode}"),
+        description: I18n.t("meeting.agenda_sorting.#{mode}_description"),
+        path: agenda_sorting_dialog_project_meeting_path(@meeting.project, @meeting),
+        button_label: I18n.t("meeting.agenda_sorting.change"),
+        button_icon: :"sort-desc",
+        show_button: @meeting.editable?,
+        test_selector: "agenda-sorting-mode-selector"
+      )
+    end
 
     def email_updates_mode_selector
       OpPrimer::EmailUpdatesModeSelectorComponent.new(

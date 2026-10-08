@@ -1,12 +1,13 @@
 # Vote-based agenda sorting MVP
 
-Open a meeting's action menu and select **Sorting mode** to choose **Manual**
-or **Vote-based**. Changing this setting requires `edit_meetings`.
+The sidebar shows **Sorting mode**. Use **Change sorting mode** there or select
+**Sorting mode** in the meeting's action menu to choose **Manual** or **Vote-based**.
+Changing this setting requires `edit_meetings`.
 
 In vote-based mode, agenda items show their net vote score in the body. Anyone
 with `view_meetings` can use **Upvote** and **Downvote** in an item's action menu.
-Small thumbs-up and thumbs-down buttons also appear when hovering or focusing
-the score line. On touch devices, these buttons remain visible.
+The **Votes: N** line and small thumbs buttons appear when hovering or focusing
+the agenda item. On mobile and touch devices, both remain visible.
 Selecting the current vote removes it; selecting the opposite vote replaces it.
 Each user can have one vote per item.
 
