@@ -1,0 +1,108 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= flex_layout(align_items: :center) do |row| %>
+  <% row.with_column(mr: 3, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0", display: :flex, justify_content: :flex_end, align_items: :center) do %>
+    <%= render(Primer::Beta::Truncate.new(color: :muted, mr: 1, title: shown_work_package.formatted_id, test_selector: "planner-task-id")) do |truncate| %>
+      <% truncate.with_item(style: "max-width: #{ID_MAX_WIDTH}") { shown_work_package.formatted_id } %>
+    <% end %>
+    <%= form_with(url: planner_task_path(work_package), method: :patch) do %>
+      <%= hidden_field_tag :done, !closed?, id: nil %>
+      <% if view_param %>
+        <%= hidden_field_tag :view, view_param, id: nil %>
+      <% end %>
+      <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
+    <% end %>
+  <% end %>
+  <% row.with_column(flex: 1, mr: 3, classes: "min-width-0") do %>
+    <%= render(Primer::Beta::Truncate.new) do %>
+      <% if planned_work_package %>
+        <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { planned_work_package.subject } %>
+      <% else %>
+        <% subject_parts.each do |part| %>
+          <% if part.is_a?(WorkPackage) %>
+            <%= render(Primer::Beta::Link.new(href: work_package_path(part), border: true, border_radius: 2, px: 1, bg: :subtle, test_selector: "planner-reference")) do %>
+              <%= render(Primer::Beta::Text.new(font_family: :mono, font_size: :small)) { part.formatted_id } %>
+              <%= render(Primer::Beta::Text.new(font_size: :small, color: :muted, text_transform: :uppercase)) { part.status.name } %>
+              <%= render(Primer::Beta::Text.new(color: :default)) { part.subject } %>
+            <% end %>
+          <% elsif part.present? %>
+            <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { part } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% row.with_column(mr: 2, flex_shrink: 0) do %>
+    <%= flex_layout(align_items: :center, test_selector: "planner-task-meta") do |meta| %>
+      <% if overdue? %>
+        <% meta.with_column(**meta_cell(:planned_for)) do %>
+          <% if work_package.due_date %>
+            <%= render(Primer::Beta::Text.new(color: :severe, font_size: :small)) { t("planner.planned_for", date: helpers.format_date(work_package.due_date)) } %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% meta.with_column(**meta_cell(:kind)) do %>
+        <%= render(Primer::Beta::Truncate.new(font_size: :small, classes: kind_classes)) { kind_name } %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if meeting_command %>
+    <% row.with_column(mr: 2, flex_shrink: 0) do %>
+      <%= render(Primer::Beta::Button.new(tag: :a, href: new_meeting_path, size: :small, data: { controller: "async-dialog" }, test_selector: "planner-create-meeting")) do |button| %>
+        <% button.with_leading_visual_icon(icon: :calendar) %>
+        <%= t("planner.create_meeting") %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% if overdue? %>
+    <% row.with_column(mr: 2, flex_shrink: 0) do %>
+      <%= form_with(url: plan_path(:today), method: :patch) do %>
+        <%= render(Primer::Beta::Button.new(type: :submit, size: :small, test_selector: "planner-plan-today")) do |button| %>
+          <% button.with_leading_visual_icon(icon: :sun) %>
+          <%= t("planner.today") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% unless completed? %>
+    <% row.with_column(flex_shrink: 0) do %>
+      <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, test_selector: "planner-move-menu")) do |menu| %>
+        <% menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("planner.task_actions"), scheme: :invisible, size: :small) %>
+        <% move_targets.each do |to, label| %>
+          <% menu.with_item(label:, href: plan_path(to), form_arguments: plan_form_arguments) %>
+        <% end %>
+        <% unless overdue? %>
+          <% menu.with_divider %>
+          <% menu.with_item(label: t("planner.move_to.remove"), href: plan_path(:remove), form_arguments: plan_form_arguments) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

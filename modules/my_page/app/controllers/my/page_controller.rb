@@ -39,31 +39,9 @@ module My
     def show
       respond_to do |format|
         format.html do
-          render locals: { menu_name: :global_menu, my_day: my_day?, tab: current_tab, today:, upcoming:, unplanned: }
+          render locals: { menu_name: :global_menu }
         end
       end
-    end
-
-    private
-
-    def my_day? = OpenProject::FeatureDecisions.my_day_active?
-
-    def current_tab
-      return "dashboard" unless my_day?
-
-      %w[upcoming unplanned dashboard].include?(params[:tab]) ? params[:tab] : "today"
-    end
-
-    def today
-      MyDay::Today.for(current_user) if current_tab == "today"
-    end
-
-    def upcoming
-      MyDay::Upcoming.for(current_user) if current_tab == "upcoming"
-    end
-
-    def unplanned
-      MyDay::Unplanned.for(current_user) if current_tab == "unplanned"
     end
   end
 end

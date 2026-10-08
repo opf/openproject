@@ -45,11 +45,11 @@ export class WorkPackageAddToTodayButtonComponent {
 
   @Input() public workPackage:WorkPackageResource;
 
-  public buttonTitle = this.I18n.t('js.my_day.add_to_today');
+  public buttonTitle = this.I18n.t('js.planner.add_to_today');
 
   addToToday():void {
     void this.turboRequests.request(
-      `${this.pathHelper.staticBase}/my/day/work_packages/${this.workPackage.id}`,
+      `${this.pathHelper.staticBase}/planner/work_packages/${this.workPackage.id}`,
       { method: 'POST', headers: { Accept: 'text/vnd.turbo-stream.html' } },
       true,
     ).catch(() => undefined);
