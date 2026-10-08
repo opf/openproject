@@ -54,6 +54,12 @@ linter:
       exclude:
         - 'lookbook/previews/**/*'
 
+    # Inline JavaScript in a `nonced_javascript_tag` block is read as text.
+    html-no-unescaped-entities:
+      exclude:
+        - 'app/views/layouts/base.html.erb'
+        - 'modules/recaptcha/app/views/recaptcha/request/perform.html.erb'
+
     # Disabled by `herb-lint --upgrade`: re-enable once the offenses are fixed.
     erb-no-duplicate-branch-elements:
       enabled: false
@@ -68,8 +74,6 @@ linter:
     erb-no-unused-expressions:
       enabled: false
     html-no-nested-forms:
-      enabled: false
-    html-no-unescaped-entities:
       enabled: false
     html-require-script-nonce:
       enabled: false
