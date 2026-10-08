@@ -68,10 +68,8 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
       expect(rendered_form).to have_field submitted_field_name, type: :hidden, with: "2026-10-01T12:30:00Z"
     end
 
-    it "wires up the Stimulus controller with the user's time zone" do
-      expect(rendered_form)
-        .to have_css("input[data-controller='custom-fields--datetime-input']" \
-                     "[data-custom-fields--datetime-input-time-zone-value='Europe/Berlin']")
+    it "wires up the Stimulus controller" do
+      expect(rendered_form).to have_css("input[data-controller='custom-fields--datetime-input']")
     end
   end
 

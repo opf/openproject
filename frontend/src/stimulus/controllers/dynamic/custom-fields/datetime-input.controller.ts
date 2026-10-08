@@ -26,15 +26,13 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
+import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { localDatetimeToISO } from 'core-common/local-datetime';
 
 export default class DatetimeInputController extends Controller<HTMLInputElement> {
   static values = {
-    timeZone: String,
     submittedValueId: String,
   };
-
-  declare readonly timeZoneValue:string;
 
   declare readonly submittedValueIdValue:string;
 
@@ -44,6 +42,6 @@ export default class DatetimeInputController extends Controller<HTMLInputElement
       return;
     }
 
-    submittedValue.value = localDatetimeToISO(this.element.value, this.timeZoneValue) ?? '';
+    submittedValue.value = localDatetimeToISO(this.element.value, getMetaValue('current_user', 'timeZone')) ?? '';
   }
 }
