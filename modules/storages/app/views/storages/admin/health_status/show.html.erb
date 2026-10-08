@@ -84,12 +84,9 @@ See COPYRIGHT and LICENSE files for more details.
     %>
   <% end %>
 
-  <%=
-    render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |page|
-      page.with_sidebar(col_placement: :end, row_placement: :end)
-      page.with_main do
-  %>
-
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |page| %>
+    <% page.with_sidebar(col_placement: :end, row_placement: :end) %>
+    <% page.with_main do %>
       <% if @report.present? %>
         <%=
           render(
