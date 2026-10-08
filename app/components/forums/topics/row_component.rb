@@ -42,18 +42,13 @@ module Forums
         safe_join([subject_line, preview])
       end
 
-      def author
-        helpers.primer_link_to_user(topic.author) if topic.author
-      end
-
-      def created_at = helpers.format_time(topic.created_at)
-
       def last_reply
         reply = topic.last_reply
         return if reply.nil?
 
         time = render(Primer::Beta::Link.new(href: reply_path(reply), underline: false)) { helpers.format_time(reply.created_at) }
-        safe_join([reply.author&.name, time].compact, " · ")
+        author = render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: :small)) { reply.author&.name }
+        time + author
       end
 
       private
@@ -67,6 +62,13 @@ module Forums
           flex.with_column(mr: 1) { flag(:pin, I18n.t("js.label_board_sticky"), "topic-sticky") } if topic.sticky?
           flex.with_column(mr: 1) { flag(:lock, I18n.t("js.label_board_locked"), "topic-locked") } if topic.locked?
           flex.with_column(classes: "ellipsis") { subject_link }
+          flex.with_column(ml: 1, classes: "op-forum-topics-table--byline") { byline }
+        end
+      end
+
+      def byline
+        render(Primer::Beta::Text.new(color: :muted)) do
+          safe_join(["", topic.author&.name, helpers.format_date(topic.created_at)].compact, " · ")
         end
       end
 

@@ -31,7 +31,7 @@
 module Forums
   module Topics
     class TableComponent < OpPrimer::BorderBoxTableComponent
-      columns :subject, :author, :created_at, :replies_count, :last_reply
+      columns :subject, :replies_count, :last_reply
       main_column :subject, :last_reply
       mobile_columns :subject
 
@@ -41,9 +41,7 @@ module Forums
 
       def headers
         [
-          [:subject, { caption: Message.human_attribute_name(:subject) }],
-          [:author, { caption: Message.human_attribute_name(:author) }],
-          [:created_at, { caption: Message.human_attribute_name(:created_at) }],
+          [:subject, { caption: I18n.t("forums.show.topic_column") }],
           [:replies_count, { caption: I18n.t(:label_reply_plural) }],
           [:last_reply, { caption: I18n.t(:label_message_last) }]
         ]
@@ -52,6 +50,8 @@ module Forums
       def mobile_title = I18n.t(:label_topic_plural)
 
       def container_id = "forum-topics-table"
+
+      def container_class = "op-forum-topics-table"
 
       def blank_icon = :"comment-discussion"
 

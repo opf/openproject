@@ -3658,6 +3658,7 @@ en:
         oldest: "Oldest"
         oldest_activity: "Oldest activity"
         recent_activity: "Recent activity"
+      topic_column: "Topic"
     topic:
       gap:
         load_previous:
