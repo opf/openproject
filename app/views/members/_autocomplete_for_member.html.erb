@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div class="grid-block">
   <div class="grid-block medium-4" id="principal_results">
     <fieldset class="form--fieldset principals medium-11">
-      <legend class="form--fieldset-legend"><%= "#{t(:label_user_plural)}/#{t(:label_group_plural)}" %></legend>
+      <legend class="form--fieldset-legend"><%= t(:label_user_plural) %>/<%= t(:label_group_plural) %></legend>
       <% if principals.empty? %>
         <%= t("notice_no_principals_found") %>
       <% else %>

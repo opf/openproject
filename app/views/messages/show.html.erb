@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% unless @replies.empty? %>
     <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
     <% @replies.each do |message| %>
-      <div class="comment" id="<%= "message-#{message.id}" %>">
+      <div class="comment" id="message-<%= message.id %>">
         <div class="contextual">
           <%= link_to(icon_wrapper('icon-context icon-quote', t(:button_quote)),
                       { action: 'quote', id: message },

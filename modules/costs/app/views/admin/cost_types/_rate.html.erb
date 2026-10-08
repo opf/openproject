@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
         style: templated ? "display: none;" : ""
       ) do %>
     <td class="-no-ellipsis">
-      <label class="sr-only" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
+      <label class="sr-only" for="<%= id_prefix %>_valid_from"><%= Rate.human_attribute_name(:valid_from) %></label>
       <%= rate_form.date_picker :valid_from,
                                 index: id_or_index,
                                 class: "date costs-date-picker",
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
     </td>
     <td class="currency">
       <span class="inline-label">
-        <label class="sr-only" for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
+        <label class="sr-only" for="<%= id_prefix %>_rate"><%= Rate.model_name.human %></label>
         <%= rate_form.text_field :rate,
                                  size: 7,
                                  index: id_or_index,
