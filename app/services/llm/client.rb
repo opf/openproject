@@ -93,9 +93,15 @@ module Llm
     # OpenAI schema documents.
     def envelope(body)
       return body if body.is_a?(Hash) && body["data"].is_a?(Array)
+      return body.merge("data" => []) if empty_list?(body)
       return { "object" => "list", "data" => body } if body.is_a?(Array)
 
       raise ParseError, "Response does not contain a model list"
+    end
+
+    # Ollama sends "data": null until its first model is pulled.
+    def empty_list?(body)
+      body.is_a?(Hash) && body["object"] == "list" && body.key?("data") && body["data"].nil?
     end
 
     def get(path, query = {})
@@ -128,7 +134,7 @@ module Llm
       uri.query = query.to_query if query.present?
       uri
     rescue URI::InvalidURIError
-      raise ConnectionError, "Invalid URL"
+      raise Llm::Errors::InvalidUrlError, "Invalid URL"
     end
 
     def handle_transport_error(response)
