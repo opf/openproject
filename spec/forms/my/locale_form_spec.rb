@@ -27,11 +27,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
+
 require "spec_helper"
 
 RSpec.describe My::LocaleForm, type: :forms do
   before do
+    travel_to(Time.utc(2026, 10, 8, 14, 15, 16))
+
     allow(Redmine::I18n)
       .to receive(:all_languages)
       .and_return %w[en de es ja nl zh-CN]
@@ -39,8 +41,9 @@ RSpec.describe My::LocaleForm, type: :forms do
 
   include_context "with rendered form"
 
-  let(:model) { build_stubbed(:user, language:) }
+  let(:model) { build_stubbed(:user, language:, preferences:) }
   let(:language) { nil }
+  let(:preferences) { {} }
 
   describe "'Language' select list" do
     it "renders select list" do
@@ -75,7 +78,7 @@ RSpec.describe My::LocaleForm, type: :forms do
 
     context "with no language set" do
       it "renders no selected option" do
-        expect(page).to have_select "Language", selected: nil
+        expect(page.find(:select, "Language")).to have_attributes(value: "")
       end
     end
 
@@ -90,6 +93,65 @@ RSpec.describe My::LocaleForm, type: :forms do
 
   it "renders 'Time zone' select list" do
     expect(page).to have_select "Time zone", required: true
+  end
+
+  describe "'Date' select list" do
+    it "renders options for all allowed formats" do
+      expect(page.find(:select, "Date").all("option").map(&:text)).to eq(
+        [
+          "Use system or language based default",
+          "2026-10-08",
+          "08/10/2026",
+          "08.10.2026",
+          "08-10-2026",
+          "10/08/2026",
+          "08 Oct 2026",
+          "08 October 2026",
+          "Oct 08, 2026",
+          "October 08, 2026"
+        ]
+      )
+    end
+
+    context "with no format set" do
+      it "renders no selected option" do
+        expect(page.find(:select, "Date")).to have_attributes(value: "")
+      end
+    end
+
+    context "with format set" do
+      let(:preferences) { { date_format: "%d.%m.%Y" } }
+
+      it "renders selected option" do
+        expect(page).to have_select "Date", selected: "08.10.2026"
+      end
+    end
+  end
+
+  describe "'Time' select list" do
+    it "renders options for all allowed formats" do
+      expect(page.find(:select, "Time").all("option").map(&:text)).to eq(
+        [
+          "Use system or language based default",
+          "14:15",
+          "02:15 PM"
+        ]
+      )
+    end
+
+    context "with no format set" do
+      it "renders no selected option" do
+        expect(page.find(:select, "Time")).to have_attributes(value: "")
+      end
+    end
+
+    context "with format set" do
+      let(:preferences) { { time_format: "%I:%M %p" } }
+
+      it "renders selected option" do
+        expect(page).to have_select "Time", selected: "02:15 PM"
+      end
+    end
   end
 
   it "renders submit button" do
