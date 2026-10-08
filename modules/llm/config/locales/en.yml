@@ -14,6 +14,7 @@ en:
         # keys deliberately do not carry it (see lib/open_project/patches/active_record_i18n.rb).
         default_chat_model: "Default chat model"
         default_embedding_model: "Default embedding model"
+        env_provisioned_at: "Applied from the environment"
         llm_features_enabled: "Enable LLMs for this instance"
       llm_feature_binding:
         dimensions: "Dimensions"
@@ -96,6 +97,8 @@ en:
         api_key_remove: "Remove key"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
         button_connect: "Connect"
+        env_applied: "Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded."
+        env_pending: "Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page."
         label_connecting: "Contacting the LLM server…"
         llm_features_enabled_caption: "When turned off, all LLM-backed AI features stop working. The connection settings are kept."
         server_description: "Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is."
@@ -142,6 +145,7 @@ en:
         summary: "%{passed} passed, %{warnings} warnings, %{failures} failed."
         title: "Health status"
     llm_models:
+      configured_from_env: "The environment configures this model as a default, so it cannot be removed or renamed here."
       create:
         success: "%{model} has been added."
       defaults:

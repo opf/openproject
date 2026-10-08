@@ -223,6 +223,95 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe "provisioning from the environment" do
+    context "with the environment configuring a connection",
+            with_settings: { llm_connection: { "base_url" => "https://example.com/v1" } } do
+      it "is pending, not locked, while no connection is stored" do
+        connection = described_class.active_connection
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).to be_env_pending
+      end
+
+      it "is pending, not locked, for a connection an administrator saved" do
+        connection = create(:llm_connection)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).to be_env_pending
+      end
+
+      it "is locked once the environment has written the connection" do
+        connection = create(:llm_connection, :provisioned_from_env)
+
+        expect(connection).to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+
+      it "stays locked while the stored marker is only cleared in memory" do
+        connection = create(:llm_connection, :provisioned_from_env)
+        connection.env_provisioned_at = nil
+
+        expect(connection).to be_configured_from_env
+      end
+    end
+
+    context "without the environment configuring a connection" do
+      it "is neither locked nor pending for a connection the environment once wrote" do
+        connection = create(:llm_connection, :provisioned_from_env)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+
+      it "is neither locked nor pending for a connection an administrator saved" do
+        connection = create(:llm_connection)
+
+        expect(connection).not_to be_configured_from_env
+        expect(connection).not_to be_env_pending
+      end
+    end
+  end
+
+  describe "#env_named_default?" do
+    let(:connection) { create(:llm_connection, :provisioned_from_env) }
+    let(:chat_model) { create(:llm_model, :manual, llm_connection: connection) }
+    let(:embedding_model) { create(:llm_model, :manual, llm_connection: connection) }
+    let(:other_model) { create(:llm_model, :manual, llm_connection: connection) }
+
+    before do
+      connection.update_columns(default_chat_model_id: chat_model.id, default_embedding_model_id: embedding_model.id)
+    end
+
+    context "with the environment configuring the connection",
+            with_settings: { llm_connection: { "base_url" => "https://example.com/v1" } } do
+      it "holds for both defaults" do
+        expect(connection.env_named_default?(chat_model)).to be(true)
+        expect(connection.env_named_default?(embedding_model)).to be(true)
+      end
+
+      it "does not hold for any other model" do
+        expect(connection.env_named_default?(other_model)).to be(false)
+      end
+
+      it "goes by the stored defaults, not by one only assigned" do
+        connection.default_chat_model_id = other_model.id
+
+        expect(connection.env_named_default?(chat_model)).to be(true)
+        expect(connection.env_named_default?(other_model)).to be(false)
+      end
+
+      it "does not hold before the environment has written the connection" do
+        connection.update_columns(env_provisioned_at: nil)
+
+        expect(connection.env_named_default?(chat_model)).to be(false)
+      end
+    end
+
+    it "does not hold once the environment no longer configures the connection" do
+      expect(connection.env_named_default?(chat_model)).to be(false)
+    end
+  end
+
   # The environment seeder and direct writes reach the model without the
   # contract, so these have to hold on the model itself.
   describe "validations" do

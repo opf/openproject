@@ -60,7 +60,10 @@ RSpec.describe Llm::DetectCapabilitiesJob, :llm_server_helpers, :webmock do
     expect { described_class.perform_now }.not_to raise_error
 
     expect(healthy.capability_verdicts.pluck(:model_id)).to eq(["bge-m3"])
-    expect(logged).to include("LLM capability detection failed for connection #{broken.id}: ActiveRecord::RecordNotFound")
+    expect(logged).to include(
+      a_string_starting_with("LLM capability detection failed for connection #{broken.id}: ActiveRecord::RecordNotFound\n")
+    )
+    expect(logged.join).to match(%r{app/workers/llm/detect_capabilities_job\.rb:\d+})
     expect(logged.join).not_to include("sk-leaked")
   end
 
