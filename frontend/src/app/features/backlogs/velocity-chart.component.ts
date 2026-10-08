@@ -29,6 +29,7 @@ import { ChangeDetectionStrategy, Component, Signal, computed, inject, input } f
 import { ChartData, ChartOptions, Plugin } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { uniqueId } from 'lodash-es';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import AverageLinePlugin from './plugin.average-line';
 
@@ -37,6 +38,8 @@ interface VelocityChartData {
   datasets:{ label:string, data:number[] }[];
   average:number;
   yAxisTitle:string;
+  summary:string;
+  sprintColumnTitle:string;
 }
 
 const MAX_LABEL_LENGTH = 15;
@@ -63,7 +66,10 @@ export class VelocityChartComponent {
 
   readonly plugins:Plugin<'bar'>[] = [ChartDataLabels, AverageLinePlugin];
 
-  private readonly parsedData = computed(() => JSON.parse(this.chartData()) as VelocityChartData);
+  readonly summaryId = uniqueId('op-velocity-chart-summary-');
+  readonly tableId = uniqueId('op-velocity-chart-table-');
+
+  readonly parsedData:Signal<VelocityChartData> = computed(() => JSON.parse(this.chartData()) as VelocityChartData);
 
   readonly barChartData:Signal<ChartData<'bar'>> = computed<ChartData<'bar'>>(() => {
     const { labels, datasets } = this.parsedData();
