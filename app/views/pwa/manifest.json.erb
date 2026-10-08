@@ -16,9 +16,9 @@
     ],
     theme_color:,
     background_color: theme_color,
-    icons: [192, 512].map do |size|
+    icons: [192, 512, 1024].map do |size|
       { src: image_path("pwa/icon-#{size}.png"), sizes: "#{size}x#{size}", type: "image/png" }
-    end
+    end + [{ src: image_path("pwa/icon.svg"), sizes: "any", type: "image/svg+xml" }]
   }.compact
 %>
 <%== JSON.pretty_generate(manifest) %>

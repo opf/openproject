@@ -83,17 +83,27 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
 
     # Chrome silently declines to install when an icon is missing or mis-sized.
-    it "names icons that exist at the size they declare" do
-      icons = manifest["icons"]
-      expect(icons.pluck("sizes")).to include("192x192", "512x512")
+    it "names raster icons that exist at the size they declare" do
+      pngs = manifest["icons"].select { it["type"] == "image/png" }
+      expect(pngs.pluck("sizes")).to contain_exactly("192x192", "512x512", "1024x1024")
 
-      icons.each do |icon|
+      pngs.each do |icon|
         get icon["src"]
 
         expect(response).to have_http_status(:ok), "#{icon['src']} is not served"
         image = MiniMagick::Image.read(response.body)
         expect("#{image.width}x#{image.height}").to eq(icon["sizes"])
       end
+    end
+
+    it "names a scalable icon for any size" do
+      svg = manifest["icons"].find { it["type"] == "image/svg+xml" }
+      expect(svg).to include("sizes" => "any")
+
+      get svg["src"]
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("image/svg+xml")
     end
   end
 
