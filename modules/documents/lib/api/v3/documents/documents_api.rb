@@ -83,6 +83,7 @@ module API
               end
             end
 
+            mount ::API::V3::Documents::CollaborationTokenAPI
             mount ::API::V3::Attachments::AttachmentsByDocumentAPI
           end
         end
