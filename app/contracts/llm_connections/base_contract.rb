@@ -50,8 +50,10 @@ module LlmConnections
     validate :default_embedding_model_can_embed
     validate :not_configured_from_env
 
+    # Re-read: the record may have been loaded before a seed that committed while
+    # this save waited for the connection's advisory lock.
     def not_configured_from_env
-      return unless model.configured_from_env?
+      return unless model.persisted? && LlmConnection.find_by(id: model.id)&.configured_from_env?
 
       errors.add :base, :configured_via_env
     end

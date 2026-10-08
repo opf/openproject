@@ -38,17 +38,13 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
   # The picker is an autocompleter, so its options are serialised into the
   # element rather than rendered as markup.
-  def offered_default_models(field = :default_chat_model_id, markup: page)
-    element = markup.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
-                    .find { |node| node["data-input-name"].include?(field.to_s) }
+  def offered_default_models(field = :default_chat_model_id)
+    element = page.all("[data-test-selector='llm-connection--defaults-form'] opce-autocompleter")
+                  .find { |node| node["data-input-name"].include?(field.to_s) }
     ids = JSON.parse(element["data-items"]).pluck("id").compact_blank
 
     LlmModel.where(id: ids).pluck(:external_id)
   end
-
-  # Nokogiri does not descend into a <template>, which is where a turbo stream
-  # carries its markup.
-  def streamed_markup = Capybara.string(response.body.gsub(%r{</?template>}, ""))
 
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
@@ -171,7 +167,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         get llm_models_path
 
-        expect(response.body).to include("Default models")
+        expect(response.body).to include(I18n.t("admin.llm_models.defaults.heading"))
         # An embedding model is a different kind of model, not a chat choice.
         expect(offered_default_models).to contain_exactly("qwen3.6-27b")
       end
@@ -191,12 +187,12 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
         get llm_models_path
 
-        expect(response.body).to include("No models available")
-        expect(response.body).not_to include("Default models")
+        expect(response.body).to include(I18n.t("admin.llm_models.index.blank_title"))
+        expect(page).to have_no_test_selector("llm-connection--defaults-form")
       end
 
       it "shows the default read-only when the environment owns the connection" do
-        connection = create(:llm_connection, :with_models, base_url:)
+        connection = create(:llm_connection, :with_models, :provisioned_from_env, base_url:)
         connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
         allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
@@ -272,7 +268,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response).to redirect_to(llm_models_path)
       expect(connection.reload.available_model_ids).to contain_exactly("qwen3.6-27b", "bge-m3")
-      expect(flash[:notice]).to eq("The model list has been refreshed.")
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.refresh.success"))
     end
 
     it "says so when the server cannot be reached" do
@@ -823,6 +819,144 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
       end
     end
 
+    # The seed creates the models the environment names as manual rows, and the
+    # connection's defaults point at them.
+    describe "a model the environment names as a default" do
+      let!(:env_default) { create(:llm_model, :manual, llm_connection: connection, external_id: "env-chat") }
+      let!(:hand_typed) { create(:llm_model, :manual, llm_connection: connection, external_id: "hand-typed") }
+      let(:refusal) { I18n.t("admin.llm_models.configured_from_env") }
+
+      before do
+        connection.update_columns(default_chat_model_id: env_default.id, env_provisioned_at: Time.current)
+        allow(Setting).to receive(:llm_connection)
+                            .and_return({ "base_url" => base_url, "default_chat_model" => "env-chat" })
+      end
+
+      it "offers no delete action for it, unlike other models entered by hand" do
+        get llm_models_path
+
+        expect(page).to have_css("[data-test-selector='llm-model--edit-#{env_default.id}']", visible: :all)
+        expect(page).to have_no_css("[data-test-selector='llm-model--delete-#{env_default.id}']", visible: :all)
+        expect(page).to have_css("[data-test-selector='llm-model--delete-#{hand_typed.id}']", visible: :all)
+      end
+
+      it "refuses to open the delete dialog" do
+        get delete_dialog_llm_model_path(env_default), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+      end
+
+      it "refuses to delete it and keeps the default" do
+        delete llm_model_path(env_default)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(LlmModel.where(id: env_default.id)).to exist
+        expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+      end
+
+      it "does not offer to rename it" do
+        get edit_llm_model_path(env_default)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include("llm_model[external_id]")
+      end
+
+      it "refuses to rename it" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier is not sent as a string" do
+        patch llm_model_path(env_default), params: { llm_model: { external_id: false } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("env-chat")
+      end
+
+      it "refuses a rename whose identifier only reads like the current one" do
+        env_default.update_columns(external_id: "true")
+
+        patch llm_model_path(env_default), params: { llm_model: { external_id: true } }, as: :json
+
+        expect(flash[:error]).to eq(refusal)
+        expect(env_default.reload.external_id).to eq("true")
+      end
+
+      context "when a seed applies the environment's values after the request loaded the connection" do
+        before do
+          connection.update_columns(env_provisioned_at: nil)
+          allow(OpenProject::Mutex).to receive(:with_advisory_lock_transaction).and_wrap_original do |original, *args, &block|
+            LlmConnection.where(id: connection.id).update_all(env_provisioned_at: Time.current)
+            original.call(*args, &block)
+          end
+        end
+
+        it "refuses to delete it" do
+          delete llm_model_path(env_default)
+
+          expect(flash[:error]).to eq(refusal)
+          expect(connection.reload.default_chat_model_id).to eq(env_default.id)
+        end
+
+        it "refuses to rename it" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(flash[:error]).to eq(refusal)
+          expect(env_default.reload.external_id).to eq("env-chat")
+        end
+      end
+
+      context "when the environment no longer configures the connection" do
+        before { allow(Setting).to receive(:llm_connection).and_return({}) }
+
+        it "ends the environment's hold on the connection when the former default is deleted" do
+          delete llm_model_path(env_default)
+
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+
+        it "ends the environment's hold on the connection when the former default is renamed" do
+          patch llm_model_path(env_default), params: { llm_model: { external_id: "renamed" } }
+
+          expect(env_default.reload.external_id).to eq("renamed")
+          expect(connection.reload.env_provisioned_at).to be_nil
+        end
+      end
+
+      it "still takes a context window and capability assertions" do
+        patch llm_model_path(env_default),
+              params: { llm_model: { admin_context_window: "32768", capability_vision: "unsupported" } }
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(env_default.reload.context_window).to eq(32_768)
+        expect(connection.capability_verdicts.for_model("env-chat").pluck(:capability, :state))
+          .to include(%w[vision unsupported])
+      end
+
+      it "still deletes another model entered by hand" do
+        delete llm_model_path(hand_typed)
+
+        expect(response).to redirect_to(llm_models_path)
+        expect(LlmModel.where(id: hand_typed.id)).to be_empty
+      end
+
+      context "when the environment has not applied its values yet" do
+        before { connection.update_columns(env_provisioned_at: nil) }
+
+        it "deletes it like any other model entered by hand" do
+          delete llm_model_path(env_default)
+
+          expect(LlmModel.where(id: env_default.id)).to be_empty
+          expect(connection.reload.default_chat_model_id).to be_nil
+        end
+      end
+    end
+
     # Two administrators saving the same free identifier both pass the
     # uniqueness validation, so the second save only fails at the index.
     describe "an identifier taken after the uniqueness validation passed" do
@@ -923,7 +1057,7 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
 
       expect(response).to redirect_to(llm_models_path)
       expect(connection.reload.default_chat_model).to eq(chat_model)
-      expect(flash[:notice]).to eq("The default models have been saved.")
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
       expect(a_request(:get, "#{base_url}/models")).not_to have_been_made
     end
 
@@ -973,13 +1107,22 @@ RSpec.describe "Admin LLM models", :llm_server_helpers, :skip_csrf, :webmock,
     end
 
     it "refuses a default the environment owns" do
+      connection.update_columns(env_provisioned_at: Time.current)
       allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
 
-      patch defaults_llm_models_path,
-            params: { llm_connection: { default_chat_model_id: connection.models.find_by(external_id: "qwen3.6-27b").id } }
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
 
       expect(connection.reload.default_chat_model_id).to be_nil
-      expect(flash[:error]).to be_present
+      expect(flash[:error]).to include(I18n.t("activerecord.errors.messages.configured_via_env"))
+    end
+
+    it "stores a default while the environment's values have not been applied yet" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      patch defaults_llm_models_path, params: { llm_connection: { default_chat_model_id: chat_model.id } }
+
+      expect(connection.reload.default_chat_model).to eq(chat_model)
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_models.defaults.success"))
     end
 
     it "is refused to a non-admin" do

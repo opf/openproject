@@ -83,7 +83,11 @@ module LlmConnections
     end
 
     def button_links
-      llm_model.manual? ? [edit_link, delete_link] : [edit_link]
+      deletable? ? [edit_link, delete_link] : [edit_link]
+    end
+
+    def deletable?
+      llm_model.manual? && !table.connection.env_named_default?(llm_model)
     end
 
     # The classes belong on the anchor, not on an inner <i>: ".icon:before"
