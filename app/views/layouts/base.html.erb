@@ -26,11 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%><!DOCTYPE html>
-<% show_decoration = params["layout"].nil? %>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      lang="<%= I18n.locale.to_s %>"
-      xml:lang="<%= I18n.locale.to_s %>"
-      class="<%= "in_modal" unless show_decoration %>">
+<% show_decoration = params[:layout].nil? %>
+<html lang="<%= I18n.locale %>" class="<%= class_names(in_modal: !show_decoration) %>">
 <head>
   <%= render partial: "layouts/common_head" %>
   <!-- project specific tags -->
@@ -62,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 <span id="open-blank-target-link-description" class="sr-only"><%= I18n.t("open_link_in_a_new_tab") %></span>
 <opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
-<% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
+<% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || main_menu.present? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
   <% if show_decoration %>
