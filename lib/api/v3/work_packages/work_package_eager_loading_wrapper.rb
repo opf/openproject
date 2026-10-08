@@ -95,17 +95,25 @@ module API
           end
 
           def add_eager_loading(scope, current_user)
-            # The eager loading on status is required for the readonly? check in the
-            # work package schema
-            eager_scope = scope
-              .joins(derived_dates_subquery(scope).join_sources)
+            joined = scope
+                       .joins(derived_dates_subquery(scope).join_sources)
+                       .select("work_packages.*")
+                       .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
+
+            collect_and_eager_load(apply_eager_loading_extensions(joined, scope, current_user))
+          end
+
+          # Collect once at the assembled query so the permission derivations repeated
+          # across the subqueries added by eager loading extensions (e.g. spent time and
+          # costs) share one set of hoisted CTEs.
+          # The eager loading on status is required for the readonly? check in the
+          # work package schema.
+          def collect_and_eager_load(joined)
+            OpenProject::ActiveRecordExtensions::CteCollector
+              .collect(joined)
               .includes(WorkPackageRepresenter.to_eager_load)
               .includes(:status)
-              .select("work_packages.*")
-              .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
               .distinct
-
-            apply_eager_loading_extensions(eager_scope, scope, current_user)
           end
 
           def apply_eager_loading_extensions(eager_scope, scope, current_user)
