@@ -71,6 +71,13 @@ module API
               doc = document
               request_body = JSON.parse(request.body.read)
 
+              # description arrives as the nested {format:, raw:, html:} HAL shape every
+              # formattable property uses on write -- extract raw, as
+              # API::Decorators::FormattableProperty's setter does for every other domain.
+              if request_body["description"].is_a?(Hash)
+                request_body["description"] = request_body["description"]["raw"]
+              end
+
               result = ::Documents::UpdateService
                 .new(user: current_user, model: doc)
                 .call(request_body)
