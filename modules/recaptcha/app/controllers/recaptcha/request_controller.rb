@@ -68,16 +68,12 @@ module ::Recaptcha
     end
 
     def recaptcha_version
-      case recaptcha_settings["recaptcha_type"]
-      when ::OpenProject::Recaptcha::TYPE_DISABLED
-        0
-      when ::OpenProject::Recaptcha::TYPE_V2, ::OpenProject::Recaptcha::TYPE_HCAPTCHA
-        2
-      when ::OpenProject::Recaptcha::TYPE_V3
-        3
-      when ::OpenProject::Recaptcha::TYPE_TURNSTILE
-        99 # Turnstile is not comparable/compatible with recaptcha
+      resolved_service = OpenProject::Recaptcha::Services::AVAILABLE.find(-> {
+        OpenProject::Recaptcha::Services::DISABLED
+      }) do |service|
+        service.value == recaptcha_settings["recaptcha_type"]
       end
+      resolved_service.api_version
     end
 
     ##
@@ -95,13 +91,14 @@ module ::Recaptcha
     #
     def valid_turnstile?
       return false unless OpenProject::Recaptcha::Configuration.use_turnstile?
+
       token = params["turnstile-response"]
       return false if token.blank?
 
       data = {
         "response" => token,
         "remoteip" => request.remote_ip,
-        "secret" => recaptcha_settings["secret_key"],
+        "secret" => recaptcha_settings["secret_key"]
       }
 
       data_encoded = URI.encode_www_form(data)
@@ -135,7 +132,7 @@ module ::Recaptcha
     end
 
     def skip_if_disabled
-      if recaptcha_settings["recaptcha_type"] == ::OpenProject::Recaptcha::TYPE_DISABLED
+      if recaptcha_settings["recaptcha_type"] == OpenProject::Recaptcha::Services::DISABLED.value
         complete_stage_redirect
       end
     end

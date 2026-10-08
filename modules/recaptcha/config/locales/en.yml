@@ -6,30 +6,31 @@ en:
   recaptcha:
     button_please_wait: 'Please wait ...'
     error_captcha: "Your account could not be verified. Please contact an administrator."
-    label_recaptcha: "reCAPTCHA"
+    label_recaptcha: "Human verification (CAPTCHA)"
     settings:
-      captcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance.
-        If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet.
-        <br/>
-        Please see the following link for more details on reCAPTCHA and their versions, and how
-        to create the website and secret keys: %{recaptcha_link}
-        <br/>
-        HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA.
-        See this link for more information: %{hcaptcha_link}
-        <br/>
-        Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security.
-        See this link for more information: %{turnstile_link}
       response_limit: 'Response limit for HCaptcha'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       secret_key: 'Secret key'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      secret_key_text: 'Enter the secret key you created in the CAPTCHA service admin console.'
+      type: 'CAPTCHA service'
+      type_caption: >
+        If enabled, users will be required to complete a CAPTCHA challenge when logging in.
+        Choose between reCAPTCHA (Google's service) or alternative providers.
+      type_caption_instructions_html: >
+        To get started, visit their [configuration instructions](service_link).
+      type_disabled: 'Disable CAPTCHA'
+      type_disabled_caption: 'Disables the captcha form.'
       type_hcaptcha: 'HCaptcha'
+      type_hcaptcha_caption: >
+        Uses HCaptcha, a Google-free alternative that you can use if you do not want to use reCAPTCHA.
+      type_recaptcha_caption: >
+        Uses reCAPTCHA, a free service by Google.
       type_turnstile: 'Cloudflare Turnstile™'
+      type_turnstile_caption: >
+        Uses Cloudflare Turnstile™, another alternative that is more convenient for users while still providing the same level of security.
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
-      website_key: 'Website key (May also be called "Site key")'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: 'Website key'
+      website_key_text: 'Enter the website key you created in the CAPTCHA service admin console for this domain.'
+      website_key_warning: 'Depending on your chosen CAPTCHA service, this may also be known as "Site key".'
     verify_account: "Verify your account"
