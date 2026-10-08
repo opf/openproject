@@ -90,6 +90,7 @@ class Journal < ApplicationRecord
                    status_changes
                    meeting_id
                    source_meeting_id
+                   message_id
                  ],
                  prefix: true
 
@@ -103,6 +104,7 @@ class Journal < ApplicationRecord
 
   VALID_CAUSE_TYPES = (%w[
     default_attribute_written
+    forum_message
     import
     progress_mode_changed_to_status_based
     status_changed
