@@ -28,14 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class SprintReportsController < BaseController
-    current_menu_item %i[show] do
-      :all_sprints
-    end
-
-    def show
-      @breakdown = SprintWorkPackageBreakdown.new(sprint: @sprint, project: @project)
-    end
-  end
+# Make json_spec matchers (be_json_eql, have_json_path, have_json_size,
+# have_json_type, include_json) composable, so usable inside include/match/…
+# or using and/or.
+%i[
+  BeJsonEql
+  HaveJsonPath
+  HaveJsonSize
+  HaveJsonType
+  IncludeJson
+].each do |matcher|
+  JsonSpec::Matchers.const_get(matcher).include(RSpec::Matchers::Composable)
 end
