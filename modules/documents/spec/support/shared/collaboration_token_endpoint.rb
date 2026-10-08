@@ -161,11 +161,14 @@ RSpec.shared_examples_for "a guarded collaboration token endpoint" do
     context "when the token was issued to the collaboration server" do
       let(:bearer_token) { collaboration_access_token_for(current_user).plaintext_token }
 
-      it "responds with 403" do
+      it "responds with 403 insufficient scope" do
         post_collaboration_token_request
 
-        expect_api_error(403, "MissingPermission",
-                         I18n.t("documents.collaboration_token.errors.collaboration_token_not_allowed"))
+        expect_api_error(403, "InsufficientScope",
+                         I18n.t("api_v3.errors.insufficient_scope",
+                                granted: "'#{Documents::OAuth::EDIT_DOCUMENTS_SCOPE}'",
+                                required: "api_v3"))
+        expect(last_response.headers["WWW-Authenticate"]).to include('error="insufficient_scope"')
       end
     end
 
