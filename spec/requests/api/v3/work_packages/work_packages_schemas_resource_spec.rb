@@ -162,6 +162,30 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemasAPI do
         end
       end
 
+      context "when labels are enabled", with_flag: { work_package_labels: true } do
+        context "with add_work_packages only" do
+          let(:role) do
+            create(:project_role, permissions: %i[view_work_packages add_work_packages change_work_package_status])
+          end
+
+          it "marks labels as not writable" do
+            expect(last_response.body)
+              .to be_json_eql(false.to_json)
+              .at_path("labels/writable")
+          end
+        end
+
+        context "with edit_work_packages" do
+          let(:role) { create(:project_role, permissions: %i[view_work_packages edit_work_packages]) }
+
+          it "marks labels as writable" do
+            expect(last_response.body)
+              .to be_json_eql(true.to_json)
+              .at_path("labels/writable")
+          end
+        end
+      end
+
       context "id is too long" do
         it_behaves_like "not found" do
           let(:schema_path) { "#{api_v3_paths.work_package_schema project.id, type.id}-1" }

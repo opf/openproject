@@ -107,6 +107,11 @@ class EditField
       .to have_content(value)
   end
 
+  def expect_selected_values(*names)
+    expect(field_container).to have_css(".ng-value-label", count: names.size)
+    names.each { expect(field_container).to have_css(".ng-value-label", text: it) }
+  end
+
   ##
   # Activate the field and check it opened correctly
   # @return [EditField] self
@@ -327,6 +332,8 @@ class EditField
       "create-autocompleter"
     when :targetVersions
       "ng-select"
+    when :labels
+      "op-labels-autocompleter"
     when :project
       "op-project-autocompleter"
     when :activity

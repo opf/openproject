@@ -196,6 +196,19 @@ div.autocomplete
 .ng-dropdown-footer
   padding: 0 !important
 
+// ng-select gives the addTag row no class of its own; :has() reaches it via
+// the marker element in the labels tag template.
+.op-labels-autocompleter--panel
+  .ng-option:has(> .labels-autocompleter--create-option)
+    position: sticky
+    bottom: 0
+    border-top: 1px solid var(--borderColor-default)
+
+    // The hover token is translucent; layering it over the body background keeps the pinned row opaque.
+    &.ng-option-marked
+      background-color: var(--body-background) !important
+      background-image: linear-gradient(var(--control-transparent-bgColor-hover), var(--control-transparent-bgColor-hover)) !important
+
 .ng-placeholder
   line-height: 2rem
 
