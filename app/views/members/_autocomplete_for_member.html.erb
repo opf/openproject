@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
     </fieldset>
     <div class="sr-only" aria-live="polite">
       <% if principals.empty? %>
-        <label aria-role="alert"><%= t("notice_no_principals_found") %></label>
+        <label><%= t("notice_no_principals_found") %></label>
       <% else %>
         <% if principals.size > 20 %>
           <label><%= t("notice_to_many_principals_to_display") %></label>
