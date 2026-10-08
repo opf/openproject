@@ -586,6 +586,26 @@ module OpenProject
       end
     end
 
+    describe "#date_time_format_example" do
+      it "renders the sample date, independent of the current date" do
+        travel_to(Time.utc(2020, 1, 1)) do
+          expect(date_time_format_example("%d.%m.%Y")).to eq "28.02.2026"
+        end
+      end
+
+      it "renders every allowed date format distinctly" do
+        examples = Settings::Definition[:date_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+
+      it "renders every allowed time format distinctly" do
+        examples = Settings::Definition[:time_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+    end
+
     describe ".l" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do

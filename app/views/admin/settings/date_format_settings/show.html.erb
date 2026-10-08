@@ -50,12 +50,12 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |form|
     render_inline_settings_form(form) do |f|
       f.select_list name: :date_format,
-                    values: Settings::Definition[:date_format].allowed.collect { |f| [Time.zone.today.strftime(f), f] },
+                    values: Settings::Definition[:date_format].allowed.collect { |f| [date_time_format_example(f), f] },
                     input_width: :medium,
                     include_blank: t(:label_locale_based)
 
       f.select_list name: :time_format,
-                    values: Settings::Definition[:time_format].allowed.collect { |f| [Time.current.strftime(f), f] },
+                    values: Settings::Definition[:time_format].allowed.collect { |f| [date_time_format_example(f), f] },
                     input_width: :medium,
                     include_blank: t(:label_locale_based)
 
