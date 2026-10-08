@@ -696,6 +696,10 @@ Rails.application.routes.draw do
           get :replies
           post :reply, as: "reply_to"
         end
+
+        resource :work_package, only: %i[new create], controller: "messages/work_packages" do
+          post :refresh_form
+        end
       end
 
       member do
