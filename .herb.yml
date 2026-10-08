@@ -67,8 +67,6 @@ linter:
       enabled: false
     erb-no-unsafe-raw:
       enabled: false
-    erb-no-unused-block-argument:
-      enabled: false
     erb-no-unused-expressions:
       enabled: false
     erb-no-unused-local-variable:
