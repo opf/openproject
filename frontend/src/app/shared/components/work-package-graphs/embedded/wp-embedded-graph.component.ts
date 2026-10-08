@@ -112,9 +112,9 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
     }, []))) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
-      const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({
+      const countMap = (dataset.groups ?? []).reduce<Record<string, number>>((hash, group) => ({
         ...hash,
-        [group.value]: group.count,
+        [String(group.value)]: group.count,
       }), {});
 
       return {
@@ -242,7 +242,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   private setHeight() {
     if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
-      const labels:string[] = [];
+      const labels:(string|null)[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {
           labels.push(g.value);

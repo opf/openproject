@@ -51,7 +51,7 @@ export class WorkPackageInlineCreateService implements OnDestroy {
   /**
    * A separate reference pane for the inline create component
    */
-  public readonly referenceComponentClass:ComponentType<any>|null = null;
+  public readonly referenceComponentClass:ComponentType<unknown>|null = null;
 
   /**
    * A related work package for the inline create context

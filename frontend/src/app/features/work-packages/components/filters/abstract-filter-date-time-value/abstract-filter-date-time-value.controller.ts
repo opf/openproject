@@ -48,7 +48,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
 
   public abstract get upperBoundary():Moment|null;
 
-  public isoDateParser(data:any) {
+  public isoDateParser(data:string) {
     if (!this.timezoneService.isValidISODate(data)) {
       return '';
     }
@@ -56,7 +56,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
     return this.timezoneService.formattedISODateTime(d);
   }
 
-  public isoDateFormatter(data:any) {
+  public isoDateFormatter(data:string) {
     if (!this.timezoneService.isValidISODateTime(data)) {
       return '';
     }

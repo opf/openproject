@@ -30,7 +30,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
 export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
-  public setValue(key:string, val:any) {
+  public setValue(key:string, val:unknown) {
     super.setValue(key, val);
 
     // Update the form for fields that may alter the form itself
@@ -40,7 +40,7 @@ export class TimeEntryChangeset extends ResourceChangeset<TimeEntryResource> {
   }
 
   protected buildPayloadFromChanges() {
-    const payload = super.buildPayloadFromChanges();
+    const payload = super.buildPayloadFromChanges() as { _links:Record<string, unknown> };
 
     // we ignore the project and instead rely completely on the work package.
     delete payload._links.project;

@@ -36,6 +36,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
@@ -67,7 +68,7 @@ export class QueryFilterComponent implements OnInit {
 
   @Output() public deactivateFilter = new EventEmitter<QueryFilterResource>();
 
-  public availableOperators:any;
+  public availableOperators:QueryOperatorResource[];
 
   public showValuesInput = false;
 
@@ -106,7 +107,7 @@ export class QueryFilterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.availableOperators = this.schemaCache.of(this.filter).availableOperators;
+    this.availableOperators = this.schemaCache.of(this.filter).availableOperators as QueryOperatorResource[];
     this.showValuesInput = this.showValues();
     this.baselineIncompatibleFilter = this.wpTableBaseline.isActive() && this.wpTableBaseline.isIncompatibleFilter(this.filter.id);
   }

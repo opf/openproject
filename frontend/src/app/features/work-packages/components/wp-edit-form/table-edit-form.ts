@@ -141,14 +141,14 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
     }
   }
 
-  public requireVisible(fieldName:string):Promise<any> {
+  public requireVisible(fieldName:string):Promise<void> {
     // Ensure the query form is loaded before trying to set fields
     // as we require new columns to be present
     return this.wpListService
       .conditionallyLoadForm()
-      .then(() => {
+      .then(async () => {
         this.wpTableColumns.addColumn(fieldName);
-        return this.waitForContainer(fieldName);
+        await this.waitForContainer(fieldName);
       });
   }
 

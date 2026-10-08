@@ -61,7 +61,7 @@ export class WorkPackageCollectionResource extends CollectionResource<WorkPackag
  * Augmented with state information such as collapsed state.
  */
 export interface GroupObject {
-  value:any;
+  value:string|null;
   count:number;
   collapsed?:boolean;
   index:number;

@@ -107,7 +107,7 @@ export class WpRelationInlineAddExistingComponent {
         this.wpInlineCreate.newInlineWorkPackageReferenced.next(newRelationId);
         this.cancel();
       })
-      .catch((err:any) => {
+      .catch((err:unknown) => {
         this.notificationService.handleRawError(err, this.workPackage);
         this.isDisabled = false;
         this.cancel();
