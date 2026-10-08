@@ -488,10 +488,14 @@ Rails.application.routes.draw do
     end
   end
 
-  # Demo only (AI-126): shell of the AI action menu mounted into the description editor.
+  # Demo only (AI-126): AI action menu in the description editor and the result pane.
   namespace :ai do
     resource :text_transform_menu, only: :show
-    resource :text_transform_preview, only: :create
+    resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
+      member do
+        post :apply
+      end
+    end
   end
 
   namespace :projects do

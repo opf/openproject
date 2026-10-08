@@ -27,60 +27,81 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% case section %>
-<% when :title %>
-  <%=
-    flex_layout(align_items: :center) do |header|
-      header.with_column(mr: 2) do
-        render(Primer::Beta::Octicon.new(icon: :copilot, color: :done, size: :medium))
-      end
-      header.with_column do
-        render(Primer::Beta::Heading.new(tag: :h2, font_size: 4, data: target(:title))) { "" }
-      end
-    end
-  %>
-<% when :body %>
-  <%=
-    flex_layout(direction: :column) do |body|
-      body.with_row(mb: 3, text_align: :right) do
-        render(Primer::Beta::Label.new(scheme: :done, size: :large, data: target(:context))) { label(:context_description) }
-      end
-      body.with_row(mb: 3, hidden: true, data: target(:stopped)) do
-        render(Primer::Alpha::Banner.new(scheme: :warning, description: label(:stopped_description))) { label(:stopped_title) }
-      end
-      body.with_row(mb: 3, hidden: true, data: target(:failed)) do
-        render(Primer::Alpha::Banner.new(scheme: :danger)) do
-          safe_join(
-            [
-              render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 1)) { label(:failed_title) },
-              render(Primer::Beta::Text.new(tag: :span, data: target(:failedMessage))) { "" }
-            ]
-          )
+<%= component_wrapper do %>
+  <% case section %>
+  <% when :title %>
+    <%=
+      flex_layout(align_items: :center) do |header|
+        header.with_column(mr: 2) do
+          render(Primer::Beta::Octicon.new(icon: :copilot, color: :done, size: :medium))
+        end
+        header.with_column do
+          render(Primer::Beta::Heading.new(tag: :h2, font_size: 4)) { pane.label }
         end
       end
-      body.with_row do
-        render(Primer::BaseComponent.new(tag: :div, classes: "op-uc-container", data: target(:output)))
+    %>
+  <% when :body %>
+    <%=
+      flex_layout(direction: :column) do |body|
+        body.with_row(mb: 3, text_align: :right) do
+          render(Primer::Beta::Label.new(scheme: :done, size: :large)) { context_label }
+        end
+        if state == "stopped"
+          body.with_row(mb: 3) do
+            render(Primer::Alpha::Banner.new(scheme: :warning, description: label(:stopped_description))) { label(:stopped_title) }
+          end
+        end
+        if state == "failed"
+          body.with_row(mb: 3) do
+            render(Primer::Alpha::Banner.new(scheme: :danger)) do
+              safe_join(
+                [
+                  render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, mb: 1)) { label(:failed_title) },
+                  render(Primer::Beta::Text.new(tag: :span)) { pane.error_message }
+                ]
+              )
+            end
+          end
+        end
+        if state == "done"
+          body.with_row(mb: 3, hidden: true, data: target(:applyFailed)) do
+            render(Primer::Alpha::Banner.new(scheme: :danger)) do
+              render(Primer::Beta::Text.new(tag: :span, data: target(:applyFailedMessage))) { "" }
+            end
+          end
+        end
+        if %w[generating done].include?(state)
+          body.with_row do
+            render(Primer::BaseComponent.new(tag: :div, classes: "op-uc-container")) { output }
+          end
+        end
+        if state == "done"
+          body.with_row { content_tag(:template, pane.text, data: target(:raw)) }
+        end
       end
-    end
-  %>
-<% when :footer %>
-  <%=
-    flex_layout(align_items: :center, classes: "#{css_prefix}--footer") do |bar|
-      bar.with_column(mr: 2, classes: "#{css_prefix}--grip", data: target(:grip)) do
-        render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
-      end
-      bar.with_column(flex: 1) do
-        safe_join(
-          [
-            flex_layout(align_items: :center, justify_content: :space_between, data: target(:generatingFooter)) do |footer|
+    %>
+  <% when :footer %>
+    <%= content_tag(:span, nil, hidden: true, data: state_data) %>
+    <%= form(id: CLOSE_FORM_ID, url: helpers.ai_text_transform_pane_path(pane.uuid), method: :delete) %>
+    <%= form(id: APPLY_FORM_ID, url: helpers.apply_ai_text_transform_pane_path(pane.uuid), method: :post) if state == "done" %>
+    <%=
+      flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
+        bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(:beginDrag, event: "pointerdown")) do
+          render(Primer::Beta::Octicon.new(icon: :grabber, color: :muted))
+        end
+        bar.with_column(flex: 1) do
+          case state
+          when "generating"
+            flex_layout(align_items: :center, justify_content: :space_between) do |footer|
               footer.with_column do
                 render(Primer::Beta::Text.new(color: :muted)) { label(:generating) }
               end
               footer.with_column do
-                render(Primer::Beta::Button.new(data: action(:cancel))) { label(:cancel) }
+                render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:cancel) }
               end
-            end,
-            flex_layout(align_items: :center, hidden: true, data: target(:doneFooter)) do |footer|
+            end
+          when "done"
+            flex_layout(align_items: :center) do |footer|
               footer.with_column(flex: 1) do
                 render(Primer::Beta::Button.new(scheme: :invisible, data: action(:copy))) do |button|
                   button.with_leading_visual_icon(icon: :copy)
@@ -88,13 +109,14 @@ See COPYRIGHT and LICENSE files for more details.
                 end
               end
               footer.with_column(mr: 2) do
-                render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:discard) }
+                render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:discard) }
               end
               footer.with_column do
-                render(Primer::Beta::Button.new(scheme: :primary, data: action(:replace))) { label(:replace) }
+                render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: APPLY_FORM_ID)) { label(:replace) }
               end
-            end,
-            flex_layout(align_items: :center, justify_content: :flex_end, hidden: true, data: target(:errorFooter)) do |footer|
+            end
+          else
+            flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
               footer.with_column(mr: 2) do
                 render(Primer::Beta::Button.new(data: action(:retry))) do |button|
                   button.with_leading_visual_icon(icon: :sync)
@@ -102,25 +124,12 @@ See COPYRIGHT and LICENSE files for more details.
                 end
               end
               footer.with_column do
-                render(Primer::Beta::Button.new(data: action(:dismiss))) { label(:close) }
+                render(Primer::Beta::Button.new(type: :submit, form: CLOSE_FORM_ID)) { label(:close) }
               end
             end
-          ]
-        )
+          end
+        end
       end
-    end
-  %>
-<% when :resize_handles %>
-  <% EDGES.each do |edge| %>
-    <%=
-      render(
-        Primer::BaseComponent.new(
-          tag: :span,
-          classes: "#{css_prefix}--resize #{css_prefix}--resize_#{edge}",
-          data: target(:resize).merge(edge:),
-          "aria-hidden": true
-        )
-      )
     %>
   <% end %>
 <% end %>

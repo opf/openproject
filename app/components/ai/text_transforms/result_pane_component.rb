@@ -30,19 +30,39 @@
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): picks the result pane variant to compare. `?ai_pane=panel` or
-    # `?ai_pane=overlay` on any page switches it and the choice sticks for the session.
-    module ResultPane
-      VARIANTS = {
-        "overlay" => "AI::TextTransforms::ResultOverlayComponent",
-        "panel" => "AI::TextTransforms::ResultPanelComponent"
-      }.freeze
+    # Demo only (AI-126): the AI result pane, a Primer::Beta::BorderBox composition the server
+    # renders on demand and updates section by section while the run streams in. Dragging and
+    # resizing are feature code in its Stimulus controller.
+    class ResultPaneComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
+      include ResultPaneHelpers
 
-      def self.component_for(params:, session:)
-        requested = params[:ai_pane].to_s
-        session[:ai_pane] = requested if VARIANTS.key?(requested)
+      EDGES = %w[left right bottom-left bottom-right].freeze
 
-        VARIANTS.fetch(session[:ai_pane].to_s, VARIANTS["overlay"]).constantize.new
+      def initialize(pane:)
+        super()
+        @pane = pane
+      end
+
+      private
+
+      attr_reader :pane
+
+      def section(name)
+        render(ResultPaneSectionComponent.new(section: name, pane:))
+      end
+
+      def wrapper_data
+        {
+          controller: "ai-text-transform-pane",
+          ai_text_transform_pane_close_form_value: CLOSE_FORM_ID,
+          ai_text_transform_pane_editor_gone_value: label(:editor_gone),
+          ai_text_transform_pane_selection_gone_value: label(:selection_gone),
+          ai_text_transform_pane_copied_value: label(:copied),
+          ai_text_transform_pane_copy_value: label(:copy),
+          test_selector: "ai-text-transform-result"
+        }
       end
     end
   end

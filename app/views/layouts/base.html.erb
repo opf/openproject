@@ -182,7 +182,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   </div>
-  <%= render(AI::TextTransforms::ResultPane.component_for(params:, session:)) if AI::TextTransforms::ResultOverlayComponent.visible_for?(current_user) %>
+  <%= render(AI::TextTransforms::PaneLauncherComponent.new) if AI::TextTransforms::PaneLauncherComponent.visible_for?(current_user) %>
   <%= render Primer::Beta::Spinner.new(
         size: :large,
         hidden: true,

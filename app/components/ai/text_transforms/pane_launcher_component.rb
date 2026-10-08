@@ -29,27 +29,29 @@
 #++
 
 module AI
-  # Demo only (AI-126): renders the markdown the result popover receives. The API v3 render
-  # endpoints were removed from dev (OP-19480), so nothing else can turn the streamed markdown
-  # into formatted text for a client.
-  class TextTransformPreviewsController < ApplicationController
-    include OpenProject::TextFormatting
+  module TextTransforms
+    # Demo only (AI-126): the layout-wide container the result pane is streamed into. Its Stimulus
+    # controller turns the editor's start event into a Turbo request.
+    class PaneLauncherComponent < ApplicationComponent
+      include OpTurbo::Streamable
 
-    no_authorization_required! :create
+      def self.visible_for?(user)
+        user.logged? &&
+          OpenProject::FeatureDecisions.ai_text_transform_actions_active? &&
+          Setting.ai_text_transform_actions_enabled?
+      end
 
-    layout false
+      def initialize(pane: nil)
+        super()
+        @pane = pane
+      end
 
-    def create
-      return head(:unauthorized) unless current_user.logged?
-
-      render html: format_text(params[:markdown].to_s, object: work_package)
-    end
-
-    private
-
-    def work_package
-      id = params[:work_package_id].to_i
-      WorkPackage.visible.find_by(id:) if id.positive?
+      def call
+        component_wrapper(data: { controller: "ai-text-transform-pane-launcher",
+                                  ai_text_transform_pane_launcher_url_value: helpers.ai_text_transform_panes_path }) do
+          render(ResultPaneComponent.new(pane: @pane)) if @pane
+        end
+      end
     end
   end
 end

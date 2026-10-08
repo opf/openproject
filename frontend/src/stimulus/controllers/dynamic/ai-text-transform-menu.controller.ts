@@ -42,20 +42,36 @@ interface ActionCollection {
 }
 
 export interface AiTextTransformStartDetail {
+  requestId:string;
   actionId:number;
   label:string;
-  editorWrapper:HTMLElement;
   context:Record<string, number>;
   scope:AiTextTransformScope;
   input:string;
 }
 
+export interface AiTextTransformApplyDetail {
+  requestId:string;
+  scope:AiTextTransformScope;
+  text:string;
+}
+
+export interface AiTextTransformAppliedDetail {
+  requestId:string;
+  ok:boolean;
+}
+
 export const AI_TEXT_TRANSFORM_START_EVENT = 'op:ai-text-transform:start';
+export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
+// Dispatched by the server through the dispatchEvent turbo stream action.
+export const AI_TEXT_TRANSFORM_APPLY_EVENT = 'op-dispatched:ai-text-transform:apply';
+export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
 
 /**
- * Demo (AI-126): the AI action menu next to the description editor's toolbar. It lists the
- * actions the API offers for the editor's context (AI-134) and asks the result popover to
- * run the chosen one. The menu stays hidden when the API offers nothing.
+ * Demo (AI-126): the AI action menu next to the description editor's toolbar, standing in for the
+ * CKEditor plugin (AI-101). It lists the actions the API offers for the editor's context (AI-134),
+ * asks the result pane to run the chosen one and applies the result the pane hands back. The menu
+ * stays hidden when the API offers nothing.
  */
 export default class AiTextTransformMenuController extends Controller<HTMLElement> {
   static targets = ['template'];
@@ -66,8 +82,23 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
   declare readonly listUrlValue:string;
   declare readonly contextValue:Record<string, number>;
 
+  // Only results for requests this menu started are applied: the apply event comes from a turbo
+  // stream, and an injected stream must not be able to write into the editor.
+  private readonly pending = new Map<string, { wrapper:HTMLElement; scope:AiTextTransformScope }>();
+
+  private readonly onApply = (event:Event) => this.apply((event as CustomEvent<AiTextTransformApplyDetail>).detail);
+  private readonly onClosed = (event:Event) => this.closed((event as CustomEvent<{ requestId:string }>).detail);
+
   connect():void {
+    document.addEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
+    document.addEventListener(AI_TEXT_TRANSFORM_CLOSED_EVENT, this.onClosed);
     void this.loadActions();
+  }
+
+  disconnect():void {
+    document.removeEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
+    document.removeEventListener(AI_TEXT_TRANSFORM_CLOSED_EVENT, this.onClosed);
+    this.pending.clear();
   }
 
   async run(event:Event):Promise<void> {
@@ -87,14 +118,49 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
     }
 
     const detail:AiTextTransformStartDetail = {
+      requestId: crypto.randomUUID(),
       actionId: Number(item.dataset.actionId),
       label: item.dataset.actionLabel ?? '',
-      editorWrapper,
       context: this.contextValue,
       scope: selection.empty ? 'document' : 'selection',
       input: selection.empty ? await this.readDocument(editorWrapper) : selection.markdown,
     };
+    this.pending.set(detail.requestId, { wrapper: editorWrapper, scope: detail.scope });
     window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_START_EVENT, { detail }));
+  }
+
+  private apply({ requestId, text }:AiTextTransformApplyDetail):void {
+    const request = this.pending.get(requestId);
+    if (!request?.wrapper.isConnected) {
+      return;
+    }
+
+    let ok = true;
+    if (request.scope === 'selection') {
+      request.wrapper.dispatchEvent(new CustomEvent('op:ckeditor:replaceSelection', {
+        detail: { markdown: text, done: (replaced:boolean) => { ok = replaced; } },
+      }));
+    } else {
+      request.wrapper.dispatchEvent(new CustomEvent('op:ckeditor:replaceDocument', { detail: text }));
+    }
+
+    if (ok) {
+      this.pending.delete(requestId);
+    }
+    const detail:AiTextTransformAppliedDetail = { requestId, ok };
+    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_APPLIED_EVENT, { detail }));
+  }
+
+  private closed({ requestId }:{ requestId:string }):void {
+    const request = this.pending.get(requestId);
+    if (!request) {
+      return;
+    }
+
+    this.pending.delete(requestId);
+    if (request.wrapper.isConnected) {
+      request.wrapper.dispatchEvent(new CustomEvent('op:ckeditor:clearSelectionMarker'));
+    }
   }
 
   private readSelection(wrapper:HTMLElement):Promise<EditorSelectionResult> {

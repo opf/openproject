@@ -30,24 +30,60 @@
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): the content both result pane variants share (title, body, footer and
-    # resize handles), so the comparison differs only in the surrounding Primer component.
+    # Demo only (AI-126): the parts of the result pane the server streams separately (title, body
+    # and footer), each rendered for the pane's current state.
     class ResultPaneSectionComponent < ApplicationComponent
+      include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
       include ResultPaneHelpers
 
-      SECTIONS = %i[title body footer resize_handles].freeze
-      EDGES = %w[left right bottom-left bottom-right].freeze
-
-      def initialize(section:, css_prefix:)
+      def initialize(section:, pane:)
         super()
         @section = section
-        @css_prefix = css_prefix
+        @pane = pane
+      end
+
+      def wrapper_uniq_by
+        section
       end
 
       private
 
-      attr_reader :section, :css_prefix
+      attr_reader :section, :pane
+
+      delegate :state, to: :pane
+
+      def context_label
+        label(pane.selection? ? :context_selection : :context_description)
+      end
+
+      def output
+        helpers.format_text(pane.text, object: pane.work_package)
+      end
+
+      def state_data
+        target(:state).merge(
+          state:,
+          run: pane.uuid,
+          seq: pane.last_seq,
+          request_id: pane.request_id,
+          poll_url: helpers.ai_text_transform_pane_path(pane.uuid, poll_params)
+        )
+      end
+
+      def poll_params
+        { request_id: pane.request_id, scope: pane.scope, work_package_id: pane.work_package&.id }.compact
+      end
+
+      def form_params
+        { request_id: pane.request_id, scope: pane.scope }.compact
+      end
+
+      def form(id:, url:, method:)
+        helpers.form_with(url:, method:, id:, data: { turbo_stream: true }) do
+          safe_join(form_params.map { |name, value| helpers.hidden_field_tag(name, value, id: nil) })
+        end
+      end
     end
   end
 end

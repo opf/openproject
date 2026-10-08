@@ -27,37 +27,44 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::BaseComponent.new(tag: :div, data: controller_data, test_selector: "ai-text-transform-result")) do %>
+<%= component_wrapper(data: wrapper_data) do %>
   <%=
     render(
       Primer::BaseComponent.new(
         tag: :div,
-        id: PANEL_ID,
         role: :dialog,
         aria: { label: label(:title) },
         position: :fixed,
         display: :flex,
         direction: :column,
-        hidden: true,
-        classes: "op-ai-result-panel",
-        data: target(:overlay)
+        classes: "op-ai-result-pane",
+        data: target(:pane)
       )
     ) do
       safe_join(
         [
           render(Primer::Beta::BorderBox.new(flex: 1, overflow: :hidden, display: :flex, direction: :column, box_shadow: :extra_large)) do |box|
-            box.with_header(data: target(:handle), classes: "op-ai-result-panel--handle") do
+            box.with_header(data: action(:beginDrag, event: "pointerdown"), classes: "op-ai-result-pane--handle") do
               flex_layout(align_items: :center, justify_content: :space_between) do |header|
                 header.with_column { section(:title) }
                 header.with_column do
-                  render(Primer::Beta::CloseButton.new("aria-label": label(:close), data: action(:dismiss)))
+                  render(Primer::Beta::CloseButton.new("aria-label": label(:close), type: :submit, form: CLOSE_FORM_ID))
                 end
               end
             end
             box.with_body(flex: 1, overflow: :auto) { section(:body) }
             box.with_footer(bg: :subtle) { section(:footer) }
           end,
-          section(:resize_handles)
+          *EDGES.map do |edge|
+            render(
+              Primer::BaseComponent.new(
+                tag: :span,
+                classes: "op-ai-result-pane--resize op-ai-result-pane--resize_#{edge}",
+                data: action(:beginResize, event: "pointerdown").merge(edge:),
+                "aria-hidden": true
+              )
+            )
+          end
         ]
       )
     end

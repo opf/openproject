@@ -30,16 +30,19 @@
 
 module AI
   module TextTransforms
-    # Demo only (AI-126): data attributes and labels shared by both result pane variants.
+    # Demo only (AI-126): data attributes, form ids and labels the result pane parts share.
     module ResultPaneHelpers
+      CLOSE_FORM_ID = "ai-text-transform-pane-close"
+      APPLY_FORM_ID = "ai-text-transform-pane-apply"
+
       private
 
       def target(name)
-        { ai_text_transform_result_overlay_target: name }
+        { ai_text_transform_pane_target: name }
       end
 
-      def action(name)
-        { action: "click->ai-text-transform-result-overlay##{name}" }
+      def action(name, event: "click")
+        { action: "#{event}->ai-text-transform-pane##{name}" }
       end
 
       def label(key)
