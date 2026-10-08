@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe LlmConnections::EnvSyncService do
   subject(:result) { described_class.new(env_config).call }
