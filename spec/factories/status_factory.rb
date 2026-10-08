@@ -31,7 +31,7 @@
 FactoryBot.define do
   factory :status do
     sequence(:name) { |n| "status #{n}" }
-    is_closed { false }
+    category { "to_do" }
     is_readonly { false }
     excluded_from_totals { false }
 
@@ -40,7 +40,11 @@ FactoryBot.define do
     end
 
     factory :closed_status do
-      is_closed { true }
+      category { "closed" }
+    end
+
+    factory :in_progress_status do
+      category { "in_progress" }
     end
 
     factory :rejected_status do

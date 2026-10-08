@@ -32,9 +32,9 @@ require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::WithoutStatusConsideredClosed do
   let(:user) { create(:admin) }
-  let(:open_status) { create(:status, is_closed: false) }
-  let(:closed_status) { create(:status, is_closed: true) }
-  let(:open_status_defined_as_done_in_project) { create(:status, is_closed: false) }
+  let(:open_status) { create(:status, category: "open") }
+  let(:closed_status) { create(:status, category: "closed") }
+  let(:open_status_defined_as_done_in_project) { create(:status, category: "open") }
   let(:project) do
     create(:project, enabled_module_names: %w[backlogs]) do |p|
       p.done_status_ids = [closed_status.id, open_status_defined_as_done_in_project.id]
@@ -56,7 +56,7 @@ RSpec.describe WorkPackages::Scopes::WithoutStatusConsideredClosed do
 
     it "treats globally closed statuses as done when project config is empty (corruption case)" do
       # Safeguard: even if a project's done_statuses_for_project is empty (corruption),
-      # any status with is_closed: true should still be treated as done.
+      # any status with category: "closed" should still be treated as done.
       project_with_empty_config = create(:project, enabled_module_names: %w[backlogs]) do |p|
         # Deliberately empty done_status_ids to simulate corruption
         p.done_status_ids = []
@@ -72,9 +72,9 @@ RSpec.describe WorkPackages::Scopes::WithoutStatusConsideredClosed do
     end
 
     it "respects per-project status configuration" do
-      # A status that is globally open (is_closed: false) but configured as done in one project
+      # A status that is globally open (category: "open") but configured as done in one project
       # and not in another
-      globally_open_status = create(:status, is_closed: false)
+      globally_open_status = create(:status, category: "open")
 
       project_where_status_is_done = create(:project, enabled_module_names: %w[backlogs]) do |p|
         p.done_status_ids = [globally_open_status.id]

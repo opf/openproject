@@ -23,28 +23,19 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::Projects::SetAttributesServicePatch
-  def self.included(base)
-    base.prepend InstanceMethods
-  end
+module Queries::Operators
+  class InProgressWorkPackages < Base
+    label "in_progress_work_packages"
+    set_symbol "in_progress"
+    require_value false
 
-  module InstanceMethods
-    private
-
-    def set_attributes(params)
-      super
-
-      return unless params.key?(:done_status_ids)
-
-      # Statuses marked as globally closed are mandatory and must always be
-      # included regardless of what the user submitted.
-      mandatory_ids = Status.closed.ids
-      model.done_status_ids = (model.done_status_ids | mandatory_ids) if mandatory_ids.any?
+    def self.sql_for_field(_values, _db_table, _db_field)
+      "#{Status.table_name}.category = 'in_progress'"
     end
   end
 end

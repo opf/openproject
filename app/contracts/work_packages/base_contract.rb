@@ -196,9 +196,7 @@ module WorkPackages
                end
 
       statuses = new_statuses_allowed_from(status)
-
       statuses = statuses.or(Status.where_default) if include_default
-
       statuses.order_by_position
     end
 
@@ -729,16 +727,14 @@ module WorkPackages
 
       return current_status if closed_version_and_status?(status)
 
-      statuses = new_statuses_by_workflow(status)
-                   .or(current_status)
-
-      statuses = statuses.where(is_closed: false) if model.blocked?
+      statuses = new_statuses_by_workflow(status).or(current_status)
+      statuses = statuses.not_closed if model.blocked?
 
       statuses
     end
 
     def closed_version_and_status?(status = model.status)
-      status&.is_closed? && model.effective_target_versions.any?(&:closed?)
+      status&.closed? && model.effective_target_versions.any?(&:closed?)
     end
 
     def new_statuses_by_workflow(status)

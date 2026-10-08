@@ -28,7 +28,7 @@
 
 module Statuses
   class TableComponent < OpPrimer::BorderBoxTableComponent
-    columns :name, :done_ratio, :closed, :readonly
+    columns :name, :done_ratio, :category, :readonly
     main_column :name
     mobile_columns :name
 
@@ -39,7 +39,7 @@ module Statuses
       [
         [:name, { caption: Status.human_attribute_name(:name) }],
         ([:done_ratio, { caption: WorkPackage.human_attribute_name(:done_ratio) }] if show_done_ratio?),
-        [:closed, { caption: t("statuses.index.headers.is_closed") }],
+        [:category, { caption: Status.human_attribute_name(:category) }],
         [:readonly, { caption: t("statuses.index.headers.is_readonly") }]
       ].compact
     end

@@ -30,7 +30,7 @@
 
 class BackfillDoneStatusesForBacklogsProjects < ActiveRecord::Migration[8.1]
   def up
-    mandatory_ids = Status.where(is_closed: true).ids
+    mandatory_ids = select_values("SELECT id FROM statuses WHERE is_closed = true;")
     return if mandatory_ids.empty?
 
     Project

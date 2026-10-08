@@ -36,7 +36,10 @@ module API
 
         property :id, render_nil: true
         property :name
-        property :is_closed, render_nil: true
+        property :category, render_nil: true
+        property :is_closed,
+                 getter: ->(*) { closed? },
+                 render_nil: true
         property :color,
                  getter: ->(*) { color.hexcode if color },
                  render_nil: true

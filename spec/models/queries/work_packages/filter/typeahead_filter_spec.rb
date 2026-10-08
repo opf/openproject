@@ -47,8 +47,9 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
   describe "#where clause" do
     subject { WorkPackage.joins(instance.joins + [:project]).where(instance.where) }
 
-    shared_let(:open_status) { create(:status, name: "In Progress", is_closed: false) }
-    shared_let(:closed_status) { create(:status, name: "Done", is_closed: true) }
+    shared_let(:to_do_status) { create(:status, name: "NeW", category: "to_do") }
+    shared_let(:in_progress_status) { create(:status, name: "tHinking", category: "in_progress") }
+    shared_let(:closed_status) { create(:status, name: "DoNe", category: "closed") }
     shared_let(:project)   { create(:project, name: "Phoenix") }
     shared_let(:epic_type) { create(:type, name: "Epic") }
     shared_let(:bug_type)  { create(:type, name: "Bug") }
@@ -57,21 +58,21 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
       create(:work_package,
              project:,
              type: epic_type,
-             status: open_status,
+             status: to_do_status,
              subject: "Gorilla work package ething")
     end
     shared_let(:bug_work_package) do
       create(:work_package,
              project:,
              type: bug_type,
-             status: open_status,
+             status: to_do_status,
              subject: "Gorilla work package bthing")
     end
     shared_let(:task_work_package) do
       create(:work_package,
              project:,
              type: task_type,
-             status: open_status,
+             status: to_do_status,
              subject: "Work package tthing")
     end
 
@@ -376,80 +377,95 @@ RSpec.describe Queries::WorkPackages::Filter::TypeaheadFilter do
     end
 
     context "when searching by status" do
-      shared_let(:open_work_package)   { create(:work_package, project:, status: open_status,   subject: "wide work package") }
-      shared_let(:closed_work_package) { create(:work_package, project:, status: closed_status, subject: "narrow work package") }
+      shared_let(:to_do_work_package)   { create(:work_package, project:, status: to_do_status,   subject: "small work package") }
+      shared_let(:in_progress_work_package) { create(:work_package, project:, status: in_progress_status, subject: "medium work package") }
+      shared_let(:closed_work_package) { create(:work_package, project:, status: closed_status, subject: "yuge work package") }
 
-      context "when searching for status name 'In Progress'" do
-        let(:values) { ["In Progress"] }
+      context "when searching for status name 'tHinking'" do
+        let(:values) { ["tHinking"] }
 
-        it "returns work packages with 'In Progress' status" do
-          expect(subject).to include(open_work_package)
-          expect(subject).not_to include(closed_work_package)
+        it "returns work packages with 'tHinking' status" do
+          expect(subject).not_to include(to_do_work_package, closed_work_package)
+          expect(subject).to include(in_progress_work_package)
         end
       end
 
-      context "when searching for status name 'In Progress' and part of subject 'wide'" do
-        let(:values) { ["In Progress wide"] }
+      context "when searching for status name 'tHinking' and part of subject 'medium'" do
+        let(:values) { ["tHinking medium"] }
 
-        it "returns work packages with 'In Progress' status containing the search term 'wide'" do
-          expect(subject).to include(open_work_package)
-          expect(subject).not_to include(closed_work_package)
+        it "returns work packages with 'tHinking' status containing the search term 'medium'" do
+          expect(subject).not_to include(to_do_work_package, closed_work_package)
+          expect(subject).to include(in_progress_work_package)
         end
       end
 
-      context "when searching for meta status 'open'" do
-        let(:values) { ["open"] }
+      context "when searching for meta status category 'to_do'" do
+        let(:values) { [Status.human_attribute_name("category.to_do")] }
 
-        it "returns work packages with open status" do
-          expect(subject).to include(open_work_package)
-          expect(subject).not_to include(closed_work_package)
+        it "returns only work packages with to_do category status" do
+          expect(subject).to include(to_do_work_package)
+          expect(subject).not_to include(in_progress_work_package, closed_work_package)
         end
       end
 
-      context "when searching for meta status 'closed'" do
-        let(:values) { ["closed"] }
+      context "when searching for meta status category 'in progress'" do
+        let(:values) { [Status.human_attribute_name("category.in_progress")] }
 
-        it "returns work packages with closed status" do
+        it "returns only work packages with in_progress category status" do
+          expect(subject).to include(in_progress_work_package)
+          expect(subject).not_to include(to_do_work_package, closed_work_package)
+        end
+      end
+
+      context "when searching for meta status category 'closed'" do
+        let(:values) { [Status.human_attribute_name("category.closed")] }
+
+        it "returns only work packages with closed category status" do
           expect(subject).to include(closed_work_package)
-          expect(subject).not_to include(open_work_package)
+          expect(subject).not_to include(to_do_work_package, in_progress_work_package)
         end
       end
 
-      context "when searching for meta status 'OPEN' (case insensitive)" do
-        let(:values) { ["OPEN"] }
+      context "when searching for meta status 'TO-DO' (case insensitive)" do
+        let(:values) { [Status.human_attribute_name("category.to_do").upcase] }
 
-        it "returns work packages with open status regardless of case" do
-          expect(subject).to include(open_work_package)
-          expect(subject).not_to include(closed_work_package)
+        it "returns work packages with to_do category status regardless of case" do
+          expect(subject).to include(to_do_work_package)
+          expect(subject).not_to include(in_progress_work_package, closed_work_package)
+        end
+      end
+
+      context "when searching for meta status 'IN PROGRESS' (case insensitive)" do
+        let(:values) { [Status.human_attribute_name("category.in_progress").upcase] }
+
+        it "returns work packages with in_progress category status regardless of case" do
+          expect(subject).to include(in_progress_work_package)
+          expect(subject).not_to include(to_do_work_package, closed_work_package)
         end
       end
 
       context "when searching for meta status 'CLOSED' (case insensitive)" do
-        let(:values) { ["CLOSED"] }
+        let(:values) { [Status.human_attribute_name("category.closed").upcase] }
 
-        it "returns work packages with closed status regardless of case" do
+        it "returns work packages with closed category status regardless of case" do
           expect(subject).to include(closed_work_package)
-          expect(subject).not_to include(open_work_package)
+          expect(subject).not_to include(to_do_work_package, in_progress_work_package)
         end
       end
 
-      context "with different locale" do
+      context "with different locale", :settings_reset do
         around do |example|
           I18n.with_locale(:de) do
             example.run
           end
         end
 
-        context "when searching for German 'offen' (open)" do
-          let(:values) { ["offen"] }
+        context "when searching for German category translation" do
+          let(:values) { [Status.human_attribute_name("category.to_do")] }
 
-          it "returns work packages with open status using German translation" do
-            # Assuming German translation exists
-            allow(I18n).to receive(:t).with("label_open").and_return("offen")
-            allow(I18n).to receive(:t).with("label_closed").and_return("geschlossen")
-
-            expect(subject).to include(open_work_package)
-            expect(subject).not_to include(closed_work_package)
+          it "returns work packages with to_do category status using German translation" do
+            expect(subject).to include(to_do_work_package)
+            expect(subject).not_to include(in_progress_work_package, closed_work_package)
           end
         end
       end

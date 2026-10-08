@@ -56,7 +56,7 @@ RSpec.describe "Status action board",
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
   let!(:whatever_status) { create(:status, name: "Whatever") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
   let!(:work_package) { create(:work_package, project:, subject: "Foo", status: whatever_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }

@@ -35,7 +35,7 @@ module Queries::Operators
     require_value false
 
     def self.sql_for_field(_values, _db_table, _db_field)
-      "#{Status.table_name}.is_closed=#{connection.quoted_true}"
+      "#{Status.table_name}.category = 'closed'"
     end
   end
 end

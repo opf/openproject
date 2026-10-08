@@ -245,7 +245,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
 
       it "filters status" do
-        matching_status = create(:status, is_closed: true)
+        matching_status = create(:status, category: "closed")
         create_work_packages_and_time_entries(3, status: matching_status)
         query.filter :status_id, operator: "c"
         expect(query.result.count).to eq(3)

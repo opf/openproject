@@ -57,8 +57,8 @@ RSpec.describe Burndown do
   end
 
   let(:issue_open) { create(:status, name: "status 1", is_default: true) }
-  let(:issue_closed) { create(:status, name: "status 2", is_closed: true) }
-  let(:issue_resolved) { create(:status, name: "status 3", is_closed: false) }
+  let(:issue_closed) { create(:status, name: "status 2", category: "closed") }
+  let(:issue_resolved) { create(:status, name: "status 3", category: "open") }
 
   current_user { create(:user, member_with_roles: { project => role }) }
 

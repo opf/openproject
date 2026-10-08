@@ -77,7 +77,7 @@ RSpec.describe WorkPackage do
       let(:due_date) { 1.day.ago.to_date }
       let(:status) do
         create(:status,
-               is_closed: true)
+               category: "closed")
       end
 
       before do

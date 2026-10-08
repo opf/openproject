@@ -182,7 +182,7 @@ RSpec.describe WorkPackages::BaseContract do
           .to receive(:effective_target_versions)
           .and_return([version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -212,7 +212,7 @@ RSpec.describe WorkPackages::BaseContract do
           .to receive(:effective_target_versions)
           .and_return([open_version, closed_version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -229,7 +229,7 @@ RSpec.describe WorkPackages::BaseContract do
         allow(work_package)
           .to receive_messages(target_versions: [closed_version], effective_target_versions: [open_version])
         allow(work_package.status)
-          .to receive(:is_closed?)
+          .to receive(:closed?)
           .and_return(true)
       end
 
@@ -1691,8 +1691,7 @@ RSpec.describe WorkPackages::BaseContract do
                         .from_status(current_status.id, [role.id], author:, assignee:)
                         .select(:new_status_id)
 
-        Status.where(id: from_workflows)
-          .or(Status.where(id: current_status.id))
+        Status.where(id: from_workflows).or(Status.where(id: current_status.id))
       end
 
       it "returns a scope that returns current_status and those available by workflow" do
@@ -1701,19 +1700,16 @@ RSpec.describe WorkPackages::BaseContract do
       end
 
       it "removes closed statuses if blocked" do
-        allow(work_package)
-          .to receive(:blocked?)
-          .and_return(true)
+        allow(work_package).to receive(:blocked?).and_return(true)
 
-        expected = base_scope.where(is_closed: false).order_by_position
+        expected = base_scope.where.not(category: "closed").order_by_position
 
-        expect(contract.assignable_statuses.to_sql)
-          .to eql expected.to_sql
+        expect(contract.assignable_statuses.to_sql).to eql expected.to_sql
       end
 
       context "if the current status is closed and the version is closed as well" do
         let(:version) { build_stubbed(:version, status: "closed") }
-        let(:current_status) { build_stubbed(:status, is_closed: true) }
+        let(:current_status) { build_stubbed(:status, category: "closed") }
 
         before do
           allow(work_package)

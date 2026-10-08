@@ -38,9 +38,9 @@ RSpec.describe WorkPackages::SetAttributesService::DeriveProgressValuesWorkBased
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
   let(:work_package) { build_stubbed(:work_package, project:, status: status_open) }
-  let(:status_open) { build_stubbed(:status, is_closed: false, name: "Open") }
-  let(:status_wip) { build_stubbed(:status, is_closed: false, name: "Work In Progress") }
-  let(:status_closed) { build_stubbed(:status, is_closed: true, name: "Closed") }
+  let(:status_open) { build_stubbed(:status, category: "open", name: "Open") }
+  let(:status_wip) { build_stubbed(:status, category: "open", name: "Work In Progress") }
+  let(:status_closed) { build_stubbed(:status, category: "closed", name: "Closed") }
   let(:instance) { described_class.new(work_package) }
 
   context "given a work package with work, remaining work, and % complete being set" do
