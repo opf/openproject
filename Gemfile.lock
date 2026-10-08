@@ -166,6 +166,12 @@ PATH
     openproject-ldap_groups (1.0.0)
 
 PATH
+  remote: modules/llm
+  specs:
+    openproject-llm (1.0.0)
+      ruby_llm (~> 1.16)
+
+PATH
   remote: modules/meeting
   specs:
     openproject-meeting (1.0.0)
@@ -1699,6 +1705,7 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_departments!
   openproject-ldap_groups!
+  openproject-llm!
   openproject-meeting!
   openproject-octicons (~> 19.37.0)!
   openproject-octicons_helper (~> 19.37.0)!
@@ -1767,7 +1774,6 @@ DEPENDENCIES
   ruby-duration (~> 3.2.0)
   ruby-prof
   ruby-progressbar (~> 1.13.0)
-  ruby_llm (~> 1.16)
   rubytree (~> 2.2.2)
   sanitize (~> 7.0.0)
   scimitar (~> 2.13)
@@ -2084,6 +2090,7 @@ CHECKSUMS
   openproject-job_status (1.0.0)
   openproject-ldap_departments (1.0.0)
   openproject-ldap_groups (1.0.0)
+  openproject-llm (1.0.0)
   openproject-meeting (1.0.0)
   openproject-octicons (19.37.0) sha256=de10a8339edbfbf328f3e5d92ae1f61b99e52dfb3c76d06bce4d5d3d891c0092
   openproject-octicons_helper (19.37.0) sha256=ea8ec70882de05063fc17ecbcd16f4221c91bd53e12cb4c3f225d726e89362ee
