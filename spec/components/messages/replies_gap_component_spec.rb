@@ -31,48 +31,54 @@
 require "rails_helper"
 
 RSpec.describe Messages::RepliesGapComponent, type: :component do
-  subject(:rendered_component) { render_inline(described_class.new(topic:, gap:)) }
+  subject(:rendered_component) { render_inline(described_class.new(topic:, gap:, focus: focused)) }
 
   shared_let(:forum) { create(:forum) }
   shared_let(:topic) { create(:message, forum:) }
 
   let(:path) { "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}/replies" }
+  let(:focused) { false }
 
-  before { topic.update_column(:replies_count, 52) }
-
-  context "when hiding more than two pages" do
+  context "when hiding more than a page" do
     let(:gap) { Messages::ThreadLayout::Gap.new(after_id: topic.id, before_id: 63, count: 45) }
 
-    it "offers loading a page from either side around the replies neither loads", :aggregate_failures do
+    it "offers loading the previous page, out of all it hides", :aggregate_failures do
       expect(rendered_component).to have_css("#forum-thread-gap-#{topic.id}-63")
-      expect(rendered_component).to have_link("Load next 20 replies",
-                                              href: "#{path}?after=#{topic.id}&before=63&take=next")
-      expect(rendered_component).to have_text(/(?<!\d)5 of 52 replies in between/)
-      expect(rendered_component).to have_link("Load previous 20 replies",
-                                              href: "#{path}?after=#{topic.id}&before=63&take=previous")
+      expect(rendered_component).to have_link("Load previous 20 replies (out of 45)", href: "#{path}?after=#{topic.id}&before=63")
     end
 
-    it "loads through Turbo streams" do
-      expect(rendered_component).to have_css("a[data-turbo-stream]", count: 2)
+    it "loads through a Turbo stream" do
+      expect(rendered_component).to have_css("a[data-turbo-stream]", count: 1)
     end
-  end
 
-  context "when hiding up to two pages" do
-    let(:gap) { Messages::ThreadLayout::Gap.new(after_id: topic.id, before_id: 63, count: 33) }
-
-    it "splits them between both sides, the next half taking the odd reply", :aggregate_failures do
-      expect(rendered_component).to have_link("Load next 17 replies")
-      expect(rendered_component).to have_link("Load previous 16 replies")
-      expect(rendered_component).to have_no_text("in between")
+    it "leaves focus alone on a page render" do
+      expect(rendered_component).to have_no_css("[autofocus]")
     end
   end
 
   context "when hiding a page or less" do
     let(:gap) { Messages::ThreadLayout::Gap.new(after_id: 20, before_id: 25, count: 4) }
 
-    it "offers showing them all at once", :aggregate_failures do
-      expect(rendered_component).to have_link("Load the 4 replies in between", href: "#{path}?after=20&before=25&take=all")
-      expect(rendered_component).to have_no_link("Load next 20 replies")
+    it "offers loading them all", :aggregate_failures do
+      expect(rendered_component).to have_link("Load previous 4 replies", href: "#{path}?after=20&before=25")
+      expect(rendered_component).to have_no_text("out of")
+    end
+  end
+
+  context "when hiding a single reply" do
+    let(:gap) { Messages::ThreadLayout::Gap.new(after_id: 20, before_id: 22, count: 1) }
+
+    it "offers loading it" do
+      expect(rendered_component).to have_link("Load previous reply")
+    end
+  end
+
+  context "when streamed in after a click" do
+    let(:gap) { Messages::ThreadLayout::Gap.new(after_id: topic.id, before_id: 63, count: 45) }
+    let(:focused) { true }
+
+    it "takes focus so the next page is one key press away" do
+      expect(rendered_component).to have_css("a[autofocus]", text: "Load previous 20 replies")
     end
   end
 end

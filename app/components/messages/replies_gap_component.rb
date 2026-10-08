@@ -30,46 +30,43 @@
 
 module Messages
   class RepliesGapComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
     def self.dom_id(after_id, before_id) = "forum-thread-gap-#{after_id}-#{before_id}"
 
-    def initialize(topic:, gap:)
+    def initialize(topic:, gap:, focus: false)
       super
       @topic = topic
       @gap = gap
+      @focus = focus
+    end
+
+    def call
+      render(Primer::Box.new(id: self.class.dom_id(gap.after_id, gap.before_id), test_selector: "forum-thread-gap")) do
+        safe_join([render(Primer::Box.new(classes: "op-forum-thread-gap--ellipsis")), load_button])
+      end
     end
 
     private
 
     attr_reader :topic, :gap
 
-    def single_step? = gap.count <= Messages::ThreadLayout::PAGE_SIZE
-
-    def next_size = chunk_sizes.first
-
-    def previous_size = chunk_sizes.last
-
-    def uncovered_count = gap.count - next_size - previous_size
-
-    def chunk_sizes
-      @chunk_sizes ||= Messages::ThreadLayout.chunk_sizes(gap.count)
-    end
-
-    def branch(layout, &)
-      layout.with_row(flex_layout: true, my: 1, align_items: :flex_start) do |row|
-        row.with_column(classes: "op-forum-thread-gap--branch")
-        row.with_column(pl: 1, &)
+    def load_button
+      render(Primer::Beta::Button.new(tag: :a, href: load_path, autofocus: @focus, data: { turbo_stream: true })) do |button|
+        button.with_leading_visual_icon(icon: :eye)
+        label
       end
     end
 
-    def load_link(take, label)
-      render(Primer::Beta::Link.new(href: load_path(take), data: { turbo_stream: true })) { label }
+    def label
+      page_size = Messages::ThreadLayout::PAGE_SIZE
+      if gap.count > page_size
+        t("forums.topic.gap.load_previous_page", count: page_size, total: gap.count)
+      else
+        t("forums.topic.gap.load_previous", count: gap.count)
+      end
     end
 
-    def load_path(take)
-      replies_project_forum_topic_path(topic.project, topic.forum, topic,
-                                       after: gap.after_id, before: gap.before_id, take:)
+    def load_path
+      replies_project_forum_topic_path(topic.project, topic.forum, topic, after: gap.after_id, before: gap.before_id)
     end
   end
 end

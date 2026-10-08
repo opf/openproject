@@ -64,4 +64,19 @@ RSpec.describe Messages::ThreadSegmentsComponent, type: :component do
       expect(rendered_component).to have_css("#message-#{replies.first.id}[autofocus][tabindex='-1']")
     end
   end
+
+  context "when streamed in with replies still hidden before them" do
+    let(:focus_first) { true }
+    let(:segments) do
+      [
+        Messages::ThreadLayout::Gap.new(after_id: topic.id, before_id: replies.first.id, count: 3),
+        Messages::ThreadLayout::Replies.new(messages: replies)
+      ]
+    end
+
+    it "focuses the gap's load button only" do
+      expect(rendered_component).to have_css("[autofocus]", count: 1)
+      expect(rendered_component).to have_css("#{test_selector('forum-thread-gap')} a[autofocus]")
+    end
+  end
 end

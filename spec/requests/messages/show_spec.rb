@@ -63,7 +63,7 @@ RSpec.describe "Forum topic thread", type: :rails_request, with_settings: { per_
       get project_forum_topic_path(forum.project, forum, long_topic)
 
       expect(html).to have_css("[data-test-selector^='forum-post-']", count: 21)
-      expect(html).to have_test_selector("forum-thread-gap", count: 1, text: /(?<!\d)5 of 65 replies in between/)
+      expect(html).to have_test_selector("forum-thread-gap", count: 1, text: "Load previous 20 replies (out of 45)")
       expect(html).to have_css("#message-#{long_replies.last.id}")
     end
 

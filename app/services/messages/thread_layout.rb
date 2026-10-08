@@ -35,13 +35,6 @@ module Messages
     Replies = Data.define(:messages)
     Gap = Data.define(:after_id, :before_id, :count)
 
-    def self.chunk_sizes(count, page_size: PAGE_SIZE)
-      return [count, count] if count <= page_size
-      return [page_size, page_size] if count > 2 * page_size
-
-      [count - (count / 2), count / 2]
-    end
-
     def initialize(topic, page_size: PAGE_SIZE)
       @topic = topic
       @page_size = page_size
@@ -52,17 +45,10 @@ module Messages
       build(shown, from: 0, to: reply_ids.size - 1)
     end
 
-    def gap_segments(after_id:, before_id:, take:)
+    def gap_segments(after_id:, before_id:)
       first = first_index_after(after_id)
       last = last_index_before(before_id)
-      hidden = (first..last).to_a
-      next_size, previous_size = self.class.chunk_sizes(hidden.size, page_size:)
-      chunk = case take
-              when "next" then hidden.first(next_size)
-              when "previous" then hidden.last(previous_size)
-              else hidden
-              end
-      build(chunk, from: first, to: last)
+      build((first..last).to_a.last(page_size), from: first, to: last)
     end
 
     private

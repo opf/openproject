@@ -3660,12 +3660,10 @@ en:
         recent_activity: "Recent activity"
     topic:
       gap:
-        in_between_html: "<strong>%{hidden} of %{total}</strong> replies in between"
-        load_all_html:
-          one: "<strong>Load the reply</strong> in between"
-          other: "<strong>Load the %{count} replies</strong> in between"
-        load_next_html: "<strong>Load next</strong> %{count} replies"
-        load_previous_html: "<strong>Load previous</strong> %{count} replies"
+        load_previous:
+          one: "Load previous reply"
+          other: "Load previous %{count} replies"
+        load_previous_page: "Load previous %{count} replies (out of %{total})"
       message_actions: "Message actions"
       participants:
         one: "1 participant"

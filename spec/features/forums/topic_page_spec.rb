@@ -70,29 +70,21 @@ RSpec.describe "Forum topic page", :js do
       end
     end
 
-    it "opens the hidden replies on demand, from either side", :aggregate_failures do
+    it "loads the hidden replies a page at a time, back from the latest ones", :aggregate_failures do
       show_page.visit!
       url = page.current_url
 
-      show_page.within_gap { click_on "Load next 13 replies" }
-      expect(page).to have_css("#message-#{replies[0].id}")
-      expect(page).to have_css("#message-#{replies[0].id}:focus")
+      show_page.within_gap { click_on "Load previous 20 replies (out of 25)" }
+      expect(page).to have_css("#message-#{replies[5].id}")
+      expect(page).to have_no_css("#message-#{replies[4].id}")
+      expect(page).to have_link("Load previous 5 replies", focused: true)
 
-      show_page.within_gap { click_on "Load the 12 replies in between" }
-      expect(page).to have_css("#message-#{replies[20].id}")
+      show_page.within_gap { click_on "Load previous 5 replies" }
+      expect(page).to have_css("#message-#{replies[0].id}:focus")
       show_page.expect_no_gap
       expect(page).to have_css("[data-test-selector^='forum-post-']", count: 46)
 
       expect(page.current_url).to eq(url)
-    end
-
-    it "loads the previous replies above the latest ones" do
-      show_page.visit!
-
-      show_page.within_gap { click_on "Load previous 12 replies" }
-
-      expect(page).to have_css("#message-#{replies[13].id}")
-      expect(page).to have_no_css("#message-#{replies[12].id}")
     end
 
     it "highlights a hidden reply a link points to" do
