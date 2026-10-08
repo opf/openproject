@@ -1,0 +1,11 @@
+// Primer's narrow-screen bottom-sheet insets would otherwise apply to this absolutely positioned popover
+.Popover.op-live-users--popover
+  @media screen and (max-width: $breakpoint-md)
+    top: 100% !important
+    bottom: auto !important
+    right: auto !important
+
+    .Popover-message
+      width: max-content !important
+      min-width: min(232px, 100vw - 2 * var(--base-size-16))
+      max-width: calc(100vw - 2 * var(--base-size-16))
