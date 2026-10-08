@@ -25,7 +25,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { isoToLocalDatetime, localDatetimeToISO } from './local-datetime';
+import {
+  endOfDayISO,
+  isoToLocalDatetime,
+  localDatetimeToISO,
+  startOfDayISO,
+} from './local-datetime';
 
 describe('localDatetimeToISO', () => {
   it('adds the offset of the time zone in summer', () => {
@@ -42,6 +47,26 @@ describe('localDatetimeToISO', () => {
 
   it('returns null for an invalid value', () => {
     expect(localDatetimeToISO('not a date', 'Europe/Berlin')).toBeNull();
+  });
+});
+
+describe('startOfDayISO', () => {
+  it('returns the start of the day in the time zone as UTC', () => {
+    expect(startOfDayISO('2026-01-01', 'Europe/Berlin')).toBe('2025-12-31T23:00:00Z');
+  });
+
+  it('returns null for an invalid date', () => {
+    expect(startOfDayISO('not a date', 'Europe/Berlin')).toBeNull();
+  });
+});
+
+describe('endOfDayISO', () => {
+  it('returns the last second of the day in the time zone as UTC', () => {
+    expect(endOfDayISO('2026-10-30', 'Europe/Berlin')).toBe('2026-10-30T22:59:59Z');
+  });
+
+  it('returns null for an invalid date', () => {
+    expect(endOfDayISO('not a date', 'Europe/Berlin')).toBeNull();
   });
 });
 

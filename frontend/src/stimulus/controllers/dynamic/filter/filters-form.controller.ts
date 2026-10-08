@@ -38,6 +38,8 @@ import {
   showElement,
 } from 'core-app/shared/helpers/dom-helpers';
 import { escapeFilterValue } from 'core-stimulus/helpers/filter-helpers';
+import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
+import { endOfDayISO, startOfDayISO } from 'core-common/local-datetime';
 import { PrimerMultiInputElement } from '@primer/view-components/app/lib/primer/forms/primer_multi_input';
 
 interface PrimerTextFieldElement extends HTMLElement {
@@ -686,7 +688,9 @@ export default class FiltersFormController extends Controller {
     return filters.map((filter) => this.buildFilterString(filter)).join('&');
   }
 
-  private readonly dateFilterTypes = ['datetime_past', 'date'];
+  private readonly dateFilterTypes = ['datetime_past', 'datetime', 'date'];
+
+  private readonly timestampFilterTypes = ['datetime_past', 'datetime'];
 
   private parseFilterValue(valueContainer:HTMLElement, filterName:string, filterType:string, operator:string, requiresNoValue:boolean) {
     const checkbox = valueContainer.querySelector<HTMLInputElement>('input[type="checkbox"]');
@@ -706,7 +710,7 @@ export default class FiltersFormController extends Controller {
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
-      return this.parseDateFilterValue(valueContainer, filterName);
+      return this.parseDateFilterValue(filterName, this.timestampFilterTypes.includes(filterType));
     }
 
     const hiddenField = valueContainer.querySelector<HTMLInputElement>('input[type="hidden"]');
@@ -723,8 +727,8 @@ export default class FiltersFormController extends Controller {
     return null;
   }
 
-  private parseDateFilterValue(_valueContainer:HTMLElement, filterName:string) {
-    let value;
+  private parseDateFilterValue(filterName:string, timestamps:boolean) {
+    let value:(string|undefined)[]|undefined;
     const operator = this.findTargetByName(filterName, this.operatorTargets)?.value;
 
     if (operator && this.daysOperators.includes(operator)) {
@@ -732,20 +736,32 @@ export default class FiltersFormController extends Controller {
 
       value = [dateValue].filter((v) => v !== '');
     } else if (operator === this.onDateOperator) {
-      const dateValue = this.findTargetById(filterName, this.singleDayTargets)?.value;
+      const dateValue = this.findTargetById(filterName, this.singleDayTargets)?.value ?? '';
 
-      value = [dateValue].filter((v) => v !== '');
+      value = [timestamps ? this.dayStart(dateValue) : dateValue].filter((v) => v !== '');
     } else if (operator === this.betweenDatesOperator) {
       // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
       const rangeValue = this.findTargetById(filterName, this.dateRangeTargets)?.value ?? '';
       const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
 
-      value = fromValue === '' && toValue === '' ? [] : [fromValue, toValue];
+      if (fromValue === '' && toValue === '') {
+        value = [];
+      } else {
+        value = timestamps ? [this.dayStart(fromValue), this.dayEnd(toValue)] : [fromValue, toValue];
+      }
     }
     if (value && value.length > 0) {
       return value;
     }
     return null;
+  }
+
+  private dayStart(date:string):string {
+    return date ? startOfDayISO(date, getMetaValue('current_user', 'timeZone')) ?? '' : '';
+  }
+
+  private dayEnd(date:string):string {
+    return date ? endOfDayISO(date, getMetaValue('current_user', 'timeZone')) ?? '' : '';
   }
 
   private findTargetByName<T extends HTMLElement>(

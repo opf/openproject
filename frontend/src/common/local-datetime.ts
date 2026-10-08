@@ -37,6 +37,14 @@ export function localDatetimeToISO(localValue:string, timeZone:string):string|nu
   return DateTime.fromISO(localValue, { zone: timeZone }).toISO({ suppressMilliseconds: true });
 }
 
+export function startOfDayISO(date:string, timeZone:string):string|null {
+  return DateTime.fromISO(date, { zone: timeZone }).startOf('day').toUTC().toISO({ suppressMilliseconds: true });
+}
+
+export function endOfDayISO(date:string, timeZone:string):string|null {
+  return DateTime.fromISO(date, { zone: timeZone }).endOf('day').startOf('second').toUTC().toISO({ suppressMilliseconds: true });
+}
+
 export function isoToLocalDatetime(isoValue:string|null|undefined, timeZone:string):string {
   if (!isoValue) {
     return '';

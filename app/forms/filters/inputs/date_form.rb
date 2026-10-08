@@ -33,13 +33,7 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
 
   def add_operand(group)
     filter_name = @filter.name
-    filter_values = @filter.values
-    fmt = date_format
-
-    days_value = fmt == "days" ? filter_values.fetch(0, "") : nil
-    on_date_value = fmt == "on-date" ? filter_values.fetch(0, "") : nil
-    from_value = fmt == "between-dates" ? filter_values.fetch(0, "") : nil
-    to_value = fmt == "between-dates" ? filter_values.fetch(1, "") : nil
+    values = operand_values
 
     # The multi name intentionally uses @filter.name (not operand_name) because
     # parseDateFilterValue in filters-form.controller.ts locates the datepicker
@@ -52,13 +46,37 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseFilterForm
                   "filter--filters-form-target": "filterValueContainer",
                   "filter-name": filter_name
                 }) do |builder|
-      days_div(builder, filter_name, days_value)
-      on_date_div(builder, filter_name, on_date_value)
-      between_dates_div(builder, filter_name, from_value, to_value)
+      days_div(builder, filter_name, values[:days])
+      on_date_div(builder, filter_name, values[:on_date])
+      between_dates_div(builder, filter_name, values[:from], values[:to])
     end
   end
 
   private
+
+  def operand_values
+    filter_values = @filter.values
+
+    case date_format
+    when "days"
+      { days: filter_values.fetch(0, "") }
+    when "on-date"
+      { on_date: picker_date(filter_values.fetch(0, "")) }
+    when "between-dates"
+      { from: picker_date(filter_values.fetch(0, "")), to: picker_date(filter_values.fetch(1, "")) }
+    else
+      {}
+    end
+  end
+
+  # Datetime filters store the day boundaries as UTC timestamps, while the pickers show the user's local date.
+  def picker_date(value)
+    return value unless @filter.type.in?(%i[datetime_past datetime]) && value.include?("T")
+
+    Time.iso8601(value).in_time_zone(User.current.time_zone).to_date.iso8601
+  rescue ArgumentError
+    value
+  end
 
   def date_format
     op = @filter.operator || @filter.default_operator.symbol
