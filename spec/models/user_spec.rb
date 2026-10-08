@@ -1003,6 +1003,26 @@ RSpec.describe User do
         expect(user.reload.date_format).to eql "%d-%m-%Y"
       end
     end
+
+    context "with global setting", with_settings: { date_format: "%Y-%m-%d" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.date_format).to eql "%Y-%m-%d"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "date_format" => "%d.%m.%Y" } }
+
+        it "returns the preference value" do
+          expect(user.date_format).to eql "%d.%m.%Y"
+        end
+      end
+    end
   end
 
   describe "#time_format" do
@@ -1017,6 +1037,26 @@ RSpec.describe User do
         expect(user.time_format).to eql ""
 
         expect(user.reload.time_format).to eql "%H×%M"
+      end
+    end
+
+    context "with global setting", with_settings: { time_format: "%Hh%M" } do
+      let(:user) { build(:user, preferences:) }
+
+      context "without a preference" do
+        let(:preferences) { {} }
+
+        it "returns the setting value" do
+          expect(user.time_format).to eql "%Hh%M"
+        end
+      end
+
+      context "with a preference set" do
+        let(:preferences) { { "time_format" => "%H:%M" } }
+
+        it "returns the preference value" do
+          expect(user.time_format).to eql "%H:%M"
+        end
       end
     end
   end

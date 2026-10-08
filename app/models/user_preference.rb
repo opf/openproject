@@ -165,14 +165,6 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_timezone.presence || "Etc/UTC"
   end
 
-  def date_format
-    super.presence || Setting.date_format.presence
-  end
-
-  def time_format
-    super.presence || Setting.time_format.presence
-  end
-
   def time_zone?
     settings["time_zone"].present?
   end

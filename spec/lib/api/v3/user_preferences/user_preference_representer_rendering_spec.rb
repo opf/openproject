@@ -84,8 +84,8 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     context "without a date format set" do
       let(:preference) { build(:user_preference, date_format: "") }
 
-      it "shows the instance default" do
-        expect(subject).to be_json_eql("%Y-%m-%d".to_json).at_path("dateFormat")
+      it "shows empty preference without fallback" do
+        expect(subject).to be_json_eql(nil.to_json).at_path("dateFormat")
       end
     end
 
@@ -102,8 +102,8 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
     context "without a time format set" do
       let(:preference) { build(:user_preference, time_format: "") }
 
-      it "shows the instance default" do
-        expect(subject).to be_json_eql("%H:%M".to_json).at_path("timeFormat")
+      it "shows empty preference without fallback" do
+        expect(subject).to be_json_eql(nil.to_json).at_path("timeFormat")
       end
     end
 

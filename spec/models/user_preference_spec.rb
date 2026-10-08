@@ -259,8 +259,8 @@ RSpec.describe UserPreference do
       end
 
       context "without preference set" do
-        it "returns the setting value" do
-          expect(preference.date_format).to eql "%Y-%m-%d"
+        it "returns nil, ignoring the setting" do
+          expect(preference.date_format).to be_nil
         end
       end
     end
@@ -293,8 +293,8 @@ RSpec.describe UserPreference do
       end
 
       context "without preference set" do
-        it "returns the setting value" do
-          expect(preference.time_format).to eql "%Hh%M"
+        it "returns nil, ignoring the setting" do
+          expect(preference.time_format).to be_nil
         end
       end
     end
