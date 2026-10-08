@@ -1,0 +1,516 @@
+import type {
+  HalLink,
+  HalResource,
+  SchemaProperty,
+  WorkPackagePayload,
+  WorkPackageSchema,
+} from '../../openProjectTypes';
+
+export type FieldKind =
+  | 'text'
+  | 'textarea'
+  | 'number'
+  | 'checkbox'
+  | 'date'
+  | 'select'
+  | 'typeahead'
+  | 'multiSelect'
+  | 'generated'
+  | 'unsupported';
+
+export interface AllowedValue {
+  href:string;
+  label:string;
+  favored?:boolean;
+  ancestors?:string[];
+}
+
+export interface ListedValue extends AllowedValue {
+  depth:number;
+  hasChildren:boolean;
+  expanded:boolean;
+  position:number;
+  levelSize:number;
+}
+
+export interface FormField {
+  key:string;
+  label:string;
+  kind:FieldKind;
+  required:boolean;
+  isLink:boolean;
+  placeholder?:string;
+  maxLength?:number;
+  integer?:boolean;
+  allowedValues?:AllowedValue[];
+  allowedValuesHref?:string;
+  searchedInBrowser?:boolean;
+}
+
+export type FieldValue = string | boolean | string[];
+export type FieldValues = Record<string, FieldValue>;
+export type FieldErrors = Record<string, string>;
+export type FieldLabels = Record<string, string>;
+
+export type ValueProblem = 'missing' | 'notANumber' | 'notAWholeNumber';
+export type ValueProblems = Record<string, ValueProblem>;
+
+export type FieldDependency = 'project' | 'type' | undefined;
+
+const FIXED_FIELDS:{ key:string; dependsOn?:FieldDependency }[] = [
+  { key: 'subject' },
+  { key: 'project' },
+  { key: 'assignee', dependsOn: 'project' },
+  { key: 'type', dependsOn: 'project' },
+  { key: 'status', dependsOn: 'type' },
+];
+
+export const FIXED_FIELD_KEYS = FIXED_FIELDS.map((field) => field.key);
+
+export function dependencyOf(key:string):FieldDependency {
+  const fixed = FIXED_FIELDS.find((field) => field.key === key);
+  return fixed ? fixed.dependsOn : 'type';
+}
+
+const SCHEMA_META_KEYS = ['_type', '_dependencies', '_attributeGroups', '_links', '_embedded'];
+
+const NON_EDITABLE_KEYS = ['id', 'lockVersion', 'createdAt', 'updatedAt', 'author', 'position'];
+
+/*  The endpoint behind these takes a filter, answers 200 and ignores it, so a
+    term has to be matched against the listing it hands out whole.  */
+const UNFILTERED_TYPES = ['CustomField::Hierarchy::Item'];
+
+const KIND_BY_TYPE:Record<string, FieldKind> = {
+  'String': 'text',
+  'Link': 'text',
+  'Formattable': 'textarea',
+  'Integer': 'number',
+  'Float': 'number',
+  'Boolean': 'checkbox',
+  'Date': 'date',
+};
+
+export function readSchemaProperty(
+  schema:WorkPackageSchema | undefined,
+  key:string
+):SchemaProperty | undefined {
+  const candidate = schema?.[key];
+  if (typeof candidate !== 'object' || candidate === null) return undefined;
+
+  const property = candidate as Partial<SchemaProperty>;
+  if (typeof property.type !== 'string' || typeof property.name !== 'string') return undefined;
+
+  return property as SchemaProperty;
+}
+
+export function labelOfResource(resource:HalResource):string {
+  return resource.name ?? resource.subject ?? resource.value ?? resource._links?.self?.title ?? '';
+}
+
+function ancestorsOf(resource:HalResource):string[] {
+  const links = resource._links;
+  const named = links?.ancestors ?? (links?.parent ? [links.parent] : []);
+  return named.flatMap((link) => (typeof link.href === 'string' ? [link.href] : []));
+}
+
+export function toAllowedValues(resources:HalResource[]):AllowedValue[] {
+  return resources.flatMap((resource) => {
+    const href = resource._links?.self?.href;
+    if (!href) return [];
+
+    const label = labelOfResource(resource);
+    if (!label) return [];
+
+    const ancestors = ancestorsOf(resource);
+
+    return [{
+      href,
+      label,
+      ...(resource.favorited ? { favored: true } : {}),
+      ...(ancestors.length > 0 ? { ancestors } : {}),
+    }];
+  });
+}
+
+export function allowedValueOf(field:FormField | undefined, href:string | undefined):AllowedValue | undefined {
+  if (!field || !href) return undefined;
+  return field.allowedValues?.find((value) => value.href === href);
+}
+
+export function isNested(values:AllowedValue[]):boolean {
+  return values.some((value) => (value.ancestors?.length ?? 0) > 0);
+}
+
+export function listedValues(values:AllowedValue[], expanded:ReadonlySet<string>):ListedValue[] {
+  const present = new Set(values.map((value) => value.href));
+  const childrenOf = new Map<string, AllowedValue[]>();
+  const roots:AllowedValue[] = [];
+
+  for (const value of values) {
+    const parent = (value.ancestors ?? [])
+      .filter((ancestor) => ancestor !== value.href && present.has(ancestor))
+      .pop();
+
+    if (parent === undefined) {
+      roots.push(value);
+      continue;
+    }
+
+    const siblings = childrenOf.get(parent);
+    if (siblings) siblings.push(value);
+    else childrenOf.set(parent, [value]);
+  }
+
+  const listed:ListedValue[] = [];
+  const walk = (siblings:AllowedValue[], depth:number) => {
+    siblings.forEach((value, index) => {
+      const children = childrenOf.get(value.href) ?? [];
+      const isExpanded = children.length > 0 && expanded.has(value.href);
+
+      listed.push({
+        ...value,
+        depth,
+        hasChildren: children.length > 0,
+        expanded: isExpanded,
+        position: index + 1,
+        levelSize: siblings.length,
+      });
+      if (isExpanded) walk(children, depth + 1);
+    });
+  };
+  walk(roots, 0);
+
+  return listed;
+}
+
+export function allowedValuesOf(property:SchemaProperty):AllowedValue[] | undefined {
+  const links = property._links?.allowedValues;
+  if (Array.isArray(links)) {
+    const values = links
+      .filter((link):link is HalLink & { href:string } => typeof link.href === 'string')
+      .map((link) => ({ href: link.href, label: link.title ?? link.href }));
+    return values.length > 0 ? values : undefined;
+  }
+
+  const embedded = property._embedded?.allowedValues;
+  if (!embedded) return undefined;
+
+  const values = toAllowedValues(embedded);
+  return values.length > 0 ? values : undefined;
+}
+
+export function allowedValuesHrefOf(property:SchemaProperty):string | undefined {
+  const links = property._links?.allowedValues;
+  if (!links || Array.isArray(links)) return undefined;
+  return links.href ?? undefined;
+}
+
+// The API fills the attribute in from the type itself (using a configurable pattern) and
+// says so in the placeholder, which is all the form has left to show.
+function isGenerated(property:SchemaProperty):boolean {
+  return property.hasDefault && Boolean(property.placeholder);
+}
+
+export function buildField(key:string, property:SchemaProperty):FormField {
+  const multiple = property.type.startsWith('[]');
+  const resourceType = multiple ? property.type.slice('[]'.length) : property.type;
+  const field:FormField = {
+    key,
+    label: property.name,
+    kind: 'unsupported',
+    required: property.required,
+    isLink: property.location === '_links',
+    ...(property.placeholder ? { placeholder: property.placeholder } : {}),
+    ...(property.maxLength ? { maxLength: property.maxLength } : {}),
+  };
+
+  // Nothing to fill in and nothing to ask for: the note stands in for the control.
+  if (isGenerated(property)) return { ...field, kind: 'generated', required: false };
+
+  // An href belongs under `_links` even when the schema leaves the location out.
+  const allowedValues = allowedValuesOf(property);
+  if (allowedValues) {
+    return { ...field, kind: multiple ? 'multiSelect' : 'select', isLink: true, allowedValues };
+  }
+
+  const allowedValuesHref = allowedValuesHrefOf(property);
+  if (allowedValuesHref) {
+    return {
+      ...field,
+      kind: multiple ? 'multiSelect' : 'typeahead',
+      isLink: true,
+      allowedValuesHref,
+      ...(UNFILTERED_TYPES.includes(resourceType) ? { searchedInBrowser: true } : {}),
+    };
+  }
+
+  // Several values of a kind with no picker: nothing but a notice.
+  if (multiple) return field;
+
+  return {
+    ...field,
+    kind: KIND_BY_TYPE[property.type] ?? 'unsupported',
+    ...(property.type === 'Integer' ? { integer: true } : {}),
+  };
+}
+
+export function fieldFor(schema:WorkPackageSchema | undefined, key:string):FormField | undefined {
+  const property = readSchemaProperty(schema, key);
+  if (!property) return undefined;
+  return buildField(key, property);
+}
+
+// Left out of the form: the default the API put into the payload is submitted as
+// it is, required attribute or not. A generated one stays as a note, which is
+// also the one thing worth showing of an attribute that may not be written.
+function isOffered(property:SchemaProperty):boolean {
+  return isGenerated(property) || (property.writable && !property.hasDefault);
+}
+
+/** Whether the user fills the field in, so its value is held on to and submitted. */
+export function writable(field:FormField):boolean {
+  return field.kind !== 'unsupported' && field.kind !== 'generated';
+}
+
+export function fixedFields(
+  schema:WorkPackageSchema | undefined,
+  selected:{ project:boolean; type:boolean }
+):FormField[] {
+  return FIXED_FIELDS
+    .filter(({ dependsOn }) => dependsOn === undefined || selected[dependsOn])
+    .flatMap(({ key }) => {
+      const property = readSchemaProperty(schema, key);
+      return property && isOffered(property) ? [buildField(key, property)] : [];
+    });
+}
+
+export function extraRequiredFields(schema:WorkPackageSchema | undefined):FormField[] {
+  if (!schema) return [];
+
+  const fields:FormField[] = [];
+  for (const key of Object.keys(schema)) {
+    if (SCHEMA_META_KEYS.includes(key)) continue;
+    if (FIXED_FIELD_KEYS.includes(key)) continue;
+    if (NON_EDITABLE_KEYS.includes(key)) continue;
+
+    const property = readSchemaProperty(schema, key);
+    if (!property) continue;
+    if (!property.required || !isOffered(property)) continue;
+    if (property.location === '_meta') continue;
+
+    fields.push(buildField(key, property));
+  }
+  return fields;
+}
+
+export function hrefsOf(value:FieldValue | undefined):string[] {
+  return Array.isArray(value) ? value : [];
+}
+
+export function isValueFilled(field:FormField, value:FieldValue | undefined):boolean {
+  if (field.kind === 'checkbox') return true;
+  if (field.kind === 'multiSelect') return hrefsOf(value).length > 0;
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+export function missingRequiredFields(fields:FormField[], values:FieldValues):FormField[] {
+  return fields.filter((field) => field.required && !isValueFilled(field, values[field.key]));
+}
+
+export function missingProblems(fields:FormField[], values:FieldValues):ValueProblems {
+  return Object.fromEntries(
+    missingRequiredFields(fields, values).map((field) => [field.key, 'missing' as const])
+  );
+}
+
+export function unsupportedRequiredFields(fields:FormField[]):FormField[] {
+  return fields.filter((field) => field.required && field.kind === 'unsupported');
+}
+
+function numberValueOf(value:string):number | null {
+  const parsed = Number(value.trim());
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+// An empty field is answered by its required mark rather than by a complaint.
+function valueProblemOf(field:FormField, value:FieldValue | undefined):ValueProblem | undefined {
+  if (field.kind !== 'number' || typeof value !== 'string' || value.trim().length === 0) return undefined;
+
+  const parsed = numberValueOf(value);
+  if (parsed === null) return 'notANumber';
+  if (field.integer && !Number.isInteger(parsed)) return 'notAWholeNumber';
+  return undefined;
+}
+
+export function valueProblems(fields:FormField[], values:FieldValues):ValueProblems {
+  const problems:ValueProblems = {};
+  for (const field of fields) {
+    const problem = valueProblemOf(field, values[field.key]);
+    if (problem) problems[field.key] = problem;
+  }
+  return problems;
+}
+
+// A violation no field of this form can carry has to stay in the message on
+// top rather than be dropped.
+export function splitAttributeErrors(
+  fields:FormField[],
+  attributeErrors:FieldErrors
+):{ fieldErrors:FieldErrors; otherMessages:string[] } {
+  const shown = new Set(fields.map((field) => field.key));
+  const fieldErrors:FieldErrors = {};
+  const otherMessages:string[] = [];
+
+  for (const [attribute, message] of Object.entries(attributeErrors)) {
+    if (shown.has(attribute)) fieldErrors[attribute] = message;
+    else otherMessages.push(message);
+  }
+  return { fieldErrors, otherMessages };
+}
+
+// The type is left out: it keeps every value, and survivingValues prunes them
+// against the schema the new type brings.
+const KEPT_ON_CHANGE:Record<string, string[]> = {
+  'project': ['subject'],
+};
+
+const RESHAPING_KEYS = ['project', 'type'];
+
+export function reshapesForm(key:string):boolean {
+  return RESHAPING_KEYS.includes(key);
+}
+
+function applyToRecord<T>(previous:Record<string, T>, key:string, value:T | undefined):Record<string, T> {
+  const kept = KEPT_ON_CHANGE[key];
+  const next:Record<string, T> = {};
+
+  for (const name of kept ?? Object.keys(previous)) {
+    const existing = previous[name];
+    if (existing !== undefined) next[name] = existing;
+  }
+
+  if (value === undefined) delete next[key];
+  else next[key] = value;
+
+  return next;
+}
+
+export function applyValue(previous:FieldValues, key:string, value:FieldValue):FieldValues {
+  return applyToRecord(previous, key, value);
+}
+
+export function applyLabel(previous:FieldLabels, key:string, label:string | undefined):FieldLabels {
+  return applyToRecord(previous, key, label);
+}
+
+export function exceedsFieldLength(field:FormField | undefined, value:FieldValue | undefined):boolean {
+  if (field?.maxLength === undefined || typeof value !== 'string') return false;
+  return value.length > field.maxLength;
+}
+
+export function clampedValues(fields:FormField[], values:FieldValues):FieldValues {
+  const clamped:FieldValues = { ...values };
+
+  for (const field of fields) {
+    const value = clamped[field.key];
+    if (typeof value === 'string' && exceedsFieldLength(field, value)) {
+      clamped[field.key] = value.slice(0, field.maxLength);
+    }
+  }
+
+  return clamped;
+}
+
+function fieldNamed(fields:FormField[], key:string):FormField | undefined {
+  return fields.find((field) => field.key === key);
+}
+
+function hangsOnType(key:string):boolean {
+  return dependencyOf(key) === 'type';
+}
+
+function heldValue(field:FormField | undefined, value:FieldValue):FieldValue | undefined {
+  if (!field || !writable(field)) return undefined;
+  if (field.kind === 'checkbox') return typeof value === 'boolean' ? value : undefined;
+
+  if (field.kind === 'multiSelect') {
+    if (!Array.isArray(value) || !field.allowedValues) return undefined;
+
+    const held = value.filter((href) => allowedValueOf(field, href) !== undefined);
+    return held.length > 0 ? held : undefined;
+  }
+
+  if (typeof value !== 'string') return undefined;
+  // The choices of one type are not the choices of the next.
+  if (field.kind === 'select') return allowedValueOf(field, value) !== undefined ? value : undefined;
+  return value;
+}
+
+function surviving<T>(entries:Record<string, T>, survives:(key:string, entry:T) => boolean):Record<string, T> {
+  return Object.fromEntries(Object.entries(entries).filter(([key, entry]) => survives(key, entry)));
+}
+
+/** Of what was filled in, what the reshaped form can still hold. */
+export function survivingValues(fields:FormField[], values:FieldValues):FieldValues {
+  const held:FieldValues = {};
+
+  for (const [key, value] of Object.entries(values)) {
+    if (!hangsOnType(key)) {
+      held[key] = value;
+      continue;
+    }
+
+    const survivor = heldValue(fieldNamed(fields, key), value);
+    if (survivor !== undefined) held[key] = survivor;
+  }
+
+  return held;
+}
+
+/** The labels of the surviving values; only a typeahead stands in need of one. */
+export function survivingLabels(fields:FormField[], labels:FieldLabels):FieldLabels {
+  return surviving(labels, (key) => !hangsOnType(key) || fieldNamed(fields, key)?.kind === 'typeahead');
+}
+
+function payloadValueOf(field:FormField, value:FieldValue | undefined):unknown {
+  if (field.kind === 'checkbox') return value === true;
+  if (typeof value !== 'string' || value.trim().length === 0) return null;
+
+  switch (field.kind) {
+    case 'number':
+      return numberValueOf(value);
+    case 'textarea':
+      return { raw: value };
+    default:
+      return value;
+  }
+}
+
+export function buildCreatePayload(
+  basePayload:WorkPackagePayload,
+  fields:FormField[],
+  values:FieldValues
+):WorkPackagePayload {
+  const payload:WorkPackagePayload = { ...basePayload };
+  const links:Record<string, HalLink | HalLink[]> = { ...basePayload._links };
+
+  for (const field of fields) {
+    if (!writable(field)) continue;
+
+    const value = values[field.key];
+    if (field.kind === 'multiSelect') {
+      links[field.key] = hrefsOf(value).map((href) => ({ href }));
+    } else if (field.isLink) {
+      if (typeof value === 'string' && value.trim().length > 0) {
+        links[field.key] = { href: value };
+      } else {
+        delete links[field.key];
+      }
+    } else {
+      payload[field.key] = payloadValueOf(field, value);
+    }
+  }
+
+  payload._links = links;
+  return payload;
+}
