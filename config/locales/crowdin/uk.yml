@@ -116,6 +116,7 @@ uk:
         caption: Заголовок
         help_text: Довідковий текст
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Клієнти SCIM
       calculated_value_error:
         customized_id: Користувацький ідентифікатор
@@ -646,6 +647,7 @@ uk:
         unknown_property: "– це не відома властивість."
         unknown_property_nested: має невідомий шлях «%{path}».
         unremovable: неможливо видалити.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
@@ -2681,6 +2683,7 @@ uk:
     groups: Групи
     hexcode: Двійковий код
     id: "№"
+    inexistent: Inexistent
     is_default: Значення за замовчуванням
     is_for_all: Для усіх проектів
     issue: Робочий пакет
@@ -2740,7 +2743,34 @@ uk:
     work_package: Робочий пакет
     work_package_id: Робочий пакет
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Вхід і реєстрація
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Завдання скасовано через помилку: %{message}'
@@ -2867,6 +2897,7 @@ uk:
   button_set_reminder: Установити нагадування
   button_show: Показати
   button_sort: Сортувати
+  button_stop_timer: Зупинити таймер
   button_submit: Підтвердити
   button_test: Тест
   button_unarchive: Розпакувати
@@ -2973,10 +3004,6 @@ uk:
     plural: Спеціальні дії
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Це користувацьке поле активовано в усіх проєктах, оскільки встановлено прапорець «Для всіх проєктів». Його не можна деактивувати для окремих проєктів.
-          heading: Для всіх проєктів
       hierarchy:
         subitems:
           one: 1 піделемент
@@ -3002,7 +3029,7 @@ uk:
           short: Коротка назва
           weight: Вага
       notice:
-        remember_items_and_projects: Обов’язково задайте елементи й проєкти на відповідних вкладках для цього користувацького поля.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Ви можете автоматично надавати певну роль у проєкті будь-якому користувачу, якому призначено цей атрибут, незалежно від його початкової ролі у цьому проєкті.
         dialog:
@@ -3067,16 +3094,17 @@ uk:
     is_enabled_globally: Увімкнено у всьому світі
     multi_value_more:
       other: і ще %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Роль не призначено
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Спочатку потрібно вибрати пакет робіт або проєкт
     reorder_alphabetical: Перевпорядкувати значення за алфавітом
     reorder_confirmation: 'Попередження: поточний порядок доступних значень, а також усі незбережені значення буде втрачено. Справді продовжити?'
     semantic_keys:
       job_title: Назва посади
       none: Немає
-    tab:
-      no_results_content_text: Створіть нове спеціальне поле
-      no_results_title_text: Наразі немає спеціальних полів.
     text_add_new_custom_field: 'Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
 
       '
@@ -3808,10 +3836,10 @@ uk:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4221,6 +4249,7 @@ uk:
   label_date_from_to: З %{start} по %{end}
   label_date_to: 'Кому:'
   label_dates: Дати
+  label_day: День
   label_day_plural: днів
   label_default: За замовчуванням
   label_defaults: Значення за замовчуванням
@@ -4320,6 +4349,7 @@ uk:
   label_go_forward: Відкрити підменю %{module}
   label_greater_or_equal: ">="
   label_group: Група
+  label_group_attributes_plural: Group attributes
   label_group_by: Групувати за
   label_group_named: Група %{name}
   label_group_new: Нова група
@@ -4436,6 +4466,7 @@ uk:
   label_module_plural: Модулі
   label_modules: Модулі
   label_modules_and_plugins: Модулі та плагіни
+  label_month: Місяць
   label_months_from: місяців(ця) з
   label_more: Більше
   label_more_information: Додаткові відомості
@@ -4449,6 +4480,7 @@ uk:
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
   label_my_security: Безпека
+  label_my_work: My work
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4463,7 +4495,10 @@ uk:
   label_news_singular: Новини
   label_news_view_all: Подивитися всі новини
   label_next: Далі
+  label_next_day: Наступний день
+  label_next_month: Наступний місяць
   label_next_week: Наступний тиждень
+  label_next_workweek: Наступний робочий тиждень
   label_next_year: Наступний рік
   label_no_change_option: "(Немає змін)"
   label_no_data: Немає даних для відображення
@@ -4471,6 +4506,7 @@ uk:
   label_no_parent_group: "(Немає батьківської групи)"
   label_no_parent_page: Немає початкової сторінки
   label_no_start_date: немає дати початку
+  label_no_time: Час не зафіксовано
   label_nobody: жодні
   label_non_working_days: Календар доступності
   label_non_working_days_summary: Резюме
@@ -4537,7 +4573,10 @@ uk:
   label_preview: Попередній перегляд
   label_preview_not_available: Попередній перегляд недоступний
   label_previous: Попередній
+  label_previous_day: Попередній день
+  label_previous_month: Попередній місяць
   label_previous_week: Попередній тиждень
+  label_previous_workweek: Попередній робочий тиждень
   label_previous_year: Попередній рік
   label_principal_invite_via_email: або запрошувати нових користувачів електронною поштою
   label_principal_search: Додати існуючих користувачів або групи
@@ -4656,6 +4695,7 @@ uk:
   label_sort_lowest: Помістити в кінець
   label_sorted_by: відсортовані за %{value}
   label_spent_time: Витрачений час
+  label_stack: Стос
   label_start_to_end: закінчення
   label_start_to_start: початок
   label_starts_with: починається з
@@ -4689,6 +4729,7 @@ uk:
   label_time: Час
   label_time_entry_activity_plural: Завдання з обліком часу
   label_time_entry_plural: Витрачений час
+  label_timer_since: Почато о %{time}
   label_title: Назва
   label_today: сьогодні
   label_today_as_date: Виберіть сьогодні як дату.
@@ -4725,6 +4766,7 @@ uk:
   label_user_settings: Налаштування користувача
   label_users_settings: Налаштування користувачів
   label_value_x: 'Значення: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Редагувати версію
   label_version_new: Нова версія
   label_version_plural: Версії
@@ -4737,6 +4779,7 @@ uk:
   label_videos: Відео
   label_view_all_revisions: Переглянути всі зміни
   label_view_diff: Переглянути відмінності
+  label_view_mode_switcher: Змінити подання
   label_view_revisions: Переглянути зміни
   label_view_x: 'Переглянути: %{x}'
   label_watched_work_packages: Спостерігали робочі пакети
@@ -4784,6 +4827,7 @@ uk:
   label_working_days: Робочі дні
   label_working_days_and_hours: Робочі дні й години
   label_working_hours: Розклад роботи
+  label_workweek: Робочий тиждень
   label_x_closed_work_packages_abbr:
     one: 1 закрито
     other: 'Закрито: %{count}'
@@ -5236,6 +5280,18 @@ uk:
     password_confirmation_dialog:
       confirmation_required: Потрібно ввести пароль облікового запису, щоб підтвердити цю зміну.
       title: Підтвердьте свій пароль, щоб продовжити
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Маркери доступу
@@ -5441,7 +5497,6 @@ uk:
   notice_password_confirmation_failed: Введений пароль неправильний.
   notice_principals_found_multiple: "There are %{number} знайдені результати. \nВкладка для фокусування першого результату."
   notice_principals_found_single: Знайдений один результат. Натисніть <TAB> для переходу до нього.
-  notice_project_cannot_update_custom_fields: 'Неможливо оновити доступні користувальницькі поля проекту. Проект недійсний: %{errors}'
   notice_project_not_deleted: Проект не був видалений.
   notice_project_not_found: Проєкт не знайдено.
   notice_requires_enterprise_token: Токен Enterprise відсутній або не надає доступу до цієї сторінки.
@@ -5451,9 +5506,6 @@ uk:
   notice_successful_create: Створення успішно завершене.
   notice_successful_delete: Видалення успішно завершене.
   notice_successful_update: Успішно оновлено.
-  notice_successful_update_custom_fields_added_to_project: 'Оновлення завершено. Користувацькі поля активованих типів автоматично активовано у формі пакета робіт. <a href="%{url}" target="_blank">Докладніше</a>.
-
-    '
   notice_to_many_principals_to_display: |-
     Є занадто багато результатів.
     Звузити пошук ввівши назву нового елемента (або групи).
@@ -5810,6 +5862,9 @@ uk:
   permission_manage_dashboards: Керування інформаційними панелями
   permission_manage_forums: Управління форумами
   permission_manage_members: Управління учасниками
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Управління новинами
   permission_manage_own_reminders: Створюйте власні нагадування
   permission_manage_own_working_times: Керувати власним робочим часом
@@ -5838,7 +5893,6 @@ uk:
   permission_save_bcf_queries: Зберігання запитів BCF
   permission_save_queries: Зберегти перегляди
   permission_search_project: Пошук проєктів
-  permission_select_custom_fields: Вибирати власні поля
   permission_select_project_custom_fields: Виберіть атрибути проєкту
   permission_select_project_modules: Вибір модулів проекту
   permission_select_project_phases: Вибір етапів проєкту
@@ -6693,6 +6747,7 @@ uk:
         '
       title: Перевірка на віруси
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Якщо вимкнути цей параметр, список вкладень буде приховано на вкладці «Файли» пакетів робіт для нових проєктів. Файли, вкладені в опис пакета робіт, усе одно буде додано у внутрішнє сховище вкладень.
 
         '
@@ -6838,6 +6893,7 @@ uk:
         heading: Новий етап
       no_gate: Немає контрольної точки
       non_defined: Наразі не визначено жодних етапів.
+      order_changed: Order successfully changed.
       phase_gates: Контрольні точки етапів
       section_header: Етапи
       start_gate: Початкова контрольна точка
@@ -7280,7 +7336,7 @@ uk:
         project_attributes: Атрибути проєкту
         projects: Проєкти
         start: Start
-        workflows: Робочі процеси
+        workflows: Workflow
       success: Успішно створено.
     edit:
       breadcrumb_variant: 'Варіант: «%{name}»'
@@ -7334,6 +7390,7 @@ uk:
             label_enable_all: Увімкнути все
             label_toggle_template: Змінити %{template}
           label: Шаблони експорту PDF
+          order_changed: Order successfully changed.
         tab: Згенерувати PDF
         templates:
           readonly_error: Не можна змінити, поки пов'язано з типом джерела.
@@ -7348,10 +7405,10 @@ uk:
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Ви справді хочете скинути форму?
         custom_field: Користувацьке поле
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
         drag_to_reorder: Перетягніть, щоб змінити порядок
@@ -7513,7 +7570,7 @@ uk:
           description: Ці варіанти доступні лише в рамках тих проєктів, у яких вони були створені.
           title: Варіанти для проєкту
       workflow:
-        tab: Робочі процеси
+        tab: Workflow
     index:
       add_variant: Додати варіант для об’єкта «%{name}»
       add_variant_action: Додати варіант
@@ -7560,6 +7617,13 @@ uk:
       remove_default_notice: Обʼєкт «%{name}» більше не активується в нових проєктах.
       type_label: Тип
       variant_label: Варіант
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        many: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Віха
     patterns:
       formats:
@@ -7931,6 +7995,8 @@ uk:
       required_description: Позначає цей робочий пакет як обовʼязковий для звʼязаного з ним
       requires_description: Позначає звʼязаний пакет робіт як обовʼязковий для цього
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Не вдалося скопіювати пакети робіт.
       could_not_be_deleted: 'Не вдалося видалити такі пакети робіт:'

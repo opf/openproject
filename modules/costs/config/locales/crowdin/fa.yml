@@ -144,7 +144,6 @@ fa:
   button_add_time_entry: ثبت زمان
   button_log_costs: ثبت هزینه‌های واحد
   button_log_time: گزارش
-  button_stop_timer: توقف تایمر
   button_update_limits: به‌روزرسانی محدودیت‌ها
   button_update_start_finish_times: به‌روزرسانی زمان‌های شروع و پایان
   caption_booked_on_project: رزرو شده در پروژه
@@ -214,7 +213,6 @@ fa:
   label_current: فعلی
   label_current_default_rate: ضریب پرداخت پیشفرض فعلی
   label_date_on: در
-  label_day: روز
   label_defaults_and_limits: پیش‌فرض‌ها و محدودیت‌ها
   label_deleted_cost_types: انواع هزینه حذف‌شده
   label_display_cost_entries: نمایش هزینه‌های واحد
@@ -230,42 +228,28 @@ fa:
   label_less_or_equal: "<="
   label_list: فهرست
   label_log_costs: ثبت هزینه‌های واحد
-  label_month: ماه
-  label_my_time_tracking: ثبت زمان من
   label_new_time_entry_activity: فعالیت جدید ثبت زمان
-  label_next_day: روز بعد
-  label_next_month: ماه بعد
-  label_next_week: هفته بعد
-  label_next_workweek: هفته کاری بعدی
   label_no: خیر
   label_no_default_rate: نرخ پیش‌فرضی تعیین نشده است
   label_no_project_rate: برای این پروژه نرخی تعیین نشده است
-  label_no_time: زمانی ثبت نشده است
   label_option_plural: گزینه‌ها
   label_overall_costs: هزینه‌های کل
-  label_previous_day: روز قبل
-  label_previous_month: ماه قبل
-  label_previous_week: هفته قبل
-  label_previous_workweek: هفته کاری قبل
   label_rate_plural: نرخ‌ها
   label_show: نمایش
   label_specific_day: "%{day} روز"
   label_specific_month: ماه %{month}
-  label_stack: پشته
   label_start_and_finished: زمان‌های شروع و پایان
   label_status_finished: پایان‌یافته
   label_time: زمان
   label_time_entry_activity_form_description: تغییرات این فعالیت ثبت زمان در همه پروژه‌هایی که در آن‌ها فعال است اعمال خواهد شد.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: محدودیت‌ها
-  label_timer_since: شروع شده از %{time}
   label_today_capitalized: امروز
   label_units: واحدهای هزینه
   label_until: تا
   label_using_current_default_rate: استفاده از نرخ پیش‌فرض فعلی
   label_valid_from: معتبر از
-  label_view_mode_switcher: تغییر نما
   label_work_package_filter_add: افزودن فیلتر پکیج‌کاری
-  label_workweek: هفته کاری
   label_yes: بله
   notice_cost_logged_successfully: هزینه واحد با موفقیت ثبت شد.
   notice_different_time_zones: منطقه زمانی این کاربر متفاوت است (%{tz}). زمان با استفاده از منطقه زمانی او ثبت خواهد شد.

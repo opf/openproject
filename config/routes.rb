@@ -434,8 +434,6 @@ Rails.application.routes.draw do
 
   resources :custom_fields, only: :index
   scope "admin/settings/work_package_custom_fields/:custom_field_id", as: :custom_field, module: "admin/custom_fields" do
-    resources :projects, controller: :custom_field_projects, only: %i[index new create]
-    resource :project, controller: :custom_field_projects, only: :destroy
     resources :items, controller: "hierarchy/items" do
       member do
         get :change_parent, action: :change_parent_dialog
@@ -565,7 +563,6 @@ Rails.application.routes.draw do
         resource :versions, only: %i[show]
         resource :storage, only: %i[show], controller: "storage"
         get :types, to: redirect("projects/%{project_id}/settings/work_packages/types")
-        get :custom_fields, to: redirect("projects/%{project_id}/settings/work_packages/custom_fields")
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
@@ -575,7 +572,6 @@ Rails.application.routes.draw do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
           end
-          resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
@@ -910,7 +906,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :custom_actions, except: :show
+    resources :automations, except: :show
 
     namespace :oauth do
       resources :applications do
@@ -1263,6 +1259,8 @@ Rails.application.routes.draw do
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
 
+    post "assign_to_me" => "work_packages#assign_to_me", on: :member
+
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
     post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
@@ -1481,6 +1479,21 @@ Rails.application.routes.draw do
       delete :revoke_ical_token
       delete :revoke_ical_meeting_token
     end
+
+    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
+        as: :work,
+        constraints: {
+          mode: /day|week|workweek|month/,
+          view_mode: /list|calendar|stack/,
+          date: /(\d{4}-\d{2}-\d{2}|today)/
+        }
+    get "/work/refresh" => "work#refresh",
+        as: :work_refresh
+
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking/*rest" => redirect { |params, _req|
+      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    }
   end
 
   scope controller: "my" do

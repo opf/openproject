@@ -50,7 +50,6 @@ RSpec.describe "multi select custom values", :js do
       name: "Ingredients",
       multi_value:,
       types: [type],
-      projects: [project],
       possible_values: ["ham", "onions", "pineapple", "mushrooms"]
     )
   end

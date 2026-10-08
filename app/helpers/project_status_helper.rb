@@ -34,8 +34,6 @@ module ProjectStatusHelper
 
   ##
   # Returns the CSS class (BEM modifier) for the Project Status.
-  # Can be used in conjunction with `.project-status--name` or
-  # `.project-status--bulb` (BEM element) classes.
   #
   # @param status_code [String | Symbol | nil] Project Status code
   # @return [String] the CSS class.

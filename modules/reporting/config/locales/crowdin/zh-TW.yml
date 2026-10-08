@@ -104,7 +104,6 @@ zh-TW:
   plugin_openproject_reporting:
     description: 本外掛允許透過OpenProject 時間及成本外掛，建立具篩選及群組的客製化成本報表
     name: OpenProject 報表
-  project_module_reporting_module: 成本報告
   reporting:
     group_by:
       selected_columns: 選擇列

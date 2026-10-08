@@ -106,7 +106,6 @@ li:
   plugin_openproject_reporting:
     description: Deze plugin mak ut meugelik um aangepaste kosterapporte te make mit filtering en groepering gemak door de OpenProject Tied en Koste plugin.
     name: OpenProject Rapportage
-  project_module_reporting_module: Cost reports
   reporting:
     group_by:
       selected_columns: Selected columns

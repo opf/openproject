@@ -144,7 +144,6 @@ pt-BR:
   button_add_time_entry: Registro de tempo
   button_log_costs: Registrar custos unitários
   button_log_time: Registro
-  button_stop_timer: Parar temporizador
   button_update_limits: Atualizar limites
   button_update_start_finish_times: Atualizar horários de início e término
   caption_booked_on_project: Reservado para o projeto
@@ -214,7 +213,6 @@ pt-BR:
   label_current: Atual
   label_current_default_rate: Atual taxa padrão
   label_date_on: em
-  label_day: Dia
   label_defaults_and_limits: Padrões e limites
   label_deleted_cost_types: Tipos de custos excluídos
   label_display_cost_entries: Exibir os custos unitários
@@ -230,42 +228,28 @@ pt-BR:
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Registrar custos unitários
-  label_month: Mês
-  label_my_time_tracking: Meu controle de tempo
   label_new_time_entry_activity: Nova atividade de registro de tempo
-  label_next_day: Próximo dia
-  label_next_month: Próximo mês
-  label_next_week: Próxima semana
-  label_next_workweek: Próxima semana útil
   label_no: Não
   label_no_default_rate: Nenhuma taxa padrão definida
   label_no_project_rate: Nenhuma taxa definida para este projeto
-  label_no_time: Sem tempo controlado
   label_option_plural: Opções
   label_overall_costs: Custos totais
-  label_previous_day: Dia anterior
-  label_previous_month: Mês anterior
-  label_previous_week: Semana anterior
-  label_previous_workweek: Semana útil anterior
   label_rate_plural: Taxas
   label_show: Exibir
   label_specific_day: Dia %{day}
   label_specific_month: Mês %{month}
-  label_stack: Pilha
   label_start_and_finished: Horários de início e término
   label_status_finished: Finalizado
   label_time: Horário
   label_time_entry_activity_form_description: As mudanças nesta atividade de registro de tempo serão aplicadas a todos os projetos onde estiver habilitada.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limites
-  label_timer_since: Iniciado às %{time}
   label_today_capitalized: Hoje
   label_units: Custos unitários
   label_until: até
   label_using_current_default_rate: Usando a taxa padrão atual
   label_valid_from: Válido a partir de
-  label_view_mode_switcher: Alterar vista
   label_work_package_filter_add: Adicionar filtro de pacote de trabalho
-  label_workweek: Semana útil
   label_yes: Sim
   notice_cost_logged_successfully: Custo unitário registrado com sucesso.
   notice_different_time_zones: Este usuário tem um fuso horário diferente (%{tz}). A hora será registrada usando o fuso horário dele.

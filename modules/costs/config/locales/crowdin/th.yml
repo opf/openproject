@@ -135,7 +135,6 @@ th:
   button_add_time_entry: เวลาที่ถูกบันทึก
   button_log_costs: บันทึกต้นทุนหน่วย
   button_log_time: บันทึก
-  button_stop_timer: หยุดตัวจับเวลา
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: จองในโครงการแล้ว
@@ -205,7 +204,6 @@ th:
   label_current: Current
   label_current_default_rate: อัตราเริ่มต้นปัจจุบัน
   label_date_on: เมื่อ
-  label_day: วันที่
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: ประเภทต้นทุนที่ถูกลบ
   label_display_cost_entries: แสดงต้นทุนหน่วย
@@ -221,42 +219,28 @@ th:
   label_less_or_equal: "<="
   label_list: รายการ
   label_log_costs: บันทึกต้นทุนหน่วย
-  label_month: เดือน
-  label_my_time_tracking: My time tracking
   label_new_time_entry_activity: กิจกรรมการบันทึกเวลาใหม่
-  label_next_day: Next day
-  label_next_month: Next month
-  label_next_week: อาทิตย์ถัดไป
-  label_next_workweek: Next work week
   label_no: ไม่ใช่
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: No time tracked
   label_option_plural: ตัวเลือก
   label_overall_costs: ค่าใช้จ่ายทั้งหมด
-  label_previous_day: Previous day
-  label_previous_month: Previous month
-  label_previous_week: สัปดาห์ก่อนหน้านี้
-  label_previous_workweek: Previous work week
   label_rate_plural: อัตรา
   label_show: แสดง
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: เสร็จสิ้นแล้ว
   label_time: Time
   label_time_entry_activity_form_description: การเปลี่ยนแปลงในกิจกรรมการบันทึกเวลานี้จะส่งผลไปยังทุกโครงการที่เปิดใช้งานกิจกรรมดังกล่าว
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Today
   label_units: หน่วยต้นทุน
   label_until: จนถึง
   label_using_current_default_rate: Using current default rate
   label_valid_from: มีผลตั้งแต่
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: เพิ่มตัวกรองชุดงาน
-  label_workweek: Work week
   label_yes: ใช่
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

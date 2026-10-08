@@ -144,7 +144,6 @@ es:
   button_add_time_entry: Registro de tiempo
   button_log_costs: Registrar costos unitarios
   button_log_time: Registro
-  button_stop_timer: Detener temporizador
   button_update_limits: Actualizar límites
   button_update_start_finish_times: Actualizar horas de inicio y finalización
   caption_booked_on_project: Reservados en proyecto
@@ -214,7 +213,6 @@ es:
   label_current: Actual
   label_current_default_rate: tasa de morosidad actual
   label_date_on: en
-  label_day: Día
   label_defaults_and_limits: Valores predeterminados y límites
   label_deleted_cost_types: Eliminar tipos de costo
   label_display_cost_entries: Mostrar los costos unitarios
@@ -230,42 +228,28 @@ es:
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Registrar costos unitarios
-  label_month: Mes
-  label_my_time_tracking: Mi seguimiento del tiempo
   label_new_time_entry_activity: Nueva actividad de entrada de tiempo
-  label_next_day: Siguiente día
-  label_next_month: Próximo mes
-  label_next_week: La próxima semana
-  label_next_workweek: Próxima semana laboral
   label_no: 'No'
   label_no_default_rate: No se ha establecido ninguna tarifa predeterminada
   label_no_project_rate: No se ha establecido ninguna tarifa para este proyecto
-  label_no_time: No hay tiempo seguido
   label_option_plural: Opciones
   label_overall_costs: Costos totales
-  label_previous_day: Día anterior
-  label_previous_month: Mes anterior
-  label_previous_week: Semana anterior
-  label_previous_workweek: Semana laboral anterior
   label_rate_plural: Tasas
   label_show: Mostrar
   label_specific_day: Día %{day}
   label_specific_month: Mes %{month}
-  label_stack: Stack
   label_start_and_finished: Horas de inicio y finalización
   label_status_finished: Acabado
   label_time: Hora
   label_time_entry_activity_form_description: Los cambios en esta actividad de entrada de tiempo se reflejarán en todos los proyectos en los que esté activada.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Límites
-  label_timer_since: Comenzó a las %{time}
   label_today_capitalized: Hoy
   label_units: Unidades de costo
   label_until: hasta
   label_using_current_default_rate: Utilizando la tarifa predeterminada actual
   label_valid_from: Válido desde
-  label_view_mode_switcher: Cambia vista
   label_work_package_filter_add: Añadir filtro del paquete de trabajo
-  label_workweek: Semana laboral
   label_yes: Sí
   notice_cost_logged_successfully: Costo unitario registrado correctamente.
   notice_different_time_zones: Este usuario tiene una zona horaria diferente (%{tz}). La hora se registrará utilizando su zona horaria.

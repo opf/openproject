@@ -116,6 +116,7 @@ pl:
         caption: Podpis
         help_text: Tekst pomocy
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: Klienci SCIM
       calculated_value_error:
         customized_id: Niestandardowy identyfikator
@@ -644,6 +645,7 @@ pl:
         unknown_property: nie jest znaną właściwością.
         unknown_property_nested: ma nieznaną ścieżkę '%{path}'.
         unremovable: nie można usunąć.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
 
           '
@@ -2677,6 +2679,7 @@ pl:
     groups: Grupy
     hexcode: Kod szesnastkowy
     id: ID
+    inexistent: Inexistent
     is_default: Wartość domyślna
     is_for_all: Dla wszystkich projektów
     issue: Zadanie
@@ -2736,7 +2739,34 @@ pl:
     work_package: Zadanie
     work_package_id: Pakiet roboczy
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Logowanie i rejestracja
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Zadanie zostało anulowane z powodu błędu: %{message}'
@@ -2863,6 +2893,7 @@ pl:
   button_set_reminder: Ustaw przypomnienie
   button_show: Pokaż
   button_sort: Sortowanie
+  button_stop_timer: Zatrzymaj zegar
   button_submit: Prześlij
   button_test: Badania
   button_unarchive: Unarchive
@@ -2969,10 +3000,6 @@ pl:
     plural: Działania niestandardowe
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: To pole niestandardowe jest włączone we wszystkich projektach, ponieważ jest zaznaczona opcja „Dla wszystkich projektów”. Nie można go wyłączyć dla poszczególnych projektów.
-          heading: Dla wszystkich projektów
       hierarchy:
         subitems:
           one: 1 podelement
@@ -2996,7 +3023,7 @@ pl:
           short: Nazwa skrócona
           weight: Waga
       notice:
-        remember_items_and_projects: Pamiętaj, aby ustawić elementy i projekty w odpowiednich zakładkach dla tego pola niestandardowego.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Możesz automatycznie przyznać określoną rolę w projekcie każdemu użytkownikowi przypisanemu do tego atrybutu projektu, niezależnie od pierwotnej roli tego użytkownika w tym projekcie.
         dialog:
@@ -3061,16 +3088,17 @@ pl:
     is_enabled_globally: Jest włączony globalnie
     multi_value_more:
       other: i jeszcze %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Brak przypisanie roli
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: W pierwszej kolejności wymagany jest wybór pakietu roboczego lub projektu
     reorder_alphabetical: Ustaw kolejność wartości alfabetycznie
     reorder_confirmation: 'Ostrzeżenie: bieżąca kolejność dostępnych wartości oraz wszystkie niezapisane wartości zostaną utracone. Czy na pewno chcesz kontynuować?'
     semantic_keys:
       job_title: Stanowisko
       none: Brak
-    tab:
-      no_results_content_text: Utwórz pole użytkownika
-      no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
     text_add_new_custom_field: 'Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
 
       '
@@ -3798,10 +3826,10 @@ pl:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -4211,6 +4239,7 @@ pl:
   label_date_from_to: Data od %{start} do %{end}
   label_date_to: Do
   label_dates: Daty
+  label_day: Dzień
   label_day_plural: dni
   label_default: Domyślnie
   label_defaults: Domyślne
@@ -4310,6 +4339,7 @@ pl:
   label_go_forward: Otwórz podmenu %{module}
   label_greater_or_equal: "≥"
   label_group: Grupa
+  label_group_attributes_plural: Group attributes
   label_group_by: Grupuj według
   label_group_named: Grupa %{name}
   label_group_new: Nowa Grupa
@@ -4426,6 +4456,7 @@ pl:
   label_module_plural: Moduły
   label_modules: Moduły
   label_modules_and_plugins: Moduły i dodatki plug-in
+  label_month: Miesiąc
   label_months_from: miesięcy od
   label_more: Więcej
   label_more_information: Więcej informacji
@@ -4439,6 +4470,7 @@ pl:
   label_my_avatar: Mój awatar
   label_my_queries: Moje zapytania niestandardowe
   label_my_security: Zabezpieczenia
+  label_my_work: My work
   label_name: Nazwa
   label_never: Nigdy
   label_new: Nowy
@@ -4453,7 +4485,10 @@ pl:
   label_news_singular: Aktualności
   label_news_view_all: Zobacz wszystkie wiadomości
   label_next: Następny
+  label_next_day: Następny dzień
+  label_next_month: Następny miesiąc
   label_next_week: Następny tydzień
+  label_next_workweek: Następny tydzień pracy
   label_next_year: Następny rok
   label_no_change_option: "(Bez zmian)"
   label_no_data: Brak danych do pokazania
@@ -4461,6 +4496,7 @@ pl:
   label_no_parent_group: "(Brak grupy nadrzędnej)"
   label_no_parent_page: Bez strony nadrzędnej
   label_no_start_date: brak daty rozpoczęcia
+  label_no_time: Brak śledzonego czasu
   label_nobody: nikt
   label_non_working_days: Kalendarz dostępności
   label_non_working_days_summary: Podsumowanie
@@ -4527,7 +4563,10 @@ pl:
   label_preview: Podgląd
   label_preview_not_available: Podgląd niedostępny
   label_previous: Poprzedni
+  label_previous_day: Poprzedni dzień
+  label_previous_month: Poprzedni miesiąc
   label_previous_week: Poprzedni tygodzień
+  label_previous_workweek: Poprzedni tydzień pracy
   label_previous_year: Poprzedni rok
   label_principal_invite_via_email: " lub zaproś nowych użytkowników przez email"
   label_principal_search: Dodaj istniejących użytkowników lub grupy
@@ -4646,6 +4685,7 @@ pl:
   label_sort_lowest: Przenieś na sam dół
   label_sorted_by: kolejność wg %{value}
   label_spent_time: Czas pracy
+  label_stack: Stack
   label_start_to_end: od początku do końca
   label_start_to_start: rozpoczęcie-rozpoczęcie
   label_starts_with: zaczyna się od
@@ -4679,6 +4719,7 @@ pl:
   label_time: Czas
   label_time_entry_activity_plural: Czas spędzony na aktywności
   label_time_entry_plural: Czas pracy
+  label_timer_since: Rozpoczęto o %{time}
   label_title: Tytuł
   label_today: dzisiaj
   label_today_as_date: Wybierz dzisiaj jako datę.
@@ -4715,6 +4756,7 @@ pl:
   label_user_settings: Ustawienia użytkownika
   label_users_settings: Ustawienia użytkowników
   label_value_x: 'Wartość: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Edytuj wersję
   label_version_new: Nowa wersja
   label_version_plural: Wersje
@@ -4727,6 +4769,7 @@ pl:
   label_videos: Filmy
   label_view_all_revisions: Zobacz wszystkie rewizje
   label_view_diff: Widok różnic
+  label_view_mode_switcher: Zmień widok
   label_view_revisions: Widok rewizji
   label_view_x: 'Wyświetl: %{x}'
   label_watched_work_packages: Obserwowane pakiety robocze
@@ -4774,6 +4817,7 @@ pl:
   label_working_days: Dni robocze
   label_working_days_and_hours: Dni i godziny pracy
   label_working_hours: Harmonogram pracy
+  label_workweek: Tydzień roboczy
   label_x_closed_work_packages_abbr:
     one: 1 zamknięty
     other: 'Liczba zamkniętych: %{count}'
@@ -5228,6 +5272,18 @@ pl:
     password_confirmation_dialog:
       confirmation_required: Aby potwierdzić tę zmianę, należy wprowadzić hasło do konta.
       title: Aby kontynuować, potwierdź hasło
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Tokenu dostępu
@@ -5437,7 +5493,6 @@ pl:
   notice_principals_found_single: |-
     Znaleziono 1 wynik.
     Naciśnij Tab, aby go wybrać.
-  notice_project_cannot_update_custom_fields: 'Nie można zaktualizować dostępnych niestandardowych pól projektu. Projekt jest nieprawidłowy: %{errors}'
   notice_project_not_deleted: Projekt nie został usunięty.
   notice_project_not_found: Nie znaleziono projektu.
   notice_requires_enterprise_token: Brak tokenu wersji Enterprise lub nie zezwala ona na dostęp do tej strony.
@@ -5447,9 +5502,6 @@ pl:
   notice_successful_create: Tworzenie zakończone sukcesem.
   notice_successful_delete: Usuwanie zakończone sukcesem.
   notice_successful_update: Aktualizacja zakończona sukcesem.
-  notice_successful_update_custom_fields_added_to_project: |
-    Pomyślna aktualizacja. Pola własne aktywowanych typów są automatycznie włączane
-    do formularza pakietu roboczego. <a href="%{url}" target="_blank">Zobacz więcej</a>.
   notice_to_many_principals_to_display: |-
     Istnieje zbyt wiele wyników.
     Należy zawęzić wyszukiwanie przez wpisanie w nazwy użytkownika (lub grupy).
@@ -5806,6 +5858,9 @@ pl:
   permission_manage_dashboards: Zarządzaj pulpitami nawigacyjnymi
   permission_manage_forums: Zarządzanie forum
   permission_manage_members: Zarządzanie użytkownikami
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Zarządzanie wiadomościami
   permission_manage_own_reminders: Tworzenie własnych przypomnień
   permission_manage_own_working_times: Zarządzaj własnymi godzinami pracy
@@ -5834,7 +5889,6 @@ pl:
   permission_save_bcf_queries: Zapisz zapytania BCF
   permission_save_queries: Zapisz widoki
   permission_search_project: Wyszukaj projekt
-  permission_select_custom_fields: Wybierz pola niestandardowe
   permission_select_project_custom_fields: Wybierz atrybuty projektu
   permission_select_project_modules: Wybieranie modułów projektu
   permission_select_project_phases: Wybierz fazy projektu
@@ -6677,6 +6731,7 @@ pl:
         '
       title: Skanowanie antywirusowe
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Wyłączenie tej opcji spowoduje ukrycie listy załączników na karcie plików pakietów roboczych dla nowych projektów. Pliki załączone w opisie pakietu roboczego będą nadal przesyłane do wewnętrznego magazynu załączników.
 
         '
@@ -6821,6 +6876,7 @@ pl:
         heading: Nowa faza
       no_gate: Brak bramki
       non_defined: Obecnie nie są zdefiniowane żadne fazy.
+      order_changed: Order successfully changed.
       phase_gates: Bramki faz
       section_header: Fazy
       start_gate: Bramka początkowa
@@ -7265,7 +7321,7 @@ pl:
         project_attributes: Atrybuty projektu
         projects: Projekty
         start: Start
-        workflows: Przepływy pracy
+        workflows: Workflow
       success: Utworzono.
     edit:
       breadcrumb_variant: 'Wariant: %{name}'
@@ -7319,6 +7375,7 @@ pl:
             label_enable_all: Włącz wszystkie
             label_toggle_template: Przełącz %{template}
           label: Szablony eksportu PDF
+          order_changed: Order successfully changed.
         tab: Wygeneruj PDF
         templates:
           readonly_error: Nie można zmienić, dopóki jest powiązany z typem źródła.
@@ -7333,10 +7390,10 @@ pl:
         blankslate_description: Dodaj grupy, używając powyższego przycisku lub przeciągnij atrybuty z lewego panelu.
         blankslate_title: Nie ma jeszcze grup
         confirm_delete_group: Czy na pewno chcesz usunąć tę sekcję? Tego działania nie można automatycznie cofnąć.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Czy na pewno chcesz zresetować formularz?
         custom_field: Pole niestandardowe
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Usuń sekcję
         drag_to_activate: Aby aktywować pola, przeciągaj je stąd
         drag_to_reorder: Przeciągnij, aby zmienić kolejność
@@ -7498,7 +7555,7 @@ pl:
           description: Te warianty są dostępne jedynie w projektach, w których zostały utworzone.
           title: Warianty specyficzne dla projektu
       workflow:
-        tab: Przepływy pracy
+        tab: Workflow
     index:
       add_variant: Dodaj wariant do %{name}
       add_variant_action: Dodaj wariant
@@ -7545,6 +7602,13 @@ pl:
       remove_default_notice: "%{name} nie jest już aktywowany w nowych projektach."
       type_label: Typ
       variant_label: Wariant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        many: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Kamień milowy
     patterns:
       formats:
@@ -7916,6 +7980,8 @@ pl:
       required_description: Oznacza ten pakiet roboczy jako wymaganie powiązanego pakietu roboczego
       requires_description: Oznacza powiązany pakiet roboczy jako wymaganie dla tego pakietu roboczego
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Nie można skopiować pakietów roboczych.
       could_not_be_deleted: 'Nie można usunąć następujących pakietów roboczych:'

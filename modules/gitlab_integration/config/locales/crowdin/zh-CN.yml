@@ -32,6 +32,10 @@ zh-CN:
         labels: 标签
       gitlab_pipeline:
         ci_details: CI 详情
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ zh-CN:
   attributes:
     commit: 提交
     gitlab: GitLab 标识符
-    gitlab_avatar_url: 头像 URL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: 合并请求
-    gitlab_name: GitLab 名称
     gitlab_updated_at: 更新于
     gitlab_user_avatar_url: GitLab 头像 URL
-    gitlab_username: GitLab 用户名
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

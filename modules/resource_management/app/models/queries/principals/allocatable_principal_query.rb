@@ -45,6 +45,7 @@ module Queries::Principals
     filter Filters::TypeaheadFilter
     filter Filters::NameFilter
     filter Filters::AllocatableIdFilter
+    filter Filters::CandidateOfPlaceholderFilter
 
     order Orders::NameOrder
   end

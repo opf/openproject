@@ -33,6 +33,12 @@ module Admin
     class WorkPackageCustomFieldsController < CustomFieldsBaseController
       menu_item :work_package_custom_fields
 
+      def index
+        super
+
+        @project_counts = WorkPackageCustomField.project_counts
+      end
+
       protected
 
       def custom_field_class

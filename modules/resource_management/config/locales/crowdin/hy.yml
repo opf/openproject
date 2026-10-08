@@ -107,6 +107,7 @@ hy:
       criteria:
         empty: No criteria set.
         label: Criteria
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: The selected user has no working hours configured for these dates, so they are counted as having no capacity.
         partial: The selected user has no working hours configured for %{dates}, so those days are counted as having no capacity.
@@ -121,6 +122,7 @@ hy:
         schedule_note: Այս օգտատերն աշխատում է %{schedule}։
         submit: Հատկացնել արտաժամյա աշխատանք
         title: Ցանկանո՞ւմ եք օգտատիրոջը հատկացնել արտաժամյա աշխատանք։
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Հատկացնել
       success_message: Ռեսուրսը հատկացվել է։
       title: Հատկացնել ռեսուրս
@@ -171,6 +173,8 @@ hy:
     label_new_resource_planner: Նոր ռեսուրսների պլանավորիչ
     label_resource_planner: Ռեսուրսների պլանավորիչ
     label_resource_planner_plural: Ռեսուրսների պլանավորիչներ
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Ավելացնել տեսք
     public_caption: Դարձրեք այս տեսքը հանրային նախագծի բոլոր անդամների համար։ Սա չի ազդում աշխատանքային փաթեթների տեսանելիության վրա, որը շարունակում է կախված լինել յուրաքանչյուր օգտատիրոջ թույլտվությունից։

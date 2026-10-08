@@ -116,6 +116,7 @@ hy:
         caption: Մակագրություն
         help_text: Օգնության տեքստ
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM հաճախորդներ
       calculated_value_error:
         customized_id: Հարմարեցված օբյեկտի ID
@@ -644,6 +645,7 @@ hy:
         unknown_property: հայտնի հատկություն չէ։
         unknown_property_nested: ունի անհայտ '%{path}' ուղի։
         unremovable: հնարավոր չէ հեռացնել։
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'չի ապահովում "Անվտանգ համատեքստ"։ Օգտագործեք HTTPS կամ loopback հասցե, օրինակ՝ localhost։
 
           '
@@ -2429,6 +2431,7 @@ hy:
     groups: Խմբեր
     hexcode: Տասնվեցական կոդ
     id: ID
+    inexistent: Inexistent
     is_default: Կանխադրված արժեք
     is_for_all: Բոլոր նախագծերի համար
     issue: Աշխատանքային փաթեթ
@@ -2488,7 +2491,34 @@ hy:
     work_package: Աշխատանքային փաթեթ
     work_package_id: Աշխատանքային փաթեթ
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Մուտք և գրանցում
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: Աշխատանքը չեղարկվել է սխալի պատճառով՝ %{message}
@@ -2617,6 +2647,7 @@ hy:
   button_set_reminder: Սահմանել հիշեցում
   button_show: Ցուցադրել
   button_sort: Դասավորել
+  button_stop_timer: Դադարեցնել ժամաչափը
   button_submit: Ուղարկել
   button_test: Փորձարկել
   button_unarchive: Հանել արխիվից
@@ -2723,10 +2754,6 @@ hy:
     plural: Հատուկ գործողություններ
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Այս հատուկ դաշտը միացված է բոլոր նախագծերում, քանի որ նշված է "Բոլոր նախագծերի համար" ընտրանքը։ Այն հնարավոր չէ անջատել առանձին նախագծերի համար։
-          heading: Բոլոր նախագծերի համար
       hierarchy:
         subitems:
           one: 1 ենթատարր
@@ -2750,7 +2777,7 @@ hy:
           short: Կարճ անվանում
           weight: Կշիռ
       notice:
-        remember_items_and_projects: Չմոռանաք սահմանել այս հատուկ դաշտի տարրերը և նախագծերը համապատասխան ներդիրներում։
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Դուք կարող եք ավտոմատ կերպով տրամադրել նախագծի որոշակի դեր ցանկացած օգտատիրոջ, որը նշանակված է այս նախագծի հատկանիշին, անկախ տվյալ նախագծում այդ օգտատիրոջ սկզբնական դերից։
         dialog:
@@ -2815,16 +2842,17 @@ hy:
     is_enabled_globally: Միացված է գլոբալ մակարդակում
     multi_value_more:
       other: և ևս %{count}
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Առանց դերի նշանակման
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Նախ անհրաժեշտ է ընտրել աշխատանքային փաթեթ կամ նախագիծ
     reorder_alphabetical: Վերադասավորել արժեքներն այբբենական կարգով
     reorder_confirmation: Նախազգուշացում՝ հասանելի արժեքների ընթացիկ դասավորությունը, ինչպես նաև բոլոր չպահպանված արժեքները կկորչեն։ Համոզվա՞ծ եք, որ ցանկանում եք շարունակել։
     semantic_keys:
       job_title: Պաշտոն
       none: Ոչ մեկը
-    tab:
-      no_results_content_text: Ստեղծեք նոր հատուկ դաշտ
-      no_results_title_text: Ներկայումս հատուկ դաշտեր չկան։
     text_add_new_custom_field: 'Նախագծին նոր հատուկ դաշտեր ավելացնելու համար նախ անհրաժեշտ է ստեղծել դրանք, ապա ավելացնել այս նախագծում։
 
       '
@@ -3502,10 +3530,10 @@ hy:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -3907,6 +3935,7 @@ hy:
   label_date_from_to: "%{start}-ից մինչև %{end}"
   label_date_to: Մինչև
   label_dates: Ամսաթվեր
+  label_day: Օր
   label_day_plural: օր
   label_default: Կանխադրված
   label_defaults: Կանխադրված արժեքներ
@@ -4006,6 +4035,7 @@ hy:
   label_go_forward: Բացել %{module} ենթացանկը
   label_greater_or_equal: ">="
   label_group: Խումբ
+  label_group_attributes_plural: Group attributes
   label_group_by: Խմբավորել ըստ
   label_group_named: Խումբ %{name}
   label_group_new: Նոր խումբ
@@ -4122,6 +4152,7 @@ hy:
   label_module_plural: Մոդուլներ
   label_modules: Մոդուլներ
   label_modules_and_plugins: Մոդուլներ և հավելումներ
+  label_month: Ամիս
   label_months_from: ամիս սկսած
   label_more: Ավելին
   label_more_information: Լրացուցիչ տեղեկություններ
@@ -4135,6 +4166,7 @@ hy:
   label_my_avatar: Իմ ավատարը
   label_my_queries: Իմ հատուկ հարցումները
   label_my_security: Անվտանգություն
+  label_my_work: My work
   label_name: Անվանում
   label_never: Երբեք
   label_new: Նոր
@@ -4149,7 +4181,10 @@ hy:
   label_news_singular: Նորություններ
   label_news_view_all: Դիտել բոլոր նորությունները
   label_next: Հաջորդ
+  label_next_day: Հաջորդ օր
+  label_next_month: Հաջորդ ամիս
   label_next_week: Հաջորդ շաբաթ
+  label_next_workweek: Հաջորդ աշխատանքային շաբաթ
   label_next_year: Հաջորդ տարի
   label_no_change_option: "(Առանց փոփոխության)"
   label_no_data: Ցուցադրելու տվյալներ չկան
@@ -4157,6 +4192,7 @@ hy:
   label_no_parent_group: "(Առանց ծնող խմբի)"
   label_no_parent_page: Առանց ծնող էջի
   label_no_start_date: առանց սկզբի ամսաթվի
+  label_no_time: Ժամանակ չի հաշվառվել
   label_nobody: ոչ ոք
   label_non_working_days: Հասանելիության օրացույց
   label_non_working_days_summary: Ամփոփում
@@ -4223,7 +4259,10 @@ hy:
   label_preview: Նախադիտել
   label_preview_not_available: Նախադիտումը հասանելի չէ
   label_previous: Նախորդ
+  label_previous_day: Նախորդ օր
+  label_previous_month: Նախորդ ամիս
   label_previous_week: Նախորդ շաբաթ
+  label_previous_workweek: Նախորդ աշխատանքային շաբաթ
   label_previous_year: Նախորդ տարի
   label_principal_invite_via_email: " կամ հրավիրեք նոր օգտատերերի էլ. փոստի միջոցով"
   label_principal_search: Ավելացրեք առկա օգտատերեր կամ խմբեր
@@ -4342,6 +4381,7 @@ hy:
   label_sort_lowest: Տեղափոխել վերջ
   label_sorted_by: դասավորված ըստ %{value}
   label_spent_time: Ծախսված ժամանակ
+  label_stack: Stack
   label_start_to_end: սկզբից մինչև ավարտ
   label_start_to_start: սկզբից մինչև սկիզբ
   label_starts_with: սկսվում է
@@ -4375,6 +4415,7 @@ hy:
   label_time: Ժամ
   label_time_entry_activity_plural: Ծախսված ժամանակի գործունեություններ
   label_time_entry_plural: Ծախսված ժամանակ
+  label_timer_since: Սկսվել է %{time}-ին
   label_title: Վերնագիր
   label_today: այսօր
   label_today_as_date: Ընտրեք այսօրը որպես ամսաթիվ։
@@ -4411,6 +4452,7 @@ hy:
   label_user_settings: Օգտատիրոջ կարգավորումներ
   label_users_settings: Օգտատերերի կարգավորումներ
   label_value_x: Արժեք՝ %{x}
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Խմբագրել տարբերակը
   label_version_new: Նոր տարբերակ
   label_version_plural: Տարբերակներ
@@ -4423,6 +4465,7 @@ hy:
   label_videos: Տեսանյութեր
   label_view_all_revisions: Դիտել բոլոր ռևիզիաները
   label_view_diff: Դիտել տարբերությունները
+  label_view_mode_switcher: Փոխել տեսքը
   label_view_revisions: Դիտել ռևիզիաները
   label_view_x: Տեսք՝ %{x}
   label_watched_work_packages: Հետևվող աշխատանքային փաթեթներ
@@ -4470,6 +4513,7 @@ hy:
   label_working_days: Աշխատանքային օրեր
   label_working_days_and_hours: Աշխատանքային օրեր և ժամեր
   label_working_hours: Աշխատանքային ժամանակացույց
+  label_workweek: Աշխատանքային շաբաթ
   label_x_closed_work_packages_abbr:
     one: 1 փակ
     other: "%{count} փակ"
@@ -4905,6 +4949,18 @@ hy:
     password_confirmation_dialog:
       confirmation_required: Այս փոփոխությունը հաստատելու համար անհրաժեշտ է մուտքագրել Ձեր հաշվի գաղտնաբառը։
       title: Հաստատեք Ձեր գաղտնաբառը՝ շարունակելու համար
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Մուտքի թոքեններ
@@ -5110,7 +5166,6 @@ hy:
   notice_password_confirmation_failed: Մուտքագրված գաղտնաբառը սխալ է։
   notice_principals_found_multiple: "Գտնվել է %{number} արդյունք։ \n Առաջին արդյունքին անցնելու համար սեղմեք Tab։"
   notice_principals_found_single: "Կա մեկ արդյունք։ \n Դրան անցնելու համար սեղմեք Tab։"
-  notice_project_cannot_update_custom_fields: Դուք չեք կարող թարմացնել նախագծի հասանելի հատուկ դաշտերը։ Նախագիծն անվավեր է՝ %{errors}
   notice_project_not_deleted: Նախագիծը չի ջնջվել։
   notice_project_not_found: Նախագիծը չի գտնվել։
   notice_requires_enterprise_token: Enterprise թոքենը բացակայում է կամ թույլ չի տալիս մուտք գործել այս էջին։
@@ -5120,9 +5175,6 @@ hy:
   notice_successful_create: Հաջողությամբ ստեղծվել է։
   notice_successful_delete: Հաջողությամբ ջնջվել է։
   notice_successful_update: Հաջողությամբ թարմացվել է։
-  notice_successful_update_custom_fields_added_to_project: |
-    Հաջողությամբ թարմացվել է։ Ակտիվացված տեսակների հատուկ դաշտերն ավտոմատ կերպով ակտիվացվում են
-    աշխատանքային փաթեթի ձևում։ <a href="%{url}" target="_blank">Տեսնել ավելին</a>։
   notice_to_many_principals_to_display: |-
     Արդյունքները չափազանց շատ են։
     Նեղացրեք որոնումը՝ մուտքագրելով նոր անդամի (կամ խմբի) անունը։
@@ -5473,6 +5525,9 @@ hy:
   permission_manage_dashboards: Կառավարել վահանակները
   permission_manage_forums: Կառավարել ֆորումները
   permission_manage_members: Կառավարել անդամներին
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Կառավարել նորությունները
   permission_manage_own_reminders: Ստեղծել սեփական հիշեցումներ
   permission_manage_own_working_times: Կառավարել սեփական աշխատանքային ժամանակը
@@ -5501,7 +5556,6 @@ hy:
   permission_save_bcf_queries: Պահպանել BCF հարցումները
   permission_save_queries: Պահպանել տեսքերը
   permission_search_project: Որոնել նախագծում
-  permission_select_custom_fields: Ընտրել հատուկ դաշտերը
   permission_select_project_custom_fields: Ընտրել նախագծի հատկանիշները
   permission_select_project_modules: Ընտրել նախագծի մոդուլները
   permission_select_project_phases: Ընտրել նախագծի փուլերը
@@ -6332,6 +6386,7 @@ hy:
         '
       title: Վիրուսների սկանավորում
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Այս ընտրանքն ապաակտիվացնելը կթաքցնի կցորդների ցուցակը նոր նախագծերի աշխատանքային փաթեթների նիշքերի ներդիրում։ Աշխատանքային փաթեթի նկարագրությանը կցված նիշքերը դեռևս կվերբեռնվեն կցորդների ներքին պահեստում։
 
         '
@@ -6477,6 +6532,7 @@ hy:
         heading: Նոր փուլ
       no_gate: Առանց դարպասի
       non_defined: Ներկայումս փուլեր սահմանված չեն։
+      order_changed: Order successfully changed.
       phase_gates: Փուլի դարպասներ
       section_header: Փուլեր
       start_gate: Սկզբի դարպաս
@@ -6920,7 +6976,7 @@ hy:
         project_attributes: Նախագծի հատկանիշներ
         projects: Նախագծեր
         start: Start
-        workflows: Աշխատանքային հոսքեր
+        workflows: Workflow
       success: Created successfully.
     edit:
       breadcrumb_variant: Տարատեսակ՝ %{name}
@@ -6974,6 +7030,7 @@ hy:
             label_enable_all: Միացնել բոլորը
             label_toggle_template: Toggle %{template}
           label: PDF արտահանման ձևանմուշներ
+          order_changed: Order successfully changed.
         tab: Ստեղծել PDF
         templates:
           readonly_error: Cannot be changed while linked to a source type.
@@ -6988,10 +7045,10 @@ hy:
         blankslate_description: Ավելացրեք խմբեր վերևի կոճակի միջոցով կամ քաշեք հատկանիշները ձախ վահանակից։
         blankslate_title: Դեռ խմբեր չկան
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Ջնջել բաժինը
         drag_to_activate: Ակտիվացնելու համար քաշեք դաշտերն այստեղից
         drag_to_reorder: Քաշեք՝ վերադասավորելու համար
@@ -7153,7 +7210,7 @@ hy:
           description: These variants are only available within the projects in which they were created.
           title: Project-specific variants
       workflow:
-        tab: Աշխատանքային հոսքեր
+        tab: Workflow
     index:
       add_variant: Add a variant to %{name}
       add_variant_action: Ավելացնել տարատեսակ
@@ -7196,6 +7253,11 @@ hy:
       remove_default_notice: "%{name}-ը այլևս ակտիվացված չէ նոր նախագծերում։"
       type_label: Տեսակ
       variant_label: Տարատեսակ
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Հանգրվան
     patterns:
       formats:
@@ -7565,6 +7627,8 @@ hy:
       required_description: Նշում է այս աշխատանքային փաթեթը որպես կապակցվածի պահանջ
       requires_description: Նշում է կապակցված աշխատանքային փաթեթը որպես սրա պահանջ
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Աշխատանքային փաթեթները չհաջողվեց պատճենել։
       could_not_be_deleted: Հետևյալ աշխատանքային փաթեթները չհաջողվեց ջնջել՝

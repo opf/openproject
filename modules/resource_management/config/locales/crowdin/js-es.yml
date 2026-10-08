@@ -5,4 +5,7 @@ es:
     resource_management:
       create_placeholder_user: Crear un usuario comodín con criterios de filtrado
       hidden_user: Hidden user
+      my_work:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
       show_allocations: Show resource allocations

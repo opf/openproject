@@ -51,7 +51,7 @@ module ResourceAllocations
       private
 
       def user
-        @allocation.principal
+        @allocation.principal unless @allocation.principal.is_a?(DeletedUser)
       end
 
       def allocation_range

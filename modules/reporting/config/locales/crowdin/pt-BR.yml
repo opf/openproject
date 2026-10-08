@@ -106,7 +106,6 @@ pt-BR:
   plugin_openproject_reporting:
     description: Este plugin permite a criação de relatórios de custos personalizados com filtragem e agrupamento criados pelo plugin OpenProject Time e custos.
     name: Relatórios do OpenProject
-  project_module_reporting_module: Relatórios de custos
   reporting:
     group_by:
       selected_columns: Colunas selecionadas

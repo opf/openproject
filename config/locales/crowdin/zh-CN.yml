@@ -116,6 +116,7 @@ zh-CN:
         caption: 标题
         help_text: 帮助文本
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM 客户端
       calculated_value_error:
         customized_id: 自定义ID
@@ -644,6 +645,7 @@ zh-CN:
         unknown_property: 不是已知属性。
         unknown_property_nested: 具有未知路径“%{path}”。
         unremovable: 不能删除。
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: '未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。
 
           '
@@ -2310,6 +2312,7 @@ zh-CN:
     groups: 组
     hexcode: 十六进制代码
     id: ID
+    inexistent: Inexistent
     is_default: 默认值
     is_for_all: 应用到所有项目
     issue: 工作包
@@ -2369,7 +2372,34 @@ zh-CN:
     work_package: 工作包
     work_package_id: 工作包
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: 登录和注册
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 由于错误，作业已被取消：%{message}
@@ -2496,6 +2526,7 @@ zh-CN:
   button_set_reminder: 设置提醒
   button_show: 显示
   button_sort: 排序
+  button_stop_timer: 停止计时器
   button_submit: 提交
   button_test: 测试
   button_unarchive: 取消归档
@@ -2602,10 +2633,6 @@ zh-CN:
     plural: 自定义操作
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: 由于选中了 "适用于所有项目 "选项，因此所有项目都启用了该自定义字段。单个项目无法停用。
-          heading: 适用于所有项目
       hierarchy:
         subitems:
           one: 1 个子项目
@@ -2629,7 +2656,7 @@ zh-CN:
           short: 短名
           weight: 重量
       notice:
-        remember_items_and_projects: 请记住，在相应的选项卡中为此自定义字段设置条目和项目。
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: 您可以自动将某个项目角色授予任何被指定至此项目特性的用户，而不管该用户在该项目中的原始角色是什么。
         dialog:
@@ -2694,16 +2721,17 @@ zh-CN:
     is_enabled_globally: 已全局启用
     multi_value_more:
       other: 和其他 %{count} 个
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: 无角色指定
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: 需要先选择工作包或项目
     reorder_alphabetical: 按字母顺序重新排序
     reorder_confirmation: 警告：当前的可用值顺序以及所有未保存的值都将丢失。确定要继续吗？
     semantic_keys:
       job_title: 职务名称
       none: 无
-    tab:
-      no_results_content_text: 创建新的自定义字段
-      no_results_title_text: 目前没有自定义字段。
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -3357,10 +3385,10 @@ zh-CN:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -3758,6 +3786,7 @@ zh-CN:
   label_date_from_to: 从 %{start} 到 %{end}
   label_date_to: 到
   label_dates: 日期
+  label_day: 天
   label_day_plural: 天
   label_default: 默认
   label_defaults: 默认
@@ -3857,6 +3886,7 @@ zh-CN:
   label_go_forward: 打开 %{module} 子菜单
   label_greater_or_equal: ">="
   label_group: 组
+  label_group_attributes_plural: Group attributes
   label_group_by: 分组依据
   label_group_named: 组 %{name}
   label_group_new: 新的组
@@ -3973,6 +4003,7 @@ zh-CN:
   label_module_plural: 模块
   label_modules: 模块
   label_modules_and_plugins: 模块和插件
+  label_month: 月
   label_months_from: 月份从
   label_more: 更多
   label_more_information: 更多信息
@@ -3986,6 +4017,7 @@ zh-CN:
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
   label_my_security: 安全性
+  label_my_work: My work
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -4000,7 +4032,10 @@ zh-CN:
   label_news_singular: 新闻
   label_news_view_all: 查看所有新闻
   label_next: 下一个
+  label_next_day: 后一天
+  label_next_month: 下个月
   label_next_week: 下周
+  label_next_workweek: 下一个工作周
   label_next_year: 明年
   label_no_change_option: "（不变）"
   label_no_data: 没有要显示的数据
@@ -4008,6 +4043,7 @@ zh-CN:
   label_no_parent_group: "（无父群组）"
   label_no_parent_page: 无父级页面
   label_no_start_date: 没有开始日期
+  label_no_time: 无时间追踪
   label_nobody: 没人
   label_non_working_days: 空闲日历
   label_non_working_days_summary: 摘要
@@ -4074,7 +4110,10 @@ zh-CN:
   label_preview: 预览
   label_preview_not_available: 预览不可用
   label_previous: 上一个
+  label_previous_day: 前一天
+  label_previous_month: 上个月
   label_previous_week: 前一周
+  label_previous_workweek: 上一个工作周
   label_previous_year: 去年
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
   label_principal_search: 添加现有用户或组
@@ -4193,6 +4232,7 @@ zh-CN:
   label_sort_lowest: 移至底部
   label_sorted_by: 排序按 %{value}
   label_spent_time: 已耗工时
+  label_stack: Stack
   label_start_to_end: 开始结束
   label_start_to_start: 开始开始
   label_starts_with: 开始为
@@ -4226,6 +4266,7 @@ zh-CN:
   label_time: 时间
   label_time_entry_activity_plural: 花费时间的活动
   label_time_entry_plural: 已耗工时
+  label_timer_since: "%{time} 开始"
   label_title: 标题
   label_today: 今天
   label_today_as_date: 选择今天为日期。
@@ -4262,6 +4303,7 @@ zh-CN:
   label_user_settings: 用户设置
   label_users_settings: 用户设置
   label_value_x: '值: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: 编辑版本
   label_version_new: 新版本
   label_version_plural: 版本
@@ -4274,6 +4316,7 @@ zh-CN:
   label_videos: 视频
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
+  label_view_mode_switcher: 更改视图
   label_view_revisions: 查看修订版本
   label_view_x: 查看：%{x}
   label_watched_work_packages: 受关注的工作包
@@ -4321,6 +4364,7 @@ zh-CN:
   label_working_days: 工作日
   label_working_days_and_hours: 工作日和工作小时
   label_working_hours: 工作时间表
+  label_workweek: 工作周
   label_x_closed_work_packages_abbr:
     one: 1 个已关闭
     other: "%{count} 个已关闭"
@@ -4741,6 +4785,18 @@ zh-CN:
     password_confirmation_dialog:
       confirmation_required: 需要输入帐户密码以确认此更改。
       title: 确认密码以继续
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: 访问令牌
@@ -4950,7 +5006,6 @@ zh-CN:
   notice_principals_found_single: |-
     这有一个结果。
     点击来关注它。
-  notice_project_cannot_update_custom_fields: 您无法更新项目的可用自定义字段。项目无效：%{errors}
   notice_project_not_deleted: 项目没有被删除
   notice_project_not_found: 未找到项目。
   notice_requires_enterprise_token: 企业令牌缺失或不允许访问此页面。
@@ -4960,9 +5015,6 @@ zh-CN:
   notice_successful_create: 成功创建。
   notice_successful_delete: 成功删除。
   notice_successful_update: 成功更新。
-  notice_successful_update_custom_fields_added_to_project: '更新成功。已激活类型的自定义字段在工作包表单上自动激活。<a href="%{url}" target="_blank">了解详情</a>。
-
-    '
   notice_to_many_principals_to_display: |-
     搜索结果数量过多。
     请键入新成员 (或组) 的名字来缩小搜索范围。
@@ -5311,6 +5363,9 @@ zh-CN:
   permission_manage_dashboards: 管理仪表板
   permission_manage_forums: 管理论坛
   permission_manage_members: 管理成员
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: 管理新闻
   permission_manage_own_reminders: 创建个人提醒事项
   permission_manage_own_working_times: 管理自己的工作时间
@@ -5339,7 +5394,6 @@ zh-CN:
   permission_save_bcf_queries: 保存 BCF 查询
   permission_save_queries: 保存界面设置
   permission_search_project: 搜索项目
-  permission_select_custom_fields: 选择自定义字段
   permission_select_project_custom_fields: 选择项目属性
   permission_select_project_modules: 选择项目模块
   permission_select_project_phases: 选择项目阶段
@@ -6151,6 +6205,7 @@ zh-CN:
         '
       title: 病毒扫描
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: '禁用此选项将会为新项目隐藏工作包文件标签上的附件列表。 工作包描述中的文件仍将上传到内部附件存储。
 
         '
@@ -6296,6 +6351,7 @@ zh-CN:
         heading: 新阶段
       no_gate: 无关口
       non_defined: 当前没有定义阶段。
+      order_changed: Order successfully changed.
       phase_gates: 阶段关口
       section_header: 阶段
       start_gate: 开始关口
@@ -6737,7 +6793,7 @@ zh-CN:
         project_attributes: 项目特性
         projects: 项目
         start: Start
-        workflows: 工作流
+        workflows: Workflow
       success: 创建成功。
     edit:
       breadcrumb_variant: 变体：%{name}
@@ -6791,6 +6847,7 @@ zh-CN:
             label_enable_all: 全部启用
             label_toggle_template: 切换 %{template}
           label: PDF 导出模板
+          order_changed: Order successfully changed.
         tab: 生成 PDF
         templates:
           readonly_error: 链接到源类型时无法更改。
@@ -6805,10 +6862,10 @@ zh-CN:
         blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
         blankslate_title: 还没有群组
         confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: 确定要重置表单吗？
         custom_field: 自定义字段
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: 删除小节
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
@@ -6970,7 +7027,7 @@ zh-CN:
           description: 这些变体仅在创建它们的项目内使用。
           title: 项目特定变体
       workflow:
-        tab: 工作流
+        tab: Workflow
     index:
       add_variant: 将变体添加到 %{name}
       add_variant_action: 添加变体
@@ -7011,6 +7068,10 @@ zh-CN:
       remove_default_notice: "%{name} 不再在新项目中激活。"
       type_label: 类型
       variant_label: 变体
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: 里程碑
     patterns:
       formats:
@@ -7378,6 +7439,8 @@ zh-CN:
       required_description: 将此工作包标记为相关工作包的需求
       requires_description: 将相关工作包标记为该工作包的需求
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: 无法复制工作包。
       could_not_be_deleted: 以下工作包无法删除：

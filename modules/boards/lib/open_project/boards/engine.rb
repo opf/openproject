@@ -27,6 +27,8 @@ module OpenProject::Boards
              bundled: true,
              settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
+        enabled_by_default!
+
         permission :show_board_views,
                    { "boards/boards": %i[index show split_view],
                      "boards/menus": %i[show] },
@@ -79,8 +81,6 @@ module OpenProject::Boards
            icon: "op-boards",
            if: should_render_global_menu_item
     end
-
-    patch_with_namespace :BasicData, :SettingSeeder
 
     config.to_prepare do
       OpenProject::Boards::GridRegistration.register!

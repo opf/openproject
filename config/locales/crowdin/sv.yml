@@ -116,6 +116,7 @@ sv:
         caption: Bildtext
         help_text: Hjälptext
       auth_provider:
+        additional_form_action_urls: Additional allowed login redirect URLs
         scim_clients: SCIM-klienter
       calculated_value_error:
         customized_id: Anpassat ID
@@ -644,6 +645,7 @@ sv:
         unknown_property: är inte en känd egenskap.
         unknown_property_nested: har den okända sökvägen ”%{path}”.
         unremovable: kan inte tas bort.
+        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
         url_not_secure_context: 'tillhandahåller inte en "Secure Context". Använd antingen HTTPS eller en loopback-adress, som localhost.
 
           '
@@ -2431,6 +2433,7 @@ sv:
     groups: Grupper
     hexcode: Hex-kod
     id: ID
+    inexistent: Inexistent
     is_default: Standardvärde
     is_for_all: För alla projekt
     issue: Arbetspaket
@@ -2490,7 +2493,34 @@ sv:
     work_package: Arbetspaket
     work_package_id: Arbetspaket
   authentication:
+    instructions:
+      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+
+        '
     login_and_registration: Inloggning och registrering
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'Jobbet avbröts på grund av fel: %{message}'
@@ -2617,6 +2647,7 @@ sv:
   button_set_reminder: Ange påminnelse
   button_show: Visa
   button_sort: Sortera
+  button_stop_timer: Stoppa timer
   button_submit: Skicka
   button_test: Test
   button_unarchive: Hämta från Arkiv
@@ -2723,10 +2754,6 @@ sv:
     plural: Anpassade åtgärder
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Det här anpassade fältet är aktiverat i alla projekt eftersom alternativet ”För alla projekt” är markerat. Det kan inte inaktiveras för enskilda projekt.
-          heading: För alla projekt
       hierarchy:
         subitems:
           one: 1 underpost
@@ -2750,7 +2777,7 @@ sv:
           short: Kort namn
           weight: Vikt
       notice:
-        remember_items_and_projects: Kom ihåg att ange poster och projekt på respektive flik för det här anpassade fältet.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Du kan automatiskt tilldela en viss projektroll till varje användare som tilldelas det här projektattributet, oavsett användarens ursprungliga roll i projektet.
         dialog:
@@ -2815,16 +2842,17 @@ sv:
     is_enabled_globally: Är aktiverad globalt
     multi_value_more:
       other: och %{count} till
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Ingen rolltilldelning
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: Ett arbetspaket eller projekt måste väljas först
     reorder_alphabetical: Sortera om värden alfabetiskt
     reorder_confirmation: 'Varning: Den aktuella ordningen för tillgängliga värden och alla osparade värden går förlorade. Är du säker på att du vill fortsätta?'
     semantic_keys:
       job_title: Befattning
       none: Ingen
-    tab:
-      no_results_content_text: Skapa ett nytt anpassat fält
-      no_results_title_text: Det finns för närvarande inga anpassade fält.
     text_add_new_custom_field: 'Innan du kan lägga till nya anpassade fält till ett projekt måste du skapa dessa.
 
       '
@@ -3504,10 +3532,10 @@ sv:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -3909,6 +3937,7 @@ sv:
   label_date_from_to: Från %{start} till %{end}
   label_date_to: Till
   label_dates: Datum
+  label_day: Dag
   label_day_plural: dagar
   label_default: Standard
   label_defaults: Standardvärden
@@ -4008,6 +4037,7 @@ sv:
   label_go_forward: Öppna undermenyn %{module}
   label_greater_or_equal: ">="
   label_group: Grupp
+  label_group_attributes_plural: Group attributes
   label_group_by: Gruppera efter
   label_group_named: Grupp %{name}
   label_group_new: Ny grupp
@@ -4124,6 +4154,7 @@ sv:
   label_module_plural: Moduler
   label_modules: Moduler
   label_modules_and_plugins: Moduler och plugins
+  label_month: Månad
   label_months_from: månader från
   label_more: Mer
   label_more_information: Mer information
@@ -4137,6 +4168,7 @@ sv:
   label_my_avatar: Min avatar
   label_my_queries: Min anpassade frågor
   label_my_security: Säkerhet
+  label_my_work: My work
   label_name: Namn
   label_never: Aldrig
   label_new: Ny
@@ -4151,7 +4183,10 @@ sv:
   label_news_singular: Nyheter
   label_news_view_all: Visa alla nyheter
   label_next: Nästa
+  label_next_day: Nästa dag
+  label_next_month: Nästa månad
   label_next_week: Nästa vecka
+  label_next_workweek: Nästa arbetsvecka
   label_next_year: Nästa år
   label_no_change_option: "(Ingen ändring)"
   label_no_data: Ingen data att visa
@@ -4159,6 +4194,7 @@ sv:
   label_no_parent_group: "(Ingen överordnad grupp)"
   label_no_parent_page: Ingen överordnad sida
   label_no_start_date: inget startdatum
+  label_no_time: Ingen tid spårad
   label_nobody: ingen
   label_non_working_days: Tillgänglighetskalender
   label_non_working_days_summary: Sammanfattning
@@ -4225,7 +4261,10 @@ sv:
   label_preview: Förhandsgranska
   label_preview_not_available: Förhandsgranskning är inte tillgänglig
   label_previous: Föregående
+  label_previous_day: Föregående dag
+  label_previous_month: Föregående månad
   label_previous_week: Föregående vecka
+  label_previous_workweek: Föregående arbetsvecka
   label_previous_year: Föregående år
   label_principal_invite_via_email: " eller bjud in nya användare via e-post"
   label_principal_search: Lägga till befintliga användare eller grupper
@@ -4344,6 +4383,7 @@ sv:
   label_sort_lowest: Flytta längst ned
   label_sorted_by: sorterade efter %{value}
   label_spent_time: Förbrukad tid
+  label_stack: Stapla
   label_start_to_end: början till slut
   label_start_to_start: början till början
   label_starts_with: börjar med
@@ -4377,6 +4417,7 @@ sv:
   label_time: Tid
   label_time_entry_activity_plural: Aktiviteter för använd tid
   label_time_entry_plural: Förbrukad tid
+  label_timer_since: Startade på %{time}
   label_title: Titel
   label_today: idag
   label_today_as_date: Välj dagens datum.
@@ -4413,6 +4454,7 @@ sv:
   label_user_settings: Användarinställningar
   label_users_settings: Användarinställningar
   label_value_x: 'Värde: %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Redigera version
   label_version_new: Ny version
   label_version_plural: Versioner
@@ -4425,6 +4467,7 @@ sv:
   label_videos: Videor
   label_view_all_revisions: Visa alla revisioner
   label_view_diff: Visa skillnader
+  label_view_mode_switcher: Ändra vy
   label_view_revisions: Visa revisioner
   label_view_x: 'Vy: %{x}'
   label_watched_work_packages: Bevakade arbetspaket
@@ -4472,6 +4515,7 @@ sv:
   label_working_days: Arbetsdagar
   label_working_days_and_hours: Arbetsdagar och arbetstider
   label_working_hours: Arbetsschema
+  label_workweek: Arbetsvecka
   label_x_closed_work_packages_abbr:
     one: 1 stängd
     other: "%{count} stängda"
@@ -4905,6 +4949,18 @@ sv:
     password_confirmation_dialog:
       confirmation_required: Du måste ange lösenordet till ditt konto för att bekräfta ändringen.
       title: Bekräfta ditt lösenord för att fortsätta
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Åtkomstnycklar
@@ -5110,7 +5166,6 @@ sv:
   notice_password_confirmation_failed: Det angivna lösenordet är inte korrekt.
   notice_principals_found_multiple: "%{number} resultat hittades. Använd TAB för att fokusera på det första."
   notice_principals_found_single: Ett resultat. Använd TAB för att fokusera på det.
-  notice_project_cannot_update_custom_fields: 'Du kan inte uppdatera projektets anpassade fält. Projektet är ogiltig: %{errors}'
   notice_project_not_deleted: Projektet raderades ej.
   notice_project_not_found: Projektet hittas inte.
   notice_requires_enterprise_token: Enterprise-token saknas eller ger inte åtkomst till den här sidan.
@@ -5120,9 +5175,6 @@ sv:
   notice_successful_create: Skapades utan problem.
   notice_successful_delete: Raderades utan problem.
   notice_successful_update: Uppdaterades utan problem.
-  notice_successful_update_custom_fields_added_to_project: |
-    Uppdateringen lyckades. De anpassade fälten för de aktiverade typerna aktiveras automatiskt
-    i arbetspaketsformuläret. <a href="%{url}" target="_blank">Läs mer</a>.
   notice_to_many_principals_to_display: "Det finns för många resultat. \nBegränsa sökningen genom att skriva namnet på den nya medlemmen (eller gruppen)."
   notice_unsuccessful_create: Det gick inte att skapa.
   notice_unsuccessful_create_with_reason: 'Det gick inte att skapa: %{reason}'
@@ -5473,6 +5525,9 @@ sv:
   permission_manage_dashboards: Hantera översikter
   permission_manage_forums: Hantera forum
   permission_manage_members: Hantera medlemmar
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Hantera nyheter
   permission_manage_own_reminders: Skapa egna påminnelser
   permission_manage_own_working_times: Hantera egna arbetstider
@@ -5501,7 +5556,6 @@ sv:
   permission_save_bcf_queries: Spara BCF-frågor
   permission_save_queries: Spara vyer
   permission_search_project: Sök projekt
-  permission_select_custom_fields: Välj anpassade fält
   permission_select_project_custom_fields: Välj projektattribut
   permission_select_project_modules: Välj projektmoduler
   permission_select_project_phases: Välj projektfaser
@@ -6324,6 +6378,7 @@ sv:
         '
       title: Virusskanning
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Om du inaktiverar detta alternativ döljs listan över bilagor på arbetspaketens filflik för nya projekt. Filer som bifogas i beskrivningen av ett arbetspaket laddas fortfarande upp till den interna bilagelagringen.
 
         '
@@ -6469,6 +6524,7 @@ sv:
         heading: Ny fas
       no_gate: Ingen grind
       non_defined: Inga faser är definierade för närvarande.
+      order_changed: Order successfully changed.
       phase_gates: Fasgrindar
       section_header: Faser
       start_gate: Startgrind
@@ -6906,7 +6962,7 @@ sv:
         project_attributes: Projektattribut
         projects: Projekt
         start: Starta
-        workflows: Arbetsflöden
+        workflows: Workflow
       success: Skapades.
     edit:
       breadcrumb_variant: 'Variant: %{name}'
@@ -6960,6 +7016,7 @@ sv:
             label_enable_all: Aktivera alla
             label_toggle_template: Växla %{template}
           label: Mallar för PDF-export
+          order_changed: Order successfully changed.
         tab: Generera PDF
         templates:
           readonly_error: Kan inte ändras när den är länkad till en källtyp.
@@ -6974,10 +7031,10 @@ sv:
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Ta bort avsnitt
         drag_to_activate: Dra fält härifrån för att aktivera dem
         drag_to_reorder: Dra för att ändra ordning
@@ -7139,7 +7196,7 @@ sv:
           description: Dessa varianter är endast tillgängliga i de projekt där de skapades.
           title: Projektspecifika varianter
       workflow:
-        tab: Arbetsflöden
+        tab: Workflow
     index:
       add_variant: Lägg till en variant till %{name}
       add_variant_action: Lägg till variant
@@ -7182,6 +7239,11 @@ sv:
       remove_default_notice: "%{name} aktiveras inte längre i nya projekt."
       type_label: Typ
       variant_label: Variant
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Milstolpe
     patterns:
       formats:
@@ -7551,6 +7613,8 @@ sv:
       required_description: Markerar detta arbetspaket som ett krav för det relaterade arbetspaketet
       requires_description: Markerar det relaterade arbetspaketet som ett krav för detta
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Arbetspaketen kunde inte kopieras.
       could_not_be_deleted: 'Följande arbetspaket kunde inte tas bort:'
