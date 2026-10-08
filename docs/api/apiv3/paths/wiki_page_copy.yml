@@ -1,0 +1,57 @@
+# /api/v3/wiki_pages/{id}/copy
+---
+post:
+  summary: Copy Wiki Page
+  operationId: Copy_Wiki_Page
+  tags:
+    - Wiki Pages
+  description: |-
+    Duplicates the page either within the same project's wiki or into a different
+    project's wiki.
+
+    - Without `projectId`: the page is copied within the same wiki using
+      `WikiPages::CopyService`. `title` defaults to `"<original> (copy)"`.
+    - With `projectId`: a fresh page is created in the target wiki via
+      `WikiPages::CreateService`, preserving body and `locked` flag.
+
+    **Required permission:** `edit_wiki_pages` in the destination project
+    (the source project of the page if `projectId` is omitted).
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/wiki_page_copy_model.yml'
+  responses:
+    '201':
+      description: Created — returns the newly created wiki page.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '403':
+      description: Returned if the user lacks `edit_wiki_pages` in the destination project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page or the target project/wiki does not exist.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '422':
+      description: Returned if the copy violates a constraint (e.g. duplicate title).
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
