@@ -29,12 +29,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_message_new) }
+    header.with_title { t("forums.show.new_topic") }
     header.with_breadcrumbs(
       [{ href: project_overview_path(@project.id), text: @project.name },
        { href: project_forums_path(@project), text: t(:label_forum_plural) },
        { href: url_for(controller: "/forums", action: "show", project_id: @project, id: @forum), text: @forum.name },
-       t(:label_message_new)]
+       t("forums.show.new_topic")]
     )
   end
 %>

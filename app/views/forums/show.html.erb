@@ -54,11 +54,11 @@ See COPYRIGHT and LICENSE files for more details.
         subheader.with_action_button(
           scheme: :primary,
           leading_icon: :plus,
-          label: t(:label_message_new),
+          label: t("forums.show.new_topic"),
           tag: :a,
           href: new_project_forum_topic_path(@project, @forum)
         ) do
-          t(:label_message)
+          t("forums.show.topic")
         end
       end
     end

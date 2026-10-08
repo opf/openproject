@@ -3650,7 +3650,9 @@ en:
       forum_actions: "Forum actions"
       no_results_title_text: "There are currently no forums."
     show:
-      no_results_title_text: There are currently no posts for the forum.
+      last_reply: "Last reply"
+      new_topic: "New topic"
+      no_results_title_text: "No topics yet"
       sort:
         fewest_replies: "Fewest replies"
         most_replies: "Most replies"
@@ -3658,7 +3660,7 @@ en:
         oldest: "Oldest"
         oldest_activity: "Oldest activity"
         recent_activity: "Recent activity"
-      topic_column: "Topic"
+      topic: "Topic"
     topic:
       gap:
         load_previous:
@@ -4281,7 +4283,6 @@ en:
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
-  label_message_new: "New message"
   label_message_plural: "Messages"
   label_message_posted: "Message added"
   label_minute_plural: "minutes"

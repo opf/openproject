@@ -41,9 +41,9 @@ module Forums
 
       def headers
         [
-          [:subject, { caption: I18n.t("forums.show.topic_column") }],
+          [:subject, { caption: I18n.t("forums.show.topic") }],
           [:replies_count, { caption: I18n.t(:label_reply_plural) }],
-          [:last_reply, { caption: I18n.t(:label_message_last) }]
+          [:last_reply, { caption: I18n.t("forums.show.last_reply") }]
         ]
       end
 
