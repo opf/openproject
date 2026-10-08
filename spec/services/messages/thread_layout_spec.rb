@@ -106,64 +106,25 @@ RSpec.describe Messages::ThreadLayout do
     end
   end
 
-  describe ".chunk_sizes" do
-    it "loads a gap of a page or less at once from either side" do
-      expect(described_class.chunk_sizes(2, page_size: 3)).to eq([2, 2])
-    end
-
-    it "splits a gap of up to two pages in halves, the next half taking the odd reply", :aggregate_failures do
-      expect(described_class.chunk_sizes(5, page_size: 3)).to eq([3, 2])
-      expect(described_class.chunk_sizes(6, page_size: 3)).to eq([3, 3])
-    end
-
-    it "loads a page from either side of a longer gap" do
-      expect(described_class.chunk_sizes(7, page_size: 3)).to eq([3, 3])
-    end
-  end
-
   describe "#gap_segments" do
     let!(:replies) { create_replies(10) }
 
-    it "loads the next page right after the upper bound" do
-      expect(describe_segments(layout.gap_segments(after_id: topic.id, before_id: replies[7].id, take: "next"))).to eq(
-        [replies[0..2].map(&:id), [:gap, replies[2].id, replies[7].id, 4]]
-      )
-    end
-
-    it "loads the previous page right before the lower bound" do
-      expect(describe_segments(layout.gap_segments(after_id: topic.id, before_id: replies[7].id, take: "previous"))).to eq(
+    it "loads the page right before the lower bound, leaving the rest behind a gap" do
+      expect(describe_segments(layout.gap_segments(after_id: topic.id, before_id: replies[7].id))).to eq(
         [[:gap, topic.id, replies[4].id, 4], replies[4..6].map(&:id)]
       )
     end
 
-    it "loads the larger half of a gap of up to two pages from the upper bound" do
-      expect(describe_segments(layout.gap_segments(after_id: topic.id, before_id: replies[5].id, take: "next"))).to eq(
-        [replies[0..2].map(&:id), [:gap, replies[2].id, replies[5].id, 2]]
+    it "loads a gap of a page or less whole" do
+      expect(describe_segments(layout.gap_segments(after_id: replies[3].id, before_id: replies[7].id))).to eq(
+        [replies[4..6].map(&:id)]
       )
-    end
-
-    it "loads the smaller half of a gap of up to two pages from the lower bound" do
-      expect(describe_segments(layout.gap_segments(after_id: topic.id, before_id: replies[5].id, take: "previous"))).to eq(
-        [[:gap, topic.id, replies[3].id, 3], replies[3..4].map(&:id)]
-      )
-    end
-
-    it "loads everything for take all" do
-      expect(describe_segments(layout.gap_segments(after_id: replies[2].id, before_id: replies[7].id, take: "all"))).to eq(
-        [replies[3..6].map(&:id)]
-      )
-    end
-
-    it "loads strictly inside the bounds" do
-      loaded = layout.gap_segments(after_id: replies[2].id, before_id: replies[5].id, take: "next")
-
-      expect(describe_segments(loaded)).to eq([replies[3..4].map(&:id)])
     end
 
     it "treats a missing bound as the open end of the thread" do
-      loaded = layout.gap_segments(after_id: "999999", before_id: "", take: "all")
+      loaded = layout.gap_segments(after_id: "999999", before_id: "")
 
-      expect(describe_segments(loaded)).to eq([replies.map(&:id)])
+      expect(describe_segments(loaded)).to eq([[:gap, topic.id, replies[7].id, 7], replies[7..].map(&:id)])
     end
   end
 end
