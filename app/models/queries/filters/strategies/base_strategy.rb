@@ -52,6 +52,8 @@ module Queries::Filters::Strategies
 
     def valid_values!; end
 
+    delegate :sql_for_field, to: :operator
+
     def supported_operator_classes
       operator_map
         .slice(*self.class.supported_operators)
