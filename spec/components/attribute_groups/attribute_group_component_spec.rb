@@ -35,23 +35,21 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
     render_inline(described_class.new) do |component|
       component.with_header(title: "A Title")
 
-      component.with_attributes(
-        [{ key: "Attribute Key 1", value: "Attribute Value 1" },
-         { key: "Attribute Key 2", value: "Attribute Value 2" }]
-      )
+      component.with_attribute(key: "Attribute Key 1") { "Attribute Value 1" }
+      component.with_attribute(key: "Attribute Key 2") { "Attribute Value 2" }
     end
 
     aggregate_failures "group header" do
       expect(page).to have_css(".attributes-group")
-      expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
+      expect(page).to have_css("h3", text: "A Title")
     end
 
     aggregate_failures "attribute key value" do
       expect(page).to have_css(".attributes-key-value")
       expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 1") &
-       have_css(".attributes-key-value--value.-text", text: "Attribute Value 1")
+       have_css(".attributes-key-value--value", text: "Attribute Value 1")
       expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 2") &
-       have_css(".attributes-key-value--value.-text", text: "Attribute Value 2")
+       have_css(".attributes-key-value--value", text: "Attribute Value 2")
     end
   end
 
@@ -66,7 +64,7 @@ RSpec.describe AttributeGroups::AttributeGroupComponent, type: :component do
 
     aggregate_failures "group header" do
       expect(page).to have_css(".attributes-group")
-      expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
+      expect(page).to have_css("h3", text: "A Title")
     end
   end
 end

@@ -108,11 +108,12 @@ module OAuth
     end
 
     def find_app
-      @application = ::Doorkeeper::Application.find(params[:id])
+      @application = ::Doorkeeper::Application.find(params.expect(:id))
     end
 
     def oauth_application_params
-      app_params = params.require(:doorkeeper_application).permit(:name, :redirect_uri, :confidential, :enabled, :client_credentials_user_id, { scopes: [] })
+      app_params = params.expect(doorkeeper_application: [:name, :redirect_uri, :confidential, :enabled,
+                                                          :client_credentials_user_id, { scopes: [] }])
 
       scopes = app_params[:scopes]
       if scopes.present?

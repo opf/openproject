@@ -31,9 +31,29 @@
 require "rails_helper"
 
 RSpec.describe AttributeGroups::AttributeGroupHeaderComponent, type: :component do
-  it "renders the title" do
-    render_inline(described_class.new(title: "A Title"))
+  subject(:render_header) { render_inline(described_class.new(title: "A Title")) }
 
-    expect(page).to have_css("h3.attributes-group--header-text", text: "A Title")
+  it "renders the title" do
+    render_header
+
+    expect(page).to have_css("h3", text: "A Title")
+  end
+
+  context "when providing a tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h2)) }
+
+    it "renders the title inside the given tag" do
+      render_header
+
+      expect(page).to have_css("h2", text: "A Title")
+    end
+  end
+
+  context "when using an h1 tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h1)) }
+
+    it "raises an error, because h1 is reserved" do
+      expect { render_header }.to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+    end
   end
 end

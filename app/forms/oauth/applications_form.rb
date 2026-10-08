@@ -49,8 +49,8 @@ module OAuth
       f.text_area(
         name: :redirect_uri,
         label: Doorkeeper::Application.human_attribute_name(:redirect_uri),
-        caption: I18n.t("oauth.application.instructions.redirect_uri_html") + ::Doorkeeper.configuration.native_redirect_uri, # TODO: nicer!
-        required: true
+        required: true,
+        caption: "#{I18n.t('oauth.application.instructions.redirect_uri_html')} #{::Doorkeeper.configuration.native_redirect_uri}"
       )
 
       f.check_box(
@@ -72,7 +72,9 @@ module OAuth
             required: true,
             value: scope
           }
-          checkbox_options[:caption] = I18n.t(scope, scope: "oauth.scopes.explanations_admin") if I18n.exists?(scope, scope: "oauth.scopes.explanations_admin")
+          if I18n.exists?(scope, scope: "oauth.scopes.explanations_admin")
+            checkbox_options[:caption] = I18n.t(scope, scope: "oauth.scopes.explanations_admin")
+          end
           group.check_box(**checkbox_options)
         end
       end
