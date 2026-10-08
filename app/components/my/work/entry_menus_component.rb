@@ -47,19 +47,32 @@ module My
 
       def time_entry_menus
         time_entries.map do |time_entry|
-          menu_for(time_entry.id, TimeEntryActionMenuComponent.new(time_entry:, navigation: true))
+          menu_for(time_entry.id) do
+            deferred_menu(menu_id: TimeEntryActionMenuComponent.menu_id(time_entry),
+                          src: my_work_time_entry_menu_path(time_entry))
+          end
         end
       end
 
       def allocation_menus
-        RemainingAllocations.call(allocations:, time_entries:).map do |allocation|
-          event_id = FullCalendar::ResourceAllocationEvent.id_for(allocation.scheduled_entry)
-          menu_for(event_id, AllocationActionMenuComponent.new(allocation:, navigation: true))
+        RemainingAllocations.call(allocations:, time_entries:).select(&:visible?).map do |allocation|
+          scheduled_entry = allocation.scheduled_entry
+
+          menu_for(FullCalendar::ResourceAllocationEvent.id_for(scheduled_entry)) do
+            deferred_menu(menu_id: AllocationActionMenuComponent.menu_id(scheduled_entry),
+                          src: my_work_allocation_menu_path(scheduled_entry.allocation, date: allocation.allocated_on.iso8601))
+          end
         end
       end
 
-      def menu_for(event_id, menu)
-        render(Primer::Box.new(data: { "my-work-menu-for": event_id })) { render(menu) }
+      def deferred_menu(menu_id:, src:)
+        render(Primer::Alpha::ActionMenu.new(menu_id:, src:)) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("label_more"), scheme: :invisible)
+        end
+      end
+
+      def menu_for(event_id, &)
+        render(Primer::Box.new(data: { "my-work-menu-for": event_id }), &)
       end
     end
   end
