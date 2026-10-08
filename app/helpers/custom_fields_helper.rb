@@ -52,6 +52,8 @@ module CustomFieldsHelper
                               name: field_name,
                               value:
                             }
+    when "datetime"
+      datetime_tag_for_bulk_edit(field_name, field_id, custom_field, value)
     when "text"
       styled_text_area_tag(field_name, value, id: field_id, rows: 3, with_text_formatting: true)
     when "bool"
@@ -123,5 +125,23 @@ module CustomFieldsHelper
               end
 
     options_for_select(base_options, selected) + options
+  end
+
+  private
+
+  def datetime_tag_for_bulk_edit(field_name, field_id, custom_field, value)
+    submitted_value_id = "#{field_id}_submitted_value"
+    time = custom_field.cast_value(value)
+
+    styled_text_field_tag("#{field_id}_local",
+                          time ? in_user_zone(time).strftime("%Y-%m-%dT%H:%M") : "",
+                          id: field_id,
+                          type: "datetime-local",
+                          data: {
+                            controller: "custom-fields--datetime-input",
+                            action: "input->custom-fields--datetime-input#sync",
+                            "custom-fields--datetime-input-submitted-value-id-value": submitted_value_id
+                          }) +
+      hidden_field_tag(field_name, value.to_s, id: submitted_value_id)
   end
 end
