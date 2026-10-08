@@ -365,6 +365,22 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     end
   end
 
+  describe "generating the subject from a pattern containing labels", with_flag: { work_package_labels: true } do
+    let(:type) do
+      create(:type, patterns: { subject: { blueprint: "Labeled: {{labels}}", enabled: true } })
+    end
+    let(:frontend_label) { create(:label, name: "Frontend") }
+    let(:bug_label) { create(:label, name: "Bug") }
+    let(:attributes) do
+      { project:, type:, status: default_status, priority: default_priority, label_ids: [frontend_label.id, bug_label.id] }
+    end
+
+    it "includes the labels assigned on creation" do
+      expect(service_result).to be_success
+      expect(new_work_package.reload.subject).to eq("Labeled: Frontend, Bug")
+    end
+  end
+
   describe "generating the subject from a pattern when the project resolves the type to a variant" do
     let(:family_root) do
       create(:type, name: "Family root", patterns: { subject: { blueprint: "Root subject", enabled: true } })

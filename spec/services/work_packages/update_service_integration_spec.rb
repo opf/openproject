@@ -1910,6 +1910,42 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
   end
 
+  context "with an automatically generated subject containing labels", with_flag: { work_package_labels: true } do
+    shared_let(:labels_type) do
+      create(:type, name: "Labeled autosubject",
+                    patterns: { subject: { blueprint: "\#{{id}} [{{labels}}]", enabled: true } }).tap do |type|
+        project.project_types.create!(type:)
+      end
+    end
+    shared_let(:frontend_label) { create(:label, name: "Frontend") }
+    shared_let(:bug_label) { create(:label, name: "Bug") }
+    shared_let(:work_package, reload: true) { create(:work_package, type: labels_type, project:) }
+
+    context "when only the labels are updated" do
+      let(:attributes) { { label_ids: [frontend_label.id, bug_label.id] } }
+
+      it "regenerates the subject with the new labels" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.subject).to eq("##{work_package.id} [Frontend, Bug]")
+      end
+    end
+
+    context "when the labels are removed" do
+      let(:attributes) { { label_ids: [] } }
+
+      before do
+        create(:labeling, labelable: work_package, label: frontend_label)
+      end
+
+      it "regenerates the subject without the labels" do
+        expect(subject).to be_success
+
+        expect(work_package.reload.subject).to eq("##{work_package.id} [[Labels]]")
+      end
+    end
+  end
+
   context "with a variant inheriting its subject configuration from its base" do
     shared_let(:variant) do
       create(:type_variant, type: autosubject_type, variant_name: "Inheriting").tap do |v|
