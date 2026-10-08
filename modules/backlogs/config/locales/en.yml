@@ -251,7 +251,7 @@ en:
             heading: "No sprint data available"
           blocks:
             changed_after_start:
-              count_change_html: "+%{added} %{divider} -%{removed}"
+              change_html: "+%{added} %{divider} -%{removed}"
               heading: "Scope change"
               story_points_change: "+%{added} / -%{removed} story points"
             completed:
@@ -265,8 +265,13 @@ en:
               show_all: "View all"
           closed_work_packages: "Closed work packages"
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            story_points:
+              one: "%{percentage}% (%{resolved} of %{total} story point)"
+              other: "%{percentage}% (%{resolved} of %{total} story points)"
+            time: "%{percentage}% (%{resolved} of %{total})"
+            work_packages:
+              one: "%{percentage}% (%{resolved} of %{total} work package)"
+              other: "%{percentage}% (%{resolved} of %{total} work packages)"
 
     sprints:
       row_component:

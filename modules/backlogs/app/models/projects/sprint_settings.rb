@@ -145,6 +145,18 @@ module Projects::SprintSettings
     end
   end
 
+  def estimation_unit_none?
+    estimation_unit == BACKLOGS_UNIT_NONE
+  end
+
+  def estimation_unit_story_points?
+    estimation_unit == BACKLOGS_UNIT_STORY_POINTS
+  end
+
+  def estimation_unit_time?
+    estimation_unit == BACKLOGS_UNIT_TIME
+  end
+
   def share_sprints_with_all_projects?
     sprint_sharing == SHARE_ALL_PROJECTS
   end

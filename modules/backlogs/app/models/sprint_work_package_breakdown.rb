@@ -32,12 +32,16 @@
 # WorkPackage.at_timestamp (see Journable::Timestamps) to read historic
 # sprint_id/status_id/story_points values from work_package_journals.
 class SprintWorkPackageBreakdown
-  Block = Data.define(:work_package_count, :story_points)
-  ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points)
+  Block = Data.define(:work_package_count, :story_points, :estimated_hours)
+  ChangeBlock = Data.define(:added_count, :removed_count, :added_story_points, :removed_story_points,
+                            :added_estimated_hours, :removed_estimated_hours)
 
-  def initialize(sprint:, project:)
+  # @param metric [Symbol, nil] which sum to compute alongside the work package count -
+  #   :story_points, :estimated_hours, or nil to skip both and only count work packages.
+  def initialize(sprint:, project:, metric: nil)
     @sprint = sprint
     @project = project
+    @metric = metric
   end
 
   def initially_planned
@@ -60,8 +64,10 @@ class SprintWorkPackageBreakdown
       ChangeBlock.new(
         added_count: added_ids.size,
         removed_count: removed_ids.size,
-        added_story_points: added_ids.sum { |id| finish_points[id] || 0 },
-        removed_story_points: removed_ids.sum { |id| start_points[id] || 0 }
+        added_story_points: added_story_points(added_ids),
+        removed_story_points: removed_story_points(removed_ids),
+        added_estimated_hours: added_estimated_hours(added_ids),
+        removed_estimated_hours: removed_estimated_hours(removed_ids)
       )
     end
   end
@@ -87,11 +93,11 @@ class SprintWorkPackageBreakdown
   end
 
   def added_after_start_ids
-    finish_points.keys - start_points.keys
+    finish_ids - start_ids
   end
 
   def removed_after_start_ids
-    start_points.keys - finish_points.keys
+    start_ids - finish_ids
   end
 
   def done_status_ids
@@ -99,6 +105,54 @@ class SprintWorkPackageBreakdown
   end
 
   private
+
+  def track_story_points?
+    @metric == :story_points
+  end
+
+  def track_estimated_hours?
+    @metric == :estimated_hours
+  end
+
+  def sum_values(ids, values_by_id)
+    ids.sum { |id| values_by_id[id] || 0 }
+  end
+
+  def added_story_points(ids)
+    sum_values(ids, finish_points) if track_story_points?
+  end
+
+  def removed_story_points(ids)
+    sum_values(ids, start_points) if track_story_points?
+  end
+
+  def added_estimated_hours(ids)
+    sum_values(ids, finish_hours) if track_estimated_hours?
+  end
+
+  def removed_estimated_hours(ids)
+    sum_values(ids, start_hours) if track_estimated_hours?
+  end
+
+  def start_ids
+    @start_ids ||= if track_story_points?
+                     start_points.keys
+                   elsif track_estimated_hours?
+                     start_hours.keys
+                   else
+                     sprint_work_packages_at(reference_start).pluck(:id)
+                   end
+  end
+
+  def finish_ids
+    @finish_ids ||= if track_story_points?
+                      finish_points.keys
+                    elsif track_estimated_hours?
+                      finish_hours.keys
+                    else
+                      sprint_work_packages_at(reference_finish).pluck(:id)
+                    end
+  end
 
   def start_points
     @start_points ||= sprint_work_packages_at(reference_start).pluck(:id, :story_points).to_h
@@ -108,11 +162,22 @@ class SprintWorkPackageBreakdown
     @finish_points ||= sprint_work_packages_at(reference_finish).pluck(:id, :story_points).to_h
   end
 
-  def snapshot_block(timestamp, done: nil)
-    scope = sprint_work_packages_at(timestamp)
-    scope = filter_by_done(scope, done)
+  def start_hours
+    @start_hours ||= sprint_work_packages_at(reference_start).pluck(:id, :estimated_hours).to_h
+  end
 
-    Block.new(work_package_count: scope.count, story_points: scope.sum(:story_points) || 0)
+  def finish_hours
+    @finish_hours ||= sprint_work_packages_at(reference_finish).pluck(:id, :estimated_hours).to_h
+  end
+
+  def snapshot_block(timestamp, done: nil)
+    scope = filter_by_done(sprint_work_packages_at(timestamp), done)
+
+    Block.new(
+      work_package_count: scope.count,
+      story_points: track_story_points? ? (scope.sum(:story_points) || 0) : nil,
+      estimated_hours: track_estimated_hours? ? (scope.sum(:estimated_hours) || 0) : nil
+    )
   end
 
   def sprint_work_packages_at(timestamp)
