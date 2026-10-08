@@ -101,6 +101,8 @@ module API
               "API::V3::Queries::Schemas::HierarchyFilterDependencyRepresenter"
             when "string", "link"
               "API::V3::Queries::Schemas::TextFilterDependencyRepresenter"
+            when "datetime"
+              "API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter"
             end
           end
 

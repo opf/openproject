@@ -180,6 +180,16 @@ RSpec.describe API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
         it_behaves_like "includes the cf json_cache_key mixin"
       end
 
+      context "type datetime" do
+        let(:custom_field) { build_stubbed(:wp_custom_field, :datetime) }
+
+        it "is the datetime dependency" do
+          expect(subject).to be_a(API::V3::Queries::Schemas::DateTimeFilterDependencyRepresenter)
+        end
+
+        it_behaves_like "includes the cf json_cache_key mixin"
+      end
+
       context "type bool" do
         let(:custom_field) { build_stubbed(:boolean_wp_custom_field) }
 
