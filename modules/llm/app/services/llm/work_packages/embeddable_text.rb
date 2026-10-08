@@ -42,7 +42,9 @@ module Llm
         context_window = context_window.to_i
         max_chars = (context_window.positive? ? context_window : DEFAULT_CONTEXT_WINDOW) * CHARS_PER_TOKEN
 
-        description = SANITIZER.sanitize(work_package.description.to_s)
+        description = SANITIZER.sanitize(work_package.description.to_s.gsub("<", " <"))
+                               .gsub(/[ \t]+/, " ")
+                               .gsub(/^ | $/, "")
 
         [work_package.subject, description].join("\n").strip[0, max_chars]
       end

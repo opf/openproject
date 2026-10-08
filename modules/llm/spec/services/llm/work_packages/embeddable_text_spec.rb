@@ -51,6 +51,25 @@ RSpec.describe Llm::WorkPackages::EmbeddableText do
       end
     end
 
+    context "with an HTML table in the description" do
+      let(:description) do
+        "<p>Intro</p><table><tr><th>Name</th><th>Status</th></tr><tr><td>Login</td><td>broken</td></tr></table>"
+      end
+
+      it "keeps the cell contents as separate words" do
+        expect(described_class.for(work_package)).to eq("Fix login bug\nIntro Name Status Login broken")
+      end
+    end
+
+    context "with a multi-line markdown description" do
+      let(:description) { "### Steps to reproduce\n\n1. Open <strong>Settings</strong>\n2. Save" }
+
+      it "keeps the line breaks" do
+        expect(described_class.for(work_package))
+          .to eq("Fix login bug\n### Steps to reproduce\n\n1. Open Settings\n2. Save")
+      end
+    end
+
     context "with nil description" do
       let(:description) { nil }
 
