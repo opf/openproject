@@ -69,8 +69,6 @@ linter:
       enabled: false
     erb-no-unused-expressions:
       enabled: false
-    erb-no-unused-local-variable:
-      enabled: false
     html-no-nested-forms:
       enabled: false
     html-no-unescaped-entities:
