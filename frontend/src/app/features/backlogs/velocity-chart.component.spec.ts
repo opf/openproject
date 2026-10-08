@@ -61,6 +61,8 @@ describe('VelocityChartComponent', () => {
       ],
       average: 14.5,
       yAxisTitle: 'Story points',
+      summary: 'Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.',
+      sprintColumnTitle: 'Sprint',
     }));
     fixture.detectChanges();
   });
@@ -73,6 +75,54 @@ describe('VelocityChartComponent', () => {
 
   it('renders the chart', () => {
     expect(element.querySelector('canvas')).not.toBeNull();
+  });
+
+  describe('accessibility', () => {
+    const canvas = () => element.querySelector('canvas')!;
+    const referenced = (attribute:string) => document.getElementById(canvas().getAttribute(attribute)!)!;
+
+    it('exposes the canvas as an image named by the summary', () => {
+      expect(canvas().getAttribute('role')).toBe('img');
+      expect(referenced('aria-labelledby').textContent.trim())
+        .toBe('Bar chart of committed and completed story points of the last 2 sprints. Average velocity: 14.5 SP.');
+    });
+
+    it('describes the canvas with a data table of all sprints', () => {
+      const table = referenced('aria-describedby');
+      const rows = Array.from(table.querySelectorAll('tr'))
+        .map((row) => Array.from(row.children).map((cell) => cell.textContent.trim()));
+
+      expect(table.tagName).toBe('TABLE');
+      expect(rows).toEqual([
+        ['Sprint', 'Committed', 'Completed'],
+        ['Sprint 1', '21', '20'],
+        ['A sprint with a very long name', '13', '9'],
+      ]);
+    });
+
+    it('marks up the table headers for screen readers', () => {
+      const table = referenced('aria-describedby');
+
+      expect(Array.from(table.querySelectorAll('thead th')).map((th) => th.getAttribute('scope')))
+        .toEqual(['col', 'col', 'col']);
+      expect(Array.from(table.querySelectorAll('tbody th')).map((th) => th.getAttribute('scope')))
+        .toEqual(['row', 'row']);
+    });
+
+    it('hides the summary and table visually', () => {
+      expect(referenced('aria-labelledby').classList).toContain('sr-only');
+      expect(referenced('aria-describedby').classList).toContain('sr-only');
+    });
+
+    it('gives every chart instance its own ids', () => {
+      const other = TestBed.createComponent(VelocityChartComponent);
+      other.componentRef.setInput('chartData', fixture.componentRef.instance.chartData());
+      other.detectChanges();
+
+      const otherCanvas = (other.nativeElement as HTMLElement).querySelector('canvas')!;
+      expect(otherCanvas.getAttribute('aria-labelledby')).not.toBe(canvas().getAttribute('aria-labelledby'));
+      expect(otherCanvas.getAttribute('aria-describedby')).not.toBe(canvas().getAttribute('aria-describedby'));
+    });
   });
 
   it('colors committed blue and completed green', () => {

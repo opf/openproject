@@ -250,6 +250,9 @@ en:
           committed: "Committed"
           completed: "Completed"
           story_points: "%{value} SP"
+          summary:
+            one: "Bar chart of committed and completed story points of the last sprint. Average velocity: %{average}."
+            other: "Bar chart of committed and completed story points of the last %{count} sprints. Average velocity: %{average}."
           title: "Velocity chart"
           velocity: "%{sprint}:"
           y_axis_title: "Story points"
