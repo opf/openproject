@@ -55,12 +55,11 @@ module Backlogs
         def chart_data
           {
             labels: velocity.sprints.map(&:name),
-            datasets: [
-              { label: t(".committed"), data: velocity.committed.map(&:round) },
-              { label: t(".completed"), data: velocity.completed.map(&:round) }
-            ],
+            datasets:,
             average: velocity.average.round(1),
-            yAxisTitle: t(".y_axis_title")
+            yAxisTitle: t(".y_axis_title"),
+            summary: t(".summary", count: velocity.sprints.size, average: formatted_average),
+            sprintColumnTitle: Sprint.model_name.human
           }.to_json
         end
 
@@ -84,6 +83,13 @@ module Backlogs
 
         def velocity
           @velocity ||= Backlogs::Velocity.new(sprint, project)
+        end
+
+        def datasets
+          [
+            { label: t(".committed"), data: velocity.committed.map(&:round) },
+            { label: t(".completed"), data: velocity.completed.map(&:round) }
+          ]
         end
 
         def story_points(value)

@@ -1,7 +1,33 @@
 <div class="position-relative" style="height: 320px">
   <canvas baseChart
+    role="img"
+    [attr.aria-labelledby]="summaryId"
+    [attr.aria-describedby]="tableId"
     [data]="barChartData()"
     [options]="barChartOptions()"
     [plugins]="plugins"
     [type]="'bar'"></canvas>
 </div>
+
+<p [id]="summaryId" class="sr-only">{{ parsedData().summary }}</p>
+
+<table [id]="tableId" class="sr-only">
+  <thead>
+    <tr>
+      <th scope="col">{{ parsedData().sprintColumnTitle }}</th>
+      @for (dataset of parsedData().datasets; track dataset.label) {
+        <th scope="col">{{ dataset.label }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (sprint of parsedData().labels; track $index; let sprintIndex = $index) {
+      <tr>
+        <th scope="row">{{ sprint }}</th>
+        @for (dataset of parsedData().datasets; track dataset.label) {
+          <td>{{ dataset.data[sprintIndex] }}</td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
