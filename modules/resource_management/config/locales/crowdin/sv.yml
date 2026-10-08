@@ -173,6 +173,8 @@ sv:
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy
     public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.

@@ -167,6 +167,8 @@ ko:
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 보기 추가
     public_caption: 이 보기를 프로젝트의 모든 멤버에게 공개로 설정합니다. 이렇게 해도 여전히 각 사용자 권한에 따라 달라지는 작업 패키지의 표시 여부에는 영향을 미치지 않습니다.

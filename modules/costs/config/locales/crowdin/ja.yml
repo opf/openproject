@@ -135,7 +135,6 @@ ja:
   button_add_time_entry: 時間を記録
   button_log_costs: 単価を記録
   button_log_time: ログ
-  button_stop_timer: タイマー停止
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: プロジェクトの予約
@@ -205,7 +204,6 @@ ja:
   label_current: Current
   label_current_default_rate: 現在のデフォルトレート
   label_date_on: オン
-  label_day: 日
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: 削除されたコストタイプ
   label_display_cost_entries: ユニットのコストを表示
@@ -221,43 +219,28 @@ ja:
   label_less_or_equal: 以下
   label_list: リスト
   label_log_costs: 単価を記録
-  label_month: 月
-  label_my_time_tracking: 記録した作業時間
   label_new_time_entry_activity: 新しいタイムエントリーアクティビティ
-  label_next_day: 翌日
-  label_next_month: 来月
-  label_next_week: 次の週
-  label_next_workweek: 次の営業週
   label_no: いいえ
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: 記録された作業時間はありません
   label_option_plural: オプション
   label_overall_costs: 集計コスト
-  label_previous_day: 昨日
-  label_previous_month: 先月
-  label_previous_week: 先週
-  label_previous_workweek: 前の営業週
   label_rate_plural: レート
   label_show: 表示
   label_specific_day: "%{day}日目"
   label_specific_month: "%{month}月"
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 完了しました
   label_time: 時間
   label_time_entry_activity_form_description: このタイムエントリーアクティビティへの変更は有効になっているすべてのプロジェクトに適用されます。
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: "%{time} で開始"
   label_today_capitalized: 今日
   label_units: 単価
   label_until: まで
   label_using_current_default_rate: Using current default rate
   label_valid_from: から有効
-  label_view_mode_switcher: 表示を変更
   label_work_package_filter_add: ワークパッケージフィルタを追加する
-  label_workweek: 作業週
   label_yes: はい
   notice_cost_logged_successfully: 単価が正常に記録されました。
   notice_different_time_zones: このユーザーは異なるタイムゾーン(%{tz})を使用しています。時間は異なるタイムゾーンで記録されます。

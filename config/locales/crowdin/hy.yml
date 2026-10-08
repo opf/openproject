@@ -2647,6 +2647,7 @@ hy:
   button_set_reminder: Սահմանել հիշեցում
   button_show: Ցուցադրել
   button_sort: Դասավորել
+  button_stop_timer: Դադարեցնել ժամաչափը
   button_submit: Ուղարկել
   button_test: Փորձարկել
   button_unarchive: Հանել արխիվից
@@ -3934,6 +3935,7 @@ hy:
   label_date_from_to: "%{start}-ից մինչև %{end}"
   label_date_to: Մինչև
   label_dates: Ամսաթվեր
+  label_day: Օր
   label_day_plural: օր
   label_default: Կանխադրված
   label_defaults: Կանխադրված արժեքներ
@@ -4150,6 +4152,7 @@ hy:
   label_module_plural: Մոդուլներ
   label_modules: Մոդուլներ
   label_modules_and_plugins: Մոդուլներ և հավելումներ
+  label_month: Ամիս
   label_months_from: ամիս սկսած
   label_more: Ավելին
   label_more_information: Լրացուցիչ տեղեկություններ
@@ -4163,6 +4166,7 @@ hy:
   label_my_avatar: Իմ ավատարը
   label_my_queries: Իմ հատուկ հարցումները
   label_my_security: Անվտանգություն
+  label_my_work: My work
   label_name: Անվանում
   label_never: Երբեք
   label_new: Նոր
@@ -4177,7 +4181,10 @@ hy:
   label_news_singular: Նորություններ
   label_news_view_all: Դիտել բոլոր նորությունները
   label_next: Հաջորդ
+  label_next_day: Հաջորդ օր
+  label_next_month: Հաջորդ ամիս
   label_next_week: Հաջորդ շաբաթ
+  label_next_workweek: Հաջորդ աշխատանքային շաբաթ
   label_next_year: Հաջորդ տարի
   label_no_change_option: "(Առանց փոփոխության)"
   label_no_data: Ցուցադրելու տվյալներ չկան
@@ -4185,6 +4192,7 @@ hy:
   label_no_parent_group: "(Առանց ծնող խմբի)"
   label_no_parent_page: Առանց ծնող էջի
   label_no_start_date: առանց սկզբի ամսաթվի
+  label_no_time: Ժամանակ չի հաշվառվել
   label_nobody: ոչ ոք
   label_non_working_days: Հասանելիության օրացույց
   label_non_working_days_summary: Ամփոփում
@@ -4251,7 +4259,10 @@ hy:
   label_preview: Նախադիտել
   label_preview_not_available: Նախադիտումը հասանելի չէ
   label_previous: Նախորդ
+  label_previous_day: Նախորդ օր
+  label_previous_month: Նախորդ ամիս
   label_previous_week: Նախորդ շաբաթ
+  label_previous_workweek: Նախորդ աշխատանքային շաբաթ
   label_previous_year: Նախորդ տարի
   label_principal_invite_via_email: " կամ հրավիրեք նոր օգտատերերի էլ. փոստի միջոցով"
   label_principal_search: Ավելացրեք առկա օգտատերեր կամ խմբեր
@@ -4370,6 +4381,7 @@ hy:
   label_sort_lowest: Տեղափոխել վերջ
   label_sorted_by: դասավորված ըստ %{value}
   label_spent_time: Ծախսված ժամանակ
+  label_stack: Stack
   label_start_to_end: սկզբից մինչև ավարտ
   label_start_to_start: սկզբից մինչև սկիզբ
   label_starts_with: սկսվում է
@@ -4403,6 +4415,7 @@ hy:
   label_time: Ժամ
   label_time_entry_activity_plural: Ծախսված ժամանակի գործունեություններ
   label_time_entry_plural: Ծախսված ժամանակ
+  label_timer_since: Սկսվել է %{time}-ին
   label_title: Վերնագիր
   label_today: այսօր
   label_today_as_date: Ընտրեք այսօրը որպես ամսաթիվ։
@@ -4452,6 +4465,7 @@ hy:
   label_videos: Տեսանյութեր
   label_view_all_revisions: Դիտել բոլոր ռևիզիաները
   label_view_diff: Դիտել տարբերությունները
+  label_view_mode_switcher: Փոխել տեսքը
   label_view_revisions: Դիտել ռևիզիաները
   label_view_x: Տեսք՝ %{x}
   label_watched_work_packages: Հետևվող աշխատանքային փաթեթներ
@@ -4499,6 +4513,7 @@ hy:
   label_working_days: Աշխատանքային օրեր
   label_working_days_and_hours: Աշխատանքային օրեր և ժամեր
   label_working_hours: Աշխատանքային ժամանակացույց
+  label_workweek: Աշխատանքային շաբաթ
   label_x_closed_work_packages_abbr:
     one: 1 փակ
     other: "%{count} փակ"
@@ -4934,6 +4949,18 @@ hy:
     password_confirmation_dialog:
       confirmation_required: Այս փոփոխությունը հաստատելու համար անհրաժեշտ է մուտքագրել Ձեր հաշվի գաղտնաբառը։
       title: Հաստատեք Ձեր գաղտնաբառը՝ շարունակելու համար
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Մուտքի թոքեններ
@@ -5498,6 +5525,9 @@ hy:
   permission_manage_dashboards: Կառավարել վահանակները
   permission_manage_forums: Կառավարել ֆորումները
   permission_manage_members: Կառավարել անդամներին
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Կառավարել նորությունները
   permission_manage_own_reminders: Ստեղծել սեփական հիշեցումներ
   permission_manage_own_working_times: Կառավարել սեփական աշխատանքային ժամանակը
@@ -7015,10 +7045,10 @@ hy:
         blankslate_description: Ավելացրեք խմբեր վերևի կոճակի միջոցով կամ քաշեք հատկանիշները ձախ վահանակից։
         blankslate_title: Դեռ խմբեր չկան
         confirm_delete_group: Համոզվա՞ծ եք, որ ցանկանում եք ջնջել այս բաժինը։ Այս գործողությունը հնարավոր չէ ավտոմատ կերպով հետարկել։
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Հատուկ դաշտ
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Ջնջել բաժինը
         drag_to_activate: Ակտիվացնելու համար քաշեք դաշտերն այստեղից
         drag_to_reorder: Քաշեք՝ վերադասավորելու համար
@@ -7597,6 +7627,8 @@ hy:
       required_description: Նշում է այս աշխատանքային փաթեթը որպես կապակցվածի պահանջ
       requires_description: Նշում է կապակցված աշխատանքային փաթեթը որպես սրա պահանջ
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Աշխատանքային փաթեթները չհաջողվեց պատճենել։
       could_not_be_deleted: Հետևյալ աշխատանքային փաթեթները չհաջողվեց ջնջել՝

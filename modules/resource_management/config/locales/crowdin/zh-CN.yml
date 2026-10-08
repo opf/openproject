@@ -167,6 +167,8 @@ zh-CN:
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 添加视图
     public_caption: 向该项目的所有成员公开此视图。这不会影响工作包的可见性，工作包的可见性仍然取决于每位用户的权限。

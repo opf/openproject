@@ -2647,6 +2647,7 @@ fa:
   button_set_reminder: تنظیم یادآوری
   button_show: نمایش
   button_sort: مرتب‌سازی
+  button_stop_timer: توقف تایمر
   button_submit: ثبت کردن
   button_test: بررسی
   button_unarchive: خروج از آرشیو
@@ -3934,6 +3935,7 @@ fa:
   label_date_from_to: از %{start} تا %{end}
   label_date_to: تا
   label_dates: تاریخ‌ها
+  label_day: روز
   label_day_plural: روز
   label_default: پیش‌فرض
   label_defaults: پیش‌فرض‌ها
@@ -4150,6 +4152,7 @@ fa:
   label_module_plural: ماژول‌ها
   label_modules: ماژول‌ها
   label_modules_and_plugins: ماژول‌ها و Pluginها
+  label_month: ماه
   label_months_from: ماه از
   label_more: بیشتر
   label_more_information: اطلاعات بیشتر
@@ -4163,6 +4166,7 @@ fa:
   label_my_avatar: آواتار من
   label_my_queries: Queryهای سفارشی من
   label_my_security: امنیت
+  label_my_work: My work
   label_name: نام
   label_never: هرگز
   label_new: جدید
@@ -4177,7 +4181,10 @@ fa:
   label_news_singular: اخبار
   label_news_view_all: مشاهده همه اخبار
   label_next: بعدی
+  label_next_day: روز بعد
+  label_next_month: ماه بعد
   label_next_week: هفته بعد
+  label_next_workweek: هفته کاری بعدی
   label_next_year: سال بعد
   label_no_change_option: "(بدون تغییر)"
   label_no_data: داده‌ای برای نمایش وجود ندارد
@@ -4185,6 +4192,7 @@ fa:
   label_no_parent_group: "(بدون گروه والد)"
   label_no_parent_page: بدون صفحه والد
   label_no_start_date: بدون تاریخ شروع
+  label_no_time: زمانی ثبت نشده است
   label_nobody: هیچ‌کس
   label_non_working_days: تقویم دسترس‌پذیری
   label_non_working_days_summary: خلاصه
@@ -4251,7 +4259,10 @@ fa:
   label_preview: پیش‌نمایش
   label_preview_not_available: پیش‌نمایش در دسترس نیست
   label_previous: قبلی
+  label_previous_day: روز قبل
+  label_previous_month: ماه قبل
   label_previous_week: هفته قبل
+  label_previous_workweek: هفته کاری قبل
   label_previous_year: سال قبل
   label_principal_invite_via_email: " یا کاربران جدید را از طریق ایمیل دعوت کنید"
   label_principal_search: افزودن کاربران یا گروه‌های موجود
@@ -4370,6 +4381,7 @@ fa:
   label_sort_lowest: انتقال به انتها
   label_sorted_by: مرتب‌شده بر اساس %{value}
   label_spent_time: زمان صرف‌شده
+  label_stack: پشته
   label_start_to_end: شروع به پایان
   label_start_to_start: شروع به شروع
   label_starts_with: شروع می‌شود با
@@ -4403,6 +4415,7 @@ fa:
   label_time: زمان
   label_time_entry_activity_plural: فعالیت‌های زمان صرف‌شده
   label_time_entry_plural: زمان صرف‌شده
+  label_timer_since: شروع شده از %{time}
   label_title: عنوان
   label_today: امروز
   label_today_as_date: امروز را به‌عنوان تاریخ انتخاب کنید.
@@ -4452,6 +4465,7 @@ fa:
   label_videos: ویدیوها
   label_view_all_revisions: مشاهده همه Revisionها
   label_view_diff: مشاهده تفاوت‌ها
+  label_view_mode_switcher: تغییر نما
   label_view_revisions: مشاهده Revisionها
   label_view_x: 'نما: %{x}'
   label_watched_work_packages: بسته‌های کاری دنبال‌شده
@@ -4499,6 +4513,7 @@ fa:
   label_working_days: روزهای کاری
   label_working_days_and_hours: روزها و ساعات کاری
   label_working_hours: برنامه کاری
+  label_workweek: هفته کاری
   label_x_closed_work_packages_abbr:
     one: ۱ بسته
     other: "%{count} بسته"
@@ -4932,6 +4947,18 @@ fa:
     password_confirmation_dialog:
       confirmation_required: برای تأیید این تغییر باید گذرواژه حساب خود را وارد کنید.
       title: برای ادامه گذرواژه خود را تأیید کنید
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: توکن‌های دسترسی
@@ -5498,6 +5525,9 @@ fa:
   permission_manage_dashboards: مدیریت داشبوردها
   permission_manage_forums: مدیریت انجمن‌ها
   permission_manage_members: مدیریت اعضا
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: مدیریت اخبار
   permission_manage_own_reminders: ایجاد یادآوری‌های خود
   permission_manage_own_working_times: مدیریت زمان‌های کاری خود
@@ -7017,10 +7047,10 @@ fa:
         blankslate_description: با دکمه بالا گروه اضافه کنید یا ویژگی‌ها را از پنل چپ Drag کنید.
         blankslate_title: هنوز گروهی وجود ندارد
         confirm_delete_group: مطمئنید می‌خواهید این بخش را حذف کنید؟ این اقدام به‌طور خودکار قابل بازگشت نیست.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: آیا مطمئن هستید که می‌خواهید فرم را بازنشانی کنید؟
         custom_field: فیلد سفارشی
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: حذف بخش
         drag_to_activate: برای فعال‌کردن، فیلدها را از اینجا Drag کنید
         drag_to_reorder: برای تغییر ترتیب Drag کنید
@@ -7599,6 +7629,8 @@ fa:
       required_description: این بسته کاری را به‌عنوان پیش‌نیاز مورد مرتبط علامت می‌زند
       requires_description: بسته کاری مرتبط را به‌عنوان پیش‌نیاز این مورد علامت می‌زند
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: بسته‌های کاری کپی نشدند.
       could_not_be_deleted: 'بسته‌های کاری زیر حذف نشدند:'

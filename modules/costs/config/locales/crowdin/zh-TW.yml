@@ -135,7 +135,6 @@ zh-TW:
   button_add_time_entry: 工時紀錄
   button_log_costs: 紀錄單位成本
   button_log_time: 日誌
-  button_stop_timer: 停止計時器
   button_update_limits: 更新限制
   button_update_start_finish_times: 更新開始與結束時間
   caption_booked_on_project: 已記錄在專案上
@@ -205,7 +204,6 @@ zh-TW:
   label_current: 當前
   label_current_default_rate: 目前基本費率
   label_date_on: 開啟
-  label_day: 日
   label_defaults_and_limits: 預設值與限制
   label_deleted_cost_types: 已刪除的成本類型
   label_display_cost_entries: 顯示單位成本
@@ -221,43 +219,28 @@ zh-TW:
   label_less_or_equal: 之後
   label_list: 清單
   label_log_costs: 紀錄支出單位
-  label_month: 月
-  label_my_time_tracking: 我的工作記錄
   label_new_time_entry_activity: 新的時間記錄活動
-  label_next_day: 下一天
-  label_next_month: 下個月
-  label_next_week: 下一週
-  label_next_workweek: 下個工作週
   label_no: 否
   label_no_default_rate: 未設定預設利率
   label_no_project_rate: No rate set for this project
-  label_no_time: 無時間追蹤
   label_option_plural: 選項
   label_overall_costs: 總計
-  label_previous_day: 前一天
-  label_previous_month: 前一個月
-  label_previous_week: 前一週
-  label_previous_workweek: 前個工作週
   label_rate_plural: 費率
   label_show: 顯示
   label_specific_day: "%{day} 日"
   label_specific_month: "%{month} 月"
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: 已完成
   label_time: 時間
   label_time_entry_activity_form_description: 此時間記錄活動的變更會反映在啟用此功能的所有專案中。
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: 從 %{time}開始
   label_today_capitalized: 今天
   label_units: 單位成本
   label_until: 到
   label_using_current_default_rate: Using current default rate
   label_valid_from: 有效期從
-  label_view_mode_switcher: 變更檢視
   label_work_package_filter_add: 新增工作套件篩選條件
-  label_workweek: 工作週
   label_yes: 是
   notice_cost_logged_successfully: 單位成本紀錄成功。
   notice_different_time_zones: 此使用者使用不同的時區 (%{tz})。將使用他們的時區記錄時間。

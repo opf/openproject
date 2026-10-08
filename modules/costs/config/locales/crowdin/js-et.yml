@@ -25,8 +25,6 @@ et:
     button_log_costs: Log unit costs
     label_hour: tund
     label_hours: tundi
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Kas oled kindel?
     work_packages:
       properties:
