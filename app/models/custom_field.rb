@@ -276,6 +276,12 @@ class CustomField < ApplicationRecord
       rescue StandardError
         nil
       end
+    when "datetime"
+      begin
+        ActiveSupport::TimeZone["UTC"].iso8601(value)
+      rescue StandardError
+        nil
+      end
     when "bool"
       ActiveRecord::Type::Boolean.new.cast(value)
     when "int"
