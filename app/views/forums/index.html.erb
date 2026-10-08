@@ -122,7 +122,7 @@ See COPYRIGHT and LICENSE files for more details.
           </tr>
         </thead>
         <tbody>
-          <% for forum in @forums %>
+          <% @forums.each do |forum| %>
             <tr>
               <td class="-no-ellipsis">
                 <%= link_to h(forum.name), { action: "show", id: forum }, class: "forum" %><br>

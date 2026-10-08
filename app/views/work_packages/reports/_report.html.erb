@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
         </tr>
       </thead>
       <tbody>
-        <% for row in report.rows %>
+        <% report.rows.each do |row| %>
           <tr>
             <td>
               <%= link_to h(row.name),
@@ -69,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
                             row.id
                           ) %>
             </td>
-            <% for status in report.statuses %>
+            <% report.statuses.each do |status| %>
               <td>
                 <%= aggregate_link report.data,
                                    { report.field => row.id, "status_id" => status.id },
