@@ -766,7 +766,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
   describe "closing duplicates on closing status" do
     let(:status_closed) do
       create(:status,
-             is_closed: true) do |status_closed|
+             category: "closed") do |status_closed|
         create(:workflow,
                old_status: status,
                new_status: status_closed,

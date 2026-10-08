@@ -34,6 +34,13 @@ module Import
     include Import::JiraJobUtils
     include Import::JiraProjectIssuesJob
 
+    STATUS_CATEGORY_MAPPING = {
+      "undefined" => nil,
+      "new" => "to_do",
+      "indeterminate" => "in_progress",
+      "done" => "closed"
+    }.freeze
+
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
       # or 0 in case there are no work_packages in the project.
@@ -185,13 +192,14 @@ module Import
       end
     end
 
+    # rubocop:disable-next Metrics/AbcSize
     def create_status(jira_issue)
       issue_status = jira_issue.payload["fields"]["status"]
       resolution = @jira_import.exclude_resolution_fields? ? nil : jira_issue.payload["fields"]["resolution"]
       name = status_name(issue_status, resolution)
       status, uses_existing = find_or_create_resource(Status, name, jira_object_type: "status") do
-        is_closed = issue_status.dig("statusCategory", "key") == "done"
-        Status.create!(name:, is_closed:)
+        jira_category_key = issue_status.dig("statusCategory", "key")
+        Status.create!(name:, category: STATUS_CATEGORY_MAPPING[jira_category_key])
       end
 
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)

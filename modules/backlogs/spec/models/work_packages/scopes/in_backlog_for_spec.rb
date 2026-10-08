@@ -30,10 +30,10 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::InBacklogFor do
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:to_do_status) { create(:status, category: "to_do") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:excluded_type) { create(:type_task) }
-  shared_let(:excluded_status) { create(:status, is_closed: false) }
+  shared_let(:excluded_status) { create(:status, category: "to_do") }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs),
@@ -49,57 +49,57 @@ RSpec.describe WorkPackages::Scopes::InBacklogFor do
 
   # Deliberately placed out of order. The before block further down will reorder them.
   shared_let(:open_inbox_wp4) do
-    create(:work_package, subject: "Open Inbox 4", project:, status: open_status, sprint: nil, backlog_bucket: nil)
+    create(:work_package, subject: "Open Inbox 4", project:, status: to_do_status, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:open_inbox_wp2) do
-    create(:work_package, subject: "Open Inbox 2", project:, status: open_status, sprint: nil, backlog_bucket: nil)
+    create(:work_package, subject: "Open Inbox 2", project:, status: to_do_status, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:open_inbox_wp1) do
-    create(:work_package, subject: "Open Inbox 1", project:, status: open_status, sprint: nil, backlog_bucket: nil)
+    create(:work_package, subject: "Open Inbox 1", project:, status: to_do_status, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:open_inbox_wp3) do
-    create(:work_package, subject: "Open Inbox 3", project:, status: open_status, sprint: nil, backlog_bucket: nil)
+    create(:work_package, subject: "Open Inbox 3", project:, status: to_do_status, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:closed_inbox_wp) do
     create(:work_package, status: closed_status, project:, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:excluded_type_inbox_wp) do
-    create(:work_package, type: excluded_type, project:, status: open_status, sprint: nil, backlog_bucket: nil)
+    create(:work_package, type: excluded_type, project:, status: to_do_status, sprint: nil, backlog_bucket: nil)
   end
   shared_let(:excluded_status_inbox_wp) do
     create(:work_package, status: excluded_status, project:, sprint: nil, backlog_bucket: nil)
   end
 
   shared_let(:open_bucket_wp4) do
-    create(:work_package, subject: "Open Bucket 4", project:, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, subject: "Open Bucket 4", project:, status: to_do_status, sprint: nil, backlog_bucket:)
   end
   shared_let(:open_bucket_wp3) do
-    create(:work_package, subject: "Open Bucket 3", project:, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, subject: "Open Bucket 3", project:, status: to_do_status, sprint: nil, backlog_bucket:)
   end
   shared_let(:open_bucket_wp2) do
-    create(:work_package, subject: "Open Bucket 2", project:, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, subject: "Open Bucket 2", project:, status: to_do_status, sprint: nil, backlog_bucket:)
   end
   shared_let(:open_bucket_wp1) do
-    create(:work_package, subject: "Open Bucket 1", project:, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, subject: "Open Bucket 1", project:, status: to_do_status, sprint: nil, backlog_bucket:)
   end
   shared_let(:closed_bucket_wp) do
     create(:work_package, status: closed_status, project:, sprint: nil, backlog_bucket:)
   end
   shared_let(:excluded_type_bucket_wp) do
-    create(:work_package, type: excluded_type, project:, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, type: excluded_type, project:, status: to_do_status, sprint: nil, backlog_bucket:)
   end
   shared_let(:excluded_status_bucket_wp) do
     create(:work_package, status: excluded_status, project:, sprint: nil, backlog_bucket:)
   end
 
   shared_let(:sprint_wp) do
-    create(:work_package, project:, status: open_status, sprint:, backlog_bucket: nil)
+    create(:work_package, project:, status: to_do_status, sprint:, backlog_bucket: nil)
   end
 
   # This is invalid as buckets are not shared.
   # It is nevertheless added
   shared_let(:other_project_wp) do
-    create(:work_package, project: other_project, status: open_status, sprint: nil, backlog_bucket:)
+    create(:work_package, project: other_project, status: to_do_status, sprint: nil, backlog_bucket:)
   end
 
   shared_let(:user_with_permission) do

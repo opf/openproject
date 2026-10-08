@@ -48,7 +48,7 @@ module WorkPackages::Scopes::WithoutStatusConsideredClosed
           SELECT 1
           FROM statuses
           WHERE id = work_packages.status_id
-            AND is_closed = TRUE
+            AND category = 'closed'
         )
       SQL
 

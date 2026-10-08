@@ -38,7 +38,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart,
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
   shared_let(:open_status) { create(:status, name: "Open", is_default: true) }
-  shared_let(:closed_status) { create(:status, name: "Closed", is_closed: true) }
+  shared_let(:closed_status) { create(:status, name: "Closed", category: "closed") }
 
   let(:monday) { Date.new(2026, 10, 12) }
   let(:saturday) { Date.new(2026, 10, 17) }
