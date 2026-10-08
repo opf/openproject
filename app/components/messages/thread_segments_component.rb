@@ -44,20 +44,13 @@ module Messages
     private
 
     def render_segment(segment)
+      focus = @focus_first && segment == @segments.first
       case segment
       in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map { render(Messages::PostComponent.new(message: it, focus: focused?(it))) })
+        safe_join(messages.map { render(Messages::PostComponent.new(message: it, focus: focus && it == messages.first)) })
       in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment))
+        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
       end
-    end
-
-    def focused?(message)
-      @focus_first && message == first_message
-    end
-
-    def first_message
-      @segments.grep(Messages::ThreadLayout::Replies).first&.messages&.first
     end
   end
 end
