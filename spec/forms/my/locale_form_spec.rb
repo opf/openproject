@@ -32,8 +32,6 @@ require "spec_helper"
 
 RSpec.describe My::LocaleForm, type: :forms do
   before do
-    travel_to(Time.utc(2026, 10, 8, 14, 15, 16))
-
     allow(Redmine::I18n)
       .to receive(:all_languages)
       .and_return %w[en de es ja nl zh-CN]
@@ -100,15 +98,15 @@ RSpec.describe My::LocaleForm, type: :forms do
       expect(page.find(:select, "Date").all("option").map(&:text)).to eq(
         [
           "Use system or language based default",
-          "2026-10-08",
-          "08/10/2026",
-          "08.10.2026",
-          "08-10-2026",
-          "10/08/2026",
-          "08 Oct 2026",
-          "08 October 2026",
-          "Oct 08, 2026",
-          "October 08, 2026"
+          "2026-02-28",
+          "28/02/2026",
+          "28.02.2026",
+          "28-02-2026",
+          "02/28/2026",
+          "28 Feb 2026",
+          "28 February 2026",
+          "Feb 28, 2026",
+          "February 28, 2026"
         ]
       )
     end
@@ -123,7 +121,7 @@ RSpec.describe My::LocaleForm, type: :forms do
       let(:preferences) { { date_format: "%d.%m.%Y" } }
 
       it "renders selected option" do
-        expect(page).to have_select "Date", selected: "08.10.2026"
+        expect(page).to have_select "Date", selected: "28.02.2026"
       end
     end
   end
@@ -133,8 +131,8 @@ RSpec.describe My::LocaleForm, type: :forms do
       expect(page.find(:select, "Time").all("option").map(&:text)).to eq(
         [
           "Use system or language based default",
-          "14:15",
-          "02:15 PM"
+          "15:30",
+          "03:30 PM"
         ]
       )
     end
@@ -149,7 +147,7 @@ RSpec.describe My::LocaleForm, type: :forms do
       let(:preferences) { { time_format: "%I:%M %p" } }
 
       it "renders selected option" do
-        expect(page).to have_select "Time", selected: "02:15 PM"
+        expect(page).to have_select "Time", selected: "03:30 PM"
       end
     end
   end

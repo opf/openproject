@@ -39,7 +39,7 @@ class My::DateTimeFormatForm < ApplicationForm
       input_width: :medium
     ) do |list|
       Settings::Definition[:date_format].allowed.each do |format|
-        list.option(label: Time.zone.today.strftime(format), value: format)
+        list.option(label: date_time_format_example(format), value: format)
       end
     end
 
@@ -50,7 +50,7 @@ class My::DateTimeFormatForm < ApplicationForm
       input_width: :medium
     ) do |list|
       Settings::Definition[:time_format].allowed.each do |format|
-        list.option(label: Time.current.strftime(format), value: format)
+        list.option(label: date_time_format_example(format), value: format)
       end
     end
   end

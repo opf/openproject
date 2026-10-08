@@ -128,7 +128,6 @@ RSpec.describe "my", :js do
 
     describe "Date and time format" do
       before do
-        travel_to(Time.utc(2026, 10, 8, 14, 15, 16))
         visit my_locale_path
       end
 
@@ -136,14 +135,14 @@ RSpec.describe "my", :js do
         expect(page).to have_select "Date", selected: "Use system or language based default"
         expect(page).to have_select "Time", selected: "Use system or language based default"
 
-        select "08.10.2026", from: "Date"
-        select "14:15", from: "Time"
+        select "28.02.2026", from: "Date"
+        select "15:30", from: "Time"
         click_on "Save"
 
         expect_and_dismiss_flash type: :success, message: "Account was successfully updated."
 
-        expect(page).to have_select "Date", selected: "08.10.2026"
-        expect(page).to have_select "Time", selected: "14:15"
+        expect(page).to have_select "Date", selected: "28.02.2026"
+        expect(page).to have_select "Time", selected: "15:30"
 
         expect(user.reload).to have_attributes(date_format: "%d.%m.%Y", time_format: "%H:%M")
       end

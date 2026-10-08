@@ -40,6 +40,8 @@ module Redmine
     IN_CONTEXT_TRANSLATION_CODE = :lol
     IN_CONTEXT_TRANSLATION_NAME = "In-Context Crowdin Translation"
 
+    DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP = Time.utc(2026, 2, 28, 15, 30).freeze
+
     def self.included(base)
       base.extend Redmine::I18n
     end
@@ -225,6 +227,10 @@ module Redmine
         .period_for_utc(period.utc)
         .abbreviation
         .to_s
+    end
+
+    def date_time_format_example(format)
+      DATE_TIME_FORMAT_EXAMPLE_TIMESTAMP.strftime(format)
     end
 
     def day_name(day)
