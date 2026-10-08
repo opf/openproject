@@ -60,7 +60,7 @@ class DocumentsController < ApplicationController
   def show
     @attachments = @document.attachments.order(Arel.sql("created_at DESC"))
 
-    if @document.collaborative? && Setting.real_time_text_collaboration_enabled?
+    if @document.real_time_collaboration_available?
       setup_collaboration_context
       derive_show_edit_state_from_params
     end

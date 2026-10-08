@@ -34,6 +34,9 @@ get:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project
@@ -142,6 +145,9 @@ patch:
                     method: post
                   attachments:
                     href: "/api/v3/documents/1/attachments"
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
                   project:
                     href: "/api/v3/projects/19"
                     title: Some project

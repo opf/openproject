@@ -110,6 +110,30 @@ RSpec.describe Document do
     end
   end
 
+  describe "#real_time_collaboration_available?" do
+    let(:document) { build(:document, kind:) }
+    let(:kind) { "collaborative" }
+    let(:collaboration_enabled) { true }
+
+    before do
+      allow(Setting).to receive(:real_time_text_collaboration_enabled?).and_return(collaboration_enabled)
+    end
+
+    it { expect(document).to be_real_time_collaboration_available }
+
+    context "when real-time collaboration is disabled" do
+      let(:collaboration_enabled) { false }
+
+      it { expect(document).not_to be_real_time_collaboration_available }
+    end
+
+    context "when the document is classic" do
+      let(:kind) { "classic" }
+
+      it { expect(document).not_to be_real_time_collaboration_available }
+    end
+  end
+
   describe "acts as event" do
     let(:now) { Time.zone.now }
     let(:document) do

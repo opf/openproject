@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -27,26 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Documents
+  module OAuth
+    ##
+    # Decrypts a collaboration token created by {EncryptTokenService}.
+    #
+    # Fails when the token was tampered with, was encrypted with another secret
+    # or is not a valid encrypted message at all.
+    class DecryptTokenService < BaseServices::BaseCallable
+      include TokenEncryptor
 
-RSpec.describe API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+      def initialize(token:)
+        super()
 
-  describe "#document" do
-    subject { helper.attachments_by_document 42 }
+        @token = token
+      end
 
-    it { is_expected.to eql("/api/v3/documents/42/attachments") }
-  end
+      def perform
+        decrypted = message_encryptor.decrypt_and_verify(token.to_s)
 
-  describe "#attachments_by_document" do
-    subject { helper.prepare_attachments_by_document 42 }
+        if decrypted.nil?
+          ServiceResult.failure(message: "Token could not be decrypted.")
+        else
+          ServiceResult.success(result: decrypted)
+        end
+      rescue StandardError => e
+        ServiceResult.failure(errors: e, message: "Token could not be decrypted.")
+      end
 
-    it { is_expected.to eql("/api/v3/documents/42/attachments/prepare") }
-  end
+      private
 
-  describe "#document_collaboration_token" do
-    subject { helper.document_collaboration_token 42 }
+      attr_reader :token
 
-    it { is_expected.to eql("/api/v3/documents/42/collaboration_token") }
+      def cipher_operation
+        "decrypt"
+      end
+    end
   end
 end

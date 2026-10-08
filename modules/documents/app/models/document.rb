@@ -74,6 +74,10 @@ class Document < ApplicationRecord
     !user.nil? && user.allowed_in_project?(:view_documents, project)
   end
 
+  def real_time_collaboration_available?
+    collaborative? && Setting.real_time_text_collaboration_enabled?
+  end
+
   def set_default_type
     self.type ||= DocumentType.default if new_record?
   end

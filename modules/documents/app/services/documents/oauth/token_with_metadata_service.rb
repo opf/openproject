@@ -30,20 +30,51 @@
 
 module Documents
   module OAuth
+    ##
+    # Creates a collaboration token for the document.
+    #
+    # When a `previous_token` is given, it is revoked 30 seconds after the new token is created,
+    # so the collaboration server can keep using it until the client has handed the new token over.
+    # The previous token may be expired, but must not be revoked (i.e. must not have been sent before).
     class TokenWithMetadataService < BaseServices::BaseCallable
       include API::V3::Utilities::PathHelper
 
-      attr_reader :user, :document, :project
+      PREVIOUS_TOKEN_REVOCATION_DELAY = 30.seconds
 
-      def initialize(user:, document:, project:)
+      attr_reader :user, :document, :project, :previous_token
+
+      def initialize(user:, document:, project:, previous_token: nil)
         super()
 
         @user = user
         @document = document
         @project = project
+        @previous_token = previous_token
       end
 
-      def perform # rubocop:disable Metrics/AbcSize
+      def perform
+        return invalid_previous_token_result if previous_token && previous_access_token.nil?
+
+        token_result = nil
+
+        ::Doorkeeper::AccessToken.transaction do
+          token_result = previous_token ? revoke_previous_and_create_token : create_token_with_metadata
+          raise ActiveRecord::Rollback if token_result.failure?
+        end
+
+        token_result
+      end
+
+      def resource_url
+        @resource_url ||= URI.join(
+          OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
+          api_v3_paths.document(document.id)
+        ).to_s
+      end
+
+      private
+
+      def create_token_with_metadata # rubocop:disable Metrics/AbcSize
         token_result = GenerateTokenService.new(user:).call
 
         if token_result.failure?
@@ -79,18 +110,60 @@ module Documents
         )
       end
 
-      private
+      def revoke_previous_and_create_token
+        return invalid_previous_token_result if revoke_previous_token.zero?
 
-      def resource_url
-        @resource_url ||= URI.join(
-          OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
-          api_v3_paths.document(document.id)
-        ).to_s
+        token_result = create_token_with_metadata
+        return token_result if token_result.success?
+
+        ServiceResult.failure(message: I18n.t("api_v3.errors.code_500"))
       end
 
       def readonly
         @readonly ||= user.allowed_in_project?(:view_documents, project) &&
           !user.allowed_in_project?(:manage_documents, project)
+      end
+
+      def previous_access_token
+        @previous_access_token ||= find_previous_access_token
+      end
+
+      def find_previous_access_token
+        payload = decrypted_payload
+        return if payload.nil?
+        return if payload["resource_url"] != resource_url
+
+        access_token = ::Doorkeeper::AccessToken.by_token(payload["oauth_token"])
+        return unless EnsureApplicationService.collaboration_token?(access_token)
+        return if access_token.resource_owner_id != user.id
+        return if access_token.revoked_at.present?
+
+        access_token
+      end
+
+      def decrypted_payload
+        decrypt_result = DecryptTokenService.new(token: previous_token).call
+        return unless decrypt_result.success?
+
+        payload = JSON.parse(decrypt_result.result)
+        payload if payload.is_a?(Hash)
+      rescue JSON::ParserError
+        nil
+      end
+
+      # Doorkeeper considers a token revoked once `revoked_at <= now`, so a value in the
+      # future keeps it valid until then.
+      # Only revokes if not revoked yet, so that concurrent requests cannot both revoke the same token.
+      def revoke_previous_token
+        ::Doorkeeper::AccessToken
+          .where(id: previous_access_token.id, revoked_at: nil)
+          .update_all(revoked_at: PREVIOUS_TOKEN_REVOCATION_DELAY.from_now)
+      end
+
+      def invalid_previous_token_result
+        ServiceResult
+          .failure(message: I18n.t("documents.collaboration_token.errors.invalid_previous_token"))
+          .tap { |result| result.errors.add(:token, :invalid) }
       end
     end
   end

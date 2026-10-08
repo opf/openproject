@@ -255,6 +255,8 @@ paths:
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
     "$ref": "./paths/document.yml"
+  "/api/v3/documents/{id}/collaboration_token":
+    "$ref": "./paths/document_collaboration_token.yml"
   "/api/v3/example/form":
     "$ref": "./paths/example_form.yml"
   "/api/v3/example/schema":
@@ -864,6 +866,8 @@ components:
       "$ref": "./components/schemas/categories_by_workspace_model.yml"
     CategoryModel:
       "$ref": "./components/schemas/category_model.yml"
+    CollaborationTokenModel:
+      "$ref": "./components/schemas/collaboration_token_model.yml"
     CollectionLinks:
       "$ref": "./components/schemas/collection_links.yml"
     CollectionModel:

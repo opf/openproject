@@ -40,6 +40,13 @@ module Documents
       APPLICATION_NAME = "Documents OAuth Application"
       APPLICATION_UID = "documents_yjs_provider"
 
+      ##
+      # Whether the given Doorkeeper access token was issued to the Documents OAuth application,
+      # i.e. it is a token handed to the collaboration (Hocuspocus) server.
+      def self.collaboration_token?(access_token)
+        access_token&.application&.uid == APPLICATION_UID
+      end
+
       def perform
         application = find_or_create_application
 

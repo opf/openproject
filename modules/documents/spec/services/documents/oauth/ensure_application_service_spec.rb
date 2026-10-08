@@ -68,4 +68,28 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
       end
     end
   end
+
+  describe ".collaboration_token?" do
+    subject { described_class.collaboration_token?(access_token) }
+
+    context "when the token was issued to the Documents OAuth application" do
+      let(:access_token) do
+        create(:oauth_access_token, application: create(:oauth_application, uid: described_class::APPLICATION_UID))
+      end
+
+      it { is_expected.to be(true) }
+    end
+
+    context "when the token was issued to another OAuth application" do
+      let(:access_token) { create(:oauth_access_token) }
+
+      it { is_expected.to be(false) }
+    end
+
+    context "when there is no token" do
+      let(:access_token) { nil }
+
+      it { is_expected.to be(false) }
+    end
+  end
 end

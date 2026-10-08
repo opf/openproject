@@ -31,53 +31,52 @@
 module API
   module V3
     module Documents
-      class DocumentRepresenter < ::API::Decorators::Single
-        include API::Decorators::DateProperty
-        include API::Decorators::FormattableProperty
-        include API::Decorators::LinkedResource
-        include API::V3::Workspaces::LinkedResource
-        include API::Caching::CachedRepresenter
-        include ::API::V3::Attachments::AttachableRepresenterMixin
+      ##
+      # Renders a freshly issued collaboration token for a document.
+      #
+      # Deliberately not a cached representer: the token is specific to the requesting user
+      # and must never be served to anybody else.
+      class CollaborationTokenRepresenter < ::API::Decorators::Single
+        CollaborationToken = Data.define(:document, :token, :document_name, :expires_at, :expires_in_seconds) do
+          def self.from_token_result(document, token_result)
+            new(document:,
+                token: token_result[:encrypted_token],
+                document_name: token_result[:resource_url],
+                expires_at: token_result[:expires_at],
+                expires_in_seconds: token_result[:expires_in_seconds])
+          end
+        end
 
-        cached_representer key_parts: %i(project),
-                           dependencies: -> { Setting.real_time_text_collaboration_enabled? },
-                           disabled: false
-
-        self_link title_getter: ->(*) { represented.title }
-
-        link :update,
-             cache_if: -> { current_user.allowed_in_project?(:manage_documents, represented.project) } do
+        link :document do
           {
-            href: api_v3_paths.document(represented.id),
-            method: :patch
+            href: api_v3_paths.document(represented.document.id),
+            title: represented.document.title
           }
         end
 
-        link :createCollaborationToken,
-             cache_if: -> { current_user.allowed_in_project?(:view_documents, represented.project) } do
-          next unless represented.real_time_collaboration_available?
-
+        link :createCollaborationToken do
           {
-            href: api_v3_paths.document_collaboration_token(represented.id),
+            href: api_v3_paths.document_collaboration_token(represented.document.id),
             method: :post
           }
         end
 
-        property :id
+        link :collaborationServer do
+          {
+            href: Setting.collaborative_editing_hocuspocus_url
+          }
+        end
 
-        property :title
+        property :token
 
-        formattable_property :description
+        property :document_name
 
-        property :content_binary
+        property :expires_at
 
-        date_time_property :created_at
-        date_time_property :updated_at
-
-        associated_project
+        property :expires_in_seconds
 
         def _type
-          "Document"
+          "CollaborationToken"
         end
       end
     end

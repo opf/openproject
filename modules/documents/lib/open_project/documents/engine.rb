@@ -116,6 +116,10 @@ module OpenProject::Documents
       "#{root}/documents/#{id}"
     end
 
+    add_api_path :document_collaboration_token do |id|
+      "#{document(id)}/collaboration_token"
+    end
+
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"
     end
