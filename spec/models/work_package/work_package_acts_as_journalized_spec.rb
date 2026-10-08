@@ -1004,6 +1004,33 @@ RSpec.describe WorkPackage do
                        expect_new_journal: false
     end
 
+    context "on changes without a cause within aggregation time after a journal with a cause" do
+      shared_let(:journable) do
+        create(:work_package,
+               subject: "Initial subject",
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: "ABC" }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "subject" => "Changed subject"
+                       },
+                       expected_values: {
+                         "subject" => ["Initial subject", "Changed subject"]
+                       },
+                       expect_new_journal: true
+
+      it "leaves the cause on the journal it explains" do
+        journable.subject = "Changed subject"
+        journable.save!
+
+        expect(journable.journals.reload[-2].cause).to eq("ABC")
+      end
+    end
+
     context "on mixed journal cause, notes and attribute adding outside of aggregation time" do
       shared_let(:journable) do
         create(:work_package,
