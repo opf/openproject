@@ -36,11 +36,11 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
   shared_let(:project) { create(:project) }
   shared_let(:sprint) do
     create(:sprint,
+           :active,
            project:,
            name: "Sprint 42",
            start_date: Date.yesterday,
-           finish_date: Date.tomorrow,
-           status: :active)
+           finish_date: Date.tomorrow)
   end
   shared_let(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Add sprint goal widget") }
 

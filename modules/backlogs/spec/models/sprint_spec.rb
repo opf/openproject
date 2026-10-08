@@ -32,20 +32,20 @@ require "spec_helper"
 
 RSpec.describe Sprint do
   let(:project) { create(:project) }
-  let(:sprint_status) { "in_planning" }
+  let(:sprint_status) { :in_planning }
 
   subject(:sprint) do
-    described_class.new(name: "Sprint 1",
-                        project:,
-                        start_date: Time.zone.today,
-                        finish_date: Time.zone.today + 14.days,
-                        status: sprint_status)
+    build(:sprint,
+          sprint_status,
+          name: "Sprint 1",
+          project:,
+          start_date: Time.zone.today,
+          finish_date: Time.zone.today + 14.days)
   end
 
   describe "validations" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:project) }
-    it { is_expected.to validate_inclusion_of(:status).in_array(described_class.statuses.keys) }
 
     it "allows nil start and finish dates" do
       sprint.start_date = nil
@@ -60,7 +60,7 @@ RSpec.describe Sprint do
     end
 
     context "with active sprint validation" do
-      let(:sprint_status) { "active" }
+      let(:sprint_status) { :active }
 
       it { is_expected.to validate_presence_of(:start_date) }
       it { is_expected.to validate_presence_of(:finish_date) }
@@ -91,21 +91,21 @@ RSpec.describe Sprint do
       end
 
       it "prevents multiple active sprints in the same project" do
-        create(:sprint, project:, status: "active")
+        create(:sprint, :active, project:)
         expect(sprint).not_to be_valid
         expect(sprint.errors[:status]).to include("only one active sprint is allowed per project.")
       end
 
       it "allows multiple active sprints in different projects" do
         other_project = create(:project)
-        create(:sprint, project: other_project, status: "active")
+        create(:sprint, :active, project: other_project)
         expect(sprint).to be_valid
       end
 
       it "prevents an active sprint when another active sprint is shared into the project" do
         parent = create(:project, sprint_sharing: "share_subprojects")
         receiving_project = create(:project, parent:, sprint_sharing: "receive_shared")
-        create(:sprint, project: parent, status: "active")
+        create(:sprint, :active, project: parent)
         sprint.project = receiving_project
 
         expect(sprint).not_to be_valid
@@ -119,21 +119,56 @@ RSpec.describe Sprint do
       end
 
       it "allows multiple non-active sprints in the same project" do
-        create(:sprint, project:, status: "completed")
-        create(:sprint, project:, status: "in_planning")
-        sprint.status = "in_planning"
+        create(:sprint, :completed, project:)
+        create(:sprint, project:)
+        sprint.started_at = nil
         expect(sprint).to be_valid
       end
     end
   end
 
-  describe "enums" do
-    it "has status enum with correct values" do
+  describe "statuses" do
+    it "has the correct values" do
       expect(described_class.statuses.keys).to contain_exactly("in_planning", "active", "completed")
     end
 
     it "status defaults to in_planning" do
       expect(sprint).to be_in_planning
+    end
+  end
+
+  describe "status derived from started_at and completed_at" do
+    shared_let(:in_planning_sprint) { create(:sprint) }
+    shared_let(:active_sprint) { create(:sprint, started_at: 1.day.ago) }
+    shared_let(:completed_sprint) { create(:sprint, started_at: 2.days.ago, completed_at: 1.day.ago) }
+
+    it "derives the status in memory" do
+      expect(in_planning_sprint.status).to eq("in_planning")
+      expect(active_sprint.status).to eq("active")
+      expect(completed_sprint.status).to eq("completed")
+    end
+
+    it "follows timestamp updates" do
+      in_planning_sprint.update!(started_at: Time.zone.now)
+
+      expect(in_planning_sprint.status).to eq("active")
+    end
+
+    it "falls back to the earlier status when a timestamp is cleared" do
+      completed_sprint.completed_at = nil
+
+      expect(completed_sprint.status).to eq("active")
+    end
+
+    it "cannot have its status assigned" do
+      expect(in_planning_sprint).not_to respond_to(:status=)
+    end
+
+    it "scopes by the derived status" do
+      expect(described_class.in_planning).to contain_exactly(in_planning_sprint)
+      expect(described_class.active).to contain_exactly(active_sprint)
+      expect(described_class.completed).to contain_exactly(completed_sprint)
+      expect(described_class.not_completed).to contain_exactly(in_planning_sprint, active_sprint)
     end
   end
 

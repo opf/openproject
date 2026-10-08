@@ -51,7 +51,7 @@ class Backlogs::Sprints::FinishService < BaseServices::BaseContracted
   end
 
   def persist(service_call)
-    model.update!(status: "completed", completed_at: Time.zone.now)
+    model.update!(completed_at: Time.zone.now)
     service_call
   end
 

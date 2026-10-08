@@ -34,37 +34,37 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   shared_let(:project) { create(:project) }
 
   shared_let(:active_sprint) do
-    create(:sprint, project:, status: :active,
+    create(:sprint, :active, project:,
                     name: "Active sprint",
                     start_date: Date.new(2025, 9, 1),
                     finish_date: Date.new(2025, 9, 10))
   end
   shared_let(:in_planning_sprint_later) do
-    create(:sprint, project:, status: :in_planning,
+    create(:sprint, project:,
                     name: "Later planning sprint",
                     start_date: Date.new(2025, 9, 11),
                     finish_date: Date.new(2025, 9, 20))
   end
   shared_let(:in_planning_sprint_earlier) do
-    create(:sprint, project:, status: :in_planning,
+    create(:sprint, project:,
                     name: "Earlier planning sprint",
                     start_date: Date.new(2025, 9, 1),
                     finish_date: Date.new(2025, 9, 10))
   end
   shared_let(:in_planning_sprint_no_dates) do
-    create(:sprint, project:, status: :in_planning,
+    create(:sprint, project:,
                     name: "No dates planning sprint",
                     start_date: nil,
                     finish_date: nil)
   end
   shared_let(:completed_sprint_b) do
-    create(:sprint, project:, status: :completed,
+    create(:sprint, :completed, project:,
                     name: "Completed sprint B",
                     start_date: Date.new(2025, 8, 1),
                     finish_date: Date.new(2025, 8, 31))
   end
   shared_let(:completed_sprint_a) do
-    create(:sprint, project:, status: :completed,
+    create(:sprint, :completed, project:,
                     name: "Completed sprint A",
                     start_date: Date.new(2025, 8, 1),
                     finish_date: Date.new(2025, 8, 31))
@@ -102,11 +102,11 @@ RSpec.describe Sprints::Scopes::OrderByActivity do
   end
 
   it "breaks ties within the same status, dates, and name by id ascending" do
-    duplicate_a = create(:sprint, project:, status: :completed,
+    duplicate_a = create(:sprint, :completed, project:,
                                   name: "Duplicate",
                                   start_date: Date.new(2025, 8, 1),
                                   finish_date: Date.new(2025, 8, 31))
-    duplicate_b = create(:sprint, project:, status: :completed,
+    duplicate_b = create(:sprint, :completed, project:,
                                   name: "Duplicate",
                                   start_date: Date.new(2025, 8, 1),
                                   finish_date: Date.new(2025, 8, 31))

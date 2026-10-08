@@ -453,7 +453,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
 
   describe "target availability" do
     it "rejects a same-list reorder inside a sprint that completed after load" do
-      sprint.update!(status: "completed")
+      sprint.update!(completed_at: Time.zone.now)
 
       result = service([sprint_wp1])
         .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: sprint_wp3.id.to_s)
@@ -466,7 +466,7 @@ RSpec.describe Backlogs::WorkPackages::BatchUpdateService, type: :model do
     end
 
     it "rejects a cross-list move into a sprint that completed after load" do
-      sprint.update!(status: "completed")
+      sprint.update!(completed_at: Time.zone.now)
 
       result = service([bucket_wp1])
         .call(list_type: "sprint", list_id: sprint.id.to_s, prev_id: sprint_wp1.id.to_s)

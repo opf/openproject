@@ -109,7 +109,7 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
           name: "New Sprint Name",
           start_date: Time.zone.today,
           finish_date: Time.zone.today + 21.days,
-          status: "active"
+          started_at: Time.zone.now
         }
       end
 
@@ -180,16 +180,6 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
         service_call
 
         expect(sprint.status).to eq("in_planning")
-      end
-
-      context "when status is already set" do
-        let(:sprint) { Sprint.new(status: "active") }
-
-        it "does not override the existing status" do
-          service_call
-
-          expect(sprint.status).to eq("active")
-        end
       end
     end
   end

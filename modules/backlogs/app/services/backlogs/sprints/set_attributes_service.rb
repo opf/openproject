@@ -90,16 +90,7 @@ module Backlogs::Sprints
     end
 
     def set_default_attributes(_params)
-      set_sprint_name
-      set_default_status
-    end
-
-    def set_sprint_name
       model.name ||= sprint_name_from_predecessor
-    end
-
-    def set_default_status
-      model.status ||= "in_planning"
     end
 
     def next_name_in_succession(predecessor)
