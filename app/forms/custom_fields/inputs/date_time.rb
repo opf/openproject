@@ -43,7 +43,6 @@ class CustomFields::Inputs::DateTime < CustomFields::Inputs::Base::Input
     attributes[:data] = attributes[:data].merge(
       controller: "custom-fields--datetime-input",
       action: "input->custom-fields--datetime-input#sync",
-      "custom-fields--datetime-input-time-zone-value": User.current.time_zone.tzinfo.name,
       "custom-fields--datetime-input-submitted-value-id-value": submitted_value_id
     )
 
