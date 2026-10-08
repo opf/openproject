@@ -35,12 +35,14 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
   shared_let(:work_package) { create(:work_package) }
 
   let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 2) }
+  let(:sorting) { "asc" }
 
   subject(:component) do
     described_class.new(journal:, filter: WorkPackages::ActivitiesTab::Filters::ALL)
   end
 
   before do
+    create(:user_preference, user:, others: { comments_sorting: sorting })
     login_as(user)
 
     allow(journal).to receive(:details).and_return(details)
@@ -74,6 +76,48 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Details, ty
 
     it "renders no change" do
       expect(page).to have_no_css("[data-test-selector='op-journal-detail-description']")
+    end
+  end
+
+  context "for the creation entry" do
+    let(:journal) { build_stubbed(:work_package_journal, journable: work_package, user:, version: 1) }
+    let(:cause) { { "type" => "forum_message", "message_id" => 1 } }
+    let(:details) { { "subject" => [nil, "New"], cause: [nil, cause] } }
+    let(:rendered) do
+      { ["subject", [nil, "New"]] => "Subject set to New", [:cause, [nil, cause]] => "Created from forum message" }
+    end
+
+    it "shows its cause but not the initial state it was created with", :aggregate_failures do
+      expect(page).to have_text("Created from forum message")
+      expect(page).to have_no_text("Subject set to New")
+    end
+
+    context "with the newest activity first" do
+      let(:sorting) { "desc" }
+
+      it "still shows its cause" do
+        expect(page).to have_text("Created from forum message")
+      end
+    end
+
+    context "with read-only attributes written at creation" do
+      let(:cause) { { "type" => "default_attribute_written" } }
+      let(:rendered) do
+        { ["subject", [nil, "New"]] => "Subject set to New", [:cause, [nil, cause]] => "Read-only attributes written" }
+      end
+
+      it "does not present writing them as a change" do
+        expect(page).to have_no_text("Read-only attributes written")
+      end
+    end
+
+    context "without a cause" do
+      let(:details) { { "subject" => [nil, "New"] } }
+      let(:rendered) { { ["subject", [nil, "New"]] => "Subject set to New" } }
+
+      it "shows no change" do
+        expect(page).to have_no_text("Subject set to New")
+      end
     end
   end
 end
