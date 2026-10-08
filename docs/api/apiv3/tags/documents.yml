@@ -26,8 +26,10 @@ description: |-
 
   Limitations:
 
-  - Requests authenticated with a collaboration token cannot create further collaboration tokens.
-    Do that with your own credentials (session, API key or OAuth token).
+  - The OAuth access token inside a collaboration token only carries the internal scope
+    `edit_documents`. It is valid solely for `GET` and `PATCH /api/v3/documents/{id}`.
+    Every other request is rejected with `InsufficientScope`. In particular, it cannot create collaboration
+    tokens. Do that with your own credentials (session, API key or OAuth token).
   - The collaboration server rejects browser connections whose `Origin` does not match the OpenProject
     host. Server-side clients that send no `Origin` header are not affected.
 
