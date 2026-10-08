@@ -110,7 +110,7 @@ See COPYRIGHT and LICENSE files for more details.
   </section>
 <% end %>
 
-<%  if OpenProject::FeatureDecisions.minutes_styling_meeting_pdf_active? %>
+<% if OpenProject::FeatureDecisions.minutes_styling_meeting_pdf_active? %>
   <%= render partial: "custom_styles/uploads/image",  locals: { image:{
     field: :export_footer,
     label: I18n.t(:label_custom_export_footer),
