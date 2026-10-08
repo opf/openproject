@@ -29,7 +29,7 @@
 import { nextcloud } from 'core-app/shared/components/storages/storages-constants.const';
 
 export interface IFileIcon {
-  icon:'file'|'file-directory-fill'|'file-media'|'op-file-csv'|'op-file-doc'|'op-file-presentation'|'op-file-sheet'|'op-file-text'|'op-pdf'|'server'
+  icon:'file'|'file-directory-fill'|'file-media'|'op-file-csv'|'op-file-doc'|'op-file-presentation'|'op-file-sheet'|'op-file-text'|'op-pdf'|'server'|'op-whiteboards'
   clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'primary'|'mov'|'default'
 }
 
@@ -71,6 +71,7 @@ export const fileIconMappings:Record<string, IFileIcon> = {
   'application/vnd.ms-excel': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/vnd.stardivision.calc': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/vnd.apple.numbers': { icon: 'op-file-sheet', clazz: 'sheet' },
+  'application/vnd.excalidraw': { icon: 'op-whiteboards', clazz: 'sheet' },
   'application/x-starcalc': { icon: 'op-file-sheet', clazz: 'sheet' },
   'application/x-quattro-pro': { icon: 'op-file-sheet', clazz: 'sheet' },
 
