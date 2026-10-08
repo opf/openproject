@@ -51,6 +51,12 @@ RSpec.describe Documents::OAuth::GenerateTokenService do
 
       expect(token.resource_owner_id).to eq(user.id)
     end
+
+    it "creates a token that only grants the edit documents scope" do
+      token = service_call.result
+
+      expect(token.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
+    end
   end
 
   context "with different users" do

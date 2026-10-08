@@ -49,6 +49,7 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         application = result.result
 
         expect(application.uid).to eq(described_class::APPLICATION_UID)
+        expect(application.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
       end
     end
 
@@ -66,30 +67,13 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         expect(result).to be_success
         expect(result.result).to eq(existing_application)
       end
-    end
-  end
 
-  describe ".collaboration_token?" do
-    subject { described_class.collaboration_token?(access_token) }
-
-    context "when the token was issued to the Documents OAuth application" do
-      let(:access_token) do
-        create(:oauth_access_token, application: create(:oauth_application, uid: described_class::APPLICATION_UID))
+      it "restricts the application to the edit documents scope" do
+        expect { service_call }
+          .to change { existing_application.reload.scopes.to_a }
+          .from(["api_v3"])
+          .to([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
       end
-
-      it { is_expected.to be(true) }
-    end
-
-    context "when the token was issued to another OAuth application" do
-      let(:access_token) { create(:oauth_access_token) }
-
-      it { is_expected.to be(false) }
-    end
-
-    context "when there is no token" do
-      let(:access_token) { nil }
-
-      it { is_expected.to be(false) }
     end
   end
 end

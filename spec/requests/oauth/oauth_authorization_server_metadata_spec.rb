@@ -57,4 +57,14 @@ RSpec.describe "OAuth 2.0 Authorization Server Metadata", content_type: :json do
     get "/.well-known/oauth-authorization-server"
     expect(last_response.body).to match_json_schema(expected_schema)
   end
+
+  it "does not advertise internal scopes" do
+    allow(OpenProject::Authentication).to receive(:internal_oauth_scopes).and_return(["mcp"])
+
+    get "/.well-known/oauth-authorization-server"
+
+    scopes_supported = JSON.parse(last_response.body)["scopes_supported"]
+    expect(scopes_supported).to include("api_v3")
+    expect(scopes_supported).not_to include("mcp")
+  end
 end

@@ -85,6 +85,42 @@ module OpenProject
       def handle_failure(scope: nil, &block)
         Manager.failure_handlers[scope] = block
       end
+
+      ##
+      # Registers an OAuth scope that authenticates for the given Warden scope, but only grants
+      # access to endpoints that explicitly opt into it. For APIv3, endpoints opt in via
+      # `route_setting :oauth_scopes, [oauth_scope]`.
+      #
+      # @param [Symbol] warden_scope The Warden scope (see `OpenProject::Authentication::Scope`).
+      # @param [String] oauth_scope The OAuth scope.
+      def add_restricted_oauth_scope(warden_scope, oauth_scope)
+        restricted_oauth_scope_registry[warden_scope] << oauth_scope.to_s
+      end
+
+      def restricted_oauth_scopes(warden_scope)
+        restricted_oauth_scope_registry.fetch(warden_scope, []).to_a
+      end
+
+      ##
+      # Registers an OAuth scope that is only granted by OpenProject itself.
+      # Administrators can not assign it to OAuth applications.
+      def add_internal_oauth_scope(oauth_scope)
+        internal_oauth_scope_registry << oauth_scope.to_s
+      end
+
+      def internal_oauth_scopes
+        internal_oauth_scope_registry.to_a
+      end
+
+      private
+
+      def restricted_oauth_scope_registry
+        @restricted_oauth_scope_registry ||= Hash.new { |hash, key| hash[key] = Set.new }
+      end
+
+      def internal_oauth_scope_registry
+        @internal_oauth_scope_registry ||= Set.new
+      end
     end
 
     ##

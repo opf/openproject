@@ -61,12 +61,14 @@ module API
               end
             end
 
+            route_setting :oauth_scopes, [::Documents::OAuth::EDIT_DOCUMENTS_SCOPE]
             get do
               ::API::V3::Documents::DocumentRepresenter.new(document,
                                                             current_user:,
                                                             embed_links: true)
             end
 
+            route_setting :oauth_scopes, [::Documents::OAuth::EDIT_DOCUMENTS_SCOPE]
             patch do
               doc = document
               request_body = JSON.parse(request.body.read)

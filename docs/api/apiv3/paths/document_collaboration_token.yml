@@ -64,11 +64,13 @@ post:
             response:
               value:
                 _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: Requests authenticated with a collaboration token cannot request collaboration tokens.
+                errorIdentifier: urn:openproject-org:api:v3:errors:InsufficientScope
+                message: The access token used for this request does not grant access to this resource. It only
+                  grants the scope(s) 'edit_documents', but this request requires the scope 'api_v3'.
+                  Authenticate with a session, an API key, or an OAuth access token with the 'api_v3' scope.
       description: |-
-        Returned if the request is authenticated with a collaboration token, i.e. the OAuth access token
-        inside it. Such tokens can not request further tokens.
+        Returned if the request is authenticated with an OAuth access token that lacks the `api_v3` scope,
+        e.g. the token inside a collaboration token. Such tokens can not request further tokens.
       headers: {}
     '404':
       content:

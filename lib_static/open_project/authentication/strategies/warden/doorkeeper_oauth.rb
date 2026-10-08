@@ -37,6 +37,8 @@ module OpenProject
         class DoorkeeperOAuth < ::Warden::Strategies::Base
           include FailWithHeader
 
+          ACCESS_TOKEN_ENV_KEY = "openproject.authentication.oauth_access_token"
+
           # The strategy is supposed to handle bearer tokens that are not JWT.
           # These tokens are issued by OpenProject
           def valid?
@@ -57,22 +59,27 @@ module OpenProject
             access_token = ::Doorkeeper::OAuth::Token.authenticate(decorated_request,
                                                                    *Doorkeeper.configuration.access_token_methods)
             return fail_with_header!(error: "invalid_token") if access_token_invalid?(access_token)
-            return fail_with_header!(error: "insufficient_scope") if !access_token.includes_scope?(scope)
+            return fail_with_header!(error: "insufficient_scope") if !access_token.includes_scope?(*accepted_scopes)
 
             user_id = access_token.resource_owner_id || access_token.application.client_credentials_user_id
-            authenticate_user(user_id) if user_id
+            authenticate_user(user_id, access_token) if user_id
           end
 
           private
+
+          def accepted_scopes
+            [scope.to_s, *OpenProject::Authentication.restricted_oauth_scopes(scope)]
+          end
 
           def access_token_invalid?(access_token)
             access_token.blank? || access_token.expired? || access_token.revoked? || !access_token.application.enabled?
           end
 
-          def authenticate_user(id)
+          def authenticate_user(id, access_token)
             # ServiceAccount is found explicitly because ServiceAccount is builtin, but User.active excludes builtin entities.
             user = id && User.active.where(id:).or(ServiceAccount.where(id:, status: ServiceAccount.statuses[:active])).first
             if user
+              env[ACCESS_TOKEN_ENV_KEY] = access_token
               success!(user)
             else
               fail_with_header!(error: "invalid_token")

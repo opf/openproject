@@ -134,7 +134,7 @@ module Documents
         return if payload["resource_url"] != resource_url
 
         access_token = ::Doorkeeper::AccessToken.by_token(payload["oauth_token"])
-        return unless EnsureApplicationService.collaboration_token?(access_token)
+        return unless access_token&.includes_scope?(EDIT_DOCUMENTS_SCOPE)
         return if access_token.resource_owner_id != user.id
         return if access_token.revoked_at.present?
 

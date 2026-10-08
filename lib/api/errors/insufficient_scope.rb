@@ -28,37 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Documents
-  module OAuth
-    class GenerateTokenService < BaseServices::BaseCallable
-      def initialize(user:)
-        super()
+module API
+  module Errors
+    class InsufficientScope < ErrorBase
+      identifier "InsufficientScope"
+      code 403
 
-        @user = user
-      end
-
-      def perform
-        application_result = EnsureApplicationService.new.call
-        return application_result unless application_result.success?
-
-        application = application_result.result
-
-        token = create_access_token(application)
-
-        if token.persisted?
-          ServiceResult.success(result: token)
-        else
-          ServiceResult.failure(errors: token.errors)
-        end
-      end
-
-      private
-
-      def create_access_token(application)
-        application.access_tokens.create(
-          resource_owner_id: @user.id,
-          scopes: EDIT_DOCUMENTS_SCOPE,
-          expires_in: 5.minutes.to_i
+      def initialize(granted_scopes:, required_scope:)
+        super(
+          I18n.t("api_v3.errors.insufficient_scope",
+                 granted: granted_scopes.map { |scope| "'#{scope}'" }.join(", "),
+                 required: required_scope)
         )
       end
     end
