@@ -288,7 +288,10 @@ module Authentication
     def identity_url_from_omniauth
       return if developer_provider?
 
-      identifier = auth_hash[:info][:uid] || auth_hash[:uid]
+      access_token = auth_hash["credentials"]["token"]
+      decoded = JWT.decode(access_token, nil, false)
+      oid = decoded[0]["oid"]
+      identifier = oid || auth_hash[:info][:uid] || auth_hash[:uid]
       "#{auth_hash[:provider]}:#{identifier}"
     end
 
