@@ -240,9 +240,9 @@ de:
         api_format: API-Format
         api_key: API-Schlüssel
         base_url: Host-URL
-        default_chat_model: Default chat model
+        default_chat_model: Standardmäßiges Chat-Modell
         default_embedding_model: Default embedding model
-        llm_features_enabled: Enable LLMs for this instance
+        llm_features_enabled: LLMs für diese Instanz aktivieren
       llm_model:
         admin_context_window: Kontextfenster
         display_name: Anzeigename
@@ -763,7 +763,7 @@ de:
             api_key:
               invalid_api_key: wurde vom LLM-Server abgelehnt.
             base:
-              singleton: Only one LLM connection can be active.
+              singleton: Es kann nur eine LLM-Verbindung aktiv sein.
             base_url:
               cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
               models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
@@ -1652,11 +1652,11 @@ de:
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
-            title: Fetch versions for project '%{jira_project_name}'
+            title: Versionen für das Projekt ‚%{jira_project_name}‘ abrufen
           JiraFetchProjectsJob:
             title: Projekte abrufen
           JiraFetchStatusesJob:
-            title: Fetch statuses
+            title: Status abrufen
           JiraFetchUsersJob:
             title: Benutzer abrufen
           JiraInstanceMetaDataJob:
@@ -1902,7 +1902,7 @@ de:
       sub_header_component:
         button_add: Bezeichnung
         label_add: Bezeichnung hinzufügen
-        search_placeholder: Type here to search
+        search_placeholder: Zum Suchen hier eingeben
       table_component:
         blank_slate:
           description: Labels created by users on work packages will appear here.
@@ -2003,7 +2003,7 @@ de:
         failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
         success: The model list has been refreshed.
       update:
-        success: "%{model} has been updated."
+        success: "%{model} wurde aktualisiert."
     mcp_configurations:
       index:
         description: Das Model Context Protocol ermöglicht es KI-Agenten, ihren Nutzern Tools und Ressourcen bereitzustellen, die diese OpenProject-Instanz zur Verfügung stellt. Die Funktion befindet sich noch in der Beta-Phase.
@@ -2433,7 +2433,7 @@ de:
     groups: Gruppen
     hexcode: Fabcode (Hex)
     id: ID
-    inexistent: Inexistent
+    inexistent: Existiert nicht
     is_default: Standardwert
     is_for_all: Für alle Projekte
     issue: Arbeitspaket
@@ -2649,6 +2649,7 @@ de:
   button_set_reminder: Erinnerung einrichten
   button_show: Anzeigen
   button_sort: Sortierung
+  button_stop_timer: Timer stoppen
   button_submit: OK
   button_test: Testen
   button_unarchive: Entarchivieren
@@ -3499,7 +3500,7 @@ de:
       filters:
         name: Form
         name_placeholder: Filter by form name or description…
-        projects_placeholder: Filter projects…
+        projects_placeholder: Projekte filtern …
       projects_count:
         one: 1 Projekt
         other: "%{count} Projekte"
@@ -3527,7 +3528,7 @@ de:
       label: Startpunkt
       scratch:
         caption: Start with the default attribute groups and arrange them yourself.
-        label: Start from scratch
+        label: Von Grund auf neu beginnen
       title: Configure a new form
     tab:
       read_only:
@@ -3936,6 +3937,7 @@ de:
   label_date_from_to: von %{start} bis %{end}
   label_date_to: Bis
   label_dates: Daten
+  label_day: Tag
   label_day_plural: Tagen
   label_default: Standard
   label_defaults: Standardwerte
@@ -4152,6 +4154,7 @@ de:
   label_module_plural: Module
   label_modules: Module
   label_modules_and_plugins: Module und Plugins
+  label_month: Monat
   label_months_from: Monate ab
   label_more: Mehr
   label_more_information: Weitere Informationen
@@ -4165,6 +4168,7 @@ de:
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
   label_my_security: Sicherheit
+  label_my_work: My work
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -4179,7 +4183,10 @@ de:
   label_news_singular: Neuigkeit
   label_news_view_all: Alle Neuigkeiten anzeigen
   label_next: Weiter
+  label_next_day: Nächster Tag
+  label_next_month: Nächster Monat
   label_next_week: Woche vor
+  label_next_workweek: Nächste Arbeitswoche
   label_next_year: Nächstes Jahr
   label_no_change_option: "(Keine Änderung)"
   label_no_data: Es sind keine Daten vorhanden
@@ -4187,6 +4194,7 @@ de:
   label_no_parent_group: "(Keine übergeordnete Gruppe)"
   label_no_parent_page: Keine übergeordnete Seite
   label_no_start_date: kein Startdatum
+  label_no_time: Keine Zeit erfasst
   label_nobody: Niemand
   label_non_working_days: Verfügbarkeitskalender
   label_non_working_days_summary: Zusammenfassung
@@ -4253,7 +4261,10 @@ de:
   label_preview: Vorschau
   label_preview_not_available: Vorschau nicht verfügbar
   label_previous: Zurück
+  label_previous_day: Vorheriger Tag
+  label_previous_month: Vorheriger Monat
   label_previous_week: Woche zurück
+  label_previous_workweek: Vorherige Arbeitswoche
   label_previous_year: Letztes Jahr
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
   label_principal_search: Vorhandene Benutzer / Gruppen hinzufügen
@@ -4372,6 +4383,7 @@ de:
   label_sort_lowest: Nach ganz unten verschieben
   label_sorted_by: sortiert nach %{value}
   label_spent_time: Aufgewendete Zeit
+  label_stack: Stapel
   label_start_to_end: Anfang bis Ende
   label_start_to_start: Anfang bis Anfang
   label_starts_with: beginnt mit
@@ -4405,6 +4417,7 @@ de:
   label_time: Zeit
   label_time_entry_activity_plural: Zeitbuchung-Aktivität
   label_time_entry_plural: Aufgewendete Zeit
+  label_timer_since: Begonnen um %{time}
   label_title: Titel
   label_today: heute
   label_today_as_date: Heute als Datum wählen.
@@ -4454,6 +4467,7 @@ de:
   label_videos: Videos
   label_view_all_revisions: Alle Revisionen anzeigen
   label_view_diff: Unterschiede anzeigen
+  label_view_mode_switcher: Ansicht ändern
   label_view_revisions: Revisionen anzeigen
   label_view_x: 'Ansicht: %{x}'
   label_watched_work_packages: Beobachtete Arbeitspakete
@@ -4501,6 +4515,7 @@ de:
   label_working_days: Arbeitstage
   label_working_days_and_hours: Arbeitstage und -stunden
   label_working_hours: Arbeitszeiten
+  label_workweek: Arbeitswoche
   label_x_closed_work_packages_abbr:
     one: 1 geschlossen
     other: "%{count} geschlossen"
@@ -4935,6 +4950,18 @@ de:
     password_confirmation_dialog:
       confirmation_required: Sie müssen Ihr Passwort eingeben, um diese Änderung zu bestätigen.
       title: Bestätigen Sie Ihr Passwort um fortzufahren
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Zugriffstokens
@@ -5505,6 +5532,9 @@ de:
   permission_manage_dashboards: Dashboards verwalten
   permission_manage_forums: Foren verwalten
   permission_manage_members: Mitglieder verwalten
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Nachricht verwalten
   permission_manage_own_reminders: Eigene Erinnerungen erstellen
   permission_manage_own_working_times: Eigene Arbeitszeiten verwalten
@@ -7004,7 +7034,7 @@ de:
             label_enable_all: Alles aktivieren
             label_toggle_template: "%{template} umschalten"
           label: PDF-Exportvorlagen
-          order_changed: Order successfully changed.
+          order_changed: Reihenfolge erfolgreich geändert.
         tab: PDF generieren
         templates:
           readonly_error: Kann nicht geändert werden, solange eine Verknüpfung zu einem Quelltyp besteht.
@@ -7019,10 +7049,10 @@ de:
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
         blankslate_title: Noch keine Gruppen
         confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Sind Sie sicher, dass Sie das Formular zurücksetzen möchten?
         custom_field: Benutzerdefiniertes Feld
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Abschnitt löschen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
@@ -7599,6 +7629,8 @@ de:
       required_description: Markiert dieses Arbeitspaket als Voraussetzung für das verknüpfte Arbeitspaket
       requires_description: Markiert das verknüpfte Arbeitspaket als Voraussetzung für dieses Arbeitspaket
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Die Arbeitspakete konnten nicht kopiert werden.
       could_not_be_deleted: 'Die folgenden Arbeitspakete konnten nicht gelöscht werden:'
@@ -7764,7 +7796,7 @@ de:
       dry_run_label: Check the file first, without importing
       file_label: CSV-Datei
       guidance:
-        column_reference: column reference
+        column_reference: Spaltenreferenz
         columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
         limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
         names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
@@ -7925,7 +7957,7 @@ de:
     index:
       actions:
         create: Workflow
-        edit: Edit transitions
+        edit: Übergänge bearbeiten
         menu: Aktionen für %{name}
         rename: Edit name and description
       blank_slate:
@@ -7951,7 +7983,7 @@ de:
         other: "%{count} Rollen"
       type_filter:
         label: Typen nach Name filtern…
-      types_and_variants_count: "%{types} (including %{variants})"
+      types_and_variants_count: "%{types} (einschließlich %{variants})"
       types_count:
         one: 1 Typ
         other: "%{count} Typen"
@@ -7974,7 +8006,7 @@ de:
         label: Start with a copy of an existing workflow
         missing: Select the workflow to copy, or start from scratch instead.
         panel_label: Workflow to copy
-      label: Starting point
+      label: Startpunkt
       scratch:
         caption: Start with a blank workflow and build it manually.
         label: Start from scratch

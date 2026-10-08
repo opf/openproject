@@ -185,6 +185,8 @@ pl:
     label_new_resource_planner: Nowy planista zasobów
     label_resource_planner: Planista zasobów
     label_resource_planner_plural: Planiści zasobów
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Dodaj widok
     public_caption: Ustaw ten widok jako publiczny dla wszystkich członków projektu. Nie ma to wpływu na widoczność pakietów roboczych, która nadal zależy od uprawnień poszczególnych użytkowników.

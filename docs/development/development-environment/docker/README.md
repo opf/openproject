@@ -284,9 +284,23 @@ and `443` and redirect those requests to the specific container. To make it happ
 define for your services to your `/etc/hosts`.
 
 ```shell
-127.0.0.1   openproject.local openproject-assets.local traefik.local
-::1         openproject.local openproject-assets.local traefik.local
+127.0.0.1   openproject.local openproject-assets.local traefik.local hocuspocus.local
+::1         openproject.local openproject-assets.local traefik.local hocuspocus.local
 ```
+
+Each optional service under `docker/dev` that you run behind the proxy needs its own entry:
+
+| Service       | Host name             |
+|---------------|-----------------------|
+| Garage        | `garage.local`        |
+| GitLab        | `gitlab.local`        |
+| Jira Software | `jira-software.local` |
+| Keycloak      | `keycloak.local`      |
+| Nextcloud     | `nextcloud.local`     |
+| SquashTM      | `squashtm.local`      |
+| XWiki         | `xwiki.local`         |
+
+When adding a new service, the host name is the one used in its traefik `Host(...)` rule.
 
 ### Local certificate authority
 
@@ -472,6 +486,7 @@ to have Nextcloud running to test the Nextcloud-OpenProject integration. To do t
    ca-bundle mounted.
 2. Make sure step-ca can reach it to validate it for SSH. In `docker/dev/tls/docker-compose.override.yml`, add the host
    to the `aliases` section of the traefik networking.
+3. Add the host name to your `/etc/hosts` (see [Resolving host names](#resolving-host-names)).
 
 ### Alternative: Using Let's encrypt
 
@@ -599,24 +614,22 @@ docker compose up -d frontend
 
 Upon setting up all the things correctly, we can see a login with `keycloak` option in login page of `OpenProject`.
 
-## MinIO Service (local S3 storage backend)
+## Garage Service (local S3 storage backend)
 
-Within `docker/dev/minio` a compose file is provided for running a local MinIO instance with TLS support which can be used as a S3 storage for uploading files.
-When running with TLS support, the MinIO instance will be accessible on `https://minio.local` and a management UI (MinIO Console) will be available on `https://minioadmin.local/`.
+Within `docker/dev/garage` a compose file is provided for running a local [Garage](https://garagehq.deuxfleurs.fr/) instance, an S3 compatible data store which can be used for simulating uploads of files to S3.
+Without TLS, its S3 API is available on `http://localhost:3900`. When running with TLS support, it is accessible on `https://garage.local`, which requires adding `garage.local` to your `/etc/hosts` (see [Resolving host names](#resolving-host-names)).
 
-### Running the MinIO Instance
+### Running the Garage Instance
 
-MinIO is a S3 compatible data store which can be used for simulating uploads of files to S3.
-
-Start up the docker compose service for MinIO:
+Garage needs a one-time bootstrap (cluster layout, bucket, access key and CORS rules) after it has started. The setup script takes care of both:
 
 ```shell
-docker compose --project-directory docker/dev/minio up -d
+docker/dev/garage/setup
 ```
 
-This will automatically create a bucket named `openproject-uploads` which is used to store uploaded files.
+This starts Garage in the foreground so you can follow its logs, and creates a bucket named `openproject-uploads` which is used to store uploaded files. Stop it with `Ctrl+C`. Pass `--detach` to run it in the background instead. The bootstrap is idempotent, so the script can be used to start Garage every time.
 
-If you want to use TLS support, make sure to copy and uncomment the MinIO configuration environment variables in `docker/dev/tls/docker-compose.core.override.example.yml` to your `docker-compose.override.yml` file in the project root directory. If you want to use MinIO without TLS support, make sure to copy the environment variables from `docker/dev/minio/docker-compose.core-override.example.yml` to your `docker-compose.override.yml` file (in the project root directory).
+If you want to use TLS support, make sure to copy and uncomment the Garage configuration environment variables in `docker/dev/tls/docker-compose.core-override.example.yml` to your `docker-compose.override.yml` file in the project root directory. If you want to use Garage without TLS support, make sure to copy the environment variables from `docker/dev/garage/docker-compose.core-override.example.yml` to your `docker-compose.override.yml` file (in the project root directory).
 After that, hard restart the `backend` service to apply the changes:
 
 ```shell
@@ -624,9 +637,13 @@ docker compose down backend
 docker compose up backend
 ```
 
-Another option is to use the MinIO service running in docker with OpenProject running locally. To do this, adapt the environment variables in `docker/dev/minio/docker-compose.core.override.example.yml` to your `.env` file and restart the OpenProject after that.
+Another option is to use the Garage service running in docker with OpenProject running locally. To do this, add the environment variables from `docker/dev/garage/docker-compose.core-override.example.yml` to your `.env` file and restart OpenProject after that. As `.env` is loaded in the test environment as well, add `OPENPROJECT_ATTACHMENTS__STORAGE=file` to a `.env.test` file to keep running the test suite against local file storage.
 
-After uploading a file, by e.g. adding an image to a work package, you should be able to see the file in the MinIO Console (a graphical Management UI accessible in the browser). With the TLS setup you can access the MinIO Console on `https://minioadmin.local/`, without TLS it is available on `http://localhost:9001`. For login credentials see `docker/dev/minio/docker-compose.yml`.
+Garage does not come with a management UI. To inspect the uploaded files, use the AWS CLI provided by the compose file:
+
+```shell
+docker compose --project-directory docker/dev/garage run --rm aws s3 ls --recursive s3://openproject-uploads/
+```
 
 ## Local files
 

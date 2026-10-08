@@ -173,6 +173,8 @@ fa:
     label_new_resource_planner: برنامه‌ریز منابع جدید
     label_resource_planner: برنامه‌ریز منابع
     label_resource_planner_plural: برنامه‌ریزهای منابع
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: افزودن نما
     public_caption: این نما را برای همهٔ اعضای پروژه عمومی کنید. این کار بر قابلیت مشاهدهٔ بسته‌های کاری اثری ندارد؛ مشاهدهٔ آن‌ها همچنان به مجوزهای هر کاربر بستگی دارد.

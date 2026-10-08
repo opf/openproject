@@ -76,7 +76,8 @@ module Meetings
             meeting_agenda_item: @meeting_agenda_item,
             current_occurrence: @meeting,
             presentation_mode: true,
-            slide: @current_slide
+            slide: @current_slide,
+            started_at: @started_at
           )
         )
       end

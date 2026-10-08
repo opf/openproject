@@ -32,6 +32,7 @@ class MeetingPresentationController < ApplicationController
   include OpTurbo::ComponentStream
   include Meetings::AgendaComponentStreams
   include Meetings::PresentationComponentStreams
+  include Meetings::PresentationNavigation
 
   load_and_authorize_with_permission_in_project :view_meetings
 
@@ -72,7 +73,7 @@ class MeetingPresentationController < ApplicationController
   end
 
   def set_started_at
-    @started_at = params[:started_at].present? ? Time.zone.parse(params[:started_at]) : Time.current
+    @started_at = presentation_started_at
   end
 
   def check_presentable
@@ -90,46 +91,4 @@ class MeetingPresentationController < ApplicationController
     @current_id = params[:current_id].to_i
     navigate_from_current_position if params[:action_type].present?
   end
-
-  def navigate_from_current_position
-    current_index = sorted_agenda_item_ids.index(@current_id)
-    return if current_index.nil?
-
-    current_slides = @meeting.agenda_items.find(@current_id).slides
-    @current_slide = current_slides.clamp(@current_slide)
-
-    case params[:action_type]
-    when "next"
-      navigate_next(current_index, current_slides.count)
-    when "previous"
-      navigate_previous(current_index)
-    end
-  end
-
-  def navigate_next(current_index, slide_count)
-    if @current_slide < slide_count
-      @current_slide += 1
-    elsif current_index < sorted_agenda_item_ids.size - 1
-      @current_id = sorted_agenda_item_ids[current_index + 1]
-      @current_slide = 1
-    end
-  end
-
-  def navigate_previous(current_index)
-    if @current_slide > 1
-      @current_slide -= 1
-    elsif current_index.positive?
-      @current_id = sorted_agenda_item_ids[current_index - 1]
-      @current_slide = @meeting.agenda_items.find(@current_id).slides.count
-    end
-  end
-
-  def sorted_agenda_item_ids
-    @sorted_agenda_item_ids ||= @meeting.sections
-                                        .includes(:agenda_items)
-                                        .order(:position)
-                                        .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
-  end
-
-  helper_method :sorted_agenda_item_ids
 end

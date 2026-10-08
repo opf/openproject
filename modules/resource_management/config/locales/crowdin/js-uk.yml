@@ -5,4 +5,7 @@ uk:
     resource_management:
       create_placeholder_user: Створити прототип користувача з критеріями фільтрації
       hidden_user: Hidden user
+      my_work:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
       show_allocations: Show resource allocations

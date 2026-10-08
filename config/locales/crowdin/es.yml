@@ -2647,6 +2647,7 @@ es:
   button_set_reminder: Establecer recordatorio
   button_show: Mostrar
   button_sort: Ordenar
+  button_stop_timer: Detener temporizador
   button_submit: Enviar
   button_test: Prueba
   button_unarchive: Desarchivar
@@ -3930,6 +3931,7 @@ es:
   label_date_from_to: De %{start} al %{end}
   label_date_to: Para
   label_dates: Fechas
+  label_day: Día
   label_day_plural: días
   label_default: Por defecto
   label_defaults: Por defecto
@@ -4146,6 +4148,7 @@ es:
   label_module_plural: Módulos
   label_modules: Módulos
   label_modules_and_plugins: Módulos y Extensiones
+  label_month: Mes
   label_months_from: meses desde
   label_more: Más
   label_more_information: Más información
@@ -4159,6 +4162,7 @@ es:
   label_my_avatar: Mi avatar
   label_my_queries: Mis consultas personalizadas
   label_my_security: Seguridad
+  label_my_work: My work
   label_name: Nombre
   label_never: Nunca
   label_new: Nuevo
@@ -4173,7 +4177,10 @@ es:
   label_news_singular: Noticias
   label_news_view_all: Ver todas las noticias
   label_next: Siguiente
+  label_next_day: Siguiente día
+  label_next_month: Próximo mes
   label_next_week: La próxima semana
+  label_next_workweek: Próxima semana laboral
   label_next_year: Próximo año
   label_no_change_option: "(No hay cambios)"
   label_no_data: No hay datos disponibles
@@ -4181,6 +4188,7 @@ es:
   label_no_parent_group: "(Sin grupo principal)"
   label_no_parent_page: Sin página principal
   label_no_start_date: sin fecha de inicio
+  label_no_time: No hay tiempo seguido
   label_nobody: nadie
   label_non_working_days: Calendario de disponibilidad
   label_non_working_days_summary: Resumen
@@ -4247,7 +4255,10 @@ es:
   label_preview: Vista preliminar
   label_preview_not_available: Vista previa no disponible
   label_previous: Anterior
+  label_previous_day: Día anterior
+  label_previous_month: Mes anterior
   label_previous_week: Semana anterior
+  label_previous_workweek: Semana laboral anterior
   label_previous_year: Año anterior
   label_principal_invite_via_email: " o invitar nuevos usuarios vía email"
   label_principal_search: Añadir usuarios o grupos existentes
@@ -4366,6 +4377,7 @@ es:
   label_sort_lowest: Mover al final
   label_sorted_by: ordenados por %{value}
   label_spent_time: Tiempo invertido
+  label_stack: Stack
   label_start_to_end: de principio a fin
   label_start_to_start: iniciar para iniciar
   label_starts_with: empieza por
@@ -4399,6 +4411,7 @@ es:
   label_time: Hora
   label_time_entry_activity_plural: Actividades de tiempo invertido
   label_time_entry_plural: Tiempo invertido
+  label_timer_since: Comenzó a las %{time}
   label_title: Título
   label_today: hoy
   label_today_as_date: Seleccione hoy como fecha.
@@ -4448,6 +4461,7 @@ es:
   label_videos: Vídeos
   label_view_all_revisions: Ver todas las revisiones
   label_view_diff: Ver diferencias
+  label_view_mode_switcher: Cambia vista
   label_view_revisions: Ver revisiones
   label_view_x: 'Ver: %{x}'
   label_watched_work_packages: Paquetes de trabajos seguidos
@@ -4495,6 +4509,7 @@ es:
   label_working_days: Días laborables
   label_working_days_and_hours: Días y horas de trabajo
   label_working_hours: Horario de trabajo
+  label_workweek: Semana laboral
   label_x_closed_work_packages_abbr:
     one: 1 cerrado
     other: "%{count} cerrados"
@@ -4927,6 +4942,18 @@ es:
     password_confirmation_dialog:
       confirmation_required: Necesitas introducir la contraseña de tu cuenta para confirmar este cambio.
       title: Confirma tu contraseña para continuar
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Tokens de acceso
@@ -5493,6 +5520,9 @@ es:
   permission_manage_dashboards: Administrar tableros de control
   permission_manage_forums: Administrar foros
   permission_manage_members: Gestión de Miembros
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Administrar noticias
   permission_manage_own_reminders: Crear recordatorios propios
   permission_manage_own_working_times: Gestiona tu propio horario de trabajo
@@ -7002,10 +7032,10 @@ es:
         blankslate_description: Añade grupos usando el botón de arriba o arrastra atributos desde el panel de la izquierda.
         blankslate_title: Aún no hay grupos
         confirm_delete_group: "¿Seguro que quieres eliminar esta sección? Esta acción no se puede deshacer automáticamente."
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: "¿Seguro que quiere restablecer el formulario?"
         custom_field: Campo personalizado
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Eliminar sección
         drag_to_activate: Arrastra campos desde aquí para activarlos
         drag_to_reorder: Arrastra para reordenar
@@ -7582,6 +7612,8 @@ es:
       required_description: Marca este paquete de trabajo como requisito del relacionado
       requires_description: Marca el paquete de trabajo relacionado como requisito de este
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: No se pudieron copiar los paquetes de trabajo.
       could_not_be_deleted: 'Los siguientes paquetes de trabajo no se pudieron eliminar:'

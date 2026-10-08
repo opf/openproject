@@ -76,14 +76,15 @@
             convert_to_work_package_action_item(menu) if convert_to_work_package_action?
           end
 
-          if editable? && !presentation_mode? && has_move_actions?
+          if editable? && has_move_actions?
             with_item_group(menu) do
               menu.with_sub_menu_item(label: I18n.t("label_agenda_item_move")) do |submenu|
                 submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-                with_item_group(submenu) { move_actions(submenu) } unless first? && last?
+
+                with_item_group(submenu) { move_actions(submenu) } unless presentation_mode? || (first? && last?)
 
                 with_item_group(submenu) do
-                  move_to_section_action_item(submenu)
+                  move_to_section_action_item(submenu) unless presentation_mode?
 
                   if !in_template? || in_backlog?
                     if in_backlog?
@@ -98,7 +99,7 @@
               end
             end
 
-            if has_next_occurrence?
+            if !presentation_mode? && has_next_occurrence?
               with_item_group(menu) do
                 menu.with_sub_menu_item(label: I18n.t("label_agenda_item_duplicate")) do |submenu|
                   submenu.with_leading_visual_icon(icon: :duplicate)

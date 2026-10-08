@@ -108,6 +108,14 @@ module Meetings
         end
       end
 
+      def next_presenter_changed?
+        next_item&.presenter.present? && next_item.presenter != current_item&.presenter
+      end
+
+      def previous_presenter_changed?
+        previous_item&.presenter.present? && previous_item.presenter != current_item&.presenter
+      end
+
       def progress_text
         if total_items.zero?
           t("meeting.presentation_mode.no_items")

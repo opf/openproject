@@ -173,6 +173,8 @@ pt-PT:
     label_new_resource_planner: Novo planeador de recursos
     label_resource_planner: Planeador de recursos
     label_resource_planner_plural: Planeadores de recursos
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Adicionar vista
     public_caption: Torne esta vista pública para todos os membros do projeto. Não afeta a visibilidade dos pacotes de trabalho, que continua a depender da permissão de cada utilizador.

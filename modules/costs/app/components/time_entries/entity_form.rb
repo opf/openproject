@@ -59,10 +59,21 @@ module TimeEntries
                                      }
       else
         f.hidden name: :entity_id, value: model.entity_id
+        f.text_field name: :entity_label,
+                     label: TimeEntry.human_attribute_name(:work_package),
+                     value: fixed_entity_label,
+                     disabled: true
       end
     end
 
     private
+
+    def fixed_entity_label
+      entity = model.entity
+      return unless entity.is_a?(WorkPackage)
+
+      "#{entity.formatted_id} #{entity.subject}"
+    end
 
     def show_work_package_field?
       return true if model.entity_id.nil?

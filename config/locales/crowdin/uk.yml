@@ -2897,6 +2897,7 @@ uk:
   button_set_reminder: Установити нагадування
   button_show: Показати
   button_sort: Сортувати
+  button_stop_timer: Зупинити таймер
   button_submit: Підтвердити
   button_test: Тест
   button_unarchive: Розпакувати
@@ -4248,6 +4249,7 @@ uk:
   label_date_from_to: З %{start} по %{end}
   label_date_to: 'Кому:'
   label_dates: Дати
+  label_day: День
   label_day_plural: днів
   label_default: За замовчуванням
   label_defaults: Значення за замовчуванням
@@ -4464,6 +4466,7 @@ uk:
   label_module_plural: Модулі
   label_modules: Модулі
   label_modules_and_plugins: Модулі та плагіни
+  label_month: Місяць
   label_months_from: місяців(ця) з
   label_more: Більше
   label_more_information: Додаткові відомості
@@ -4477,6 +4480,7 @@ uk:
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
   label_my_security: Безпека
+  label_my_work: My work
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4491,7 +4495,10 @@ uk:
   label_news_singular: Новини
   label_news_view_all: Подивитися всі новини
   label_next: Далі
+  label_next_day: Наступний день
+  label_next_month: Наступний місяць
   label_next_week: Наступний тиждень
+  label_next_workweek: Наступний робочий тиждень
   label_next_year: Наступний рік
   label_no_change_option: "(Немає змін)"
   label_no_data: Немає даних для відображення
@@ -4499,6 +4506,7 @@ uk:
   label_no_parent_group: "(Немає батьківської групи)"
   label_no_parent_page: Немає початкової сторінки
   label_no_start_date: немає дати початку
+  label_no_time: Час не зафіксовано
   label_nobody: жодні
   label_non_working_days: Календар доступності
   label_non_working_days_summary: Резюме
@@ -4565,7 +4573,10 @@ uk:
   label_preview: Попередній перегляд
   label_preview_not_available: Попередній перегляд недоступний
   label_previous: Попередній
+  label_previous_day: Попередній день
+  label_previous_month: Попередній місяць
   label_previous_week: Попередній тиждень
+  label_previous_workweek: Попередній робочий тиждень
   label_previous_year: Попередній рік
   label_principal_invite_via_email: або запрошувати нових користувачів електронною поштою
   label_principal_search: Додати існуючих користувачів або групи
@@ -4684,6 +4695,7 @@ uk:
   label_sort_lowest: Помістити в кінець
   label_sorted_by: відсортовані за %{value}
   label_spent_time: Витрачений час
+  label_stack: Стос
   label_start_to_end: закінчення
   label_start_to_start: початок
   label_starts_with: починається з
@@ -4717,6 +4729,7 @@ uk:
   label_time: Час
   label_time_entry_activity_plural: Завдання з обліком часу
   label_time_entry_plural: Витрачений час
+  label_timer_since: Почато о %{time}
   label_title: Назва
   label_today: сьогодні
   label_today_as_date: Виберіть сьогодні як дату.
@@ -4766,6 +4779,7 @@ uk:
   label_videos: Відео
   label_view_all_revisions: Переглянути всі зміни
   label_view_diff: Переглянути відмінності
+  label_view_mode_switcher: Змінити подання
   label_view_revisions: Переглянути зміни
   label_view_x: 'Переглянути: %{x}'
   label_watched_work_packages: Спостерігали робочі пакети
@@ -4813,6 +4827,7 @@ uk:
   label_working_days: Робочі дні
   label_working_days_and_hours: Робочі дні й години
   label_working_hours: Розклад роботи
+  label_workweek: Робочий тиждень
   label_x_closed_work_packages_abbr:
     one: 1 закрито
     other: 'Закрито: %{count}'
@@ -5265,6 +5280,18 @@ uk:
     password_confirmation_dialog:
       confirmation_required: Потрібно ввести пароль облікового запису, щоб підтвердити цю зміну.
       title: Підтвердьте свій пароль, щоб продовжити
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Маркери доступу
@@ -5835,6 +5862,9 @@ uk:
   permission_manage_dashboards: Керування інформаційними панелями
   permission_manage_forums: Управління форумами
   permission_manage_members: Управління учасниками
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Управління новинами
   permission_manage_own_reminders: Створюйте власні нагадування
   permission_manage_own_working_times: Керувати власним робочим часом
@@ -7375,10 +7405,10 @@ uk:
         blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
         blankslate_title: Ще немає груп
         confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Ви справді хочете скинути форму?
         custom_field: Користувацьке поле
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Видалити розділ
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
         drag_to_reorder: Перетягніть, щоб змінити порядок
@@ -7965,6 +7995,8 @@ uk:
       required_description: Позначає цей робочий пакет як обовʼязковий для звʼязаного з ним
       requires_description: Позначає звʼязаний пакет робіт як обовʼязковий для цього
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Не вдалося скопіювати пакети робіт.
       could_not_be_deleted: 'Не вдалося видалити такі пакети робіт:'

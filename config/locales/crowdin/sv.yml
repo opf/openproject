@@ -2647,6 +2647,7 @@ sv:
   button_set_reminder: Ange påminnelse
   button_show: Visa
   button_sort: Sortera
+  button_stop_timer: Stoppa timer
   button_submit: Skicka
   button_test: Test
   button_unarchive: Hämta från Arkiv
@@ -3936,6 +3937,7 @@ sv:
   label_date_from_to: Från %{start} till %{end}
   label_date_to: Till
   label_dates: Datum
+  label_day: Dag
   label_day_plural: dagar
   label_default: Standard
   label_defaults: Standardvärden
@@ -4152,6 +4154,7 @@ sv:
   label_module_plural: Moduler
   label_modules: Moduler
   label_modules_and_plugins: Moduler och plugins
+  label_month: Månad
   label_months_from: månader från
   label_more: Mer
   label_more_information: Mer information
@@ -4165,6 +4168,7 @@ sv:
   label_my_avatar: Min avatar
   label_my_queries: Min anpassade frågor
   label_my_security: Säkerhet
+  label_my_work: My work
   label_name: Namn
   label_never: Aldrig
   label_new: Ny
@@ -4179,7 +4183,10 @@ sv:
   label_news_singular: Nyheter
   label_news_view_all: Visa alla nyheter
   label_next: Nästa
+  label_next_day: Nästa dag
+  label_next_month: Nästa månad
   label_next_week: Nästa vecka
+  label_next_workweek: Nästa arbetsvecka
   label_next_year: Nästa år
   label_no_change_option: "(Ingen ändring)"
   label_no_data: Ingen data att visa
@@ -4187,6 +4194,7 @@ sv:
   label_no_parent_group: "(Ingen överordnad grupp)"
   label_no_parent_page: Ingen överordnad sida
   label_no_start_date: inget startdatum
+  label_no_time: Ingen tid spårad
   label_nobody: ingen
   label_non_working_days: Tillgänglighetskalender
   label_non_working_days_summary: Sammanfattning
@@ -4253,7 +4261,10 @@ sv:
   label_preview: Förhandsgranska
   label_preview_not_available: Förhandsgranskning är inte tillgänglig
   label_previous: Föregående
+  label_previous_day: Föregående dag
+  label_previous_month: Föregående månad
   label_previous_week: Föregående vecka
+  label_previous_workweek: Föregående arbetsvecka
   label_previous_year: Föregående år
   label_principal_invite_via_email: " eller bjud in nya användare via e-post"
   label_principal_search: Lägga till befintliga användare eller grupper
@@ -4372,6 +4383,7 @@ sv:
   label_sort_lowest: Flytta längst ned
   label_sorted_by: sorterade efter %{value}
   label_spent_time: Förbrukad tid
+  label_stack: Stapla
   label_start_to_end: början till slut
   label_start_to_start: början till början
   label_starts_with: börjar med
@@ -4405,6 +4417,7 @@ sv:
   label_time: Tid
   label_time_entry_activity_plural: Aktiviteter för använd tid
   label_time_entry_plural: Förbrukad tid
+  label_timer_since: Startade på %{time}
   label_title: Titel
   label_today: idag
   label_today_as_date: Välj dagens datum.
@@ -4454,6 +4467,7 @@ sv:
   label_videos: Videor
   label_view_all_revisions: Visa alla revisioner
   label_view_diff: Visa skillnader
+  label_view_mode_switcher: Ändra vy
   label_view_revisions: Visa revisioner
   label_view_x: 'Vy: %{x}'
   label_watched_work_packages: Bevakade arbetspaket
@@ -4501,6 +4515,7 @@ sv:
   label_working_days: Arbetsdagar
   label_working_days_and_hours: Arbetsdagar och arbetstider
   label_working_hours: Arbetsschema
+  label_workweek: Arbetsvecka
   label_x_closed_work_packages_abbr:
     one: 1 stängd
     other: "%{count} stängda"
@@ -4934,6 +4949,18 @@ sv:
     password_confirmation_dialog:
       confirmation_required: Du måste ange lösenordet till ditt konto för att bekräfta ändringen.
       title: Bekräfta ditt lösenord för att fortsätta
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Åtkomstnycklar
@@ -5498,6 +5525,9 @@ sv:
   permission_manage_dashboards: Hantera översikter
   permission_manage_forums: Hantera forum
   permission_manage_members: Hantera medlemmar
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Hantera nyheter
   permission_manage_own_reminders: Skapa egna påminnelser
   permission_manage_own_working_times: Hantera egna arbetstider
@@ -7001,10 +7031,10 @@ sv:
         blankslate_description: Lägg till grupper med knappen ovan eller dra attribut från den vänstra panelen.
         blankslate_title: Inga grupper ännu
         confirm_delete_group: Är du säker på att du vill ta bort det här avsnittet? Åtgärden kan inte ångras automatiskt.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Är du säker på att du vill återställa formuläret?
         custom_field: Anpassat fält
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Ta bort avsnitt
         drag_to_activate: Dra fält härifrån för att aktivera dem
         drag_to_reorder: Dra för att ändra ordning
@@ -7583,6 +7613,8 @@ sv:
       required_description: Markerar detta arbetspaket som ett krav för det relaterade arbetspaketet
       requires_description: Markerar det relaterade arbetspaketet som ett krav för detta
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Arbetspaketen kunde inte kopieras.
       could_not_be_deleted: 'Följande arbetspaket kunde inte tas bort:'

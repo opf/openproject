@@ -33,6 +33,7 @@ class MeetingAgendaItemsController < ApplicationController
   include OpTurbo::ComponentStream
   include OpTurbo::FlashStreamHelper
   include Meetings::AgendaComponentStreams
+  include Meetings::PresentationNavigation
 
   load_and_authorize_with_permission_in_project :manage_agendas
   authorize_with_permission :add_work_packages,
@@ -45,9 +46,11 @@ class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting_agenda_item,
                 except: %i[new cancel_new create]
   before_action :set_current_occurrence,
-                :set_presentation_mode,
                 only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog
                          convert_to_work_package]
+  before_action :set_presentation_mode,
+                only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog
+                         convert_to_work_package move_to_next_meeting move_to_next_meeting_dialog]
   before_action :check_recurring_meeting_param,
                 only: %i[move_to_next_meeting move_to_next_meeting_dialog duplicate_in_next_meeting
                          duplicate_in_next_meeting_dialog]
@@ -201,6 +204,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   def drop
     @meeting = @current_occurrence if @current_occurrence.present?
+    previous_index = presentation_previous_index
 
     call = if @target_id.nil?
              update_agenda_item(meeting: @current_occurrence, meeting_section: nil)
@@ -210,7 +214,11 @@ class MeetingAgendaItemsController < ApplicationController
                .call(target_id: @target_id, position: @position)
            end
 
-    handle_agenda_item_update_on_move(call)
+    if @presentation_mode && call.success?
+      advance_presentation_after_move(previous_index, t(:text_agenda_item_moved_to_backlog))
+    else
+      handle_agenda_item_update_on_move(call)
+    end
   end
 
   def move
@@ -238,7 +246,9 @@ class MeetingAgendaItemsController < ApplicationController
       datetime: params[:datetime],
       skipped_cancelled: params[:skipped_cancelled],
       skipped_closed: params[:skipped_closed],
-      next_occurrence:
+      next_occurrence:,
+      presentation_mode: @presentation_mode,
+      started_at: params[:started_at]
     )
   end
 
@@ -259,18 +269,20 @@ class MeetingAgendaItemsController < ApplicationController
     next_occurrence = init_next_meeting_occurrence
     return if next_occurrence.nil?
 
+    previous_index = presentation_previous_index
+
     update_call = update_agenda_item(
       meeting_id: next_occurrence.id,
       meeting_section_id: params.dig(:meeting_agenda_item, :meeting_section_id)
     )
 
-    if update_call.success?
-      render_next_meeting_flash(:text_agenda_item_moved_to_next_meeting, next_occurrence)
-      remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
-      update_header_component_via_turbo_stream
-      respond_with_turbo_streams
-    else
+    if !update_call.success?
       respond_with_flash_error(message: update_call.message)
+    elsif @presentation_mode
+      message = t(:text_agenda_item_moved_to_next_meeting, date: format_date(next_occurrence.start_time))
+      advance_presentation_after_move(previous_index, message)
+    else
+      respond_with_next_meeting_move(next_occurrence)
     end
   end
 
@@ -485,6 +497,13 @@ class MeetingAgendaItemsController < ApplicationController
     end
 
     turbo_streams << flash.render_as_turbo_stream(view_context:, action: :flash)
+  end
+
+  def respond_with_next_meeting_move(next_occurrence)
+    render_next_meeting_flash(:text_agenda_item_moved_to_next_meeting, next_occurrence)
+    remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
+    update_header_component_via_turbo_stream
+    respond_with_turbo_streams
   end
 
   def assign_drop_params # rubocop:disable Metrics/AbcSize

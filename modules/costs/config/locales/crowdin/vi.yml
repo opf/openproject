@@ -135,7 +135,6 @@ vi:
   button_add_time_entry: Đăng nhập thời gian
   button_log_costs: Ghi lại chi phí đơn vị
   button_log_time: nhật ký
-  button_stop_timer: Dừng hẹn giờ
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Đã đặt chỗ trên dự án
@@ -205,7 +204,6 @@ vi:
   label_current: Current
   label_current_default_rate: Tỷ lệ mặc định hiện tại
   label_date_on: trên
-  label_day: ngày
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Các loại chi phí đã xóa
   label_display_cost_entries: Chi phí đơn vị hiển thị
@@ -221,43 +219,28 @@ vi:
   label_less_or_equal: "<="
   label_list: danh sách
   label_log_costs: Ghi lại chi phí đơn vị
-  label_month: tháng
-  label_my_time_tracking: Theo dõi thời gian của tôi
   label_new_time_entry_activity: Hoạt động nhập thời gian mới
-  label_next_day: Ngày hôm sau
-  label_next_month: Tháng tiếp theo
-  label_next_week: Tuần tới
-  label_next_workweek: Tuần làm việc tiếp theo
   label_no: không
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Không theo dõi thời gian
   label_option_plural: tùy chọn
   label_overall_costs: Tổng chi phí
-  label_previous_day: Ngày hôm trước
-  label_previous_month: Tháng trước
-  label_previous_week: Tuần trước
-  label_previous_workweek: Tuần làm việc trước đó
   label_rate_plural: tỷ lệ
   label_show: Hiển thị
   label_specific_day: Ngày %{day}
   label_specific_month: Tháng %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Đã hoàn thành
   label_time: thời gian
   label_time_entry_activity_form_description: Những thay đổi đối với hoạt động mục nhập thời gian này sẽ được phản ánh trong tất cả các dự án được kích hoạt.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Bắt đầu lúc %{time}
   label_today_capitalized: hôm nay
   label_units: Đơn vị chi phí
   label_until: cho đến khi
   label_using_current_default_rate: Using current default rate
   label_valid_from: Có hiệu lực từ
-  label_view_mode_switcher: Thay đổi chế độ xem
   label_work_package_filter_add: Thêm bộ lọc gói công việc
-  label_workweek: tuần làm việc
   label_yes: Có
   notice_cost_logged_successfully: Đơn giá được ghi thành công.
   notice_different_time_zones: Người dùng này có múi giờ khác (%{tz}). Thời gian sẽ được ghi lại bằng múi giờ của họ.

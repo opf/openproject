@@ -184,7 +184,7 @@ module ResourceAllocations
       placements.each do |allocation_id, minutes_per_day|
         allocation = allocations_by_id.fetch(allocation_id)
         minutes_per_day.each do |date, minutes|
-          by_date[date] << ScheduledEntry.new(allocation:, work_package: allocation.entity, minutes:)
+          by_date[date] << ScheduledEntry.new(allocation:, work_package: allocation.entity, allocated_on: date, minutes:)
         end
       end
 

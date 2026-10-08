@@ -20,38 +20,28 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import {
-  projectStatusCodeCssClass,
   projectStatusI18n,
 } from 'core-app/shared/components/fields/helpers/project-status-helper';
+import {
+  Highlighting,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 
 export class ProjectStatusDisplayField extends DisplayField {
   public render(element:HTMLElement, displayText:string):void {
     const code = this.value?.id;
 
-    const bulb = document.createElement('span');
-    bulb.classList.add('project-status--bulb', projectStatusCodeCssClass(code));
-
-    const name = document.createElement('span');
-    name.classList.add('project-status--name', projectStatusCodeCssClass(code));
-    name.textContent = projectStatusI18n(code, this.I18n);
+    const label = document.createElement('span');
+    label.classList.add('Label', ...Highlighting.backgroundMutedClass('project_status', code).split(' '), 'Label--inline');
+    label.textContent = projectStatusI18n(code, this.I18n);
 
     element.innerHTML = '';
-    element.appendChild(bulb);
-    element.appendChild(name);
-
-    if (this.writable) {
-      const pulldown = document.createElement('span');
-      pulldown.classList.add('project-status--pulldown-icon', 'icon', 'icon-pulldown');
-
-      element.appendChild(pulldown);
-    }
+    element.appendChild(label);
   }
 }
