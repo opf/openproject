@@ -37,6 +37,13 @@ module LlmConnections
 
       model.base_url = normalized_base_url if model.base_url.present?
       set_identifying_defaults
+      release_from_environment unless params.key?(:env_provisioned_at)
+    end
+
+    # Only EnvSyncService passes the marker and only EnvironmentUpdateContract
+    # accepts it, so any other write is an administrator's and ends the lock.
+    def release_from_environment
+      model.change_by_system { model.env_provisioned_at = nil }
     end
 
     # +identifier+ names the record but is never user-editable, so it is set as a

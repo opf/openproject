@@ -38,7 +38,7 @@ module LlmModels
       # is editable, because a typo in it is otherwise unfixable except by
       # deleting the model and losing everything asserted about it. Renaming
       # cascades; see LlmModel#cascade_rename!.
-      if new_record? || model.manual?
+      if new_record? || (model.manual? && !model.llm_connection.env_named_default?(model))
         f.text_field(
           name: :external_id,
           label: LlmModel.human_attribute_name(:external_id),

@@ -66,6 +66,7 @@ class LlmModel < ApplicationRecord
 
     llm_connection.capability_verdicts.where(model_id: previous_external_id).update_all(model_id: external_id)
     llm_connection.feature_bindings.where(model_id: previous_external_id).update_all(model_id: external_id)
+    llm_connection.update_columns(env_provisioned_at: nil) if connection_defaults.any?
   end
 
   # The counterpart of the rename. Verdicts are keyed by the identifier string,
@@ -82,11 +83,13 @@ class LlmModel < ApplicationRecord
   def name = display_name.presence || raw_metadata["name"].presence || external_id
 
   def clear_connection_defaults
-    defaults = CONNECTION_DEFAULTS
-                 .select { |attribute| llm_connection.public_send(attribute) == id }
-                 .index_with(nil)
+    defaults = connection_defaults.index_with(nil)
 
-    llm_connection.update_columns(defaults) if defaults.any?
+    llm_connection.update_columns(defaults.merge(env_provisioned_at: nil)) if defaults.any?
+  end
+
+  def connection_defaults
+    CONNECTION_DEFAULTS.select { |attribute| llm_connection.public_send(attribute) == id }
   end
 
   # Precedence: what an administrator set, then what the server reported (vLLM

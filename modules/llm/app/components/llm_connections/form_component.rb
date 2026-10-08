@@ -40,6 +40,13 @@ module LlmConnections
 
     private
 
+    def configured_from_env_text
+      applied_at = format_time(connection.env_provisioned_at_in_database)
+
+      safe_join([t("admin.banners.environment_configured_readonly"),
+                 t("admin.llm_connections.form.env_applied", time: applied_at)], " ")
+    end
+
     def wrapper_options
       {
         data: {

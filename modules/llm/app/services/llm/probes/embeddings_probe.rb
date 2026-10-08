@@ -50,7 +50,7 @@ module Llm
       # Failures of the server as a whole, which every other model on it would
       # meet alike: throttling, rejected credentials, a server error, or no
       # answer at all.
-      SERVER_WIDE_REASONS = [*ENDPOINT_ABSENT_REASONS, "http_429", "unauthorized",
+      SERVER_WIDE_REASONS = [*ENDPOINT_ABSENT_REASONS, "http_408", "http_429", "unauthorized",
                              "timeout_error", "connection_error", "ssl_error"].freeze
       SERVER_ERROR_REASON = /\Ahttp_5\d\d\z/
 
