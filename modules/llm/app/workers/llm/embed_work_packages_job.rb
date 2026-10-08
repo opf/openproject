@@ -33,6 +33,7 @@ module Llm
   # API call.
   class EmbedWorkPackagesJob < ApplicationJob
     queue_with_priority :low
+    retry_on Llm::Errors::RateLimitedError, wait: :polynomially_longer, attempts: 10
 
     def perform(work_package_ids)
       work_packages = WorkPackage.where(id: work_package_ids)
