@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-search--tree", data: { controller: "admin--settings-search" })) do %>
     <%= render(
           Primer::OpenProject::FilterableTreeView.new(
+            classes: "op-admin-settings-search--tree-view",
             show_search_highlighting: true,
             tree_view_arguments: { node_variant: :anchor },
             include_sub_items_check_box_arguments: { hidden: true },
