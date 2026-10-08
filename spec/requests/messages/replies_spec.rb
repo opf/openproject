@@ -42,45 +42,34 @@ RSpec.describe "Loading hidden forum replies", type: :rails_request do
 
   let(:stream) { Capybara.string(response.body[%r{<template>(.*)</template>}m, 1].to_s) }
 
-  def load_replies(take, after: topic.id, before: replies[25].id)
-    get replies_project_forum_topic_path(forum.project, forum, topic, after:, before:, take:), as: :turbo_stream
+  def load_replies(after: topic.id, before: replies[25].id)
+    get replies_project_forum_topic_path(forum.project, forum, topic, after:, before:), as: :turbo_stream
   end
 
-  it "replaces the gap with its larger half and a smaller gap", :aggregate_failures do
-    load_replies("next")
+  it "replaces the gap with the page before its lower bound and a smaller gap above it", :aggregate_failures do
+    load_replies
 
     expect(response).to have_http_status(:ok)
     expect(response.body).to include(%(action="replace" target="forum-thread-gap-#{topic.id}-#{replies[25].id}"))
-    expect(stream).to have_css("#message-#{replies[0].id}[autofocus]")
-    expect(stream).to have_css("[data-test-selector^='forum-post-']", count: 13)
-    expect(stream).to have_text("Load the 12 replies in between")
+    expect(stream).to have_css("[data-test-selector^='forum-post-']", count: 20)
+    expect(stream).to have_css("#message-#{replies[5].id}")
+    expect(stream).to have_no_css("#message-#{replies[4].id}")
+    expect(stream).to have_test_selector("forum-thread-gap", text: "Load previous 5 replies")
+    expect(stream).to have_css("#{test_selector('forum-thread-gap')} a[autofocus]")
   end
 
-  it "replaces the gap with a smaller gap and its smaller half", :aggregate_failures do
-    load_replies("previous")
-
-    expect(stream).to have_css("#message-#{replies[13].id}[autofocus]")
-    expect(stream).to have_css("#message-#{replies[24].id}")
-    expect(stream).to have_no_css("#message-#{replies[12].id}")
-  end
-
-  it "closes the gap with take all" do
-    load_replies("all")
+  it "closes a gap of a page or less, focusing its first reply", :aggregate_failures do
+    load_replies(before: replies[10].id)
 
     expect(stream).to have_no_test_selector("forum-thread-gap")
-  end
-
-  it "rejects an unknown take" do
-    load_replies("sideways")
-
-    expect(response).to have_http_status(:bad_request)
+    expect(stream).to have_css("#message-#{replies[0].id}[autofocus]")
   end
 
   context "for a user who cannot read the topic" do
     current_user { create(:user) }
 
     it "forbids users who cannot read the topic" do
-      load_replies("next")
+      load_replies
 
       expect(response).to have_http_status(:forbidden).or have_http_status(:not_found)
     end

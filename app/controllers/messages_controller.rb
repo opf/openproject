@@ -138,11 +138,8 @@ class MessagesController < ApplicationController
   end
 
   def replies # rubocop:disable Metrics/AbcSize
-    take = params[:take]
-    return head(:bad_request) unless take.in?(%w[next previous all])
-
     topic = @message.root
-    segments = Messages::ThreadLayout.new(topic).gap_segments(after_id: params[:after], before_id: params[:before], take:)
+    segments = Messages::ThreadLayout.new(topic).gap_segments(after_id: params[:after], before_id: params[:before])
     content = Messages::ThreadSegmentsComponent.new(topic:, segments:, focus_first: true)
 
     turbo_streams << turbo_stream.replace(Messages::RepliesGapComponent.dom_id(params[:after], params[:before]), content)
