@@ -47,7 +47,7 @@ function cssVariable(name:string):string {
 }
 
 function truncate(label:string):string {
-  return label.length > MAX_LABEL_LENGTH ? `${label.slice(0, MAX_LABEL_LENGTH - 1)}…` : label;
+  return label.length > MAX_LABEL_LENGTH ? `${label.slice(0, MAX_LABEL_LENGTH - 1).trimEnd()}…` : label;
 }
 
 @Component({
