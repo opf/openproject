@@ -42,7 +42,11 @@ module WorkPackageTypes
       end
 
       form do |choice_form|
-        choice_form.advanced_radio_button_group(name: :"#{dom_class(@model_class)}_choice", data: @group_data) do |group|
+        choice_form.advanced_radio_button_group(
+          name: :"#{dom_class(@model_class)}_choice",
+          class: "op-fluid-radio-group",
+          data: @group_data
+        ) do |group|
           @options.each { |option| group.radio_button(**option) }
         end
       end
