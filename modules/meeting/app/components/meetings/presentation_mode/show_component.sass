@@ -12,7 +12,8 @@
   &--header-container
     position: sticky
     top: 0
-    z-index: 1000
+    // Below flash messages (z-index 599) so flashes stay visible while presenting
+    z-index: 500
     background: var(--bgColor-default)
 
   &--header

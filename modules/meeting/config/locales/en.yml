@@ -739,6 +739,7 @@ en:
   text_agenda_item_duplicate_in_next_meeting: "Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated."
   text_agenda_item_duplicated_in_next_meeting: "Agenda item duplicated in the next meeting, on %{date}"
   text_agenda_item_move_next_meeting: "This item will be moved to the next meeting on %{date} at %{time}."
+  text_agenda_item_moved_to_backlog: "Agenda item moved to the backlog"
   text_agenda_item_moved_to_next_meeting: "Agenda item moved to the next meeting, on %{date}"
   text_agenda_item_no_available_occurrence: "No upcoming occurrences are available."
   text_agenda_item_no_notes: "No notes provided"
