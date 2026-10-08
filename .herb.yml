@@ -49,6 +49,11 @@ linter:
       exclude:
         - 'lookbook/previews/open_project/deprecated/**/*'
 
+    # Previews render inside the preview layout and cannot reach its `<head>`.
+    html-head-only-elements:
+      exclude:
+        - 'lookbook/previews/**/*'
+
   #   erb-no-extra-newline:
   #     enabled: false
   #
