@@ -26,18 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 
 interface SelectAutocompleterAssignment {
   attribute:string;
-  component:string;
+  component:Type<unknown>;
 }
 
 @Injectable({ providedIn: 'root' })
 export class SelectAutocompleterRegisterService {
   private _fields:SelectAutocompleterAssignment[] = [];
 
-  public register(component:any, attribute:string) {
+  public register(component:Type<unknown>, attribute:string) {
     this._fields.push({ attribute, component });
   }
 

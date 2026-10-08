@@ -45,7 +45,7 @@ export class PlainFormattableEditFieldComponent extends EditFieldComponent {
     if (!this.schema) {
       return '';
     }
-    const element = this.resource[this.name];
+    const element = this.resource[this.name] as api.v3.Formattable|null|undefined;
 
     return element?.raw || '';
   }

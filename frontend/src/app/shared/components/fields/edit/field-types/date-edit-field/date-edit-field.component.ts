@@ -59,7 +59,7 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
   }
 
   public get value():string {
-    return this.formatter(this.resource[this.name]) || '';
+    return this.formatter(this.resource[this.name] as string) ?? '';
   }
 
   public set value(value:string) {

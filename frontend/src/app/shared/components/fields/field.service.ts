@@ -32,8 +32,10 @@ import { Field } from 'core-app/shared/components/fields/field.base';
 export interface IFieldType<T extends Field> {
   fieldType:string;
   $injector:Injector;
-  new(...args:any[]):T;
+  new(...args:never[]):T;
 }
+
+export type FieldClass<T extends Field> = new(...args:never[]) => T;
 
 export abstract class AbstractFieldService<T extends Field, C extends IFieldType<T>> {
   /** Default field type to fall back to */
@@ -87,9 +89,10 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    *
    * @returns {this}
    */
-  public addFieldType(fieldClass:any, fieldType:string, attributes:string[]) {
-    fieldClass.fieldType = fieldType;
-    this.register(fieldClass, attributes);
+  public addFieldType(fieldClass:FieldClass<T>, fieldType:string, attributes:string[]) {
+    const registered = fieldClass as C;
+    registered.fieldType = fieldType;
+    this.register(registered, attributes);
 
     return this;
   }
@@ -104,10 +107,11 @@ export abstract class AbstractFieldService<T extends Field, C extends IFieldType
    *
    * @returns {this}
    */
-  public addSpecificFieldType(resourceType:string, fieldClass:any, fieldType:string, attributes:string[]) {
-    fieldClass.fieldType = `${resourceType}-${fieldType}`;
+  public addSpecificFieldType(resourceType:string, fieldClass:FieldClass<T>, fieldType:string, attributes:string[]) {
+    const registered = fieldClass as C;
+    registered.fieldType = `${resourceType}-${fieldType}`;
     attributes = attributes.map((attribute) => `${resourceType}-${attribute}`);
-    this.register(fieldClass, attributes);
+    this.register(registered, attributes);
 
     return this;
   }

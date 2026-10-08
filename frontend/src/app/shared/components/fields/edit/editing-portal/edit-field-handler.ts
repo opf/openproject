@@ -81,7 +81,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Call field submission callback handlers
    */
-  public onSubmit():Promise<any> {
+  public onSubmit():Promise<void[]> {
     return Promise.all(this._onSubmitHandlers.map((cb) => cb()));
   }
 
@@ -92,7 +92,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Call field before-submission callback handlers
    */
-  public onBeforeSubmit():any {
+  public onBeforeSubmit():void[] {
     return this._onBeforeSubmitHandlers.map((cb) => cb());
   }
 
@@ -114,7 +114,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  public abstract handleUserSubmit():Promise<any>;
+  public abstract handleUserSubmit():Promise<unknown>;
 
   /**
    * Handle users pressing enter inside an edit mode.

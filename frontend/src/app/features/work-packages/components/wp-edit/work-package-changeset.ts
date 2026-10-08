@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { ChangesetPayload, ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -48,7 +48,7 @@ export class WorkPackageChangeset extends ResourceChangeset<WorkPackageResource>
     );
   }
 
-  protected applyChanges(payload:any):any {
+  protected applyChanges(payload:ChangesetPayload):ChangesetPayload {
     // Explicitly delete the description if it was not set by the user.
     // if it was set by the user, #applyChanges will set it again.
     // Otherwise, the backend will set it for us.

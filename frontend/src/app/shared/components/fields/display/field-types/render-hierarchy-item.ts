@@ -65,12 +65,12 @@ function spansFromAncestors(ancestors:CollectionResource):HTMLSpanElement[] {
         spans.push(separator);
       } else if (el.short !== null) {
         const short = document.createElement('span');
-        short.textContent = `(${el.short})`;
+        short.textContent = `(${el.short as string})`;
         short.className = 'color-fg-subtle';
         spans.push(short);
       } else if (el.weight !== null) {
         const weight = document.createElement('span');
-        weight.textContent = `(${el.formattedWeight})`;
+        weight.textContent = `(${el.formattedWeight as string})`;
         weight.className = 'color-fg-subtle';
         spans.push(weight);
       }

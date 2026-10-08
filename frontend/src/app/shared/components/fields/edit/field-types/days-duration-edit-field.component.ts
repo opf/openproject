@@ -44,7 +44,7 @@ import moment from 'moment-timezone';
 })
 export class DaysDurationEditFieldComponent extends DatePickerEditFieldComponent implements OnInit {
   public get formattedValue():number {
-    return Number(moment.duration(this.value).asDays().toFixed(0));
+    return Number(moment.duration(this.value as string).asDays().toFixed(0));
   }
 
   ngOnInit():void {
