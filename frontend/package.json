@@ -106,6 +106,7 @@
     "@ng-select/ng-option-highlight": "^23.6.0",
     "@ng-select/ng-select": "^24.0.1",
     "@ngneat/content-loader": "^7.0.0",
+    "@openproject/commonmark-ckeditor-build": "0.0.0-canary-20261008132651",
     "@openproject/octicons-angular": "^19.37.0",
     "@openproject/primer-view-components": "^0.92.0",
     "@openproject/reactivestates": "^3.0.1",
