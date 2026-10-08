@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Backlogs::BacklogComponent, type: :component do
   shared_let(:default_status) { create(:default_status) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:project) { create(:project) }
   shared_let(:bucket) { create(:backlog_bucket, project:) }
   shared_let(:buckets) { BacklogBucket.for_project(project) }

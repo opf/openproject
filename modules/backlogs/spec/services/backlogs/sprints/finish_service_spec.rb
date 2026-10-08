@@ -33,8 +33,8 @@ require "rails_helper"
 RSpec.describe Backlogs::Sprints::FinishService do
   create_shared_association_defaults_for_work_package_factory
 
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:to_do_status) { create(:status, category: "to_do") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs work_package_tracking],
@@ -74,8 +74,8 @@ RSpec.describe Backlogs::Sprints::FinishService do
     end
   end
 
-  context "when the sprint has a work package with an open-system-status configured as 'done' for the project" do
-    let!(:done_like_status) { create(:status, is_closed: false) }
+  context "when the sprint has a work package with an in_progress status configured as 'done' for the project" do
+    let!(:done_like_status) { create(:status, category: "in_progress") }
     let!(:done_like_wp) do
       # Add the non-closed status to the project's done_statuses so it is
       # treated as "finished" by the work packages scope.
@@ -94,7 +94,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
   context "when the sprint has unfinished (open) work packages" do
     let!(:open_wp) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
 
     context "without specifying a target sprint" do
@@ -134,7 +134,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
     context "when moving to the top of the backlog" do
       let!(:existing_backlog_wp) do
-        create(:work_package, project:, sprint: nil, status: open_status)
+        create(:work_package, project:, sprint: nil, status: to_do_status)
       end
 
       let(:call_params) { { unfinished_action: "move_to_top_of_backlog" } }
@@ -148,7 +148,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
 
     context "when moving to the bottom of the backlog" do
       let!(:existing_backlog_wp) do
-        create(:work_package, project:, sprint: nil, status: open_status)
+        create(:work_package, project:, sprint: nil, status: to_do_status)
       end
 
       let(:call_params) { { unfinished_action: "move_to_bottom_of_backlog" } }
@@ -166,28 +166,28 @@ RSpec.describe Backlogs::Sprints::FinishService do
     # Permissions are not necessary for this. The change is carried out regardless.
     let(:other_project) { create(:project) }
     let!(:open_wp1) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:open_wp2) do
-      create(:work_package, project:, sprint:, status: open_status)
+      create(:work_package, project:, sprint:, status: to_do_status)
     end
     let!(:open_wp3_target_sprint) do
-      create(:work_package, project:, sprint: target_sprint, status: open_status)
+      create(:work_package, project:, sprint: target_sprint, status: to_do_status)
     end
     let!(:open_wp4_target_sprint) do
-      create(:work_package, project:, sprint: target_sprint, status: open_status)
+      create(:work_package, project:, sprint: target_sprint, status: to_do_status)
     end
     let!(:open_wp5_backlog) do
-      create(:work_package, project:, sprint: nil, status: open_status)
+      create(:work_package, project:, sprint: nil, status: to_do_status)
     end
     let!(:open_wp1_other_project) do
-      create(:work_package, project: other_project, sprint:, status: open_status)
+      create(:work_package, project: other_project, sprint:, status: to_do_status)
     end
     let!(:open_wp2_other_project) do
-      create(:work_package, project: other_project, sprint:, status: open_status)
+      create(:work_package, project: other_project, sprint:, status: to_do_status)
     end
     let!(:open_wp3_other_project_backlog) do
-      create(:work_package, project: other_project, sprint: nil, status: open_status)
+      create(:work_package, project: other_project, sprint: nil, status: to_do_status)
     end
     let!(:closed_wp) do
       create(:work_package, project:, sprint:, status: closed_status)

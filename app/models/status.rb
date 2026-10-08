@@ -31,6 +31,8 @@
 class Status < ApplicationRecord
   include Lists::MoveAfterAnchor
 
+  enum :category, { to_do: "to_do", in_progress: "in_progress", closed: "closed" }
+
   SORTABLE_LIST_TYPE = "status"
 
   default_scope { order_by_position }

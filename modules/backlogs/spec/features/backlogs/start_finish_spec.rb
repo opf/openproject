@@ -144,7 +144,7 @@ RSpec.describe "Start and finish sprints", :js do
     end
 
     context "with unfinished work packages" do
-      let(:closed_status) { create(:status, is_closed: true) }
+      let(:closed_status) { create(:status, category: "closed") }
       let!(:closed_work_package) do
         create(:work_package,
                project:,

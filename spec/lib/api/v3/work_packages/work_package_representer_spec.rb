@@ -1628,7 +1628,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql(status.name.to_json).at_path("_embedded/status/name") }
 
       it {
-        expect(subject).to be_json_eql(status.is_closed.to_json).at_path("_embedded/status/isClosed")
+        expect(subject).to be_json_eql(status.closed?.to_json).at_path("_embedded/status/isClosed")
       }
     end
 

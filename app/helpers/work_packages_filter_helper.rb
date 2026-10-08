@@ -50,6 +50,26 @@ module WorkPackagesFilterHelper
     project_work_packages_with_query_path(version.project, query, options)
   end
 
+  def project_work_packages_to_do_version_path(version, options = {})
+    query = {
+      f: [
+        filter_object("status_id", "to_do"),
+        filter_object("version_id", "=", version.id)
+      ]
+    }
+    project_work_packages_with_query_path(version.project, query, options)
+  end
+
+  def project_work_packages_in_progress_version_path(version, options = {})
+    query = {
+      f: [
+        filter_object("status_id", "in_progress"),
+        filter_object("version_id", "=", version.id)
+      ]
+    }
+    project_work_packages_with_query_path(version.project, query, options)
+  end
+
   def project_work_packages_version_path(version, options = {})
     filters = [
       filter_object("version_id", "=", version.id)

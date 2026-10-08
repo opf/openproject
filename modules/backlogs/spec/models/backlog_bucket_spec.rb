@@ -65,7 +65,7 @@ RSpec.describe BacklogBucket do
   describe "#displayed_work_packages" do
     shared_let(:bucket) { create(:backlog_bucket, project:) }
     shared_let(:bucket_work_package1) { create(:work_package, project:, backlog_bucket: bucket, position: 1) }
-    shared_let(:closed_status) { create(:status, is_closed: true) }
+    shared_let(:closed_status) { create(:status, category: "closed") }
     shared_let(:closed_bucket_work_package) do
       create(:work_package, project:, backlog_bucket: bucket, status: closed_status, position: 2)
     end
@@ -118,7 +118,7 @@ RSpec.describe BacklogBucket do
     end
     shared_let(:wp2_in_bucket1) { create(:work_package, project:, backlog_bucket: bucket1, position: 3) }
     shared_let(:wp1_in_bucket1) { create(:work_package, project:, backlog_bucket: bucket1, position: 2) }
-    shared_let(:closed_status) { create(:status, is_closed: true) }
+    shared_let(:closed_status) { create(:status, category: "closed") }
     shared_let(:closed_wp_in_bucket1) do
       create(:work_package, project:, backlog_bucket: bucket1, position: 1, status: closed_status)
     end

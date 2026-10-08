@@ -42,7 +42,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
     [
       activity_journal_projection_statement(:subject, "subject"),
       activity_journal_projection_statement(:project_id, "project_id"),
-      projection_statement(statuses_table, :is_closed, "status_closed"),
+      statuses_table[:category].eq("closed").as("status_closed"),
       projection_statement(types_table, :name, "type_name"),
       projection_statement(activitied_table, :identifier, "identifier")
     ]

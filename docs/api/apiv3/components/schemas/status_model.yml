@@ -13,6 +13,21 @@ properties:
   name:
     type: string
     description: Status name
+  category:
+    type:
+      - "string"
+      - "null"
+    enum:
+      - to_do
+      - in_progress
+      - closed
+      - null
+    description: |-
+      The category of the status. Used to group statuses for filtering and reporting.
+      - `to_do`: Work has not started yet
+      - `in_progress`: Work is currently being done
+      - `closed`: Work is finished
+      - `null`: No category assigned
   isClosed:
     type: boolean
     description: Indicates, whether work package of this status are considered closed

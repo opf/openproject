@@ -33,6 +33,8 @@ module ::WorkPackages
     DEFAULT_QUERY = :all_open
     QUERY_OPTIONS = [
       DEFAULT_QUERY,
+      :to_do,
+      :in_progress,
       :latest_activity,
       :recently_created,
       :overdue,
@@ -67,6 +69,24 @@ module ::WorkPackages
     end
 
     class << self
+      def to_do_query
+        DEFAULT_PARAMS.merge(
+          {
+            c: %w[id subject type status assignee],
+            f: [{ "n" => "status", "o" => "to_do", "v" => [] }]
+          }
+        )
+      end
+
+      def in_progress_query
+        DEFAULT_PARAMS.merge(
+          {
+            c: %w[id subject type status assignee],
+            f: [{ "n" => "status", "o" => "in_progress", "v" => [] }]
+          }
+        )
+      end
+
       def latest_activity_query
         DEFAULT_PARAMS.merge(
           {
@@ -142,6 +162,10 @@ module ::WorkPackages
 
       def assign_params(query_key, project)
         case query_key
+        when :to_do
+          to_do_query
+        when :in_progress
+          in_progress_query
         when :latest_activity
           latest_activity_query
         when :recently_created

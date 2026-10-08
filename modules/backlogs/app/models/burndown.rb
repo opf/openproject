@@ -90,7 +90,7 @@ class Burndown
   end
 
   def open_statuses
-    Status.where(is_closed: false)
+    Status.not_closed
           .where.not(id: project.done_statuses.reorder(nil))
           .reorder(nil)
   end

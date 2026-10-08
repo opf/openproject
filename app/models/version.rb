@@ -168,6 +168,16 @@ class Version < ApplicationRecord
     @closed_issues_count ||= targeted_work_packages.merge(WorkPackage.with_status_closed).size
   end
 
+  # Returns the total amount of to-do issues for this version.
+  def to_do_issues_count
+    @to_do_issues_count ||= targeted_work_packages.merge(WorkPackage.with_status_to_do).size
+  end
+
+  # Returns the total amount of in progress issues for this version.
+  def in_progress_issues_count
+    @in_progress_issues_count ||= targeted_work_packages.merge(WorkPackage.with_status_in_progress).size
+  end
+
   def wiki_page
     if project.wiki && wiki_page_title.present?
       @wiki_page ||= project.wiki.find_page(wiki_page_title)
@@ -241,8 +251,7 @@ class Version < ApplicationRecord
         )
 
         done = targeted_work_packages
-          .where(statuses: { is_closed: !open })
-          .includes(:status)
+          .joins(:status).merge(open ? Status.not_closed : Status.closed)
           .sum(sum_sql)
         progress = done.to_f / (estimated_average * issues_count)
       end

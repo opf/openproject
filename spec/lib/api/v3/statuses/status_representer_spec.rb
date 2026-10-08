@@ -56,7 +56,8 @@ RSpec.describe API::V3::Statuses::StatusRepresenter do
       describe "values" do
         it { is_expected.to be_json_eql(status.id.to_json).at_path("id") }
         it { is_expected.to be_json_eql(status.name.to_json).at_path("name") }
-        it { is_expected.to be_json_eql(status.is_closed.to_json).at_path("isClosed") }
+        it { is_expected.to be_json_eql(status.closed?.to_json).at_path("isClosed") }
+        it { is_expected.to be_json_eql(status.category.to_json).at_path("category") }
         it { is_expected.to be_json_eql(status.is_default.to_json).at_path("isDefault") }
         it { is_expected.to be_json_eql(status.is_readonly.to_json).at_path("isReadonly") }
         it { is_expected.to be_json_eql(status.excluded_from_totals.to_json).at_path("excludedFromTotals") }

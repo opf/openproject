@@ -46,12 +46,12 @@ module Projects
             }
           }
         ) do |list|
-          available_statuses.each do |label, value, is_closed|
+          available_statuses.each do |label, value, category|
             list.option(
               label:,
               value:,
               selected: value.in?(model.done_status_ids),
-              disabled: is_closed
+              disabled: category == "closed"
             )
           end
         end
@@ -87,7 +87,7 @@ module Projects
       private
 
       def available_statuses
-        Status.pluck(:name, :id, :is_closed)
+        Status.pluck(:name, :id, :category)
       end
 
       def available_types

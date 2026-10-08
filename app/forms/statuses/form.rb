@@ -38,15 +38,15 @@ module Statuses
       @submit_label = submit_label || I18n.t(:button_save)
     end
 
-    form do |statuses_form|
-      statuses_form.text_field(
+    form do |status_form|
+      status_form.text_field(
         label: attribute_name(:name),
         name: :name,
         required: true,
         input_width: :medium
       )
 
-      statuses_form.text_field(
+      status_form.text_field(
         label: attribute_name(:default_done_ratio),
         name: :default_done_ratio,
         caption: percent_complete_field_caption,
@@ -59,12 +59,17 @@ module Statuses
         input_width: :small
       )
 
-      statuses_form.check_box(
-        label: attribute_name(:is_closed),
-        name: :is_closed
-      )
+      status_form.radio_button_group(name: :category) do |group|
+        Status.categories.each_key do |category|
+          group.radio_button(
+            value: category,
+            label: Status.human_attribute_name("category.#{category}"),
+            caption: I18n.t("statuses.edit.captions.category.#{category}")
+          )
+        end
+      end
 
-      statuses_form.check_box(
+      status_form.check_box(
         label: attribute_name(:is_default),
         name: :is_default,
         disabled: already_default_status?,
@@ -75,7 +80,7 @@ module Statuses
         }
       )
 
-      statuses_form.check_box(
+      status_form.check_box(
         label: attribute_name(:is_readonly),
         name: :is_readonly,
         disabled: readonly_disabled?,
@@ -86,24 +91,24 @@ module Statuses
         }
       )
 
-      statuses_form.html_content do
+      status_form.html_content do
         render(EnterpriseEdition::BannerComponent.new(:readonly_work_packages))
       end
 
-      statuses_form.check_box(
+      status_form.check_box(
         label: attribute_name(:excluded_from_totals),
         name: :excluded_from_totals,
         caption: I18n.t("statuses.edit.status_excluded_from_totals_text")
       )
 
-      statuses_form.color_select_list(
+      status_form.color_select_list(
         label: attribute_name(:color_id),
         name: :color_id,
         caption: I18n.t("statuses.edit.status_color_text"),
         input_width: :medium
       )
 
-      statuses_form.submit(
+      status_form.submit(
         scheme: :primary,
         name: :submit,
         label: submit_label

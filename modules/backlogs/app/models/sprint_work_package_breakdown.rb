@@ -95,7 +95,7 @@ class SprintWorkPackageBreakdown
   end
 
   def done_status_ids
-    @done_status_ids ||= @project.done_status_ids | Status.where(is_closed: true).ids
+    @done_status_ids ||= @project.done_status_ids | Status.closed.ids
   end
 
   private

@@ -950,8 +950,8 @@ RSpec.describe PermittedParams do
       it_behaves_like "allows params"
     end
 
-    describe "is_closed" do
-      let(:hash) { { "is_closed" => "true" } }
+    describe "category" do
+      let(:hash) { { "category" => "closed" } }
 
       it_behaves_like "allows params"
     end

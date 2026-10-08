@@ -99,7 +99,7 @@ RSpec.shared_examples "has a project include dropdown", :js, type: :feature do
 
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
 
   shared_let(:task) do
     create(:work_package,

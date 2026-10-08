@@ -32,7 +32,7 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *_values)
       raise "wrong field" if field.to_s.split(".").last != "status_id"
 
-      query.where "(#{Status.table_name}.is_closed = #{quoted_true})"
+      query.where "(#{Status.table_name}.category = 'closed')"
       query
     end
   end
@@ -41,7 +41,7 @@ class CostQuery::Operator < Report::Operator
     def modify(query, field, *_values)
       raise "wrong field" if field.to_s.split(".").last != "status_id"
 
-      query.where "(#{Status.table_name}.is_closed = #{quoted_false})"
+      query.where "(#{Status.table_name}.category != 'closed')"
       query
     end
   end
