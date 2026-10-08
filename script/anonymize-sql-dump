@@ -4,8 +4,29 @@ set -e
 
 
 
-DUMPFILE="${1:?Pass the dump file to anonymize as first argument}"
-if [ -f "$HOME/openproject/dev/Gemfile" ]; then
+PUBLIC_PROJECTS_ONLY=false
+SKIP_BASTION_CHECK=false
+POSITIONAL_ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --public-projects-only) PUBLIC_PROJECTS_ONLY=true ;;
+    --skip-bastion-check) SKIP_BASTION_CHECK=true ;;
+    *) POSITIONAL_ARGS+=("$arg") ;;
+  esac
+done
+set -- "${POSITIONAL_ARGS[@]}"
+
+if [ "$SKIP_BASTION_CHECK" = true ]; then
+  WORK_DB=anonymize_sql_dump
+else
+  WORK_DB=tmp
+fi
+
+DUMPFILE="${1:?Pass the dump file to anonymize as first argument. Add --public-projects-only to keep only public projects with their content in clear text}"
+if [ -n "$2" ]; then
+  OPENPROJECT_DEV_DIR="$2"
+  [ -f "$OPENPROJECT_DEV_DIR/Gemfile" ] || { echo "OpenProject dev directory $OPENPROJECT_DEV_DIR is not an OpenProject repository"; exit 1; }
+elif [ -f "$HOME/openproject/dev/Gemfile" ]; then
   OPENPROJECT_DEV_DIR="$HOME/openproject/dev"
 elif [ -f "$HOME/openproject/Gemfile" ]; then
   OPENPROJECT_DEV_DIR="$HOME/openproject"
@@ -18,6 +39,8 @@ else
 fi
 echo "Using non-anonymized dump file $DUMPFILE"
 echo "Using OpenProject dev directory $OPENPROJECT_DEV_DIR"
+echo "Keeping only public projects: $PUBLIC_PROJECTS_ONLY"
+echo "Using work database $WORK_DB (it is dropped and created again)"
 
 
 
@@ -31,7 +54,9 @@ echo_header() {
 
 echo_header "CHECKING THAT WE ARE ON THE EC2 BASTION HOST"
 VPN_IP_ADDRESS="52.29.160.234"
-if [[ $(hostname) != *.compute.internal ]] || [[ $(curl --silent ip.me) == "$VPN_IP_ADDRESS" ]]; then
+if [ "$SKIP_BASTION_CHECK" = true ]; then
+  echo "Skipped with --skip-bastion-check. Use it only for dumps that contain no customer data."
+elif [[ $(hostname) != *.compute.internal ]] || [[ $(curl --silent ip.me) == "$VPN_IP_ADDRESS" ]]; then
   cat <<EOT
 It looks like you're not on an EC2 instance.
 This script is meant to be run in the cloud so that customer data never reaches a dev machine.
@@ -56,20 +81,660 @@ cd -
 
 echo_header "IMPORTING DUMP FILE $DUMPFILE"
 
-dropdb --if-exists tmp
-createdb tmp
-psql --quiet --dbname tmp --command "DROP SCHEMA public;"
-psql --quiet --dbname tmp --command "CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA pg_catalog;"
-psql --quiet --dbname tmp --command "CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;"
-psql --quiet --dbname tmp < $DUMPFILE
+dropdb --if-exists "$WORK_DB"
+createdb "$WORK_DB"
+if grep -qE '^CREATE SCHEMA ' "$DUMPFILE"; then
+  psql --quiet --dbname "$WORK_DB" --command "DROP SCHEMA public;"
+fi
+psql --quiet --dbname "$WORK_DB" --command "CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA pg_catalog;"
+psql --quiet --dbname "$WORK_DB" --command "CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;"
+psql --quiet --dbname "$WORK_DB" < $DUMPFILE
 
 
 
-SCHEMA=$(psql --tuples-only --quiet --dbname tmp --command "select schema_name from information_schema.schemata WHERE schema_owner != 'postgres';" | tr -d '[:space:]')
-echo_header "RENAMING SCHEMA $SCHEMA to public"
+SCHEMA=$(psql --tuples-only --quiet --dbname "$WORK_DB" --command "select schema_name from information_schema.schemata WHERE schema_owner != 'postgres' AND schema_name <> 'information_schema' AND schema_name NOT LIKE 'pg\_%';" | tr -d '[:space:]')
+if [ "$SCHEMA" != "public" ]; then
+  echo_header "RENAMING SCHEMA $SCHEMA to public"
+  psql --quiet --dbname "$WORK_DB" --command "ALTER SCHEMA \"$SCHEMA\" RENAME TO \"public\";"
+fi
+psql --quiet --dbname "$WORK_DB" --command "UPDATE settings SET value = 'localhost:3000' WHERE name = 'host_name'"
 
-psql --quiet --dbname tmp --command "ALTER SCHEMA \"$SCHEMA\" RENAME TO \"public\";"
-psql --quiet --dbname tmp --command "UPDATE settings SET value = 'localhost:3000' WHERE name = 'host_name'"
+
+
+if [ "$PUBLIC_PROJECTS_ONLY" = true ]; then
+  echo_header "REMOVING ALL DATA OUTSIDE OF PUBLIC PROJECTS"
+
+  psql --quiet --dbname "$WORK_DB" --single-transaction --set ON_ERROR_STOP=1 <<'SQL'
+SET client_min_messages TO NOTICE;
+
+CREATE FUNCTION pg_temp.table_exists(tbl text) RETURNS boolean LANGUAGE sql AS $$
+  SELECT to_regclass(format('public.%I', tbl)) IS NOT NULL
+$$;
+
+CREATE FUNCTION pg_temp.column_exists(tbl text, col text) RETURNS boolean LANGUAGE sql AS $$
+  SELECT EXISTS (SELECT FROM information_schema.columns
+                 WHERE table_schema = 'public' AND table_name = tbl AND column_name = col)
+$$;
+
+CREATE FUNCTION pg_temp.report(affected bigint, message text) RETURNS bigint LANGUAGE plpgsql AS $$
+BEGIN
+  IF affected > 0 THEN
+    RAISE NOTICE '%: %', message, affected;
+  END IF;
+  RETURN affected;
+END $$;
+
+CREATE FUNCTION pg_temp.delete_all(tbl text) RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE affected bigint;
+BEGIN
+  IF NOT pg_temp.table_exists(tbl) THEN
+    RETURN 0;
+  END IF;
+  EXECUTE format('DELETE FROM %I', tbl);
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RETURN pg_temp.report(affected, format('Deleted all of %s', tbl));
+END $$;
+
+CREATE FUNCTION pg_temp.prune(tbl text, col text, parent text, nullify boolean DEFAULT false) RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE affected bigint;
+BEGIN
+  IF NOT pg_temp.column_exists(tbl, col) OR NOT pg_temp.table_exists(parent) THEN
+    RETURN 0;
+  END IF;
+  IF nullify THEN
+    EXECUTE format('UPDATE %1$I c SET %2$I = NULL WHERE c.%2$I IS NOT NULL AND NOT EXISTS (SELECT FROM %3$I p WHERE p.id = c.%2$I)', tbl, col, parent);
+  ELSE
+    EXECUTE format('DELETE FROM %1$I c WHERE c.%2$I IS NOT NULL AND NOT EXISTS (SELECT FROM %3$I p WHERE p.id = c.%2$I)', tbl, col, parent);
+  END IF;
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RETURN pg_temp.report(affected, format('%s %s.%s without %s', CASE WHEN nullify THEN 'Unlinked' ELSE 'Deleted' END, tbl, col, parent));
+END $$;
+
+CREATE FUNCTION pg_temp.prune_everywhere(col text, parent text, nullify_in text[] DEFAULT '{}', skip text[] DEFAULT '{}',
+                                         with_journal_tables boolean DEFAULT false) RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE tbl text; total bigint := 0;
+BEGIN
+  FOR tbl IN
+    SELECT c.table_name::text FROM information_schema.columns c
+    JOIN information_schema.tables t ON t.table_schema = c.table_schema AND t.table_name = c.table_name
+    WHERE c.table_schema = 'public' AND t.table_type = 'BASE TABLE' AND c.column_name = col
+      AND c.table_name::text <> ALL (skip)
+      AND (with_journal_tables OR c.table_name::text NOT LIKE '%\_journals')
+    ORDER BY 1
+  LOOP
+    total := total + pg_temp.prune(tbl, col, parent, tbl = ANY (nullify_in));
+  END LOOP;
+  RETURN total;
+END $$;
+
+CREATE FUNCTION pg_temp.prune_unlinked(tbl text, link_table text, link_col text) RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE affected bigint;
+BEGIN
+  IF NOT pg_temp.table_exists(tbl) OR NOT pg_temp.column_exists(link_table, link_col) THEN
+    RETURN 0;
+  END IF;
+  EXECUTE format('DELETE FROM %1$I r WHERE NOT EXISTS (SELECT FROM %2$I l WHERE l.%3$I = r.id)', tbl, link_table, link_col);
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RETURN pg_temp.report(affected, format('Deleted %s without %s', tbl, link_table));
+END $$;
+
+CREATE TEMP TABLE polymorphic_types (type text PRIMARY KEY, table_name text NOT NULL);
+INSERT INTO polymorphic_types VALUES
+  ('Attachment', 'attachments'),
+  ('AttributeHelpText', 'attribute_help_texts'),
+  ('Bim::Bcf::Issue', 'bcf_issues'),
+  ('Bim::Bcf::Viewpoint', 'bcf_viewpoints'),
+  ('Bim::IfcModels::IfcModel', 'ifc_models'),
+  ('Boards::Grid', 'grids'),
+  ('Budget', 'budgets'),
+  ('Changeset', 'changesets'),
+  ('Comment', 'comments'),
+  ('CostEntry', 'cost_entries'),
+  ('CostObject', 'cost_objects'),
+  ('Document', 'documents'),
+  ('Export', 'exports'),
+  ('Backup', 'exports'),
+  ('CostQuery::Export', 'exports'),
+  ('MeetingExport', 'exports'),
+  ('Projects::Export', 'exports'),
+  ('WorkPackages::Export', 'exports'),
+  ('Forum', 'forums'),
+  ('Grids::Grid', 'grids'),
+  ('Grids::MyPage', 'grids'),
+  ('Grids::Overview', 'grids'),
+  ('Group', 'users'),
+  ('Journal', 'journals'),
+  ('Meeting', 'meetings'),
+  ('MeetingAgendaItem', 'meeting_agenda_items'),
+  ('MeetingContent', 'meeting_contents'),
+  ('Message', 'messages'),
+  ('MyProjectsOverview', 'my_projects_overviews'),
+  ('News', 'news'),
+  ('Notification', 'notifications'),
+  ('PersistedView', 'persisted_views'),
+  ('PlaceholderUser', 'users'),
+  ('Principal', 'users'),
+  ('Project', 'projects'),
+  ('Project::Phase', 'project_phases'),
+  ('ProjectQuery', 'project_queries'),
+  ('Query', 'queries'),
+  ('RecurringMeeting', 'recurring_meetings'),
+  ('Reminder', 'reminders'),
+  ('ResourceAllocation', 'resource_allocations'),
+  ('Sprint', 'sprints'),
+  ('Agile::Sprint', 'sprints'),
+  ('TimeEntry', 'time_entries'),
+  ('User', 'users'),
+  ('Version', 'versions'),
+  ('Wiki', 'wikis'),
+  ('WikiContent', 'wiki_contents'),
+  ('WikiPage', 'wiki_pages'),
+  ('WorkPackage', 'work_packages');
+
+CREATE FUNCTION pg_temp.prune_polymorphic(tbl text, assoc text) RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE type_col text := assoc || '_type'; id_col text := assoc || '_id'; record_type text; target text; affected bigint; total bigint := 0;
+BEGIN
+  IF NOT pg_temp.column_exists(tbl, type_col) THEN
+    RETURN 0;
+  END IF;
+  FOR record_type IN EXECUTE format('SELECT DISTINCT %1$I FROM %2$I WHERE %1$I IS NOT NULL', type_col, tbl) LOOP
+    SELECT pt.table_name INTO target FROM polymorphic_types pt WHERE pt.type = record_type;
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'Unknown type % in %.%. Add it to polymorphic_types.', record_type, tbl, type_col;
+    END IF;
+    IF pg_temp.table_exists(target) THEN
+      EXECUTE format('DELETE FROM %1$I c WHERE c.%2$I = %3$L AND NOT EXISTS (SELECT FROM %4$I p WHERE p.id = c.%5$I)',
+                     tbl, type_col, record_type, target, id_col);
+    ELSE
+      EXECUTE format('DELETE FROM %1$I WHERE %2$I = %3$L', tbl, type_col, record_type);
+    END IF;
+    GET DIAGNOSTICS affected = ROW_COUNT;
+    total := total + pg_temp.report(affected, format('Deleted %s.%s of %s without record', tbl, assoc, record_type));
+  END LOOP;
+  RETURN total;
+END $$;
+
+CREATE FUNCTION pg_temp.prune_journal_data() RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE tbl text; data_types text[]; affected bigint; total bigint := 0;
+BEGIN
+  FOR tbl IN
+    SELECT t.table_name::text FROM information_schema.tables t
+    WHERE t.table_schema = 'public' AND t.table_type = 'BASE TABLE'
+      AND t.table_name::text LIKE '%\_journals'
+      AND NOT pg_temp.column_exists(t.table_name::text, 'journal_id')
+    ORDER BY 1
+  LOOP
+    SELECT coalesce(array_agg(DISTINCT j.data_type), '{}') INTO data_types FROM journals j
+    WHERE lower(regexp_replace(regexp_replace(j.data_type, '^Journal::', ''), '([a-z0-9])([A-Z])', '\1_\2', 'g')) || 's' = tbl;
+    EXECUTE format('DELETE FROM %1$I d WHERE NOT EXISTS (SELECT FROM journals j WHERE j.data_id = d.id AND j.data_type = ANY (%2$L))',
+                   tbl, data_types);
+    GET DIAGNOSTICS affected = ROW_COUNT;
+    total := total + pg_temp.report(affected, format('Deleted %s without journal', tbl));
+  END LOOP;
+  RETURN total;
+END $$;
+
+CREATE FUNCTION pg_temp.prune_pass() RETURNS bigint LANGUAGE plpgsql AS $$
+DECLARE total bigint := 0;
+BEGIN
+  total := total + pg_temp.prune_everywhere('project_id', 'projects', skip => ARRAY['gitlab_pipelines']);
+  total := total + pg_temp.prune('projects', 'parent_id', 'projects');
+  total := total + pg_temp.prune('projects', 'template_id', 'projects', true);
+  total := total + pg_temp.prune('subproject_template_assignments', 'template_id', 'projects');
+
+  total := total + pg_temp.prune_everywhere('work_package_id', 'work_packages',
+                                            nullify_in => ARRAY['meeting_agenda_items', 'meeting_outcomes']);
+  total := total + pg_temp.prune('work_packages', 'parent_id', 'work_packages', true);
+  total := total + pg_temp.prune('work_packages', 'version_id', 'versions', true);
+  total := total + pg_temp.prune('work_packages', 'category_id', 'categories', true);
+  total := total + pg_temp.prune('work_packages', 'budget_id', 'budgets', true);
+  total := total + pg_temp.prune('work_packages', 'sprint_id', 'sprints', true);
+  total := total + pg_temp.prune('work_packages', 'backlog_bucket_id', 'backlog_buckets', true);
+  total := total + pg_temp.prune('work_package_hierarchies', 'ancestor_id', 'work_packages');
+  total := total + pg_temp.prune('work_package_hierarchies', 'descendant_id', 'work_packages');
+  total := total + pg_temp.prune('relations', 'from_id', 'work_packages');
+  total := total + pg_temp.prune('relations', 'to_id', 'work_packages');
+  total := total + pg_temp.prune('work_package_versions', 'version_id', 'versions');
+  total := total + pg_temp.prune('version_settings', 'version_id', 'versions');
+  total := total + pg_temp.prune('time_entries', 'rate_id', 'rates', true);
+  total := total + pg_temp.prune('cost_entries', 'rate_id', 'rates', true);
+
+  total := total + pg_temp.prune('wiki_pages', 'wiki_id', 'wikis');
+  total := total + pg_temp.prune('wiki_pages', 'parent_id', 'wiki_pages', true);
+  total := total + pg_temp.prune('wiki_redirects', 'wiki_id', 'wikis');
+  total := total + pg_temp.prune('menu_items', 'navigatable_id', 'wikis');
+  total := total + pg_temp.prune('menu_items', 'parent_id', 'menu_items');
+
+  total := total + pg_temp.prune('messages', 'forum_id', 'forums');
+  total := total + pg_temp.prune('messages', 'parent_id', 'messages');
+  total := total + pg_temp.prune('messages', 'last_reply_id', 'messages', true);
+  total := total + pg_temp.prune('forums', 'last_message_id', 'messages', true);
+
+  total := total + pg_temp.prune('meetings', 'recurring_meeting_id', 'recurring_meetings', true);
+  total := total + pg_temp.prune('recurring_meeting_historic_schedules', 'recurring_meeting_id', 'recurring_meetings');
+  total := total + pg_temp.prune('recurring_meeting_interim_responses', 'recurring_meeting_id', 'recurring_meetings');
+  total := total + pg_temp.prune('scheduled_meetings', 'recurring_meeting_id', 'recurring_meetings');
+  total := total + pg_temp.prune('scheduled_meetings', 'meeting_id', 'meetings');
+  total := total + pg_temp.prune('meeting_sections', 'meeting_id', 'meetings');
+  total := total + pg_temp.prune('meeting_agenda_items', 'meeting_id', 'meetings');
+  total := total + pg_temp.prune('meeting_participants', 'meeting_id', 'meetings');
+  total := total + pg_temp.prune('meeting_agenda_items', 'meeting_section_id', 'meeting_sections');
+  total := total + pg_temp.prune('meeting_outcomes', 'meeting_agenda_item_id', 'meeting_agenda_items');
+
+  total := total + pg_temp.prune('member_roles', 'member_id', 'members');
+  total := total + pg_temp.prune('labor_budget_items', 'budget_id', 'budgets');
+  total := total + pg_temp.prune('material_budget_items', 'budget_id', 'budgets');
+  total := total + pg_temp.prune('grid_widgets', 'grid_id', 'grids');
+  total := total + pg_temp.prune('views', 'query_id', 'queries');
+  total := total + pg_temp.prune('export_settings', 'query_id', 'queries');
+  total := total + pg_temp.prune('ical_token_query_assignments', 'query_id', 'queries');
+  total := total + pg_temp.prune('ordered_work_packages', 'query_id', 'queries');
+  total := total + pg_temp.prune('ordered_persisted_query_entities', 'persisted_query_id', 'persisted_queries');
+  total := total + pg_temp.prune('persisted_views', 'parent_id', 'persisted_views');
+  total := total + pg_temp.prune('sprint_goals', 'sprint_id', 'sprints');
+  total := total + pg_temp.prune('changesets', 'repository_id', 'repositories');
+  total := total + pg_temp.prune('changes', 'changeset_id', 'changesets');
+  total := total + pg_temp.prune('changesets_work_packages', 'changeset_id', 'changesets');
+  total := total + pg_temp.prune('issue_form_fields', 'issue_form_id', 'issue_forms');
+  total := total + pg_temp.prune('workflows', 'type_variant_id', 'type_variants');
+  total := total + pg_temp.prune('custom_fields_types', 'type_variant_id', 'type_variants');
+  total := total + pg_temp.prune('project_custom_field_type_mappings', 'type_variant_id', 'type_variants');
+  total := total + pg_temp.prune('project_types', 'variant_id', 'type_variants');
+  total := total + pg_temp.prune('bcf_viewpoints', 'issue_id', 'bcf_issues');
+  total := total + pg_temp.prune('bcf_comments', 'issue_id', 'bcf_issues');
+  total := total + pg_temp.prune('bcf_comments', 'viewpoint_id', 'bcf_viewpoints', true);
+  total := total + pg_temp.prune('reminder_notifications', 'reminder_id', 'reminders');
+  total := total + pg_temp.prune('reminder_notifications', 'notification_id', 'notifications');
+
+  total := total + pg_temp.prune_unlinked('github_pull_requests', 'github_pull_requests_work_packages', 'github_pull_request_id');
+  total := total + pg_temp.prune('github_check_runs', 'github_pull_request_id', 'github_pull_requests');
+  total := total + pg_temp.prune('deploy_status_checks', 'github_pull_request_id', 'github_pull_requests');
+  total := total + pg_temp.prune_unlinked('gitlab_merge_requests', 'gitlab_merge_requests_work_packages', 'gitlab_merge_request_id');
+  total := total + pg_temp.prune('gitlab_pipelines', 'gitlab_merge_request_id', 'gitlab_merge_requests');
+  total := total + pg_temp.prune_unlinked('gitlab_issues', 'gitlab_issues_work_packages', 'gitlab_issue_id');
+
+  total := total + pg_temp.prune_polymorphic('attachments', 'container');
+  total := total + pg_temp.prune_polymorphic('comments', 'commented');
+  total := total + pg_temp.prune_polymorphic('custom_values', 'customized');
+  total := total + pg_temp.prune_polymorphic('custom_comments', 'customized');
+  total := total + pg_temp.prune_polymorphic('calculated_value_errors', 'customized');
+  total := total + pg_temp.prune_polymorphic('watchers', 'watchable');
+  total := total + pg_temp.prune_polymorphic('emoji_reactions', 'reactable');
+  total := total + pg_temp.prune_polymorphic('favorites', 'favorited');
+  total := total + pg_temp.prune_polymorphic('notifications', 'resource');
+  total := total + pg_temp.prune_polymorphic('reminders', 'remindable');
+  total := total + pg_temp.prune_polymorphic('members', 'entity');
+  total := total + pg_temp.prune_polymorphic('time_entries', 'entity');
+  total := total + pg_temp.prune_polymorphic('cost_entries', 'entity');
+  total := total + pg_temp.prune_polymorphic('resource_allocations', 'entity');
+  total := total + pg_temp.prune_polymorphic('grids', 'linked');
+  total := total + pg_temp.prune_polymorphic('friendly_id_slugs', 'sluggable');
+  total := total + pg_temp.prune_polymorphic('wiki_page_links', 'linkable');
+  total := total + pg_temp.prune_polymorphic('ordered_persisted_query_entities', 'entity');
+  total := total + pg_temp.prune_polymorphic('persisted_views', 'query');
+  total := total + pg_temp.prune_polymorphic('journals', 'journable');
+
+  total := total + pg_temp.prune_everywhere('journal_id', 'journals', with_journal_tables => true);
+  total := total + pg_temp.prune_journal_data();
+  RETURN total;
+END $$;
+
+CREATE TEMP TABLE table_manifest (table_name text PRIMARY KEY, treatment text NOT NULL);
+INSERT INTO table_manifest SELECT unnest(ARRAY[
+  'attachable_journals',
+  'attachment_journals',
+  'attachments',
+  'backlog_buckets',
+  'backlog_excluded_types',
+  'bcf_comments',
+  'bcf_issues',
+  'bcf_viewpoints',
+  'budget_journals',
+  'budgets',
+  'calculated_value_errors',
+  'categories',
+  'changes',
+  'changeset_journals',
+  'changesets',
+  'changesets_work_packages',
+  'comments',
+  'cost_entries',
+  'cost_queries',
+  'cost_types_projects',
+  'custom_actions_projects',
+  'custom_comment_journals',
+  'custom_comments',
+  'custom_fields_projects',
+  'custom_values',
+  'customizable_journals',
+  'document_journals',
+  'documents',
+  'done_statuses_for_project',
+  'emoji_reactions',
+  'enabled_modules',
+  'enumerations',
+  'export_settings',
+  'favorites',
+  'forums',
+  'friendly_id_slugs',
+  'github_check_runs',
+  'github_pull_requests',
+  'github_pull_requests_work_packages',
+  'gitlab_issues',
+  'gitlab_issues_work_packages',
+  'gitlab_merge_requests',
+  'gitlab_merge_requests_work_packages',
+  'gitlab_pipelines',
+  'grid_widgets',
+  'grids',
+  'ifc_models',
+  'issue_form_fields',
+  'issue_forms',
+  'journals',
+  'labor_budget_items',
+  'material_budget_items',
+  'meeting_agenda_item_journals',
+  'meeting_agenda_items',
+  'meeting_journals',
+  'meeting_outcomes',
+  'meeting_participant_journals',
+  'meeting_participants',
+  'meeting_sections',
+  'meetings',
+  'member_roles',
+  'members',
+  'menu_items',
+  'message_journals',
+  'messages',
+  'news',
+  'news_journals',
+  'notification_settings',
+  'notifications',
+  'ordered_persisted_query_entities',
+  'ordered_work_packages',
+  'persisted_queries',
+  'persisted_views',
+  'project_custom_field_project_mappings',
+  'project_custom_field_type_mappings',
+  'project_journals',
+  'project_phase_journals',
+  'project_phases',
+  'project_types',
+  'projects',
+  'projects_types',
+  'queries',
+  'rates',
+  'recurring_meeting_historic_schedules',
+  'recurring_meeting_interim_responses',
+  'recurring_meetings',
+  'relations',
+  'reminder_notifications',
+  'reminders',
+  'repositories',
+  'resource_allocation_journals',
+  'resource_allocations',
+  'scheduled_meetings',
+  'sprint_goals',
+  'sprints',
+  'subproject_template_assignments',
+  'time_entries',
+  'time_entry_activities_projects',
+  'time_entry_journals',
+  'type_variants',
+  'version_settings',
+  'versions',
+  'views',
+  'watchers',
+  'wiki_page_journals',
+  'wiki_pages',
+  'wiki_redirects',
+  'wikis',
+  'work_package_hierarchies',
+  'work_package_journals',
+  'work_package_semantic_aliases',
+  'work_package_version_journals',
+  'work_package_versions',
+  'work_packages',
+  'workflows'
+]), 'prune';
+INSERT INTO table_manifest SELECT unnest(ARRAY[
+  'ai_text_transform_action_types',
+  'ai_text_transform_actions',
+  'announcements',
+  'ar_internal_metadata',
+  'attribute_help_texts',
+  'colors',
+  'cost_types',
+  'custom_actions',
+  'custom_actions_roles',
+  'custom_actions_statuses',
+  'custom_actions_types',
+  'custom_field_sections',
+  'custom_fields',
+  'custom_fields_roles',
+  'custom_fields_types',
+  'custom_options',
+  'custom_styles',
+  'design_colors',
+  'document_types',
+  'github_users',
+  'gitlab_users',
+  'group_details',
+  'group_users',
+  'hierarchical_item_hierarchies',
+  'hierarchical_items',
+  'non_working_days',
+  'project_phase_definitions',
+  'project_queries',
+  'role_permissions',
+  'roles',
+  'schema_migrations',
+  'settings',
+  'statuses',
+  'types',
+  'user_preferences',
+  'user_working_hours'
+]), 'keep';
+INSERT INTO table_manifest SELECT unnest(ARRAY[
+  'users'
+]), 'anonymize';
+INSERT INTO table_manifest SELECT unnest(ARRAY[
+  'ai_text_transform_run_events',
+  'ai_text_transform_runs',
+  'audits',
+  'auth_providers',
+  'autologin_session_links',
+  'deploy_status_checks',
+  'deploy_targets',
+  'enterprise_tokens',
+  'exports',
+  'file_links',
+  'good_job_batches',
+  'good_job_executions',
+  'good_job_processes',
+  'good_job_settings',
+  'good_jobs',
+  'health_reports',
+  'ical_token_query_assignments',
+  'jira_fields',
+  'jira_import_job_cursors',
+  'jira_import_transitions',
+  'jira_imports',
+  'jira_issue_types',
+  'jira_issues',
+  'jira_open_project_references',
+  'jira_priorities',
+  'jira_projects',
+  'jira_statuses',
+  'jira_users',
+  'jira_versions',
+  'jiras',
+  'job_statuses',
+  'last_project_folders',
+  'ldap_auth_sources',
+  'ldap_departments_memberships',
+  'ldap_departments_synchronized_departments',
+  'ldap_departments_synchronized_trees',
+  'ldap_groups_memberships',
+  'ldap_groups_synchronized_filters',
+  'ldap_groups_synchronized_groups',
+  'mcp_configurations',
+  'multitenancy_accounts',
+  'multitenancy_email_accounts',
+  'multitenancy_snapshots',
+  'oauth_access_grants',
+  'oauth_access_tokens',
+  'oauth_applications',
+  'oauth_client_tokens',
+  'oauth_clients',
+  'oidc_group_links',
+  'oidc_group_memberships',
+  'oidc_user_session_links',
+  'oidc_user_tokens',
+  'outbound_mail_recipients',
+  'paper_trail_audits',
+  'project_storages',
+  'recaptcha_entries',
+  'remote_identities',
+  'scim_clients',
+  'service_account_associations',
+  'sessions',
+  'storages',
+  'storages_file_links_journals',
+  'subscriptions',
+  'token_bucket_states',
+  'tokens',
+  'two_factor_authentication_devices',
+  'user_auth_provider_links',
+  'user_non_working_times',
+  'user_passwords',
+  'webhooks_events',
+  'webhooks_logs',
+  'webhooks_projects',
+  'webhooks_webhooks',
+  'wiki_page_links',
+  'wiki_providers'
+]), 'delete';
+
+DO $$
+DECLARE unknown text;
+BEGIN
+  SELECT string_agg(t.table_name::text, ', ' ORDER BY t.table_name) INTO unknown
+  FROM information_schema.tables t
+  WHERE t.table_schema = 'public' AND t.table_type = 'BASE TABLE'
+    AND NOT EXISTS (SELECT FROM table_manifest m WHERE m.table_name = t.table_name::text);
+  IF unknown IS NOT NULL THEN
+    RAISE EXCEPTION 'Tables without a treatment in table_manifest: %. Classify them before you share a dump.', unknown;
+  END IF;
+
+  SELECT string_agg(c.column_name::text, ', ' ORDER BY c.column_name) INTO unknown
+  FROM information_schema.columns c
+  WHERE c.table_schema = 'public' AND c.table_name = 'users'
+    AND c.column_name::text <> ALL (ARRAY[
+      'id', 'login', 'firstname', 'lastname', 'mail', 'admin', 'status', 'last_login_on', 'language', 'ldap_auth_source_id',
+      'created_at', 'updated_at', 'type', 'identity_url', 'mail_notification', 'first_login', 'failed_login_count',
+      'last_failed_login_on', 'force_password_change', 'consented_at', 'webauthn_id']);
+  IF unknown IS NOT NULL THEN
+    RAISE EXCEPTION 'Columns of users that the anonymization does not know: %. Anonymize or allow them before you share a dump.', unknown;
+  END IF;
+END $$;
+
+CREATE TEMP TABLE dropped_foreign_keys AS
+  SELECT conrelid::regclass::text AS tbl, conname, pg_get_constraintdef(oid) AS definition
+  FROM pg_constraint
+  WHERE contype = 'f' AND connamespace = 'public'::regnamespace;
+
+DO $$
+DECLARE fk record;
+BEGIN
+  FOR fk IN SELECT * FROM dropped_foreign_keys LOOP
+    EXECUTE format('ALTER TABLE %s DROP CONSTRAINT %I', fk.tbl, fk.conname);
+  END LOOP;
+END $$;
+
+DO $$
+DECLARE affected bigint;
+BEGIN
+  PERFORM pg_temp.delete_all(table_name) FROM table_manifest WHERE treatment = 'delete' ORDER BY table_name;
+
+  DELETE FROM settings WHERE name IN (
+    'collaborative_editing_hocuspocus_secret',
+    'consent_decline_mail',
+    'hashed_token_pepper',
+    'health_checks_authentication_password',
+    'mail_handler_api_key',
+    'mail_handler_body_delimiter_regex',
+    'plugin_openproject_auth_saml',
+    'plugin_openproject_github_integration',
+    'plugin_openproject_gitlab_integration',
+    'plugin_openproject_openid_connect',
+    'plugin_openproject_recaptcha',
+    'plugin_openproject_slack',
+    'plugin_openproject_two_factor_authentication',
+    'seed_admin_user_password',
+    'seed_enterprise_token',
+    'smtp_password',
+    'smtp_user_name',
+    'sys_api_key'
+  );
+
+  DELETE FROM rates WHERE type IN ('HourlyRate', 'DefaultHourlyRate');
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RAISE NOTICE 'Deleted hourly rates: %', affected;
+  UPDATE time_entries SET rate_id = NULL, costs = NULL, overridden_costs = NULL;
+  UPDATE time_entry_journals SET rate_id = NULL, costs = NULL, overridden_costs = NULL;
+  UPDATE labor_budget_items SET amount = NULL;
+
+  UPDATE users SET ldap_auth_source_id = NULL;
+  UPDATE users
+  SET login = 'user' || id, firstname = 'User', lastname = id::text, mail = 'user' || id || '@example.com', identity_url = NULL
+  WHERE type = 'User';
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RAISE NOTICE 'Anonymized users: %', affected;
+  UPDATE users SET lastname = 'Placeholder ' || id WHERE type = 'PlaceholderUser';
+  IF pg_temp.column_exists('meeting_participants', 'email') THEN
+    UPDATE meeting_participants SET email = 'participant' || id || '@example.com' WHERE email IS NOT NULL;
+  END IF;
+  IF pg_temp.column_exists('gitlab_users', 'gitlab_email') THEN
+    UPDATE gitlab_users SET gitlab_email = 'gitlab-user' || id || '@example.com' WHERE gitlab_email IS NOT NULL;
+  END IF;
+  IF pg_temp.column_exists('repositories', 'password') THEN
+    UPDATE repositories SET login = NULL, password = NULL;
+  END IF;
+
+  DELETE FROM projects p
+  WHERE EXISTS (SELECT FROM projects a WHERE a.lft <= p.lft AND a.rgt >= p.rgt AND NOT a.public);
+  GET DIAGNOSTICS affected = ROW_COUNT;
+  RAISE NOTICE 'Deleted projects that are not public or are below a project that is not public: %', affected;
+
+  IF pg_temp.column_exists('journals', 'restricted') THEN
+    DELETE FROM journals WHERE restricted;
+    GET DIAGNOSTICS affected = ROW_COUNT;
+    RAISE NOTICE 'Deleted internal comments: %', affected;
+  END IF;
+END $$;
+
+DO $$
+DECLARE pass integer := 0; affected bigint;
+BEGIN
+  LOOP
+    pass := pass + 1;
+    affected := pg_temp.prune_pass();
+    RAISE NOTICE 'Pass %: deleted or unlinked % rows', pass, affected;
+    EXIT WHEN affected = 0;
+  END LOOP;
+END $$;
+
+DO $$
+DECLARE fk record;
+BEGIN
+  FOR fk IN SELECT * FROM dropped_foreign_keys LOOP
+    EXECUTE format('ALTER TABLE %s ADD CONSTRAINT %I %s', fk.tbl, fk.conname, fk.definition);
+  END LOOP;
+  RAISE NOTICE 'Kept public projects: %', (SELECT count(*) FROM projects);
+END $$;
+SQL
+fi
 
 
 
@@ -114,7 +779,10 @@ DELETE FROM settings WHERE name = 'mail_from';
 DELETE FROM settings WHERE name = 'consent_info';
 
 UPDATE attachments SET file_tsv = NULL, fulltext = NULL, fulltext_tsv = NULL;
+SQL
 
+if [ "$PUBLIC_PROJECTS_ONLY" = false ]; then
+  cat <<SQL >> "$cleanup_sql_file"
 DO \$\$
 DECLARE table_name TEXT;
 DECLARE column_name TEXT;
@@ -172,8 +840,9 @@ UPDATE custom_values SET value = MD5(value) WHERE custom_field_id in (SELECT id 
 UPDATE customizable_journals SET value = MD5(value) WHERE custom_field_id in (SELECT id from custom_fields where field_format IN ('text', 'string'));
 UPDATE grid_widgets SET options = '---\n:name: Custom title\n:text: Custom text\n' WHERE identifier = 'custom_text';
 SQL
+fi
 
-cat "$cleanup_sql_file" | psql --quiet --dbname tmp
+cat "$cleanup_sql_file" | psql --quiet --dbname "$WORK_DB"
 rm "$cleanup_sql_file"
 
 
@@ -188,7 +857,7 @@ cat <<RUBY > "$create_admin_rb_file"
 RUBY
 
 cd "$OPENPROJECT_DEV_DIR"
-export DATABASE_URL=postgres:///tmp
+export DATABASE_URL="postgres:///$WORK_DB"
 bundle exec rails runner "$create_admin_rb_file"
 cd -
 rm "$create_admin_rb_file"
@@ -196,7 +865,54 @@ rm "$create_admin_rb_file"
 
 
 echo_header "DUMPING ANONYMIZED DATA TO $(pwd)/tmp.dump.sql"
-pg_dump --no-owner --format=plain tmp > tmp.dump.sql
+pg_dump --no-owner --format=plain "$WORK_DB" > tmp.dump.sql
+
+
+
+if [ "$PUBLIC_PROJECTS_ONLY" = true ]; then
+  echo_header "SCANNING DUMP FOR SECRETS AND PERSONAL DATA"
+
+  SECRET_PATTERN='-----BEGIN [A-Z ]*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{22,}|glpat-[A-Za-z0-9_-]{20}|xox[abprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}'
+  EMAIL_PATTERN='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
+  CREDENTIAL_URL_PATTERN='[a-z][a-z0-9+.-]*://[^/[:space:]:@]+:[^/[:space:]@]+@'
+  CONTENT_TABLES='^public[.](attachments|attachment_journals|budgets|budget_journals|changesets|changeset_journals|comments|cost_entries|custom_comments|custom_comment_journals|custom_values|customizable_journals|documents|document_journals|github_check_runs|github_pull_requests|gitlab_issues|gitlab_merge_requests|gitlab_pipelines|grid_widgets|journals|meeting_agenda_items|meeting_agenda_item_journals|meeting_journals|meeting_outcomes|meeting_sections|meetings|message_journals|messages|news|news_journals|project_journals|projects|time_entries|time_entry_journals|type_variants|versions|wiki_page_journals|wiki_pages|work_package_journals|work_packages)$'
+
+  findings=$(
+    {
+      grep -noE -e "$SECRET_PATTERN" tmp.dump.sql | sed 's/^\([0-9]*\):.*/\1 secret/'
+      grep -noE -e "$EMAIL_PATTERN" tmp.dump.sql \
+        | grep -vE -e '@example\.(com|net|org)$' -e '^[0-9]+:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}@' \
+        | sed 's/^\([0-9]*\):.*/\1 email/'
+      grep -noE -e "$CREDENTIAL_URL_PATTERN" tmp.dump.sql | sed 's/^\([0-9]*\):.*/\1 credential-url/'
+    } | sort -n | awk -v content="$CONTENT_TABLES" '
+      NR == FNR {
+        split($0, parts, ":")
+        marker_line[++markers] = parts[1]
+        if (parts[2] ~ /^COPY /) { split(parts[2], words, " "); marker_table[markers] = words[2] }
+        else { marker_table[markers] = "(schema)" }
+        next
+      }
+      {
+        table = "(schema)"
+        for (i = 1; i <= markers && marker_line[i] < $1; i++) table = marker_table[i]
+        print (table ~ content ? "content" : "other"), $2, table
+      }
+    ' <(grep -n -e '^COPY ' -e '^\\\.$' tmp.dump.sql) -
+  )
+
+  echo "Matches in user-written content of public projects (review only):"
+  echo "$findings" | awk '$1 == "content" { print $2, $3 }' | sort | uniq -c
+  rejected_findings=$(echo "$findings" | awk '$1 == "other" { print $2, $3 }' | sort | uniq -c)
+
+  if [ -n "$rejected_findings" ]; then
+    mv tmp.dump.sql tmp.dump.sql.rejected
+    echo "Matches outside of user-written content:"
+    echo "$rejected_findings"
+    echo "The dump is saved as $(pwd)/tmp.dump.sql.rejected. Do not share it."
+    echo "Anonymize or delete these columns in the script, then run it again."
+    exit 1
+  fi
+fi
 
 
 
