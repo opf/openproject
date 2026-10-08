@@ -58,7 +58,7 @@ module Llm
       def binding
         @binding ||= LlmConnection.active_connection
                                   &.feature_bindings
-                                  &.find_by(feature_key: "semantic_search")
+                                  &.find_or_initialize_by(feature_key: "semantic_search")
       end
 
       def binding_ready?
