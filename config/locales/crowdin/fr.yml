@@ -1728,7 +1728,7 @@ fr:
                 users: Utilisateurs et groupes concernés
                 workflows: Flux de travail au niveau du projet
               label_coming_later: À venir
-              label_coming_soon: Coming soon
+              label_coming_soon: Arrive bientôt
               label_import: Sélectionnez les projets que vous souhaitez importer.
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               label_progress: Récupération des données
@@ -1742,28 +1742,28 @@ fr:
             filter_projects: Filtrer par texte
             info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés dans le périmètre d'importation.
             title: Sélectionner les projets à importer
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
+          stage_discarded_label: Erreur
+          stage_in_progress_label: Progression
+          stage_job_error: Erreur
           stage_succeeded_label: Completed
           stages:
             '1':
               rest_line_text: ''
-              title: Fetch Jira configuration
+              title: Récupérer la configuration de Jira
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Récupération les tickets et les versions pour %{projects_number} projets supplémentaires
+              title: Récupérer les tickets et les versions du projet
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Récupérer les utilisateurs et les champs personnalisés
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: Créer les utilisateurs, les groupes et les appartenances
             '5':
               rest_line_text: ''
-              title: Create roles and custom fields
+              title: Créer les rôles et les champs personnalisés
             '6':
-              rest_line_text: Creating %{projects_number} more projects
+              rest_line_text: Créer %{projects_number} autres projets
               title: Create projects
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects

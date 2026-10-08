@@ -1560,11 +1560,11 @@ de:
           JiraFetchProjectIssuesJob:
             title: Fetch issues for project '%{jira_project_name}'
           JiraFetchProjectVersionsJob:
-            title: Fetch versions for project '%{jira_project_name}'
+            title: Versionen für das Projekt ‚%{jira_project_name}‘ abrufen
           JiraFetchProjectsJob:
             title: Projekte abrufen
           JiraFetchStatusesJob:
-            title: Fetch statuses
+            title: Status abrufen
           JiraFetchUsersJob:
             title: Benutzer abrufen
           JiraInstanceMetaDataJob:

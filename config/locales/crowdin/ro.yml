@@ -188,10 +188,10 @@ ro:
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
-        parent: Parent group
+        parent: Grup părinte
       group_detail:
         organizational_unit: Organizational unit
-        parent: Parent group
+        parent: Grup părinte
       import/jira:
         name: Jira instance name
         personal_access_token: Personal access token
@@ -241,7 +241,7 @@ ro:
         views: Views
       persisted_view:
         name: Name
-        parent: Parent view
+        parent: Vedere părinte
         public: Public
         query: Query
       project:
@@ -1206,9 +1206,9 @@ ro:
         few: Messages
         other: Messages
       news:
-        one: News
-        few: News
-        other: News
+        one: Noutate
+        few: Noutăţi
+        other: Noutăţi
       non_working_day:
         one: Non-working day
         few: Non-working days
@@ -1853,8 +1853,8 @@ ro:
               title: Import scope
           select_projects:
             button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
+            button_select_all: Selectează tot
+            button_unselect_all: Deselectează tot
             filter_projects: Filter by text
             info: Only projects where the Jira token owner is member are selectable as import scope.
             title: Select projects to import
@@ -3397,7 +3397,7 @@ ro:
   gui_validation_error_plural: "%{count} erori"
   header:
     project_select_component:
-      all_projects: All projects
+      all_projects: Proiecte
       favorites: Favorite
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
@@ -3553,7 +3553,7 @@ ro:
       total_percent_complete_mode_changed_to_simple_average: Calculation of % Complete totals now based on a simple average of only % Complete values.
       total_percent_complete_mode_changed_to_work_weighted_average: Calculation of % Complete totals now weighted by Work.
       work_package_duplicate_closed: 'Duplicate work package updated:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Părinte eliminat
     changes_retracted: Modificările au fost retrase.
     non_visible:
       budget: a non-visible budget
@@ -4179,7 +4179,7 @@ ro:
   label_subitems: Subelemente
   label_subject_or_id: Subiect sau ID
   label_subproject: Subproiect
-  label_subproject_add: Add subproject
+  label_subproject_add: Adaugă subproiect
   label_subproject_plural: Subproiecte
   label_subtask_plural: Sub-activități
   label_summary: Rezumat
@@ -4777,7 +4777,7 @@ ro:
         forum_messages: Forum message posted
         membership_added: Membership added
         membership_updated: Membership updated
-        news_added: News added
+        news_added: Noutăți adăugate
         news_commented: Comment on a news item
         submit_button: Update alerts
         title: Email alerts for other items that are not work packages
@@ -5149,7 +5149,7 @@ ro:
           label: Drag to reorder
         menu:
           label_actions: Work package actions
-        parent: Parent
+        parent: Părinte
         undisclosed: Undisclosed
   page:
     text: Text
@@ -5553,7 +5553,7 @@ ro:
           title: Atributele proiectului
         is_for_all_blank_slate:
           description: This project attribute is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: For all projects
+          heading: Pentru toate proiectele
       public_confirmation:
         checkbox: I understand that this will make the previously private content public
         description: 'Anyone who has access to this instance will be able to view and interact with this project depending on their role and authentication settings. Sub-projects are not affected and have their own settings.
@@ -6153,7 +6153,7 @@ ro:
       heading_description: These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level.
       label_add_attribute: Add a project attribute
       label_edit_section: Editează titlul
-      label_for_all_projects: All projects
+      label_for_all_projects: Toate proiectele
       label_new_attribute: Atribut proiect
       label_new_section: Secțiune
       label_no_project_custom_fields: No project attributes defined in this section
@@ -6634,7 +6634,7 @@ ro:
         tab: Defaults
         token:
           context:
-            parent: Parent
+            parent: Părinte
             project: Project
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
@@ -6746,7 +6746,7 @@ ro:
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
-        disable_all: Disable for all projects
+        disable_all: Dezactivează pentru toate proiectele
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
@@ -6841,7 +6841,7 @@ ro:
               label: Empty
           success: The configuration mode was switched.
           title: Manual configuration
-        parent_suffix: " (parent)"
+        parent_suffix: " (părinte)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
