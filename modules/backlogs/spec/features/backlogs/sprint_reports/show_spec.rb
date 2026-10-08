@@ -88,8 +88,12 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       expect(widget_boxes[2]).to have_css("opce-wp-overview-graph")
     end
 
-    it "renders the burndown chart widget fourth" do
-      expect(widget_boxes[3]).to have_css("opce-burndown-chart")
+    it "renders the velocity chart widget fourth" do
+      expect(widget_boxes[3]).to have_css("opce-velocity-chart")
+    end
+
+    it "renders the burndown chart widget fifth" do
+      expect(widget_boxes[4]).to have_css("opce-burndown-chart")
     end
   end
 end
