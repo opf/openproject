@@ -29,38 +29,19 @@
 #++
 
 module WorkPackageTypes
-  # The contents of one variant's row, wherever variants are listed: the type's variants tab, the
-  # type's group on the types index, and a project's own list of the variants it may use. The
-  # row's action menu is not part of this: it hangs off the surrounding list item, and each list
-  # points it back at itself.
-  class VariantRowComponent < ApplicationComponent
+  class MigratedVariantsBannerComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    include WorkPackageTypes::VariantRoutes
 
-    renders_one :caption, ->(**system_arguments) { Primer::Beta::Text.new(color: :muted, ml: 2, **system_arguments) }
-
-    # What a list says about the variant in use here. Takes markup: one list uses an icon.
-    renders_one :state
-
-    renders_many :status_labels, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
-
-    # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
-    #   where the reader may not open it.
-    # @param project [Project, nil] the project whose list this is, nil in administration.
-    def initialize(variant:, linked: true, project: nil)
+    def initialize(variants:)
       super()
 
-      @variant = variant
-      @linked = linked
-      @project = project
+      @variants = variants
     end
+
+    def render? = @variants.created_by_migration.exists?
 
     private
 
-    attr_reader :variant, :linked, :project
-
-    alias_method :linked?, :linked
-
-    def settings_path = variant_settings_path(project, variant)
+    def label = t("types.index.created_by_migration")
   end
 end

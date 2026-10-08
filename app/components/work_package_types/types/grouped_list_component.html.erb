@@ -66,6 +66,9 @@ See COPYRIGHT and LICENSE files for more details.
               <% item.with_menu(menu_id: variant_menu_id(child), src: variant_menu_src(child)) %>
               <%= render(WorkPackageTypes::VariantRowComponent.new(variant: child)) do |row| %>
                 <% row.with_caption { t("types.index.variant_label") } %>
+                <% if child.created_by_migration? %>
+                  <% row.with_status_label(scheme: :attention) { t("types.index.created_by_migration") } %>
+                <% end %>
                 <% if child.enabled_in_new_projects? %>
                   <% row.with_status_label { t("types.index.enabled_in_new_projects") } %>
                 <% end %>

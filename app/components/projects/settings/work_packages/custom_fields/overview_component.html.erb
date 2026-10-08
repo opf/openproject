@@ -27,9 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{t(:label_work_package_types)} #{h @type.name}" %>
+<%= render(WorkPackageTypes::MigratedVariantsBannerComponent.new(variants: TypeVariant.where(id: applied_variants))) %>
 
-<%= render ::Types::EditPageHeaderComponent.new(type: @type, tabs: types_tabs) %>
+<%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mb: 3)) { t("projects.settings.custom_fields.description") } %>
 
-<%= render WorkPackageTypes::VariantsListComponent.new(type: @type, query: params[:query],
-                                                      created_by_migration: params[:created_by_migration]) %>
+<%= render(
+      Projects::Settings::WorkPackages::CustomFields::TableComponent.new(
+        project:,
+        variants_by_field:,
+        test_selector: "project-custom-fields"
+      )
+    ) %>

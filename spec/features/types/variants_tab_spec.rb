@@ -90,4 +90,60 @@ RSpec.describe "Work package type variants tab", :js do
 
     expect(page).to have_current_path(tab_path)
   end
+
+  describe "variants a migration created" do
+    let!(:converted) do
+      create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+    end
+
+    before { refresh }
+
+    it "explains on a banner what the migrated variants are" do
+      expect(page).to have_test_selector("migrated-variants-banner",
+                                         text: I18n.t("types.index.migrated_variants_banner.cleanup").strip)
+    end
+
+    it "labels them, leaving the authored ones unlabelled" do
+      within(".Box-row", text: converted.variant_name) do
+        expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+      end
+
+      within(".Box-row", text: hardware.variant_name) do
+        expect(page).to have_no_css(".Label--attention")
+      end
+    end
+
+    it "filters the list down to them and back out again" do
+      within_test_selector("type-variants-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(hardware.variant_name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.migrated"))
+
+      within_test_selector("type-variants-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.all")
+      end
+
+      expect(page).to have_text(hardware.variant_name)
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_css(".SegmentedControl-item--selected",
+                               text: I18n.t("types.edit.variants.created_by_migration_filter.all"))
+    end
+
+    it "keeps the name filter while the migration filter is applied" do
+      find("[data-action~='click:sub-header#expandFilterInput']", match: :first).click
+      fill_in "query", with: "Converted"
+
+      within_test_selector("type-variants-migration-filter") do
+        click_on I18n.t("types.edit.variants.created_by_migration_filter.migrated")
+      end
+
+      expect(page).to have_field("query", with: "Converted")
+      expect(page).to have_text(converted.variant_name)
+      expect(page).to have_no_text(hardware.variant_name)
+    end
+  end
 end

@@ -36,16 +36,17 @@ module WorkPackageTypes
 
     FRAME_ID = "type-variants-list"
 
-    def initialize(type:, query: nil)
+    def initialize(type:, query: nil, created_by_migration: nil)
       super()
 
       @type = type
       @query = query.presence
+      @created_by_migration = created_by_migration.presence
     end
 
     private
 
-    attr_reader :type, :query
+    attr_reader :type, :query, :created_by_migration
 
     # The base variant is the type itself, which the sibling tabs already configure, so only the
     # named ones are listed here.
@@ -55,9 +56,12 @@ module WorkPackageTypes
       @variants ||= begin
         scope = named_variants
         scope = scope.with_name_like(query) if query
+        scope = scope.created_by_migration if migration_filter?
         scope.in_display_order
       end
     end
+
+    def migration_filter? = created_by_migration == "t"
 
     def any_variants? = named_variants.exists?
 

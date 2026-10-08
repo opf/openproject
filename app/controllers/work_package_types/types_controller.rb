@@ -45,7 +45,14 @@ module WorkPackageTypes
     def index
       @expanded_type_id = expanded_type_id
       @page_args = page_args
+      @query = params[:query].presence
       @types = types_for_index
+
+      return unless turbo_frame_request?
+
+      render Types::GroupedListComponent.new(types: @types, expanded_type_id: @expanded_type_id,
+                                             page_args: @page_args, query: @query),
+             layout: false
     end
 
     def type
@@ -103,9 +110,12 @@ module WorkPackageTypes
     end
 
     def types_for_index
-      ::Type
+      scope = ::Type
         .includes(:color, :projects,
                   variants: [:workflow, { form_configuration: :custom_fields }])
+      scope = scope.with_own_or_variant_name_like(@query) if @query
+
+      scope
         .page(page_param)
         .per_page(per_page_param)
     end

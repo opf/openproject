@@ -81,6 +81,14 @@ module Settings
           }
         end
 
+        if show_types?
+          tabs << {
+            name: "custom_fields",
+            path: project_settings_work_packages_custom_fields_path,
+            label: t(:label_custom_field_plural)
+          }
+        end
+
         tabs << {
           name: "internal_comments",
           path: project_settings_work_packages_internal_comments_path,
