@@ -56,9 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
                       title: t(:button_quote),
                       class: 'boards--quote-button no-decoration-on-hover',
                       data: { 'action': 'forum-messages#quote' },
-                      alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply')
-
-          %>
+                      alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
           <%= link_to(icon_wrapper('icon-context icon-edit', t(:button_edit)),
                       { action: 'edit', id: message },
                       title: t(:button_edit),

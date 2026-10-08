@@ -31,8 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Primer::Beta::Subhead.new(spacious: true)) do |component|
         component.with_heading { t(".heading") }
         component.with_description { t(".description") }
-      end
-  %>
+      end %>
 
   <%= render(Admin::ScimClients::TokenTableComponent.new(rows: access_tokens)) %>
 

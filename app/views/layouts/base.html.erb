@@ -119,9 +119,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= main_menu %>
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
-          <%=
-            render(EnterpriseEdition::TrialTeaserComponent.new)
-          %>
+          <%= render(EnterpriseEdition::TrialTeaserComponent.new) %>
           <!-- Sidebar -->
           <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
