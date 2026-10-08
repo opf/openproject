@@ -44,6 +44,11 @@ linter:
     erb-require-whitespace-inside-tags:
       enabled: false
 
+    # 0.11 rejects the `href="#"` placeholders of the legacy static markup.
+    html-anchor-require-href:
+      exclude:
+        - 'lookbook/previews/open_project/deprecated/**/*'
+
   #   erb-no-extra-newline:
   #     enabled: false
   #

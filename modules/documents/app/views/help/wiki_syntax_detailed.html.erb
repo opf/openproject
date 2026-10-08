@@ -59,11 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% html_title "Wiki Formatting" %>
-<h1><a name="1" class="wiki-page"></a>Wiki Formatting</h1>
+<h1 id="1">Wiki Formatting</h1>
 
-    <h2><a name="2" class="wiki-page"></a>Links</h2>
+    <h2 id="2">Links</h2>
 
-        <h3><a name="3" class="wiki-page"></a>OpenProject links</h3>
+        <h3 id="3">OpenProject links</h3>
 
         <p>OpenProject allows hyperlinking between issues, changesets and wiki pages from anywhere wiki formatting is used.</p>
         <ul>
@@ -158,7 +158,7 @@ See COPYRIGHT and LICENSE files for more details.
             <li>You can prevent OpenProject links from being parsed by preceding them with an exclamation mark: !</li>
         </ul>
 
-        <h3><a name="4" class="wiki-page"></a>External links</h3>
+        <h3 id="4">External links</h3>
 
         <p>HTTP URLs and email addresses are automatically turned into clickable links:</p>
 
@@ -176,11 +176,11 @@ https://www.openproject.org, someone@foo.bar
 
         <p>displays: <a href="https://www.openproject.org" class="external">OpenProject web site</a></p>
 
-    <h2><a name="5" class="wiki-page"></a>Text formatting</h2>
+    <h2 id="5">Text formatting</h2>
 
     <p>For things such as headlines, bold, tables, lists, OpenProject supports Textile syntax.  See <a class="external" href="http://www.textism.com/tools/textile/">http://www.textism.com/tools/textile/</a> for information on using any of these features.  A few samples are included below, but the engine is capable of much more of that.</p>
 
-        <h3><a name="6" class="wiki-page"></a>Font style</h3>
+        <h3 id="6">Font style</h3>
 
 <pre>
 * *bold*
@@ -200,7 +200,7 @@ https://www.openproject.org, someone@foo.bar
             <li><del>strike-through</del></li>
         </ul>
 
-        <h3><a name="7" class="wiki-page"></a>Inline images</h3>
+        <h3 id="7">Inline images</h3>
 
         <ul>
             <li><strong>!image_url!</strong> displays an image located at image_url (textile syntax)</li>
@@ -208,7 +208,7 @@ https://www.openproject.org, someone@foo.bar
             <li>If you have an image attached to your wiki page, it can be displayed inline using its filename: <strong>!attached_image.png!</strong></li>
         </ul>
 
-        <h3><a name="8" class="wiki-page"></a>Headings</h3>
+        <h3 id="8">Headings</h3>
 
 <pre>
 h1. Heading
@@ -218,7 +218,7 @@ h3. Subsubheading
 
         <p>OpenProject assigns an anchor to each of those headings thus you can link to them with "#Heading", "#Subheading" and so forth.</p>
 
-        <h3><a name="9" class="wiki-page"></a>Paragraphs</h3>
+        <h3 id="9">Paragraphs</h3>
 
 <pre>
 p>. right aligned
@@ -227,7 +227,7 @@ p=. centered
 
         <p style="text-align:center;">This is a centered paragraph.</p>
 
-        <h3><a name="10" class="wiki-page"></a>Blockquotes</h3>
+        <h3 id="10">Blockquotes</h3>
 
         <p>Start the paragraph with <strong>bq.</strong></p>
 
@@ -242,14 +242,14 @@ To go live, all you need to add is a database and a web server.
                 <p>Rails is a full-stack framework for developing database-backed web applications according to the Model-View-Control pattern.<br>To go live, all you need to add is a database and a web server.</p>
         </blockquote>
 
-        <h3><a name="11" class="wiki-page"></a>Table of content</h3>
+        <h3 id="11">Table of content</h3>
 
 <pre>
 {{toc}} => left aligned toc
 {{>toc}} => right aligned toc
 </pre>
 
-    <h2><a name="12" class="wiki-page"></a>Macros</h2>
+    <h2 id="12">Macros</h2>
 
     <p>OpenProject has the following builtin macros:</p>
 
@@ -257,7 +257,7 @@ To go live, all you need to add is a database and a web server.
 
     <pre><code>{{include(Foo)}}</code></pre></dd><dt><code>macro_list</code></dt><dd><p>Displays a list of all available macros, including description if available.</p></dd></dl>
 
-    <h2><a name="13" class="wiki-page"></a>Code highlighting</h2>
+    <h2 id="13">Code highlighting</h2>
 
     <p>Code highlightment relies on <a href="http://coderay.rubychan.de/" class="external">CodeRay</a>, a fast syntax highlighting library written completely in Ruby. It currently supports c, cpp, css, delphi, groovy, html, java, javascript, json, php, python, rhtml, ruby, scheme, sql, xml and yaml languages.</p>
 
