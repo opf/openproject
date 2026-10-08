@@ -25,24 +25,50 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
-#++
 
 module AI
   module TextTransforms
-    class Gateway
-      Readiness = Data.define(:ready, :reason) do
-        def ready? = ready
+    # Development stand-in that needs no LLM connection: reports ready and
+    # streams the submitted content back word by word.
+    class EchoGateway < Gateway
+      ENV_KEY = "OPENPROJECT_AI_TEXT_TRANSFORM_ECHO_GATEWAY"
+
+      def self.enabled?
+        !Rails.env.production? && ActiveModel::Type::Boolean.new.cast(ENV.fetch(ENV_KEY, false)) == true
       end
 
-      class << self
-        attr_accessor :factory
+      def initialize(delay: 0.05)
+        super()
+        @delay = delay
+      end
 
-        def build
-          return EchoGateway.new if EchoGateway.enabled?
+      def readiness
+        Readiness.new(true, nil)
+      end
 
-          factory&.call || NullGateway.new
+      def stream(system:, user:, **)
+        text = echo_text(system:, user:)
+
+        text.scan(/\S+\s*|\s+/).each do |chunk|
+          yield chunk
+          sleep(@delay) if @delay.positive?
         end
+
+        text
+      end
+
+      private
+
+      def echo_text(system:, user:)
+        <<~TEXT.chomp
+          #{user}
+
+          ---
+
+          _Echo gateway: no LLM connected. The action's instructions were:_
+
+          > #{system.to_s.lines.map(&:chomp).join("\n> ")}
+        TEXT
       end
     end
   end

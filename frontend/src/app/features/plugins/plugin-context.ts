@@ -60,6 +60,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalEventsService } from '../hal/services/hal-events.service';
+import { AiActionsService } from 'core-app/core/ai-actions/ai-actions.service';
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
  * in order to access services and parts of the core application
@@ -97,6 +98,7 @@ export class OpenProjectPluginContext {
     http: this.injector.get(HttpClient),
     turboRequests: this.injector.get(TurboRequestsService),
     currentProject: this.injector.get(CurrentProjectService),
+    aiActions: this.injector.get(AiActionsService),
   };
 
   public readonly helpers = {
