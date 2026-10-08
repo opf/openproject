@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,33 +31,9 @@
 require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::ProjectFilter do
-  let(:project1) { build_stubbed(:project) }
-  let(:project2) { build_stubbed(:project) }
+  include_context "with visible projects"
 
-  before do
-    allow(Project)
-      .to receive_message_chain(:visible, :pluck)
-      .with(:id)
-      .and_return([project1.id, project2.id])
-  end
+  let(:model) { TimeEntry }
 
-  it_behaves_like "basic query filter" do
-    let(:class_key) { :project_id }
-    let(:type) { :list_optional }
-    let(:name) { TimeEntry.human_attribute_name(:project) }
-
-    describe "#allowed_values" do
-      it "is a list of the possible values" do
-        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
-
-        expect(instance.allowed_values).to match_array(expected)
-      end
-    end
-  end
-
-  it_behaves_like "list_optional query filter" do
-    let(:attribute) { :project_id }
-    let(:model) { TimeEntry }
-    let(:valid_values) { [project1.id.to_s] }
-  end
+  it_behaves_like "project_id list_optional filter"
 end

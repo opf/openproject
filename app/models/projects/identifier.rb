@@ -109,6 +109,10 @@ module Projects::Identifier
       str.match?(CLASSIC_FORMAT)
     end
 
+    def by_identifiers_ci(identifiers)
+      where("LOWER(identifier) IN (?)", identifiers.map(&:downcase))
+    end
+
     def with_non_classic_identifier
       where("identifier !~ ?", "^#{CLASSIC_FORMAT_CHARS.source}$")
     end
