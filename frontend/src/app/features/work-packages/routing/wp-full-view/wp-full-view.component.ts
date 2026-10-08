@@ -61,7 +61,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayReminderButton$:Observable<boolean> = of(false);
 
-  public displayAddToTodayButton = inject(ConfigurationService).activeFeatureFlags.includes('myDay');
+  public displayAddToTodayButton = inject(ConfigurationService).activeFeatureFlags.includes('planner');
 
   public displayShareButton$:Observable<boolean> = of(false);
 

@@ -83,7 +83,7 @@
                 "pause_reminders": {
                   "$ref": "#/definitions/PauseReminders"
                 },
-                "my_day_project_id": {
+                "planner_project_id": {
                   "type": ["integer", "null"]
                 }
             },
