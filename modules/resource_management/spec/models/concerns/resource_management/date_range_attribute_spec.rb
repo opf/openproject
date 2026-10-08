@@ -41,8 +41,6 @@ RSpec.describe ResourceManagement::DateRangeAttribute do
       expect(model.end_date).to eq(Date.new(2026, 10, 9))
     end
 
-    # The range date picker collapses a range that starts and ends on the same
-    # day into that single date.
     it "treats a single date without separator as a one-day range" do
       model.date_range = "2026-10-07"
 

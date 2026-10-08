@@ -49,6 +49,9 @@ module ResourceManagement
 
     def date_range=(value)
       from, to = value.to_s.split(SEPARATOR, 2)
+      # The range date picker collapses a range starting and ending on the same
+      # day into that single date.
+      to = from unless value.to_s.include?(SEPARATOR)
 
       self.start_date = from.presence
       self.end_date = to.presence
