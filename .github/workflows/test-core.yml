@@ -20,68 +20,215 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
+
+# github.head_ref is only availabe in PR context and if it is absent then github.run_id
+# is used . And github.run_id is unique for each workflow run. So, this option makes
+# sure that there is only one build running for a pull request and the build is attached
+# to the last commit of the PR.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-  all:
-    name: Units + Features
+  setup:
+    name: Setup
     if: github.repository_owner == 'opf'
-    runs-on:
+    runs-on: &runs-on
       labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
-    timeout-minutes: 40
-    env:
-      DOCKER_BUILDKIT: 1
-      CI_RETRY_COUNT: 3
+    timeout-minutes: 10
+    outputs:
+      docker-hash: ${{ steps.constants.outputs.docker-hash }}
+      gem-hash: ${{ steps.constants.outputs.gem-hash }}
+      database-hash: ${{ steps.constants.outputs.database-hash }}
+      assets-hash: ${{ steps.constants.outputs.assets-hash }}
+      hocuspocus-hash: ${{ steps.constants.outputs.hocuspocus-hash }}
     steps:
     - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
     - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         persist-credentials: false
+    - name: Constants
+      id: constants
+      run: |
+        cat << EOF >> "$GITHUB_OUTPUT"
+        docker-hash=${{ runner.os }}-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        frontend-hash=${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        gem-hash=${{ runner.os }}-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        database-hash=${{ hashFiles('db/migrate/**', 'modules/*/db/migrate/**', 'Gemfile.lock', 'docker/ci/database.yml') }}
+        assets-hash=${{ github.sha }}
+        hocuspocus-hash=${{ hashFiles('extensions/op-blocknote-hocuspocus/package-lock.json') }}
+        EOF
     - name: Cache DOCKER
       id: cache_docker
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
-        path: cache/docker
+        path: tmp/ci-cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
-        key: ${{ runner.os }}-docker-ci-${{ hashFiles('docker-compose.ci.yml', 'docker/ci/*', '.ruby-version', 'bin/ci') }}
+        key: docker-${{ steps.constants.outputs.docker-hash }}
     - name: Restore CI image from cache
       if: steps.cache_docker.outputs.cache-hit == 'true'
-      run: docker load -i cache/docker/image.tar
+      run: docker load -i tmp/ci-cache/docker/image.tar
+    - name: Build and cache CI image
+      if: steps.cache_docker.outputs.cache-hit != 'true'
+      run: |
+        bin/ci ruby -v
+        mkdir -p tmp/ci-cache/docker
+        docker save openproject-ci -o tmp/ci-cache/docker/image.tar
     - name: Cache GEM
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
-        path: cache/bundle
-        key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
+        path: tmp/ci-cache/bundle
+        key: gem-${{ steps.constants.outputs.gem-hash }}
         restore-keys: |
-          gem-trixie-${{ hashFiles('.ruby-version') }}-
+          gem-${{ runner.os }}-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
-        path: cache/node
-        key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        path: tmp/ci-cache/node
+        key: node-${{ steps.constants.outputs.frontend-hash }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
-        path: cache/angular
-        key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
+        path: tmp/ci-cache/angular
+        key: angular-${{ steps.constants.outputs.frontend-hash }}
         restore-keys: |
           angular-
-    - name: Cache TEST RUNTIME
-      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
+    - name: Cache DATABASE
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
       with:
-        path: cache/runtime-logs
-        key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
+        path: |
+          db/structure.sql
+          config/database.yml
+        key: database-${{ steps.constants.outputs.database-hash }}
+    - name: Cache ASSETS
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: |
+          public/assets
+          config/frontend_assets.manifest.json
+        key: assets-${{ steps.constants.outputs.assets-hash }}
+    - name: Cache HOCUSPOCUS
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: extensions/op-blocknote-hocuspocus/node_modules
+        key: hocuspocus-${{ steps.constants.outputs.hocuspocus-hash }}
         restore-keys: |
-          runtime-logs-${{ github.head_ref || github.ref }}-
-          runtime-logs-
+          hocuspocus-
+    - name: Cache SELENIUM
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/selenium
+        key: selenium-${{ steps.constants.outputs.docker-hash }}
     - name: Build
       run: bin/ci setup-tests
     - name: APIv3 specification (OpenAPI 3.0)
       run: bin/ci ./script/api/validate_spec
+    - name: Report cache info
+      if: ${{ always() }}
+      run: |
+        ls -al tmp/ci-cache/ || true
+        du -sh tmp/ci-cache/* || true
+
+  units:
+    name: Units
+    needs: setup
+    if: github.repository_owner == 'opf'
+    runs-on: *runs-on
+    timeout-minutes: 10
+    steps:
+    - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - &restore-docker-cache
+      name: Restore DOCKER cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/docker
+        key: docker-${{ needs.setup.outputs.docker-hash }}
+        fail-on-cache-miss: true
+    - &restore-gem-cache
+      name: Restore GEM cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/bundle
+        key: gem-${{ needs.setup.outputs.gem-hash }}
+        fail-on-cache-miss: true
+    - &restore-database-cache
+      name: Restore DATABASE cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: |
+          db/structure.sql
+          config/database.yml
+        key: database-${{ needs.setup.outputs.database-hash }}
+        fail-on-cache-miss: true
+    - name: Cache TEST RUNTIME
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/runtime-logs
+        key: runtime-logs-units-${{ github.head_ref || github.ref }}-${{ github.sha }}
+        restore-keys: |
+          runtime-logs-units-${{ github.head_ref || github.ref }}-
+          runtime-logs-units-
+    - name: Restore CI image from cache
+      run: docker load -i tmp/ci-cache/docker/image.tar
     - name: Unit tests
       run: bin/ci run-units
+    - name: Report cache info
+      if: ${{ always() }}
+      run: |
+        ls -al tmp/ci-cache/runtime-logs || true
+
+  features:
+    name: Features
+    needs: setup
+    if: github.repository_owner == 'opf'
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: *runs-on
+    timeout-minutes: 30
+    steps:
+    - uses: runs-on/action@efac073ea2507ec18797de3a81704201ade11d9d # v2.3.1
+    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+    - *restore-docker-cache
+    - *restore-gem-cache
+    - *restore-database-cache
+    - name: Restore ASSETS cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: |
+          public/assets
+          config/frontend_assets.manifest.json
+        key: assets-${{ needs.setup.outputs.assets-hash }}
+        fail-on-cache-miss: true
+    - name: Restore HOCUSPOCUS cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: extensions/op-blocknote-hocuspocus/node_modules
+        key: hocuspocus-${{ needs.setup.outputs.hocuspocus-hash }}
+        fail-on-cache-miss: true
+    - name: Restore SELENIUM cache
+      uses: runs-on/cache/restore@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/selenium
+        key: selenium-${{ needs.setup.outputs.docker-hash }}
+        fail-on-cache-miss: true
+    - name: Cache TEST RUNTIME
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5.0.7
+      with:
+        path: tmp/ci-cache/runtime-logs
+        key: runtime-logs-features-${{ github.head_ref || github.ref }}-${{ github.sha }}
+        restore-keys: |
+          runtime-logs-features-${{ github.head_ref || github.ref }}-
+          runtime-logs-features-
+    - name: Restore CI image from cache
+      run: docker load -i tmp/ci-cache/docker/image.tar
     - name: Feature tests
       env:
         CAPYBARA_DOWNLOADED_FILE_DIR: /tmp/ci/downloads
@@ -110,20 +257,7 @@ jobs:
             fi
           fi
         fi
-    - name: Save CI image to cache
-      if: steps.cache_docker.outputs.cache-hit != 'true'
-      run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar
-    - name: Cleanup
+    - name: Report cache info
       if: ${{ always() }}
       run: |
-        ls -al cache/runtime-logs || true
-        ls -al cache/ || true
-        du -sh cache/* || true
-
-# github.head_ref is only availabe in PR context and if it is absent then github.run_id
-# is used . And github.run_id is unique for each workflow run. So, this option makes
-# sure that there is only one build running for a pull request and the build is attached
-# to the last commit of the PR.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+        ls -al tmp/ci-cache/runtime-logs || true

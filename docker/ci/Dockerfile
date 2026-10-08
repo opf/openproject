@@ -31,14 +31,17 @@ ARG APP_USER_UID
 ARG APP_USER_GID
 
 RUN groupadd --force --gid $APP_USER_GID $APP_USER && \
-  useradd -d $APP_PATH -m $APP_USER -s /bin/bash --uid $APP_USER_UID --gid $APP_USER_GID && \
-  chown -R $APP_USER:$APP_USER /usr/local/bundle
+  useradd -d /home/$APP_USER -m $APP_USER -s /bin/bash --uid $APP_USER_UID --gid $APP_USER_GID && \
+  mkdir -p $APP_PATH && \
+  chown -R $APP_USER:$APP_USER /usr/local/bundle $APP_PATH
 
 ENV CI=true
 ENV RAILS_ENV=test
 ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
 ENV CAPYBARA_BIND_ADDRESS=0.0.0.0
 ENV CAPYBARA_DOWNLOADED_FILE_DIR=/tmp
+# change from default $HOME/.cache/selenium
+ENV SE_CACHE_PATH=$APP_PATH/tmp/ci-cache/selenium
 # disable deprecations and other warnings in output
 ENV RUBYOPT="-W0"
 
