@@ -11,7 +11,7 @@
 # GitHub Repo: https://github.com/marcoroth/herb
 #
 
-version: 0.8.5
+version: 0.11.0
 
 files:
   # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
@@ -53,6 +53,38 @@ linter:
     html-head-only-elements:
       exclude:
         - 'lookbook/previews/**/*'
+
+    # Disabled by `herb-lint --upgrade`: re-enable once the offenses are fixed.
+    erb-closing-tag-indent:
+      enabled: false
+    erb-no-duplicate-branch-elements:
+      enabled: false
+    erb-no-instance-variables-in-partials:
+      enabled: false
+    erb-no-interpolated-class-names:
+      enabled: false
+    erb-no-method-definitions:
+      enabled: false
+    erb-no-shadowed-block-argument:
+      enabled: false
+    erb-no-unsafe-raw:
+      enabled: false
+    erb-no-unused-block-argument:
+      enabled: false
+    erb-no-unused-expressions:
+      enabled: false
+    erb-no-unused-local-variable:
+      enabled: false
+    erb-prefer-direct-output:
+      enabled: false
+    html-no-nested-forms:
+      enabled: false
+    html-no-unescaped-entities:
+      enabled: false
+    html-require-script-nonce:
+      enabled: false
+    ujs-prefer-turbo-method:
+      enabled: false
 
   #   erb-no-extra-newline:
   #     enabled: false
