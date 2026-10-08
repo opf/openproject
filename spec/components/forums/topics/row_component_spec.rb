@@ -45,6 +45,15 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
       .to have_link("Release planning", href: "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}")
   end
 
+  context "with formatted content" do
+    let(:topic) { create(:message, forum:, content: "**Agenda** for the next release\n\n- Scope\n- Dates") }
+
+    it "previews the start of the opening post as plain text", :aggregate_failures do
+      expect(rendered_component).to have_test_selector("topic-preview", text: /\AAgenda for the next release\s+Scope\s+Dates\z/)
+      expect(rendered_component).to have_no_css("#{test_selector('topic-preview')} strong")
+    end
+  end
+
   context "when sticky and locked" do
     let(:topic) { create(:message, forum:, sticky: true, locked: true) }
 

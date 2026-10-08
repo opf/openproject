@@ -39,11 +39,7 @@ module Forums
       def row_data = { test_selector: "topic-row-#{topic.id}" }
 
       def subject
-        flex_layout(align_items: :center) do |flex|
-          flex.with_column(mr: 1) { flag(:pin, I18n.t("js.label_board_sticky"), "topic-sticky") } if topic.sticky?
-          flex.with_column(mr: 1) { flag(:lock, I18n.t("js.label_board_locked"), "topic-locked") } if topic.locked?
-          flex.with_column(classes: "ellipsis") { subject_link }
-        end
+        safe_join([subject_line, preview])
       end
 
       def author
@@ -64,6 +60,21 @@ module Forums
 
       def reply_path(reply)
         project_forum_topic_path(project, forum, topic, r: reply.id, anchor: "message-#{reply.id}")
+      end
+
+      def subject_line
+        flex_layout(align_items: :center) do |flex|
+          flex.with_column(mr: 1) { flag(:pin, I18n.t("js.label_board_sticky"), "topic-sticky") } if topic.sticky?
+          flex.with_column(mr: 1) { flag(:lock, I18n.t("js.label_board_locked"), "topic-locked") } if topic.locked?
+          flex.with_column(classes: "ellipsis") { subject_link }
+        end
+      end
+
+      def preview
+        render(Primer::Beta::Text.new(tag: :div, mt: 1, pr: 4, color: :muted, font_size: :small, classes: "ellipsis",
+                                      test_selector: "topic-preview")) do
+          helpers.truncate_formatted_text(topic.content, length: 200, replace_newlines: false)
+        end
       end
 
       def subject_link
