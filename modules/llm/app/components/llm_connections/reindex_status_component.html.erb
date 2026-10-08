@@ -1,0 +1,30 @@
+<%= render(Primer::Box.new(mt: 3)) do %>
+  <%= render(Primer::Beta::Text.new(tag: :p, mb: 1)) do %>
+    <%= t(
+          "admin.work_package_embeddings.status.summary",
+          finished: finished_count,
+          total: batches.size,
+          wall_clock: wall_clock || "—",
+          average: average_duration || "—"
+        ) %>
+  <% end %>
+
+  <%= render(Primer::Beta::ProgressBar.new(mb: 2)) { |bar| bar.with_item(percentage:) } %>
+
+  <% if failed_batches.any? %>
+    <%= render(Primer::Alpha::Banner.new(scheme: :danger, mb: 2, icon: :alert)) do %>
+      <%= t("admin.work_package_embeddings.status.failed", count: failed_batches.size) %>
+    <% end %>
+  <% end %>
+
+  <% if batches.any? %>
+    <details>
+      <summary><%= t("admin.work_package_embeddings.status.batches") %></summary>
+      <ol class="f6 mt-1">
+        <% batches.each do |job| %>
+          <li class="<%= "color-fg-danger" if job.error.present? %>"><%= status(job) %></li>
+        <% end %>
+      </ol>
+    </details>
+  <% end %>
+<% end %>

@@ -50,5 +50,6 @@
                   reindex_work_package_embeddings_path,
                   method: :post,
                   class: "Button Button--secondary Button--small mt-3" %>
+    <%= render(LlmConnections::ReindexStatusComponent.new) %>
   <% end %>
 <% end %>

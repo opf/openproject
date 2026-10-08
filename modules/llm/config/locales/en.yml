@@ -131,6 +131,14 @@ en:
       reindex:
         button: "Re-index work packages"
         enqueued: "Work package indexing has been enqueued. Embeddings will be updated in the background."
+      status:
+        batches: "Requests"
+        failed:
+          one: "1 request failed."
+          other: "%{count} requests failed."
+        queued: "Queued"
+        running: "Running"
+        summary: "Last re-index: %{finished} of %{total} requests finished · total %{wall_clock} · average per request %{average}"
     llm_health_status:
       create:
         success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."
