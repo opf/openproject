@@ -35,7 +35,7 @@ class Tables::CostEntries < Tables::Base
     create_table migration do |t|
       t.bigint :user_id, null: false
       t.bigint :project_id, null: false
-      t.bigint :work_package_id, null: false
+      t.bigint :work_package_id
       t.bigint :cost_type_id, null: false
       t.float :units, null: false
       t.date :spent_on, null: false
@@ -49,6 +49,11 @@ class Tables::CostEntries < Tables::Base
       t.integer :tmonth, null: false
       t.integer :tweek, null: false
       t.references :logged_by, foreign_key: { to_table: :users }, index: true
+      # The polymorphic reference's index duplicates the one on
+      # entity_type and entity_id below.
+      t.references :entity, polymorphic: true
+
+      t.index %i[entity_type entity_id]
     end
   end
 end

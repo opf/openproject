@@ -34,14 +34,17 @@ Dir[File.join(__dir__, "tables/*.rb")].each { |file| require file }
 
 class AggregatedMeetingMigrations < SquashedMigration
   squashed_migrations *%w[
-    1003015_aggregated_meeting_migrations
-    20250318123314_add_backlog_to_meeting_sections
-    20240426073948_create_recurring_meetings
-    20241122143600_add_interval_to_recurring_meeting
-    20241128190428_create_scheduled_meetings
-    20250211185841_create_meeting_outcomes
-    20250227140619_change_unique_constraint_on_scheduled_meetings
-    20250304082924_add_time_zone_to_recurring_meetings
+    1003016_aggregated_meeting_migrations
+    20250404060850_add_author_to_outcome
+    20250404061503_migrate_classic_meetings
+    20250428114958_cleanup_meeting_permissions
+    20250624155721_rename_create_minutes_to_manage_outcomes
+    20250703143214_add_uid_to_meetings
+    20250804083253_remove_times_for_meeting_agenda_items
+    20250808062421_fix_missing_meetings_attachments
+    20250821092618_add_indices_to_meeting_participants
+    20250416141059_add_backlogs_to_one_time_meetings
+    20250709103506_add_notify_status_to_meetings
   ].freeze
 
   tables Tables::MeetingContents,

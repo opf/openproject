@@ -39,6 +39,8 @@ class Tables::MeetingOutcomes < Tables::Base
       t.integer :kind, default: 0, null: false
 
       t.timestamps
+
+      t.references :author, type: :bigint, foreign_key: { to_table: :users }, null: true, index: true
     end
   end
 end

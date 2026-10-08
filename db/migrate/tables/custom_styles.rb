@@ -42,6 +42,11 @@ class Tables::CustomStyles < Tables::Base
       t.string :export_logo, default: nil
       t.string :export_cover, default: nil
       t.string :export_cover_text_color, default: nil
+      t.string :export_footer, default: nil
+      t.string :export_font_regular, null: true
+      t.string :export_font_bold, null: true
+      t.string :export_font_italic, null: true
+      t.string :export_font_bold_italic, null: true
     end
   end
 end

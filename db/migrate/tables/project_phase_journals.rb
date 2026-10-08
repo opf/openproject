@@ -39,6 +39,7 @@ class Tables::ProjectPhaseJournals < Tables::Base
       t.date :start_date
       t.date :finish_date
       t.boolean :active, default: false, null: false
+      t.integer :duration, null: true
     end
   end
 end

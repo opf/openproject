@@ -36,6 +36,11 @@ class Tables::EnterpriseTokens < Tables::Base
       t.text :encoded_token
 
       t.timestamps precision: nil
+
+      t.date :valid_from
+      t.date :valid_until
+
+      t.index %i[valid_from valid_until]
     end
   end
 end

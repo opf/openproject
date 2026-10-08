@@ -40,8 +40,6 @@ class Tables::MeetingAgendaItemJournals < Tables::Base
       t.text :notes
       t.integer :position
       t.integer :duration_in_minutes
-      t.datetime :start_time
-      t.datetime :end_time
       t.integer :work_package_id
       t.integer :item_type, limit: 1
       t.references :presenter, foreign_key: { to_table: :users }, index: true

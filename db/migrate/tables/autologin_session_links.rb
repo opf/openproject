@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,21 +26,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class DisallowNullInProjectPhasesReferences < ActiveRecord::Migration[8.0]
-  def change
-    reversible do |direction|
-      direction.up do
-        execute <<-SQL.squish
-          DELETE FROM project_phases WHERE project_id IS NULL OR definition_id IS NULL
-        SQL
-      end
-    end
+require_relative "base"
 
-    change_table(:project_phases, bulk: true) do |t|
-      t.change_null :project_id, false
-      t.change_null :definition_id, false
+class Tables::AutologinSessionLinks < Tables::Base
+  def self.table(migration)
+    create_table migration do |t|
+      t.belongs_to :token, null: false, index: true, foreign_key: { on_delete: :cascade }
+      t.belongs_to :session, index: true, null: false # cascade deletion not possible for unlogged sessions table
+
+      t.timestamps
     end
   end
 end
