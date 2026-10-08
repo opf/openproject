@@ -94,7 +94,7 @@ module Storages
               end
 
               set_permissions.call(auth_strategy:, input_data:).or do |error|
-                add_error(:hide_inactive_folders, error, options: { context: "hide folders", path: folder_map[item_id] })
+                add_error(:hide_inactive_folders, error, options: { context: "hide folders", path: folder_map[file_id] })
               end
             end
 
