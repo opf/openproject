@@ -28,34 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Helper to remove a variable from ENV and reset its setting.
-# Usage:
-# it "runs a spec", without_env: ["OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET"] do
-RSpec.configure do |config|
-  config.include_context "with settings reset", :without_env
+# Commits every write for real so threads, locks and workers see each
+# other's rows. Use only for genuine concurrency specs: all tables are
+# truncated afterwards, so stop workers first and expect no fixtures.
+RSpec.shared_context "with real database commits" do
+  self.use_transactional_tests = false
 
-  config.around do |example|
-    environment_overrides = aggregate_metadata(example, :without_env)
-    keys_to_reset = environment_overrides.to_set
-    previous = ENV.to_hash
-
-    if environment_overrides.present?
-      environment_overrides.each do |override|
-        ENV.delete(override) # e.g. OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET
-        cleaned_override = override.gsub("__", "_")
-        keys_to_reset << cleaned_override
-        ENV.delete(cleaned_override) # e.g. OPENPROJECT_COLLABORATIVE_EDITING_HOCUSPOCUS_SECRET
-        reset(cleaned_override.delete_prefix("OPENPROJECT_").downcase.to_sym) # e.g. :collaborative_editing_hocuspocus_secret
-        example.run
-      end
-    else
-      example.run
+  around do |example|
+    if ActiveRecord::Base.connection_pool.lease_connection.transaction_open?
+      raise "Enclosing transaction prevents genuine concurrency"
     end
-  ensure
-    keys_to_reset&.each do |key|
-      if previous&.key?(key)
-        ENV[key] = previous[key]
-      end
+
+    settings_rows = Setting.pluck(:name, :value).map { |name, value| { name:, value: } }
+
+    begin
+      example.run
+    ensure
+      ActiveRecord::Tasks::DatabaseTasks.truncate_all("test")
+      Setting.insert_all!(settings_rows) if settings_rows.any?
+      Setting.clear_cache
+      Rails.cache.clear
+      RequestStore.clear!
     end
   end
 end

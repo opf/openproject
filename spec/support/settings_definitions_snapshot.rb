@@ -28,34 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Helper to remove a variable from ENV and reset its setting.
-# Usage:
-# it "runs a spec", without_env: ["OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET"] do
-RSpec.configure do |config|
-  config.include_context "with settings reset", :without_env
+# `Settings::Definition#override_value` mutates Definition objects in place,
+# so a shallow `Settings::Definition.all.dup` cannot restore them. Capture
+# after boot so plugin-time mutations (e.g. the 2FA TokenStrategyManager
+# populating `active_strategies`) are part of the baseline.
+class SettingsDefinitionsSnapshot
+  Entry = Data.define(:definition, :value, :writable)
 
-  config.around do |example|
-    environment_overrides = aggregate_metadata(example, :without_env)
-    keys_to_reset = environment_overrides.to_set
-    previous = ENV.to_hash
+  def self.capture
+    new(
+      Settings::Definition.all.transform_values do |definition|
+        Entry.new(
+          definition:,
+          value: definition.instance_variable_get(:@value).deep_dup,
+          writable: definition.instance_variable_get(:@writable)
+        )
+      end.freeze
+    )
+  end
 
-    if environment_overrides.present?
-      environment_overrides.each do |override|
-        ENV.delete(override) # e.g. OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET
-        cleaned_override = override.gsub("__", "_")
-        keys_to_reset << cleaned_override
-        ENV.delete(cleaned_override) # e.g. OPENPROJECT_COLLABORATIVE_EDITING_HOCUSPOCUS_SECRET
-        reset(cleaned_override.delete_prefix("OPENPROJECT_").downcase.to_sym) # e.g. :collaborative_editing_hocuspocus_secret
-        example.run
-      end
-    else
-      example.run
+  def initialize(entries)
+    @entries = entries
+  end
+
+  def restore
+    @entries.each_value do |entry|
+      entry.definition.instance_variable_set(:@value, entry.value.deep_dup)
+      entry.definition.instance_variable_set(:@writable, entry.writable)
     end
-  ensure
-    keys_to_reset&.each do |key|
-      if previous&.key?(key)
-        ENV[key] = previous[key]
-      end
-    end
+
+    Settings::Definition.instance_variable_set(:@all, @entries.transform_values(&:definition))
+    Settings::Definition.clear_value_overrides
+    Settings::Definition.instance_variable_set(:@file_config, nil)
   end
 end
