@@ -63,8 +63,6 @@ linter:
       enabled: false
     erb-no-method-definitions:
       enabled: false
-    erb-no-shadowed-block-argument:
-      enabled: false
     erb-no-unsafe-raw:
       enabled: false
     erb-no-unused-expressions:
