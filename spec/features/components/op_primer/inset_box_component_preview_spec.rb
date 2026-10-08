@@ -54,6 +54,8 @@ RSpec.describe OpPrimer::InsetBoxComponentPreview, :component_preview, :js do
   it "renders the playground with an action menu" do
     visit_preview(:playground, from: described_class, params: { action_type: :menu })
 
+    expect(page).not_to have_selector(:menuitem, "First action")
+
     click_on "Actions"
 
     expect(page).to have_selector(:menuitem, "First action")

@@ -84,11 +84,13 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, :component_preview, :js
       visit_preview(:default, from: described_class)
 
       expect(page).to have_button(accessible_name: "Show full text", aria: { expanded: false })
+      expect(page).to have_no_button(accessible_name: "Collapse text", aria: { expanded: true })
       expect(page).to be_axe_clean.within preview_content
 
       click_button accessible_name: "Show full text"
 
       expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to have_no_button(accessible_name: "Show full text", aria: { expanded: false })
       expect(page).to be_axe_clean.within preview_content
     end
 
@@ -104,6 +106,7 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, :component_preview, :js
       visit_preview(:in_table, from: described_class)
 
       expect(page).to have_button(accessible_name: "Show full text", count: 2)
+      expect(page).to have_no_button(accessible_name: "Collapse text", aria: { expanded: true })
       expect(page).to be_axe_clean.within preview_content
 
       within(:row, "Create and manage public saved views for work packages") do
@@ -111,6 +114,7 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, :component_preview, :js
       end
 
       expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to have_no_button(accessible_name: "Show full text", count: 2)
       expect(page).to be_axe_clean.within preview_content
     end
 
@@ -118,11 +122,13 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, :component_preview, :js
       visit_preview(:multi_line, from: described_class)
 
       expect(page).to have_button(accessible_name: "Show full text", aria: { expanded: false })
+      expect(page).to have_no_button(accessible_name: "Collapse text", aria: { expanded: true })
       expect(page).to be_axe_clean.within preview_content
 
       click_button accessible_name: "Show full text"
 
       expect(page).to have_button(accessible_name: "Collapse text", aria: { expanded: true })
+      expect(page).to have_no_button(accessible_name: "Show full text", aria: { expanded: false })
       expect(page).to be_axe_clean.within preview_content
     end
 
