@@ -13,6 +13,8 @@
 
 version: 0.11.0
 
+framework: actionview
+
 files:
   # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
   # include:
@@ -48,6 +50,13 @@ linter:
     html-anchor-require-href:
       exclude:
         - 'lookbook/previews/open_project/deprecated/**/*'
+        # Legacy `link_to "#"` toggles, to be turned into buttons.
+        - 'app/components/members/role_form_component.html.erb'
+        - 'app/views/admin/departments/_memberships.html.erb'
+        - 'app/views/groups/_memberships.html.erb'
+        - 'app/views/individual_principals/_memberships.html.erb'
+        - 'app/views/repositories/_dir_list_content.html.erb'
+        - 'modules/two_factor_authentication/app/views/two_factor_authentication/authentication/request_otp.html.erb'
 
     # Previews render inside the preview layout and cannot reach its `<head>`.
     html-head-only-elements:
@@ -60,11 +69,18 @@ linter:
         - 'app/views/layouts/base.html.erb'
         - 'modules/recaptcha/app/views/recaptcha/request/perform.html.erb'
 
-    # Disabled by `herb-lint --upgrade`: re-enable once the offenses are fixed.
+    # Disabled until their offenses are fixed.
+    actionview-no-silent-helper:
+      enabled: false
+    actionview-no-silent-render:
+      enabled: false
+    actionview-prefer-collection-render:
+      enabled: false
     erb-no-duplicate-branch-elements:
       enabled: false
     erb-no-instance-variables-in-partials:
       enabled: false
+    # Its suggested fix is what erb-prefer-direct-output rejects.
     erb-no-interpolated-class-names:
       enabled: false
     erb-no-method-definitions:
