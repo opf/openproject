@@ -61,7 +61,7 @@ module Storages
     describe ".call" do
       context "when storage is not Nextcloud" do
         let(:file_path) { "/uploads/documents" }
-        let(:storage) { create(:one_drive_storage) }
+        let(:storage) { create(:onedrive_storage) }
 
         it "returns failure with unsupported_storage_type error" do
           expect(result).to be_failure

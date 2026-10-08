@@ -38,7 +38,7 @@ RSpec.describe API::V3::Storages::StorageRepresenter, "parsing" do
   subject(:parsed) { representer.from_hash parsed_hash }
 
   describe "OneDrive" do
-    let(:storage) { build_stubbed(:one_drive_storage) }
+    let(:storage) { build_stubbed(:onedrive_storage) }
     let(:parsed_hash) do
       {
         "name" => "My OneDrive",

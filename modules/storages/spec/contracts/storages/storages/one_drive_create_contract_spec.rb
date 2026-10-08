@@ -34,7 +34,7 @@ require_relative "shared_contract_examples"
 
 RSpec.describe Storages::Storages::CreateContract, with_ee: %i[one_drive_sharepoint_file_storage] do
   let(:storage) do
-    build_stubbed(:one_drive_storage, creator: storage_creator, name: storage_name, provider_type: storage_provider_type)
+    build_stubbed(:onedrive_storage, creator: storage_creator, name: storage_name, provider_type: storage_provider_type)
   end
 
   let(:contract) { described_class.new(storage, current_user) }

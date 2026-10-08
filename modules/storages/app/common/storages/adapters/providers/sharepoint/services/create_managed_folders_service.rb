@@ -166,7 +166,7 @@ module Storages
             def files = Adapters::Registry.resolve("sharepoint.queries.files").new(@storage)
 
             def auth_strategy
-              @auth_strategy ||= Adapters::Registry["one_drive.authentication.userless"].call
+              @auth_strategy ||= Adapters::Registry["onedrive.authentication.userless"].call
             end
           end
         end

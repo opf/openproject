@@ -62,7 +62,7 @@ module Storages
       case @storage.short_provider_type
       when "nextcloud"
         location_from_file_info(parent_id, user)
-      when "one_drive", "sharepoint"
+      when "onedrive", "sharepoint"
         Success(parent_id)
       else
         raise "Unknown Storage Type"
