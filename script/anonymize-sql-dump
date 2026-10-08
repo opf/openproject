@@ -4,43 +4,29 @@ set -e
 
 
 
+USAGE="Usage: script/anonymize-sql-dump [--public-projects-only] [--skip-bastion-check] dump.sql"
+
 PUBLIC_PROJECTS_ONLY=false
 SKIP_BASTION_CHECK=false
-POSITIONAL_ARGS=()
-for arg in "$@"; do
-  case "$arg" in
-    --public-projects-only) PUBLIC_PROJECTS_ONLY=true ;;
-    --skip-bastion-check) SKIP_BASTION_CHECK=true ;;
-    *) POSITIONAL_ARGS+=("$arg") ;;
+DUMPFILE=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --public-projects-only) PUBLIC_PROJECTS_ONLY=true; shift ;;
+    --skip-bastion-check) SKIP_BASTION_CHECK=true; shift ;;
+    *) DUMPFILE="$1"; shift ;;
   esac
 done
-set -- "${POSITIONAL_ARGS[@]}"
 
-if [ "$SKIP_BASTION_CHECK" = true ]; then
-  WORK_DB=anonymize_sql_dump
-else
-  WORK_DB=tmp
-fi
+[ -n "$DUMPFILE" ] || { echo "$USAGE"; exit 1; }
+[ -f "$DUMPFILE" ] || { echo "Dump file $DUMPFILE does not exist"; exit 1; }
+command -v docker >/dev/null || { echo "This script needs docker"; exit 1; }
 
-DUMPFILE="${1:?Pass the dump file to anonymize as first argument. Add --public-projects-only to keep only public projects with their content in clear text}"
-if [ -n "$2" ]; then
-  OPENPROJECT_DEV_DIR="$2"
-  [ -f "$OPENPROJECT_DEV_DIR/Gemfile" ] || { echo "OpenProject dev directory $OPENPROJECT_DEV_DIR is not an OpenProject repository"; exit 1; }
-elif [ -f "$HOME/openproject/dev/Gemfile" ]; then
-  OPENPROJECT_DEV_DIR="$HOME/openproject/dev"
-elif [ -f "$HOME/openproject/Gemfile" ]; then
-  OPENPROJECT_DEV_DIR="$HOME/openproject"
-# maybe parent directory of this script is an OpenProject repository?
-elif [ -f "$(cd "$(dirname $0)/.." && pwd)/Gemfile" ]; then
-  OPENPROJECT_DEV_DIR="$(cd "$(dirname $0)/.." && pwd)"
-else
-  OPENPROJECT_DEV_DIR="${2:?Pass the openproject dev directory as second argument (needed to create the admin user)}"
-  [ -f "$OPENPROJECT_DEV_DIR/Gemfile" ] || { echo "OpenProject dev directory $OPENPROJECT_DEV_DIR is not an OpenProject repository"; exit 1; }
-fi
+POSTGRES_IMAGE=postgres:17
+POSTGRES_CONTAINER="anonymize-sql-dump-postgres-$$"
+NETWORK="anonymize-sql-dump-$$"
+
 echo "Using non-anonymized dump file $DUMPFILE"
-echo "Using OpenProject dev directory $OPENPROJECT_DEV_DIR"
 echo "Keeping only public projects: $PUBLIC_PROJECTS_ONLY"
-echo "Using work database $WORK_DB (it is dropped and created again)"
 
 
 
@@ -48,6 +34,15 @@ echo_header() {
   echo "--"
   echo "-- $*"
   echo "--"
+}
+
+psql_work() {
+  docker exec -i "$POSTGRES_CONTAINER" psql --username postgres --dbname openproject --quiet "$@"
+}
+
+cleanup() {
+  docker rm --force --volumes "$POSTGRES_CONTAINER" >/dev/null 2>&1 || true
+  docker network rm "$NETWORK" >/dev/null 2>&1 || true
 }
 
 
@@ -71,40 +66,56 @@ fi
 
 
 
-echo_header "INSTALLING OpenProject DEPENDENCIES"
+echo_header "STARTING DATABASE CONTAINER"
 
-cd "$OPENPROJECT_DEV_DIR"
-bundle check || bundle install
-cd -
+docker image inspect "$POSTGRES_IMAGE" >/dev/null 2>&1 || docker pull "$POSTGRES_IMAGE"
+
+trap cleanup EXIT
+docker network create --internal "$NETWORK" >/dev/null
+docker run --detach --rm --name "$POSTGRES_CONTAINER" --network "$NETWORK" \
+  --env POSTGRES_PASSWORD=postgres "$POSTGRES_IMAGE" >/dev/null
+
+SECONDS=0
+until docker exec "$POSTGRES_CONTAINER" pg_isready --host 127.0.0.1 --username postgres >/dev/null 2>&1; do
+  if [ $SECONDS -gt 60 ]; then
+    echo "Error: the database did not start"
+    docker logs "$POSTGRES_CONTAINER"
+    exit 1
+  fi
+  sleep 1
+done
+docker exec "$POSTGRES_CONTAINER" createdb --username postgres openproject
 
 
 
 echo_header "IMPORTING DUMP FILE $DUMPFILE"
 
-dropdb --if-exists "$WORK_DB"
-createdb "$WORK_DB"
 if grep -qE '^CREATE SCHEMA ' "$DUMPFILE"; then
-  psql --quiet --dbname "$WORK_DB" --command "DROP SCHEMA public;"
+  psql_work --command "DROP SCHEMA public;"
 fi
-psql --quiet --dbname "$WORK_DB" --command "CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA pg_catalog;"
-psql --quiet --dbname "$WORK_DB" --command "CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;"
-psql --quiet --dbname "$WORK_DB" < $DUMPFILE
+psql_work --command "CREATE EXTENSION IF NOT EXISTS btree_gist WITH SCHEMA pg_catalog;"
+psql_work --command "CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;"
+psql_work < "$DUMPFILE"
 
 
 
-SCHEMA=$(psql --tuples-only --quiet --dbname "$WORK_DB" --command "select schema_name from information_schema.schemata WHERE schema_owner != 'postgres' AND schema_name <> 'information_schema' AND schema_name NOT LIKE 'pg\_%';" | tr -d '[:space:]')
-if [ "$SCHEMA" != "public" ]; then
-  echo_header "RENAMING SCHEMA $SCHEMA to public"
-  psql --quiet --dbname "$WORK_DB" --command "ALTER SCHEMA \"$SCHEMA\" RENAME TO \"public\";"
+SCHEMAS=$(psql_work --tuples-only --no-align --command "SELECT DISTINCT schemaname FROM pg_tables WHERE schemaname NOT IN ('pg_catalog', 'information_schema');")
+if [ "$(echo "$SCHEMAS" | wc -l | tr -d ' ')" != 1 ]; then
+  echo "Error: the dump must contain exactly one schema with tables, found: $(echo $SCHEMAS)"
+  exit 1
 fi
-psql --quiet --dbname "$WORK_DB" --command "UPDATE settings SET value = 'localhost:3000' WHERE name = 'host_name'"
+if [ "$SCHEMAS" != "public" ]; then
+  echo_header "RENAMING SCHEMA $SCHEMAS to public"
+  psql_work --command "ALTER SCHEMA \"$SCHEMAS\" RENAME TO \"public\";"
+fi
+psql_work --command "UPDATE settings SET value = 'localhost:3000' WHERE name = 'host_name'"
 
 
 
 if [ "$PUBLIC_PROJECTS_ONLY" = true ]; then
   echo_header "REMOVING ALL DATA OUTSIDE OF PUBLIC PROJECTS"
 
-  psql --quiet --dbname "$WORK_DB" --single-transaction --set ON_ERROR_STOP=1 <<'SQL'
+  psql_work --single-transaction --set ON_ERROR_STOP=1 <<'SQL'
 SET client_min_messages TO NOTICE;
 
 CREATE FUNCTION pg_temp.table_exists(tbl text) RETURNS boolean LANGUAGE sql AS $$
@@ -842,30 +853,32 @@ UPDATE grid_widgets SET options = '---\n:name: Custom title\n:text: Custom text\
 SQL
 fi
 
-cat "$cleanup_sql_file" | psql --quiet --dbname "$WORK_DB"
+psql_work < "$cleanup_sql_file"
 rm "$cleanup_sql_file"
 
 
 
 echo_header "CREATING ADMIN USER"
 
-create_admin_rb_file=$(mktemp /tmp/create_admin_rb.XXXXXX)
-
-cat <<RUBY > "$create_admin_rb_file"
-  admin_user = AdminUserSeeder.new.new_admin
-  admin_user.save!(validate: false)
-RUBY
-
-cd "$OPENPROJECT_DEV_DIR"
-export DATABASE_URL="postgres:///$WORK_DB"
-bundle exec rails runner "$create_admin_rb_file"
-cd -
-rm "$create_admin_rb_file"
+psql_work --set ON_ERROR_STOP=1 <<'SQL'
+WITH admin AS (
+  INSERT INTO users (login, firstname, lastname, mail, admin, status, language, type, first_login, force_password_change,
+                     created_at, updated_at)
+  VALUES ('admin', 'OpenProject', 'Admin', 'admin@example.net', true, 1, 'en', 'User', true, true, now(), now())
+  RETURNING id
+), password AS (
+  INSERT INTO user_passwords (user_id, hashed_password, type, created_at, updated_at)
+  SELECT id, '$2a$12$nYZHyv1meJY/qGV67ujvvu9erkfSF2oBgSdvx9KWDkVxaoCFh6TJ2', 'UserPassword::Bcrypt', now(), now() FROM admin
+)
+INSERT INTO notification_settings (user_id, assignee, responsible, mentioned, watched)
+SELECT id, true, true, true, true FROM admin;
+SQL
+echo "Created user admin with password admin. OpenProject asks to change the password at the first login."
 
 
 
 echo_header "DUMPING ANONYMIZED DATA TO $(pwd)/tmp.dump.sql"
-pg_dump --no-owner --format=plain "$WORK_DB" > tmp.dump.sql
+docker exec "$POSTGRES_CONTAINER" pg_dump --username postgres --no-owner --format=plain openproject > tmp.dump.sql
 
 
 
