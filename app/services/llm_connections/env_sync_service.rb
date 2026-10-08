@@ -57,12 +57,17 @@ module LlmConnections
     def call
       result = nil
 
-      ApplicationRecord.transaction(requires_new: true) do
-        result = write(attributes)
-        raise ActiveRecord::Rollback if result.failure?
+      OpenProject::Mutex.with_advisory_lock_transaction(LlmConnection.active_connection) do
+        ApplicationRecord.transaction(requires_new: true) do
+          # Loaded again under the lock. A copy read before an administrator's
+          # save committed would take the environment's values for unchanged
+          # and not write them.
+          result = write(attributes, model: LlmConnection.active_connection)
+          raise ActiveRecord::Rollback if result.failure?
 
-        result = write(default_model_references(result.result), model: result.result)
-        raise ActiveRecord::Rollback if result.failure?
+          result = write(default_model_references(result.result), model: result.result)
+          raise ActiveRecord::Rollback if result.failure?
+        end
       end
 
       result
@@ -93,17 +98,23 @@ module LlmConnections
       ActiveRecord::Type::Boolean.new.deserialize(config[:enabled])
     end
 
-    def write(attributes, model: LlmConnection.active_connection)
+    def write(attributes, model:)
       UpdateService
         .new(user: User.system,
              model:,
              contract_class: EnvironmentUpdateContract)
-        .call(**attributes)
+        .call(**attributes, env_provisioned_at:)
+    end
+
+    def env_provisioned_at
+      @env_provisioned_at ||= Time.current
     end
 
     # The environment names a model, and on a fresh installation nothing has
     # asked the server for a catalogue yet, so the row it must reference is
-    # entered here the way an administrator would enter it by hand.
+    # entered here the way an administrator would enter it by hand. A row the
+    # server reported is claimed the same way: a refresh against another
+    # deployment deletes discovered rows, and with them the default.
     def default_model_references(connection)
       { default_chat_model_id: model_row_id(connection, config[:default_chat_model]),
         default_embedding_model_id: model_row_id(connection, config[:default_embedding_model]) }
@@ -112,7 +123,7 @@ module LlmConnections
     def model_row_id(connection, external_id)
       return if external_id.blank?
 
-      connection.models.create_with(manual: true).find_or_create_by!(external_id:).id
+      connection.models.find_or_initialize_by(external_id:).tap { it.update!(manual: true) }.id
     end
   end
 end

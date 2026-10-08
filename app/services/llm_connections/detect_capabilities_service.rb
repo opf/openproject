@@ -40,6 +40,7 @@ module LlmConnections
     # verdict in itself.
     EMBEDDING_NAME_HINT = %r{embed|bge|nomic|minilm|(^|[-_./])(e5|gte)}i
     BACKGROUND_LIMIT = 10
+    RETRY_INCONCLUSIVE_AFTER = 1.day
 
     def initialize(connection)
       @connection = connection
@@ -85,7 +86,8 @@ module LlmConnections
     # one that is already settled, and never more than the batch limit in one
     # background run. A definite probe verdict can be trusted until a sync
     # discards it, which it does when the deployment behind the connection
-    # changes or the model disappears from it.
+    # changes or the model disappears from it. A model the probe could not
+    # answer for a reason of its own is not asked again within a day.
     def candidates
       settled = settled_model_ids
 
@@ -102,6 +104,16 @@ module LlmConnections
                         .or(embedding_verdicts.source_probe.where.not(state: :unknown))
                         .pluck(:model_id)
                         .to_set
+                        .merge(backed_off_model_ids(embedding_verdicts))
+    end
+
+    def backed_off_model_ids(embedding_verdicts)
+      embedding_verdicts.source_probe
+                        .unknown
+                        .where(checked_at: RETRY_INCONCLUSIVE_AFTER.ago..)
+                        .pluck(:model_id, :detail)
+                        .reject { |_, detail| Llm::Probes::EmbeddingsProbe.server_wide?(detail["reason"]) }
+                        .map(&:first)
     end
 
     # The server answered for itself, not for this model, so the requests the

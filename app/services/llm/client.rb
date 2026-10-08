@@ -81,6 +81,7 @@ module Llm
     # @return [Hash] the parsed +GET /models+ body
     def models
       body = get("/models")
+      return body.merge("data" => []) if empty_list?(body)
 
       raise ParseError, "Response does not contain a model list" unless body.is_a?(Hash) && body["data"].is_a?(Array)
 
@@ -90,6 +91,11 @@ module Llm
     private
 
     attr_reader :base_url, :api_key, :timeout, :headers
+
+    # Ollama sends "data": null until its first model is pulled.
+    def empty_list?(body)
+      body.is_a?(Hash) && body["object"] == "list" && body.key?("data") && body["data"].nil?
+    end
 
     def get(path)
       response = session.get(uri_for(path))
@@ -119,7 +125,7 @@ module Llm
     def uri_for(path)
       URI.parse("#{base_url}#{path}")
     rescue URI::InvalidURIError
-      raise ConnectionError, "Invalid URL"
+      raise Llm::Errors::InvalidUrlError, "Invalid URL"
     end
 
     def handle_transport_error(response)

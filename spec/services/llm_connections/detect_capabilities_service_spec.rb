@@ -221,13 +221,55 @@ RSpec.describe LlmConnections::DetectCapabilitiesService, :llm_server_helpers, :
       end
     end
 
-    it "probes again a model an earlier probe could not answer" do
+    it "probes again a model an earlier probe could not answer more than a day ago" do
       connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
-                                             state: "unknown", source: "probe", checked_at: 1.day.ago)
+                                             state: "unknown", source: "probe", checked_at: 2.days.ago,
+                                             detail: { "reason" => "unexpected_body" })
 
       service.detect_likely_embedding_models
 
       expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
+    end
+
+    %w[unexpected_body http_422 parse_error].each do |reason|
+      it "leaves a model alone for a day after a probe could not answer for it (#{reason})" do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "unknown", source: "probe", checked_at: 1.hour.ago,
+                                               detail: { "reason" => reason })
+        request = mock_llm_embeddings_response(base_url)
+
+        service.detect_likely_embedding_models
+
+        expect(request).not_to have_been_made
+        expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_unknown
+      end
+    end
+
+    %w[timeout_error connection_error http_408 http_429 http_503].each do |reason|
+      it "probes again on the next run a model the server as a whole could not answer for (#{reason})" do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "unknown", source: "probe", checked_at: 1.hour.ago,
+                                               detail: { "reason" => reason })
+
+        service.detect_likely_embedding_models
+
+        expect(connection.capability_verdicts.find_by(model_id: "bge-m3")).to be_supported
+      end
+    end
+
+    it "reaches the models behind a full batch of ones the probe could not answer for" do
+      stuck_ids = Array.new(described_class::BACKGROUND_LIMIT) { |index| "embed-#{index}" }
+      stuck_ids.each do |external_id|
+        create(:llm_model, llm_connection: connection, external_id:)
+        connection.capability_verdicts.create!(model_id: external_id, capability: "embeddings",
+                                               state: "unknown", source: "probe", checked_at: 1.hour.ago,
+                                               detail: { "reason" => "unexpected_body" })
+      end
+      create(:llm_model, llm_connection: connection, external_id: "nomic-embed-text")
+
+      service.detect_likely_embedding_models
+
+      expect(connection.capability_verdicts.find_by(model_id: "nomic-embed-text")).to be_supported
     end
 
     it "fills the batch with models that still need an answer" do
