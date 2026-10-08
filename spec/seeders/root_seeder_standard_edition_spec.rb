@@ -100,13 +100,12 @@ RSpec.describe RootSeeder,
       expect(count_by_version).to eq("1.0" => 2, "1.1" => 1)
     end
 
-    it "adds the backlogs, board, costs, meetings, and reporting modules to the default_projects_modules setting" do
+    it "adds the backlogs, board, costs, and meetings modules to the default_projects_modules setting" do
       default_modules = Setting.find_by(name: "default_projects_modules").value
       expect(default_modules).to include("backlogs")
       expect(default_modules).to include("board_view")
       expect(default_modules).to include("costs")
       expect(default_modules).to include("meetings")
-      expect(default_modules).to include("reporting_module")
     end
 
     it "creates a weekly recurring meeting with several instances" do

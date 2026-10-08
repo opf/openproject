@@ -2897,6 +2897,7 @@ ru:
   button_set_reminder: Установить напоминание
   button_show: Показать
   button_sort: Сортировать
+  button_stop_timer: Остановить таймер
   button_submit: Отправить
   button_test: Тест
   button_unarchive: Разархивировать
@@ -4244,6 +4245,7 @@ ru:
   label_date_from_to: C %{start} по %{end}
   label_date_to: Кому
   label_dates: Даты
+  label_day: День
   label_day_plural: дней
   label_default: по умолчанию
   label_defaults: По умолчанию
@@ -4460,6 +4462,7 @@ ru:
   label_module_plural: Модули
   label_modules: Модули
   label_modules_and_plugins: Модули и плагины
+  label_month: Месяц
   label_months_from: месяцев с
   label_more: Более
   label_more_information: Больше информации
@@ -4473,6 +4476,7 @@ ru:
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
   label_my_security: Безопасность
+  label_my_work: My work
   label_name: Имя
   label_never: Никогда
   label_new: Новое
@@ -4487,7 +4491,10 @@ ru:
   label_news_singular: Новости
   label_news_view_all: Посмотреть все новости
   label_next: Следующие
+  label_next_day: След. день
+  label_next_month: Следующий месяц
   label_next_week: На следующей неделе
+  label_next_workweek: Следующая рабочая неделя
   label_next_year: Следующий год
   label_no_change_option: "(Без изменений)"
   label_no_data: Нет данных для отображения
@@ -4495,6 +4502,7 @@ ru:
   label_no_parent_group: "(Нет родительской группы)"
   label_no_parent_page: Без родительской страницы
   label_no_start_date: нет даты начала
+  label_no_time: Нет учтённого времени
   label_nobody: никто
   label_non_working_days: Доступный календарь
   label_non_working_days_summary: Итог
@@ -4561,7 +4569,10 @@ ru:
   label_preview: Предварительный просмотр
   label_preview_not_available: Предварительный просмотр недоступен
   label_previous: Предыдущие
+  label_previous_day: Предыдущий день
+  label_previous_month: Предыдущий месяц
   label_previous_week: Предыдущая неделя
+  label_previous_workweek: Предыдущая рабочая неделя
   label_previous_year: Предыдущий год
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной почте"
   label_principal_search: Добавление существующих пользователей или групп
@@ -4680,6 +4691,7 @@ ru:
   label_sort_lowest: Переместить вниз
   label_sorted_by: отсортировано по %{value}
   label_spent_time: Затраченное время
+  label_stack: Stack
   label_start_to_end: от начала до конца
   label_start_to_start: Пуск, чтобы начать
   label_starts_with: начинается с
@@ -4713,6 +4725,7 @@ ru:
   label_time: Время
   label_time_entry_activity_plural: Потраченное время
   label_time_entry_plural: Затраченное время
+  label_timer_since: Начато в %{time}
   label_title: Заголовок
   label_today: Сегодня
   label_today_as_date: Выберите сегодня в качестве даты.
@@ -4762,6 +4775,7 @@ ru:
   label_videos: Видео
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
+  label_view_mode_switcher: Изменить вид
   label_view_revisions: Просмотр версий
   label_view_x: 'Вид: %{x}'
   label_watched_work_packages: Наблюдаемые пакеты работ
@@ -4809,6 +4823,7 @@ ru:
   label_working_days: Рабочие дни
   label_working_days_and_hours: Рабочие дни и часы
   label_working_hours: График работы
+  label_workweek: Рабочая неделя
   label_x_closed_work_packages_abbr:
     one: 1 закрыто
     other: "%{count} закрыто"
@@ -5263,6 +5278,18 @@ ru:
     password_confirmation_dialog:
       confirmation_required: Чтобы подтвердить изменения, введите пароль учетной записи.
       title: Подтвердите свой пароль, чтобы продолжить
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Маркеры доступа
@@ -5831,6 +5858,9 @@ ru:
   permission_manage_dashboards: Управление панелями инструментов
   permission_manage_forums: Управление форумами
   permission_manage_members: Управление участниками
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Управление новостями
   permission_manage_own_reminders: Создать собственные напоминания
   permission_manage_own_working_times: Управлять своим рабочим временем
@@ -7356,10 +7386,10 @@ ru:
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Вы уверены, что хотите сбросить форму?
         custom_field: Настраиваемое поле
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
@@ -7950,6 +7980,8 @@ ru:
       required_description: Отмечает этот пакет работ как требование к связанному
       requires_description: Отмечает связанный с этим пакет работ как требование к нему
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Пакеты работ не могут быть скопированы.
       could_not_be_deleted: 'Следующие пакеты работ удалить не удалось:'

@@ -44,7 +44,7 @@ Please choose the module or feature you want to learn more about.
 | [GitLab](../system-admin-guide/integrations/gitlab-integration/) | How to manage the GitLab integration.                        |
 | [Meetings](meetings)                                         | How to manage meetings to create and share meeting agenda and meeting outcomes. |
 | [Members](members)                                           | How to manage Members in a project.                          |
-| [My time tracking](./time-and-costs/my-time-tracking)        | How to manage personal time entries in list and calendar views. |
+| [My work](./time-and-costs/my-work)                          | How to manage personal time entries in list and calendar views. |
 | [News](news)                                                 | How to create and manage News for your projects.             |
 | [Nextcloud integration](./file-management/nextcloud-integration) | How to link and use Nextcloud files and folders in OpenProject. |
 | [OneDrive integration](./file-management/one-drive-integration) | How to link and use OneDrive files and folders in OpenProject. |

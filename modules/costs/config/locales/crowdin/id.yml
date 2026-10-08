@@ -135,7 +135,6 @@ id:
   button_add_time_entry: Catatan waktu
   button_log_costs: Log biaya unit
   button_log_time: Log
-  button_stop_timer: Hentikan penghitung waktu
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Telah dipesan pada proyek
@@ -205,7 +204,6 @@ id:
   label_current: Current
   label_current_default_rate: Rate saat ini
   label_date_on: pada
-  label_day: Hari
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Jenis biaya terhapus
   label_display_cost_entries: Tampilkan biaya unit
@@ -221,43 +219,28 @@ id:
   label_less_or_equal: "<="
   label_list: List
   label_log_costs: Log biaya unit
-  label_month: Bulan
-  label_my_time_tracking: Pelacakan waktu saya
   label_new_time_entry_activity: Aktivitas baru pada entri waktu
-  label_next_day: Besok
-  label_next_month: Bulan selanjutnya
-  label_next_week: Minggu depan
-  label_next_workweek: Minggu kerja berikutnya
   label_no: 'No'
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Tidak ada waktu yang dilacak
   label_option_plural: Opsi
   label_overall_costs: Biaya keseluruhan
-  label_previous_day: Kemarin
-  label_previous_month: Bulan sebelumnya
-  label_previous_week: Minggu sebelumnya
-  label_previous_workweek: Minggu kerja sebelumnya
   label_rate_plural: Rate
   label_show: Tampilkan
   label_specific_day: Hari %{day}
   label_specific_month: Bulan %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Selesai
   label_time: Waktu
   label_time_entry_activity_form_description: Perubahan pada aktivitas entri waktu ini akan tercermin di semua proyek ketika fitur ini diaktifkan.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Dimulai dari %{time}
   label_today_capitalized: Hari Ini
   label_units: Biaya unit
   label_until: hingga
   label_using_current_default_rate: Using current default rate
   label_valid_from: Berlaku dari
-  label_view_mode_switcher: Ubah tampilan
   label_work_package_filter_add: Tambahkan filter
-  label_workweek: Minggu kerja
   label_yes: 'Yes'
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: Pengguna ini berada di zona waktu yang berbeda (%{tz}). Waktu akan dicatat menggunakan zona waktu mereka.

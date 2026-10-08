@@ -107,6 +107,7 @@ it:
       criteria:
         empty: Nessun criterio impostato.
         label: Criteri
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: L'utente selezionato non ha ore lavorative configurate per queste date, pertanto viene considerato privo di capacità.
         partial: L'utente selezionato non ha ore lavorative configurate per %{dates}, pertanto quei giorni vengono considerati senza capacità.
@@ -121,6 +122,7 @@ it:
         schedule_note: Questo utente lavora al %{schedule}.
         submit: Assegna straordinario
         title: Vuoi assegnare ore di straordinario all'utente?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Assegna
       success_message: Risorsa assegnata.
       title: Assegna risorsa
@@ -171,6 +173,8 @@ it:
     label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
     label_resource_planner_plural: Pianificatori di risorse
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Aggiungi vista
     public_caption: Rendi questa vista pubblica per tutti i membri del progetto. Questo non influisce sulla visibilità delle macro-attività, che continua a dipendere dalle autorizzazioni di ciascun utente.

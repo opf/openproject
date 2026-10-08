@@ -2524,6 +2524,7 @@ ko:
   button_set_reminder: 미리 알림 설정
   button_show: 표시
   button_sort: 분류
+  button_stop_timer: 타이머 중지
   button_submit: 제출
   button_test: 테스트
   button_unarchive: 보관 취소
@@ -3801,6 +3802,7 @@ ko:
   label_date_from_to: "%{start}부터 %{end}까지"
   label_date_to: 끝
   label_dates: 날짜
+  label_day: 일
   label_day_plural: 일
   label_default: 기본
   label_defaults: 기본값
@@ -4017,6 +4019,7 @@ ko:
   label_module_plural: 모듈
   label_modules: 모듈
   label_modules_and_plugins: 모듈 및 플러그인
+  label_month: 월
   label_months_from: 개월 동안 | 다음부터
   label_more: 기타
   label_more_information: 더보기
@@ -4030,6 +4033,7 @@ ko:
   label_my_avatar: 내 아바타
   label_my_queries: 내 사용자 지정 쿼리
   label_my_security: 보안
+  label_my_work: My work
   label_name: 이름
   label_never: 사용 안 함
   label_new: 새로 만들기
@@ -4044,7 +4048,10 @@ ko:
   label_news_singular: 뉴스
   label_news_view_all: 모든 뉴스 보기
   label_next: 다음
+  label_next_day: 다음 날
+  label_next_month: 다음 달
   label_next_week: 다음 주
+  label_next_workweek: 다음 근무 주
   label_next_year: 다음 연도
   label_no_change_option: "(변경 없음)"
   label_no_data: 표시할 데이터가 없습니다.
@@ -4052,6 +4059,7 @@ ko:
   label_no_parent_group: "(부모 그룹 없음)"
   label_no_parent_page: 부모 페이지 없음
   label_no_start_date: 시작 날짜 없음
+  label_no_time: 추적된 시간 없음
   label_nobody: 아무도 없음
   label_non_working_days: 가능 여부 캘린더
   label_non_working_days_summary: 요약
@@ -4118,7 +4126,10 @@ ko:
   label_preview: 미리 보기
   label_preview_not_available: 미리 보기를 사용할 수 없음
   label_previous: 이전
+  label_previous_day: 이전 날
+  label_previous_month: 이전 달
   label_previous_week: 이전 주
+  label_previous_workweek: 이전 근무 주
   label_previous_year: 이전 연도
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
   label_principal_search: 기존 사용자 또는 그룹 추가
@@ -4237,6 +4248,7 @@ ko:
   label_sort_lowest: 맨 아래로 이동
   label_sorted_by: "%{value}(으)로 정렬됨"
   label_spent_time: 소비한 시간
+  label_stack: Stack
   label_start_to_end: 시작 - 끝
   label_start_to_start: 시작 - 시작
   label_starts_with: 다음으로 시작
@@ -4270,6 +4282,7 @@ ko:
   label_time: 시간
   label_time_entry_activity_plural: 소요 시간 활동
   label_time_entry_plural: 소비한 시간
+  label_timer_since: "%{time}에 시작됨"
   label_title: 제목
   label_today: 오늘
   label_today_as_date: 오늘을 날짜로 선택하세요.
@@ -4319,6 +4332,7 @@ ko:
   label_videos: 동영상
   label_view_all_revisions: 모든 수정 보기
   label_view_diff: 차이점 보기
+  label_view_mode_switcher: 보기 변경
   label_view_revisions: 수정 보기
   label_view_x: '보기: %{x}'
   label_watched_work_packages: 주시하는 작업 패키지
@@ -4366,6 +4380,7 @@ ko:
   label_working_days: 근무일
   label_working_days_and_hours: 근무일 및 시간
   label_working_hours: 근무 스케줄
+  label_workweek: 근무 주
   label_x_closed_work_packages_abbr:
     one: 1개 닫힘
     other: "%{count}개 닫힘"
@@ -4790,6 +4805,18 @@ ko:
     password_confirmation_dialog:
       confirmation_required: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: 액세스 토큰
@@ -5356,6 +5383,9 @@ ko:
   permission_manage_dashboards: 대시보드 관리
   permission_manage_forums: 포럼 관리
   permission_manage_members: 멤버 관리
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: 뉴스 관리
   permission_manage_own_reminders: 고유한 미리 알림 만들기
   permission_manage_own_working_times: 내 근무 시간 관리
@@ -6852,10 +6882,10 @@ ko:
         blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
         blankslate_title: 아직 그룹 없음
         confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: 양식을 재설정하시겠습니까?
         custom_field: 사용자 지정 필드
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: 섹션 삭제
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
         drag_to_reorder: 드래그하여 재정렬
@@ -7429,6 +7459,8 @@ ko:
       required_description: 이 작업 패키지를 관련 패키지에 대한 요구 사항으로 표시합니다
       requires_description: 관련 작업 패키지를 이 패키지에 대한 요구 사항으로 표시합니다
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: 작업 패키지를 복사할 수 없습니다.
       could_not_be_deleted: '다음 작업 패키지를 삭제할 수 없습니다:'

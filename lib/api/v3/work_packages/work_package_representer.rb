@@ -684,18 +684,6 @@ module API
                               represented.parent = new_parent
                             end
 
-        associated_resource :budget,
-                            as: :budget,
-                            v3_path: :budget,
-                            link_title_attribute: :subject,
-                            representer: ::API::V3::Budgets::BudgetRepresenter,
-                            link_cache_if: -> { view_budgets_allowed? },
-                            getter: ->(*) {
-                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
-                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
-                              end
-                            }
-
         resources :customActions,
                   uncacheable_link: true,
                   link: ->(*) {
@@ -746,12 +734,6 @@ module API
 
           @current_user_update_allowed = ::WorkPackages::UpdateContract.update_allowed?(user: current_user,
                                                                                         work_package: represented)
-        end
-
-        def view_budgets_allowed?
-          return @view_budgets_allowed if defined?(@view_budgets_allowed)
-
-          @view_budgets_allowed = current_user.allowed_in_project?(:view_budgets, represented.project)
         end
 
         def view_project_phase_allowed?
@@ -847,7 +829,6 @@ module API
                                 type
                                 watchers
                                 attachments
-                                budget
                                 target_versions
                                 observed_in_versions
                                 labels]

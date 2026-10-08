@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -55,9 +54,6 @@ import {
 import {
   SelectAutocompleterRegisterService,
 } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
-import {
-  ProjectStatusEditFieldComponent,
-} from 'core-app/shared/components/fields/edit/field-types/project-status-edit-field.component';
 import {
   PlainFormattableEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/plain-formattable-edit-field.component';
@@ -145,9 +141,6 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'versions',
         ['targetVersions'],
       )
-      .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Portfolio', ProjectStatusEditFieldComponent, 'status', ['status'])
-      .addSpecificFieldType('Program', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours']);
 

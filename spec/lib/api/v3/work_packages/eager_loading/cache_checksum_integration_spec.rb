@@ -216,4 +216,47 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
         .not_to eql orig_checksum
     end
   end
+
+  describe ".add_checksum_associations" do
+    around do |example|
+      original_associations = described_class.checksum_associations
+      example.run
+    ensure
+      described_class.instance_variable_set(:@checksum_associations, original_associations)
+    end
+
+    def checksum
+      EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+    end
+
+    it "includes the added association in the checksum" do
+      described_class.add_checksum_associations(:project)
+      orig_checksum = checksum
+
+      project.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(checksum)
+        .not_to eql orig_checksum
+    end
+
+    it "does not include changes to associations that were not added" do
+      orig_checksum = checksum
+
+      project.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(checksum)
+        .to eql orig_checksum
+    end
+
+    it "adds an association only once" do
+      described_class.add_checksum_associations(:project)
+      described_class.add_checksum_associations(:project)
+
+      expect(described_class.checksum_associations.count(:project))
+        .to eq 1
+    end
+  end
 end
