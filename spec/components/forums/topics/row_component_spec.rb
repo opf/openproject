@@ -38,11 +38,20 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
   shared_let(:forum) { create(:forum) }
 
   let(:table) { Forums::Topics::TableComponent.new(rows: forum.topics, forum:) }
-  let(:topic) { create(:message, forum:, subject: "Release planning") }
+  let(:author) { create(:user, firstname: "Alice", lastname: "Author") }
+  let(:topic) { create(:message, forum:, subject: "Release planning", author:, created_at: Time.zone.local(2026, 10, 1, 9)) }
 
   it "links the subject to the topic" do
     expect(rendered_component)
       .to have_link("Release planning", href: "/projects/#{forum.project.identifier}/forums/#{forum.id}/topics/#{topic.id}")
+  end
+
+  it "follows the subject with who started the topic and when" do
+    expect(rendered_component).to have_css(".subject", text: %r{Release planning\s+· Alice Author · 10/01/2026})
+  end
+
+  it "folds author and creation date into the subject rather than columns of their own" do
+    expect(rendered_component).to have_no_css(".author, .created_at")
   end
 
   context "with formatted content" do
@@ -71,9 +80,9 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
 
     before { topic.reload }
 
-    it "names who replied last, linking the time to the reply", :aggregate_failures do
-      expect(rendered_component).to have_css(".last_reply", text: "Bob Replier")
-      expect(rendered_component).to have_link(href: /\?r=#{reply.id}#message-#{reply.id}\z/)
+    it "dates the last reply, linking to it, above who wrote it", :aggregate_failures do
+      expect(rendered_component).to have_css(".last_reply a[href$='?r=#{reply.id}#message-#{reply.id}'] + *", text: "Bob Replier")
+      expect(rendered_component).to have_no_css(".last_reply", text: "·")
     end
 
     it "leaves out the reply's subject, which only repeats the topic's" do
@@ -94,7 +103,7 @@ RSpec.describe Forums::Topics::RowComponent, type: :component do
     before { topic.update_column(:author_id, nil) }
 
     it "renders the row without an author" do
-      expect(rendered_component).to have_link("Release planning")
+      expect(rendered_component).to have_css(".subject", text: %r{Release planning\s+· 10/01/2026})
     end
   end
 end

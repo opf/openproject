@@ -1,0 +1,18 @@
+@import "helpers"
+
+// Topics read as conversations: the subject column carries the byline and the preview,
+// so it takes the width and the counts stay narrow. The header and each row are
+// separate grids; sharing one template keeps their tracks aligned.
+@media screen and (min-width: $breakpoint-md)
+  .op-forum-topics-table
+    .op-border-box-grid
+      grid-template-columns: minmax(0, 1fr) 6rem 12rem
+
+    // The subject keeps its main-column semantics (row header, no truncation) but
+    // occupies a single track of the template above.
+    .op-border-box-grid__header--main-column,
+    .op-border-box-grid__row-item--main-column
+      grid-column: auto
+
+.op-forum-topics-table--byline
+  flex-shrink: 0
