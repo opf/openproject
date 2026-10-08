@@ -60,6 +60,30 @@ RSpec.describe Llm::WorkPackages::EmbedService do
     end
   end
 
+  context "when no binding exists but the connection has a default embedding model" do
+    let(:connection) { create(:llm_connection, :with_models, default_embedding_model_identifier: "bge-m3") }
+
+    before do
+      allow(Llm::Session).to receive(:for).with(connection).and_return(session_double)
+      allow(session_double).to receive(:embed).and_return(embedding_double)
+    end
+
+    it "embeds with the default model" do
+      service.call
+
+      expect(session_double).to have_received(:embed).with(anything, model: "bge-m3", dimensions: nil)
+      expect(WorkPackageEmbedding.find_by!(work_package:).model_id).to eq("bge-m3")
+    end
+
+    it "persists a locked binding pinned to the default model" do
+      service.call
+
+      binding = connection.feature_bindings.find_by!(feature_key: "semantic_search")
+      expect(binding).to be_locked
+      expect(binding.model_id).to eq("bge-m3")
+    end
+  end
+
   context "when a ready binding exists" do
     before do
       binding
