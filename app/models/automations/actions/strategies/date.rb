@@ -38,7 +38,7 @@ module Automations::Actions::Strategies::Date
   end
 
   def apply(work_package)
-    accessor = :"#{self.class.key}="
+    accessor = :"#{key}="
     if work_package.respond_to? accessor
       work_package.send(accessor, date_to_apply)
     end

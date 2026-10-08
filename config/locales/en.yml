@@ -128,6 +128,8 @@ en:
       auth_provider:
         additional_form_action_urls: "Additional allowed login redirect URLs"
         scim_clients: "SCIM clients"
+      automation:
+        actions: "Actions"
       calculated_value_error:
         customized_id: "Customized ID"
         customized_type: "Customized type"
@@ -138,8 +140,6 @@ en:
         repository: "Repository"
       comment:
         commented: "Commented" # an object that this comment belongs to
-      custom_action:
-        actions: "Actions"
       custom_field:
         admin_only: "Admin-only"
         allow_non_open_versions: "Allow non-open versions"
@@ -1134,6 +1134,9 @@ en:
       auth_provider:
         one: "Authentication provider"
         other: "Authentication providers"
+      automation:
+        one: "Automation"
+        other: "Automations"
       backup:
         one: "Backup"
         other: "Backups"
@@ -1155,9 +1158,6 @@ en:
       comment:
         one: "Comment"
         other: "Comments"
-      custom_action:
-        one: "Custom action"
-        other: "Custom actions"
       custom_field:
         one: "Custom field"
         other: "Custom fields"

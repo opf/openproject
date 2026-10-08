@@ -40,7 +40,7 @@ module Automations::Actions::Strategies::MeAssociated
   end
 
   def values=(values)
-    values = Array(values).map do |v|
+    cast = Array(values).map do |v|
       if v == current_user_value_key
         v
       else
@@ -48,7 +48,7 @@ module Automations::Actions::Strategies::MeAssociated
       end
     end
 
-    @values = values.uniq
+    write_raw_values(cast.uniq)
   end
 
   ##

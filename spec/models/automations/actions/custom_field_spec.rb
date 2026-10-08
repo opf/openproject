@@ -87,41 +87,27 @@ RSpec.describe Automations::Actions::CustomField do
      date_custom_field]
   end
   let(:klass) do
-    allow(WorkPackageCustomField)
-      .to receive(:find_by)
-      .with(id: custom_field.id.to_s)
-      .and_return(custom_field)
-
-    described_class.for(custom_field.attribute_name)
+    described_class.subclass_for(custom_field)
   end
   let(:instance) do
-    klass.new
+    klass.new(custom_field:)
   end
 
-  describe ".all" do
+  describe ".templates" do
     before do
       allow(WorkPackageCustomField)
         .to receive(:usable_as_automation)
         .and_return(custom_fields)
     end
 
-    it "is an array with a list of subclasses for every custom_field" do
-      expect(described_class.all.length)
+    it "is an array of template instances for every custom_field" do
+      expect(described_class.templates.length)
         .to eql custom_fields.length
 
-      expect(described_class.all.map(&:custom_field))
+      expect(described_class.templates.map(&:custom_field))
         .to match_array(custom_fields)
 
-      described_class.all.each do |subclass|
-        expect(subclass.ancestors).to include(described_class)
-      end
-    end
-  end
-
-  describe ".key" do
-    it "is the custom field accessor" do
-      expect(klass.key)
-        .to eql(custom_field.attribute_getter)
+      expect(described_class.templates).to all(be_a(described_class))
     end
   end
 
@@ -134,7 +120,7 @@ RSpec.describe Automations::Actions::CustomField do
 
   describe "#value" do
     it "can be provided on initialization" do
-      i = klass.new(1)
+      i = klass.new(custom_field:, values: [1])
 
       expect(i.values)
         .to eql [1]
@@ -682,7 +668,7 @@ RSpec.describe Automations::Actions::CustomField do
 
       it "adds the custom value to custom_values_to_validate when applying the action" do
         # Create the action instance for our created custom field
-        action_instance = described_class.for(custom_field.attribute_name).new
+        action_instance = described_class.subclass_for(custom_field).new(custom_field_id: custom_field.id)
         action_instance.values = ["test value"]
 
         # Initially, custom_values_to_validate should be empty for persisted work packages
@@ -698,7 +684,7 @@ RSpec.describe Automations::Actions::CustomField do
       it "does not add to custom_values_to_validate if work package doesn't respond to the setter" do
         # Create a work package that doesn't have this custom field
         other_work_package = create(:work_package)
-        action_instance = described_class.for(custom_field.attribute_name).new
+        action_instance = described_class.subclass_for(custom_field).new(custom_field_id: custom_field.id)
         action_instance.values = ["test value"]
 
         expect(other_work_package.custom_values_to_validate).to be_empty
@@ -711,14 +697,16 @@ RSpec.describe Automations::Actions::CustomField do
 
       context "with multiple custom actions" do
         let(:another_custom_field) { create(:string_wp_custom_field) }
-        let(:another_instance) { described_class.for(another_custom_field.attribute_name).new }
+        let(:another_instance) do
+          described_class.subclass_for(another_custom_field).new(custom_field_id: another_custom_field.id)
+        end
 
         before do
           work_package.type.default_variant.custom_field_ids |= [another_custom_field.id]
         end
 
         it "accumulates custom values in custom_values_to_validate" do
-          action_instance = described_class.for(custom_field.attribute_name).new
+          action_instance = described_class.subclass_for(custom_field).new(custom_field_id: custom_field.id)
           action_instance.values = ["first value"]
           another_instance.values = ["second value"]
 
@@ -735,6 +723,27 @@ RSpec.describe Automations::Actions::CustomField do
           expect(custom_field_ids).to contain_exactly(custom_field.id, another_custom_field.id)
         end
       end
+    end
+  end
+
+  describe "destroying the custom field" do
+    let(:custom_field) { create(:string_wp_custom_field) }
+    let(:other_custom_field) { create(:string_wp_custom_field) }
+    let(:automation) { create(:automation, :with_button_trigger) }
+
+    before do
+      automation.actions << described_class.subclass_for(custom_field).new(custom_field:, values: ["a"])
+      automation.actions << described_class.subclass_for(other_custom_field).new(custom_field: other_custom_field,
+                                                                                 values: ["b"])
+      automation.actions << Automations::Actions::AssignedTo.new(values: ["1"])
+    end
+
+    it "destroys only the actions referencing it" do
+      expect { custom_field.destroy }
+        .to change { automation.actions.reload.count }.from(3).to(2)
+
+      expect(automation.actions.grep(described_class).map(&:custom_field))
+        .to contain_exactly(other_custom_field)
     end
   end
 end

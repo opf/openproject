@@ -28,30 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Automations::Actions::Serializer
-  module_function
-
-  def load(value)
-    return [] unless value
-
-    YAML
-      .safe_load(value, permitted_classes: [Symbol, Date])
-      .filter_map do |key, values|
-      klass = nil
-
-      Automations::Register
-        .actions
-        .detect do |a|
-        klass = a.for(key)
-      end
-
-      klass ||= Automations::Actions::Inexistent
-
-      klass.new(values)
-    end
-  end
-
-  def dump(actions)
-    YAML::dump(actions.map { |a| [a.key, a.values.map(&:to_s)] })
-  end
+class Automations::Actions::CustomField::ForDate < Automations::Actions::CustomField
+  include Automations::Actions::Strategies::CustomField
+  include Automations::Actions::Strategies::Date
 end
