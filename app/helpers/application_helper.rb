@@ -428,12 +428,6 @@ module ApplicationHelper
     end
   end
 
-  # To avoid FOUC (menu flickering / dark mode on logout), hide page
-  # wrapper on load except in test environment.
-  def initial_menu_styles
-    Rails.env.test? || "display:none"
-  end
-
   def initial_menu_classes(side_displayed, show_decoration)
     classes = "can-hide-navigation"
     classes += " nosidebar" unless side_displayed

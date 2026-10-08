@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
-<div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
+<div id="wrapper" class="<%= initial_classes %>">
   <% if show_decoration %>
     <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
@@ -190,29 +190,24 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 <%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
+
 <%= nonced_javascript_tag type: "module" do %>
-  // execute these lines to prevent flickering when page loads:
-  const wrapper = document.getElementById('wrapper');
-  const mainMenuCollapsed = window.OpenProject.guardedLocalStorage('openProject-mainMenuCollapsed');
-
-  let savedMainMenuWidth;
-  if (mainMenuCollapsed === 'true') {
-    savedMainMenuWidth = 0;
-  } else {
-    savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage('openProject-mainMenuWidth'), 10);
-  }
-
-  if (window.innerWidth < 1012) {
-    // force hide on load for small desktops
-    document.querySelector('.can-hide-navigation')?.classList.add('hidden-navigation');
-  }
-
-  if (savedMainMenuWidth >= 0) {
-    document.documentElement.style.setProperty('--main-menu-width', savedMainMenuWidth + 'px');
-  }
-
-  wrapper.style.display = '';
-
+    document.addEventListener("DOMContentLoaded",()=>{
+      const mainMenuCollapsed = window.OpenProject.guardedLocalStorage('openProject-mainMenuCollapsed');
+      let savedMainMenuWidth;
+      if (mainMenuCollapsed === 'true') {
+        savedMainMenuWidth = 0;
+      } else {
+        savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage('openProject-mainMenuWidth'), 10);
+      }
+      if (window.innerWidth < 1012) {
+        // force hide on load for small desktops
+        document.querySelector('.can-hide-navigation')?.classList.add('hidden-navigation');
+      }
+      if (savedMainMenuWidth >= 0) {
+        document.documentElement.style.setProperty('--main-menu-width', savedMainMenuWidth + 'px');
+      }
+    });
   // Wrapper for page-specific JS from deprecated inline functions
   // no longer available with CSP.
   <%= content_for :additional_js_dom_ready %>
