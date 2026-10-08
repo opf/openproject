@@ -97,8 +97,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public assignDateValues(change:WorkPackageChangeset,
     labels:WorkPackageCellLabels,
-    dates:any):void {
-    this.assignDate(change, 'date', dates.date);
+    dates:CellDateMovement):void {
+    this.assignDate(change, 'date', dates.date!);
     this.updateLabels(true, labels, change);
   }
 

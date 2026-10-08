@@ -176,7 +176,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     void this.turboRequests.request(this.pathHelper.workPackagesBulkDeleteDialogPath(ids, backUrl), { method: 'GET' });
   }
 
-  private editSelectedWorkPackages(link:any) {
+  private editSelectedWorkPackages(link:string) {
     const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
@@ -184,7 +184,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     }
   }
 
-  private copySelectedWorkPackages(link:any) {
+  private copySelectedWorkPackages(link:string) {
     const selected = this.getSelectedWorkPackages();
 
     if (selected.length > 1) {
