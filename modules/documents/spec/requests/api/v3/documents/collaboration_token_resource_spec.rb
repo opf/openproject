@@ -76,6 +76,7 @@ RSpec.describe "API v3 document collaboration token resource" do
         expect(access_token.resource_owner_id).to eq(current_user.id)
         expect(access_token.expires_in).to eq(5.minutes.to_i)
         expect(access_token.application.uid).to eq(Documents::OAuth::EnsureApplicationService::APPLICATION_UID)
+        expect(access_token.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
       end
 
       it "does not expose the plain OAuth token" do
@@ -292,7 +293,7 @@ RSpec.describe "API v3 document collaboration token resource" do
           it_behaves_like "rejects the previous token"
         end
 
-        context "with a token whose OAuth token was not issued to the Documents OAuth application" do
+        context "with a token whose OAuth token lacks the edit documents scope" do
           let(:previous_token) do
             payload = {
               resource_url: "http://#{Setting.host_name}#{api_v3_paths.document(document.id)}",
