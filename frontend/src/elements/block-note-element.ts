@@ -118,6 +118,7 @@ class BlockNoteElement extends HTMLElement {
           attachmentsUploadUrl: this.getAttribute('attachments-upload-url') ?? '',
           attachmentsCollectionKey: this.getAttribute('attachments-collection-key') ?? '',
           projectId: this.getAttribute('project-id') ?? '',
+          documentId: this.getAttribute('document-id') ?? '',
           captureExternalLinks: document.body.dataset.externalLinksEnabledValue === 'true',
           hocuspocusProvider,
         }

@@ -34,6 +34,7 @@ import {
   openProjectWorkPackageStaticInlineSpec,
   openProjectWorkPackageAttributeStaticInlineSpec,
   openProjectWorkPackageAttributeStaticBlockSpec,
+  openProjectUserMentionStaticSpec,
 } from "@openproject/blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
@@ -50,6 +51,7 @@ export const editorSchema = BlockNoteSchema.create().extend({
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
     openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeStaticInlineSpec,
+    openProjectUserMention: openProjectUserMentionStaticSpec,
   },
 });
 

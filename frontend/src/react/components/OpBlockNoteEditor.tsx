@@ -41,9 +41,12 @@ import {
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
+  openProjectUserMentionSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
+  OpenProjectMentionMenu,
+  UserMentionNotificationExtension,
 } from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import * as Y from 'yjs';
@@ -59,6 +62,7 @@ export interface OpBlockNoteEditorProps {
   attachmentsUploadUrl:string;
   attachmentsCollectionKey:string;
   projectId:string;
+  documentId:string;
   captureExternalLinks:boolean;
   hocuspocusProvider?:HocuspocusProvider;
   doc:Y.Doc;
@@ -73,6 +77,7 @@ const schema = BlockNoteSchema.create().extend({
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
     openProjectWorkPackageAttributeInline: openProjectWorkPackageAttributeInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 
@@ -87,6 +92,7 @@ export function OpBlockNoteEditor({
   attachmentsUploadUrl,
   attachmentsCollectionKey,
   projectId,
+  documentId,
   captureExternalLinks,
   hocuspocusProvider,
   doc,
@@ -95,8 +101,8 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
-    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
-  }, [openProjectUrl, localeString, projectId]);
+    initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId, documentId });
+  }, [openProjectUrl, localeString, projectId, documentId]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     const baseParams = {
@@ -107,6 +113,7 @@ export function OpBlockNoteEditor({
       extensions: [
         ExternalLinkA11yExtension,
         HeadingLinkExtension,
+        UserMentionNotificationExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
@@ -176,6 +183,7 @@ export function OpBlockNoteEditor({
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
         <OpenProjectHashMenu />
+        <OpenProjectMentionMenu />
       </BlockNoteView>
     </>
   );
