@@ -31,7 +31,7 @@
 class MeetingSeriesMailerPreview < ActionMailer::Preview
   # Preview emails at http://localhost:3000/rails/mailers/meeting_series_mailer
 
-  def template_completed
+  def invited__template_completed
     language = params["locale"] || I18n.default_locale
     actor = FactoryBot.build_stubbed(:user, lastname: "Actor")
     user = FactoryBot.build_stubbed(:user, language:)
