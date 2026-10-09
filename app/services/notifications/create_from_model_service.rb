@@ -160,7 +160,7 @@ class Notifications::CreateFromModelService
   end
 
   def settings_of_mentioned
-    project_applicable_settings(mentioned_ids,
+    project_applicable_settings(strategy.mentionable_users(mentioned_ids, journal),
                                 project,
                                 NotificationSetting::MENTIONED)
   end
