@@ -1,0 +1,11 @@
+<%= render(Primer::Beta::Text.new(tag: :p)) do %>
+  <%= I18n.t(:"recaptcha.settings.type_hcaptcha_caption") %>
+<% end %>
+<%= render(Primer::Beta::Text.new(tag: :p)) do %>
+  <%=
+    link_translate(
+      :"recaptcha.settings.type_caption_instructions_html",
+      links: { service_link: "https://docs.hcaptcha.com/switch/" }
+    )
+  %>
+<% end %>

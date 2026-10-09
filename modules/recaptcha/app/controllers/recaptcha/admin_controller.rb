@@ -1,7 +1,5 @@
 module ::Recaptcha
   class AdminController < ApplicationController
-    include ::RecaptchaHelper
-
     before_action :require_admin
     before_action :validate_settings, only: :update
     layout "admin"
@@ -20,7 +18,7 @@ module ::Recaptcha
 
     def validate_settings
       new_params = permitted_params
-      allowed_options = recaptcha_available_options.map(&:last)
+      allowed_options = OpenProject::Recaptcha::Services::AVAILABLE.map(&:value)
 
       unless allowed_options.include? new_params[:recaptcha_type]
         flash[:error] = I18n.t(:error_code, code: "400")
@@ -32,7 +30,7 @@ module ::Recaptcha
     end
 
     def permitted_params
-      params.permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
+      params.fetch(:settings, {}).permit(:recaptcha_type, :website_key, :secret_key, :response_limit)
     end
   end
 end

@@ -6,19 +6,19 @@ module OpenProject
       extend self
 
       def enabled?
-        type.present? && type != ::OpenProject::Recaptcha::TYPE_DISABLED
+        type.present? && type != ::OpenProject::Recaptcha::Services::DISABLED.value
       end
 
       def use_hcaptcha?
-        type == ::OpenProject::Recaptcha::TYPE_HCAPTCHA
+        type == ::OpenProject::Recaptcha::Services::HCAPTCHA.value
       end
 
       def use_turnstile?
-        type == ::OpenProject::Recaptcha::TYPE_TURNSTILE
+        type == ::OpenProject::Recaptcha::Services::TURNSTILE.value
       end
 
       def use_recaptcha?
-        type == ::OpenProject::Recaptcha::TYPE_V2 || type == ::OpenProject::Recaptcha::TYPE_V3
+        [::OpenProject::Recaptcha::Services::V2.value, ::OpenProject::Recaptcha::Services::V3.value].include?(type)
       end
 
       def type

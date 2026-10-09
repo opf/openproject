@@ -11,61 +11,13 @@
   end
 %>
 
-<section class="admin--edit-section">
-  <%= styled_form_tag(
-        { action: :update },
-        method: :post,
-        id: "update-recaptcha-settings-form"
-      ) do %>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= t(:label_setting_plural) %></legend>
-      <div class="form--field">
-        <label class="form--label" for='recaptcha_type'><%= t("recaptcha.settings.type") %></label>
-        <div class="form--field-container">
-          <%= styled_select_tag "recaptcha_type",
-                                options_for_select(recaptcha_available_options, Setting.plugin_openproject_recaptcha["recaptcha_type"]),
-                                container_class: "-middle" %>
-        </div>
-        <div class="form--field-instructions">
-          <%= t(
-                "recaptcha.settings.captcha_description_html",
-                hcaptcha_link: link_to("https://docs.hcaptcha.com/switch/", "https://docs.hcaptcha.com/switch/", target: "_blank"),
-                recaptcha_link: link_to("https://www.google.com/recaptcha", "https://www.google.com/recaptcha", target: "_blank"),
-                turnstile_link: link_to("https://developers.cloudflare.com/turnstile/", "https://developers.cloudflare.com/turnstile/", target: "_blank")
-              ) %>
-        </div>
-      </div>
-      <div class="form--field">
-        <label class="form--label" for='website_key'><%= t("recaptcha.settings.website_key") %></label>
-        <div class="form--field-container">
-          <%= styled_text_field_tag "website_key",
-                                    Setting.plugin_openproject_recaptcha["website_key"] %>
-        </div>
-        <div class="form--field-instructions">
-          <%= I18n.t("recaptcha.settings.website_key_text") %>
-        </div>
-      </div>
-      <div class="form--field">
-        <label class="form--label" for='secret_key'><%= t("recaptcha.settings.secret_key") %></label>
-        <div class="form--field-container">
-          <%= styled_text_field_tag "secret_key",
-                                    Setting.plugin_openproject_recaptcha["secret_key"] %>
-        </div>
-        <div class="form--field-instructions">
-          <%= I18n.t("recaptcha.settings.secret_key_text") %>
-        </div>
-      </div>
-      <div class="form--field">
-        <label class="form--label" for='secret_key'><%= t("recaptcha.settings.response_limit") %></label>
-        <div class="form--field-container">
-          <%= styled_text_field_tag "response_limit",
-                                    Setting.plugin_openproject_recaptcha["response_limit"] %>
-        </div>
-        <div class="form--field-instructions">
-          <%= I18n.t("recaptcha.settings.response_limit_text") %>
-        </div>
-      </div>
-    </fieldset>
-    <%= styled_submit_tag t(:button_apply), class: "-primary" %>
-  <% end %>
-</section>
+<%=
+  settings_primer_form_with(
+    url: { action: :update },
+    model: false,
+    scope: :settings,
+    method: :post
+  ) do |f|
+%>
+  <%= render(Admin::Settings::RecaptchaSettingsForm.new(f)) %>
+<% end %>

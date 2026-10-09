@@ -29,7 +29,7 @@ RSpec.describe Recaptcha::AdminController do
 
   describe "#update" do
     it "fails if invalid param" do
-      post :update, params: { recaptcha_type: :unknown }
+      post :update, params: { settings: { recaptcha_type: :unknown } }
       expect(response).to be_redirect
       expect(flash[:error]).to be_present
     end
@@ -41,7 +41,7 @@ RSpec.describe Recaptcha::AdminController do
         .to receive(:plugin_openproject_recaptcha=)
         .with(expected)
 
-      post :update, params: expected
+      post :update, params: { settings: expected }
       expect(response).to be_redirect
       expect(flash[:error]).to be_nil
       expect(flash[:notice]).to be_present

@@ -1,0 +1,4 @@
+<%= I18n.t("recaptcha.settings.website_key_text") %>
+<%= render(Primer::OpenProject::InlineMessage.new(scheme: :warning, size: :small)) do %>
+  <%= I18n.t("recaptcha.settings.website_key_warning") %>
+<% end %>
