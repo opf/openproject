@@ -535,8 +535,8 @@ paths:
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
-  "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entry_activity.yml"
+  "/api/v3/time_entries/activities/{id}":
+    "$ref": "./paths/time_entry_activities.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
