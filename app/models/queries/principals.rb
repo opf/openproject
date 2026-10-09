@@ -34,6 +34,7 @@ module Queries::Principals
     filter Filters::MemberFilter
     filter Filters::MentionableOnWorkPackageFilter
     filter Filters::InternalMentionableOnWorkPackageFilter
+    filter Filters::MentionableOnMessageFilter
     filter Filters::InvitableToMeetingInProjectFilter
     filter Filters::StatusFilter
     filter Filters::NameFilter
