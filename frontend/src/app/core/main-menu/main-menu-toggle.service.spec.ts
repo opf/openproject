@@ -50,6 +50,7 @@ describe('MainMenuToggleService', () => {
     originalOpenProject = window.OpenProject;
     window.OpenProject = new OpenProject();
     window.localStorage.clear();
+    vi.useFakeTimers();
     vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1280);
 
     wrapper = document.createElement('div');
@@ -69,6 +70,7 @@ describe('MainMenuToggleService', () => {
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.restoreAllMocks();
     wrapper.remove();
     document.cookie = `${cookieName}=; path=/; max-age=0`;
@@ -81,52 +83,78 @@ describe('MainMenuToggleService', () => {
     window.dispatchEvent(new Event('resize'));
   }
 
+  async function flushCookieWrite():Promise<void> {
+    TestBed.tick();
+    await vi.advanceTimersByTimeAsync(50);
+    TestBed.tick();
+  }
+
   it('initialises via dependency injection', () => {
     expect(TestBed.inject(MainMenuToggleService)).toBeTruthy();
   });
 
-  it('mirrors a collapsed menu into the cookie', () => {
+  it('mirrors a collapsed menu into the cookie', async () => {
     const service = TestBed.inject(MainMenuToggleService);
 
     service.closeMenu();
+    await flushCookieWrite();
 
     expect(cookieValue()).toBe('0');
     expect(wrapper).toHaveClass('hidden-navigation');
   });
 
-  it('mirrors the open width into the cookie', () => {
+  it('mirrors the open width into the cookie', async () => {
     const service = TestBed.inject(MainMenuToggleService);
 
     service.setWidth(320);
+    await flushCookieWrite();
 
     expect(cookieValue()).toBe('320');
     expect(wrapper).not.toHaveClass('hidden-navigation');
   });
 
-  it('rounds a fractional width before mirroring it', () => {
+  it('writes the cookie once a burst of width changes settles', async () => {
     const service = TestBed.inject(MainMenuToggleService);
+    service.setWidth(300);
+    await flushCookieWrite();
 
-    service.setWidth(319.5);
+    service.saveWidth(310);
+    service.saveWidth(320);
+
+    expect(cookieValue()).toBe('300');
+
+    await flushCookieWrite();
 
     expect(cookieValue()).toBe('320');
   });
 
-  it('keeps the cookie when a narrow window hides the menu', () => {
+  it('rounds a fractional width before mirroring it', async () => {
+    const service = TestBed.inject(MainMenuToggleService);
+
+    service.setWidth(319.5);
+    await flushCookieWrite();
+
+    expect(cookieValue()).toBe('320');
+  });
+
+  it('keeps the cookie when a narrow window hides the menu', async () => {
     const service = TestBed.inject(MainMenuToggleService);
     service.setWidth(320);
 
     resizeWindowTo(800);
+    await flushCookieWrite();
 
     expect(wrapper).toHaveClass('hidden-navigation');
     expect(cookieValue()).toBe('320');
   });
 
-  it('mirrors the reopened width when the window widens again', () => {
+  it('mirrors the reopened width when the window widens again', async () => {
     const service = TestBed.inject(MainMenuToggleService);
     service.setWidth(320);
     resizeWindowTo(800);
 
     resizeWindowTo(1280);
+    await flushCookieWrite();
 
     expect(wrapper).not.toHaveClass('hidden-navigation');
     expect(cookieValue()).toBe('280');

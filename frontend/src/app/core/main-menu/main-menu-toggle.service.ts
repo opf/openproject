@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DestroyRef, Injectable, Injector, inject } from '@angular/core';
+import { DestroyRef, Injectable, Injector, debounced, effect, inject, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -68,7 +68,16 @@ export class MainMenuToggleService {
 
   private lastInnerWidth = window.innerWidth;
 
+  private readonly cookieWidth = signal<number|undefined>(undefined);
+
+  private readonly debouncedCookieWidth = debounced(this.cookieWidth, 50);
+
   constructor() {
+    effect(() => {
+      const width = this.debouncedCookieWidth.value();
+      if (width !== undefined) this.writeWidthCookie(width);
+    });
+
     this.initializeMenu();
 
     const onWindowResize = this.onWindowResize.bind(this);
@@ -195,7 +204,11 @@ export class MainMenuToggleService {
   private persistEffectiveWidth():void {
     if (this.wasHiddenDueToResize) return;
 
-    this.cookieService.set(this.cookieName, String(Math.round(this.elementWidth)), {
+    this.cookieWidth.set(Math.round(this.elementWidth));
+  }
+
+  private writeWidthCookie(width:number):void {
+    this.cookieService.set(this.cookieName, String(width), {
       expires: 365,
       path: window.appBasePath || '/',
       secure: window.location.protocol === 'https:',

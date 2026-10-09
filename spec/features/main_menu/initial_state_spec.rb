@@ -92,7 +92,7 @@ RSpec.describe "Main menu initial state" do
       click_on accessible_name: "Collapse project menu", match: :first
 
       expect(page).to have_css("#wrapper.hidden-navigation")
-      expect(menu_width_cookie).to eq("0")
+      wait_for { menu_width_cookie }.to eq("0")
 
       page.execute_script("window.opMenuSpecMarker = true")
       within "#content" do
@@ -107,7 +107,7 @@ RSpec.describe "Main menu initial state" do
       click_on accessible_name: "Expand project menu", match: :first
 
       expect(page).to have_no_css("#wrapper.hidden-navigation")
-      expect(menu_width_cookie.to_i).to be > 0
+      wait_for { menu_width_cookie.to_i }.to be > 0
     end
 
     context "on a narrow window" do
