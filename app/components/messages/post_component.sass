@@ -29,6 +29,15 @@
     border: 2px solid var(--borderColor-accent-emphasis)
     border-radius: var(--borderRadius-medium)
 
+  // Shown on demand where a pointer can hover; touch screens keep it visible.
+  @media (hover: hover)
+    .op-forum-post--create-work-package
+      opacity: 0
+
+    &:hover .op-forum-post--create-work-package,
+    &:focus-within .op-forum-post--create-work-package
+      opacity: 1
+
 .op-forum-reply-editor
   .ck-content
     @media screen and (max-width: $breakpoint-sm)

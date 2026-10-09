@@ -3663,6 +3663,7 @@ en:
       topic: "Topic"
     topic:
       create_work_package: "Create work package"
+      create_work_package_button: "Work package"
       gap:
         load_previous:
           one: "Load previous reply"
