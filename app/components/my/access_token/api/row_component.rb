@@ -52,7 +52,12 @@ module My
           return I18n.t("my_account.access_tokens.indefinite_expiration") unless expires?
 
           date = helpers.format_date(api_token.expires_on_date)
-          api_token.expired? ? I18n.t("my_account.access_tokens.expired_on", date:) : date
+          return date unless api_token.expired?
+
+          render(Primer::Beta::Text.new(color: :danger, font_weight: :bold)) do
+            concat(render(Primer::Beta::Octicon.new(:alert, mr: 1)))
+            concat(I18n.t("my_account.access_tokens.expired_on", date:))
+          end
         end
 
         def button_links
