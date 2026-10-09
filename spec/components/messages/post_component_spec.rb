@@ -147,6 +147,21 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_css(".op-forum-post-stem + #message-#{message.id}")
     end
 
+    it "carries no accepted-solution mark by default" do
+      expect(rendered_component).to have_no_role(:img, accessible_name: "Accepted solution")
+    end
+
+    context "when accepted as solution" do
+      before do
+        message.update_column(:accepted_solution, true)
+        rendered_component
+      end
+
+      it "marks its header with a titled checkmark" do
+        expect(find_test_selector("message-header")).to have_role(:img, accessible_name: "Accepted solution")
+      end
+    end
+
     it "leaves out its subject, which only repeats the topic's" do
       expect(rendered_component).to have_no_text("RE: Release planning")
     end
@@ -184,6 +199,15 @@ RSpec.describe Messages::PostComponent, type: :component do
       it "offers no quote" do
         expect(rendered_component).to have_no_link("Quote message", visible: :all)
       end
+    end
+  end
+
+  context "when a reply is accepted as the topic's solution" do
+    before { create(:message, forum:, parent: topic, accepted_solution: true) }
+
+    it "links to it from a banner in the post's body, not its signature", :aggregate_failures do
+      expect(rendered_component).to have_test_selector("accepted-solutions-banner", text: "Accepted solution:")
+      expect(find_test_selector("message-signature")).to have_no_test_selector("accepted-solutions-banner")
     end
   end
 
