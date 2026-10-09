@@ -25,8 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DestroyRef, Injectable, Injector, debounced, effect, inject, signal } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable, Injector, debounced, effect, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BehaviorSubject, distinctUntilChanged, fromEvent, map, skip, startWith } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
@@ -66,8 +67,6 @@ export class MainMenuToggleService {
 
   private wasCollapsedByUser = false;
 
-  private lastInnerWidth = window.innerWidth;
-
   private readonly cookieWidth = signal<number|undefined>(undefined);
 
   private readonly debouncedCookieWidth = debounced(this.cookieWidth, 50);
@@ -80,9 +79,17 @@ export class MainMenuToggleService {
 
     this.initializeMenu();
 
-    const onWindowResize = this.onWindowResize.bind(this);
-    window.addEventListener('resize', onWindowResize);
-    inject(DestroyRef).onDestroy(() => window.removeEventListener('resize', onWindowResize));
+    // Only a changed innerWidth matters: a virtual keyboard opening resizes
+    // the visual viewport alone and must not close the menu.
+    fromEvent(window, 'resize')
+      .pipe(
+        map(() => window.innerWidth),
+        startWith(window.innerWidth),
+        distinctUntilChanged(),
+        skip(1),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => this.adjustMenuVisibility());
   }
 
   public initializeMenu():void {
@@ -104,16 +111,6 @@ export class MainMenuToggleService {
     } else {
       this.setWidth();
     }
-
-    this.adjustMenuVisibility();
-  }
-
-  private onWindowResize():void {
-    // Skip if only the visual viewport changed (e.g. virtual keyboard opening) —
-    // adjustMenuVisibility() only cares about innerWidth, and the keyboard does not change it.
-    const currentWidth = window.innerWidth;
-    if (currentWidth === this.lastInnerWidth) return;
-    this.lastInnerWidth = currentWidth;
 
     this.adjustMenuVisibility();
   }

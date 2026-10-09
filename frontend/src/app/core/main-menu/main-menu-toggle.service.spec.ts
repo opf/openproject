@@ -148,6 +148,16 @@ describe('MainMenuToggleService', () => {
     expect(cookieValue()).toBe('320');
   });
 
+  it('keeps the menu open when a resize leaves the window width unchanged', () => {
+    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(800);
+    const service = TestBed.inject(MainMenuToggleService);
+    service.toggleNavigation();
+
+    resizeWindowTo(800);
+
+    expect(wrapper).not.toHaveClass('hidden-navigation');
+  });
+
   it('mirrors the reopened width when the window widens again', async () => {
     const service = TestBed.inject(MainMenuToggleService);
     service.setWidth(320);
