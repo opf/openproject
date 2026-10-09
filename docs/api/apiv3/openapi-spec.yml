@@ -255,12 +255,6 @@ paths:
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
     "$ref": "./paths/document.yml"
-  "/api/v3/example/form":
-    "$ref": "./paths/example_form.yml"
-  "/api/v3/example/schema":
-    "$ref": "./paths/example_schema.yml"
-  "/api/v3/examples":
-    "$ref": "./paths/examples.yml"
   "/api/v3/file_links/{id}":
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
