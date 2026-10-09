@@ -28,8 +28,10 @@
 import {
   endOfDayISO,
   isoToLocalDatetime,
+  isoToWallClockDate,
   localDatetimeToISO,
   startOfDayISO,
+  wallClockDateToISO,
 } from './local-datetime';
 
 describe('localDatetimeToISO', () => {
@@ -67,6 +69,29 @@ describe('endOfDayISO', () => {
 
   it('returns null for an invalid date', () => {
     expect(endOfDayISO('not a date', 'Europe/Berlin')).toBeNull();
+  });
+});
+
+describe('isoToWallClockDate', () => {
+  it('returns a Date showing the wall-clock time of the time zone', () => {
+    const date = isoToWallClockDate('2026-10-01T12:30:00Z', 'Europe/Berlin')!;
+
+    expect([date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()])
+      .toEqual([2026, 9, 1, 14, 30]);
+  });
+
+  it('returns null for an invalid value', () => {
+    expect(isoToWallClockDate('not a date', 'Europe/Berlin')).toBeNull();
+  });
+});
+
+describe('wallClockDateToISO', () => {
+  it('reads the wall-clock time of the Date in the time zone and returns UTC', () => {
+    expect(wallClockDateToISO(new Date(2026, 9, 1, 14, 30), 'Europe/Berlin')).toBe('2026-10-01T12:30:00Z');
+  });
+
+  it('applies the winter offset', () => {
+    expect(wallClockDateToISO(new Date(2026, 0, 15, 14, 30), 'Europe/Berlin')).toBe('2026-01-15T13:30:00Z');
   });
 });
 

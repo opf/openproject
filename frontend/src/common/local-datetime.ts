@@ -45,6 +45,21 @@ export function endOfDayISO(date:string, timeZone:string):string|null {
   return DateTime.fromISO(date, { zone: timeZone }).endOf('day').startOf('second').toUTC().toISO({ suppressMilliseconds: true });
 }
 
+// Pickers like flatpickr only handle Dates in the browser's time zone. These Dates carry the
+// wall-clock time of the given time zone, which differs from the browser's zone for some users.
+export function isoToWallClockDate(isoValue:string, timeZone:string):Date|null {
+  const time = DateTime.fromISO(isoValue, { zone: timeZone });
+
+  return time.isValid ? time.setZone('local', { keepLocalTime: true }).toJSDate() : null;
+}
+
+export function wallClockDateToISO(date:Date, timeZone:string):string|null {
+  return DateTime.fromJSDate(date)
+    .setZone(timeZone, { keepLocalTime: true })
+    .toUTC()
+    .toISO({ suppressMilliseconds: true });
+}
+
 export function isoToLocalDatetime(isoValue:string|null|undefined, timeZone:string):string {
   if (!isoValue) {
     return '';
