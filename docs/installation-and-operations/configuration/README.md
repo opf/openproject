@@ -220,6 +220,23 @@ Live updates stay disabled, and OpenProject keeps polling, as long as `ANYCABLE_
 not set. The `/_anycable` endpoint that the AnyCable server calls to authenticate users is only enabled when a secret is
 configured.
 
+### RPC secret
+
+The AnyCable server authenticates its calls to the `/_anycable` endpoint with a token in the `Authorization` header.
+Unless `ANYCABLE_HTTP_RPC_SECRET` is set, both sides derive this token from `ANYCABLE_SECRET`, so no further
+configuration is needed.
+
+To use a separate token, for example to rotate it independently, set the same value as `ANYCABLE_HTTP_RPC_SECRET` for
+OpenProject and the AnyCable server:
+
+```shell
+ANYCABLE_HTTP_RPC_SECRET=<rpc secret>
+```
+
+`ANYCABLE_SECRET` is still required in this case, as it also signs the live update streams.
+
+The token is sent with every call, so keep `ANYCABLE_RPC_HOST` on a trusted network or use an `https://` URL.
+
 ## Seeding through environment
 
 OpenProject allows some resources to be seeded/created initially through configuration variables.
