@@ -4473,6 +4473,22 @@ a.ck.ck-button.ck-link-toolbar__preview:has(.ck-icon) {
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-licensing-options
  */
 
+/* @ckeditor/ckeditor5-horizontal-line */
+/**
+ * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-licensing-options
+ */
+.ck-editor__editable .ck-horizontal-line {
+  display: flow-root;
+}
+
+.ck-content hr {
+  background: #dedede;
+  border: 0;
+  height: 4px;
+  margin: 15px 0;
+}
+
 /* @ckeditor/ckeditor5-list */
 /**
  * @license Copyright (c) 2003-2026, CKSource Holding sp. z o.o. All rights reserved.

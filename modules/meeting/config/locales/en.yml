@@ -506,6 +506,7 @@ en:
       no_items: "No agenda items"
       no_items_flash: "There are no agenda items to present."
       previous: "Previous"
+      slide_progress: "Slide %{current}/%{total}"
       title: "Presentation Mode"
       total_items: "%{current} of %{total}"
     types:

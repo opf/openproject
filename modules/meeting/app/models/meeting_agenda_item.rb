@@ -115,6 +115,10 @@ class MeetingAgendaItem < ApplicationRecord
     end
   end
 
+  def slides
+    @slides ||= MeetingAgendaItem::Slides.new(self)
+  end
+
   def delete_default_section_if_last_item_deleted
     return if meeting_section.nil? || meeting.sections.count > 1 || meeting_section.backlog?
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,33 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Notes < ApplicationForm
-  delegate :object, to: :@builder
+class MeetingAgendaItem::Slides
+  include OpenProject::TextFormatting
 
-  form do |agenda_item_form|
-    agenda_item_form.rich_text_area(
-      name: :notes,
-      label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled,
-      classes: "ck-editor-primer-adjusted",
-      rich_text_options: {
-        macros: "resource",
-        additionalToolbarItems: %w[horizontalLine],
-        resource:,
-        storageKey: "meeting-#{object.meeting_id || 'new'}-agenda-item-#{object.id || 'new'}",
-        showAttachments: false
-      }
-    )
+  def initialize(meeting_agenda_item)
+    @meeting_agenda_item = meeting_agenda_item
   end
 
-  def initialize(disabled: false)
-    @disabled = disabled
+  def count
+    contents.size
   end
 
-  def resource
-    return unless object&.meeting
+  def clamp(number)
+    number.to_i.clamp(1, count)
+  end
 
-    API::V3::Meetings::MeetingRepresenter
-      .new(object.meeting, current_user: User.current, embed_links: false)
+  def content(number)
+    contents[clamp(number) - 1]
+  end
+
+  private
+
+  def contents
+    @contents ||= split(format_text(@meeting_agenda_item, :notes)).presence || ["".html_safe]
+  end
+
+  def split(html)
+    Nokogiri::HTML.fragment(html)
+      .children
+      .to_a
+      .split { |node| node.element? && node.name == "hr" }
+      .map { |nodes| nodes.map(&:to_html).join }
+      .compact_blank
+      .map(&:html_safe)
   end
 end

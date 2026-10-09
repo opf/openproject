@@ -28,53 +28,72 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  module PresentationMode
-    class ShowComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
+require "spec_helper"
+require_relative "expected_markdown"
 
-      attr_reader :meeting, :current_slide
+RSpec.describe OpenProject::TextFormatting, "horizontal rules" do # rubocop:disable RSpec/SpecFilePathFormat
+  include_context "expected markdown modules"
 
-      def initialize(meeting:, sorted_agenda_item_ids:, current_id: nil, current_slide: 1, started_at: nil)
-        super()
+  let(:expected) do
+    <<~EXPECTED
+      <p class="op-uc-p">First slide</p>
+      <hr>
+      <p class="op-uc-p">Second slide</p>
+    EXPECTED
+  end
 
-        @initial = current_id.nil?
-        @meeting = meeting
-        @project = meeting.project
-        @started_at = started_at || Time.current
-        @agenda_item_ids = sorted_agenda_item_ids
-        @current_id = current_id.nil? ? @agenda_item_ids.first : current_id.to_i
-        @current_index = sorted_agenda_item_ids.index(@current_id)
-        @current_slide = current_slide
+  context "with dashes" do
+    it_behaves_like "format_text produces" do
+      let(:raw) do
+        <<~RAW
+          First slide
+
+          ---
+
+          Second slide
+        RAW
       end
+    end
+  end
 
-      # Define the interval so it can be overriden through tests
-      def check_for_updates_interval
-        5_000
+  context "with asterisks" do
+    it_behaves_like "format_text produces" do
+      let(:raw) do
+        <<~RAW
+          First slide
+
+          ***
+
+          Second slide
+        RAW
       end
+    end
+  end
 
-      def render?
-        @agenda_item_ids.any? && current_item
+  context "with spaced asterisks as serialized by CKEditor" do
+    it_behaves_like "format_text produces" do
+      let(:raw) do
+        <<~RAW
+          First slide
+
+          * * *
+
+          Second slide
+        RAW
       end
+    end
+  end
 
-      def current_item
-        return nil if @current_id.nil?
+  context "with an HTML hr tag" do
+    it_behaves_like "format_text produces" do
+      let(:raw) do
+        <<~RAW
+          First slide
 
-        if defined?(@current_item)
-          @current_item
-        else
-          @current_item = @meeting.agenda_items.find_by(id: @current_id)
-        end
-      end
+          <hr />
 
-      def current_section
-        current_item&.meeting_section
-      end
-
-      def started_at_param
-        @started_at.iso8601
+          Second slide
+        RAW
       end
     end
   end

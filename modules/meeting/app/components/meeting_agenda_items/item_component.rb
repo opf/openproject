@@ -44,6 +44,7 @@ module MeetingAgendaItems
       first_and_last: [],
       current_occurrence: nil,
       presentation_mode: false,
+      slide: nil,
       started_at: nil
     )
       super
@@ -55,6 +56,7 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
       @started_at = started_at
     end
 
@@ -86,6 +88,7 @@ module MeetingAgendaItems
         display_notes_input: (@display_notes_input if @state == :edit),
         current_occurrence: @current_occurrence,
         presentation_mode: @presentation_mode,
+        slide: @slide,
         started_at: @started_at
       }.compact
     end

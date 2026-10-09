@@ -96,6 +96,7 @@ class MeetingAgendaItemsController < ApplicationController
       update_item_via_turbo_stream(state: :edit,
                                    display_notes_input: params[:display_notes_input],
                                    presentation_mode: @presentation_mode,
+                                   slide: @slide,
                                    current_occurrence: @current_occurrence)
     else
       update_all_via_turbo_stream
@@ -108,7 +109,8 @@ class MeetingAgendaItemsController < ApplicationController
   def cancel_edit
     update_item_via_turbo_stream(state: :show,
                                  current_occurrence: @current_occurrence,
-                                 presentation_mode: @presentation_mode)
+                                 presentation_mode: @presentation_mode,
+                                 slide: @slide)
 
     respond_with_turbo_streams
   end
@@ -157,13 +159,15 @@ class MeetingAgendaItemsController < ApplicationController
         update_sidebar_details_component_via_turbo_stream
       end
       update_item_via_turbo_stream(current_occurrence: @current_occurrence,
-                                   presentation_mode: @presentation_mode)
+                                   presentation_mode: @presentation_mode,
+                                   slide: @slide)
       update_section_header_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section)
     else
       # show errors
       update_item_via_turbo_stream(state: :edit,
                                    current_occurrence: @current_occurrence,
-                                   presentation_mode: @presentation_mode)
+                                   presentation_mode: @presentation_mode,
+                                   slide: @slide)
       render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
 
@@ -439,6 +443,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   def set_presentation_mode
     @presentation_mode = ActiveModel::Type::Boolean.new.cast(params[:presentation_mode])
+    @slide = params[:slide]&.to_i if @presentation_mode
   end
 
   def meeting_agenda_item_params

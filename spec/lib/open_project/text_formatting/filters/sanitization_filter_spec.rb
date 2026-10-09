@@ -102,6 +102,18 @@ RSpec.describe OpenProject::TextFormatting::Filters::SanitizationFilter do
     end
   end
 
+  describe "horizontal rules" do
+    it "keeps hr elements" do
+      output = sanitize("<p>First slide</p><hr><p>Second slide</p>")
+      expect(output).to eq("<p>First slide</p><hr><p>Second slide</p>")
+    end
+
+    it "strips unsafe attributes from hr elements" do
+      output = sanitize('<hr onmouseover="alert(1)" style="position:fixed;z-index:99999">')
+      expect(output).to eq("<hr>")
+    end
+  end
+
   describe "CSS injection prevention" do
     context "when trying an overlay via position:fixed" do
       it "strips position and z-index from figure elements" do
