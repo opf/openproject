@@ -42,15 +42,19 @@ RSpec.describe "Endpoints" do
     { method: route.request_method, path: "/api/v3#{route.namespace}" }
   end
 
-  specification_routes.each do |route|
-    it "must have an implementation for #{route[:method].upcase} #{route[:path]}" do
-      expect(implementation_routes).to include_route_definition(route)
+  describe "implementation of specified routes" do
+    specification_routes.each do |route|
+      it "must implement #{route[:method].upcase} #{route[:path]}" do
+        expect(implementation_routes).to include_route_definition(route)
+      end
     end
   end
 
-  implementation_routes.each do |route|
-    it "must have a specification for #{route[:method].upcase} #{route[:path]}" do
-      expect(specification_routes).to include_route_definition(route)
+  describe "specification of implemented routes" do
+    implementation_routes.each do |route|
+      it "must specify #{route[:method].upcase} #{route[:path]}" do
+        expect(specification_routes).to include_route_definition(route)
+      end
     end
   end
 end
