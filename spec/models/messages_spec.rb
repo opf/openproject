@@ -167,4 +167,28 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe "accepted solutions" do
+    shared_let(:project) { create(:project) }
+    shared_let(:forum) { create(:forum, project:) }
+    shared_let(:topic_author) { create(:user) }
+    shared_let(:topic) { create(:message, forum:, author: topic_author) }
+    shared_let(:later) { create(:message, forum:, parent: topic, accepted_solution: true, created_at: 2.hours.ago) }
+    shared_let(:earlier) { create(:message, forum:, parent: topic, accepted_solution: true, created_at: 3.hours.ago) }
+    shared_let(:plain_reply) { create(:message, forum:, parent: topic) }
+
+    describe "#accepted_solutions" do
+      it "lists the topic's accepted replies, oldest first" do
+        expect(topic.accepted_solutions).to eq([earlier, later])
+      end
+    end
+
+    describe ".with_accepted_solution_ids" do
+      let!(:unsolved_topic) { create(:message, forum:) }
+
+      it "keeps only the topics that have an accepted reply" do
+        expect(described_class.with_accepted_solution_ids([topic.id, unsolved_topic.id])).to eq(Set[topic.id])
+      end
+    end
+  end
 end
