@@ -43,6 +43,7 @@ module Primer
                     :attachments_upload_url,
                     :attachments_collection_key,
                     :project_id,
+                    :document_id,
                     :blocknote_stylesheet_url,
                     :shadow_dom_stylesheet_url,
                     :collaboration_enabled
@@ -50,7 +51,7 @@ module Primer
         delegate :name, to: :@input
 
         def initialize(input:, value:, readonly:, attachments_upload_url: "", attachments_collection_key: "",
-                       project_id: nil)
+                       project_id: nil, document_id: nil)
           super()
           @input = input
           @value = value
@@ -62,6 +63,7 @@ module Primer
           @attachments_upload_url = attachments_upload_url
           @attachments_collection_key = attachments_collection_key
           @project_id = project_id
+          @document_id = document_id
           @blocknote_stylesheet_url = raw_variable_asset_path("blocknote.css")
           @shadow_dom_stylesheet_url = raw_variable_asset_path("styles.css")
 
