@@ -80,7 +80,6 @@ module OAuth
         flash[:notice] = t(:notice_successful_update)
         redirect_to action: :index
       else
-        flash[:error] = call.errors.full_messages.join('\n')
         render action: :edit, status: :unprocessable_entity
       end
     end

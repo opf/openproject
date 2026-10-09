@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
          key: @application.class.human_attribute_name(:secret)
        ) do %>
       <p>
-        <%= render(OpPrimer::CopyToClipboardComponent.new(flash[:_application_secret])) %>
+        <%= render(OpPrimer::CopyToClipboardComponent.new(flash[:_application_secret], test_selector: "oauth-application--client-secret")) %>
         <br>
         <strong><%= t "oauth.client_secret_notice" %></strong>
       </p>
