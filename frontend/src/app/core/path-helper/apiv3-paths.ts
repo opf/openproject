@@ -25,9 +25,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+
+type PrincipalsFilter = [string, FilterOperator, string[]];
 
 export class ApiV3Paths {
   readonly apiV3Base:string;
@@ -82,28 +83,22 @@ export class ApiV3Paths {
   }
 
   /**
-   * Principals autocompleter path
+   * Principals autocompleter path, or null when the resource offers no user mentions
    *
    * Primarily used from ckeditor-augmented-textarea
    * https://github.com/opf/commonmark-ckeditor-build/
    *
    */
-  public principals(workPackage:WorkPackageResource, term:string|null) {
+  public principals(resource:HalResource, term:string|null):string|null {
+    const mentionable = this.mentionableFilter(resource);
+    if (!mentionable) {
+      return null;
+    }
+
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     // Only real and activated users:
     filters.add('status', '!', ['3']);
-
-    if (!workPackage.id || workPackage.id === 'new') {
-      // that are members of that project:
-      filters.add('member', '=', [(workPackage.project as HalResource).id!]);
-    } else {
-      // that are mentionable on the work package
-      filters.add(
-        (this.isInternalMentionable() ? 'internal_mentionable_on_work_package' : 'mentionable_on_work_package'),
-        '=',
-        [workPackage.id.toString()],
-      );
-    }
+    filters.add(...mentionable);
     // That are users:
     filters.add('type', '=', ['User', 'Group']);
 
@@ -113,6 +108,30 @@ export class ApiV3Paths {
     }
 
     return `${this.apiV3Base}/principals?${filters.toParams({ sortBy: '[["name","asc"]]', offset: '1', pageSize: '10' })}`;
+  }
+
+  private mentionableFilter(resource:HalResource):PrincipalsFilter|null {
+    const isNew = !resource.id || resource.id === 'new';
+
+    switch (resource._type) {
+      case 'WorkPackage':
+        if (isNew) {
+          return this.projectMembersFilter(resource);
+        }
+        return [
+          this.isInternalMentionable() ? 'internal_mentionable_on_work_package' : 'mentionable_on_work_package',
+          '=',
+          [resource.id!],
+        ];
+      case 'Post':
+        return isNew ? this.projectMembersFilter(resource) : ['mentionable_on_message', '=', [resource.id!]];
+      default:
+        return null;
+    }
+  }
+
+  private projectMembersFilter(resource:HalResource):PrincipalsFilter {
+    return ['member', '=', [(resource.project as HalResource).id!]];
   }
 
   /**

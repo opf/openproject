@@ -109,6 +109,17 @@ RSpec.describe "API v3 Principals resource" do
       it_behaves_like "API V3 collection response", 3, 3
     end
 
+    context "with a filter for principals mentionable on a forum message" do
+      let(:message) { create(:message, forum: create(:forum, project:)) }
+      let(:filter) do
+        [{ mentionable_on_message: { operator: "=", values: [message.id.to_s] } }]
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3 do
+        let(:elements) { [placeholder_user, group, user] }
+      end
+    end
+
     context 'with a filter for type "User"' do
       let(:filter) do
         [{ type: { operator: "=", values: ["User"] } }]

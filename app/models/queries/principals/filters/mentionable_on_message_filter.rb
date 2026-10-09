@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,52 +26,51 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Notifications::CreateFromModelService::WorkPackageStrategy
-  def self.reasons
-    %i(mentioned assigned responsible watched commented created processed prioritized scheduled shared)
+class Queries::Principals::Filters::MentionableOnMessageFilter <
+  Queries::Principals::Filters::PrincipalFilter
+  def allowed_values_subset
+    @allowed_values_subset ||= ::Message.visible
   end
 
-  def self.permission(journal, _reason)
-    if journal&.internal?
-      # we assume that if a journal is internal it is a comment and respects the
-      # view internal comments permissions
-      :view_internal_comments
-    else
-      :view_work_packages
+  def type
+    :list_optional
+  end
+
+  def self.key
+    :mentionable_on_message
+  end
+
+  def human_name
+    "mentionable" # Only for Internal use, not visible in the UI
+  end
+
+  def apply_to(query_scope)
+    case operator
+    when "="
+      query_scope.where(id: project_members)
+    when "!"
+      query_scope.where(id: visible_scope.where.not(id: project_members.select(:id)))
     end
   end
 
-  def self.mentionable_users(users, _journal)
-    users
+  private
+
+  def type_strategy
+    @type_strategy ||= Queries::Filters::Strategies::HugeList.new(self)
   end
 
-  def self.supports_ian?(_reason)
-    true
+  # view_messages is a public permission: every member of the project can read its forums.
+  def project_members
+    visible_scope.where(id: Member.of_project(projects).where(entity: nil).select(:user_id))
   end
 
-  def self.supports_mail_digest?(_reason)
-    true
+  def visible_scope
+    Principal.visible(User.current)
   end
 
-  def self.supports_mail?(reason)
-    reason == :mentioned
-  end
-
-  def self.watcher_users(journal)
-    User.watcher_recipients(journal.journable)
-  end
-
-  def self.shared_users(journal)
-    journal.journable.member_principals
-  end
-
-  def self.project(journal)
-    journal.data.project
-  end
-
-  def self.user(journal)
-    journal.user
+  def projects
+    Project.where(id: Forum.where(id: Message.where(id: values).select(:forum_id)).select(:project_id))
   end
 end

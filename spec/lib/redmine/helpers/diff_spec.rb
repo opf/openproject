@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,52 +26,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Notifications::CreateFromModelService::WorkPackageStrategy
-  def self.reasons
-    %i(mentioned assigned responsible watched commented created processed prioritized scheduled shared)
-  end
+require "spec_helper"
 
-  def self.permission(journal, _reason)
-    if journal&.internal?
-      # we assume that if a journal is internal it is a comment and respects the
-      # view internal comments permissions
-      :view_internal_comments
-    else
-      :view_work_packages
+RSpec.describe Redmine::Helpers::Diff do
+  describe "#additions" do
+    it "lists the words added in every changed part" do
+      diff = described_class.new("Hallo there dear world Bob", "Hello there dear world")
+
+      expect(diff.additions).to eq %w[Hallo Bob]
     end
-  end
-
-  def self.mentionable_users(users, _journal)
-    users
-  end
-
-  def self.supports_ian?(_reason)
-    true
-  end
-
-  def self.supports_mail_digest?(_reason)
-    true
-  end
-
-  def self.supports_mail?(reason)
-    reason == :mentioned
-  end
-
-  def self.watcher_users(journal)
-    User.watcher_recipients(journal.journable)
-  end
-
-  def self.shared_users(journal)
-    journal.journable.member_principals
-  end
-
-  def self.project(journal)
-    journal.data.project
-  end
-
-  def self.user(journal)
-    journal.user
   end
 end

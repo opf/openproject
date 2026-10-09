@@ -95,15 +95,7 @@ module Redmine
       end
 
       def additions
-        added_changes = []
-        if @diff.diffs.try(:first).try(:any?)
-          @diff.diffs.first.each do |change|
-            if change.first == "+"
-              added_changes << change.third
-            end
-          end
-        end
-        added_changes
+        @diff.diffs.flatten(1).filter_map { |action, _position, word| word if action == "+" }
       end
     end
   end
