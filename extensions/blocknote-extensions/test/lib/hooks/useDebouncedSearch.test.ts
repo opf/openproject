@@ -16,8 +16,8 @@ describe('useDebouncedSearch', () => {
     const search = vi.fn(async (query:string) => [query]);
     const { result } = renderHook(() => useDebouncedSearch(search, { debounce: 300 }));
 
-    const first = result.current('a');
-    const second = result.current('ab');
+    const first = result.current.search('a');
+    const second = result.current.search('ab');
     await vi.advanceTimersByTimeAsync(300);
 
     expect(await first).toEqual([]);
@@ -27,8 +27,8 @@ describe('useDebouncedSearch', () => {
 
   it('skips blank queries unless asked to search them', async () => {
     const search = vi.fn(async () => ['x']);
-    const skipping = renderHook(() => useDebouncedSearch(search, { debounce: 0 })).result.current;
-    const searching = renderHook(() => useDebouncedSearch(search, { debounce: 0, searchBlank: true })).result.current;
+    const skipping = renderHook(() => useDebouncedSearch(search, { debounce: 0 })).result.current.search;
+    const searching = renderHook(() => useDebouncedSearch(search, { debounce: 0, searchBlank: true })).result.current.search;
 
     expect(await skipping(' ')).toEqual([]);
     const blank = searching('');
@@ -40,7 +40,7 @@ describe('useDebouncedSearch', () => {
   it('rejects with the search error', async () => {
     const { result } = renderHook(() => useDebouncedSearch(async () => { throw new Error('boom'); }, { debounce: 0 }));
 
-    const failing = result.current('a');
+    const failing = result.current.search('a');
     await Promise.all([
       expect(failing).rejects.toThrow('boom'),
       vi.advanceTimersByTimeAsync(0),
@@ -50,10 +50,22 @@ describe('useDebouncedSearch', () => {
   it('rejects when the search throws synchronously', async () => {
     const { result } = renderHook(() => useDebouncedSearch(() => { throw new Error('sync boom'); }, { debounce: 0 }));
 
-    const failing = result.current('a');
+    const failing = result.current.search('a');
     await Promise.all([
       expect(failing).rejects.toThrow('sync boom'),
       vi.advanceTimersByTimeAsync(0),
     ]);
+  });
+
+  it('settles a cancelled search empty without fetching', async () => {
+    const search = vi.fn(async (query:string) => [query]);
+    const { result } = renderHook(() => useDebouncedSearch(search, { debounce: 300 }));
+
+    const pending = result.current.search('a');
+    result.current.cancel();
+    await vi.advanceTimersByTimeAsync(300);
+
+    expect(await pending).toEqual([]);
+    expect(search).not.toHaveBeenCalled();
   });
 });
