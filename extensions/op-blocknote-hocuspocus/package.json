@@ -44,7 +44,7 @@
     "msw": "^2.12.7",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.70.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "allowScripts": {
     "esbuild@0.28.1": true,
