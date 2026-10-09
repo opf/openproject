@@ -3662,8 +3662,8 @@ en:
         recent_activity: "Recent activity"
       topic: "Topic"
     topic:
-      create_work_package: "Create work package"
-      create_work_package_button: "Work package"
+      add_work_package: "Add new work package"
+      edit_message: "Edit message"
       gap:
         load_previous:
           one: "Load previous reply"
@@ -3673,6 +3673,7 @@ en:
       participants:
         one: "1 participant"
         other: "%{count} participants"
+      quote_message: "Quote message"
       replies:
         one: "1 reply"
         other: "%{count} replies"

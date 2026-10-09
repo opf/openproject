@@ -70,12 +70,12 @@ module Pages::Messages
       if quoted_message
         within_test_selector("forum-post-#{quoted_message.id}") do
           click_on accessible_name: "Message actions"
-          click_on "Quote"
+          click_on "Quote message"
         end
       else
         within_test_selector("forum-post-#{message.id}") do
           click_on accessible_name: "Message actions"
-          click_on "Quote"
+          click_on "Quote message"
         end
       end
 

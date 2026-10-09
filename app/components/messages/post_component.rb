@@ -84,7 +84,7 @@ module Messages
                                       test_selector: "message-create-work-package-button-#{message.id}",
                                       data: { controller: "async-dialog" })) do |button|
         button.with_leading_visual_icon(icon: :plus)
-        t("forums.topic.create_work_package_button")
+        t("forums.topic.add_work_package")
       end
     end
 
@@ -111,8 +111,8 @@ module Messages
 
         copy_link_item(menu)
         quote_item(menu) if quotable?
-        create_work_package_item(menu) if work_package_creatable?
         edit_item(menu) if message.editable_by?(User.current)
+        with_item_group(menu) { create_work_package_item(menu) } if work_package_creatable?
         with_item_group(menu) { delete_item(menu) } if reply? && message.destroyable_by?(User.current)
       end
     end
@@ -126,7 +126,7 @@ module Messages
     end
 
     def quote_item(menu)
-      menu.with_item(label: t(:button_quote),
+      menu.with_item(label: t("forums.topic.quote_message"),
                      href: quote_project_forum_topic_path(project, forum, message),
                      content_arguments: { data: { action: "forum-messages#quote" } }) do |item|
         item.with_leading_visual_icon(icon: :quote)
@@ -138,16 +138,17 @@ module Messages
     end
 
     def create_work_package_item(menu)
-      menu.with_item(label: t("forums.topic.create_work_package"),
+      menu.with_item(label: t("forums.topic.add_work_package"),
                      href: new_project_forum_topic_work_package_path(project, forum, message),
                      test_selector: "message-create-work-package-#{message.id}",
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
-        item.with_leading_visual_icon(icon: :"issue-opened")
+        item.with_leading_visual_icon(icon: :plus)
       end
     end
 
     def edit_item(menu)
-      menu.with_item(label: t(:button_edit), href: edit_project_forum_topic_path(project, forum, message)) do |item|
+      menu.with_item(label: t("forums.topic.edit_message"),
+                     href: edit_project_forum_topic_path(project, forum, message)) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
     end
