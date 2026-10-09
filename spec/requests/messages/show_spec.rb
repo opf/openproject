@@ -75,4 +75,52 @@ RSpec.describe "Forum topic thread", type: :rails_request, with_settings: { per_
       expect(html).to have_test_selector("forum-thread-gap", count: 2)
     end
   end
+
+  context "with work packages created from its messages" do
+    current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages view_work_packages] }) }
+
+    def create_work_package_from(message, subject: "Created")
+      create(:work_package, project: forum.project, subject:).tap { MessageWorkPackage.create!(message:, work_package: it) }
+    end
+
+    it "hangs each one on the lifeline after the message it came from" do
+      work_package = create_work_package_from(replies.first, subject: "Freeze on Friday")
+
+      get project_forum_topic_path(forum.project, forum, topic)
+
+      branch = test_selector("message-created-work-package-#{work_package.id}")
+
+      expect(html).to have_css("#message-#{replies.first.id} ~ #{branch}", text: "Freeze on Friday")
+    end
+
+    it "names them in the topic header, including those from replies hidden behind a gap" do
+      long_topic = create(:message, forum:)
+      long_replies = Array.new(25) do |i|
+        create(:message, forum:, parent: long_topic, created_at: long_topic.created_at + (i + 1).minutes)
+      end
+      work_package = create_work_package_from(long_replies.first)
+
+      get project_forum_topic_path(forum.project, forum, long_topic)
+
+      expect(html).to have_test_selector("topic-summary", text: work_package.formatted_id)
+    end
+
+    it "looks them up without a query per message or per work package" do
+      create_work_package_from(replies.first)
+      get project_forum_topic_path(forum.project, forum, topic)
+      baseline = count_queries { get project_forum_topic_path(forum.project, forum, topic) }
+
+      replies.drop(1).each { create_work_package_from(it) }
+      create_work_package_from(topic)
+
+      expect(count_queries { get project_forum_topic_path(forum.project, forum, topic) }).to be <= baseline
+    end
+  end
+
+  def count_queries(&)
+    count = 0
+    counter = ->(*, payload) { count += 1 unless payload[:name].in?(%w[SCHEMA TRANSACTION]) }
+    ActiveSupport::Notifications.subscribed(counter, "sql.active_record", &)
+    count
+  end
 end

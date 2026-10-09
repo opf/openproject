@@ -29,33 +29,27 @@
 #++
 
 module Messages
-  class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
-      super
-      @topic = topic
-      @segments = segments
-      @created_work_packages = created_work_packages
-      @focus_first = focus_first
+  module CreatedWorkPackagesQuery
+    module_function
+
+    def for_messages(messages, user:)
+      ids = messages.map(&:id)
+      return {} if ids.empty?
+
+      links(user).where(message_id: ids).group_by(&:message_id).transform_values { it.map(&:work_package) }
     end
 
-    def call
-      safe_join(@segments.map { render_segment(it) })
+    def for_topic(topic, user:)
+      topic_message_ids = Message.where(id: topic.id).or(Message.where(parent_id: topic.id)).select(:id)
+
+      links(user).where(message_id: topic_message_ids).map(&:work_package)
     end
 
-    private
-
-    def render_segment(segment)
-      focus = @focus_first && segment == @segments.first
-      case segment
-      in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map do |message|
-          render(Messages::PostComponent.new(message:,
-                                             work_packages: @created_work_packages.fetch(message.id, []),
-                                             focus: focus && message == messages.first))
-        end)
-      in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
-      end
+    def links(user)
+      MessageWorkPackage
+        .where(work_package_id: WorkPackage.visible(user).select(:id))
+        .includes(work_package: %i[type status])
+        .order(:id)
     end
   end
 end

@@ -43,7 +43,7 @@ class MessagesController < ApplicationController
   # Show a topic and its replies
   def show
     @topic = @message.root
-    @segments = Messages::ThreadLayout.new(@topic).segments(target_id: params[:r])
+    load_thread(target_id: params[:r])
 
     @reply = Message.new(parent: @topic, forum: @topic.forum)
     render action: "show", layout: !request.xhr?
@@ -91,7 +91,7 @@ class MessagesController < ApplicationController
       call_hook(:controller_messages_reply_after_save, params:, message: @reply)
       redirect_to helpers.message_anchor_path(@reply)
     else
-      @segments = Messages::ThreadLayout.new(@topic).segments
+      load_thread
       render action: :show, status: :unprocessable_entity
     end
   end
@@ -140,13 +140,24 @@ class MessagesController < ApplicationController
   def replies # rubocop:disable Metrics/AbcSize
     topic = @message.root
     segments = Messages::ThreadLayout.new(topic).gap_segments(after_id: params[:after], before_id: params[:before])
-    content = Messages::ThreadSegmentsComponent.new(topic:, segments:, focus_first: true)
+    created_work_packages = Messages::CreatedWorkPackagesQuery.for_messages(replies_in(segments), user: current_user)
+    content = Messages::ThreadSegmentsComponent.new(topic:, segments:, created_work_packages:, focus_first: true)
 
     turbo_streams << turbo_stream.replace(Messages::RepliesGapComponent.dom_id(params[:after], params[:before]), content)
     respond_with_turbo_streams
   end
 
   private
+
+  def load_thread(target_id: nil)
+    @segments = Messages::ThreadLayout.new(@topic).segments(target_id:)
+    @created_work_packages = Messages::CreatedWorkPackagesQuery.for_messages([@topic, *replies_in(@segments)],
+                                                                             user: current_user)
+  end
+
+  def replies_in(segments)
+    segments.grep(Messages::ThreadLayout::Replies).flat_map(&:messages)
+  end
 
   def find_project_and_forum
     @project = Project.visible.find(params[:project_id])

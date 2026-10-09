@@ -102,4 +102,34 @@ RSpec.describe Messages::ShowPageHeaderComponent, type: :component do
       expect(rendered_component).to have_no_link("Delete")
     end
   end
+
+  context "with work packages created from the topic's messages" do
+    current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages view_work_packages] }) }
+
+    let(:reply) { create(:message, forum:, parent: topic) }
+    let(:from_topic) { create(:work_package, project: forum.project) }
+    let(:from_reply) { create(:work_package, project: forum.project) }
+
+    before do
+      MessageWorkPackage.create!(message: topic, work_package: from_topic)
+      MessageWorkPackage.create!(message: reply, work_package: from_reply)
+      rendered_component
+    end
+
+    it "follows the counts with them, linked, in creation order", :aggregate_failures do
+      summary = find_test_selector("topic-summary")
+
+      expect(summary).to have_link(from_topic.formatted_id, href: "/work_packages/#{from_topic.id}")
+      expect(summary).to have_link(from_reply.formatted_id, href: "/work_packages/#{from_reply.id}")
+      expect(summary.text.index(from_topic.formatted_id)).to be < summary.text.index(from_reply.formatted_id)
+    end
+
+    it "shows each one's info line rather than a bare link" do
+      expect(find_test_selector("topic-summary")).to have_text(from_reply.status.name).and have_text(from_reply.type.name.upcase)
+    end
+  end
+
+  it "names no work package when none was created from the topic" do
+    expect(rendered_component).to have_test_selector("topic-summary", text: /(replies yet|participants?)\z/)
+  end
 end
