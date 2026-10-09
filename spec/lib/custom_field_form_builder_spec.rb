@@ -116,6 +116,27 @@ RSpec.describe CustomFieldFormBuilder do
       end
     end
 
+    context "for a datetime custom field" do
+      let(:field_format) { "datetime" }
+
+      it_behaves_like "wrapped in container", "field-container" do
+        let(:container_count) { 2 }
+      end
+
+      it "outputs element" do
+        expect(output).to be_html_eql(
+          <<~HTML
+            <opce-basic-single-datetime-picker
+              class="custom-class"
+              data-value="null"
+              data-id='"user_custom_field_#{custom_field.id}"'
+              data-name='"user[#{custom_field.id}]"'
+            ></opce-basic-single-datetime-picker>
+          HTML
+        ).at_path("opce-basic-single-datetime-picker")
+      end
+    end
+
     context "for a text custom field" do
       let(:field_format) { "text" }
 

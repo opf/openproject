@@ -220,6 +220,21 @@ en:
       date:
         current_date: "Current date"
         specific: "on"
+      datetime:
+        current: "Current date and time"
+        relative: "Relative to execution"
+        fixed: "on"
+        since: "from now"
+        ago: "ago"
+        days:
+          one: "%{count} day"
+          other: "%{count} days"
+        hours:
+          one: "%{count} hour"
+          other: "%{count} hours"
+        minutes:
+          one: "%{count} minute"
+          other: "%{count} minutes"
 
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
