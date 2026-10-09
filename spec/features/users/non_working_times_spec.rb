@@ -49,7 +49,7 @@ RSpec.describe "User non-working times", :js do
 
       nwt_page.confirm_dialog
 
-      nwt_page.expect_sidebar_entry("Mar 10")
+      nwt_page.expect_sidebar_entry("Mar 10 - Mar 10, 2026: 1 working day")
       expect(managed_user.non_working_times.count).to eq(1)
     end
 
@@ -62,7 +62,18 @@ RSpec.describe "User non-working times", :js do
 
       nwt_page.confirm_dialog
 
-      nwt_page.expect_sidebar_entry("5 working days")
+      nwt_page.expect_sidebar_entry("Mar 9 - Mar 13, 2026: 5 working day")
+    end
+
+    it "shows only this year part when spanning to the next year" do
+      nwt_page.open_create_dialog
+
+      nwt_page.set_start_date(Date.new(2026, 12, 21))
+      nwt_page.set_end_date(Date.new(2027, 1, 15))
+
+      nwt_page.confirm_dialog
+
+      nwt_page.expect_sidebar_entry("Dec 21 - Dec 31, 2026: 11 working days")
     end
 
     it "shows a validation error when end date is before start date" do
