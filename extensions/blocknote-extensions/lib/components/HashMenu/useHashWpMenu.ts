@@ -12,7 +12,7 @@ import { canOpenHashMenu, HASH_TRIGGER, hashTargetFor } from './hashTrigger';
 import { isHashWpQuery } from './types';
 
 export function useHashWpMenu(editor:AnyEditor) {
-  const { search } = useWorkPackageSearch();
+  const { search, cancelSearch } = useWorkPackageSearch();
 
   const planFor = useCallback((query:string):SuggestionPlan<WorkPackage> => {
     const target = hashTargetFor(editor, query);
@@ -36,6 +36,7 @@ export function useHashWpMenu(editor:AnyEditor) {
     trigger: HASH_TRIGGER,
     planFor,
     search: searchWithColors,
+    cancelSearch,
     logPrefix: '[work package search] Failed to load work packages from OpenProject:',
     createMenu: createHashWpMenuComponent,
   });

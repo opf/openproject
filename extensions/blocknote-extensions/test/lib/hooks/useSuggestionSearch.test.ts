@@ -2,6 +2,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { RefObject } from 'react';
 import { renderHook } from '@testing-library/react';
+import { useDebouncedSearch } from '../../../lib/hooks/useDebouncedSearch';
 import { useSuggestionSearch } from '../../../lib/hooks/useSuggestionSearch';
 import type { SuggestionPlan, SuggestionSearchState } from '../../../lib/hooks/useSuggestionSearch';
 import { createHeadlessEditorWithText } from '../../helpers/headlessEditor';
@@ -28,6 +29,7 @@ function renderSuggestionSearch() {
     trigger: '@',
     planFor: searchPlan,
     search,
+    cancelSearch: () => {},
     logPrefix: '[test search]',
     createMenu,
   }));
@@ -73,5 +75,58 @@ describe('useSuggestionSearch', () => {
 
     expect(console.error).toHaveBeenCalledWith('[test search]', new Error('offline'));
     expect(state()).toEqual({ query: 'an', results: ['Anna'], error: null });
+  });
+
+  it('lets only the latest call write the state when the same query is asked twice', async () => {
+    const pending:PendingSearch[] = [];
+    const search = () => new Promise<string[]>((resolve, reject) => { pending.push({ resolve, reject }); });
+    let searchState!:RefObject<SuggestionSearchState<string>>;
+    const { result } = renderHook(() => useSuggestionSearch(createHeadlessEditorWithText('@'), {
+      trigger: '@',
+      planFor: searchPlan,
+      search,
+      cancelSearch: () => {},
+      logPrefix: '[test search]',
+      createMenu: (ref) => { searchState = ref; return () => null; },
+    }));
+
+    const first = result.current.getItems('a');
+    const second = result.current.getItems('a');
+    pending[1].resolve(['Anna']);
+    expect(await second).toHaveLength(1);
+    pending[0].resolve(['Adam']);
+
+    expect(await first).toEqual([]);
+    expect(searchState.current).toEqual({ query: 'a', results: ['Anna'], error: null });
+  });
+
+  it('cancels the pending search when the query stops being searchable', async () => {
+    vi.useFakeTimers();
+    try {
+      const search = vi.fn(async (query:string) => [query]);
+      const planFor = (query:string):SuggestionPlan<string> => (
+        query === '12' ? searchPlan() : { kind: 'prompt' }
+      );
+      const { result } = renderHook(() => {
+        const debounced = useDebouncedSearch(search, { debounce: 300 });
+        return useSuggestionSearch(createHeadlessEditorWithText('#'), {
+          trigger: '#',
+          planFor,
+          search: debounced.search,
+          cancelSearch: debounced.cancel,
+          logPrefix: '[test search]',
+          createMenu: () => () => null,
+        });
+      });
+
+      const searching = result.current.getItems('12');
+      await result.current.getItems('');
+      await vi.advanceTimersByTimeAsync(300);
+
+      expect(search).not.toHaveBeenCalled();
+      expect(await searching).toEqual([]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

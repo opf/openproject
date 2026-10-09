@@ -60,7 +60,7 @@ export function useWorkPackageSearch(
     };
   }, [searchQuery, debounce]);
 
-  const debouncedSearch = useDebouncedSearch(searchWorkPackages, { debounce });
+  const { search: debouncedSearch, cancel: cancelSearch } = useDebouncedSearch(searchWorkPackages, { debounce });
 
   // Imperative search (used by BlockNote getItems — must return results immediately)
   const latestCallRef = useRef(0);
@@ -85,5 +85,6 @@ export function useWorkPackageSearch(
     loading,
     error,
     search,
+    cancelSearch,
   };
 }
