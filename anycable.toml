@@ -1,0 +1,61 @@
+# AnyCable server configuration.
+#
+# Read more at https://docs.anycable.io/anycable-go/configuration
+
+# Public mode disables connection authentication, pub/sub streams and broadcasts verification
+# public = false
+
+# The application secret key: it's used to verify JWT tokens, signed streams, etc.
+# In development, it MUST match the value in the `config/anycable.yml`.
+# IMPORTANT: Make sure you provided a secret in production via the ANYCABLE_SECRET env var
+# if you use this configuration file.
+secret = "anycable-local-secret"
+
+# Enable AnyCable power features such as reliable streams, presence and resumable sessions.
+# Read more:
+#  - https://docs.anycable.io/anycable-go/reliable_streams
+#  - https://docs.anycable.io/anycable-go/presence
+presets = ["broker"]
+
+# Broadcasting adapters for app-to-clients messages.
+# You one of the specified adapters in the config/anycable.yml.
+# Read more in https://docs.anycable.io/anycable-go/broadcasting.
+broadcast_adapters = ["http", "redisx"]
+
+# Pub/sub adapter for inter-node communication in a production cluster
+# IMPORTANT: In production, when running AnyCable in a cluster mode,
+# make sure to enable pub/sub adapter via the ANYCABLE_PUBSUB_ADAPTER env var
+# pubsub_adapter = "redis" # or "nats"
+
+[logging]
+debug = true
+
+# RPC is used to authorized subscriptions and perform channel actions.
+# You only need it if you use custom Action Cable channel classes.
+# Read more: https://docs.anycable.io/anycable-go/rpc
+[rpc]
+# AnyCable is running in a standalone mode.
+# Read more: https://docs.anycable.io/anycable-go/getting_started?id=standalone-mode-pubsub-only
+implementation = "none"
+
+
+# Signed and public streams configuration.
+# Read more: https://docs.anycable.io/anycable-go/signed_streams
+[streams]
+# Enable public (unsigned) streams
+# public = true
+# Enable whispering support for pub/sub streams
+whisper = true
+#
+# Authorize Turbo Streams at the AnyCable server side.
+# IMPORTANT: Make sure your Turbo verifier key is the same as AnyCable secret.
+# Add this line to your Rails configuration (if missing):
+#
+#  config.turbo.signed_stream_verifier_key = AnyCable.config.secret
+#
+turbo = true
+
+[redis]
+# IMPORTANT: In production, provide Redis address via the REDIS_URL or ANYCABLE_REDIS_URL env var
+url = "redis://localhost:6379"
+
