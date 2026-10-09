@@ -343,6 +343,18 @@ RSpec.describe Notifications::MailService, type: :model do
         expect(mail)
           .to have_received(:deliver_now)
       end
+
+      context "with the recipient having opted out of immediate mention mails" do
+        let(:immediate_reminders_mentioned) { false }
+
+        it "sends the mention mail anyway" do
+          call
+
+          expect(UserMailer)
+            .to have_received(:message_mentioned)
+                  .with(recipient, journal)
+        end
+      end
     end
   end
 

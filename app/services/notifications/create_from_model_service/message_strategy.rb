@@ -37,9 +37,13 @@ module Notifications::CreateFromModelService::MessageStrategy
     :view_messages
   end
 
-  # view_messages is public, so User.allowed also grants it through work package shares.
+  # view_messages is public, so User.allowed also grants it through work package shares,
+  # which do not open a private project's forums.
   def self.mentionable_users(users, journal)
-    users.where(id: Member.of_project(journal.data.project).select(:user_id))
+    project = journal.data.project
+    return users if project.public?
+
+    users.where(id: Member.of_project(project).select(:user_id))
   end
 
   def self.supports_ian?(_reason)
