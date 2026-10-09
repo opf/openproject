@@ -31,6 +31,7 @@
 module Messages
   class AcceptedSolutionIconComponent < ApplicationComponent
     ICON = :"check-circle"
+    REMOVE_ICON = :"x-circle"
 
     LABELS = {
       (REPLY = :reply) => "forums.topic.accepted_solution",

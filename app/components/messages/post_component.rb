@@ -31,6 +31,7 @@
 module Messages
   class PostComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include OpTurbo::Streamable
 
     def initialize(message:, work_packages: [], focus: false)
       super
@@ -38,6 +39,8 @@ module Messages
       @work_packages = work_packages
       @focus = focus
     end
+
+    def wrapper_uniq_by = message.id
 
     private
 
@@ -115,6 +118,7 @@ module Messages
         copy_link_item(menu)
         quote_item(menu) if quotable?
         edit_item(menu) if message.editable_by?(User.current)
+        with_item_group(menu) { accepted_solution_item(menu) } if AcceptSolutionContract.can_accept?(user: User.current, message:)
         with_item_group(menu) { create_work_package_item(menu) } if work_package_creatable?
         with_item_group(menu) { delete_item(menu) } if reply? && message.destroyable_by?(User.current)
       end
@@ -146,6 +150,20 @@ module Messages
                      test_selector: "message-create-work-package-#{message.id}",
                      content_arguments: { data: { controller: "async-dialog" } }) do |item|
         item.with_leading_visual_icon(icon: :plus)
+      end
+    end
+
+    def accepted_solution_item(menu)
+      label, icon, method = if message.accepted_solution?
+                              [t("forums.topic.remove_as_solution"), AcceptedSolutionIconComponent::REMOVE_ICON, :delete]
+                            else
+                              [t("forums.topic.accept_as_solution"), AcceptedSolutionIconComponent::ICON, :post]
+                            end
+      menu.with_item(label:,
+                     tag: :button,
+                     href: project_forum_topic_accepted_solution_path(project, forum, message),
+                     form_arguments: { method: }) do |item|
+        item.with_leading_visual_icon(icon:)
       end
     end
 

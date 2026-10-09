@@ -176,6 +176,28 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_link("Quote message", visible: :all)
     end
 
+    it "offers no accepting to a member who neither started the topic nor moderates" do
+      expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
+    end
+
+    context "for the topic's author" do
+      current_user { author }
+
+      it "offers accepting it", :aggregate_failures do
+        expect(rendered_component).to have_button("Accept as solution", visible: :all)
+        expect(rendered_component).to have_no_button("Remove as solution", visible: :all)
+      end
+
+      context "when already accepted" do
+        before { message.update_column(:accepted_solution, true) }
+
+        it "offers removing it instead", :aggregate_failures do
+          expect(rendered_component).to have_button("Remove as solution", visible: :all)
+          expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
+        end
+      end
+    end
+
     it "hides edit and delete from users who may not change it", :aggregate_failures do
       expect(rendered_component).to have_no_link("Edit message", visible: :all)
       expect(rendered_component).to have_no_button("Delete", visible: :all)
@@ -199,6 +221,14 @@ RSpec.describe Messages::PostComponent, type: :component do
       it "offers no quote" do
         expect(rendered_component).to have_no_link("Quote message", visible: :all)
       end
+    end
+  end
+
+  context "for a moderator on the opening post" do
+    let(:permissions) { %i[view_messages edit_messages] }
+
+    it "offers no accepting it" do
+      expect(rendered_component).to have_no_button("Accept as solution", visible: :all)
     end
   end
 
