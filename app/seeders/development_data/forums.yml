@@ -162,6 +162,8 @@ forums:
         For very long threads, show the first message and the latest replies, with the middle hidden behind buttons that load a page at a time.
 
         Shout if I missed anything!
+      work_package:
+        type: Task
     - author: project_admin
       content: Sketch is ready, it's on the design board. Feedback welcome.
     - author: reader

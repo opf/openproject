@@ -61,15 +61,28 @@ module DevelopmentData
                              created_at: started_at, sticky: data["sticky"])
 
       replied_at = data["replies"].each_with_index.map do |reply, index|
-        create_message(forum:, parent: topic, subject: "RE: #{topic.subject}", author: reply["author"],
-                       content: reply["content"], created_at: started_at + ((index + 1) * MINUTES_BETWEEN_REPLIES).minutes)
-          .created_at
+        message = create_message(forum:, parent: topic, subject: "RE: #{topic.subject}", author: reply["author"],
+                                 content: reply["content"],
+                                 created_at: started_at + ((index + 1) * MINUTES_BETWEEN_REPLIES).minutes)
+        seed_work_package(message, reply["work_package"]) if reply["work_package"]
+        message.created_at
       end
 
       # Replying and locking stamp the topic with the time of seeding, which would scramble the activity sorts.
       topic.update_columns(locked: data["locked"] || false,
                            updated_at: replied_at.last || started_at,
                            sticked_on: (started_at if data["sticky"]))
+    end
+
+    def seed_work_package(message, data) # rubocop:disable Metrics/AbcSize
+      type = Type.find_by!(name: data["type"])
+      project = message.project
+      project.project_types.create!(type:, variant: type.default_variant) unless project.enabled_types.include?(type)
+
+      Messages::CreateWorkPackageService
+        .new(user: message.author, message:)
+        .call(work_package_params: { type_id: type.id, subject: message.root.subject, description: message.content })
+        .on_failure { raise "Could not seed a work package from message #{message.id}: #{it.message}" }
     end
 
     def create_message(author:, created_at:, sticky: false, **)
