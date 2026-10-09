@@ -88,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         <% cost_value = labor_budget_item.amount || labor_budget_item.calculated_costs(@budget.fixed_date, @budget.project_id) %>
         <button type="button"
-                id="<%= "#{id_prefix}_costs" %>"
+                id="<%= id_prefix %>_costs"
                 class="costs--edit-planned-costs-btn icon-context icon-edit button--link no-decoration-on-hover"
                 aria-label="<%= t(:help_click_to_edit) %>">
           <% if labor_budget_item.costs_visible_by?(User.current) %>
@@ -100,7 +100,7 @@ See COPYRIGHT and LICENSE files for more details.
                      field_name: "#{name_prefix}[amount]",
                      cost_value: cost_value
                    } %>
-        <span id="<%= "#{id_prefix}_cost_hint" %>" class="costs--rate-hint d-block color-fg-attention f6">
+        <span id="<%= id_prefix %>_cost_hint" class="costs--rate-hint d-block color-fg-attention f6">
           <% if labor_budget_item.costs_visible_by?(User.current) %>
             <%= labor_budget_item_rate_hint(labor_budget_item, fixed_date: @budget.fixed_date, project_id: @budget.project_id) %>
           <% end %>

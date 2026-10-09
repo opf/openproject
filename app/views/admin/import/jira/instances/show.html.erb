@@ -81,6 +81,4 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  render(Admin::Import::Jira::ImportRuns::TableComponent.new(jira: @jira, rows: @jira_imports))
-%>
+<%= render(Admin::Import::Jira::ImportRuns::TableComponent.new(jira: @jira, rows: @jira_imports)) %>

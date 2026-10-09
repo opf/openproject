@@ -79,9 +79,9 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
 
-            <img src="<%= frontend_asset_path board_type.image_path %>"
-                 alt=""
-                 class="op-tile-block--image">
+            <%= image_tag frontend_asset_path(board_type.image_path),
+                          alt: "",
+                          class: "op-tile-block--image" %>
           </label>
         <% end %>
       </div>

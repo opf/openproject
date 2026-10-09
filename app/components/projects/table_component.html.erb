@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= component_wrapper(tag: "turbo-frame") do %>
   <div class="project-list-page--table" data-controller="table-action-menu">
     <div class="generic-table--flex-container">
-      <div class="generic-table--container <%= container_class %>">
+      <div class="<%= class_names("generic-table--container", container_class) %>">
         <div class="generic-table--results-container">
           <%= content_tag :table,
                           id: table_id,
@@ -37,7 +37,11 @@ See COPYRIGHT and LICENSE files for more details.
                           data: { controller: "table-highlighting" } do %>
             <colgroup>
               <% columns.each do |column| %>
-                <col <%= "opHighlightCol" unless column.attribute == :hierarchy %>>
+                <% if column.attribute == :hierarchy %>
+                  <col data-highlight="false">
+                <% else %>
+                  <col>
+                <% end %>
               <% end %>
               <col>
             </colgroup>

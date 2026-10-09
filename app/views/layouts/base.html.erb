@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= call_hook :view_layouts_base_html_head %>
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
-  <meta name="current_menu_item" content="<%= current_menu_item %>"/>
+  <meta name="current_menu_item" content="<%= current_menu_item %>">
 </head>
 <%= content_tag :body,
                 class: "#{body_css_classes}  __overflowing_element_container __overflowing_body",
@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if show_decoration %>
     <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
-        <a href="" class="sr-only skip-navigation-link"
+        <a href="#content" class="sr-only skip-navigation-link"
            id="skip-navigation--content"
            aria-label="<%= I18n.t("js.work_packages.jump_marks.label_content") %>">
           <%= I18n.t("js.work_packages.jump_marks.content") %>
@@ -119,9 +119,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= main_menu %>
           <%= content_for :main_menu %>
           <%= call_hook :view_layouts_base_main_menu %>
-          <%=
-            render(EnterpriseEdition::TrialTeaserComponent.new)
-          %>
+          <%= render(EnterpriseEdition::TrialTeaserComponent.new) %>
           <!-- Sidebar -->
           <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
