@@ -31,6 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render Colors::EditPageHeaderComponent.new(color: @color) %>
 
-<%= settings_primer_form_with(model: @color, url: color_url(@color), method: :patch) do |form| %>
+<%= settings_primer_form_with(model: @color, url: color_url(@color), method: :patch, data: { controller: "color-contrast" }) do |form| %>
   <%= render(Admin::Settings::ColorForm.new(form)) %>
 <% end %>

@@ -2726,6 +2726,24 @@ en:
       unknown: "An unknown error occurred. Please review the formula for this Calculated value."
 
   colors:
+    contrast:
+      background: "Background"
+      caption: "WCAG AA · Normal text · Minimum 4.5:1"
+      check: "Check contrast"
+      dark: "Dark mode"
+      fail: "Fail"
+      foreground: "Foreground"
+      invalid: "Enter a valid hexadecimal color code."
+      light: "Light mode"
+      outdated: "These results are outdated. Select Check contrast to update them."
+      pass: "Pass"
+      ratio: "Contrast ratio"
+      sample: "Sample text"
+      summary: "%{count} of 4 pass"
+      text: "Text"
+      title: "Contrast preview"
+      used_as_background: "Used as background"
+      used_as_foreground: "Used as foreground"
     edit:
       label_edit_color: "Edit Color"
     form:

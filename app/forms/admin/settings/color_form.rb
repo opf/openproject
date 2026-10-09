@@ -45,7 +45,17 @@ module Admin
             label: attribute_name(:hexcode),
             required: true,
             autocomplete: "off",
-            input_width: :small
+            input_width: :small,
+            aria: { errormessage: "color-contrast-error" },
+            data: { color_contrast_target: "hexcode", action: "input->color-contrast#outdate" }
+          )
+
+          hexcode_group.button(
+            name: :check_contrast,
+            classes: "color-form--check-contrast",
+            type: :button,
+            label: I18n.t("colors.contrast.check"),
+            data: { action: "color-contrast#check" }
           )
 
           if show_swatch?
@@ -53,6 +63,10 @@ module Admin
               render(Colors::SwatchComponent.new(hexcode: model.hexcode, classes: "color-form--hexcode-row-swatch"))
             end
           end
+        end
+
+        color_form.html_content do
+          render Colors::ContrastPreviewComponent.new
         end
 
         color_form.group(layout: :horizontal) do |button_group|
