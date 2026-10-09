@@ -360,8 +360,8 @@ GEM
       rack (>= 2.0.0)
     ast (2.4.3)
     attr_required (1.0.2)
-    auto_strip_attributes (2.6.0)
-      activerecord (>= 4.0)
+    auto_strip_attributes (3.0.0)
+      activerecord (>= 7.1, < 9)
     awesome_nested_set (3.9.0)
       activerecord (>= 4.0.0, < 8.2)
     aws-eventstream (1.4.0)
@@ -1596,7 +1596,7 @@ DEPENDENCIES
   addressable (~> 2.9.0)
   airbrake (~> 13.0.0)
   appsignal (~> 4.10)
-  auto_strip_attributes (~> 2.5)
+  auto_strip_attributes (~> 3.0)
   awesome_nested_set (~> 3.9.0)
   aws-sdk-core (~> 3.254)
   aws-sdk-s3 (~> 1.229)
@@ -1844,7 +1844,7 @@ CHECKSUMS
   appsignal (4.10.4) sha256=f94c1b79ba33336ef2d9c9a65bab050f66ab7c63034989d72adab235bbe5eb26
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   attr_required (1.0.2) sha256=f0ebfc56b35e874f4d0ae799066dbc1f81efefe2364ca3803dc9ea6a4de6cb99
-  auto_strip_attributes (2.6.0) sha256=a7e2e0cf744de2bcd947fd68014220702bcc88c81274c1cd9ce6f7316aae39b0
+  auto_strip_attributes (3.0.0) sha256=a8612fe3e877247813b8429eac47938177115896efbea4f9b1a2029fa7d535d8
   awesome_nested_set (3.9.0) sha256=3ce99e816550f97f4de118e621630070aacf24928b920fe4a68846578a8daaed
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
   aws-partitions (1.1290.0) sha256=44613571eda66decddca594c10c9cee354ce819842b5724ca4fb5115e2f06811
