@@ -56,7 +56,7 @@ module DevelopmentData
     end
 
     def project_identifiers
-      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields)
+      %w(dev-empty dev-work-package-sharing dev-large dev-large-child dev-custom-fields dev-forums)
     end
 
     def reset_projects
