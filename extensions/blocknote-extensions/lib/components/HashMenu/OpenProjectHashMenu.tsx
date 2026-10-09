@@ -1,18 +1,16 @@
 import { SuggestionMenuController, useBlockNoteEditor } from '@blocknote/react';
-import { canOpenHashMenu } from './hashTrigger';
+import { HASH_TRIGGER } from './hashTrigger';
 import { useHashWpMenu } from './useHashWpMenu';
-
-const HASH_TRIGGER_CHARACTER = '#';
 
 export const OpenProjectHashMenu = () => {
   const editor = useBlockNoteEditor();
-  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
+  const { getHashItems, HashWpMenu, shouldOpenHashMenu } = useHashWpMenu(editor);
 
   return (
     <SuggestionMenuController
-      triggerCharacter={HASH_TRIGGER_CHARACTER}
+      triggerCharacter={HASH_TRIGGER}
       getItems={getHashItems}
-      shouldOpen={canOpenHashMenu}
+      shouldOpen={shouldOpenHashMenu}
       suggestionMenuComponent={HashWpMenu}
     />
   );
