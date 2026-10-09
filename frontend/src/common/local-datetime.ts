@@ -27,16 +27,6 @@
 
 import { DateTime } from 'luxon';
 
-const LOCAL_DATETIME_FORMAT = "yyyy-LL-dd'T'HH:mm";
-
-export function localDatetimeToISO(localValue:string, timeZone:string):string|null {
-  if (!localValue) {
-    return null;
-  }
-
-  return DateTime.fromISO(localValue, { zone: timeZone }).toISO({ suppressMilliseconds: true });
-}
-
 export function startOfDayISO(date:string, timeZone:string):string|null {
   return DateTime.fromISO(date, { zone: timeZone }).startOf('day').toUTC().toISO({ suppressMilliseconds: true });
 }
@@ -58,14 +48,4 @@ export function wallClockDateToISO(date:Date, timeZone:string):string|null {
     .setZone(timeZone, { keepLocalTime: true })
     .toUTC()
     .toISO({ suppressMilliseconds: true });
-}
-
-export function isoToLocalDatetime(isoValue:string|null|undefined, timeZone:string):string {
-  if (!isoValue) {
-    return '';
-  }
-
-  const time = DateTime.fromISO(isoValue, { zone: timeZone });
-
-  return time.isValid ? time.toFormat(LOCAL_DATETIME_FORMAT) : '';
 }

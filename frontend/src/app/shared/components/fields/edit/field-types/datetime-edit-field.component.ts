@@ -25,24 +25,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { isoToLocalDatetime, localDatetimeToISO } from 'core-common/local-datetime';
 
 @Component({
   template: `
-    <input #input
-           type="datetime-local"
-           class="inline-edit--field op-input"
-           [attr.aria-required]="required"
-           [attr.required]="required"
-           [disabled]="inFlight"
-           [(ngModel)]="value"
-           (keydown.enter)="submit($event)"
-           (keydown.escape)="handler.handleUserCancel()"
-           [id]="handler.htmlId" />
+    <op-basic-single-datetime-picker [(ngModel)]="value"
+      (keydown.escape)="handler.handleUserCancel()"
+      (keydown.enter)="handler.handleUserSubmit()"
+      (picked)="handler.handleUserSubmit()"
+      class="inline-edit--field"
+      [id]="handler.htmlId"
+      [required]="required"
+      [disabled]="inFlight"
+      [opAutofocus]="autofocus"
+     />
   `,
   standalone: false,
   // TODO: Switch to OnPush once EditFieldComponent marks itself for check on handler.stateChanged$.
@@ -50,46 +47,20 @@ import { isoToLocalDatetime, localDatetimeToISO } from 'core-common/local-dateti
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class DateTimeEditFieldComponent extends EditFieldComponent {
-  readonly timezoneService = inject(TimezoneService);
+export class DateTimeEditFieldComponent extends EditFieldComponent implements OnInit {
+  autofocus = false;
 
-  @ViewChild('input', { static: true }) input:ElementRef<HTMLInputElement>;
+  ngOnInit():void {
+    super.ngOnInit();
+    this.autofocus = !this.handler.inEditMode;
+  }
 
   public get value():string {
-    return isoToLocalDatetime(this.datetimeResource[this.name], this.timezoneService.userTimezone());
+    return this.datetimeResource[this.name] ?? '';
   }
 
   public set value(value:string) {
-    // Typing a day digit by digit passes through valid dates (31 becomes 03 first), which must not be kept.
-    this.datetimeResource[this.name] = this.hasInvalidInput
-      ? this.pristineValue
-      : localDatetimeToISO(value, this.timezoneService.userTimezone());
-  }
-
-  public submit(event:Event):void {
-    event.preventDefault();
-
-    if (this.hasInvalidInput) {
-      this.showInvalidInputError();
-      return;
-    }
-
-    void this.handler.handleUserSubmit();
-  }
-
-  // The browser reports an impossible date like 31.06. as an empty value and only flags it via badInput.
-  private get hasInvalidInput():boolean {
-    return this.input.nativeElement.validity.badInput;
-  }
-
-  private showInvalidInputError():void {
-    if (this.handler instanceof HalResourceEditFieldHandler) {
-      this.handler.setErrors([this.I18n.t('js.error.invalid_datetime', { field: this.handler.fieldLabel })]);
-    }
-  }
-
-  private get pristineValue():string|null {
-    return (this.change.pristineResource as Record<string, string|null>)[this.name];
+    this.datetimeResource[this.name] = value || null;
   }
 
   private get datetimeResource():Record<string, string|null> {

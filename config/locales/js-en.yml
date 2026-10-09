@@ -290,7 +290,6 @@ en:
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
       internal: "An internal error has occurred."
-      invalid_datetime: "%{field} is not a valid date time."
       query_saving: "The view could not be saved."
     error_attachment_upload: "File failed to upload: %{error}"
     error_attachment_upload_permission: "You don't have the permission to upload files on this resource."

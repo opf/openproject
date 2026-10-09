@@ -27,30 +27,10 @@
 
 import {
   endOfDayISO,
-  isoToLocalDatetime,
   isoToWallClockDate,
-  localDatetimeToISO,
   startOfDayISO,
   wallClockDateToISO,
 } from './local-datetime';
-
-describe('localDatetimeToISO', () => {
-  it('adds the offset of the time zone in summer', () => {
-    expect(localDatetimeToISO('2026-07-01T14:30', 'Europe/Berlin')).toBe('2026-07-01T14:30:00+02:00');
-  });
-
-  it('adds the offset of the time zone in winter', () => {
-    expect(localDatetimeToISO('2026-01-15T14:30', 'Europe/Berlin')).toBe('2026-01-15T14:30:00+01:00');
-  });
-
-  it('returns null for an empty value', () => {
-    expect(localDatetimeToISO('', 'Europe/Berlin')).toBeNull();
-  });
-
-  it('returns null for an invalid value', () => {
-    expect(localDatetimeToISO('not a date', 'Europe/Berlin')).toBeNull();
-  });
-});
 
 describe('startOfDayISO', () => {
   it('returns the start of the day in the time zone as UTC', () => {
@@ -92,19 +72,5 @@ describe('wallClockDateToISO', () => {
 
   it('applies the winter offset', () => {
     expect(wallClockDateToISO(new Date(2026, 0, 15, 14, 30), 'Europe/Berlin')).toBe('2026-01-15T13:30:00Z');
-  });
-});
-
-describe('isoToLocalDatetime', () => {
-  it('converts a UTC value into the local time of the time zone', () => {
-    expect(isoToLocalDatetime('2026-07-01T12:30:00.000Z', 'Europe/Berlin')).toBe('2026-07-01T14:30');
-  });
-
-  it('returns an empty string for a missing value', () => {
-    expect(isoToLocalDatetime(null, 'Europe/Berlin')).toBe('');
-  });
-
-  it('returns an empty string for an invalid value', () => {
-    expect(isoToLocalDatetime('not a date', 'Europe/Berlin')).toBe('');
   });
 });

@@ -37,39 +37,26 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
   let(:type) { create(:type_task, custom_fields: [custom_field]) }
   let(:model) { create(:work_package, type:, project: create(:project, types: [type])) }
   let!(:custom_field_mapping) { nil }
-  let(:submitted_field_name) { "work_package[#{custom_field.id}]" }
-
-  current_user { build_stubbed(:admin, preferences: { time_zone: "Europe/Berlin" }) }
 
   it_behaves_like "rendering label", "Detected at"
 
-  context "without a value" do
-    it "renders an empty local field" do
-      expect(rendered_form).to have_field "Detected at", type: "datetime-local", with: ""
-    end
+  it "renders the datetime picker for the custom field value" do
+    expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
+                                          "data-name": "work_package[#{custom_field.id}]".to_json
+  end
 
-    it "renders an empty submitted value" do
-      expect(rendered_form).to have_field submitted_field_name, type: :hidden, with: ""
+  context "without a value" do
+    it "passes an empty value" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker", "data-value": "".to_json
     end
   end
 
   context "with a value" do
     let(:value) { "2026-10-01T12:30:00Z" }
 
-    it "renders the local field in the user's time zone" do
-      expect(rendered_form).to have_field "Detected at", type: "datetime-local", with: "2026-10-01T14:30"
-    end
-
-    it "keeps the local field out of the submitted custom field values" do
-      expect(rendered_form).to have_field "custom_field_#{custom_field.id}_local", type: "datetime-local"
-    end
-
-    it "renders the stored value as submitted value" do
-      expect(rendered_form).to have_field submitted_field_name, type: :hidden, with: "2026-10-01T12:30:00Z"
-    end
-
-    it "wires up the Stimulus controller" do
-      expect(rendered_form).to have_css("input[data-controller='custom-fields--datetime-input']")
+    it "passes the stored UTC value" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
+                                            "data-value": "2026-10-01T12:30:00Z".to_json
     end
   end
 
