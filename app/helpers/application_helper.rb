@@ -295,6 +295,7 @@ module ApplicationHelper
   def body_data_attributes(local_assigns)
     {
       controller: ["application auto-theme-switcher hover-card-trigger beforeunload external-links highlight-target-element",
+                   pwa_service_worker_controller,
                    stimulus_body_controller].compact.join(" "),
       relative_url_root: root_path,
       overflowing_identifier: ".__overflowing_body",
@@ -302,7 +303,21 @@ module ApplicationHelper
       rendered_at: Time.zone.now.iso8601,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
+     .merge(pwa_service_worker_data_attributes)
      .compact
+  end
+
+  def pwa_service_worker_controller
+    "pwa-service-worker" if OpenProject::FeatureDecisions.progressive_web_app_active?
+  end
+
+  def pwa_service_worker_data_attributes
+    return {} unless OpenProject::FeatureDecisions.progressive_web_app_active?
+
+    {
+      pwa_service_worker_url_value: pwa_service_worker_path,
+      pwa_service_worker_scope_value: root_path
+    }
   end
 
   def user_theme_data_attributes

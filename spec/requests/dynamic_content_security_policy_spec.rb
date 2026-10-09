@@ -82,6 +82,13 @@ RSpec.describe "" do
       expect(csp["manifest-src"]).to eq(["'self'"])
     end
 
+    it "restricts worker-src to 'self'" do
+      get "/"
+
+      csp = parse_csp(last_response.headers["Content-Security-Policy"])
+      expect(csp["worker-src"]).to eq(["'self'"])
+    end
+
     it "includes 'self' in img-src CSP directive" do
       get "/"
 
