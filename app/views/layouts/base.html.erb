@@ -29,10 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 <% show_decoration = params[:layout].nil? %>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || main_menu.present? %>
-<% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
+<% main_menu_width = initial_main_menu_width %>
+<% initial_classes = initial_menu_classes(side_displayed, show_decoration, main_menu_width) %>
 <html lang="<%= I18n.locale %>"
       class="<%= class_names(in_modal: !show_decoration) %>"
-      <%= tag.attributes(style: initial_html_styles(side_displayed && show_decoration)) %>>
+      <%= tag.attributes(style: initial_html_styles(side_displayed && show_decoration, main_menu_width)) %>>
 <head>
   <%= render partial: "layouts/common_head" %>
   <!-- project specific tags -->

@@ -434,17 +434,16 @@ module ApplicationHelper
     cookies[MAIN_MENU_WIDTH_COOKIE]&.[](/\A\d+\z/)&.to_i
   end
 
-  def initial_html_styles(main_menu_displayed)
-    width = initial_main_menu_width
+  def initial_html_styles(main_menu_displayed, width)
     "--main-menu-width: #{width}px" if main_menu_displayed && width
   end
 
-  def initial_menu_classes(side_displayed, show_decoration)
+  def initial_menu_classes(side_displayed, show_decoration, width)
     class_names(
       "can-hide-navigation",
       nosidebar: !side_displayed,
       nomenus: !show_decoration,
-      "hidden-navigation": side_displayed && show_decoration && initial_main_menu_width == 0
+      "hidden-navigation": side_displayed && show_decoration && width == 0
     )
   end
 
