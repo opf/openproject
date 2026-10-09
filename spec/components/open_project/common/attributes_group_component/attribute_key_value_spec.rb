@@ -34,14 +34,14 @@ RSpec.describe OpenProject::Common::AttributesGroupComponent::AttributeKeyValue,
   it "renders the attribute key and content" do
     render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
 
-    expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
-      have_css(".attributes-key-value--value", text: "Attribute Value")
+    expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key") &
+      have_css(".AttributesGroupItem-value", text: "Attribute Value")
   end
 
   it "preserve html in the content if it's a safe string" do
     render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
 
-    expect(page).to have_no_css(".attributes-key-value--value", text: "<div>Some value</div>")
-    expect(page).to have_css(".attributes-key-value--value", text: "Some value")
+    expect(page).to have_no_css(".AttributesGroupItem-value", text: "<div>Some value</div>")
+    expect(page).to have_css(".AttributesGroupItem-value", text: "Some value")
   end
 end

@@ -34,7 +34,6 @@ module OpenProject
       renders_one :header, Header
       renders_many :attributes, AttributeKeyValue
 
-
       attr_reader :system_arguments
 
       def initialize(**system_arguments)

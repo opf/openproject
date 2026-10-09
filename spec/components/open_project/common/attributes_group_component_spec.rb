@@ -40,16 +40,16 @@ RSpec.describe OpenProject::Common::AttributesGroupComponent, type: :component d
     end
 
     aggregate_failures "group header" do
-      expect(page).to have_css(".attributes-group")
+      expect(page).to have_css(".AttributesGroup")
       expect(page).to have_css("h3", text: "A Title")
     end
 
     aggregate_failures "attribute key value" do
-      expect(page).to have_css(".attributes-key-value")
-      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 1") &
-       have_css(".attributes-key-value--value", text: "Attribute Value 1")
-      expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key 2") &
-       have_css(".attributes-key-value--value", text: "Attribute Value 2")
+      expect(page).to have_css(".AttributesGroupItem")
+      expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key 1") &
+       have_css(".AttributesGroupItem-value", text: "Attribute Value 1")
+      expect(page).to have_css(".AttributesGroupItem-key", text: "Attribute Key 2") &
+       have_css(".AttributesGroupItem-value", text: "Attribute Value 2")
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe OpenProject::Common::AttributesGroupComponent, type: :component d
     expect(page).to have_no_text("Raw Content")
 
     aggregate_failures "group header" do
-      expect(page).to have_css(".attributes-group")
+      expect(page).to have_css(".AttributesGroup")
       expect(page).to have_css("h3", text: "A Title")
     end
   end
