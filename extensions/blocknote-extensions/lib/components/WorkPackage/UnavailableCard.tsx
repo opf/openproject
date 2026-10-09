@@ -54,7 +54,14 @@ export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHe
           {displayId && <WorkPackageId as="span" $compact>{formatWorkPackageId(displayId)}</WorkPackageId>}
           <span>
             {linkHeader && displayId
-              ? <WorkPackageTitleLink {...workPackageLinkProps(displayId)}>{header}</WorkPackageTitleLink>
+              ? (
+                <WorkPackageTitleLink
+                  {...workPackageLinkProps(displayId)}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  {header}
+                </WorkPackageTitleLink>
+              )
               : header}
           </span>
         </UnavailableMessageHeader>
