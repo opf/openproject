@@ -84,6 +84,10 @@ RSpec.describe DevelopmentData::ForumsSeeder do
       expect(project.forums.find_by!(name: "Announcements").topics).to be_empty
     end
 
+    it "seeds an accepted solution" do
+      expect(general.messages.where(accepted_solution: true)).to exist
+    end
+
     it "seeds sticky, locked, and sticky locked topics", :aggregate_failures do
       expect(general.topics.where(sticky: true, locked: false)).to exist
       expect(general.topics.where(sticky: false, locked: true)).to exist
