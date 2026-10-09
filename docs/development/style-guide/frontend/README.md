@@ -4,7 +4,7 @@ Working on the frontend day to day — dev server, builds, plugin linking and wr
 
 ## Code format
 
-Code format is enforced by ESLint rather than described here. The house rules live in `frontend/eslint.config.mjs`, largely through [`@stylistic`](https://eslint.style/), and indentation defers to `.editorconfig`.
+Code format is enforced by ESLint. The house rules live in `frontend/eslint.config.mjs`, largely through [`@stylistic`](https://eslint.style/), and indentation defers to `.editorconfig`.
 
 ```shell
 cd frontend && npx eslint src/

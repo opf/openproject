@@ -28,7 +28,7 @@ the way a user finds things — by role, label or text — over CSS selectors an
 
 ## Stimulus controllers
 
-Two helpers in `src/stimulus/test-helpers.ts` cover the two things worth testing.
+Two helpers in `src/stimulus/test-helpers.ts` cover the most common use cases.
 
 **Mount real markup and let Stimulus drive it.** `setupStimulusTest` starts an application, registers
 the controllers under test, and returns a context with a Testing Library `screen` scoped to the
