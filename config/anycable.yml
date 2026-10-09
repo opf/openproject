@@ -1,0 +1,35 @@
+# This file contains per-environment settings for AnyCable Rails integration
+# (NOT the AnyCable server).
+#
+# The settings specified here would be overriden by the corresponding values in Rails credentials (e.g., `anycable.secret`), or environment variables (e.g., ANYCABLE_SECRET), or any other configuration
+# sources supported by Anyway Config (https://github.com/palkan/anyway_config).
+#
+default: &default
+  # Turn on/off access logs ("Started..." and "Finished...")
+  access_logs_disabled: false
+  # Whether to enable gRPC level logging or not
+  log_grpc: false
+  # Use HTTP broadcaster by default
+  broadcast_adapter: http
+  # This values MUST be the same as in your AnyCable server configuration
+  secret: "anycable-local-secret"
+  # WebSocket endpoint of your AnyCable server for clients to connect to
+  # IMPORTANT: Make sure you have the `action_cable_meta_tag` in your HTML layout
+  # to propogate this value to the client app.
+  # Make sure your AnyCable server runs on port 8080 in development.
+  websocket_url: "ws://localhost:8080/cable"
+
+development:
+  <<: *default
+
+# Read more about running AnyCable in test env:
+# https://docs.anycable.io/rails/getting_started?id=testing-with-anycable
+test:
+  <<: *default
+
+production:
+  <<: *default
+  # Use ANYCABLE_WEBSOCKET_URL and ANYCABLE_SECRET environment variables
+  # or credentials or whatever.
+  websocket_url: ~
+  secret: ~

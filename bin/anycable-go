@@ -1,0 +1,27 @@
+#!/bin/bash
+
+cd $(dirname $0)/..
+
+# It's recommended to use the exact version of AnyCable here
+version="1.6.17"
+
+if [ ! -f ./bin/dist/anycable-go ]; then
+  echo "AnyCable server is not installed, downloading..."
+  ./bin/rails g anycable:download --version=$version --bin-path=./bin/dist
+fi
+
+if [ -x ./bin/dist/anycable-go ]; then
+  echo "Setting execution permission for AnyCable server"
+  chmod +x ./bin/dist/anycable-go
+fi
+
+curVersion=$(./bin/dist/anycable-go -v)
+
+if [[ "$version" != "latest" ]]; then
+  if [[ "$curVersion" != "$version"* ]]; then
+    echo "AnyCable server version is not $version, downloading a new one..."
+    ./bin/rails g anycable:download --version=$version --bin-path=./bin/dist
+  fi
+fi
+
+./bin/dist/anycable-go $@
