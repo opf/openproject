@@ -45,6 +45,10 @@ RSpec.describe CustomFieldsHelper do
         expect(rendered).to have_element "opce-basic-single-datetime-picker", "data-name": field_name.to_json
       end
 
+      it "renders the picker as wide as the other text fields" do
+        expect(rendered).to have_css "opce-basic-single-datetime-picker.form--text-field-container"
+      end
+
       it "passes on whether the field is required" do
         expect(rendered).to have_element "opce-basic-single-datetime-picker",
                                          "data-required": custom_field.required?.to_json
