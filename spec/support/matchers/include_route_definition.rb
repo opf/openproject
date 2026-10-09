@@ -41,8 +41,8 @@ RSpec::Matchers.define :include_route_definition do |expected|
   end
 
   def is_id?(element)
-    # ID elements are defined as :id (in grape routes) or {id} (in OpenAPI paths)
-    element =~ /^(:[\w-]+)|({[\w-]+})$/
+    # ID elements are defined as :id or *id (in grape routes) or {id} (in OpenAPI paths),
+    element =~ /^(:[\w-]+)|(\*[\w-]+)|({[\w-]+})$/
   end
 
   def is_matching_route?(one, other)
