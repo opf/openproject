@@ -155,3 +155,8 @@ export interface OpenProjectApiErrorBody extends OpenProjectApiErrorEntry {
 }
 
 export type OpColorMode = 'light' | 'dark';
+
+export interface MentionableUser {
+  id:number;
+  name:string;
+}

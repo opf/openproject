@@ -106,6 +106,10 @@ export const en = {
     'hashMenu': {
       'typeToSearch': 'Type to search work packages…'
     },
+    'mentionMenu': {
+      'loading': 'Searching people…',
+      'ariaLabel': 'People to mention'
+    },
     'mention': {
       'ariaLabel': 'User {{name}}',
       'menuAriaLabel': 'Options for the mention of {{name}}',

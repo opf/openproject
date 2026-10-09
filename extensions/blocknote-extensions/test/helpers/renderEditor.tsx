@@ -15,6 +15,7 @@ import {
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
+  OpenProjectMentionMenu,
   ShadowDomWrapper,
 } from '../../lib';
 import type { AnyEditor } from '../../lib/editorTypes';
@@ -67,6 +68,7 @@ function Editor({ onEditor, schema, editable = true, initialContent }:EditorOpti
       <OpenProjectFormattingToolbar />
       <SuggestionMenuController triggerCharacter="/" getItems={getSlashItems} />
       <OpenProjectHashMenu />
+      <OpenProjectMentionMenu />
     </BlockNoteView>
     </div>
   );
