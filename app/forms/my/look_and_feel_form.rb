@@ -31,8 +31,13 @@
 class My::LookAndFeelForm < ApplicationForm
   include ApplicationHelper
 
+  def initialize(show_activity_sorting: true)
+    super()
+    @show_activity_sorting = show_activity_sorting
+  end
+
   form do |f|
-    f.fieldset_group(title: helpers.t("activerecord.attributes.user_preference.header_look_and_feel")) do |fg|
+    f.fieldset_group(title: attribute_name(:header_look_and_feel)) do |fg|
       fg.select_list(
         name: :theme,
         label: attribute_name(:theme),
@@ -63,14 +68,16 @@ class My::LookAndFeelForm < ApplicationForm
                         caption: attribute_name(:increase_contrast_caption)
       end
 
-      fg.select_list(
-        name: :comments_sorting,
-        label: attribute_name(:comments_sorting),
-        required: true,
-        include_blank: false,
-        input_width: :small
-      ) do |select|
-        comment_sort_order_options.each { |(label, value)| select.option(value:, label:) }
+      if @show_activity_sorting
+        fg.select_list(
+          name: :comments_sorting,
+          label: attribute_name(:comments_sorting),
+          required: true,
+          include_blank: false,
+          input_width: :small
+        ) do |select|
+          comment_sort_order_options.each { |(label, value)| select.option(value:, label:) }
+        end
       end
 
       fg.check_box name: :disable_keyboard_shortcuts,

@@ -47,6 +47,7 @@ class MyController < ApplicationController
                              :update_account,
                              :locale,
                              :interface,
+                             :accessibility_settings,
                              :update_settings,
                              :update_workdays,
                              :update_email_alerts,
@@ -103,6 +104,12 @@ class MyController < ApplicationController
   end
 
   def interface; end
+
+  def accessibility_settings
+    respond_with_dialog My::AccessibilitySettingsDialogComponent.new(user: @user) do |format|
+      format.html { redirect_to my_interface_path }
+    end
+  end
 
   def security
     @username = @user.login

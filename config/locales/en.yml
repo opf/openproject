@@ -3883,6 +3883,8 @@ en:
       version: "a non-visible version"
       work_package: "a non-visible work package"
   label_accessibility: "Accessibility"
+  label_accessibility_and_interface_settings: "Accessibility and interface settings"
+  label_accessibility_settings: "Accessibility settings"
 
   label_account: "Account"
   label_actions: "Actions"

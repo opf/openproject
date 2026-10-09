@@ -1484,6 +1484,7 @@ Rails.application.routes.draw do
     get "/my/account", action: "account"
     get "/my/locale", action: "locale"
     get "/my/interface", action: "interface"
+    get "/my/accessibility_settings", action: "accessibility_settings"
     get "/my/notifications", action: "notifications"
 
     get "/my/working_hours", action: "working_hours"

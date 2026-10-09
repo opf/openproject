@@ -167,6 +167,12 @@ Redmine::MenuManager.map :account_menu do |menu|
             { controller: "/my", action: "account" },
             icon: :gear,
             if: ->(_) { User.current.logged? }
+  menu.push :accessibility_settings,
+            :my_accessibility_settings_path,
+            caption: :label_accessibility_settings,
+            icon: :accessibility,
+            if: ->(_) { User.current.logged? },
+            html: { content_arguments: { data: { turbo: true, turbo_stream: true } } }
   menu.push :administration,
             { controller: "/admin", action: "index" },
             icon: :sliders,
