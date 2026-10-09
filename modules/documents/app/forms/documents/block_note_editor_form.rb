@@ -43,11 +43,10 @@ module Documents
       )
     end
 
-    attr_reader :token_payload, :readonly
+    attr_reader :readonly
 
-    def initialize(token_payload: nil, readonly: false)
+    def initialize(readonly: false)
       super()
-      @token_payload = token_payload
       @readonly = readonly
     end
 

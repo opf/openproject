@@ -33,10 +33,8 @@
   helpers.content_controller(
     "documents--init-yjs-provider",
     "documents--init-yjs-provider-hocuspocus-url-value": Setting.collaborative_editing_hocuspocus_url,
-    "documents--init-yjs-provider-token-payload-value": token_payload,
     "documents--init-yjs-provider-document-name-value": resource_url,
-    "documents--init-yjs-provider-token-expires-in-seconds-value": token_expires_in_seconds,
-    "documents--init-yjs-provider-refresh-url-value": refresh_token_url
+    "documents--init-yjs-provider-collaboration-token-url-value": collaboration_token_url
   )
 %>
 
@@ -76,7 +74,7 @@
                 method: :patch,
                 data: { turbo: false }
               ) do |form|
-                render Documents::BlockNoteEditorForm.new(form, token_payload:, readonly:)
+                render Documents::BlockNoteEditorForm.new(form, readonly:)
               end
             end
           ]

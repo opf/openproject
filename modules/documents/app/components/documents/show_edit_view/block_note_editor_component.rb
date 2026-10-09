@@ -36,13 +36,7 @@ module Documents
 
       alias_method :document, :model
 
-      options :project, :token_payload, :resource_url, :token_expires_in_seconds, :state, :readonly
-
-      private
-
-      def refresh_token_url
-        project_document_refresh_token_path(project, document)
-      end
+      options :project, :resource_url, :collaboration_token_url, :state, :readonly
     end
   end
 end

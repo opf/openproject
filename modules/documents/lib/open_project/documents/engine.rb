@@ -58,8 +58,7 @@ module OpenProject::Documents
                        index search show download
                        render_avatars render_last_saved_at
                      ],
-                     "documents/menus": %i[show],
-                     "documents/refresh_tokens": %i[create]
+                     "documents/menus": %i[show]
                    },
                    permissible_on: :project
         permission :manage_documents,

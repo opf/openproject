@@ -35,8 +35,6 @@ Rails.application.routes.draw do
         get :menu, to: "documents/menus#show"
         get :search
       end
-
-      resource :refresh_token, only: [:create], controller: "documents/refresh_tokens", defaults: { format: :json }
     end
   end
 

@@ -37,8 +37,6 @@ module Documents
     # so the collaboration server can keep using it until the client has handed the new token over.
     # The previous token may be expired, but must not be revoked (i.e. must not have been sent before).
     class TokenWithMetadataService < BaseServices::BaseCallable
-      include API::V3::Utilities::PathHelper
-
       PREVIOUS_TOKEN_REVOCATION_DELAY = 30.seconds
 
       attr_reader :user, :document, :project, :previous_token
@@ -65,11 +63,20 @@ module Documents
         token_result
       end
 
-      def resource_url
-        @resource_url ||= URI.join(
+      def self.resource_url_for(document)
+        URI.join(
           OpenProject::StaticRouting::StaticUrlHelpers.new.root_url,
-          api_v3_paths.document(document.id)
+          ::API::V3::Utilities::PathHelper::ApiV3Path.document(document.id)
         ).to_s
+      end
+
+      def self.readonly?(user:, project:)
+        user.allowed_in_project?(:view_documents, project) &&
+          !user.allowed_in_project?(:manage_documents, project)
+      end
+
+      def resource_url
+        @resource_url ||= self.class.resource_url_for(document)
       end
 
       private
@@ -120,8 +127,7 @@ module Documents
       end
 
       def readonly
-        @readonly ||= user.allowed_in_project?(:view_documents, project) &&
-          !user.allowed_in_project?(:manage_documents, project)
+        @readonly ||= self.class.readonly?(user:, project:)
       end
 
       def previous_access_token
