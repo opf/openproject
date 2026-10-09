@@ -40,7 +40,8 @@ module Primer
                       :classes,
                       :attachments_upload_url,
                       :attachments_collection_key,
-                      :project_id
+                      :project_id,
+                      :document_id
 
           ##
           # @param name [String] The name of the input field.
@@ -49,8 +50,9 @@ module Primer
           # @param attachments_upload_url [String] The URL to which attachments will be uploaded.
           # @param attachments_collection_key [String] The collection key for attachments.
           # @param project_id [Integer] The project the edited document belongs to.
+          # @param document_id [Integer] The edited document.
           def initialize(name:, label:, value:, readonly: false, attachments_upload_url: "", attachments_collection_key: "",
-                         project_id: nil, **system_arguments)
+                         project_id: nil, document_id: nil, **system_arguments)
             @name = name
             @label = label
             @value = value
@@ -59,13 +61,14 @@ module Primer
             @attachments_upload_url = attachments_upload_url
             @attachments_collection_key = attachments_collection_key
             @project_id = project_id
+            @document_id = document_id
 
             super(**system_arguments)
           end
 
           def to_component
             BlockNoteEditor.new(input: self, value:, readonly:, attachments_upload_url:, attachments_collection_key:,
-                                project_id:)
+                                project_id:, document_id:)
           end
 
           def type
