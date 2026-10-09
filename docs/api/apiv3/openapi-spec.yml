@@ -653,9 +653,9 @@ paths:
     "$ref": "./paths/workspace_favorite.yml"
   "/api/v3/workspaces/{id}/queries/default":
     "$ref": "./paths/workspace_queries_default.yml"
-  "/api/v3/workspace/{id}/queries/filter_instance_schemas":
+  "/api/v3/workspaces/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/workspace_queries_filter_instance_schemas.yml"
-  "/api/v3/workspace/{id}/queries/schema":
+  "/api/v3/workspaces/{id}/queries/schema":
     "$ref": "./paths/workspace_queries_schema.yml"
   "/api/v3/workspaces/{id}/types":
     "$ref": "./paths/workspace_types.yml"
