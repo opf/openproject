@@ -14,8 +14,7 @@ import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
 import { CreateWorkPackageModal } from '../CreateWorkPackage';
-import { defaultWpVariables, nonSelectableStyles } from '../WorkPackage/atoms';
-import { CHIP_STYLES } from '../WorkPackage/tokens';
+import { BLOCK_FOCUS_SHADOW, editorThemeVariables, nonSelectableStyles } from '../shared/theme';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
@@ -23,11 +22,11 @@ import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingT
 import { useTapActivation } from '../../utils/tapActivation';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
   ${nonSelectableStyles}
   border-radius: var(--bn-border-radius);
-  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
+  box-shadow: ${({ $selected }) => ($selected ? BLOCK_FOCUS_SHADOW : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
 `;
 

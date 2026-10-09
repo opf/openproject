@@ -1,8 +1,8 @@
 import { Fragment, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { menuSurfaceStyles } from './atoms';
-import { useAnchoredPopover } from './anchoredPopover';
+import { menuSurfaceStyles } from '../shared/theme';
+import { useAnchoredPopover } from '../shared/anchoredPopover';
 import { useTapActivation } from '../../utils/tapActivation';
 import type { BlockWpSize, InlineWpSize, WpSize } from './types';
 
