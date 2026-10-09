@@ -39,7 +39,7 @@ RSpec.describe "Endpoints" do
 
   # rubocop:disable-next RSpec/LeakyLocalVariable
   implementation_routes = API::V3::Root.routes.map do |route|
-    { method: route.request_method, path: "/api/v3#{route.namespace}" }
+    { method: route.request_method, path: "/api/v3#{route.origin}" }
   end
 
   describe "implementation of specified routes" do
