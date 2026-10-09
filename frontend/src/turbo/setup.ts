@@ -33,6 +33,7 @@ import { registerFlashStreamAction } from './flash-stream-action';
 import { registerLiveRegionStreamAction } from './live-region-stream-action';
 import { registerInputCaptionStreamAction } from './input-caption-stream-action';
 import { registerDispatchEventStreamAction } from './dispatch-event-stream-action';
+import { registerCableStreamSourceElement } from './cable-stream-source-element';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 import { addFrameMissingListener } from './frame-missing';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
@@ -76,6 +77,7 @@ registerFlashStreamAction();
 registerLiveRegionStreamAction();
 registerInputCaptionStreamAction();
 registerDispatchEventStreamAction();
+registerCableStreamSourceElement();
 addTurboAngularWrapper();
 
 StreamActions.reloadPage = function reloadPage() {
