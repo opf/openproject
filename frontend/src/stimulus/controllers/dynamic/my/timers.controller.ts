@@ -40,15 +40,18 @@ export default class MyTimersController extends Controller {
   declare readonly elapsedTimeTarget:HTMLElement;
   declare readonly startValue:string;
 
+  private interval:ReturnType<typeof setInterval>|undefined;
+
   connect() {
-    super.connect();
-    this.elapsedTimeTarget.textContent = 'Loading timer...';
-    this.timer(this.startValue);
+    this.tick();
+    this.interval = setInterval(() => this.tick(), 1000);
   }
 
-  timer(value:string|null|undefined) {
-    setInterval(() => {
-      this.elapsedTimeTarget.textContent = formatElapsedTime(value!);
-    }, 1000);
+  disconnect() {
+    clearInterval(this.interval);
+  }
+
+  private tick() {
+    this.elapsedTimeTarget.textContent = formatElapsedTime(this.startValue);
   }
 }

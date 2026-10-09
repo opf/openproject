@@ -46,7 +46,7 @@ import { WorkPackageAuthorization } from 'core-app/features/work-packages/servic
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { isTimerForWorkPackage, OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
@@ -61,7 +61,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpSingleContextMenu-workPackage') public workPackage:WorkPackageResource;
 
-  private currentTimer:TimeEntryResource|null = null;
+  private currentTimer:OngoingTimer|null = null;
 
   readonly HookService = inject(HookService);
   readonly urlParams = inject(UrlParamsService);
@@ -117,7 +117,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
         break;
       case 'start_timer':
-        this.timeEntryService.start(this.workPackage);
+        void this.timeEntryService.start(this.workPackage);
         break;
       case 'stop_timer':
         void this.timeEntryService.stop();
@@ -149,12 +149,8 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     }
   }
 
-  private activeForWorkPackage(entry:TimeEntryResource|null):boolean {
-    return !!entry && entry.entity.href === this.workPackage.href;
-  }
-
   private getTimerAction():WorkPackageAction {
-    if (this.activeForWorkPackage(this.currentTimer)) {
+    if (isTimerForWorkPackage(this.currentTimer, this.workPackage)) {
       return {
         key: 'stop_timer',
         icon: 'icon-time-tracking-stop',

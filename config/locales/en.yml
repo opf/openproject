@@ -5074,6 +5074,9 @@ en:
     password_confirmation_dialog:
       confirmation_required: "You need to enter your account password to confirm this change."
       title: "Confirm your password to continue"
+    timer:
+      stop: "Stop"
+      tracking: "Time tracking"
     work:
       actions:
         assign_to_me: "Assign work package to me"
