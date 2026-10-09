@@ -30,7 +30,7 @@ import { WorkPackageViewFocusService } from 'core-app/features/work-packages/rou
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { States } from 'core-app/core/states/states.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
+import { displayClassName, editableClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
@@ -69,7 +69,9 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (target.classList.contains(`${displayClassName}`) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (target.classList.contains(displayClassName)
+      || target.closest(`.${displayClassName}.${editableClassName}`)
+      || target.classList.contains(activeFieldClassName)) {
       debugLog('Skipping click on inner cell');
       return true;
     }

@@ -43,6 +43,7 @@ import { ClickOrEnterHandler } from '../click-or-enter-handler';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -50,10 +51,10 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   @LazyInject() public halEditing:HalResourceEditingService;
 
-  // Keep a reference to all
+  @LazyInject() public configurationService:ConfigurationService;
 
   public get EVENT():EventType[] {
-    return ['click', 'keydown'];
+    return ['click', 'dblclick', 'keydown'];
   }
 
   public get SELECTOR() {
@@ -66,6 +67,27 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   constructor(public readonly injector:Injector) {
     super();
+  }
+
+  public handleEvent(view:TableEventComponent, evt:MouseEvent|KeyboardEvent) {
+    if (evt instanceof KeyboardEvent) {
+      super.handleEvent(view, evt);
+      return;
+    }
+
+    if (evt.type !== this.activationEvent) {
+      return;
+    }
+
+    if (evt.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+    }
+
+    this.processEvent(view.workPackageTable, evt);
+  }
+
+  private get activationEvent():'click'|'dblclick' {
+    return this.configurationService.requireDoubleClickForInlineEdit() ? 'dblclick' : 'click';
   }
 
   protected processEvent(table:WorkPackageTable, evt:MouseEvent|KeyboardEvent):void {
@@ -103,9 +125,9 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const form = table.editing.startEditing(workPackage, classIdentifier);
 
     let positionOffset = 0;
-    if (evt.type === 'click') {
+    if (evt instanceof MouseEvent) {
       // Get the position where the user clicked.
-      positionOffset = getPosition(evt as MouseEvent);
+      positionOffset = getPosition(evt);
     }
 
     // Activate the field
