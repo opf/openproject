@@ -52,6 +52,19 @@ RSpec.describe "Main menu first paint", :js do
     expect(menu_hidden_in_every_frame?).to be(true), first_paint_frames.inspect
   end
 
+  it "paints a collapsed menu on every frame of a Turbo visit" do
+    start_first_paint_sampling
+    collapse_menu
+    page.execute_script("window.firstPaintSpecMarker = true")
+
+    within("#content") { click_on "My page" }
+    expect(page).to have_current_path(my_page_path)
+    expect_angular_frontend_initialized
+
+    expect(page.evaluate_script("window.firstPaintSpecMarker")).to be(true)
+    expect(menu_hidden_in_every_frame?).to be(true), first_paint_frames.inspect
+  end
+
   context "on a narrow window" do
     include_context "with mobile screen size", 1000, 900
 
