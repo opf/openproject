@@ -267,6 +267,7 @@ class PermittedParams
                                    :force_dark_theme_contrast,
                                    :comments_sorting,
                                    :disable_keyboard_shortcuts,
+                                   :require_double_click_for_inline_edit,
                                    :warn_on_leaving_unsaved,
                                    :auto_hide_popups,
                                    immediate_reminders: %i[mentioned personal_reminder],

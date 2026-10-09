@@ -25,6 +25,9 @@
                 "disable_keyboard_shortcuts": {
                     "type": "boolean"
                 },
+                "require_double_click_for_inline_edit": {
+                    "type": "boolean"
+                },
                 "warn_on_leaving_unsaved": {
                     "type": "boolean"
                 },

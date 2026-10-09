@@ -479,6 +479,8 @@ en:
         increase_contrast_caption: "Enables high-contrast mode for the chosen colour mode."
         increase_theme_contrast: "Increase theme contrast"
         mode_guideline: "Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support."
+        require_double_click_for_inline_edit: "Require double click to edit fields"
+        require_double_click_for_inline_edit_caption: "When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description."
         theme: "Color mode"
         time_zone: "Time zone"
         warn_on_leaving_unsaved: "Warn me when leaving a work package with unsaved changes"

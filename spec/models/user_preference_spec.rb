@@ -83,6 +83,16 @@ RSpec.describe UserPreference do
                     :warn_on_leaving_unsaved?
   end
 
+  describe "require double click for inline edit" do
+    it_behaves_like "accepts real and false booleans",
+                    :require_double_click_for_inline_edit=,
+                    :require_double_click_for_inline_edit?
+
+    it "is disabled without a value being stored" do
+      expect(subject.require_double_click_for_inline_edit).to be false
+    end
+  end
+
   describe "auto hide popups" do
     it_behaves_like "accepts real and false booleans",
                     :auto_hide_popups=,
