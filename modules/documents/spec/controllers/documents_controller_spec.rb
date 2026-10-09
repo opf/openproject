@@ -202,9 +202,23 @@ RSpec.describe DocumentsController do
     context "when user has manage_documents permission" do
       current_user { user_with_manage }
 
-      it "generates a token payload for show action" do
+      it "assigns the collaboration context for show action" do
         get :show, params: { id: document.id }
-        expect(assigns(:token_payload)).to be_present
+        expect(assigns(:collaboration_token_url)).to eq("/api/v3/documents/#{document.id}/collaboration_token")
+        expect(assigns(:resource_url)).to end_with("/api/v3/documents/#{document.id}")
+        expect(assigns(:readonly)).to be(false)
+      end
+
+      it "does not create a collaboration token" do
+        expect { get :show, params: { id: document.id } }.not_to change(Doorkeeper::AccessToken, :count)
+      end
+
+      it "renders the collaboration token URL instead of a token" do
+        get :show, params: { id: document.id }
+        expect(response.body)
+          .to include("data-documents--init-yjs-provider-collaboration-token-url-value=" \
+                      "\"/api/v3/documents/#{document.id}/collaboration_token\"")
+        expect(response.body).not_to include("token-payload")
       end
 
       it "opts the collaborative editor page out of Turbo snapshot caching" do
@@ -216,9 +230,10 @@ RSpec.describe DocumentsController do
     context "when user does not have manage_documents permission" do
       current_user { user_without_manage }
 
-      it "generates a token payload for show action" do
+      it "assigns a readonly collaboration context for show action" do
         get :show, params: { id: document.id }
-        expect(assigns(:token_payload)).to be_present
+        expect(assigns(:collaboration_token_url)).to eq("/api/v3/documents/#{document.id}/collaboration_token")
+        expect(assigns(:readonly)).to be(true)
       end
     end
   end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -31,7 +30,7 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import {
   PROVIDER_AUTH_ERROR_EVENT,
   ProviderAuthErrorKind,
-} from 'core-stimulus/services/documents/token-refresh.service';
+} from 'core-stimulus/services/documents/collaboration-token.service';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 /**

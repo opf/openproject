@@ -216,22 +216,12 @@ class DocumentsController < ApplicationController
     redirect_to document_path(call.result, state: :edit)
   end
 
-  def setup_collaboration_context # rubocop:disable Metrics/AbcSize
+  def setup_collaboration_context
     return unless current_user.allowed_in_project?(:view_documents, @project)
 
-    token_result = Documents::OAuth::TokenWithMetadataService
-      .new(user: current_user, document: @document, project: @project)
-      .call
-
-    if token_result.failure?
-      Rails.logger.error("Failed to generate token payload for document #{@document.id}: #{token_result.errors}")
-      return
-    end
-
-    @token_payload = token_result.result[:encrypted_token]
-    @resource_url = token_result.result[:resource_url]
-    @readonly = token_result.result[:readonly]
-    @token_expires_in_seconds = token_result.result[:expires_in_seconds]
+    @resource_url = Documents::OAuth::TokenWithMetadataService.resource_url_for(@document)
+    @readonly = Documents::OAuth::TokenWithMetadataService.readonly?(user: current_user, project: @project)
+    @collaboration_token_url = ::API::V3::Utilities::PathHelper::ApiV3Path.document_collaboration_token(@document.id)
   end
 
   def update_header_component_via_turbo_stream(state: :show)

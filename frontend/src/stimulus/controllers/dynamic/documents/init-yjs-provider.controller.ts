@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,48 +29,59 @@ import { HocuspocusProvider } from '@hocuspocus/provider';
 import { Controller } from '@hotwired/stimulus';
 import { LiveCollaborationManager } from 'core-stimulus/helpers/live-collaboration-helpers';
 import {
+  CollaborationTokenService,
   PROVIDER_AUTH_ERROR_EVENT,
   ProviderAuthErrorKind,
-  TokenRefreshService,
-} from 'core-stimulus/services/documents/token-refresh.service';
+} from 'core-stimulus/services/documents/collaboration-token.service';
 import type { Doc } from 'yjs';
 import * as Y from 'yjs';
 
 export default class extends Controller {
   static values = {
     hocuspocusUrl: String,
-    tokenPayload: String,
     documentName: String,
-    tokenExpiresInSeconds: Number,
-    refreshUrl: String,
+    collaborationTokenUrl: String,
   };
 
   declare readonly hocuspocusUrlValue:string;
-  declare readonly tokenPayloadValue:string;
   declare readonly documentNameValue:string;
-  declare readonly tokenExpiresInSecondsValue:number;
-  declare readonly refreshUrlValue:string;
+  declare readonly collaborationTokenUrlValue:string;
 
-  private tokenRefreshService:TokenRefreshService | null = null;
+  private collaborationTokenService:CollaborationTokenService | null = null;
   private ownedProvider:HocuspocusProvider | null = null;
   private currentToken = '';
-  private canUseCachedToken = true;
+  // A token created by the scheduled renewal, handed over to the provider by its next getToken call.
+  private createdToken:string | null = null;
 
-  // On initial load, the DOM token is fresh. On reconnection (e.g., after server restart),
-  // we must fetch a fresh token since the cached one may be expired.
   private getToken = async ():Promise<string> => {
-    if (this.canUseCachedToken) {
-      this.canUseCachedToken = false;
-      return this.currentToken;
+    if (this.createdToken !== null) {
+      const token = this.createdToken;
+      this.createdToken = null;
+      return token;
     }
-    const data = await TokenRefreshService.fetchToken(this.refreshUrlValue);
-    this.currentToken = data.encrypted_token;
-    return this.currentToken;
+
+    try {
+      const data = await CollaborationTokenService.fetchToken(
+        this.collaborationTokenUrlValue,
+        this.currentToken || undefined,
+      );
+      this.currentToken = data.token;
+      this.collaborationTokenService?.scheduleNextToken(data.expiresInSeconds);
+      return data.token;
+    } catch (error) {
+      if (!this.currentToken) {
+        document.dispatchEvent(new CustomEvent(PROVIDER_AUTH_ERROR_EVENT, {
+          detail: {
+            kind: 'token_request' as ProviderAuthErrorKind,
+            message: error instanceof Error ? error.message : 'Failed to create collaboration token',
+          },
+        }));
+      }
+      throw error;
+    }
   };
 
   connect():void {
-    this.currentToken = this.tokenPayloadValue;
-
     // If a provider for this document is already live, don't build a duplicate
     // — adopt it. Stimulus can fire connect() a second time (HMR replay, Turbo
     // morph, parent re-attach) without firing disconnect(); building a fresh
@@ -99,24 +109,22 @@ export default class extends Controller {
     LiveCollaborationManager.initializeYjsProvider(provider, ydoc, this.documentNameValue);
     this.ownedProvider = provider;
 
-    if (this.refreshUrlValue && this.tokenExpiresInSecondsValue) {
-      // Destroy any existing service to prevent duplicate timers if connect() is called multiple times
-      this.tokenRefreshService?.destroy();
-      this.tokenRefreshService = new TokenRefreshService(
-        provider,
-        this.refreshUrlValue,
-        (newToken) => {
-          this.currentToken = newToken;
-          this.canUseCachedToken = true;
-        },
-      );
-      this.tokenRefreshService.scheduleRefresh(this.tokenExpiresInSecondsValue);
-    }
+    // Destroy any existing service to prevent duplicate timers if connect() is called multiple times
+    this.collaborationTokenService?.destroy();
+    this.collaborationTokenService = new CollaborationTokenService(
+      provider,
+      this.collaborationTokenUrlValue,
+      () => this.currentToken,
+      (newToken) => {
+        this.currentToken = newToken;
+        this.createdToken = newToken;
+      },
+    );
   }
 
   disconnect():void {
-    this.tokenRefreshService?.destroy();
-    this.tokenRefreshService = null;
+    this.collaborationTokenService?.destroy();
+    this.collaborationTokenService = null;
 
     // Only destroy if we still own the active provider. During Turbo navigation,
     // a new controller may have already replaced it — see destroyIfOwner().
