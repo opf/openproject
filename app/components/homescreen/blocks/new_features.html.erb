@@ -14,11 +14,14 @@
           </ul>
         </div>
         <% if has_image? %>
-          <img
-            class="widget-box--teaser-image op-new-features--teaser-image"
-            role="presentation"
-            src="<%= asset_path(feature_teaser_image) %>"
-            alt="">
+          <%=
+            image_tag(
+              feature_teaser_image,
+              class: "widget-box--teaser-image op-new-features--teaser-image",
+              role: "presentation",
+              alt: ""
+            )
+          %>
         <% end %>
       </div>
 

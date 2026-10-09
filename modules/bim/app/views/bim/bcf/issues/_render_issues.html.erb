@@ -24,7 +24,7 @@
           <% if issue.viewpoints.empty? %>
             <p>(<%= t("bcf.no_viewpoints") %>)</p>
           <% else %>
-            <img src="<%= API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(issue.viewpoints.first.snapshot.id) %>" alt="">
+            <%= image_tag API::V3::Utilities::PathHelper::ApiV3Path.attachment_content(issue.viewpoints.first.snapshot.id), alt: "" %>
           <% end %>
         <% end %>
       </div>

@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% if show_parent? %>
           <% flex.with_row(classes: "ellipsis") do %>
             <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-              <%= "#{t('.parent')}: " %>
+              <%= t(".parent") %>:
               <% if parent_visible? %>
                 <%= render(
                       Primer::Beta::Link.new(

@@ -1,8 +1,6 @@
 <% html_title t(:label_administration), t("webhooks.plural"), @webhook.name %>
 
-<%=
-  render Webhooks::Outgoing::Webhooks::ShowPageHeaderComponent.new(webhook: @webhook)
-%>
+<%= render Webhooks::Outgoing::Webhooks::ShowPageHeaderComponent.new(webhook: @webhook) %>
 
 <%= render ::Components::OnOffStatusComponent.new(
       {
