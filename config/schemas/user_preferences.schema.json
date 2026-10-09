@@ -25,6 +25,9 @@
                 "disable_keyboard_shortcuts": {
                     "type": "boolean"
                 },
+                "show_link_underlines": {
+                    "type": "boolean"
+                },
                 "warn_on_leaving_unsaved": {
                     "type": "boolean"
                 },

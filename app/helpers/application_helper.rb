@@ -300,6 +300,7 @@ module ApplicationHelper
       overflowing_identifier: ".__overflowing_body",
       external_links_enabled_value: Setting.capture_external_links?,
       rendered_at: Time.zone.now.iso8601,
+      show_link_underlines: User.current.pref.show_link_underlines?,
       turbo: local_assigns[:turbo_opt_out] ? "false" : nil
     }.merge(user_theme_data_attributes)
      .compact

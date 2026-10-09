@@ -84,6 +84,17 @@ class My::LookAndFeelForm < ApplicationForm
                    label: attribute_name(:disable_keyboard_shortcuts),
                    caption: disable_keyboard_shortcuts_caption
 
+      fg.radio_button_group(
+        name: :show_link_underlines,
+        label: attribute_name(:link_underlines),
+        caption: attribute_name(:link_underlines_caption)
+      ) do |radios|
+        radios.radio_button(value: "false", label: attribute_name(:hide_link_underlines),
+                            checked: !model.show_link_underlines?)
+        radios.radio_button(value: "true", label: attribute_name(:show_link_underlines),
+                            checked: model.show_link_underlines?)
+      end
+
       fg.submit(name: :submit,
                 label: attribute_name(:button_update_look_and_feel),
                 scheme: :default)

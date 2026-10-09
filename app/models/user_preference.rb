@@ -99,6 +99,14 @@ class UserPreference < ApplicationRecord
     settings[:disable_keyboard_shortcuts] = to_boolean(value)
   end
 
+  def show_link_underlines
+    settings.fetch(:show_link_underlines, true)
+  end
+
+  def show_link_underlines=(value)
+    settings[:show_link_underlines] = to_boolean(value)
+  end
+
   def diff_type
     settings.fetch(:diff_type, "inline")
   end

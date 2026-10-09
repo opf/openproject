@@ -75,3 +75,17 @@ a.icon:hover, a.icon-context:hover
     height: auto
     overflow: visible
     margin-top: -1.25rem
+
+body[data-show-link-underlines="true"]
+  --op-inline-link-text-decoration: underline
+
+body[data-show-link-underlines="false"]
+  --op-inline-link-text-decoration: none
+
+body[data-show-link-underlines]
+  .Link--underline:not(:hover):not(:focus),
+  .op-uc-link:not(.op-uc-link_permalink):not(:hover):not(:focus),
+  .FormControl-caption a:not(:hover):not(:focus),
+  .FormControl-description a:not(:hover):not(:focus),
+  .Subhead-description a:not(:hover):not(:focus)
+    text-decoration: var(--op-inline-link-text-decoration)
