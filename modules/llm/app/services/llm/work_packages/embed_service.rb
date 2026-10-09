@@ -30,18 +30,13 @@
 
 module Llm
   module WorkPackages
-    # Generates and stores embeddings for one or more work packages in a single
-    # API call.
-    #
-    # Returns :ok on success or raises on LLM error so the caller's retry
-    # mechanism can handle it.
     class EmbedService
       def initialize(work_packages)
         @work_packages = Array(work_packages)
       end
 
       def call
-        raise "no binding" unless binding_ready?
+        raise Llm::Errors::ConfigurationError, "binding not ready" unless binding_ready?
 
         texts = work_packages.map { |wp| EmbeddableText.for(wp) }
         result = session.embed(texts, model: binding.resolved_model_id, dimensions: binding.dimensions)
