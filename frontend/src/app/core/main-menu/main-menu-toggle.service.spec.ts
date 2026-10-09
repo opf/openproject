@@ -26,14 +26,38 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
+import { vi } from 'vitest';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { States } from 'core-app/core/states/states.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { OpenProject } from 'core-app/core/setup/globals/openproject';
 import { MainMenuToggleService } from './main-menu-toggle.service';
 
 describe('MainMenuToggleService', () => {
+  const cookieName = 'op_main_menu_width';
+  let originalOpenProject:OpenProject;
+  let wrapper:HTMLElement;
+
+  function cookieValue():string|undefined {
+    return document.cookie
+      .split('; ')
+      .find((pair) => pair.startsWith(`${cookieName}=`))
+      ?.split('=')[1];
+  }
+
   beforeEach(() => {
+    originalOpenProject = window.OpenProject;
+    window.OpenProject = new OpenProject();
+    window.localStorage.clear();
+    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(1280);
+
+    wrapper = document.createElement('div');
+    wrapper.id = 'wrapper';
+    wrapper.className = 'can-hide-navigation';
+    wrapper.innerHTML = '<nav id="main-menu" class="main-menu"></nav>';
+    document.body.appendChild(wrapper);
+
     TestBed.configureTestingModule({
       providers: [
         { provide: States, useValue: new States() },
@@ -44,7 +68,67 @@ describe('MainMenuToggleService', () => {
     });
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+    wrapper.remove();
+    document.cookie = `${cookieName}=; path=/; max-age=0`;
+    window.localStorage.clear();
+    window.OpenProject = originalOpenProject;
+  });
+
+  function resizeWindowTo(width:number):void {
+    vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(width);
+    window.dispatchEvent(new Event('resize'));
+  }
+
   it('initialises via dependency injection', () => {
     expect(TestBed.inject(MainMenuToggleService)).toBeTruthy();
+  });
+
+  it('mirrors a collapsed menu into the cookie', () => {
+    const service = TestBed.inject(MainMenuToggleService);
+
+    service.closeMenu();
+
+    expect(cookieValue()).toBe('0');
+    expect(wrapper).toHaveClass('hidden-navigation');
+  });
+
+  it('mirrors the open width into the cookie', () => {
+    const service = TestBed.inject(MainMenuToggleService);
+
+    service.setWidth(320);
+
+    expect(cookieValue()).toBe('320');
+    expect(wrapper).not.toHaveClass('hidden-navigation');
+  });
+
+  it('rounds a fractional width before mirroring it', () => {
+    const service = TestBed.inject(MainMenuToggleService);
+
+    service.setWidth(319.5);
+
+    expect(cookieValue()).toBe('320');
+  });
+
+  it('keeps the cookie when a narrow window hides the menu', () => {
+    const service = TestBed.inject(MainMenuToggleService);
+    service.setWidth(320);
+
+    resizeWindowTo(800);
+
+    expect(wrapper).toHaveClass('hidden-navigation');
+    expect(cookieValue()).toBe('320');
+  });
+
+  it('mirrors the reopened width when the window widens again', () => {
+    const service = TestBed.inject(MainMenuToggleService);
+    service.setWidth(320);
+    resizeWindowTo(800);
+
+    resizeWindowTo(1280);
+
+    expect(wrapper).not.toHaveClass('hidden-navigation');
+    expect(cookieValue()).toBe('280');
   });
 });

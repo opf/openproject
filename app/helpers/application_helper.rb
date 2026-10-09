@@ -428,18 +428,24 @@ module ApplicationHelper
     end
   end
 
-  # To avoid FOUC (menu flickering / dark mode on logout), hide page
-  # wrapper on load except in test environment.
-  def initial_menu_styles
-    Rails.env.test? || "display:none"
+  MAIN_MENU_WIDTH_COOKIE = "op_main_menu_width"
+
+  def initial_main_menu_width
+    cookies[MAIN_MENU_WIDTH_COOKIE]&.[](/\A\d+\z/)&.to_i
+  end
+
+  def initial_html_styles(main_menu_displayed)
+    width = initial_main_menu_width
+    "--main-menu-width: #{width}px" if main_menu_displayed && width
   end
 
   def initial_menu_classes(side_displayed, show_decoration)
-    classes = "can-hide-navigation"
-    classes += " nosidebar" unless side_displayed
-    classes += " nomenus" unless show_decoration
-
-    classes
+    class_names(
+      "can-hide-navigation",
+      nosidebar: !side_displayed,
+      nomenus: !show_decoration,
+      "hidden-navigation": side_displayed && show_decoration && initial_main_menu_width == 0
+    )
   end
 
   # Add a HTML meta tag to control robots (web spiders)

@@ -25,8 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector, inject } from '@angular/core';
+import { DestroyRef, Injectable, Injector, inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { queryVisible } from 'core-app/shared/helpers/dom-helpers';
@@ -35,6 +36,7 @@ import { queryVisible } from 'core-app/shared/helpers/dom-helpers';
 export class MainMenuToggleService {
   injector = inject(Injector);
   readonly deviceService = inject(DeviceService);
+  private readonly cookieService = inject(CookieService);
 
   private elementWidth:number;
 
@@ -45,6 +47,8 @@ export class MainMenuToggleService {
   private readonly localStorageKey:string = 'openProject-mainMenuWidth';
 
   private readonly localStorageStateKey:string = 'openProject-mainMenuCollapsed';
+
+  private readonly cookieName:string = 'op_main_menu_width';
 
   readonly currentProject = inject(CurrentProjectService);
 
@@ -66,8 +70,10 @@ export class MainMenuToggleService {
 
   constructor() {
     this.initializeMenu();
-    // Add resize event listener
-    window.addEventListener('resize', this.onWindowResize.bind(this));
+
+    const onWindowResize = this.onWindowResize.bind(this);
+    window.addEventListener('resize', onWindowResize);
+    inject(DestroyRef).onDestroy(() => window.removeEventListener('resize', onWindowResize));
   }
 
   public initializeMenu():void {
@@ -107,12 +113,12 @@ export class MainMenuToggleService {
     if (window.innerWidth >= 1012) {
       // On larger screens, reopen the menu if it was hidden only due to screen resizing
       if (this.wasHiddenDueToResize && !this.wasCollapsedByUser) {
-        this.setWidth(this.defaultWidth);
         this.wasHiddenDueToResize = false; // Reset the flag since the menu is now shown
+        this.setWidth(this.defaultWidth);
       }
     } else if (this.showNavigation) {
-        this.closeMenu();
         this.wasHiddenDueToResize = true; // Indicate that the menu was hidden due to resize
+        this.closeMenu();
     }
   }
 
@@ -179,6 +185,22 @@ export class MainMenuToggleService {
     if (this.elementWidth > 0) {
       window.OpenProject.guardedLocalStorage(this.localStorageKey, String(this.elementWidth));
     }
+
+    this.persistEffectiveWidth();
+  }
+
+  // Mirrors the rendered width so the server can lay out the next page the
+  // same way before any script runs (OP-20429). A collapse forced by a narrow
+  // window is not the user's choice, so it must not survive into a wide one.
+  private persistEffectiveWidth():void {
+    if (this.wasHiddenDueToResize) return;
+
+    this.cookieService.set(this.cookieName, String(Math.round(this.elementWidth)), {
+      expires: 365,
+      path: window.appBasePath || '/',
+      secure: window.location.protocol === 'https:',
+      sameSite: 'Lax',
+    });
   }
 
   public saveWidth(width?:number):void {
