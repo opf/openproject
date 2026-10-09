@@ -13,21 +13,21 @@ interface DebouncedSearchOptions {
 export function useDebouncedSearch<T>(
   search:(query:string) => Promise<T[]>,
   { debounce = 300, searchBlank = false }:DebouncedSearchOptions = {},
-):(query:string) => Promise<T[]> {
+):{ search:(query:string) => Promise<T[]>; cancel:() => void } {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pendingResolveRef = useRef<((results:T[]) => void) | null>(null);
 
-  const settlePending = useCallback(() => {
+  const cancel = useCallback(() => {
     if (timerRef.current !== null) clearTimeout(timerRef.current);
     timerRef.current = null;
     pendingResolveRef.current?.([]);
     pendingResolveRef.current = null;
   }, []);
 
-  useEffect(() => settlePending, [settlePending]);
+  useEffect(() => cancel, [cancel]);
 
-  return useCallback((query:string) => {
-    settlePending();
+  const debouncedSearch = useCallback((query:string) => {
+    cancel();
 
     if (!searchBlank && !query.trim()) return Promise.resolve([]);
 
@@ -41,5 +41,7 @@ export function useDebouncedSearch<T>(
         });
       }, debounce);
     });
-  }, [search, debounce, searchBlank, settlePending]);
+  }, [search, debounce, searchBlank, cancel]);
+
+  return { search: debouncedSearch, cancel };
 }
