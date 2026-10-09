@@ -315,6 +315,35 @@ RSpec.describe WorkPackagesController do
     end
   end
 
+  describe "generate_pdf" do
+    let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:pdf_result) do
+      instance_double(Exports::Result, content: "%PDF", title: "export.pdf", mime_type: "application/pdf")
+    end
+    let(:exporter_instance) { instance_double(WorkPackage::PDFExport::Artefact, export!: pdf_result) }
+
+    before do
+      create(:member, project:, principal: current_user, roles: [role])
+    end
+
+    it "exports with the exporter of the requested template" do
+      allow(WorkPackage::PDFExport::Artefact).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s, template: "artefact" })
+
+      expect(WorkPackage::PDFExport::Artefact).to have_received(:new).with(work_package, anything)
+      expect(response.media_type).to eq("application/pdf")
+    end
+
+    it "exports the attributes template when none is requested" do
+      allow(WorkPackage::PDFExport::WorkPackageToPdf).to receive(:new).and_return(exporter_instance)
+
+      post("generate_pdf", params: { id: work_package.id.to_s })
+
+      expect(WorkPackage::PDFExport::WorkPackageToPdf).to have_received(:new).with(work_package, anything)
+    end
+  end
+
   describe "show.atom" do
     let(:call_action) { get("show", params: { format: "atom", id: work_package.id.to_s }) }
 
