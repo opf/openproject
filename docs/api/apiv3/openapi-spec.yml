@@ -217,8 +217,8 @@ paths:
     "$ref": "./paths/budget.yml"
   "/api/v3/capabilities":
     "$ref": "./paths/capabilities.yml"
-  "/api/v3/capabilities/context/global":
-    "$ref": "./paths/capabilities_context_global.yml"
+  "/api/v3/capabilities/contexts/global":
+    "$ref": "./paths/capabilities_contexts_global.yml"
   "/api/v3/capabilities/{id}":
     "$ref": "./paths/capability.yml"
   "/api/v3/categories/{id}":
