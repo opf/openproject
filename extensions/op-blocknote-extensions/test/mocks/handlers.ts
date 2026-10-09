@@ -240,6 +240,8 @@ const availableProjects = [
   { id: 1, lft: 1, name: 'Demo project', _links: { self: { href: '/api/v3/projects/1' } } },
 ];
 
+const PNG_PIXEL = Uint8Array.from(atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII='), (character) => character.charCodeAt(0));
+
 export const handlers = [
   http.get('http://localhost:3000/api/v3/work_packages/available_projects', ({ request }) => {
     const onlyFavored = hasFavoredFilter(request);
@@ -263,6 +265,12 @@ export const handlers = [
       { id: 7, name: 'Anna Kovalenko', _links: { self: { href: '/api/v3/users/7' } } },
       { id: 8, name: 'Peter Lang', _links: { self: { href: '/api/v3/users/8' } } },
     ], request)
+  ),
+
+  http.get('http://localhost:3000/api/v3/users/:id/avatar', ({ params }) =>
+    params.id === '7'
+      ? new HttpResponse(PNG_PIXEL, { headers: { 'Content-Type': 'image/png' } })
+      : new HttpResponse(null, { status: 404 })
   ),
 
   http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) =>

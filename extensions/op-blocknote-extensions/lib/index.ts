@@ -2,6 +2,7 @@ import './services/i18n.ts';
 export {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectUserMentionSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useCreateWorkPackageFromSelection,
