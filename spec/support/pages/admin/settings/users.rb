@@ -22,20 +22,27 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Admin::Settings
-  class UsersSettingsController < ::Admin::SettingsController
-    menu_item :user_settings
+require "support/pages/page"
 
-    def settings_params
-      super.tap do |settings|
-        if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"
-          settings["consent_time"] = Time.zone.now.iso8601
+module Pages
+  module Admin
+    module Settings
+      class Users < ::Pages::Page
+        def path = "/admin/settings/users"
+
+        def save
+          click_button "Save"
+          expect_and_dismiss_flash(message: "Successful update.")
+        end
+
+        def save_and_reload!
+          save
+          reload!
         end
       end
     end

@@ -28,17 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  ##
-  # A language switch and text area for updating a localized text setting.
-  class TextSettingComponent < ::ApplicationComponent
-    include OpenProject::FormTagHelper
-    include Settings::FormHelper
-
-    options :name # name of setting and tag to differentiate between different language selects
-
-    def current_language
-      model
+module Admin
+  module Settings
+    class UsersSettings::AccountForm < ApplicationForm
+      settings_form do |sf|
+        sf.fieldset_group(title: I18n.t(:"settings.user.account")) do |fg|
+          fg.check_box(name: :user_can_change_email)
+        end
+      end
     end
   end
 end

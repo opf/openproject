@@ -47,7 +47,8 @@ module Settings
         f.hidden(
           name: lang,
           value: Setting.send(name)[lang],
-          id: "lang-for-#{name}-#{lang}"
+          id: "lang-for-#{name}-#{lang}",
+          data: { admin__multi_lang_text_setting_target: "langFor", lang: }
         )
       end
 
@@ -61,7 +62,8 @@ module Settings
         rich_text_options: {
           turboMode: true,
           showAttachments: false
-        }
+        },
+        data: { admin__multi_lang_text_setting_target: "textArea" }
       )
     end
   end

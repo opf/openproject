@@ -31,7 +31,7 @@ import { retrieveCkEditorInstance } from 'core-app/shared/helpers/ckeditor-helpe
 import invariant from 'tiny-invariant';
 
 /**
- * Stimulus Controller for Settings::TextSettingComponent
+ * Stimulus Controller for Settings::InputMethods#multi_language_text_select
  */
 export default class MultiLangTextSetting extends Controller<HTMLElement> {
   static targets = ['select', 'langFor', 'textArea'];
