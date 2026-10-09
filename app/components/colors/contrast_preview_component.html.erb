@@ -59,5 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     <% end %>
   <% end %>
-  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 3, mb: 0)) { t("colors.contrast.caption") } %>
+  <%= render Primer::Beta::Text.new(tag: :p, color: :muted, mt: 3, mb: 0) do %>
+    <%= t("colors.contrast.caption") %>
+    <%= helpers.static_link_to :wcag_contrast_minimum, ml: 1 %>
+  <% end %>
 <% end %>
