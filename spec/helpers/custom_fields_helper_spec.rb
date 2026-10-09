@@ -37,40 +37,24 @@ RSpec.describe CustomFieldsHelper do
       let(:value) { nil }
       let(:field_name) { "work_package[custom_field_values][#{custom_field.id}]" }
 
-      current_user { build_stubbed(:user, preferences: { time_zone: "Europe/Berlin" }) }
-
       subject(:rendered) do
         Capybara.string(helper.custom_field_tag_for_bulk_edit("work_package", custom_field, nil, value))
       end
 
-      it "renders an empty local field without a value" do
-        expect(rendered).to have_field "work_package_custom_field_values_#{custom_field.id}",
-                                       type: "datetime-local", with: ""
+      it "renders the datetime picker for the custom field value" do
+        expect(rendered).to have_element "opce-basic-single-datetime-picker", "data-name": field_name.to_json
       end
 
-      it "keeps the local field out of the submitted custom field values" do
-        expect(rendered).to have_field "work_package_custom_field_values_#{custom_field.id}_local",
-                                       type: "datetime-local"
-      end
-
-      it "renders an empty submitted value without a value" do
-        expect(rendered).to have_field field_name, type: :hidden, with: ""
-      end
-
-      it "wires up the Stimulus controller" do
-        expect(rendered).to have_css "input[data-controller='custom-fields--datetime-input']"
+      it "passes on whether the field is required" do
+        expect(rendered).to have_element "opce-basic-single-datetime-picker",
+                                         "data-required": custom_field.required?.to_json
       end
 
       context "with a submitted value" do
-        let(:value) { "2026-10-01T14:30:00+02:00" }
+        let(:value) { "2026-10-01T12:30:00Z" }
 
-        it "renders the local field in the user's time zone" do
-          expect(rendered).to have_field "work_package_custom_field_values_#{custom_field.id}",
-                                         type: "datetime-local", with: "2026-10-01T14:30"
-        end
-
-        it "keeps the submitted value" do
-          expect(rendered).to have_field field_name, type: :hidden, with: value
+        it "passes the value" do
+          expect(rendered).to have_element "opce-basic-single-datetime-picker", "data-value": value.to_json
         end
       end
     end

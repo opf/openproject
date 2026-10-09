@@ -29,41 +29,14 @@
 #++
 
 class CustomFields::Inputs::DateTime < CustomFields::Inputs::Base::Input
-  include Redmine::I18n
-
-  # datetime-local inputs cannot carry an offset, so the submitted value lives in a hidden
-  # field that the Stimulus controller fills with the local value plus the user's offset.
   form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
-    custom_value_form.hidden(name:, value: custom_value.value.to_s, id: submitted_value_id)
+    custom_value_form.single_datetime_picker(**input_attributes)
   end
 
   def input_attributes
-    attributes = super
-    attributes[:data] = attributes[:data].merge(
-      controller: "custom-fields--datetime-input",
-      action: "input->custom-fields--datetime-input#sync",
-      "custom-fields--datetime-input-submitted-value-id-value": submitted_value_id
+    super.merge(
+      input_width: :small,
+      datepicker_options: { value: custom_value.value.to_s, inDialog: options[:wrapper_id] }.compact
     )
-
-    attributes.merge(
-      name: "#{attribute_name}_local",
-      scope_name_to_model: false,
-      type: "datetime-local",
-      input_width: :small
-    )
-  end
-
-  def value
-    time = custom_value.typed_value
-    return custom_value.value.to_s if time.nil?
-
-    in_user_zone(time).strftime("%Y-%m-%dT%H:%M")
-  end
-
-  private
-
-  def submitted_value_id
-    "#{attribute_name}_submitted_value"
   end
 end
