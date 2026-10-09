@@ -1,0 +1,33 @@
+@import "helpers"
+
+.op-forum-post-stem
+  margin-left: 19px
+  height: 20px
+
+.op-forum-post
+  &:target
+    border: 2px solid var(--borderColor-accent-emphasis)
+    border-radius: var(--borderRadius-medium)
+
+.op-forum-reply-editor
+  .ck-content
+    @media screen and (max-width: $breakpoint-sm)
+      height: 30vh
+      &.ck-focused
+        height: 30vh
+      &.ck-blurred
+        height: 10vh
+    @media screen and (min-width: $breakpoint-md)
+      &.ck-focused
+        max-height: 30vh
+      &.ck-blurred
+        max-height: 10vh
+  .ck-editor__preview
+    max-height: 30vh
+
+.op-forum-reply
+  &--box
+    border-radius: var(--borderRadius-medium)
+
+  .FormControl-horizontalGroup
+    justify-content: flex-end

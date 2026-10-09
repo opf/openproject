@@ -693,14 +693,13 @@ Rails.application.routes.draw do
       resources :topics, controller: "messages", except: [:index] do
         member do
           get :quote
+          get :replies
           post :reply, as: "reply_to"
         end
       end
 
       member do
-        get :confirm_destroy
-        get :move
-        post :move
+        put :move
       end
     end
 

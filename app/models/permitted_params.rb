@@ -422,7 +422,7 @@ class PermittedParams
   end
 
   def reply
-    params.require(:reply).permit(:content, :subject)
+    params.require(:reply).permit(:content)
   end
 
   def wiki

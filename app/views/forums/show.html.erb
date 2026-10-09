@@ -40,96 +40,32 @@ See COPYRIGHT and LICENSE files for more details.
     watcher_action_button(header, @forum)
   end
 %>
-<% if authorize_for(:messages, :new) %>
+<% can_add_topic = authorize_for(:messages, :new) %>
+<% if can_add_topic || @topics.any? %>
   <%=
     render(Primer::OpenProject::SubHeader.new) do |subheader|
-      if authorize_for(:messages, :new)
-        subheader.with_action_button(scheme: :primary,
-                                     leading_icon: :plus,
-                                     label: t(:label_message_new),
-                                     tag: :a,
-                                     href: url_for({ controller: "/messages", action: "new", forum_id: @forum })) do
-          t(:label_message)
+      if @topics.any?
+        subheader.with_quick_sort do
+          render(Forums::Topics::SortMenuComponent.new(forum: @forum, sort_criteria: @sort_criteria))
+        end
+      end
+
+      if can_add_topic
+        subheader.with_action_button(
+          scheme: :primary,
+          leading_icon: :plus,
+          label: t("forums.show.new_topic"),
+          tag: :a,
+          href: new_project_forum_topic_path(@project, @forum)
+        ) do
+          t("forums.show.topic")
         end
       end
     end
   %>
 <% end %>
 
-<% if @topics.any? %>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" data-controller="table-highlighting">
-        <colgroup>
-          <col>
-          <col>
-          <col>
-          <col>
-          <col>
-        </colgroup>
-        <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                  <span>
-                    <%= Message.human_attribute_name(:subject) %>
-                  </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                  <span>
-                    <%= Message.human_attribute_name(:author) %>
-                  </span>
-              </div>
-            </div>
-          </th>
-          <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_at)) %>
-          <%= sort_header_tag("replies", caption: t(:label_reply_plural)) %>
-          <%= sort_header_tag("updated_at", caption: t(:label_message_last)) %>
-        </tr>
-        </thead>
-        <tbody>
-        <% @topics.each do |message| %>
-          <tr>
-            <td class="subject">
-              <% if message.sticky? %>
-                <%= op_icon("icon-wiki", title: I18n.t("js.label_board_sticky")) %>
-              <% end %>
-              <% if message.locked? %>
-                <%= op_icon("icon-locked", title: I18n.t("js.label_board_locked")) %>
-              <% end %>
-              <%= link_to message.subject, project_forum_topic_path(message.forum.project, message.forum, message) %>
-            </td>
-            <td class="author">
-              <% if message.author %>
-                <%= link_to_user message.author %>
-              <% end %>
-            </td>
-            <td class="created_at">
-              <%= format_time message.created_at %>
-            </td>
-            <td class="replies"><%= message.replies_count %></td>
-            <td class="last_message">
-              <% if message.last_reply %>
-                <%= authoring message.last_reply.created_at, message.last_reply.author %><br>
-                <br>
-                <%= link_to_message message.last_reply, no_root: true %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <%= pagination_links_full @topics %>
-<% else %>
-  <%= no_results_box %>
-<% end %>
+<%= render(Forums::Topics::TableComponent.new(rows: @topics, forum: @forum)) %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to "Atom", url: { key: User.current.rss_key } %>

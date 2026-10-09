@@ -40,9 +40,10 @@ class ForumsController < ApplicationController
 
   include SortHelper
   include PaginationHelper
+  include OpTurbo::ComponentStream
 
   def index
-    @forums = @project.forums
+    @forums = @project.forums.includes(last_message: :author)
   end
 
   current_menu_item [:index, :show] do
@@ -79,12 +80,12 @@ class ForumsController < ApplicationController
   end
 
   def set_topics
-    @topics =  @forum
-               .topics
-               .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
-               .includes(:author, last_reply: :author)
-               .page(page_param)
-               .per_page(per_page_param)
+    @topics = @forum
+              .topics
+              .order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(", "))
+              .includes(:author, last_reply: :author)
+              .page(page_param)
+              .per_page(per_page_param)
   end
 
   def new; end
@@ -110,10 +111,17 @@ class ForumsController < ApplicationController
   end
 
   def move
-    @forum.update!(permitted_params.forum_move)
+    moved = menu_move? ? move_in_direction : move_after_anchor
 
-    flash[:notice] = t(:notice_successful_update)
-    redirect_to project_forums_path(@project)
+    if moved
+      render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+      update_via_turbo_stream(component: index_component, method: :morph)
+    else
+      error_key = menu_move? ? "forums.index.could_not_be_moved" : :error_invalid_list_move_anchor
+      render_error_flash_message_via_turbo_stream(message: I18n.t(error_key))
+    end
+
+    respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
   end
 
   def destroy
@@ -125,8 +133,37 @@ class ForumsController < ApplicationController
 
   private
 
+  def index_component
+    Forums::IndexComponent.new(forums: @project.forums.includes(last_message: :author), project: @project)
+  end
+
+  def move_in_direction
+    move_to = permitted_params.forum_move[:move_to]
+
+    move_to.in?(%w[highest higher lower lowest]) && @forum.update(move_to:)
+  end
+
+  def menu_move?
+    params.key?(:forum)
+  end
+
+  def move_after_anchor
+    valid_drop_request? && @forum.move_after_anchor(drop_params[:prev_id], scope: @project.forums)
+  end
+
+  def valid_drop_request?
+    drop_params[:list_type] == Forum::SORTABLE_LIST_TYPE &&
+      params[:list_id].blank? &&
+      (params[:list_id].nil? || drop_params.key?(:list_id)) &&
+      drop_params.key?(:prev_id)
+  end
+
+  def drop_params
+    @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+  end
+
   def find_forum
-    @forum = @project.forums.find(params[:id])
+    @forum = @project.forums.find(params.expect(:id))
   end
 
   def new_forum

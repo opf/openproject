@@ -1,45 +1,12 @@
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { @topic.subject }
+    header.with_description(test_selector: "topic-summary") { summary }
     header.with_breadcrumbs(breadcrumb_items)
 
     watcher_action_button(header, @topic)
 
-    if !@topic.locked? && authorize_for("messages", "reply")
-      header.with_action_button(
-        tag: :a,
-        scheme: :default,
-        mobile_icon: :quote,
-        mobile_label: t(:button_quote),
-        size: :medium,
-        href: url_for({ action: "quote", id: @topic }),
-        aria: { label: I18n.t(:button_delete) },
-        data: { action: "forum-messages#quote", test_selector: "message-quote-button" },
-        title: t(:button_quote)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :quote)
-        t(:button_quote)
-      end
-    end
-
-    if @message.editable_by?(User.current)
-      header.with_action_button(
-        tag: :a,
-        scheme: :default,
-        mobile_icon: :pencil,
-        mobile_label: t(:button_edit),
-        size: :medium,
-        href: edit_project_forum_topic_path(@topic.forum.project, @topic.forum, @topic),
-        aria: { label: t(:button_edit) },
-        data: { test_selector: "message-edit-button" },
-        title: t(:button_edit)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :pencil)
-        t(:button_edit)
-      end
-    end
-
-    if @message.destroyable_by?(User.current)
+    if @topic.destroyable_by?(User.current)
       header.with_action_button(
         tag: :a,
         scheme: :danger,
