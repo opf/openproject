@@ -31,7 +31,7 @@
 class MeetingMailerPreview < ActionMailer::Preview
   # Preview emails at http://localhost:3000/rails/mailers/meeting_mailer
 
-  def rescheduled
+  def updated
     language = params["locale"] || I18n.default_locale
     actor = FactoryBot.build_stubbed(:user, lastname: "Actor")
     user = FactoryBot.build_stubbed(:user, language:)
@@ -44,7 +44,7 @@ class MeetingMailerPreview < ActionMailer::Preview
       new_duration: 2.5
     }
 
-    MeetingMailer.rescheduled(meeting, user, actor, changes:)
+    MeetingMailer.updated(meeting, user, actor, changes:)
   end
 
   def cancelled
