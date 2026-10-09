@@ -67,6 +67,9 @@ module Messages
             end
           end
           author_and_time.with_column { anchor_link }
+          if reply? && message.accepted_solution?
+            author_and_time.with_column(ml: 2, display: :flex) { render(AcceptedSolutionIconComponent.new(kind: AcceptedSolutionIconComponent::REPLY)) }
+          end
         end
         line.with_column(ml: 1, flex_layout: true, align_items: :center) do |actions|
           actions.with_column(mr: 1) { create_work_package_button } if work_package_creatable?

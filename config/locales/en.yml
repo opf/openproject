@@ -3743,6 +3743,10 @@ en:
         recent_activity: "Recent activity"
       topic: "Topic"
     topic:
+      accepted_solution: "Accepted solution"
+      accepted_solutions_banner:
+        one: "Accepted solution:"
+        other: "Accepted solutions:"
       add_work_package: "Add new work package"
       edit_message: "Edit message"
       gap:
@@ -3761,6 +3765,7 @@ en:
         zero: "No replies yet"
       started_html: "Started %{time}"
       view_work_package: "View %{id}"
+      with_accepted_solution: "With accepted solution"
   general_csv_decimal_separator: "."
 
   general_csv_encoding: "UTF-8"
