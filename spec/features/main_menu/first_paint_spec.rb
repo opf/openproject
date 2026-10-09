@@ -65,6 +65,18 @@ RSpec.describe "Main menu first paint", :js do
     expect(menu_hidden_in_every_frame?).to be(true), first_paint_frames.inspect
   end
 
+  it "settles on the stored state once when the cookie is missing" do
+    collapse_menu
+    page.execute_script("document.cookie = 'op_main_menu_width=; path=/; max-age=0'")
+
+    start_first_paint_sampling
+    page.refresh
+    expect_angular_frontend_initialized
+
+    expect(menu_settles_hidden?).to be(true), first_paint_frames.inspect
+    expect(page.driver.cookies["op_main_menu_width"].value).to eq("0")
+  end
+
   context "on a narrow window" do
     include_context "with mobile screen size", 1000, 900
 
