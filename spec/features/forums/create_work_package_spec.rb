@@ -47,9 +47,9 @@ RSpec.describe "Creating a work package from a forum message", :js do
   it "opens the prefilled dialog and returns to the message once created", :aggregate_failures do
     visit project_forum_topic_path(project, forum, topic)
 
-    within_test_selector("forum-post-#{reply.id}") do
+    within_test_selector("message-actions-#{reply.id}") do
       click_on accessible_name: "Message actions"
-      click_on "Create work package"
+      click_on "Add new work package"
     end
 
     within("#create-work-package-dialog") do
