@@ -429,6 +429,8 @@ module ApplicationHelper
   end
 
   MAIN_MENU_WIDTH_COOKIE = "op_main_menu_width"
+  # Must match DeviceService.smallDesktopWidthThreshold and $breakpoint-lg.
+  SMALL_DESKTOP_WIDTH_THRESHOLD = 1012
 
   def initial_main_menu_width
     cookies[MAIN_MENU_WIDTH_COOKIE]&.[](/\A\d+\z/)&.to_i

@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
 <div id="wrapper" class="<%= initial_classes %>">
   <%# Classic (non-module) so it runs before first paint on full loads and Turbo visits alike. %>
   <%= nonced_javascript_tag do %>
-    if (1012 > window.innerWidth) {
+    if (<%= ApplicationHelper::SMALL_DESKTOP_WIDTH_THRESHOLD %> > window.innerWidth) {
       document.getElementById('wrapper').classList.add('hidden-navigation');
     }
   <% end %>

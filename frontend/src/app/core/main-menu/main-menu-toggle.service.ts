@@ -110,7 +110,7 @@ export class MainMenuToggleService {
   }
 
   private adjustMenuVisibility():void {
-    if (window.innerWidth >= 1012) {
+    if (!this.deviceService.isSmallDesktop) {
       // On larger screens, reopen the menu if it was hidden only due to screen resizing
       if (this.wasHiddenDueToResize && !this.wasCollapsedByUser) {
         this.wasHiddenDueToResize = false; // Reset the flag since the menu is now shown
