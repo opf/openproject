@@ -40,10 +40,11 @@ module Admin::Import::Jira
 
     def wrapper_options
       data = {
-        controller: "admin--jira-configuration-form",
-        "admin--jira-configuration-form-url-value": test_admin_import_jira_index_path
+        controller: "admin--jira-configuration-form " \
+                    "show-when-value-selected",
+        "admin--jira-configuration-form-test-connection-path-value": test_connection_admin_import_jira_index_path
       }
-      data[:"admin--jira-configuration-form-id-value"] = model.id.to_s if model.persisted?
+      data[:"admin--jira-configuration-form-jira-id-value"] = model.id.to_s if model.persisted?
       { data: }
     end
 

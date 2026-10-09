@@ -23,17 +23,15 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Import
-  module Jiras
-    class CreateContract < BaseContract
-      validates :personal_access_token, presence: true, if: -> { model.auth_method_bearer? }
-      validates :basic_auth_username, presence: true, if: -> { model.auth_method_basic? }
-      validates :basic_auth_password, presence: true, if: -> { model.auth_method_basic? }
-    end
+class AddBasicAuthUsernameAndPasswordToJiras < ActiveRecord::Migration[8.1]
+  def change
+    add_column :jiras, :basic_auth_username, :string
+    add_column :jiras, :basic_auth_password, :string
+    add_column :jiras, :auth_method, :string, default: "bearer", null: false
   end
 end

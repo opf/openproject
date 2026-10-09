@@ -88,13 +88,29 @@ module Import
     CUSTOM_FIELD_OPTIONS_PAGE_SIZE = 10_000
     CUSTOM_FIELD_OPTIONS_PAGE_LIMIT = 100
 
-    def initialize(url:, personal_access_token:)
-      raise Error.new(I18n.t(:"admin.jira.test.token_error")) if personal_access_token.nil?
+    def initialize(url:,
+                   auth_method: "bearer",
+                   personal_access_token: nil,
+                   basic_auth_username: nil,
+                   basic_auth_password: nil)
+      auth_header = case auth_method
+                    when "bearer"
+                      raise Error.new(I18n.t(:"admin.jira.test.personal_access_token_invalid")) if personal_access_token.blank?
+
+                      "Bearer #{personal_access_token}"
+                    when "basic"
+                      raise Error.new(I18n.t(:"admin.jira.test.basic_auth_username_invalid")) if basic_auth_username.blank?
+                      raise Error.new(I18n.t(:"admin.jira.test.basic_auth_password_invalid")) if basic_auth_password.blank?
+
+                      "Basic #{Base64.strict_encode64("#{basic_auth_username}:#{basic_auth_password}")}"
+                    else
+                      raise Error.new(I18n.t(:"admin.jira.api_client.unknown_auth_method"))
+                    end
 
       @url = url.chomp("/")
       @headers = {
         "Accept" => "application/json",
-        "Authorization" => "Bearer #{personal_access_token}"
+        "Authorization" => auth_header
       }
     end
 

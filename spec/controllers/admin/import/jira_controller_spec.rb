@@ -31,7 +31,7 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::Import::Jira::InstancesController do
+RSpec.describe Admin::Import::JiraController do
   let(:admin) { create(:admin) }
   let(:non_admin) { create(:user) }
   let(:jira) { create(:jira) }
@@ -85,13 +85,14 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       expect(response).to have_http_status(:forbidden)
     end
 
-    it "returns forbidden for DELETE #delete_token" do
-      delete :delete_token, params: { id: jira.id }
+    it "returns forbidden for DELETE #clear_credential" do
+      delete :clear_credential, params: { id: jira.id, field: "personal_access_token" }
       expect(response).to have_http_status(:forbidden)
     end
 
-    it "returns forbidden for POST #test" do
-      post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+    it "returns forbidden for POST #test_connection" do
+      post :test_connection, params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
+                             format: :turbo_stream
       expect(response).to have_http_status(:forbidden)
     end
   end
@@ -422,45 +423,64 @@ RSpec.describe Admin::Import::Jira::InstancesController do
     end
   end
 
-  describe "DELETE #delete_token" do
+  describe "DELETE #clear_credential" do
     let(:jira_with_token) { create(:jira, personal_access_token: "secret_token") }
+    let(:jira_with_basic_auth) { create(:jira, auth_method: "basic", basic_auth_username: "user", basic_auth_password: "pass") }
 
     it "deletes the personal access token" do
-      delete :delete_token, params: { id: jira_with_token.id }
+      delete :clear_credential, params: { id: jira_with_token.id, field: "personal_access_token" }
       expect(jira_with_token.reload.personal_access_token).to be_nil
     end
 
-    it "sets a success flash message" do
-      delete :delete_token, params: { id: jira_with_token.id }
-      expect(flash[:notice]).to eq(I18n.t(:"admin.jira.token_deleted"))
+    it "deletes the basic auth password" do
+      delete :clear_credential, params: { id: jira_with_basic_auth.id, field: "basic_auth_password" }
+      expect(jira_with_basic_auth.reload.basic_auth_password).to be_nil
+    end
+
+    it "sets a success flash message for personal_access_token" do
+      delete :clear_credential, params: { id: jira_with_token.id, field: "personal_access_token" }
+      expect(flash[:notice]).to eq(I18n.t(:"admin.jira.personal_access_token_deleted"))
+    end
+
+    it "sets a success flash message for basic_auth_password" do
+      delete :clear_credential, params: { id: jira_with_basic_auth.id, field: "basic_auth_password" }
+      expect(flash[:notice]).to eq(I18n.t(:"admin.jira.basic_auth_password_deleted"))
+    end
+
+    it "does not clear unauthorized fields" do
+      jira_with_token.update!(name: "Original Name")
+      delete :clear_credential, params: { id: jira_with_token.id, field: "name" }
+      expect(jira_with_token.reload.name).to eq("Original Name")
     end
 
     it "redirects to edit page" do
-      delete :delete_token, params: { id: jira_with_token.id }
+      delete :clear_credential, params: { id: jira_with_token.id, field: "personal_access_token" }
       expect(response).to redirect_to(edit_admin_import_jira_path(jira_with_token))
     end
 
     it "returns see_other status" do
-      delete :delete_token, params: { id: jira_with_token.id }
+      delete :clear_credential, params: { id: jira_with_token.id, field: "personal_access_token" }
       expect(response).to have_http_status(:see_other)
     end
 
     context "when jira does not exist" do
       it "returns 404" do
-        delete :delete_token, params: { id: 999_999 }
+        delete :clear_credential, params: { id: 999_999, field: "personal_access_token" }
         expect(response).to have_http_status(:not_found)
       end
     end
   end
 
-  describe "POST #test" do
+  describe "POST #test_connection" do
     let(:jira_client) { instance_double(Import::JiraClient) }
+    let(:mypermissions_response) { { "permissions" => { "ADMINISTER" => { "havePermission" => true } } } }
 
     before do
       allow(Import::JiraClient).to receive(:new).and_return(jira_client)
+      allow(jira_client).to receive(:mypermissions).and_return(mypermissions_response)
     end
 
-    context "when credentials are valid" do
+    context "with bearer auth" do
       let(:server_info) do
         {
           "serverTitle" => "My Jira Server",
@@ -473,19 +493,62 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns a success message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response).to have_http_status(:ok)
         expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
       end
 
-      it "creates Import::JiraClient with provided credentials" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(url: "https://jira.example.com", personal_access_token: "token")
+      it "creates Import::JiraClient with bearer credentials" do
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
+        expect(Import::JiraClient).to have_received(:new).with(
+          url: "https://jira.example.com",
+          auth_method: "bearer",
+          personal_access_token: "token",
+          basic_auth_username: nil,
+          basic_auth_password: nil
+        )
       end
     end
 
-    context "when using token from existing jira" do
+    context "with basic auth" do
+      let(:server_info) do
+        {
+          "serverTitle" => "My Jira Server",
+          "version" => "9.0.0"
+        }
+      end
+
+      before do
+        allow(jira_client).to receive(:server_info).and_return(server_info)
+      end
+
+      it "returns a success message" do
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "basic", basic_auth_username: "user", basic_auth_password: "pass" }, format: :turbo_stream
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: "My Jira Server", version: "9.0.0"))
+      end
+
+      it "creates Import::JiraClient with basic auth credentials" do
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "basic", basic_auth_username: "user", basic_auth_password: "pass" }, format: :turbo_stream
+        expect(Import::JiraClient).to have_received(:new).with(
+          url: "https://jira.example.com",
+          auth_method: "basic",
+          personal_access_token: nil,
+          basic_auth_username: "user",
+          basic_auth_password: "pass"
+        )
+      end
+    end
+
+    context "when using stored credentials from existing jira" do
       let(:jira_with_token) { create(:jira, personal_access_token: "stored_token") }
+      let(:jira_with_basic) do
+        create(:jira, auth_method: "basic", basic_auth_username: "user", basic_auth_password: "stored_pass")
+      end
       let(:server_info) { { "serverTitle" => "Jira", "version" => "9.0" } }
 
       before do
@@ -493,10 +556,27 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "uses the stored token when personal_access_token param is blank" do
-        post :test, params: { id: jira_with_token.id, url: "https://jira.example.com", personal_access_token: "" },
-                    format: :turbo_stream
-        expect(Import::JiraClient).to have_received(:new).with(url: "https://jira.example.com",
-                                                               personal_access_token: "stored_token")
+        post :test_connection, params: { jira_id: jira_with_token.id, url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "" },
+                               format: :turbo_stream
+        expect(Import::JiraClient).to have_received(:new).with(
+          url: "https://jira.example.com",
+          auth_method: "bearer",
+          personal_access_token: "stored_token",
+          basic_auth_username: nil,
+          basic_auth_password: nil
+        )
+      end
+
+      it "uses the stored basic auth password when param is blank" do
+        post :test_connection, params: { jira_id: jira_with_basic.id, url: "https://jira.example.com", auth_method: "basic", basic_auth_username: "user", basic_auth_password: "" },
+                               format: :turbo_stream
+        expect(Import::JiraClient).to have_received(:new).with(
+          url: "https://jira.example.com",
+          auth_method: "basic",
+          personal_access_token: nil,
+          basic_auth_username: "user",
+          basic_auth_password: "stored_pass"
+        )
       end
     end
 
@@ -506,7 +586,8 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "uses fallback values" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.success", server: Import::Jira.model_name, version: "?"))
       end
     end
@@ -517,33 +598,22 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns a failed message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.failed"))
-      end
-    end
-
-    context "when URL is blank" do
-      it "returns a missing credentials error" do
-        post :test, params: { url: "", personal_access_token: "token" }, format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.missing_credentials"))
-      end
-    end
-
-    context "when token is blank and no existing jira" do
-      it "returns a missing credentials error" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "" }, format: :turbo_stream
-        expect(response.body).to include(I18n.t(:"admin.jira.test.missing_credentials"))
       end
     end
 
     context "when URL is invalid" do
       it "returns an invalid URL error" do
-        post :test, params: { url: "not-a-valid-url", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection, params: { url: "not-a-valid-url", auth_method: "bearer", personal_access_token: "token" },
+                               format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.invalid_url"))
       end
 
       it "rejects ftp URLs" do
-        post :test, params: { url: "ftp://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection, params: { url: "ftp://jira.example.com", auth_method: "bearer", personal_access_token: "token" },
+                               format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.invalid_url"))
       end
     end
@@ -554,7 +624,8 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns a connection error message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.connection_error", message: "Connection refused"))
       end
     end
@@ -565,7 +636,8 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns a parse error message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.parse_error"))
       end
     end
@@ -578,8 +650,21 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns an API error message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.api_error", status: 401))
+      end
+    end
+
+    context "when Import::JiraClient raises Error" do
+      before do
+        allow(Import::JiraClient).to receive(:new).and_raise(Import::JiraClient::Error.new("Missing credentials"))
+      end
+
+      it "returns the error message" do
+        post :test_connection, params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "" },
+                               format: :turbo_stream
+        expect(response.body).to include("Missing credentials")
       end
     end
 
@@ -590,12 +675,14 @@ RSpec.describe Admin::Import::Jira::InstancesController do
       end
 
       it "returns a generic error message" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(response.body).to include(I18n.t(:"admin.jira.test.error"))
       end
 
       it "logs the error" do
-        post :test, params: { url: "https://jira.example.com", personal_access_token: "token" }, format: :turbo_stream
+        post :test_connection,
+             params: { url: "https://jira.example.com", auth_method: "bearer", personal_access_token: "token" }, format: :turbo_stream
         expect(Rails.logger).to have_received(:error).with(/Unexpected error testing Jira configuration/)
       end
     end

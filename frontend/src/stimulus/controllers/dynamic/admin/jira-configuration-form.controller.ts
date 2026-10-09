@@ -30,23 +30,32 @@ import * as Turbo from '@hotwired/turbo';
 import {useMeta} from 'stimulus-use';
 
 export default class extends Controller {
-    static targets = ['button', 'progressBanner', 'urlInput', 'tokenInput'];
+    static targets = ['button',
+                      'progressBanner',
+                      'url',
+                      'authMethodGroup',
+                      'basicAuthUsername',
+                      'basicAuthPassword',
+                      'personalAccessToken'];
 
     declare readonly buttonTargets:HTMLButtonElement[];
     declare readonly progressBannerTarget:HTMLButtonElement;
-    declare readonly urlInputTarget:HTMLInputElement;
-    declare readonly tokenInputTarget:HTMLInputElement;
+    declare readonly urlTarget:HTMLInputElement;
+    declare readonly authMethodGroupTarget: HTMLElement;
+    declare readonly personalAccessTokenTarget:HTMLInputElement;
+    declare readonly basicAuthUsernameTarget:HTMLInputElement;
+    declare readonly basicAuthPasswordTarget:HTMLInputElement;
 
     static metaNames = ['csrf-token'];
     declare readonly csrfToken:string;
 
     static values = {
-        url: String,
-        id: String
+        testConnectionPath: String,
+        jiraId: String
     };
 
-    declare urlValue:string;
-    declare idValue:string;
+    declare testConnectionPathValue:string;
+    declare jiraIdValue:string;
 
     connect():void {
         useMeta(this, {suffix: false});
@@ -69,42 +78,51 @@ export default class extends Controller {
         });
     }
 
+    get selectedAuthMethod() {
+      return this.authMethodGroupTarget.querySelector<HTMLInputElement>('input:checked')?.value
+    }
+
     async testConnection(event:Event):Promise<void> {
-        event.preventDefault();
+      event.preventDefault();
 
-        const url = this.urlInputTarget.value.trim();
-        const token = this.tokenInputTarget?.value.trim();
+      const authMethod = this.selectedAuthMethod;
+      const url = this.urlTarget.value.trim();
+      this.disableButtons();
+      this.progressBannerTarget.hidden = false;
 
-        this.disableButtons();
-        this.progressBannerTarget.hidden = false;
+      try {
+          const formData = new FormData();
+          formData.append('url', url);
+          formData.append('jira_id', this.jiraIdValue!);
+          formData.append('auth_method', authMethod!);
+          if(authMethod === 'bearer') {
+            const personalAccessToken = this.personalAccessTokenTarget.value.trim();
+            formData.append('personal_access_token', personalAccessToken);
+          }
+          if(authMethod === 'basic') {
+            const basicAuthUsername = this.basicAuthUsernameTarget.value.trim();
+            const basicAuthPassword = this.basicAuthPasswordTarget.value.trim();
+            formData.append('basic_auth_username', basicAuthUsername);
+            formData.append('basic_auth_password', basicAuthPassword);
+          }
 
-        try {
-            const formData = new FormData();
-            formData.append('url', url);
-            if (token) {
-                formData.append('personal_access_token', token);
-            }
-            if (this.idValue) {
-                formData.append('id', this.idValue);
-            }
+          const response = await fetch(this.testConnectionPathValue, {
+              method: 'POST',
+              body: formData,
+              headers: {
+                  'Accept': 'text/vnd.turbo-stream.html',
+                  'X-CSRF-Token': this.csrfToken,
+              },
+          });
 
-            const response = await fetch(this.urlValue, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'text/vnd.turbo-stream.html',
-                    'X-CSRF-Token': this.csrfToken,
-                },
-            });
-
-            Turbo.renderStreamMessage(await response.text());
-        } catch (error) {
-            console.error(error);
-        } finally {
-            this.buttonTargets.forEach(button => {
-                button.disabled = false;
-            });
-            this.progressBannerTarget.hidden = true;
-        }
+          Turbo.renderStreamMessage(await response.text());
+      } catch (error) {
+          console.error(error);
+      } finally {
+          this.buttonTargets.forEach(button => {
+              button.disabled = false;
+          });
+          this.progressBannerTarget.hidden = true;
+      }
     }
 }
