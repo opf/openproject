@@ -402,6 +402,16 @@ RSpec.describe Notifications::CreateFromModelService, "message", with_settings: 
         end
       end
 
+      context "when an edit adds the mention after changing earlier text" do
+        let(:content) { "Hello there" }
+
+        before { resource.update!(content: "Hallo there #{mention}") }
+
+        it_behaves_like "creates notification" do
+          let(:notification_channel_reasons) { mentioned_notification }
+        end
+      end
+
       context "when an edit leaves the mention untouched" do
         before { resource.update!(subject: "A new subject") }
 
