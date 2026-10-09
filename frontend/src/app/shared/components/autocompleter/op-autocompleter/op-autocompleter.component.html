@@ -27,7 +27,7 @@
     [hideSelected]="hideSelected"
     [appendTo]="appendTo"
     [multiple]="multiple"
-    [loading]="loading$ | async"
+    [loading]="(loading$ | async) && ngSelectInstance.isOpen()"
     [addTag]="addTag"
     [virtualScroll]="virtualScroll"
     [required]="required"
