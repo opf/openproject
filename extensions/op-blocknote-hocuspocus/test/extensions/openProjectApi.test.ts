@@ -33,7 +33,6 @@ import { createEditor, OpenProjectApi } from "../../src/extensions/openProjectAp
 import { createExpiredToken, createTestToken } from "../helpers/tokenHelper";
 import { server } from "../mocks/node";
 import { http, HttpResponse } from "msw";
-import { text } from 'stream/consumers';
 
 // All web requests that aren't explicitly mocked via `server.use`, are using the dynamic document
 // request mock defined in `handlers.ts`, returning a document for any id that isn't a
@@ -269,47 +268,59 @@ describe("OpenProjectApi", () => {
   });
 
   describe("onStoreDocument", () => {
-    test("should store document content successfully", async () => {
-      server.use(http.patch('https://test.api/api/v3/documents/121', () => {
+    const documentUrl = "https://test.api/api/v3/documents/121";
+
+    async function storeBlocks(blocks: unknown[]) {
+      let body = "";
+      server.use(http.patch(documentUrl, async ({ request }) => {
+        body = await request.text();
         return HttpResponse.json({}, { status: 200 });
       }));
 
-      let body: Promise<string> = Promise.resolve("");
-
-      server.events.on('request:end', async ({ request }) => {
-        body = text(request.body!);
-      });
-
-      const editor = createEditor();
-      const blocks = [
-        {
-          type: "paragraph",
-          content: "test document content"
-        }
-      ];
-
       const document = new Y.Doc();
-      const fragment = document.getXmlFragment('document-store');
-
       // @ts-expect-error BlockNote types are complicated
-      editor.blocksToYXmlFragment(blocks, fragment);
+      createEditor().blocksToYXmlFragment(blocks, document.getXmlFragment('document-store'));
 
       const broadcastStateless = vi.fn();
       const data = {
         lastContext: {
           token: "superValidToken",
-          resourceUrl: "https://test.api/api/v3/documents/121",
+          resourceUrl: documentUrl,
           readonly: false,
           tokenExpiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 min from now
         },
         document: { ...document, broadcastStateless } as unknown as Document,
       } as unknown as onStoreDocumentPayload;
 
-      const api = new OpenProjectApi();
-      await api.onStoreDocument(data);
+      await new OpenProjectApi().onStoreDocument(data);
 
-      await expect(body).resolves.toContain("content_binary");
+      return { body, broadcastStateless };
+    }
+
+    test("should store document content successfully", async () => {
+      const { body, broadcastStateless } = await storeBlocks([
+        { type: "paragraph", content: "test document content" },
+      ]);
+
+      expect(body).toContain("content_binary");
       expect(broadcastStateless).toHaveBeenCalledWith("storeEvent");
+    });
+
+    test("stores a user mention as the OpenProject mention tag", async () => {
+      const { body } = await storeBlocks([
+        {
+          type: "paragraph",
+          content: [
+            "Thanks ",
+            { type: "openProjectUserMention", props: { userId: "5", name: "Judith Roth" } },
+          ],
+        },
+      ]);
+
+      const { description } = JSON.parse(body) as { description: string };
+      expect(description.trim()).toBe(
+        'Thanks <mention class="mention" data-id="5" data-type="user" data-text="@Judith Roth">@Judith Roth</mention>'
+      );
     });
   });
 
