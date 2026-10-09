@@ -1,6 +1,6 @@
 import type { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
 import { useSelectedBlocks } from '@blocknote/react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
@@ -19,6 +19,7 @@ import { moveCursorAfterBlock } from '../../utils/cursor';
 import { hideSafariPhantomSelection, selectBlockNode } from '../../utils/selection';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
+import { usePressOutside } from '../../hooks/usePressOutside';
 import { useTapActivation } from '../../utils/tapActivation';
 
 const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
@@ -68,6 +69,7 @@ export const BlockWorkPackageComponent = ({
   const selectedBlocks = useSelectedBlocks(editor);
   const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
+  const closeOptions = useCallback(() => setIsOptionsOpen(false), []);
 
   useEffect(() => {
     if (!isBlockSelected) return;
@@ -139,23 +141,7 @@ export const BlockWorkPackageComponent = ({
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
-  // Touch is listened for in its own right: a tap another element answers
-  // never becomes a mousedown.
-  useEffect(() => {
-    if (!isOptionsOpen) return;
-    const handlePressOutside = (e:Event) => {
-      const path = e.composedPath();
-      if (cardRef.current && !path.includes(cardRef.current)) {
-        setIsOptionsOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handlePressOutside);
-    document.addEventListener('touchstart', handlePressOutside);
-    return () => {
-      document.removeEventListener('mousedown', handlePressOutside);
-      document.removeEventListener('touchstart', handlePressOutside);
-    };
-  }, [isOptionsOpen]);
+  usePressOutside(cardRef, isOptionsOpen, closeOptions);
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!block.props.wpid) return;
@@ -184,7 +170,7 @@ export const BlockWorkPackageComponent = ({
       currentBlockSize={cardSize}
       // eslint-disable-next-line react-hooks/refs
       anchorEl={cardRef.current}
-      onClose={() => setIsOptionsOpen(false)}
+      onClose={closeOptions}
       onConvertToInline={handleConvertToInline}
       onConvertToBlock={handleResizeBlock}
       onResizeBlock={handleResizeBlock}
