@@ -6,6 +6,7 @@
 
 import { buildExternalDOM, hashPrefixForSize } from '../WorkPackage/externalHtml';
 import { linkToWorkPackage } from '../../services/openProjectApi';
+import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 
 export interface WorkPackageInlineProps {
   wpid?:string;
@@ -15,7 +16,7 @@ export interface WorkPackageInlineProps {
 
 export interface WorkPackageInlineExternalData {
   attrs:{
-    'data-inline-content-type':'openProjectWorkPackageInline';
+    'data-inline-content-type':typeof INLINE_WP_TYPE;
     'data-wpid':string;
     'data-size':string;
     'data-display-id':string;
@@ -33,7 +34,7 @@ export function computeWorkPackageInlineExternalData(
   const displayId = props.displayId || wpid;
   return {
     attrs: {
-      'data-inline-content-type': 'openProjectWorkPackageInline',
+      'data-inline-content-type': INLINE_WP_TYPE,
       'data-wpid': wpid,
       'data-size': size ?? 's',
       'data-display-id': displayId,
@@ -53,7 +54,7 @@ export function buildWorkPackageInlineExternalDOM(
 export function parseWorkPackageInlineExternalHTML(
   element:HTMLElement,
 ):WorkPackageInlineProps | undefined {
-  if (element.getAttribute('data-inline-content-type') !== 'openProjectWorkPackageInline') {
+  if (element.getAttribute('data-inline-content-type') !== INLINE_WP_TYPE) {
     return undefined;
   }
   return {

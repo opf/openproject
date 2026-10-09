@@ -1,10 +1,10 @@
-import type { MouseEvent } from 'react';
 import styled, { css } from 'styled-components';
 import {
   defaultColorStyles,
   typeTextColor,
 } from '../../services/colors';
 import { linkToWorkPackage } from '../../services/openProjectApi';
+import { newTabLinkProps } from '../../utils/links';
 
 /* lets a line break between two meta parts that are each kept unbroken  */
 export const WRAP_OPPORTUNITY = '\u200B';
@@ -76,13 +76,7 @@ export const WorkPackageTitle = styled.span.attrs({
   overflow-wrap: anywhere;
 `;
 
-export const workPackageLinkProps = (displayId:string) => ({
-  href: linkToWorkPackage(displayId),
-  target: '_blank' as const,
-  rel: 'noopener noreferrer',
-  /*  keep link clicks from toggling the surrounding chip/card popover  */
-  onClick: (e:MouseEvent) => e.stopPropagation(),
-});
+export const workPackageLinkProps = (displayId:string) => newTabLinkProps(linkToWorkPackage(displayId));
 
 export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
   cursor: pointer;

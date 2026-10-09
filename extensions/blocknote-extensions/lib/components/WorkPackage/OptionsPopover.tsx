@@ -1,20 +1,14 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
-import { editorThemeVariables, menuSurfaceStyles } from '../shared/theme';
-import { useAnchoredPopover, PopoverPortal } from '../shared/anchoredPopover';
 import { SizeMenu } from './SizeMenu';
-import { FLOATING_Z_INDEX } from '../../utils/zIndex';
-import {
-  LinkExternalIcon,
-  TrashIcon,
-  ChevronDownIcon,
-} from '@primer/octicons-react';
+import { ChevronDownIcon } from '@primer/octicons-react';
 import {formatWorkPackageId} from '../../utils/id';
 import { useTapActivation } from '../../utils/tapActivation';
+import { OptionsButton, OptionsPopover } from '../shared/OptionsPopover';
 
 export interface WpOptionsProps {
   wp?:WorkPackage;
@@ -30,62 +24,10 @@ export interface WpOptionsProps {
   onResizeBlock?:(size:BlockWpSize) => void;
 }
 
-const Popover = styled.div.attrs({
-  className: 'op-bn-inline-options',
-  'data-testid': 'popover-content',
-})`
-  ${editorThemeVariables}
-  position: absolute;
-  z-index: ${FLOATING_Z_INDEX.options};
-  ${menuSurfaceStyles}
-  box-shadow: var(--bn-shadow-medium);
-  border-radius: var(--bn-border-radius-large);
-  padding: var(--spacer-s);
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  bottom: calc(100% + 6px);
-  left: 0;
-  white-space: nowrap;
-`;
-
-const PopBtn = styled.button<{ $danger?:boolean }>`
-  background: none;
-  border: none;
-  border-radius: var(--bn-border-radius-small);
-  padding: var(--spacer-s) var(--spacer-m);
-  cursor: pointer;
-  font-size: 0.82em;
-  color: ${({ $danger }) =>
-    $danger
-      ? 'var(--mantine-color-red-8)'
-      : 'var(--bn-colors-editor-text, #333)'};
-  display: flex;
-  align-items: center;
-  gap: var(--spacer-s);
-  line-height: 1;
-  &:hover {
-    background-color: var(
-      --bn-colors-highlights-gray-background,
-      #f5f5f5
-    );
-  }
-  svg { flex-shrink: 0; }
-`;
-
-const Divider = styled.div`
-  width: 1px;
-  height: 18px;
-  background: var(--mantine-color-default-border);
-  margin: 0 2px;
-`;
-
 const SizeButtonWrapper = styled.div`
   position: relative;
 `;
 
-const IcOpen = () => <LinkExternalIcon size={13} />;
-const IcDelete = () => <TrashIcon size={13} />;
 const IcChevron = () => <ChevronDownIcon size={10} />;
 
 export const WpOptionsPopover = ({
@@ -105,8 +47,6 @@ export const WpOptionsPopover = ({
   const [showSizes, setShowSizes] = useState(false);
 
   const tapProps = useTapActivation();
-  const popoverRef = useRef<HTMLDivElement | null>(null);
-  useAnchoredPopover({ anchorEl, popoverRef, placement: 'above' });
 
   const [sizeButtonEl, setSizeButtonEl] = useState<HTMLButtonElement | null>(null);
 
@@ -140,34 +80,17 @@ export const WpOptionsPopover = ({
     closeMenu();
   };
 
-  const content = (
-    // stopPropagation stops the outside-tap handlers from closing the popover.
-    // Do NOT add preventDefault: on iOS it suppresses the first tap's click, so
-    // every button then needs a priming tap.
-    <Popover
-      ref={popoverRef}
-      onMouseDown={(e) => e.stopPropagation()}
-      onTouchStart={(e) => e.stopPropagation()}
+  return (
+    <OptionsPopover
+      anchorEl={anchorEl}
+      openHref={openId ? linkToWorkPackage(openId) : undefined}
+      openAriaLabel={openId ? t('options.openAriaLabel', { id: formatWorkPackageId(openId) }) : undefined}
+      removeAriaLabel={t('options.removeAriaLabel')}
+      onRemove={onRemove}
+      onClose={onClose}
     >
-      {openId && (
-        <>
-          <PopBtn
-            title={t('options.openInNewTab')}
-            aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(openId) })}
-            {...tapProps((event) => {
-              event?.stopPropagation();
-              window.open(linkToWorkPackage(openId), '_blank', 'noopener,noreferrer');
-            })}
-          >
-            <IcOpen /> {t('options.open')}
-          </PopBtn>
-
-          <Divider />
-        </>
-      )}
-
       <SizeButtonWrapper>
-        <PopBtn
+        <OptionsButton
           ref={setSizeButtonEl}
           title={t('options.changeSize')}
           aria-label={t('options.changeSize')}
@@ -178,7 +101,7 @@ export const WpOptionsPopover = ({
         >
           {displayedSize}
           <IcChevron />
-        </PopBtn>
+        </OptionsButton>
 
         {showSizes && (
           <SizeMenu
@@ -189,24 +112,6 @@ export const WpOptionsPopover = ({
           />
         )}
       </SizeButtonWrapper>
-
-      <Divider />
-
-      <PopBtn
-        $danger
-        title={t('options.remove')}
-        data-testid="remove-btn"
-        aria-label={t('options.removeAriaLabel')}
-        {...tapProps((event) => {
-          event?.stopPropagation();
-          onRemove?.();
-          onClose();
-        })}
-      >
-        <IcDelete /> {t('options.remove')}
-      </PopBtn>
-    </Popover>
+    </OptionsPopover>
   );
-
-  return <PopoverPortal anchorEl={anchorEl}>{content}</PopoverPortal>;
 };
