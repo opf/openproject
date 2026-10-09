@@ -46,7 +46,19 @@ module Admin
           input_width: :small
         )
 
+        color_form.html_content do
+          render Colors::ContrastPreviewComponent.new
+        end
+
         color_form.group(layout: :horizontal) do |button_group|
+          button_group.button(
+            name: :check_contrast,
+            classes: "color-form--check-contrast",
+            type: :button,
+            label: I18n.t("colors.contrast.check"),
+            data: { action: "color-contrast#check" }
+          )
+
           button_group.button(
             name: :cancel,
             scheme: :default,
