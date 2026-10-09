@@ -7,7 +7,7 @@ import {
 } from './workPackageAttributes';
 
 // A single red pixel.
-const MIRA_AVATAR = Uint8Array.from(
+const USER_PICTURE = Uint8Array.from(
   atob('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP4z8DwHwAFAAH/q842iQAAAABJRU5ErkJggg=='),
   (character) => character.charCodeAt(0),
 );
@@ -380,10 +380,10 @@ export const handlers = [
     })
   ),
 
-  // Only Mira Hofmann has a picture; everyone else answers as OpenProject does without one.
+  // Only Mira Hofmann and Anna Kovalenko have a picture; everyone else answers as OpenProject does without one.
   http.get('http://localhost:3000/api/v3/users/:id/avatar', ({ params }) =>
-    params.id === '3'
-      ? new HttpResponse(MIRA_AVATAR, { headers: { 'Content-Type': 'image/png' } })
+    params.id === '3' || params.id === '7'
+      ? new HttpResponse(USER_PICTURE, { headers: { 'Content-Type': 'image/png' } })
       : new HttpResponse(null, { status: 404 })
   ),
 

@@ -4,6 +4,7 @@ export {
   openProjectWorkPackageInlineSpec,
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
+  openProjectUserMentionSpec,
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   useCreateWorkPackageFromSelection,

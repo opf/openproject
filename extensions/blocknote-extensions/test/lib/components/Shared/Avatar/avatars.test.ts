@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { avatarColorOf, initialsOf } from '../../../../lib/components/WorkPackageAttribute/avatars';
+import { avatarColorOf, initialsOf } from '../../../../../lib/components/Shared/Avatar/avatars';
 
 describe('initialsOf', () => {
   it('takes the first letters of the first and the last name', () => {

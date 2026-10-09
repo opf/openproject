@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { avatarUrlOf } from '../../services/openProjectApi';
 import type { Principal } from './attributes';
-import { avatarColorOf, initialsOf } from './avatars';
+import { avatarColorOf, initialsOf } from '../Shared/Avatar/avatars';
 import { Avatar, AvatarPicture, AvatarSlot } from './atoms';
 
 export function PrincipalAvatar({ principal }:{ principal:Principal }) {

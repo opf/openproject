@@ -6,3 +6,4 @@ export { getOpenProjectSlashMenuItems } from './SlashMenu';
 export { ShadowDomWrapper } from './ShadowDomWrapper';
 export { OpenProjectFormattingToolbar, useCreateWorkPackageFromSelection } from './FormattingToolbar';
 export type { CreateWorkPackageFromSelection } from './FormattingToolbar';
+export { openProjectUserMentionSpec } from './UserMention';

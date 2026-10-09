@@ -46,3 +46,12 @@ export type {
   WorkPackageAttributeExternalData,
   WorkPackageAttributeProps,
 } from './components/WorkPackageAttribute/externalHtml';
+
+export { userMentionConfig } from './components/UserMention/userMentionConfig';
+export { openProjectUserMentionStaticSpec } from './components/UserMention/staticSpec';
+export {
+  buildUserMentionStoredDOM,
+  userMentionTag,
+  parseUserMentionExternalHTML,
+} from './components/UserMention/externalHtml';
+export type { UserMentionProps } from './components/UserMention/externalHtml';

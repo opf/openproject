@@ -1,11 +1,12 @@
 import { BlockNoteEditor, BlockNoteSchema } from '@blocknote/core';
-import { TextSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
+  openProjectUserMentionSpec,
 } from '../../lib';
 import type { AnyEditor } from '../../lib/editorTypes';
-import { INLINE_WP_TYPE } from '../../lib/utils/nodeTypes';
+import { INLINE_WP_TYPE, USER_MENTION_TYPE } from '../../lib/utils/nodeTypes';
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -13,6 +14,7 @@ const schema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 
@@ -48,12 +50,34 @@ export function blockText(editor:AnyEditor, blockIndex = 0):string {
   return blockContent(editor, blockIndex).map((node) => node.text ?? '').join('');
 }
 
+export function blockTextWithNodes(editor:AnyEditor, blockIndex = 0):string {
+  return blockContent(editor, blockIndex)
+    .map((node) => (node.type === 'text' ? node.text : `[${node.type}]`))
+    .join('');
+}
+
+export function mentionsIn(editor:AnyEditor):InlineNode['props'][] {
+  return editor.document
+    .flatMap((block) => (Array.isArray(block.content) ? block.content as InlineNode[] : []))
+    .filter((node) => node.type === USER_MENTION_TYPE)
+    .map((node) => node.props);
+}
+
+export function selectedNodeType(editor:AnyEditor):string | undefined {
+  const { selection } = editor.prosemirrorState;
+  return selection instanceof NodeSelection ? selection.node.type.name : undefined;
+}
+
 export function nthChipPosition(editor:AnyEditor, ordinal = 0):number {
+  return nthInlineNodePosition(editor, INLINE_WP_TYPE, ordinal);
+}
+
+export function nthInlineNodePosition(editor:AnyEditor, nodeType:string, ordinal = 0):number {
   let seen = -1;
   let found = -1;
   editor.prosemirrorState.doc.descendants((node, position) => {
     if (found !== -1) return false;
-    if (node.type.name === INLINE_WP_TYPE) {
+    if (node.type.name === nodeType) {
       seen += 1;
       if (seen === ordinal) {
         found = position;
