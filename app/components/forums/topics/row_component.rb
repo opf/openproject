@@ -57,14 +57,17 @@ module Forums
         project_forum_topic_path(project, forum, topic, r: reply.id, anchor: "message-#{reply.id}")
       end
 
-      def subject_line
+      def subject_line # rubocop:disable Metrics/AbcSize
         flex_layout(align_items: :center) do |flex|
-          flex.with_column(mr: 1) { flag(:pin, I18n.t("js.label_board_sticky"), "topic-sticky") } if topic.sticky?
-          flex.with_column(mr: 1) { flag(:lock, I18n.t("js.label_board_locked"), "topic-locked") } if topic.locked?
+          icon_column(flex) { flag(:pin, I18n.t("js.label_board_sticky"), "topic-sticky") } if topic.sticky?
+          icon_column(flex) { flag(:lock, I18n.t("js.label_board_locked"), "topic-locked") } if topic.locked?
+          icon_column(flex) { solved_icon } if table.solved?(topic)
           flex.with_column(classes: "ellipsis") { subject_link }
           flex.with_column(ml: 1, classes: "op-forum-topics-table--byline") { byline }
         end
       end
+
+      def icon_column(flex, &) = flex.with_column(mr: 1, display: :flex, &)
 
       def byline
         render(Primer::Beta::Text.new(color: :muted)) do
@@ -83,6 +86,10 @@ module Forums
         render(Primer::Beta::Link.new(href: project_forum_topic_path(project, forum, topic), underline: false)) do
           render(Primer::Beta::Text.new(font_weight: :bold)) { topic.subject }
         end
+      end
+
+      def solved_icon
+        render(Messages::AcceptedSolutionIconComponent.new(kind: Messages::AcceptedSolutionIconComponent::TOPIC))
       end
 
       def flag(icon, label, test_selector)

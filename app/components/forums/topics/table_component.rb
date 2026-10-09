@@ -58,6 +58,14 @@ module Forums
       def blank_title = I18n.t("forums.show.no_results_title_text")
 
       def blank_description = nil
+
+      def solved?(topic) = solved_topic_ids.include?(topic.id)
+
+      private
+
+      def solved_topic_ids
+        @solved_topic_ids ||= Message.with_accepted_solution_ids(rows.map(&:id))
+      end
     end
   end
 end
