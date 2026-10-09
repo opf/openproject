@@ -31,21 +31,12 @@
 class CreateWorkPackageEmbeddings < ActiveRecord::Migration[8.1]
   def change
     create_table :work_package_embeddings do |t|
-      t.references :work_package, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
-      # model_id is the provider's external model name (e.g. "text-embedding-3-large").
-      # Stored alongside the vector so that stale rows from a previous model can be
-      # excluded from search without touching the feature binding.
-      t.string :model_id, null: false
-      t.integer :dimensions, null: false
-      t.timestamps null: false
+      t.references :work_package, null: false, index: { unique: true }, foreign_key: { on_delete: :cascade }
+      t.datetime :created_at, null: false
     end
 
-    # Vector column added separately: Rails does not register the pgvector
-    # "vector" type, so a block-style column definition would silently emit the
-    # wrong SQL. A raw ALTER TABLE uses the type verbatim.
-    reversible do |dir|
-      dir.up   { execute "ALTER TABLE work_package_embeddings ADD COLUMN embedding vector NOT NULL" }
-      dir.down {} # dropped with the table
+    up_only do
+      execute "ALTER TABLE work_package_embeddings ADD COLUMN embedding halfvec NOT NULL"
     end
   end
 end
