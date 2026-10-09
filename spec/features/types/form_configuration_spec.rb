@@ -275,10 +275,8 @@ RSpec.describe "form configuration", :js, :selenium do
         end
 
         it "shows field format labels beside attributes" do
-          builtin_label = I18n.t("label_builtin")
-
-          expect(page.find(form.attribute_selector(:assignee))).to have_text(builtin_label)
-          expect(page.find(form.attribute_selector(:date))).to have_text(builtin_label)
+          expect(page.find(form.attribute_selector(:assignee))).to have_text(User.model_name.human)
+          expect(page.find(form.attribute_selector(:date))).to have_text(I18n.t(:label_date))
 
           form.move_to(custom_field.attribute_name, "Details")
           expect(page.find(form.attribute_selector(custom_field.attribute_name))).to have_text(I18n.t(:label_integer))

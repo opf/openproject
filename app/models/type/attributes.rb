@@ -132,7 +132,7 @@ module Type::Attributes
 
       definitions.keys
                  .reject { |key| skipped_attribute?(key, definitions[key]) }
-                 .index_with { |key| JSON::parse(definitions[key].to_json) }
+                 .index_with { |key| JSON::parse(definitions[key].to_json).merge(type: definitions[key][:type]) }
     end
 
     def skipped_attribute?(key, definition)
@@ -143,7 +143,7 @@ module Type::Attributes
     end
 
     def merge_date_for_form_attributes(attributes)
-      attributes["date"] = { required: false, has_default: false }
+      attributes["date"] = { required: false, has_default: false, type: "Date" }
       attributes.delete "due_date"
       attributes.delete "start_date"
     end

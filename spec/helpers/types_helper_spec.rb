@@ -218,9 +218,17 @@ RSpec.describe TypesHelper do
         allow(variant).to receive(:attribute_groups).and_return []
       end
 
-      it "returns 'Builtin field' for built-in attributes" do
+      it "returns the Date label for the merged start/due date virtual attribute" do
+        # "date" replaces due_date/start_date (see
+        # Type::Attributes.merge_date_for_form_attributes) but is explicitly typed
+        # as a date itself.
         builtin = groups[:inactives].find { |a| a[:key] == "date" }
-        expect(builtin[:field_format_label]).to eq I18n.t("label_builtin")
+        expect(builtin[:field_format_label]).to eq I18n.t(:label_date)
+      end
+
+      it "returns the attribute's schema type for a built-in attribute that has one" do
+        assignee = groups[:inactives].find { |a| a[:key] == "assignee" }
+        expect(assignee[:field_format_label]).to eq User.model_name.human
       end
 
       context "with a custom field" do
@@ -231,6 +239,29 @@ RSpec.describe TypesHelper do
           expect(cf_attr[:field_format_label]).to eq I18n.t(:label_string)
         end
       end
+    end
+  end
+
+  describe "#label_for_builtin_type" do
+    it "translates a model type to its human model name" do
+      expect(helper.send(:label_for_builtin_type, "User")).to eq User.model_name.human
+      expect(helper.send(:label_for_builtin_type, "Priority")).to eq IssuePriority.model_name.human
+    end
+
+    it "translates a primitive type to its label" do
+      expect(helper.send(:label_for_builtin_type, "Integer")).to eq I18n.t(:label_integer)
+      expect(helper.send(:label_for_builtin_type, "Boolean")).to eq I18n.t(:label_boolean)
+      expect(helper.send(:label_for_builtin_type, "DateTime")).to eq I18n.t(:label_date_and_time)
+      expect(helper.send(:label_for_builtin_type, "Duration")).to eq I18n.t(:label_duration)
+    end
+
+    it "strips the multi-value '[]' prefix before looking the type up" do
+      expect(helper.send(:label_for_builtin_type, "[]Version")).to eq Version.model_name.human
+    end
+
+    it "falls back to the generic builtin label for a blank or unmapped type" do
+      expect(helper.send(:label_for_builtin_type, nil)).to eq I18n.t("label_builtin")
+      expect(helper.send(:label_for_builtin_type, "SomeUnmappedType")).to eq I18n.t("label_builtin")
     end
   end
 

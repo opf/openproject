@@ -96,7 +96,8 @@ module API
                           required:,
                           has_default:,
                           name_source:,
-                          as:)
+                          as:,
+                          type:)
         end
 
         def schema_with_allowed_link(property,
@@ -125,7 +126,8 @@ module API
                           required:,
                           has_default:,
                           name_source:,
-                          as:)
+                          as:,
+                          type:)
         end
 
         def schema_with_allowed_collection(property,
@@ -168,7 +170,8 @@ module API
                           required:,
                           has_default:,
                           name_source:,
-                          as:)
+                          as:,
+                          type:)
         end
 
         def schema_with_allowed_string_collection(property,
@@ -207,7 +210,8 @@ module API
                           required:,
                           has_default:,
                           name_source:,
-                          as:)
+                          as:,
+                          type:)
         end
 
         def schema_property(property,
@@ -216,7 +220,8 @@ module API
                             required:,
                             has_default:,
                             name_source:,
-                            as:)
+                            as:, # rubocop:disable Naming/MethodParameterName
+                            type: nil)
           raise ArgumentError unless property
 
           property property,
@@ -226,6 +231,7 @@ module API
                    if: show_if,
                    required:,
                    has_default:,
+                   type:,
                    name_source: lambda {
                      API::Decorators::SchemaRepresenter::InstanceMethods
                        .call_or_translate name_source, represented_class

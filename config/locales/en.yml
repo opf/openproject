@@ -4079,6 +4079,7 @@ en:
   label_download: "%{count} Download"
   label_download_plural: "%{count} Downloads"
   label_downloads_abbr: "D/L"
+  label_duration: "Duration"
   label_duplicate: "duplicate"
   label_duplicated_by: "duplicated by"
   label_duplicates: "duplicates"
