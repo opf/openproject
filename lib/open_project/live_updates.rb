@@ -31,12 +31,38 @@
 module OpenProject
   # Live updates are pushed through AnyCable once it is configured; until then features keep polling.
   module LiveUpdates
+    class NotEnabledError < StandardError; end
+
     module_function
 
     def enabled?
       AnyCable::Rails.enabled? &&
         AnyCable.config.secret.present? &&
         AnyCable.config.websocket_url.present?
+    end
+
+    # The event dispatched on `document` in pages subscribed to a record of the model via `turbo_stream_from`,
+    # e.g. "op-dispatched:meeting-changed".
+    def changed_event(model)
+      "#{OpTurbo::ComponentStream::DISPATCHED_EVENT_PREFIX}#{model.model_name.element.dasherize}-changed"
+    end
+
+    # Signals the pages subscribed to the record that it changed.
+    # The Turbo request id lets the tab that made the change recognize and ignore the signal.
+    # Callers may run inside the transaction persisting the change, so the signal waits for its commit.
+    # Callers check #enabled? first, as pages fall back to polling without live updates.
+    def broadcast_changed(record)
+      raise NotEnabledError, "Live updates are not configured" unless enabled?
+
+      detail = { requestId: Turbo.current_request_id }.compact.to_json
+
+      ActiveRecord.after_all_transactions_commit do
+        Turbo::StreamsChannel.broadcast_action_to(
+          record,
+          action: :dispatchEvent,
+          attributes: { "event-name": changed_event(record), detail: }
+        )
+      end
     end
   end
 end
