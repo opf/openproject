@@ -40,6 +40,8 @@ class Message < ApplicationRecord
                      add_on_new_permission: :add_messages,
                      add_on_persisted_permission: :edit_messages
   belongs_to :last_reply, class_name: "Message"
+  has_many :message_work_packages, dependent: :delete_all
+  has_many :created_work_packages, through: :message_work_packages, source: :work_package
 
   acts_as_journalized
 
