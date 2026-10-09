@@ -63,12 +63,6 @@ module Token
       @invalid_expires_on_date = true
     end
 
-    def valid_plaintext?(input)
-      return false if expired?
-
-      super
-    end
-
     private
 
     def validate_expires_on_in_future

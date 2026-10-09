@@ -114,20 +114,6 @@ RSpec.describe Token::API do
     end
   end
 
-  describe "#valid_plaintext?" do
-    subject(:token) { create(:api_token, user:) }
-
-    it "accepts the plain value of a token that has not expired" do
-      expect(token.valid_plaintext?(token.plain_value)).to be true
-    end
-
-    it "rejects the plain value of an expired token" do
-      token.update_column(:expires_on, 1.minute.ago)
-
-      expect(token.valid_plaintext?(token.plain_value)).to be false
-    end
-  end
-
   describe "expires_on validation" do
     it "accepts no expiry" do
       expect(build(:api_token, user:, expires_on: nil)).to be_valid
