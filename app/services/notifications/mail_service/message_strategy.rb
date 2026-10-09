@@ -31,12 +31,17 @@
 module Notifications::MailService::MessageStrategy
   class << self
     def send_mail(notification)
-      UserMailer
-        .message_posted(
-          notification.recipient,
-          notification.resource
-        )
-        .deliver_now
+      mail_for(notification).deliver_now
+    end
+
+    private
+
+    def mail_for(notification)
+      if notification.reason_mentioned?
+        UserMailer.message_mentioned(notification.recipient, notification.journal)
+      else
+        UserMailer.message_posted(notification.recipient, notification.resource)
+      end
     end
   end
 end

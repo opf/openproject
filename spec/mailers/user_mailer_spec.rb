@@ -238,6 +238,54 @@ RSpec.describe UserMailer do
     end
   end
 
+  describe "#message_mentioned" do
+    let(:author) { build_stubbed(:user, firstname: "Anna", lastname: "Author") }
+    let(:parent) { build_stubbed(:message, subject: "Release planning") }
+    let(:message) do
+      build_stubbed(:message, parent:, subject: "RE: Release planning").tap do |msg|
+        allow(msg)
+          .to receive(:project)
+                .and_return(msg.forum.project)
+      end
+    end
+    let(:message_journal) do
+      build_stubbed(:message_journal, journable: message).tap do |j|
+        allow(j).to receive(:user).and_return(author)
+      end
+    end
+
+    before do
+      described_class.message_mentioned(recipient, message_journal).deliver_now
+    end
+
+    it_behaves_like "mail is sent" do
+      it "names the author in the subject, threaded with the topic" do
+        expect(deliveries.first.subject)
+          .to eq "[#{message.forum.project.name} - #{message.forum.name} - msg#{parent.id}] " \
+                 "Anna Author mentioned you in RE: Release planning"
+      end
+
+      it "references the topic and the message" do
+        expect(deliveries.first.references)
+          .to eql %W[op.message-#{parent.id}@doe.com
+                     op.message-#{message.id}@doe.com]
+      end
+
+      it "links to the message within its topic" do
+        expect(html_body)
+          .to have_link(message.subject,
+                        href: project_forum_topic_url(message.forum.project, message.forum, parent.id,
+                                                      host: Setting.host_name,
+                                                      r: message.id,
+                                                      anchor: "message-#{message.id}"))
+      end
+
+      it "says who mentioned the recipient" do
+        expect(html_body).to have_text("Anna Author mentioned you:")
+      end
+    end
+  end
+
   describe "#account_information" do
     let(:pwd) { "pAsswORd" }
 

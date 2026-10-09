@@ -280,20 +280,21 @@ RSpec.describe Notifications::MailService, type: :model do
                     journable: build_stubbed(:message))
     end
     let(:read_ian) { false }
+    let(:reason) { :watched }
     let(:notification) do
       build_stubbed(:notification,
                     journal:,
                     resource: journal.journable,
                     recipient:,
                     actor:,
-                    read_ian:)
+                    read_ian:,
+                    reason:)
     end
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
 
       allow(UserMailer)
-        .to receive(:message_posted)
-              .and_return(mail)
+        .to receive_messages(message_posted: mail, message_mentioned: mail)
 
       allow(mail)
         .to receive(:deliver_now)
@@ -325,6 +326,22 @@ RSpec.describe Notifications::MailService, type: :model do
 
         expect(UserMailer)
           .not_to have_received(:message_posted)
+      end
+    end
+
+    context "with the recipient mentioned" do
+      let(:reason) { :mentioned }
+
+      it "sends the mention mail" do
+        call
+
+        expect(UserMailer)
+          .to have_received(:message_mentioned)
+                .with(recipient, journal)
+        expect(UserMailer)
+          .not_to have_received(:message_posted)
+        expect(mail)
+          .to have_received(:deliver_now)
       end
     end
   end
