@@ -19,7 +19,7 @@ function insertMention(editor:AnyEditor, principal:Principal):void {
 }
 
 export function useMentionMenu(editor:AnyEditor) {
-  const search = useDebouncedSearch(searchMentionableUsers, { searchBlank: true });
+  const { search, cancel } = useDebouncedSearch(searchMentionableUsers, { searchBlank: true });
 
   const planFor = useCallback(
     ():SuggestionPlan<Principal> => ({ kind: 'search', pick: (principal) => insertMention(editor, principal) }),
@@ -30,6 +30,7 @@ export function useMentionMenu(editor:AnyEditor) {
     trigger: MENTION_TRIGGER,
     planFor,
     search,
+    cancelSearch: cancel,
     logPrefix: '[mention search] Failed to load users from OpenProject:',
     createMenu: createMentionMenuComponent,
   });

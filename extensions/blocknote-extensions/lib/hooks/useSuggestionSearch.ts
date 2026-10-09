@@ -28,22 +28,25 @@ interface SuggestionSearchOptions<T> {
   // Callers pass stable functions: a new `getItems` makes BlockNote search again.
   planFor:(query:string) => SuggestionPlan<T>;
   search:(query:string) => Promise<T[]>;
+  cancelSearch:() => void;
   logPrefix:string;
   createMenu:(searchStateRef:RefObject<SuggestionSearchState<T>>) => SuggestionMenuComponent;
 }
 
 export function useSuggestionSearch<T>(
   editor:AnyEditor,
-  { trigger, planFor, search, logPrefix, createMenu }:SuggestionSearchOptions<T>,
+  { trigger, planFor, search, cancelSearch, logPrefix, createMenu }:SuggestionSearchOptions<T>,
 ) {
   const searchStateRef = useRef<SuggestionSearchState<T>>({ query: '', results: [], error: null });
-  const latestQueryRef = useRef('');
+  const latestRequestRef = useRef(0);
 
   const getItems = useCallback(async (query:string):Promise<SuggestionMenuItem[]> => {
-    latestQueryRef.current = query;
+    latestRequestRef.current += 1;
+    const request = latestRequestRef.current;
     const typedQueryItems = [{ title: query, onItemClick: () => restoreTypedQuery(editor, trigger, query) }];
 
     const plan = planFor(query);
+    if (plan.kind !== 'search') cancelSearch();
     if (plan.kind === 'close') {
       closeSuggestionMenu(editor);
       return [];
@@ -55,14 +58,14 @@ export function useSuggestionSearch<T>(
 
     try {
       const results = await search(query);
-      if (latestQueryRef.current !== query) return [];
+      if (request !== latestRequestRef.current) return [];
       searchStateRef.current = { query, results, error: null };
 
       if (results.length === 0) return typedQueryItems;
       return results.map((result) => ({ title: query, onItemClick: () => plan.pick(result) }));
     } catch (error) {
       console.error(logPrefix, error);
-      if (latestQueryRef.current === query) {
+      if (request === latestRequestRef.current) {
         searchStateRef.current = {
           query,
           results: [],
@@ -71,7 +74,7 @@ export function useSuggestionSearch<T>(
       }
       return typedQueryItems;
     }
-  }, [editor, trigger, planFor, search, logPrefix]);
+  }, [editor, trigger, planFor, search, cancelSearch, logPrefix]);
 
   /* eslint-disable react-hooks/refs */
   const Menu = useMemo(() => createMenu(searchStateRef), [createMenu]);
