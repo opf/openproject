@@ -32,6 +32,8 @@ module Token
   module Expirable
     extend ActiveSupport::Concern
 
+    DEFAULT_EXPIRY = 30.days
+
     included do
       scope :expired, -> { where(expires_on: ...Time.current) }
       scope :not_expired, -> { where(expires_on: nil).or(where(expires_on: Time.current..)) }
