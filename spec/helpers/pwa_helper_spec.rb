@@ -43,5 +43,9 @@ RSpec.describe PwaHelper do
     it "gives none rather than cutting a long single word" do
       expect(helper.pwa_short_name("Projektverwaltungssystem")).to be_nil
     end
+
+    it "gives none for a long blank title" do
+      expect(helper.pwa_short_name(" " * 13)).to be_nil
+    end
   end
 end

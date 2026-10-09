@@ -31,8 +31,10 @@
 module CustomStylesHelper
   include TabsHelper
 
-  # Primer's --bgColor-inset in dark themes, which the header uses there. A meta tag cannot resolve the CSS variable.
+  # The dark, dark high contrast and light high contrast themes paint the header with Primer's --bgColor-inset,
+  # which a meta tag cannot resolve.
   DARK_HEADER_BG_COLOR = "#010409"
+  LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR = "#eff2f5"
 
   def pdf_tab?
     selected = selected_tab(design_tabs)
@@ -108,12 +110,11 @@ module CustomStylesHelper
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
   end
 
-  def header_bg_color(color_mode = :light)
+  def header_bg_color(color_mode = :light, high_contrast: false)
     return DARK_HEADER_BG_COLOR if color_mode == :dark
+    return LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR if high_contrast
 
-    overwritten = DesignColor.overwritten.find { it.variable == "header-bg-color" } if apply_custom_styles?
-
-    overwritten&.hexcode ||
+    custom_header_bg_color ||
       color_theme(OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME).dig(:colors, "header-bg-color")
   end
 
@@ -121,12 +122,14 @@ module CustomStylesHelper
     pref = User.current.pref
 
     if pref.sync_with_os_theme?
-      safe_join(UserPreference::COLOR_MODES.map do |color_mode|
-        tag.meta(name: "theme-color", content: header_bg_color(color_mode),
-                 media: "(prefers-color-scheme: #{color_mode})")
-      end, "\n")
+      safe_join([
+                  theme_color_tag(header_bg_color(:light, high_contrast: pref.force_light_theme_contrast?),
+                                  media: "(prefers-color-scheme: light)"),
+                  theme_color_tag(header_bg_color(:dark), media: "(prefers-color-scheme: dark)")
+                ], "\n")
     else
-      tag.meta(name: "theme-color", content: header_bg_color(pref.dark_color_mode? ? :dark : :light))
+      theme_color_tag(header_bg_color(pref.dark_color_mode? ? :dark : :light,
+                                      high_contrast: pref.increase_theme_contrast?))
     end
   end
 
@@ -225,6 +228,16 @@ module CustomStylesHelper
   end
 
   private
+
+  def custom_header_bg_color
+    RequestStore.fetch(:custom_header_bg_color) do
+      DesignColor.overwritten.find { it.variable == "header-bg-color" }&.hexcode if apply_custom_styles?
+    end
+  end
+
+  def theme_color_tag(color, media: nil)
+    tag.meta(name: "theme-color", content: color, media:)
+  end
 
   def color_theme(current_theme)
     OpenProject::CustomStyles::ColorThemes.themes.find do |theme|

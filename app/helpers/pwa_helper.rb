@@ -32,6 +32,6 @@ module PwaHelper
   SHORT_NAME_MAX_LENGTH = 12
 
   def pwa_short_name(title = Setting.app_title)
-    [title, title.split.first].find { it.length <= SHORT_NAME_MAX_LENGTH }
+    [title, title.split.first].compact.find { it.length <= SHORT_NAME_MAX_LENGTH }
   end
 end

@@ -44,17 +44,21 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
   end
 
+  it "is served as JSON when the browser asks for HTML" do
+    get "/manifest", headers: { "Accept" => "text/html" }
+
+    expect(response.media_type).to eq("application/json")
+  end
+
+  it "does not route a format suffix" do
+    expect { get "/manifest.html" }.to raise_error(ActionController::RoutingError)
+  end
+
   describe "GET /manifest", with_settings: { login_required: true, app_title: "Acme Projects" } do
     before { get "/manifest" }
 
     it "is served as JSON to a visitor without a session" do
       expect(response).to have_http_status(:ok)
-      expect(response.media_type).to eq("application/json")
-    end
-
-    it "is served as JSON when the browser asks for HTML" do
-      get "/manifest", headers: { "Accept" => "text/html" }
-
       expect(response.media_type).to eq("application/json")
     end
 
@@ -156,8 +160,8 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
   describe "the theme-color tags" do
     let(:tags) { 'meta[name="theme-color"]' }
 
-    def sign_in_with_theme(theme)
-      login_as create(:user, preferences: { theme: })
+    def sign_in_with_theme(theme, **preferences)
+      login_as create(:user, preferences: { theme:, **preferences })
       get "/my/page"
 
       expect(response).to have_http_status(:ok)
@@ -182,6 +186,27 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
 
       expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: light)"][content="#1A67A3"]), visible: :all)
       expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: dark)"][content="#010409"]), visible: :all)
+    end
+
+    it "paints the title bar in the high contrast header colour for a light preference with more contrast" do
+      sign_in_with_theme("light", increase_theme_contrast: true)
+
+      expect(page).to have_css(%(#{tags}[content="#eff2f5"]), count: 1, visible: :all)
+    end
+
+    it "uses the high contrast light colour when syncing with the OS and forcing light contrast" do
+      sign_in_with_theme("sync_with_os", force_light_theme_contrast: true)
+
+      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: light)"][content="#eff2f5"]), visible: :all)
+    end
+
+    it "paints the title bar in a custom header colour", with_ee: %i[define_custom_style] do
+      create(:custom_style)
+      DesignColor.create!(variable: "header-bg-color", hexcode: "#123456")
+
+      sign_in_with_theme("light")
+
+      expect(page).to have_css(%(#{tags}[content="#123456"]), count: 1, visible: :all)
     end
   end
 

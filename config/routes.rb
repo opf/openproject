@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   get "manifest" => "rails/pwa#manifest",
       as: :pwa_manifest,
+      format: false,
       defaults: { format: :json },
       constraints: ->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }
 
