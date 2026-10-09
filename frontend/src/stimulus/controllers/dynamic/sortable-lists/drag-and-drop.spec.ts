@@ -36,7 +36,6 @@ import {
   isSortableItemIdentity,
   isSortableListData,
   resolveDropIntent,
-  resolvePreviousSortableItemId,
   sortableDragSourceData,
   sortableItemIdentity,
   sortableListData,
@@ -53,13 +52,6 @@ describe('sortable lists drag and drop helpers', () => {
     return row;
   }
 
-  function showMoreRow(previousItemId = 'hidden-item'):HTMLLIElement {
-    const row = document.createElement('li');
-
-    row.setAttribute('data-sortable-lists-prev-item-id', previousItemId);
-
-    return row;
-  }
 
   function divRow(id:string):HTMLDivElement {
     const row = document.createElement('div');
@@ -257,173 +249,6 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('resolvePreviousSortableItemId', () => {
-    it('uses the target item as previous item when dropping on the bottom edge', () => {
-      const rowsContainer = document.createElement('ul');
-      const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, targetItem: target, closestEdge: 'bottom', rowsContainer })).toEqual('3');
-    });
-
-    it('uses the row item as previous item when the drop target is the row', () => {
-      const rowsContainer = document.createElement('ul');
-      const targetRow = itemRow('3');
-
-      rowsContainer.append(targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['1']) }, targetItem: targetRow, closestEdge: 'bottom', rowsContainer })).toEqual('3');
-    });
-
-    it('uses the previous row item when dropping on the top edge', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(first, targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('1');
-    });
-
-    it('uses the previous row item when dropping on the top edge of a row target', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const targetRow = itemRow('3');
-
-      rowsContainer.append(first, targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: targetRow, closestEdge: 'top', rowsContainer })).toEqual('1');
-    });
-
-    it('treats a missing closest edge as dropping before the target item', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(first, targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: null, rowsContainer })).toEqual('1');
-    });
-
-    it('uses a truncation marker when dropping before a tail item', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const targetRow = itemRow('6');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(first, showMoreRow('5'), targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('5');
-    });
-
-    it('skips the source item and uses a preceding truncation marker when resolving the previous item', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const sourceRow = itemRow('2');
-      const targetRow = itemRow('3');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(first, showMoreRow(), sourceRow, targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toEqual('hidden-item');
-    });
-
-    it('returns null when dropping before the first item', () => {
-      const rowsContainer = document.createElement('ul');
-      const targetRow = itemRow('1');
-      const target = targetRow.querySelector<HTMLElement>('article')!;
-
-      rowsContainer.append(targetRow);
-
-      expect(resolvePreviousSortableItemId({ excludedItems: { type: 'work_package', ids: new Set(['2']) }, targetItem: target, closestEdge: 'top', rowsContainer })).toBeNull();
-    });
-
-    it('skips every excluded id when resolving the previous item', () => {
-      // rows: A, B, C, D — drop with top edge on D while A and C are excluded
-      // (selected): the closest preceding unexcluded item is B.
-      const rowsContainer = document.createElement('ul');
-      const rowA = itemRow('A');
-      const rowB = itemRow('B');
-      const rowC = itemRow('C');
-      const rowD = itemRow('D');
-
-      rowsContainer.append(rowA, rowB, rowC, rowD);
-
-      const result = resolvePreviousSortableItemId({
-        excludedItems: { type: 'work_package', ids: new Set(['A', 'C']) },
-        targetItem: rowD,
-        closestEdge: 'top',
-        rowsContainer,
-      });
-
-      expect(result).toBe('B');
-    });
-
-    it('refuses an excluded item as bottom-edge anchor', () => {
-      // bottom edge on C, but C is excluded: fall through to the sibling walk.
-      const rowsContainer = document.createElement('ul');
-      const rowA = itemRow('A');
-      const rowB = itemRow('B');
-      const rowC = itemRow('C');
-      const rowD = itemRow('D');
-
-      rowsContainer.append(rowA, rowB, rowC, rowD);
-
-      const result = resolvePreviousSortableItemId({
-        excludedItems: { type: 'work_package', ids: new Set(['A', 'C']) },
-        targetItem: rowC,
-        closestEdge: 'bottom',
-        rowsContainer,
-      });
-
-      expect(result).toBe('B');
-    });
-
-    // Ids are unique per source table, so a same-id row of another type is a
-    // legitimate anchor, not a batch member to skip.
-    it('does not exclude a same-id row of another type', () => {
-      const rowsContainer = document.createElement('ul');
-      const collidingRow = itemRow('A');
-      collidingRow.setAttribute('data-sortable-lists--item-type-value', 'section');
-      const targetRow = itemRow('B');
-      targetRow.setAttribute('data-sortable-lists--item-type-value', 'work_package');
-
-      rowsContainer.append(collidingRow, targetRow);
-
-      const result = resolvePreviousSortableItemId({
-        excludedItems: { type: 'work_package', ids: new Set(['A']) },
-        targetItem: targetRow,
-        closestEdge: 'top',
-        rowsContainer,
-      });
-
-      expect(result).toBe('A');
-    });
-
-    // A truncation marker resolves no type, so a bare-id collision there
-    // stays excluded.
-    it('keeps excluding a truncation marker whose previous item id collides', () => {
-      const rowsContainer = document.createElement('ul');
-      const first = itemRow('1');
-      const marker = showMoreRow('A');
-      const targetRow = itemRow('B');
-
-      rowsContainer.append(first, marker, targetRow);
-
-      const result = resolvePreviousSortableItemId({
-        excludedItems: { type: 'work_package', ids: new Set(['A']) },
-        targetItem: targetRow,
-        closestEdge: 'top',
-        rowsContainer,
-      });
-
-      expect(result).toBe('1');
-    });
-  });
 
   describe('resolveDropIntent', () => {
     function dropLocation({

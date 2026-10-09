@@ -1672,7 +1672,7 @@ describe('Sortable lists item controller', () => {
     });
 
     // A fixed row is still an ordered participant: it anchors drops for its
-    // orderable neighbours, so its drop target must stay registered.
+    // movable neighbours, so its drop target must stay registered.
     it('still registers a drop target when the item is fixed', async () => {
       const item = await renderItem({ mobility: 'fixed' });
 

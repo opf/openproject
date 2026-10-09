@@ -26,18 +26,42 @@
 //++
 
 import { selectionKey } from 'core-common/batch-selection';
+import { type ListTopology, sortableListData } from './drag-and-drop';
+import { listKey } from './list-dom';
 import {
   applySelectionPresentation,
   batchSelectedAttribute,
-  listBoundaryItem,
-  liveOrderableItems,
-  liveOrderableListItems,
-  neighbourItem,
+  liveMovableItems,
   orderedItemElements,
   orderedSelectedItemElements,
   resolveCandidate,
-  resolveRangeItems,
 } from './selection';
+
+// Mirrors the root: the nearest list element that belongs to this root,
+// with the Box list's <ul> as its rows container when it has one.
+function topologyFor(root:HTMLElement):ListTopology {
+  const rootSelector = '[data-controller~="sortable-lists"]';
+  return {
+    rootElement: root,
+    owns: (element) => element.closest(rootSelector) === root,
+    ownerList: (element) => {
+      const list = element.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
+      if (list?.closest(rootSelector) !== root) {
+        return null;
+      }
+      const identity = {
+        type: list.getAttribute('data-sortable-lists--list-type-value') ?? '',
+        id: list.getAttribute('data-sortable-lists--list-id-value'),
+      };
+      return {
+        element: list,
+        identity,
+        listData: sortableListData({ type: identity.type, listId: identity.id }),
+        rowsContainer: list.querySelector<HTMLElement>(':scope > ul') ?? list,
+      };
+    },
+  };
+}
 
 describe('sortable-lists selection adapter', () => {
   let root:HTMLElement;
@@ -77,13 +101,9 @@ describe('sortable-lists selection adapter', () => {
 
   // The rows container the host resolves in production; supplied directly
   // here because this spec drives the adapter without one.
-  const rowsContainerFor = (item:HTMLElement) => {
-    const list = item.closest<HTMLElement>('[data-controller~="sortable-lists--list"]');
-    return list ? (list.querySelector<HTMLElement>(':scope > ul') ?? list) : null;
-  };
 
   const itemFor = (id:string) => root.querySelector<HTMLElement>(`[data-sortable-lists--item-id-value="${id}"]`)!;
-  const candidateFor = (id:string) => resolveCandidate(root, itemFor(id))!;
+  const candidateFor = (id:string) => resolveCandidate(topologyFor(root), itemFor(id))!;
 
   // A trailing item in sprint 7 that hosts a list of its own, the nested
   // topology a section-and-fields consumer renders.
@@ -105,22 +125,22 @@ describe('sortable-lists selection adapter', () => {
   };
 
   it('resolves a candidate from a descendant of the item', () => {
-    const candidate = resolveCandidate(root, itemFor('1').querySelector('span'));
+    const candidate = resolveCandidate(topologyFor(root), itemFor('1').querySelector('span'));
 
     expect(candidate).toEqual({
       type: 'work_package',
       itemElement: itemFor('1'),
       focusHost: itemFor('1'),
       id: '1',
-      listKey: 'sprint:7',
-      orderable: true,
+      listKey: listKey({ type: 'sprint', id: '7' }),
+      movable: true,
     });
   });
 
   it('keys the list by its type and id, not its DOM id', () => {
     itemFor('1').closest('[data-controller~="sortable-lists--list"]')!.id = 'inbox_project_4';
 
-    expect(candidateFor('1').listKey).toBe('sprint:7');
+    expect(candidateFor('1').listKey).toBe(listKey({ type: 'sprint', id: '7' }));
   });
 
   // The focus host is also the boundary the interactive-descendant check
@@ -131,7 +151,7 @@ describe('sortable-lists selection adapter', () => {
     card.tabIndex = 0;
     itemFor('2').appendChild(card);
 
-    expect(resolveCandidate(root, card)!.focusHost).toBe(card);
+    expect(resolveCandidate(topologyFor(root), card)!.focusHost).toBe(card);
   });
 
   it('does not take a nested item\'s focus target as the focus host', () => {
@@ -142,17 +162,17 @@ describe('sortable-lists selection adapter', () => {
   });
 
   it('resolves a non-movable candidate', () => {
-    expect(candidateFor('5').orderable).toBe(false);
+    expect(candidateFor('5').movable).toBe(false);
   });
 
   it('does not resolve a truncation marker as a candidate', () => {
     const marker = root.querySelector<HTMLElement>('[data-sortable-lists-prev-item-id]')!;
 
-    expect(resolveCandidate(root, marker)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), marker)).toBeNull();
   });
 
   it('does not resolve anything outside the root', () => {
-    expect(resolveCandidate(root, document.body)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), document.body)).toBeNull();
   });
 
   it('refuses to resolve a candidate that declares no type', () => {
@@ -161,7 +181,7 @@ describe('sortable-lists selection adapter', () => {
     untyped.setAttribute('data-sortable-lists--item-id-value', '99');
     root.querySelector('ul')!.appendChild(untyped);
 
-    expect(resolveCandidate(root, untyped)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), untyped)).toBeNull();
   });
 
   // An independently nested root is an ownership boundary.
@@ -180,7 +200,7 @@ describe('sortable-lists selection adapter', () => {
     root.appendChild(nested);
     const inner = nested.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="90"]')!;
 
-    expect(resolveCandidate(root, inner)).toBeNull();
+    expect(resolveCandidate(topologyFor(root), inner)).toBeNull();
     expect(orderedItemElements(root)).not.toContain(inner);
   });
 
@@ -190,125 +210,10 @@ describe('sortable-lists selection adapter', () => {
     expect(orderedSelectedItemElements(root, keys)).toEqual([itemFor('1'), itemFor('3'), itemFor('4')]);
   });
 
-  it('lists only live orderable items', () => {
-    expect(liveOrderableItems(root).map((item) => item.id)).toEqual(['1', '2', '3', '4']);
+  it('lists only live movable items', () => {
+    expect(liveMovableItems(root).map((item) => item.id)).toEqual(['1', '2', '3', '4']);
   });
 
-  it('resolves an ascending range within one list', () => {
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('2'), rowsContainerFor(itemFor('2')))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
-  });
-
-  it('resolves a descending range within one list', () => {
-    const anchor = { type: 'work_package', id: '2', listKey: 'sprint:7' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('1'), rowsContainerFor(itemFor('1')))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
-  });
-
-  it('rejects a range that would cross a truncation marker', () => {
-    const anchor = { type: 'work_package', id: '2', listKey: 'sprint:7' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('3'), rowsContainerFor(itemFor('3')))).toEqual({ ok: false, reason: 'unavailable' });
-  });
-
-  it('rejects a range that would cross a list boundary', () => {
-    const anchor = { type: 'work_package', id: '3', listKey: 'sprint:7' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('4'), rowsContainerFor(itemFor('4')))).toEqual({ ok: false, reason: 'crossList' });
-  });
-
-  it('does not take a same-id item of another type for the anchor', () => {
-    const decoy = document.createElement('li');
-    decoy.setAttribute('data-controller', 'sortable-lists--item');
-    decoy.setAttribute('data-sortable-lists--item-id-value', '1');
-    decoy.setAttribute('data-sortable-lists--item-type-value', 'decoy');
-    root.querySelector('ul')!.prepend(decoy);
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
-    const candidate = candidateFor('2');
-
-    expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: true, items: [{ type: 'work_package', id: '1' }, { type: 'work_package', id: '2' }] });
-  });
-
-  // A structural row holding only a nested list has no item of its own; the
-  // nested list's first field must not be mistaken for one.
-  it('rejects a range across a row that only hosts a nested list', () => {
-    const hostRow = document.createElement('li');
-    hostRow.innerHTML = `
-      <div data-controller="sortable-lists--list"
-           data-sortable-lists--list-type-value="section"
-           data-sortable-lists--list-id-value="6">
-        <ul>
-          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="60" data-sortable-lists--item-type-value="field"></li>
-        </ul>
-      </div>
-    `;
-    itemFor('1').after(hostRow);
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
-    const candidate = candidateFor('2');
-
-    expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
-  });
-
-  it('rejects a range whose anchor id was never a row in this list', () => {
-    const anchor = { type: 'work_package', id: '99', listKey: 'sprint:7' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('2'), rowsContainerFor(itemFor('2')))).toEqual({ ok: false, reason: 'unavailable' });
-  });
-
-  // Refused, not trimmed to the movable cards — and with its own reason,
-  // since expanding the list can never resolve a locked card.
-  it('refuses a range that would include a non-movable card', () => {
-    const anchor = { type: 'work_package', id: '4', listKey: 'sprint:8' };
-
-    expect(resolveRangeItems(root, anchor, candidateFor('5'), rowsContainerFor(itemFor('5')))).toEqual({ ok: false, reason: 'locked' });
-  });
-
-  // list-dom's contract lets a row wrap its item instead of being it.
-  it('resolves a range across rows that wrap their item element', () => {
-    const wrappingRoot = document.createElement('div');
-    wrappingRoot.setAttribute('data-controller', 'sortable-lists');
-    wrappingRoot.innerHTML = `
-      <div data-controller="sortable-lists--list"
-           data-sortable-lists--list-type-value="sprint"
-           data-sortable-lists--list-id-value="20">
-        <ul>
-          <li><div data-controller="sortable-lists--item" data-sortable-lists--item-id-value="20" data-sortable-lists--item-type-value="work_package"></div></li>
-          <li><div data-controller="sortable-lists--item" data-sortable-lists--item-id-value="21" data-sortable-lists--item-type-value="work_package"></div></li>
-          <li><div data-controller="sortable-lists--item" data-sortable-lists--item-id-value="22" data-sortable-lists--item-type-value="work_package"></div></li>
-        </ul>
-      </div>
-    `;
-    document.body.appendChild(wrappingRoot);
-
-    try {
-      const wrappedItemFor = (id:string) => wrappingRoot.querySelector<HTMLElement>(
-        `[data-sortable-lists--item-id-value="${id}"]`,
-      )!;
-      const anchor = { type: 'work_package', id: '20', listKey: 'sprint:20' };
-      const candidate = resolveCandidate(wrappingRoot, wrappedItemFor('22'))!;
-
-      expect(resolveRangeItems(wrappingRoot, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: true, items: [{ type: 'work_package', id: '20' }, { type: 'work_package', id: '21' }, { type: 'work_package', id: '22' }] });
-    } finally {
-      wrappingRoot.remove();
-    }
-  });
-
-  // A candidate whose item lives outside the list's rows container has no
-  // row to find there.
-  it('rejects a range when the candidate item sits outside the rows container', () => {
-    const list = root.querySelector<HTMLElement>('[data-sortable-lists--list-id-value="7"]')!;
-    const strayItem = document.createElement('div');
-    strayItem.setAttribute('data-controller', 'sortable-lists--item');
-    strayItem.setAttribute('data-sortable-lists--item-id-value', '30');
-    strayItem.setAttribute('data-sortable-lists--item-type-value', 'work_package');
-    list.appendChild(strayItem);
-
-    const anchor = { type: 'work_package', id: '1', listKey: 'sprint:7' };
-    const candidate = resolveCandidate(root, strayItem)!;
-
-    expect(resolveRangeItems(root, anchor, candidate, rowsContainerFor(candidate.itemElement))).toEqual({ ok: false, reason: 'unavailable' });
-  });
 
   it('writes only changed members during an incremental render', () => {
     const key1 = selectionKey({ type: 'work_package', id: '1' });
@@ -427,48 +332,4 @@ describe('sortable-lists selection adapter', () => {
     expect(itemFor('1').hasAttribute(batchSelectedAttribute)).toBe(true);
   });
 
-  it('finds the next and previous item within one list', () => {
-    expect(neighbourItem(root, itemFor('1'), 1)).toBe(itemFor('2'));
-    expect(neighbourItem(root, itemFor('2'), -1)).toBe(itemFor('1'));
-  });
-
-  it('does not step across a list boundary', () => {
-    expect(neighbourItem(root, itemFor('3'), 1)).toBeNull();
-  });
-
-  // Not filtered by movability, unlike listBoundaryItem below.
-  it('steps onto a non-movable card with the arrow', () => {
-    expect(neighbourItem(root, itemFor('4'), 1)).toBe(itemFor('5'));
-  });
-
-  it('finds the first and last item of the containing list', () => {
-    expect(listBoundaryItem(root, itemFor('2'), 'first')).toBe(itemFor('1'));
-    expect(listBoundaryItem(root, itemFor('2'), 'last')).toBe(itemFor('3'));
-  });
-
-  // Sprint 8 holds movable 4 and non-movable 5 (see the fixture comment
-  // above): the trailing non-movable card must not become the End target.
-  it('skips a non-movable card at the list boundary', () => {
-    expect(listBoundaryItem(root, itemFor('4'), 'last')).toBe(itemFor('4'));
-  });
-
-  // A section item hosting its own list is an ownership boundary too.
-  it('does not step into a list nested inside the list', () => {
-    appendNestedList();
-
-    expect(neighbourItem(root, itemFor('6'), 1)).toBeNull();
-  });
-
-  it('confines list-scoped select-all to the items the list itself owns', () => {
-    appendNestedList();
-
-    expect(liveOrderableListItems(root, itemFor('1')).map((item) => item.id)).toEqual(['1', '2', '3', '6']);
-  });
-
-  it('returns null when no movable card remains in the list', () => {
-    itemFor('4').setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
-
-    expect(listBoundaryItem(root, itemFor('4'), 'first')).toBeNull();
-    expect(listBoundaryItem(root, itemFor('4'), 'last')).toBeNull();
-  });
 });
