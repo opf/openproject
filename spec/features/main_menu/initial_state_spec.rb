@@ -110,19 +110,51 @@ RSpec.describe "Main menu initial state" do
       wait_for { menu_width_cookie.to_i }.to be > 0
     end
 
+    def stored_menu_state(key)
+      page.evaluate_script("window.localStorage.getItem('openProject-mainMenu#{key}')")
+    end
+
+    it "keeps a width that only the cookie remembers" do
+      page.driver.set_cookie("op_main_menu_width", "320")
+      visit root_path
+
+      wait_for { stored_menu_state("Width") }.to eq("320")
+      expect(page).to have_css("html[style*='--main-menu-width: 320px']")
+      expect(page).to have_no_css("#wrapper.hidden-navigation")
+    end
+
+    it "keeps a collapse that only the cookie remembers" do
+      page.driver.set_cookie("op_main_menu_width", "0")
+      visit root_path
+
+      wait_for { stored_menu_state("Collapsed") }.to eq("true")
+      expect(page).to have_css("#wrapper.hidden-navigation")
+      expect(menu_width_cookie).to eq("0")
+    end
+
     context "on a narrow window" do
       include_context "with mobile screen size", 1000, 900
 
-      it "collapses the menu and can still expand it" do
+      it "collapses the menu, can still expand it and hides it again on the next page" do
         visit root_path
 
         expect(page).to have_css("#wrapper.hidden-navigation")
 
         expect_angular_frontend_initialized
+        wait_for { stored_menu_state("Collapsed") }.to eq("false")
         click_on accessible_name: "Expand project menu", match: :first
 
         expect(page).to have_no_css("#wrapper.hidden-navigation")
         expect(page).to have_css("#main-menu", visible: :visible)
+
+        page.execute_script("window.opMenuSpecMarker = true")
+        within "#main-menu" do
+          click_on "My page"
+        end
+
+        expect(page).to have_current_path(my_page_path)
+        expect(page).to have_css("#wrapper.hidden-navigation")
+        expect(page.evaluate_script("window.opMenuSpecMarker")).to be(true)
       end
     end
   end
