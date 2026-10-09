@@ -30,12 +30,14 @@
 
 module Queries::Filters::Strategies
   class DateTimePast < Queries::Filters::Strategies::Integer
-    self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d"]
+    self.supported_operators = [">t-", "<t-", "t-", "t", "w", "=d", "<>d", ">d", "<d"]
     self.default_operator = ">t-"
 
     def validate
-      if operator == Queries::Operators::OnDateTime ||
-         operator == Queries::Operators::BetweenDateTime
+      if [Queries::Operators::OnDateTime,
+          Queries::Operators::BetweenDateTime,
+          Queries::Operators::GreaterOrEqualDateTime,
+          Queries::Operators::LessOrEqualDateTime].include?(operator)
         validate_values_all_datetime
       else
         super
@@ -48,6 +50,8 @@ module Queries::Filters::Strategies
       super_value = super.dup
       super_value["=d"] = Queries::Operators::OnDateTime
       super_value["<>d"] = Queries::Operators::BetweenDateTime
+      super_value[">d"] = Queries::Operators::GreaterOrEqualDateTime
+      super_value["<d"] = Queries::Operators::LessOrEqualDateTime
 
       super_value
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,27 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class DateFilterDependencyRepresenter <
-          IntegerFilterDependencyRepresenter
-          private
+module Queries::Operators
+  class GreaterOrEqualDateTime < Base
+    label "greater_or_equal"
+    set_symbol ">d"
 
-          def type
-            if [::Queries::Operators::OnDate,
-                ::Queries::Operators::GreaterOrEqualDate,
-                ::Queries::Operators::LessOrEqualDate].include?(operator)
-              "[1]Date"
-            elsif operator == ::Queries::Operators::BetweenDate
-              "[2]Date"
-            else
-              super
-            end
-          end
-        end
-      end
+    extend DatetimeRangeClauses
+
+    def self.sql_for_field(values, db_table, db_field)
+      return "1 = 1" if values.first.to_s.empty?
+
+      datetime_range_clause(db_table, db_field, DateTime.parse(values.first), nil)
     end
   end
 end

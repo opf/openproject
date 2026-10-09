@@ -33,7 +33,9 @@ module API
         class DateTimeFilterDependencyRepresenter <
           IntegerFilterDependencyRepresenter
           def type
-            if operator == ::Queries::Operators::OnDateTime
+            if [::Queries::Operators::OnDateTime,
+                ::Queries::Operators::GreaterOrEqualDateTime,
+                ::Queries::Operators::LessOrEqualDateTime].include?(operator)
               "[1]DateTime"
             elsif operator == ::Queries::Operators::BetweenDateTime
               "[2]DateTime"
