@@ -48,14 +48,18 @@ export default class MainToggleController extends Controller {
   }
 
   toggleNavigation(e:Event) {
-    this.mainMenuService?.toggleNavigation(e);
+    if (!this.mainMenuService) return;
+
+    e.stopPropagation();
+    e.preventDefault();
+    this.mainMenuService.toggle();
   }
 
   private async connectMenuService() {
     try {
       const { injector } = await this.pluginContext;
       this.mainMenuService = injector.get(MainMenuToggleService);
-      this.mainMenuService.initializeMenu();
+      this.mainMenuService.syncWithPage();
     } catch {
       // Keep swallowing injector failures, as the previous chain did — the
       // toggle then stays inert instead of erroring on every page.

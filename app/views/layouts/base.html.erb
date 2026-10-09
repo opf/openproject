@@ -27,7 +27,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%><!DOCTYPE html>
 <% show_decoration = params[:layout].nil? %>
-<html lang="<%= I18n.locale %>" class="<%= class_names(in_modal: !show_decoration) %>">
+<% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
+<% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || main_menu.present? %>
+<% main_menu_width = initial_main_menu_width %>
+<% initial_classes = initial_menu_classes(side_displayed, show_decoration, main_menu_width) %>
+<html lang="<%= I18n.locale %>"
+      class="<%= class_names(in_modal: !show_decoration) %>"
+      <%= tag.attributes(style: initial_html_styles(side_displayed && show_decoration, main_menu_width)) %>>
 <head>
   <%= render partial: "layouts/common_head" %>
   <!-- project specific tags -->
@@ -58,10 +64,13 @@ See COPYRIGHT and LICENSE files for more details.
 <live-region></live-region>
 <span id="open-blank-target-link-description" class="sr-only"><%= I18n.t("open_link_in_a_new_tab") %></span>
 <opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
-<% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
-<% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || main_menu.present? %>
-<% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
-<div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
+<div id="wrapper" class="<%= initial_classes %>">
+  <%# Classic (non-module) so it runs before first paint on full loads and Turbo visits alike. %>
+  <%= nonced_javascript_tag do %>
+    if (<%= ApplicationHelper::SMALL_DESKTOP_WIDTH_THRESHOLD %> > window.innerWidth) {
+      document.getElementById('wrapper').classList.add('hidden-navigation');
+    }
+  <% end %>
   <% if show_decoration %>
     <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
@@ -183,31 +192,7 @@ See COPYRIGHT and LICENSE files for more details.
         wrapper_arguments: { id: "global-loading-indicator", position: :absolute }
       ) %>
 </div>
-<%# Properly decides main menu expanded state and width before its drawn. Fixes flickering side menu
-        where menu is first expanded, then being collapsed in angular. %>
 <%= nonced_javascript_tag type: "module" do %>
-  // execute these lines to prevent flickering when page loads:
-  const wrapper = document.getElementById('wrapper');
-  const mainMenuCollapsed = window.OpenProject.guardedLocalStorage('openProject-mainMenuCollapsed');
-
-  let savedMainMenuWidth;
-  if (mainMenuCollapsed === 'true') {
-    savedMainMenuWidth = 0;
-  } else {
-    savedMainMenuWidth = parseInt(window.OpenProject.guardedLocalStorage('openProject-mainMenuWidth'), 10);
-  }
-
-  if (window.innerWidth < 1012) {
-    // force hide on load for small desktops
-    document.querySelector('.can-hide-navigation')?.classList.add('hidden-navigation');
-  }
-
-  if (savedMainMenuWidth >= 0) {
-    document.documentElement.style.setProperty('--main-menu-width', savedMainMenuWidth + 'px');
-  }
-
-  wrapper.style.display = '';
-
   // Wrapper for page-specific JS from deprecated inline functions
   // no longer available with CSP.
   <%= content_for :additional_js_dom_ready %>

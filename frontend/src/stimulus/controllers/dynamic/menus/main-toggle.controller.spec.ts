@@ -34,12 +34,12 @@ import type MainToggleControllerType from './main-toggle.controller';
 describe('Main menu toggle controller', () => {
   let ctx:StimulusTestContext;
   let MainToggleController:typeof MainToggleControllerType;
-  let initializeMenu:Mock;
-  let toggleNavigation:Mock;
+  let syncWithPage:Mock;
+  let toggle:Mock;
   let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({
-    injector: { get: () => ({ initializeMenu, toggleNavigation }) },
+    injector: { get: () => ({ syncWithPage, toggle }) },
   });
 
   beforeAll(async () => {
@@ -47,8 +47,8 @@ describe('Main menu toggle controller', () => {
   });
 
   beforeEach(async () => {
-    initializeMenu = vi.fn();
-    toggleNavigation = vi.fn();
+    syncWithPage = vi.fn();
+    toggle = vi.fn();
     originalOpenProject = window.OpenProject;
     window.OpenProject = {
       getPluginContext: () => Promise.resolve(pluginContext()),
@@ -74,20 +74,21 @@ describe('Main menu toggle controller', () => {
     await renderToggle();
 
     await waitFor(() => {
-      expect(initializeMenu).toHaveBeenCalledTimes(1);
+      expect(syncWithPage).toHaveBeenCalledTimes(1);
     });
   });
 
   it('delegates navigation toggles to the menu service', async () => {
     const controller = await renderToggle();
     await waitFor(() => {
-      expect(initializeMenu).toHaveBeenCalled();
+      expect(syncWithPage).toHaveBeenCalled();
     });
 
-    const event = new CustomEvent('click');
+    const event = new CustomEvent('click', { cancelable: true });
     controller.toggleNavigation(event);
 
-    expect(toggleNavigation).toHaveBeenCalledWith(event);
+    expect(toggle).toHaveBeenCalledTimes(1);
+    expect(event.defaultPrevented).toBe(true);
   });
 
   it('does not initialize the menu when disconnected before the context resolves', async () => {
@@ -105,7 +106,7 @@ describe('Main menu toggle controller', () => {
     resolveContext(pluginContext());
     await ctx.nextFrame();
 
-    expect(initializeMenu).not.toHaveBeenCalled();
+    expect(syncWithPage).not.toHaveBeenCalled();
     expect(controller.pluginContext).toBeInstanceOf(Promise);
   });
 });
