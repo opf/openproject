@@ -30,8 +30,8 @@
 
 require "spec_helper"
 
-Dir[Rails.root.join("{,modules/*/}app/mailers/**/*_mailer.rb")].each { require it }
-Dir[Rails.root.join("{,modules/*/}spec/mailers/**/*_mailer_preview.rb")].each { require it }
+Rails.root.glob("{,modules/*/}app/mailers/**/*_mailer.rb") { require it }
+Rails.root.glob("{,modules/*/}spec/mailers/**/*_mailer_preview.rb") { require it }
 
 PENDING_PREVIEW_MAILERS = %w[
   AnnouncementMailer
