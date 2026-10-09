@@ -1,27 +1,25 @@
 import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { linkToWorkPackage } from '../../../services/openProjectApi';
 import styled from 'styled-components';
 import { editorThemeVariables, menuItemFocusStyles, menuSurfaceStyles } from '../theme';
 import { useAnchoredPopover, PopoverPortal } from '../anchoredPopover';
 import { SizeMenu } from './SizeMenu';
-import type { SizeGroup } from './types';
+import type { OpenLink, SizeGroup } from './types';
 import { FLOATING_Z_INDEX } from '../../../utils/zIndex';
 import {
   LinkExternalIcon,
   TrashIcon,
   ChevronDownIcon,
 } from '@primer/octicons-react';
-import { formatWorkPackageId } from '../../../utils/id';
 import { useTapActivation } from '../../../utils/tapActivation';
 import { focusMenuItem, hasFocusWithin, isKeyboardClick, KEYBOARD_FOCUS, navigateMenu } from '../../../utils/a11y';
 
 export interface OptionsPopoverProps {
   ariaLabel?:string;
-  openId?:string;
-  activeSize:string;
-  sizeLabel:string;
-  sizeGroups:SizeGroup[];
+  openLink?:OpenLink;
+  activeSize?:string;
+  sizeLabel?:string;
+  sizeGroups?:SizeGroup[];
   removeAriaLabel:string;
   anchorEl?:HTMLElement | null;
   autoFocus?:boolean;
@@ -94,10 +92,10 @@ const IcChevron = () => <ChevronDownIcon size={10} />;
 
 export const OptionsPopover = ({
   ariaLabel,
-  openId,
+  openLink,
   activeSize,
   sizeLabel,
-  sizeGroups,
+  sizeGroups = [],
   removeAriaLabel,
   anchorEl,
   autoFocus = false,
@@ -183,60 +181,64 @@ export const OptionsPopover = ({
       onMouseDown={(e) => e.stopPropagation()}
       onTouchStart={(e) => e.stopPropagation()}
     >
-      {openId && (
+      {openLink && (
         <>
           <PopBtn
             role="menuitem"
             tabIndex={-1}
             title={t('options.openInNewTab')}
-            aria-label={t('options.openAriaLabel', { id: formatWorkPackageId(openId) })}
+            aria-label={openLink.ariaLabel}
             {...tapProps((event) => {
               event?.stopPropagation();
-              window.open(linkToWorkPackage(openId), '_blank', 'noopener,noreferrer');
+              window.open(openLink.href, '_blank', 'noopener,noreferrer');
             })}
           >
-            <IcOpen /> {t('options.openWorkPackage', { id: formatWorkPackageId(openId) })}
+            <IcOpen /> {openLink.label}
           </PopBtn>
 
           <Divider />
         </>
       )}
 
-      <SizeButtonWrapper>
-        <PopBtn
-          ref={setSizeButtonEl}
-          role="menuitem"
-          tabIndex={-1}
-          title={t('options.changeSize')}
-          aria-label={t('options.changeSizeAriaLabel', { size: sizeLabel })}
-          aria-haspopup="menu"
-          aria-expanded={showSizes}
-          aria-controls={showSizes ? sizeMenuId : undefined}
-          onKeyDown={openSizesFromArrowKey}
-          {...tapProps((event) => {
-            event?.stopPropagation();
-            setSizesTakeFocus(isKeyboardClick(event));
-            setShowSizes((prev) => !prev);
-          })}
-        >
-          {sizeLabel}
-          <IcChevron />
-        </PopBtn>
+      {sizeGroups.length > 0 && (
+        <>
+          <SizeButtonWrapper>
+            <PopBtn
+              ref={setSizeButtonEl}
+              role="menuitem"
+              tabIndex={-1}
+              title={t('options.changeSize')}
+              aria-label={t('options.changeSizeAriaLabel', { size: sizeLabel })}
+              aria-haspopup="menu"
+              aria-expanded={showSizes}
+              aria-controls={showSizes ? sizeMenuId : undefined}
+              onKeyDown={openSizesFromArrowKey}
+              {...tapProps((event) => {
+                event?.stopPropagation();
+                setSizesTakeFocus(isKeyboardClick(event));
+                setShowSizes((prev) => !prev);
+              })}
+            >
+              {sizeLabel}
+              <IcChevron />
+            </PopBtn>
 
-        {showSizes && (
-          <SizeMenu
-            id={sizeMenuId}
-            label={t('options.changeSize')}
-            anchorEl={sizeButtonEl}
-            autoFocus={sizesTakeFocus}
-            onDismiss={closeSizes}
-            activeSize={activeSize}
-            groups={groupsClosingOnPick}
-          />
-        )}
-      </SizeButtonWrapper>
+            {showSizes && (
+              <SizeMenu
+                id={sizeMenuId}
+                label={t('options.changeSize')}
+                anchorEl={sizeButtonEl}
+                autoFocus={sizesTakeFocus}
+                onDismiss={closeSizes}
+                activeSize={activeSize}
+                groups={groupsClosingOnPick}
+              />
+            )}
+          </SizeButtonWrapper>
 
-      <Divider />
+          <Divider />
+        </>
+      )}
 
       <PopBtn
         $danger

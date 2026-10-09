@@ -1,5 +1,5 @@
-export const INLINE_WP_TYPE = 'openProjectWorkPackageInline';
-export const BLOCK_WP_TYPE = 'openProjectWorkPackageBlock';
+export const INLINE_WP_TYPE = 'openProjectWorkPackageInline' as const;
+export const BLOCK_WP_TYPE = 'openProjectWorkPackageBlock' as const;
 
 export const INLINE_WP_ATTRIBUTE_TYPE = 'openProjectWorkPackageAttributeInline';
 export const BLOCK_WP_ATTRIBUTE_TYPE = 'openProjectWorkPackageAttributeBlock';

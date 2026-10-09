@@ -3,6 +3,7 @@ import type { WorkPackage } from '../../openProjectTypes';
 import { formatWorkPackageId } from '../../utils/id';
 import { OptionsPopover, type SizeGroup } from '../Shared/OptionsMenu';
 import type { BlockWpSize, InlineWpSize } from './types';
+import { workPackageOpenLink } from './description';
 
 const INLINE_SIZE_OPTIONS:InlineWpSize[] = ['xxs', 'xs', 's'];
 const BLOCK_SIZE_OPTIONS:BlockWpSize[] = ['m'];
@@ -64,7 +65,7 @@ export const WpOptionsPopover = ({
     <OptionsPopover
       {...popoverProps}
       ariaLabel={openId ? t('options.menuAriaLabel', { id: formatWorkPackageId(openId) }) : undefined}
-      openId={openId}
+      openLink={openId ? workPackageOpenLink(t, openId) : undefined}
       activeSize={activeSize}
       sizeLabel={t(`sizes.${activeSize}.label`)}
       sizeGroups={sizeGroups}

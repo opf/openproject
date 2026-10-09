@@ -11,21 +11,16 @@ import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { WpPreviewPopover } from '../WorkPackage/PreviewPopover';
 import { pendingWorkPackages } from './pending';
 import type { InlineWpSize } from '../WorkPackage/types';
-import {
-  findInlineChipAtDOM,
-  selectInlineChipAtDOM,
-  removeInlineChipAt,
-  promoteInlineChipToBlockAt,
-} from '../../utils/inlineChipActions';
+import { promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 import { useSuppressFormattingToolbar } from '../../hooks/useSuppressFormattingToolbar';
-import { useOptionsMenu } from '../../hooks/useOptionsMenu';
+import { useInlineNodeOptions } from '../../hooks/useInlineNodeOptions';
 import { useSelectionAnnouncement } from '../../hooks/useSelectionAnnouncement';
-import { useTapActivation } from '../../utils/tapActivation';
 import { useOptionsHost } from '../../utils/optionsHost';
-import { isKeyboardClick, menuButtonProps } from '../../utils/a11y';
+import { menuButtonProps } from '../../utils/a11y';
 import { describeLinkedWorkPackage, unavailableKindOf, workPackageLabel } from '../WorkPackage/description';
 import { usePressOutside } from '../../hooks/usePressOutside';
 import type { BlockNoteEditor } from '@blocknote/core';
@@ -37,7 +32,7 @@ export interface InlineWorkPackageChipProps {
   editor?:BlockNoteEditor<any, any, any>;
   // Provided by BlockNote's node view; updates exactly this node instance.
   updateInlineContent?:(update:{
-    type:'openProjectWorkPackageInline';
+    type:typeof INLINE_WP_TYPE;
     props:{ wpid:string; size:string; displayId:string };
   }) => void;
 }
@@ -58,12 +53,14 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   useEffect(() => {
     if (!wp || !updateInlineContent) return;
     if (wp.displayId === inlineContent.props.displayId) return;
-    updateInlineContent({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, displayId: wp.displayId } });
+    updateInlineContent({ type: INLINE_WP_TYPE, props: { ...inlineContent.props, displayId: wp.displayId } });
   }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const options = useOptionsMenu();
   const chipRef = useRef<HTMLElement | null>(null);
   const [chipEl, setChipEl] = useState<HTMLElement | null>(null);
+
+  const { options, activationProps, findNode, removeNode } =
+    useInlineNodeOptions(editor, chipRef, INLINE_WP_TYPE);
 
   const preview = useWorkPackagePreview({
     enabled: size === 'xxs',
@@ -75,7 +72,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
-  useSuppressFormattingToolbar(editor, options.isOpen || previewOpen);
+  useSuppressFormattingToolbar(editor, previewOpen);
+  usePressOutside(chipRef, previewOpen, closePreview);
 
   const unavailableKind = unavailableKindOf({ unauthorized, error });
   const hasOptions = Boolean(wpid && (wp ?? unavailableKind));
@@ -95,31 +93,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     contentRef(node);
   };
 
-  const selectWorkPackageNode = () => {
-    if (!editor || !chipRef.current) return;
-    selectInlineChipAtDOM(editor, chipRef.current);
-    editor.getExtension('formattingToolbar')?.store?.setState(false);
-  };
-
-  const toggleOptions = (takesFocus:boolean) => {
-    closePreview();
-    options.toggle(takesFocus);
-    selectWorkPackageNode();
-  };
-
-  const tapProps = useTapActivation();
-  // The closure is handed to the element, not run while rendering.
-  // eslint-disable-next-line react-hooks/refs
-  const onChipActivation = tapProps((event) => {
-    event?.preventDefault();
-    event?.stopPropagation();
-    toggleOptions(isKeyboardClick(event));
-  });
-
-  usePressOutside(chipRef, options.isOpen || previewOpen, () => {
-    options.close();
-    closePreview();
-  });
+  const onChipActivation = activationProps(closePreview);
 
   const optionsPopover = (
     <WpOptionsPopover
@@ -132,18 +106,13 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
       onClose={options.close}
       onRestoreFocus={() => editor?.focus()}
       onResize={(newSize) => {
-        updateInlineContent?.({ type: 'openProjectWorkPackageInline', props: { ...inlineContent.props, size: newSize } });
+        updateInlineContent?.({ type: INLINE_WP_TYPE, props: { ...inlineContent.props, size: newSize } });
       }}
       onConvertToBlock={(blockSize) => {
-        if (!editor || !chipRef.current) return;
-        const chip = findInlineChipAtDOM(editor, chipRef.current);
-        if (chip) promoteInlineChipToBlockAt(editor, chip.position, blockSize);
+        const chip = findNode();
+        if (editor && chip) promoteInlineChipToBlockAt(editor, chip.position, blockSize);
       }}
-      onRemove={() => {
-        if (!editor || !chipRef.current) return;
-        const chip = findInlineChipAtDOM(editor, chipRef.current);
-        if (chip) removeInlineChipAt(editor, chip.position);
-      }}
+      onRemove={removeNode}
     />
   );
 

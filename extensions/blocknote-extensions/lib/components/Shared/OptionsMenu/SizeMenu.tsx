@@ -77,7 +77,7 @@ export interface SizeMenuProps {
   autoFocus?:boolean;
   // Escape closes only this menu and hands the focus back to the item that opened it.
   onDismiss:() => void;
-  activeSize:string;
+  activeSize?:string;
   groups:SizeGroup[];
 }
 

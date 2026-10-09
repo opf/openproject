@@ -8,12 +8,11 @@ import {
 import { BLOCK_WP_TYPE, INLINE_WP_TYPE } from '../../../lib/utils/nodeTypes';
 import {
   blockContent,
-  chipContent,
   createHeadlessEditor,
   createHeadlessEditorWithBlocks,
   nthChipPosition,
-  textContent,
 } from '../../helpers/headlessEditor';
+import { chipContent, textContent } from '../../helpers/content';
 
 describe('removeInlineChipAt', () => {
   it('removes exactly the chip at the given position', () => {

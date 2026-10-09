@@ -1,5 +1,7 @@
+import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
+
 export const inlineConfig = {
-  type: 'openProjectWorkPackageInline' as const,
+  type: INLINE_WP_TYPE,
   propSchema: {
     wpid: { default: '' },
     size: { default: 's' },

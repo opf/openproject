@@ -27,19 +27,24 @@ export interface TapActivationProps {
  *
  * A touch that landed in a React portal (a popover anchored to the element)
  * bubbles up the React tree to the element it was rendered from, and a nested
- * link or button answers for itself - neither is a tap on the element.
+ * link or button answers for itself - neither is a tap on the element. The
+ * nested control is skipped on click too, so a link keeps its navigation.
  */
 export function useTapActivation():(activate:TapAction) => TapActivationProps {
   const startedAt = useRef<{ x:number; y:number } | null>(null);
   const activatedAt = useRef(Number.NEGATIVE_INFINITY);
 
+  const isNestedControl = (event:ReactTouchEvent | ReactMouseEvent) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return false;
+    const nested = target.closest('a, button');
+    return nested !== null && nested !== event.currentTarget && event.currentTarget.contains(nested);
+  };
+
   const isOwnTouch = (event:ReactTouchEvent) => {
     const target = event.target;
     if (!(target instanceof Element)) return false;
-    if (!event.currentTarget.contains(target)) return false;
-
-    const nested = target.closest('a, button');
-    return !nested || nested === event.currentTarget;
+    return event.currentTarget.contains(target) && !isNestedControl(event);
   };
 
   return (activate:TapAction) => ({
@@ -59,6 +64,7 @@ export function useTapActivation():(activate:TapAction) => TapActivationProps {
       activate();
     },
     onClick: (event:ReactMouseEvent) => {
+      if (isNestedControl(event)) return;
       if (event.timeStamp - activatedAt.current < GHOST_CLICK_WINDOW) return;
       activate(event);
     },

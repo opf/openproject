@@ -1,6 +1,8 @@
 import type { TFunction } from 'i18next';
 import type { WorkPackage } from '../../openProjectTypes';
 import { formatWorkPackageId } from '../../utils/id';
+import { linkToWorkPackage } from '../../services/openProjectApi';
+import type { OpenLink } from '../Shared/OptionsMenu';
 import type { WpSize } from './types';
 
 export type UnavailableKind = 'unauthorized' | 'error';
@@ -15,6 +17,15 @@ export function unavailableKindOf(
 
 export function workPackageLabel(t:TFunction, displayId:string):string {
   return t('options.chipAriaLabel', { id: formatWorkPackageId(displayId) });
+}
+
+export function workPackageOpenLink(t:TFunction, displayId:string):OpenLink {
+  const id = formatWorkPackageId(displayId);
+  return {
+    href: linkToWorkPackage(displayId),
+    label: t('options.openWorkPackage', { id }),
+    ariaLabel: t('options.openAriaLabel', { id }),
+  };
 }
 
 export function describeUnavailableWorkPackage(t:TFunction, displayId:string, kind:UnavailableKind):string {

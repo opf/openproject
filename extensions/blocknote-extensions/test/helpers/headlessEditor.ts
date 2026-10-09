@@ -36,14 +36,6 @@ export function createHeadlessEditorWithText(text:string) {
   return editor;
 }
 
-export function chipContent(wpid:string, size = 's') {
-  return { type: INLINE_WP_TYPE, props: { wpid, size } };
-}
-
-export function textContent(value:string) {
-  return { type: 'text', text: value, styles: {} };
-}
-
 export function blockContent(editor:AnyEditor, blockIndex = 0):InlineNode[] {
   return (editor.document[blockIndex]?.content ?? []) as InlineNode[];
 }

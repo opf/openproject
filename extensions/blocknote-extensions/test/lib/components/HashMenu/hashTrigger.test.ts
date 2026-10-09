@@ -7,11 +7,10 @@ import {
 } from '../../../../lib/components/HashMenu/hashTrigger';
 import type { HashTarget } from '../../../../lib/components/HashMenu/hashTrigger';
 import {
-  chipContent,
   createHeadlessEditor,
   createHeadlessEditorWithText,
-  textContent,
 } from '../../../helpers/headlessEditor';
+import { chipContent, textContent } from '../../../helpers/content';
 
 function targetFor(blockText:string, query:string):HashTarget {
   return hashTargetFor(createHeadlessEditorWithText(blockText), query);

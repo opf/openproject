@@ -12,12 +12,11 @@ import {
 import { INLINE_WP_TYPE } from '../../../lib/utils/nodeTypes';
 import {
   blockContent,
-  chipContent,
   createHeadlessEditor,
   createHeadlessEditorWithText,
   nthChipPosition,
-  textContent,
 } from '../../helpers/headlessEditor';
+import { chipContent, textContent } from '../../helpers/content';
 
 const workPackage = { id: 7, displayId: 'PROJ-7' } as WorkPackage;
 

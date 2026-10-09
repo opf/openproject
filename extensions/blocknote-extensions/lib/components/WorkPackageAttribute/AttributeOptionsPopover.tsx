@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { formatWorkPackageId } from '../../utils/id';
 import { OptionsPopover } from '../Shared/OptionsMenu';
+import { workPackageOpenLink } from '../WorkPackage/description';
 import { ATTRIBUTE_DISPLAYS, type AttributeDisplay } from './display';
 import type { ResolvedAttribute } from './useWorkPackageAttribute';
 import { attributeIdentity } from './WorkPackageAttributeView';
@@ -35,7 +36,7 @@ export const AttributeOptionsPopover = ({
     <OptionsPopover
       {...popoverProps}
       ariaLabel={t('workPackageAttribute.options.menuAriaLabel', { attribute: attributeName, id: formatWorkPackageId(workPackageId) })}
-      openId={workPackageId}
+      openLink={workPackageOpenLink(t, workPackageId)}
       activeSize={active}
       sizeLabel={displayLabel(active)}
       sizeGroups={[{
