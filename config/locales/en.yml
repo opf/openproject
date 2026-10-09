@@ -5069,6 +5069,8 @@ en:
       you_have: "You have"
     logo_alt_text: "Logo"
     mention:
+      message_body: "%{user_name} mentioned you:"
+      message_subject: "%{user_name} mentioned you in %{subject}"
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: "To notification center"
