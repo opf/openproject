@@ -110,17 +110,20 @@ RSpec.describe "Main menu initial state" do
       expect(menu_width_cookie.to_i).to be > 0
     end
 
-    it "collapses on narrow windows and can still be expanded there" do
-      page.current_window.resize_to(1000, 900)
-      visit root_path
+    context "on a narrow window" do
+      include_context "with mobile screen size", 1000, 900
 
-      expect(page).to have_css("#wrapper.hidden-navigation")
+      it "collapses the menu and can still expand it" do
+        visit root_path
 
-      expect_angular_frontend_initialized
-      click_on accessible_name: "Expand project menu", match: :first
+        expect(page).to have_css("#wrapper.hidden-navigation")
 
-      expect(page).to have_no_css("#wrapper.hidden-navigation")
-      expect(page).to have_css("#main-menu", visible: :visible)
+        expect_angular_frontend_initialized
+        click_on accessible_name: "Expand project menu", match: :first
+
+        expect(page).to have_no_css("#wrapper.hidden-navigation")
+        expect(page).to have_css("#main-menu", visible: :visible)
+      end
     end
   end
 end
