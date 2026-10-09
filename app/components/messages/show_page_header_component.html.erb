@@ -1,7 +1,7 @@
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
     header.with_title { @topic.subject }
-    header.with_description(test_selector: "topic-summary") { summary }
+    header.with_description(test_selector: "topic-summary", display: :flex, flex_wrap: :wrap, align_items: :center, classes: "op-forum-topic-summary") { summary }
     header.with_breadcrumbs(breadcrumb_items)
 
     watcher_action_button(header, @topic)

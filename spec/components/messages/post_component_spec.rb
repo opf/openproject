@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe Messages::PostComponent, type: :component do
   subject(:rendered_component) do
-    render_inline(described_class.new(message:))
+    render_inline(described_class.new(message:, work_packages:))
   end
 
   shared_let(:project) { create(:project) }
@@ -41,6 +41,7 @@ RSpec.describe Messages::PostComponent, type: :component do
   shared_let(:topic) { create(:message, forum:, author:, subject: "Release planning", content: "Opening post") }
 
   let(:message) { topic }
+  let(:work_packages) { [] }
   let(:permissions) { %i[view_messages add_messages] }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
@@ -63,6 +64,23 @@ RSpec.describe Messages::PostComponent, type: :component do
     expect(rendered_component).to have_test_selector("message-actions-#{topic.id}")
     expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
     expect(rendered_component).to have_link("Quote", visible: :all)
+  end
+
+  it "hangs no work package on the lifeline when none was created from the message" do
+    expect(rendered_component).to have_no_css(".op-forum-post-branch")
+  end
+
+  context "with work packages created from the message" do
+    let(:work_package) { create(:work_package, project:, subject: "Freeze on Friday") }
+    let(:work_packages) { [work_package] }
+
+    before { rendered_component }
+
+    it "hangs each one on the lifeline after the card, linked", :aggregate_failures do
+      expect(page).to have_css("#message-#{topic.id} ~ #{test_selector("message-created-work-package-#{work_package.id}")}")
+      expect(find_test_selector("message-created-work-package-#{work_package.id}"))
+        .to have_link(work_package.formatted_id).and have_text("Freeze on Friday")
+    end
   end
 
   it "offers no work package creation without the permission" do
