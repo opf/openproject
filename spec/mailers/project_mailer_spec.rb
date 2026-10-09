@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../spec_helper"
+require "spec_helper"
 
 RSpec.describe ProjectMailer do
   let(:project) { build_stubbed(:project) }
