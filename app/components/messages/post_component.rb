@@ -68,7 +68,23 @@ module Messages
           end
           author_and_time.with_column { anchor_link }
         end
-        line.with_column(ml: 1) { action_menu }
+        line.with_column(ml: 1, flex_layout: true, align_items: :center) do |actions|
+          actions.with_column(mr: 1) { create_work_package_button } if work_package_creatable?
+          actions.with_column { action_menu }
+        end
+      end
+    end
+
+    def create_work_package_button
+      render(Primer::Beta::Button.new(tag: :a,
+                                      href: new_project_forum_topic_work_package_path(project, forum, message),
+                                      scheme: :default,
+                                      size: :small,
+                                      classes: "op-forum-post--create-work-package",
+                                      test_selector: "message-create-work-package-button-#{message.id}",
+                                      data: { controller: "async-dialog" })) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("forums.topic.create_work_package_button")
       end
     end
 
