@@ -41,11 +41,8 @@ See COPYRIGHT and LICENSE files for more details.
     <% component.with_attribute(
          key: @application.class.human_attribute_name(:secret)
        ) do %>
-      <p>
-        <%= render(OpPrimer::CopyToClipboardComponent.new(flash[:_application_secret], test_selector: "oauth-application--client-secret")) %>
-        <br>
-        <strong><%= t "oauth.client_secret_notice" %></strong>
-      </p>
+      <%= render(OpPrimer::CopyToClipboardComponent.new(flash[:_application_secret], test_selector: "oauth-application--client-secret")) %>
+      <%= render(Primer::Alpha::Banner.new(scheme: :warning, mt: 2)) { t("oauth.client_secret_notice") } %>
     <% end %>
   <% end %>
 

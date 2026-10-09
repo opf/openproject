@@ -35,6 +35,8 @@ module OpenProject
       def default; end
 
       def with_header; end
+
+      def with_long_values; end
     end
   end
 end
