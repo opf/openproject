@@ -15,4 +15,5 @@ export { OpenProjectHashMenu, createHashWpMenuComponent, isHashWpQuery, useHashW
 export type { HashMenuItem } from './components/HashMenu';
 export { useWorkPackageSearch } from './hooks/useWorkPackageSearch';
 export type { WorkPackage } from './openProjectTypes';
+export { OpenProjectMentionMenu, MENTION_TRIGGER } from './components/MentionMenu';
 export type { SuggestionMenuItem, SuggestionSearchState } from './hooks/useSuggestionSearch';

@@ -16,6 +16,8 @@ import {
   getOpenProjectSlashMenuItems,
   OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
+  OpenProjectMentionMenu,
+  openProjectUserMentionSpec,
 } from '../lib';
 import './fetchOverride';
 
@@ -25,6 +27,7 @@ const schema = BlockNoteSchema.create().extend({
   },
   inlineContentSpecs: {
     openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+    openProjectUserMention: openProjectUserMentionSpec,
   },
 });
 
@@ -62,6 +65,7 @@ export default function App() {
       />
 
       <OpenProjectHashMenu />
+      <OpenProjectMentionMenu />
     </BlockNoteView>
   );
 }

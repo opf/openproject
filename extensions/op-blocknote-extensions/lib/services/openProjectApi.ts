@@ -4,12 +4,14 @@ import type {
   HalResource,
   OpenProjectApiErrorBody,
   OpenProjectResponse,
+  Principal,
   StatusCollection,
   TypeCollection,
   WorkPackage,
   WorkPackageForm,
   WorkPackagePayload,
 } from '../openProjectTypes';
+import { contextProjectId } from './editorContext';
 
 let baseUrl = 'https://openproject.local';
 let proxyUrl = 'https://openproject.local';
@@ -327,4 +329,29 @@ export async function searchWorkPackages(query:string):Promise<WorkPackage[]> {
 
   const data = await get<OpenProjectResponse>(`/api/v3/work_packages?${params.toString()}`);
   return data?._embedded?.elements as unknown as WorkPackage[] ?? [];
+}
+
+const MAX_MENTION_RESULTS = 5;
+
+const LOCKED_USER_STATUS = '3';
+
+/** The people a document can mention: active users, members of its project where it has one. */
+export async function searchMentionableUsers(query:string):Promise<Principal[]> {
+  const projectId = contextProjectId();
+  const trimmedQuery = query.trim();
+
+  const filters:HalFilter[] = [
+    { status: { operator: '!', values: [LOCKED_USER_STATUS] } },
+    { type: { operator: '=', values: ['User'] } },
+    ...(projectId === undefined ? [] : [{ member: { operator: '=', values: [String(projectId)] } }]),
+    ...(trimmedQuery ? [TYPEAHEAD_FILTER(trimmedQuery)] : []),
+  ];
+  const params = new URLSearchParams({
+    filters: JSON.stringify(filters),
+    sortBy: JSON.stringify([['name', 'asc']]),
+    pageSize: String(MAX_MENTION_RESULTS),
+  });
+
+  const data = await get<HalCollection<Principal>>(`/api/v3/principals?${params.toString()}`);
+  return (data._embedded?.elements ?? []).map(({ id, name }) => ({ id, name }));
 }
