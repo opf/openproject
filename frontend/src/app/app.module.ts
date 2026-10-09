@@ -197,6 +197,7 @@ import {
 import {
   OpWpDatePickerInstanceComponent,
 } from 'core-app/shared/components/datepicker/wp-date-picker-modal/wp-date-picker-instance.component';
+import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { WorkPackageFullCopyEntryComponent } from 'core-app/features/work-packages/routing/wp-full-copy/wp-full-copy-entry.component';
 import { WorkPackageFullCreateEntryComponent } from 'core-app/features/work-packages/routing/wp-full-create/wp-full-create-entry.component';
@@ -234,7 +235,8 @@ export function initializeServices(injector:Injector) {
 
     keyboardShortcuts.register();
 
-    return injector.get(ConfigurationService).initialize();
+    return injector.get(ConfigurationService).initialize()
+      .then(() => injector.get(AppBadgeService).initialize());
   };
 }
 

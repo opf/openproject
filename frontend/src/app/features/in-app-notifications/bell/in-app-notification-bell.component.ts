@@ -32,6 +32,7 @@ import { filter, map, shareReplay, switchMap, throttleTime } from 'rxjs/operator
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { AppBadgeService } from 'core-app/features/in-app-notifications/bell/app-badge.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
@@ -48,6 +49,7 @@ export class InAppNotificationBellComponent implements OnInit {
   readonly apiV3Service = inject(ApiV3Service);
   readonly activeWindow = inject(ActiveWindowService);
   readonly pathHelper = inject(PathHelperService);
+  readonly appBadge = inject(AppBadgeService);
 
   @Input() interval = 50000;
 
@@ -75,7 +77,7 @@ export class InAppNotificationBellComponent implements OnInit {
   ngOnInit() {
     this.polling$ = merge(
       timer(10, this.interval).pipe(filter(() => this.activeWindow.isActive)),
-      timer(10, this.interval * 10).pipe(filter(() => !this.activeWindow.isActive)),
+      timer(10, this.interval * this.appBadge.backgroundPollingFactor).pipe(filter(() => !this.activeWindow.isActive)),
     )
       .pipe(
         throttleTime(this.interval),
