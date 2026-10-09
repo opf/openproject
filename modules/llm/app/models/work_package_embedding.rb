@@ -31,10 +31,11 @@
 class WorkPackageEmbedding < ApplicationRecord
   belongs_to :work_package
 
-  scope :for_model, ->(model_id) { where(model_id:) }
+  def self.vector_literal(vector)
+    "[#{Array(vector).map { Float(it) }.join(',')}]"
+  end
 
-  # Accepts a Ruby float array; writes the pgvector literal "[1.0,2.0,...]".
-  def embedding=(vectors)
-    super("[#{Array(vectors).join(',')}]")
+  def embedding=(vector)
+    super(self.class.vector_literal(vector))
   end
 end

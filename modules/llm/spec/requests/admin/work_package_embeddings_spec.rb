@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request,
-               with_flag: { llm_connection: true } do
+                                                            with_flag: { llm_connection: true } do
   describe "POST /admin/work_package_embeddings/reindex" do
     context "as admin" do
       before { login_as create(:admin) }
