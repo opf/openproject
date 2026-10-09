@@ -257,7 +257,7 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "anycable-rails-core", "~> 1.6"
+gem "anycable-rails-core", "~> 1.6.2"
 
 gem "httpx", "~> 1.8.4"
 

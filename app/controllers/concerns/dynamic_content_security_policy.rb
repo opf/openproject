@@ -33,6 +33,7 @@ module DynamicContentSecurityPolicy
 
   included do
     before_action :add_hocuspocus_host_to_csp
+    before_action :add_cable_host_to_csp
   end
 
   ##
@@ -71,6 +72,17 @@ module DynamicContentSecurityPolicy
         append_content_security_policy_directives(connect_src: ["#{uri.scheme}://#{host_with_port(uri)}"])
       end
     end
+  end
+
+  def add_cable_host_to_csp
+    return unless OpenProject::LiveUpdates.enabled?
+
+    uri = URI.parse(AnyCable.config.websocket_url)
+    if uri.absolute?
+      append_content_security_policy_directives(connect_src: ["#{uri.scheme}://#{host_with_port(uri)}"])
+    end
+  rescue URI::InvalidURIError
+    OpenProject.logger.info { "AnyCable websocket_url is set to an invalid URI: #{AnyCable.config.websocket_url}" }
   end
 
   def host_with_port(uri)

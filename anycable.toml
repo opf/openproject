@@ -20,7 +20,7 @@ presets = ["broker"]
 # Broadcasting adapters for app-to-clients messages.
 # You one of the specified adapters in the config/anycable.yml.
 # Read more in https://docs.anycable.io/anycable-go/broadcasting.
-broadcast_adapters = ["http", "redisx"]
+broadcast_adapters = ["http"]
 
 # Pub/sub adapter for inter-node communication in a production cluster
 # IMPORTANT: In production, when running AnyCable in a cluster mode,
@@ -34,10 +34,13 @@ debug = true
 # You only need it if you use custom Action Cable channel classes.
 # Read more: https://docs.anycable.io/anycable-go/rpc
 [rpc]
-# AnyCable is running in a standalone mode.
-# Read more: https://docs.anycable.io/anycable-go/getting_started?id=standalone-mode-pubsub-only
-implementation = "none"
+# It authenticates connections from the session cookie (ApplicationCable::Connection).
+# Subscriptions are authorized by the Turbo signed streams below, without RPC.
+implementation = "http"
+host = "http://localhost:3000/_anycable"
 
+[sse]
+enabled = true
 
 # Signed and public streams configuration.
 # Read more: https://docs.anycable.io/anycable-go/signed_streams

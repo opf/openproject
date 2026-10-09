@@ -1604,7 +1604,7 @@ DEPENDENCIES
   acts_as_tree (~> 2.9.0)
   addressable (~> 2.9.0)
   airbrake (~> 13.0.0)
-  anycable-rails-core (~> 1.6)
+  anycable-rails-core (~> 1.6.2)
   appsignal (~> 4.10)
   auto_strip_attributes (~> 2.5)
   awesome_nested_set (~> 3.9.0)
