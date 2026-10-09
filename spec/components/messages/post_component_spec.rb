@@ -63,7 +63,7 @@ RSpec.describe Messages::PostComponent, type: :component do
   it "offers copying a link and quoting the opening post", :aggregate_failures do
     expect(rendered_component).to have_test_selector("message-actions-#{topic.id}")
     expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
-    expect(rendered_component).to have_link("Quote", visible: :all)
+    expect(rendered_component).to have_link("Quote message", visible: :all)
   end
 
   it "hangs no work package on the lifeline when none was created from the message" do
@@ -84,16 +84,26 @@ RSpec.describe Messages::PostComponent, type: :component do
   end
 
   it "offers no work package creation without the permission" do
-    expect(rendered_component).to have_no_link("Create work package", visible: :all)
+    expect(rendered_component).to have_no_link("Add new work package", visible: :all)
   end
 
   context "with permission to add work packages" do
     let(:permissions) { %i[view_messages add_messages view_work_packages add_work_packages] }
 
+    context "with permission to edit the message too" do
+      let(:permissions) { %i[view_messages add_messages edit_messages view_work_packages add_work_packages] }
+
+      it "lists the message's own actions first, then the work package one" do
+        labels = rendered_component.css("[role=menuitem]").map { it.text.strip }
+
+        expect(labels).to eq(["Copy link to clipboard", "Quote message", "Edit message", "Add new work package"])
+      end
+    end
+
     it "offers creating a work package from the message, through a dialog" do
       dialog_path = "/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}/work_package/new"
 
-      expect(rendered_component).to have_link("Create work package", href: dialog_path, visible: :all)
+      expect(rendered_component).to have_link("Add new work package", href: dialog_path, visible: :all)
     end
 
     it "also offers it as a button next to the message's menu, through the same dialog", :aggregate_failures do
@@ -102,7 +112,7 @@ RSpec.describe Messages::PostComponent, type: :component do
 
       button = find_test_selector("message-create-work-package-button-#{topic.id}")
 
-      expect(button).to have_text("Work package")
+      expect(button).to have_text("Add new work package")
       expect(button[:href]).to eq(dialog_path)
     end
 
@@ -110,7 +120,7 @@ RSpec.describe Messages::PostComponent, type: :component do
       before { project.update!(enabled_module_names: project.enabled_module_names - %w[work_package_tracking]) }
 
       it "offers no work package creation", :aggregate_failures do
-        expect(rendered_component).to have_no_link("Create work package", visible: :all)
+        expect(rendered_component).to have_no_link("Add new work package", visible: :all)
         expect(rendered_component).to have_no_test_selector("message-create-work-package-button-#{topic.id}")
       end
     end
@@ -120,7 +130,7 @@ RSpec.describe Messages::PostComponent, type: :component do
     let(:permissions) { %i[view_messages add_messages edit_messages delete_messages] }
 
     it "offers editing it but leaves deleting the topic to the page header", :aggregate_failures do
-      expect(rendered_component).to have_link("Edit", visible: :all)
+      expect(rendered_component).to have_link("Edit message", visible: :all)
       expect(rendered_component).to have_no_button("Delete", visible: :all)
     end
   end
@@ -148,11 +158,11 @@ RSpec.describe Messages::PostComponent, type: :component do
     it "offers copying a link and quoting", :aggregate_failures do
       expect(rendered_component).to have_test_selector("message-actions-#{message.id}")
       expect(rendered_component).to have_css("clipboard-copy", text: "Copy link to clipboard", visible: :all)
-      expect(rendered_component).to have_link("Quote", visible: :all)
+      expect(rendered_component).to have_link("Quote message", visible: :all)
     end
 
     it "hides edit and delete from users who may not change it", :aggregate_failures do
-      expect(rendered_component).to have_no_link("Edit", visible: :all)
+      expect(rendered_component).to have_no_link("Edit message", visible: :all)
       expect(rendered_component).to have_no_button("Delete", visible: :all)
     end
 
@@ -160,7 +170,7 @@ RSpec.describe Messages::PostComponent, type: :component do
       let(:permissions) { %i[view_messages add_messages edit_messages delete_messages] }
 
       it "offers edit and delete", :aggregate_failures do
-        expect(rendered_component).to have_link("Edit", visible: :all)
+        expect(rendered_component).to have_link("Edit message", visible: :all)
         expect(rendered_component).to have_button("Delete", visible: :all)
       end
     end
@@ -172,7 +182,7 @@ RSpec.describe Messages::PostComponent, type: :component do
       end
 
       it "offers no quote" do
-        expect(rendered_component).to have_no_link("Quote", visible: :all)
+        expect(rendered_component).to have_no_link("Quote message", visible: :all)
       end
     end
   end

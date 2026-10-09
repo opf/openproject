@@ -70,7 +70,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
 
     within_test_selector("forum-post-#{Message.last.id}") do
       click_on accessible_name: "Message actions"
-      click_on "Edit"
+      click_on "Edit message"
     end
 
     editor.wait_until_loaded
