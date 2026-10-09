@@ -107,6 +107,8 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   private _disabled = false;
 
+  private closedByEscape = false;
+
   constructor() {
     populateInputsFromDataset(this);
   }
@@ -145,7 +147,8 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
     this.onTouched = fn;
   }
 
-  // In a dialog, the calendar has to be in the top layer as well, see OpBasicSingleDatePickerComponent.
+  // In a dialog, the calendar has to be in the top layer as well. Clicking the input counts as a click
+  // on the backdrop and removes the calendar from the top layer, see OpBasicSingleDatePickerComponent.
   private sendCalendarToTopLayer():void {
     if (!this.datePickerInstance?.isOpen || !this.inDialog) {
       return;
@@ -174,21 +177,23 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
         parseDate: (text:string, format:string) => this.parseDate(text, format)!,
         onReady: (_dates:Date[], _dateStr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
-          this.labelVisibleInput(instance);
+          this.setUpVisibleInput(instance);
           this.applyDisabled();
         },
         onChange: (dates:Date[]) => {
-          const value = dates[0] ? wallClockDateToISO(dates[0], this.timezoneService.userTimezone()) ?? '' : '';
-          this.value = value;
-          this.onTouched(value);
-          this.onChange(value);
-          this.valueChange.emit(value);
+          this.updateValue(dates);
         },
         onOpen: () => {
+          this.closedByEscape = false;
           this.sendCalendarToTopLayer();
         },
-        onClose: () => {
-          this.picked.emit();
+        // Clicking outside applies typed text without triggering onChange, so the value is taken over on close.
+        onClose: (dates:Date[]) => {
+          this.updateValue(dates);
+
+          if (!this.closedByEscape) {
+            this.picked.emit();
+          }
         },
         onDayCreate: (_dates:Date[], _dateStr:string, _instance:flatpickr.Instance, dayElem:DayElement) => {
           void this.markNonWorkingDay(dayElem);
@@ -198,6 +203,22 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
       },
       this.input.nativeElement,
     );
+  }
+
+  private updateValue(dates:Date[]):void {
+    const value = dates[0] ? wallClockDateToISO(dates[0], this.timezoneService.userTimezone()) ?? '' : '';
+    if (this.isSameInstant(value, this.value)) {
+      return;
+    }
+
+    this.value = value;
+    this.onTouched(value);
+    this.onChange(value);
+    this.valueChange.emit(value);
+  }
+
+  private isSameInstant(first:string, second:string):boolean {
+    return first === second || (!!first && !!second && Date.parse(first) === Date.parse(second));
   }
 
   private formatDate(date:Date, format:string):string {
@@ -220,10 +241,16 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
   }
 
   // flatpickr hides the original input, so labels pointing to the id have to reach the visible one.
-  private labelVisibleInput(instance:flatpickr.Instance):void {
+  private setUpVisibleInput(instance:flatpickr.Instance):void {
     if (instance.altInput) {
       instance.input.id = `${this.id}-value`;
       instance.altInput.id = this.id;
+      instance.altInput.addEventListener('click', () => this.sendCalendarToTopLayer());
+      instance.altInput.addEventListener('keydown', (event:KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          this.closedByEscape = true;
+        }
+      });
     }
   }
 
