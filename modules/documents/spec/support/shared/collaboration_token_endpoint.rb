@@ -153,6 +153,23 @@ RSpec.shared_examples_for "a guarded collaboration token endpoint" do
     end
   end
 
+  context "when anonymous on a public project whose anonymous role may view documents",
+          with_settings: { login_required: false } do
+    let(:project) { create(:project, public: true) }
+
+    before do
+      create(:anonymous_role, permissions: %i(view_documents))
+      # Mint a previous token (if the including spec sends one) before measuring the token count.
+      request_body
+    end
+
+    it "responds with 401 without creating a token" do
+      expect { post_collaboration_token_request }.not_to change(Doorkeeper::AccessToken, :count)
+
+      expect_api_error(401, "Unauthenticated")
+    end
+  end
+
   context "when authenticated with a bearer token" do
     before do
       header "Authorization", "Bearer #{bearer_token}"

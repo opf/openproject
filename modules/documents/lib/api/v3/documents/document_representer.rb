@@ -54,7 +54,9 @@ module API
         end
 
         link :createCollaborationToken,
-             cache_if: -> { current_user.allowed_in_project?(:view_documents, represented.project) } do
+             cache_if: -> {
+               !current_user.anonymous? && current_user.allowed_in_project?(:view_documents, represented.project)
+             } do
           next unless represented.real_time_collaboration_available?
 
           {

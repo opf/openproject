@@ -120,6 +120,12 @@ RSpec.describe API::V3::Documents::DocumentRepresenter, "rendering" do
         it_behaves_like "has no link"
       end
 
+      context "when the user is anonymous, even though they may view documents" do
+        let(:current_user) { build_stubbed(:anonymous) }
+
+        it_behaves_like "has no link"
+      end
+
       context "when the document is not collaborative" do
         let(:document) do
           build_stubbed(:document, kind: "classic") do |document|

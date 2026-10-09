@@ -39,6 +39,8 @@ module API
             end
 
             def authorize_collaboration_token_request
+              raise ::API::Errors::Unauthenticated if current_user.anonymous?
+
               authorize_in_project(:view_documents, project: collaboration_document.project)
               ensure_collaboration_available
             end
