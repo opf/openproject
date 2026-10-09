@@ -432,8 +432,17 @@ module ApplicationHelper
   # Must match DeviceService.smallDesktopWidthThreshold and $breakpoint-lg.
   SMALL_DESKTOP_WIDTH_THRESHOLD = 1012
 
+  # Must match MainMenuToggleService.minOpenWidth.
+  MAIN_MENU_MIN_OPEN_WIDTH = 11
+  MAIN_MENU_COLLAPSED_WIDTH = 0
+
   def initial_main_menu_width
-    cookies[MAIN_MENU_WIDTH_COOKIE]&.[](/\A\d+\z/)&.to_i
+    value = cookies[MAIN_MENU_WIDTH_COOKIE]
+    return MAIN_MENU_COLLAPSED_WIDTH if value == MAIN_MENU_COLLAPSED_WIDTH.to_s
+    return unless value&.match?(/\A\d+\z/)
+
+    width = value.to_i
+    width if width >= MAIN_MENU_MIN_OPEN_WIDTH
   end
 
   def initial_html_styles(main_menu_displayed, width)
@@ -445,7 +454,7 @@ module ApplicationHelper
       "can-hide-navigation",
       nosidebar: !side_displayed,
       nomenus: !show_decoration,
-      "hidden-navigation": side_displayed && show_decoration && width == 0
+      "hidden-navigation": side_displayed && show_decoration && width == MAIN_MENU_COLLAPSED_WIDTH
     )
   end
 

@@ -339,4 +339,35 @@ RSpec.describe ApplicationHelper do
       end
     end
   end
+
+  describe "#initial_main_menu_width" do
+    subject { helper.initial_main_menu_width }
+
+    before do
+      helper.request.cookies[described_class::MAIN_MENU_WIDTH_COOKIE] = cookie unless cookie.nil?
+    end
+
+    {
+      nil => nil,
+      "" => nil,
+      "0" => 0,
+      "00" => nil,
+      "5" => nil,
+      "10" => nil,
+      "11" => 11,
+      "320" => 320,
+      "0320" => 320,
+      "-320" => nil,
+      "320.5" => nil,
+      "320px" => nil,
+      "wide" => nil,
+      "320\n" => nil
+    }.each do |value, expected|
+      context "with the cookie #{value.inspect}" do
+        let(:cookie) { value }
+
+        it { is_expected.to eq(expected) }
+      end
+    end
+  end
 end
