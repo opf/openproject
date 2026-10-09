@@ -33,6 +33,7 @@ class DevelopmentDataSeeder < CompositeSeeder
       DevelopmentData::UsersSeeder,
       DevelopmentData::CustomFieldsSeeder,
       DevelopmentData::ProjectsSeeder,
+      DevelopmentData::ForumsSeeder,
       DevelopmentData::SharedWorkPackagesSeeder
     ]
   end
