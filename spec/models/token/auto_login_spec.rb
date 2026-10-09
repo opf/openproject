@@ -43,8 +43,8 @@ RSpec.describe Token::AutoLogin do
       expect(described_class.superclass).to eq(Token::HashedToken)
     end
 
-    it "includes ExpirableToken" do
-      expect(described_class.included_modules).to include(Token::ExpirableToken)
+    it "includes Ephemeral" do
+      expect(described_class.included_modules).to include(Token::Ephemeral)
     end
 
     it "allows multiple values" do

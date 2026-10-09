@@ -2,7 +2,7 @@
 
 module TwoFactorAuthentication
   class LoginToken < ::Token::HashedToken
-    include ::Token::ExpirableToken
+    include ::Token::Ephemeral
 
     def self.validity_time
       15.minutes

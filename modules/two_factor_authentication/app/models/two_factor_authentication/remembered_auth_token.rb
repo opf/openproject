@@ -2,7 +2,7 @@
 
 module TwoFactorAuthentication
   class RememberedAuthToken < ::Token::HashedToken
-    include ::Token::ExpirableToken
+    include ::Token::Ephemeral
 
     validate :validate_remember_time
 
