@@ -59,7 +59,20 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
   template: `
     <wp-embedded-table [queryProps]="queryProps"
-                       [configuration]="tableConfiguration" />
+                       [configuration]="tableConfiguration">
+      @if (semanticAvailable) {
+        <label afterFilters class="form--label-with-check-box">
+          <div class="form--check-box-container">
+            <input type="checkbox"
+                   id="semantic-search-toggle"
+                   class="form--check-box"
+                   [checked]="semantic"
+                   (change)="toggleSemantic()" />
+          </div>
+          {{ text.searchByMeaning }}
+        </label>
+      }
+    </wp-embedded-table>
   `,
   standalone: false,
 })
@@ -67,6 +80,10 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   @Input() public searchTerm:string;
 
   @Input() public scope:'all'|'current_project'|'';
+
+  @Input() public semantic = false;
+
+  @Input() public semanticAvailable = false;
 
   public queryProps:Partial<QueryRequestParams>;
 
@@ -78,6 +95,10 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
   readonly querySpace= inject(IsolatedQuerySpace);
   readonly currentProject= inject(CurrentProjectService);
   readonly cdRef= inject(ChangeDetectorRef);
+
+  public text = {
+    searchByMeaning: this.I18n.t('js.global_search.search_by_meaning'),
+  };
 
   public tableConfiguration:WorkPackageTableConfigurationObject = {
     actionsColumnEnabled: false,
@@ -98,6 +119,20 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     this.setQueryProps();
   }
 
+  public toggleSemantic():void {
+    const url = new URL(window.location.href);
+    if (this.semantic) {
+      url.searchParams.delete('semantic');
+    } else {
+      url.searchParams.set('semantic', '1');
+    }
+    window.location.href = url.toString();
+  }
+
+  private get useSemanticSearch():boolean {
+    return this.semantic && this.semanticAvailable;
+  }
+
   private setQueryProps():void {
     /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
     const filters:any[] = [];
@@ -112,7 +147,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
       });
     } else if (this.searchTerm.length > 0) {
       filters.push({
-        search: {
+        [this.useSemanticSearch ? 'semanticSearch' : 'search']: {
           operator: '**',
           values: [this.searchTerm],
         },
@@ -141,7 +176,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     this.queryProps = {
       'columns[]': columns,
       filters: JSON.stringify(filters),
-      sortBy: JSON.stringify([['updatedAt', 'desc']]),
+      sortBy: JSON.stringify(this.useSemanticSearch ? [['semanticSimilarity', 'asc']] : [['updatedAt', 'desc']]),
       showHierarchies: false,
     };
   }

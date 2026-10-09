@@ -11,6 +11,7 @@
         <op-filter-container [showFilterButton]="configuration.showFilterButton"
           [filterButtonText]="configuration.filterButtonText" />
       }
+      <ng-content select="[afterFilters]" />
       <!-- TABLE + TIMELINE horizontal split -->
       @if (!configuration.isCardView) {
         <wp-table [projectIdentifier]="projectIdentifier"

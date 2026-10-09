@@ -2,33 +2,33 @@
 
 module Search
   class SemanticResult
-    CANDIDATES_LIMIT = 50
-    RESULT_LIMIT = 10
+    CANDIDATES_LIMIT = 100
     SEMANTIC_DISTANCE = 0.5
 
-    def self.for(query, user)
+    def self.available?
+      active_binding&.locked? || false
+    end
+
+    # Work package ids ordered from most to least similar. Memoized per request:
+    # the query filter and the similarity sort both ask for them.
+    def self.ranked_ids(query)
+      RequestStore.fetch([:semantic_search_ranked_ids, query]) { fetch_ranked_ids(query) }
+    end
+
+    private_class_method def self.fetch_ranked_ids(query)
       binding = active_binding
-      return WorkPackage.none unless binding&.locked?
+      return [] if query.blank? || !binding&.locked?
 
       vectors = embed(query, binding)
-      return WorkPackage.none if vectors.blank?
+      return [] if vectors.blank?
 
       sanitized = sanitize_vector(vectors)
-      candidates = WorkPackageEmbedding
+      WorkPackageEmbedding
         .for_model(binding.resolved_model_id)
         .where(Arel.sql("embedding <=> '#{sanitized}' < #{SEMANTIC_DISTANCE}"))
         .order(Arel.sql("embedding <=> '#{sanitized}'"))
         .limit(CANDIDATES_LIMIT)
         .pluck(:work_package_id)
-
-      return WorkPackage.none if candidates.empty?
-
-      WorkPackage
-        .visible(user)
-        .where(id: candidates)
-        .includes(:project, :status)
-        .order(Arel.sql("array_position(ARRAY[#{candidates.join(',')}]::int[], work_packages.id)"))
-        .first(RESULT_LIMIT)
     end
 
     private_class_method def self.active_binding

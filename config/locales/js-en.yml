@@ -375,6 +375,7 @@ en:
       direct_hit_available: "Work package with exact ID found. Press Enter to open it."
       items_available: "%{count} items available"
       recently_viewed: "Recently viewed"
+      search_by_meaning: "Search by meaning"
       search_placeholder_expanded: "Search work packages by subject, project, type, status or ID"
       title:
         all_projects: "all projects"

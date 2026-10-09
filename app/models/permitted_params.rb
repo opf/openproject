@@ -642,6 +642,7 @@ class PermittedParams
           scope
           filter
           submit
+          semantic
         ),
         status: %i(
           name
