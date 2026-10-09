@@ -32,9 +32,10 @@ module Messages
   class PostComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(message:, focus: false)
+    def initialize(message:, work_packages: [], focus: false)
       super
       @message = message
+      @work_packages = work_packages
       @focus = focus
     end
 
@@ -68,6 +69,16 @@ module Messages
           author_and_time.with_column { anchor_link }
         end
         line.with_column(ml: 1) { action_menu }
+      end
+    end
+
+    def created_work_package_branch(work_package)
+      render(Primer::Box.new(classes: "op-forum-post-branch",
+                             test_selector: "message-created-work-package-#{work_package.id}")) do
+        flex_layout(align_items: :center) do |row|
+          row.with_column(classes: "op-forum-post-branch--stroke")
+          row.with_column(pl: 1) { render(WorkPackages::InfoLineComponent.new(work_package:, show_subject: true, font_size: :normal)) }
+        end
       end
     end
 

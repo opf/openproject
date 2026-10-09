@@ -57,7 +57,13 @@ module Messages
     def summary
       parts = [started, t("forums.topic.replies", count: @topic.replies_count)]
       parts << t("forums.topic.participants", count: participants_count) if participants_count.positive?
-      safe_join(parts, " · ")
+      safe_join(parts + created_work_package_info_lines, " · ")
+    end
+
+    def created_work_package_info_lines
+      Messages::CreatedWorkPackagesQuery.for_topic(@topic, user: User.current).map do |work_package|
+        render(WorkPackages::InfoLineComponent.new(work_package:))
+      end
     end
 
     def started

@@ -31,9 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% content_controller "forum-messages" %>
 
-<%= render(Messages::PostComponent.new(message: @topic)) %>
+<%= render(Messages::PostComponent.new(message: @topic, work_packages: @created_work_packages.fetch(@topic.id, []))) %>
 
-<%= render(Messages::ThreadSegmentsComponent.new(topic: @topic, segments: @segments)) %>
+<%= render(Messages::ThreadSegmentsComponent.new(topic: @topic, segments: @segments, created_work_packages: @created_work_packages)) %>
 
 <% if !@topic.locked? && authorize_for("messages", "reply") %>
   <%= content_tag(:section, id: "reply", class: "op-forum-reply", data: { "forum-messages-target": "reply" }) do %>
