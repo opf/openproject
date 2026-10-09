@@ -34,10 +34,9 @@ module OpenProject
   RSpec.describe I18n, type: :helper do
     include Redmine::I18n
 
-    let(:format) { "%d/%m/%Y" }
-    let(:user) { build_stubbed(:user) }
-
     describe "#format_date with time" do
+      let(:format) { "%d/%m/%Y" }
+
       current_user { build_stubbed(:user, preferences: { time_zone: user_time_zone }) }
 
       describe "with user time zone" do
@@ -229,14 +228,14 @@ module OpenProject
 
     describe "link_translation" do
       let(:urls) do
-        { url_1: "http://openproject.com/foo", url_2: "/baz" }
+        { url1: "http://openproject.com/foo", url2: "/baz" }
       end
 
       before do
         allow(::I18n)
           .to receive(:translate)
           .with("translation_with_a_link", *any_args)
-          .and_return("There is a [link](url_1) in this translation! Maybe even [two](url_2)?")
+          .and_return("There is a [link](url1) in this translation! Maybe even [two](url2)?")
       end
 
       it "allows to insert links into translations" do
@@ -274,7 +273,7 @@ module OpenProject
 
       context "when passing URLs as a list of symbols" do
         let(:urls) do
-          { url_1: [:a, :b], url_2: [:a, :c] }
+          { url1: %i[a b], url2: %i[a c] }
         end
 
         before do
@@ -302,15 +301,24 @@ module OpenProject
     describe "#format_date" do
       context "without a date_format setting", with_settings: { date_format: "" } do
         it "uses the locale formate" do
-          expect(format_date(Date.today))
-            .to eql described_class.l(Date.today)
+          expect(format_date(Time.zone.today))
+            .to eql described_class.l(Time.zone.today)
         end
       end
 
       context "with a date_format setting", with_settings: { date_format: "%d %m %Y" } do
         it "adheres to the format" do
-          expect(format_date(Date.today))
-            .to eql Date.today.strftime("%d %m %Y")
+          expect(format_date(Time.zone.today))
+            .to eql Time.zone.today.strftime("%d %m %Y")
+        end
+
+        context "with a date_format preference" do
+          current_user { build_stubbed(:user, preferences: { date_format: "%Y-%m-%d" }) }
+
+          it "adheres to the preference" do
+            expect(format_date(Time.zone.today))
+              .to eql Time.zone.today.strftime("%Y-%m-%d")
+          end
         end
       end
 
@@ -318,7 +326,7 @@ module OpenProject
         context "for lang #{lang}" do
           it "raises no error" do
             described_class.with_locale lang do
-              expect { format_date(Date.today) }
+              expect { format_date(Time.zone.today) }
                 .not_to raise_error
             end
           end
@@ -387,6 +395,27 @@ module OpenProject
         time_format: "%H:%M",
         date_format: "%Y-%m-%d"
       } do
+        it "renders date and hours" do
+          expect(format_time(now))
+            .to eql "2011-02-20 15:45"
+        end
+
+        it "renders only hours" do
+          expect(format_time(now, include_date: false))
+            .to eql "15:45"
+        end
+      end
+
+      context "with a different user preference" do
+        current_user do
+          build_stubbed(:user,
+                        preferences: {
+                          time_zone: user_time_zone,
+                          date_format: "%Y-%m-%d",
+                          time_format: "%H:%M"
+                        })
+        end
+
         it "renders date and hours" do
           expect(format_time(now))
             .to eql "2011-02-20 15:45"
@@ -557,12 +586,32 @@ module OpenProject
       end
     end
 
+    describe "#date_time_format_example" do
+      it "renders the sample date, independent of the current date" do
+        travel_to(Time.utc(2020, 1, 1)) do
+          expect(date_time_format_example("%d.%m.%Y")).to eq "28.02.2026"
+        end
+      end
+
+      it "renders every allowed date format distinctly" do
+        examples = Settings::Definition[:date_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+
+      it "renders every allowed time format distinctly" do
+        examples = Settings::Definition[:time_format].allowed.map { date_time_format_example(it) }
+
+        expect(examples).to eq(examples.uniq)
+      end
+    end
+
     describe ".l" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do
           it "is not 'default' for a date" do
             described_class.with_locale lang do
-              expect(described_class.l(Date.today, format: :default))
+              expect(described_class.l(Time.zone.today, format: :default))
                 .not_to eq "default"
             end
           end

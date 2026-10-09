@@ -133,7 +133,7 @@ module API
         end
 
         def date_format
-          reformated(Setting.date_format) do |directive|
+          reformated(current_user.date_format) do |directive|
             case directive
             when "%Y"
               "YYYY"
@@ -156,7 +156,7 @@ module API
         end
 
         def time_format
-          reformated(Setting.time_format) do |directive|
+          reformated(current_user.time_format) do |directive|
             case directive
             when "%H"
               "HH"

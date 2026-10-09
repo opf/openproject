@@ -76,6 +76,16 @@ RSpec.describe TimeEntries::BaseContract, "prohibiting logging for past months" 
       expect_rejected(log_time(first_day_of_last_month))
     end
 
+    it "formats the earliest allowed date according to user preference" do
+      user.pref[:date_format] = "%d.%m.%Y"
+
+      call = log_time(first_day_of_last_month)
+
+      expect_rejected(call)
+      expect(call.errors.full_messages.join)
+        .to include(first_of_this_month.strftime("%d.%m.%Y"))
+    end
+
     it "allows editing an entry within the current month" do
       time_entry = existing_entry(spent_on: first_of_this_month)
       call = TimeEntries::UpdateService.new(model: time_entry, user:).call(hours: 3)

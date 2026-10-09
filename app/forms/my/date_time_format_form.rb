@@ -23,38 +23,35 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module TimeEntries
-  module PastMonthRestriction
-    extend ActiveSupport::Concern
+class My::DateTimeFormatForm < ApplicationForm
+  include Redmine::I18n
 
-    included do
-      validate :validate_spent_on_not_in_past_month
+  form do |f|
+    f.select_list(
+      name: :date_format,
+      label: I18n.t(:setting_date_format),
+      include_blank: I18n.t(:label_system_or_language_default),
+      input_width: :medium
+    ) do |list|
+      Settings::Definition[:date_format].allowed.each do |format|
+        list.option(label: date_time_format_example(format), value: format)
+      end
     end
 
-    private
-
-    def validate_spent_on_not_in_past_month
-      return unless TimeEntry.prohibit_logging_for_past_months?
-      return unless restricted_spent_on_dates.any? { it < earliest_open_date }
-
-      errors.add :spent_on, :in_past_month, date: Redmine::I18n.format_date(earliest_open_date)
-    end
-
-    # The persisted date is checked alongside the assigned one, so that an entry belonging
-    # to a closed month cannot be pulled out of it by moving it into an open one.
-    def restricted_spent_on_dates
-      [model.spent_on, model.spent_on_was].compact
-    end
-
-    # Months are closed as a whole, so the grace period opens every month that the date
-    # it reaches back to belongs to. Without grace this is the start of the current month.
-    def earliest_open_date
-      (Time.zone.today - TimeEntry.past_month_grace_days).beginning_of_month
+    f.select_list(
+      name: :time_format,
+      label: I18n.t(:setting_time_format),
+      include_blank: I18n.t(:label_system_or_language_default),
+      input_width: :medium
+    ) do |list|
+      Settings::Definition[:time_format].allowed.each do |format|
+        list.option(label: date_time_format_example(format), value: format)
+      end
     end
   end
 end

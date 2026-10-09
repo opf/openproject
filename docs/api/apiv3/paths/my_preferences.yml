@@ -21,6 +21,8 @@ get:
                 commentSortDescending: true
                 disableKeyboardShortcuts: false
                 timeZone: "Europe/Berlin"
+                dateFormat: "%Y-%m-%d"
+                timeFormat: "%H:%M"
                 warnOnLeavingUnsaved: true
                 notifications:
                   watched: false
@@ -85,6 +87,8 @@ patch:
                 commentSortDescending: true
                 disableKeyboardShortcuts: false
                 timeZone: Europe/Berlin
+                dateFormat: "%Y-%m-%d"
+                timeFormat: "%H:%M"
                 warnOnLeavingUnsaved: true
                 notifications:
                   watched: false
@@ -160,10 +164,16 @@ patch:
           example:
             autoHidePopups: true
             timeZone: Europe/Paris
+            dateFormat: "%d.%m.%Y"
+            timeFormat: "%I:%M %p"
           properties:
             autoHidePopups:
               type: boolean
             timeZone:
+              type: string
+            dateFormat:
+              type: string
+            timeFormat:
               type: string
           type: object
   summary: Update my preferences

@@ -56,6 +56,14 @@ module API
         property :time_zone,
                  render_nil: true
 
+        property :date_format,
+                 getter: ->(*) { date_format.presence },
+                 render_nil: true
+
+        property :time_format,
+                 getter: ->(*) { time_format.presence },
+                 render_nil: true
+
         property :disable_keyboard_shortcuts
 
         property :warn_on_leaving_unsaved

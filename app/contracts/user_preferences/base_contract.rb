@@ -42,8 +42,9 @@ module UserPreferences
                 if: -> { model.settings.present? }
               }
 
-    validate :time_zone_correctness,
-             if: -> { model.time_zone.present? }
+    validate :time_zone_correctness
+    validate :date_format_correctness
+    validate :time_format_correctness
 
     validate :full_hour_reminder_time,
              if: -> { model.daily_reminders.present? }
@@ -95,10 +96,27 @@ module UserPreferences
     protected
 
     def time_zone_correctness
-      if model.time_zone.present? &&
-         assignable_time_zones.none? { |tz| tz.tzinfo.canonical_identifier == model.time_zone }
-        errors.add(:time_zone, :inclusion)
-      end
+      time_zone = model.settings[:time_zone]
+      return if time_zone.blank?
+      return if assignable_time_zones.any? { |tz| tz.tzinfo.canonical_identifier == time_zone }
+
+      errors.add(:time_zone, :inclusion)
+    end
+
+    def date_format_correctness
+      format = model.settings[:date_format]
+      return if format.blank?
+      return if Settings::Definition[:date_format].allowed.include?(format)
+
+      errors.add(:date_format, :inclusion)
+    end
+
+    def time_format_correctness
+      format = model.settings[:time_format]
+      return if format.blank?
+      return if Settings::Definition[:time_format].allowed.include?(format)
+
+      errors.add(:time_format, :inclusion)
     end
 
     ##

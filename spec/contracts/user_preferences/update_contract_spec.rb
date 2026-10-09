@@ -210,6 +210,14 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like "contract is valid"
     end
 
+    context "without a time_zone but an unassignable default", with_settings: { user_default_timezone: "Nowhere" } do
+      let(:settings) do
+        {}
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
     context "with a full time_zone" do
       let(:settings) do
         {
@@ -248,6 +256,46 @@ RSpec.describe UserPreferences::UpdateContract do
       end
 
       it_behaves_like "contract is invalid", time_zone: :inclusion
+    end
+
+    context "with an allowed date_format" do
+      let(:settings) do
+        {
+          date_format: "%d.%m.%Y"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an unallowed date_format" do
+      let(:settings) do
+        {
+          date_format: "%Y foo %m bar %d"
+        }
+      end
+
+      it_behaves_like "contract is invalid", date_format: :inclusion
+    end
+
+    context "with an allowed time_format" do
+      let(:settings) do
+        {
+          time_format: "%I:%M %p"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an unallowed time_format" do
+      let(:settings) do
+        {
+          time_format: "%H foo %M"
+        }
+      end
+
+      it_behaves_like "contract is invalid", time_format: :inclusion
     end
 
     context "with duplicate workday entries" do
