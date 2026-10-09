@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -39,6 +41,14 @@ module API::V3::Days
         self_path: -> { api_v3_paths.days },
         scope: -> { Day.includes(:non_working_days) }
       ).mount
+
+      route_param :date, type: String, desc: "Date" do
+        after_validation do
+          @day = Day.find_by!(date: declared_params[:date])
+        end
+
+        get &::API::V3::Utilities::Endpoints::Show.new(model: Day).mount
+      end
     end
   end
 end

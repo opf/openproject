@@ -38,19 +38,25 @@ RSpec.describe "Endpoints" do
                                      .flatten
 
   # rubocop:disable-next RSpec/LeakyLocalVariable
-  implementation_routes = API::V3::Root.routes.map do |route|
-    { method: route.request_method, path: "/api/v3#{route.namespace}" }
-  end
+  implementation_routes = API::V3::Root.routes
+                                       .reject { |route| route.request_method == "*" }
+                                       .map do |route|
+                                         { method: route.request_method, path: "/api/v3#{route.origin}" }
+                                       end
 
-  specification_routes.each do |route|
-    it "must have an implementation for #{route[:method].upcase} #{route[:path]}" do
-      expect(implementation_routes).to include_route_definition(route)
+  describe "implementation of specified routes" do
+    specification_routes.each do |route|
+      it "must implement #{route[:method].upcase} #{route[:path]}" do
+        expect(implementation_routes).to include_route_definition(route)
+      end
     end
   end
 
-  implementation_routes.each do |route|
-    it "must have a specification for #{route[:method].upcase} #{route[:path]}" do
-      expect(specification_routes).to include_route_definition(route)
+  describe "specification of implemented routes" do
+    implementation_routes.each do |route|
+      it "must specify #{route[:method].upcase} #{route[:path]}" do
+        expect(specification_routes).to include_route_definition(route)
+      end
     end
   end
 end
