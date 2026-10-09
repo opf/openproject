@@ -209,6 +209,21 @@ module OpenProject::Meeting
       Journals::CreateService::Association.register(:Participatable)
     end
 
+    initializer "meeting.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        [OpenProject::Events::JOURNAL_CREATED, OpenProject::Events::JOURNAL_UPDATED].each do |event|
+          OpenProject::Notifications.subscribe(event) do |payload|
+            journal = payload[:journal]
+            next unless OpenProject::LiveUpdates.enabled? &&
+              payload[:trigger_callbacks] &&
+              journal.journable_type == "Meeting"
+
+            OpenProject::LiveUpdates.broadcast_changed(journal.journable)
+          end
+        end
+      end
+    end
+
     add_api_path :meetings do
       "#{root}/meetings"
     end

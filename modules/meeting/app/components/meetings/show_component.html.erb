@@ -1,3 +1,4 @@
+<%= helpers.turbo_stream_from(@meeting) if OpenProject::LiveUpdates.enabled? %>
 <%=
   flex_layout(data: show_page_data_attributes) do |show_page|
     show_page.with_row do
