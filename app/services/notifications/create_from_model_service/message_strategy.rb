@@ -30,7 +30,7 @@
 
 module Notifications::CreateFromModelService::MessageStrategy
   def self.reasons
-    %i(watched subscribed)
+    %i(mentioned watched subscribed)
   end
 
   def self.permission(*)
