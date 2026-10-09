@@ -25,8 +25,6 @@ ko:
     button_log_costs: 단위 비용 기록
     label_hour: 시간
     label_hours: 시간
-    myTimeTracking:
-      noSpecificTime: 특정 시간 없음
     text_are_you_sure: 계속하시겠습니까?
     work_packages:
       properties:

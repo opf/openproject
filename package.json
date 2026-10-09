@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@herb-tools/linter": "^0.11.0",
-    "@redocly/cli": "^2.53.3"
+    "@redocly/cli": "^2.58.2"
   },
   "dependencies": {
     "@xeokit/xeokit-gltf-to-xkt": "^1.3.1"

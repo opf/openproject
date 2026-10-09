@@ -203,10 +203,10 @@ ro:
         group_users: Group users
         identity_url: Identity URL
         organizational_unit: Organizational unit
-        parent: Parent group
+        parent: Grup părinte
       group_detail:
         organizational_unit: Organizational unit
-        parent: Parent group
+        parent: Grup părinte
       import/jira:
         name: Jira instance name
         personal_access_token: Personal access token
@@ -273,7 +273,7 @@ ro:
         views: Views
       persisted_view:
         name: Name
-        parent: Parent view
+        parent: Vedere părinte
         public: Public
         query: Query
       project:
@@ -1278,9 +1278,9 @@ ro:
         few: Messages
         other: Messages
       news:
-        one: News
-        few: News
-        other: News
+        one: Noutate
+        few: Noutăţi
+        other: Noutăţi
       non_working_day:
         one: Non-working day
         few: Non-working days
@@ -1946,8 +1946,8 @@ ro:
               title: Import scope
           select_projects:
             button_select: Select
-            button_select_all: Select all
-            button_unselect_all: Unselect all
+            button_select_all: Selectează tot
+            button_unselect_all: Deselectează tot
             filter_projects: Filter by text
             info: Only projects where the Jira token owner is member are selectable as import scope.
             title: Select projects to import
@@ -2772,6 +2772,7 @@ ro:
   button_set_reminder: Setează memento
   button_show: Afişare
   button_sort: Sortare
+  button_stop_timer: Oprește cronometrul
   button_submit: Trimite
   button_test: Testare
   button_unarchive: Dezarhivare
@@ -3757,7 +3758,7 @@ ro:
   gui_validation_error_plural: "%{count} erori"
   header:
     project_select_component:
-      all_projects: All projects
+      all_projects: Proiecte
       favorites: Favorite
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
@@ -3914,7 +3915,7 @@ ro:
       total_percent_complete_mode_changed_to_simple_average: Calculation of % Complete totals now based on a simple average of only % Complete values.
       total_percent_complete_mode_changed_to_work_weighted_average: Calculation of % Complete totals now weighted by Work.
       work_package_duplicate_closed: 'Duplicate work package updated:'
-      work_package_parent_deleted: Parent removed
+      work_package_parent_deleted: Părinte eliminat
     changes_retracted: Modificările au fost retrase.
     non_visible:
       budget: a non-visible budget
@@ -4091,6 +4092,7 @@ ro:
   label_date_from_to: Din %{start} la %{end}
   label_date_to: La
   label_dates: Date
+  label_day: Zi
   label_day_plural: zile
   label_default: Implicit
   label_defaults: Defaults
@@ -4307,6 +4309,7 @@ ro:
   label_module_plural: Module
   label_modules: Module
   label_modules_and_plugins: Module și Plugin-uri
+  label_month: Luna
   label_months_from: luni de la
   label_more: Mai mult
   label_more_information: Mai multe informații
@@ -4320,6 +4323,7 @@ ro:
   label_my_avatar: My avatar
   label_my_queries: Interogările mele
   label_my_security: Security
+  label_my_work: My work
   label_name: Nume
   label_never: Niciodată
   label_new: Nou
@@ -4334,7 +4338,10 @@ ro:
   label_news_singular: Noutăţi
   label_news_view_all: Afișează toate știrile
   label_next: Înainte
+  label_next_day: Ziua următoare
+  label_next_month: Luna următoare
   label_next_week: Săptămâna viitoare
+  label_next_workweek: Următoarea săptămână de lucru
   label_next_year: Anul următor
   label_no_change_option: "(Fără modificări)"
   label_no_data: Nu există date de afișat
@@ -4342,6 +4349,7 @@ ro:
   label_no_parent_group: "(No parent group)"
   label_no_parent_page: 'Pagină părinte:'
   label_no_start_date: fără dată început
+  label_no_time: Nici un timp urmărit
   label_nobody: nimeni
   label_non_working_days: Availability calendar
   label_non_working_days_summary: Summary
@@ -4408,7 +4416,10 @@ ro:
   label_preview: Previzualizare
   label_preview_not_available: Preview not available
   label_previous: Înapoi
+  label_previous_day: Ziua precedentă
+  label_previous_month: Luna anterioară
   label_previous_week: Săptămâna trecută
+  label_previous_workweek: Săptămâna lucru anterioară
   label_previous_year: Previous year
   label_principal_invite_via_email: " sau invită utilizatori folosind email"
   label_principal_search: Adaugă utilizatori sau grupuri existente
@@ -4527,6 +4538,7 @@ ro:
   label_sort_lowest: Mută jos
   label_sorted_by: sortate după %{value}
   label_spent_time: Timp consumat
+  label_stack: Stack
   label_start_to_end: început la sfârșit
   label_start_to_start: început la început
   label_starts_with: starts with
@@ -4541,7 +4553,7 @@ ro:
   label_subitems: Subelemente
   label_subject_or_id: Subiect sau ID
   label_subproject: Subproiect
-  label_subproject_add: Add subproject
+  label_subproject_add: Adaugă subproiect
   label_subproject_plural: Subproiecte
   label_subtask_plural: Sub-activități
   label_summary: Rezumat
@@ -4560,6 +4572,7 @@ ro:
   label_time: Timp
   label_time_entry_activity_plural: Activități timp consumat
   label_time_entry_plural: Timp consumat
+  label_timer_since: Început la %{time}
   label_title: Titlu
   label_today: astăzi
   label_today_as_date: Select today as date.
@@ -4609,6 +4622,7 @@ ro:
   label_videos: Videoclipuri
   label_view_all_revisions: Cu toate reviziile
   label_view_diff: Afișare diferențe
+  label_view_mode_switcher: Schimbă vizualizarea
   label_view_revisions: Afișare revizii
   label_view_x: 'View: %{x}'
   label_watched_work_packages: Pachete de lucru urmărite
@@ -4656,6 +4670,7 @@ ro:
   label_working_days: Working days
   label_working_days_and_hours: Working days and hours
   label_working_hours: Work schedule
+  label_workweek: Săptămână de lucru
   label_x_closed_work_packages_abbr:
     one: unul închis
     other: "%{count} închise"
@@ -5102,6 +5117,18 @@ ro:
     password_confirmation_dialog:
       confirmation_required: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Token-uri de acces
@@ -5179,7 +5206,7 @@ ro:
         forum_messages: Forum message posted
         membership_added: Membership added
         membership_updated: Membership updated
-        news_added: News added
+        news_added: Noutăți adăugate
         news_commented: Comment on a news item
         submit_button: Update alerts
         title: Email alerts for other items that are not work packages
@@ -5544,7 +5571,7 @@ ro:
           label: Drag to reorder
         menu:
           label_actions: Work package actions
-        parent: Parent
+        parent: Părinte
         undisclosed: Undisclosed
   page:
     text: Text
@@ -5670,6 +5697,9 @@ ro:
   permission_manage_dashboards: Manage dashboards
   permission_manage_forums: Gestionare forumuri
   permission_manage_members: Gestionare participanți
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Gestionare știri
   permission_manage_own_reminders: Create own reminders
   permission_manage_own_working_times: Manage own working times
@@ -5958,7 +5988,7 @@ ro:
           title: Atributele proiectului
         is_for_all_blank_slate:
           description: This project attribute is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
-          heading: For all projects
+          heading: Pentru toate proiectele
       public_confirmation:
         checkbox: I understand that this will make the previously private content public
         description: 'Anyone who has access to this instance will be able to view and interact with this project depending on their role and authentication settings. Sub-projects are not affected and have their own settings.
@@ -6601,7 +6631,7 @@ ro:
       heading_description: These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level.
       label_add_attribute: Add a project attribute
       label_edit_section: Editează titlul
-      label_for_all_projects: All projects
+      label_for_all_projects: Toate proiectele
       label_new_attribute: Atribut proiect
       label_new_section: Secțiune
       label_no_project_custom_fields: No project attributes defined in this section
@@ -7054,7 +7084,7 @@ ro:
           one: "%{names} and 1 more"
           few: "%{names} and %{count} more"
           other: "%{names} and %{count} more"
-        parent_type: Parent type
+        parent_type: Tip părinte
         same_as_type: Same as parent type
       rows:
         form:
@@ -7079,7 +7109,7 @@ ro:
       title: Compare variants
       title_for_type: Compare variants of %{name}
       values:
-        global: All projects
+        global: Toate proiectele
         inheriting_from: Inheriting from
         project_specific: Project-specific ([%{project}](project_url))
         same_as_base: Identical to the parent type
@@ -7147,7 +7177,7 @@ ro:
         tab: Defaults
         token:
           context:
-            parent: Parent
+            parent: Părinte
             project: Project
             work_package: Work package
           label_with_context: "%{attribute_context}: %{attribute_label}"
@@ -7195,10 +7225,10 @@ ro:
         blankslate_description: Add groups using the button above or drag attributes from the left panel.
         blankslate_title: No groups yet
         confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Are you sure you want to reset the form?
         custom_field: Custom field
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Delete section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
@@ -7269,7 +7299,7 @@ ro:
         add_dialog:
           no_projects_selected: Please select at least one project.
           search_placeholder: Search projects
-        disable_all: Disable for all projects
+        disable_all: Dezactivează pentru toate proiectele
         empty_state:
           description: Add a project to use this configuration there.
           no_results: No matching projects.
@@ -7340,7 +7370,7 @@ ro:
               label: Empty
           success: The configuration mode was switched.
           title: Manual configuration
-        parent_suffix: " (parent)"
+        parent_suffix: " (părinte)"
       variants:
         blankslate:
           description_html: 'You can create variants to offer versions of this type to different projects.<br> Each variant can inherit, copy or have its own custom configuration for the default template, custom fields, workflows and preferences.
@@ -7782,6 +7812,8 @@ ro:
       required_description: Marchează acest pachet de lucru ca fiind o cerință pentru cel asociat
       requires_description: Marchează pachetul de lucru asociat ca o cerință pentru acesta
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Pachetele de lucru nu pot fi copiate.
       could_not_be_deleted: 'The following work packages could not be deleted:'

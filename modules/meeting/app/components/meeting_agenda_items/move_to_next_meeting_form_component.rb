@@ -33,12 +33,14 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(agenda_item:, datetime:, next_occurrence: nil)
+    def initialize(agenda_item:, datetime:, next_occurrence: nil, presentation_mode: false, started_at: nil)
       super
 
       @agenda_item = agenda_item
       @datetime = datetime
       @next_occurrence = next_occurrence
+      @presentation_mode = presentation_mode
+      @started_at = started_at
     end
   end
 end

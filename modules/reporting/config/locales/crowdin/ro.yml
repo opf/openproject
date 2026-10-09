@@ -108,7 +108,6 @@ ro:
   plugin_openproject_reporting:
     description: Acest plugin permite crearea de rapoarte de costuri personalizate cu filtrare şi grupare create de OpenProject Time şi de plugin-ul costuri.
     name: Raport OpenProject
-  project_module_reporting_module: Rapoarte de cost
   reporting:
     group_by:
       selected_columns: Coloane selectate

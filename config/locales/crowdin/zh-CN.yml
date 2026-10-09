@@ -2526,6 +2526,7 @@ zh-CN:
   button_set_reminder: 设置提醒
   button_show: 显示
   button_sort: 排序
+  button_stop_timer: 停止计时器
   button_submit: 提交
   button_test: 测试
   button_unarchive: 取消归档
@@ -3785,6 +3786,7 @@ zh-CN:
   label_date_from_to: 从 %{start} 到 %{end}
   label_date_to: 到
   label_dates: 日期
+  label_day: 天
   label_day_plural: 天
   label_default: 默认
   label_defaults: 默认
@@ -4001,6 +4003,7 @@ zh-CN:
   label_module_plural: 模块
   label_modules: 模块
   label_modules_and_plugins: 模块和插件
+  label_month: 月
   label_months_from: 月份从
   label_more: 更多
   label_more_information: 更多信息
@@ -4014,6 +4017,7 @@ zh-CN:
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
   label_my_security: 安全性
+  label_my_work: My work
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -4028,7 +4032,10 @@ zh-CN:
   label_news_singular: 新闻
   label_news_view_all: 查看所有新闻
   label_next: 下一个
+  label_next_day: 后一天
+  label_next_month: 下个月
   label_next_week: 下周
+  label_next_workweek: 下一个工作周
   label_next_year: 明年
   label_no_change_option: "（不变）"
   label_no_data: 没有要显示的数据
@@ -4036,6 +4043,7 @@ zh-CN:
   label_no_parent_group: "（无父群组）"
   label_no_parent_page: 无父级页面
   label_no_start_date: 没有开始日期
+  label_no_time: 无时间追踪
   label_nobody: 没人
   label_non_working_days: 空闲日历
   label_non_working_days_summary: 摘要
@@ -4102,7 +4110,10 @@ zh-CN:
   label_preview: 预览
   label_preview_not_available: 预览不可用
   label_previous: 上一个
+  label_previous_day: 前一天
+  label_previous_month: 上个月
   label_previous_week: 前一周
+  label_previous_workweek: 上一个工作周
   label_previous_year: 去年
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
   label_principal_search: 添加现有用户或组
@@ -4221,6 +4232,7 @@ zh-CN:
   label_sort_lowest: 移至底部
   label_sorted_by: 排序按 %{value}
   label_spent_time: 已耗工时
+  label_stack: Stack
   label_start_to_end: 开始结束
   label_start_to_start: 开始开始
   label_starts_with: 开始为
@@ -4254,6 +4266,7 @@ zh-CN:
   label_time: 时间
   label_time_entry_activity_plural: 花费时间的活动
   label_time_entry_plural: 已耗工时
+  label_timer_since: "%{time} 开始"
   label_title: 标题
   label_today: 今天
   label_today_as_date: 选择今天为日期。
@@ -4303,6 +4316,7 @@ zh-CN:
   label_videos: 视频
   label_view_all_revisions: 查看所有修订版本
   label_view_diff: 查看差异
+  label_view_mode_switcher: 更改视图
   label_view_revisions: 查看修订版本
   label_view_x: 查看：%{x}
   label_watched_work_packages: 受关注的工作包
@@ -4350,6 +4364,7 @@ zh-CN:
   label_working_days: 工作日
   label_working_days_and_hours: 工作日和工作小时
   label_working_hours: 工作时间表
+  label_workweek: 工作周
   label_x_closed_work_packages_abbr:
     one: 1 个已关闭
     other: "%{count} 个已关闭"
@@ -4770,6 +4785,18 @@ zh-CN:
     password_confirmation_dialog:
       confirmation_required: 需要输入帐户密码以确认此更改。
       title: 确认密码以继续
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: 访问令牌
@@ -5336,6 +5363,9 @@ zh-CN:
   permission_manage_dashboards: 管理仪表板
   permission_manage_forums: 管理论坛
   permission_manage_members: 管理成员
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: 管理新闻
   permission_manage_own_reminders: 创建个人提醒事项
   permission_manage_own_working_times: 管理自己的工作时间
@@ -6832,10 +6862,10 @@ zh-CN:
         blankslate_description: 使用上方按钮添加群组，或从左侧面板拖动特性。
         blankslate_title: 还没有群组
         confirm_delete_group: 确定要删除此小节吗？此操作无法自动撤消。
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: 确定要重置表单吗？
         custom_field: 自定义字段
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: 删除小节
         drag_to_activate: 从此处拖动字段，以将其激活
         drag_to_reorder: 拖动以重新排序
@@ -7409,6 +7439,8 @@ zh-CN:
       required_description: 将此工作包标记为相关工作包的需求
       requires_description: 将相关工作包标记为该工作包的需求
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: 无法复制工作包。
       could_not_be_deleted: 以下工作包无法删除：

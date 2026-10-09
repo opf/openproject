@@ -110,7 +110,6 @@ lt:
   plugin_openproject_reporting:
     description: Šis priedas leidžia kurti savo kaštų ataskaitas su OpenProject laiko ir kašto priedo sukurtu filtravimu ir grupavimu.
     name: OpenProject ataskaitos
-  project_module_reporting_module: Kaštų ataskaitos
   reporting:
     group_by:
       selected_columns: Pasirinkti stulpeliai

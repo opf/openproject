@@ -173,6 +173,8 @@ de:
     label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
     label_resource_planner_plural: Ressourcenplaner
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Ansicht hinzufügen
     public_caption: Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.

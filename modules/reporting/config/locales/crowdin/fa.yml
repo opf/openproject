@@ -106,7 +106,6 @@ fa:
   plugin_openproject_reporting:
     description: این افزونه به شما امکان ایجاد گزارش‌های سفارشی هزینه با فیلتر کردن و گروه‌بندی ایجاد شده توسط افزونه زمان و هزینه اوپن‌پروژه را می‌دهد.
     name: گزارش OpenProject
-  project_module_reporting_module: گزارش‌های هزینه
   reporting:
     group_by:
       selected_columns: ستون‌های انتخاب‌شده

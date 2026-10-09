@@ -18,7 +18,11 @@ begin
     file.puts full_spec
   end
 
-  system("npx @redocly/cli lint --config=.redocly.yaml #{openapi_yaml_spec_path}")
+  lint_args = []
+  limit_arg = ARGV.find { |arg| arg.start_with?("--limit=") }
+  lint_args << "--max-problems=#{limit_arg.delete_prefix('--limit=')}" unless limit_arg.nil?
+
+  system("npx @redocly/cli lint --config=.redocly.yaml #{openapi_yaml_spec_path} #{lint_args.join(' ')}")
 
   status = $?.exitstatus
 ensure

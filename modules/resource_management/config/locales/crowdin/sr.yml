@@ -179,6 +179,8 @@ sr:
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Add View
     public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
