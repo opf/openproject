@@ -38,7 +38,8 @@ module Documents
         value: model.content_binary,
         attachments_upload_url:,
         attachments_collection_key:,
-        project_id: model.project_id
+        project_id: model.project_id,
+        document_id: model.id
       )
     end
 

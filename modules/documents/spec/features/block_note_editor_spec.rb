@@ -63,11 +63,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(editor.content).to include("Heading")
   end
 
-  it "hands the project of the document to the editor, so a work package can be created in it" do
+  it "hands the project and the document to the editor, so work packages can be created and mentions notified" do
     visit document_path(document)
 
     expect(page).to have_test_selector("blocknote-document-description")
-    expect(find("op-block-note", visible: false)["project-id"]).to eq(document.project_id.to_s)
+    editor_element = find("op-block-note", visible: false)
+    expect(editor_element["project-id"]).to eq(document.project_id.to_s)
+    expect(editor_element["document-id"]).to eq(document.id.to_s)
   end
 
   context "when real time text collaboration is disabled",
