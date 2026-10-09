@@ -96,11 +96,22 @@ RSpec.describe Messages::PostComponent, type: :component do
       expect(rendered_component).to have_link("Create work package", href: dialog_path, visible: :all)
     end
 
+    it "also offers it as a button next to the message's menu, through the same dialog", :aggregate_failures do
+      rendered_component
+      dialog_path = "/projects/#{project.identifier}/forums/#{forum.id}/topics/#{topic.id}/work_package/new"
+
+      button = find_test_selector("message-create-work-package-button-#{topic.id}")
+
+      expect(button).to have_text("Work package")
+      expect(button[:href]).to eq(dialog_path)
+    end
+
     context "in a project without work package tracking" do
       before { project.update!(enabled_module_names: project.enabled_module_names - %w[work_package_tracking]) }
 
-      it "offers no work package creation" do
+      it "offers no work package creation", :aggregate_failures do
         expect(rendered_component).to have_no_link("Create work package", visible: :all)
+        expect(rendered_component).to have_no_test_selector("message-create-work-package-button-#{topic.id}")
       end
     end
   end
