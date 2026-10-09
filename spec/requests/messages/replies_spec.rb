@@ -65,6 +65,19 @@ RSpec.describe "Loading hidden forum replies", type: :rails_request do
     expect(stream).to have_css("#message-#{replies[0].id}[autofocus]")
   end
 
+  context "with a work package created from a streamed reply" do
+    current_user { create(:user, member_with_permissions: { forum.project => %i[view_messages view_work_packages] }) }
+
+    it "hangs it on the lifeline after that reply" do
+      work_package = create(:work_package, project: forum.project, subject: "Freeze on Friday")
+      MessageWorkPackage.create!(message: replies[10], work_package:)
+
+      load_replies
+
+      expect(stream).to have_test_selector("message-created-work-package-#{work_package.id}", text: "Freeze on Friday")
+    end
+  end
+
   context "for a user who cannot read the topic" do
     current_user { create(:user) }
 

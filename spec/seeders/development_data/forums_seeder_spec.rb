@@ -55,6 +55,9 @@ RSpec.describe DevelopmentData::ForumsSeeder do
 
   describe "#seed_data!" do
     shared_let(:project) { create(:project, identifier: "dev-forums", enabled_module_names: %w[work_package_tracking]) }
+    shared_let(:task) { create(:type, name: "Task") }
+    shared_let(:status) { create(:default_status) }
+    shared_let(:priority) { create(:default_priority) }
     shared_let(:authors) do
       [create(:admin, login: "admin"), *%w[reader member work_packager project_admin admin_de].map { create(:user, login: it) }]
     end
@@ -62,6 +65,15 @@ RSpec.describe DevelopmentData::ForumsSeeder do
     let(:general) { project.forums.find_by!(name: "General") }
 
     before { seeder.seed_data! }
+
+    it "seeds a task created from the feature request write-up, as the dialog would", :aggregate_failures do
+      write_up = Message.find_by!("content LIKE ?", "Here's the write-up.%")
+      task_from_write_up = write_up.created_work_packages.sole
+
+      expect(task_from_write_up).to have_attributes(type: task, project:, author: write_up.author,
+                                                    subject: write_up.root.subject, description: write_up.content)
+      expect(task_from_write_up.journals.map { it.cause["type"] }).to include("forum_message")
+    end
 
     it "turns the forums module on" do
       expect(project.reload.enabled_module_names).to include("forums")

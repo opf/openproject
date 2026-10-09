@@ -28,34 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Messages
-  class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
-      super
-      @topic = topic
-      @segments = segments
-      @created_work_packages = created_work_packages
-      @focus_first = focus_first
-    end
+require "spec_helper"
 
-    def call
-      safe_join(@segments.map { render_segment(it) })
-    end
+RSpec.describe MessageWorkPackage do
+  shared_let(:forum) { create(:forum) }
+  shared_let(:topic) { create(:message, forum:) }
+  shared_let(:work_package) { create(:work_package, project: forum.project) }
 
-    private
+  it "links a message to the work packages created from it" do
+    described_class.create!(message: topic, work_package:)
 
-    def render_segment(segment)
-      focus = @focus_first && segment == @segments.first
-      case segment
-      in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map do |message|
-          render(Messages::PostComponent.new(message:,
-                                             work_packages: @created_work_packages.fetch(message.id, []),
-                                             focus: focus && message == messages.first))
-        end)
-      in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
-      end
-    end
+    expect(topic.created_work_packages).to contain_exactly(work_package)
+  end
+
+  it "gives a work package a single originating message" do
+    described_class.create!(message: topic, work_package:)
+    other = create(:message, forum:)
+
+    expect { described_class.create!(message: other, work_package:) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it "goes away with its message, keeping the work package", :aggregate_failures do
+    described_class.create!(message: topic, work_package:)
+
+    topic.destroy
+
+    expect(described_class.count).to eq(0)
+    expect(WorkPackage.exists?(work_package.id)).to be(true)
+  end
+
+  it "goes away with its work package" do
+    described_class.create!(message: topic, work_package:)
+
+    work_package.destroy
+
+    expect(described_class.count).to eq(0)
   end
 end

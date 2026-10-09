@@ -33,7 +33,9 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   include WorkPackagesHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking
+  include MessagesHelper
   include OpenProject::JournalFormatter::CauseMeetingRendering
+  include OpenProject::JournalFormatter::CauseForumMessageRendering
   include ActionView::Helpers::SanitizeHelper
   include ActionView::Helpers::TranslationHelper
 
@@ -45,6 +47,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
 
     return "" if hidden_meeting_cause?
     return combined_meeting_message if meeting_cause?
+    return forum_message_cause_message if forum_message_cause?
 
     "#{caused_change} #{cause_description}"
   end

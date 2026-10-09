@@ -209,8 +209,10 @@ module WorkPackages
           return if skip_rendering_details?
 
           details_container.with_row(flex_layout: true, pt: 1, pb: 3) do |details_container_inner|
-            if journal.initial?
+            if journal.initial? && rendered_initial_cause.empty?
               details_container.with_row(mb: 3, font_size: :small, classes: "empty-line")
+            elsif journal.initial?
+              rendered_initial_cause.each { render_single_detail(details_container_inner, it) }
             else
               render_journal_details(details_container_inner)
             end
@@ -218,7 +220,16 @@ module WorkPackages
         end
 
         def skip_rendering_details?
-          journal.initial? && journal_sorting.desc?
+          journal.initial? && journal_sorting.desc? && rendered_initial_cause.empty?
+        end
+
+        # The creation entry's other details are the whole initial state, so only its cause is shown;
+        # read-only attributes are written by every creation that sets them, which explains nothing.
+        def rendered_initial_cause
+          @rendered_initial_cause ||= journal_details
+            .slice(:cause)
+            .reject { |_, (_, cause)| cause["type"] == "default_attribute_written" }
+            .filter_map { |detail| journal.render_detail(detail).presence }
         end
 
         def render_journal_details(details_container_inner)

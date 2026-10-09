@@ -28,34 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Messages
-  class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
-      super
-      @topic = topic
-      @segments = segments
-      @created_work_packages = created_work_packages
-      @focus_first = focus_first
-    end
+class Journal::CausedByForumMessage < CauseOfChange::Base
+  TYPE = "forum_message"
 
-    def call
-      safe_join(@segments.map { render_segment(it) })
-    end
-
-    private
-
-    def render_segment(segment)
-      focus = @focus_first && segment == @segments.first
-      case segment
-      in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map do |message|
-          render(Messages::PostComponent.new(message:,
-                                             work_packages: @created_work_packages.fetch(message.id, []),
-                                             focus: focus && message == messages.first))
-        end)
-      in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
-      end
-    end
+  def initialize(message)
+    super(TYPE, "message_id" => message.id)
   end
 end

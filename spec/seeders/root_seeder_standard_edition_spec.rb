@@ -529,8 +529,8 @@ RSpec.describe RootSeeder,
       expect(Project.count).to eq 8
     end
 
-    it "creates 4 additional work packages for development" do
-      expect(WorkPackage.count).to eq 41
+    it "creates 5 additional work packages for development" do
+      expect(WorkPackage.count).to eq 42
     end
 
     it "creates 1 project with custom fields" do

@@ -4,10 +4,39 @@
   margin-left: 19px
   height: 20px
 
+.op-forum-post-branch
+  margin-left: 19px
+  padding-top: var(--base-size-8, 8px)
+  border-left: var(--borderWidth-thin, 1px) solid var(--borderColor-default)
+
+  &--stroke
+    position: relative
+    flex-shrink: 0
+    width: 20px
+    height: 20px
+
+    &::before
+      content: ""
+      position: absolute
+      top: 50%
+      left: 0
+      width: 100%
+      height: var(--borderWidth-thin, 1px)
+      background-color: var(--borderColor-default)
+
 .op-forum-post
   &:target
     border: 2px solid var(--borderColor-accent-emphasis)
     border-radius: var(--borderRadius-medium)
+
+  // Shown on demand where a pointer can hover; touch screens keep it visible.
+  @media (hover: hover)
+    .op-forum-post--create-work-package
+      opacity: 0
+
+    &:hover .op-forum-post--create-work-package,
+    &:focus-within .op-forum-post--create-work-package
+      opacity: 1
 
 .op-forum-reply-editor
   .ck-content

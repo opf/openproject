@@ -72,7 +72,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
 
     within_test_selector("forum-post-#{Message.last.id}") do
       click_on accessible_name: "Message actions"
-      click_on "Edit"
+      click_on "Edit message"
     end
 
     retry_block do
@@ -120,7 +120,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     attachments_list.expect_attached("image.png")
     within_test_selector("forum-post-#{Message.last.id}") do
       click_on accessible_name: "Message actions"
-      click_on "Edit"
+      click_on "Edit message"
     end
     wait_for_network_idle
 

@@ -32,9 +32,10 @@ module Messages
   class PostComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(message:, focus: false)
+    def initialize(message:, work_packages: [], focus: false)
       super
       @message = message
+      @work_packages = work_packages
       @focus = focus
     end
 
@@ -67,7 +68,33 @@ module Messages
           end
           author_and_time.with_column { anchor_link }
         end
-        line.with_column(ml: 1) { action_menu }
+        line.with_column(ml: 1, flex_layout: true, align_items: :center) do |actions|
+          actions.with_column(mr: 1) { create_work_package_button } if work_package_creatable?
+          actions.with_column { action_menu }
+        end
+      end
+    end
+
+    def create_work_package_button
+      render(Primer::Beta::Button.new(tag: :a,
+                                      href: new_project_forum_topic_work_package_path(project, forum, message),
+                                      scheme: :default,
+                                      size: :small,
+                                      classes: "op-forum-post--create-work-package",
+                                      test_selector: "message-create-work-package-button-#{message.id}",
+                                      data: { controller: "async-dialog" })) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t("forums.topic.add_work_package")
+      end
+    end
+
+    def created_work_package_branch(work_package)
+      render(Primer::Box.new(classes: "op-forum-post-branch",
+                             test_selector: "message-created-work-package-#{work_package.id}")) do
+        flex_layout(align_items: :center) do |row|
+          row.with_column(classes: "op-forum-post-branch--stroke")
+          row.with_column(pl: 1) { render(WorkPackages::InfoLineComponent.new(work_package:, show_subject: true, font_size: :normal)) }
+        end
       end
     end
 
@@ -85,6 +112,7 @@ module Messages
         copy_link_item(menu)
         quote_item(menu) if quotable?
         edit_item(menu) if message.editable_by?(User.current)
+        with_item_group(menu) { create_work_package_item(menu) } if work_package_creatable?
         with_item_group(menu) { delete_item(menu) } if reply? && message.destroyable_by?(User.current)
       end
     end
@@ -98,15 +126,29 @@ module Messages
     end
 
     def quote_item(menu)
-      menu.with_item(label: t(:button_quote),
+      menu.with_item(label: t("forums.topic.quote_message"),
                      href: quote_project_forum_topic_path(project, forum, message),
                      content_arguments: { data: { action: "forum-messages#quote" } }) do |item|
         item.with_leading_visual_icon(icon: :quote)
       end
     end
 
+    def work_package_creatable?
+      User.current.allowed_in_project?(:add_work_packages, project)
+    end
+
+    def create_work_package_item(menu)
+      menu.with_item(label: t("forums.topic.add_work_package"),
+                     href: new_project_forum_topic_work_package_path(project, forum, message),
+                     test_selector: "message-create-work-package-#{message.id}",
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :plus)
+      end
+    end
+
     def edit_item(menu)
-      menu.with_item(label: t(:button_edit), href: edit_project_forum_topic_path(project, forum, message)) do |item|
+      menu.with_item(label: t("forums.topic.edit_message"),
+                     href: edit_project_forum_topic_path(project, forum, message)) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
     end

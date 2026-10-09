@@ -28,34 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Messages
-  class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
-      super
-      @topic = topic
-      @segments = segments
-      @created_work_packages = created_work_packages
-      @focus_first = focus_first
-    end
+class CreateMessageWorkPackages < ActiveRecord::Migration[8.1]
+  def change
+    create_table :message_work_packages do |t|
+      t.references :message, null: false, foreign_key: { on_delete: :cascade }
+      t.references :work_package, null: false, foreign_key: { on_delete: :cascade }, index: { unique: true }
 
-    def call
-      safe_join(@segments.map { render_segment(it) })
-    end
-
-    private
-
-    def render_segment(segment)
-      focus = @focus_first && segment == @segments.first
-      case segment
-      in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map do |message|
-          render(Messages::PostComponent.new(message:,
-                                             work_packages: @created_work_packages.fetch(message.id, []),
-                                             focus: focus && message == messages.first))
-        end)
-      in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
-      end
+      t.timestamps
     end
   end
 end

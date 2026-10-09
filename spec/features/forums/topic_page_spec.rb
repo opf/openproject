@@ -46,7 +46,7 @@ RSpec.describe "Forum topic page", :js do
 
     within_test_selector("forum-post-#{topic.id}") do
       click_on accessible_name: "Message actions"
-      click_on "Quote"
+      click_on "Quote message"
     end
 
     expect(page).to have_css("#reply .ck-content", text: "wrote")

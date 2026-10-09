@@ -28,34 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Messages
-  class ThreadSegmentsComponent < ApplicationComponent
-    def initialize(topic:, segments:, created_work_packages: {}, focus_first: false)
-      super
-      @topic = topic
-      @segments = segments
-      @created_work_packages = created_work_packages
-      @focus_first = focus_first
-    end
+module OpenProject::JournalFormatter::CauseForumMessageRendering
+  private
 
-    def call
-      safe_join(@segments.map { render_segment(it) })
-    end
+  def forum_message_cause?
+    cause["type"] == Journal::CausedByForumMessage::TYPE
+  end
 
-    private
+  def forum_message_cause_message
+    text = t("journals.caused_changes.forum_message_html", message_information: forum_message_information)
+    html? ? text : strip_tags(text).rstrip
+  end
 
-    def render_segment(segment)
-      focus = @focus_first && segment == @segments.first
-      case segment
-      in Messages::ThreadLayout::Replies(messages:)
-        safe_join(messages.map do |message|
-          render(Messages::PostComponent.new(message:,
-                                             work_packages: @created_work_packages.fetch(message.id, []),
-                                             focus: focus && message == messages.first))
-        end)
-      in Messages::ThreadLayout::Gap
-        render(Messages::RepliesGapComponent.new(topic: @topic, gap: segment, focus:))
-      end
-    end
+  def forum_message_information
+    message = Message.find_by(id: cause["message_id"])
+    return I18n.t("journals.cause_descriptions.forum_message_deleted") if message.nil?
+    return "" unless message.visible?(User.current)
+
+    subject = message.root.subject
+    html? ? link_to(subject, message_anchor_path(message)) : subject
   end
 end
