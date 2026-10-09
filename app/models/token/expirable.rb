@@ -28,16 +28,53 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module APITokens
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+module Token
+  module Expirable
+    extend ActiveSupport::Concern
 
-    def set_attributes(params)
-      model.change_by_system do
-        model.user = user if model.user.nil?
-      end
+    included do
+      scope :expired, -> { where(expires_on: ...Time.current) }
+      scope :not_expired, -> { where(expires_on: nil).or(where(expires_on: Time.current..)) }
+
+      validate :validate_expires_on_in_future, if: :expires_on_changed?
+      validate :validate_expires_on_date_format
+    end
+
+    def expired?
+      expires_on.present? && expires_on.past?
+    end
+
+    def expires_on_date
+      expires_on&.in_time_zone(user.time_zone)&.to_date
+    end
+
+    def expires_on_date=(date_or_iso_string)
+      @invalid_expires_on_date = false
+
+      date = case date_or_iso_string
+             when Date then date_or_iso_string
+             when String then Date.iso8601(date_or_iso_string) if date_or_iso_string.present?
+             end
+
+      self.expires_on = date&.in_time_zone(user.time_zone)&.end_of_day
+    rescue Date::Error
+      @invalid_expires_on_date = true
+    end
+
+    def valid_plaintext?(input)
+      return false if expired?
 
       super
+    end
+
+    private
+
+    def validate_expires_on_in_future
+      errors.add(:expires_on, :datetime_must_be_in_future) if expired?
+    end
+
+    def validate_expires_on_date_format
+      errors.add(:expires_on, :not_a_date) if @invalid_expires_on_date
     end
   end
 end

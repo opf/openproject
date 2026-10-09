@@ -28,16 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module APITokens
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+require "spec_helper"
 
-    def set_attributes(params)
-      model.change_by_system do
-        model.user = user if model.user.nil?
-      end
+RSpec.describe APITokens::SetAttributesService, type: :model do
+  let(:user) { build(:user, preferences: { time_zone: "Europe/Berlin" }) }
+  let(:token) { Token::API.new }
+  let(:contract_class) do
+    class_double(APITokens::CreateContract, new: instance_double(APITokens::CreateContract, validate: true))
+  end
 
-      super
-    end
+  subject(:result) do
+    described_class
+      .new(user:, model: token, contract_class:)
+      .call(token_name: "with expiry", expires_on_date: "2026-10-12")
+  end
+
+  it "assigns the user before converting the expiry date in the user's time zone" do
+    expect(result).to be_success
+    expect(token.user).to eq(user)
+    expect(token.expires_on).to eq(Time.find_zone("Europe/Berlin").local(2026, 10, 12).end_of_day)
   end
 end
