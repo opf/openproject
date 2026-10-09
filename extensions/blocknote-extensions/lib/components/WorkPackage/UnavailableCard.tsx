@@ -1,13 +1,12 @@
 import type { ReactNode } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { editorThemeVariables, NODE_CONTENT_GAP } from '../Shared/theme';
 import {
-  defaultWpVariables,
   WorkPackageId,
   WorkPackageTitleLink,
   workPackageLinkProps,
 } from './atoms';
-import { CHIP_STYLES } from './tokens';
 import { formatWorkPackageId } from '../../utils/id';
 import type { MenuButtonProps } from '../../utils/a11y';
 
@@ -23,7 +22,7 @@ interface UnavailableCardProps {
 const UnavailableWorkPackage = styled.div.attrs({
   className: 'op-bn-work-package-placeholder',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   padding: var(--spacer-m) var(--spacer-l);
   border-radius: var(--bn-border-radius-small);
 `;
@@ -41,7 +40,7 @@ const UnavailableMessageHeader = styled.div.attrs({
   color: var(--bn-colors-editor-text) !important;
   display: flex;
   align-items: center;
-  gap: ${CHIP_STYLES.gap};
+  gap: ${NODE_CONTENT_GAP};
 `;
 
 export const UnavailableCard = ({ headerKey, messageKey, icon, displayId, linkHeader, menuButton }:UnavailableCardProps) => {

@@ -11,10 +11,10 @@ import {
   SearchInput,
   SearchHeader,
   SearchLabel,
-  SearchMessage,
   DropdownList,
   DropdownItem,
 } from './SearchContainer';
+import { SearchMessage } from '../Shared/SearchMessage';
 import { Spinner } from '../Spinner';
 import { CreateWorkPackageOption } from './CreateWorkPackageOption';
 

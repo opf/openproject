@@ -2,7 +2,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import flatpickr from 'flatpickr';
 import type { DayElement, Instance } from 'flatpickr/dist/types/instance';
-import { useAnchoredPopover } from '../WorkPackage/anchoredPopover';
+import { useAnchoredPopover } from '../Shared/anchoredPopover';
 import { CalendarStyles } from './atoms';
 import { TextControl } from '../Shared/atoms';
 import {

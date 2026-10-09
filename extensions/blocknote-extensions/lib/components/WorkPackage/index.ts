@@ -5,7 +5,6 @@ export {
   WorkPackageTitle,
   WorkPackageTitleLink,
   workPackageLinkProps,
-  defaultWpVariables,
 } from './atoms';
 export { WpOptionsPopover } from './OptionsPopover';
 export { WpPreviewPopover } from './PreviewPopover';

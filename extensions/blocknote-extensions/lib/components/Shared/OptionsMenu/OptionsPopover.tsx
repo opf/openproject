@@ -2,8 +2,8 @@ import { useEffect, useEffectEvent, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { linkToWorkPackage } from '../../../services/openProjectApi';
 import styled from 'styled-components';
-import { defaultWpVariables, menuItemFocusStyles, menuSurfaceStyles } from '../../WorkPackage/atoms';
-import { useAnchoredPopover, PopoverPortal } from '../../WorkPackage/anchoredPopover';
+import { editorThemeVariables, menuItemFocusStyles, menuSurfaceStyles } from '../theme';
+import { useAnchoredPopover, PopoverPortal } from '../anchoredPopover';
 import { SizeMenu } from './SizeMenu';
 import type { SizeGroup } from './types';
 import { FLOATING_Z_INDEX } from '../../../utils/zIndex';
@@ -34,7 +34,7 @@ const Popover = styled.div.attrs({
   className: 'op-bn-inline-options',
   'data-testid': 'popover-content',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.options};
   ${menuSurfaceStyles}

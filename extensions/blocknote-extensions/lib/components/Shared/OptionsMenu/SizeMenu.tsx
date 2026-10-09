@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useId, useRef } from 'react';
 import styled from 'styled-components';
-import { menuItemFocusStyles, menuSurfaceStyles } from '../../WorkPackage/atoms';
-import { useAnchoredPopover } from '../../WorkPackage/anchoredPopover';
+import { menuItemFocusStyles, menuSurfaceStyles } from '../theme';
+import { useAnchoredPopover } from '../anchoredPopover';
 import { useTapActivation } from '../../../utils/tapActivation';
 import { focusMenuItem, navigateMenu } from '../../../utils/a11y';
 import type { SizeGroup } from './types';

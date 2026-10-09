@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
-import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { colorDotStyles, defaultWpVariables, nonSelectableStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
+import { colorDotStyles, WorkPackageId, WorkPackageType } from '../WorkPackage/atoms';
+import { BLOCK_FOCUS_SHADOW, editorThemeVariables, nonSelectableStyles } from '../Shared/theme';
+import { INLINE_NODE_STYLES } from '../Shared/inlineNodeStyles';
 import { FieldLabel, PickerControl, roomForActions } from '../Shared/atoms';
 
 // Drawn inward, so that it adds nothing to the height.
@@ -14,16 +15,16 @@ export const MutedText = styled.span`
 export const AttributeSurface = styled.span.attrs({
   className: 'op-bn-wp-attribute',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   ${nonSelectableStyles}
   display: inline;
-  padding: ${CHIP_STYLES.padding.s};
-  border-radius: ${CHIP_STYLES.radius};
+  padding: ${INLINE_NODE_STYLES.padding.s};
+  border-radius: ${INLINE_NODE_STYLES.radius};
   box-shadow: ${ATTRIBUTE_BORDER};
   background: var(--bn-colors-editor-background, #ffffff);
   color: var(--bn-colors-editor-text);
   /*  Sized like an inline work package: the box from the small font, the text set larger inside.  */
-  font-size: ${CHIP_STYLES.fontSize};
+  font-size: ${INLINE_NODE_STYLES.fontSize};
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
   overflow-wrap: anywhere;
@@ -36,7 +37,7 @@ export const AttributeSurface = styled.span.attrs({
 export const AttributeInline = styled(AttributeSurface).attrs({ contentEditable: false })<{ $selected?:boolean }>`
   position: relative;
   cursor: pointer;
-  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.inlineFocusShadow : ATTRIBUTE_BORDER)};
+  box-shadow: ${({ $selected }) => ($selected ? INLINE_NODE_STYLES.inlineFocusShadow : ATTRIBUTE_BORDER)};
 `;
 
 export const AttributeLabelText = styled.span`
@@ -195,7 +196,7 @@ export const AttributeBlockFrame = styled.div.attrs({
   className: 'op-bn-wp-attribute-block',
   contentEditable: false,
 })<{ $selected?:boolean }>`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   ${nonSelectableStyles}
   position: relative;
   padding: var(--spacer-m) var(--spacer-l);
@@ -203,7 +204,7 @@ export const AttributeBlockFrame = styled.div.attrs({
   border-radius: var(--bn-border-radius-medium, 8px);
   color: var(--bn-colors-editor-text);
   cursor: pointer;
-  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
+  box-shadow: ${({ $selected }) => ($selected ? BLOCK_FOCUS_SHADOW : 'none')};
 `;
 
 export const AttributeBlockTitle = styled.div`
@@ -262,7 +263,7 @@ export const AvatarSlot = styled.span`
   position: relative;
   padding-left: 1.05em;
   margin-right: 0.3em;
-  font-size: ${CHIP_STYLES.fontSize};
+  font-size: ${INLINE_NODE_STYLES.fontSize};
 `;
 
 export const Avatar = styled.span.attrs({ className: 'op-bn-wp-attribute--avatar', 'aria-hidden': true })<{ $color:string }>`
