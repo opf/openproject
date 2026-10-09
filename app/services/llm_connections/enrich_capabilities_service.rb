@@ -56,10 +56,17 @@ module LlmConnections
 
     def enrich(llm_model)
       published = Llm::Capabilities.published_for(llm_model.external_id)
-      return if published.nil?
+      declared = Llm::Capabilities.declared_for(llm_model.raw_metadata)
+      return if published.nil? && declared.empty?
 
-      apply_metadata(llm_model, published)
-      published[:states].each { |capability, state| record(llm_model.external_id, capability, state) }
+      apply_metadata(llm_model, published) if published
+      states(published, declared).each { |capability, state| record(llm_model.external_id, capability, state) }
+    end
+
+    # The card describes the model as this server offers it, the registry
+    # describes it as some other vendor deploys it, so a declaration wins.
+    def states(published, declared)
+      published.to_h.fetch(:states, {}).merge(declared)
     end
 
     # Everything written here is metadata. display_name is the administrator's
@@ -69,7 +76,7 @@ module LlmConnections
       metadata = llm_model.raw_metadata
       metadata = metadata.merge("name" => published[:display_name]) if fills_in_name?(llm_model, published)
 
-      if published[:context_window].present? && llm_model.raw_metadata["max_model_len"].blank?
+      if published[:context_window].present? && !server_sized?(llm_model)
         metadata = metadata.merge("context_window" => published[:context_window])
       end
 
@@ -78,6 +85,13 @@ module LlmConnections
 
     def fills_in_name?(llm_model, published)
       published[:display_name].present? && llm_model.raw_metadata["name"].blank?
+    end
+
+    # Only what the server said counts here, not what the administrator
+    # overrode: clearing the override later has to reveal the published figure
+    # again rather than leave the window unknown.
+    def server_sized?(llm_model)
+      llm_model.raw_metadata.values_at("max_model_len", "context_window").any?(&:present?)
     end
 
     def record(model_id, capability, state)

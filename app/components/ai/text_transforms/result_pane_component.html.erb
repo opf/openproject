@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: wrapper_data) do %>
+  <%=
+    render(
+      Primer::BaseComponent.new(
+        tag: :div,
+        role: :dialog,
+        aria: { label: label(:title) },
+        position: :fixed,
+        display: :flex,
+        direction: :column,
+        classes: "op-ai-result-pane",
+        data: target(:pane)
+      )
+    ) do
+      safe_join(
+        [
+          render(Primer::Beta::BorderBox.new(flex: 1, overflow: :hidden, display: :flex, direction: :column, box_shadow: :extra_large)) do |box|
+            box.with_header(data: action(:beginDrag, event: "pointerdown"), classes: "op-ai-result-pane--handle") do
+              flex_layout(align_items: :center, justify_content: :space_between) do |header|
+                header.with_column { section(:title) }
+                header.with_column do
+                  render(Primer::Beta::CloseButton.new("aria-label": label(:close), type: :submit, form: CLOSE_FORM_ID))
+                end
+              end
+            end
+            box.with_body(flex: 1, overflow: :auto) { section(:body) }
+            box.with_footer(bg: :subtle) { section(:footer) }
+          end,
+          *EDGES.map do |edge|
+            render(
+              Primer::BaseComponent.new(
+                tag: :span,
+                classes: "op-ai-result-pane--resize op-ai-result-pane--resize_#{edge}",
+                data: action(:beginResize, event: "pointerdown").merge(edge:),
+                "aria-hidden": true
+              )
+            )
+          end
+        ]
+      )
+    end
+  %>
+<% end %>

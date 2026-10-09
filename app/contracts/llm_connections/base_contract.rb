@@ -45,14 +45,60 @@ module LlmConnections
                            unless: -> { api_format.blank? }
 
     validate :features_require_connection
+    validate :default_models_offered_by_server
+    validate :default_chat_model_can_chat
+    validate :default_embedding_model_can_embed
+    validate :not_configured_from_env
+
+    def not_configured_from_env
+      return unless model.configured_from_env?
+
+      errors.add :base, :configured_via_env
+    end
 
     private
+
+    # Only a model the server has ruled out is refused. "We could not tell" is the
+    # normal state on a self-hosted server, and an environment-provisioned default
+    # would otherwise fail on a catalogue row nothing has probed yet. The picker
+    # still offers confirmed models only.
+    def default_embedding_model_can_embed
+      llm_model = model.default_embedding_model
+      return if llm_model.blank?
+      return unless model.changed_attributes.include?("default_embedding_model_id")
+
+      errors.add(:default_embedding_model_id, :cannot_embed) if llm_model.verdict_for(:embeddings)&.blocking?
+    end
+
+    # A model the server identifies as an embedding model is not a chat candidate.
+    def default_chat_model_can_chat
+      llm_model = model.default_chat_model
+      return if llm_model.blank?
+      return unless model.changed_attributes.include?("default_chat_model_id")
+
+      errors.add(:default_chat_model_id, :cannot_chat) if llm_model.embedding?
+    end
 
     def features_require_connection
       return unless model.llm_features_enabled
       return if model.base_url.present?
 
       errors.add :llm_features_enabled, :requires_connection
+    end
+
+    # A designated default must be a model the server actually reported. Validated
+    # only when it changes, so a catalogue that shrinks underneath a stored
+    # selection does not block every unrelated save; the dangling state is
+    # surfaced in the UI instead.
+    def default_models_offered_by_server
+      LlmModel::CONNECTION_DEFAULTS.each do |attribute|
+        value = model.public_send(attribute)
+        next if value.blank?
+        next unless model.changed_attributes.include?(attribute.to_s)
+        next if model.models.active.exists?(id: value)
+
+        errors.add attribute, :not_available
+      end
     end
   end
 end

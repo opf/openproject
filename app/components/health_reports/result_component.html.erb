@@ -45,11 +45,13 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        if error_code.present?
+        if error_code.present? && docs_href.present?
           row.with_column do
-            helpers.static_link_to(href: docs_href,
-                                   label: I18n.t(:label_more_information),
-                                   underline: true)
+            helpers.static_link_to(
+              href: docs_href,
+              label: I18n.t(:label_more_information),
+              underline: true
+            )
           end
         end
       end

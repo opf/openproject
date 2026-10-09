@@ -59,7 +59,10 @@ RSpec.describe API::V3::AI::TextTransformRunRepresenter do
     let(:value) { "queued" }
   end
 
-  it_behaves_like "no property", :systemPrompt
+  it_behaves_like "property", :systemPrompt do
+    let(:value) { run.system_prompt }
+  end
+
   it_behaves_like "no property", :uuid
 
   describe "events" do

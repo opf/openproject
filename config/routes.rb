@@ -486,6 +486,17 @@ Rails.application.routes.draw do
     end
   end
 
+  # Demo only (AI-126): AI action menu in the description editor and the result pane.
+  namespace :ai do
+    resource :text_transform_menu, only: :show
+    resources :text_transform_panes, only: %i[create show destroy], param: :uuid do
+      member do
+        post :apply
+        post :cancel
+      end
+    end
+  end
+
   namespace :projects do
     resource :menu, only: %i[show]
     resource :filters, only: %i[show]
@@ -868,18 +879,27 @@ Rails.application.routes.draw do
         get :disconnect_dialog
         post :disconnect
       end
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+        patch :defaults, action: :update_defaults
       end
 
       member do
         get :delete_dialog
       end
     end
+
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
 
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
@@ -1164,6 +1184,8 @@ Rails.application.routes.draw do
         put :enable_all
         put :disable_all
         post :toggle_setting
+        get :sandbox_work_packages, to: "text_transform_actions/sandbox#work_packages"
+        get :sandbox_projects, to: "text_transform_actions/sandbox#projects"
       end
     end
 
