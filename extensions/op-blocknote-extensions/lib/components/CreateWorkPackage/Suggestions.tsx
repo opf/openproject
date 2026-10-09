@@ -8,7 +8,7 @@ import {
   XCircleIcon,
 } from '@primer/octicons-react';
 import { wantsMotion } from '../../utils/motion';
-import { useAnchoredPopover } from '../WorkPackage/anchoredPopover';
+import { useAnchoredPopover } from '../shared/anchoredPopover';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
 import type { AllowedValue, ListedValue } from './formSchema';
 import {

@@ -3,8 +3,8 @@ import type { FC, RefObject } from 'react';
 import type { SuggestionMenuProps } from '@blocknote/react';
 import styled from 'styled-components';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
-import { defaultWpVariables, menuSurfaceStyles } from '../WorkPackage/atoms';
-import { SearchMessage } from '../Search/SearchContainer';
+import { editorThemeVariables, menuSurfaceStyles } from '../shared/theme';
+import { SearchMessage } from '../shared/SearchMessage';
 import { Spinner } from '../Spinner';
 import { supportsHover } from '../../utils/device';
 import { useActiveOptionInView } from '../../hooks/useActiveOptionInView';
@@ -27,7 +27,7 @@ import { useTranslation } from 'react-i18next';
  * explicitly zero. (Harmless on non-flex layouts.)
  */
 const Menu = styled.div.attrs({ className: 'op-bn-hash-menu', 'data-testid': 'hash-menu' })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   ${menuSurfaceStyles}
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);

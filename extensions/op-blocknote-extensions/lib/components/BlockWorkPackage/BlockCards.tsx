@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
+import { editorThemeVariables } from '../shared/theme';
 import {
-  defaultWpVariables,
   WorkPackageId,
   WorkPackageType,
   WorkPackageStatus,
@@ -50,7 +50,7 @@ function buildTitle(workPackage:WorkPackage, linkTitle:boolean) {
 }
 
 const CardBase = styled.div<{ $inDropdown:boolean }>`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   padding: var(--spacer-m) var(--spacer-l);
   border-radius: var(--bn-border-radius);
 
