@@ -31,10 +31,44 @@
 module Homescreen
   module Blocks
     class Community < Grids::WidgetComponent
-      include StaticLinksHelper
-
       def title
         I18n.t(:"homescreen.blocks.community")
+      end
+
+      def wrapper_arguments
+        { content_padding: :condensed }
+      end
+
+      def links
+        [
+          { path: :user_guides },
+          { path: :shortcuts },
+          { path: :forums },
+          { path: EnterpriseToken.active? ? :enterprise_support : :enterprise_support_as_community },
+          { path: :website,
+            label: I18n.t("label_openproject_website"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "website-home-screen" } },
+          { path: :security_alerts,
+            label: I18n.t("homescreen.links.security_alerts"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "security-alerts-home-screen" } },
+          { path: :newsletter,
+            label: I18n.t("homescreen.links.newsletter"),
+            url_params: { utm_source: "unknown", utm_medium: "op-instance", utm_campaign: "newsletter-home-screen" } },
+          { path: :blog },
+          { path: :release_notes },
+          { path: :report_bug },
+          { path: :roadmap },
+          { path: :crowdin },
+          { path: :api_docs }
+        ]
+      end
+
+      def link_href(link)
+        OpenProject::Static::Links.url_for(link[:path], url_params: link[:url_params] || {})
+      end
+
+      def link_label(link)
+        link[:label] || OpenProject::Static::Links.label_for(link[:path])
       end
     end
   end

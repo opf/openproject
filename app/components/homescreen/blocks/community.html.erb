@@ -1,60 +1,13 @@
 <%= widget_wrapper do %>
-  <ul class="widget-box--arrow-links">
-    <li>
-      <%= static_link_to :user_guides %>
-    </li>
-    <li>
-      <%= static_link_to :shortcuts %>
-    </li>
-    <li>
-      <%= static_link_to :forums %></li>
-    <li>
-      <%= static_link_to(EnterpriseToken.active? ? :enterprise_support : :enterprise_support_as_community) %>
-    </li>
-    <li>
-      <%= static_link_to :website,
-                         label: t("label_openproject_website"),
-                         url_params: {
-                           utm_source: "unknown",
-                           utm_medium: "op-instance",
-                           utm_campaign: "website-home-screen"
-                         } %>
-    </li>
-    <li>
-      <%= static_link_to :security_alerts,
-                         label: t("homescreen.links.security_alerts"),
-                         url_params: {
-                           utm_source: "unknown",
-                           utm_medium: "op-instance",
-                           utm_campaign: "security-alerts-home-screen"
-                         } %>
-    </li>
-    <li>
-      <%= static_link_to :newsletter,
-                         label: t("homescreen.links.newsletter"),
-                         url_params: {
-                           utm_source: "unknown",
-                           utm_medium: "op-instance",
-                           utm_campaign: "newsletter-home-screen"
-                         } %>
-    </li>
-    <li>
-      <%= static_link_to :blog %>
-    </li>
-    <li>
-      <%= static_link_to :release_notes %>
-    </li>
-    <li>
-      <%= static_link_to :report_bug %>
-    </li>
-    <li>
-      <%= static_link_to :roadmap %>
-    </li>
-    <li>
-      <%= static_link_to :crowdin %>
-    </li>
-    <li>
-      <%= static_link_to :api_docs %>
-    </li>
-  </ul>
+  <%= render(Primer::Alpha::ActionList.new(role: :list)) do |list| %>
+    <% links.each do |link| %>
+      <% list.with_item(
+           label: link_label(link),
+           href: link_href(link),
+           content_arguments: { target: "_blank", rel: "noopener", data: { allow_external_link: true } }
+         ) do |item| %>
+        <% item.with_trailing_visual_icon(icon: "link-external") %>
+      <% end %>
+    <% end %>
+  <% end %>
 <% end %>
