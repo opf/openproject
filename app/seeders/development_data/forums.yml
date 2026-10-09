@@ -1,0 +1,263 @@
+---
+forums:
+- name: General
+  description: Day-to-day discussions
+  topics:
+  - subject: First message. Does it work?
+    author: admin
+    days_ago: 30
+    content: Testing, testing. Can anyone read this?
+    replies:
+    - author: member
+      content: Loud and clear!
+  - subject: Welcome to the dev forums
+    author: admin
+    days_ago: 20
+    sticky: true
+    locked: true
+    content: |-
+      Welcome to the **dev forums**!
+
+      This project is seeded for development, with topics of every kind: pinned, locked, short, medium and long. Pinned topics like this one stay on top of the list whatever the sort order, and this one is locked too, so nobody can reply.
+    replies: []
+  - subject: Our forums feel a bit stuck in time
+    author: admin
+    days_ago: 12
+    content: |-
+      Is it just me, or do our forums feel a bit stuck in time?
+
+      A few things that bug me:
+
+      - Long threads are split into pages, and the links in notifications often open the wrong one.
+      - Every reply asks me for a subject. I never change it.
+      - It doesn't look like anything else in OpenProject.
+
+      Curious whether others feel the same, and whether we could do something about it.
+    replies:
+    - author: project_admin
+      content: Not just you. I opened a thread from a notification yesterday and spent a minute looking for the reply it was about.
+    - author: work_packager
+      content: Same here, and customers ask us about it regularly. Some think their reply got lost.
+    - author: member
+      content: I can look into the wrong-page thing. Sounds more like a bug than a design issue.
+    - author: reader
+      content: The subject thing always confused me. What is it even for on a reply?
+    - author: admin_de
+      content: I think every message was meant to stand on its own, like an email. Nobody uses it that way though.
+    - author: member
+      content: 'Found it: to find the page of a reply, the code assumes 100 replies per page, but pages only show 20. So any reply after the 20th can''t be reached from a link.'
+    - author: project_admin
+      content: Ha, that explains a lot.
+    - author: admin
+      content: Nice find! Could we just fix the number?
+    - author: member
+      content: We could. But do we even need pages? Most threads are short.
+    - author: admin_de
+      content: Some aren't. Our hosting migration thread is around 300 replies.
+    - author: project_admin
+      content: 'Idea: what if a topic looked like the activity tab on work packages? Cards with an avatar, a time and a menu. People already know it.'
+    - author: admin
+      content: I like that. Would the reply box stay at the bottom?
+    - author: project_admin
+      content: Yes, at the end of the thread, connected by the same little line the activity tab draws between entries.
+    - author: reader
+      content: Oh, I like that line. It makes a thread feel like a conversation.
+    - author: work_packager
+      content: And the subject field?
+    - author: project_admin
+      content: Gone from replies. The topic has a title, that's enough.
+    - author: member
+      content: 'Every message still needs a subject in the database, but we can fill in `RE: <topic>` behind the scenes.'
+    - author: admin_de
+      content: 'Watch out for long titles: subjects are capped at 255 characters, and `RE: ` adds four.'
+    - author: member
+      content: Good point, I'll cut it to fit.
+    - author: work_packager
+      content: What about people replying by email?
+    - author: member
+      content: They're fine. Email replies find their topic through the mail headers, not the subject. They keep the email's own subject, but nobody sees reply subjects any more anyway.
+    - author: admin
+      content: 'Okay. Back to long threads: no pages at all?'
+    - author: member
+      content: That's my suggestion for a first step. Everything on one page, so links always work. If huge threads get slow, we load parts on demand later.
+    - author: admin_de
+      content: On demand how? Infinite scroll?
+    - author: project_admin
+      content: Please no infinite scroll in a discussion. I want to read the first message, then see where we ended up.
+    - author: reader
+      content: Same. If I land on reply 280, I have no idea what the thread is about.
+    - author: admin
+      content: 'So: always show the first message and the latest replies, and hide the middle?'
+    - author: project_admin
+      content: Exactly. With a button to show the hidden ones, a page at a time, from either side.
+    - author: member
+      content: Doable. Each hidden block only needs to know which replies surround it.
+    - author: work_packager
+      content: And a notification link to a reply in the hidden part?
+    - author: member
+      content: We show that reply with the ones around it, and keep the rest hidden. You can still open the other parts.
+    - author: admin
+      content: Love it. Let's keep that for a second step though, once the first one ships.
+    - author: admin_de
+      content: Fine by me.
+    - author: reader
+      content: 'Small one: quoting. Where would the button go?'
+    - author: project_admin
+      content: In each card's menu, next to Copy link, Edit and Delete.
+    - author: work_packager
+      content: Delete on the first message would delete the whole thread, right? That feels risky in a menu.
+    - author: project_admin
+      content: Good catch. Deleting the topic stays a visible button at the top, separate from the cards.
+    - author: admin
+      content: And Watch stays up there too.
+    - author: member
+      content: When you quote, I'll make the page scroll to the reply box and put the cursor in it.
+    - author: reader
+      content: Yes please, I always lose my place.
+    - author: admin_de
+      content: 'While we''re at it: the forum list. Reordering still uses those little arrows.'
+    - author: project_admin
+      content: The design system folks want drag and drop everywhere now, with the move actions in the row menu as a fallback.
+    - author: work_packager
+      content: Who can reorder? Anyone?
+    - author: admin
+      content: 'No, same people as today: forum managers.'
+    - author: reader
+      content: On my phone, the lists are tables squeezed into tiny columns.
+    - author: project_admin
+      content: 'We''ll show only what matters there: the name and the description.'
+    - author: admin_de
+      content: And sorting topics? I sometimes sort by replies.
+    - author: member
+      content: 'There''ll be a sort menu above the list: recent activity, newest, oldest, most replies. Sticky topics stay on top.'
+    - author: work_packager
+      content: Sounds like we agree on most things?
+    - author: project_admin
+      content: I think so. Want me to sketch it?
+    - author: admin
+      content: Please! I'll write it up as a feature request so we can plan it.
+    - author: admin
+      content: |-
+        Here's the write-up.
+
+        **Feature request: forum threads as conversations**
+
+        *Problem*
+
+        Long threads are split into pages and reply links land on the wrong one. Replies ask for a subject nobody uses. Topics look unlike the rest of OpenProject. Reordering forums and reading the lists on a phone is awkward.
+
+        *Proposal*
+
+        - Show a topic like the work package activity: cards with an avatar, a time and an actions menu (Copy link, Quote, Edit, and Delete for replies), connected by a line that ends in the reply box.
+        - Remove reply subjects, and fill them in as `RE: <topic>`, cut to 255 characters.
+        - Show the whole thread on one page, so every link lands on its reply.
+        - Quoting scrolls to the reply box and puts the cursor in it.
+        - Keep Watch and Delete topic at the top.
+        - Reorder forums by drag and drop, with move actions in the row menu, for forum managers only.
+        - Add a sort menu to the topic list, with sticky topics first.
+        - On phones, show names and descriptions only.
+
+        *Next step*
+
+        For very long threads, show the first message and the latest replies, with the middle hidden behind buttons that load a page at a time.
+
+        Shout if I missed anything!
+    - author: project_admin
+      content: Sketch is ready, it's on the design board. Feedback welcome.
+    - author: reader
+      content: Looks great! The line between the cards is exactly what I imagined.
+    - author: work_packager
+      content: 'Small thing: could the time on each card link to that reply? I share links all the time.'
+    - author: member
+      content: Easy, the time can be the link to the reply.
+    - author: admin_de
+      content: Will Quote also work on the first message?
+    - author: project_admin
+      content: Yes, every card gets the same menu. Only Delete stays off the opening post.
+    - author: reader
+      content: And when a topic is locked? Does the reply box just vanish?
+    - author: admin
+      content: It does, and Quote goes away too. Copy link still works.
+    - author: work_packager
+      content: Just tried the prototype on my phone. So much better than those squeezed tables.
+    - author: member
+      content: 'First part is up for review. No more pages: every link lands on its reply.'
+    - author: admin_de
+      content: Tried it on a 300-reply thread. It loads, but the page is very long. Looking forward to step two.
+    - author: project_admin
+      content: 'Step two is next: the first message, the latest replies, and a button to load the older ones.'
+    - author: admin
+      content: Great work, everyone. This goes into the next release. Thanks for all the input!
+  - subject: 'Office move: who needs a parking spot?'
+    author: member
+    days_ago: 25
+    locked: true
+    content: We only get ten spots in the new building. Reply here by Friday if you need one.
+    replies:
+    - author: work_packager
+      content: Me please.
+    - author: reader
+      content: Me too, mornings only.
+    - author: admin
+      content: Thanks, the list is complete. Closing this topic.
+  - subject: Release planning for 17.0
+    author: project_admin
+    days_ago: 5
+    sticky: true
+    content: |-
+      Let's agree on **scope** and dates for 17.0:
+
+      - Feature freeze at the end of the month
+      - Two weeks of stabilisation
+      - Release on the first Tuesday after that
+
+      Anything blocking?
+    replies:
+    - author: member
+      content: The migration for the new forms is still open. I'd like it in, it touches a lot of data.
+    - author: work_packager
+      content: |-
+        Then let's time it on a copy of a big instance first:
+
+        ```bash
+        time bin/rails db:migrate RAILS_ENV=production
+        ```
+    - author: project_admin
+      content: |-
+        Member wrote:
+        > The migration for the new forms is still open.
+
+        Can you give an estimate by Friday?
+    - author: member
+      content: Friday works. Probably two days of work, plus review.
+    - author: admin_de
+      content: 'From the support side: please mention the new permissions in the release notes. Admins ask every time.'
+    - author: reader
+      content: Will there be a beta?
+    - author: project_admin
+      content: A release candidate, one week before the release.
+    - author: admin
+      content: Sounds good. I've added the dates to the team calendar.
+  - subject: Anyone up for lunch on Friday?
+    author: reader
+    days_ago: 1
+    content: The new place around the corner has opened. Who's in?
+    replies: []
+- name: Support
+  description: Questions about using OpenProject
+  topics:
+  - subject: How do I export a Gantt chart to PDF?
+    author: work_packager
+    days_ago: 3
+    content: I need to send our timeline to a customer. Is there a PDF export for the Gantt chart?
+    replies:
+    - author: project_admin
+      content: 'Yes: open the Gantt view, then the **⋯** menu, *Export*, and pick PDF.'
+  - subject: Password reset mail never arrives
+    author: admin_de
+    days_ago: 2
+    content: A colleague tried three times today. Nothing in the inbox, nothing in spam. Any idea?
+    replies: []
+- name: Announcements
+  description: News from the team
+  topics: []
