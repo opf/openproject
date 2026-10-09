@@ -97,6 +97,11 @@ export const en = {
     'hashMenu': {
       'typeToSearch': 'Type to search work packages…'
     },
+    'mention': {
+      'ariaLabel': 'User {{name}}',
+      'openAriaLabel': "Open {{name}}'s profile in new tab",
+      'removeAriaLabel': 'Remove mention'
+    },
     'spinner': {
       'ariaLabel': 'Loading'
     },

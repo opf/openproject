@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  avatarUrlOf,
   canCreateWorkPackages,
   createWorkPackage,
   fetchAllowedValues,
@@ -10,10 +11,12 @@ import {
   probeCreateWorkPackagePermission,
   initOpenProjectApi,
   linkToNewWorkPackage,
+  linkToUser,
   linkToWorkPackage,
   OpenProjectApiError,
   parseWorkPackageUrl,
-  searchWorkPackages
+  searchWorkPackages,
+  userApiPath,
 } from '../../../lib/services/openProjectApi';
 
 function mockResponse(props:Partial<Response>):Response {
@@ -732,6 +735,22 @@ describe('openProjectApi', () => {
       initOpenProjectApi({ baseUrl: 'https://example.com' });
       expect(linkToNewWorkPackage('42')).toBe('https://example.com/projects/42/work_packages/new');
       expect(linkToNewWorkPackage()).toBe('https://example.com/work_packages/new');
+    });
+  });
+
+  describe('user links', () => {
+    it('links to the user page, and loads the avatar through the proxy', () => {
+      initOpenProjectApi({ baseUrl: 'https://example.com/', proxyUrl: 'https://proxy.example.com' });
+
+      expect(linkToUser(5)).toBe('https://example.com/users/5');
+      expect(userApiPath('5')).toBe('/api/v3/users/5');
+      expect(avatarUrlOf(userApiPath(5))).toBe('https://proxy.example.com/api/v3/users/5/avatar');
+    });
+
+    it('has no avatar picture for groups and placeholder users', () => {
+      expect(avatarUrlOf('/api/v3/groups/3')).toBeUndefined();
+      expect(avatarUrlOf('/api/v3/placeholder_users/3')).toBeUndefined();
+      expect(avatarUrlOf(undefined)).toBeUndefined();
     });
   });
 
