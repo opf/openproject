@@ -94,4 +94,16 @@ RSpec.describe MessagesController, "routing" do
                                                                                               forum_id: "lala",
                                                                                               id: "555")
   end
+
+  it do
+    expect(post("/projects/some-project/forums/lala/topics/555/accepted_solution"))
+      .to route_to(controller: "messages/accepted_solutions", action: "create",
+                   project_id: "some-project", forum_id: "lala", topic_id: "555")
+  end
+
+  it do
+    expect(delete("/projects/some-project/forums/lala/topics/555/accepted_solution"))
+      .to route_to(controller: "messages/accepted_solutions", action: "destroy",
+                   project_id: "some-project", forum_id: "lala", topic_id: "555")
+  end
 end
