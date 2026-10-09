@@ -65,8 +65,7 @@ export default class extends Controller {
   }
 
   async request(e:Event):Promise<void> {
-    // Don't trigger edit mode if the user is selecting text or just finished a selection
-    if (window.getSelection()?.toString()) {
+    if (this.isSelectingText(e)) {
       return;
     }
 
@@ -92,8 +91,7 @@ export default class extends Controller {
   }
 
   openDialog(event:Event) {
-    // Don't trigger edit mode if the user is selecting text or just finished a selection
-    if (window.getSelection()?.toString()) {
+    if (this.isSelectingText(event)) {
       return;
     }
 
@@ -131,6 +129,17 @@ export default class extends Controller {
       }
     });
     e.formData.set('stable_key_system_arguments', JSON.stringify(result));
+  }
+
+  // A double click always selects the word under the cursor,
+  // so only a selection made in any other way should prevent activation.
+  private isSelectingText(event:Event):boolean {
+    if (event.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+      return false;
+    }
+
+    return !!window.getSelection()?.toString();
   }
 
   private isInteractiveElement(element:HTMLElement):boolean {
