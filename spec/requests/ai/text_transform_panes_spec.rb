@@ -60,28 +60,34 @@ RSpec.describe "AI text transform pane", :skip_csrf, type: :rails_request,
   end
 
   describe "POST create" do
-    it "starts a run and streams the pane into the launcher" do
+    it "starts a run and appends the pane to the body" do
       expect { post ai_text_transform_panes_path, params: start_params, headers: stream }
         .to have_enqueued_job(AI::TextTransformJob)
 
       run = AI::TextTransformRun.sole
       expect(run).to have_attributes(user:, input: "Login page dont work.", status: "queued")
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include('target="ai-text-transforms-pane-launcher-component"')
+      expect(response.body).to include('action="append"', 'targets="body"', 'id="ai-text-transforms-result-pane-component"')
       expect(response.body).to include("Fix grammar", "Selected text", %(data-state="generating"), %(data-run="#{run.uuid}"))
     end
 
-    it "only updates the sections and cancels the previous run when a pane is open" do
-      previous = run_with_events(:running)
-      previous_request_id = SecureRandom.uuid
+    it "repeats a run of the user's with its action and input" do
+      failed = run_with_events(:failed, ["error", { "reason" => "upstream_error", "message" => "Failed." }])
 
       post ai_text_transform_panes_path,
-           params: start_params.merge(open: "true", previous_run: previous.uuid, previous_request_id:), headers: stream
+           params: { retry_of: failed.uuid, scope: "document", request_id:, work_package_id: work_package.id },
+           headers: stream
 
-      expect(previous.reload.cancel_requested).to be(true)
-      expect(response.body).not_to include('target="ai-text-transforms-pane-launcher-component"')
-      expect(response.body).to include('target="ai-text-transforms-result-pane-section-component-title"')
-      expect(response.body).to include("op-dispatched:ai-text-transform:closed", previous_request_id)
+      retried = AI::TextTransformRun.where.not(id: failed.id).sole
+      expect(retried).to have_attributes(action: failed.action, input: failed.input, status: "queued")
+    end
+
+    it "does not repeat another user's run" do
+      other = create(:ai_text_transform_run, :failed)
+
+      post ai_text_transform_panes_path, params: { retry_of: other.uuid, request_id: }, headers: stream
+
+      expect(response).to have_http_status(:not_found)
     end
 
     it "renders the pane as failed when the action is not available" do
@@ -136,7 +142,7 @@ RSpec.describe "AI text transform pane", :skip_csrf, type: :rails_request,
 
       get ai_text_transform_pane_path(run.uuid, request_id:), headers: stream
 
-      expect(response.body).to include(%(data-state="stopped"), "Generation stopped")
+      expect(response.body).to include(%(data-state="stopped"), "Generation stopped", %(name="retry_of" value="#{run.uuid}"))
     end
 
     it "does not show another user's run" do
@@ -163,6 +169,26 @@ RSpec.describe "AI text transform pane", :skip_csrf, type: :rails_request,
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include('action="remove"')
+    end
+  end
+
+  describe "POST cancel" do
+    it "requests cancellation of a running run" do
+      run = run_with_events(:running)
+
+      post cancel_ai_text_transform_pane_path(run.uuid)
+
+      expect(response).to have_http_status(:no_content)
+      expect(run.reload.cancel_requested).to be(true)
+    end
+
+    it "does not touch another user's run" do
+      run = create(:ai_text_transform_run, :running)
+
+      post cancel_ai_text_transform_pane_path(run.uuid)
+
+      expect(response).to have_http_status(:not_found)
+      expect(run.reload.cancel_requested).to be(false)
     end
   end
 

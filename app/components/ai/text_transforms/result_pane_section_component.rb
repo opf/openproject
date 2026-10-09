@@ -72,16 +72,20 @@ module AI
       end
 
       def poll_params
-        { request_id: pane.request_id, scope: pane.scope, work_package_id: pane.work_package&.id }.compact
+        form_params.merge(pane.context_ids)
       end
 
       def form_params
         { request_id: pane.request_id, scope: pane.scope }.compact
       end
 
-      def form(id:, url:, method:)
+      def retry_params
+        poll_params.merge(retry_of: pane.run&.uuid)
+      end
+
+      def form(id:, url:, method:, fields: form_params)
         helpers.form_with(url:, method:, id:, data: { turbo_stream: true }) do
-          safe_join(form_params.map { |name, value| helpers.hidden_field_tag(name, value, id: nil) })
+          safe_join(fields.compact.map { |name, value| helpers.hidden_field_tag(name, value, id: nil) })
         end
       end
     end

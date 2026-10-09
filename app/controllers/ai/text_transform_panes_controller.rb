@@ -29,19 +29,20 @@
 #++
 
 module AI
-  # Demo only (AI-126): the result pane over Turbo. It starts a run like the run API does (AI-136),
-  # streams the formatted text on every poll and hands the finished text back to the editor
-  # through a dispatched event.
+  # Demo only (AI-126): the result pane over Turbo. The editor plugin requests it directly, like the
+  # wiki page link macro requests its dialog. It starts a run like the run API does (AI-136), appends
+  # the pane to the body, streams the formatted text on every poll and hands the finished text back
+  # to the editor through a dispatched event.
   class TextTransformPanesController < ApplicationController
     include OpTurbo::ComponentStream
 
     APPLY_EVENT = "op-dispatched:ai-text-transform:apply"
     CLOSED_EVENT = "op-dispatched:ai-text-transform:closed"
-    SECTIONS = %i[title body footer].freeze
+    CONTEXT_PARAMS = %i[work_package_id project_id type_id].freeze
 
     before_action :require_login
-    no_authorization_required! :create, :show, :destroy, :apply
-    before_action :find_run, only: %i[show apply]
+    no_authorization_required! :create, :show, :destroy, :apply, :cancel
+    before_action :find_run, only: %i[show apply cancel]
 
     def show
       return head(:no_content) unless @run.terminal? || new_events?
@@ -50,7 +51,7 @@ module AI
       if pane.state == "cancelled"
         close_pane(pane.request_id)
       else
-        update_sections(pane, SECTIONS - [:title])
+        update_sections(pane, %i[body footer])
       end
 
       respond_with_turbo_streams
@@ -60,8 +61,7 @@ module AI
       context = resolve_context
       return render_403 unless context
 
-      cancel_previous_run
-      render_pane(start_run(context))
+      append_pane(start_run(context))
 
       respond_with_turbo_streams
     end
@@ -81,6 +81,13 @@ module AI
       dispatch_event_via_turbo_stream(APPLY_EVENT, detail: { requestId: pane.request_id, scope: pane.scope, text: pane.text })
 
       respond_with_turbo_streams
+    end
+
+    # A pane that disappears while generating (replaced by a new one, page left) stops its run.
+    def cancel
+      @run.update!(cancel_requested: true) unless @run.terminal?
+
+      head :no_content
     end
 
     private
@@ -122,46 +129,51 @@ module AI
     end
 
     def start_run(context)
-      action = AI::TextTransformAction.find_by(id: params[:action_id])
-      call = AI::TextTransforms::CreateRun
-               .new(user: current_user, action:, context:, content: params[:input].to_s, demo_fault:)
-               .call
+      action, content = run_source
+      call = AI::TextTransforms::CreateRun.new(user: current_user, action:, context:, content:, demo_fault:).call
       call.success? ? pane_for(call.result, work_package: context.work_package) : rejected_pane(call.errors, action)
+    end
+
+    # Try again repeats a run of the user's with its action and input.
+    def run_source
+      return [AI::TextTransformAction.find_by(id: params[:action_id]), params[:input].to_s] if params[:retry_of].blank?
+
+      retried = own_runs.find_by!(uuid: params.expect(:retry_of))
+      [retried.action, retried.input]
     end
 
     def rejected_pane(errors, action)
       AI::TextTransforms::ResultPaneState.rejected(message: errors.full_messages.first,
                                                    label: action&.label.to_s,
                                                    scope: params[:scope],
-                                                   request_id: params[:request_id])
+                                                   request_id: params[:request_id],
+                                                   context_ids:)
     end
 
     def demo_fault
       params.fetch(:demo_fault, nil).presence_in(AI::TextTransforms::DemoFaultGateway::FAULTS)
     end
 
-    def cancel_previous_run
-      previous = own_runs.find_by(uuid: params[:previous_run].to_s)
-      previous.update!(cancel_requested: true) if previous && !previous.terminal?
-
-      previous_request_id = params[:previous_request_id].presence
-      dispatch_closed(previous_request_id) if previous_request_id && previous_request_id != params[:request_id]
+    def pane_for(run, work_package: nil)
+      AI::TextTransforms::ResultPaneState.new(run:, scope: params[:scope], request_id: params[:request_id],
+                                              work_package:, context_ids:)
     end
 
-    def pane_for(run, work_package: nil)
-      AI::TextTransforms::ResultPaneState.new(run:, scope: params[:scope], request_id: params[:request_id], work_package:)
+    def context_ids
+      params.permit(*CONTEXT_PARAMS).to_h.transform_values(&:to_i).select { |_, id| id.positive? }
     end
 
     def poll_work_package
       WorkPackage.visible.find_by(id: params[:work_package_id]) if params[:work_package_id].present?
     end
 
-    def render_pane(pane)
-      if params[:open] == "true"
-        update_sections(pane, SECTIONS)
-      else
-        update_via_turbo_stream(component: AI::TextTransforms::PaneLauncherComponent.new(pane:))
-      end
+    # Like the dialog stream action, the pane goes straight into the body; Turbo's append replaces an
+    # open pane with the same id.
+    def append_pane(pane)
+      turbo_streams << OpTurbo::StreamComponent
+        .new(action: :append, target: nil, targets: "body",
+             template: AI::TextTransforms::ResultPaneComponent.new(pane:).render_in(view_context))
+        .render_in(view_context)
     end
 
     def update_sections(pane, sections)

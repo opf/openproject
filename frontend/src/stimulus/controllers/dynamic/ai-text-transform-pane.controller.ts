@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,7 +34,6 @@ import {
   AiTextTransformAppliedDetail,
   AiTextTransformApplyDetail,
 } from 'core-stimulus/controllers/dynamic/ai-text-transform-menu.controller';
-import { AI_TEXT_TRANSFORM_RETRY_EVENT } from 'core-stimulus/controllers/dynamic/ai-text-transform-pane-launcher.controller';
 
 const POLL_MIN = 400;
 const POLL_MAX = 1000;
@@ -46,10 +44,13 @@ const EDGE_MARGIN = 8;
 const MIN_WIDTH = 320;
 const MIN_HEIGHT = 240;
 
+// A new start replaces the pane element; the user's position and size carry over to the next one.
+let lastGeometry:Partial<Pick<CSSStyleDeclaration, 'left'|'top'|'right'|'bottom'|'width'|'height'>>|null = null;
+
 /**
  * Demo (AI-126): the server-rendered AI result pane. It polls the pane endpoint while the text is
  * generating (the server answers with updated sections), and owns dragging, resizing, Escape and
- * Copy. Replace and close are plain Turbo form submissions.
+ * Copy. Replace, close and retry are plain Turbo form submissions.
  */
 export default class AiTextTransformPaneController extends Controller<HTMLElement> {
   static services:ServiceKey[] = ['turboRequests'];
@@ -84,6 +85,7 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private polling = false;
   private applyTimer:ReturnType<typeof setTimeout>|null = null;
   private answeredRequest:string|null = null;
+  private closing = false;
   private dragOffset:{ x:number; y:number }|null = null;
   private resizeStart:{ x:number; y:number; left:number; width:number; height:number; edge:string }|null = null;
 
@@ -94,18 +96,28 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
   private readonly onKeydown = (event:KeyboardEvent) => this.keydown(event);
   private readonly onApply = (event:Event) => this.awaitApplied((event as CustomEvent<AiTextTransformApplyDetail>).detail);
   private readonly onApplied = (event:Event) => this.applied((event as CustomEvent<AiTextTransformAppliedDetail>).detail);
+  private readonly onSubmit = (event:SubmitEvent) => {
+    if ((event.target as HTMLFormElement).id === this.closeFormValue) {
+      this.closing = true;
+    }
+  };
 
   initialize():void {
     useAngularServices(this);
   }
 
   connect():void {
+    this.restoreGeometry();
+    this.element.addEventListener('submit', this.onSubmit);
     document.addEventListener('keydown', this.onKeydown);
     document.addEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
     window.addEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, this.onApplied);
   }
 
   disconnect():void {
+    this.saveGeometry();
+    this.cancelIfAbandoned();
+    this.element.removeEventListener('submit', this.onSubmit);
     document.removeEventListener('keydown', this.onKeydown);
     document.removeEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
     window.removeEventListener(AI_TEXT_TRANSFORM_APPLIED_EVENT, this.onApplied);
@@ -122,10 +134,6 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     } else if (this.pollTimer === null && !this.polling) {
       this.schedulePoll(POLL_MIN);
     }
-  }
-
-  retry():void {
-    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_RETRY_EVENT));
   }
 
   async copy():Promise<void> {
@@ -156,6 +164,32 @@ export default class AiTextTransformPaneController extends Controller<HTMLElemen
     window.addEventListener('pointermove', this.onResizeMove);
     window.addEventListener('pointerup', this.onResizeUp);
     event.preventDefault();
+  }
+
+  private saveGeometry():void {
+    const { left, top, right, bottom, width, height } = this.paneTarget.style;
+    lastGeometry = left || width ? { left, top, right, bottom, width, height } : lastGeometry;
+  }
+
+  private restoreGeometry():void {
+    if (lastGeometry) {
+      Object.assign(this.paneTarget.style, lastGeometry);
+    }
+  }
+
+  // Replaced by a new start or left with the page while still generating: stop the run.
+  private cancelIfAbandoned():void {
+    if (this.closing || !this.hasStateTarget || this.stateTarget.dataset.state !== 'generating') {
+      return;
+    }
+
+    const url = new URL(this.stateTarget.dataset.pollUrl ?? '', window.location.origin);
+    void fetch(`${url.pathname}/cancel`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      keepalive: true,
+      headers: { 'X-CSRF-Token': document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '' },
+    });
   }
 
   private schedulePoll(delay:number):void {

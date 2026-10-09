@@ -84,6 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= content_tag(:span, nil, hidden: true, data: state_data) %>
     <%= form(id: CLOSE_FORM_ID, url: helpers.ai_text_transform_pane_path(pane.uuid), method: :delete) %>
     <%= form(id: APPLY_FORM_ID, url: helpers.apply_ai_text_transform_pane_path(pane.uuid), method: :post) if state == "done" %>
+    <%= form(id: RETRY_FORM_ID, url: helpers.ai_text_transform_panes_path, method: :post, fields: retry_params) if pane.run && %w[failed stopped].include?(state) %>
     <%=
       flex_layout(align_items: :center, classes: "op-ai-result-pane--footer") do |bar|
         bar.with_column(mr: 2, classes: "op-ai-result-pane--grip", data: action(:beginDrag, event: "pointerdown")) do
@@ -117,10 +118,12 @@ See COPYRIGHT and LICENSE files for more details.
             end
           else
             flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
-              footer.with_column(mr: 2) do
-                render(Primer::Beta::Button.new(data: action(:retry))) do |button|
-                  button.with_leading_visual_icon(icon: :sync)
-                  label(:try_again)
+              if pane.run
+                footer.with_column(mr: 2) do
+                  render(Primer::Beta::Button.new(type: :submit, form: RETRY_FORM_ID)) do |button|
+                    button.with_leading_visual_icon(icon: :sync)
+                    label(:try_again)
+                  end
                 end
               end
               footer.with_column do

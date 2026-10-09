@@ -35,14 +35,15 @@ module AI
       SCOPES = %w[document selection].freeze
       REQUEST_ID = /\A[0-9a-f-]{36}\z/
 
-      attr_reader :run, :scope, :request_id, :work_package, :rejection
+      attr_reader :run, :scope, :request_id, :work_package, :context_ids, :rejection
 
-      def self.rejected(message:, label:, scope:, request_id:)
-        new(run: nil, scope:, request_id:, label:, rejection: message)
+      def self.rejected(message:, label:, scope:, request_id:, context_ids: {})
+        new(run: nil, scope:, request_id:, label:, context_ids:, rejection: message)
       end
 
-      def initialize(run:, scope:, request_id:, work_package: nil, label: nil, rejection: nil)
+      def initialize(run:, scope:, request_id:, work_package: nil, context_ids: {}, label: nil, rejection: nil)
         @run = run
+        @context_ids = context_ids
         @scope = SCOPES.include?(scope.to_s) ? scope.to_s : "document"
         @request_id = REQUEST_ID.match?(request_id.to_s) ? request_id.to_s : nil
         @work_package = work_package

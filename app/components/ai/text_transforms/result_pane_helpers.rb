@@ -34,6 +34,7 @@ module AI
     module ResultPaneHelpers
       CLOSE_FORM_ID = "ai-text-transform-pane-close"
       APPLY_FORM_ID = "ai-text-transform-pane-apply"
+      RETRY_FORM_ID = "ai-text-transform-pane-retry"
 
       private
 

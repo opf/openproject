@@ -20,14 +20,15 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Controller } from '@hotwired/stimulus';
 import type { EditorSelectionResult } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 interface ActionResource {
   id:number;
@@ -41,15 +42,6 @@ interface ActionCollection {
   _embedded:{ elements:ActionResource[] };
 }
 
-export interface AiTextTransformStartDetail {
-  requestId:string;
-  actionId:number;
-  label:string;
-  context:Record<string, number>;
-  scope:AiTextTransformScope;
-  input:string;
-}
-
 export interface AiTextTransformApplyDetail {
   requestId:string;
   scope:AiTextTransformScope;
@@ -61,26 +53,34 @@ export interface AiTextTransformAppliedDetail {
   ok:boolean;
 }
 
-export const AI_TEXT_TRANSFORM_START_EVENT = 'op:ai-text-transform:start';
 export const AI_TEXT_TRANSFORM_APPLIED_EVENT = 'op:ai-text-transform:applied';
 // Dispatched by the server through the dispatchEvent turbo stream action.
 export const AI_TEXT_TRANSFORM_APPLY_EVENT = 'op-dispatched:ai-text-transform:apply';
 export const AI_TEXT_TRANSFORM_CLOSED_EVENT = 'op-dispatched:ai-text-transform:closed';
 
+// Demo only: ?ai_demo_fault=blocked or =failed in the page URL makes the next runs end that way.
+const DEMO_FAULT_PARAM = 'ai_demo_fault';
+
 /**
  * Demo (AI-126): the AI action menu next to the description editor's toolbar, standing in for the
  * CKEditor plugin (AI-101). It lists the actions the API offers for the editor's context (AI-134),
- * asks the result pane to run the chosen one and applies the result the pane hands back. The menu
- * stays hidden when the API offers nothing.
+ * requests the result pane for the chosen one through Turbo, like the wiki page link macro requests
+ * its dialog, and applies the result the pane hands back. The menu stays hidden when the API offers
+ * nothing.
  */
 export default class AiTextTransformMenuController extends Controller<HTMLElement> {
   static targets = ['template'];
 
-  static values = { listUrl: String, context: Object };
+  static services:ServiceKey[] = ['turboRequests'];
+
+  static values = { listUrl: String, paneUrl: String, context: Object };
 
   declare readonly templateTarget:HTMLButtonElement;
   declare readonly listUrlValue:string;
+  declare readonly paneUrlValue:string;
   declare readonly contextValue:Record<string, number>;
+  declare services:Promise<PickedServices<'turboRequests'>>;
+  declare turboRequests:TurboRequestsService;
 
   // Only results for requests this menu started are applied: the apply event comes from a turbo
   // stream, and an injected stream must not be able to write into the editor.
@@ -88,6 +88,10 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
 
   private readonly onApply = (event:Event) => this.apply((event as CustomEvent<AiTextTransformApplyDetail>).detail);
   private readonly onClosed = (event:Event) => this.closed((event as CustomEvent<{ requestId:string }>).detail);
+
+  initialize():void {
+    useAngularServices(this);
+  }
 
   connect():void {
     document.addEventListener(AI_TEXT_TRANSFORM_APPLY_EVENT, this.onApply);
@@ -117,16 +121,35 @@ export default class AiTextTransformMenuController extends Controller<HTMLElemen
       editorWrapper.dispatchEvent(new CustomEvent('op:ckeditor:clearSelectionMarker'));
     }
 
-    const detail:AiTextTransformStartDetail = {
-      requestId: crypto.randomUUID(),
-      actionId: Number(item.dataset.actionId),
-      label: item.dataset.actionLabel ?? '',
-      context: this.contextValue,
-      scope: selection.empty ? 'document' : 'selection',
-      input: selection.empty ? await this.readDocument(editorWrapper) : selection.markdown,
-    };
-    this.pending.set(detail.requestId, { wrapper: editorWrapper, scope: detail.scope });
-    window.dispatchEvent(new CustomEvent(AI_TEXT_TRANSFORM_START_EVENT, { detail }));
+    const requestId = crypto.randomUUID();
+    const scope:AiTextTransformScope = selection.empty ? 'document' : 'selection';
+    const input = selection.empty ? await this.readDocument(editorWrapper) : selection.markdown;
+
+    this.pending.clear();
+    this.pending.set(requestId, { wrapper: editorWrapper, scope });
+
+    const { turboRequests } = await this.services;
+    await turboRequests.request(this.paneUrlValue, {
+      method: 'POST',
+      body: this.paneRequest(requestId, item.dataset.actionId ?? '', scope, input),
+      headers: { Accept: 'text/vnd.turbo-stream.html' },
+      credentials: 'same-origin',
+    });
+  }
+
+  private paneRequest(requestId:string, actionId:string, scope:AiTextTransformScope, input:string):FormData {
+    const body = new FormData();
+    body.set('request_id', requestId);
+    body.set('action_id', actionId);
+    body.set('scope', scope);
+    body.set('input', input);
+    Object.entries(this.contextValue).forEach(([key, id]) => body.set(key, String(id)));
+
+    const demoFault = new URLSearchParams(window.location.search).get(DEMO_FAULT_PARAM);
+    if (demoFault) {
+      body.set('demo_fault', demoFault);
+    }
+    return body;
   }
 
   private apply({ requestId, text }:AiTextTransformApplyDetail):void {

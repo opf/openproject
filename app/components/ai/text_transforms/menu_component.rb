@@ -31,7 +31,8 @@
 module AI
   module TextTransforms
     # Demo only (AI-126): the menu starts hidden and empty. Its Stimulus controller
-    # loads the available actions from the API and clones the template item per action.
+    # loads the available actions from the API, clones the template item per action and
+    # requests the result pane for the chosen one.
     class MenuComponent < ApplicationComponent
       def initialize(frame_id:, list_url:, context:)
         super()
@@ -48,6 +49,7 @@ module AI
         {
           controller: "ai-text-transform-menu",
           ai_text_transform_menu_list_url_value: list_url,
+          ai_text_transform_menu_pane_url_value: helpers.ai_text_transform_panes_path,
           ai_text_transform_menu_context_value: context.to_json
         }
       end
