@@ -89,6 +89,15 @@ RSpec.describe "Main menu first paint", :js do
     end
   end
 
+  it "keeps recording until a few frames after Angular booted" do
+    start_first_paint_sampling
+    visit root_path
+    expect_angular_frontend_initialized
+
+    expect(first_paint_frames.last(5).pluck("booted")).to all(be(true))
+    expect(page.evaluate_script("window.firstPaintDone")).to be(true)
+  end
+
   it "fails loudly when the recorder was never installed" do
     visit root_path
 

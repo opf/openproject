@@ -33,29 +33,40 @@
 module FirstPaintSampling
   RECORDER = <<~JS
     (() => {
+      const CEILING_MS = 20000;
+      const FRAMES_AFTER_BOOT = 5;
       let startedAt = 0;
       let running = false;
+      let bodyAtRestart = null;
+      let bootedFrames = 0;
 
       function record() {
         const wrapper = document.querySelector('#wrapper');
         const menu = document.querySelector('#main-menu');
-        if (wrapper && menu) {
+        const rendered = document.body && document.body !== bodyAtRestart;
+        if (rendered && wrapper && menu) {
+          const booted = document.body.classList.contains('__ng2-bootstrap-has-run');
           window.firstPaintFrames.push({
             time: performance.now(),
             hidden: wrapper.classList.contains('hidden-navigation'),
             width: menu.getBoundingClientRect().width,
-            booted: document.body.classList.contains('__ng2-bootstrap-has-run')
+            booted
           });
+          bootedFrames = booted ? bootedFrames + 1 : 0;
         }
-        if (performance.now() - startedAt < 4000) {
-          requestAnimationFrame(record);
-        } else {
+        if (bootedFrames >= FRAMES_AFTER_BOOT || performance.now() - startedAt >= CEILING_MS) {
           running = false;
+          window.firstPaintDone = true;
+        } else {
+          requestAnimationFrame(record);
         }
       }
 
       function restart() {
         window.firstPaintFrames = [];
+        window.firstPaintDone = false;
+        bodyAtRestart = document.body;
+        bootedFrames = 0;
         startedAt = performance.now();
         if (!running) {
           running = true;
@@ -69,14 +80,27 @@ module FirstPaintSampling
     })();
   JS
 
+  WAIT_FOR_FRAMES = <<~JS
+    const done = arguments[0];
+    (function poll() {
+      if (window.firstPaintFrames === undefined || window.firstPaintDone) {
+        done(window.firstPaintFrames ?? null);
+      } else {
+        requestAnimationFrame(poll);
+      }
+    })();
+  JS
+
   def start_first_paint_sampling
     skip "first-paint sampling needs Cuprite (CDP)" unless using_cuprite?
 
     page.driver.browser.page.command("Page.addScriptToEvaluateOnNewDocument", source: RECORDER)
   end
 
+  # Returns once the recorder has stopped, which it does a few frames after
+  # Angular has booted; callers wait for the bootstrap first.
   def first_paint_frames
-    frames = page.evaluate_script("window.firstPaintFrames")
+    frames = page.evaluate_async_script(WAIT_FOR_FRAMES)
     raise "first-paint recorder not installed; call start_first_paint_sampling before navigating" if frames.nil?
 
     frames
