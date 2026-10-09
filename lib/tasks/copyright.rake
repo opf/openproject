@@ -22,8 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -115,7 +114,24 @@ namespace :copyright do
   def copyright_regexp(format)
     case format
     when :ruby, :rb
-      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?#--\s*copyright.*?\+\+/m
+      # As with `:js, :ts` below, the markers may carry a space (`# -- copyright`) or be
+      # missing altogether. A notice without its closer ends with its last line, or with
+      # the comment run it sits in.
+      %r{
+        \A
+        (?<shebang>\#![^\n]+\n)?
+        (?<additional>.*?)
+        ^\#
+        (?:
+          \s*--\s*copyright[^\n]*
+          (?:\n(?=\n\#\s*OpenProject\ is\ an\ open\ source))?   # a blank line below the opener
+          |
+          \s*OpenProject\ is\ an\ open\ source\ project\ management\ software\.
+        )
+        (?:\n\#(?!\s*\+\+|\s*See\ COPYRIGHT\ and\ LICENSE)[^\n]*)*
+        (?:\n\#\s*See\ COPYRIGHT\ and\ LICENSE[^\n]*)?
+        (?:\n\#\s*\+\+(?:\n\#(?=\n\n|\n?\z))?)?            # the closer and a bare `#` trailing it
+      }mx
     when :js, :ts
       # Headers in the wild are not uniform: the `-- copyright` opener, the `++` closer or
       # both may be missing, the markers may carry a space (`// -- copyright`), and the
@@ -139,7 +155,7 @@ namespace :copyright do
     when :css, :sass
       /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?\/\/\s*--\s*copyright.*?\/\/\s*\+\+/m
     when :erb
-      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#--\s*copyright.*?\+\+#%>/m
+      /\A(?<shebang>#![^\n]+\n)?(?<additional>.*)?<%#\s*--\s*copyright.*?\+\+\s*#?\s*%>/m
     when :rdoc
       /(?<shebang>)?(?<additional>.*)?-{10}\n={4} copyright\n\n[\s\S]*?\+\+\n-{10}\n\z/
     when :md, :html
