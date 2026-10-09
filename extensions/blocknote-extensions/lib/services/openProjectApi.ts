@@ -111,6 +111,21 @@ export function linkToNewWorkPackage(projectId?:string):string {
     : `${baseUrl}/work_packages/new`;
 }
 
+export function linkToUser(userId:string | number):string {
+  return `${baseUrl}/users/${encodeURIComponent(String(userId))}`;
+}
+
+export function userApiPath(userId:string | number):string {
+  return `/api/v3/users/${encodeURIComponent(String(userId))}`;
+}
+
+const USER_HREF = /^\/api\/v3\/users\/\d+$/;
+
+/** Only users have a picture; groups and placeholder users stay with their initials. */
+export function avatarUrlOf(principalHref:string | null | undefined):string | undefined {
+  return principalHref && USER_HREF.test(principalHref) ? `${proxyUrl}${principalHref}/avatar` : undefined;
+}
+
 const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
 
 const WP_ID_REGEX = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
