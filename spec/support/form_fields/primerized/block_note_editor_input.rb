@@ -37,6 +37,17 @@ module FormFields
         page.find("[data-testid='create-wp-modal']")
       end
 
+      # The slash menu filters asynchronously, so an early Enter would still pick its first item.
+      def open_insert_attribute_dialog
+        send_keys_to_editor("/attribute")
+        shadow_root.find("[role='option']", text: "Work package attribute").click
+      end
+
+      # Portalled out of the editor like the create form, so it is in the light DOM.
+      def insert_attribute_dialog
+        page.find("[role='dialog'][aria-label='Insert work package attribute']")
+      end
+
       def fill_in(content)
         send_keys_to_editor(content)
       end
