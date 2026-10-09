@@ -100,6 +100,14 @@ RSpec.describe DevelopmentData::ProjectsSeeder do
       end
     end
 
+    context "with a project having identifier 'dev-forums'" do
+      before { create(:project, identifier: "dev-forums") }
+
+      it "returns false" do
+        expect(project_seeder).not_to be_applicable
+      end
+    end
+
     context "with a project older than 1 hour (regardless of the identifier)" do
       before { create(:project, created_at: 2.hours.ago) }
 
