@@ -52,6 +52,18 @@ RSpec.describe "Main menu first paint", :js do
     expect(menu_hidden_in_every_frame?).to be(true), first_paint_frames.inspect
   end
 
+  context "on a narrow window" do
+    include_context "with mobile screen size", 1000, 900
+
+    it "never paints the open menu before the service runs" do
+      start_first_paint_sampling
+      visit root_path
+      expect_angular_frontend_initialized
+
+      expect(menu_hidden_in_every_frame?).to be(true), first_paint_frames.inspect
+    end
+  end
+
   it "fails loudly when the recorder was never installed" do
     visit root_path
 
