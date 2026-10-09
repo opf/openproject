@@ -2,6 +2,9 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import type { Transaction } from 'prosemirror-state';
 import type { AnyEditor } from '../../editorTypes';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
+import { textBefore } from '../../utils/suggestionTrigger';
+
+export const HASH_TRIGGER = '#';
 
 /**
  * What the hash menu inserts for the work package the user picks. How many `#`
@@ -46,20 +49,9 @@ export function canOpenHashMenu(transaction:Transaction):boolean {
   return trailingHashes(transaction.doc, transaction.selection.from) < MAX_TRIGGER_HASHES;
 }
 
-// Keeps hash runs on either side of an atom node (an inline chip) apart.
-const LEAF_PLACEHOLDER = '\uFFFC';
-
 function trailingHashes(doc:ProsemirrorNode, position:number):number {
-  const resolved = doc.resolve(position);
-  if (!resolved.parent.isTextblock) return 0;
-
-  const textBefore = resolved.parent.textBetween(
-    0,
-    resolved.parentOffset,
-    undefined,
-    LEAF_PLACEHOLDER
-  );
-  return /#*$/.exec(textBefore)?.[0].length ?? 0;
+  const text = textBefore(doc.resolve(position)) ?? '';
+  return /#*$/.exec(text)?.[0].length ?? 0;
 }
 
 function leadingHashes(query:string):number {

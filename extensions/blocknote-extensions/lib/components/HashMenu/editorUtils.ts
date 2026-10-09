@@ -2,11 +2,13 @@ import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
 import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
 import { insertPendingInline, removePendingInline } from '../../utils/pendingInline';
+import { insertInline, restoreTypedQuery } from '../../utils/insertInline';
 import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import { subjectOf } from '../../utils/subject';
 import { pendingWorkPackages } from '../InlineWorkPackage/pending';
 import type { PendingWorkPackage } from '../InlineWorkPackage/pending';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
+import { HASH_TRIGGER } from './hashTrigger';
 import type { HashTarget } from './hashTrigger';
 
 // Discarded right away, so the cheapest chip to render will do.
@@ -31,7 +33,7 @@ export function createWpForTarget(
     withSpacer: false,
     entry: (pendingWpid):PendingWorkPackage => ({
       onResolve: (workPackage) => replacePendingChip(editor, pendingWpid, () => insertWpForTarget(editor, workPackage, target)),
-      onCancel: () => replacePendingChip(editor, pendingWpid, () => restoreHashQuery(editor, query)),
+      onCancel: () => replacePendingChip(editor, pendingWpid, () => restoreTypedQuery(editor, HASH_TRIGGER, query)),
       mode: 'create',
       initialSubject: subjectOf(query),
     }),
@@ -90,15 +92,9 @@ function insertChipAtCursor(
   if (withTrailingSpace) content.push({ type: 'text', text: ' ', styles: {} });
 
   const chipPosition = editor.transact((tr) => tr.selection.from);
-  (editor.insertInlineContent as (content:unknown[]) => void)(content);
+  insertInline(editor, content);
 
   return removeTriggerBeforeChip(editor, chipPosition);
-}
-
-export function restoreHashQuery(editor:AnyEditor, query:string):void {
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: 'text', text: `#${query}`, styles: {} },
-  ]);
 }
 
 /**
