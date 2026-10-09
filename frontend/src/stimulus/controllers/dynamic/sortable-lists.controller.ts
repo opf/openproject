@@ -46,11 +46,10 @@ import {
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
-import { selectionKey, type SelectionItem, type SelectionKey } from 'core-common/batch-selection';
+import { selectionKey, type SelectionItem } from 'core-common/batch-selection';
 import {
   captureRowPositions,
   isOrderableItem,
-  itemAcceptsDestination,
   reorderRows,
   resolveDirectionalPreviousItemId,
   resolveItemId,
@@ -67,7 +66,8 @@ import {
   type MoveDirection,
 } from './sortable-lists/list-dom';
 import { SelectionOrchestrator, type SelectionHost } from './sortable-lists/selection-orchestrator';
-import { itemIdentity, orderedItemElements } from './sortable-lists/selection';
+import { itemElementsByKey, itemIdentity } from './sortable-lists/selection';
+import { DragSession, type DragSessionHost } from './sortable-lists/drag-session';
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
@@ -82,7 +82,7 @@ function relativeUrl(url:URL):string {
   return `${url.pathname}${url.search}${url.hash}`;
 }
 
-export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost {
+export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot, SelectionHost, DragSessionHost {
   static outlets = ['sortable-lists--list', 'sortable-lists--item', 'sortable-lists--scrollable'];
 
   static values = {
@@ -124,6 +124,11 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.monitorCleanupFn = monitorForElements({
       canMonitor: ({ source }) => !this.busy
         && isItemFromRoot(this.element, source.data),
+      // Pragmatic dispatches onDragStart a frame after the preview; an item
+      // controller reconnecting in between must not leave the batch unmarked.
+      onDragStart: () => {
+        this.dragSession?.start();
+      },
       onDrop: (args) => {
         void this.handleDrop(args);
       },
@@ -145,9 +150,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     this.monitorCleanupFn = undefined;
     // A drag in flight when the controller disconnects would otherwise leave
     // its marks in the cached page and its frozen batch in this instance.
-    this.clearDraggingRows();
-    this.activeDragBatch = null;
-    this.dragOwnerDestinations = null;
+    this.endDrag();
   }
 
   // A Turbo morph can toggle the permission-gated value on a live root
@@ -234,116 +237,59 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  // Frozen at drag start and consumed exactly once per drop, cancelled ones
-  // included: neither Escape nor a mid-drag morph can change what is
-  // submitted, and no stale batch leaks into the next drag.
-  private activeDragBatch:SelectionItem[]|null = null;
+  // The drag in flight, or the prospective session of a press that did not
+  // become one (Pragmatic checks the drag handle after canDrag).
+  dragSession:DragSession|null = null;
 
-  // Every item drop target asks for its owner on each dragover, and the
-  // answer holds for the whole drag, so it is remembered alongside the batch.
-  private dragOwnerDestinations:WeakMap<HTMLElement, DestinationIdentity|null>|null = null;
+  beginDrag(itemElement:HTMLElement):DragSession {
+    // A session a press outside the drag handle or an aborted dragstart left
+    // behind holds no marks and no batch; ending it keeps one session per root.
+    this.endDrag();
+    const session = new DragSession(this, itemElement);
 
-  // Pragmatic dispatches onGenerateDragPreview before onDragStart; the
-  // preview needs the count, the drag start marks the rows.
-  freezeDragBatch(itemElement:HTMLElement):number {
-    const scope = this.selection?.selectForAction(itemElement);
-    this.activeDragBatch = scope?.kind === 'batch'
-      ? scope.items.map((item) => itemIdentity(item)).filter((item):item is SelectionItem => item !== null)
-      : null;
-    this.dragOwnerDestinations = new WeakMap();
-
-    return Math.max(1, this.activeDragBatch?.length ?? 0);
-  }
-
-  markDragBatch():void {
-    if (this.activeDragBatch) {
-      this.markDraggingRows(this.activeDragBatch);
-    }
-  }
-
-  // The destinations every member of the prospective batch accepts, null when
-  // the block reaches all of them. A batch may span lists, so a member that
-  // only accepts its own pins the block there, never to the dragged card's
-  // list.
-  dragPermittedDestinations(itemElement:HTMLElement):DestinationIdentity[]|null {
-    const scope = this.selection?.actionScopeFor(itemElement);
-    const members = scope?.kind === 'batch' ? scope.items : [itemElement];
-    const ownerDestinationOf = (item:HTMLElement) => this.ownerDestinationOf(item);
-
-    const lists = this.ownedListOutlets();
-    const permitted = lists
-      .map((list) => destinationOfList(list.listData))
-      .filter((destination) => members.every((member) => itemAcceptsDestination(member, destination, ownerDestinationOf)));
-
-    return permitted.length === lists.length ? null : permitted;
-  }
-
-  // Asked in canDrag, the earliest point a drag can be stopped: an oversized
-  // batch is told so before any preview or drop feedback appears.
-  dragRefused(itemElement:HTMLElement):boolean {
-    if (this.maxBatchSizeValue <= 0) {
-      return false;
+    // Announced from canDrag, the earliest point a drag can be stopped, so
+    // an oversized batch is told before any preview or drop feedback appears.
+    if (session.refused) {
+      void announce(
+        I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count: session.size, max: this.maxBatchSizeValue }),
+        { politeness: 'assertive' },
+      );
+      return session;
     }
 
-    const scope = this.selection?.actionScopeFor(itemElement);
-    const count = scope?.kind === 'batch' ? scope.items.length : 1;
-    if (count <= this.maxBatchSizeValue) {
-      return false;
-    }
-
-    void announce(
-      I18n.t(`${this.moveAnnouncementScopeValue}.batch_too_large`, { count, max: this.maxBatchSizeValue }),
-      { politeness: 'assertive' },
-    );
-    return true;
+    this.dragSession = session;
+    return session;
   }
 
-  externalDragItems(itemElement:HTMLElement):HTMLElement[] {
+  private endDrag():SelectionItem[]|null {
+    const batch = this.dragSession?.end() ?? null;
+    this.dragSession = null;
+    return batch;
+  }
+
+  get maxBatchSize():number {
+    return this.maxBatchSizeValue;
+  }
+
+  prospectiveMembers(itemElement:HTMLElement):HTMLElement[] {
     const scope = this.selection?.actionScopeFor(itemElement);
     return scope?.kind === 'batch' ? scope.items : [itemElement];
+  }
+
+  frozenMembers(itemElement:HTMLElement):SelectionItem[]|null {
+    const scope = this.selection?.selectForAction(itemElement);
+    return scope?.kind === 'batch'
+      ? scope.items.map((item) => itemIdentity(item)).filter((item):item is SelectionItem => item !== null)
+      : null;
+  }
+
+  ownedDestinations():DestinationIdentity[] {
+    return this.ownedListOutlets().map((list) => destinationOfList(list.listData));
   }
 
   // Outlets match document-wide; another root's lists are not ours.
   private ownedListOutlets() {
     return this.sortableListsListOutlets.filter((list) => this.element.contains(list.element));
-  }
-
-  // Marked on the item element itself, the same one the item controller's
-  // own onDragStart marks, so CSS keys off one convention regardless of
-  // which controller did the marking.
-  private markDraggingRows(items:SelectionItem[]):void {
-    const elements = this.itemElementsByKey();
-    items.forEach((item) => {
-      elements.get(selectionKey(item))?.setAttribute('data-dragging', 'source');
-    });
-  }
-
-  // Every mark under the root, not just the frozen batch's own rows: a
-  // cancelled drop, or the item controller's onDrop missing a row, would
-  // otherwise leave one behind.
-  private clearDraggingRows():void {
-    this.element.querySelectorAll('[data-dragging]').forEach((element) => element.removeAttribute('data-dragging'));
-  }
-
-  // One document query per callback; never kept, so a morph cannot leave it
-  // stale. Keyed on type as well as id: ids collide across source tables.
-  private itemElementsByKey():Map<SelectionKey, HTMLElement> {
-    const map = new Map<SelectionKey, HTMLElement>();
-    orderedItemElements(this.element).forEach((element) => {
-      const identity = itemIdentity(element);
-      if (identity) {
-        map.set(selectionKey(identity), element);
-      }
-    });
-    return map;
-  }
-
-  private takeActiveDragBatch():SelectionItem[]|null {
-    const batch = this.activeDragBatch;
-    this.clearDraggingRows();
-    this.activeDragBatch = null;
-    this.dragOwnerDestinations = null;
-    return batch;
   }
 
   // A morph desyncs the children's drag-and-drop state in two ways. Stimulus
@@ -392,12 +338,10 @@ export default class SortableListsController extends Controller<HTMLElement> imp
       // the model.
       this.selection?.reconcile();
 
-      // A row a morph replaces mid-drag comes back as fresh server HTML that
-      // never went through markDragBatch, so it loses data-dragging with the
-      // element it replaced.
-      if (this.activeDragBatch) {
-        this.markDraggingRows(this.activeDragBatch);
-      }
+      // A morph can reparent a row the owner memo already answered for and
+      // replace a marked row with fresh server HTML without its mark.
+      this.dragSession?.forgetOwners();
+      this.dragSession?.remark();
     });
   };
 
@@ -519,22 +463,23 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     return this.ownerListOf(itemElement)?.rowsContainer ?? null;
   }
 
+  // Remembered only once the drag is real: a prospective session left by a
+  // press outside the handle must not pin answers given outside any drag.
   ownerDestinationOf(element:HTMLElement):DestinationIdentity|null {
-    const remembered = this.dragOwnerDestinations?.get(element);
-    if (remembered !== undefined) {
-      return remembered;
-    }
+    return this.dragSession && this.dragSession.phase !== 'prospective'
+      ? this.dragSession.ownerDestinationOf(element)
+      : this.liveOwnerDestinationOf(element);
+  }
 
+  liveOwnerDestinationOf(element:HTMLElement):DestinationIdentity|null {
     const listData = this.ownerListOf(element)?.listData;
-    const destination = listData ? destinationOfList(listData) : null;
-    this.dragOwnerDestinations?.set(element, destination);
-    return destination;
+    return listData ? destinationOfList(listData) : null;
   }
 
   private async handleDrop({ location, source }:ElementDropPayload) {
-    // Before any bail-out below: a cancelled drop still consumes the frozen
-    // snapshot rather than leaking it into the next drag.
-    const frozenBatch = this.takeActiveDragBatch();
+    // Before any bail-out below: a cancelled drop still ends the session
+    // rather than leaking its frozen batch into the next drag.
+    const frozenBatch = this.endDrag();
 
     if (this.busy) {
       debugLog('sortable-lists: ignoring drop, a move is already in progress');
@@ -627,7 +572,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   // Refused whole when a row is missing: a member that vanished mid-drag
   // means a partial block would diverge from the ids the request claims.
   private rowsForItems(items:SelectionItem[]):HTMLElement[]|null {
-    const elements = this.itemElementsByKey();
+    const elements = itemElementsByKey(this.element);
     const rows:HTMLElement[] = [];
 
     for (const item of items) {

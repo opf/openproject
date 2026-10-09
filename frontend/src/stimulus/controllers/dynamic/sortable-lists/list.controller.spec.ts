@@ -36,7 +36,7 @@ vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
 import type { dropTargetForElements as dropTargetForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ListControllerType from './list.controller';
-import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
+import type { sortableDragSourceData as sortableDragSourceDataFn, SortableListsRoot } from './drag-and-drop';
 import type { DestinationIdentity } from './list-dom';
 
 // The list controller is tested in ISOLATION: the root drives the outlet
@@ -46,7 +46,7 @@ import type { DestinationIdentity } from './list-dom';
 describe('Sortable lists list controller', () => {
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let ListController:typeof ListControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
@@ -54,7 +54,7 @@ describe('Sortable lists list controller', () => {
   beforeAll(async () => {
     ({ dropTargetForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: ListController } = await import('./list.controller'));
-    ({ sortableItemData } = await import('./drag-and-drop'));
+    ({ sortableDragSourceData } = await import('./drag-and-drop'));
   });
 
   beforeEach(async () => {
@@ -79,12 +79,9 @@ describe('Sortable lists list controller', () => {
       moveInDirection: vi.fn(),
       moveAvailability: vi.fn(() => null),
       ownerRowsContainer: vi.fn(() => null),
-      freezeDragBatch: vi.fn(() => 1),
-      markDragBatch: vi.fn(),
-      dragPermittedDestinations: vi.fn(() => null),
+      beginDrag: vi.fn(),
+      dragSession: null,
       ownerDestinationOf: vi.fn(() => null),
-      dragRefused: vi.fn(() => false),
-      externalDragItems: vi.fn((item:HTMLElement) => [item]),
     };
   }
 
@@ -129,7 +126,7 @@ describe('Sortable lists list controller', () => {
     { permittedDestinations = null }:{ permittedDestinations?:DestinationIdentity[]|null } = {},
   ) {
     return {
-      data: sortableItemData({ itemId: '1', type, rootElement, permittedDestinations }),
+      data: sortableDragSourceData({ itemId: '1', type, rootElement, permittedDestinations }),
       element: document.createElement('li'),
     } as never;
   }
@@ -295,7 +292,7 @@ describe('Sortable lists list controller', () => {
     const options = dropTargetOptionsFor(list);
 
     options?.onDrag?.({
-      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      location: locationOver({ data: sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: null }) }),
       source: source(rootElement),
     } as never);
 
@@ -352,7 +349,7 @@ describe('Sortable lists list controller', () => {
     expect(list.dataset.dropContainer).toEqual('active');
 
     options?.onDrag?.({
-      location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }),
+      location: locationOver({ data: sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: null }) }),
       source: source(rootElement),
     } as never);
     expect(list.dataset.dropContainer).toBeUndefined();

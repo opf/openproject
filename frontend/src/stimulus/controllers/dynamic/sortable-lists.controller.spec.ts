@@ -62,9 +62,10 @@ import { type Mock, type MockInstance } from 'vitest';
 import { LiveRegionElement } from '@primer/live-region-element';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
+import type { DragSession } from './sortable-lists/drag-session';
 import { selectionTranslations } from './sortable-lists/testing/selection-translations';
 import type {
-  sortableItemData as sortableItemDataFn,
+  sortableDragSourceData as sortableDragSourceDataFn,
   sortableListData as sortableListDataFn,
 } from './sortable-lists/drag-and-drop';
 
@@ -73,7 +74,7 @@ describe('Sortable lists controller', () => {
 
   let monitorForElements:typeof monitorForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
-  let sortableItemData:typeof sortableItemDataFn;
+  let sortableDragSourceData:typeof sortableDragSourceDataFn;
   let sortableListData:typeof sortableListDataFn;
 
   let ctx:StimulusTestContext;
@@ -88,7 +89,7 @@ describe('Sortable lists controller', () => {
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
-    ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
+    ({ sortableDragSourceData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
   });
 
   function input({ clientY = 10 }:{ clientY?:number } = {}) {
@@ -216,7 +217,7 @@ describe('Sortable lists controller', () => {
   }
 
   function itemData(itemId = '1', type = 'work_package', rootElement:HTMLElement|null = null) {
-    return sortableItemData({ itemId, type, rootElement });
+    return sortableDragSourceData({ itemId, type, rootElement });
   }
 
   function sourcePayload(element:HTMLElement, data:Record<string|symbol, unknown> = itemData()) {
@@ -774,11 +775,11 @@ describe('Sortable lists controller', () => {
     const canMonitor = vi.mocked(monitorForElements).mock.lastCall?.[0].canMonitor;
 
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: root })),
       initial: {} as never,
     })).toBe(true);
     expect(canMonitor?.({
-      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
+      source: sourcePayload(firstSourceItem, sortableDragSourceData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
       initial: {} as never,
     })).toBe(false);
   });
@@ -1334,7 +1335,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
 
-    controller.freezeDragBatch(firstSourceItem);
+    controller.beginDrag(firstSourceItem).freeze();
 
     expect(document.querySelectorAll('[data-batch-selected]')).toHaveLength(1);
     expect(firstSourceItem.hasAttribute('data-batch-selected')).toBe(true);
@@ -1376,7 +1377,7 @@ describe('Sortable lists controller', () => {
     items[2].dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, ctrlKey: true }));
     announceSpy.mockClear();
 
-    controller.freezeDragBatch(items[3]);
+    controller.beginDrag(items[3]).freeze();
 
     expect(items.filter((item) => item.hasAttribute('data-batch-selected'))).toEqual([items[3]]);
     expect(announceSpy.mock.calls.map((call) => [call[0], call[1]])).toEqual([
@@ -2196,9 +2197,22 @@ describe('Sortable lists controller', () => {
       click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
       announceSpy.mockClear();
 
-      expect(controller.dragRefused(items[0])).toBe(true);
+      expect(controller.beginDrag(items[0]).refused).toBe(true);
       expect(announceSpy).toHaveBeenCalledWith('[batch_too_large:3:2]', { politeness: 'assertive' });
-      expect(controller.dragRefused(items[4])).toBe(false);
+      expect(controller.beginDrag(items[4]).refused).toBe(false);
+    });
+
+    it('keeps no refused session and ends the one it replaces', async () => {
+      const { root, items } = renderSelectableRoot({ collectionMoveUrl: '/collection-move-url' });
+      root.setAttribute('data-sortable-lists-max-batch-size-value', '2');
+      await ctx.nextFrame();
+      const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
+      const lingering = controller.beginDrag(items[4]);
+      click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
+
+      expect(controller.beginDrag(items[0]).refused).toBe(true);
+      expect(lingering.phase).toBe('ended');
+      expect(controller.dragSession).toBeNull();
     });
 
     it('never refuses without a cap', async () => {
@@ -2207,7 +2221,7 @@ describe('Sortable lists controller', () => {
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
       click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
 
-      expect(controller.dragRefused(items[0])).toBe(false);
+      expect(controller.beginDrag(items[0]).refused).toBe(false);
     });
 
     it('does not refuse a batch exactly at the cap', async () => {
@@ -2218,7 +2232,7 @@ describe('Sortable lists controller', () => {
       click(items[0]); click(items[1], { ctrlKey: true }); click(items[2], { ctrlKey: true });
       announceSpy.mockClear();
 
-      expect(controller.dragRefused(items[0])).toBe(false);
+      expect(controller.beginDrag(items[0]).refused).toBe(false);
       expect(announceSpy).not.toHaveBeenCalled();
     });
   });
@@ -2388,12 +2402,15 @@ describe('Sortable lists controller', () => {
         .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
     }
 
-    // Mirrors item.controller.ts's onGenerateDragPreview and onDragStart:
-    // the root freezes the batch this drag represents, then marks its rows,
-    // before anything else can happen to it.
+    // Mirrors item.controller.ts: canDrag begins the session, the preview
+    // callback freezes it, drag start marks its rows.
+    let currentSession:DragSession|null = null;
+
     function beginDrag(source:HTMLElement) {
-      controller.freezeDragBatch(source);
-      controller.markDragBatch();
+      currentSession = controller.beginDrag(source);
+      currentSession.freeze();
+      currentSession.start();
+      return currentSession;
     }
 
     function batchDropTargets({ targetList, targetItem, edge }:{
@@ -2406,7 +2423,7 @@ describe('Sortable lists controller', () => {
       if (targetItem && edge) {
         vi.spyOn(targetItem, 'getBoundingClientRect').mockReturnValue(rect());
         const targetItemId = targetItem.getAttribute('data-sortable-lists--item-id-value')!;
-        const data = attachClosestEdge(sortableItemData({ itemId: targetItemId, type: 'work_package' }), {
+        const data = attachClosestEdge(sortableDragSourceData({ itemId: targetItemId, type: 'work_package' }), {
           element: targetItem,
           input: input({ clientY: edge === 'bottom' ? 90 : 10 }),
           allowedEdges: ['top', 'bottom'],
@@ -2475,6 +2492,23 @@ describe('Sortable lists controller', () => {
       await flushPromises();
     }
 
+    // Characterises today's behaviour, not a verdict on it. The "still over
+    // the source row" guard in resolveDropIntent compares the row under the
+    // pointer with the dragged item alone, so a release over a batch-mate's
+    // row with no sticky item target reads as a list-only drop and sends the
+    // block to the list's configured drop position. Whether a mate's row
+    // should count as the source row is an open product decision; flip the
+    // expectations when it is taken.
+    it('treats a release over a batch-mate\'s row as a list-only drop', async () => {
+      selectItems(item1, item2);
+      vi.spyOn(document, 'elementsFromPoint').mockReturnValue([item2]);
+
+      await simulateDrop({ source: item1, targetList: list1, targetItem: null, edge: null });
+
+      expect(rowIdsIn(list1)).toEqual(['3', '1', '2']);
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
     // Item drop targets ask on every dragover; the owner is settled for the
     // drag at its start and forgotten with the frozen batch.
     describe('ownerDestinationOf', () => {
@@ -2519,7 +2553,32 @@ describe('Sortable lists controller', () => {
         expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
       });
 
+      // A morph mid-drag can reparent a row, and the destination a drop into
+      // it reaches is the live one.
+      it('re-reads the owner after a morph mid-drag', async () => {
+        beginDrag(item1);
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+        root.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
+        await ctx.nextFrame();
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
       it('answers live outside a drag', () => {
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
+
+        list2Rows.append(item2);
+
+        expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list2));
+      });
+
+      // Pragmatic checks the drag handle after canDrag, so a press outside
+      // the handle leaves a session that never froze; it must not pin
+      // answers given outside any drag.
+      it('answers live while a session is only prospective', () => {
+        controller.beginDrag(item1);
         expect(controller.ownerDestinationOf(item2)).toEqual(destinationOf(list1));
 
         list2Rows.append(item2);
@@ -2554,11 +2613,11 @@ describe('Sortable lists controller', () => {
         const sourceId = source.getAttribute('data-sortable-lists--item-id-value')!;
 
         monitorOptions?.onDrop?.({
-          source: sourcePayload(source, sortableItemData({
+          source: sourcePayload(source, sortableDragSourceData({
             itemId: sourceId,
             type: 'work_package',
             rootElement: root,
-            permittedDestinations: controller.dragPermittedDestinations(source),
+            permittedDestinations: currentSession?.permittedDestinations() ?? null,
           })),
           location: {
             initial: { dropTargets: [], input: input() },
@@ -2573,37 +2632,37 @@ describe('Sortable lists controller', () => {
       it('permits every list while no member is confined', () => {
         selectItems(item1, item2);
 
-        expect(controller.dragPermittedDestinations(item1)).toBeNull();
+        expect(controller.beginDrag(item1).permittedDestinations()).toBeNull();
       });
 
       it('pins the drag to the list a selected confined batch-mate sits in', () => {
         selectItems(item1, item3);
 
-        expect(controller.dragPermittedDestinations(item1)).toEqual([destinationOf(list1)]);
+        expect(controller.beginDrag(item1).permittedDestinations()).toEqual([destinationOf(list1)]);
       });
 
       it('pins the drag to a confined batch-mate in another list', () => {
         item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
         selectItems(item1, item4);
 
-        expect(controller.dragPermittedDestinations(item1)).toEqual([destinationOf(list2)]);
+        expect(controller.beginDrag(item1).permittedDestinations()).toEqual([destinationOf(list2)]);
       });
 
       it('permits nothing while confined members disagree on their list', () => {
         item4.setAttribute('data-sortable-lists--item-mobility-value', 'confined');
         selectItems(item3, item4);
 
-        expect(controller.dragPermittedDestinations(item3)).toEqual([]);
+        expect(controller.beginDrag(item3).permittedDestinations()).toEqual([]);
       });
 
       it('does not pin the drag while the confined card is unselected', () => {
         selectItems(item1, item2);
 
-        expect(controller.dragPermittedDestinations(item1)).toBeNull();
+        expect(controller.beginDrag(item1).permittedDestinations()).toBeNull();
       });
 
       it('pins the confined card itself without any selection', () => {
-        expect(controller.dragPermittedDestinations(item3)).toEqual([destinationOf(list1)]);
+        expect(controller.beginDrag(item3).permittedDestinations()).toEqual([destinationOf(list1)]);
       });
 
       // Unreachable through a drag today, since a fixed card registers no
@@ -2612,7 +2671,7 @@ describe('Sortable lists controller', () => {
       it('permits nothing for a fixed card', () => {
         item2.setAttribute('data-sortable-lists--item-mobility-value', 'fixed');
 
-        expect(controller.dragPermittedDestinations(item2)).toEqual([]);
+        expect(controller.beginDrag(item2).permittedDestinations()).toEqual([]);
       });
 
       it('refuses a cross-list drop of a batch with a confined member', async () => {
@@ -2667,27 +2726,27 @@ describe('Sortable lists controller', () => {
 
     // getInitialDataForExternal reads this before the batch is frozen, so it
     // has to answer from the live selection rather than the frozen snapshot.
-    describe('externalDragItems', () => {
+    describe('prospective members', () => {
       it('returns just the card while nothing is selected', () => {
-        expect(controller.externalDragItems(item1)).toEqual([item1]);
+        expect(controller.beginDrag(item1).members).toEqual([item1]);
       });
 
       it('returns every batch member when the card is part of a selection', () => {
         selectItems(item1, item3);
 
-        expect(controller.externalDragItems(item1)).toEqual([item1, item3]);
+        expect(controller.beginDrag(item1).members).toEqual([item1, item3]);
       });
 
       it('returns just the card when it is not part of the selection', () => {
         selectItems(item3);
 
-        expect(controller.externalDragItems(item1)).toEqual([item1]);
+        expect(controller.beginDrag(item1).members).toEqual([item1]);
       });
 
       it('does not touch the selection', () => {
         selectItems(item1, item3);
 
-        controller.externalDragItems(item1);
+        controller.beginDrag(item1);
 
         expect(selectedRowIds()).toEqual(['1', '3']);
       });
@@ -2916,11 +2975,11 @@ describe('Sortable lists controller', () => {
         expect(draggingIds()).toEqual(['2']);
       });
 
-      it('returns the batch size from freezeDragBatch', () => {
+      it('returns the batch size from freeze', () => {
         selectItems(item1, item3);
 
-        expect(controller.freezeDragBatch(item1)).toBe(2);
-        expect(controller.freezeDragBatch(item2)).toBe(1);
+        expect(controller.beginDrag(item1).freeze()).toBe(2);
+        expect(controller.beginDrag(item2).freeze()).toBe(1);
       });
 
       it('clears every dragging mark after a completed drop', async () => {
@@ -2939,17 +2998,47 @@ describe('Sortable lists controller', () => {
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
       });
 
-      it('sweeps dragging marks defensively on disconnect', () => {
+      it('ends the drag session on disconnect', () => {
         selectItems(item1, item3);
-        beginDrag(item1);
+        const session = beginDrag(item1);
 
         controller.disconnect();
 
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
-        // Frozen batch nulled, not just its marks cleared: markDragBatch
-        // has nothing to mark.
-        controller.markDragBatch();
+        // Ended, not just swept: a late remark has nothing to mark.
+        expect(session.phase).toBe('ended');
+        session.remark();
         expect(root.querySelectorAll('[data-dragging]')).toHaveLength(0);
+      });
+
+      // Pragmatic dispatches onDragStart a frame after the preview, and an
+      // item controller reconnecting in between loses nothing: the root's
+      // monitor starts the session.
+      it('starts the session from the monitor\'s drag start', () => {
+        selectItems(item1, item3);
+        const session = controller.beginDrag(item1);
+        session.freeze();
+
+        vi.mocked(monitorForElements).mock.lastCall?.[0].onDragStart?.({
+          source: sourcePayload(item1, itemData('1', 'work_package', root)),
+          location: {
+            initial: { dropTargets: [], input: input() },
+            current: { dropTargets: [], input: input() },
+            previous: { dropTargets: [] },
+          },
+        });
+
+        expect(session.phase).toBe('started');
+        expect(draggingIds()).toEqual(['1', '3']);
+      });
+
+      it('replaces a session that never started', () => {
+        const abandoned = controller.beginDrag(item1);
+        const session = controller.beginDrag(item2);
+
+        expect(abandoned.phase).toBe('ended');
+        expect(session.phase).toBe('prospective');
+        expect(session.sourceElement).toBe(item2);
       });
 
       // A stray mark on an element the batch never touched stands in for a
@@ -2964,7 +3053,7 @@ describe('Sortable lists controller', () => {
       });
 
       // A morph can replace a batch-mate's row with a fresh element that
-      // never went through markDraggingRows, so it arrives unmarked while
+      // never went through the session's marking, so it arrives unmarked while
       // still part of the frozen batch.
       it('preserves frozen membership through registration healing and synthetic selection clearing', async () => {
         selectItems(item1, item3);
@@ -3067,11 +3156,12 @@ describe('Sortable lists controller', () => {
       const item2 = sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="2"]')!;
       await ctx.nextFrame();
       const controller = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists') as SortableListsControllerType;
-      controller.freezeDragBatch(item2);
-      controller.markDragBatch();
+      const session = controller.beginDrag(item2);
+      session.freeze();
+      session.start();
 
       vi.spyOn(item1, 'getBoundingClientRect').mockReturnValue(rect());
-      const targetData = attachClosestEdge(sortableItemData({ itemId: '1', type: 'work_package' }), {
+      const targetData = attachClosestEdge(sortableDragSourceData({ itemId: '1', type: 'work_package' }), {
         element: item1,
         input: input({ clientY: 10 }),
         allowedEdges: ['top', 'bottom'],

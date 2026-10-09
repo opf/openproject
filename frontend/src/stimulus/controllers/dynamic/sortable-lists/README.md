@@ -60,9 +60,10 @@ reconciliation preserves it.
 
 ## Batch movement
 
-Dragging a selected item moves the whole batch. The root freezes the batch in
-the preview callback (`freezeDragBatch`) and marks its rows at drag start
-(`markDragBatch`), so later selection changes do not change the submitted items.
+Dragging a selected item moves the whole batch. The drag session
+([drag-session.ts](drag-session.ts)) resolves the batch when the drag is first
+permitted, freezes it in the preview callback and marks its rows at drag
+start, so later selection changes do not change the submitted items.
 Dragging an unselected item selects it, collapsing any wider selection.
 
 A batch may drop only on a destination every member accepts. A `confined` member
