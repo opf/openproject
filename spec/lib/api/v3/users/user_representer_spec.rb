@@ -119,6 +119,24 @@ RSpec.describe API::V3::Users::UserRepresenter do
       end
     end
 
+    describe "avatarColor" do
+      context "when the user has a custom avatar color set" do
+        before do
+          user.pref.avatar_color = "#AABBCC"
+        end
+
+        it "renders the color" do
+          expect(subject).to be_json_eql("#AABBCC".to_json).at_path("avatarColor")
+        end
+      end
+
+      context "when the user has no custom avatar color set" do
+        it "does not render the property" do
+          expect(subject).not_to have_json_path("avatarColor")
+        end
+      end
+    end
+
     describe "email" do
       let(:user) { build_stubbed(:user, status: 1) }
 

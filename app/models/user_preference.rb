@@ -165,6 +165,10 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_timezone.presence || "Etc/UTC"
   end
 
+  def avatar_color=(value)
+    settings["avatar_color"] = value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil
+  end
+
   def time_zone?
     settings["time_zone"].present?
   end

@@ -36,5 +36,7 @@ export interface IGroup {
   createdAt:string;
   updatedAt:string;
 
+  avatarColor?:string;
+
   _links:IGroupHalResourceLinks;
 }

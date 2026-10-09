@@ -42,6 +42,7 @@ export interface HalLinkInterface {
   type?:string;
   identifier?:string;
   displayId?:string;
+  avatarColor?:string;
 }
 
 export interface HalLinkSource {
@@ -63,7 +64,8 @@ export class HalLink implements HalLinkInterface {
     public payload?:any,
     public type = 'application/json',
     public identifier?:string,
-    public displayId?:string) {
+    public displayId?:string,
+    public avatarColor?:string) {
   }
 
   /**
@@ -80,6 +82,7 @@ export class HalLink implements HalLinkInterface {
       link.type,
       link.identifier,
       link.displayId,
+      link.avatarColor,
     );
   }
 
@@ -117,6 +120,7 @@ export class HalLink implements HalLinkInterface {
       this.type,
       this.identifier,
       this.displayId,
+      this.avatarColor,
     ).$callable();
   }
 
@@ -138,6 +142,7 @@ export class HalLink implements HalLinkInterface {
       type: this.type,
       identifier: this.identifier,
       displayId: this.displayId,
+      avatarColor: this.avatarColor,
     });
 
     return linkFunc;

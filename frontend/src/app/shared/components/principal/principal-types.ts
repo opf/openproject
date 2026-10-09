@@ -33,7 +33,7 @@ export type PrincipalLike =
   UserResource
   |PlaceholderUserResource
   |GroupResource
-  |{ id?:string, name:string, href?:string };
+  |{ id?:string, name:string, href?:string, avatarColor?:string };
 
 export interface PrincipalData {
   principal:PrincipalLike|null;

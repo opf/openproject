@@ -40,7 +40,8 @@ module API
                                Setting.user_format,
                                # For avatars
                                Setting.plugin_openproject_avatars,
-                               Setting.protocol
+                               Setting.protocol,
+                               principal_avatar_color
                              ]
                            }
 

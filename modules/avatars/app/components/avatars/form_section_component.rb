@@ -30,14 +30,21 @@
 
 module Avatars
   class FormSectionComponent < ApplicationComponent
-    def initialize(user:, target_avatar_path:)
+    include OpPrimer::FormHelpers
+
+    def initialize(user:, target_avatar_path:, avatar_color_path:)
       super()
       @user = user
       @target_avatar_path = target_avatar_path
+      @avatar_color_path = avatar_color_path
     end
 
     def render?
       manager.avatars_enabled?
+    end
+
+    def avatar_color
+      @user.pref.avatar_color
     end
 
     def description

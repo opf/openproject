@@ -569,6 +569,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:href) { "/api/v3/users/#{work_package.author.id}" }
         let(:title) { work_package.author.name }
       end
+
+      context "with a custom avatar color" do
+        before do
+          work_package.author.pref.avatar_color = "#AABBCC"
+        end
+
+        it "renders the avatar color on the link" do
+          expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/author/avatarColor")
+        end
+
+        context "when the link is not embedded" do
+          let(:embed_links) { false }
+
+          it "still renders the avatar color on the link" do
+            expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/author/avatarColor")
+          end
+        end
+      end
     end
 
     describe "assignee" do
@@ -579,6 +597,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "assignee" }
           let(:href) { "/api/v3/users/#{work_package.assigned_to.id}" }
           let(:title) { work_package.assigned_to.name }
+        end
+
+        context "with a custom avatar color" do
+          before do
+            assignee.pref.avatar_color = "#AABBCC"
+          end
+
+          it "renders the avatar color on the link" do
+            expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/assignee/avatarColor")
+          end
+
+          context "when the link is not embedded" do
+            let(:embed_links) { false }
+
+            it "still renders the avatar color on the link" do
+              expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/assignee/avatarColor")
+            end
+          end
         end
       end
 
@@ -627,6 +663,24 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { "responsible" }
           let(:href) { "/api/v3/users/#{work_package.responsible.id}" }
           let(:title) { work_package.responsible.name }
+        end
+
+        context "with a custom avatar color" do
+          before do
+            responsible.pref.avatar_color = "#AABBCC"
+          end
+
+          it "renders the avatar color on the link" do
+            expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/responsible/avatarColor")
+          end
+
+          context "when the link is not embedded" do
+            let(:embed_links) { false }
+
+            it "still renders the avatar color on the link" do
+              expect(subject).to be_json_eql("#AABBCC".to_json).at_path("_links/responsible/avatarColor")
+            end
+          end
         end
       end
 

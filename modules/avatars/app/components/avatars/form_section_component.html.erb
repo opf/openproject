@@ -33,3 +33,21 @@
     </div>
   <% end %>
 </div>
+
+<%=
+  color_value = avatar_color
+  settings_primer_form_with(url: @avatar_color_path, method: :patch, mt: 2) do |f|
+    render_inline_form(f) do |form|
+      form.text_field(
+        name: :avatar_color,
+        label: I18n.t("avatars.label_avatar_color"),
+        caption: I18n.t("avatars.text_avatar_color"),
+        value: color_value,
+        placeholder: "#AABBCC",
+        input_width: :xsmall,
+        data: { "test-selector": "avatar-color-input" }
+      )
+      form.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
+    end
+  end
+%>

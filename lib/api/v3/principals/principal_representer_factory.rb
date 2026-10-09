@@ -57,13 +57,20 @@ module API
 
         def create_link_lambda(name, getter: "#{name}_id")
           ->(*) {
-            v3_path = API::V3::Principals::PrincipalType.for(represented.send(name))
+            principal = represented.send(name)
+            v3_path = API::V3::Principals::PrincipalType.for(principal)
 
-            instance_exec(&self.class.associated_resource_default_link_lambda(name,
-                                                                              v3_path:,
-                                                                              skip_link: -> { false },
-                                                                              title_attribute: :name,
-                                                                              getter:))
+            hash = instance_exec(&self.class.associated_resource_default_link_lambda(name,
+                                                                                     v3_path:,
+                                                                                     skip_link: -> { false },
+                                                                                     title_attribute: :name,
+                                                                                     getter:))
+
+            if hash && principal.respond_to?(:pref) && principal.pref.avatar_color.present?
+              hash[:avatarColor] = principal.pref.avatar_color
+            end
+
+            hash
           }
         end
 

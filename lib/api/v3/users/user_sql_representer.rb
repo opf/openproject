@@ -89,6 +89,12 @@ module API
 
         property :lastname,
                  render_if: method(:render_if_manage_user_or_self)
+
+        property :avatarColor,
+                 representation: ->(*) {
+                   "(SELECT settings->>'avatar_color' FROM user_preferences " \
+                     "WHERE user_preferences.user_id = element.id)"
+                 }
       end
     end
   end

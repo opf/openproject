@@ -274,6 +274,10 @@ export class HalResourceService {
 
     source._links.self = link;
 
+    if (link.avatarColor) {
+      source.avatarColor = link.avatarColor;
+    }
+
     return this.createHalResourceOfType(toType, source, false);
   }
 

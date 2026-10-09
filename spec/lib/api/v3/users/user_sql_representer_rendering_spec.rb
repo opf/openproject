@@ -62,6 +62,7 @@ RSpec.describe API::V3::Users::UserSqlRepresenter, "rendering" do
         firstname: current_user.firstname,
         lastname: current_user.lastname,
         email: current_user.mail,
+        avatarColor: nil,
         _links: {
           self: {
             href: api_v3_paths.user(current_user.id),
@@ -225,6 +226,29 @@ RSpec.describe API::V3::Users::UserSqlRepresenter, "rendering" do
       it "hides the email" do
         expect(json)
           .to be_json_eql({}.to_json)
+      end
+    end
+  end
+
+  describe "avatarColor property" do
+    let(:select) { { "avatarColor" => {} } }
+
+    context "when the user has no custom avatar color" do
+      it "renders avatarColor as nil" do
+        expect(json)
+          .to be_json_eql({ avatarColor: nil }.to_json)
+      end
+    end
+
+    context "when the user has a custom avatar color" do
+      before do
+        rendered_user.pref.avatar_color = "#AABBCC"
+        rendered_user.pref.save!
+      end
+
+      it "renders the stored avatar color" do
+        expect(json)
+          .to be_json_eql({ avatarColor: "#AABBCC" }.to_json)
       end
     end
   end
