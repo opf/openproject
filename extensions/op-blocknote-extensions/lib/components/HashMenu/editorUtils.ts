@@ -1,6 +1,7 @@
 import type { AnyEditor } from '../../editorTypes';
 import type { WorkPackage } from '../../openProjectTypes';
 import { chipContentOf, promoteInlineChipToBlockAt } from '../../utils/inlineChipActions';
+import { insertInline } from '../../utils/insertInline';
 import { INLINE_WP_TYPE } from '../../utils/nodeTypes';
 import type { BlockWpSize, InlineWpSize } from '../WorkPackage/types';
 import type { HashTarget } from './hashTrigger';
@@ -60,15 +61,9 @@ function insertChipAtCursor(
   if (withTrailingSpace) content.push({ type: 'text', text: ' ', styles: {} });
 
   const chipPosition = editor.transact((tr) => tr.selection.from);
-  (editor.insertInlineContent as (content:unknown[]) => void)(content);
+  insertInline(editor, content);
 
   return removeTriggerBeforeChip(editor, chipPosition);
-}
-
-export function restoreHashQuery(editor:AnyEditor, query:string):void {
-  (editor.insertInlineContent as (content:unknown[]) => void)([
-    { type: 'text', text: `#${query}`, styles: {} },
-  ]);
 }
 
 /**
