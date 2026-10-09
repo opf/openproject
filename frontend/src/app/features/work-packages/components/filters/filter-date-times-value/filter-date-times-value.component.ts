@@ -31,7 +31,6 @@ import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-ev
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
-import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   selector: 'op-filter-date-times-value',
@@ -89,45 +88,5 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       return this.timezoneService.parseDatetime(this.end.toString());
     }
     return null;
-  }
-
-  public parseBegin(date:string|null) {
-    if (date === null || !validDate(date)) {
-      return;
-    }
-
-    if (date === '') {
-      this.begin = date;
-    } else {
-      const parsed = this
-        .timezoneService
-        .parseISODatetime(date)
-        .startOf('day')
-        .utc();
-
-      this.begin = this.timezoneService.formattedISODateTime(parsed);
-    }
-  }
-
-  public parseEnd(date:string|null) {
-    if (date === null || !validDate(date)) {
-      return;
-    }
-
-    if (date === '') {
-      this.end = date;
-    } else {
-      const parsed = this
-        .timezoneService
-        .parseISODatetime(date)
-        .endOf('day')
-        .utc();
-
-      this.end = this.timezoneService.formattedISODateTime(parsed);
-    }
-  }
-
-  public formatter(data:string[]):string[] {
-    return data.map((date) => this.isoDateFormatter(date));
   }
 }
