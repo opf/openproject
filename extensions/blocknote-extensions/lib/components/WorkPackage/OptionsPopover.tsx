@@ -4,8 +4,8 @@ import type { WorkPackage } from '../../openProjectTypes';
 import { linkToWorkPackage } from '../../services/openProjectApi';
 import type { InlineWpSize, BlockWpSize } from './types';
 import styled from 'styled-components';
-import { defaultWpVariables, menuSurfaceStyles } from './atoms';
-import { useAnchoredPopover, PopoverPortal } from './anchoredPopover';
+import { editorThemeVariables, menuSurfaceStyles } from '../shared/theme';
+import { useAnchoredPopover, PopoverPortal } from '../shared/anchoredPopover';
 import { SizeMenu } from './SizeMenu';
 import { FLOATING_Z_INDEX } from '../../utils/zIndex';
 import {
@@ -34,7 +34,7 @@ const Popover = styled.div.attrs({
   className: 'op-bn-inline-options',
   'data-testid': 'popover-content',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
   position: absolute;
   z-index: ${FLOATING_Z_INDEX.options};
   ${menuSurfaceStyles}

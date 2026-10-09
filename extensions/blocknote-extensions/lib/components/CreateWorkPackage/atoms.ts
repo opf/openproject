@@ -1,5 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
-import { defaultWpVariables } from '../WorkPackage/atoms';
+import { editorThemeVariables } from '../shared/theme';
 import { defaultColorStyles, typeTextColor } from '../../services/colors';
 
 const surfaceColor = 'var(--op-create-wp-surface)';
@@ -83,7 +83,7 @@ export const Overlay = styled.div.attrs({
   className: 'op-bn-create-wp-overlay',
   'data-testid': 'create-wp-overlay',
 })`
-  ${defaultWpVariables}
+  ${editorThemeVariables}
 
   --op-create-wp-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
   --op-create-wp-surface: var(--bgColor-default, #ffffff);
