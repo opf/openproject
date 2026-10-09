@@ -384,6 +384,18 @@ RSpec.describe Notifications::CreateFromModelService, "message", with_settings: 
         it_behaves_like "creates no notification"
       end
 
+      context "when the recipient is only shared on a work package of the project" do
+        before do
+          recipient.members.destroy_all
+          create(:work_package_member,
+                 principal: recipient,
+                 entity: create(:work_package, project:),
+                 roles: [create(:view_work_package_role)])
+        end
+
+        it_behaves_like "creates no notification"
+      end
+
       context "when the recipient is mentioned through a group" do
         let(:content) { "Hello group##{create(:group, members: [recipient]).id}" }
 

@@ -47,6 +47,9 @@ RSpec.describe Queries::Principals::Filters::MentionableOnMessageFilter do
       shared_let(:user) { create(:user, member_with_roles: { project => role, other_project => role }) }
       shared_let(:project_member) { create(:user, member_with_roles: { project => role }) }
       shared_let(:other_project_member) { create(:user, member_with_roles: { other_project => role }) }
+      shared_let(:work_package_sharee) do
+        create(:user, member_with_roles: { create(:work_package, project:) => create(:view_work_package_role) })
+      end
       shared_let(:group) do
         create(:group).tap { |group| create(:member, principal: group, project:, roles: [role]) }
       end
@@ -74,7 +77,7 @@ RSpec.describe Queries::Principals::Filters::MentionableOnMessageFilter do
         let(:operator) { "!" }
 
         it "returns the visible principals outside the message's project" do
-          expect(subject).to contain_exactly(other_project_member)
+          expect(subject).to contain_exactly(other_project_member, work_package_sharee)
         end
       end
 
