@@ -567,7 +567,7 @@ paths:
     "$ref": "./paths/user_working_hours.yml"
   "/api/v3/users/{id}/working_hours/{working_hours_id}":
     "$ref": "./paths/user_working_hours_record.yml"
-  "/api/v3/values/schema/{id}":
+  "/api/v3/values/schemas/{id}":
     "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
