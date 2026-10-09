@@ -60,6 +60,17 @@ RSpec.describe CustomFields::Inputs::DateTime, type: :forms do
     end
   end
 
+  context "when rendered in a dialog" do
+    def build_form(builder)
+      described_class.new(builder, custom_field:, object: model, dialog_id: "create-work-package-dialog")
+    end
+
+    it "attaches the calendar to the dialog" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
+                                            "data-in-dialog": "create-work-package-dialog".to_json
+    end
+  end
+
   context "when the value is invalid" do
     let(:value) { "NOT A DATETIME" }
 

@@ -36,7 +36,7 @@ class CustomFields::Inputs::DateTime < CustomFields::Inputs::Base::Input
   def input_attributes
     super.merge(
       input_width: :small,
-      datepicker_options: { value: custom_value.value.to_s, inDialog: options[:wrapper_id] }.compact
+      datepicker_options: { value: custom_value.value.to_s, inDialog: options[:dialog_id] }.compact
     )
   end
 end

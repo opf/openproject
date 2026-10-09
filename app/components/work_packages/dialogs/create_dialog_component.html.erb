@@ -1,7 +1,7 @@
 <%=
   render(
     Primer::Alpha::Dialog.new(
-      id: "create-work-package-dialog",
+      id: DIALOG_ID,
       title: I18n.t(:label_work_package_new),
       size: :xlarge,
       data: {
@@ -18,7 +18,7 @@
       component_collection do |modal_footer|
         modal_footer.with_component(
           Primer::Beta::Button.new(
-            data: { "close-dialog-id": "create-work-package-dialog" }
+            data: { "close-dialog-id": DIALOG_ID }
           )
         ) do
           I18n.t(:button_cancel)
