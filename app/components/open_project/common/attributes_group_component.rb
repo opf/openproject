@@ -28,9 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AttributeGroups
-  class AttributeGroupComponent < ::Primer::Component
-    renders_one :header, AttributeGroups::AttributeGroupHeaderComponent
-    renders_many :attributes, AttributeGroups::AttributeKeyValueComponent
+module OpenProject
+  module Common
+    class AttributesGroupComponent < ::Primer::Component
+      renders_one :header, Header
+      renders_many :attributes, AttributeKeyValue
+
+
+      attr_reader :system_arguments
+
+      def initialize(**system_arguments)
+        super()
+        @system_arguments = system_arguments
+
+        @system_arguments[:classes] = class_names(
+          @system_arguments[:classes],
+          "AttributesGroup"
+        )
+      end
+    end
   end
 end

@@ -15,7 +15,7 @@
     ) %>
 
 <div class="account--section">
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_attribute(key: ::Webhooks::Webhook.human_attribute_name("events")) { @webhook.event_names.join(", ") }
         component.with_attribute(key: ::Webhooks::Webhook.human_attribute_name("events")) do
           if @webhook.all_projects?

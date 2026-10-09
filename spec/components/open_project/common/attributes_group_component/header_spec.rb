@@ -30,18 +30,30 @@
 
 require "rails_helper"
 
-RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
-  it "renders the attribute key and content" do
-    render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
+RSpec.describe OpenProject::Common::AttributesGroupComponent::Header, type: :component do
+  subject(:render_header) { render_inline(described_class.new(title: "A Title")) }
 
-    expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
-      have_css(".attributes-key-value--value", text: "Attribute Value")
+  it "renders the title" do
+    render_header
+
+    expect(page).to have_css("h3", text: "A Title")
   end
 
-  it "preserve html in the content if it's a safe string" do
-    render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
+  context "when providing a tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h2)) }
 
-    expect(page).to have_no_css(".attributes-key-value--value", text: "<div>Some value</div>")
-    expect(page).to have_css(".attributes-key-value--value", text: "Some value")
+    it "renders the title inside the given tag" do
+      render_header
+
+      expect(page).to have_css("h2", text: "A Title")
+    end
+  end
+
+  context "when using an h1 tag" do
+    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h1)) }
+
+    it "raises an error, because h1 is reserved" do
+      expect { render_header }.to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+    end
   end
 end

@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <div class="grid-block">
     <div class="grid-content medium-6">
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_header(title: I18n.t(:label_budget_details))
         component.with_attribute(key: Budget.human_attribute_name(:type)) { @budget.type_label }
         component.with_attribute(key: Budget.human_attribute_name(:fixed_date)) { format_date(@budget.fixed_date) }
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
     <div class="grid-content medium-6">
 
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_header(title: I18n.t(:label_budget_totals))
         component.with_attribute(key: Budget.human_attribute_name(:base_amount)) { number_to_currency(@budget.base_amount) }
         component.with_attribute(key: Budget.human_attribute_name(:material_budget)) { number_to_currency(@budget.material_budget) }

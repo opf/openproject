@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render OAuth::ShowPageHeaderComponent.new(application: @application) %>
 
-<%= render(AttributeGroups::AttributeGroupComponent.new) do |component| %>
+<%= render(OpenProject::Common::AttributesGroupComponent.new) do |component| %>
   <%
     component.with_attribute(key: @application.class.human_attribute_name(:uid)) do
       render(OpPrimer::CopyToClipboardComponent.new(@application.uid))

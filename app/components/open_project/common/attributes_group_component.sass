@@ -1,0 +1,33 @@
+.AttributesGroupItem
+  display: flex
+  overflow: hidden
+
+  @media screen and (max-width: $breakpoint-sm)
+    flex-direction: column
+
+  .AttributesGroupItem-key
+    display: flex
+    flex-basis: 140px
+    flex-grow: 1
+    padding: var(--stack-padding-condensed) 0
+    font-weight: var(--base-text-weight-semibold, 600)
+    overflow-wrap: break-word
+    hyphens: auto
+
+    @media screen and (min-width: $breakpoint-md)
+      flex-basis: 200px
+
+    @media screen and (min-width: $breakpoint-lg)
+      flex-basis: 240px
+
+    @media screen and (max-width: $breakpoint-sm)
+      flex-basis: auto
+
+  .AttributesGroupItem-value
+    flex: 100 1 260px
+    padding: var(--stack-padding-condensed) 0
+    height: 100%
+    @include text-shortener
+
+    @media screen and (max-width: $breakpoint-sm)
+      flex-basis: auto

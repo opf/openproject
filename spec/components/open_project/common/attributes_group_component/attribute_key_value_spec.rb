@@ -28,19 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AttributeGroups
-  class AttributeGroupHeaderComponent < ::Primer::Component
-    DEFAULT_TAG = :h3
-    TAG_OPTIONS = %i[h2 h3 h4 h5 h6].freeze
+require "rails_helper"
 
-    attr_reader :title, :tag, :size, :description, :system_arguments
+RSpec.describe OpenProject::Common::AttributesGroupComponent::AttributeKeyValue, type: :component do
+  it "renders the attribute key and content" do
+    render_inline(described_class.new(key: "Attribute Key")) { "Attribute Value" }
 
-    def initialize(title:, description: nil, tag: DEFAULT_TAG, size: :medium, **system_arguments)
-      super(**system_arguments)
-      @title = title
-      @description = description
-      @tag = fetch_or_fallback(TAG_OPTIONS, tag, DEFAULT_TAG)
-      @size = size
-    end
+    expect(page).to have_css(".attributes-key-value--key", text: "Attribute Key") &
+      have_css(".attributes-key-value--value", text: "Attribute Value")
+  end
+
+  it "preserve html in the content if it's a safe string" do
+    render_inline(described_class.new(key: "Attribute Key")) { "<div>Some value</div>".html_safe }
+
+    expect(page).to have_no_css(".attributes-key-value--value", text: "<div>Some value</div>")
+    expect(page).to have_css(".attributes-key-value--value", text: "Some value")
   end
 end

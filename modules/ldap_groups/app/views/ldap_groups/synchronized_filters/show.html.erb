@@ -14,7 +14,7 @@
 <% end %>
 
 <section class="admin--edit-section">
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_attribute(key: @filter.class.human_attribute_name(:name)) { @filter.name }
         component.with_attribute(key: @filter.class.human_attribute_name(:group_name_attribute)) { @filter.group_name_attribute }
         component.with_attribute(key: @filter.class.human_attribute_name(:base_dn)) { @filter.used_base_dn }

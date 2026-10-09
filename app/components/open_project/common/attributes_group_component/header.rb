@@ -28,14 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AttributeGroups
-  class AttributeKeyValueComponent < ::Primer::Component
-    attr_reader :key
+module OpenProject
+  module Common
+    class AttributesGroupComponent
+      # Structured header for {AttributesGroupComponent}.
+      #
+      # This component is part of {AttributesGroupComponent} and should not be
+      # used as a standalone component.
+      class Header < ::Primer::Component
+        DEFAULT_TAG = :h3
+        TAG_OPTIONS = %i[h2 h3 h4 h5 h6].freeze
 
-    def initialize(key:)
-      super()
+        attr_reader :title, :tag, :size, :description, :system_arguments
 
-      @key = key
+        def initialize(title:, description: nil, tag: DEFAULT_TAG, size: :medium, **system_arguments)
+          super()
+          @title = title
+          @description = description
+          @tag = fetch_or_fallback(TAG_OPTIONS, tag, DEFAULT_TAG)
+          @size = size
+          @system_arguments = system_arguments
+        end
+      end
     end
   end
 end

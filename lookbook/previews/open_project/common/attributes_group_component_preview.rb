@@ -29,9 +29,9 @@
 #++
 
 module OpenProject
-  module Deprecated
-    # @logical_path OpenProject/deprecated
-    class AttributeGroupComponentPreview < Lookbook::Preview
+  module Common
+    # @logical_path OpenProject/Common
+    class AttributesGroupComponentPreview < Lookbook::Preview
       def default; end
 
       def with_header; end

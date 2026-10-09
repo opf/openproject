@@ -16,7 +16,7 @@
 
 <section class="admin--edit-section">
 <% if default_device.present? %>
-  <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+  <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
         component.with_attribute(key: t("two_factor_authentication.label_default_device")) { default_device.identifier }
         if default_device.phone_number.present?
           component.with_attribute(key: ::TwoFactorAuthentication::Device::Sms.human_attribute_name(:phone_number)) { default_device.phone_number }

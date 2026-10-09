@@ -28,32 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module OpenProject
+  module Common
+    class AttributesGroupComponent
+      # Key/value row for {AttributesGroupComponent}.
+      #
+      # This component is part of {AttributesGroupComponent} and should not be
+      # used as a standalone component.
+      class AttributeKeyValue < ::Primer::Component
+        attr_reader :key
 
-RSpec.describe AttributeGroups::AttributeGroupHeaderComponent, type: :component do
-  subject(:render_header) { render_inline(described_class.new(title: "A Title")) }
+        def initialize(key:)
+          super()
 
-  it "renders the title" do
-    render_header
-
-    expect(page).to have_css("h3", text: "A Title")
-  end
-
-  context "when providing a tag" do
-    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h2)) }
-
-    it "renders the title inside the given tag" do
-      render_header
-
-      expect(page).to have_css("h2", text: "A Title")
-    end
-  end
-
-  context "when using an h1 tag" do
-    subject(:render_header) { render_inline(described_class.new(title: "A Title", tag: :h1)) }
-
-    it "raises an error, because h1 is reserved" do
-      expect { render_header }.to raise_error(Primer::FetchOrFallbackHelper::InvalidValueError)
+          @key = key
+        end
+      end
     end
   end
 end

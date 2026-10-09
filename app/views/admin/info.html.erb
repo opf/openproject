@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= call_hook(:view_admin_info_top) %>
 
-<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+<%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
       if Setting.show_product_version?
         core_link = linked_sha_reference(OpenProject::VERSION.core_sha, OpenProject::VERSION.core_url)
         component.with_attribute(key: t(:label_core_build)) { core_link } if core_link.present?
@@ -82,7 +82,7 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end %>
 
-<%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+<%= render(OpenProject::Common::AttributesGroupComponent.new(mt: 4)) do |component|
       component.with_header(title: I18n.t(:label_system))
 
       @checklist.each do |label, result|
@@ -94,7 +94,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% @storage_information.each_with_index do |(_, entries), i| %>
   <%=
-    render(AttributeGroups::AttributeGroupComponent.new) do |component|
+    render(OpenProject::Common::AttributesGroupComponent.new(mt: 4)) do |component|
       component.with_header(title: t(:label_storage_group, identifier: i + 1))
 
       component.with_attribute(key: t(:label_storage_for)) { safe_join(entries[:labels], tag(:br)) }

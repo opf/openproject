@@ -28,7 +28,7 @@
                     target: "_blank",
                     rel: "noopener" %>
       </p>
-      <%= render(AttributeGroups::AttributeGroupComponent.new) do |component|
+      <%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
             if configuration["active_strategies"].empty?
               component.with_attribute(key: t("two_factor_authentication.settings.label_active_strategies")) { t(:label_none) }
             else
