@@ -101,9 +101,16 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   @Input() dataAction = '';
 
+  @Input() set inputAttrs(attrs:Record<string, string> | null) {
+    this._inputAttrs = attrs ?? {};
+    this.applyInputAttrs();
+  }
+
   @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
   public datePickerInstance:DatePicker;
+
+  private _inputAttrs:Record<string, string> = {};
 
   private _disabled = false;
 
@@ -115,6 +122,14 @@ export class OpBasicSingleDatetimePickerComponent implements ControlValueAccesso
 
   ngAfterViewInit():void {
     this.initializeDatePicker();
+    this.applyInputAttrs();
+  }
+
+  private applyInputAttrs():void {
+    const el = this.input?.nativeElement;
+    if (el) {
+      Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
+    }
   }
 
   ngOnDestroy():void {
