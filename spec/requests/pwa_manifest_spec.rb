@@ -181,11 +181,19 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(page).to have_no_css("#{tags}[media]", visible: :all)
     end
 
-    it "follows the operating system when the preference syncs with it" do
+    def rendered_tags
+      page.all(tags, visible: :all).map { [it[:media], it[:content]] }
+    end
+
+    # The browser uses the first tag whose media matches, so the system high contrast tag must come first.
+    it "follows the operating system, including its contrast setting, when the preference syncs with it" do
       sign_in_with_theme("sync_with_os")
 
-      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: light)"][content="#1A67A3"]), visible: :all)
-      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: dark)"][content="#010409"]), visible: :all)
+      expect(rendered_tags).to eq([
+                                    ["(prefers-color-scheme: light) and (prefers-contrast: more)", "#eff2f5"],
+                                    ["(prefers-color-scheme: light)", "#1A67A3"],
+                                    ["(prefers-color-scheme: dark)", "#010409"]
+                                  ])
     end
 
     it "paints the title bar in the high contrast header colour for a light preference with more contrast" do
@@ -197,7 +205,10 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     it "uses the high contrast light colour when syncing with the OS and forcing light contrast" do
       sign_in_with_theme("sync_with_os", force_light_theme_contrast: true)
 
-      expect(page).to have_css(%(#{tags}[media="(prefers-color-scheme: light)"][content="#eff2f5"]), visible: :all)
+      expect(rendered_tags).to eq([
+                                    ["(prefers-color-scheme: light)", "#eff2f5"],
+                                    ["(prefers-color-scheme: dark)", "#010409"]
+                                  ])
     end
 
     it "paints the title bar in a custom header colour", with_ee: %i[define_custom_style] do

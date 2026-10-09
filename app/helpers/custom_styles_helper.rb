@@ -122,11 +122,7 @@ module CustomStylesHelper
     pref = User.current.pref
 
     if pref.sync_with_os_theme?
-      safe_join([
-                  theme_color_tag(header_bg_color(:light, high_contrast: pref.force_light_theme_contrast?),
-                                  media: "(prefers-color-scheme: light)"),
-                  theme_color_tag(header_bg_color(:dark), media: "(prefers-color-scheme: dark)")
-                ], "\n")
+      safe_join(sync_with_os_theme_color_tags(force_light_contrast: pref.force_light_theme_contrast?), "\n")
     else
       theme_color_tag(header_bg_color(pref.dark_color_mode? ? :dark : :light,
                                       high_contrast: pref.increase_theme_contrast?))
@@ -232,6 +228,21 @@ module CustomStylesHelper
   def custom_header_bg_color
     RequestStore.fetch(:custom_header_bg_color) do
       DesignColor.overwritten.find { it.variable == "header-bg-color" }&.hexcode if apply_custom_styles?
+    end
+  end
+
+  def sync_with_os_theme_color_tags(force_light_contrast:)
+    light = "(prefers-color-scheme: light)"
+    dark_tag = theme_color_tag(header_bg_color(:dark), media: "(prefers-color-scheme: dark)")
+
+    if force_light_contrast
+      [theme_color_tag(header_bg_color(:light, high_contrast: true), media: light), dark_tag]
+    else
+      [
+        theme_color_tag(header_bg_color(:light, high_contrast: true), media: "#{light} and (prefers-contrast: more)"),
+        theme_color_tag(header_bg_color(:light), media: light),
+        dark_tag
+      ]
     end
   end
 
