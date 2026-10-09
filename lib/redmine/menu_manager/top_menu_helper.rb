@@ -83,6 +83,8 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_search
+    return if Setting.login_required? && !User.current.logged?
+
     content_tag :div, class: "op-app-search" do
       render_global_search_input
     end
