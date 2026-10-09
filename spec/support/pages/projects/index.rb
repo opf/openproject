@@ -261,7 +261,7 @@ module Pages
             set_toggle_filter(values)
           elsif %i[date datetime_past].include?(kind)
             wait_for_network_idle
-            set_datetime_filter(name, human_operator, values, send_keys:)
+            set_datetime_filter(name, human_operator, values, send_keys:, kind:)
           end
         end
       end

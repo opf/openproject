@@ -84,6 +84,7 @@ class Filters::Inputs::DateTimeForm < Filters::Inputs::BaseDateForm
       leading_visual: { icon: :calendar },
       value: value || "",
       datepicker_options: {
+        id: "#{filter_name}_#{field}",
         inDialog: @dialog_id,
         input_attributes: { "data-filter--filters-form-target" => field, "data-filter-name" => filter_name }
       }.compact,

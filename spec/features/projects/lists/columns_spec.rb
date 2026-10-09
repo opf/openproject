@@ -227,7 +227,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page).to have_css(".advanced-filters--filter[data-filter-name='created_at']")
 
         # The correct filter input field has focus
-        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_days")).to be(true)
+        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_intDays")).to be(true)
       end
 
       it "adds the filter for a selected column that has a different filter mapped to its column" do
