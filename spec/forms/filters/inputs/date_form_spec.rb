@@ -99,22 +99,22 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
     end
   end
 
-  context "with a datetime filter storing day boundaries as UTC timestamps" do
-    let(:query) { Query.new }
-    let(:filter) do
-      f = query.available_advanced_filters.find { |af| af.name == :created_at }
-      f.operator = "<>d"
-      f.values = ["2025-12-31T23:00:00Z", "2026-10-30T22:59:59Z"]
-      f
-    end
+  context "with a greater or equal operator (>d)" do
+    let(:operator) { ">d" }
+    let(:values) { ["2026-07-01"] }
 
-    current_user { build_stubbed(:admin, preferences: { time_zone: "Europe/Berlin" }) }
-
-    it "shows the local dates of the user's time zone in the range picker" do
-      expect(rendered_form).to have_element "opce-range-date-picker",
-                                            "data-value": '"2026-01-01 - 2026-10-30"',
+    it "uses the single date picker" do
+      expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                            "data-value": '"2026-07-01"',
                                             visible: :all
+      expect(rendered_form).to have_no_element "opce-basic-single-datetime-picker", visible: :all
     end
+  end
+
+  it "announces the field of each operator to the filters form" do
+    expect(rendered_form).to have_element "data-filter--filters-form-target": /filterValueContainer/,
+                                          "data-value-fields": described_class::VALUE_FIELDS.to_json,
+                                          visible: :all
   end
 
   # `inDialog` reaches the angular picker as a JSON-encoded data attribute.

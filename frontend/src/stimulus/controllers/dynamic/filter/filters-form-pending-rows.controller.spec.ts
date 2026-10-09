@@ -285,7 +285,8 @@ describe('Filters form pending rows', () => {
           <select aria-label="Dates interval operator" data-filter-name="dates_interval" data-filter--filters-form-target="operator">
             <option value="<>d">between</option>
           </select>
-          <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer">
+          <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer"
+            data-value-fields='{"<>d":"dateRange"}'>
             <input id="dates_interval" aria-label="Dates interval range" value="${rangeValue}"
               data-filter-name="dates_interval" data-filter--filters-form-target="dateRange">
           </div>
@@ -363,12 +364,13 @@ describe('Filters form pending rows', () => {
           <option value=""></option>
           <option value="${FILTER_NAME}">Created on</option>
         </select>
-        <div data-filter-name="${FILTER_NAME}" data-filter-type="datetime_past" hidden data-filter--filters-form-target="filter">
+        <div data-filter-name="${FILTER_NAME}" data-filter-type="date" hidden data-filter--filters-form-target="filter">
           <select aria-label="Created on operator" data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="operator">
             <option value="=d">on</option>
             <option value="<>d">between</option>
           </select>
-          <div data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="filterValueContainer">
+          <div data-filter-name="${FILTER_NAME}" data-filter--filters-form-target="filterValueContainer"
+            data-value-fields='{"=d":"singleDay","<>d":"dateRange"}'>
             <primer-multi-input>
               <div>
                 <input id="${FILTER_NAME}" value=""

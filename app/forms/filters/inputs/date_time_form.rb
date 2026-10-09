@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Filters::Inputs::DateForm < Filters::Inputs::BaseDateForm
+class Filters::Inputs::DateTimeForm < Filters::Inputs::BaseDateForm
   VALUE_FIELDS = {
     ">t-" => "intDays",
     "<t-" => "intDays",
@@ -37,33 +37,55 @@ class Filters::Inputs::DateForm < Filters::Inputs::BaseDateForm
     ">t+" => "intDays",
     "t+" => "intDays",
     "=d" => "singleDay",
-    ">d" => "singleDay",
-    "<d" => "singleDay",
-    "<>d" => "dateRange"
+    ">d" => "singleDatetime",
+    "<d" => "singleDatetime",
+    "<>d" => "datetimeRange"
   }.freeze
 
   private
 
   def add_fields(builder, filter_name)
     days_div(builder, filter_name, field_value("intDays"))
-    on_date_div(builder, filter_name, field_value("singleDay"))
-    between_dates_div(builder, filter_name, date_range_value)
+    on_date_div(builder, filter_name, local_date(field_value("singleDay")))
+    datetime_div(builder, filter_name, "singleDatetime", field_value("singleDatetime"))
+    datetime_range_div(builder, filter_name)
   end
 
-  def date_range_value
-    "#{field_value('dateRange', 0)} - #{field_value('dateRange', 1)}" if active_field == "dateRange"
+  # "On" stores the start of the day as a UTC timestamp, while the date picker shows the user's local date.
+  def local_date(value)
+    return value unless value&.include?("T")
+
+    Time.iso8601(value).in_time_zone(User.current.time_zone).to_date.iso8601
+  rescue ArgumentError
+    value
   end
 
-  def between_dates_div(builder, filter_name, value)
-    builder.range_date_picker(
-      name: :dateRange,
-      label: :dateRange,
+  def datetime_range_div(builder, filter_name)
+    active = active_field == "datetimeRange"
+
+    # primer-multi-input hides the parent of every inactive field, so the range needs a wrapper of its own.
+    # Only that wrapper is hidden: Primer collapses a group whose inputs are all hidden with display: none,
+    # which primer-multi-input cannot undo when activating it.
+    builder.group(hidden: !active) do |wrapper|
+      wrapper.group(layout: :horizontal,
+                    data: { name: "datetimeRange", targets: "primer-multi-input.fields" }) do |range|
+        datetime_div(range, filter_name, "datetimeFrom", field_value("datetimeRange", 0) || "")
+        datetime_div(range, filter_name, "datetimeTo", field_value("datetimeRange", 1) || "")
+      end
+    end
+  end
+
+  def datetime_div(builder, filter_name, field, value)
+    builder.single_datetime_picker(
+      name: field.to_sym,
+      label: field.to_sym,
+      visually_hide_label: true,
       hidden: value.nil?,
       leading_visual: { icon: :calendar },
-      value: value || "-",
+      value: value || "",
       datepicker_options: {
         inDialog: @dialog_id,
-        input_attributes: { "data-filter--filters-form-target" => "dateRange", "data-filter-name" => filter_name }
+        input_attributes: { "data-filter--filters-form-target" => field, "data-filter-name" => filter_name }
       }.compact,
       data: { "filter-name": filter_name }
     )

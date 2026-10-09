@@ -86,6 +86,9 @@ export default class FiltersFormController extends Controller {
     'days',
     'singleDay',
     'dateRange',
+    'singleDatetime',
+    'datetimeFrom',
+    'datetimeTo',
     'simpleValue',
     'filtersInput',
     'filterCount',
@@ -103,6 +106,9 @@ export default class FiltersFormController extends Controller {
   declare readonly daysTargets:HTMLInputElement[];
   declare readonly singleDayTargets:HTMLInputElement[];
   declare readonly dateRangeTargets:HTMLInputElement[];
+  declare readonly singleDatetimeTargets:HTMLInputElement[];
+  declare readonly datetimeFromTargets:HTMLInputElement[];
+  declare readonly datetimeToTargets:HTMLInputElement[];
   declare readonly simpleValueTargets:HTMLInputElement[];
   declare readonly filtersInputTarget:HTMLInputElement;
 
@@ -215,6 +221,23 @@ export default class FiltersFormController extends Controller {
     this.registerAngularPickerWithMultiInput(target, 'opce-range-date-picker');
   }
 
+  singleDatetimeTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  datetimeFromTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  datetimeToTargetConnected(target:HTMLElement) {
+    this.datetimeTargetConnected(target);
+  }
+
+  private datetimeTargetConnected(target:HTMLElement) {
+    this.addChangeListener(target);
+    this.registerAngularPickerWithMultiInput(target, 'opce-basic-single-datetime-picker');
+  }
+
   // angular_component_tag serialises @Input() bindings as JSON in data-* attributes, so the
   // Angular date picker wrapper's data-name holds a JSON-encoded value that primer-multi-input
   // cannot use to identify its child fields.  date_picker.html.erb therefore also sets
@@ -255,6 +278,18 @@ export default class FiltersFormController extends Controller {
   }
 
   dateRangeTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  singleDatetimeTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  datetimeFromTargetDisconnected(target:HTMLElement) {
+    this.removeChangeListener(target);
+  }
+
+  datetimeToTargetDisconnected(target:HTMLElement) {
     this.removeChangeListener(target);
   }
 
@@ -466,9 +501,12 @@ export default class FiltersFormController extends Controller {
     });
   }
 
-  private readonly daysOperators = ['>t-', '<t-', 't-', '<t+', '>t+', 't+'];
-  private readonly onDateOperator = '=d';
-  private readonly betweenDatesOperator = '<>d';
+  // Driven by the `data-value-fields` table that `Filters::Inputs::DateForm` emits on the value container.
+  private valueField(valueContainer:HTMLElement|undefined, operator:string|undefined):string|undefined {
+    const fields = JSON.parse(valueContainer?.dataset.valueFields ?? '{}') as Record<string, string>;
+
+    return operator ? fields[operator] : undefined;
+  }
 
   // Whether the operator currently selected in `operatorElement` declares
   // itself value-less. Driven by the `data-no-value` attribute that
@@ -489,13 +527,9 @@ export default class FiltersFormController extends Controller {
         valueContainer.removeAttribute('hidden');
       }
 
-      const multiInput = valueContainer.querySelector<PrimerMultiInputElement>('primer-multi-input');
-      if (this.daysOperators.includes(selectedOperator)) {
-        multiInput?.activateField('days');
-      } else if (selectedOperator === this.onDateOperator) {
-        multiInput?.activateField('singleDay');
-      } else if (selectedOperator === this.betweenDatesOperator) {
-        multiInput?.activateField('dateRange');
+      const field = this.valueField(valueContainer, selectedOperator);
+      if (field) {
+        valueContainer.querySelector<PrimerMultiInputElement>('primer-multi-input')?.activateField(field);
       }
     }
   }
@@ -710,7 +744,7 @@ export default class FiltersFormController extends Controller {
     }
 
     if (this.dateFilterTypes.includes(filterType)) {
-      return this.parseDateFilterValue(filterName, this.timestampFilterTypes.includes(filterType));
+      return this.parseDateFilterValue(valueContainer, filterName, operator, this.timestampFilterTypes.includes(filterType));
     }
 
     const hiddenField = valueContainer.querySelector<HTMLInputElement>('input[type="hidden"]');
@@ -727,19 +761,28 @@ export default class FiltersFormController extends Controller {
     return null;
   }
 
-  private parseDateFilterValue(filterName:string, timestamps:boolean) {
+  private parseDateFilterValue(valueContainer:HTMLElement, filterName:string, operator:string, timestamps:boolean) {
     let value:(string|undefined)[]|undefined;
-    const operator = this.findTargetByName(filterName, this.operatorTargets)?.value;
+    const field = this.valueField(valueContainer, operator);
 
-    if (operator && this.daysOperators.includes(operator)) {
+    if (field === 'intDays') {
       const dateValue = this.findTargetByName(filterName, this.daysTargets)?.value;
 
       value = [dateValue].filter((v) => v !== '');
-    } else if (operator === this.onDateOperator) {
+    } else if (field === 'singleDay') {
       const dateValue = this.findTargetByName(filterName, this.singleDayTargets)?.value ?? '';
 
       value = [timestamps ? this.dayStart(dateValue) : dateValue].filter((v) => v !== '');
-    } else if (operator === this.betweenDatesOperator) {
+    } else if (field === 'singleDatetime') {
+      const datetimeValue = this.findTargetByName(filterName, this.singleDatetimeTargets)?.value ?? '';
+
+      value = [datetimeValue].filter((v) => v !== '');
+    } else if (field === 'datetimeRange') {
+      const fromValue = this.findTargetByName(filterName, this.datetimeFromTargets)?.value ?? '';
+      const toValue = this.findTargetByName(filterName, this.datetimeToTargets)?.value ?? '';
+
+      value = fromValue === '' && toValue === '' ? [] : [fromValue, toValue];
+    } else if (field === 'dateRange') {
       // The range picker renders an empty range as "-" (see Filters::Inputs::DateForm#between_dates_div).
       const rangeValue = this.findTargetByName(filterName, this.dateRangeTargets)?.value ?? '';
       const [fromValue = '', toValue = ''] = rangeValue === '-' ? [] : rangeValue.split(' - ');
