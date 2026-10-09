@@ -48,6 +48,7 @@
       if message.attachments.any?
         concat(helpers.list_attachments(helpers.message_attachment_representer(message)))
       end
+      concat(render(Messages::AcceptedSolutionsBannerComponent.new(topic: message))) unless reply?
     end
 
     unless reply?
