@@ -31,6 +31,7 @@ import {
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -63,6 +64,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   protected editForm = inject(EditFormComponent, { optional: true });
   protected cdRef = inject(ChangeDetectorRef);
   protected I18n = inject(I18nService);
+  protected configurationService = inject(ConfigurationService);
 
   @Input() public fieldName:string;
 
@@ -149,14 +151,25 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     }
   }
 
+  private get activationEvent():'click'|'dblclick' {
+    return this.configurationService.requireDoubleClickForInlineEdit() ? 'dblclick' : 'click';
+  }
+
   public get isEditable():boolean {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return !!(this.editForm && this.schema.isAttributeEditable(this.fieldName));
   }
 
   public activateIfEditable(event:MouseEvent|KeyboardEvent):boolean {
-    // Ignore selections
-    if (hasSelectionWithin(event.target as HTMLElement)) {
+    if (event instanceof MouseEvent && event.type !== this.activationEvent) {
+      return true;
+    }
+
+    // A double click always selects the word under the cursor,
+    // so only a selection made in any other way should prevent activation.
+    if (event.type === 'dblclick') {
+      window.getSelection()?.removeAllRanges();
+    } else if (hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
       return true;
     }
@@ -198,9 +211,9 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     let positionOffset = 0;
 
     // This can be both a direct click as well as a "click" via keyboard, e.g. the <Enter> key.
-    if (evt?.type === 'click') {
+    if (evt instanceof MouseEvent) {
       // Get the position where the user clicked.
-      positionOffset = getPosition(evt as MouseEvent);
+      positionOffset = getPosition(evt);
     }
 
     void this.activateOnForm()
