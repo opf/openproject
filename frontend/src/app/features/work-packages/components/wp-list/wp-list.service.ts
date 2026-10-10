@@ -84,6 +84,9 @@ export class WorkPackagesListService {
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
 
+  // The form request currently in flight, so concurrent callers join it instead of issuing their own
+  private formLoading:{ href:string|undefined, promise:Promise<QueryFormResource> }|undefined;
+
   // This mapped observable requests the latest query automatically.
   private queryLoading = this.queryRequests
     .values$()
@@ -365,11 +368,27 @@ export class WorkPackagesListService {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!currentForm || query.$links.update?.href !== currentForm.href) {
-      return this.loadForm(query);
+    const updateHref = query.$links.update?.href as string|undefined;
+
+    if (currentForm && updateHref === currentForm.href) {
+      return Promise.resolve(currentForm);
     }
 
-    return Promise.resolve(currentForm);
+    if (this.formLoading && this.formLoading.href === updateHref) {
+      return this.formLoading.promise;
+    }
+
+    const promise = this
+      .loadForm(query)
+      .finally(() => {
+        if (this.formLoading?.promise === promise) {
+          this.formLoading = undefined;
+        }
+      });
+
+    this.formLoading = { href: updateHref, promise };
+
+    return promise;
   }
 
   public get currentQuery() {
