@@ -65,7 +65,11 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
   }
 
   public get valueString() {
-    return this.filter.values[0].toString();
+    return this.filter.values[0]?.toString() ?? '';
+  }
+
+  public get pointInTime():boolean {
+    return ['>d', '<d'].includes(this.filter.operator?.id);
   }
 
   public get lowerBoundary():Moment|null {
