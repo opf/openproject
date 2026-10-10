@@ -30,7 +30,6 @@
 
 module MeetingAgendaItems
   class DropService < ::BaseServices::BaseCallable
-    include AfterPerformHook
     include JournalizeWorkPackageActivity
 
     attr_reader :user
@@ -50,7 +49,10 @@ module MeetingAgendaItems
 
       service_call = perform_drop(service_call, params) if service_call.success?
 
-      journalize_move if service_call.success?
+      if service_call.success?
+        journalize_move_on_work_package
+        journalize_meeting
+      end
 
       # after_perform(service_call) if service_call.success? # TODO properly integrate after_perform_hook
 
@@ -98,7 +100,11 @@ module MeetingAgendaItems
 
     private
 
-    def journalize_move
+    def journalize_meeting
+      @meeting_agenda_item.meeting.touch_and_save_journals
+    end
+
+    def journalize_move_on_work_package
       return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
 
       destination = @meeting_agenda_item.meeting

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,25 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingSections
-  class DeleteService < ::BaseServices::Delete
-    include ::MeetingAgendaItems::JournalizeWorkPackageActivity
-    include Meetings::JournalAfterPerform
+class Journal::MeetingSectionJournal < ApplicationRecord
+  self.table_name = "meeting_section_journals"
 
-    def before_perform(params)
-      @meeting = model.meeting
-      @removed_agenda_items = model.agenda_items.to_a
-      super
-    end
-
-    def after_perform(call)
-      if call.success?
-        @removed_agenda_items.each do |agenda_item|
-          journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemRemoved.new(@meeting))
-        end
-      end
-
-      super
-    end
-  end
+  belongs_to :journal
 end

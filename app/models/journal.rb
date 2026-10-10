@@ -128,6 +128,7 @@ class Journal < ApplicationRecord
 
   has_many :agenda_item_journals, class_name: "Journal::MeetingAgendaItemJournal", dependent: :delete_all
   has_many :participant_journals, class_name: "Journal::MeetingParticipantJournal", dependent: :delete_all
+  has_many :section_journals, class_name: "Journal::MeetingSectionJournal", dependent: :delete_all
   has_many :attachable_journals, class_name: "Journal::AttachableJournal", dependent: :delete_all
   has_many :customizable_journals, class_name: "Journal::CustomizableJournal", dependent: :delete_all
   has_many :custom_comment_journals, class_name: "Journal::CustomCommentJournal", dependent: :delete_all

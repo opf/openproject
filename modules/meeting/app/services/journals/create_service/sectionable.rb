@@ -29,11 +29,11 @@
 #++
 
 class Journals::CreateService
-  class AgendaItemable < Association
+  class Sectionable < Association
     include JournalTableColumns
 
     def associated?
-      journable.respond_to?(:agenda_items)
+      journable.respond_to?(:sections)
     end
 
     def cleanup_predecessor(predecessor, notes, cause)
@@ -50,10 +50,11 @@ class Journals::CreateService
         INSERT INTO
           #{journal_table_name} (#{sink_columns_sql})
         SELECT
-          #{source_columns_sql('agenda_items')}
-        FROM (#{current_agenda_items_sql}) agenda_items
+          #{source_columns_sql('sections')}
+        FROM (#{current_sections_sql}) sections
         WHERE
           #{only_if_created_sql}
+        #{upsert_sql}
       SQL
     end
 
@@ -68,22 +69,22 @@ class Journals::CreateService
         ON
           #{journal_table_name}.journal_id = max_journals.id
         FULL JOIN
-          (#{current_agenda_items_sql}) agenda_items
+          (#{current_sections_sql}) sections
         ON
-          agenda_items.id = #{journal_table_name}.#{reference_column}
+          sections.id = #{journal_table_name}.#{reference_column}
         WHERE
-          #{changed_columns_condition_sql('agenda_items')}
+          #{changed_columns_condition_sql('sections')}
       SQL
     end
 
     private
 
-    def journal_class = Journal::MeetingAgendaItemJournal
+    def journal_class = Journal::MeetingSectionJournal
 
-    def reference_column = "agenda_item_id"
+    def reference_column = "section_id"
 
-    def current_agenda_items_sql
-      "SELECT * FROM meeting_agenda_items WHERE meeting_agenda_items.meeting_id = :journable_id"
+    def current_sections_sql
+      "SELECT * FROM meeting_sections WHERE meeting_sections.meeting_id = :journable_id"
     end
   end
 end
