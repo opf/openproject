@@ -43,7 +43,6 @@ class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
       # The deployment the lock was taken on: the same model name on another
       # server need not be the same model.
       t.string :locked_deployment_fingerprint
-      t.datetime :last_seen_at
 
       t.timestamps null: false
     end
