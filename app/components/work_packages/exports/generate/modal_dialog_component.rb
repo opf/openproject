@@ -79,8 +79,12 @@ module WorkPackages
           }
         end
 
-        def artefact_settings
-          stored = template_settings("artefact")
+        def zendis_artefact_settings
+          artefact_settings("zendis_artefact")
+        end
+
+        def artefact_settings(template_id = "artefact")
+          stored = template_settings(template_id)
           {
             toc: resolve_boolean_setting(stored, :toc, WorkPackage::PDFExport::Artefact::DEFAULT_TOC),
             include_lifecycle: resolve_boolean_setting(stored, :include_lifecycle,

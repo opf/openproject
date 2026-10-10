@@ -28,15 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Type::ArtefactExport
-  # No automatic export (default; existing types are unaffected).
-  OFF = "off"
-  # Save the generated PDF as a work package file attachment.
-  ATTACHMENT = "attachment"
-  # Upload the generated PDF to the project's Nextcloud storage and add a file link.
-  FILE_LINK = "file_link"
+module Exports::PDF::ZendisArtefact::Styles
+  class PDFStyles < Exports::PDF::Artefact::Styles::PDFStyles
+    def initialize(styles_asset_path = __dir__)
+      artefact_path = File.expand_path("../artefact", __dir__)
+      super(artefact_path)
+      overrides = YAML.load_file(File.join(styles_asset_path, "standard.yml"))
+      schema = JSON.load_file(File.join(artefact_path, "schema.json"))
+      schema.deep_merge!(JSON.load_file(File.join(styles_asset_path, "schema.json")))
+      validate_schema!(overrides, schema)
+      @styles.deep_merge!(overrides.deep_symbolize_keys)
+    end
 
-  MODES = [OFF, ATTACHMENT, FILE_LINK].freeze
-  DEFAULT = OFF
-  TEMPLATES = %w[artefact zendis_artefact].freeze
+    def layout
+      @styles[:layout]
+    end
+
+    def section_title_cell
+      resolve_table_cell(@styles.dig(:section, :title))
+    end
+  end
 end

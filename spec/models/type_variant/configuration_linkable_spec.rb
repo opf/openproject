@@ -111,6 +111,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
         patterns: { subject: { blueprint: "Base {{id}}", enabled: true } },
         default_work_package_description: "Base description",
         artefact_export_mode: Type::ArtefactExport::ATTACHMENT,
+        artefact_export_template: "zendis_artefact",
         export_templates_disabled: %w[contract],
         export_templates_order: %w[artefact attributes contract]
       }
@@ -138,6 +139,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
 
       it "reads the PDF_EXPORT attributes it stores itself" do
         expect(variant.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
+        expect(variant.artefact_export_template).to eq("artefact")
         expect(variant.export_templates_disabled).to eq(%w[artefact])
         expect(variant.export_templates_order).to eq(%w[contract attributes artefact])
       end
@@ -169,6 +171,7 @@ RSpec.describe TypeVariant::ConfigurationLinkable do
 
       it "reads the PDF_EXPORT attributes from the base" do
         expect(variant.artefact_export_mode).to eq(Type::ArtefactExport::ATTACHMENT)
+        expect(variant.artefact_export_template).to eq("zendis_artefact")
         expect(variant.export_templates_disabled).to eq(%w[contract])
         expect(variant.export_templates_order).to eq(%w[artefact attributes contract])
       end

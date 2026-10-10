@@ -31,6 +31,17 @@
 module WorkPackageTypes
   class ArtefactExportForm < ApplicationForm
     form do |f|
+      f.select_list(
+        name: :artefact_export_template,
+        label: I18n.t("pdf_generator.dialog.templates.label"),
+        disabled: readonly?
+      ) do |select|
+        Type::ArtefactExport::TEMPLATES.each do |template_id|
+          template = model.pdf_export_templates.find(template_id)
+          select.option(label: template.label, value: template.id, selected: model.artefact_export_template == template.id)
+        end
+      end
+
       f.radio_button_group(
         name: :artefact_export_mode,
         label: I18n.t("types.edit.export_configuration.artefact_export.label")

@@ -72,16 +72,12 @@ module WorkPackageTypes
     end
 
     def update_artefact_export
-      mode = params.dig(@variant.model_name.param_key.to_sym, :artefact_export_mode)
-      unless Type::ArtefactExport::MODES.include?(mode)
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t("types.edit.export_configuration.artefact_export.invalid_mode")
-        )
-        return respond_with_turbo_streams(status: :unprocessable_entity)
-      end
+      error = artefact_export_error
+      return invalid_artefact_export(error) if error
 
-      @variant.artefact_export_mode = mode
-      @variant.save!
+      raise Type::PdfExportTemplates::ReadonlyError if @variant.pdf_export_templates.readonly?
+
+      save_artefact_export_settings!
       render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
       respond_with_turbo_streams
     end
@@ -128,6 +124,32 @@ module WorkPackageTypes
     end
 
     protected
+
+    def artefact_export_params
+      params[@variant.model_name.param_key] || {}
+    end
+
+    def artefact_export_error
+      mode = artefact_export_params[:artefact_export_mode]
+      return :invalid_mode unless Type::ArtefactExport::MODES.include?(mode)
+
+      template = artefact_export_params[:artefact_export_template]
+      :invalid_template if template.present? && Type::ArtefactExport::TEMPLATES.exclude?(template)
+    end
+
+    def save_artefact_export_settings!
+      template = artefact_export_params[:artefact_export_template]
+      @variant.artefact_export_template = template if template.present?
+      @variant.artefact_export_mode = artefact_export_params[:artefact_export_mode]
+      @variant.save!
+    end
+
+    def invalid_artefact_export(key)
+      render_error_flash_message_via_turbo_stream(
+        message: I18n.t("types.edit.export_configuration.artefact_export.#{key}")
+      )
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
 
     def permitted_settings
       params.permit(*@template.settings_component.fields).to_h

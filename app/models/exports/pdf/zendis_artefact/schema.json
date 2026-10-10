@@ -1,0 +1,93 @@
+{
+  "title": "ZenDiS artefact PDF styles",
+  "properties": {
+    "layout": {
+      "type": "object",
+      "properties": {
+        "cover_date_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "header_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "header_heading_offset": {
+          "type": "number",
+          "minimum": 0
+        },
+        "header_subject_offset": {
+          "type": "number",
+          "minimum": 0
+        },
+        "toc_page_number_spacing": {
+          "type": "number",
+          "minimum": 0
+        },
+        "logo_width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "logo_offset": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cover_image_width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cover_image_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cover_image_top": {
+          "type": "number",
+          "minimum": 0
+        },
+        "cover_heading_position": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "required": [
+        "cover_date_height",
+        "header_height",
+        "header_heading_offset",
+        "header_subject_offset",
+        "toc_page_number_spacing",
+        "logo_width",
+        "logo_offset",
+        "cover_image_width",
+        "cover_image_height",
+        "cover_image_top",
+        "cover_heading_position"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "section": {
+      "properties": {
+        "title": {
+          "properties": {
+            "background_color": {
+              "$ref": "#/$defs/color"
+            }
+          },
+          "allOf": [
+            {
+              "$ref": "#/$defs/font"
+            },
+            {
+              "$ref": "#/$defs/margin"
+            },
+            {
+              "$ref": "#/$defs/table_cell"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

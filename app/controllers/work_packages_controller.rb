@@ -173,12 +173,20 @@ class WorkPackagesController < ApplicationController
     case params[:template]
     when "contract"
       WorkPackage::PDFExport::DocumentGenerator.new(work_package, params)
+    when "zendis_artefact"
+      zendis_artefact_exporter
     when "artefact"
       WorkPackage::PDFExport::Artefact.new(work_package, params)
     else
       # when "attributes"
       WorkPackage::PDFExport::WorkPackageToPdf.new(work_package, params)
     end
+  end
+
+  def zendis_artefact_exporter
+    settings = work_package.type_variant.pdf_export_templates.settings_for("zendis_artefact")
+    fields = WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent.fields
+    WorkPackage::PDFExport::ZendisArtefact.new(work_package, settings.merge(params.permit(*fields).to_h.symbolize_keys))
   end
 
   def show_conflict_flash_message

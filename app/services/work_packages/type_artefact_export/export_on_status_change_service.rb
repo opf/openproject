@@ -64,8 +64,10 @@ module WorkPackages
       private
 
       def export_and_store!
-        settings = type_variant.pdf_export_templates.settings_for("artefact")
-        export = WorkPackage::PDFExport::Artefact.new(work_package, settings).export!
+        template = type_variant.artefact_export_template
+        settings = type_variant.pdf_export_templates.settings_for(template)
+        exporter = template == "zendis_artefact" ? WorkPackage::PDFExport::ZendisArtefact : WorkPackage::PDFExport::Artefact
+        export = exporter.new(work_package, settings).export!
 
         case type_variant.artefact_export_mode
         when Type::ArtefactExport::ATTACHMENT

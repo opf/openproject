@@ -298,6 +298,26 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::FILE_LINK)
       end
 
+      it "stores the automatic export template" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id,
+                      param_key => { artefact_export_mode: "attachment", artefact_export_template: "zendis_artefact" } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:ok)
+        expect(variant.reload.artefact_export_template).to eq("zendis_artefact")
+      end
+
+      it "rejects an invalid automatic export template without changing the mode" do
+        put :update_artefact_export,
+            params: { type_id: wp_type.id,
+                      param_key => { artefact_export_mode: "attachment", artefact_export_template: "contract" } },
+            as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(variant.reload.artefact_export_mode).to eq(Type::ArtefactExport::OFF)
+      end
+
       it "rejects an invalid mode" do
         put :update_artefact_export,
             params: { type_id: wp_type.id, param_key => { artefact_export_mode: "bogus" } },

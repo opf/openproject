@@ -54,6 +54,7 @@ RSpec.describe "work package generate PDF dialog", :js do
   let(:document_generator) { instance_double(WorkPackage::PDFExport::DocumentGenerator) }
   let(:wp_exporter) { instance_double(WorkPackage::PDFExport::WorkPackageToPdf) }
   let(:artefact_exporter) { instance_double(WorkPackage::PDFExport::Artefact) }
+  let(:zendis_exporter) { instance_double(WorkPackage::PDFExport::ZendisArtefact) }
   let(:expected_params) { {} }
 
   def visit_work_package_page!
@@ -74,7 +75,12 @@ RSpec.describe "work package generate PDF dialog", :js do
             .with(work_package, has_mandatory_params(expected_params))
             .and_return(artefact_exporter)
 
-    [document_generator, wp_exporter, artefact_exporter].each do |generator|
+    allow(WorkPackage::PDFExport::ZendisArtefact)
+      .to receive(:new)
+            .with(work_package, has_mandatory_params(expected_params))
+            .and_return(zendis_exporter)
+
+    [document_generator, wp_exporter, artefact_exporter, zendis_exporter].each do |generator|
       allow(generator)
         .to receive(:export!)
               .and_return(
@@ -229,6 +235,17 @@ RSpec.describe "work package generate PDF dialog", :js do
       select "PMflex Artefact", from: "template"
       expect(page).to have_unchecked_field("Table of contents")
       generate!
+    end
+  end
+
+  context "with the ZenDiS template" do
+    let(:expected_params) { { toc: "true", include_lifecycle: "true", include_budget: "true" } }
+
+    it "downloads using the ZenDiS exporter and the shared artefact options" do
+      select "ZenDiS Artefakt", from: "template"
+      expect(page).to have_checked_field("zendis_toc_enabled")
+      generate!
+      expect(WorkPackage::PDFExport::ZendisArtefact).to have_received(:new)
     end
   end
 

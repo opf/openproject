@@ -103,6 +103,17 @@ RSpec.describe "type PDF export template settings", :js do
     expect(type.default_variant.reload.pdf_export_templates.settings_for("attributes")).to eq({})
   end
 
+  it "configures the ZenDiS contact field" do
+    field = create(:issue_custom_field, :text, name: "Contact address")
+    click_link_or_button type.default_variant.pdf_export_templates.find("zendis_artefact").label
+    select field.name, from: "Address custom field"
+    uncheck "zendis_toc_enabled"
+    click_link_or_button I18n.t(:button_save)
+
+    expect(type.default_variant.reload.pdf_export_templates.settings_for("zendis_artefact"))
+      .to include(address_custom_field_id: field.id.to_s, toc: "false")
+  end
+
   context "when the variant inherits its PDF export config from its base" do
     let(:variant) { create(:type_variant, type:) }
 
