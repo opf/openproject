@@ -45,6 +45,19 @@ export default defineConfig({
         }
       },
     },
+    {
+      // @angular/build < 22.2 copies the plugins above into the inline project it declares.
+      // Since Vitest 5 that project also inherits this file, so each plugin would apply twice.
+      name: 'op-do-not-extend-runner-config',
+      enforce: 'post',
+      config(config) {
+        config.test?.projects?.forEach((project) => {
+          if (typeof project === 'object') {
+            Object.assign(project, { extends: false });
+          }
+        });
+      },
+    },
   ],
   test: {
     // The builder defaults this to `false` to mimic Karma/Jasmine, which makes
