@@ -1,0 +1,242 @@
+<%
+  light = pwa_offline_palette.light
+  dark = pwa_offline_palette.dark
+  app_title = Setting.app_title
+  custom_logo_url = pwa_offline_custom_logo_url
+%>
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title><%= app_title %> | <%= t("pwa.offline.title") %></title>
+  <style>
+    :root { <%== pwa_offline_css_variables(light, "#1f232826") %> }
+
+    @media (prefers-color-scheme: dark) {
+      :root { <%== pwa_offline_css_variables(dark, "#ffffff26") %> }
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { height: 100%; margin: 0; }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--offline-bg);
+      color: var(--offline-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .op-offline {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 560px;
+      text-align: center;
+    }
+
+    .op-offline__logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 160px;
+      height: 48px;
+      padding: var(--offline-tile-padding);
+      box-sizing: content-box;
+      border-radius: 12px;
+      background: var(--offline-tile-bg);
+    }
+
+    .op-offline__logo-image { display: block; width: 100%; height: 100%; object-fit: contain; }
+
+    .op-offline__wordmark { display: var(--offline-wordmark-display); }
+
+    .op-offline__brand {
+      display: var(--offline-mark-display);
+      align-items: center;
+      gap: 8px;
+      height: 100%;
+      color: var(--offline-logo-ink);
+    }
+
+    .op-offline__brand-mark {
+      flex: none;
+      width: 35px;
+      height: 35px;
+      background: currentColor;
+      -webkit-mask: url("<%= image_path("icon_logo.svg") %>") center / contain no-repeat;
+      mask: url("<%= image_path("icon_logo.svg") %>") center / contain no-repeat;
+    }
+
+    .op-offline__brand-name {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1;
+    }
+
+    .op-offline__icon { position: relative; width: 32px; height: 32px; margin-top: 32px; }
+
+    .op-offline__icon svg {
+      position: absolute;
+      inset: 0;
+      opacity: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    .op-offline__icon .op-offline__icon-online,
+    [data-state="online"] .op-offline__icon .op-offline__icon-offline { opacity: 0; }
+
+    [data-state="online"] .op-offline__icon .op-offline__icon-online { opacity: 1; }
+
+    .op-offline__headline {
+      margin: 16px 0 0;
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+    }
+
+    .op-offline__divider { width: 48px; height: 1px; margin-top: 24px; background: var(--offline-divider); }
+
+    .op-offline__body {
+      max-width: 46ch;
+      margin: 24px 0 0;
+      font-size: 16px;
+      line-height: 1.5;
+      text-wrap: pretty;
+    }
+
+    .op-offline .Button {
+      display: grid;
+      align-items: center;
+      justify-items: center;
+      height: 32px;
+      margin-top: 32px;
+      padding: 0 12px;
+      border: 1px solid var(--offline-button-border);
+      border-radius: 6px;
+      background-color: var(--offline-button-bg);
+      color: var(--offline-button-fg);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      cursor: pointer;
+    }
+
+    :root { --focus-outlineColor: #0969da; --fgColor-onEmphasis: #ffffff; }
+
+    @media (prefers-color-scheme: dark) {
+      :root { --focus-outlineColor: #1f6feb; }
+    }
+
+    .op-offline .Button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
+
+    .op-offline .Button[aria-disabled="true"] { cursor: default; }
+
+    .op-offline .Button:focus-visible {
+      outline: 2px solid var(--focus-outlineColor);
+      outline-offset: -2px;
+      box-shadow: inset 0 0 0 3px var(--fgColor-onEmphasis);
+    }
+
+    .op-offline__button-content,
+    .op-offline__button-ghost {
+      display: inline-flex;
+      grid-area: 1 / 1;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .op-offline__button-ghost { visibility: hidden; }
+
+    .op-offline__button-spacer { flex: none; width: 16px; height: 16px; }
+
+    [hidden] { display: none; }
+
+    .anim-rotate { animation: rotate-keyframes 1s linear infinite; }
+
+    .op-offline__status { min-height: 24px; margin: 16px 0 0; font-size: 14px; line-height: 24px; }
+
+    @keyframes rotate-keyframes { 100% { transform: rotate(360deg); } }
+
+    @media (min-width: 600px) {
+      body { padding: 48px; }
+      .op-offline__logo { width: 200px; height: 56px; }
+      .op-offline__brand { gap: 10px; }
+      .op-offline__brand-mark { width: 40px; height: 40px; }
+      .op-offline__brand-name { font-size: 28px; }
+      .op-offline__icon { margin-top: 40px; }
+      .op-offline__headline { font-size: 32px; line-height: 1.25; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .op-offline__icon svg { transition: none; }
+      .anim-rotate { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="op-offline"
+        data-offline-page
+        data-state="offline"
+        data-retry-label="<%= t("pwa.offline.retry") %>"
+        data-retrying-label="<%= t("pwa.offline.retrying") %>"
+        data-reloading-label="<%= t("pwa.offline.reloading") %>"
+        data-headline-offline="<%= t("pwa.offline.headline") %>"
+        data-headline-online="<%= t("pwa.offline.headline_online") %>"
+        data-status-checking="<%= t("pwa.offline.status_checking") %>"
+        data-status-still="<%= t("pwa.offline.status_still") %>"
+        data-status-restored="<%= t("pwa.offline.status_restored") %>">
+    <div class="op-offline__logo">
+      <% if custom_logo_url %>
+        <img class="op-offline__logo-image" src="<%= custom_logo_url %>" alt="<%= app_title %>">
+      <% else %>
+        <img class="op-offline__logo-image op-offline__wordmark" src="<%= image_path("logo_openproject_white_big.png") %>" alt="<%= app_title %>">
+        <div class="op-offline__brand" role="img" aria-label="<%= app_title %>">
+          <div class="op-offline__brand-mark"></div>
+          <span class="op-offline__brand-name">OpenProject</span>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="op-offline__icon" aria-hidden="true">
+      <svg class="op-offline__icon-offline" data-offline-target="iconOffline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M4 4l16 16"></path></svg>
+      <svg class="op-offline__icon-online" data-offline-target="iconOnline" aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 19h9a4.5 4.5 0 0 0 .6-8.96A6 6 0 0 0 5.6 11.2 4 4 0 0 0 7.5 19Z"></path><path d="M9 14l2 2 4-4.5"></path></svg>
+    </div>
+
+    <h1 class="op-offline__headline" data-offline-target="headline"><%= t("pwa.offline.headline") %></h1>
+
+    <div class="op-offline__divider" aria-hidden="true"></div>
+
+    <p class="op-offline__body"><%= t("pwa.offline.body", app_title:) %></p>
+
+    <button type="button" class="Button Button--primary Button--medium" data-offline-target="button">
+      <span class="op-offline__button-content">
+        <%= render(Primer::Beta::Spinner.new(size: :small, sr_text: nil, style: "box-sizing: content-box; color: currentColor;", wrapper_arguments: { hidden: true, data: { offline_target: "spinner" } })) %>
+        <span class="Button-label" data-offline-target="label"><%= t("pwa.offline.retry") %></span>
+      </span>
+      <span class="op-offline__button-ghost" aria-hidden="true">
+        <span class="op-offline__button-spacer"></span>
+        <span class="Button-label"><%= [t("pwa.offline.retrying"), t("pwa.offline.reloading")].max_by(&:length) %></span>
+      </span>
+    </button>
+
+    <p class="op-offline__status" data-offline-target="status" role="status" aria-live="polite" aria-atomic="true"></p>
+  </main>
+
+  <%= nonced_javascript_tag do %>
+    <%= render partial: "pwa/offline_script", formats: [:js] %>
+  <% end %>
+</body>
+</html>

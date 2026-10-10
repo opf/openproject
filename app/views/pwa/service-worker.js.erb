@@ -2,17 +2,26 @@
 <%
   precache = pwa_shell_precache
   cache_name = pwa_shell_cache_name
+  offline_url = pwa_offline_path
+  offline_precache = pwa_offline_precache
 %>
 const CACHE_PREFIX = <%== pwa_shell_cache_prefix.to_json %>;
 const CACHE_NAME = <%== cache_name.to_json %>;
 const PRECACHE = <%== precache.to_json %>;
+const OFFLINE_URL = <%== offline_url.to_json %>;
+const OFFLINE_PRECACHE = <%== offline_precache.to_json %>;
 const HASHED_ASSETS_PATH = <%== "#{root_path}assets/frontend/".to_json %>;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) => cache.addAll(PRECACHE))
+      .then((cache) =>
+        Promise.all([
+          cache.addAll(PRECACHE),
+          ...OFFLINE_PRECACHE.map((url) => cache.add(new Request(url, { credentials: "omit" }))),
+        ]),
+      )
       .then(() => self.skipWaiting()),
   );
 });
@@ -28,19 +37,39 @@ self.addEventListener("activate", (event) => {
             .map((name) => caches.delete(name)),
         ),
       )
+      .then(() => self.registration.navigationPreload?.enable())
       .then(() => self.clients.claim()),
   );
 });
 
-<% unless precache.empty? %>
-// Only hashed (immutable) frontend assets and the precached shell are served from the cache.
+// Failed page loads show the offline page; the URL stays the requested one so the page can retry it.
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  if (request.mode !== "navigate" || request.method !== "GET") return;
+
+  event.respondWith(
+    (async () => {
+      try {
+        return (await event.preloadResponse) || (await fetch(request));
+      } catch {
+        const cache = await caches.open(CACHE_NAME);
+        return (await cache.match(OFFLINE_URL)) || Response.error();
+      }
+    })(),
+  );
+});
+
+const CACHE_HASHED_ASSETS = <%== precache.any?.to_json %>;
+const CACHED_PATHS = <%== (precache + offline_precache - [offline_url]).to_json %>;
+
+// Only hashed (immutable) frontend assets and the precached files are served from the cache.
 const cacheable = (request) => {
-  if (request.method !== "GET") return false;
+  if (request.method !== "GET" || request.mode === "navigate") return false;
 
   const url = new URL(request.url);
   return (
     url.origin === self.location.origin &&
-    (url.pathname.startsWith(HASHED_ASSETS_PATH) || PRECACHE.includes(url.pathname))
+    (CACHED_PATHS.includes(url.pathname) || (CACHE_HASHED_ASSETS && url.pathname.startsWith(HASHED_ASSETS_PATH)))
   );
 };
 
@@ -61,7 +90,6 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(cacheFirst(event.request));
   }
 });
-<% end %>
 <% else %>
 const CACHE_PREFIX = <%== pwa_shell_cache_prefix.to_json %>;
 

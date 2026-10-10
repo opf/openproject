@@ -47,7 +47,34 @@ export default class PwaServiceWorkerController extends Controller {
     }
 
     this.register();
+    document.addEventListener('turbo:fetch-request-error', this.fallbackToOfflinePage);
   }
+
+  disconnect():void {
+    document.removeEventListener('turbo:fetch-request-error', this.fallbackToOfflinePage);
+  }
+
+  // A full navigation lets the worker serve its offline page, which Turbo cannot show itself.
+  private readonly fallbackToOfflinePage = (event:Event):void => {
+    if (!navigator.serviceWorker?.controller) {
+      return;
+    }
+
+    const request = (event as CustomEvent<{ request?:{ method?:string; url?:URL } }>).detail?.request;
+    const target = event.target;
+    const isFrameRequest = target instanceof Element && target.closest('turbo-frame') !== null;
+
+    if (
+      !request?.url
+      || request.method?.toLowerCase() !== 'get'
+      || request.url.origin !== window.location.origin
+      || isFrameRequest
+    ) {
+      return;
+    }
+
+    window.location.assign(request.url.href);
+  };
 
   private register():void {
     if (!('serviceWorker' in navigator) || !window.isSecureContext) {
