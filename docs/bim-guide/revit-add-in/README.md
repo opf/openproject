@@ -10,7 +10,7 @@ keywords: BIM, BCF, IFC, Viewer
 
 The _OpenProject Revit Add-In_ allows you to use the open source project management software _OpenProject BIM_ directly within your Autodesk Revit environment. It lets you create, inspect and manage issues right in the moment when you can also solve them - when you have your Revit application fired up and the relevant BIM models open. Issues get stored as BIM Issues centrally and are available to every team member in real time - thanks to our browser based IFC viewer even to those team members without expensive Revit licenses. No BCF XML import/export is needed. However, you still can import and export BCF XML as you like and stay interoperable with any other software for BIM Issue Management.
 
-To download the latest version (v2.2.3) of our OpenProject Revit AddIn click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
+To download the latest version of our OpenProject Revit AddIn please see below: [Download the installer](#download-the-installer)
 
 > **Note**: OpenProject BIM Issue Management is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
@@ -37,7 +37,7 @@ The **OpenProject Revit AddIn** does not have any special system requirements. A
 
 ### Download the installer
 
-To download the setup application for the **OpenProject Revit AddIn**, click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
+To download the setup application for the **OpenProject Revit AddIn**, use this link: [Download OpenProject Revit AddIn v2.3.3 installer (EXE, 130 MB)](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
 You can find the latest version of our AddIn on [Github](https://github.com/opf/openproject-revit-add-in/releases/latest) as well.
 
