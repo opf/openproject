@@ -137,10 +137,9 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   end
 
   def draw_zendis_header
-    pdf.text_box(heading, at: [0, pdf.bounds.top + 24], size: 8,
-                         style: :bold, height: 14, overflow: :shrink_to_fit)
-    pdf.text_box(work_package.subject, at: [0, pdf.bounds.top + 12], size: 8,
-                                      style: :italic, height: 14, overflow: :shrink_to_fit)
+    text_options = { size: 8, height: 14, overflow: :shrink_to_fit }
+    pdf.text_box(heading, **text_options, at: [0, pdf.bounds.top + 24], style: :bold)
+    pdf.text_box(work_package.subject, **text_options, at: [0, pdf.bounds.top + 12], style: :italic)
   end
 
   def write_toc_item_title!(title, page_nr_width, style)
