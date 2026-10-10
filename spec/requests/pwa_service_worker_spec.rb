@@ -41,6 +41,9 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
   end
 
+  let(:helper_cache_name) do
+    ApplicationController.helpers.pwa_shell_cache_name
+  end
   let(:controller_selector) { 'body[data-controller~="pwa-service-worker"]' }
 
   it "does not route a format suffix" do
@@ -48,16 +51,36 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   end
 
   describe "GET /service-worker", with_settings: { login_required: true } do
-    before { get "/service-worker" }
+    before do
+      allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(false)
+      get "/service-worker"
+    end
 
     it "is served as JavaScript to a visitor without a session" do
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
     end
 
-    it "takes control of its clients without intercepting requests" do
+    it "takes control of its clients" do
       expect(response.body).to include("skipWaiting", "clients.claim")
-      expect(response.body).not_to match(/fetch|push/)
+    end
+
+    it "caches the shell under a versioned name and intercepts only fetches" do
+      expect(response.body).to include(helper_cache_name)
+      expect(response.body).to include("/assets/frontend/")
+      expect(response.body).to include('addEventListener("fetch"')
+      expect(response.body).not_to include("push")
+    end
+
+    context "when the dev proxy serves the assets" do
+      before do
+        allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(true)
+        get "/service-worker"
+      end
+
+      it "does not intercept fetches" do
+        expect(response.body).not_to include("fetch")
+      end
     end
   end
 
@@ -72,6 +95,12 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(page).to have_css('body[data-pwa-service-worker-scope-value="/"]', visible: :all)
     end
 
+    it "tells the controller the user is signed in" do
+      get "/my/page"
+
+      expect(page).to have_css('body[data-pwa-service-worker-signed-in-value="true"]', visible: :all)
+    end
+
     context "when served under a path prefix" do
       include_context "with a relative url root"
 
@@ -84,6 +113,12 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     end
   end
 
+  it "tells the controller an anonymous visitor is signed out" do
+    get "/login"
+
+    expect(page).to have_css('body[data-pwa-service-worker-signed-in-value="false"]', visible: :all)
+  end
+
   it "registers the worker on the logo-only layout too" do
     get "/404"
 
@@ -91,8 +126,13 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   end
 
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
-    it "serves no worker" do
-      expect { get "/service-worker" }.to raise_error(ActionController::RoutingError)
+    it "serves a worker that removes the shell caches and unregisters itself" do
+      get "/service-worker"
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/javascript")
+      expect(response.body).to include("openproject-shell-", "unregister")
+      expect(response.body).not_to include("fetch")
     end
 
     it "registers no worker" do

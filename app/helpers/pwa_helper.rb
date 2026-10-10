@@ -30,8 +30,26 @@
 
 module PwaHelper
   SHORT_NAME_MAX_LENGTH = 12
+  SHELL_CACHE_PREFIX = "openproject-shell-"
+  SHELL_ENTRY_FILES = %w[polyfills.js main.js styles.css].freeze
+  SHELL_ICONS = %w[pwa/icon-192.png pwa/icon-512.png pwa/icon-1024.png pwa/icon.svg].freeze
 
   def pwa_short_name(title = Setting.app_title)
     [title, title.split.first].compact.find { it.length <= SHORT_NAME_MAX_LENGTH }
+  end
+
+  def pwa_shell_cache_prefix = SHELL_CACHE_PREFIX
+
+  # Only same-origin paths: the worker caches nothing served from an asset host.
+  def pwa_shell_precache
+    return [] if FrontendAssetHelper.assets_proxied?
+
+    urls = SHELL_ENTRY_FILES.map { raw_variable_asset_path(it) } + SHELL_ICONS.map { image_path(it) }
+    urls.select { it.start_with?("/") && !it.start_with?("//") }
+  end
+
+  def pwa_shell_cache_name
+    version = [*pwa_shell_precache, CustomStyle.current&.digest, OpenProject::VERSION.to_s].join
+    "#{SHELL_CACHE_PREFIX}#{Digest::SHA256.hexdigest(version).first(16)}"
   end
 end

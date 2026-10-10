@@ -28,16 +28,28 @@
 
 import { Controller } from '@hotwired/stimulus';
 
+const SHELL_CACHE_PREFIX = 'openproject-shell-';
+
 export default class PwaServiceWorkerController extends Controller {
   static values = {
     url: String,
     scope: String,
+    signedIn: { type: Boolean, default: true },
   };
 
   declare readonly urlValue:string;
   declare readonly scopeValue:string;
+  declare readonly signedInValue:boolean;
 
   connect():void {
+    if (!this.signedInValue) {
+      this.clearShellCaches();
+    }
+
+    this.register();
+  }
+
+  private register():void {
     if (!('serviceWorker' in navigator) || !window.isSecureContext) {
       return;
     }
@@ -48,6 +60,25 @@ export default class PwaServiceWorkerController extends Controller {
         .catch(() => undefined);
     } catch {
       // Registration is a progressive enhancement; the app works without it.
+    }
+  }
+
+  private clearShellCaches():void {
+    if (!('caches' in window)) {
+      return;
+    }
+
+    try {
+      void window.caches
+        .keys()
+        .then((names) => Promise.all(
+          names
+            .filter((name) => name.startsWith(SHELL_CACHE_PREFIX))
+            .map((name) => window.caches.delete(name)),
+        ))
+        .catch(() => undefined);
+    } catch {
+      // Clearing is best effort; a later page load retries.
     }
   }
 }
