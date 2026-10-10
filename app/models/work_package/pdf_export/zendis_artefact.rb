@@ -110,6 +110,10 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   def write_zendis_cover_heading
     pdf.move_cursor_to(pdf.bounds.height * styles.layout[:cover_heading_position])
     pdf.formatted_text([cover_text_style(styles.cover_heading).merge(text: heading)])
+    write_zendis_cover_heading_rule
+  end
+
+  def write_zendis_cover_heading_rule
     pdf.move_down(styles.cover_heading_margin[:bottom_margin])
     rule = styles.section_title_hr
     write_horizontal_line(pdf.cursor, rule[:height], rule[:color])
@@ -125,11 +129,13 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   end
 
   def draw_zendis_header
-    text_options = { height: styles.layout[:header_height], overflow: :shrink_to_fit }
-    pdf.formatted_text_box([styles.page_header.merge(text: heading)], **text_options,
-                           at: [0, pdf.bounds.top + styles.layout[:header_heading_offset]])
-    pdf.formatted_text_box([styles.page_subheading.merge(text: work_package.subject)], **text_options,
-                           at: [0, pdf.bounds.top + styles.layout[:header_subject_offset]])
+    write_zendis_header_text(heading, styles.page_header, styles.layout[:header_heading_offset])
+    write_zendis_header_text(work_package.subject, styles.page_subheading, styles.layout[:header_subject_offset])
+  end
+
+  def write_zendis_header_text(text, text_style, offset)
+    pdf.formatted_text_box([text_style.merge(text:)], height: styles.layout[:header_height], overflow: :shrink_to_fit,
+                                                    at: [0, pdf.bounds.top + offset])
   end
 
   def write_toc_item_title!(title, page_nr_width, style)
@@ -162,8 +168,11 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   def write_zendis_cover_logo
     image_obj, image_info = logo_image
     scale = zendis_logo_scale(image_info)
-    position = [pdf.bounds.right - (image_info.width * scale), pdf.bounds.top - styles.layout[:logo_offset]]
-    pdf.embed_image(image_obj, image_info, at: position, scale:)
+    pdf.embed_image(image_obj, image_info, at: zendis_logo_position(image_info, scale), scale:)
+  end
+
+  def zendis_logo_position(image_info, scale)
+    [pdf.bounds.right - (image_info.width * scale), pdf.bounds.top - styles.layout[:logo_offset]]
   end
 
   def zendis_logo_scale(image_info)
