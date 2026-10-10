@@ -1,0 +1,16 @@
+<div class="op-timer-account-menu"
+     data-controller="my--timers"
+     data-my--timers-start-value="<%= time_entry.created_at.iso8601 %>"
+     data-ongoing-timer="<%= ongoing_timer_payload %>">
+  <span class="op-timer-account-menu--timer">
+    <%= t("my.timer.tracking") %>:&nbsp;<span data-my--timers-target="elapsedTime"></span>
+    <%= link_to dialog_time_entry_path(time_entry, onlyMe: true),
+                class: "op-timer-account-menu--timer-icon",
+                title: t(:button_stop_timer),
+                data: { turbo_stream: true, test_selector: "op-timer-account-menu-stop" } do %>
+      <%= render(Primer::Beta::Octicon.new(icon: :"op-stopwatch-stop", size: :small)) %>
+      <span><%= t("my.timer.stop") %></span>
+    <% end %>
+  </span>
+  <%= link_to entity_name, work_package_path(work_package), class: "op-timer-account-menu--wp-details" %>
+</div>

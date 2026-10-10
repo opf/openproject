@@ -25,32 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
-import { OpSharedModule } from 'core-app/shared/shared.module';
-import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
-import {
-  TriggerActionsEntryComponent,
-} from 'core-app/shared/components/time_entries/edit/trigger-actions-entry.component';
-import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
-import { CommonModule } from '@angular/common';
-import {
-  StopExistingTimerModalComponent,
-} from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
-@NgModule({
-  imports: [
-    // Commons
-    CommonModule,
-    OpSharedModule,
-    OpenprojectModalModule,
-  ],
-  declarations: [
-    TriggerActionsEntryComponent,
-    StopExistingTimerModalComponent,
-  ],
-  providers: [
-    TimeEntryTimerService,
-  ],
-})
-export class OpenprojectTimeEntriesModule {
+export interface OngoingTimer {
+  id:string;
+  createdAt:string;
+  entityId:string;
+  entityName:string;
+}
+
+export function isTimerForWorkPackage(timer:OngoingTimer|null|undefined, workPackage:WorkPackageResource):boolean {
+  return !!timer && timer.entityId === workPackage.id;
 }

@@ -906,9 +906,7 @@ en:
     text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
 
     time_entry:
-      stop: "Stop"
       title: "Log time"
-      tracking: "Time tracking"
       work_package_required: "Requires selecting a work package first."
 
     timer:

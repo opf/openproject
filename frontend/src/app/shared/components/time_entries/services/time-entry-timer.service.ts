@@ -30,19 +30,12 @@ import {
   Injectable,
   Injector,
 } from '@angular/core';
-import {
-  filter,
-  map,
-  tap,
-} from 'rxjs/operators';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { filter, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
-import {
-  BehaviorSubject,
-  firstValueFrom,
-  Observable,
-} from 'rxjs';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { formatTimeEntryEntityName, TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -51,14 +44,18 @@ import moment from 'moment/moment';
 import { StopExistingTimerModalComponent } from 'core-app/shared/components/time_entries/timer/stop-existing-timer-modal.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { octiconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { clockIconData } from '@openproject/octicons-angular';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
+import { OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
+
+export const TIMER_CHANGED_EVENT = 'op-dispatched:time-entries:timer-changed';
+const TIMER_FRAME_ID = 'my_timers';
+const AVATAR_ELEMENT = 'opce-principal';
 
 @Injectable()
 export class TimeEntryTimerService {
-  public timer$ = new BehaviorSubject<TimeEntryResource|null|undefined>(undefined);
+  public timer$ = new BehaviorSubject<OngoingTimer|null|undefined>(undefined);
 
   public activeTimer$ = this
     .timer$
@@ -72,76 +69,107 @@ export class TimeEntryTimerService {
   private turboRequestsService = inject(TurboRequestsService);
   private pathHelperService = inject(PathHelperService);
   private I18n = inject(I18nService);
-  private halResourceService = inject(HalResourceService);
   private modalService = inject(OpModalService);
   private injector = inject(Injector);
 
   private closeDialogHandler:EventListener = this.handleTimeEntryDialogClose.bind(this);
+  private frameLoadHandler:EventListener = this.handleFrameLoad.bind(this);
   private shouldStartTimerFor:WorkPackageResource|null = null;
+  private initialized = false;
 
   public initialize() {
-    // Listen to dialog close events to possibly start a new timer
-    document.addEventListener('dialog:close', this.closeDialogHandler);
+    if (!this.initialized) {
+      this.initialized = true;
+      document.addEventListener('dialog:close', this.closeDialogHandler);
+      document.addEventListener('turbo:frame-load', this.frameLoadHandler);
 
-    // Refresh the timer after some interval to not block other resources
-    setTimeout(() => this.refresh().subscribe(), 100);
+      this
+        .activeTimer$
+        .subscribe(() => { void this.syncBadge(); });
+    }
 
-    this
-      .activeTimer$
-      .subscribe((entry) => {
-        this.removeTimer();
-
-        if (entry) {
-          this.renderTimer();
-        }
-      });
-  }
-
-  public refresh():Observable<TimeEntryResource|null> {
-    const filters = new ApiV3FilterBuilder();
-    filters.add('ongoing', '=', true);
-
-    return this
-      .apiV3Service
-      .time_entries
-      .filtered(filters)
-      .get()
-      .pipe(
-        map((collection) => collection.elements.pop() || null),
-        tap((active) => this.timer$.next(active)),
-      );
+    this.timer$.next(this.readState());
   }
 
   async stop():Promise<unknown> {
-    const active = await firstValueFrom(this.refresh());
+    const active = await this.fetchActiveTimer();
 
     if (!active) {
       return this.toastService.addWarning(this.I18n.t('js.timer.timer_already_stopped'));
     }
 
     return this.turboRequestsService.request(
-      this.pathHelperService.timeEntryEditDialog(active.id!),
+      this.pathHelperService.timeEntryEditDialog(active.id),
       { method: 'GET' },
     );
   }
 
-  start(workPackage:WorkPackageResource):void {
-    this
-      .refresh()
-      .subscribe((active) => {
-        if (active) {
-          this.showStopModal(active)
-            .then(() => {
-              this.shouldStartTimerFor = workPackage;
-              void this.stop();
-            })
-            .catch(() => undefined);
-        } else {
-          this.startTimer(workPackage);
-        }
-      });
+  async start(workPackage:WorkPackageResource):Promise<void> {
+    const active = await this.fetchActiveTimer();
+
+    if (!active) {
+      this.startTimer(workPackage);
+      return;
+    }
+
+    try {
+      await this.showStopModal(active);
+    } catch {
+      return;
+    }
+
+    this.shouldStartTimerFor = workPackage;
+    void this.stop();
   }
 
+  private fetchActiveTimer():Promise<OngoingTimer|null> {
+    const filters = new ApiV3FilterBuilder();
+    filters.add('ongoing', '=', true);
+
+    return firstValueFrom(
+      this
+        .apiV3Service
+        .time_entries
+        .filtered(filters)
+        .get()
+        .pipe(
+          map((collection) => {
+            const entry = collection.elements.pop();
+            return entry ? TimeEntryTimerService.toOngoingTimer(entry) : null;
+          }),
+          tap((active) => this.timer$.next(active)),
+        ),
+    );
+  }
+
+  private static toOngoingTimer(entry:TimeEntryResource):OngoingTimer {
+    return {
+      id: entry.id!,
+      createdAt: entry.createdAt as string,
+      entityId: idFromLink(entry.entity.href),
+      entityName: formatTimeEntryEntityName(entry.entity),
+    };
+  }
+
+  private readState():OngoingTimer|null {
+    const payload = document
+      .querySelector<HTMLElement>(`#${TIMER_FRAME_ID} [data-ongoing-timer]`)
+      ?.dataset
+      .ongoingTimer;
+
+    return payload ? JSON.parse(payload) as OngoingTimer : null;
+  }
+
+  // Upgrading the avatar custom element clears its children, so drawing the
+  // badge before the element is defined (i.e. during app initialization) loses it.
+  private async syncBadge():Promise<void> {
+    await customElements.whenDefined(AVATAR_ELEMENT);
+
+    this.removeTimer();
+    if (this.timer$.value) {
+      this.renderTimer();
+    }
+  }
 
   private renderTimer() {
     const timerElement = document.createElement('span');
@@ -160,17 +188,10 @@ export class TimeEntryTimerService {
 
   private startTimer(workPackage:WorkPackageResource):void {
     this
-      .createTimer(workPackage)
-      .subscribe((active) => {
-        this.timer$.next(active);
-      });
-  }
-
-  private createTimer(workPackage:WorkPackageResource):Observable<TimeEntryResource> {
-    return this
       .apiV3Service
       .time_entries
-      .post(this.timerPayload(workPackage));
+      .post(this.timerPayload(workPackage))
+      .subscribe(() => document.dispatchEvent(new CustomEvent(TIMER_CHANGED_EVENT)));
   }
 
   private timerPayload(workPackage:WorkPackageResource) {
@@ -186,7 +207,7 @@ export class TimeEntryTimerService {
     };
   }
 
-  private showStopModal(active:TimeEntryResource):Promise<void> {
+  private showStopModal(active:OngoingTimer):Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this
         .modalService
@@ -201,6 +222,11 @@ export class TimeEntryTimerService {
     });
   }
 
+  private handleFrameLoad(event:Event):void {
+    if ((event.target as HTMLElement).id === TIMER_FRAME_ID) {
+      this.timer$.next(this.readState());
+    }
+  }
 
   private handleTimeEntryDialogClose(event:CustomEvent<DialogCloseDetail>):void {
     const { detail: { dialog, submitted } } = event;

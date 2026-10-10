@@ -27,7 +27,7 @@
 
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
+import { OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
 import {
   Observable,
   timer,
@@ -52,7 +52,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
 
   @HostBinding('class.op-timer-stop-modal') className = true;
 
-  public active:TimeEntryResource;
+  public active:OngoingTimer;
 
   public confirmed = false;
 
@@ -60,7 +60,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     .pipe(
       map(() => this.active),
       filter((timeEntry) => timeEntry !== null),
-      map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
+      map((timeEntry:OngoingTimer) => formatElapsedTime(timeEntry.createdAt)),
     );
 
   public text = {
@@ -71,13 +71,9 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     tracking_time: this.I18n.t('js.timer.tracking_time'),
   };
 
-  get entityName():string {
-    return formatTimeEntryEntityName(this.active.entity);
-  }
-
   ngOnInit() {
     super.ngOnInit();
-    this.active = this.locals.timer as TimeEntryResource;
+    this.active = this.locals.timer as OngoingTimer;
   }
 
   saveAndClose():void {

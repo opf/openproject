@@ -29,20 +29,34 @@
 #++
 
 module My
-  class TimerController < ApplicationController
-    before_action :require_login
-    before_action :find_active_timer, only: %i[show]
+  module Timer
+    class MenuSectionComponent < ApplicationComponent
+      CHANGED_EVENT = "op-dispatched:time-entries:timer-changed"
 
-    no_authorization_required! :show
+      options :time_entry
 
-    def show
-      render layout: nil
-    end
+      def render?
+        time_entry.present?
+      end
 
-    private
+      private
 
-    def find_active_timer
-      @timer = TimeEntry.visible_ongoing(current_user).first
+      def work_package
+        time_entry.entity
+      end
+
+      def entity_name
+        "#{work_package.formatted_id}: #{work_package.subject}"
+      end
+
+      def ongoing_timer_payload
+        {
+          id: time_entry.id.to_s,
+          createdAt: time_entry.created_at.iso8601,
+          entityId: work_package.id.to_s,
+          entityName: entity_name
+        }.to_json
+      end
     end
   end
 end
