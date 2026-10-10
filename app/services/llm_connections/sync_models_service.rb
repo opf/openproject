@@ -171,8 +171,10 @@ module LlmConnections
     # on_delete: :nullify, so the database clears them as the rows go. A feature
     # bound to one is released here, because the binding names a string and
     # would otherwise silently re-attach to whatever the new server happens to
-    # call by the same name. Administrator assertions survive, as they do on an
-    # ordinary refresh: they are statements about a model, not about a server.
+    # call by the same name. A locked binding stays, because it records what an
+    # existing index was written with. Administrator assertions survive, as they
+    # do on an ordinary refresh: they are statements about a model, not about a
+    # server.
     def forget_the_previous_deployment
       ActiveRecord::Base.transaction do
         discard_discovered_models(connection.models.discovered.pluck(:external_id))
@@ -184,7 +186,7 @@ module LlmConnections
     def discard_discovered_models(discarded)
       connection.models.discovered.delete_all
       connection.capability_verdicts.where.not(source: "admin").delete_all
-      connection.feature_bindings.where(model_id: discarded).delete_all
+      connection.feature_bindings.where(model_id: discarded, locked_at: nil).delete_all
     end
 
     # The administrator's context-window override is theirs, and a routine

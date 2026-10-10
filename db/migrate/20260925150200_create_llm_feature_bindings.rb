@@ -40,6 +40,9 @@ class CreateLlmFeatureBindings < ActiveRecord::Migration[8.1]
       # Set once the binding has data depending on it, after which the model
       # cannot be swapped without a destructive re-index.
       t.datetime :locked_at
+      # The deployment the lock was taken on: the same model name on another
+      # server need not be the same model.
+      t.string :locked_deployment_fingerprint
       t.datetime :last_seen_at
 
       t.timestamps null: false
