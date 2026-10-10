@@ -1,0 +1,82 @@
+<% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
+<%
+  precache = pwa_shell_precache
+  cache_name = pwa_shell_cache_name
+%>
+const CACHE_PREFIX = <%== pwa_shell_cache_prefix.to_json %>;
+const CACHE_NAME = <%== cache_name.to_json %>;
+const PRECACHE = <%== precache.to_json %>;
+const HASHED_ASSETS_PATH = <%== "#{root_path}assets/frontend/".to_json %>;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(PRECACHE))
+      .then(() => self.skipWaiting()),
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) =>
+        Promise.all(
+          names
+            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
+            .map((name) => caches.delete(name)),
+        ),
+      )
+      .then(() => self.clients.claim()),
+  );
+});
+
+<% unless precache.empty? %>
+// Only hashed (immutable) frontend assets and the precached shell are served from the cache.
+const cacheable = (request) => {
+  if (request.method !== "GET") return false;
+
+  const url = new URL(request.url);
+  return (
+    url.origin === self.location.origin &&
+    (url.pathname.startsWith(HASHED_ASSETS_PATH) || PRECACHE.includes(url.pathname))
+  );
+};
+
+const cacheFirst = async (request) => {
+  const cache = await caches.open(CACHE_NAME);
+  const cached = await cache.match(request);
+  if (cached) return cached;
+
+  const response = await fetch(request);
+  if (response.ok && response.type === "basic") {
+    await cache.put(request, response.clone());
+  }
+  return response;
+};
+
+self.addEventListener("fetch", (event) => {
+  if (cacheable(event.request)) {
+    event.respondWith(cacheFirst(event.request));
+  }
+});
+<% end %>
+<% else %>
+const CACHE_PREFIX = <%== pwa_shell_cache_prefix.to_json %>;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) =>
+        Promise.all(names.filter((name) => name.startsWith(CACHE_PREFIX)).map((name) => caches.delete(name))),
+      )
+      .then(() => self.registration.unregister()),
+  );
+});
+<% end %>
