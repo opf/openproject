@@ -72,14 +72,26 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.body).not_to include("push")
     end
 
+    it "precaches the offline page without credentials and shows it for failed navigations" do
+      expect(response.body).to include('"/offline"', 'credentials: "omit"', 'request.mode === "navigate"')
+      expect(response.body).to include("navigationPreload")
+    end
+
     context "when the dev proxy serves the assets" do
       before do
         allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(true)
         get "/service-worker"
       end
 
-      it "does not intercept fetches" do
-        expect(response.body).not_to include("fetch")
+      it "still precaches the offline page but no assets" do
+        expect(response.body).to include('"/offline"')
+        expect(response.body).to include("const PRECACHE = []")
+      end
+
+      # The offline page is shown without a network, so its logo must come from the cache too.
+      it "serves the offline page's images from the cache without caching other assets" do
+        expect(response.body).to include("const CACHE_HASHED_ASSETS = false")
+        expect(response.body).to match(%r{const CACHED_PATHS = \[[^\]]*"/assets/logo_openproject_white_big\.png"})
       end
     end
   end

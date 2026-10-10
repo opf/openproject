@@ -6075,6 +6075,19 @@ en:
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
           heading: "Automatic"
 
+  pwa:
+    offline:
+      title: "Offline"
+      headline: "You’re offline"
+      headline_online: "You’re back online"
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      retry: "Retry"
+      retrying: "Retrying…"
+      reloading: "Reloading…"
+      status_checking: "Checking your connection…"
+      status_still: "Still offline. We’ll try again in a moment."
+      status_restored: "Connection restored. Reloading…"
+
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
 
