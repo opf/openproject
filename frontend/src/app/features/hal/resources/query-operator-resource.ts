@@ -30,7 +30,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 export class QueryOperatorResource extends HalResource {
   public get id():string {
-    return this.$source.id || idFromLink(this.href);
+    return (this.$source.id as string) || idFromLink(this.href);
   }
 
   public set id(val:string) {

@@ -31,20 +31,27 @@ import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
+import { CallableHalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { cloneDeep } from 'lodash-es';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export type HalResourceClass<T extends HalResource = HalResource> = new(
   _injector:Injector,
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  _source:any,
+  _source:unknown,
   _$loaded:boolean,
-  _halInitializer:(_:T) => void,
+  _halInitializer:(_:HalResource) => void,
   _$halType:string,
 ) => T;
+
+export interface HalResourceLinks {
+  self:CallableHalLink;
+  [name:string]:CallableHalLink|CallableHalLink[]|undefined;
+}
+
+export type HalResourceEmbedded = Record<string, unknown>;
 
 export class HalResource {
   // TODO this is the source of many issues in the frontend
@@ -86,23 +93,25 @@ export class HalResource {
    */
   public constructor(
     public injector:Injector,
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    public $source:any,
+    $source:unknown,
     public $loaded:boolean,
-    public halInitializer:(halResource:any) => void,
+    public halInitializer:(halResource:HalResource) => void,
     $halType:string,
   ) {
+    this.$source = $source as HalSource;
     this.$halType = $halType;
     this.$initialize($source);
   }
 
-  public static getEmptyResource(self:{ href:string|null } = { href: null }):any {
+  public static getEmptyResource(self:{ href:string|null } = { href: null }):HalSource {
     return { _links: { self } };
   }
 
-  public $links:any = {};
+  public $source:HalSource;
 
-  public $embedded:any = {};
+  public $links = {} as HalResourceLinks;
+
+  public $embedded:HalResourceEmbedded = {};
 
   public $self:Promise<this>;
 
@@ -113,8 +122,13 @@ export class HalResource {
     return match?.[1] ?? null;
   }
 
-  public $initialize(source:any) {
-    this.$source = source.$source || source;
+  public $initialize(source:unknown) {
+    const wrapped = (source as { $source?:HalSource }).$source;
+    if (wrapped) {
+      this.$source = wrapped;
+    } else {
+      this.$source = source as HalSource;
+    }
     this.halInitializer(this);
   }
 
@@ -137,7 +151,7 @@ export class HalResource {
    */
   public get id():string|null {
     if (this.$source.id) {
-      return this.$source.id.toString();
+      return (this.$source.id as string|number).toString();
     }
 
     const id = idFromLink(this.href);
@@ -170,12 +184,12 @@ export class HalResource {
    * @returns A HalResource with the identitical copied source of other.
    */
   public $copy<T extends HalResource = HalResource>(source:object = {}):T {
-    const clone:HalResourceClass<T> = this.constructor as any;
+    const clone = this.constructor as HalResourceClass<T>;
 
     return new clone(this.injector, merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
 
-  public $plain():any {
+  public $plain():HalSource {
     // Use a deep clone (not structuredClone) because $source may contain
     // HalResource instances (e.g. filter values), which carry functions and
     // injector state that structuredClone cannot clone (DataCloneError).
@@ -268,7 +282,7 @@ export class HalResource {
 
     // Reset and load this resource
     this.$loaded = false;
-    this.$self = this.$links.self({}).then((source:any) => {
+    this.$self = this.$links.self({}).then((source:HalResource) => {
       this.$loaded = true;
       this.$initialize(source.$source);
       return this;

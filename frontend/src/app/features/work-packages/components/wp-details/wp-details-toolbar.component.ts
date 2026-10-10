@@ -61,7 +61,6 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   };
 
   ngOnInit() {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     this.displayShareButton$ = this.currentUserService.hasCapabilities$('work_package_shares/index', this.workPackage.project.id);
     this.displayReminderButton$ = this.currentUserService.isLoggedInAndHasCapabalities$(
       'work_packages/read',

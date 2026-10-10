@@ -170,17 +170,21 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .id(this.workPackage)
       .requireAndStream()
       .pipe(this.untilDestroyed())
-      .subscribe(async (wp) => {
-        this.workPackage = wp;
-
-        if (!this.projectId) {
-          await this.initialize(this.workPackage);
-        }
-
-        if (wp.bcfViewpoints) {
-          this.refreshViewpoints(wp.bcfViewpoints);
-        }
+      .subscribe((wp) => {
+        void this.onWorkPackageChange(wp);
       });
+  }
+
+  private async onWorkPackageChange(wp:WorkPackageResource) {
+    this.workPackage = wp;
+
+    if (!this.projectId) {
+      await this.initialize(this.workPackage);
+    }
+
+    if (wp.bcfViewpoints) {
+      this.refreshViewpoints(wp.bcfViewpoints as unknown as HalLink[]);
+    }
   }
 
   async initialize(workPackage:WorkPackageResource) {

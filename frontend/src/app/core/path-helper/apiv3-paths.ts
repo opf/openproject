@@ -27,7 +27,6 @@
 
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ApiV3Paths {
   readonly apiV3Base:string;
@@ -95,7 +94,7 @@ export class ApiV3Paths {
 
     if (!workPackage.id || workPackage.id === 'new') {
       // that are members of that project:
-      filters.add('member', '=', [(workPackage.project as HalResource).id!]);
+      filters.add('member', '=', [workPackage.project.id!]);
     } else {
       // that are mentionable on the work package
       filters.add(
