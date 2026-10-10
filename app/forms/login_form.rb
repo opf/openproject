@@ -55,36 +55,27 @@ class LoginForm < ApplicationForm
       autocomplete: "current-password"
     )
 
-    if Setting::Autologin.enabled?
-      f.check_box name: "autologin",
-                  id: "autologin#{@id_suffix}",
-                  checked: false,
-                  value: 1,
-                  label: I18n.t("users.autologins.prompt",
-                                num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
+    f.group(layout: :horizontal,
+            justify_content: Setting::Autologin.enabled? ? :space_between : :flex_end,
+            align_items: :center) do |g|
+      if Setting::Autologin.enabled?
+        g.check_box name: "autologin",
+                    id: "autologin#{@id_suffix}",
+                    checked: false,
+                    value: 1,
+                    label: I18n.t("users.autologins.prompt",
+                                  num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
+      end
+
+      if Setting.lost_password?
+        g.html_content do
+          render(Primer::Beta::Link.new(href: url_helpers.account_lost_password_path)) { I18n.t(:label_password_lost) }
+        end
+      end
     end
 
     f.html_content do
-      flex_layout(justify_content: :space_between, align_items: :center) do |flex|
-        flex.with_column do
-          render(Primer::Beta::Button.new(type: :submit, scheme: :primary)) { I18n.t(:button_login) }
-        end
-
-        flex.with_column do
-          flex_layout do |links|
-            if Setting::SelfRegistration.enabled?
-              links.with_row do
-                render(Primer::Beta::Link.new(href: url_helpers.account_register_path)) { I18n.t(:label_register) }
-              end
-            end
-            if Setting.lost_password?
-              links.with_row do
-                render(Primer::Beta::Link.new(href: url_helpers.account_lost_password_path)) { I18n.t(:label_password_lost) }
-              end
-            end
-          end
-        end
-      end
+      render(Primer::Beta::Button.new(type: :submit, scheme: :primary, block: true)) { I18n.t(:button_login) }
     end
   end
 

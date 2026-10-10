@@ -34,7 +34,7 @@ RSpec.describe "rendering the login buttons for all providers" do
     [
       { name: "mock_auth" },
       { name: "test_auth", display_name: "Test" },
-      { name: "foob_auth", icon: "foobar.png" }
+      { name: "foob_auth", display_name: "Foobar", icon: "auth_provider-saml.png" }
     ]
   end
 
@@ -45,11 +45,19 @@ RSpec.describe "rendering the login buttons for all providers" do
   end
 
   it "shows the mock_auth button with the name as its label" do
-    expect(rendered).to match /#{providers[0][:name]}/
+    expect(rendered).to have_link(text: "Continue with #{providers[0][:name]}")
   end
 
   it "shows the test_auth button with the given display_name as its label" do
-    expect(rendered).to match /#{providers[1][:display_name]}/
+    expect(rendered).to have_link(text: "Continue with #{providers[1][:display_name]}")
+  end
+
+  it "renders the provider icon inside the button" do
+    expect(rendered).to have_css("a.auth-provider-foob_auth img.auth-provider-icon")
+  end
+
+  it "renders no icon for providers without one" do
+    expect(rendered).to have_no_css("a.auth-provider-mock_auth img")
   end
 
   it "links to the OmniAuth start form" do

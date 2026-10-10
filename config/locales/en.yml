@@ -47,7 +47,9 @@ en:
         view: "A dynamic link to a view placed using a macro."
         work_package: "A dynamic link to a work package placed using a macro."
   account:
+    already_have_an_account: "You already have an account?"
     auth_source_login_html: Please login as <em>%{login}</em> to activate your account.
+    continue_with_provider: "Continue with %{name}"
     delete: "Delete account"
     delete_confirmation: "Are you sure you want to delete the account?"
     deletion_info:
@@ -72,7 +74,9 @@ en:
     error_self_registration_limited_provider: >
       User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the
       account for you or change the self registration limit for this provider.
-    login_with_auth_provider: "or sign in with your existing account"
+    login_title: "Sign in to %{app_title}"
+    login_with_external_account: "Sign in with an external account"
+    no_account_yet: "You don't have an account yet?"
     omniauth_direct_login_continue: "Continue to sign in"
     omniauth_direct_login_redirecting: "Redirecting you to your identity provider…"
     omniauth_login: Please login to activate your account.
@@ -452,7 +456,7 @@ en:
         last_name: "Last name"
         ldap_auth_source: "LDAP connection"
         new_password: "New password"
-        password_confirmation: "Confirmation"
+        password_confirmation: "Password confirmation"
       user_custom_field:
         custom_field_section: Section
       user_non_working_time:
