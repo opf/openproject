@@ -57,12 +57,14 @@
     end %>
 
 <% if show_default_hint %>
-  <%= render(Primer::Alpha::Select.new(
-        name: "address_custom_field_id",
-        label: I18n.t("pdf_generator.template_zendis_artefact.address_field"),
-        caption: I18n.t("pdf_generator.template_zendis_artefact.address_caption"),
-        disabled: disabled
-      )) do |select| %>
+  <%= render(
+        Primer::Alpha::Select.new(
+          name: "address_custom_field_id",
+          label: I18n.t("pdf_generator.template_zendis_artefact.address_field"),
+          caption: I18n.t("pdf_generator.template_zendis_artefact.address_caption"),
+          disabled: disabled
+        )
+      ) do |select| %>
     <% select.option(label: I18n.t(:label_none), value: "", selected: address_custom_field_id.blank?) %>
     <% address_custom_fields.each do |field| %>
       <% select.option(label: field.name, value: field.id, selected: address_custom_field_id == field.id.to_s) %>

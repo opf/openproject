@@ -60,12 +60,8 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   def write_cover_page!
     write_zendis_cover_image
     write_zendis_cover_logo
-    pdf.move_cursor_to(pdf.bounds.height * 0.60)
-    pdf.formatted_text([{ text: heading, styles: [:bold] }], size: 24)
-    pdf.move_down(6)
-    write_horizontal_line(pdf.cursor, 1, "00D7C3")
-    pdf.move_down(24)
-    pdf.text(work_package.subject, size: 10)
+    write_zendis_cover_heading
+    write_zendis_cover_subtitle
     pdf.text_box(document_date, at: [0, 0], size: 8, height: 20)
     pdf.start_new_page
   end
@@ -95,19 +91,17 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   end
 
   def write_headers_footers
-    pdf.repeat(2..pdf.page_count) do
-      pdf.text_box(heading, at: [0, pdf.bounds.top + 24], size: 8, style: :bold, height: 14, overflow: :shrink_to_fit)
-      pdf.text_box(work_package.subject, at: [0, pdf.bounds.top + 12], size: 8, style: :italic, height: 14, overflow: :shrink_to_fit)
-    end if pdf.page_count > 1
+    write_running_headers if pdf.page_count > 1
     write_footers!
   end
 
   def write_section_title(text)
+    cell_style = {
+      background_color: "000000", text_color: "00D7C3", font_style: :bold,
+      size: styles.section_title[:size], padding: [1, 2], borders: []
+    }
     with_margin(styles.section_title_margins) do
-      pdf.table([[text]], cell_style: {
-        background_color: "000000", text_color: "00D7C3", font_style: :bold,
-        size: styles.section_title[:size], padding: [1, 2], borders: []
-      })
+      pdf.table([[text]], cell_style:)
     end
   end
 
@@ -125,6 +119,29 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   end
 
   private
+
+  def write_zendis_cover_heading
+    pdf.move_cursor_to(pdf.bounds.height * 0.60)
+    pdf.formatted_text([{ text: heading, styles: [:bold] }], size: 24)
+    pdf.move_down(6)
+    write_horizontal_line(pdf.cursor, 1, "00D7C3")
+  end
+
+  def write_zendis_cover_subtitle
+    pdf.move_down(24)
+    pdf.text(work_package.subject, size: 10)
+  end
+
+  def write_running_headers
+    pdf.repeat(2..pdf.page_count) { draw_zendis_header }
+  end
+
+  def draw_zendis_header
+    pdf.text_box(heading, at: [0, pdf.bounds.top + 24], size: 8,
+                         style: :bold, height: 14, overflow: :shrink_to_fit)
+    pdf.text_box(work_package.subject, at: [0, pdf.bounds.top + 12], size: 8,
+                                      style: :italic, height: 14, overflow: :shrink_to_fit)
+  end
 
   def write_toc_item_title!(title, page_nr_width, style)
     available_width = pdf.bounds.width - page_nr_width - 8
@@ -155,13 +172,18 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
 
   def write_zendis_cover_logo
     image_obj, image_info = logo_image
-    scale = [70 / image_info.height.to_f, 140 / image_info.width.to_f, 1].min
-    pdf.embed_image(image_obj, image_info, at: [pdf.bounds.right - image_info.width * scale, pdf.bounds.top - 30], scale:)
+    scale = zendis_logo_scale(image_info)
+    position = [pdf.bounds.right - (image_info.width * scale), pdf.bounds.top - 30]
+    pdf.embed_image(image_obj, image_info, at: position, scale:)
+  end
+
+  def zendis_logo_scale(image_info)
+    [70 / image_info.height.to_f, 140 / image_info.width.to_f, 1].min
   end
 
   def zendis_cover_image
     style = CustomStyle.current
-    return unless style&.export_cover&.local_file.present?
+    return if style&.export_cover&.local_file.blank?
 
     image = style.export_cover.local_file.path
     image if pdf_embeddable?(OpenProject::ContentTypeDetector.new(image).detect)

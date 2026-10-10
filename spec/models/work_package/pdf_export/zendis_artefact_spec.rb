@@ -40,7 +40,8 @@ RSpec.describe WorkPackage::PDFExport::ZendisArtefact do
   let(:project) { create(:project, types: [type], public: true) }
   let(:user) { create(:admin) }
   let(:work_package) do
-    create(:work_package, project:, type:, subject: "Finalising the product",
+    create(:work_package,
+           project:, type:, subject: "Finalising the product",
            description: "Do not export this primary description",
            custom_values: { content_field.id => "The **proposed** change", address_field.id => "Example address" })
   end
@@ -79,7 +80,7 @@ RSpec.describe WorkPackage::PDFExport::ZendisArtefact do
     let(:options) { { toc: false, include_lifecycle: false, include_budget: false } }
 
     it "does not append a contact page" do
-      expect(exporter.toc_entries.map { |entry| entry[:key] }).not_to include("contact")
+      expect(exporter.toc_entries.pluck(:key)).not_to include("contact")
       expect(pdf_strings.join(" ")).to include("Example address")
     end
   end
@@ -89,7 +90,7 @@ RSpec.describe WorkPackage::PDFExport::ZendisArtefact do
 
     it "ignores the mapping" do
       expect(export_pdf.content).to start_with("%PDF")
-      expect(exporter.toc_entries.map { |entry| entry[:key] }).not_to include("contact")
+      expect(exporter.toc_entries.pluck(:key)).not_to include("contact")
     end
   end
 
@@ -101,7 +102,8 @@ RSpec.describe WorkPackage::PDFExport::ZendisArtefact do
       end
     end
     let!(:child) do
-      create(:work_package, project:, type:, parent: work_package, subject: "Related deliverable",
+      create(:work_package,
+             project:, type:, parent: work_package, subject: "Related deliverable",
              description: "Related description", custom_values: { content_field.id => "Related long text" })
     end
 
