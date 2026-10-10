@@ -56,7 +56,7 @@ export class WidgetWpGraphComponent extends AbstractWidgetComponent implements O
     this.resource.options.chartType = type;
   }
 
-  public updateGraph(config:any) {
+  public updateGraph():void {
     this.graphConfiguration.persistAndReload()
       .then(() => {
         this.repaint();

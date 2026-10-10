@@ -94,6 +94,7 @@ import { firstValueFrom } from 'rxjs';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HTTPClientParamMap } from 'core-app/features/hal/http/http.interfaces';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -175,7 +176,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private canAdd = firstValueFrom(this.wpInlineCreate.canAdd);
 
-  public columnsQueryProps:any;
+  public columnsQueryProps:HTTPClientParamMap;
 
   public get text() {
     return {
@@ -479,7 +480,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
 
     const newFilters = existingFilters.concat(filters);
-    const newColumnsQueryProps:any = {
+    const newColumnsQueryProps:HTTPClientParamMap = {
       'columns[]': ['id', 'subject'],
       showHierarchies: false,
       pageSize: 500,
