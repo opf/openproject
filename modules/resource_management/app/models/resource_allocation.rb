@@ -52,6 +52,8 @@ class ResourceAllocation < ApplicationRecord
   # request stays readable.
   belongs_to :placeholder_user, optional: true, inverse_of: :resource_allocations, autosave: true
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
+  belongs_to :visible_principal, -> { visible }, class_name: "User", foreign_key: :principal_id, optional: true,
+                                                 inverse_of: false
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
   belongs_to :principal_assigned_by, class_name: "User", optional: true
@@ -86,6 +88,18 @@ class ResourceAllocation < ApplicationRecord
     joins(joins.join(" ")).where(conditions.join(" OR "), project_id: project_id)
   }
 
+  scope :overlapping, ->(date_range) {
+    where("daterange(start_date, end_date, '[]') && daterange(?, ?, '[]')",
+          date_range.begin, date_range.end)
+  }
+
+  scope :for_projects, ->(projects) {
+    joins = ENTITY_PROJECT_JOINS.values.pluck(:join)
+    conditions = ENTITY_PROJECT_JOINS.values.map { |source| "#{source[:project_id]} IN (:project_ids)" }
+
+    joins(joins.join(" ")).where(conditions.join(" OR "), project_ids: projects)
+  }
+
   # Loaded once per page so the allocation columns (progress bar and members)
   # share a single query.
   def self.allocated_for_work_packages(work_packages)
@@ -113,10 +127,23 @@ class ResourceAllocation < ApplicationRecord
     Principal.visible(user).where(id: principal_ids).pluck(:id).to_set
   end
 
+  # Without a project (a global planner) each allocation is counted against the
+  # project of its own work package, since a placeholder's candidates are its
+  # members.
   def self.candidate_counts(allocations, project:)
-    return {} if project.nil?
-
     filter_based = allocations.select(&:filter_based?)
+    return {} if filter_based.empty?
+
+    return candidate_counts_for(filter_based, project) if project
+
+    filter_based.group_by(&:project).reduce({}) do |counts, (allocation_project, grouped)|
+      next counts if allocation_project.nil?
+
+      counts.merge(candidate_counts_for(grouped, allocation_project))
+    end
+  end
+
+  def self.candidate_counts_for(filter_based, project)
     placeholders = filter_based.filter_map(&:placeholder_user).uniq(&:id)
     PlaceholderUser.preload_candidate_counts(placeholders, project:)
 
@@ -124,6 +151,7 @@ class ResourceAllocation < ApplicationRecord
 
     filter_based.to_h { |allocation| [allocation.id, counts.fetch(allocation.placeholder_user_id, 0)] }
   end
+  private_class_method :candidate_counts_for
 
   # Users without configured working hours are skipped — their capacity is
   # unknown, not zero (mirroring the check made when an allocation is created).
@@ -202,18 +230,26 @@ class ResourceAllocation < ApplicationRecord
     principal_id.present?
   end
 
+  def staffed?
+    filter_based? && user_assigned?
+  end
+
   def placeholder_or_user
-    placeholder_user || principal
+    principal || placeholder_user
   end
 
   def placeholder_or_user_id
-    placeholder_user_id || principal_id
+    principal_id || placeholder_user_id
   end
 
+  # Picking a user for a staffed allocation re-staffs it, so the placeholder
+  # stays as the original request.
   def placeholder_or_user=(value)
     if value.is_a?(PlaceholderUser)
       self.placeholder_user = value
       self.principal = nil
+    elsif value && staffed?
+      self.principal = value
     else
       self.principal = value
       self.placeholder_user = nil

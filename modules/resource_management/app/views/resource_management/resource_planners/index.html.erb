@@ -44,10 +44,11 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @resource_planners.any? %>
     <%= render(ResourcePlanners::TableComponent.new(rows: @resource_planners, current_project: @project)) %>
   <% else %>
+    <% blank_description = @project ? "resource_management.blankslate.desc" : "resource_management.blankslate.global_desc" %>
     <%= render(Primer::Beta::Blankslate.new) do |blankslate|
           blankslate.with_visual_icon(icon: :people)
           blankslate.with_heading(tag: :h2) { t("resource_management.blankslate.title") }
-          blankslate.with_description { t("resource_management.blankslate.desc") }
+          blankslate.with_description { t(blank_description) }
         end %>
   <% end %>
 <% end %>

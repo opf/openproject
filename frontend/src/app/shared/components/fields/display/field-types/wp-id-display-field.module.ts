@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { IdDisplayField } from 'core-app/shared/components/fields/display/field-types/id-display-field.module';
@@ -44,9 +42,7 @@ export class WorkPackageIdDisplayField extends IdDisplayField {
 
   @LazyInject() urlParams!:UrlParamsService;
 
-  @LazyInject() $state!:StateService;
-
-  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams, this.$state);
+  private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.keepTab, this.currentProject, this.pathHelper, this.urlParams);
 
   public get valueString():string {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return,@typescript-eslint/no-unsafe-member-access

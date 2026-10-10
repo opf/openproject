@@ -144,7 +144,6 @@ el:
   button_add_time_entry: Καταγραφή χρόνου
   button_log_costs: Καταγραφή κόστους μονάδας
   button_log_time: Αρχείο καταγραφής
-  button_stop_timer: Διακοπή χρονόμετρου
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Κλείστηκαν στο έργο
@@ -214,7 +213,6 @@ el:
   label_current: Current
   label_current_default_rate: Τρέχουσα προεπιλεγμένη αμοιβή
   label_date_on: σε
-  label_day: Ημέρα
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Διαγραμμένοι τύποι κόστους
   label_display_cost_entries: Εμφάνιση μονάδων κόστους
@@ -230,23 +228,12 @@ el:
   label_less_or_equal: "<="
   label_list: Προβολή λίστας
   label_log_costs: Καταγραφή κόστους μονάδας
-  label_month: Μήνας
-  label_my_time_tracking: Η παρακολούθηση χρόνου μου
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Επόμενη μέρα
-  label_next_month: Επόμενος μήνας
-  label_next_week: Επόμενη εβδομάδα
-  label_next_workweek: Επόμενη εβδομάδα εργασίας
   label_no: Όχι
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Δεν υπάρχει καταχωρημένος χρόνος
   label_option_plural: Επιλογές
   label_overall_costs: Συνολικό κόστος
-  label_previous_day: Προηγούμενη μέρα
-  label_previous_month: Προηγούμενος μήνας
-  label_previous_week: Προηγούμενη εβδομάδα
-  label_previous_workweek: Προηγούμενη εβδομάδα εργασίας
   label_rate_plural: Αμοιβές
   label_show: Εμφάνιση
   label_specific_day: Day %{day}
@@ -255,16 +242,14 @@ el:
   label_status_finished: Ολοκληρωμένο
   label_time: Ώρα
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: 'Σήμερα '
   label_units: Μονάδες κόστους
   label_until: μέχρι
   label_using_current_default_rate: Using current default rate
   label_valid_from: Έγκυρο από
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Προσθήκη φίλτρου πακέτου εργασίας
-  label_workweek: Work week
   label_yes: Ναι
   notice_cost_logged_successfully: Η μονάδα κόστους καταγράφηκε επιτυχώς.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

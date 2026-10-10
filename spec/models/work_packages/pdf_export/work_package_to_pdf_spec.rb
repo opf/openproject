@@ -36,7 +36,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
 
   let(:type) do
     create(:type_bug,
-           custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link])
+           custom_fields: [cf_long_text, cf_empty_long_text, cf_global_bool, cf_link])
   end
   let(:parent_project) do
     create(:project, name: "Parent project")
@@ -69,11 +69,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            custom_field_values: {
              project_custom_field_bool.id => true,
              project_custom_field_long_text.id => "foo"
-           },
-           work_package_custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link],
-
-           # cf_disabled_in_project.id not included == disabled
-           work_package_custom_field_ids: [cf_long_text.id, cf_empty_long_text.id, cf_global_bool.id, cf_link.id])
+           })
   end
   let(:phase_definition) { create(:project_phase_definition, name: "Test Phase") }
   let!(:project_phase) do
@@ -89,16 +85,13 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            status_code: "on_track",
            active: true,
            description: "A **rich** text description",
-           parent: parent_project,
-           work_package_custom_fields: [cf_long_text, cf_empty_long_text, cf_disabled_in_project, cf_global_bool, cf_link],
-
-           # cf_disabled_in_project.id not included == disabled
-           work_package_custom_field_ids: [cf_long_text.id, cf_empty_long_text.id, cf_global_bool.id, cf_link.id])
+           parent: parent_project)
   end
   let(:user) do
     create(:user,
            member_with_permissions: {
-             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases]
+             project => %w[view_work_packages export_work_packages view_project_attributes view_project_phases
+                           view_budgets]
            })
   end
   let(:another_user) do
@@ -125,9 +118,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:cf_empty_long_text) do
     create(:issue_custom_field, :text, name: "Empty Work Package Custom Field Long Text")
   end
-  let!(:cf_disabled_in_project) do
-    # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
-    create(:float_wp_custom_field, name: "DisabledCustomField")
+  let!(:cf_not_on_the_type) do
+    create(:float_wp_custom_field, name: "NotOnTypeCustomField")
   end
   let(:cf_global_bool) do
     create(
@@ -189,7 +181,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            custom_values: {
              cf_long_text.id => cf_long_text_description,
              cf_empty_long_text.id => cf_empty_long_text_description,
-             cf_disabled_in_project.id => "6.25",
+             cf_not_on_the_type.id => "6.25",
              cf_global_bool.id => true,
              cf_link.id => "https://example.com"
            }).tap do |wp|
@@ -261,7 +253,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Work Package Custom Field Boolean", "Yes",
       "My Link", "https://example.com",
       "Costs",
-      "Spent units", "Labor costs", "Unit costs", "Overall costs", "Budget"
+      "Spent units", "Labor costs", "Unit costs", "Overall costs",
+      *(project.module_enabled?(:budgets) ? ["Budget"] : [])
     ]
   end
 
@@ -317,7 +310,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
-        expect(result).not_to include("DisabledCustomField")
+        expect(result).not_to include("NotOnTypeCustomField")
         expect(pdf[:images].length).to eq(4)
       end
     end
@@ -661,7 +654,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
           "Foo"
         ].flatten.join(" ")
         expect(result).to eq(expected_result)
-        expect(result).not_to include("DisabledCustomField")
+        expect(result).not_to include("NotOnTypeCustomField")
       end
     end
   end

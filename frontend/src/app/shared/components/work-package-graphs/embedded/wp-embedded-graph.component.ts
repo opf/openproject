@@ -20,15 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { ChartOptions } from 'chart.js';
+import { ChartOptions, Plugin } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
@@ -86,7 +85,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
 
   public initialized = false;
 
-  public readonly plugins = [ChartDataLabels];
+  public readonly plugins:Plugin[] = [ChartDataLabels];
 
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
@@ -241,7 +240,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private setHeight() {
-    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+    if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
       const labels:string[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {

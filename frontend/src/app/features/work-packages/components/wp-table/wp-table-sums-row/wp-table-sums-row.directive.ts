@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,6 +41,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpTableSumsRow]',
   host: {
     '[class.-hidden]': 'isHidden',
@@ -58,6 +58,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
   readonly wpTableSums = inject(WorkPackageViewSumService);
   readonly I18n = inject(I18nService);
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
   public isHidden = true;

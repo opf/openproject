@@ -41,9 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%=
-  render Projects::SourceProjectSelectComponent.new(source_project: @project)
-%>
+<%= render Projects::SourceProjectSelectComponent.new(source_project: @project) %>
 
 <%=
   render Projects::CopyFormComponent.new(

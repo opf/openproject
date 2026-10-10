@@ -57,7 +57,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       status_code: "on_track",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 1" }
     )
@@ -66,7 +65,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 2" }
     )
@@ -86,7 +84,6 @@ RSpec.describe Exports::PDF::Common::Macro do
     create(
       :project,
       name: "Other Project",
-      work_package_custom_fields: [custom_field, formatted_custom_field],
       project_custom_fields: [project_custom_field],
       custom_field_values: { project_custom_field.id => "Project custom value 3" }
     )

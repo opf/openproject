@@ -57,10 +57,11 @@ RSpec.describe WorkPackageTypes::CopyConfiguration::DefaultsService do
     end
 
     context "when the source resolves through a link" do
-      let(:owner) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }).default_variant }
-      let(:source) { create(:type).default_variant }
+      let(:source) { create(:type_variant, type: owner_type) }
+      let(:owner_type) { create(:type, patterns: { subject: { blueprint: "Inherited {{id}}", enabled: true } }) }
+      let(:owner) { owner_type.default_variant }
 
-      before { link_configuration(source, source: owner, aspect: TypeVariant::DEFAULTS) }
+      before { link_configuration(source, aspect: TypeVariant::DEFAULTS) }
 
       it "adopts the resolved owner's patterns" do
         expect(service_call).to be_success

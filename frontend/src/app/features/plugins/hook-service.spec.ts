@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -154,6 +153,18 @@ describe('HookService', () => {
       });
 
       shouldBehaveLikeResultWithElements(validId, 2);
+    });
+  });
+
+  describe('known hooks', () => {
+    it('rejects callbacks and arguments that break the hook signature', () => {
+      // @ts-expect-error gridWidgets callbacks return widget registrations
+      service.register('gridWidgets', () => 123);
+
+      // @ts-expect-error prependedAttributeGroups is called with a work package
+      service.call('prependedAttributeGroups', 'not a work package');
+
+      expect(service.call('gridWidgets')).toEqual([123]);
     });
   });
 });

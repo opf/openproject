@@ -26,11 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%><!DOCTYPE html>
-<% show_decoration = params["layout"].nil? %>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      lang="<%= I18n.locale.to_s %>"
-      xml:lang="<%= I18n.locale.to_s %>"
-      class="<%= "in_modal" unless show_decoration %>">
+<html lang="<%= I18n.locale %>" class="<%= class_names(in_modal: !params[:layout].nil?) %>">
 <head>
   <%= render partial: "layouts/common_head" %>
 </head>
@@ -44,9 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="op-logo">
           <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--link") %>
         </div>
-        <% if CustomStyle.current&.logo_mobile.present? || !custom_logo? %>
-          <%= link_to(I18n.t("label_home"), configurable_home_url, class: ["op-logo--icon", "op-logo--link"].compact) %>
-        <% end %>
+        <%= link_to(I18n.t("label_home"), configurable_home_url, class: "op-logo--icon op-logo--link op-logo--icon_white") %>
       </div>
     </header>
     <main id="content-wrapper">

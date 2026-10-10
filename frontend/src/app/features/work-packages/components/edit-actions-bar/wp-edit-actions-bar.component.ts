@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,7 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
 @Component({
   templateUrl: './wp-edit-actions-bar.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-edit-actions-bar',
   standalone: false,
 })
@@ -41,8 +41,10 @@ export class WorkPackageEditActionsBarComponent {
   private editForm = inject(EditFormComponent);
   private cdRef = inject(ChangeDetectorRef);
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onSave = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCancel = new EventEmitter<void>();
 
   public _saving = false;

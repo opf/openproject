@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -41,21 +40,20 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { ComponentType } from '@angular/cdk/overlay';
-import { Ng2StateDeclaration } from '@uirouter/angular';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { UIRouterGlobals } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
   inputs?:Record<string, any>;
-  outputs?:Record<string, Function>;
+  outputs?:Record<string, EventHandler>;
 }
 
 export interface ToolbarButtonComponentDefinition extends DynamicComponentDefinition {
@@ -86,8 +84,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   readonly currentProjectService = inject(CurrentProjectService);
 
   readonly opModalService = inject(OpModalService);
-
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
 
   readonly urlParams = inject(UrlParamsService);
 
@@ -133,12 +129,12 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     super.ngOnInit();
 
     this.showToolbarSaveButton = !!this.urlParams.get('query_props');
-    this.setPartition(this.$state.current);
+    this.setPartition();
     this.urlParams.changed$
       .pipe(this.untilDestroyed())
       .subscribe(():void => {
         this.showToolbarSaveButton = !!this.urlParams.get('query_props');
-        this.setPartition(this.$state.current);
+        this.setPartition();
 
         const query = this.querySpace.query.value;
         if (query && this.shouldUpdateHtmlTitle()) {
@@ -187,11 +183,9 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /**
    * We need to set the current partition to the grid to ensure
    * either side gets expanded to full width if we're not in '-split' mode.
-   *
-   * @param state The current or entering state
    */
-  protected setPartition(state:Ng2StateDeclaration):void {
-    this.currentPartition = (state.data?.partition) ? state.data.partition : '-split';
+  protected setPartition():void {
+    this.currentPartition = '-split';
   }
 
   protected setupInformationLoadedListener():void {

@@ -56,7 +56,10 @@ module OpenProject::OpenIDConnect
       openid_connect/auth_provider-custom.png
     )
 
-    patches %i[Sessions::UserSession Group User GroupUser]
+    include_module "Sessions::OidcSessionLink", into: "Sessions::UserSession"
+    include_module "Groups::OidcGroupLinks", into: "Group"
+    include_module "Users::OidcUserTokens", into: "User"
+    include_module "GroupUsers::OidcGroupMemberships", into: "GroupUser"
 
     class_inflection_override("openid_connect" => "OpenIDConnect")
 
@@ -71,10 +74,16 @@ module OpenProject::OpenIDConnect
         jwks_uri?
         limit_self_registration?
         use_graph_api?
+        additional_form_action_urls?
       ]
 
       strategy :openid_connect do
         OpenProject::OpenIDConnect.providers.map(&:to_h).map do |h|
+          h[:form_action_urls] = [
+            OpenProject::OpenIDConnect.authorization_url(h[:client_options]),
+            *h.delete(:additional_form_action_urls)
+          ]
+
           h[:single_sign_out_callback] = Proc.new do
             next unless h[:end_session_endpoint]
 

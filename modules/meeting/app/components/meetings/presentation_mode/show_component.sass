@@ -2,17 +2,22 @@
 
 .op-meeting-presentation
   height: 100vh
-  width: 1000px // 900px without padding
+  width: 1200px
   margin: 0 auto
   overflow: hidden
   display: flex
   flex-direction: column
-  padding: 50px
+  padding: 10px 50px 25px 50px
+  font-size: 16px
+
+  *
+    font-size: inherit !important
 
   &--header-container
     position: sticky
     top: 0
-    z-index: 1000
+    // Below flash messages (z-index 599) so flashes stay visible while presenting
+    z-index: 500
     background: var(--bgColor-default)
 
   &--header
@@ -85,7 +90,7 @@
     font-size: var(--text-body-size-small)
     color: var(--fgColor-muted)
 
-  @media screen and (max-width: $breakpoint-lg)
+  @media screen and (max-width: 1200px)
     height: 100vh
     width: 100vw
     padding: 25px

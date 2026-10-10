@@ -4,7 +4,7 @@ ro:
     grid:
       add_widget: Adaugă widget
       configure: Configurați widget-ul
-      remove: Eliminați widget-ul
+      remove: Elimină widget
       widget_menu_label: Show menu options for %{widgetName} widget
       widgets:
         custom_text:

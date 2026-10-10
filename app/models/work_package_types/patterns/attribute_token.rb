@@ -36,13 +36,13 @@ module WorkPackageTypes
         I18n.t("types.edit.defaults.token.label_with_context", attribute_context:, attribute_label: label)
       end
 
-      def label(*)
-        label_fn.call(*)
+      def label
+        label_fn.call
       end
 
-      def call(*)
-        value = resolve_fn.call(*)
-        formatter.call(value)
+      def call(context, format_param)
+        value = resolve_fn.call(context)
+        formatter.call(value, format_param)
       end
 
       # --- Equality overrides ---

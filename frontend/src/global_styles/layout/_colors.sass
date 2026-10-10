@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -106,7 +105,10 @@
   --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
 
 @mixin hl_color_variables
-  @include hl_lightness_switch(0.453)
+  @include hl_lightness_switch(0.35)
+  // For light mode, we invert the switch to make the text lighter (that's why we subtract from 1)
+  // Further, the lightness switch threshold is set to a lower value than in dark mode
+  --hl-lighten-by: calc((0.35 - var(--hl-perceived-lightness)) * 100 * (1 - var(--hl-lightness-switch)))
 
   body[data-color-mode="dark"] &
     @include hl_lightness_switch(0.6)
@@ -132,6 +134,18 @@
     background: rgb(from var(--hl-color) r g b / 0.18) !important
     border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
+// Semi transparent color as background, with text in the provided color.
+@mixin hl_background_muted_styles
+  color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+  background: rgb(from var(--hl-color) r g b / 0.18) !important
+  border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
+
+  body[data-dark-theme="dark_high_contrast"] &,
+  body[data-light-theme="light_high_contrast"] &
+    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+    background: rgb(from var(--hl-color) r g b / 0.18) !important
+    border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+
 // Darkened in light mode, lightened in dark mode, so the color stays legible as text.
 @mixin hl_foreground_styles
   color: hsl(from var(--hl-color) h s calc(l - (l * 0.22))) !important
@@ -148,6 +162,10 @@
 .__hl_background
   @include hl_color_variables
   @include hl_background_styles
+
+.__hl_background_muted
+  @include hl_color_variables
+  @include hl_background_muted_styles
 
 .__hl_foreground
   @include hl_color_variables
@@ -182,6 +200,9 @@
 
 .__hl_border_top
   border-top: 4px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
+
+.__hl_border
+  border: 1px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
 
 // Overdue tasks
 .__hl_date_due_today

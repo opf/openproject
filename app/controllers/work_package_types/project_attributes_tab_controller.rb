@@ -86,7 +86,7 @@ module WorkPackageTypes
     end
 
     def section_element_keys
-      source_active_ids = @variant.effective_source_for(ASPECT)
+      source_active_ids = @variant.owner_of(ASPECT)
                                   .own_project_custom_field_type_mappings.pluck(:custom_field_id)
       @project_custom_field_section.custom_fields.where(id: source_active_ids).map(&:attribute_name)
     end

@@ -43,6 +43,7 @@ module Admin
       @members = @query
                    .results
                    .includes(:project)
+                   .where(entity_id: nil, entity_type: nil)
                    .page(page_param)
                    .per_page(per_page_param)
 

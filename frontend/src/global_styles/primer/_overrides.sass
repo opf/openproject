@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -213,3 +212,10 @@ ul.SegmentedControl,
       // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
       body.-browser-windows.-browser-firefox &
         @include keep-project-select-actions-clear-of-scrollbar
+
+
+.op-sidemenu-filterable-tree
+  .TreeViewItemContentText,
+  .TreeViewItemToggle,
+  .FormControl-input-wrap *
+    color: var(--main-menu-font-color) !important

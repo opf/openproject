@@ -37,13 +37,11 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
   let(:assignee) { create(:user) }
   let(:category) { create(:category) }
   let(:version) { create(:version) }
-  let(:budget) { create(:budget, project:) }
   let!(:work_package) do
     create(:work_package,
            project:,
            responsible:,
            assigned_to: assignee,
-           budget:,
            version:,
            category:)
   end
@@ -217,19 +215,48 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::Checksum do
       expect(new_checksum)
         .not_to eql orig_checksum
     end
+  end
 
-    it "produces a different checksum on changes to the budget id" do
-      WorkPackage.where(id: work_package.id).update_all(budget_id: 0)
+  describe ".add_checksum_associations" do
+    around do |example|
+      original_associations = described_class.checksum_associations
+      example.run
+    ensure
+      described_class.instance_variable_set(:@checksum_associations, original_associations)
+    end
 
-      expect(new_checksum)
+    def checksum
+      EagerLoadingMockWrapper
+        .wrap(described_class, [work_package])
+        .first
+        .cache_checksum
+    end
+
+    it "includes the added association in the checksum" do
+      described_class.add_checksum_associations(:project)
+      orig_checksum = checksum
+
+      project.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(checksum)
         .not_to eql orig_checksum
     end
 
-    it "produces a different checksum on changes to the budget" do
-      work_package.budget.update_attribute(:updated_at, 10.seconds.from_now)
+    it "does not include changes to associations that were not added" do
+      orig_checksum = checksum
 
-      expect(new_checksum)
-        .not_to eql orig_checksum
+      project.update_attribute(:updated_at, 10.seconds.from_now)
+
+      expect(checksum)
+        .to eql orig_checksum
+    end
+
+    it "adds an association only once" do
+      described_class.add_checksum_associations(:project)
+      described_class.add_checksum_associations(:project)
+
+      expect(described_class.checksum_associations.count(:project))
+        .to eq 1
     end
   end
 end

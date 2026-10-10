@@ -148,8 +148,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
 
       editor.open_add_work_package_dialog
       editor.search_work_package("test")
-      expect(editor.element).to have_content("AAA test") # wait for dropdown to open
-      expect(editor.element.text).to match(/AAA test.*CCC test.*BBB test/m)
+      editor.wait_for_shadow_content("AAA test") # wait for dropdown to open
+      expect(editor.search_results).to eq(["AAA test", "CCC test", "BBB test"])
     end
 
     context "when inserting work package links into the editor" do
@@ -170,7 +170,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.open_add_work_package_dialog
         editor.search_and_select_work_package("tiger", "pet a tiger")
 
-        expect(editor.element).to have_no_text("Link existing work package") # search dialog is closed
+        wait_for { editor.search_popover_open? }.to be(false) # search dialog is closed
         expect(editor.element).to have_no_text("Loading")
         expect(editor.element.text).to match(/LIFE GOALS\s*##{work_package.display_id}\s*Open\s*pet a tiger/)
 
@@ -292,7 +292,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       let(:project) { create(:project, name: "Documented project", types: [create(:type_bug), type]) }
       let(:document) { create(:document, :collaborative, project:) }
       let!(:release_note) do
-        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type], projects: [project])
+        create(:string_wp_custom_field, name: "Release note", is_required: true, types: [type])
       end
       let!(:default_status) { create(:status, is_default: true) }
       let!(:default_priority) { create(:priority, is_default: true) }

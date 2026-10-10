@@ -24,10 +24,18 @@
 ru:
   activerecord:
     attributes:
+      gitlab_branch:
+        gitlab_project: Проект GitLab
+        namespace: Пространство имён GitLab
+        project_html_url: URL проекта GitLab
       gitlab_merge_request:
         labels: Метки
       gitlab_pipeline:
         ci_details: Подробности CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -39,6 +47,11 @@ ru:
             labels:
               invalid_schema: 'должен быть массив хэшей с помощью ключей: цвет, заголовок'
     models:
+      gitlab_branch:
+        one: Ветка GitLab
+        few: GitLab branches
+        many: GitLab branches
+        other: GitLab branches
       gitlab_issue:
         one: Тикет GitLab
         few: GitLab issues
@@ -62,18 +75,61 @@ ru:
   attributes:
     commit: Коммит
     gitlab: Идентификатор GitLab
-    gitlab_avatar_url: URL на аватар
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Запрос на слияние
-    gitlab_name: Имя GitLab
     gitlab_updated_at: Обновлено
     gitlab_user_avatar_url: URL аватара GitLab
-    gitlab_username: Имя пользователя GitLab
   gitlab_integration:
+    branch_component:
+      copy_name: Copy branch name
+      create_merge_request: Create merge request
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
+    commit_component:
+      authored_at: Authored on %{date_time}.
+      copy_sha: Copy SHA to clipboard
+      created_by: Created by %{name}.
+      empty_message: "<empty commit message>"
+    git_snippets_dialog_component:
+      branch_name: Branch name
+      commit_message: Commit message
+      copy_branch_name: Copy branch name
+      copy_commit_message: Copy commit message
+      copy_create_branch_command: Copy command to create a branch with empty commit
+      create_branch_with_empty_commit: Create branch with empty commit
+      title: Git quick snippets
     issue_closed_referenced_comment: "**Проблема закрыта:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) закрыта пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_component:
+      states:
+        closed: Closed
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     issue_opened_referenced_comment: "**Проблема открыта:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) открыта пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
     issue_reopened_referenced_comment: "**Проблема открыта заново:** Проблема %{issue_number} [%{issue_title}](%{issue_url}) в репозитории [%{repository}](%{repository_url}) открыта заново пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_closed_comment: "**MR Закрыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) закрыт пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_component:
+      pipeline_statuses:
+        canceled: Canceled
+        canceling: Canceling
+        created: Created
+        failed: Failed
+        manual: Manual
+        pending: Pending
+        preparing: Preparing
+        running: Running
+        scheduled: Scheduled
+        skipped: Skipped
+        success: Success
+        waiting_for_callback: Waiting for callback
+        waiting_for_resource: Waiting for resource
+      states:
+        closed: Closed
+        locked: Locked
+        merged: Merged
+        opened: Open
+      updated_at: Updated on %{date_time}.
+      updated_by: Last updated by %{name}.
     merge_request_merged_comment: "**MR влит:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) влит пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_opened_comment: "**MR Открыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) открыт пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
     merge_request_reopened_comment: "**MR Переоткрыт:** Merge request %{mr_number} [%{mr_title}](%{mr_url}) в репозитории [%{repository}](%{repository_url}) открыт заново пользователем [%{gitlab_user}](%{gitlab_user_url}).\n"
@@ -86,6 +142,27 @@ ru:
     push_multiple_commits_comment: "**Отправлено в MR:** [%{gitlab_user}](%{gitlab_user_url}) отправил несколько коммитов [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) в %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment: "**Отправлено в MR:** [%{gitlab_user}](%{gitlab_user_url}) отправил [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) в %{commit_timestamp}: %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Отправлено в %{reference}:** [%{gitlab_user}](%{gitlab_user_url}) отправил [%{commit_number}](%{commit_url}) в [%{repository}](%{repository_url}) в %{commit_timestamp}: %{commit_note}\n"
+    work_package_gitlab_tab_component:
+      blank_slates:
+        branches:
+          description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
+          title: No branches
+        commits:
+          description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
+          title: No commits
+        issues:
+          description_html: Link an issue by adding the code %{code} to the title or description.
+          title: No issues
+        merge_requests:
+          description_html: Link a merge request by adding the code %{code} to the title or description.
+          title: No merge requests
+      branches: Branches
+      commits: Commits
+      description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
+      git_snippets: Git snippets
+      issues: Issues
+      merge_requests: Merge requests
+      snippets_button_label: Git snippets
   label_gitlab_actor: Автор GitLab
   label_gitlab_integration: Интеграция с GitLab
   label_gitlab_webhook_secret: Секрет вебхука

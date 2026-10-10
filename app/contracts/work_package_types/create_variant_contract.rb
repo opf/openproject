@@ -43,9 +43,13 @@ module WorkPackageTypes
     attribute :project_id
 
     # Set by CreateVariantService rather than by whoever calls it: a new variant belongs to the
-    # type it was added to and starts out Linked to that type's base configuration.
+    # type it was added to and starts out inheriting every aspect from that type.
     attribute :type_id
-    TypeVariant::ASPECTS.each { |aspect| attribute :"#{aspect}_source_id" }
+    attribute :workflow_id
+    attribute :linked_aspects
+
+    attribute :form_configuration_id
+    attribute :required_attributes
 
     validate :validate_type_allows_project_variants
 
@@ -53,10 +57,8 @@ module WorkPackageTypes
 
     # Only a project authoring something new is governed, which is why this rule is not in
     # AuthorizesVariantAuthoring: turning the setting off leaves the variants a project already
-    # owns in place, and a variant standing in for configuration the project had before variants
-    # existed is one of those.
+    # owns in place.
     def validate_type_allows_project_variants
-      return if options[:pre_existing_configuration]
       return if model.project.nil?
       return if model.type&.allow_project_variants?
 

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= turbo_stream.dialog do
-      title = t(".title", source_type: @source_variant.composite_name)
+      title = t(".dialog_title", source: copy_source_name)
       dialog_id = "copy_from_type_dialog"
 
       render(Primer::Alpha::Dialog.new(title:, size: :large, classes: "Overlay--size-large-portrait", id: dialog_id)) do |d|
@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
               tag: :button,
               type: :submit,
               form: "copy_form",
-              formaction: type_workflow_copy_from_role_path(type_id: @source_variant.type_id, variant_id: @source_variant.id, source_role_id: @source_role&.id),
+              formaction: copy_submit_path,
               data: { turbo: true }
             )
           ) do

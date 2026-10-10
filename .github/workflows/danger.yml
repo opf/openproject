@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - uses: ruby/setup-ruby@984c0c890880bbf811283d6f09c4607c62d210a4 # v1
+      - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
         with:
           ruby-version: .ruby-version
           bundler-cache: true

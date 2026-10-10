@@ -159,11 +159,11 @@ RSpec.describe ResourceAllocation do
         expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
       end
 
-      it "is the placeholder of a staffed filter-based allocation" do
+      it "is the assigned user of a staffed filter-based allocation" do
         allocation = described_class.new(placeholder_user:, principal: assignee)
 
-        expect(allocation.placeholder_or_user).to eq(placeholder_user)
-        expect(allocation.placeholder_or_user_id).to eq(placeholder_user.id)
+        expect(allocation.placeholder_or_user).to eq(assignee)
+        expect(allocation.placeholder_or_user_id).to eq(assignee.id)
       end
 
       it "is nil without either" do
@@ -175,7 +175,7 @@ RSpec.describe ResourceAllocation do
     end
 
     describe "writer" do
-      it "assigns a user as the principal" do
+      it "assigns a user as the principal of an unstaffed filter-based allocation, dropping the placeholder" do
         allocation = described_class.new(placeholder_user:)
 
         allocation.placeholder_or_user = assignee
@@ -183,6 +183,25 @@ RSpec.describe ResourceAllocation do
         expect(allocation.principal).to eq(assignee)
         expect(allocation.placeholder_user).to be_nil
         expect(allocation).not_to be_filter_based
+      end
+
+      it "re-staffs a staffed filter-based allocation, keeping the placeholder" do
+        other_assignee = build_stubbed(:user)
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = other_assignee
+
+        expect(allocation.principal).to eq(other_assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
+      end
+
+      it "leaves a staffed filter-based allocation unchanged when given its assigned user" do
+        allocation = described_class.new(placeholder_user:, principal: assignee)
+
+        allocation.placeholder_or_user = assignee
+
+        expect(allocation.principal).to eq(assignee)
+        expect(allocation.placeholder_user).to eq(placeholder_user)
       end
 
       it "assigns a placeholder user as the placeholder" do
@@ -332,6 +351,32 @@ RSpec.describe ResourceAllocation do
 
     it "returns only the allocations of the given principal" do
       expect(described_class.for_principal(user)).to contain_exactly(for_user)
+    end
+  end
+
+  describe ".overlapping" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+
+    let!(:within) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 3, 10), end_date: Date.new(2026, 3, 12))
+    end
+    let!(:straddling) do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 2, 20), end_date: Date.new(2026, 3, 2))
+    end
+
+    before do
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 1, 5), end_date: Date.new(2026, 2, 28))
+      create(:resource_allocation, entity: work_package,
+                                   start_date: Date.new(2026, 4, 1), end_date: Date.new(2026, 4, 5))
+    end
+
+    it "returns the allocations touching the given range, bounds included" do
+      expect(described_class.overlapping(Date.new(2026, 3, 1)..Date.new(2026, 3, 31)))
+        .to contain_exactly(within, straddling)
     end
   end
 

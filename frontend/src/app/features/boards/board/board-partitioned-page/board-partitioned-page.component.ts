@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,9 +31,6 @@ import {
   ToolbarButtonComponentDefinition,
   ViewPartitionState,
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
-import {
-  StateService,
-} from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -67,6 +63,7 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-partitioned-page',
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/primerized-partitioned-query-space-page.component.html',
   styleUrls: [
@@ -82,7 +79,6 @@ export function boardCardViewHandlerFactory(injector:Injector) {
 export class BoardPartitionedPageComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly state = inject(StateService);
   readonly toastService = inject(ToastService);
   readonly halNotification = inject(HalResourceNotificationService);
   readonly injector = inject(Injector);
@@ -167,7 +163,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin implement
     // Ensure board is being loaded
     this.Boards.loadAllBoards();
 
-    const boardId = this.boardId || this.state.params.board_id?.toString();
+    const boardId = this.boardId;
     this.apiV3Service.boards.id(boardId).observe()
       .pipe(this.untilDestroyed())
       .subscribe((board) => this.board$.next(board));

@@ -37,7 +37,7 @@ module CoreExtensions
       html_safe = html_safe?
       result = gsub(*gsub_args, &)
 
-      # We only mark the string as safe if the previous string was already safe
+      # OG: html_safe only when the receiver was already safe; gsub drops SafeBuffer.
       if html_safe
         result.html_safe # rubocop:disable Rails/OutputSafety
       else

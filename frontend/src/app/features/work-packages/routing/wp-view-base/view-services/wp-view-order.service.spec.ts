@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -85,7 +84,6 @@ describe('WorkPackageViewOrderService', () => {
       id: '123',
       _links: { self: { href: 'test' } },
     } as Record<string, unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-argument
     querySpace.query.putValue(mockQuery as any);
   });
 
@@ -103,12 +101,10 @@ describe('WorkPackageViewOrderService', () => {
       const order = ['1', '2', '3'];
       const wpId = '2';
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       vi.spyOn(service as any, 'update');
 
       service.remove(order, wpId);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       expect((service as any).update).toHaveBeenCalledWith({ [wpId]: -1 });
     });
   });

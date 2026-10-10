@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -111,6 +110,7 @@ export function registerWorkPackageMouseHandler(this:void,
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels);
 
     bodyTarget.on('mousemove.timelinecell', createMouseMoveFn(direction));
+    bodyTarget.on('keydown.timelinecell', consumeEscape);
     bodyTarget.on('keyup.timelinecell', keyPressFn);
     bodyTarget.on('mouseup.timelinecell', () => deactivate(direction, false));
   }
@@ -123,6 +123,14 @@ export function registerWorkPackageMouseHandler(this:void,
 
       applyRendererMoveChanges(dayUnderCursor, days, direction);
     };
+  }
+
+  // Cancellation happens on keyup; the keydown half would otherwise clear
+  // the row selection first.
+  function consumeEscape(kev:KeyboardEvent) {
+    if (kev.key === 'Escape') {
+      kev.preventDefault();
+    }
   }
 
   function keyPressFn(kev:KeyboardEvent) {
@@ -189,6 +197,7 @@ export function registerWorkPackageMouseHandler(this:void,
         deactivate(direction, false);
       };
 
+      bodyTarget.on('keydown.timelinecell', consumeEscape);
       bodyTarget.on('keyup.timelinecell', keyPressFn);
     };
   }

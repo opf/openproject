@@ -63,6 +63,34 @@ RSpec.describe ResourcePlanners::TogglePublicContract do
     it_behaves_like "contract user is unauthorized"
   end
 
+  context "with a global planner" do
+    let(:resource_planner) { build_stubbed(:resource_planner, :global, principal: owner) }
+
+    context "when user has manage_public_global_resource_planners" do
+      let(:current_user) do
+        create(:user, global_permissions: %i[view_global_resource_planners
+                                             manage_public_global_resource_planners])
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when user only has the project-level manage permission" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_resource_planners
+                                                               manage_public_resource_planners] })
+      end
+
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "when user has no permissions" do
+      let(:current_user) { create(:user) }
+
+      it_behaves_like "contract user is unauthorized"
+    end
+  end
+
   describe "writable attributes" do
     let(:current_user) do
       create(:user, member_with_permissions: { project => %i[view_resource_planners manage_public_resource_planners] })

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-breadcrumb-parent',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -50,6 +50,7 @@ export class WorkPackageBreadcrumbParentComponent {
 
   @Input() workPackage:WorkPackageResource;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onSwitch = new EventEmitter<boolean>();
 
   public isSaving = false;
@@ -68,7 +69,7 @@ export class WorkPackageBreadcrumbParentComponent {
   }
 
   public get parent() {
-    return this.workPackage && this.workPackage.parent;
+    return this.workPackage?.parent;
   }
 
   public get active():boolean {

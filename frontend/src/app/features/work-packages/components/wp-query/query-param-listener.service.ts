@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,6 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import {
   WorkPackagesListChecksumService,
-  consumeSelfInitiatedUrlChangeFlag,
 } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
@@ -45,7 +43,7 @@ export class QueryParamListenerService {
 
   readonly urlParams:UrlParamsService = this.injector.get(UrlParamsService);
 
-  public observe$ = new Subject<any>();
+  public observe$ = new Subject<string|null>();
 
   private queryChangeSubscription:Subscription;
 
@@ -59,7 +57,7 @@ export class QueryParamListenerService {
       // Skip self-initiated syncs (see WorkPackagesListChecksumService#maintainUrlQueryState) -
       // the checksum they reflect into the URL is already up to date, reloading here would
       // just be undoing the change that triggered them in the first place.
-      if (consumeSelfInitiatedUrlChangeFlag()) {
+      if (this.wpListChecksumService.consumeSelfInitiatedUrlChangeFlag()) {
         return;
       }
 
@@ -70,21 +68,32 @@ export class QueryParamListenerService {
         return;
       }
 
-      const params = {
-        query_id: this.urlParams.get('query_id'),
-        query_props: this.urlParams.get('query_props'),
-      };
-
-      const newChecksum = this.wpListService.getCurrentQueryProps(params);
-      const newId = params.query_id;
-
-      this.wpListChecksumService
-        .executeIfOutdated(newId,
-          newChecksum,
-          () => {
-            this.observe$.next(newChecksum);
-          });
+      this.reconcileWithUrl();
     });
+  }
+
+  /**
+   * Emits on `observe$` if the URL no longer matches the loaded query.
+   *
+   * Pages whose URL can change while their initial load is still in flight (like the
+   * BCF right pane, which the left pane drives) call this once that load has settled,
+   * to pick up changes the listener ignored while the checksum was uninitialized.
+   */
+  public reconcileWithUrl():void {
+    const params = {
+      query_id: this.urlParams.get('query_id'),
+      query_props: this.urlParams.get('query_props'),
+    };
+
+    const newChecksum = this.wpListService.getCurrentQueryProps(params);
+    const newId = params.query_id;
+
+    this.wpListChecksumService
+      .executeIfOutdated(newId,
+        newChecksum,
+        () => {
+          this.observe$.next(newChecksum);
+        });
   }
 
   public removeQueryChangeListener() {

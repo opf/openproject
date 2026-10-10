@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,6 +55,30 @@ export class ApiV3Paths {
       return `${base}?context=${context}`;
     }
     return base;
+  }
+
+  public aiTextTransformActions() {
+    return `${this.apiV3Base}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByWorkPackage(workPackageId:string|number) {
+    return `${this.apiV3Base}/work_packages/${workPackageId}/ai_text_transform_actions`;
+  }
+
+  public aiTextTransformActionsByProject(projectId:string|number, typeId:string|number) {
+    return `${this.apiV3Base}/projects/${projectId}/ai_text_transform_actions?typeId=${typeId}`;
+  }
+
+  public aiTextTransformRuns() {
+    return `${this.apiV3Base}/ai_text_transform_runs`;
+  }
+
+  public aiTextTransformRun(uuid:string) {
+    return `${this.aiTextTransformRuns()}/${uuid}`;
+  }
+
+  public aiTextTransformRunCancel(uuid:string) {
+    return `${this.aiTextTransformRun(uuid)}/cancel`;
   }
 
   /**

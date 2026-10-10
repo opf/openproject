@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -42,7 +41,6 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   template: `
     <wp-copy-full-view
       [stateParams]="{ type: type, parent_id: parentId, projectPath: projectIdentifier, copiedFromWorkPackageId: copiedFromWorkPackageId }"
-      [routedFromAngular]="routedFromAngular"
     ></wp-copy-full-view>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,7 +52,6 @@ export class WorkPackageFullCopyEntryComponent {
   @Input() copiedFromWorkPackageId:string;
   @Input() parentId?:string;
   @Input() projectIdentifier?:string;
-  @Input() routedFromAngular:boolean;
 
   constructor() {
     populateInputsFromDataset(this);

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -70,10 +69,6 @@ import { BoardListMenuComponent } from 'core-app/features/boards/board/board-lis
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardDragAndDropService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-drag-and-drop.service';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
-import {
-  StateService,
-  TransitionService,
-} from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { BoardListCrossSelectionService } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
@@ -106,6 +101,7 @@ export interface DisabledButtonPlaceholder {
 }
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'board-list',
   templateUrl: './board-list.component.html',
   styleUrls: ['./board-list.component.sass'],
@@ -120,9 +116,7 @@ export interface DisabledButtonPlaceholder {
 })
 export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
   readonly apiv3Service = inject(ApiV3Service);
-  readonly state = inject(StateService);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly transitions = inject(TransitionService);
   readonly boardFilters = inject(BoardFiltersService);
   readonly toastService = inject(ToastService);
   readonly querySpace = inject(IsolatedQuerySpace);
@@ -145,6 +139,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   readonly pathHelper = inject(PathHelperService);
 
   /** Output fired upon query removal */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onRemove = new EventEmitter<void>();
 
   /* Output fired after it is assured whether a user has the right to see the list */
@@ -353,7 +348,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   }
 
   public get listName() {
-    return this.query && this.query.name;
+    return this.query?.name;
   }
 
   public showCardStatusButton() {

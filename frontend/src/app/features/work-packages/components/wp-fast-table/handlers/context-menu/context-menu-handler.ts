@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,10 +34,13 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
 import { PositionArgs } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
+import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
   @LazyInject() public opContextMenu:OPContextMenuService;
+
+  @LazyInject() readonly selectionGestures:WorkPackageViewSelectionGesturesService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -57,7 +59,10 @@ export abstract class ContextMenuHandler implements TableEventHandler {
 
   public abstract handleEvent(view:TableEventComponent, evt:Event):boolean;
 
-  protected openContextMenu(table:WorkPackageTable, evt:Event, workPackageId:string, positionArgs:PositionArgs = {}):void {
+  protected openContextMenu(table:WorkPackageTable, evt:Event, row:HTMLElement, positionArgs:PositionArgs = {}):void {
+    const workPackageId = row.dataset.workPackageId!;
+    this.selectionGestures.handleContextMenu(workPackageId, table.renderedRows, row.dataset.classIdentifier);
+
     const handler = new WorkPackageTableContextMenu(this.injector, workPackageId, evt.target as HTMLElement, positionArgs, table);
     this.opContextMenu.show(handler, evt);
   }

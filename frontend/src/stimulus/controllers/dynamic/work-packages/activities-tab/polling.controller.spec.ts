@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -164,13 +163,16 @@ describe('Activities tab polling controller', () => {
     });
 
     it('keeps polling after an error without an HTTP status', async () => {
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
+      const networkError = new Error('network hiccup');
       await renderPolling();
-      request.mockRejectedValue(new Error('network hiccup'));
+      request.mockRejectedValue(networkError);
 
       resolveContext(pluginContext());
       await vi.advanceTimersByTimeAsync(20000);
 
       expect(request).toHaveBeenCalledTimes(2);
+      expect(consoleError).toHaveBeenCalledWith('Error updating activities list:', networkError);
     });
   });
 });

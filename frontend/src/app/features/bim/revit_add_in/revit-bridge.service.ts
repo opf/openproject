@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -98,8 +97,8 @@ export class RevitBridgeService extends ViewerBridgeService {
           // newer versions the message payload is sent correctly and needs no special treatment
           const viewpointJson = message.messagePayload;
 
-          if (viewpointJson.snapshot.hasOwnProperty('snapshot_type') // eslint-disable-line no-prototype-builtins
-            && viewpointJson.snapshot.hasOwnProperty('snapshot_data')) { // eslint-disable-line no-prototype-builtins
+          if (Object.hasOwn(viewpointJson.snapshot, 'snapshot_type')
+            && Object.hasOwn(viewpointJson.snapshot, 'snapshot_data')) {
             // already correctly formatted payload
             return viewpointJson;
           }

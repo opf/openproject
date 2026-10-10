@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,6 +38,7 @@ import { firstValueFrom } from 'rxjs';
 
 @Component({
   templateUrl: '../create-autocompleter/create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'version-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -51,6 +51,7 @@ export class VersionAutocompleterComponent extends CreateAutocompleterComponent 
   readonly apiV3Service = inject(ApiV3Service);
   readonly halNotification = inject(HalResourceNotificationService);
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onCreate = new EventEmitter<VersionResource>();
 
   groupByFn = (item:HalResource):string|null => {

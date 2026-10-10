@@ -67,9 +67,9 @@ ro:
           invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
           label: Hocuspocus server URL
         page_header:
-          description: |-
-            Când este activată, colaborarea în timp real permite mai multor utilizatori să editeze un document în același timp.
-            Are nevoie de un %{hocuspocus_server_link} care să funcționeze.
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: I understand that I might permanently lose data
         confirmation_message: |-
@@ -125,7 +125,7 @@ ro:
       currently_offline: You are currently offline.
     label_attachment_author: Autorul anexei
     label_categories: Categorii
-    last_updated_at: Last saved %{time}.
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: Toate documentele
       collaboration_settings: Colaborarea în timp real

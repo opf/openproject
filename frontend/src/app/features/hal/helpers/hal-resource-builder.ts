@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -105,7 +104,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
             const items = link.map((item) => halResourceService.createLinkedResource(halResource,
               linkName,
               item.$link));
-            var property:HalResource[] = new ObservableArray(...items).on('change', () => {
+            const property:HalResource[] = new ObservableArray(...items).on('change', () => {
               property.forEach((item) => {
                 if (!item.$link) {
                   property.splice(property.indexOf(item), 1);
@@ -196,7 +195,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       halResource.$source._links[linkName] = { href: null };
     } else if (isArray) {
       halResource.$source._links[linkName] = (val).map((el:any) => ({ href: el.href }));
-    } else if (val.hasOwnProperty('$link')) {
+    } else if (Object.hasOwn(val, '$link')) {
       const link = (val as HalResource).$link;
 
       if (link.href) {

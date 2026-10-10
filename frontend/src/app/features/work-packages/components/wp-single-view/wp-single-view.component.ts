@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { isEqual } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
 
@@ -88,6 +86,7 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
   templateUrl: './wp-single-view.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -97,7 +96,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private readonly states = inject(States);
   private readonly I18n = inject(I18nService);
   private readonly hook = inject(HookService);
-  private readonly $state = inject(StateService);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly PathHelper = inject(PathHelperService);
@@ -150,8 +148,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public isNewResource:boolean;
 
-  public uiSelfRef:string;
-
   element:HTMLElement;
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
@@ -160,8 +156,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
-
-    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.refresh(change);
@@ -422,9 +416,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     );
   }
 
-  private getAttributesGroupId(group:any):string {
+  private getAttributesGroupId(group:{ name:string }):string {
     const overflowingIdentifier = this.element
-      .querySelector<HTMLElement>(`[data-group-name=\'${group.name}\']`)
+      .querySelector<HTMLElement>(`[data-group-name='${group.name}']`)
       ?.dataset[overflowingContainerAttribute];
 
     if (overflowingIdentifier) {

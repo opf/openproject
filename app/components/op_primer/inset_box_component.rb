@@ -30,6 +30,8 @@
 
 module OpPrimer
   class InsetBoxComponent < Primer::Component
+    include OpPrimer::ComponentHelpers
+
     DEFAULT_SCHEME = :default
     SCHEME_MAPPINGS = {
       DEFAULT_SCHEME => { bg: :inset },
@@ -59,6 +61,7 @@ module OpPrimer
     renders_one :clipboard_copy_button, lambda { |**system_arguments|
       system_arguments[:scheme] ||= :invisible
       system_arguments[:size] = :small
+      system_arguments[:ml] = 2
       Primer::Beta::ClipboardCopyButton.new(**system_arguments)
     }
 

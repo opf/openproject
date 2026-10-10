@@ -46,10 +46,6 @@ module Admin
 
         private
 
-        def url
-          url_helpers.custom_field_projects_path(@custom_field)
-        end
-
         def dialog_id = DIALOG_ID
         def dialog_body_id = DIALOG_BODY_ID
 

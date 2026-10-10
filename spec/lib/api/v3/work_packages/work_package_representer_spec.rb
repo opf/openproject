@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
+  include WorkPackageTypes::VariantRoutes
+
   include API::V3::Utilities::PathHelper
 
   let(:member) { build_stubbed(:user) }
@@ -1229,30 +1231,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "timeEntries" do
-      context "when the user has the permission to view time entries" do
-        it_behaves_like "has a titled link" do
-          let(:link) { "timeEntries" }
-          let(:href) do
-            api_v3_paths.path_for(:time_entries,
-                                  filters: [
-                                    { entity_type: { operator: "=", values: ["WorkPackage"] } },
-                                    { entity_id: { operator: "=", values: [work_package.id.to_s] } }
-                                  ])
-          end
-          let(:title) { "Time entries" }
-        end
-      end
-
-      context "when the user does not have the permission to view time entries" do
-        let(:permissions) { all_permissions - [:view_time_entries] }
-
-        it "does not have a link to timeEntries" do
-          expect(subject).not_to have_json_path("_links/timeEntries/href")
-        end
-      end
-    end
-
     describe "linked relations" do
       let(:project) { create(:project, public: false) }
       let(:forbidden_project) { create(:project, public: false) }
@@ -1388,15 +1366,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:permission) { :delete_work_packages }
     end
 
-    describe "logTime" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "logTime" }
-        let(:permission) { %i(log_time log_own_time) }
-        let(:href) { api_v3_paths.time_entries }
-        let(:title) { "Log time on work package '#{work_package.subject}'" }
-      end
-    end
-
     describe "move" do
       it_behaves_like "has a titled action link" do
         let(:link) { "move" }
@@ -1515,15 +1484,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "customFields" do
-      it_behaves_like "has a titled action link" do
-        let(:link) { "customFields" }
-        let(:permission) { :select_custom_fields }
-        let(:href) { project_settings_custom_fields_path(work_package.project.identifier) }
-        let(:title) { "Custom fields" }
-      end
-    end
-
     describe "customField" do
       let(:available_custom_fields) { [custom_field] }
       let(:custom_field_values) { [build_stubbed(:custom_value, custom_field:, value:)] }
@@ -1565,31 +1525,82 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
-    describe "formConfiguration" do
+    describe "configureForm" do
       context "when not admin" do
         it_behaves_like "has no link" do
-          let(:link) { "formConfiguration" }
+          let(:link) { "configureForm" }
         end
       end
 
       context "when admin" do
         let(:current_user) { build_stubbed(:admin) }
+        # A stubbed type carries no base variant, and the link addresses the variant in force.
+        let(:type) { create(:type) }
+        let(:workspace) { create(:project, types: [type]) }
+        let(:work_package) { create(:work_package, project: workspace, type:) }
 
         it_behaves_like "has a titled link" do
           let(:link) { "configureForm" }
           let(:href) { edit_type_form_configuration_path(work_package.type_id) }
           let(:title) { "Configure form" }
         end
+
+        context "when the project applies a variant of the type" do
+          let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+          let(:workspace) { create(:project, types: [variant]) }
+          let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+          it "points at the configuration in force rather than the type's own" do
+            expect(generated)
+              .to be_json_eql(edit_variant_form_configuration_path(variant.project, variant).to_json)
+                    .at_path("_links/configureForm/href")
+          end
+
+          context "when the project owns that variant" do
+            before { variant.update!(project: workspace) }
+
+            it "addresses it through the owning project" do
+              href = "/projects/#{workspace.identifier}/settings/work_packages" \
+                     "/types/#{variant.type_id}/variants/#{variant.id}/form_configuration/edit"
+
+              expect(generated).to be_json_eql(href.to_json).at_path("_links/configureForm/href")
+            end
+          end
+        end
+      end
+
+      context "when allowed to manage the project's own variants" do
+        let(:permissions) { all_permissions + [:manage_project_variants] }
+        let(:variant) { create(:type_variant, type: create(:type), variant_name: "Mobile") }
+        let(:workspace) { create(:project, types: [variant]) }
+        let(:work_package) { create(:work_package, project: workspace, type: variant.type) }
+
+        context "when the project owns the applied variant" do
+          before { variant.update!(project: workspace) }
+
+          it_behaves_like "has a titled link" do
+            let(:link) { "configureForm" }
+            let(:href) { edit_variant_form_configuration_path(variant.project, variant) }
+            let(:title) { "Configure form" }
+          end
+        end
+
+        # The type-level URL these resolve to is administration's alone, so a link would only 403.
+        context "when the applied variant belongs to no project" do
+          it_behaves_like "has no link" do
+            let(:link) { "configureForm" }
+          end
+        end
       end
     end
 
     describe "customActions" do
       it "has a collection of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expected = [
@@ -1700,11 +1711,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
 
     describe "customActions" do
       it "has an array of customActions" do
-        unassign_action = build_stubbed(:custom_action,
-                                        actions: [CustomActions::Actions::AssignedTo.new(value: nil)],
+        unassign_action = build_stubbed(:automation, :with_button_trigger,
+                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
                                         name: "Unassign")
         allow(work_package)
-          .to receive(:custom_actions)
+          .to receive(:automations)
                 .and_return([unassign_action])
 
         expect(subject)

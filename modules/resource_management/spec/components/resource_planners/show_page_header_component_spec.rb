@@ -17,7 +17,7 @@ RSpec.describe ResourcePlanners::ShowPageHeaderComponent, type: :component do
 
   subject(:rendered) do
     login_as(current_user)
-    render_inline(described_class.new(resource_planner:, project:))
+    render_inline(described_class.new(resource_planner:))
     page
   end
 

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,9 +29,9 @@ export const onboardingTourStorageKey = 'openProject-onboardingTour';
 export type OnboardingTourNames = 'homescreen'|'workPackages'|'workPackagesFullView'|'gantt'|'final'|'boards'|'teamPlanner';
 
 function matchingFilter(list:NodeListOf<HTMLElement>, filterFunction:(match:HTMLElement) => boolean):HTMLElement|null {
-  for (let i = 0; i < list.length; i++) {
-    if (filterFunction(list[i])) {
-      return list[i];
+  for (const element of list) {
+    if (filterFunction(element)) {
+      return element;
     }
   }
 

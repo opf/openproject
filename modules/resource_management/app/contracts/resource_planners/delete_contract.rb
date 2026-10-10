@@ -31,15 +31,7 @@
 module ResourcePlanners
   class DeleteContract < ::DeleteContract
     delete_permission(lambda do
-      next true if user.active_admin?
-      next false if model.project.nil?
-
-      owns_planner = model.principal == user &&
-        user.allowed_in_project?(:view_resource_planners, model.project)
-      can_manage_public = model.public? &&
-        user.allowed_in_project?(:manage_public_resource_planners, model.project)
-
-      owns_planner || can_manage_public
+      user.active_admin? || model.manageable_by?(user)
     end)
   end
 end

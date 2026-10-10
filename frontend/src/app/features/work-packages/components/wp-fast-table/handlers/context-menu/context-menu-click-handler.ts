@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -62,10 +61,9 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest<HTMLTableRowElement>(this.rowSelector);
-    const wpId = element?.dataset.workPackageId;
 
-    if (wpId) {
-      this.openContextMenu(view.workPackageTable, evt, wpId);
+    if (element?.dataset.workPackageId) {
+      this.openContextMenu(view.workPackageTable, evt, element);
     }
 
     return false;

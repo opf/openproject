@@ -25,14 +25,14 @@ sv:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: Raderna och kolumnerna måste tillsammans motsvara exakt frågans grupperingskriterier.
     models:
       cost_query:
         one: Kostnadsrapport
         other: Kostnadsrapporter
       cost_report:
-        one: Cost report
-        other: Cost reports
+        one: Kostnadsrapport
+        other: Kostnadsrapporter
   button_save_report_as: Spara rapporten som...
   comments: Kommentar
   cost_reports_title: Tid och kostnader
@@ -106,7 +106,6 @@ sv:
   plugin_openproject_reporting:
     description: Med detta tillägg kan du skapa anpassade kostnadsrapporter med filtrering och gruppering som skapats av tillägget OpenProject Time and costs.
     name: OpenProject rapportering
-  project_module_reporting_module: Kostnadsrapporter
   reporting:
     group_by:
       selected_columns: Valda kolumner

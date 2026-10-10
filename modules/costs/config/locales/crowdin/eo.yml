@@ -144,7 +144,6 @@ eo:
   button_add_time_entry: Tempoprotokolo
   button_log_costs: Log unit costs
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Booked on project
@@ -214,7 +213,6 @@ eo:
   label_current: Current
   label_current_default_rate: Current default rate
   label_date_on: je
-  label_day: Tago
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Deleted cost types
   label_display_cost_entries: Display unit costs
@@ -230,23 +228,12 @@ eo:
   label_less_or_equal: "<="
   label_list: Listo
   label_log_costs: Log unit costs
-  label_month: Monato
-  label_my_time_tracking: Mia tempospurado
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Proksima tago
-  label_next_month: Proksima monato
-  label_next_week: Sekva semajno
-  label_next_workweek: Venonta laborsemajno
   label_no: Ne
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: No time tracked
   label_option_plural: Opcioj
   label_overall_costs: Entutaj kostoj
-  label_previous_day: Previous day
-  label_previous_month: Antaŭa monato
-  label_previous_week: Antaŭa semajno
-  label_previous_workweek: Antaŭa laborsemajno
   label_rate_plural: Rates
   label_show: Montri
   label_specific_day: Tago %{day}
@@ -255,16 +242,14 @@ eo:
   label_status_finished: Finita
   label_time: Tempo
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Hodiaŭ
   label_units: Cost units
   label_until: until
   label_using_current_default_rate: Using current default rate
   label_valid_from: Valid from
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Aldoni filtrilon por laborpakaĵoj
-  label_workweek: Laborsemajno
   label_yes: Jes
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

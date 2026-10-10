@@ -79,6 +79,11 @@ module OpPrimer
 
     def pagination_params = {}
 
+    # For tables mixing several kinds of rows.
+    def row_class_for(_row)
+      row_class
+    end
+
     # Data attributes for the box element wrapping the whole table, for
     # subclasses that need to attach behaviour to it.
     def container_data
@@ -168,6 +173,25 @@ module OpPrimer
 
     def column_count
       @column_count ||= columns.size + (has_actions? ? 1 : 0)
+    end
+
+    # Header rows share index 1, so data rows start at 2 and the footer is last.
+    def row_count
+      @row_count ||= 1 + body_row_count + (has_footer? ? 1 : 0)
+    end
+
+    def body_row_count
+      [paginated? ? rows.total_entries : rows.size, 1].max
+    end
+
+    def row_index(index)
+      2 + page_offset + index
+    end
+
+    def page_offset
+      return 0 unless paginated?
+
+      (rows.current_page - 1) * rows.per_page
     end
   end
 end

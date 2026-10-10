@@ -49,6 +49,7 @@ module Admin
       def assigned_roles
         Role
           .unscope(:includes)
+          .where.not(type: Role::HIDDEN_ROLE_TYPES)
           .where(id: MemberRole.select(:role_id))
           .order(:name)
       end

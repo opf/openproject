@@ -31,30 +31,32 @@ module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
+    include ResourceManagement::PlannerRoutes
 
     menu_item :resource_management
 
     skip_before_action :ensure_resource_management_licensed, only: :index
 
-    before_action :find_project_by_project_id
-    before_action :authorize
+    load_and_authorize_in_planner_section
+
     before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
     before_action :build_resource_planner, only: %i[new]
 
     def index
-      @resource_planners = ResourcePlanner
-                             .visible(current_user)
-                             .where(project: @project)
+      @resource_planners = index_scope
                              .includes(children: :query)
                              .order(:name)
                              .page(page_param)
                              .per_page(per_page_param)
+
+      render :index, locals: { menu_name: project_or_global_menu }
     end
 
     def show
       @view = default_view
       @content_component = work_package_list_content(@view)
-      render "resource_management/resource_planner_views/show"
+      render "resource_management/resource_planner_views/show",
+             locals: { menu_name: project_or_global_menu }
     end
 
     def overview; end
@@ -98,7 +100,7 @@ module ::ResourceManagement
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update)
         redirect_back_or_to(
-          project_resource_planner_path(@project, @resource_planner), status: :see_other
+          planner_path(@resource_planner), status: :see_other
         )
       else
         @resource_planner = call.result
@@ -113,7 +115,7 @@ module ::ResourceManagement
         .on_success { flash[:notice] = I18n.t(:notice_successful_delete) }
         .on_failure { |call| flash[:error] = call.message }
 
-      redirect_to project_resource_planners_path(@project), status: :see_other
+      redirect_to planners_path(@project), status: :see_other
     end
 
     def toggle_public
@@ -128,11 +130,15 @@ module ::ResourceManagement
       end
 
       redirect_back_or_to(
-        project_resource_planner_path(@project, @resource_planner), status: :see_other
+        planner_path(@resource_planner), status: :see_other
       )
     end
 
     private
+
+    def index_scope
+      ResourcePlanner.visible_to(current_user, @project)
+    end
 
     def build_resource_planner
       @resource_planner = ResourcePlanner.new(project: @project, principal: current_user)
@@ -168,7 +174,7 @@ module ::ResourceManagement
     end
 
     def can_manage_public?
-      current_user.allowed_in_project?(:manage_public_resource_planners, @project)
+      ResourcePlanner.public_manageable_by?(current_user, @project)
     end
 
     def render_create_success
@@ -180,7 +186,7 @@ module ::ResourceManagement
 
     def render_create_success_redirect
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to project_resource_planner_path(@project, @resource_planner)
+      redirect_to planner_path(@resource_planner)
     end
 
     def advance_dialog_to_configure_view(view_class)
@@ -195,7 +201,7 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
           view:,
-          url: project_resource_planner_views_path(@project, @resource_planner),
+          url: planner_views_path(@resource_planner),
           hidden_fields: { view_class_name: view_class.name },
           form_id: dialog::FORM_ID,
           dialog_id: dialog::DIALOG_ID,
@@ -208,7 +214,7 @@ module ::ResourceManagement
           dialog_id: dialog::DIALOG_ID,
           form_id: dialog::FORM_ID,
           footer_id: dialog::FOOTER_ID,
-          cancel_href: project_resource_planners_path(@project)
+          cancel_href: planners_path(@project)
         )
       )
       respond_with_turbo_streams
@@ -245,7 +251,7 @@ module ::ResourceManagement
           base_errors: call.errors[:base],
           form_id: dialog::FORM_ID,
           dialog_id: dialog::DIALOG_ID,
-          url: project_resource_planner_path(@project, @resource_planner),
+          url: planner_path(@resource_planner),
           method: :patch,
           include_default_view: false
         ),

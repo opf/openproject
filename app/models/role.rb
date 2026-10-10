@@ -159,6 +159,10 @@ class Role < ApplicationRecord
     builtin != NON_BUILTIN
   end
 
+  def visible?
+    HIDDEN_ROLE_TYPES.exclude?(type)
+  end
+
   # Return true if the role is a project member role
   def member?
     !builtin?

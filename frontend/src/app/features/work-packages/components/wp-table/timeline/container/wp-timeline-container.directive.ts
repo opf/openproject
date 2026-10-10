@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -86,6 +85,7 @@ import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-container',
   templateUrl: './wp-timeline-container.html',
   standalone: false,
@@ -94,6 +94,7 @@ import { IDay } from 'core-app/core/state/days/day.model';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   readonly injector = inject(Injector);
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -372,7 +373,10 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     };
 
     this._viewParameters.selectionModeStart = start;
-    Mousetrap.bind('esc', () => this.resetSelectionMode());
+    Mousetrap.bind('esc', (event) => {
+      event.preventDefault();
+      this.resetSelectionMode();
+    });
     this.selectionParams.notification = this.toastService.addNotice(this.text.selectionMode);
 
     this.element.classList.add('active-selection-mode');

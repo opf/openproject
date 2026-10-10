@@ -41,7 +41,6 @@ RSpec.describe "WorkPackageXlsExport Custom Fields" do
       name: "Ingredients",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: %w[ham onions pineapple mushrooms]
     )
   end

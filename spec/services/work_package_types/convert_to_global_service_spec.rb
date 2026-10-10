@@ -52,24 +52,34 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService do
       expect(TypeVariant.available_in(other_project)).to include(variant)
     end
 
-    it "converts the workflow the project owns along with it" do
-      workflow = variant.workflow
-      expect(workflow).to be_project_specific
+    context "when the project owns the workflow too" do
+      let(:workflow) { create(:project_owned_workflow, project:, name: "Ours") }
 
-      expect(service.call).to be_success
+      before { variant.update!(workflow:) }
 
-      expect(workflow.reload.project_id).to be_nil
-      expect(variant.reload.workflow_id).to eq(workflow.id)
-    end
+      it "converts the workflow along with the variant" do
+        expect(service.call).to be_success
 
-    it "converts a workflow the project's other variants share only once, and they keep it" do
-      sharer = create(:project_owned_type_variant, type:, project:, variant_name: "Sharer",
-                                                   workflow: variant.workflow)
+        expect(workflow.reload.project_id).to be_nil
+        expect(variant.reload.workflow_id).to eq(workflow.id)
+      end
 
-      expect(service.call).to be_success
+      it "renames it when a global workflow already carries the name" do
+        create(:named_workflow, name: "Ours")
 
-      expect(variant.reload.workflow.project_id).to be_nil
-      expect(sharer.reload.workflow_id).to eq(variant.workflow_id)
+        expect(service.call).to be_success
+
+        expect(workflow.reload).to have_attributes(project_id: nil, name: "Ours (2)")
+      end
+
+      it "converts it once and leaves the project's other variants pointing at it" do
+        sharer = create(:project_owned_type_variant, type:, project:, variant_name: "Sharer", workflow:)
+
+        expect(service.call).to be_success
+
+        expect(workflow.reload.project_id).to be_nil
+        expect(sharer.reload.workflow_id).to eq(workflow.id)
+      end
     end
 
     it "leaves a global workflow alone" do
@@ -90,24 +100,12 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService do
     end
 
     it "preserves the reuse links the variant holds" do
-      source = create(:type_variant, type:, variant_name: "Base config")
-      variant.update!(workflows_source: source)
+      variant.link!(TypeVariant::DEFAULTS)
 
       service.call
 
-      expect(variant.reload.workflows_source_id).to eq(source.id)
-      expect(variant.effective_source_for(TypeVariant::WORKFLOWS)).to eq(source)
-    end
-
-    it "keeps variants that reuse its configuration linked to it" do
-      borrower = create(:project_owned_type_variant, type:, project:, variant_name: "Borrower")
-      borrower.update!(workflows_source: variant)
-
-      service.call
-
-      expect(borrower.reload.workflows_source_id).to eq(variant.id)
-      expect(borrower.effective_source_for(TypeVariant::WORKFLOWS)).to eq(variant)
-      expect(borrower).to be_valid
+      expect(variant.reload).to be_linked(TypeVariant::DEFAULTS)
+      expect(variant.source_for(TypeVariant::DEFAULTS)).to eq(type.default_variant)
     end
 
     context "when a global sibling already carries the name" do
@@ -124,46 +122,6 @@ RSpec.describe WorkPackageTypes::ConvertToGlobalService do
       it "renames and detaches it when given a free name" do
         expect(service.call(name: "Firmware")).to be_success
         expect(variant.reload).to have_attributes(variant_name: "Firmware", project_id: nil)
-      end
-    end
-
-    context "when the variant inherits an aspect from a project-owned variant" do
-      before do
-        variant.update!(workflows_source: create(:project_owned_type_variant, type:, project:, variant_name: "Sibling"))
-      end
-
-      it "is blocked and leaves the variant project-owned" do
-        result = service.call
-
-        expect(result).to be_failure
-        expect(result.errors).to be_of_kind(:base, :inherits_from_project_owned)
-        expect(variant.reload.project_id).to eq(project.id)
-      end
-    end
-  end
-
-  describe "#validate" do
-    it "succeeds without persisting anything when the variant can be converted" do
-      expect(service.validate).to be_success
-      expect(variant.reload).to have_attributes(variant_name: "Hardware", project_id: project.id)
-    end
-
-    it "ignores a name clash, leaving it for the conversion itself" do
-      create(:type_variant, type:, variant_name: "Hardware")
-
-      expect(service.validate).to be_success
-    end
-
-    context "when the variant inherits an aspect from a project-owned variant" do
-      before do
-        variant.update!(workflows_source: create(:project_owned_type_variant, type:, project:, variant_name: "Sibling"))
-      end
-
-      it "reports the block" do
-        result = service.validate
-
-        expect(result).to be_failure
-        expect(result.errors).to be_of_kind(:base, :inherits_from_project_owned)
       end
     end
   end

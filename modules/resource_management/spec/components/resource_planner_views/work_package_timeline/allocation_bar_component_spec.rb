@@ -54,6 +54,35 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::AllocationBarComponent
     expect(page).to have_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
   end
 
+  it "carries the full name in a tooltip, since the bar truncates" do
+    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60)
+
+    render_inline(described_class.new(allocation:, visible_principal_ids: Set[principal.id]))
+
+    expect(page).to have_css("tool-tip", text: "Lisa Anderson", visible: :all)
+  end
+
+  it "does not name an invisible principal in the tooltip" do
+    allocation = build_stubbed(:resource_allocation, principal:, allocated_time: 60 * 60)
+
+    render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
+
+    expect(page).to have_css("tool-tip",
+                             text: I18n.t("resource_management.work_package_allocations_dialog.hidden_user"),
+                             visible: :all)
+  end
+
+  it "shows a deleted user with their avatar, even to a user who may not see them" do
+    deleted_user = create(:deleted_user)
+    allocation = build_stubbed(:resource_allocation, principal: deleted_user, allocated_time: 60 * 60)
+
+    render_inline(described_class.new(allocation:, visible_principal_ids: Set.new))
+
+    expect(page).to have_css("opce-principal")
+    expect(page).to have_no_text(I18n.t("resource_management.work_package_allocations_dialog.hidden_user"))
+    expect(page).to have_css("tool-tip", text: deleted_user.name, visible: :all)
+  end
+
   it "shows the role label for a filter-based allocation" do
     allocation = create(:resource_allocation, :with_user_filter, allocated_time: 20 * 60)
 

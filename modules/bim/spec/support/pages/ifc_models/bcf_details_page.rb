@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,17 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "support/pages/work_packages/split_work_package"
+require "support/pages/work_packages/primerized_split_work_package"
 require_relative "../../components/bcf_details_viewpoints"
 
 module Pages
-  class BcfDetailsPage < Pages::SplitWorkPackage
+  class BcfDetailsPage < Pages::PrimerizedSplitWorkPackage
     include ::Components::BcfDetailsViewpoints
 
     protected
 
     def path(tab = "overview")
-      bcf_project_frontend_path project, "details/#{work_package.id}/#{tab}"
+      bcf_project_details_path(project, work_package_id: work_package.id, tab:)
     end
   end
 end

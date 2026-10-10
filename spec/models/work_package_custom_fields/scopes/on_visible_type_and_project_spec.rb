@@ -38,81 +38,25 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     subject { WorkPackageCustomField.on_visible_type_and_project(user) }
 
     it "returns custom fields for types that are enabled in projects the user can see" do
-      expect(subject).to contain_exactly(type_enabled_and_member_cf, type_enabled_for_all_cf)
+      expect(subject).to contain_exactly(boolean_cf_on_visible_type,
+                                         text_cf_on_visible_type,
+                                         integer_cf_on_visible_type,
+                                         cf_on_bug_type)
     end
 
     context "with project: provided" do
       subject { WorkPackageCustomField.on_visible_type_and_project(user, project: project_with_user_and_feature) }
 
-      it "returns only fields enabled in the given project" do
-        expect(subject).to contain_exactly(type_enabled_and_member_cf, type_enabled_for_all_cf)
+      it "returns only the fields configured on the types that project uses" do
+        expect(subject).to contain_exactly(boolean_cf_on_visible_type, text_cf_on_visible_type, integer_cf_on_visible_type)
       end
 
-      context "when the project has a different type than where the CF is active" do
+      context "when the project uses a different type" do
         subject { WorkPackageCustomField.on_visible_type_and_project(user, project: project_with_user_and_bug) }
 
-        it "returns nothing" do
-          expect(subject).to be_empty
+        it "returns the fields configured on that type instead" do
+          expect(subject).to contain_exactly(cf_on_bug_type)
         end
-      end
-    end
-  end
-
-  describe ".on_visible_type_and_project with a linked form configuration" do
-    shared_let(:source_type) { create(:type) }
-    shared_let(:linked_type) { create(:type) }
-    shared_let(:linked_project) { create(:project, types: [linked_type]) }
-    shared_let(:linked_user) do
-      create(:user, member_with_permissions: { linked_project => [] })
-    end
-
-    # Activated on the SOURCE type and enabled in the linked type's project.
-    shared_let(:source_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [source_type.default_variant])
-    end
-    # Activated on the linked type itself (a leftover from before it was linked).
-    shared_let(:linked_own_cf) do
-      create(:integer_wp_custom_field, projects: [linked_project], type_variants: [linked_type.default_variant])
-    end
-
-    subject { WorkPackageCustomField.on_visible_type_and_project(linked_user) }
-
-    context "when the form configuration is linked" do
-      before do
-        linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-      end
-
-      it "surfaces the source variant's custom fields for the linked type's project" do
-        expect(subject).to include(source_cf)
-      end
-
-      it "replaces the linked variant's own fields with the source's (not a union)" do
-        expect(subject).not_to include(linked_own_cf)
-      end
-    end
-
-    context "with a multi-hop link chain" do
-      shared_let(:mid_type) { create(:type) }
-
-      before do
-        linked_type.default_variant.update!(form_configuration_source: mid_type.default_variant)
-        mid_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-      end
-
-      it "resolves to the terminal source type's fields" do
-        expect(subject).to include(source_cf)
-      end
-    end
-
-    context "with a cyclic chain" do
-      before do
-        linked_type.default_variant.update!(form_configuration_source: source_type.default_variant)
-        source_type.default_variant
-                   .update_column(:form_configuration_source_id, linked_type.default_variant.id)
-      end
-
-      it "terminates without raising" do
-        expect { subject.to_a }.not_to raise_error
       end
     end
   end
@@ -126,10 +70,10 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     shared_let(:root_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [root_type.default_variant])
+      create(:integer_wp_custom_field, types: [root_type.default_variant])
     end
     shared_let(:variant_cf) do
-      create(:integer_wp_custom_field, projects: [variant_project], type_variants: [variant])
+      create(:integer_wp_custom_field, types: [variant])
     end
 
     subject { WorkPackageCustomField.on_visible_type_and_project(variant_user) }
@@ -140,7 +84,7 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
     end
 
     context "when the variant inherits its form configuration" do
-      before { variant.update!(form_configuration_source: root_type.default_variant) }
+      before { link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION) }
 
       it "surfaces the type's fields" do
         expect(subject).to include(root_cf)
@@ -148,6 +92,12 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
 
       it "does not surface the variant's own fields" do
         expect(subject).not_to include(variant_cf)
+      end
+
+      it "hides a field the variant excludes from what it inherits" do
+        variant.update!(form_configuration_excluded_elements: [root_cf.attribute_name])
+
+        expect(subject).not_to include(root_cf)
       end
     end
 
@@ -159,6 +109,55 @@ RSpec.describe WorkPackageCustomFields::Scopes::OnVisibleTypeAndProject do
       it "does not surface the type's fields" do
         expect(subject).not_to include(root_cf)
       end
+    end
+  end
+
+  describe ".on_visible_type_and_project for a field the form configuration shows" do
+    shared_let(:type) { create(:type) }
+    shared_let(:project) { create(:project, types: [type]) }
+    shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
+    shared_let(:configured_field) do
+      create(:integer_wp_custom_field, types: [type.default_variant])
+    end
+
+    it "surfaces it for every project applying that configuration" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, project:)).to include(configured_field)
+    end
+  end
+
+  describe ".on_visible_type_and_project with a narrower reach" do
+    shared_let(:type) { create(:type) }
+    shared_let(:project) { create(:project, types: [type]) }
+    shared_let(:member) { create(:user, member_with_permissions: { project => [] }) }
+    shared_let(:custom_field) { create(:integer_wp_custom_field, types: [type.default_variant]) }
+
+    it "surfaces the field for a project the user can merely see" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member)).to include(custom_field)
+    end
+
+    it "drops it when the caller supplies a scope the project is not in" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: Project.none))
+        .not_to include(custom_field)
+    end
+
+    it "takes the reach as a single project" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: project))
+        .to include(custom_field)
+    end
+
+    it "takes the reach as an array of projects" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: [project]))
+        .to include(custom_field)
+    end
+
+    it "takes the reach as an array of ids" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: [project.id]))
+        .to include(custom_field)
+    end
+
+    it "drops it for an empty array" do
+      expect(WorkPackageCustomField.on_visible_type_and_project(member, projects: []))
+        .not_to include(custom_field)
     end
   end
 end

@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.7"
+gem "doorkeeper", "~> 5.9.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -77,7 +77,7 @@ gem "addressable", "~> 2.9.0"
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem "tzinfo-data", "~> 1.2026.1"
+gem "tzinfo-data", "~> 1.2026.4"
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem "htmldiff"
@@ -126,7 +126,7 @@ gem "bcrypt", "~> 3.1.22"
 gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
-gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -140,10 +140,10 @@ gem "rack-attack", "~> 6.8.0"
 gem "browser", "~> 6.2.0"
 
 # Providing health checks
-gem "okcomputer", "~> 1.19.1"
+gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.15.0"
+gem "lograge", "~> 0.15.1"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -152,7 +152,7 @@ gem "structured_warnings", "~> 0.5.0"
 # don't require by default, instead load on-demand when actually configured
 gem "airbrake", "~> 13.0.0", require: false
 
-gem "markly", "~> 0.17" # another markdown parser like commonmarker, but with AST support used in PDF export
+gem "markly", "~> 0.18" # another markdown parser like commonmarker, but with AST support used in PDF export
 gem "md_to_pdf", git: "https://github.com/opf/md-to-pdf", ref: "a0c4345367e4b9fc869e0da191ec56bcc24bd877"
 gem "prawn", "~> 2.4"
 gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues/1346 resolved.
@@ -160,9 +160,9 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.4.0"
+gem "mcp", "~> 1.6.0"
 
-gem "meta-tags", "~> 2.23.0"
+gem "meta-tags", "~> 2.24.0"
 
 gem "paper_trail", "~> 17.0.0"
 
@@ -201,7 +201,7 @@ gem "nokogiri", "~> 1.19.4"
 gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
-gem "ssrf_filter", "~> 1.3"
+gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
@@ -209,7 +209,7 @@ gem "aws-sdk-s3", "~> 1.229"
 
 gem "openproject-token", "~> 8.13.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
@@ -235,11 +235,15 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.35.1", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
+gem "openproject-octicons", "~>19.37.0"
+gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-primer_view_components", "~>0.92.0"
 gem "view_component", "~> 4.15.0"
+
 # Lookbook
 gem "lookbook", "2.3.15"
 
@@ -253,7 +257,13 @@ gem "factory_bot_rails", "~> 6.5.0", require: false
 gem "turbo_power", "~> 0.8.0"
 gem "turbo-rails", "~> 2.0.20"
 
-gem "httpx", "~> 1.8.3"
+gem "httpx", "~> 1.8.4"
+
+# Provider adapters and a model metadata registry for the AI features. Used as
+# transport and as a source of published model capabilities; what a given
+# connection actually offers is tracked per connection, never in RubyLLM's
+# application-wide registry.
+gem "ruby_llm", "~> 1.16"
 
 # Brings actual deep-freezing to most ruby objects
 gem "ice_nine"
@@ -298,7 +308,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.48"
+  gem "selenium-webdriver", "~> 4.49"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -365,7 +375,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.37.0"
+  gem "rubocop-rails", "~> 2.38"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -384,8 +394,8 @@ group :development, :test do
 end
 
 # API gems
-gem "grape", "~> 3.3.5"
-gem "grape_logging", "~> 3.0.0"
+gem "grape", "~> 4.0.1"
+gem "grape_logging", "~> 3.0.1"
 gem "roar", "~> 1.2.0"
 
 # CORS for API
@@ -425,11 +435,4 @@ gemfiles.each do |file|
   # We use send to allow dependabot to function
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
-end
-
-# Set cooldown 0 for our own gems
-source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.37.0"
-  gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.2"
 end

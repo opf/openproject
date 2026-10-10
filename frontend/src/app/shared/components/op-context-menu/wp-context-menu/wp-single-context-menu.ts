@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { AfterViewInit, Directive, ElementRef, inject, Injector, Input, OnDestroy } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -50,7 +48,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 import { DialogCloseDetail } from 'core-turbo/dialog-stream-action';
 
@@ -66,14 +64,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   private currentTimer:TimeEntryResource|null = null;
 
   readonly HookService = inject(HookService);
-  readonly $state = inject(StateService);
+  readonly urlParams = inject(UrlParamsService);
   readonly injector = inject(Injector);
   readonly PathHelper = inject(PathHelperService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly turboRequests = inject(TurboRequestsService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly authorisationService = inject(AuthorisationService);
-  readonly currentProject = inject(CurrentProjectService);
   readonly timeEntryService = inject(TimeEntryTimerService);
   protected copyToClipboardService = inject(CopyToClipboardService);
   protected deviceService = inject(DeviceService);
@@ -110,6 +107,11 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   public triggerContextMenuAction(action:WorkPackageAction, key:string) {
     const { link } = action;
 
+    if (action.turboRequest) {
+      void this.turboRequests.requestStream(link!);
+      return;
+    }
+
     switch (key) {
       case 'copy_to_other_project':
         window.location.href = `${this.PathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${this.workPackage.id!}`;
@@ -126,23 +128,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         }
         break;
       case 'delete': {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const currentBaseRoute = this.$state.current.data?.baseRoute as string | undefined;
-        const backUrl = currentBaseRoute
-          ? this.$state.href(currentBaseRoute)
-          : this.PathHelper.workPackagesPath(this.currentProject.identifier ?? null);
+        const backUrl = this.urlParams.basePathWithoutDetails();
         void this.turboRequests.request(
           this.PathHelper.workPackagesBulkDeleteDialogPath([this.workPackage.id!], backUrl),
           { method: 'GET' },
         );
         break;
       }
-      case 'log_time':
-        void this.turboRequests.request(this.PathHelper.timeEntryWorkPackageDialog(this.workPackage.id!), { method: 'GET' });
-        break;
-      case 'generate_pdf':
-        void this.turboRequests.requestStream(link!);
-        break;
       case 'copy_link_to_clipboard': {
         const url = new URL(String(link), window.location.origin);
         this.copyToClipboardService.copy(url.toString());
@@ -228,7 +220,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       // Rendering it as a link would show a misleading link preview on hover and
       // make the clipboard copy originate from an anchor, so render it as a
       // button (no href).
-      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+      const href = key === 'copy_numeric_id_to_clipboard' || action.turboRequest ? undefined : action.link;
 
       return {
         disabled: false,

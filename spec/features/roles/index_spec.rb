@@ -68,9 +68,14 @@ RSpec.describe "Roles index", :js do
   def expect_roles_listed(*names)
     expect(page).to have_css("[id^='role-']", count: names.size)
     expect(role_names_in_order).to eq(names)
+    names.each.with_index(2) do |name, rowindex|
+      expect(page).to have_selector(:row, name, rowindex:)
+    end
   end
 
   def search_roles(term)
+    expand_sub_header_search(I18n.t("roles.index.filter_label"))
+
     wait_for_turbo_frame(frame: Roles::IndexComponent::FRAME_ID) do
       fill_in I18n.t("roles.index.filter_label"), with: term
     end

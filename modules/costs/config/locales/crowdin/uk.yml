@@ -75,7 +75,7 @@ uk:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: має бути користувачем або прототипом користувача.
         time_entry:
           attributes:
             entity:
@@ -162,7 +162,6 @@ uk:
   button_add_time_entry: Записати час
   button_log_costs: Витрати лог-одиниць
   button_log_time: Записати
-  button_stop_timer: Зупинити таймер
   button_update_limits: Оновити ліміти
   button_update_start_finish_times: Оновити час початку й завершення
   caption_booked_on_project: Записаний на проект
@@ -229,10 +228,9 @@ uk:
   label_costlog: Записані витрати на одиницю продукції
   label_costs: Витрати
   label_costs_per_page: Витрати на сторінку
-  label_current: Current
+  label_current: Поточний
   label_current_default_rate: Поточна ставка за промовчанням
   label_date_on: на
-  label_day: День
   label_defaults_and_limits: Стандартні значення й ліміти
   label_deleted_cost_types: Видалені типи витрат
   label_display_cost_entries: Відображення одиничних витрат
@@ -248,23 +246,12 @@ uk:
   label_less_or_equal: "<="
   label_list: Список
   label_log_costs: Витрати на одиницю
-  label_month: Місяць
-  label_my_time_tracking: Мій облік часу
   label_new_time_entry_activity: Нова дія з введення часу
-  label_next_day: Наступний день
-  label_next_month: Наступний місяць
-  label_next_week: Наступний тиждень
-  label_next_workweek: Наступний робочий тиждень
   label_no: Ні
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
-  label_no_time: Час не зафіксовано
+  label_no_default_rate: Ставка за промовчанням не встановлена
+  label_no_project_rate: Для цього проєкту ставка не встановлена
   label_option_plural: Опції
   label_overall_costs: Загальні витрати
-  label_previous_day: Попередній день
-  label_previous_month: Попередній місяць
-  label_previous_week: Попередній тиждень
-  label_previous_workweek: Попередній робочий тиждень
   label_rate_plural: Тариф
   label_show: Показати
   label_specific_day: День %{day}
@@ -273,16 +260,14 @@ uk:
   label_status_finished: Готово
   label_time: Час
   label_time_entry_activity_form_description: Зміни цієї дії з введення часу відображатимуться в усіх проєктах, де їх дозволено.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Ліміти
-  label_timer_since: Почато о %{time}
   label_today_capitalized: Сьогодні
   label_units: Одиниці витрат
   label_until: до
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: Використовується ставка за промовчанням
   label_valid_from: Діє з
-  label_view_mode_switcher: Змінити подання
   label_work_package_filter_add: Додати фільтр робочого пакета
-  label_workweek: Робочий тиждень
   label_yes: Так
   notice_cost_logged_successfully: Вартість одиниць успішно зареєстрована.
   notice_different_time_zones: Часовий пояс цього користувача (%{tz}) відрізняється. Час записуватиметься за його поясом.
@@ -298,8 +283,8 @@ uk:
   permission_edit_rates: Редагувати ставки
   permission_log_costs: Книжкова одиниця витрат
   permission_log_own_costs: Книга одиничних витрат для себе
-  permission_manage_default_hourly_rates: Manage default hourly rates
-  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+  permission_manage_default_hourly_rates: Управління погодинними ставками за промовчанням
+  permission_manage_default_hourly_rates_explanation: 'Дозволяє додавати, змінювати та видаляти погодинні ставки за промовчанням для користувачів та прототипів користувачів.
 
     '
   permission_view_cost_entries: Переглянути замовлені витрати
@@ -339,11 +324,11 @@ uk:
   text_destroy_cost_entries_question: "%{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
   text_destroy_time_and_cost_entries: Видаліть звітні години та витрати
   text_destroy_time_and_cost_entries_question: "%{hours} години, %{cost_entries} повідомлялися про робочі пакети, які ви збираєтеся видалити. Що ти хочеш робити ?"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_hourly_rate_destroy_confirmation: Ставку %{rate}, що діє з %{valid_from}, буде видалено. Витрати, занесені за цією ставкою, буде перераховано за ставкою, що застосовуватиметься після цього.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Я розумію, що цю дію не можна буде скасувати.
+  text_hourly_rate_recalculation: Ця ставка діє з дати набуття нею чинності до моменту набуття чинності новою ставкою. Її зміна також призведе до перерахунку існуючих записів про відпрацьований час і бюджетів за цей період.
+  text_no_default_rate: Ставка за промовчанням застосовується у всіх проєктах, де в користувача немає встановленої ставки.
+  text_no_project_rate: У цьому проєкті використовуватиметься ставка за промовчанням.
   text_reassign_time_and_cost_entries: 'Перепризначення повідомлених годин і витрат до цього робочого пакету :'
   text_warning_hidden_elements: Деякі записи можуть бути виключені з агрегації.
   total_times:

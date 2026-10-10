@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,12 +35,10 @@ import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-p
 import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
-import { StateService } from '@uirouter/angular';
 
 @Injectable({ providedIn: 'root' })
 export class WpTableConfigurationService {
   readonly I18n = inject(I18nService);
-  readonly $state = inject(StateService);
 
   protected _tabs:TabInterface[] = [
     {
@@ -77,7 +74,8 @@ export class WpTableConfigurationService {
   ];
 
   public get tabs() {
-    if (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim')) {
+    const { pathname } = window.location;
+    if (pathname.includes('/work_packages') || pathname.includes('/bcf')) {
       return this._tabs;
     }
 

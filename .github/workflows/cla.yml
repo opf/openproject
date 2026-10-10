@@ -72,6 +72,7 @@ jobs:
             lwassermann,
             machisuji,
             marcalcobe,
+            maskimora,
             mereghost,
             mrmir,
             myabc,
@@ -83,6 +84,7 @@ jobs:
             shiroginne,
             toy,
             tiroessler,
+            tisba,
             ulferts,
             vonTronje,
             vspielau,
@@ -94,7 +96,10 @@ jobs:
             thykel,
             j-racsko,
             FeliciaMundhenke2904,
-            tinexw
+            tinexw,
+            Giplat,
+            jwitt2310,
+            bitmotivator
           # the followings are the optional inputs - If the optional inputs are not given, then default values will be taken
           remote-organization-name: opf
           remote-repository-name: legal

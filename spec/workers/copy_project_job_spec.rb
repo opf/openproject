@@ -135,11 +135,10 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       }
     end
 
-    let(:params) { { name: "Copy", identifier: "copy", work_package_custom_field_ids: [custom_field.id] } }
+    let(:params) { { name: "Copy", identifier: "copy" } }
 
     before do
-      source_project.work_package_custom_fields << custom_field
-      type.default_variant.custom_fields << custom_field
+      type.default_variant.custom_field_ids |= [custom_field.id]
     end
 
     it "copies the project", :aggregate_failures do

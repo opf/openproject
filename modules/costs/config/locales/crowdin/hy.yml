@@ -144,7 +144,6 @@ hy:
   button_add_time_entry: Գրանցել ժամանակ
   button_log_costs: Գրանցել միավորի ծախսեր
   button_log_time: Գրանցել
-  button_stop_timer: Դադարեցնել ժամաչափը
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Հաշվառված է նախագծում
@@ -214,7 +213,6 @@ hy:
   label_current: Current
   label_current_default_rate: Ընթացիկ կանխադրված դրույք
   label_date_on: նշված օրը
-  label_day: Օր
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Ջնջված ծախսի տեսակներ
   label_display_cost_entries: Ցուցադրել միավորի ծախսերը
@@ -230,23 +228,12 @@ hy:
   label_less_or_equal: "<="
   label_list: Ցուցակ
   label_log_costs: Գրանցել միավորի ծախսեր
-  label_month: Ամիս
-  label_my_time_tracking: Իմ ժամանակի հաշվառում
   label_new_time_entry_activity: Ժամանակի հաշվառման նոր գործունեություն
-  label_next_day: Հաջորդ օր
-  label_next_month: Հաջորդ ամիս
-  label_next_week: Հաջորդ շաբաթ
-  label_next_workweek: Հաջորդ աշխատանքային շաբաթ
   label_no: Ոչ
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Ժամանակ չի հաշվառվել
   label_option_plural: Ընտրանքներ
   label_overall_costs: Ընդհանուր ծախսեր
-  label_previous_day: Նախորդ օր
-  label_previous_month: Նախորդ ամիս
-  label_previous_week: Նախորդ շաբաթ
-  label_previous_workweek: Նախորդ աշխատանքային շաբաթ
   label_rate_plural: Դրույքներ
   label_show: Ցուցադրել
   label_specific_day: Օր %{day}
@@ -255,16 +242,14 @@ hy:
   label_status_finished: Ավարտված
   label_time: Ժամ
   label_time_entry_activity_form_description: Ժամանակի հաշվառման այս գործունեության փոփոխությունները կարտացոլվեն բոլոր նախագծերում, որտեղ այն միացված է։
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Սկսվել է %{time}-ին
   label_today_capitalized: Այսօր
   label_units: Ծախսի միավորներ
   label_until: մինչև
   label_using_current_default_rate: Using current default rate
   label_valid_from: Վավեր է սկսած
-  label_view_mode_switcher: Փոխել տեսքը
   label_work_package_filter_add: Ավելացնել աշխատանքային փաթեթի զտիչ
-  label_workweek: Աշխատանքային շաբաթ
   label_yes: Այո
   notice_cost_logged_successfully: Միավորի ծախսը հաջողությամբ գրանցվել է։
   notice_different_time_zones: Այս օգտատերն ունի այլ ժամային գոտի (%{tz})։ Ժամանակը կգրանցվի իր ժամային գոտով։

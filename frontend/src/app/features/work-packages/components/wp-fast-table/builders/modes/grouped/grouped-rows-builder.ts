@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -139,7 +138,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
   private getGroupData() {
     return this.groups.map((group:GroupObject, index:number) => {
       group.index = index;
-      if (group._links && group._links.valueLink) {
+      if (group._links?.valueLink) {
         group.href = group._links.valueLink;
       }
       group.identifier = groupIdentifier(group);

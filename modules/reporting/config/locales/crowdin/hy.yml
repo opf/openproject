@@ -106,7 +106,6 @@ hy:
   plugin_openproject_reporting:
     description: Այս հավելումը թույլ է տալիս ստեղծել հատուկ ծախսերի հաշվետվություններ՝ զտմամբ և խմբավորմամբ, որոնք ստեղծվել են OpenProject-ի Ժամանակ և ծախսեր հավելումի կողմից։
     name: OpenProject-ի հաշվետվություն
-  project_module_reporting_module: Ծախսերի հաշվետվություններ
   reporting:
     group_by:
       selected_columns: Ընտրված սյունակներ

@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
-import { StateService } from '@uirouter/core';
 import { Directive, Input, AfterViewInit, inject } from '@angular/core';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -46,8 +44,6 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 })
 export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements AfterViewInit {
   readonly wpCreate = inject(WorkPackageCreateService);
-  /** Only used for the legacy uiRouter contexts still routing through `stateName` (e.g. BIM). */
-  readonly $state = inject(StateService);
   readonly pathHelper = inject(PathHelperService);
   readonly currentProject = inject(CurrentProjectService);
   readonly browser = inject(BrowserDetector);
@@ -55,11 +51,8 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
 
   @Input() public projectIdentifier:string|null|undefined;
 
-  @Input() public stateName:string;
-
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('dropdownActive') active:boolean;
-
-  @Input() routedFromAngular = true;
 
   /** Whether this dropdown is mounted on the full work package view rather than a list toolbar. */
   @Input() fullView = false;
@@ -114,17 +107,11 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
   }
 
   /**
-   * `routedFromAngular` distinguishes contexts still driven by the classic uiRouter
-   * state tree (e.g. BIM) from those already migrated to Rails/Turbo (work packages,
-   * gantt). Among the latter, `fullView` distinguishes this dropdown being mounted on
-   * the full work package view (opens another full "new work package" page) from a
-   * list toolbar (opens the create form inline via splitCreatePath).
+   * `fullView` distinguishes this dropdown being mounted on the full work package
+   * view (opens another full "new work package" page) from a list toolbar (opens
+   * the create form inline via splitCreatePath).
    */
   private buildHref(type:TypeResource):string {
-    if (this.routedFromAngular) {
-      return this.$state.href(this.stateName, { type: type.id! });
-    }
-
     if (this.fullView) {
       const newPath = this.currentProject.identifier
         ? this.pathHelper.projectWorkPackageNewPath(this.currentProject.identifier)
@@ -149,9 +136,7 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
       return false;
     }
 
-    if (this.routedFromAngular) {
-      void this.$state.go(this.stateName, { type: type.id });
-    } else if (this.fullView) {
+    if (this.fullView) {
       Turbo.visit(this.buildHref(type), { action: 'advance' });
     } else {
       Turbo.visit(this.buildHref(type), { frame: 'content-bodyRight', action: 'advance' });

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,7 +29,6 @@ import { Injector } from '@angular/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { StateService } from '@uirouter/core';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
@@ -41,8 +39,6 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public $state:StateService;
-
   @LazyInject() public keepTab:KeepTabService;
 
   @LazyInject() public states:States;

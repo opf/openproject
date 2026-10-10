@@ -120,13 +120,8 @@ class Users::WorkingHours::DaysAndHoursForm < ApplicationForm
   private
 
   def ordered_days
-    # DAYS = [monday(0), tuesday(1), ..., saturday(5), sunday(6)]
-    # Setting.start_of_week: 1=Monday, 6=Saturday, 7=Sunday, nil=locale default (treat as Monday)
-    start_index = case Setting.start_of_week
-                  when 6 then UserWorkingHours::DAYS.index(:saturday)
-                  when 7 then UserWorkingHours::DAYS.index(:sunday)
-                  else 0 # Monday
-                  end
+    start_index = UserWorkingHours::DAYS.index(OpenProject::Internationalization::Date.beginning_of_week) || 0
+
     UserWorkingHours::DAYS.rotate(start_index)
   end
 

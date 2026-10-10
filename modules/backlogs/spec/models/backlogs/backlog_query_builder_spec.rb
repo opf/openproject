@@ -157,6 +157,26 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
         expect(work_packages).not_to include(other_project_work_package)
       end
     end
+
+    context "with a shared with user filter" do
+      shared_let(:shared_with_user) { create(:user) }
+      shared_let(:shared_work_package) do
+        own_work_package.tap do |wp|
+          create(:member,
+                 user: shared_with_user,
+                 project:,
+                 entity: wp,
+                 roles: [create(:work_package_role, permissions: %i[view_work_packages])])
+        end
+      end
+
+      let(:sprint_ids) { [sprint.id.to_s, other_sprint.id.to_s] }
+      let(:params) { { filters: "shared_with_user = \"#{shared_with_user.id}\"" } }
+
+      it "returns only the work packages shared with that user" do
+        expect(work_packages).to contain_exactly(shared_work_package)
+      end
+    end
   end
 
   describe "#build_backlog_work_packages" do
@@ -215,6 +235,72 @@ RSpec.describe Backlogs::BacklogQueryBuilder do
 
       it "never returns the other project's work package, regardless of the requested project filter" do
         expect(work_packages).not_to include(other_work_package)
+      end
+    end
+
+    context "with a shared with user filter" do
+      shared_let(:shared_with_user) { create(:user) }
+      shared_let(:shared_work_package) do
+        bucket_work_package.tap do |wp|
+          create(:member,
+                 user: shared_with_user,
+                 project:,
+                 entity: wp,
+                 roles: [create(:work_package_role, permissions: %i[view_work_packages])])
+        end
+      end
+
+      let(:bucket_ids) { [bucket.id.to_s] }
+      let(:show_inbox) { true }
+      let(:params) { { filters: "shared_with_user = \"#{shared_with_user.id}\"" } }
+
+      it "returns only the work packages shared with that user" do
+        expect(work_packages).to contain_exactly(shared_work_package)
+      end
+    end
+  end
+
+  context "with milestone filtering and parent loading" do
+    shared_let(:ordinary_type) { create(:type, is_milestone: false) }
+    shared_let(:milestone_type) { create(:type, is_milestone: true) }
+    shared_let(:project) { create(:project, types: [ordinary_type, milestone_type]) }
+    shared_let(:parent) { create(:work_package, project:, type: ordinary_type) }
+    shared_let(:milestone) { create(:work_package, project:, type: milestone_type, parent:) }
+    shared_let(:bucket) { create(:backlog_bucket, project:) }
+    shared_let(:bucket_milestone) do
+      create(:work_package, project:, type: milestone_type, backlog_bucket: bucket, parent:)
+    end
+    shared_let(:sprint) { create(:sprint, project:) }
+    shared_let(:sprint_milestone) { create(:work_package, project:, type: milestone_type, sprint:, parent:) }
+    shared_let(:sprint_ordinary) { create(:work_package, project:, type: ordinary_type, sprint:) }
+
+    let(:builder) { described_class.new(project:, user:, params:) }
+    let(:backlog_items) do
+      builder.build_backlog_work_packages(bucket_ids: [bucket.id], show_inbox: true)
+             .includes(:type, :status, :assigned_to, :priority, :parent)
+             .to_a
+    end
+    let(:sprint_items) do
+      builder.build_sprint_work_packages(sprint_ids: [sprint.id])
+             .includes(:type, :status, :assigned_to, :priority, :parent)
+             .to_a
+    end
+
+    context "when filtering for milestones" do
+      let(:params) { { filters: 'is_milestone = "t"' } }
+
+      it "returns only milestones while loading their parents", :aggregate_failures do
+        expect(backlog_items).to contain_exactly(milestone, bucket_milestone)
+        expect(sprint_items).to contain_exactly(sprint_milestone)
+      end
+    end
+
+    context "when filtering for non-milestones" do
+      let(:params) { { filters: 'is_milestone = "f"' } }
+
+      it "returns only non-milestones while loading their parents", :aggregate_failures do
+        expect(backlog_items).to contain_exactly(parent)
+        expect(sprint_items).to contain_exactly(sprint_ordinary)
       end
     end
   end

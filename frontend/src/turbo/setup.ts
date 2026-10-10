@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,6 +34,7 @@ import { registerLiveRegionStreamAction } from './live-region-stream-action';
 import { registerInputCaptionStreamAction } from './input-caption-stream-action';
 import { registerDispatchEventStreamAction } from './dispatch-event-stream-action';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
+import { addFrameMissingListener } from './frame-missing';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 import { debugLog, whenDebugging } from 'core-app/shared/helpers/debug_output';
 import { getTurboEvents } from './utils';
@@ -68,6 +68,7 @@ whenDebugging(() => {
 // Register our own actions
 addTurboEventListeners();
 addTurboGlobalListeners();
+addFrameMissingListener();
 registerActionMenuMorphRemount();
 registerPragmaticDndMorphAttributePreservation();
 registerDialogStreamAction();
@@ -103,15 +104,3 @@ TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions
 TurboPower.register('set_dataset_attribute', TurboPower.Actions.set_dataset_attribute, StreamActions);
 TurboPower.register('set_title', TurboPower.Actions.set_title, StreamActions);
 TurboPower.register('reload', TurboPower.Actions.reload, StreamActions);
-
-// Error handling when "Content missing" returned
-document.addEventListener('turbo:frame-missing', (event) => {
-  const { detail: { response, visit } } = event;
-  event.preventDefault();
-  whenDebugging(() => {
-    const frameId = event.target instanceof Element ? event.target.id : undefined;
-    const message = frameId ? `no turbo-frame#${frameId} in` : 'destination frame id missing for';
-    console.error(`${message} response from ${response.url}`);
-  });
-  void visit(response.url, {});
-});

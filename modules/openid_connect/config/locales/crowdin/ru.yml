@@ -54,7 +54,7 @@ ru:
         few: OpenID Connect tokens
         many: OpenID Connect tokens
         other: Токены OpenID Connect
-  logout_warning: 'Вы вышли из системы. Содержимое любой формы, которую вы можете отправить, может быть потеряно. Пожалуйста [войдите в систему].
+  logout_warning_link: 'You have been logged out. The contents of any form you submit may be lost. Please [log in](login).
 
     '
   openid_connect:
@@ -83,7 +83,7 @@ ru:
       display_name: Имя провайдера. Оно будет отображаться как кнопка входа и в списке провайдеров.
       endpoint_url: URL-адрес конечной точки, указанный поставщиком OpenID Connect
       group_regexes: По одному регулярному выражению на строку. Пожалуйста, прочитайте [документацию](docs_url) для получения дополнительной информации о том, как это сделать.
-      group_regexes_detail: В качестве опции задайте шаблоны с помощью регулярных выражений для сопоставления имен групп из формулы групп. Например, если ввести шаблон <code>^Level1/Level2/([\w/]+)$</code>, то из ответа, включающего "Level1/Level2/GroupName/SubGroup", будет извлечена группа "Groupname/SubGroup". Если шаблон не совпадает, группа игнорируется. Оставьте пустым, чтобы синхронизировать все группы, используя их полное групповое имя.
+      group_regexes_detail_html: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
       group_regexes_testing: Нажмите на кнопку 'Тест шаблона' для проверки шаблона регулярных выражений на примере пользовательской информации OIDC.
       group_sync: Автоматически извлекать и синхронизировать информацию о членстве в группах от поставщика идентификационных данных.
       groups_claim: Укажите имя формулы, которая, как ожидается, будет указывать на имена групп, членом которых является пользователь.
@@ -108,7 +108,7 @@ ru:
       oidc_information: Эти значения необходимы для настройки провайдера OpenID Connect.
       post_logout_redirect_uri: URL-адрес, на который провайдер OpenID Connect должен перенаправить Вас после запроса на выход из системы.
       scope: Если Вы хотите запросить пользовательские области видимости, Вы можете добавить здесь одно или несколько значений диапазона, разделенных пробелами. Более подробную информацию Вы найдете в [документации OpenID Connect](docs_url).
-      tenant: Пожалуйста, замените владельца по умолчанию на своего собственного, если это применимо. См. <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">это</a>.
+      tenant_html: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
     menu_title: Провайдеры OpenID
     providers:
       client_details_description: Информация о настройке OpenProject в качестве клиента OIDC

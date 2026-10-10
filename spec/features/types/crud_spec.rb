@@ -73,6 +73,7 @@ RSpec.describe "Types", :js do
   it "creates a type with editable core settings" do
     index_page.visit!
     index_page.click_new
+    click_on I18n.t("types.creation_wizard.start.submit")
 
     expect(page).to have_no_select("Parent type")
     expect(page).to have_field("Is milestone", disabled: false)
@@ -103,7 +104,7 @@ RSpec.describe "Types", :js do
       expect(page).to have_field("Name")
       expect(page).to have_no_text("This is an internal name only visible to administrators")
 
-      visit edit_type_details_path(type_id: existing_type.id, variant_id: variant.id)
+      visit edit_type_variant_details_path(type_id: existing_type.id, variant_id: variant.id)
       expect(page).to have_text("This is an internal name only visible to administrators")
       expect(page).to have_text("it will appear as #{existing_type.name} to all members")
     end

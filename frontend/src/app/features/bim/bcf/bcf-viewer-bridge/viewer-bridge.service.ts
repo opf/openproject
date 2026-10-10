@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,15 +28,11 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
-import { StateService } from '@uirouter/core';
 import { CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 @Injectable()
 export abstract class ViewerBridgeService {
   readonly injector = inject(Injector);
-
-  @LazyInject() state:StateService;
 
   /**
    * Determine whether a viewer should be shown

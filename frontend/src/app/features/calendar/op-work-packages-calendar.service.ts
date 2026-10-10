@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -302,7 +301,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openSplitView(id:string, onlyWhenOpen = false):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
 
     // Only open the split view if already open, otherwise only clicking the details opens
     if (onlyWhenOpen && !window.location.pathname.includes('/details/')) {
@@ -326,7 +325,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public openFullView(id:string):void {
-    this.wpTableSelection.setSelection(id, -1);
+    this.wpTableSelection.replaceSelection(id);
     Turbo.visit(this.pathHelper.workPackagePath(resolveRoutingId(this.states, id)));
   }
 
@@ -359,7 +358,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     }
 
     // Set the selection to single
-    this.wpTableSelection.setSelection(workPackageId, -1);
+    this.wpTableSelection.replaceSelection(workPackageId);
 
     event.preventDefault();
 

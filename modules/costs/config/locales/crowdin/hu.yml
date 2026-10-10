@@ -144,7 +144,6 @@ hu:
   button_add_time_entry: Eltöltött idő rögzítése
   button_log_costs: Költségek naplózása
   button_log_time: Napló
-  button_stop_timer: Időzítő leállítása
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Foglalt projekt
@@ -214,7 +213,6 @@ hu:
   label_current: Current
   label_current_default_rate: Jelenlegi alapértelmezett díj
   label_date_on: mikor
-  label_day: Nap
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Törölt költségnemek
   label_display_cost_entries: Fajlagos költségek megjelenítése
@@ -230,23 +228,12 @@ hu:
   label_less_or_equal: "<="
   label_list: Lista
   label_log_costs: Költségek naplózása
-  label_month: Havi
-  label_my_time_tracking: Időnaplóm
   label_new_time_entry_activity: Új időrögzítési tevékenység
-  label_next_day: Holnap
-  label_next_month: Következő hónap
-  label_next_week: A jövő héten
-  label_next_workweek: Következő munkahét
   label_no: Nem
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Nincs naplózott idő
   label_option_plural: Beállítások
   label_overall_costs: Összes költség
-  label_previous_day: Tegnap
-  label_previous_month: Előző hónap
-  label_previous_week: Előző héten
-  label_previous_workweek: Előző munkahét
   label_rate_plural: Díjak
   label_show: Mutat
   label_specific_day: Nap %{day}
@@ -255,16 +242,14 @@ hu:
   label_status_finished: Kész
   label_time: Idő
   label_time_entry_activity_form_description: A munkaidő-nyilvántartási tevékenység változásai minden olyan projektben tükröződnek, ahol ez engedélyezve van.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Elkezdődött %{time}-kor
   label_today_capitalized: Ma
   label_units: Költség egységek
   label_until: "-ig"
   label_using_current_default_rate: Using current default rate
   label_valid_from: Innentől érvényes
-  label_view_mode_switcher: Nézet módosítása
   label_work_package_filter_add: Munkacsomag szűrő hozzáadása
-  label_workweek: Munkahét
   label_yes: Igen
   notice_cost_logged_successfully: Egységköltség sikeresen naplózva.
   notice_different_time_zones: 'Ez a felhasználó más időzónában van: (%{tz}). Az idő az ő időzónájával lesz naplózva.'

@@ -28,12 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Metrics/CollectionLiteralLength
 module Settings
   class Definition
     ENV_PREFIX = "OPENPROJECT_"
+    SECRET_PLACEHOLDER = "__openproject_secret_unchanged__"
     AR_BOOLEAN_TYPE = ActiveRecord::Type::Boolean.new
-    DEFINITIONS = {
+
+    DEFINITIONS = { # rubocop:disable Metrics/CollectionLiteralLength
       activity_days_default: {
         default: 30
       },
@@ -341,7 +342,8 @@ module Settings
         description: "Encryption key for repository credentials",
         format: :string,
         default: nil,
-        writable: false
+        writable: false,
+        secret: true
       },
       date_format: {
         format: :string,
@@ -382,14 +384,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
-          if Setting.real_time_text_collaboration_enabled?
-            base_modules + %w[documents]
-          else
-            base_modules
-          end
-        },
+        default: -> { OpenProject::AccessControl.default_project_modules.map(&:to_s) },
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {
@@ -570,6 +565,10 @@ module Settings
         description: "Expiration time in seconds of created shared presigned URLs",
         default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
       },
+      fog_direct_upload_expires_in: {
+        description: "Expiration time in seconds of the signed forms used for direct uploads",
+        default: 14400
+      },
       # Additional / overridden help links
       force_help_link: {
         description: "You can set a custom URL for the help button in application header menu.",
@@ -618,7 +617,8 @@ module Settings
       good_job_engine_basic_auth: {
         description: "Allow basic authentication for GoodJob web interface by setting a password",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       hashed_token_pepper: {
         description: "Pepper used for HMAC-SHA256 hashing of hashed tokens (e.g. API tokens). " \
@@ -626,7 +626,8 @@ module Settings
                      "Changing this invalidates all existing hashed tokens.",
         format: :string,
         default: -> { SecureRandom.hex(32) },
-        persist_on_first_read: true
+        persist_on_first_read: true,
+        secret: true
       },
       host_name: {
         format: :string,
@@ -661,7 +662,8 @@ module Settings
         default_by_env: {
           development: "secret12345"
         },
-        description: "The secret used for generating access tokens to access documents on hocuspocus server."
+        description: "The secret used for generating access tokens to access documents on hocuspocus server.",
+        secret: true
       },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
@@ -673,7 +675,8 @@ module Settings
       health_checks_authentication_password: {
         description: "Add an authentication challenge for the /health_check endpoint",
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
@@ -753,6 +756,11 @@ module Settings
         format: :boolean,
         default: false
       },
+      llm_features_enabled: {
+        description: "Enable the AI features backed by the configured LLM connection",
+        format: :boolean,
+        default: false
+      },
       log_level: {
         description: "Set the OpenProject logger level",
         default: Rails.env.development? ? "debug" : "info",
@@ -791,7 +799,8 @@ module Settings
       },
       mail_handler_api_key: {
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       mail_handler_body_delimiters: {
         default: ""
@@ -1141,7 +1150,8 @@ module Settings
       seed_admin_user_password: {
         description: 'Password to set for the initially created admin user (Login remains "admin").',
         default: "admin",
-        writable: false
+        writable: false,
+        secret: true
       },
       seed_admin_user_mail: {
         description: "E-mail to set for the initially created admin user.",
@@ -1166,7 +1176,8 @@ module Settings
         string_values: true
       },
       seed_design: {
-        description: "Seed enterprise-edition theme colors and logos through ENV",
+        description: "Seed enterprise-edition theme colors and logos through ENV. " \
+                     "Set only_when_empty to apply only when no CustomStyle exists.",
         writable: false,
         default: nil,
         format: :hash,
@@ -1176,7 +1187,8 @@ module Settings
         description: "Seed enterprise-edition token through ENV",
         writable: false,
         format: :string,
-        default: nil
+        default: nil,
+        secret: true
       },
       self_registration: {
         default: 2,
@@ -1282,7 +1294,8 @@ module Settings
       smtp_password: {
         format: :string,
         default: "",
-        env_alias: "SMTP_PASSWORD"
+        env_alias: "SMTP_PASSWORD",
+        secret: true
       },
       smtp_timeout: {
         format: :integer,
@@ -1378,7 +1391,10 @@ module Settings
       sys_api_key: {
         description: "Internal system API key for setting up managed repositories",
         default: nil,
-        format: :string
+        format: :string,
+        # Admins have to read the key from the UI to configure it as OpenProjectApiKey
+        # in the Apache repository integration, so it must not be masked.
+        secret: false
       },
       time_format: {
         format: :string,
@@ -1441,6 +1457,12 @@ module Settings
       work_package_done_ratio: {
         default: "field",
         allowed: %w[field status]
+      },
+      work_package_import_max_rows: {
+        description: "Maximum number of data rows accepted by the work package CSV import.",
+        format: :integer,
+        writable: false,
+        default: 5_000
       },
       work_package_multiple_versions: {
         description: "Enable multiple version assignments on work packages.",
@@ -1512,13 +1534,14 @@ module Settings
                   :format,
                   :env_alias,
                   :string_values,
-                  :persist_on_first_read
+                  :persist_on_first_read,
+                  :secret
 
     attr_writer :value,
                 :description,
                 :allowed
 
-    def initialize(name, # rubocop:disable Metrics/AbcSize
+    def initialize(name, # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
                    default:,
                    default_by_env: {},
                    description: nil,
@@ -1527,7 +1550,8 @@ module Settings
                    allowed: nil,
                    env_alias: nil,
                    string_values: false,
-                   persist_on_first_read: false)
+                   persist_on_first_read: false,
+                   secret: false)
       self.name = name.to_s
       self.value = derive_default default_by_env.fetch(Rails.env.to_sym, default)
       self.format = format ? format.to_sym : deduce_format(value)
@@ -1537,6 +1561,7 @@ module Settings
       self.description = description.presence || :"setting_#{name}"
       self.string_values = string_values
       self.persist_on_first_read = persist_on_first_read
+      self.secret = secret
 
       if persist_on_first_read && !writable
         raise ArgumentError, "Settings using persist_on_first_read need to be writable"
@@ -1544,6 +1569,10 @@ module Settings
 
       if persist_on_first_read && default.nil?
         raise ArgumentError, "Settings using persist_on_first_read need to have a default value"
+      end
+
+      if secret && self.format != :string
+        raise ArgumentError, "Only string settings can be secret"
       end
     end
 
@@ -1597,6 +1626,10 @@ module Settings
 
     def persist_on_first_read?
       persist_on_first_read
+    end
+
+    def secret?
+      secret
     end
 
     def unprefixed_env_var_name_allowed?
@@ -1669,6 +1702,7 @@ module Settings
               env_alias: nil,
               string_values: false,
               persist_on_first_read: false,
+              secret: false,
               disallow_override: false)
         name = name.to_sym
         return if exists?(name)
@@ -1682,7 +1716,8 @@ module Settings
                          allowed:,
                          env_alias:,
                          string_values:,
-                         persist_on_first_read:)
+                         persist_on_first_read:,
+                         secret:)
         override_value(definition) unless disallow_override
         all[name] = definition
       end
@@ -1994,4 +2029,3 @@ module Settings
     end
   end
 end
-# rubocop:enable Metrics/CollectionLiteralLength

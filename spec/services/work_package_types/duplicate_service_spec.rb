@@ -79,7 +79,7 @@ RSpec.describe WorkPackageTypes::DuplicateService do
 
     expect(copy_variant.attribute_groups.map(&:key)).to include("custom group")
     expect(copy_variant.default_work_package_description).to eq("The source description")
-    expect(copy_variant.own_workflows).to be_present
+    expect(copy_variant.workflow.status_transitions).to be_present
   end
 
   context "when a copy with the default name already exists" do
@@ -102,18 +102,6 @@ RSpec.describe WorkPackageTypes::DuplicateService do
     expect(later_sibling.reload.position).to be > copy.position
   end
 
-  context "when the source has a linked aspect" do
-    shared_let(:link_target) { create(:type, name: "Shared config") }
-
-    before { link_configuration(source, source: link_target, aspect: TypeVariant::WORKFLOWS) }
-
-    it "replicates the link on the copy's base variant" do
-      copy = service_call.result
-
-      expect(copy.default_variant.source_for(TypeVariant::WORKFLOWS)).to eq(link_target.default_variant)
-    end
-  end
-
   context "with project assignments" do
     shared_let(:project_a) { create(:project) }
     shared_let(:project_b) { create(:project) }
@@ -127,23 +115,6 @@ RSpec.describe WorkPackageTypes::DuplicateService do
       copy = service_call.result.reload
 
       expect(copy.project_ids).to contain_exactly(project_a.id, project_b.id)
-    end
-
-    context "when the source's form configuration holds a custom field" do
-      shared_let(:custom_field) { create(:wp_custom_field) }
-
-      before do
-        source.default_variant.attribute_groups = [["custom group", ["custom_field_#{custom_field.id}"]]]
-        source.default_variant.custom_field_ids = [custom_field.id]
-        source.default_variant.save!
-      end
-
-      it "activates that field in the projects the copy is added to" do
-        service_call
-
-        expect(project_a.reload.work_package_custom_field_ids).to include(custom_field.id)
-        expect(project_b.reload.work_package_custom_field_ids).to include(custom_field.id)
-      end
     end
   end
 end

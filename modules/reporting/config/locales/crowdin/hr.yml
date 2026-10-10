@@ -108,7 +108,6 @@ hr:
   plugin_openproject_reporting:
     description: This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin.
     name: OpenProject Reporting
-  project_module_reporting_module: Izvješća troškova
   reporting:
     group_by:
       selected_columns: Selected columns

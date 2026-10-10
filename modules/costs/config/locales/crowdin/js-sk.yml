@@ -25,8 +25,6 @@ sk:
     button_log_costs: Zaúčtovať jednotkové náklady
     label_hour: hodina
     label_hours: hodín
-    myTimeTracking:
-      noSpecificTime: No specific time
     text_are_you_sure: Ste si istí?
     work_packages:
       properties:

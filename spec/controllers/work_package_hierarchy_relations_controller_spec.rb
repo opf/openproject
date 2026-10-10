@@ -108,8 +108,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
       context "when the child is invalid due to a required custom field" do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
+            project.enabled_variants.first.custom_field_ids |= [cf.id]
           end
         end
 
@@ -161,8 +160,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
       context "when the work package is invalid due to a required custom field" do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-            project.enabled_variants.first.custom_fields << cf
-            project.work_package_custom_fields << cf
+            project.enabled_variants.first.custom_field_ids |= [cf.id]
           end
         end
 
@@ -178,7 +176,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     end
   end
 
-  describe "DELETE /work_packages/:work_package_id/children/:id" do
+  describe "DELETE /work_packages/:work_package_id/hierarchy_relations/:id" do
     def send_delete_request(related:)
       delete("destroy",
              params: { work_package_id: work_package.id,
@@ -245,8 +243,7 @@ RSpec.describe WorkPackageHierarchyRelationsController do
     context "when the child is invalid due to a required custom field" do
       shared_let(:custom_field) do
         create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
-          project.enabled_variants.first.custom_fields << cf
-          project.work_package_custom_fields << cf
+          project.enabled_variants.first.custom_field_ids |= [cf.id]
         end
       end
 

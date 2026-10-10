@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -1002,9 +1001,11 @@ describe('WorkPackageCardDragAndDropService — real two-list directive fixture'
     standalone: true,
     imports: [OpSortableListsDirective, TestCardListHostComponent],
     template: `
-      <div class="root" opSortableLists>
-        <op-test-sortable-card-list listId="list-a" [mobile]="mobileA()" />
-        <op-test-sortable-card-list listId="list-b" [mobile]="mobileB()" />
+      <div class="scroll-host" style="overflow: auto;">
+        <div class="root" opSortableLists>
+          <op-test-sortable-card-list listId="list-a" [mobile]="mobileA()" />
+          <op-test-sortable-card-list listId="list-b" [mobile]="mobileB()" />
+        </div>
       </div>
     `,
   })

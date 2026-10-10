@@ -30,6 +30,7 @@
 
 class Project::PhaseDefinition < ApplicationRecord
   include ::Scopes::Scoped
+  include Lists::MoveAfterAnchor
 
   has_many :phases,
            class_name: "Project::Phase",

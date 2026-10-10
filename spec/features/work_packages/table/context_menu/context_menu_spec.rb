@@ -56,7 +56,7 @@ RSpec.describe "Work package table context menu",
           wp_table.expect_work_package_listed(work_package2)
 
           # Select all WPs
-          find("body").send_keys [:control, "a"]
+          wp_table.select_all_work_packages
 
           menu.open_for(work_package)
           menu.expect_options "Bulk edit", "Bulk duplicate", "Bulk change of project", "Bulk delete"

@@ -49,7 +49,7 @@ RSpec.describe Projects::Types::Switch::Impact do
   let(:design) { create(:type_variant, type: epic, variant_name: "Design", custom_fields: [design_stage]) }
 
   let(:project) do
-    create(:project, types: [epic], work_package_custom_fields: [story_points, design_stage])
+    create(:project, types: [epic])
   end
   let(:source) { epic_base }
   let(:target) { design }
@@ -76,7 +76,7 @@ RSpec.describe Projects::Types::Switch::Impact do
     # counting the source itself finds none of them as soon as the source is a variant.
     context "when the project already resolves the family to a variant" do
       let(:project) do
-        create(:project, types: [design], work_package_custom_fields: [story_points, design_stage])
+        create(:project, types: [design])
       end
       let(:source) { design }
       let(:target) { epic_base }
@@ -201,7 +201,7 @@ RSpec.describe Projects::Types::Switch::Impact do
     let(:bug) { create(:type, name: "Bug") }
     let(:bug_base) { bug.default_variant }
 
-    let(:project) { create(:project, types: [bug], work_package_custom_fields: [story_points]) }
+    let(:project) { create(:project, types: [bug]) }
     let(:source) { bug_base }
     # Reloaded because the outer before assigned groups to this instance, and
     # the memoized objects would win over the link's effective source.
@@ -213,7 +213,7 @@ RSpec.describe Projects::Types::Switch::Impact do
 
       # Restores the link the outer before severed, which is the state a variant
       # is created in.
-      design.link!(TypeVariant::FORM_CONFIGURATION, source: epic_base)
+      link_configuration(design, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
     # The variant stores no groups of its own, so the diff has to read the

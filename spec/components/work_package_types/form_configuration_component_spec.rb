@@ -3,31 +3,31 @@
 require "rails_helper"
 
 RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
-  let(:source_type) { create(:type, name: "Bug") }
-  let(:source) { source_type.default_variant }
-  let(:type) { create(:type, name: "Mobile app bug") }
-  let(:variant) { type.default_variant }
+  include_context "with variant scope"
+
+  let(:type) { create(:type, name: "Bug") }
+  let(:base) { type.default_variant }
+  let(:variant) { create(:type_variant, type:, variant_name: "Mobile app bug") }
   let(:no_filter_query) { "{}" }
-  # The independent path renders whatever it is given; the read-only path ignores this and
-  # resolves the source's groups itself, so a minimal shape is enough for both.
-  let(:form_attributes) { { actives: [], inactives: [] } }
+  let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.for_variant(variant, scope_project: nil) }
+  let(:form_attributes) { ApplicationController.helpers.form_configuration_groups(context) }
 
   before do
-    source.attribute_groups = [["Reused From Source", %w[assignee]]]
-    source.save!
+    base.attribute_groups = [["Reused From Source", %w[assignee]]]
+    base.save!
     login_as(create(:admin))
   end
 
   def render_component
-    render_inline(described_class.new(variant:, form_attributes:, no_filter_query:))
+    render_inline(described_class.new(context:, form_attributes:, no_filter_query:))
   end
 
   context "when the form configuration aspect is linked" do
     before do
-      link_configuration(variant, source:, aspect: TypeVariant::FORM_CONFIGURATION)
+      link_configuration(variant, aspect: TypeVariant::FORM_CONFIGURATION)
     end
 
-    it "renders the source's groups read-only", :aggregate_failures do
+    it "renders the base's groups read-only", :aggregate_failures do
       render_component
 
       expect(page).to have_text("Reused From Source")
@@ -37,18 +37,16 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
       expect(page).to have_no_css("[data-draggable-type='group']")
     end
 
-    # An exclusion this type owns is reversible from here, so its row stays and the switch shows
-    # it off. One coming from a link above it is not, so the row is left out instead.
+    # An exclusion the variant owns is reversible from here, so its row stays and the switch
+    # shows it off.
     describe "exclusions" do
-      let(:link) { variant }
-
       before do
-        source.attribute_groups = [["People", %w[assignee responsible]]]
-        source.save!
+        base.attribute_groups = [["People", %w[assignee responsible]]]
+        base.save!
       end
 
-      it "lists a row this type excludes itself, switched off", :aggregate_failures do
-        exclude_configuration_elements(link, aspect: TypeVariant::FORM_CONFIGURATION, elements: %w[assignee])
+      it "lists a row the variant excludes itself, switched off", :aggregate_failures do
+        exclude_configuration_elements(variant, aspect: TypeVariant::FORM_CONFIGURATION, elements: %w[assignee])
 
         render_component
 
@@ -57,57 +55,29 @@ RSpec.describe WorkPackageTypes::FormConfigurationComponent, type: :component do
         expect(toggle["aria-pressed"]).to eq("false")
       end
 
-      it "omits a row an ancestor's link excludes", :aggregate_failures do
-        middle = create(:type, name: "Middle")
-        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
-        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: %w[assignee])
-
-        render_component
-
-        expect(page).to have_text("People")
-        expect(page).to have_no_test_selector("toggle-form-config-exclusion-assignee")
-        expect(page).to have_test_selector("toggle-form-config-exclusion-responsible")
-      end
-
-      # Paired with the example below on purpose: it proves the section name renders at all, so
-      # the absence asserted there is the exclusion doing its job.
       it "renders a query section nothing excludes" do
-        source.attribute_groups = [["People", %w[assignee]], ["Related", [create(:query)]]]
-        source.save!
+        base.attribute_groups = [["People", %w[assignee]], ["Related", [create(:query)]]]
+        base.save!
 
         render_component
 
         expect(page).to have_text("Related")
       end
-
-      it "drops a query section an ancestor's link excludes", :aggregate_failures do
-        query = create(:query, name: "Embedded list")
-        source.attribute_groups = [["People", %w[assignee]], ["Related", [query]]]
-        source.save!
-
-        middle = create(:type, name: "Middle")
-        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
-        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: ["query_#{query.id}"])
-
-        render_component
-
-        expect(page).to have_text("People")
-        expect(page).to have_no_text("Related")
-      end
-
-      it "drops a group an ancestor's exclusions empty" do
-        middle = create(:type, name: "Middle")
-        link_configuration(link, source: middle, aspect: TypeVariant::FORM_CONFIGURATION)
-        link_configuration(middle, source: source, aspect: TypeVariant::FORM_CONFIGURATION, excluded: %w[assignee responsible])
-
-        render_component
-
-        expect(page).to have_no_text("People")
-      end
     end
   end
 
   context "when independent" do
+    it "renders read-only all the same, since the form is edited on its own page", :aggregate_failures do
+      render_component
+
+      expect(page).to have_no_css(".type-form-configuration-page--sidebar")
+      expect(page).to have_no_test_selector("type-form-configuration-add-button")
+    end
+  end
+
+  context "on the form's own page" do
+    let(:context) { WorkPackageTypes::FormConfiguration::EditorContext.new(form_configuration: variant.form_configuration) }
+
     it "renders the editable page with the inactive sidebar", :aggregate_failures do
       render_component
 

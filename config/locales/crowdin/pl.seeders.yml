@@ -73,13 +73,13 @@ pl:
           name: Standardowa rola globalna
       ai_text_transform_actions:
         item_0:
-          label: Fix grammar
+          label: Napraw gramatykę
         item_1:
-          label: Make concise
+          label: Sformułuj zwięźle
         item_2:
-          label: Translate to English
+          label: Przetłumacz na język angielski
         item_3:
-          label: Sort into template
+          label: Posortuj według szablonu
     standard:
       project_phases:
         item_0:
@@ -251,25 +251,25 @@ pl:
           versions:
             item_0:
               wiki:
-                title: Release 1.0
+                title: Wersja 1.0
                 content: |
-                  ### Release 1.0
+                  ### Wersja 1.0
 
-                  _Please document here what this release contains._
+                  _Udokumentuj tutaj, co zawiera ta wersja._
 
-                  * The work packages of this release are the ones with the target version 1.0.
-                  * The release date is the date of the *Release v1.0* milestone.
-                  * Open the [Roadmap]({{opSetting:base_url}}/projects/your-scrum-project/roadmap) to follow the progress of all versions.
-                  * Open [Project settings &rightarrow; Versions]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions) to link another wiki page to a version.
+                  * Pakiety robocze tej wersji to te, których docelową wersją jest 1.0.
+                  * Data wydania to data kamienia milowego *Wersja v1.0*.
+                  * Otwórz [plan działania]({{opSetting:base_url}}/projects/your-scrum-project/roadmap), aby śledzić postępy wszystkich wersji.
+                  * Otwórz [Ustawienia projektu &rightarrow; Wersje]({{opSetting:base_url}}/projects/your-scrum-project/settings/versions), aby powiązać z wersją inną stronę wiki.
           categories:
             item_0: Kategoria 1 (do zmiany w ustawieniach projektu)
           queries:
             item_0:
               name: Plan projektu
             item_1:
-              name: Version 1.1
+              name: Wersja 1.1
             item_2:
-              name: Version 1.0
+              name: Wersja 1.0
             item_3:
               name: Zadania
           boards:
@@ -295,21 +295,21 @@ pl:
                 options:
                   name: Pierwsze kroki
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Cieszymy się, że do nas dołączasz! Proponujemy wypróbować kilka funkcji, aby rozpocząć pracę z OpenProject.
 
-                    _Try the following steps:_
+                    _Wykonaj następujące kroki:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *Create a sprint*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and click "+ Sprint" to create a new sprint. Move work packages from the backlog to the sprint to plan the work to be done. When ready, click "Start sprint".
-                    4. *View your Sprint board*: &rightarrow; Go to [Boards]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Open the sprint's board by clicking on the sprint's name.
-                    5. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    6. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Zaproś nowych członków do swojego projektu*: &rightarrow; Przejdź do sekcji [Członkowie]({{opSetting:base_url}}/projects/your-scrum-project/members) w nawigacji projektu.
+                    2. *Wyświetl backlogi produktu i sprintu*: &rightarrow; Przejdź do obszaru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) w nawigacji projektu.
+                    3. *Utwórz sprint*: &rightarrow; Przejdź do obszaru [Backlogi]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) i kliknij przycisk „+ Sprint”, aby utworzyć nowy sprint. Przenieś pakiety robocze z backlogu do sprintu, aby zaplanować pracę, która ma zostać wykonana. Gdy wszystko będzie gotowe, kliknij przycisk „Rozpocznij sprint”.
+                    4. *Wyświetl swoją tablicę sprintu*: &rightarrow; Przejdź do obszaru [Tablice]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Otwórz tablicę sprintu, klikając nazwę sprintu.
+                    5. *Utwórz nowy pakiet roboczy*: &rightarrow; Przejdź do obszaru [Pakiety robocze &rightarrow; Utwórz]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    6. *Utwórz i zaktualizuj plan projektu*: &rightarrow; Przejdź do obszaru [Plan projektu](##query:scrum_project__query__project_plan) w nawigacji projektu.
+                    7. *Aktywuj kolejne moduły*: &rightarrow; Przejdź do obszaru [Ustawienia projektu &rightarrow; Moduły]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Tutaj znajdziesz nasze [przewodniki](https://www.openproject.org/docs/user-guide/).
+                    Jeśli masz pytania lub potrzebujesz pomocy, daj nam znać. Skontaktuj się z nami: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pakiety robocze

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,6 +32,20 @@ import { defineConfig } from 'vitest/config';
 // reporter settings on top of this file through an internal plugin, so only
 // runner-level options that the builder does not manage belong here.
 export default defineConfig({
+  plugins: [
+    {
+      // Vitest seeds the specs' `client` environment with the server condition `node`, and the
+      // builder only appends `browser` to it. A package whose `exports` lists `node` before
+      // `browser` then resolves to its Node build in the browser, e.g. lib0 1.x (pulled in by
+      // BlockNote) loads `node:crypto` and fails on import.
+      name: 'op-drop-node-condition-in-browser-specs',
+      configEnvironment(name, config) {
+        if (name === 'client' && config.resolve?.conditions) {
+          config.resolve.conditions = config.resolve.conditions.filter((condition) => condition !== 'node');
+        }
+      },
+    },
+  ],
   test: {
     // The builder defaults this to `false` to mimic Karma/Jasmine, which makes
     // every spec file share one module registry. Specs driving the real

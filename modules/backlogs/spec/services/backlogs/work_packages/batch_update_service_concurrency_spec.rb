@@ -32,41 +32,9 @@ require "spec_helper"
 
 RSpec.describe Backlogs::WorkPackages::BatchUpdateService,
                "concurrent destination updates",
-               type: :model,
-               use_transactional_fixtures: false do
-  self.use_transactional_tests = false
+               type: :model do
+  include_context "with real database commits"
 
-  before do
-    baseline_user_ids
-    baseline_role_ids
-    baseline_status_ids
-    baseline_priority_ids
-    fixture_connection_pool.unpin_connection!
-  end
-
-  after do
-    side_user_ids = factory_side_user_ids
-    project.work_packages.each { |work_package| work_package.reload.destroy! }
-    project.destroy!
-    user.destroy!
-    User.where(id: side_user_ids).destroy_all
-    TypeVariant.where(type_id: type.id).delete_all
-    Type.unscoped.where(id: type.id).delete_all
-    Role.where.not(id: baseline_role_ids).destroy_all
-    Status.where.not(id: baseline_status_ids).delete_all
-    IssuePriority.where.not(id: baseline_priority_ids).delete_all
-  ensure
-    fixture_connection_pool.pin_connection!(true)
-  end
-
-  let(:fixture_connection_pool) { ActiveRecord::Base.connection_pool }
-  let(:baseline_user_ids) { User.not_builtin.ids }
-  let(:factory_side_user_ids) do
-    User.not_builtin.where.not(id: [*baseline_user_ids, user.id]).ids
-  end
-  let(:baseline_role_ids) { Role.pluck(:id) }
-  let(:baseline_status_ids) { Status.pluck(:id) }
-  let(:baseline_priority_ids) { IssuePriority.pluck(:id) }
   let!(:type) { create(:type) }
   let!(:project) do
     create(:project, types: [type], enabled_module_names: %i[backlogs work_package_tracking])

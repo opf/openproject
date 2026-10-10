@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -244,7 +243,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    */
   public isWritable(key:string):boolean {
     const fieldSchema = this.schema.ofProperty(key) as IFieldSchema|null;
-    return !!(fieldSchema && fieldSchema.writable);
+    return !!fieldSchema?.writable;
   }
 
   /**
@@ -298,7 +297,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param key
    */
   public valueExists(key:string):boolean {
-    return this.changeset.contains(key) || this.pristineResource.hasOwnProperty(key);
+    return this.changeset.contains(key) || Object.hasOwn(this.pristineResource, key);
   }
 
   /**
@@ -341,7 +340,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @return {boolean}
    */
   public isOverridden(key:string) {
-    return this.changes.hasOwnProperty(key);
+    return Object.hasOwn(this.changes, key);
   }
 
   /**

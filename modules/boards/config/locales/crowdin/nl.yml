@@ -3,8 +3,8 @@ nl:
   activerecord:
     models:
       boards/grid:
-        one: Board
-        other: Boards
+        one: Bord
+        other: Borden
   boards:
     board_type_attributes:
       assignee: Toegewezene

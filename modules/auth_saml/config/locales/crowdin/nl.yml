@@ -172,7 +172,7 @@ nl:
       metadata:
         dialog: 'Dit is de URL waar de OpenProject SAML metadata beschikbaar is. Gebruik deze optioneel om uw identity provider te configureren:'
       no_results_table: Er zijn nog geen SAML identity providers gedefinieerd.
-      notice_created: A new SAML identity provider was successfully created.
+      notice_created: Er is met succes een nieuwe SAML-identiteitsaanbieder aangemaakt.
       plural: SAML-identiteitsproviders
       request_attributes:
         format: Kenmerk formaat

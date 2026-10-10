@@ -63,6 +63,14 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 ./node_modules/.bin/ng test --watch
 ```
 
+CI additionally typechecks the application and spec sources with `tsc`, which reports errors that the build and the test run can miss. To reproduce that locally, run the following in the `frontend/` folder:
+
+```shell
+npm run typecheck
+```
+
+For guidance on writing frontend specs — the Stimulus test helpers, Testing Library queries and coverage — see [frontend/doc/TESTING.md](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md).
+
 ## Unit tests
 
 After following the prerequisites, use the following command to run individual specs:
@@ -340,6 +348,13 @@ good as a test server.
 
 Most of the above applies to running tests locally, with some docker specific setup changes that are discussed [in the
 docker development documentation](../../development-environment/docker).
+
+## Shared spec contexts
+
+`spec/support/shared/` holds RSpec shared contexts for setup that several specs need. Pull one in with `include_context "<name>"` or the metadata tag noted below. Two of them change how the database or the settings registry behave, so choose deliberately:
+
+- `with real database commits` commits every write instead of running the example inside a rolled-back transaction, so threads, advisory locks and background workers can see each other's rows. Use it only for genuine concurrency specs. Every table is truncated after each example (the settings rows are restored), so the spec must create all data it needs, must not rely on shared fixtures and must stop any workers before it ends.
+- `with settings reset` (metadata tag `:settings_reset`) snapshots `Settings::Definition` before the example group and restores it after each example. Use it when a spec adds, resets or overrides definitions or stubs `configuration.yml`. A spec that only needs a different setting value should use the `with_settings: { ... }` metadata instead, which stubs `Setting[]` without touching the definitions.
 
 ## Generators
 

@@ -74,6 +74,23 @@ RSpec.describe Label do
     end
   end
 
+  describe ".page_of" do
+    let!(:alpha) { create(:label, name: "Alpha") }
+    let!(:bravo) { create(:label, name: "bravo") }
+    let!(:charlie) { create(:label, name: "Charlie") }
+    let!(:zulu) { create(:label, name: "Zulu") }
+
+    it "returns the 1-based page the label falls on when ordered case-insensitively by name" do
+      expect(described_class.page_of(alpha, per_page: 2)).to eq(1)
+      expect(described_class.page_of(charlie, per_page: 2)).to eq(2)
+      expect(described_class.page_of(zulu, per_page: 2)).to eq(2)
+    end
+
+    it "sorts case-insensitively, placing bravo between alpha and charlie" do
+      expect(described_class.page_of(bravo, per_page: 1)).to eq(2)
+    end
+  end
+
   describe "#destroy" do
     it "removes its labelings" do
       label = create(:label)

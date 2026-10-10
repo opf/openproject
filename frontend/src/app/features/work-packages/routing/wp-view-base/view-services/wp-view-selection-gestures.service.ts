@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,23 +39,16 @@ export class WorkPackageViewSelectionGesturesService {
   private readonly selection = inject(WorkPackageViewSelectionService);
 
   handleClick(workPackageId:string, rendered:RenderedWorkPackage[], modifiers:SelectionModifiers, classIdentifier?:string):void {
-    const toggle = Boolean(modifiers.ctrlKey) || Boolean(modifiers.metaKey);
-
-    if (!modifiers.shiftKey && !toggle) {
-      this.replace(workPackageId, rendered, classIdentifier);
-    }
-
-    if (modifiers.shiftKey) {
-      this.selection.setMultiSelectionFrom(rendered, workPackageId, positionOf(rendered, workPackageId, classIdentifier));
-    }
-
-    if (toggle) {
-      this.selection.toggleRow(workPackageId);
-    }
+    const row = findSelectionOccurrence(rendered, workPackageId, classIdentifier);
+    if (!row) return;
+    if (modifiers.shiftKey) this.selection.rangeTo(row, rendered);
+    else if (modifiers.ctrlKey || modifiers.metaKey) this.selection.toggleOccurrence(row);
+    else this.selection.replaceOccurrence(row);
   }
 
   replace(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
-    this.selection.setSelection(workPackageId, positionOf(rendered, workPackageId, classIdentifier));
+    const row = findSelectionOccurrence(rendered, workPackageId, classIdentifier);
+    if (row) this.selection.replaceOccurrence(row);
   }
 
   handleContextMenu(workPackageId:string, rendered:RenderedWorkPackage[], classIdentifier?:string):void {
@@ -75,8 +67,9 @@ export class WorkPackageViewSelectionGesturesService {
   }
 }
 
-function positionOf(rendered:RenderedWorkPackage[], workPackageId:string, classIdentifier?:string):number {
-  return rendered.findIndex((row) => (classIdentifier === undefined
-    ? row.workPackageId === workPackageId
-    : row.classIdentifier === classIdentifier));
+export function findSelectionOccurrence(
+  rows:RenderedWorkPackage[], id:string, classIdentifier?:string,
+):RenderedWorkPackage|undefined {
+  return rows.find((row) => row.workPackageId === id
+    && (classIdentifier === undefined || row.classIdentifier === classIdentifier));
 }

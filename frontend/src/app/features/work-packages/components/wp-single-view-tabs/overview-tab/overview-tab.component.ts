@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -35,6 +33,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   templateUrl: './overview-tab.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-overview-tab',
   standalone: false,
   // TODO: This component has been partially migrated to be zoneless-compatible.
@@ -44,7 +43,6 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 })
 export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
-  readonly $state = inject(StateService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -55,7 +53,7 @@ export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin impleme
   public tabName = this.I18n.t('js.label_latest_activity');
 
   ngOnInit() {
-    this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId as string;
+    this.workPackageId = this.workPackage.id!;
 
     this
       .apiV3Service

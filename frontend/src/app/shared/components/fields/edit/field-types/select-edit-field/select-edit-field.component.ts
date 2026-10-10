@@ -20,14 +20,12 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
-import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -38,12 +36,12 @@ import {
 import {
   CreateAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/create-autocompleter/create-autocompleter.component';
-import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { EditFieldComponent } from '../../edit-field.component';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { EventHandler } from 'ng-dynamic-component';
 
 export interface ValueOption {
   name:string;
@@ -62,19 +60,13 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   readonly halSorting = inject(HalResourceSortingService);
 
-  readonly $state = inject(StateService);
-
-  readonly uiRouterGlobals = inject(UIRouterGlobals);
-
-  readonly editFormComponent = inject(EditFormComponent, { optional: true });
-
   public availableOptions:HalResource[] = [];
 
   public text:Record<string, string>;
 
   public appendTo:any = null;
 
-  public referenceOutputs:Record<string, Function> = {
+  public referenceOutputs:Record<string, EventHandler> = {
     onCreate: (newElement:HalResource) => this.onCreate(newElement),
     onChange: (value:HalResource) => this.onChange(value),
     onAddNew: (value:HalResource) => this.onNewValueAdded(value),
@@ -128,7 +120,6 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           });
       });
 
-    this.syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
   }
 
   protected initialize() {
@@ -300,21 +291,5 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   private getEmptyOption():ValueOption|undefined {
     return (this.availableOptions as ValueOption[]).find((el) => el.name === this.text.placeholder);
-  }
-
-  private syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode?:boolean) {
-    // Work package type changes need to be synced with the type url param
-    // in order to keep the form changes (changeset) between route/state changes
-    if (fieldName === 'type' && editMode) {
-      this.handler.registerOnBeforeSubmit(() => {
-        const oldType = this.uiRouterGlobals.params.type as string|null;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const newType = (this.value as HalResource)?.$source?.id as string;
-
-        if (oldType && newType) {
-          void this.$state.go('.', { type: newType }, { notify: false });
-        }
-      });
-    }
   }
 }

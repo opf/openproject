@@ -37,13 +37,13 @@ module WorkPackageTypes
       let(:type) { create(:type, name: "Legacy type") }
       let(:variant) { type.default_variant }
 
-      subject(:service) { described_class.new(user:, variant:, row_key: "priority") }
+      subject(:service) { described_class.new(user:, form_configuration: variant.form_configuration, row_key: "priority") }
 
       before do
-        variant.update_column(:attribute_groups, [
-                                ["", ["assignee"]],
-                                [:details, ["priority"]]
-                              ])
+        variant.form_configuration.update!(attribute_groups: [
+                                             ["", ["assignee"]],
+                                             [:details, ["priority"]]
+                                           ])
       end
 
       it "normalizes unnamed legacy groups while updating rows" do
@@ -59,12 +59,22 @@ module WorkPackageTypes
         expect(normalized_group.key).to eq(I18n.t("types.edit.form_configuration.untitled_group"))
       end
 
-      it "finds legacy symbol attribute keys when moving rows" do
-        variant.update_column(:attribute_groups, [
-                                [:details, [:version]]
-                              ])
+      it "keeps the fields the variant excludes in the form it edits" do
+        variant.update!(form_configuration_excluded_elements: ["assignee"])
 
-        result = described_class.new(user:, variant:, row_key: "version").call(target_id: "inactive", position: 1)
+        expect(service.call(target_id: "inactive", position: 1)).to be_success
+
+        expect(variant.reload.form_attribute_groups.flat_map(&:members)).to include("assignee")
+        expect(variant.attribute_groups.flat_map(&:members)).not_to include("assignee", "priority")
+      end
+
+      it "finds legacy symbol attribute keys when moving rows" do
+        variant.form_configuration.update!(attribute_groups: [
+                                             [:details, [:version]]
+                                           ])
+
+        result = described_class.new(user:, form_configuration: variant.form_configuration, row_key: "version")
+                                .call(target_id: "inactive", position: 1)
 
         expect(result).to be_success
         expect(variant.reload.attribute_groups.flat_map(&:members)).not_to include("version")
@@ -72,13 +82,14 @@ module WorkPackageTypes
 
       it "removes unavailable attributes from legacy form configurations when updating rows" do
         custom_field = create(:work_package_custom_field, field_format: "string")
+        RequestStore.clear!
         deleted_custom_field_attribute = "custom_field_1"
-        variant.update_column(:attribute_groups, [
-                                ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
-                              ])
+        variant.form_configuration.update!(attribute_groups: [
+                                             ["Legacy custom group", [deleted_custom_field_attribute, "priority"]]
+                                           ])
 
         result = described_class
-          .new(user:, variant:, row_key: custom_field.attribute_name)
+          .new(user:, form_configuration: variant.form_configuration, row_key: custom_field.attribute_name)
           .call(target_id: "Legacy custom group", position: 1)
 
         expect(result).to be_success

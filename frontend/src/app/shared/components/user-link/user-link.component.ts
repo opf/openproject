@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -57,11 +56,11 @@ export class UserLinkComponent {
   @Input() user:UserResource;
 
   public get href() {
-    return this.user && this.user.showUserPath;
+    return this.user?.showUserPath;
   }
 
   public get name() {
-    return this.user && this.user.name;
+    return this.user?.name;
   }
 
   public get label() {
@@ -69,6 +68,6 @@ export class UserLinkComponent {
   }
 
   public get hoverCardUrl() {
-    return this.user && this.user.id && this.pathHelperService.userHoverCardPath(this.user.id);
+    return this.user?.id && this.pathHelperService.userHoverCardPath(this.user.id);
   }
 }

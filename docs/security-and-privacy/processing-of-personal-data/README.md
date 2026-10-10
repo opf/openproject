@@ -13,7 +13,8 @@ Status of this document: 2024-09-22
 
 This document outlines how personal data flows through the OpenProject software and aims to assist data controllers in organizations using OpenProject on their own infrastructure in creating GDPR-compliant data protection documentation.
 
-> **Note:** Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise Edition Cloud](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
+> [!NOTE]
+> Customers of the [OpenProject GmbH](https://www.openproject.org/legal/imprint/) that subscribed to the [OpenProject Enterprise Cloud edition](https://www.openproject.org/enterprise-edition/) (a software-as-a-service) please check the following legal documents:
 >
 > - [Privacy Policy](https://www.openproject.org/legal/privacy/)
 > - [Data Processing Agreement](https://www.openproject.org/legal/data-processing-agreement/)
@@ -691,6 +692,7 @@ OpenProject makes use of technical cookies to identity the browser client and/or
 | `_open_project_session` (name is configurable) | contains the information about the logged in user as well as information stored between requests on the user's choices (e.g. the filters for costs are in part stored there) | Session <br>+ configurable server-sideTTL                  | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/config/initializers/session_store.rb#L34-L39) |
 | `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br>enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '_Stay logged in_' box in the login form.<br> | Cookie 1 year<br>+ server-side token N days (configurable) | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/app/services/users/login_service.rb#L58-L74) |
 | `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/16.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L33) |
+| `op_main_menu_width`                           | remembers the width of the side menu (0 when collapsed) so the next page can be laid out the same way before any script runs | 1 year                                                       | secure (on HTTPS)<br>Samesite=Lax                      | [Code ref](https://github.com/opf/openproject/blob/dev/frontend/src/app/core/main-menu/main-menu-toggle.service.ts) |
 
 ## Deletion of personal data
 

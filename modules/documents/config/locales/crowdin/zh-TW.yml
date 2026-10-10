@@ -61,9 +61,9 @@ zh-TW:
           invalid_scheme: 必須使用 WebSocket 通訊協定 (ws:// 或 wss://)。
           label: Hocuspocus 伺服器 URL
         page_header:
-          description: |-
-            啟用時，即時協作可讓多位使用者同時編輯一份文件。
-            它需要工作中的 %{hocuspocus_server_link} 才能運作。
+          description_html: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: 我瞭解我可能會永久遺失資料
         confirmation_message: |-
@@ -117,7 +117,7 @@ zh-TW:
       currently_offline: 你目前狀態為離線。
     label_attachment_author: 附件作者
     label_categories: 類別
-    last_updated_at: 最後儲存 %{time}。
+    last_updated_at_html: Last saved %{time}.
     menu:
       all: 所有文件
       collaboration_settings: 即時協作

@@ -26,7 +26,8 @@
       <%= render MeetingAgendaItems::ItemComponent.new(
             container:,
             meeting_agenda_item: current_item,
-            presentation_mode: true
+            presentation_mode: true,
+            started_at: @started_at
           ) %>
     <% end %>
   <% end %>

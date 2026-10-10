@@ -10,8 +10,8 @@ et:
   permission_manage_team_planner: Manage team planner
   permission_view_team_planner: View team planner
   plugin_openproject_team_planner:
-    description: Provides team planner views.
-    name: OpenProject Team Planner
+    description: Meeskonna planeerija vaated.
+    name: OpenProjecti meeskonna planeerija
   project_module_team_planner_view: Team planners
   team_planner:
     label_assignees: Assignees

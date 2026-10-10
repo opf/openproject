@@ -75,7 +75,7 @@ pl:
         rate:
           attributes:
             principal:
-              invalid: must be a user or a placeholder user.
+              invalid: musi być użytkownikiem lub użytkownikiem zastępczym.
         time_entry:
           attributes:
             entity:
@@ -162,7 +162,6 @@ pl:
   button_add_time_entry: Rejestruj czas pracy
   button_log_costs: Rejestruj koszty jednostkowe
   button_log_time: Dziennik
-  button_stop_timer: Zatrzymaj zegar
   button_update_limits: Zaktualizuj limity
   button_update_start_finish_times: Zaktualizuj czasy rozpoczęcia i zakończenia
   caption_booked_on_project: Zarezerwowano na projekt
@@ -229,10 +228,9 @@ pl:
   label_costlog: Zarejestrowane koszty jednostkowe
   label_costs: Koszty
   label_costs_per_page: Kosztów na stronę
-  label_current: Current
+  label_current: Bieżący
   label_current_default_rate: Aktualne stawki domyślne
   label_date_on: na
-  label_day: Dzień
   label_defaults_and_limits: Ustawienia domyślne i limity
   label_deleted_cost_types: Usunięte typy kosztów
   label_display_cost_entries: Pokaż koszty jednostkowe
@@ -248,23 +246,12 @@ pl:
   label_less_or_equal: "≤"
   label_list: Lista
   label_log_costs: Rejestruj koszty jednostkowe
-  label_month: Miesiąc
-  label_my_time_tracking: Moje śledzenie czasu
   label_new_time_entry_activity: Nowa aktywność wprowadzania czasu
-  label_next_day: Następny dzień
-  label_next_month: Następny miesiąc
-  label_next_week: Następny tydzień
-  label_next_workweek: Następny tydzień pracy
   label_no: Nie
-  label_no_default_rate: No default rate set
-  label_no_project_rate: No rate set for this project
-  label_no_time: Brak śledzonego czasu
+  label_no_default_rate: Nie ustawiono stawki domyślnej
+  label_no_project_rate: Nie ustawiono stawki dla tego projektu
   label_option_plural: Opcje
   label_overall_costs: Koszt całkowity
-  label_previous_day: Poprzedni dzień
-  label_previous_month: Poprzedni miesiąc
-  label_previous_week: Poprzedni tygodzień
-  label_previous_workweek: Poprzedni tydzień pracy
   label_rate_plural: Taryfy
   label_show: Pokaż
   label_specific_day: Dzień %{day}
@@ -273,16 +260,14 @@ pl:
   label_status_finished: Zakończone
   label_time: Czas
   label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limity
-  label_timer_since: Rozpoczęto o %{time}
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki
   label_until: do
-  label_using_current_default_rate: Using current default rate
+  label_using_current_default_rate: Używanie stawek domyślnych
   label_valid_from: Ważny od
-  label_view_mode_switcher: Zmień widok
   label_work_package_filter_add: Dodaj filtr Zestawu zadań
-  label_workweek: Tydzień roboczy
   label_yes: Tak
   notice_cost_logged_successfully: Koszt jednostkowy zarejestrowano pomyślnie.
   notice_different_time_zones: Ten użytkownik ma inną strefę czasową (%{tz}). Godzina będzie rejestrowana przy użyciu tej strefy czasowej.
@@ -298,8 +283,8 @@ pl:
   permission_edit_rates: Edycja stawek/cen
   permission_log_costs: Zarejestruj koszty jednostkowe
   permission_log_own_costs: Zarejestruj koszty jednostkowe dla siebie
-  permission_manage_default_hourly_rates: Manage default hourly rates
-  permission_manage_default_hourly_rates_explanation: 'Allows adding, changing and deleting the default hourly rates of users and placeholder users.
+  permission_manage_default_hourly_rates: Zarządzaj domyślnymi stawkami godzinowymi
+  permission_manage_default_hourly_rates_explanation: 'Umożliwia dodawanie, zmianę i usuwanie domyślnych stawek godzinowych użytkowników oraz użytkowników zastępczych.
 
     '
   permission_view_cost_entries: Zobacz zarejestrowane koszty
@@ -339,11 +324,11 @@ pl:
   text_destroy_cost_entries_question: "%{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
   text_destroy_time_and_cost_entries: Usuń zgłoszone godziny i koszty
   text_destroy_time_and_cost_entries_question: "%{hours} godzin, %{cost_entries} zostały zgłoszone do Zestawu zadań, który chcesz usunąć. Co chcesz zrobić?"
-  text_hourly_rate_destroy_confirmation: The rate of %{rate} valid from %{valid_from} will be deleted. Costs booked against it are recalculated with the rate that then applies.
-  text_hourly_rate_destroy_confirmation_checkbox_label: I understand that this action is not reversible.
-  text_hourly_rate_recalculation: This rate applies from its valid from date until a later rate takes effect. Changing it will also recalculate existing time entries and budgets in that period.
-  text_no_default_rate: The default rate is used in all projects where the user does not have a specific rate set up.
-  text_no_project_rate: This project will use the current default rate.
+  text_hourly_rate_destroy_confirmation: Stawka %{rate} obowiązująca od %{valid_from} zostanie usunięta. Koszty zaksięgowane na jej podstawie zostaną ponownie obliczone według obowiązującej stawki.
+  text_hourly_rate_destroy_confirmation_checkbox_label: Rozumiem, że to działanie jest nieodwracalne.
+  text_hourly_rate_recalculation: Ta stawka ta obowiązuje od daty wejścia w życie do momentu wejścia w życie nowej stawki. Jej zmiana spowoduje również ponowne obliczenie istniejących wpisów czasu pracy oraz budżetów w tym okresie.
+  text_no_default_rate: Stawka domyślna jest stosowana we wszystkich projektach, w których użytkownik nie ustawił stawki.
+  text_no_project_rate: W tym projekcie będzie stosowana bieżąca stawka domyślna.
   text_reassign_time_and_cost_entries: 'Ponownie przypisz zgłoszone godziny i koszty do tego Zestawu zadań:'
   text_warning_hidden_elements: Niektóre wpisy mogą zostać wyłączone ze zbioru.
   total_times:

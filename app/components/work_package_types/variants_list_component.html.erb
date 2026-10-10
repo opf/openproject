@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       flex_layout do |page|
         page.with_row do
           form_tag(variants_path, method: :get, data: filter_form_data) do
-            render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+            render(Primer::OpenProject::SubHeader.new) do |subheader|
               subheader.with_filter_input(
                 name: "query",
                 value: query,
@@ -52,6 +52,17 @@ See COPYRIGHT and LICENSE files for more details.
                 test_selector: "add-type-variant"
               ) do
                 I18n.t("types.index.variant_label")
+              end
+
+              subheader.with_action_button(
+                scheme: :default,
+                leading_icon: :"git-compare",
+                label: I18n.t("types.comparison.action"),
+                tag: :a,
+                href: comparison_path,
+                test_selector: "compare-type-variants"
+              ) do
+                I18n.t("types.comparison.action")
               end
             end
           end

@@ -4,18 +4,34 @@
     ) do %>
   <div class="op-meeting-presentation--footer-left">
     <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            scheme: :link,
-            color: has_previous? ? :default : :subtle,
-            underline: false,
-            href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "previous", started_at: @started_at),
-            data: { "meetings--presentation-target": "previousButton" },
-            disabled: !has_previous?
-          )
-        ) do |button| %>
-      <% button.with_leading_visual_icon(icon: :"chevron-left") %>
-      <%= t("meeting.presentation_mode.previous") %>
+          Primer::Box.new(display: :flex, align_items: :center, justify_content: :flex_start)
+        ) do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              scheme: :link,
+              color: has_previous? ? :default : :subtle,
+              underline: false,
+              href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "previous", started_at: @started_at),
+              data: { "meetings--presentation-target": "previousButton" },
+              disabled: !has_previous?
+            )
+          ) do |button| %>
+        <% button.with_leading_visual_icon(icon: :"chevron-left") %>
+        <%= t("meeting.presentation_mode.previous") %>
+      <% end %>
+      <% if previous_presenter_changed? %>
+        <%= render(
+              Users::AvatarComponent.new(
+                user: previous_item.presenter,
+                show_name: false,
+                link: false,
+                size: "mini",
+                classes: "op-principal_flex ml-2",
+                hover_card: { active: false }
+              )
+            ) %>
+      <% end %>
     <% end %>
     <% if previous_item %>
       <div class="op-meeting-presentation--footer-agenda-item">
@@ -38,18 +54,34 @@
 
   <div class="op-meeting-presentation--footer-right">
     <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            scheme: :link,
-            color: :default,
-            underline: false,
-            href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "next", started_at: @started_at),
-            data: { "meetings--presentation-target": "nextButton" },
-            disabled: !has_next?
-          )
-        ) do |button| %>
-      <%= t("meeting.presentation_mode.next") %>
-      <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
+          Primer::Box.new(display: :flex, align_items: :center, justify_content: :flex_end)
+        ) do %>
+      <% if next_presenter_changed? %>
+        <%= render(
+              Users::AvatarComponent.new(
+                user: next_item.presenter,
+                show_name: false,
+                link: false,
+                size: "mini",
+                classes: "op-principal_flex mr-2",
+                hover_card: { active: false }
+              )
+            ) %>
+      <% end %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              scheme: :link,
+              color: :default,
+              underline: false,
+              href: project_meeting_presentation_path(@project, @meeting, current_id: @current_item.id, action_type: "next", started_at: @started_at),
+              data: { "meetings--presentation-target": "nextButton" },
+              disabled: !has_next?
+            )
+          ) do |button| %>
+        <%= t("meeting.presentation_mode.next") %>
+        <% button.with_trailing_visual_icon(icon: :"chevron-right") %>
+      <% end %>
     <% end %>
     <div class="op-meeting-presentation--footer-agenda-item">
       <% if next_item %>

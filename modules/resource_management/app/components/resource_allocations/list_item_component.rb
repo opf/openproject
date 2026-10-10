@@ -33,8 +33,10 @@ module ResourceAllocations
   # avatar and name (or an anonymous placeholder when the principal is not
   # visible to the current user) and the allocated hours.
   class ListItemComponent < ApplicationComponent
+    include ResourceManagement::PlannerRoutes
     include OpPrimer::ComponentHelpers
     include AvatarHelper
+    include ResourceManagement::PlannerRoutes
 
     AVATAR_SIZE = 24
 
@@ -56,7 +58,7 @@ module ResourceAllocations
     attr_reader :allocation, :project
 
     def visible?
-      @visible
+      @visible || deleted_user?
     end
 
     def overbooked?
@@ -65,6 +67,10 @@ module ResourceAllocations
 
     def menu?
       @editable && visible?
+    end
+
+    def deleted_user?
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def context_menu
@@ -82,7 +88,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_edit),
         tag: :a,
-        href: helpers.edit_project_resource_allocation_path(project, allocation),
+        href: edit_allocation_path(project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)
@@ -93,7 +99,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_delete),
         scheme: :danger,
-        href: helpers.project_resource_allocation_path(project, allocation),
+        href: allocation_path(project, allocation),
         form_arguments: {
           method: :delete,
           data: {

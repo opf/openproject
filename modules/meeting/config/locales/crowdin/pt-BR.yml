@@ -465,7 +465,7 @@ pt-BR:
         description: Ainda não há participantes.
         heading: Sem participantes
       label:
-        apply_to_upcoming_meetings: Aplique essas alterações a todas as próximas reuniões desta série
+        apply_to_upcoming_meetings: Aplique estas alterações a todas as próximas reuniões desta série
         attended: Participou
         manage_participants: Gerenciar participantes
         mark_all_as_attended: Marcar todas como presente
@@ -496,7 +496,7 @@ pt-BR:
       structured_text_copy: Copiar uma reunião atualmente não copiará os itens associados da agenda da reunião, apenas os detalhes
     widgets:
       blankslate:
-        description: Próximas reuniões nas quais você participar aparecerão aqui.
+        description: As próximas reuniões das quais você participará aparecerão aqui.
         heading: Nenhuma reunião futura
       view_details: Visualizar todas as reuniões
   meeting_participant:

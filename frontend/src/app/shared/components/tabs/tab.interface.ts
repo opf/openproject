@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -36,10 +35,6 @@ export interface TabDefinition {
   name:string;
   /** Manual URL to link to if set */
   path?:string;
-  /** UI router route to use uiSref with */
-  route?:string;
-  /** UI router params to use uiParams with */
-  routeParams?:unknown;
   /** Show a tab count with this observable's result */
   counter?:(injector?:Injector) => Observable<number>;
   /** Whether the counter should be shown as number in brackets or within a bubble */

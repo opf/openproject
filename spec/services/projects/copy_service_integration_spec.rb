@@ -162,6 +162,60 @@ RSpec.describe(
         expect(project_copy.project_types.pluck(:project_id).uniq).to eq([project_copy.id])
       end
 
+      context "when the source owns the variant" do
+        shared_let(:owned_type) { create(:type, name: "Owned root") }
+        shared_let(:shared_workflow) { create(:named_workflow, name: "Shared workflow") }
+        shared_let(:owned_variant) do
+          create(:project_owned_type_variant, type: owned_type, project: source,
+                                              variant_name: "Source only", workflow: shared_workflow)
+        end
+
+        before { source.project_types.create!(type: owned_type, variant: owned_variant) }
+
+        it "succeeds" do
+          expect(subject).to be_success
+        end
+
+        it "gives the copy a variant of its own" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.project).to eq(project_copy)
+          expect(copied).not_to eq(owned_variant)
+        end
+
+        it "keeps the narrowing the source variant expressed" do
+          owned_variant.update!(form_configuration_excluded_elements: %w[assignee])
+
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
+          expect(copied.form_configuration).to eq(owned_variant.form_configuration)
+        end
+
+        it "lets the copy reference the same workflow" do
+          expect(subject).to be_success
+
+          copied = project_copy.project_types.find_by(type: owned_type).variant
+
+          expect(copied.workflow).to eq(shared_workflow)
+          expect(copied.workflow).not_to be_project_specific
+        end
+
+        context "when the source variant owns its workflow" do
+          before { owned_variant.update!(workflow: create(:project_owned_workflow, project: source)) }
+
+          it "copies the project", pending: "Blocked until variants reference named workflows" do
+            expect(owned_variant.reload.workflow).to be_project_specific
+
+            expect(subject).to be_success
+          end
+        end
+      end
+
       context "when the caller names the types itself" do
         shared_let(:other_type) { create(:type, name: "Chosen type") }
 
@@ -385,35 +439,6 @@ RSpec.describe(
         end
       end
 
-      describe "work_package_custom_fields" do
-        context "with disabled work package custom field" do
-          it "is still disabled in the copy" do
-            custom_field = create(:text_wp_custom_field)
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-
-        context "with enabled work package custom field" do
-          it "is still enabled in the copy" do
-            custom_field = create(:text_wp_custom_field, projects: [source])
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([custom_field])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-      end
     end
 
     context "when source project has a non-zero wp_sequence_counter",
@@ -1148,8 +1173,7 @@ RSpec.describe(
         describe "work package user custom field" do
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
-              source.work_package_custom_fields << cf
-              work_package.type.default_variant.custom_fields << cf
+              work_package.type.default_variant.custom_field_ids |= [cf.id]
             end
           end
 

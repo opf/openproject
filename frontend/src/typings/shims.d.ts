@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,7 +44,6 @@ import { Screenfull } from 'screenfull';
 import { ErrorReporterBase } from 'core-app/core/errors/error-reporter-base';
 import { I18n } from 'i18n-js';
 
-declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
 
@@ -70,12 +68,12 @@ declare global {
   }
 
   interface JQuery {
-    tablesorter:any;
+    tablesorter(options:object):JQuery;
   }
 
   interface JQueryStatic {
-    metadata:any;
-    tablesorter:any;
+    metadata:unknown;
+    tablesorter:{ language:Record<string, string> };
   }
 }
 

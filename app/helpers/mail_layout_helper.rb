@@ -29,16 +29,8 @@
 #++
 
 module MailLayoutHelper
-  def placeholder_table_styles(options = {})
-    style_options = options[:style].present? ? options.delete(:style) : ""
-
-    default_options = {
-      style: "table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;#{style_options}",
-      cellspacing: "0",
-      cellpadding: "0"
-    }
-
-    default_options.merge(options).map { |k, v| "#{k}=#{v}" }.join(" ")
+  def placeholder_table_styles(additional_styles = "")
+    "table-layout:fixed;border-collapse:separate;border-spacing:0;font-family:Helvetica;#{additional_styles}"
   end
 
   def placeholder_text_styles(**overwrites)
@@ -69,7 +61,7 @@ module MailLayoutHelper
               "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
             end
 
-    content_tag("td", "&nbsp;".html_safe, style:)
+    content_tag("td", "\u00A0", style:)
   end
 
   def user_salutation(user)

@@ -25,12 +25,12 @@ ko:
     errors:
       models:
         cost_report:
-          pivot_axes_do_not_match_group_bys: The rows and columns must together cover exactly the grouping criteria of the query.
+          pivot_axes_do_not_match_group_bys: 행과 열은 함께 쿼리의 그룹화 기준을 정확하게 충족해야 합니다.
     models:
       cost_query:
         other: 비용 보고서
       cost_report:
-        other: Cost reports
+        other: 비용 보고서
   button_save_report_as: 다른 이름으로 보고서로 저장...
   comments: 코멘트
   cost_reports_title: 시간 및 비용
@@ -104,7 +104,6 @@ ko:
   plugin_openproject_reporting:
     description: 이 플러그인을 사용하면 OpenProject 시간 및 비용 플러그인에서 생성된 필터링 및 그룹화를 사용하여 사용자 지정 비용 보고서를 생성할 수 있습니다.
     name: OpenProject 보고
-  project_module_reporting_module: 비용 보고서
   reporting:
     group_by:
       selected_columns: 선택된 열

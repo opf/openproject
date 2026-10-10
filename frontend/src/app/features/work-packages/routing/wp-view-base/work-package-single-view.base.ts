@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -58,21 +57,16 @@ import { ProjectsResourceService } from 'core-app/core/state/projects/projects.s
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { StateService } from '@uirouter/angular';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   injector = inject(Injector);
-
-  @Input() routedFromAngular = true;
 
   @Input() workPackageId:string;
 
   @Input() activeTab = 'activity';
 
   readonly states = inject(States);
-
-  readonly $state = inject(StateService);
 
   readonly i18n = inject(I18nService);
 
@@ -120,14 +114,6 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   public showStaticPagePath:string;
 
   public displayNotificationsButton$:Observable<boolean>;
-
-  constructor() {
-    super();
-
-    if (this.routedFromAngular && this.workPackageId === undefined) {
-      this.workPackageId = this.$state.params.workPackageId as string;
-    }
-  }
 
   /**
    * Observe changes of work package and re-run initialization.
@@ -181,10 +167,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       this.workPackage = wp;
     }
 
-    if (this.routedFromAngular) {
-      // Push the current title
-      this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
-    }
+    this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
 
     this.cdRef.detectChanges();
   }

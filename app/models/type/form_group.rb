@@ -32,7 +32,8 @@ class Type::FormGroup
   attr_accessor :key,
                 :attributes,
                 :type,
-                :display_name
+                :display_name,
+                :record_id
 
   def self.next_untitled_key(seen_keys)
     base_name = I18n.t("types.edit.form_configuration.untitled_group")

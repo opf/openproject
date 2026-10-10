@@ -98,7 +98,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libpq-dev
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@984c0c890880bbf811283d6f09c4607c62d210a4 # v1
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
         with:
           bundler-cache: true
 

@@ -175,13 +175,12 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
     let(:type) do
       type = project.enabled_types.first
-      type.default_variant.custom_fields << custom_field
+      type.default_variant.custom_field_ids |= [custom_field.id]
 
       type
     end
     let(:project) do
-      create(:project,
-             work_package_custom_fields: [custom_field])
+      create(:project)
     end
     let(:work_packages) do
       wps = create_list(:work_package, 4,

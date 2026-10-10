@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injectable, Injector, inject } from '@angular/core';
 import { from } from 'rxjs';
-import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WpTabDefinition } from 'core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab';
 import {
@@ -65,7 +63,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
   providedIn: 'root',
 })
 export class WorkPackageTabsService {
-  private $state = inject(StateService);
   private I18n = inject(I18nService);
   private injector = inject(Injector);
 
@@ -105,18 +102,18 @@ export class WorkPackageTabsService {
   }
 
 
-  patchTabCondition(id:string, displayable:(workPackage:WorkPackageResource, $state:StateService) => boolean):void {
+  patchTabCondition(id:string, displayable:(workPackage:WorkPackageResource) => boolean):void {
     const tabDefinition = this.registeredTabs.find((tab) => tab.id === id);
     if (tabDefinition) {
       tabDefinition.displayable = displayable;
     }
   }
 
-  getDisplayableTabs(workPackage:WorkPackageResource, routedFromAngular = true):WpTabDefinition[] {
+  getDisplayableTabs(workPackage:WorkPackageResource):WpTabDefinition[] {
     return this
       .tabs
       .filter(
-        (tab) => !tab.displayable || tab.displayable(workPackage, routedFromAngular ? this.$state : null),
+        (tab) => !tab.displayable || tab.displayable(workPackage),
       )
       .map(
         (tab) => ({
@@ -138,7 +135,11 @@ export class WorkPackageTabsService {
         component: WorkPackageOverviewTabComponent,
         name: this.I18n.t('js.work_packages.tabs.overview'),
         id: 'overview',
-        displayable: (_, $state) => $state ? $state.includes('**.details.*') : false,
+        // Never shown as a tab: the full view already renders the overview content
+        // directly in its own left-hand panel (wp-single-view), and the split view's
+        // own tab bar doesn't go through getDisplayableTabs() at all. The definition
+        // stays registered because the split view still looks it up by id directly.
+        displayable: () => false,
       },
       {
         id: 'activity',

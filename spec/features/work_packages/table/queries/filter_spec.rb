@@ -292,8 +292,7 @@ RSpec.describe "filter work packages", :js do
     let(:list_cf) do
       cf = create(:list_wp_custom_field)
 
-      project.work_package_custom_fields << cf
-      type.default_variant.custom_fields << cf
+      type.default_variant.custom_field_ids |= [cf.id]
 
       cf
     end
@@ -375,8 +374,7 @@ RSpec.describe "filter work packages", :js do
     let(:string_cf) do
       cf = create(:string_wp_custom_field)
 
-      project.work_package_custom_fields << cf
-      type.default_variant.custom_fields << cf
+      type.default_variant.custom_field_ids |= [cf.id]
 
       cf
     end

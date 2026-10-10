@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -33,3 +32,12 @@ const globalWithProcess = globalThis as unknown as { process?:{ env:Record<strin
 if (typeof globalWithProcess.process === 'undefined') {
   globalWithProcess.process = { env: {} };
 }
+
+// Lit announces dev mode once per realm unless the warning is already recorded.
+// lit-html dedupes by code, @lit/reactive-element by the full message.
+const globalWithLitWarnings = globalThis as unknown as { litIssuedWarnings?:Set<string> };
+
+globalWithLitWarnings.litIssuedWarnings ??= new Set([
+  'dev-mode',
+  'Lit is in dev mode. Not recommended for production! See https://lit.dev/msg/dev-mode for more information.',
+]);

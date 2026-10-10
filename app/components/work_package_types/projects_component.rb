@@ -33,10 +33,11 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
 
     def form_options
       {
-        url: type_projects_path(**variant.path_args),
+        url: variant_projects_path(variant),
         method: :put,
         model:,
         data: {

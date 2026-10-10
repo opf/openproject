@@ -20,19 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { MainMenuToggleService } from 'core-app/core/main-menu/main-menu-toggle.service';
 import { ResizeDelta } from 'core-app/shared/components/resizer/resizer.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { debounceTime, map } from 'rxjs/operators';
 
 const RESIZE_EVENT = 'main-menu-resize';
 
@@ -51,7 +48,7 @@ const RESIZE_EVENT = 'main-menu-resize';
         [attr.aria-label]="ariaLabel()"
         [attr.aria-expanded]="isOpen()"
         [class.open]="isOpen()"
-        (click)="toggleService.toggleNavigation($event)"
+        (click)="toggle($event)"
       >
         <span class="resize-handle"><svg op-resizer-vertical-lines-icon size="small"></svg></span>
         <span class="collapse-menu"><svg chevron-left-icon size="small"></svg></span>
@@ -66,16 +63,10 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin {
   readonly I18n = inject(I18nService);
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
-  private readonly elementWidth = signal<number>(0);
+  private readonly widthAtDragStart = signal<number>(0);
   private readonly mainMenu = document.querySelector('#main-menu')!;
 
-  readonly isOpen = toSignal(
-    this.toggleService.changeData$.pipe(
-      debounceTime(50),
-      map(() => this.toggleService.showNavigation)
-    ),
-    { initialValue: this.toggleService.showNavigation }
-  );
+  readonly isOpen = this.toggleService.isOpen;
 
   readonly isResizing = signal<boolean>(false);
   readonly ariaLabel = computed(() =>
@@ -92,13 +83,19 @@ export class MainMenuResizerComponent extends UntilDestroyedMixin {
     menu_resize: this.I18n.t('js.label_resize_project_menu')
   };
 
+  public toggle(event:Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.toggleService.toggle();
+  }
+
   public resizeStart() {
-    this.elementWidth.set(this.mainMenu.clientWidth);
+    this.widthAtDragStart.set(this.mainMenu.clientWidth);
     this.isResizing.set(true);
   }
 
   public resizeMove(deltas:ResizeDelta) {
-    this.toggleService.saveWidth(this.elementWidth() + deltas.absolute.x);
+    this.toggleService.resizeTo(this.widthAtDragStart() + deltas.absolute.x);
   }
 
   public resizeEnd() {

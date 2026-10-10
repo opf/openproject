@@ -63,6 +63,7 @@ RSpec.describe "OIDC administration CRUD",
       # Client credentials
       fill_in "Client ID", with: "client_id"
       fill_in "Client secret", with: "client secret"
+      fill_in "Additional allowed login redirect URLs", with: "https://idp.prod.soloidp.dk/login\nhttps://broker.example.com"
 
       # Scope
       fill_in "Scope", with: "custom_scope another_scope"
@@ -119,6 +120,7 @@ RSpec.describe "OIDC administration CRUD",
       expect(provider.issuer).to eq "foobar"
       expect(provider.client_id).to eq "client_id"
       expect(provider.client_secret).to eq "client secret"
+      expect(provider.additional_form_action_urls).to eq %w[https://idp.prod.soloidp.dk/login https://broker.example.com]
 
       expect(provider.mapping_login).to eq "login"
       expect(provider.mapping_email).to eq "mail"
@@ -177,7 +179,7 @@ RSpec.describe "OIDC administration CRUD",
     end
   end
 
-  context "without EE", without_ee: %i[sso_auth_providers] do
+  context "without EE" do
     it "renders the upsell page" do
       visit "/admin/openid_connect/providers"
       expect(page).to have_enterprise_banner(:professional)

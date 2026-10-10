@@ -29,12 +29,13 @@ module Bim
 
       def processing
         content_tag(:span) do
-          content = content_tag(:span,
-                                I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
-                                class: "ifc-models--conversion-status")
+          content = ActiveSupport::SafeBuffer.new
+          content << content_tag(:span,
+                                 I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
+                                 class: "ifc-models--conversion-status")
 
           if model.conversion_error_message
-            content << ": ".html_safe
+            content << ": "
             content << content_tag(:span,
                                    model.conversion_error_message,
                                    class: "ifc-models--conversion-status-error",

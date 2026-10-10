@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,7 +44,7 @@ const ariaInteractiveRoles = new Set([
   'treeitem',
 ]);
 
-export function isInteractiveElement(el:Element|null):el is HTMLElement {
+export function isInteractiveElement(el:Element|null, includeTabIndex = true):el is HTMLElement {
   if (!(el instanceof HTMLElement)) return false;
   if (el.hasAttribute('disabled')) return false;
   if (el.getAttribute('aria-disabled') === 'true') return false;
@@ -67,14 +66,18 @@ export function isInteractiveElement(el:Element|null):el is HTMLElement {
   return nativeInteractive
     || (role != null && ariaInteractiveRoles.has(role))
     || el.isContentEditable
-    || tabIndex >= 0;
+    || (includeTabIndex && tabIndex >= 0);
 }
 
-export function closestInteractiveElement(el:Element|null, stopAt:Element|null = null):HTMLElement|null {
+export function closestInteractiveElement(
+  el:Element|null,
+  stopAt:Element|null = null,
+  includeTabIndex = true,
+):HTMLElement|null {
   let current = el;
 
   while (current && current !== stopAt) {
-    if (isInteractiveElement(current)) {
+    if (isInteractiveElement(current, includeTabIndex)) {
       return current;
     }
 

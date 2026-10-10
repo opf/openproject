@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { Directive, Input, inject } from '@angular/core';
 import {
   OpContextMenuTrigger
@@ -51,11 +49,11 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: '[wpStatusDropdown]',
   standalone: false,
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  readonly $state = inject(StateService);
   protected workPackageNotificationService = inject(WorkPackageNotificationService);
   protected halEditing = inject(HalResourceEditingService);
   protected toastService = inject(ToastService);

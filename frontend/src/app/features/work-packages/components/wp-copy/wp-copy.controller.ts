@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -65,16 +64,12 @@ export class WorkPackageCopyController extends WorkPackageCreateComponent implem
   public cancelAndBack() {
     this.wpCreate.cancelCreation();
 
-    if (this.routedFromAngular) {
-      this.$state.go(this.cancelState, this.$state.params);
-    } else {
-      const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
-      Turbo.visit(link + window.location.search, { action: 'advance' });
-    }
+    const link = this.pathHelper.genericWorkPackagePath(this.currentProjectService.id, this.copiedWorkPackageId);
+    Turbo.visit(link + window.location.search, { action: 'advance' });
   }
 
   protected createdWorkPackage() {
-    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId;
+    this.copiedWorkPackageId = this.stateParams.copiedFromWorkPackageId!;
     return new Promise<WorkPackageChangeset>((resolve, reject) => {
       this
         .apiV3Service

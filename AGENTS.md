@@ -67,6 +67,7 @@ bin/dirty-rubocop --uncommitted                  # Check only uncommitted change
 
 # JavaScript/TypeScript
 cd frontend && npx eslint src/ && cd ..
+cd frontend && npm run typecheck && cd ..        # Typecheck application and spec sources
 
 # ERB Templates
 erb_lint {files}

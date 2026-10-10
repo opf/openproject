@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -38,24 +37,6 @@ declare namespace api {
    * API v3
    */
   namespace v3 {
-    interface Result {
-      _links:any;
-      _embedded:any;
-      _type:string;
-    }
-
-    interface Collection extends Result {
-      total:number;
-      pageSize:number;
-      count:number;
-      offset:number;
-      groups:any;
-      totalSums:any;
-    }
-
-    interface Duration extends String {
-    }
-
     interface Formattable {
       format?:string;
       raw:string;
@@ -74,15 +55,3 @@ interface Function {
   _type:string;
 }
 
-declare let Factory:any;
-
-declare namespace op {
-  interface QueryParams {
-    offset?:number;
-    pageSize?:number;
-    filters?:any[];
-    groupBy?:string;
-    showSums?:boolean;
-    sortBy?:any[];
-  }
-}

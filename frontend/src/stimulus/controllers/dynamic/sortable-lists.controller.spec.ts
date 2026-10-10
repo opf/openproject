@@ -20,42 +20,43 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
+// vi.doMock is not hoisted above imports, unlike vi.mock, so the subject
+// below is imported dynamically further down, after these calls run.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
   draggable: vi.fn(() => vi.fn()),
   dropTargetForElements: vi.fn(() => vi.fn()),
   monitorForElements: vi.fn(() => vi.fn()),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element', () => ({
   autoScrollForElements: vi.fn(() => vi.fn()),
 }));
 
-// This spec mounts the real item controller, which pulls in these modules.
-// Tests share one module registry (the runner does not isolate spec files),
-// so importing the real versions here would leak into the item controller
-// spec and break its spies. Mock them to keep the shared cache inert.
-vi.mock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+// This spec mounts the real item controller, which pulls in these three
+// modules. Stub them so its Pragmatic side effects stay inert; nothing
+// here reads them back.
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
   combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
     cleanups.forEach((cleanup) => cleanup());
   })),
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
   preventUnhandled: { start: vi.fn(), stop: vi.fn() },
 }));
 
-vi.mock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
   setCustomNativeDragPreview: vi.fn(),
 }));
 
 import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { usePlatform } from 'core-common/testing/platform';
 import { waitFor } from '@testing-library/dom';
 import { type Mock, type MockInstance } from 'vitest';
 import { LiveRegionElement } from '@primer/live-region-element';
@@ -83,7 +84,6 @@ describe('Sortable lists controller', () => {
   // cannot resolve `.mock.calls`'s element type from; pin the spied method's
   // own signature instead so calls stay typed.
   let announceSpy:MockInstance<typeof LiveRegionElement.prototype.announce>;
-  let userAgentDataDescriptor:PropertyDescriptor|undefined;
 
   beforeAll(async () => {
     ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
@@ -373,17 +373,10 @@ describe('Sortable lists controller', () => {
     return fixtureElements;
   }
 
+  usePlatform();
+
   beforeEach(async () => {
     vi.clearAllMocks();
-
-    // Multi-select gestures below use Ctrl, which is only the multi-select
-    // modifier off Apple platforms — pin the platform so the suite behaves
-    // the same on a macOS workstation and on Linux CI.
-    userAgentDataDescriptor = Object.getOwnPropertyDescriptor(navigator, 'userAgentData');
-    Object.defineProperty(navigator, 'userAgentData', {
-      value: { platform: 'Windows' },
-      configurable: true,
-    });
 
     // The synthetic drop input below carries fixed coordinates that bear no
     // relation to where the fixture's rows actually lay out, so a real
@@ -463,11 +456,6 @@ describe('Sortable lists controller', () => {
     document.body.querySelector('live-region')?.remove();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
-    if (userAgentDataDescriptor) {
-      Object.defineProperty(navigator, 'userAgentData', userAgentDataDescriptor);
-    } else {
-      delete (navigator as { userAgentData?:unknown }).userAgentData;
-    }
   });
 
   it('moves a list-only drop onto the source list to its configured position', async () => {

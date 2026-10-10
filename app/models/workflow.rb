@@ -29,6 +29,9 @@
 #++
 
 class Workflow < ApplicationRecord
+  include WorkPackageTypes::NamedReference
+
+  # The project owning this workflow, or nil for a workflow every project may use.
   belongs_to :project, optional: true
 
   has_many :type_variants, dependent: :restrict_with_error, inverse_of: :workflow
@@ -37,12 +40,55 @@ class Workflow < ApplicationRecord
            inverse_of: :workflow,
            dependent: :delete_all
 
-  validates :name, presence: true, length: { maximum: 255 }
+  validates :name, uniqueness: { scope: :project_id, case_sensitive: false }
 
   scope :global, -> { where(project_id: nil) }
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
   scope :available_in, ->(project) { where(project: [nil, project]) }
+
+  # A name only has to be free within the scope that will hold it, so a project may reuse one
+  # administration already has.
+  def self.name_scope(project) = owned_by(project)
+
+  def self.statuses(workflows, role: nil, tab: nil) # rubocop:disable Metrics/AbcSize
+    transition_table, status_table = [Workflows::StatusTransition, Status].map(&:arel_table)
+    ids = workflows.respond_to?(:arel) ? workflows.arel : workflows
+    old_id_subselect, new_id_subselect = %i[old_status_id new_status_id].map do |foreign_key|
+      subquery = transition_table.project(transition_table[foreign_key])
+                                 .where(transition_table[:workflow_id].in(ids))
+      subquery = subquery.where(transition_table[:role_id].eq(role.id)) if role
+      subquery = apply_tab_condition(subquery, transition_table, tab) if tab
+      subquery
+    end
+    Status.where(status_table[:id].in(old_id_subselect).or(status_table[:id].in(new_id_subselect)))
+  end
+
+  def self.apply_tab_condition(subquery, transition_table, tab)
+    case tab
+    when "author"
+      subquery.where(transition_table[:author].eq(true))
+    when "assignee"
+      subquery.where(transition_table[:assignee].eq(true))
+    else
+      subquery.where(transition_table[:author].eq(false).and(transition_table[:assignee].eq(false)))
+    end
+  end
+
+  def statuses(role: nil, tab: nil)
+    return Status.none if new_record?
+
+    self.class.statuses([id], role:, tab:)
+  end
+
+  def statuses_missing_in(other, roles:)
+    statuses_used_by(roles).where.not(id: other.statuses_used_by(roles).select(:id))
+  end
+
+  def statuses_used_by(roles)
+    transitions = status_transitions.where(role: roles)
+    Status.where(id: transitions.select(:old_status_id)).or(Status.where(id: transitions.select(:new_status_id)))
+  end
 
   def project_specific? = project_id.present?
 end

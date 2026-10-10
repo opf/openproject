@@ -29,9 +29,9 @@
 #++
 
 module OpenProject
-  # Renders the list of environment variables overriding settings, i.e. the
-  # documented counterpart of `rake setting:available_envs`. `rake docs:env_vars`
-  # rewrites it in place, between the markers below.
+  # Renders the list of environment variables overriding settings, as a markdown
+  # table for the documentation and as plain text for `rake setting:available_envs`.
+  # `rake docs:env_vars` rewrites the table in place, between the markers below.
   #
   # Regenerated in production, since a good number of defaults differ per
   # environment and the page documents on-premises installations. The spec can
@@ -45,6 +45,8 @@ module OpenProject
     BLOCK_PATTERN = /#{Regexp.escape(BEGIN_MARKER)}.*?#{Regexp.escape(END_MARKER)}/m
 
     RANDOM_PLACEHOLDER = "<randomly generated>"
+
+    TABLE_HEADER = "| Variable | Default | Description |\n|---|---|---|"
 
     # Defaults generated anew on every read: documenting them would leak something
     # that looks like a secret, and change the page on every run.
@@ -77,11 +79,20 @@ module OpenProject
           .sort_by { |env_name, _| env_name.downcase }
       end
 
+      # The subset the page lists. Feature flags come and go with the features they
+      # guard, so they are listed by `setting:available_envs` but not documented as
+      # configuration.
+      def documented_definitions
+        feature_flag_settings = OpenProject::FeatureDecisions.setting_names.map(&:to_s)
+
+        sorted_definitions.reject { |_, definition| feature_flag_settings.include?(definition.name.to_s) }
+      end
+
       # The documented description per variable. Unlike the defaults, these do not
       # depend on the environment, so the spec can check them.
       def descriptions
         I18n.with_locale(:en) do
-          sorted_definitions.to_h { |env_name, definition| [env_name, definition.description.presence] }
+          documented_definitions.to_h { |env_name, definition| [env_name, definition.description.presence] }
         end
       end
 
@@ -90,9 +101,9 @@ module OpenProject
         DERIVED_DEFAULT_INPUTS.select { |setting, _| Setting[setting].present? }
       end
 
-      def rows
+      def rows(definitions = sorted_definitions)
         I18n.with_locale(:en) do
-          sorted_definitions.map do |env_name, definition|
+          definitions.map do |env_name, definition|
             # Using strip as description is nil for some settings
             "#{env_name} (default=#{rendered_default(definition)}) #{definition.description}".strip
           end
@@ -101,7 +112,7 @@ module OpenProject
 
       # The delimited block, markers included, as expected on disk.
       def block
-        "#{BEGIN_MARKER}\n\n```text\n#{rows.join("\n")}\n```\n\n#{END_MARKER}"
+        "#{BEGIN_MARKER}\n\n#{[TABLE_HEADER, *table_rows].join("\n")}\n\n#{END_MARKER}"
       end
 
       # The page with its delimited block regenerated.
@@ -115,6 +126,14 @@ module OpenProject
       end
 
       private
+
+      def table_rows
+        I18n.with_locale(:en) do
+          documented_definitions.map do |env_name, definition|
+            "| `#{env_name}` | `#{rendered_default(definition)}` | #{definition.description} |"
+          end
+        end
+      end
 
       def rendered_default(definition)
         if RANDOM_DEFAULTS.include?(definition.name.to_sym)

@@ -30,6 +30,8 @@
 
 module ResourceAllocations
   class AssignmentRowComponent < ::OpPrimer::BorderBoxRowComponent
+    include ResourceManagement::PlannerRoutes
+
     alias_method :allocation, :model
 
     def resource
@@ -95,18 +97,22 @@ module ResourceAllocations
     end
 
     def can_assign?
-      User.current.allowed_in_project?(:assign_users_to_generic_allocations, table.project)
+      allowed_in_allocation_project?(:assign_users_to_generic_allocations)
     end
 
     def can_manage?
-      User.current.allowed_in_project?(:allocate_user_resources, table.project)
+      allowed_in_allocation_project?(:allocate_user_resources)
+    end
+
+    def allowed_in_allocation_project?(permission)
+      allocation.project.present? && User.current.allowed_in_project?(permission, allocation.project)
     end
 
     def assign_item(menu)
       menu.with_item(
         label: I18n.t("resource_management.staffing.assign"),
         tag: :a,
-        href: helpers.project_staffing_assign_path(table.project, allocation),
+        href: staffing_assign_path(table.project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :"person-add")
@@ -117,7 +123,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_edit),
         tag: :a,
-        href: helpers.edit_project_resource_allocation_path(table.project, allocation),
+        href: edit_allocation_path(table.project, allocation),
         content_arguments: { data: { controller: "async-dialog" } }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)
@@ -128,7 +134,7 @@ module ResourceAllocations
       menu.with_item(
         label: I18n.t(:button_delete),
         scheme: :danger,
-        href: helpers.project_resource_allocation_path(table.project, allocation),
+        href: allocation_path(table.project, allocation),
         form_arguments: {
           method: :delete,
           data: {
@@ -144,7 +150,7 @@ module ResourceAllocations
     def filter_name_link
       render(
         Primer::Beta::Link.new(
-          href: helpers.project_staffing_assign_path(table.project, allocation),
+          href: staffing_assign_path(table.project, allocation),
           font_weight: :bold,
           underline: false,
           data: { controller: "async-dialog" }

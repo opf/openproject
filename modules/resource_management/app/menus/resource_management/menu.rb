@@ -30,6 +30,8 @@
 
 module ResourceManagement
   class Menu < Submenu
+    include ResourceManagement::PlannerRoutes
+
     def initialize(project: nil, params: nil)
       # ResourcePlanner does not use Query objects, so view_type is irrelevant
       # for our group methods. Pass a placeholder to satisfy the parent.
@@ -56,7 +58,7 @@ module ResourceManagement
     def staffing_item
       OpenProject::Menu::MenuItem.new(
         title: I18n.t("resource_management.staffing.menu_item"),
-        href: project_staffing_path(project),
+        href: staffing_path(project),
         # The menu is loaded lazily through its own controller, so the page we
         # came from is forwarded as `origin_controller`.
         selected: params[:origin_controller] == "resource_management/staffing"
@@ -82,8 +84,7 @@ module ResourceManagement
     # back without a second query.
     def base_scope
       ResourcePlanner
-        .visible(User.current)
-        .where(project:)
+        .visible_to(User.current, project)
         .with_favorited_by_user(User.current)
         .order(favorited: :desc, name: :asc)
     end
@@ -91,7 +92,7 @@ module ResourceManagement
     def planner_item(planner)
       OpenProject::Menu::MenuItem.new(
         title: planner.name,
-        href: project_resource_planner_path(project, planner),
+        href: planner_path(planner),
         icon: nil,
         count: nil,
         selected: planner.id.to_s == params[:id].to_s,

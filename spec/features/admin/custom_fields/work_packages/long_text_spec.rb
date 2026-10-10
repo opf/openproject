@@ -34,7 +34,6 @@ RSpec.describe "custom fields", :js do
 
       editor.set_markdown default_text
 
-      cf_page.set_all_projects true
       click_on "Save"
 
       cf_page.expect_and_dismiss_flash(message: "Successful creation.")
@@ -46,7 +45,7 @@ RSpec.describe "custom fields", :js do
       # textareas get carriage returns entered
       expect(cf.default_value.gsub("\r\n", "\n").strip).to eq default_text.strip
 
-      type.default_variant.custom_fields << cf
+      type.default_variant.custom_field_ids |= [cf.id]
       type.save!
 
       wp_page.visit!

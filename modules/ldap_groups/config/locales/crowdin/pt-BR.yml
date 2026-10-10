@@ -42,7 +42,7 @@ pt-BR:
       add_new: Adicionar filtro LDAP sincronizado
       destroy:
         confirmation: Se você continuar, o filtro sincronizado %{name} e todos os grupos %{groups_count} criados por meio dele serão removidos.
-        heading: Deseja remover o filtro sincronizado %{name}?
+        heading: Remover o filtro sincronizado %{name}?
         removed_groups: 'Aviso: Isto removerá os seguintes grupos do OpenProject e removê-los de todos os projetos!'
         title: Remover filtro sincronizado %{name}
         verification_html: Digite o nome do filtro %{name} para confirmar a exclusão.
@@ -65,8 +65,8 @@ pt-BR:
       add_new: Adicionar grupo LDAP sincronizado
       destroy:
         confirmation: Se você continuar, o grupo sincronizado %{name} e todos os %{users_count} usuários sincronizados por meio dele serão removidos.
-        heading: Deseja remover o grupo sincronizado %{name}?
-        info: O próprio grupo OpenProject e os membros adicionados fora desta sincronização LDAP não serão removidos.
+        heading: Remover o grupo sincronizado %{name}?
+        info: O próprio grupo do OpenProject e os membros adicionados fora desta sincronização com o LDAP não serão removidos.
         title: Remover grupo sincronizado %{name}
       form:
         auth_source_text: Selecione a conexão LDAP a ser usada.

@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Component, Injector, Type } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StateService } from '@uirouter/angular';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
@@ -38,7 +36,7 @@ export interface TabComponent extends Component {
 
 export interface WpTabDefinition extends TabDefinition {
   component:Type<TabComponent>;
-  displayable?:(workPackage:WorkPackageResource, $state:StateService|null) => boolean;
+  displayable?:(workPackage:WorkPackageResource) => boolean;
   count?:(workPackage:WorkPackageResource, injector:Injector) => Observable<number>;
   showCountAsBubble?:boolean;
 }
