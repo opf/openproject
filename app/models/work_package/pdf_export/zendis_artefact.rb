@@ -134,8 +134,8 @@ class WorkPackage::PDFExport::ZendisArtefact < WorkPackage::PDFExport::Artefact
   end
 
   def write_zendis_header_text(text, text_style, offset)
-    pdf.formatted_text_box([text_style.merge(text:)], height: styles.layout[:header_height], overflow: :shrink_to_fit,
-                                                    at: [0, pdf.bounds.top + offset])
+    text_options = { height: styles.layout[:header_height], overflow: :shrink_to_fit }
+    pdf.formatted_text_box([text_style.merge(text:)], **text_options, at: [0, pdf.bounds.top + offset])
   end
 
   def write_toc_item_title!(title, page_nr_width, style)
