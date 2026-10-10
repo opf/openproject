@@ -32,10 +32,11 @@ export function halHref<T extends HalResource>(_index:number, item:T):string|nul
 }
 
 export function compareByAttribute(...attributes:string[]) {
-  return (a:any, b:any) => {
+  return (a:unknown, b:unknown) => {
     const bothNil = !a && !b;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const same = !!a && !!b && attributes.every((attribute) => a[attribute] === b[attribute]);
+    const same = !!a && !!b && attributes.every(
+      (attribute) => (a as Record<string, unknown>)[attribute] === (b as Record<string, unknown>)[attribute],
+    );
     return bothNil || (!!a && !!b && same);
   };
 }
@@ -58,7 +59,7 @@ export function compareByHref<T extends HalResource>(a:T|undefined|null, b:T|und
   return bothNil || (!!a && !!b && a.href === b.href);
 }
 
-export function compareByHrefOrString<T extends HalResource>(a:T|string|undefined|null|unknown, b:T|string|undefined|null|unknown):boolean {
+export function compareByHrefOrString(a:unknown, b:unknown):boolean {
   if (a instanceof HalResource && b instanceof HalResource) {
     return compareByHref(a, b);
   }

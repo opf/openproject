@@ -248,7 +248,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     this.setLabel();
 
     // Use focusTracker to maintain aria-labelledby as CKEditor re-renders aria-label on every focus/blur event
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     editor.ui.focusTracker.on('change:isFocused', (_evt:unknown, _name:string, _isFocused:boolean) => {
       this.setLabel();
     });

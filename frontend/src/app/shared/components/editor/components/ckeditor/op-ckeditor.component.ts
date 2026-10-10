@@ -300,7 +300,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
         // current limitation:
         // clicking on empty toolbar space and the somewhere else on the page does not trigger the blur anymore
         setTimeout(() => {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           if (!editor.ui.focusTracker.isFocused) {
             this.editorBlur.emit();
           } else {
