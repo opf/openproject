@@ -26,13 +26,17 @@
 //++
 
 import { Injector } from '@angular/core';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
 import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.actions';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class SharingTransformer {
+  @LazyInject() public querySpace:IsolatedQuerySpace;
+
   public actions$ = this.injector.get(ActionsService);
 
   constructor(
@@ -42,6 +46,7 @@ export class SharingTransformer {
     this.actions$
       .ofType(shareModalUpdated)
       .pipe(
+        takeUntil(this.querySpace.stopAllSubscriptions),
         map((action) => action.workPackageId),
         filter((id) => !!this.table.renderedRows.find((el:RenderedWorkPackage) => el.workPackageId === id)),
       )

@@ -215,6 +215,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
   public ngOnDestroy():void {
     super.ngOnDestroy();
+    this.querySpace.stopAllSubscriptions.next();
     this.wpTableHoverSync.deactivate();
   }
 
