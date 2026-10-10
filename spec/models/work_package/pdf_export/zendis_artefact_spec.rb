@@ -76,6 +76,18 @@ RSpec.describe WorkPackage::PDFExport::ZendisArtefact do
     expect(pages.last.text).to include("#{pages.length} / #{pages.length}")
   end
 
+  context "with PDF design settings" do
+    let!(:custom_style) { create(:custom_style_with_export_font_regular, export_cover_text_color: "#112233") }
+
+    it "uses the configured font and cover text color" do
+      expect(export_pdf.content).to start_with("%PDF")
+      expect(exporter.pdf.document.font.family).to eq(Exports::PDF::Common::View::CUSTOM_FONT_NAME)
+      expect(exporter.send(:cover_text_style, exporter.styles.cover_heading)).to include(color: "112233")
+      expect(exporter.send(:cover_text_style, exporter.styles.cover_title)).to include(color: "112233")
+      expect(exporter.send(:cover_text_style, exporter.styles.cover_footer)).to include(color: "112233")
+    end
+  end
+
   context "without an address mapping" do
     let(:options) { { toc: false, include_lifecycle: false, include_budget: false } }
 

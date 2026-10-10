@@ -1,0 +1,61 @@
+page:
+  margin_left: 57
+  margin_right: 57
+
+page_heading:
+  size: 24
+  color: "000000"
+
+page_header:
+  size: 8
+  styles: ["bold"]
+
+page_subheading:
+  size: 8
+  styles: ["italic"]
+
+cover:
+  header:
+    logo_height: 70
+  heading:
+    size: 24
+    styles: ["bold"]
+    margin_bottom: 6
+  title:
+    size: 10
+    color: "000000"
+    margin_top: 24
+  footer:
+    size: 8
+    styles: []
+
+section:
+  title:
+    size: 13
+    color: "00D7C3"
+    background_color: "000000"
+    padding_top: 1
+    padding_bottom: 1
+    padding_left: 2
+    padding_right: 2
+    no_border: true
+    hr:
+      color: "00D7C3"
+      height: 1
+
+toc:
+  heading:
+    color: "000000"
+
+layout:
+  cover_heading_position: 0.60
+  cover_date_height: 20
+  header_height: 14
+  header_heading_offset: 24
+  header_subject_offset: 12
+  toc_page_number_spacing: 8
+  logo_width: 140
+  logo_offset: 30
+  cover_image_width: 300
+  cover_image_height: 260
+  cover_image_top: 300

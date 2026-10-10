@@ -101,7 +101,7 @@ Configure the artefact's content in separate long text custom fields. The export
 
 Administrators can select an **Address custom field** in the template settings. If that work package field has a value, it is rendered on a separate final contact page and omitted from the main attributes. Its field name is used as the contact heading. Leave the setting empty to use the ordinary form rendering without an additional contact page.
 
-The logo, cover illustration and footer image come from the existing instance-wide [PDF export design configuration](../../../../system-admin-guide/design/). Page numbering includes the cover page. The footer shows the date of the last change and the current and total page numbers.
+The logo, cover illustration, footer image, uploaded PDF fonts and cover text color come from the existing instance-wide [PDF export design configuration](../../../../system-admin-guide/design/). Page numbering includes the cover page. The footer shows the date of the last change and the current and total page numbers.
 
 ## Generate the export
 
