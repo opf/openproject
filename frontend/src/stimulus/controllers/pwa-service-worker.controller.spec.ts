@@ -166,4 +166,82 @@ describe('PwaServiceWorkerController', () => {
       expect(keys).toHaveBeenCalled();
     });
   });
+
+  describe('offline fallback for Turbo visits', () => {
+    const fallbackUrl = () => new URL('#offline-fallback', window.location.href);
+
+    function failFetch(request:Record<string, unknown>, target:EventTarget = document) {
+      target.dispatchEvent(new CustomEvent('turbo:fetch-request-error', {
+        bubbles: true,
+        cancelable: true,
+        detail: { request, error: new TypeError('Failed to fetch') },
+      }));
+    }
+
+    function control(controller:object|undefined) {
+      Object.defineProperty(navigator, 'serviceWorker', { value: { register, controller }, configurable: true });
+    }
+
+    afterEach(() => {
+      window.location.hash = '';
+    });
+
+    it('navigates to the failed url when the worker controls the page', async () => {
+      control({});
+      await mount();
+
+      failFetch({ method: 'get', url: fallbackUrl() });
+
+      expect(window.location.hash).toBe('#offline-fallback');
+    });
+
+    it('does nothing when the worker does not control the page', async () => {
+      control(null as unknown as undefined);
+      await mount();
+
+      failFetch({ method: 'get', url: fallbackUrl() });
+
+      expect(window.location.hash).toBe('');
+    });
+
+    it('does nothing for non-GET requests', async () => {
+      control({});
+      await mount();
+
+      failFetch({ method: 'post', url: fallbackUrl() });
+
+      expect(window.location.hash).toBe('');
+    });
+
+    it('does nothing for cross-origin requests', async () => {
+      control({});
+      await mount();
+
+      failFetch({ method: 'get', url: new URL('https://example.com/#offline-fallback') });
+
+      expect(window.location.hash).toBe('');
+    });
+
+    it('does nothing for requests made by a turbo frame', async () => {
+      control({});
+      await mount();
+      const frame = document.createElement('turbo-frame');
+      ctx.container.appendChild(frame);
+
+      failFetch({ method: 'get', url: fallbackUrl() }, frame);
+
+      expect(window.location.hash).toBe('');
+    });
+
+    it('stops listening once disconnected', async () => {
+      control({});
+      await mount();
+      ctx.container.innerHTML = '';
+      await ctx.nextFrame();
+
+      failFetch({ method: 'get', url: fallbackUrl() });
+
+      expect(window.location.hash).toBe('');
+    });
+  });
 });

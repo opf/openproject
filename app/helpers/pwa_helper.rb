@@ -32,6 +32,8 @@ module PwaHelper
   SHORT_NAME_MAX_LENGTH = 12
   SHELL_CACHE_PREFIX = "openproject-shell-"
   SHELL_ENTRY_FILES = %w[polyfills.js main.js styles.css].freeze
+  OFFLINE_WORDMARK = "logo_openproject_white_big.png"
+  OFFLINE_MARK = "icon_logo.svg"
   SHELL_ICONS = %w[pwa/icon-192.png pwa/icon-512.png pwa/icon-1024.png pwa/icon.svg].freeze
 
   def pwa_short_name(title = Setting.app_title)
@@ -44,12 +46,52 @@ module PwaHelper
   def pwa_shell_precache
     return [] if FrontendAssetHelper.assets_proxied?
 
-    urls = SHELL_ENTRY_FILES.map { raw_variable_asset_path(it) } + SHELL_ICONS.map { image_path(it) }
-    urls.select { it.start_with?("/") && !it.start_with?("//") }
+    same_origin_paths(SHELL_ENTRY_FILES.map { raw_variable_asset_path(it) } + SHELL_ICONS.map { image_path(it) })
+  end
+
+  def pwa_offline_custom_logo_url
+    return unless apply_custom_styles?
+
+    custom_logo_urls(CustomStyle.current).dig(:desktop, :light)
+  end
+
+  def pwa_offline_precache
+    custom_logo = pwa_offline_custom_logo_url
+    logos = custom_logo ? [custom_logo] : [image_path(OFFLINE_WORDMARK), image_path(OFFLINE_MARK)]
+
+    same_origin_paths([pwa_offline_path, *logos])
+  end
+
+  def pwa_offline_palette
+    Pwa::OfflinePalette.new(header_bg_color)
+  end
+
+  def pwa_offline_css_variables(scheme, border)
+    {
+      bg: scheme.background,
+      ink: scheme.ink,
+      divider: scheme.divider,
+      "button-bg": scheme.button_background,
+      "button-fg": scheme.button_foreground,
+      "button-hover-bg": scheme.button_hover,
+      "button-border": border,
+      "tile-bg": scheme.logo_tile || "transparent",
+      "tile-padding": scheme.logo_tile ? "16px" : "0",
+      "logo-ink": scheme.logo_ink,
+      "wordmark-display": scheme.white_logo? ? "block" : "none",
+      "mark-display": scheme.white_logo? ? "none" : "flex"
+    }.map { |name, value| "--offline-#{name}: #{value};" }.join(" ")
   end
 
   def pwa_shell_cache_name
-    version = [*pwa_shell_precache, CustomStyle.current&.digest, OpenProject::VERSION.to_s].join
+    version = [*pwa_shell_precache, *pwa_offline_precache, Setting.app_title,
+               CustomStyle.current&.digest, OpenProject::VERSION.to_s].join
     "#{SHELL_CACHE_PREFIX}#{Digest::SHA256.hexdigest(version).first(16)}"
+  end
+
+  private
+
+  def same_origin_paths(urls)
+    urls.select { it.start_with?("/") && !it.start_with?("//") }
   end
 end

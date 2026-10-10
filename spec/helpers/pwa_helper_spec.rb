@@ -92,6 +92,14 @@ RSpec.describe PwaHelper do
 
         expect(helper.pwa_shell_cache_name).not_to eq(before_name)
       end
+
+      it "changes when the app title changes" do
+        before_name = helper.pwa_shell_cache_name
+
+        allow(Setting).to receive(:app_title).and_return("Another title")
+
+        expect(helper.pwa_shell_cache_name).not_to eq(before_name)
+      end
     end
   end
 end
