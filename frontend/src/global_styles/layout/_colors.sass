@@ -104,35 +104,44 @@
 @mixin hl_lightness_switch($threshold)
   --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
 
-@mixin hl_color_variables
+@mixin hl_dark_mode($mode)
+  @if $mode == dark
+    @content
+  @else if $mode == null
+    body[data-color-mode="dark"] &
+      @content
+
+@mixin hl_color_variables($mode: null)
   @include hl_lightness_switch(0.35)
   // For light mode, we invert the switch to make the text lighter (that's why we subtract from 1)
   // Further, the lightness switch threshold is set to a lower value than in dark mode
   --hl-lighten-by: calc((0.35 - var(--hl-perceived-lightness)) * 100 * (1 - var(--hl-lightness-switch)))
 
-  body[data-color-mode="dark"] &
+  @include hl_dark_mode($mode)
     @include hl_lightness_switch(0.6)
     --hl-lighten-by: calc((0.6 - var(--hl-perceived-lightness)) * 100 * var(--hl-lightness-switch))
 
 // Full color as background, with text flipped to black or white for contrast.
 // Dark mode instead tints the background and lightens the color for the text.
-@mixin hl_background_styles
+@mixin hl_background_styles($mode: null)
   color: hsl(0deg 0% calc(var(--hl-lightness-switch) * 100%)) !important
   background: var(--hl-color) !important
   border: 1px solid hsl(from var(--hl-color) h s calc(l - 15)) !important
 
-  body[data-light-theme="light_high_contrast"] &
-    border: 1px solid hsl(from var(--hl-color) h s calc(l - 75)) !important
+  @if $mode == null
+    body[data-light-theme="light_high_contrast"] &
+      border: 1px solid hsl(from var(--hl-color) h s calc(l - 75)) !important
 
-  body[data-color-mode="dark"] &
+  @include hl_dark_mode($mode)
     color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
     background: rgb(from var(--hl-color) r g b / 0.18) !important
     border: 1px solid hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
-  body[data-dark-theme="dark_high_contrast"] &
-    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
-    background: rgb(from var(--hl-color) r g b / 0.18) !important
-    border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+  @if $mode == null
+    body[data-dark-theme="dark_high_contrast"] &
+      color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+      background: rgb(from var(--hl-color) r g b / 0.18) !important
+      border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
 // Semi transparent color as background, with text in the provided color.
 @mixin hl_background_muted_styles
@@ -147,17 +156,19 @@
     border: 1px solid hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
 // Darkened in light mode, lightened in dark mode, so the color stays legible as text.
-@mixin hl_foreground_styles
+@mixin hl_foreground_styles($mode: null)
   color: hsl(from var(--hl-color) h s calc(l - (l * 0.22))) !important
 
-  body[data-light-theme="light_high_contrast"] &
-    color: hsl(from var(--hl-color) h s calc(l - (l * 0.5))) !important
+  @if $mode == null
+    body[data-light-theme="light_high_contrast"] &
+      color: hsl(from var(--hl-color) h s calc(l - (l * 0.5))) !important
 
-  body[data-color-mode="dark"] &
+  @include hl_dark_mode($mode)
     color: hsl(from var(--hl-color) h s calc(l + var(--hl-lighten-by))) !important
 
-  body[data-dark-theme="dark_high_contrast"] &
-    color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
+  @if $mode == null
+    body[data-dark-theme="dark_high_contrast"] &
+      color: hsl(from var(--hl-color) h s calc(l + 10 + var(--hl-lighten-by))) !important
 
 .__hl_background
   @include hl_color_variables

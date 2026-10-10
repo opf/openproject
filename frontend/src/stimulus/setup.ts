@@ -36,6 +36,7 @@ import FormPreviewController from './controllers/form-preview.controller';
 import AsyncDialogController from './controllers/async-dialog.controller';
 import ModeSwitchRadioController from './controllers/mode-switch-radio.controller';
 import PollForChangesController from './controllers/poll-for-changes.controller';
+import ColorContrastController from './controllers/color-contrast.controller';
 import TableHighlightingController from './controllers/table-highlighting.controller';
 import OpShowWhenCheckedController from './controllers/show-when-checked.controller';
 import OpShowWhenValueSelectedController from './controllers/show-when-value-selected.controller';
@@ -104,6 +105,7 @@ OpenProjectStimulusApplication.preregister('form-preview', FormPreviewController
 OpenProjectStimulusApplication.preregister('hover-card-trigger', HoverCardTriggerController);
 OpenProjectStimulusApplication.preregister('show-when-checked', OpShowWhenCheckedController);
 OpenProjectStimulusApplication.preregister('show-when-value-selected', OpShowWhenValueSelectedController);
+OpenProjectStimulusApplication.preregister('color-contrast', ColorContrastController);
 OpenProjectStimulusApplication.preregister('table-highlighting', TableHighlightingController);
 OpenProjectStimulusApplication.preregister('zen-mode', OpZenModeController);
 OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview', PreviewController);

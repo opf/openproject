@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Beta::Heading.new(tag: :h5, font_size: :normal, mb: 2)) { t("colors.contrast.used_as_#{usage}") } %>
+<%= render Primer::Box.new(
+      display: :flex, align_items: :center, justify_content: :center,
+      border: true, border_radius: 2, p: 3, classes: "color-contrast--surface",
+      data: { color_mode: mode, "#{mode}_theme": mode }
+    ) do %>
+  <%= render(
+        Primer::Beta::Text.new(
+          display: :inline_block, font_size: 3, font_weight: :semibold, py: 2, px: 3, border_radius: 2,
+          classes: "__hl_#{usage}",
+          data: { color_contrast_target: "sample" }
+        )
+      ) { t("colors.contrast.sample") } %>
+<% end %>
+<%= render Primer::Box.new(mt: 3, display: :flex, direction: :column, classes: "gap-2") do %>
+  <% { foreground: :text, background: :background }.each do |value, label_key| %>
+    <%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center) do %>
+      <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { t("colors.contrast.#{label_key}") } %>
+      <%= render Primer::Beta::Text.new(font_family: :mono, font_size: :small, data: { contrast_value: value }) %>
+    <% end %>
+  <% end %>
+<% end %>
+<%= render Primer::Box.new(display: :flex, justify_content: :space_between, align_items: :center, mt: 3) do %>
+  <% %w[pass fail].each do |verdict| %>
+    <%= render Primer::Beta::Text.new(hidden: true, color: verdict == "pass" ? :success : :danger, data: { contrast_verdict: verdict }) do %>
+      <%= render Primer::Beta::Octicon.new(icon: verdict == "pass" ? :"check-circle" : :"x-circle", mr: 1) %>
+      <%= t("colors.contrast.#{verdict}") %>
+    <% end %>
+  <% end %>
+  <%= render Primer::Box.new(tag: :span) do %>
+    <span class="sr-only"><%= t("colors.contrast.ratio") %>: </span>
+    <%= render Primer::Beta::Text.new(font_family: :mono, font_size: :small, data: { contrast_value: "ratio" }) %>
+  <% end %>
+<% end %>
