@@ -120,7 +120,7 @@ module Import
         "text" => "text",
         "number" => "float",
         "date" => "date",
-        "datetime" => "date", # TODO: loss of precision
+        "datetime" => "datetime",
         "option" => "list",
         "user" => "user",
         "any" => "string"

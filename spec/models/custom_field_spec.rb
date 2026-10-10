@@ -790,6 +790,15 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "searchable" do
+    it "is turned off for datetime custom fields" do
+      field = build(:wp_custom_field, field_format: "datetime", searchable: true)
+      field.valid?
+
+      expect(field.searchable).to be(false)
+    end
+  end
+
   describe "#destroy" do
     it "removes the cf" do
       field.save!
@@ -877,7 +886,11 @@ RSpec.describe CustomField do
         it "handles custom field with format #{field_format}" do
           field = build(:custom_field, field_format:)
 
-          input = field_format == "date" ? "2025.10.27" : "1"
+          input = case field_format
+                  when "date" then "2025.10.27"
+                  when "datetime" then "2025-10-27T10:00:00Z"
+                  else "1"
+                  end
 
           if field_format == "empty"
             expect(field.cast_value(input)).to be_nil
@@ -885,6 +898,18 @@ RSpec.describe CustomField do
             expect(field.cast_value(input)).not_to be_nil
           end
         end
+      end
+    end
+
+    context "for a datetime custom field" do
+      let(:field) { build(:custom_field, field_format: "datetime") }
+
+      it "returns the UTC time of a stored value" do
+        expect(field.cast_value("2025-10-27 10:00:00")).to eq(Time.utc(2025, 10, 27, 10))
+      end
+
+      it "returns nil for a value that is not a datetime" do
+        expect(field.cast_value("chicken")).to be_nil
       end
     end
   end

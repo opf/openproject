@@ -75,6 +75,25 @@ RSpec.describe WorkPackage, "acts_as_customizable" do
           .to eql version
       end
     end
+
+    context "with a datetime custom field and a Time value" do
+      let(:datetime_cf) { create(:datetime_wp_custom_field) }
+      let(:time) { Time.utc(2026, 10, 1, 12, 30) }
+
+      before { setup_custom_field(datetime_cf) }
+
+      it "keeps the time as one value through the setter" do
+        work_package.send(datetime_cf.attribute_setter, time)
+
+        expect(work_package.send(datetime_cf.attribute_getter)).to eq(time)
+      end
+
+      it "keeps a TimeWithZone as one value through the values hash" do
+        work_package.custom_field_values = { datetime_cf.id => time.in_time_zone("Europe/Brussels") }
+
+        expect(work_package.send(datetime_cf.attribute_getter)).to eq(time)
+      end
+    end
   end
 
   describe "#custom_field_values" do

@@ -61,6 +61,9 @@ import {
   CombinedDateEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/combined-date-edit-field.component';
 import {
+  DateTimeEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/datetime-edit-field.component';
+import {
   VersionAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import {
@@ -114,6 +117,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
+      .addFieldType(DateTimeEditFieldComponent, 'datetime', ['DateTime'])
       .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable']);
 
     editFieldService

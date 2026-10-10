@@ -223,6 +223,39 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
     end
   end
 
+  describe "datetime field (com.atlassian.jira.plugin.system.customfieldtypes:datetime)" do
+    # Jira value: ISO 8601 timestamp with an offset without colon, "2024-06-15T14:30:00.000+0200".
+    let!(:jira_field) do
+      create(:jira_field, jira_import:,
+                          origin_id: "customfield_10262",
+                          payload: {
+                            "id" => "customfield_10262",
+                            "name" => "CF Datetime",
+                            "schema" => {
+                              "type" => "datetime",
+                              "custom" => "com.atlassian.jira.plugin.system.customfieldtypes:datetime",
+                              "customId" => 10262
+                            }
+                          })
+    end
+    let!(:jira_issue) do
+      create(:jira_issue, jira_import:,
+                          origin_id: "10200",
+                          jira_project:,
+                          payload: issue_payload)
+    end
+
+    before { import_project }
+
+    it "creates a 'datetime' custom field" do
+      expect(WorkPackageCustomField.find_by!(name: "CF Datetime").field_format).to eq("datetime")
+    end
+
+    it "stores the timestamp in UTC without losing the time of day" do
+      expect(cf_value("CF Datetime")).to eq(Time.utc(2024, 6, 15, 12, 30))
+    end
+  end
+
   describe "URL field (com.atlassian.jira.plugin.system.customfieldtypes:url)" do
     let!(:jira_field) do
       create(:jira_field, jira_import:,

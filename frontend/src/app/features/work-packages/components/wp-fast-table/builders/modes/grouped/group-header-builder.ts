@@ -31,9 +31,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
-import { groupName } from './grouped-rows-helpers';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { groupByProperty, groupName } from './grouped-rows-helpers';
 import { ProjectPhaseDisplayField } from 'core-app/shared/components/fields/display/field-types/project-phase-display-field.module';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export function groupClassNameFor(group:GroupObject) {
   return `group-${group.identifier}`;
@@ -41,6 +44,10 @@ export function groupClassNameFor(group:GroupObject) {
 
 export class GroupHeaderBuilder {
   @LazyInject() public I18n:I18nService;
+
+  @LazyInject() public timezoneService:TimezoneService;
+
+  @LazyInject() public querySpace:IsolatedQuerySpace;
 
   public text:{ collapse:string, expand:string };
 
@@ -65,8 +72,7 @@ export class GroupHeaderBuilder {
     }
 
     const leadingIcon = this.leadingIcon(group);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const groupTitle = escape((groupName(group)));
+    const groupTitle = escape(this.groupTitle(group));
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
@@ -88,6 +94,35 @@ export class GroupHeaderBuilder {
     `;
 
     return row;
+  }
+
+  private groupTitle(group:GroupObject):string {
+    const name = groupName(group) as unknown;
+
+    if (group.value !== null && typeof name === 'string' && this.groupedPropertyType(group) === 'DateTime') {
+      return this.timezoneService.formattedDatetime(name);
+    }
+
+    return name as string;
+  }
+
+  /**
+   * Returns the schema type of the attribute the results are grouped by, e.g. `DateTime`
+   * for a datetime custom field. Looked up in the schemas embedded in the results, as a
+   * custom field might not be active in all of them.
+   */
+  private groupedPropertyType(group:GroupObject):string|undefined {
+    const property = groupByProperty(group);
+    const schemas = this.querySpace.results.value?.schemas?.elements ?? [];
+
+    for (const schema of schemas) {
+      const fieldSchema = schema[property] as IFieldSchema|undefined;
+      if (fieldSchema?.type) {
+        return fieldSchema.type;
+      }
+    }
+
+    return undefined;
   }
 
   /**

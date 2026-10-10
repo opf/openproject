@@ -58,6 +58,7 @@ There are multiple format options for custom fields in OpenProject. You can sele
 
 - **Boolean** - creates a custom field for an attribute, that is either true or false. It is represented by a checkbox that can be checked or unchecked.
 - **Date** - creates a custom field, which allows selecting dates from a date picker.
+- **Date and time** - creates a custom field for a point in time (date and time of day). Values are stored in UTC and shown in each user's time zone. A value must include the time of day. Available for work packages only.
 - **Float** - creates a custom field for rational numbers.
 - **Hierarchy (Enterprise add-on)** - creates a custom field, which allows selecting one or multiple items from a hierarchical list structure. The structure can be created in the _Items_ tab of the custom field. See more in the section below.
 - **Integer** - creates a custom field for integers.
