@@ -63,6 +63,16 @@ RSpec.describe MeetingAgendaItems::DropService do
             old_section: section_one
           )
         end
+
+        it "journals the meeting with the agenda item in its new section",
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting.touch_and_save_journals
+
+          expect { service_call }.to change { meeting.journals.count }.by(1)
+
+          expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+            .to have_attributes(meeting_section_id: section_two.id, position: 1)
+        end
       end
 
       context "when moving the item within the same section" do
@@ -80,6 +90,16 @@ RSpec.describe MeetingAgendaItems::DropService do
             current_section: section_one,
             old_section: nil
           )
+        end
+
+        it "journals the meeting with the agenda item at its new position",
+           with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting.touch_and_save_journals
+
+          expect { service_call }.to change { meeting.journals.count }.by(1)
+
+          expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+            .to have_attributes(meeting_section_id: section_one.id, position: 1)
         end
       end
 
@@ -150,6 +170,13 @@ RSpec.describe MeetingAgendaItems::DropService do
           meeting_agenda_item.reload
           expect(meeting_agenda_item.meeting_section).to eq(target_section)
           expect(meeting_agenda_item.meeting).to eq(occurrence_meeting)
+        end
+
+        it "journals the meeting the item moved to" do
+          service_call
+
+          expect(occurrence_meeting.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .to include(meeting_agenda_item.id)
         end
       end
 
