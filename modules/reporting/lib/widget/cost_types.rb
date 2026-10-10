@@ -27,31 +27,23 @@
 #++
 
 class Widget::CostTypes < Widget::Base
-  def render_with_options(options, &)
-    @cost_types = options.delete(:cost_types)
-    @selected_type_id = options.delete(:selected_type_id)
+  param :subject, reader: false
 
-    super
-  end
+  option :selected_type_id, optional: true
 
-  def render
-    write contents
+  def call
+    contents
   end
 
   def contents
     content_tag :div do
-      tabs = available_cost_type_tabs(@subject).sort_by { |id, _| id }.map do |id, label|
-        content_tag :div, class: "form--field -trailing-label" do
-          types = label_tag "unit_#{id}", h(label), class: "form--label"
-          types += content_tag :span, class: "form--field-container" do
-            content_tag :span, class: "form--radio-button-container" do
-              radio_button_tag("unit", id, id == @selected_type_id, class: "form--radio-button")
-            end
-          end
+      render(Primer::Alpha::RadioButtonGroup.new(name: "unit")) do |component|
+        available_cost_type_tabs(@subject)
+          .sort_by { |id, _| id }
+          .map do |id, label|
+          component.radio_button(label:, value: id, checked: id == @selected_type_id)
         end
       end
-
-      safe_join(tabs)
     end
   end
 end

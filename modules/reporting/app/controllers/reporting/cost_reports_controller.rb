@@ -118,10 +118,7 @@ module Reporting
     def available_values
       return head :bad_request if params[:filter_name].blank?
 
-      canvas = ActiveSupport::SafeBuffer.new
-      render_widget Widget::Filters::Option, requested_filter, to: canvas
-
-      render html: canvas, layout: !request.xhr?
+      render Widget::Filters::Option.new(requested_filter), layout: !request.xhr?
     end
 
     private
@@ -180,7 +177,7 @@ module Reporting
     end
 
     def render_table
-      self.response_body = render_widget(Widget::Table, @report)
+      render Widget::Table.new(@report), layout: false
     end
 
     def export(format)

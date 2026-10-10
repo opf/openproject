@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,10 +29,13 @@
 #++
 
 class Widget::Controls::Apply < Widget::Controls
-  def render
-    write link_to(I18n.t(:button_apply),
-                  "#",
-                  id: "query-icon-apply-button",
-                  class: "button -primary")
+  def render_control
+    render_button(
+      scheme: :primary,
+      type: :submit,
+      id: "query-icon-apply-button"
+    ) do
+      I18n.t(:button_apply)
+    end
   end
 end

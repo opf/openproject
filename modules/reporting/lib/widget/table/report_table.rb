@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -71,18 +73,18 @@ class Widget::Table::ReportTable < Widget::Table
   end
   # rubocop:enable Metrics/AbcSize
 
-  def render
+  def call
     configure_query
     configure_walker
-    write "<table class='report'>".html_safe
+    concat "<table class='report'>".html_safe
     render_thead
     render_tfoot
     render_tbody
-    write "</table>".html_safe
+    concat "</table>".html_safe
   end
 
   def render_tbody
-    write "<tbody>".html_safe
+    concat "<tbody>".html_safe
     first = true
     odd = true
     walker.body do |line|
@@ -91,10 +93,10 @@ class Widget::Table::ReportTable < Widget::Table
         first = false
       end
       line = mark_penultimate_column(line)
-      write content_tag(:tr, line, class: odd ? "odd" : "even")
+      concat content_tag(:tr, line, class: odd ? "odd" : "even")
       odd = !odd
     end
-    write "</tbody>".html_safe
+    concat "</tbody>".html_safe
   end
 
   def mark_penultimate_column(line)
@@ -108,57 +110,59 @@ class Widget::Table::ReportTable < Widget::Table
     walker.headers
     return if walker.headers_empty?
 
-    write "<thead>".html_safe
+    concat "<thead>".html_safe
     walker.headers do |list, first, first_in_col, last_in_col|
-      write "<tr>".html_safe if first_in_col
+      concat "<tr>".html_safe if first_in_col
       if first
-        write(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
+        concat(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
       end
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
         opts[:class] = "inner" if column.final?(:column)
-        write(content_tag(:th, opts) do
+        concat(content_tag(:th, opts) do
           show_row column
         end)
       end
       if first
-        write(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
+        concat(content_tag(:th, "", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row)))
       end
-      write "</tr>".html_safe if last_in_col
+      concat "</tr>".html_safe if last_in_col
     end
-    write "</thead>".html_safe
+    concat "</thead>".html_safe
   end
 
   def render_tfoot
     return if walker.headers_empty?
 
-    write "<tfoot>".html_safe
+    concat "<tfoot>".html_safe
     walker.reverse_headers do |list, first, first_in_col, last_in_col|
       if first_in_col
-        write "<tr>".html_safe
+        concat "<tr>".html_safe
         if first
-          write(content_tag(:th, " ", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: "top"))
+          concat(content_tag(:th, " ", rowspan: @subject.depth_of(:column), colspan: @subject.depth_of(:row), class: "top"))
         end
       end
 
       list.each do |column|
         opts = { colspan: column.final_number(:column) }
         opts[:class] = "inner" if first
-        write(content_tag(:th, show_result(column), opts))
+        concat(content_tag(:th, show_result(column), opts))
       end
       if last_in_col
         if first
-          write(content_tag(:th,
-                            rowspan: @subject.depth_of(:column),
-                            colspan: @subject.depth_of(:row),
-                            class: "top result") do
-                  show_result @subject
-                end)
+          concat(
+            content_tag(:th,
+                        rowspan: @subject.depth_of(:column),
+                        colspan: @subject.depth_of(:row),
+                        class: "top result") do
+              show_result @subject
+            end
+          )
         end
-        write "</tr>".html_safe
+        concat "</tr>".html_safe
       end
     end
-    write "</tfoot>".html_safe
+    concat "</tfoot>".html_safe
   end
   # rubocop:enable Metrics/AbcSize
 end

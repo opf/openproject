@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::Label < Widget::Filters::Base
-  def render_filter
-    options = {
-      id: filter_class.underscore_name,
-      class: "advanced-filters--filter-name",
-      title: filter_class.label
-    }
-    content_tag(:label, options) do
-      filter_class.label
+require "rails_helper"
+
+RSpec.describe Widget::Controls::SaveAs, type: :component do
+  include ViewComponent::TestHelpers
+
+  def render_component(...)
+    render_inline(described_class.new(...))
+  end
+
+  let(:cost_query) { build_stubbed(:cost_report, public: true) }
+  let(:options) { {} }
+
+  subject(:rendered_component) do
+    with_controller_class(Reporting::CostReportsController) do
+      with_request_url("/reporting/cost_reports") do
+        render_in_view_context(described_class, cost_query, self) do |described_class, model, spec_context|
+          primer_form_with(model:, url: "") do |f|
+            render(described_class.new(model, f, **spec_context.options))
+          end
+        end
+      end
+    end
+  end
+
+  context "when :can_save_as is false (default)" do
+    it "does not render a button" do
+      expect(rendered_component).to have_no_button text: "Save"
+    end
+  end
+
+  context "when :can_save_as is true" do
+    let(:options) { { can_save_as: true } }
+
+    it "renders a button" do
+      expect(rendered_component).to have_button text: "Save", type: "button"
     end
   end
 end

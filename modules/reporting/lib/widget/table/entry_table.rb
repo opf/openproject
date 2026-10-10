@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,15 +29,16 @@
 #++
 
 class Widget::Table::EntryTable < Widget::Table
-  include ReportingHelper
+  include AngularHelper
 
   FIELDS = %i[user_id activity_id entity_gid comments logged_by_id project_id].freeze
 
-  def render
-    content = content_tag :div, class: "generic-table--container -with-footer" do
+  def call
+    content_tag :div, class: "generic-table--container -with-footer" do
       content_tag :div, class: "generic-table--results-container" do
         table = content_tag :table, class: "generic-table",
-                                    id: "sortable-table" do
+                                    id: "sortable-table",
+                                    data: { reporting__page_target: "table" } do
           concat colgroup
           concat head
           concat foot
@@ -44,7 +47,6 @@ class Widget::Table::EntryTable < Widget::Table
         table
       end
     end
-    write content
   end
 
   def colgroup

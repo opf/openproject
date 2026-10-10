@@ -29,8 +29,8 @@
 class Widget::Filters::Project < Widget::Filters::Base
   include AngularHelper
 
-  def render
-    write(content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
+  def render_filter
+    content_tag(:div, id: "#{filter_class.underscore_name}_arg_1", class: "advanced-filters--filter-value") do
       label = html_label
 
       selected_values = map_filter_values
@@ -49,7 +49,7 @@ class Widget::Filters::Project < Widget::Filters::Base
       content_tag(:span, class: "inline-label") do
         label + box
       end
-    end)
+    end
   end
 
   private

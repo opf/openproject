@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,10 +29,15 @@
 #++
 
 class Widget::Controls::Clear < Widget::Controls
-  def render
-    write link_to(I18n.t(:button_clear),
-                  "#",
-                  id: "query-link-clear",
-                  class: "button icon-context icon-undo")
+  def render_control
+    render_button(
+      scheme: :invisible,
+      type: :reset,
+      id: "query-link-clear"
+    ) do |button|
+      button.with_leading_visual_icon(icon: :undo)
+
+      I18n.t(:button_clear)
+    end
   end
 end

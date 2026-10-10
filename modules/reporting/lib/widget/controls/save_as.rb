@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,82 +29,95 @@
 #++
 
 class Widget::Controls::SaveAs < Widget::Controls
-  def render
-    link_name =
-      if @subject.new_record?
-        I18n.t(:button_save)
-      else
-        I18n.t(:button_save_report_as)
+  DIALOG_ID = "save_as_form"
+  private_constant :DIALOG_ID
+
+  option :can_save_as, default: -> { false }
+  option :can_save_as_public, default: -> { false }
+
+  def render_control
+    concat(
+      render_button(
+        id: "query-icon-save-as",
+        data: { show_dialog_id: DIALOG_ID }
+      ) do |button|
+        button.with_leading_visual_icon(icon: :"op-save")
+
+        button_text
       end
-    button = link_to(link_name, "#", id: "query-icon-save-as", class: "button icon-context icon-save")
-    write(button + render_popup)
+    )
+
+    concat render_popup
   end
 
-  def cache_key
-    "#{super}#{@subject.name}"
+  def render?
+    can_save_as
   end
 
-  # rubocop:disable Metrics/AbcSize
+  private
+
+  def render_popup
+    render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: button_text)) do |dialog|
+      dialog.with_header(variant: :large)
+
+      dialog.with_body do
+        render_popup_form
+      end
+
+      dialog.with_footer(show_divider: true) do
+        render_popup_buttons
+      end
+    end
+  end
+
   def render_popup_form
-    name = content_tag :p,
-                       class: "form--field -required -wide-label" do
-      label_tag(:query_name,
-                class: "form--label -transparent") do
-        Query.human_attribute_name(:name)
-      end +
-        content_tag(:span,
-                    class: "form--field-container") do
-          content_tag(:span,
-                      class: "form--text-field-container") do
-            text_field_tag(:query_name,
-                           @subject.name,
-                           required: true)
-          end
-        end
-    end
-    if @options[:can_save_as_public]
-      box = content_tag :p, class: "form--field -wide-label" do
-        label_tag(:query_is_public,
-                  Query.human_attribute_name(:public),
-                  class: "form--label -transparent") +
-          content_tag(:span,
-                      class: "form--field-container") do
-            content_tag(:span,
-                        class: "form--check-box-container") do
-              check_box_tag(:query_is_public,
-                            1,
-                            false,
-                            class: "form--check-box")
-            end
-          end
+    can_save_as_public = self.can_save_as_public
+    name = @subject.name
+
+    render_inline_form(form) do |form|
+      form.text_field name: :query_name,
+                      scope_name_to_model: false,
+                      value: name,
+                      label: Query.human_attribute_name(:name),
+                      required: true
+
+      if can_save_as_public
+        form.check_box name: :query_is_public,
+                       scope_name_to_model: false,
+                       value: "1",
+                       checked: false,
+                       include_hidden: false,
+                       label: Query.human_attribute_name(:public)
       end
-      name + box
-    else
-      name
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def render_popup_buttons
     save_url_params = { action: "create" }
     save_url_params[:project_id] = @subject.project.id if @subject.project
 
-    save = link_to(I18n.t(:button_save),
-                   "#",
-                   id: "query-icon-save-button",
-                   class: "button -primary icon-context icon-save",
-                   "data-target": url_for(**save_url_params))
+    save_button = render_button(
+      scheme: :primary,
+      id: "query-icon-save-button",
+      data: { target: url_for(**save_url_params) }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :check)
 
-    cancel = link_to(I18n.t(:button_cancel),
-                     "#",
-                     id: "query-icon-save-as-cancel",
-                     class: "button icon-context icon-cancel")
-    save + cancel
+      I18n.t(:button_save)
+    end
+
+    cancel_button = render_button(data: { close_dialog_id: DIALOG_ID }) do
+      I18n.t(:button_cancel)
+    end
+
+    safe_join([cancel_button, save_button])
   end
 
-  def render_popup
-    content_tag :div, id: "save_as_form", class: "button_form", style: "display:none" do
-      render_popup_form + render_popup_buttons
+  def button_text
+    if @subject.new_record?
+      I18n.t(:button_save)
+    else
+      I18n.t(:button_save_report_as)
     end
   end
 end

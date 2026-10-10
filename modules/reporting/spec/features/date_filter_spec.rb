@@ -55,7 +55,7 @@ RSpec.describe "Cost report date filter", :js do
 
     # 'Date (spent on)' filter is also selected by default
     select "today", from: "operators[spent_on]"
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(today_time_entry.hours)
     expect(page).to have_content(today_time_entry.entity.subject)
@@ -64,7 +64,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select "<=", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.ago.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_ago_time_entry.hours)
     expect(page).to have_content(five_days_ago_time_entry.entity.subject)
@@ -73,7 +73,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select "during the last days", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_integers_val", with: "5"
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_ago_time_entry.hours)
     expect(page).to have_content(five_days_ago_time_entry.entity.subject)
@@ -83,7 +83,7 @@ RSpec.describe "Cost report date filter", :js do
 
     select ">=", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.from_now.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(five_days_from_now_time_entry.hours)
     expect(page).to have_content(five_days_from_now_time_entry.entity.subject)
@@ -93,7 +93,7 @@ RSpec.describe "Cost report date filter", :js do
     select "between", from: "operators[spent_on]"
     fill_in "spent_on_arg_1_val", with: 4.days.ago.iso8601
     fill_in "spent_on_arg_2_val", with: 4.days.from_now.iso8601
-    click_link "Apply"
+    click_on "Apply"
 
     expect(page).to have_content(today_time_entry.hours)
     expect(page).to have_content(today_time_entry.entity.subject)

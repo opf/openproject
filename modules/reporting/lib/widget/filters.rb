@@ -28,7 +28,17 @@
 
 # rubocop:disable Metrics/AbcSize
 class Widget::Filters < Widget::Base
-  def render
+  param :subject, reader: false
+
+  attr_reader :engine
+
+  def initialize(...)
+    super
+
+    @engine = @subject.respond_to?(:engine) ? @subject.engine : @subject.class
+  end
+
+  def call
     spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
     add_filter = content_tag :li, id: "add_filter_block",
@@ -61,7 +71,7 @@ class Widget::Filters < Widget::Base
       render_filters + spacer + add_filter
     end
 
-    write content_tag(:div, list)
+    content_tag(:div, list)
   end
 
   def selectables

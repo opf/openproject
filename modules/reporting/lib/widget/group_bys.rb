@@ -27,16 +27,35 @@
 #++
 
 class Widget::GroupBys < Widget::Base
+  param :subject, reader: false
+
+  attr_reader :engine
+
+  def initialize(...)
+    super
+
+    @engine = @subject.respond_to?(:engine) ? @subject.engine : @subject.class
+  end
+
+  def call
+    content_tag(:div, id: "group-by--area", class: "autoscroll") do
+      out = ActiveSupport::SafeBuffer.new
+      out << render_group("columns", @subject.group_bys(:column))
+      out << render_group("rows", @subject.group_bys(:row))
+      out
+    end
+  end
+
   # rubocop:disable Metrics/AbcSize
   def render_options(group_by_ary)
     options = group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
 
-      label_text = CGI::escapeHTML(h(group_by.label)).to_s
+      label_text = group_by.label
       option_tags = { value: group_by.underscore_name, "data-label": label_text }
-      option_tags[:title] = label_text if group_by.label.length > 40
+      option_tags[:title] = label_text if label_text.length > 40
       content_tag :option, option_tags do
-        h(truncate_single_line(group_by.label, length: 40))
+        truncate_single_line(label_text, length: 40)
       end
     end
 
@@ -45,7 +64,7 @@ class Widget::GroupBys < Widget::Base
 
   def render_group(type, initially_selected)
     initially_selected = initially_selected.map do |group_by|
-      [group_by.class.underscore_name, h(group_by.class.label)]
+      [group_by.class.underscore_name, group_by.class.label]
     end
 
     content_tag :fieldset do
@@ -82,7 +101,7 @@ class Widget::GroupBys < Widget::Base
             sort_by_options = engine::GroupBy.all_grouped.sort_by do |i18n_key, _group_by_ary|
               I18n.t(i18n_key)
             end.map do |i18n_key, group_by_ary| # rubocop:disable Style/MultilineBlockChain
-              content_tag :optgroup, label: h(I18n.t(i18n_key)) do
+              content_tag :optgroup, label: I18n.t(i18n_key) do
                 render_options group_by_ary
               end
             end
@@ -99,15 +118,5 @@ class Widget::GroupBys < Widget::Base
       legend + container
     end
   end
-
   # rubocop:enable Metrics/AbcSize
-
-  def render
-    write(content_tag(:div, id: "group-by--area", class: "autoscroll") do
-      out = ActiveSupport::SafeBuffer.new
-      out << render_group("columns", @subject.group_bys(:column))
-      out << render_group("rows", @subject.group_bys(:row))
-      out
-    end)
-  end
 end

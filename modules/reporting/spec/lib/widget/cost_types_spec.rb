@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::Label < Widget::Filters::Base
-  def render_filter
-    options = {
-      id: filter_class.underscore_name,
-      class: "advanced-filters--filter-name",
-      title: filter_class.label
-    }
-    content_tag(:label, options) do
-      filter_class.label
-    end
+require "rails_helper"
+
+RSpec.describe Widget::CostTypes, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
+  end
+
+  let(:cost_types) { create_list(:cost_type, 2).pluck(:id) }
+  let(:options) { { selected_type_id: cost_types.last } }
+
+  subject(:rendered_component) do
+    render_component(cost_types, **options)
+  end
+
+  it "renders radio group" do
+    expect(rendered_component).to have_element :fieldset, role: "radiogroup"
+  end
+
+  it "renders 1 checked radio button" do
+    expect(rendered_component).to have_checked_field count: 1
+  end
+
+  it "renders 2 unchecked radio buttons" do
+    expect(rendered_component).to have_unchecked_field count: 2
   end
 end

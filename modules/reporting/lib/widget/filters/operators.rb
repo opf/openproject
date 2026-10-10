@@ -28,8 +28,8 @@
 
 class Widget::Filters::Operators < Widget::Filters::Base
   # rubocop:disable Metrics/AbcSize
-  def render
-    write(content_tag(:div, class: "advanced-filters--filter-operator") do
+  def render_filter
+    content_tag(:div, class: "advanced-filters--filter-operator") do
       hide_select_box = filter_class.available_operators.count == 1 || filter_class.heavy?
       options = { class: "advanced-filters--select filters-select filter_operator",
                   id: "operators[#{filter_class.underscore_name}]",
@@ -40,10 +40,10 @@ class Widget::Filters::Operators < Widget::Filters::Base
 
       select_box = content_tag :select, options do
         operators = filter_class.available_operators.map do |o|
-          opts = { value: h(o.to_s), "data-arity": o.arity }
+          opts = { value: o.to_s, "data-arity": o.arity }
           opts.reverse_merge! "data-forced": o.forced if o.forced?
           opts[:selected] = "selected" if filter.operator.to_s == o.to_s
-          content_tag(:option, opts) { h(I18n.t(o.label)) }
+          content_tag(:option, opts) { I18n.t(o.label) }
         end
         safe_join(operators)
       end
@@ -57,7 +57,7 @@ class Widget::Filters::Operators < Widget::Filters::Base
         end
       end
       hide_select_box ? label1 + select_box + label : label1 + select_box
-    end)
+    end
   end
   # rubocop:enable Metrics/AbcSize
 
