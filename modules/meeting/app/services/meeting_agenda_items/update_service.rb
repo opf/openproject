@@ -30,11 +30,9 @@
 
 module MeetingAgendaItems
   class UpdateService < ::BaseServices::Update
-    include AfterPerformHook
+    include Meetings::JournalAfterPerform
     include JournalizeWorkPackageActivity
     include Concerns::CopyAttachments
-
-    alias_method :original_after_perform, :after_perform
 
     private
 
@@ -45,7 +43,7 @@ module MeetingAgendaItems
     end
 
     def after_perform(call)
-      original_after_perform(call)
+      super
 
       if call.success?
         copy_attachments_from_meeting(call.result, @old_meeting_id)

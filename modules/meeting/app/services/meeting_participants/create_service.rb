@@ -29,6 +29,8 @@
 #++
 module MeetingParticipants
   class CreateService < BaseServices::Create
+    include Meetings::JournalAfterPerform
+
     def initialize(user:, model: nil, contract_class: nil, contract_options: {}, notify: true)
       @notify = notify
       super(user:, model:, contract_class:, contract_options:)
@@ -37,8 +39,9 @@ module MeetingParticipants
     protected
 
     def after_perform(call)
+      super
+
       meeting = call.result.meeting
-      meeting.touch_and_save_journals
       meeting.bump_series_ical_sequence!
 
       if @notify

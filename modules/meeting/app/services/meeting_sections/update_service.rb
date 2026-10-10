@@ -29,5 +29,6 @@
 
 module MeetingSections
   class UpdateService < ::BaseServices::Update
+    include Meetings::JournalAfterPerform
   end
 end
