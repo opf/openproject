@@ -38,10 +38,14 @@ describe('TimezoneService', () => {
   const DATE = '2013-02-08';
   let timezoneService:TimezoneService;
 
-  const compile = (timezone?:string) => {
+  const compile = (timezone?:string, formats:{ date?:string, time?:string } = {}) => {
     const ConfigurationServiceStub = {
       isTimezoneSet: () => !!timezone,
       timezone: () => timezone,
+      dateFormatPresent: () => !!formats.date,
+      dateFormat: () => formats.date,
+      timeFormatPresent: () => !!formats.time,
+      timeFormat: () => formats.time,
     };
 
     if (!timezone) {
@@ -102,6 +106,40 @@ describe('TimezoneService', () => {
       it('has local time zone', () => {
         expect(timezoneService.configurationService.timezone()).toEqual('America/Vancouver');
       });
+    });
+  });
+
+  describe('#parseFormattedDatetime', () => {
+    beforeEach(() => {
+      compile('Europe/Berlin', { date: 'DD.MM.YYYY', time: 'HH:mm' });
+    });
+
+    it('parses the user format in the user time zone and returns UTC', () => {
+      expect(timezoneService.parseFormattedDatetime('01.10.2026 14:30')).toEqual('2026-10-01T12:30:00Z');
+    });
+
+    it('returns null for text not matching the user format', () => {
+      expect(timezoneService.parseFormattedDatetime('2026-10-01 14:30')).toBeNull();
+    });
+  });
+
+  describe('#uses24HourClock', () => {
+    it('is true for a 24 hour time format', () => {
+      compile('Europe/Berlin', { time: 'HH:mm' });
+
+      expect(timezoneService.uses24HourClock()).toBe(true);
+    });
+
+    it('is false for a time format with a meridiem', () => {
+      compile('Europe/Berlin', { time: 'hh:mm a' });
+
+      expect(timezoneService.uses24HourClock()).toBe(false);
+    });
+
+    it('expands the locale time format when none is configured', () => {
+      compile('Europe/Berlin');
+
+      expect(timezoneService.uses24HourClock()).toBe(!/[aA]/.test(moment.localeData().longDateFormat('LT')));
     });
   });
 });

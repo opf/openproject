@@ -28,48 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class BaseStrategy
-    attr_accessor :filter
+class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
 
-    class_attribute :supported_operators,
-                    :default_operator
+  def typed_value
+    return if value.blank?
 
-    delegate :values,
-             :errors,
-             to: :filter
+    parse(value)
+  end
 
-    def initialize(filter)
-      self.filter = filter
-    end
+  def formatted_value
+    format_time(typed_value) || value.to_s
+  end
 
-    def validate; end
+  def parse_value(val)
+    parse(val)&.utc&.iso8601 || val
+  end
 
-    def operator
-      operator_map
-        .slice(*self.class.supported_operators)[filter.operator]
-    end
+  def validate_type_of_value
+    :not_a_datetime unless parse(value)
+  end
 
-    def valid_values!; end
+  private
 
-    delegate :sql_for_field, to: :operator
-
-    def supported_operator_classes
-      operator_map
-        .slice(*self.class.supported_operators)
-        .map(&:last)
-        .sort_by { |o| self.class.supported_operators.index o.symbol.to_s }
-    end
-
-    def default_operator_class
-      operator = self.class.default_operator || self.class.available_operators.first
-      operator_map[operator]
-    end
-
-    private
-
-    def operator_map
-      ::Queries::Operators::OPERATORS
-    end
+  def parse(val)
+    ActiveSupport::TimeZone["UTC"].iso8601(val.to_s)
+  rescue ArgumentError
+    nil
   end
 end

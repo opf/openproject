@@ -17,7 +17,8 @@
 <meta name="current_user"
       data-name="<%= User.current.name %>"
       data-logged-in="<%= User.current.logged? %>"
-      data-id="<%= User.current.id %>">
+      data-id="<%= User.current.id %>"
+      data-time-zone="<%= User.current.time_zone.tzinfo.name %>">
 
 <% if Setting.demo_projects_available %><meta name="demo_projects_available" content="true"><% end %>
 <% if Setting.boards_demo_data_available %><meta name="boards_demo_data_available" content="true"><% end %>

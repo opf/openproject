@@ -104,7 +104,7 @@ class CustomField < ApplicationRecord
 
   # make sure int, float, date, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool user version).include?(field_format)
+    self.searchable = false if %w(int float date datetime bool user version).include?(field_format)
     true
   end
 
@@ -273,6 +273,12 @@ class CustomField < ApplicationRecord
     when "date"
       begin
         value.to_date
+      rescue StandardError
+        nil
+      end
+    when "datetime"
+      begin
+        ActiveSupport::TimeZone["UTC"].iso8601(value)
       rescue StandardError
         nil
       end

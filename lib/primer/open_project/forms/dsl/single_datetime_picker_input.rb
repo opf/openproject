@@ -28,48 +28,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class BaseStrategy
-    attr_accessor :filter
+module Primer
+  module OpenProject
+    module Forms
+      module Dsl
+        class SingleDatetimePickerInput < SingleDatePickerInput
+          def derive_datepicker_options(options)
+            options.reverse_merge(
+              component: "opce-basic-single-datetime-picker"
+            )
+          end
 
-    class_attribute :supported_operators,
-                    :default_operator
-
-    delegate :values,
-             :errors,
-             to: :filter
-
-    def initialize(filter)
-      self.filter = filter
-    end
-
-    def validate; end
-
-    def operator
-      operator_map
-        .slice(*self.class.supported_operators)[filter.operator]
-    end
-
-    def valid_values!; end
-
-    delegate :sql_for_field, to: :operator
-
-    def supported_operator_classes
-      operator_map
-        .slice(*self.class.supported_operators)
-        .map(&:last)
-        .sort_by { |o| self.class.supported_operators.index o.symbol.to_s }
-    end
-
-    def default_operator_class
-      operator = self.class.default_operator || self.class.available_operators.first
-      operator_map[operator]
-    end
-
-    private
-
-    def operator_map
-      ::Queries::Operators::OPERATORS
+          def type
+            :single_datetime_picker
+          end
+        end
+      end
     end
   end
 end

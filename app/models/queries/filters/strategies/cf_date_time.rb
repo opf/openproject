@@ -29,47 +29,44 @@
 #++
 
 module Queries::Filters::Strategies
-  class BaseStrategy
-    attr_accessor :filter
-
-    class_attribute :supported_operators,
-                    :default_operator
-
-    delegate :values,
-             :errors,
-             to: :filter
-
-    def initialize(filter)
-      self.filter = filter
+  class CfDateTime < CfDate
+    def validate
+      if [Queries::Operators::OnDateTime, Queries::Operators::BetweenDateTime].include?(operator)
+        validate_values_all_datetime
+      else
+        super
+      end
     end
 
-    def validate; end
+    def sql_for_field(values, db_table, db_field)
+      return super if blank_check?
 
-    def operator
-      operator_map
-        .slice(*self.class.supported_operators)[filter.operator]
-    end
-
-    def valid_values!; end
-
-    delegate :sql_for_field, to: :operator
-
-    def supported_operator_classes
-      operator_map
-        .slice(*self.class.supported_operators)
-        .map(&:last)
-        .sort_by { |o| self.class.supported_operators.index o.symbol.to_s }
-    end
-
-    def default_operator_class
-      operator = self.class.default_operator || self.class.available_operators.first
-      operator_map[operator]
+      "#{db_table}.#{db_field} <> '' AND #{super(values, db_table, "#{db_field}::timestamp")}"
     end
 
     private
 
+    def blank_check?
+      [Queries::Operators::AllAndNonBlank, Queries::Operators::NoneOrBlank].include?(operator)
+    end
+
     def operator_map
-      ::Queries::Operators::OPERATORS
+      super.merge(
+        "=d" => Queries::Operators::OnDateTime,
+        "<>d" => Queries::Operators::BetweenDateTime
+      )
+    end
+
+    def validate_values_all_datetime
+      unless values.all? { |value| value.blank? || datetime?(value) }
+        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime"))
+      end
+    end
+
+    def datetime?(str)
+      true if ::DateTime.parse(str)
+    rescue ArgumentError
+      false
     end
   end
 end

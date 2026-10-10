@@ -74,6 +74,13 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
       days_input = rendered_form.find(:element, "data-filter--filters-form-target": "days", visible: :all)
       expect(days_input["hidden"]).to eq("hidden")
     end
+
+    it "passes the filter name on to both date pickers" do
+      expected_attributes = { "data-filter--filters-form-target" => "singleDay", "data-filter-name" => filter.name.to_s }
+      expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                            "data-input-attributes": expected_attributes.to_json,
+                                            visible: :all
+    end
   end
 
   context "with a between-dates operator (<>d)" do
@@ -89,6 +96,24 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
     it "hides the days input" do
       days_input = rendered_form.find(:element, "data-filter--filters-form-target": "days", visible: :all)
       expect(days_input["hidden"]).to eq("hidden")
+    end
+  end
+
+  context "with a datetime filter storing day boundaries as UTC timestamps" do
+    let(:query) { Query.new }
+    let(:filter) do
+      f = query.available_advanced_filters.find { |af| af.name == :created_at }
+      f.operator = "<>d"
+      f.values = ["2025-12-31T23:00:00Z", "2026-10-30T22:59:59Z"]
+      f
+    end
+
+    current_user { build_stubbed(:admin, preferences: { time_zone: "Europe/Berlin" }) }
+
+    it "shows the local dates of the user's time zone in the range picker" do
+      expect(rendered_form).to have_element "opce-range-date-picker",
+                                            "data-value": '"2026-01-01 - 2026-10-30"',
+                                            visible: :all
     end
   end
 
