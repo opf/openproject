@@ -101,6 +101,7 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
+            mount ::API::V3::WorkPackages::PDFExportAPI
             mount ::API::V3::Reminders::RemindersByWorkPackageAPI
             mount ::API::V3::EmojiReactions::EmojiReactionsByWorkPackageCommentsAPI
           end

@@ -29,25 +29,30 @@
 #++
 
 module WorkPackage::PDFExport::Templates
+  extend self
+
   def built_in_templates
     [
       {
         id: "attributes",
         label: I18n.t("pdf_generator.template_attributes.label"),
         caption: I18n.t("pdf_generator.template_attributes.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::AttributesSettingsComponent,
+        exporter: WorkPackage::PDFExport::WorkPackageToPdf
       },
       {
         id: "contract",
         label: I18n.t("pdf_generator.template_contract.label"),
         caption: I18n.t("pdf_generator.template_contract.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::ContractSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::ContractSettingsComponent,
+        exporter: WorkPackage::PDFExport::DocumentGenerator
       },
       {
         id: "artefact",
         label: I18n.t("pdf_generator.template_artefact.label"),
         caption: I18n.t("pdf_generator.template_artefact.caption"),
-        settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent
+        settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent,
+        exporter: WorkPackage::PDFExport::Artefact
       }
     ]
   end

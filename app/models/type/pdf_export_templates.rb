@@ -33,7 +33,7 @@ class Type::PdfExportTemplates
 
   SORTABLE_LIST_TYPE = "pdf_export_templates"
 
-  Template = Data.define(:id, :label, :caption, :enabled, :settings_component)
+  Template = Data.define(:id, :label, :caption, :enabled, :settings_component, :exporter)
 
   class ReadonlyError < StandardError; end
 
