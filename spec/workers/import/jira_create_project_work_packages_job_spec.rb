@@ -59,7 +59,7 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         expect(work_package.estimated_hours).to eq(120.0)
         expect(work_package.remaining_hours).to eq(11.0)
         expect(work_package.status.name).to eq("In Progress")
-        expect(work_package.status.is_closed).to be false
+        expect(work_package.status).not_to be_closed
         expect(work_package.priority.name).to eq("Highest")
         expect(work_package.assigned_to).to eq(op_user)
         expect(work_package.identifier).to eq("DPPP-6")
@@ -144,16 +144,56 @@ RSpec.describe Import::JiraCreateProjectWorkPackagesJob,
         end
       end
 
-      context "if Jira status is done" do
+      context "when Jira status category is 'indeterminate'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "indeterminate" }
+        end
+
+        it "creates status with in_progress category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to eq("in_progress")
+        end
+      end
+
+      context "when Jira status category is 'new'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "new" }
+        end
+
+        it "creates status with to_do category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to eq("to_do")
+        end
+      end
+
+      context "when Jira status category is 'done'" do
         let(:jira_issue_payload) do
           super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "done" }
         end
 
-        it "creates workpackage with closed status" do
+        it "creates status with closed category" do
           create_work_packages
 
           work_package = WorkPackage.find("DPPP-6")
-          expect(work_package.status.is_closed).to be true
+          expect(work_package.status.category).to eq("closed")
+          expect(work_package.status).to be_closed
+        end
+      end
+
+      context "when Jira status category is 'undefined'" do
+        let(:jira_issue_payload) do
+          super().tap { |payload| payload["fields"]["status"]["statusCategory"]["key"] = "undefined" }
+        end
+
+        it "creates status with nil category" do
+          create_work_packages
+
+          work_package = WorkPackage.find("DPPP-6")
+          expect(work_package.status.category).to be_nil
         end
       end
 

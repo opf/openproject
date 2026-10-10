@@ -43,14 +43,14 @@ RSpec.describe Statuses::TableComponent, type: :component do
 
   context "with statuses" do
     let!(:new_status) { create(:status, name: "New", is_default: true, default_done_ratio: 0) }
-    let!(:closed_status) { create(:status, name: "Closed", is_closed: true, default_done_ratio: 100) }
+    let!(:closed_status) { create(:status, name: "Closed", category: "closed", default_done_ratio: 100) }
     let(:relation) { Status.where(id: [new_status.id, closed_status.id]) }
 
     it_behaves_like "rendering Box", row_count: 2
 
     it "captions the columns", :aggregate_failures do
       expect(rendered_component).to have_css(".Box-header", text: "Name")
-      expect(rendered_component).to have_css(".Box-header", text: "Closed")
+      expect(rendered_component).to have_css(".Box-header", text: "Category")
       expect(rendered_component).to have_css(".Box-header", text: "Read-only")
     end
 

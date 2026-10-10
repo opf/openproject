@@ -33,6 +33,13 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
     include ::Import::JiraCreateProjectJob::JiraImportCustomFields
 
+    STATUS_CATEGORY_MAPPING = {
+      "undefined" => nil,
+      "new" => "to_do",
+      "indeterminate" => "in_progress",
+      "done" => "closed"
+    }.freeze
+
     on_complete do
       # Update project.wp_sequence_counter to max sequence_number found in migrated from jira work_packages
       # or 0 in case there are no work_packages in the project.
@@ -180,8 +187,9 @@ module Import
       status = Status.where("LOWER(name) = LOWER(?)", issue_status["name"]).first
       uses_existing = true
       if status.blank?
-        is_closed = issue_status.dig("statusCategory", "key") == "done"
-        status = Status.create!(name: issue_status["name"], is_closed: is_closed)
+        jira_category_key = issue_status.dig("statusCategory", "key")
+        category = STATUS_CATEGORY_MAPPING[jira_category_key]
+        status = Status.create!(name: issue_status["name"], category:)
         uses_existing = false
       end
       jira_status = Import::JiraStatus.find_by!(origin_id: issue_status["id"], jira_import_id: @jira_import.id)

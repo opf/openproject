@@ -34,7 +34,7 @@ require_relative "../../support/pages/backlog"
 RSpec.describe "Backlog bucket display", :js do
   create_shared_association_defaults_for_work_package_factory
 
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:closed_status) { create(:status, category: "closed") }
 
   shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking backlogs]) }
 

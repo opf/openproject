@@ -33,8 +33,8 @@ require "rails_helper"
 RSpec.describe Backlogs::Sprints::FinishService do
   create_shared_association_defaults_for_work_package_factory
 
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:open_status) { create(:status, category: "open") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs work_package_tracking],
@@ -75,7 +75,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
   end
 
   context "when the sprint has a work package with an open-system-status configured as 'done' for the project" do
-    let!(:done_like_status) { create(:status, is_closed: false) }
+    let!(:done_like_status) { create(:status, category: "open") }
     let!(:done_like_wp) do
       # Add the non-closed status to the project's done_statuses so it is
       # treated as "finished" by the work packages scope.

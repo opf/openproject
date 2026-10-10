@@ -50,8 +50,8 @@ RSpec.describe Projects::SetAttributesService, "backlogs done_status_ids merging
   let(:instance) { described_class.new(user:, model: project, contract_class:) }
 
   context "when done_status_ids is submitted" do
-    let!(:closed_status) { create(:status, is_closed: true) }
-    let!(:open_status) { create(:status, is_closed: false) }
+    let!(:closed_status) { create(:status, category: "closed") }
+    let!(:open_status) { create(:status, category: "open") }
 
     it "merges mandatory closed statuses alongside the submitted ones" do
       instance.call(done_status_ids: [open_status.id])
@@ -67,7 +67,7 @@ RSpec.describe Projects::SetAttributesService, "backlogs done_status_ids merging
     end
 
     it "keeps submitted non-closed statuses even when there are no globally closed statuses" do
-      Status.where(is_closed: true).delete_all
+      Status.where(category: "closed").delete_all
 
       instance.call(done_status_ids: [open_status.id])
 
@@ -76,7 +76,7 @@ RSpec.describe Projects::SetAttributesService, "backlogs done_status_ids merging
   end
 
   context "when done_status_ids is not submitted" do
-    let!(:closed_status) { create(:status, is_closed: true) }
+    let!(:closed_status) { create(:status, category: "closed") }
     let(:considered_closed_statuses) { [closed_status] }
 
     it "does not modify the existing done_status_ids" do

@@ -31,8 +31,8 @@
 require "rails_helper"
 
 RSpec.describe Projects::CopyService, "backlogs settings", type: :model do
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:open_status) { create(:status, category: "open") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:type_story) { create(:type, name: "Story") }
   shared_let(:type_task) { create(:type, name: "Task") }
 

@@ -31,10 +31,10 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::InInboxFor do
-  shared_let(:open_status) { create(:status, is_closed: false) }
-  shared_let(:closed_status) { create(:status, is_closed: true) }
+  shared_let(:open_status) { create(:status, category: "open") }
+  shared_let(:closed_status) { create(:status, category: "closed") }
   shared_let(:excluded_type) { create(:type_task) }
-  shared_let(:excluded_status) { create(:status, is_closed: false) }
+  shared_let(:excluded_status) { create(:status, category: "open") }
   shared_let(:project) do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs),

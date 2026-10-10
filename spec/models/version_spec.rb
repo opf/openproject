@@ -423,7 +423,7 @@ RSpec.describe Version do
 
     let(:project) { create(:project) }
     let(:version) { create(:version, project:) }
-    let(:closed_status) { create(:status, is_closed: true) }
+    let(:closed_status) { create(:status, category: "closed") }
 
     context "without a work package" do
       it "is 0 for completed_percent" do

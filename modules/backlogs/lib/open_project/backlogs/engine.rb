@@ -207,7 +207,7 @@ module OpenProject::Backlogs
       Rails.application.config.after_initialize do
         # When the backlogs module is first enabled on a project, automatically populate
         # the project's done_statuses with all statuses that are globally marked as closed
-        # (is_closed: true). This mirrors the form behavior where these statuses are
+        # (category: "closed"). This mirrors the form behavior where these statuses are
         # pre-selected and disabled, so users never have to visit the settings page just
         # to get sensible defaults.
         OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
@@ -217,7 +217,7 @@ module OpenProject::Backlogs
           project = enabled_module.project
           next unless project
 
-          mandatory_ids = Status.where(is_closed: true).pluck(:id)
+          mandatory_ids = Status.closed.pluck(:id)
           next if mandatory_ids.empty?
 
           merged_ids = project.done_statuses.reorder(nil).pluck(:id) | mandatory_ids

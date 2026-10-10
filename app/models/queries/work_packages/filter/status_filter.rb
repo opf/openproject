@@ -35,8 +35,10 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
 
   def available_operators
     [Queries::Operators::OpenWorkPackages,
-     Queries::Operators::EqualsOr,
+     Queries::Operators::ToDoWorkPackages,
+     Queries::Operators::InProgressWorkPackages,
      Queries::Operators::ClosedWorkPackages,
+     Queries::Operators::EqualsOr,
      Queries::Operators::NotEquals,
      Queries::Operators::All]
   end
@@ -86,6 +88,10 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
     super_value || case operator
                    when "o"
                      Queries::Operators::OpenWorkPackages
+                   when "to_do"
+                     Queries::Operators::ToDoWorkPackages
+                   when "in_progress"
+                     Queries::Operators::InProgressWorkPackages
                    when "c"
                      Queries::Operators::ClosedWorkPackages
                    when "*"

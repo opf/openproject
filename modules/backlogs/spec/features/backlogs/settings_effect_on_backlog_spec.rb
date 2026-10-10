@@ -33,8 +33,8 @@ require_relative "../../support/pages/backlog"
 require_relative "../../support/pages/projects/settings/backlogs"
 
 RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
-  let!(:done_like_status) { create(:status, name: "Done-like status", is_closed: false) }
-  let!(:in_progress_status) { create(:status, name: "In progress", is_closed: false) }
+  let!(:done_like_status) { create(:status, name: "Done-like status", category: "open") }
+  let!(:in_progress_status) { create(:status, name: "In progress", category: "open") }
 
   let!(:included_type) { create(:type_feature, name: "Story") }
   let!(:excluded_type) { create(:type_task, name: "Chore") }

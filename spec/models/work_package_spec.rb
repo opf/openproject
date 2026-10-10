@@ -395,14 +395,14 @@ RSpec.describe WorkPackage do
       create(:status,
              name: "New",
              is_default: true,
-             is_closed: false,
+             category: "open",
              default_done_ratio: 50)
     end
     shared_let(:status_assigned) do
       create(:status,
              name: "Assigned",
              is_default: true,
-             is_closed: false,
+             category: "open",
              default_done_ratio: 0)
     end
     shared_let(:work_package_new) do

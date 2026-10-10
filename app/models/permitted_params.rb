@@ -644,7 +644,7 @@ class PermittedParams
           color_id
           default_done_ratio
           excluded_from_totals
-          is_closed
+          category
           is_default
           is_readonly
           move_to

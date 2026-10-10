@@ -52,8 +52,8 @@ RSpec.describe Notifications::CreateDateAlertsNotificationsJob::AlertableWorkPac
   shared_let(:project) { create(:project, name: "main", members: { user => role }) }
   shared_let(:other_project) { create(:project, name: "other", members: { user => role }) }
 
-  shared_let(:status_open) { create(:status, name: "open", is_closed: false) }
-  shared_let(:status_closed) { create(:status, name: "closed", is_closed: true) }
+  shared_let(:status_open) { create(:status, name: "open", category: "open") }
+  shared_let(:status_closed) { create(:status, name: "closed", category: "closed") }
 
   shared_let(:alertable_work_packages) do
     create_list(:work_package, 3, project:, author: user)

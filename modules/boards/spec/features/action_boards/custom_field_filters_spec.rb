@@ -52,7 +52,7 @@ RSpec.describe "Custom field filter in boards",
 
   let!(:priority) { create(:default_priority) }
   let!(:open_status) { create(:default_status, name: "Open") }
-  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:closed_status) { create(:status, category: "closed", name: "Closed") }
 
   let!(:work_package) do
     wp = build(:work_package,

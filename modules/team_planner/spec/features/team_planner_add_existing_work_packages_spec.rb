@@ -35,7 +35,7 @@ RSpec.describe "Team planner add existing work packages",
                :selenium do
   include_context "with team planner full access"
 
-  let(:closed_status) { create(:status, is_closed: true) }
+  let(:closed_status) { create(:status, category: "closed") }
   let(:start_of_week) { Time.zone.today.beginning_of_week(:sunday) }
 
   let!(:other_user) do

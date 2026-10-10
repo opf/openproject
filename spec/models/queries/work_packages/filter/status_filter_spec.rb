@@ -106,5 +106,19 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
           .to be_ar_object_filter
       end
     end
+
+    describe "#available_operators" do
+      it "includes status category operators in the correct order" do
+        expect(instance.available_operators).to eq([
+          Queries::Operators::OpenWorkPackages,
+          Queries::Operators::ToDoWorkPackages,
+          Queries::Operators::InProgressWorkPackages,
+          Queries::Operators::ClosedWorkPackages,
+          Queries::Operators::EqualsOr,
+          Queries::Operators::NotEquals,
+          Queries::Operators::All
+        ])
+      end
+    end
   end
 end

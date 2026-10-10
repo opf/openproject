@@ -34,8 +34,8 @@ RSpec.describe WorkPackages::Scopes::BacklogEligible do
   let(:user) { create(:admin) }
   let(:included_type) { create(:type, name: "Story") }
   let(:excluded_type) { create(:type, name: "Task") }
-  let(:open_status) { create(:status, is_closed: false) }
-  let(:done_status) { create(:status, is_closed: true) }
+  let(:open_status) { create(:status, category: "open") }
+  let(:done_status) { create(:status, category: "closed") }
   let(:project) do
     create(:project,
            enabled_module_names: %w[backlogs],

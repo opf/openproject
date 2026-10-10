@@ -28,23 +28,51 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::Projects::SetAttributesServicePatch
-  def self.included(base)
-    base.prepend InstanceMethods
+require "spec_helper"
+
+RSpec.describe Queries::Operators::ClosedWorkPackages do
+  describe ".label_key" do
+    it "returns the correct label key" do
+      expect(described_class.label_key).to eq("label_closed_work_packages")
+    end
   end
 
-  module InstanceMethods
-    private
+  describe ".symbol" do
+    it "returns the correct symbol" do
+      expect(described_class.symbol).to eq("c")
+    end
+  end
 
-    def set_attributes(params)
-      super
+  describe ".requires_value?" do
+    it "does not require a value" do
+      expect(described_class.requires_value?).to be false
+    end
+  end
 
-      return unless params.key?(:done_status_ids)
+  describe ".sql_for_field" do
+    it "returns SQL condition for closed status category" do
+      expected_sql = "#{Status.table_name}.category = 'closed'"
 
-      # Statuses marked as globally closed are mandatory and must always be
-      # included regardless of what the user submitted.
-      mandatory_ids = Status.closed.ids
-      model.done_status_ids = (model.done_status_ids | mandatory_ids) if mandatory_ids.any?
+      expect(described_class.sql_for_field([], nil, nil))
+        .to eq(expected_sql)
+    end
+  end
+
+  describe ".human_name" do
+    it "returns the localized name" do
+      expect(described_class.human_name).to eq(I18n.t("label_closed_work_packages"))
+    end
+  end
+
+  describe ".to_sym" do
+    it "returns the symbol as a symbol" do
+      expect(described_class.to_sym).to eq(:c)
+    end
+  end
+
+  describe ".to_query" do
+    it "returns the URL-escaped symbol" do
+      expect(described_class.to_query).to eq("c")
     end
   end
 end

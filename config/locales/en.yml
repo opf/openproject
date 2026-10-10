@@ -400,10 +400,14 @@ en:
         authentication_method: "Authentication method"
         jwt_sub: "Subject claim"
       status:
+        category: "Category"
         default_done_ratio: "% Complete"
         excluded_from_totals: "Exclude from calculation of totals in hierarchy"
-        is_closed: "Work package closed"
         is_readonly: "Work package read-only"
+      status/category:
+        closed: "Closed"
+        in_progress: "In progress"
+        to_do: "To-do"
       subproject_template_assignment:
         workspace_type: "Workspace type"
       time_entry:
@@ -4174,6 +4178,7 @@ en:
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
+  label_in_progress_work_packages: "in progress"
   label_inactive: "Inactive"
   label_include_sub_projects: Include sub-projects
   label_includes: "includes"
@@ -4325,7 +4330,7 @@ en:
   label_on: "on"
   label_open: "open"
   label_open_menu: "Open menu"
-  label_open_work_packages: "open"
+  label_open_work_packages: "open (to-do + in progress)"
   label_open_work_packages_plural: "open"
   label_openproject_website: "OpenProject website"
   label_operator_all: "is not empty"
@@ -4531,6 +4536,7 @@ en:
   label_time_entry_plural: "Spent time"
   label_timer_since: "Started at %{time}"
   label_title: "Title"
+  label_to_do_work_packages: "to-do"
   label_today: "today"
   label_today_as_date: "Select today as date."
   label_today_as_due_date: "Select today as finish date."
@@ -4643,6 +4649,10 @@ en:
     one: "1 file"
     other: "%{count} files"
     zero: "no files"
+  label_x_in_progress_work_packages_abbr:
+    one: "1 in progress"
+    other: "%{count} in progress"
+    zero: "0 in progress"
   label_x_items:
     one: "1 item"
     other: "%{count} items"
@@ -4658,6 +4668,10 @@ en:
     one: "1 project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_to_do_work_packages_abbr:
+    one: "1 to-do"
+    other: "%{count} to-do"
+    zero: "0 to-do"
   label_x_work_packages:
     one: "1 work package"
     other: "%{count} work packages"
@@ -6882,6 +6896,11 @@ en:
 
   statuses:
     edit:
+      captions:
+        category:
+          closed: "Work that has been completed."
+          in_progress: "Work that is actively being worked on."
+          to_do: "Work that has not yet started."
       status_color_text: |
         Click to assign or change the color of this status.
         It is shown in the status button and can be used for highlighting work packages in the table.

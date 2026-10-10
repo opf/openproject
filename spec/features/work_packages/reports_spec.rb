@@ -36,7 +36,7 @@ RSpec.describe "work package reports", :js do
 
   let(:type_a) do
     create(:type_with_workflow, name: "Type A").tap do |t|
-      t.default_variant.statuses.last.update_attribute(:is_closed, true)
+      t.default_variant.statuses.last.update_attribute(:category, "closed")
     end
   end
   let(:type_a_statuses) { type_a.default_variant.statuses }

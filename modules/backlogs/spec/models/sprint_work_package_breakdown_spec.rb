@@ -55,7 +55,7 @@ RSpec.describe SprintWorkPackageBreakdown do
   let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:type_feature) { create(:type_feature) }
   let(:issue_open) { create(:status, name: "Open", is_default: true) }
-  let(:issue_closed) { create(:status, name: "Closed", is_closed: true) }
+  let(:issue_closed) { create(:status, name: "Closed", category: "closed") }
 
   current_user { create(:user, member_with_roles: { project => role }) }
 

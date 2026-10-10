@@ -3,6 +3,7 @@ value:
   _type: Status
   id: 13
   name: Waiting for Darth-approval
+  category: to_do
   isClosed: false
   color: '#FE005D'
   isDefault: false

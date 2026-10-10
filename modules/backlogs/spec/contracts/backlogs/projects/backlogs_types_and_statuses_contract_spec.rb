@@ -52,7 +52,7 @@ RSpec.describe Backlogs::Projects::BacklogsTypesAndStatusesContract, type: :mode
 
   describe "validations" do
     context "with valid done statuses and excluded types" do
-      let!(:open_status) { create(:status, is_closed: false) }
+      let!(:open_status) { create(:status, category: "open") }
 
       before do
         project.done_status_ids = [open_status.id]
