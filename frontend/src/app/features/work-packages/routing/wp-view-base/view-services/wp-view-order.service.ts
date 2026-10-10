@@ -32,8 +32,6 @@ import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
-import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { MAX_ORDER, buildDelta } from 'core-app/shared/helpers/drag-and-drop/reorder-delta-builder';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -43,6 +41,11 @@ import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-or
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { firstValueFrom } from 'rxjs';
 
+export interface PreparedQueryOrder {
+  readonly order:readonly string[];
+  persist():Promise<void>;
+}
+
 @Injectable()
 export class WorkPackageViewOrderService extends WorkPackageQueryStateService<QueryOrder> {
   protected readonly apiV3Service = inject(ApiV3Service);
@@ -51,17 +54,17 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
   protected readonly wpTableSortBy = inject(WorkPackageViewSortByService);
   protected readonly pathHelper = inject(PathHelperService);
 
-  public initialize(query:QueryResource, results:WorkPackageCollectionResource, schema?:QuerySchemaResource):Promise<unknown> {
+  private readonly pendingPositions = new WeakMap<QueryResource, Promise<QueryOrder>>();
+
+  public initialize(query:QueryResource):void {
     // Take over our current value if the query is not saved
     if (!isPersistedResource(query) && this.positions.hasValue()) {
       this.applyToQuery(query);
     }
 
     if (this.wpTableSortBy.isManualSortingMode) {
-      return this.withLoadedPositions();
+      void this.withLoadedPositions().catch((error:unknown) => console.error('Query order initialization failed', error));
     }
-
-    return Promise.resolve();
   }
 
   /**
@@ -72,16 +75,7 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * displacing an unrelated work package and persisting a position for it.
    */
   public async move(order:string[], wpId:string, toIndex:number):Promise<string[]> {
-    // Find index of the work package
-    const fromIndex:number = order.findIndex((id) => id === wpId);
-
-    if (fromIndex === -1) {
-      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
-    }
-
-    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
-      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
-    }
+    const fromIndex = this.validateMove(order, wpId, toIndex);
 
     order.splice(fromIndex, 1);
     order.splice(toIndex, 0, wpId);
@@ -182,28 +176,112 @@ export class WorkPackageViewOrderService extends WorkPackageQueryStateService<Qu
    * Initialize (or load if persisted) the order for the query space
    */
   public withLoadedPositions():Promise<QueryOrder> {
-    if (isPersistedResource(this.currentQuery)) {
-      const { value } = this.positions;
+    const query = this.currentQuery;
+    if (isPersistedResource(query)) return this.positionsFor(query);
+    if (this.positions.isPristine()) this.positions.putValue({});
+    return firstValueFrom(this.positions.values$());
+  }
 
-      // Remove empty or stale values given we can reload them
-      if (((value == null || Object.keys(value).length === 0) || this.positions.isValueOlderThan(60000))) {
-        this.positions.clear('Clearing old positions value');
-      }
-
-      // Load the current order from backend
-      this.positions.putFromPromiseIfPristine(
-        () => this
-          .apiV3Service
-          .queries.id(this.currentQuery)
-          .order
-          .get(),
-      );
-    } else if (this.positions.isPristine()) {
-      // Insert an empty fallback in case we have no data yet
-      this.positions.putValue({});
+  public positionsFor(query:QueryResource):Promise<QueryOrder> {
+    const positionsState = this.positions;
+    const isCurrent = this.querySpace.query.value === query;
+    if (!isPersistedResource(query)) {
+      return Promise.resolve({
+        ...query.orderedWorkPackages as QueryOrder,
+        ...(isCurrent ? positionsState.getValueOr({}) : {}),
+      });
     }
 
-    return firstValueFrom(this.positions.values$());
+    const { value } = positionsState;
+    if (isCurrent && value && Object.keys(value).length > 0 && !positionsState.isValueOlderThan(60000)) {
+      return Promise.resolve({ ...value });
+    }
+
+    const existing = this.pendingPositions.get(query);
+    if (existing) return existing.then((positions) => ({ ...positions }));
+    const endpoint = this.apiV3Service.queries.id(query);
+    if (isCurrent) positionsState.clear('Clearing old positions value');
+    const beforeLoad = positionsState.value;
+    const loading = endpoint.order.get().then((positions) => {
+      if (this.querySpace.query.value === query && positionsState.value === beforeLoad) {
+        positionsState.putValue({ ...positions });
+      }
+      return positions;
+    }).finally(() => this.pendingPositions.delete(query));
+    this.pendingPositions.set(query, loading);
+    return loading.then((positions) => ({ ...positions }));
+  }
+
+  public async prepareMove(
+    query:QueryResource,
+    order:readonly string[],
+    wpId:string,
+    toIndex:number,
+    isCurrent:() => boolean,
+  ):Promise<PreparedQueryOrder> {
+    const fromIndex = this.validateMove(order, wpId, toIndex);
+    const reordered = [...order];
+    reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, wpId);
+    return this.preparePosition(query, reordered, wpId, toIndex, isCurrent, fromIndex);
+  }
+
+  private validateMove(order:readonly string[], wpId:string, toIndex:number):number {
+    const fromIndex = order.findIndex((id) => id === wpId);
+    if (fromIndex === -1) {
+      throw new Error(`Cannot move work package ${wpId}: not in the current order.`);
+    }
+    if (!Number.isInteger(toIndex) || toIndex < 0 || toIndex >= order.length) {
+      throw new Error(`Cannot move work package ${wpId} to index ${toIndex}: out of bounds.`);
+    }
+    return fromIndex;
+  }
+
+  public async prepareAdd(
+    query:QueryResource,
+    order:readonly string[],
+    wpId:string,
+    isCurrent:() => boolean,
+    toIndex = -1,
+  ):Promise<PreparedQueryOrder> {
+    const index = toIndex === -1 ? order.length : toIndex;
+    if (!Number.isInteger(index) || index < 0 || index > order.length) {
+      throw new Error(`Cannot add work package ${wpId} to index ${index}: out of bounds.`);
+    }
+    const reordered = [...order];
+    reordered.splice(index, 0, wpId);
+    return this.preparePosition(query, reordered, wpId, index, isCurrent);
+  }
+
+  private async preparePosition(
+    query:QueryResource,
+    reordered:string[],
+    wpId:string,
+    toIndex:number,
+    isCurrent:() => boolean,
+    fromIndex:number|null = null,
+  ):Promise<PreparedQueryOrder> {
+    const savedEndpoint = isPersistedResource(query) ? this.apiV3Service.queries.id(query) : undefined;
+    const causedUpdates = this.causedUpdates;
+    const querySpace = this.querySpace;
+    const positionsState = this.positions;
+    const positions = await this.positionsFor(query);
+    const delta = buildDelta(reordered, positions, wpId, toIndex, fromIndex);
+    const updatedPositions = { ...positions, ...delta };
+    return {
+      order: reordered,
+      persist: async () => {
+        if (savedEndpoint) {
+          query.updatedAt = await savedEndpoint.order.update(delta);
+          causedUpdates.add(query);
+        }
+        query.orderedWorkPackages = updatedPositions;
+        if (isCurrent() && querySpace.query.value === query) {
+          positionsState.putValue(updatedPositions);
+          querySpace.query.putValue(query);
+        }
+      },
+    };
   }
 
   public valueFromQuery(query:QueryResource) {

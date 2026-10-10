@@ -332,6 +332,13 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       pagination.expect_range(1, 4, 4)
       pagination.expect_no_per_page_options
+
+      # The table keeps accepting drops once the query was saved
+      wp_table.drag_and_drop_work_package from: 0, to: 2
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
+
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
     end
   end
 
@@ -359,7 +366,11 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
       wp_table.drag_and_drop_work_package from: 0, to: 2
 
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
       expect_query_order(query, [work_package3.id, work_package1.id, work_package2.id])
+
+      wp_table.visit_query query
+      wp_table.expect_work_package_order work_package3, work_package1, work_package2, work_package4
     end
 
     it "keeps the source row visible as a placeholder and collapses multi-selection" do
@@ -501,6 +512,13 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
         wp_table.drag_and_drop_work_package from: 1, to: 3
         wp_table.expect_work_package_order work_package4, work_package2, work_package3, work_package1
         wp_timeline.expect_work_package_order work_package4, work_package2, work_package3, work_package1
+        wp_timeline.expect_row_count(4)
+
+        # The re-rendered table and timeline keep accepting drops
+        wp_table.drag_and_drop_work_package from: 0, to: 2
+        wp_table.expect_work_package_order work_package2, work_package4, work_package3, work_package1
+        wp_timeline.expect_work_package_order work_package2, work_package4, work_package3, work_package1
+        wp_timeline.expect_row_count(4)
       end
     end
   end

@@ -26,14 +26,13 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
+import { PreparedTableDragAction, TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
 import { locatePredecessorBySelector } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { groupIdentifier } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-rows-helpers';
-import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -44,8 +43,6 @@ export class GroupByDragActionService extends TableDragActionService {
   @LazyInject() halEditing:HalResourceEditingService;
 
   @LazyInject() halEvents:HalEventsService;
-
-  @LazyInject() halNotification:HalResourceNotificationService;
 
   @LazyInject() schemaCache:SchemaCacheService;
 
@@ -61,15 +58,20 @@ export class GroupByDragActionService extends TableDragActionService {
     return attribute !== null && this.schemaCache.of(workPackage).isAttributeEditable(attribute);
   }
 
-  public handleDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<unknown> {
-    const changeset = this.halEditing.changeFor(workPackage);
-    const groupedValue = this.getValueForGroup(workPackage, el);
-
-    changeset.projectedResource[this.groupedAttribute!] = groupedValue;
-    return this.halEditing
-      .save(changeset)
-      .then((saved) => this.halEvents.push(saved.resource, { eventType: 'updated' }))
-      .catch((e) => this.halNotification.handleRawError(e, workPackage));
+  public prepareDrop(workPackage:WorkPackageResource, el:HTMLElement):Promise<PreparedTableDragAction> {
+    const attribute = this.groupedAttribute;
+    if (!attribute) throw new Error('Missing grouped attribute');
+    const value = this.getValueForGroup(workPackage, el);
+    const editing = this.halEditing;
+    const events = this.halEvents;
+    return Promise.resolve({
+      persist: async () => {
+        const changeset = editing.changeFor(workPackage);
+        changeset.projectedResource[attribute] = value;
+        const saved = await editing.save(changeset);
+        events.push(saved.resource, { eventType: 'updated' });
+      },
+    });
   }
 
   private getValueForGroup(workPackage:WorkPackageResource, el:HTMLElement):unknown {

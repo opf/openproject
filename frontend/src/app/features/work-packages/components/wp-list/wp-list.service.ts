@@ -60,6 +60,10 @@ export interface QueryDefinition {
   projectIdentifier?:string;
 }
 
+export interface PreparedQuerySave {
+  persist():Promise<QueryResource>;
+}
+
 @Injectable()
 export class WorkPackagesListService {
   readonly injector = inject(Injector);
@@ -327,6 +331,90 @@ export class WorkPackagesListService {
     return promise;
   }
 
+  public async prepareSave(
+    query:QueryResource,
+    isCurrent:(expectedQuery?:QueryResource) => boolean,
+  ):Promise<PreparedQuerySave> {
+    const api = this.apiV3Service;
+    const wasPersisted = isPersistedResource(query);
+    const endpoint = wasPersisted ? api.queries.id(query) : undefined;
+    const viewType = wasPersisted ? undefined : this.wpQueryView.viewType;
+    const toast = this.toastService;
+    const states = this.states;
+    const initialization = this.wpStatesInitialization;
+    const creationName = this.I18n.t('js.work_packages.default_queries.manually_sorted');
+    const createdMessage = this.I18n.t('js.notice_successful_create');
+    const updatedMessage = this.I18n.t('js.notice_successful_update');
+    const accessible = wasPersisted && (query.public || query.user.id === this.currentUser.userId);
+    const capturedUrl = window.location.href;
+    const pagination = { offset: 1, pageSize: this.wpTablePagination.current.perPage };
+    const projectIdentifier = query.project?.href?.split('/').pop();
+    const currentForm = this.querySpace.queryForm.value;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const form = this.querySpace.query.value === query && currentForm && query.$links.update?.href === currentForm.href
+      ? currentForm
+      : (await firstValueFrom(api.queries.form.load(query)))[0];
+    const reportFollowUpError = (error:unknown) => toast.addError(error instanceof Error ? error.message : String(error));
+
+    const followCreated = async (saved:QueryResource):Promise<void> => {
+      if (!isCurrent()) return;
+      const loaded = await firstValueFrom(this.loadQueryFromExisting(saved, pagination, projectIdentifier));
+      if (!isCurrent()) return;
+      const [loadedForm] = await firstValueFrom(api.queries.form.load(loaded));
+      if (!isCurrent()) return;
+      this.navigateToQueryOnNonRouterPage(loaded.id);
+      this.reloadSidemenu(loaded.id);
+      initialization.initialize(loaded, loaded.results);
+      if (isCurrent(loaded)) initialization.updateStatesFromForm(loaded, loadedForm);
+    };
+    const followDefault = async ():Promise<void> => {
+      if (!isCurrent()) return;
+      const href = this.defaultViewUrl(capturedUrl);
+      if (href) {
+        window.location.href = href;
+        return;
+      }
+      const fallback = await firstValueFrom(api.queries.find({ pageSize: pagination.pageSize }, undefined, projectIdentifier));
+      if (!isCurrent()) return;
+      const [fallbackForm] = await firstValueFrom(api.queries.form.load(fallback));
+      if (!isCurrent()) return;
+      this.reloadSidemenu(null);
+      initialization.initialize(fallback, fallback.results);
+      if (isCurrent(fallback)) initialization.updateStatesFromForm(fallback, fallbackForm);
+    };
+    const followSaved = (saved:QueryResource):void => {
+      if (!isCurrent()) return;
+      if (accessible) {
+        this.navigateToQueryOnNonRouterPage(saved.id);
+        this.reloadSidemenu(saved.id);
+      } else {
+        void followDefault().catch(reportFollowUpError);
+      }
+    };
+
+    return {
+      persist: async () => {
+        if (endpoint) {
+          const saved = await firstValueFrom(endpoint.patch(query, form));
+          toast.addSuccess(updatedMessage);
+          states.changes.queries.next(saved.id!);
+          try {
+            followSaved(saved);
+          } catch (error:unknown) {
+            reportFollowUpError(error);
+          }
+          return saved;
+        }
+        query.name = creationName;
+        const created = await firstValueFrom(this.createQueryAndView(query, form, viewType));
+        toast.addSuccess(createdMessage);
+        states.changes.queries.next(created.id!);
+        void followCreated(created).catch(reportFollowUpError);
+        return created;
+      },
+    };
+  }
+
   public async createOrSave(query:QueryResource):Promise<unknown> {
     if (!isPersistedResource(query)) {
       return this.create(query, this.I18n.t('js.work_packages.default_queries.manually_sorted'));
@@ -419,7 +507,7 @@ export class WorkPackagesListService {
     });
   }
 
-  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined) {
+  private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined, viewType = this.wpQueryView.viewType) {
     return this
       .apiV3Service
       .queries
@@ -427,7 +515,7 @@ export class WorkPackagesListService {
       .pipe(
         switchMap((createdQuery) => this
           .wpQueryView
-          .create(createdQuery)
+          .create(createdQuery, viewType)
           .pipe(
             mapTo(createdQuery),
           )),
@@ -435,16 +523,9 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    const { pathname } = window.location;
-
-    // Calendars and team planners address the shown query by an :id path segment
-    // (e.g. /calendars/42), so deleting it needs a hard reload onto the 'new'
-    // pseudo-path (the default, unsaved view) rather than an in-place query swap.
-    if (pathname.includes('/calendars/') || pathname.includes('/team_planners/')) {
-      const url = new URL(window.location.href);
-      url.pathname = pathname.replace(/\/[^/]+$/, '/new');
-      url.search = '';
-      window.location.href = url.href;
+    const href = this.defaultViewUrl(window.location.href);
+    if (href) {
+      window.location.href = href;
       return;
     }
 
@@ -457,6 +538,14 @@ export class WorkPackagesListService {
 
     this.states.changes.queries.next(query.id);
     this.reloadSidemenu(null);
+  }
+
+  private defaultViewUrl(href:string):string|undefined {
+    const url = new URL(href);
+    if (!url.pathname.includes('/calendars/') && !url.pathname.includes('/team_planners/')) return undefined;
+    url.pathname = url.pathname.replace(/\/[^/]+$/, '/new');
+    url.search = '';
+    return url.href;
   }
 
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {

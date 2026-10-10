@@ -26,6 +26,7 @@
 //++
 
 import { Injector } from '@angular/core';
+import { runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -51,6 +52,12 @@ export class WorkPackageTimelineCellsRenderer {
       milestone: new TimelineMilestoneCellRenderer(this.injector, wpTimeline),
       generic: new TimelineCellRenderer(this.injector, wpTimeline),
     };
+  }
+
+  public destroy():void {
+    const cells = Object.values(this.cells);
+    this.cells = {};
+    cells.forEach((cell) => runCleanup(() => cell.clear()));
   }
 
   public hasCell(wpId:string) {

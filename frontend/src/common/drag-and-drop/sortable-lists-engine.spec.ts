@@ -367,6 +367,7 @@ describe('createSortableRoot', () => {
     it('destroying with a pending transaction clears busy and allows a fresh root to drag', async () => {
       const { root, rows, transactions, sortableRoot } = setup();
       const simulation = new NativeDragSimulation(rows[0]);
+      const freshTransactions:SortableDropTransaction[] = [];
 
       await simulation.start();
       await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
@@ -383,7 +384,10 @@ describe('createSortableRoot', () => {
       const freshIntents:SortableDropIntent[] = [];
       const freshRoot = createSortableRoot({
         element: root,
-        onDrop: (transaction) => freshIntents.push(transaction.intent),
+        onDrop: (transaction) => {
+          freshIntents.push(transaction.intent);
+          freshTransactions.push(transaction);
+        },
       });
       const freshListCleanup = freshRoot.registerList({ element: root, listId: 'l1' });
       const freshItemCleanups = rows.map((row, index) => freshRoot.registerItem({
@@ -396,10 +400,50 @@ describe('createSortableRoot', () => {
       const freshSimulation = new NativeDragSimulation(rows[0]);
       await freshSimulation.start();
       await freshSimulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      expect(root.getAttribute('data-sortable-lists-busy')).toBe('true');
+
+      // The old completion queues a UI settle after this replacement root
+      // has claimed the shared busy marker. Its promise still resolves.
+      transactions[0].complete(false);
+      transactions[0].finalize();
+      transactions[0].complete(true);
+      transactions[0].finalize();
+      await expect(transactions[0].completion).resolves.toBe(false);
+      expect(root.getAttribute('data-sortable-lists-busy')).toBe('true');
+
+      freshTransactions[0].complete(true);
+      freshTransactions[0].complete(false);
+      freshTransactions[0].finalize();
+      freshTransactions[0].finalize();
+      await expect(freshTransactions[0].completion).resolves.toBe(true);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+
+      const thirdSimulation = new NativeDragSimulation(rows[0]);
+      await thirdSimulation.start();
+      await thirdSimulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
 
       expect(freshIntents).toEqual([{
         sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom', axis: 'vertical',
+      }, {
+        sourceId: 'a', sourceListId: 'l1', targetListId: 'l1', targetItemId: 'c', edge: 'bottom', axis: 'vertical',
       }]);
+      freshTransactions[1].complete(false);
+      await freshTransactions[1].completion;
+    });
+
+    it('resolves completion queued before root destruction', async () => {
+      const { root, rows, transactions, sortableRoot } = setup();
+      const simulation = new NativeDragSimulation(rows[0]);
+
+      await simulation.start();
+      await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      const transaction = transactions[0];
+
+      transaction.complete(true);
+      sortableRoot.destroy();
+
+      await expect(transaction.completion).resolves.toBe(true);
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
     });
 
     it('registerList and registerItem are inert no-ops after destroy', async () => {
@@ -553,6 +597,19 @@ describe('createSortableRoot', () => {
       transaction.complete(true);
       await transaction.completion;
 
+      expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
+    });
+
+    it('same-list failed transactions resolve failure and clear busy', async () => {
+      const { root, rows, transactions } = setup();
+      const simulation = new NativeDragSimulation(rows[0]);
+
+      await simulation.start();
+      await simulation.drop(rows[2], towardsEdgeOf(rows[2], 'bottom'));
+      const transaction = transactions[0];
+
+      transaction.complete(false);
+      await expect(transaction.completion).resolves.toBe(false);
       expect(root.hasAttribute('data-sortable-lists-busy')).toBe(false);
     });
 

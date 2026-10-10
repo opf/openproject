@@ -299,6 +299,7 @@ RSpec.describe "Work package index sums", :js do
 
       # Expect 2 work packages shown
       expect(page).to have_row("WorkPackage", count: 2) # works because the subject name includes "WorkPackage"
+      expect(page).to have_row("Total sum", count: 1)
 
       # Expect the total sums row to have changed
       aggregate_failures do

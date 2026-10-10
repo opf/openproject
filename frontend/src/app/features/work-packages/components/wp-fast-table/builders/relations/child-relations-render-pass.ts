@@ -99,6 +99,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
   }
 
   private loadMissingTargets(ids:string[]) {
+    if (this.tablePass.workPackageTable.destroyed) return;
     const uniqueIds = Array.from(new Set(ids));
 
     if (uniqueIds.length === 0 || this.loadingMissingTargets) {
@@ -110,6 +111,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
     void this.apiV3Service.work_packages.requireAll(uniqueIds)
       .then(() => {
         this.loadingMissingTargets = false;
+        if (this.tablePass.workPackageTable.destroyed) return;
         this.tablePass.workPackageTable.redrawTable();
       })
       .catch(() => {

@@ -36,6 +36,9 @@ import { HalEventsService } from 'core-app/features/hal/services/hal-events.serv
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { take } from 'rxjs/operators';
+import { lastValueFrom } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { onDestroySafely, runCleanup } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
 import {
@@ -44,7 +47,6 @@ import {
 } from './timeline-cell-renderer';
 import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
-import { target } from 'core-app/shared/helpers/event-helpers';
 
 export function registerWorkPackageMouseHandler(this:void,
   injector:Injector,
@@ -58,15 +60,47 @@ export function registerWorkPackageMouseHandler(this:void,
   bar:HTMLDivElement,
   labels:WorkPackageCellLabels,
   renderer:TimelineCellRenderer,
-  renderInfo:RenderInfo):void {
+  renderInfo:RenderInfo):() => void {
+  const table = workPackageTimeline.workPackageTable;
+  const tableDestroyRef = table.destroyRef;
+  let disposed = false;
+  const alive = () => !disposed && !workPackageTimeline.destroyRef.destroyed
+    && !tableDestroyRef.destroyed && workPackageTimeline.workPackageTable === table;
+  if (!alive()) return () => undefined;
+
+  const bodyCleanups:(() => void)[] = [];
+  const cellCleanups = new Map<string, () => void>();
+  const cellHandlers = new Map<string, (event:MouseEvent) => void>();
+  const listenBody = <K extends keyof HTMLElementEventMap>(type:K, callback:(event:HTMLElementEventMap[K]) => void) => {
+    const listener = callback;
+    document.body.addEventListener(type, listener);
+    bodyCleanups.push(() => document.body.removeEventListener(type, listener));
+  };
+  const assignCell = (
+    key:'onmousemove'|'onmousedown'|'onmouseup'|'onmouseleave',
+    callback:(event:MouseEvent) => void,
+  ) => {
+    const listener = (event:MouseEvent) => { if (alive()) callback(event); };
+    cell[key] = listener;
+    cellHandlers.set(key, listener);
+    cellCleanups.set(key, () => { if (cell[key] === listener) cell[key] = null; });
+  };
+  const clearBody = () => bodyCleanups.splice(0).forEach((cleanup) => runCleanup(cleanup));
+  const resource = renderInfo.workPackage;
+  const originalPointerEvents = bar.style.pointerEvents;
+  const originalCursor = cell.style.cursor;
+  let assignedCursor:string|undefined;
+  const setCursor = (cursor:string) => { cell.style.cursor = cursor; assignedCursor = cursor; };
+
+  let gestureActive = false;
   let mouseDownStartDay:number|null = null; // also flag to signal active drag'n'drop
   renderInfo.change = halEditing.changeFor(renderInfo.workPackage);
 
   let placeholderForEmptyCell:HTMLElement;
-  const bodyTarget = target(document.body);
 
   // handles change to existing work packages
-  bar.onmousedown = (ev:MouseEvent) => {
+  const barMouseDown = (ev:MouseEvent) => {
+    if (!alive()) return;
     if (!ev.button || ev.button === 0) {
       // Left click only
       workPackageMouseDownFn(ev);
@@ -74,7 +108,40 @@ export function registerWorkPackageMouseHandler(this:void,
   };
 
   // handles initial creation of start/due values
-  cell.onmousemove = handleMouseMoveOnEmptyCell;
+  assignCell('onmousemove', handleMouseMoveOnEmptyCell);
+
+  bar.addEventListener('mousedown', barMouseDown);
+  let releaseController:() => void = () => undefined;
+  let releaseTable:() => void = () => undefined;
+  function clearInput() {
+    clearBody();
+    runCleanup(() => placeholderForEmptyCell?.remove());
+    runCleanup(() => bar.classList.remove('active-drag'));
+    runCleanup(() => { bar.style.pointerEvents = originalPointerEvents; });
+    if (gestureActive && workPackageTimeline.workPackageTable === table) {
+      runCleanup(() => workPackageTimeline.resetCursor());
+    }
+    gestureActive = false;
+    if (assignedCursor !== undefined && cell.style.cursor === assignedCursor
+      && cell.onmousemove === cellHandlers.get('onmousemove')) {
+      runCleanup(() => { cell.style.cursor = originalCursor; });
+    }
+    if (workPackageTimeline.workPackageTable === table) workPackageTimeline.disableViewParamsCalculation = false;
+    mouseDownStartDay = null;
+  }
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    clearInput();
+    cellCleanups.forEach((cleanup) => runCleanup(cleanup));
+    cellCleanups.clear();
+    cellHandlers.clear();
+    runCleanup(() => bar.removeEventListener('mousedown', barMouseDown));
+    if (!workPackageTimeline.destroyRef.destroyed) runCleanup(releaseController);
+    if (!tableDestroyRef.destroyed) runCleanup(releaseTable);
+  };
+  releaseController = onDestroySafely(workPackageTimeline.destroyRef, dispose);
+  releaseTable = onDestroySafely(tableDestroyRef, dispose);
 
   function applyRendererMoveChanges(dayUnderCursor:Moment, days:number, direction:MouseDirection) {
     const moved = renderer.onDaysMoved(renderInfo.change, dayUnderCursor, days, direction);
@@ -89,34 +156,37 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function workPackageMouseDownFn(ev:MouseEvent) {
+    if (!alive()) return;
     ev.preventDefault();
 
     // add/remove css class while drag'n'drop is active
     const classNameActiveDrag = 'active-drag';
     bar.classList.add(classNameActiveDrag);
-    bodyTarget.on('mouseup.timelinecell', () => bar.classList.remove(classNameActiveDrag));
 
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(ev);
+    gestureActive = true;
 
     // If this wp is a parent element, changing it is not allowed
     // if it is not on 'Manual scheduling' mode
     // But adding a relation to it is.
     if (!renderInfo.workPackage.isLeaf && !renderInfo.viewParams.activeSelectionMode && !renderInfo.workPackage.scheduleManually) {
+      listenBody('mouseup', () => { if (alive()) clearInput(); });
       return;
     }
 
     // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels);
 
-    bodyTarget.on('mousemove.timelinecell', createMouseMoveFn(direction));
-    bodyTarget.on('keydown.timelinecell', consumeEscape);
-    bodyTarget.on('keyup.timelinecell', keyPressFn);
-    bodyTarget.on('mouseup.timelinecell', () => deactivate(direction, false));
+    listenBody('mousemove', createMouseMoveFn(direction));
+    listenBody('keydown', consumeEscape);
+    listenBody('keyup', keyPressFn);
+    listenBody('mouseup', () => deactivate(direction, false));
   }
 
   function createMouseMoveFn(direction:MouseDirection) {
     return (ev:MouseEvent) => {
+      if (!alive()) return;
       const days = getCursorOffsetInDaysFromLeft(ev) - (mouseDownStartDay!);
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
@@ -128,18 +198,21 @@ export function registerWorkPackageMouseHandler(this:void,
   // Cancellation happens on keyup; the keydown half would otherwise clear
   // the row selection first.
   function consumeEscape(kev:KeyboardEvent) {
+    if (!alive()) return;
     if (kev.key === 'Escape') {
       kev.preventDefault();
     }
   }
 
   function keyPressFn(kev:KeyboardEvent) {
+    if (!alive()) return;
     if (kev.key === 'Escape') {
       deactivate(null, true);
     }
   }
 
   function handleMouseMoveOnEmptyCell(ev:MouseEvent) {
+    if (!alive()) return;
     const wp = renderInfo.workPackage;
 
     if (!renderer.isEmpty(wp)) {
@@ -155,21 +228,21 @@ export function registerWorkPackageMouseHandler(this:void,
       && !renderer.cursorOrDatesAreNonWorking(ev, renderInfo);
 
     if (!isEditable) {
-      cell.style.cursor = 'not-allowed';
+      setCursor('not-allowed');
       return;
     }
 
     // display placeholder only if the timeline is editable
-    cell.style.cursor = '';
+    setCursor('');
     cell.appendChild(placeholderForEmptyCell);
 
     // abort if mouse leaves cell
-    cell.onmouseleave = () => {
+    assignCell('onmouseleave', () => {
       placeholderForEmptyCell.remove();
-    };
+    });
 
     // create logic
-    cell.onmousedown = (evt) => {
+    assignCell('onmousedown', (evt) => {
       placeholderForEmptyCell.remove();
 
       evt.preventDefault();
@@ -178,6 +251,7 @@ export function registerWorkPackageMouseHandler(this:void,
         return;
       }
 
+      gestureActive = true;
       bar.style.pointerEvents = 'none';
 
       const [clickStart, offsetDayStart] = renderer.cursorDateAndDayOffset(evt, renderInfo);
@@ -190,20 +264,21 @@ export function registerWorkPackageMouseHandler(this:void,
         return;
       }
 
-      bodyTarget.on('mousemove.emptytimelinecell', mouseMoveOnEmptyCellFn(offsetDayStart, direction));
-      bodyTarget.on('mouseup.emptytimelinecell', () => deactivate(direction, false));
+      listenBody('mousemove', mouseMoveOnEmptyCellFn(offsetDayStart, direction));
+      listenBody('mouseup', () => deactivate(direction, false));
 
-      cell.onmouseup = () => {
+      assignCell('onmouseup', () => {
         deactivate(direction, false);
-      };
+      });
 
-      bodyTarget.on('keydown.timelinecell', consumeEscape);
-      bodyTarget.on('keyup.timelinecell', keyPressFn);
-    };
+      listenBody('keydown', consumeEscape);
+      listenBody('keyup', keyPressFn);
+    });
   }
 
   function mouseMoveOnEmptyCellFn(offsetDayStart:number, mouseDownType:MouseDirection) {
     return (ev:MouseEvent) => {
+      if (!alive()) return;
       placeholderForEmptyCell.remove();
       const relativePosition = Math.abs(cell.getBoundingClientRect().x - ev.clientX);
       const offsetDayCurrent = Math.floor(relativePosition / renderInfo.viewParams.pixelPerDay);
@@ -215,20 +290,13 @@ export function registerWorkPackageMouseHandler(this:void,
   }
 
   function deactivate(direction:MouseDirection|null, cancelled:boolean) {
+    if (!alive()) return;
     const change = renderInfo.change;
-    workPackageTimeline.disableViewParamsCalculation = false;
-
-    cell.onmousemove = handleMouseMoveOnEmptyCell;
-    cell.onmousedown = () => undefined;
-    cell.onmouseleave = () => undefined;
-    cell.onmouseup = () => undefined;
-
-    bar.style.pointerEvents = 'auto';
-
-    bodyTarget.off('.timelinecell');
-    bodyTarget.off('.emptytimelinecell');
-    workPackageTimeline.resetCursor();
-    mouseDownStartDay = null;
+    clearInput();
+    assignCell('onmousemove', handleMouseMoveOnEmptyCell);
+    assignCell('onmousedown', () => undefined);
+    assignCell('onmouseleave', () => undefined);
+    assignCell('onmouseup', () => undefined);
 
     // Cancel changes if the startDate or dueDate are not allowed
     const { startDate, dueDate } = change.projectedResource;
@@ -250,16 +318,18 @@ export function registerWorkPackageMouseHandler(this:void,
     // Persist the changes
     saveWorkPackage(renderInfo.change)
       .then(() => {
+        if (!alive()) return;
         renderInfo.change.clear();
         renderer.onMouseDownEnd(labels, renderInfo.change);
       })
       .catch((error) => {
-        notificationService.handleRawError(error, renderInfo.workPackage);
-        cancelChange();
+        notificationService.handleRawError(error, resource);
+        if (alive()) cancelChange();
       });
   }
 
   function cancelChange() {
+    if (!alive()) return;
     renderInfo.change.clear();
     renderer.update(bar, labels, renderInfo);
     renderer.onMouseDownEnd(labels, renderInfo.change);
@@ -272,21 +342,28 @@ export function registerWorkPackageMouseHandler(this:void,
 
     // Remember the time before saving the work package to know which work packages to update
     const updatedAt = moment().toISOString();
+    const ids = (querySpace.tableRendered.value ?? []).map((row) => row.workPackageId);
 
     return (loadingIndicator.table.promise = halEditing
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        const ids = (querySpace.tableRendered.value ?? []).map((row) => row.workPackageId);
         return apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)
           .get()
           .toPromise()
-          .then(() => {
+          .then(async () => {
             halEvents.push(result.resource, { eventType: 'updated' });
-            return querySpace.timelineRendered.pipe(take(1)).toPromise();
+            if (alive()) {
+              await lastValueFrom(querySpace.timelineRendered.pipe(
+                take(1),
+                takeUntilDestroyed(workPackageTimeline.destroyRef),
+                takeUntilDestroyed(tableDestroyRef),
+              ), { defaultValue: null });
+            }
           });
       }));
   }
+  return dispose;
 }

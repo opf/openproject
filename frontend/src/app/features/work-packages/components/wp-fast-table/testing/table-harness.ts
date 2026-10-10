@@ -27,11 +27,14 @@
 
 import { fireEvent } from '@testing-library/dom';
 import {
-  createEnvironmentInjector, EnvironmentInjector, EventEmitter, Injector, Type,
+  createEnvironmentInjector, DestroyRef, EnvironmentInjector, EventEmitter, Injector, Provider, Type,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom, of, Subject } from 'rxjs';
 import { skip, take } from 'rxjs/operators';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { QueryOrder } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-order';
+import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -46,6 +49,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
+import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
 import { TableDragActionsRegistryService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-actions-registry.service';
@@ -78,7 +82,6 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { DragAndDropService, DragMember } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { WorkPackageContextMenuHelperService } from 'core-app/features/work-packages/components/wp-table/context-menu-helper/wp-context-menu-helper.service';
 import type { Edge } from 'core-common/drag-and-drop/reorder';
-import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { rowGroupClassName } from '../builders/modes/grouped/grouped-classes.constants';
 import { TableHandlerRegistry } from '../handlers/table-handler-registry';
 import { locatePredecessorBySelector } from '../helpers/wp-table-row-helpers';
@@ -90,10 +93,16 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
+  providers?:Provider[];
+  /** Retains the root so a replacement table can mount with a fresh injector. */
+  dom?:ReturnType<typeof buildDom>;
   columns?:string[];
   /** Renders the table grouped by `groupBy` (default `status`) with one header row per group. */
   groups?:GroupFixture[];
@@ -104,12 +113,18 @@ export interface TableHarnessOptions {
   productionDefaults?:boolean;
   /** Overrides for the drag action service the drop handler resolves. */
   dragAction?:Partial<TableDragActionService>;
+  /** Uses the production action registry, including group and hierarchy actions. */
+  builtinDragActions?:boolean;
+  query?:QueryResource;
+  onDropComplete?:(success:boolean) => void;
   /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
   editing?:{ formWritable?:boolean };
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
   /** Shows the timeline side through the query, as a saved Gantt view does. */
   timelineVisible?:boolean;
+  requireAll?:(ids:string[]) => Promise<WorkPackageResource[]>;
+  loadPositions?:() => Promise<QueryOrder>;
 }
 
 export interface TableHarness {
@@ -158,14 +173,14 @@ const unbuildableColumns:WorkPackageTableConfigurationObject = {
 
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
-  const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
+  const injector = createEnvironmentInjector([...harnessProviders(dragService, options), ...(options.providers ?? [])], TestBed.inject(EnvironmentInjector));
   injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
-  const dom = buildDom();
+  const dom = options.dom ?? buildDom();
 
   const groupBy = options.groupBy ?? 'status';
-  const query = buildQuery(
+  const query = options.query ?? buildQuery(
     options.columns ?? ['id', 'subject'],
     options.groups ? groupBy : null,
     options.showHierarchies ?? false,
@@ -280,7 +295,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
 
     drop(sourceId, targetId, edge) {
       return new Promise((resolve) => {
-        dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, resolve);
+        dragService.memberOf(dom.tbody).onMoved({ sourceId, targetId, edge }, (success) => {
+          options.onDropComplete?.(success);
+          resolve(success);
+        });
       });
     },
 
@@ -295,23 +313,20 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
-    // The table redraws in a requestAnimationFrame followed by a setTimeout;
-    // wait those out so a pending redraw cannot fire into a destroyed injector.
-    async destroy() {
+    destroy() {
       if (destroyed) {
-        return;
+        return Promise.resolve();
       }
       destroyed = true;
-      await nextFrame();
-      await nextTask();
-      querySpace.stopAllSubscriptions.next();
+      table.destroy();
       dom.wrapper.remove();
       injector.destroy();
+      return Promise.resolve();
     },
   };
 }
 
-class FakeDragAndDropService {
+export class FakeDragAndDropService {
   private readonly members = new Map<HTMLElement, DragMember>();
 
   register(member:DragMember):void {
@@ -333,18 +348,31 @@ class FakeDragAndDropService {
 
 /** Stands in for the Angular editing portal: a plain input the edit handler can focus. */
 class FakeEditingPortalService {
-  create(container:HTMLElement):Promise<EditFieldHandler> {
+  create(container:HTMLElement, _injector:Injector, form:EditForm, _schema:IFieldSchema, fieldName:string, _errors:string[], destroyRef?:DestroyRef):Promise<EditFieldHandler> {
     const input = document.createElement('input');
+    input.className = 'inline-edit--field';
     container.appendChild(input);
-    return Promise.resolve({
+    const onDestroy = new Subject<void>();
+    let unregister:() => void = () => undefined;
+    const handler = {
+      onDestroy,
       $onUserActivate: new Subject<void>(),
       focus: () => input.focus(),
-      deactivate: () => input.remove(),
-    } as unknown as EditFieldHandler);
+      deactivate: () => {
+        input.remove();
+        delete form.activeFields[fieldName];
+        onDestroy.next();
+        onDestroy.complete();
+        unregister();
+        form.reset(fieldName);
+      },
+    } as unknown as EditFieldHandler;
+    if (destroyRef) unregister = onDestroySafely(destroyRef, () => handler.deactivate(false));
+    return Promise.resolve(handler);
   }
 }
 
-function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
+export function harnessProviders(dragService:FakeDragAndDropService, options:TableHarnessOptions) {
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
@@ -365,16 +393,21 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     WorkPackageViewHighlightingService,
     WorkPackageViewRelationColumnsService,
     WorkPackageViewOrderService,
+    { provide: WorkPackagesListService, useValue: {} },
     {
       provide: ApiV3Service,
       useFactory: (states:States) => ({
         work_packages: {
+          requireAll: options.requireAll ?? ((ids:string[]) => Promise.resolve(
+            ids.map((id) => states.workPackages.get(id).value!).filter(Boolean),
+          )),
           cache: { current: (_id:string, fallback:unknown) => fallback },
           id: (id:string) => ({
             get: () => of(states.workPackages.get(id).value),
             requireAndStream: () => of(states.workPackages.get(id).value),
           }),
         },
+        queries: { id: () => ({ order: { get: options.loadPositions ?? (() => Promise.resolve({})) } }) },
       }),
       deps: [States],
     },
@@ -421,6 +454,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     { provide: FocusHelperService, useValue: { focus: () => undefined } },
     { provide: WorkPackageViewBaselineService, useValue: { isActive: () => false, isChanged: () => false } },
     { provide: HalResourceNotificationService, useValue: { handleRawError: () => undefined, showEditingBlockedError: () => undefined } },
+    { provide: WorkPackageNotificationService, useExisting: HalResourceNotificationService },
     { provide: EditingPortalService, useValue: new FakeEditingPortalService() },
     { provide: CopyToClipboardService, useValue: {} },
     { provide: CurrentProjectService, useValue: { id: null, identifier: null } },
@@ -429,14 +463,16 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     {
       provide: TableDragActionsRegistryService,
       useFactory: (querySpace:IsolatedQuerySpace, injector:Injector) => ({
-        get: () => Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
+        get: () => options.builtinDragActions
+          ? new TableDragActionsRegistryService().get(injector)
+          : Object.assign(new TableDragActionService(querySpace, injector), options.dragAction ?? {}),
       }),
       deps: [IsolatedQuerySpace, Injector],
     },
   ];
 }
 
-function buildDom() {
+export function buildDom() {
   const wrapper = document.createElement('div');
   wrapper.innerHTML = `
     <div class="work-packages-tabletimeline--table-side">
@@ -457,7 +493,7 @@ function buildDom() {
   };
 }
 
-function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
+export function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
   return {
     id: null,
     columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
@@ -472,7 +508,7 @@ function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boole
   } as unknown as QueryResource;
 }
 
-function initializeViewServices(injector:Injector, query:QueryResource) {
+export function initializeViewServices(injector:Injector, query:QueryResource) {
   const results = { elements: [] } as unknown as WorkPackageCollectionResource;
   const services:Type<WorkPackageViewBaseService<unknown>>[] = [
     WorkPackageViewColumnsService,
