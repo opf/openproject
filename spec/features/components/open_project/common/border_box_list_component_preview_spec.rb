@@ -31,15 +31,15 @@
 require "rails_helper"
 require Rails.root.join("lookbook/previews/open_project/common/border_box_list_component_preview").to_s
 
-RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :component do
+RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, :component_preview, :js do
   it "renders a realistic default preview description" do
-    render_preview(:default, from: described_class)
+    visit_preview(:default, from: described_class)
 
     expect(page).to have_text("Coordinate launch work and keep stakeholders aligned.")
   end
 
   it "renders the default preview with the provided description text" do
-    render_preview(
+    visit_preview(
       :default,
       from: described_class,
       params: {
@@ -53,13 +53,13 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
   end
 
   it "renders a realistic transparent preview description" do
-    render_preview(:transparent, from: described_class)
+    visit_preview(:transparent, from: described_class)
 
     expect(page).to have_text("Sprint goals, scope, and timing for the next iteration.")
   end
 
   it "renders the transparent preview with the provided description text" do
-    render_preview(
+    visit_preview(
       :transparent,
       from: described_class,
       params: {
@@ -73,7 +73,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
   end
 
   it "renders the playground preview with the provided description text" do
-    render_preview(
+    visit_preview(
       :playground,
       from: described_class,
       params: {
@@ -87,7 +87,7 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
   end
 
   it "renders the playground preview with a header padding override" do
-    render_preview(
+    visit_preview(
       :playground,
       from: described_class,
       params: {
@@ -100,14 +100,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
   end
 
   it "renders the header label preview" do
-    render_preview(:with_header_label, from: described_class)
+    visit_preview(:with_header_label, from: described_class)
 
     expect(page).to have_css(".op-border-box-list-header--label .Label", text: "Default")
     expect(page).to have_no_css(".op-border-box-list-header--actions .Button")
   end
 
   it "renders the header label preview alongside an action button" do
-    render_preview(
+    visit_preview(
       :with_header_label,
       from: described_class,
       params: { with_action_button: true }
@@ -118,19 +118,29 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
   end
 
   it "renders the collapsible header label preview" do
-    render_preview(:with_collapsible_header_label, from: described_class)
+    visit_preview(:with_collapsible_header_label, from: described_class)
 
     expect(page).to have_css(".op-border-box-list-header_collapsible")
     expect(page).to have_css(".op-border-box-list-header--label .Label", text: "Default")
   end
 
   it "renders custom header content preview branches" do
-    render_preview(:custom_header_content, from: described_class)
+    visit_preview(:custom_header_content, from: described_class)
 
     expect(page).to have_heading("Linked delivery plan", level: 4)
     expect(page).to have_link("Linked delivery plan")
     expect(page).to have_button(accessible_name: "Add delivery item")
     expect(page).to have_text("Add item")
     expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
+  end
+
+  describe "accessibility", :selenium do
+    described_class.examples.each do |example|
+      it "passes axe-core accessibility tests for the #{example} preview" do
+        visit_preview(example, from: described_class)
+
+        expect(page).to be_axe_clean.within ".viewcomponent-preview--content"
+      end
+    end
   end
 end
