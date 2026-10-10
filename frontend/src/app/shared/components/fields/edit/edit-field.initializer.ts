@@ -61,6 +61,12 @@ import {
   CombinedDateEditFieldComponent,
 } from 'core-app/shared/components/fields/edit/field-types/combined-date-edit-field.component';
 import {
+  RadioButtonsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/radio-buttons-edit-field.component';
+import {
+  CheckboxesEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/checkboxes-edit-field.component';
+import {
   VersionAutocompleterComponent,
 } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import {
@@ -114,7 +120,9 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
       .addFieldType(BooleanEditFieldComponent, 'boolean', ['Boolean'])
       .addFieldType(DateEditFieldComponent, 'date', ['Date'])
-      .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable']);
+      .addFieldType(FormattableEditFieldComponent, 'wiki-textarea', ['Formattable'])
+      .addFieldType(RadioButtonsEditFieldComponent, 'radio_buttons', [])
+      .addFieldType(CheckboxesEditFieldComponent, 'checkboxes', []);
 
     editFieldService
       .addSpecificFieldType(

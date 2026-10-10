@@ -38,6 +38,12 @@ import { DisplayFieldService } from 'core-app/shared/components/fields/display/d
 import { initializeCoreEditFields } from 'core-app/shared/components/fields/edit/edit-field.initializer';
 import { initializeCoreDisplayFields } from 'core-app/shared/components/fields/display/display-field.initializer';
 import { FloatEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/float-edit-field.component';
+import {
+  RadioButtonsEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/radio-buttons-edit-field.component';
+import {
+  CheckboxesEditFieldComponent,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/checkboxes-edit-field.component';
 import { MultiSelectEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/multi-select-edit-field.component';
 import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
 import { SelectAutocompleterRegisterService } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
@@ -114,6 +120,8 @@ import { FormsModule } from '@angular/forms';
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
+    RadioButtonsEditFieldComponent,
+    CheckboxesEditFieldComponent,
     CombinedDateEditFieldComponent,
     ProjectEditFieldComponent,
     UserEditFieldComponent,

@@ -151,6 +151,23 @@ module CustomFields
         )
       end
 
+      if show_display_as_field?
+        details_form.select_list(
+          name: :display_as,
+          label: label(:display_as),
+          caption: instructions(:display_as),
+          input_width: :medium
+        ) do |list|
+          CustomField::DISPLAY_AS_OPTIONS.each do |option|
+            list.option(
+              value: option,
+              label: I18n.t("custom_fields.display_as_options.#{option}"),
+              selected: option == (model.display_as || "dropdown")
+            )
+          end
+        end
+      end
+
       if show_non_open_versions_field?
         details_form.check_box(
           name: :allow_non_open_versions,
@@ -296,6 +313,10 @@ module CustomFields
 
     def show_multi_value_field?
       model.multi_value_possible?
+    end
+
+    def show_display_as_field?
+      model.list?
     end
 
     def show_formula_field?

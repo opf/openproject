@@ -20,28 +20,33 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program. If not, see <https://www.gnu.org/licenses/>.
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
-import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import {
+  InlineOption,
+  InlineOptionsEditFieldDirective,
+} from 'core-app/shared/components/fields/edit/field-types/inline-options-edit-field/inline-options-edit-field.directive';
 
-export interface IEditFieldType extends IFieldType<EditFieldComponent> {
-  new():EditFieldComponent;
-}
-
-@Injectable({
-  providedIn: 'root',
+@Component({
+  templateUrl: './radio-buttons-edit-field.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
-export class EditFieldService extends AbstractFieldService<EditFieldComponent, IEditFieldType> {
-  public getClassForSchema(resourceType:string, fieldName:string, schema:IFieldSchema, allowInlineOptions = true):IEditFieldType {
-    const displayAs = allowInlineOptions ? (schema.options as { displayAs?:string }|undefined)?.displayAs : undefined;
-    const displayAsClass = displayAs ? this.classes[displayAs] : undefined;
+export class RadioButtonsEditFieldComponent extends InlineOptionsEditFieldDirective {
+  public isSelected(option:InlineOption|HalResource):boolean {
+    const current = this.values[this.name] as InlineOption|null|undefined;
 
-    return displayAsClass ?? this.getSpecificClassFor(resourceType, fieldName, schema.type);
+    return (current?.href ?? null) === option.href;
+  }
+
+  public select(option:InlineOption|HalResource):void {
+    this.values[this.name] = option;
+    void this.handler.handleUserSubmit();
   }
 }

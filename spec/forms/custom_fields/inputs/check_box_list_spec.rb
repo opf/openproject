@@ -28,22 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module CustomFields
-  class SetAttributesService < ::BaseServices::SetAttributes
-    private
+require "spec_helper"
 
-    def set_attributes(params)
-      super
+RSpec.describe CustomFields::Inputs::CheckBoxList, type: :forms do
+  include_context "with rendered custom field input form"
 
-      reset_display_as_after_multi_value_toggle
-    end
+  let(:custom_field) do
+    create(:list_project_custom_field,
+           name: "Platforms",
+           multi_value: true,
+           display_as: "checkboxes",
+           possible_values: ["Windows", "Linux", "macOS"])
+  end
+  let(:value) { custom_field.possible_values.first(2).pluck(:id) }
 
-    # Toggling "Allow multi-select" falls back to the dropdown instead of failing on a
-    # display setting the admin did not touch. Conflicting values set together still fail validation.
-    def reset_display_as_after_multi_value_toggle
-      return unless model.multi_value_changed? && !model.display_as_changed?
+  it "renders the group legend" do
+    expect(rendered_form).to have_css("fieldset legend", text: "Platforms")
+  end
 
-      model.display_as = nil if model.display_as_multi_value_mismatch
-    end
+  it "renders one checkbox per option with the selected ones checked", :aggregate_failures do
+    expect(rendered_form).to have_field "Windows", type: :checkbox, checked: true
+    expect(rendered_form).to have_field "Linux", type: :checkbox, checked: true
+    expect(rendered_form).to have_field "macOS", type: :checkbox, checked: false
+  end
+
+  it "submits the selected option ids as an array under the custom field id" do
+    expect(rendered_form.find_field("macOS")["name"]).to eq("project[#{custom_field.id}][]")
+  end
+
+  it "submits an empty value when nothing is checked" do
+    expect(rendered_form)
+      .to have_field("project[#{custom_field.id}][]", type: :hidden, with: "")
   end
 end

@@ -145,6 +145,7 @@ en:
         allow_non_open_versions: "Allow non-open versions"
         content_right_to_left: "Right-to-Left content"
         default_value: "Default value"
+        display_as: "Display as"
         editable: "Editable"
         field_format: "Format"
         formula: "Formula"
@@ -693,6 +694,9 @@ en:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."
           attributes:
+            display_as:
+              checkboxes_require_multi_value: "can only be checkboxes when multi-select is allowed."
+              radio_buttons_require_single_value: "can only be radio buttons when multi-select is not allowed."
             formula:
               blank: "Formula can't be blank."
               format: "%{message}"
@@ -2864,11 +2868,18 @@ en:
     calculated_field_not_editable: "Non-editable attribute. This value is calculated automatically."
     confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     contained_in_type: "Contained in type"
+    display_as_options:
+      checkboxes: "Checkboxes (multi-select only)"
+      dropdown: "Dropdown"
+      radio_buttons: "Radio buttons (single-select only)"
     enabled_in_project: "Enabled in project"
     instructions:
       admin_only:
         all: "Check to make this custom field only visible to administrators. Users without admin rights will not be able to view or edit it."
         project: "Check to make this attribute only visible to administrators. Users without admin rights will not be able to view or edit it."
+      display_as:
+        all: "Show all options inline in forms instead of a dropdown. Best suited for short lists."
+        project: "Show all options inline in forms instead of a dropdown. Best suited for short lists."
       editable:
         all: "Allow the field to be editable by users themselves."
       formula:

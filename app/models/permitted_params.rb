@@ -523,6 +523,7 @@ class PermittedParams
           :admin_only,
           :default_value,
           :multi_value,
+          :display_as,
           :content_right_to_left,
           :custom_field_section_id,
           :allow_non_open_versions,

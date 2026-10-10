@@ -32,6 +32,8 @@ class CustomField < ApplicationRecord
   include CustomField::OrderStatements
   include CustomField::CalculatedValue
 
+  DISPLAY_AS_OPTIONS = %w[dropdown checkboxes radio_buttons].freeze
+
   normalizes :name, with: OpenProject::RemoveInvisibleCharacters
 
   has_many :custom_values, dependent: :delete_all
@@ -91,6 +93,9 @@ class CustomField < ApplicationRecord
             if: :numeric_bounds_possible?
 
   validates :multi_value, absence: true, unless: :multi_value_possible?
+  validates :display_as, inclusion: { in: DISPLAY_AS_OPTIONS }, allow_nil: true
+  validates :display_as, absence: true, unless: :list?
+  validate :validate_display_as_matches_multi_value
   validates :allow_non_open_versions, absence: true, unless: :allow_non_open_versions_possible?
   validates :has_comment, absence: true, unless: :can_have_comment?
 
@@ -176,6 +181,19 @@ class CustomField < ApplicationRecord
       errors.add(:default_value, :invalid) unless v.valid?
     ensure
       self.is_required = required_field
+    end
+  end
+
+  def validate_display_as_matches_multi_value
+    error = display_as_multi_value_mismatch
+    errors.add(:display_as, error) if error
+  end
+
+  def display_as_multi_value_mismatch
+    if display_as == "checkboxes" && !multi_value?
+      :checkboxes_require_multi_value
+    elsif display_as == "radio_buttons" && multi_value?
+      :radio_buttons_require_single_value
     end
   end
 
@@ -365,6 +383,14 @@ class CustomField < ApplicationRecord
 
   def list?
     field_format == "list"
+  end
+
+  def display_as_checkboxes?
+    list? && multi_value? && display_as == "checkboxes"
+  end
+
+  def display_as_radio_buttons?
+    list? && !multi_value? && display_as == "radio_buttons"
   end
 
   def user?

@@ -65,6 +65,51 @@ RSpec.describe CustomFields::UpdateService, type: :model do
       end
     end
 
+    describe "display_as attribute" do
+      let(:contract_instance) { contract_class.new(custom_field, user, options: {}) }
+
+      context "when multi-select is turned off for a list displayed as checkboxes" do
+        let!(:custom_field) { create(:list_wp_custom_field, multi_value: true, display_as: "checkboxes") }
+        let(:attributes) { { multi_value: false, display_as: "checkboxes" } }
+
+        it "falls back to the dropdown" do
+          expect(subject).to be_success
+          expect(custom_field.reload).to have_attributes(multi_value: false, display_as: nil)
+        end
+      end
+
+      context "when multi-select is turned on for a list displayed as radio buttons" do
+        let!(:custom_field) { create(:list_wp_custom_field, multi_value: false, display_as: "radio_buttons") }
+        let(:attributes) { { multi_value: true } }
+
+        it "falls back to the dropdown" do
+          expect(subject).to be_success
+          expect(custom_field.reload).to have_attributes(multi_value: true, display_as: nil)
+        end
+      end
+
+      context "when multi-select is turned on together with switching to checkboxes" do
+        let!(:custom_field) { create(:list_wp_custom_field, multi_value: false, display_as: "radio_buttons") }
+        let(:attributes) { { multi_value: true, display_as: "checkboxes" } }
+
+        it "keeps the requested display" do
+          expect(subject).to be_success
+          expect(custom_field.reload).to have_attributes(multi_value: true, display_as: "checkboxes")
+        end
+      end
+
+      context "when a display incompatible with multi-select is requested explicitly" do
+        let!(:custom_field) { create(:list_wp_custom_field, multi_value: false, display_as: nil) }
+        let(:attributes) { { multi_value: true, display_as: "radio_buttons" } }
+
+        it "fails validation" do
+          expect(subject).not_to be_success
+          expect(subject.errors.symbols_for(:display_as)).to eq([:radio_buttons_require_single_value])
+          expect(custom_field.reload).to have_attributes(multi_value: false, display_as: nil)
+        end
+      end
+    end
+
     describe "calculated value custom field", with_ee: %i[calculated_values] do
       using CustomFieldFormulaReferencing
 

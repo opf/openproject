@@ -322,6 +322,80 @@ RSpec.describe CustomField do
     end
   end
 
+  describe "display_as" do
+    let(:list_field) { build(:list_wp_custom_field, multi_value:, display_as:) }
+
+    context "with radio buttons on a single-select list" do
+      let(:multi_value) { false }
+      let(:display_as) { "radio_buttons" }
+
+      it "is valid and displayed as radio buttons", :aggregate_failures do
+        expect(list_field).to be_valid
+        expect(list_field).to be_display_as_radio_buttons
+        expect(list_field).not_to be_display_as_checkboxes
+      end
+    end
+
+    context "with checkboxes on a multi-select list" do
+      let(:multi_value) { true }
+      let(:display_as) { "checkboxes" }
+
+      it "is valid and displayed as checkboxes", :aggregate_failures do
+        expect(list_field).to be_valid
+        expect(list_field).to be_display_as_checkboxes
+        expect(list_field).not_to be_display_as_radio_buttons
+      end
+    end
+
+    context "with checkboxes on a single-select list" do
+      let(:multi_value) { false }
+      let(:display_as) { "checkboxes" }
+
+      it "is invalid" do
+        expect(list_field).not_to be_valid
+        expect(list_field.errors.symbols_for(:display_as)).to contain_exactly(:checkboxes_require_multi_value)
+      end
+    end
+
+    context "with radio buttons on a multi-select list" do
+      let(:multi_value) { true }
+      let(:display_as) { "radio_buttons" }
+
+      it "is invalid" do
+        expect(list_field).not_to be_valid
+        expect(list_field.errors.symbols_for(:display_as)).to contain_exactly(:radio_buttons_require_single_value)
+      end
+    end
+
+    context "with an unknown value" do
+      let(:multi_value) { false }
+      let(:display_as) { "carousel" }
+
+      it "is invalid" do
+        expect(list_field).not_to be_valid
+        expect(list_field.errors.symbols_for(:display_as)).to include(:inclusion)
+      end
+    end
+
+    context "with the dropdown" do
+      let(:multi_value) { true }
+      let(:display_as) { "dropdown" }
+
+      it "is valid but not displayed inline", :aggregate_failures do
+        expect(list_field).to be_valid
+        expect(list_field).not_to be_display_as_checkboxes
+        expect(list_field).not_to be_display_as_radio_buttons
+      end
+    end
+
+    it "is not allowed on other formats" do
+      field = build(:string_wp_custom_field, display_as: "radio_buttons")
+
+      expect(field).not_to be_valid
+      expect(field.errors.symbols_for(:display_as)).to include(:present)
+    end
+  end
+
   describe "#all_attribute_names" do
     subject { field.all_attribute_names }
 

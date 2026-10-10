@@ -281,6 +281,34 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
           end
         end
       end
+
+      it "does not render display options for a dropdown" do
+        expect(subject).not_to have_json_path("#{cf_path}/options/displayAs")
+      end
+
+      context "when displayed as radio buttons" do
+        let(:custom_field) do
+          create(:list_wp_custom_field, is_required: true, possible_values: values, display_as: "radio_buttons")
+        end
+
+        it "tells clients to render radio buttons" do
+          expect(subject).to be_json_eql("radio_buttons".to_json).at_path("#{cf_path}/options/displayAs")
+        end
+      end
+
+      context "when displayed as checkboxes" do
+        let(:custom_field) do
+          create(:list_wp_custom_field,
+                 is_required: true,
+                 possible_values: values,
+                 multi_value: true,
+                 display_as: "checkboxes")
+        end
+
+        it "tells clients to render checkboxes" do
+          expect(subject).to be_json_eql("checkboxes".to_json).at_path("#{cf_path}/options/displayAs")
+        end
+      end
     end
 
     describe "user custom field" do
