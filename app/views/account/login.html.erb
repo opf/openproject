@@ -32,13 +32,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render Homescreen::AnnouncementComponent.new(announcement: Announcement.active_and_current) %>
 
-<div id="login-form" class="form -bordered">
-  <h1><%= I18n.t(:label_login) %></h1>
-
-  <hr class="form--separator">
+<div id="login-form" class="form">
+  <%= render(Primer::Beta::Heading.new(tag: :h1, font_size: 4, font_weight: :bold, text_align: :center, mb: 3)) do %>
+    <%= t("account.login_title", app_title: Setting.app_title) %>
+  <% end %>
   <% if show_password_login_form? %>
     <%= render partial: "password_login_form" %>
   <% end %>
   <%= render partial: "auth_providers" %>
+  <% if Setting::SelfRegistration.enabled? %>
+    <%= render partial: "signup_prompt" %>
+  <% end %>
 </div>
 <%= call_hook :view_account_login_bottom %>

@@ -21,31 +21,16 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-
-<div id="nav-login-content">
-  <%=
-    primer_form_with(
-      url: { controller: "/account", action: "login" },
-      method: :post
-    ) do |form_builder|
-      render(
-        LoginForm.new(
-          form_builder,
-          back_url: back_url_to_current_page,
-          username: params[:username],
-          id_suffix: "-pulldown"
-        )
-      )
-    end
-  %>
-
-  <%= render partial: "account/auth_providers" %>
-  <% if Setting::SelfRegistration.enabled? %>
-    <%= render partial: "account/signup_prompt" %>
+<%= render(Primer::Box.new(classes: "account-prompt", border: :top, mt: 4, pt: 4, text_align: :center)) do %>
+  <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, font_weight: :bold, mb: 3)) do %>
+    <%= I18n.t("account.no_account_yet") %>
   <% end %>
-</div>
+  <%= render(Primer::Beta::Link.new(href: account_register_path, font_weight: :semibold)) do %>
+    <%= I18n.t(:label_register) %>
+  <% end %>
+<% end %>

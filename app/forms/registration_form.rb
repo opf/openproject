@@ -55,7 +55,9 @@ class RegistrationForm < ApplicationForm
 
     consent(f) if helpers.user_consent_required?
 
-    f.submit(name: :submit, label: I18n.t(:button_create), scheme: :primary)
+    f.html_content do
+      render(Primer::Beta::Button.new(type: :submit, scheme: :primary, block: true)) { I18n.t(:button_create) }
+    end
 
     registration_footer(f)
   end

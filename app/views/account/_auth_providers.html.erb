@@ -35,22 +35,28 @@ See COPYRIGHT and LICENSE files for more details.
 # See
 # * https://community.openproject.org/work_packages/7192
 # * http://stackoverflow.com/questions/13112430/find-loaded-providers-for-omniauth
-auth_provider_html = call_hook :view_account_login_auth_provider
+providers_html = auth_provider_html
 no_pwd = Users::PasswordLogin.none? && !@force_password_login_form
-pclass = no_pwd ? "no-pwd" : ""
-wclass = local_assigns[:wide] ? "wide" : ""
+# Without a password form above there is nothing to separate the section from.
+spacing = no_pwd ? { mt: 0 } : { mt: 4, pt: 4, border: :top }
+title = Primer::Beta::Heading.new(
+  tag: :h3,
+  classes: "login-auth-providers-title",
+  font_size: 4,
+  font_weight: :bold,
+  text_align: :center,
+  mb: 3
+)
 %>
-<% if auth_provider_html.present? %>
-  <div class="login-auth-providers <%= pclass %> <%= wclass %>">
+<% if providers_html %>
+  <%= render(Primer::Box.new(classes: "login-auth-providers", **spacing)) do %>
     <% unless no_pwd %>
-      <h3 class="login-auth-providers-title mb-3">
-        <span>
-          <%= local_assigns[:omniauth_title] || I18n.t("account.login_with_auth_provider") %>
-        </span>
-      </h3>
+      <%= render(title) do %>
+        <%= local_assigns[:omniauth_title] || I18n.t("account.login_with_external_account") %>
+      <% end %>
     <% end %>
-    <div class="login-auth-provider-list">
-      <%= auth_provider_html %>
-    </div>
-  </div>
+    <%= render(Primer::Alpha::Stack.new(classes: "login-auth-provider-list", direction: :vertical, gap: :condensed)) do %>
+      <%= providers_html %>
+    <% end %>
+  <% end %>
 <% end %>

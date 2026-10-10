@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,34 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+require "rails_helper"
 
-RSpec.describe "layouts/base" do
-  describe "authenticator plugin" do
-    include Redmine::MenuManager::MenuHelper
-    helper Redmine::MenuManager::MenuHelper
-    let(:anonymous) { build_stubbed(:anonymous) }
+RSpec.describe Settings::InputMethods, "#multi_language_text_select", :aggregate_failures, :settings_reset,
+               type: :forms do
+  include_context "with rendered inline settings form"
+  include_context "with locale for testing"
 
-    before do
-      without_partial_double_verification do
-        allow(view).to receive_messages(current_menu_item: "overview", current_user: anonymous)
-      end
-      allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return([provider])
+  let(:translations) { { setting_registration_footer: "Registration footer" } }
+
+  subject(:rendered_form) do
+    vc_render_inline_settings_form do |settings_form|
+      settings_form.multi_language_text_select(name: :registration_footer, current_language: "en")
     end
 
-    context "with an authenticator with given icon" do
-      let(:provider) do
-        # Need to use an actually existing image as the asset pipeline will otherwise not include the link.
-        { name: "foob_auth", icon: "openid_connect/auth_provider-custom.png" }
-      end
+    page
+  end
 
-      before do
-        render
-      end
-
-      it "renders the icon inside the provider button" do
-        expect(rendered).to have_css("a.auth-provider-foob_auth img.auth-provider-icon")
-      end
-    end
+  it "wires up the language switcher so other languages can be edited and saved" do
+    expect(rendered_form).to have_css("[data-controller='admin--multi-lang-text-setting']")
+    expect(rendered_form).to have_css("select[data-admin--multi-lang-text-setting-target='select']")
+    expect(rendered_form).to have_css(
+      "input[type=hidden][data-admin--multi-lang-text-setting-target='langFor'][data-lang='de']",
+      visible: :all
+    )
+    expect(rendered_form).to have_css("textarea[data-admin--multi-lang-text-setting-target='textArea']",
+                                      visible: :all)
   end
 end

@@ -31,6 +31,6 @@ See COPYRIGHT and LICENSE files for more details.
   <%= omniauth_provider_button(
         provider[:name],
         display_name: provider[:display_name],
-        icon: provider[:icon].present?
+        icon: provider[:icon]
       ) %>
 <% end %>

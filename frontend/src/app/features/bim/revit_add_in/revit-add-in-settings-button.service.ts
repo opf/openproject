@@ -78,10 +78,8 @@ export class RevitAddInSettingsButtonService {
       loginMenuItem.innerHTML = `
         <div class="login-auth-providers">
           <h3 class="login-auth-providers-title">
-            <span>
-              ${this.groupLabelText}
-            </span>
-           </h3>
+            ${this.groupLabelText}
+          </h3>
           <div class="login-auth-provider-list revit-add-in-button">
             <div class="auth-provider auth-provider-developer button">
               <span class="auth-provider-name">${this.labelText}</span>

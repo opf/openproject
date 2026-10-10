@@ -43,16 +43,17 @@ module OmniauthHelper
     end
   end
 
-  def omniauth_provider_button(name, display_name: nil, icon: false)
-    classes = ["auth-provider", "auth-provider-#{name}", "button"]
-    classes << "auth-provider--imaged" if icon
+  def omniauth_provider_button(name, display_name: nil, icon: nil)
+    render(Primer::Beta::Button.new(tag: :a,
+                                    href: omniauth_login_path(name, omniauth_login_path_options),
+                                    block: true,
+                                    align_content: :center,
+                                    classes: "auth-provider auth-provider-#{name}",
+                                    data: { turbo: false })) do
+      label = tag.span(provider_button_label(name, display_name), class: "auth-provider-name")
+      parts = icon.present? ? [image_tag(icon, alt: "", class: "auth-provider-icon"), label] : [label]
 
-    link_to(
-      omniauth_login_path(name, omniauth_login_path_options),
-      class: classes.join(" "),
-      data: { turbo: false }
-    ) do
-      tag.span(display_name.presence || name, class: "auth-provider-name")
+      render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center, gap: :condensed)) { safe_join(parts) }
     end
   end
 
@@ -68,6 +69,20 @@ module OmniauthHelper
   # with a temporary form in between so that we can ensure we only POST to the provider (CVE-2015-9284).
   def direct_login_provider
     Setting.omniauth_direct_login_provider.presence
+  end
+
+  def provider_button_label(name, display_name)
+    I18n.t("account.continue_with_provider", name: display_name.presence || name)
+  end
+
+  # Returns nil unless the hook produced actual provider markup. In development
+  # Rails annotates every rendered partial with HTML comments, so a hook that
+  # rendered nothing still comes back non-blank.
+  def auth_provider_html
+    html = call_hook :view_account_login_auth_provider
+    content = Rails.env.development? ? html.gsub(/<!--.*?-->/m, "") : html
+
+    html if content.present?
   end
 
   # Uses the controller-assigned flag so /login/internal can still render the
