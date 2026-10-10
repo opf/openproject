@@ -29,47 +29,48 @@
 #++
 
 module Token
-  class AutoLogin < HashedToken
-    include Ephemeral
+  module Expirable
+    extend ActiveSupport::Concern
 
-    prefix :opal
+    DEFAULT_EXPIRY = 30.days
 
-    has_many :autologin_session_links,
-             class_name: "Sessions::AutologinSessionLink",
-             foreign_key: "token_id",
-             dependent: :destroy,
-             inverse_of: :token
+    included do
+      scope :expired, -> { where(expires_on: ...Time.current) }
+      scope :not_expired, -> { where(expires_on: nil).or(where(expires_on: Time.current..)) }
 
-    ##
-    # Set validity time for autologin tokens
-    def self.validity_time
-      Setting.autologin.days
+      validate :validate_expires_on_in_future, if: :expires_on_changed?
+      validate :validate_expires_on_date_format
     end
 
-    ##
-    # Find a valid autologin token from the given value.
-    # Validates the token by checking its expiration date and the user status.
-    #
-    # @param key [String] The plaintext token value
-    # @return [Token::AutoLogin, nil] The valid token or nil if not
-    def self.find_valid_token(key)
-      return if key.blank?
-
-      token = find_by_plaintext_value(key)
-
-      return if token.nil?
-      return if token.expired?
-      return unless token.user&.active?
-
-      token
+    def expired?
+      expires_on.present? && expires_on.past?
     end
 
-    protected
+    def expires_on_date
+      expires_on&.in_time_zone(user.time_zone)&.to_date
+    end
 
-    ##
-    # Autologin tokens might have multiple data
-    def single_value?
-      false
+    def expires_on_date=(date_or_iso_string)
+      @invalid_expires_on_date = false
+
+      date = case date_or_iso_string
+             when Date then date_or_iso_string
+             when String then Date.iso8601(date_or_iso_string) if date_or_iso_string.present?
+             end
+
+      self.expires_on = date&.in_time_zone(user.time_zone)&.end_of_day
+    rescue Date::Error
+      @invalid_expires_on_date = true
+    end
+
+    private
+
+    def validate_expires_on_in_future
+      errors.add(:expires_on, :datetime_must_be_in_future) if expired?
+    end
+
+    def validate_expires_on_date_format
+      errors.add(:expires_on, :not_a_date) if @invalid_expires_on_date
     end
   end
 end

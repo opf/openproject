@@ -32,10 +32,12 @@ module APITokens
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    def set_default_attributes(_params)
+    def set_attributes(params)
       model.change_by_system do
         model.user = user if model.user.nil?
       end
+
+      super
     end
   end
 end

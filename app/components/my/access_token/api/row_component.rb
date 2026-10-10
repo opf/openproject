@@ -49,7 +49,15 @@ module My
         end
 
         def expires_on
-          I18n.t("my_account.access_tokens.indefinite_expiration")
+          return I18n.t("my_account.access_tokens.indefinite_expiration") unless expires?
+
+          date = helpers.format_date(api_token.expires_on_date)
+          return date unless api_token.expired?
+
+          render(Primer::Beta::Text.new(color: :danger, font_weight: :bold)) do
+            concat(render(Primer::Beta::Octicon.new(:alert, mr: 1)))
+            concat(I18n.t("my_account.access_tokens.expired_on", date:))
+          end
         end
 
         def button_links
@@ -73,6 +81,10 @@ module My
         end
 
         private
+
+        def expires?
+          api_token.is_a?(Token::Expirable) && api_token.expires_on.present?
+        end
 
         def delete_path
           case model

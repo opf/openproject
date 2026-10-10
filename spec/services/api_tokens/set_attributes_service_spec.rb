@@ -28,48 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Token
-  class AutoLogin < HashedToken
-    include Ephemeral
+require "spec_helper"
 
-    prefix :opal
+RSpec.describe APITokens::SetAttributesService, type: :model do
+  let(:user) { build(:user, preferences: { time_zone: "Europe/Berlin" }) }
+  let(:token) { Token::API.new }
+  let(:contract_class) do
+    class_double(APITokens::CreateContract, new: instance_double(APITokens::CreateContract, validate: true))
+  end
 
-    has_many :autologin_session_links,
-             class_name: "Sessions::AutologinSessionLink",
-             foreign_key: "token_id",
-             dependent: :destroy,
-             inverse_of: :token
+  subject(:result) do
+    described_class
+      .new(user:, model: token, contract_class:)
+      .call(token_name: "with expiry", expires_on_date: "2026-10-12")
+  end
 
-    ##
-    # Set validity time for autologin tokens
-    def self.validity_time
-      Setting.autologin.days
-    end
-
-    ##
-    # Find a valid autologin token from the given value.
-    # Validates the token by checking its expiration date and the user status.
-    #
-    # @param key [String] The plaintext token value
-    # @return [Token::AutoLogin, nil] The valid token or nil if not
-    def self.find_valid_token(key)
-      return if key.blank?
-
-      token = find_by_plaintext_value(key)
-
-      return if token.nil?
-      return if token.expired?
-      return unless token.user&.active?
-
-      token
-    end
-
-    protected
-
-    ##
-    # Autologin tokens might have multiple data
-    def single_value?
-      false
-    end
+  it "assigns the user before converting the expiry date in the user's time zone" do
+    expect(result).to be_success
+    expect(token.user).to eq(user)
+    expect(token.expires_on).to eq(Time.find_zone("Europe/Berlin").local(2026, 10, 12).end_of_day)
   end
 end

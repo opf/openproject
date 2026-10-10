@@ -412,6 +412,8 @@ en:
         ongoing: "Ongoing"
         spent_on: "Date"
         type: "Type"
+      token/base:
+        expires_on: "Expiration date"
       token/ical:
         calendar: "Calendar"
         ical_token_query_assignment: "Query assignment"
@@ -5061,6 +5063,13 @@ en:
           create_button: "Create"
           dialog_body: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
           dialog_title: "Create new API token"
+          expires_on_caption: "The token stays valid until the end of this day."
+          expiry_custom: "Custom date"
+          expiry_label: "Expiration"
+          expiry_never: "No expiration"
+          expiry_preset:
+            one: "1 day (%{date})"
+            other: "%{count} days (%{date})"
           name_label: "Token name"
       failed_to_create_token: "Failed to create access token: %{error}"
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -5091,6 +5100,7 @@ en:
     access_tokens:
       access_tokens: "Access tokens"
       description: "Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them."
+      expired_on: "Expired on %{date}"
       headers:
         action: "Action"
         expiration: "Expires"

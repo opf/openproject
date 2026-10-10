@@ -482,7 +482,7 @@ class User < Principal
   def self.find_by_api_key(key)
     return nil unless Setting.api_tokens_enabled?
 
-    token = Token::API.find_by_plaintext_value(key)
+    token = Token::API.not_expired.find_by_plaintext_value(key)
 
     if token&.user&.active?
       token.user

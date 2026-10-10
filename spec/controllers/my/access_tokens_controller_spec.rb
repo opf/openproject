@@ -99,6 +99,44 @@ RSpec.describe My::AccessTokensController do
         expect(response.body).to include("Two heck of a token")
       end
     end
+
+    describe "expiry" do
+      let(:user) { create(:user, preferences: { time_zone: "Europe/Berlin" }) }
+      let(:berlin) { Time.find_zone("Europe/Berlin") }
+      let(:in_a_week) { berlin.today + 7.days }
+
+      def generate(expiry_params)
+        post :generate_api_key,
+             params: { token_api: { token_name: "Expiring token", **expiry_params } },
+             format: :turbo_stream
+      end
+
+      it "expires on the selected preset day" do
+        generate(expiry: in_a_week.iso8601)
+
+        expect(user.api_tokens.last.expires_on_date).to eq(in_a_week)
+      end
+
+      it "expires on the custom date" do
+        generate(expiry: "custom", expires_on_date: in_a_week.iso8601)
+
+        expect(user.api_tokens.last.expires_on_date).to eq(in_a_week)
+      end
+
+      it "never expires when no expiration is selected" do
+        generate(expiry: "never", expires_on_date: in_a_week.iso8601)
+
+        expect(user.api_tokens.last.expires_on).to be_nil
+      end
+
+      it "re-renders the form with an error for a past custom date" do
+        generate(expiry: "custom", expires_on_date: (berlin.today - 1.day).iso8601)
+
+        expect(response).to have_http_status(:bad_request)
+        expect(user.api_tokens).to be_empty
+        expect(response.body).to include("Expiration date must be in the future.")
+      end
+    end
   end
 
   describe "ical" do

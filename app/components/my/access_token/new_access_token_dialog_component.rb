@@ -45,10 +45,21 @@ module My
       private
 
       def new_token
-        @new_token ||= case token_type
-                       when "api" then Token::API.new
-                       when "ical_meeting" then Token::ICalMeeting.new
-                       end
+        @new_token ||= build_token.tap do |token|
+          set_default_expiry(token) if token.is_a?(Token::Expirable)
+        end
+      end
+
+      def build_token
+        case token_type
+        when "api" then Token::API.new
+        when "ical_meeting" then Token::ICalMeeting.new
+        end
+      end
+
+      def set_default_expiry(token)
+        token.user = User.current
+        token.expires_on_date = token.user.time_zone.today + Token::Expirable::DEFAULT_EXPIRY
       end
 
       def i18n_scope
