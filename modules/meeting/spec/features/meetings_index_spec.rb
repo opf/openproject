@@ -128,6 +128,22 @@ RSpec.describe "Meetings", "Index", :js do
     login_as user
   end
 
+  context "as an accessible page", :selenium do
+    before { setup_meeting_involvement }
+
+    it "is AXe clean on the project meetings index" do
+      visit project_meetings_path(project)
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "is AXe clean on the global meetings index" do
+      visit meetings_path
+      expect(page).to have_text("Awesome meeting tomorrow!")
+      expect(page).to be_axe_clean.within("#content")
+    end
+  end
+
   shared_examples "sidebar filtering" do |context:|
     context "when showing all meetings without invitations" do
       let!(:meeting_without_participants) do

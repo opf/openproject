@@ -6,11 +6,13 @@
     <ul
       #scrollPane
       class="op-tab-row"
+      role="tablist"
       (scroll)="onScroll()"
       >
       @for (tab of tabs; track tab.id) {
         <li
           class="op-tab-row--tab"
+          role="presentation"
           (dragenter)="startDebouncedTabActivation(tab)"
           (dragleave)="cancelDebouncedTabActivation()"
           [attr.data-tab-id]="tab.id"
@@ -51,6 +53,7 @@
       class="op-scrollable-tabs--button op-scrollable-tabs--button_left"
       [hidden]="hideLeftButton"
       (click)="scrollLeft()"
+      [attr.aria-label]="text.scrollLeft"
       >
       <span class="icon-arrow-left2"></span>
     </button>
@@ -60,6 +63,7 @@
       class="op-scrollable-tabs--button op-scrollable-tabs--button_right"
       [hidden]="hideRightButton"
       (click)="scrollRight()"
+      [attr.aria-label]="text.scrollRight"
       >
       <span class="icon-arrow-right2"></span>
     </button>

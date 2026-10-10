@@ -58,6 +58,13 @@ RSpec.describe "Meetings edit agenda", :js do
     show_page.visit!
   end
 
+  context "as an accessible page", :selenium do
+    it "is AXe clean" do
+      expect(page).to have_text(meeting.title)
+      expect(page).to be_axe_clean.within("#content")
+    end
+  end
+
   it "allows simultaneous editing of multiple agenda items (OP#65082)" do
     show_page.add_agenda_item do
       fill_in "Title", with: "Agenda Item #1"

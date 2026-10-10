@@ -169,5 +169,11 @@ RSpec.describe "Work Package Project Boards Index Page" do
       board_index.expect_boards_not_listed(board_view)
       board_index.expect_to_be_on_page(2)
     end
+
+    context "as an accessible page", :js, :selenium do
+      it "is AXe clean" do
+        expect(page).to be_axe_clean.within("#content")
+      end
+    end
   end
 end
