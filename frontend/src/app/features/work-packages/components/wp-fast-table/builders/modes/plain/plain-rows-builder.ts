@@ -29,7 +29,7 @@ import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTable } from '../../../wp-fast-table';
-import { PrimaryRenderPass } from '../../primary-render-pass';
+import type { PrimaryRenderPass, RenderPassOptions } from '../../primary-render-pass';
 import { SingleRowBuilder } from '../../rows/single-row-builder';
 import { RowsBuilder } from '../rows-builder';
 import { PlainRenderPass } from './plain-render-pass';
@@ -46,8 +46,8 @@ export class PlainRowsBuilder extends RowsBuilder {
   /**
    * Rebuild the entire grouped tbody from the given table
    */
-  public buildRows():PrimaryRenderPass {
+  public buildRows(options:RenderPassOptions):PrimaryRenderPass {
     const builder = new SingleRowBuilder(this.injector, this.workPackageTable);
-    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render();
+    return new PlainRenderPass(this.injector, this.workPackageTable, builder).render(options);
   }
 }

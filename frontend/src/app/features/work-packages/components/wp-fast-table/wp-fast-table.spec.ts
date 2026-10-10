@@ -27,6 +27,8 @@
 
 import { within } from '@testing-library/dom';
 import { buildTable, TableHarness } from './testing/table-harness';
+import { buildWorkPackage } from './testing/work-package-fixture';
+import { Highlighting } from './builders/highlighting/highlighting.functions';
 
 describe('WorkPackageTable', () => {
   let harness:TableHarness;
@@ -86,5 +88,77 @@ describe('WorkPackageTable', () => {
 
     expect(harness.row('1')).not.toHaveClass('-pressed');
     expect(harness.row('2')).toHaveClass('-pressed');
+  });
+  it('highlights the row of each work package when a relation row is spliced above it', async () => {
+    const status = (id:string) => ({ status: { id, href: `/api/v3/statuses/${id}` } });
+    harness = buildTable({
+      workPackages: [
+        { id: '1', attributes: status('11') },
+        { id: '2', attributes: status('12') },
+        { id: '3', attributes: status('13') },
+      ],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }],
+      relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      highlightingMode: 'status',
+    });
+    harness.expand('1', 'relationsOfTypeFollows');
+
+    await harness.render();
+
+    const relationRow = harness.tbody.querySelector('[data-occurrence-key="relation:ofType:1:2"]');
+    expect(relationRow).toBe(harness.row('1').nextElementSibling);
+    expect(harness.row('3')).toHaveClass(...Highlighting.backgroundClass('status', '13').split(' '));
+    expect(relationRow).not.toHaveClass(Highlighting.resourceClass('status', '13'));
+  });
+
+  it('renders the children of a work package once when it is also a relation target', async () => {
+    harness = buildTable({
+      workPackages: [{ id: '2' }, { id: '1', children: [{ id: '3' }] }, { id: '3' }],
+      columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }, { id: 'children', children: true }],
+      relations: [{ from: '2', to: '1', type: 'follows', reverseType: 'precedes' }],
+      loadChildren: true,
+    });
+    harness.expand('2', 'relationsOfTypeFollows');
+    harness.expand('1', 'children');
+
+    await harness.render();
+
+    expect(harness.tbody.querySelectorAll('[data-occurrence-key="relation:ofType:2:1"]')).toHaveLength(1);
+    expect(harness.tbody.querySelectorAll('[data-occurrence-key="relation:children:1:3"]')).toHaveLength(1);
+  });
+
+  describe('refreshing a work package shown in several rows', () => {
+    const occurrence = (key:string) => harness.tbody.querySelector<HTMLTableRowElement>(`[data-occurrence-key="${key}"]`)!;
+    const subjectOf = (key:string) => occurrence(key).querySelector('td.subject')!.textContent.trim();
+    const labelOf = (key:string) => occurrence(key).querySelector('.relation-row--type-label')?.textContent;
+    const relationKeys = ['relation:ofType:1:2', 'relation:children:1:2'];
+
+    beforeEach(async () => {
+      harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }, { id: '2' }],
+        columns: ['id', 'subject', { id: 'relationsOfTypeFollows', relationType: 'follows' }, { id: 'children', children: true }],
+        relations: [{ from: '1', to: '2', type: 'follows', reverseType: 'precedes' }],
+      });
+      harness.expand('1', 'relationsOfTypeFollows');
+      await harness.render();
+    });
+
+    it('refreshes every row, including relation rows sharing one row identifier', () => {
+      const labels = relationKeys.map(labelOf);
+      expect(occurrence(relationKeys[0]).dataset.classIdentifier).toBe(occurrence(relationKeys[1]).dataset.classIdentifier);
+
+      harness.table.refreshRows(buildWorkPackage({ id: '2', subject: 'Renamed' }));
+
+      expect(['wp:2', ...relationKeys].map(subjectOf)).toEqual(['Renamed', 'Renamed', 'Renamed']);
+      expect(relationKeys.map(labelOf)).toEqual(labels);
+      expect(labels.every(Boolean)).toBe(true);
+    });
+
+    it('keeps the refreshed row registered with its occurrence', () => {
+      harness.table.refreshRows(buildWorkPackage({ id: '1', subject: 'Renamed' }));
+
+      expect(subjectOf('wp:1')).toBe('Renamed');
+      expect(harness.table.ledger.byElement(harness.row('1'))?.key).toBe('wp:1');
+    });
   });
 });

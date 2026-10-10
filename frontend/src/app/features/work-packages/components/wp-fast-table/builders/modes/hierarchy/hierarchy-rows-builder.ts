@@ -32,6 +32,7 @@ import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorato
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageTable } from '../../../wp-fast-table';
 import { RowsBuilder } from '../rows-builder';
+import type { RenderPassOptions } from '../../primary-render-pass';
 import { HierarchyRenderPass } from './hierarchy-render-pass';
 import { SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
@@ -58,8 +59,8 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   /**
    * Rebuild the entire grouped tbody from the given table
    */
-  public buildRows():HierarchyRenderPass {
+  public buildRows(options:RenderPassOptions):HierarchyRenderPass {
     const builder = new SingleHierarchyRowBuilder(this.injector, this.workPackageTable);
-    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render();
+    return new HierarchyRenderPass(this.injector, this.workPackageTable, builder).render(options);
   }
 }

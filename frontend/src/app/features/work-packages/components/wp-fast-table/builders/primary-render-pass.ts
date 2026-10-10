@@ -36,35 +36,23 @@ import { States } from 'core-app/core/states/states.service';
 import { timeOutput } from 'core-app/shared/helpers/debug_output';
 import { TimelineRenderPass } from './timeline/timeline-render-pass';
 import { SingleRowBuilder } from './rows/single-row-builder';
-import { RelationRenderInfo, RelationsRenderPass } from './relations/relations-render-pass';
+import { RelationsRenderPass } from './relations/relations-render-pass';
 import { WorkPackageTable } from '../wp-fast-table';
 import {
   ChildRelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/child-relations-render-pass';
-import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
 import invariant from 'tiny-invariant';
+import {
+  type DraftOccurrence,
+  type OccurrenceKey,
+  type RenderDraft,
+  type RenderedOccurrence,
+  placeholderOccurrenceKey,
+  wpOccurrenceKey,
+} from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
-export type RenderedRowType = 'primary'|'relations'|'child_relations';
-
-export interface RowRenderInfo {
-  // The rendered row
-  element:HTMLTableRowElement;
-  // Unique class name as an identifier to uniquely identify the row in both table and timeline
-  classIdentifier:string;
-  // Additional classes to be added by any secondary render passes
-  additionalClasses:string[];
-  // If this row is a work package, contains a reference to the rendered WP
-  workPackage:WorkPackageResource|null;
-  // If this is an additional row not present, this contains a reference to the WP
-  // it originated from
-  belongsTo?:WorkPackageResource;
-  // The type of row this was rendered from
-  renderType:RenderedRowType;
-  // Marks if the row is currently hidden to the user
-  hidden:boolean;
-  // Additional data by the render passes
-  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  data?:any;
+export interface RenderPassOptions {
+  timeline:boolean;
 }
 
 export abstract class PrimaryRenderPass {
@@ -74,14 +62,15 @@ export abstract class PrimaryRenderPass {
 
   @LazyInject() I18n!:I18nService;
 
-  /** The rendered order of rows of work package IDs or <null>, if not a work package row */
-  public renderedOrder:RowRenderInfo[];
+  public draft:RenderDraft;
+
+  private withTimeline = false;
 
   /** Resulting table body */
   public tableBody:DocumentFragment;
 
   /** Additional render pass that handles timeline rendering */
-  public timeline:TimelineRenderPass;
+  public timeline:TimelineRenderPass|null = null;
 
   /** Additional render pass that handles table relation rendering */
   public relations:RelationsRenderPass;
@@ -107,7 +96,8 @@ public readonly injector:Injector,
    * for timeline and relations.
    * @return {PrimaryRenderPass}
    */
-  public render():this {
+  public render({ timeline }:RenderPassOptions):this {
+    this.withTimeline = timeline;
     timeOutput('Primary render pass', () => {
       // Prepare and reset the render pass
       this.prepare();
@@ -133,76 +123,68 @@ public readonly injector:Injector,
     });
 
     // Synchronize the rows to timeline
-    timeOutput('Timelines render pass', () => {
-      this.timeline.render();
-    });
+    const timelinePass = this.timeline;
+    if (timelinePass) {
+      timeOutput('Timelines render pass', () => timelinePass.render());
+    }
 
     return this;
   }
 
-  /**
-   * Refresh a single row using the render pass it was originally created from.
-   * @param row
-   */
-  public refresh(row:RowRenderInfo, workPackage:WorkPackageResource, body:HTMLElement) {
-    const oldRow = body.querySelector<HTMLTableRowElement>(`.${row.classIdentifier}`)!;
-    let replacement:HTMLElement|null = null;
-
-    switch (row.renderType) {
-      case 'relations':
-        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
-        break;
-      case 'child_relations':
-        replacement = this.childRelations.refreshRelationRow(row as RelationRenderInfo, workPackage, oldRow);
-        break;
-      default:
-        replacement = this.rowBuilder.refreshRow(workPackage, oldRow);
-        break;
+  public refresh(occurrence:RenderedOccurrence, workPackage:WorkPackageResource):HTMLTableRowElement|null {
+    const oldRow = occurrence.element;
+    if (!oldRow) {
+      return null;
     }
 
-    if (replacement !== null && oldRow) {
+    const replacement = this.refreshedRow(occurrence, workPackage, oldRow);
+    if (replacement !== oldRow) {
       oldRow.replaceWith(replacement);
+      replacement.dataset.occurrenceKey = occurrence.key;
+    }
+
+    return replacement;
+  }
+
+  private refreshedRow(
+    occurrence:RenderedOccurrence,
+    workPackage:WorkPackageResource,
+    oldRow:HTMLTableRowElement,
+  ):HTMLTableRowElement {
+    switch (occurrence.renderType) {
+      case 'relations':
+        return this.relations.refreshRelationRow(occurrence, workPackage, oldRow);
+      case 'child_relations':
+        return this.childRelations.refreshRelationRow(occurrence, workPackage, oldRow);
+      default:
+        return this.rowBuilder.refreshRow(workPackage, oldRow);
     }
   }
 
-  public get result():RenderedWorkPackage[] {
-    return this.renderedOrder.map((row) => ({
-      classIdentifier: row.classIdentifier,
-      workPackageId: row.workPackage ? row.workPackage.id : null,
-      hidden: row.hidden,
-    }));
-  }
-
   /**
-   * Splice a row into a specific location of the current render pass through the given selector.
-   *
-   * 1. Insert into the document fragment after the last match of the selector
-   * 2. Splice into the renderedOrder array.
+   * Splice a row into the current render pass after the last row matching the given selector.
    */
-  public spliceRow(row:HTMLTableRowElement, selector:string, renderedInfo:RowRenderInfo) {
-    // Insert into table using the selector
-    const matches = this.tableBody.querySelectorAll(selector);
+  public spliceRow(row:HTMLTableRowElement, selector:string, occurrence:Omit<DraftOccurrence, 'element'>) {
+    const matches = this.tableBody.querySelectorAll<HTMLTableRowElement>(selector);
     invariant(matches.length, `No matches found for selector: ${selector}`);
 
-    // If it matches multiple, select the last element
     const target = matches[matches.length - 1];
+    const targetKey = target.dataset.occurrenceKey;
+    invariant(targetKey, `Splice target matched by ${selector} carries no occurrence key`);
 
-    // Insert the new row AFTER the target
     target.parentNode!.insertBefore(row, target.nextSibling);
-
-    // Splice the renderedOrder at this exact location
-    const index = getNodeIndex(target);
-    this.renderedOrder.splice(index + 1, 0, renderedInfo);
+    row.dataset.occurrenceKey = occurrence.key;
+    this.draft.spliceAfter(targetKey, { ...occurrence, element: row });
   }
 
   protected prepare() {
-    this.timeline = new TimelineRenderPass(this.injector, this.workPackageTable, this);
+    this.timeline = this.withTimeline ? new TimelineRenderPass(this.injector, this.workPackageTable, this) : null;
     this.relations = new RelationsRenderPass(this.injector, this.workPackageTable, this);
     this.childRelations = new ChildRelationsRenderPass(this.injector, this.workPackageTable, this);
     this.dragDropHandle = new DragDropHandleRenderPass(this.injector, this.workPackageTable, this);
     this.highlighting = new HighlightingRenderPass(this.injector, this.workPackageTable, this);
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender(this.withTimeline);
   }
 
   /**
@@ -214,8 +196,16 @@ public readonly injector:Injector,
    * Post render shared among all sub passes
    */
   protected postRender():void {
-    if (this.renderedOrder.length === 0 && this.workPackageTable.renderPlaceholderRow) {
-      this.tableBody.appendChild(this.rowBuilder.placeholderRow);
+    if (this.draft.occurrences.length === 0 && this.workPackageTable.renderPlaceholderRow) {
+      this.registerAppended(this.rowBuilder.placeholderRow, {
+        key: placeholderOccurrenceKey(),
+        classIdentifier: 'wp--placeholder-row',
+        additionalClasses: [],
+        workPackage: null,
+        workPackageId: null,
+        renderType: 'primary',
+        hidden: false,
+      });
     }
   }
 
@@ -232,14 +222,13 @@ workPackage:WorkPackageResource,
     additionalClasses:string[] = [],
     hidden = false,
 ) {
-    this.tableBody.appendChild(row);
-
-    this.renderedOrder.push({
+    this.registerAppended(row, {
+      key: wpOccurrenceKey(workPackage.id!),
       classIdentifier: this.rowBuilder.classIdentifier(workPackage),
       additionalClasses,
       workPackage,
+      workPackageId: workPackage.id!,
       renderType: 'primary',
-      element: row,
       hidden,
     });
   }
@@ -251,21 +240,27 @@ workPackage:WorkPackageResource,
    * @param hidden whether the row was rendered hidden
    */
   protected appendNonWorkPackageRow(
-row:HTMLTableRowElement,
+    key:OccurrenceKey,
+    row:HTMLTableRowElement,
     classIdentifer:string,
     additionalClasses:string[] = [],
     hidden = false,
-) {
+  ) {
     row.classList.add(classIdentifer);
-    this.tableBody.appendChild(row);
-
-    this.renderedOrder.push({
-      element: row,
+    this.registerAppended(row, {
+      key,
       classIdentifier: classIdentifer,
       additionalClasses,
       workPackage: null,
+      workPackageId: null,
       renderType: 'primary',
       hidden,
     });
+  }
+
+  protected registerAppended(row:HTMLTableRowElement, occurrence:Omit<DraftOccurrence, 'element'>) {
+    this.tableBody.appendChild(row);
+    row.dataset.occurrenceKey = occurrence.key;
+    this.draft.append({ ...occurrence, element: row });
   }
 }

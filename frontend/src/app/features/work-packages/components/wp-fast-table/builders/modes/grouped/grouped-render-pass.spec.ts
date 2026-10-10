@@ -41,11 +41,12 @@ import {
 import {
   GroupHeaderBuilder,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/group-header-builder';
+import { RenderedOccurrenceLedger } from 'core-app/features/work-packages/components/wp-fast-table/rendered-occurrence-ledger';
 
 class TestGroupedRenderPass extends GroupedRenderPass {
   public renderRows():this {
     this.tableBody = document.createDocumentFragment();
-    this.renderedOrder = [];
+    this.draft = this.workPackageTable.ledger.beginRender();
     this.doRender();
 
     return this;
@@ -80,7 +81,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(2);
     expect(rows[0].getAttribute('data-test-selector')).toBe('group-header');
     expect(rows[1].classList.contains(groupedRowClassName(group.index))).toBe(true);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'group-custom-field-16-options', workPackageId: null, hidden: false },
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
@@ -107,7 +109,8 @@ describe('GroupedRenderPass', () => {
     expect(rows).toHaveLength(1);
     expect(rows[0].getAttribute('data-test-selector')).toBe('work-package-row');
     expect(rows[0].classList.contains(groupedRowClassName(group.index))).toBe(false);
-    expect(pass.result).toEqual([
+    pass.workPackageTable.ledger.commit(pass.draft);
+    expect(pass.workPackageTable.ledger.snapshot()).toEqual([
       { classIdentifier: 'wp-row-1', workPackageId: '1', hidden: false },
     ]);
   });
@@ -133,6 +136,7 @@ function buildWorkPackageTable(rows:WorkPackageTableRow[]):WorkPackageTable {
     configuration: {
       dragAndDropEnabled: false,
     },
+    ledger: new RenderedOccurrenceLedger(),
   } as unknown as WorkPackageTable;
 }
 
@@ -153,7 +157,6 @@ function buildTableRow(workPackage:WorkPackageResource):WorkPackageTableRow {
     object: workPackage,
     workPackageId: workPackage.id!,
     position: 0,
-    group: null,
   };
 }
 

@@ -26,6 +26,7 @@
 //++
 
 import { Subject } from 'rxjs';
+import { skip } from 'rxjs/operators';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -55,8 +56,11 @@ import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
 import { onDestroySafely } from 'core-app/shared/helpers/angular/owned-ui-cleanup';
-import { nextFrame } from 'core-common/testing/timing';
+import { nextFrame, nextTask } from 'core-common/testing/timing';
 import { buildWorkPackage } from './testing/work-package-fixture';
+import { TimelineRenderPass } from './builders/timeline/timeline-render-pass';
+import { DragDropHandleBuilder } from './builders/drag-and-drop/drag-drop-handle-builder';
+import { placeholderOccurrenceKey } from './rendered-occurrence-ledger';
 
 function deferred<T>() {
   let resolve!:(value:T) => void;
@@ -112,8 +116,9 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.injector.get(States)).toBeDefined();
   });
 
-  it('cannot publish over cards after its frame already ran', async () => {
+  it('publishes within its frame, leaving nothing to overwrite cards after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }] });
+    const shared = harness.querySpace.tableRendered.value;
     const frames:FrameRequestCallback[] = [];
     const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback) => frames.push(callback));
@@ -121,6 +126,7 @@ describe('WorkPackageTable lifecycle', () => {
     try {
       harness.table.redrawTableAndTimeline();
       frames.shift()!(0);
+      expect(harness.querySpace.tableRendered.value).not.toBe(shared);
       harness.table.destroy();
       const cards = [{ classIdentifier: 'wp-card-2', workPackageId: '2', hidden: false }];
       harness.querySpace.tableRendered.putValue(cards);
@@ -139,18 +145,15 @@ describe('WorkPackageTable lifecycle', () => {
     const frames:FrameRequestCallback[] = [];
     const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
       .mockImplementation((callback) => frames.push(callback));
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     try {
       harness.table.redrawTableAndTimeline();
       harness.table.destroy();
       const cards = [{ classIdentifier: 'wp-card-2', workPackageId: '2', hidden: false }];
       harness.querySpace.tableRendered.putValue(cards);
       frames.shift()!(0);
-      await vi.runAllTimersAsync();
       expect(harness.tbody.innerHTML).toBe(before);
       expect(harness.querySpace.tableRendered.value).toBe(cards);
     } finally {
-      vi.useRealTimers();
       frameSpy.mockRestore();
     }
   });
@@ -173,6 +176,105 @@ describe('WorkPackageTable lifecycle', () => {
     } finally {
       frameSpy.mockRestore();
     }
+  });
+
+  it.each(['redrawTableAndTimeline', 'redrawTable'] as const)(
+    'a table destroyed with a pending render never inserts nor publishes (%s)',
+    async (redraw) => {
+      const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+      const tableBefore = harness.tbody.innerHTML;
+      const timelineBefore = harness.table.timelineBody.innerHTML;
+      const shared = harness.querySpace.tableRendered.value;
+      const generation = harness.table.ledger.generation;
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      try {
+        harness.table[redraw]();
+        expect(frames).toHaveLength(1);
+        harness.table.destroy();
+        frames.forEach((frame) => frame(0));
+        expect(harness.tbody.innerHTML).toBe(tableBefore);
+        expect(harness.table.timelineBody.innerHTML).toBe(timelineBefore);
+        expect(harness.querySpace.tableRendered.value).toBe(shared);
+        expect(harness.table.ledger.generation).toBe(generation);
+      } finally {
+        frameSpy.mockRestore();
+      }
+    },
+  );
+
+  describe('publishing a render', () => {
+    const recordEmissions = (harness:TableHarness, record:() => void = () => undefined) => {
+      const emissions:RenderedWorkPackage[][] = [];
+      const subscription = harness.querySpace.tableRendered.values$().pipe(skip(1)).subscribe((rendered) => {
+        emissions.push(rendered);
+        record();
+      });
+      return { emissions, stop: () => subscription.unsubscribe() };
+    };
+
+    it('publishes a table-only redraw once its rows are in the table', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }] });
+      const oldRow = harness.row('1');
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const atPublish:{ oldRowAttached:boolean, text:string|null }[] = [];
+      const { stop } = recordEmissions(harness, () => atPublish.push({
+        oldRowAttached: harness.tbody.contains(oldRow),
+        text: harness.row('1').textContent,
+      }));
+      try {
+        harness.table.redrawTable();
+        await waitFor(() => expect(atPublish).toHaveLength(1));
+        expect(atPublish).toEqual([{ oldRowAttached: false, text: expect.stringContaining('Rebuilt') as string }]);
+      } finally {
+        stop();
+      }
+    });
+
+    it('keeps the timeline of a full redraw superseded by a table-only one', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+      const oldTimelineRow = harness.timelineRow('1');
+      harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+      const { emissions, stop } = recordEmissions(harness);
+      try {
+        harness.table.redrawTableAndTimeline();
+        harness.table.redrawTable();
+        await waitFor(() => expect(emissions).toHaveLength(1));
+        await nextFrame();
+        await nextTask();
+        expect(emissions).toHaveLength(1);
+        expect(harness.row('1')).toHaveTextContent('Rebuilt');
+        expect(harness.timelineRow('1')).not.toBe(oldTimelineRow);
+      } finally {
+        stop();
+      }
+    });
+
+    it('drops a superseded render without touching the table', async () => {
+      const harness = await mount({ workPackages: [{ id: '1' }] });
+      const before = harness.tbody.innerHTML;
+      const frames:FrameRequestCallback[] = [];
+      const frameSpy = vi.spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => frames.push(callback));
+      const { emissions, stop } = recordEmissions(harness);
+      try {
+        harness.table.originalRowIndex['1'].object.subject = 'First';
+        harness.table.redrawTable();
+        harness.table.originalRowIndex['1'].object.subject = 'Second';
+        harness.table.redrawTable();
+        frames.shift()!(0);
+        expect(harness.tbody.innerHTML).toBe(before);
+        expect(emissions).toHaveLength(0);
+        frames.shift()!(0);
+        expect(harness.row('1')).toHaveTextContent('Second');
+        expect(emissions).toHaveLength(1);
+      } finally {
+        stop();
+        frameSpy.mockRestore();
+      }
+    });
   });
 
   it('leaves all render entry points inert after disposal', async () => {
@@ -302,6 +404,34 @@ describe('WorkPackageTable lifecycle', () => {
     expect(harness.row('1').firstElementChild).toBe(firstCell);
   });
 
+  it('uses the latest cached work package when drag positions finish', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
+    const positions = deferred<QueryOrder>();
+    vi.spyOn(harness.injector.get(WorkPackageViewOrderService), 'positionsFor').mockReturnValue(positions.promise);
+    const build = vi.spyOn(DragDropHandleBuilder.prototype, 'build');
+    harness.table.redrawTableAndTimeline();
+    await nextFrame();
+
+    const latest = buildWorkPackage({ id: '1', subject: 'Latest' });
+    harness.injector.get(States).workPackages.get('1').putValue(latest);
+    positions.resolve({});
+
+    await waitFor(() => expect(build).toHaveBeenLastCalledWith(latest, undefined));
+  });
+
+  it('registers the drag-and-drop placeholder without rendering it on the timeline', async () => {
+    const harness = await mount({
+      workPackages: [],
+      configuration: { dragAndDropEnabled: true },
+      timelineVisible: true,
+    });
+    const placeholder = harness.tbody.querySelector<HTMLTableRowElement>('.wp--placeholder-row')!;
+
+    expect(placeholder.dataset.occurrenceKey).toBe(placeholderOccurrenceKey());
+    expect(harness.table.ledger.byKey(placeholderOccurrenceKey())?.element).toBe(placeholder);
+    expect(harness.table.timelineBody).toBeEmptyDOMElement();
+  });
+
   it('reports a genuinely rejected position load after disposal', async () => {
     const harness = await mount({ workPackages: [{ id: '1' }], configuration: { dragAndDropEnabled: true } });
     const error = new Error('position request');
@@ -365,6 +495,71 @@ describe('WorkPackageTable lifecycle', () => {
     harness.table.destroy();
     reject(error);
     await waitFor(() => expect(report).toHaveBeenCalledExactlyOnceWith(error));
+  });
+
+  describe('with an expanded children column', () => {
+    const mountExpanded = async (options:Omit<TableHarnessOptions, 'workPackages'>) => {
+      const harness = buildTable({
+        workPackages: [{ id: '1', children: [{ id: '2' }] }],
+        columns: ['id', 'subject', { id: 'children', children: true }],
+        loadChildren: false,
+        ...options,
+      });
+      harnesses.push(harness);
+      harness.expand('1', 'children');
+      await harness.render();
+      return harness;
+    };
+
+    const settle = async () => {
+      await Promise.resolve();
+      await nextFrame();
+      await nextFrame();
+    };
+
+    it('requests a missing child once until the next initial setup', async () => {
+      const unresolved:WorkPackageResource[] = [];
+      const requireAll = vi.fn(() => (requireAll.mock.calls.length > 3 ? new Promise<WorkPackageResource[]>(() => undefined) : Promise.resolve(unresolved)));
+      const harness = await mountExpanded({ requireAll });
+      await settle();
+      expect(requireAll).toHaveBeenCalledTimes(1);
+      expect(requireAll).toHaveBeenCalledWith(['2']);
+
+      await harness.render();
+      await settle();
+      expect(requireAll).toHaveBeenCalledTimes(2);
+    });
+
+    it('draws the timeline row of a child loaded after the render', async () => {
+      const loaded = deferred<WorkPackageResource[]>();
+      const requireAll = vi.fn(() => loaded.promise);
+      const harness = await mountExpanded({ requireAll, timelineVisible: true });
+      const child = buildWorkPackage({ id: '2' });
+      harness.injector.get(States).workPackages.get('2').putValue(child);
+      loaded.resolve([child]);
+      await settle();
+      expect(harness.tbody.querySelector('[data-occurrence-key="relation:children:1:2"]')).not.toBeNull();
+      expect(harness.timelineRow('2')).toBeInTheDocument();
+    });
+  });
+
+  it('keeps the timeline untouched on a table-only redraw', async () => {
+    const harness = await mount({ workPackages: [{ id: '1' }], timelineVisible: true });
+    const timelineRow = harness.timelineRow('1');
+    const tableRow = harness.row('1');
+    const timelineRender = vi.spyOn(TimelineRenderPass.prototype, 'render');
+    harness.table.originalRowIndex['1'].object.subject = 'Rebuilt';
+
+    harness.table.redrawTable();
+    await harness.nextRender();
+    expect(harness.row('1')).not.toBe(tableRow);
+    expect(harness.timelineRow('1')).toBe(timelineRow);
+    expect(timelineRender).not.toHaveBeenCalled();
+
+    harness.table.redrawTableAndTimeline();
+    await harness.nextRender();
+    expect(timelineRender).toHaveBeenCalledTimes(1);
+    expect(harness.timelineRow('1')).not.toBe(timelineRow);
   });
 
   describe('with two tables showing the same work packages', () => {
