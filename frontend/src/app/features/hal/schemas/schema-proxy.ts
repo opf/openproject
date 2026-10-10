@@ -49,16 +49,12 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     ) as ISchemaProxy;
   }
 
-  get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
+  get(schema:SchemaResource, property:PropertyKey, receiver:unknown):unknown {
     switch (property) {
-      case 'ofProperty': {
-        return this.proxyMethod(this.ofProperty);
-      }
-      case 'isAttributeEditable': {
-        return this.proxyMethod(this.isAttributeEditable);
-      }
+      case 'ofProperty':
+      case 'isAttributeEditable':
       case 'mappedName': {
-        return this.proxyMethod(this.mappedName);
+        return this.proxyMethod(property);
       }
       case 'isEditable': {
         return this.isEditable;
@@ -80,7 +76,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    * @param property the schema part is desired for
    */
   public ofProperty(property:string):IFieldSchema|null {
-    const propertySchema = this.schema[this.mappedName(property)];
+    const propertySchema = this.schema[this.mappedName(property)] as IFieldSchema|undefined;
 
     if (propertySchema) {
       return { ...propertySchema, writable: this.isEditable && propertySchema?.writable };
@@ -116,15 +112,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     return property;
   }
 
-  private proxyMethod(method:Function) {
-    const self = this;
-
-    // Returning a Proxy here so that the call is bound
-    // to the SchemaProxy instance.
-    return new Proxy(method, {
-      apply(_, __, argumentsList) {
-        return method.apply(self, [argumentsList[0]]);
-      },
-    });
+  private proxyMethod(name:'ofProperty'|'isAttributeEditable'|'mappedName') {
+    return (property:string) => this[name](property);
   }
 }

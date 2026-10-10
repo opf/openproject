@@ -174,7 +174,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
         addAttachment: grid.addAttachment as { href?:string },
-        attachments: grid.attachments as { href?:string },
+        attachments: grid.attachments,
         schema: {
           href: schemaHref,
         },

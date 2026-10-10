@@ -54,9 +54,9 @@ import { AttachmentsResourceService } from 'core-app/core/state/attachments/atta
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Directive()
 export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
@@ -190,7 +190,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // lazy load the work package's project, needed when initializing
     // the work package resource from split view.
     this.projectsResourceService
-      .requireEntity((this.workPackage.$links.project as HalResource).href!)
+      .requireEntity((this.workPackage.$links.project as CallableHalLink).href!)
       .subscribe(
         () => {},
         (error:HttpErrorResponse) => {
@@ -209,7 +209,7 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Fetch attachments of current work package
     if (this.workPackage.$links.attachments) {
-      this.attachmentsResourceService.fetchCollection(this.workPackage.$links.attachments.href!).subscribe();
+      this.attachmentsResourceService.fetchCollection((this.workPackage.$links.attachments as CallableHalLink).href!).subscribe();
     }
 
     // Listen to tab changes to update the tab label

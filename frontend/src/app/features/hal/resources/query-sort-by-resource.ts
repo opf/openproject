@@ -26,12 +26,12 @@
 //++
 
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceEmbedded } from 'core-app/features/hal/resources/hal-resource';
 
 export const QUERY_SORT_BY_ASC = 'urn:openproject-org:api:v3:queries:directions:asc';
 export const QUERY_SORT_BY_DESC = 'urn:openproject-org:api:v3:queries:directions:desc';
 
-export interface QuerySortByResourceEmbedded {
+export interface QuerySortByResourceEmbedded extends HalResourceEmbedded {
   column:QueryColumn;
   direction:QuerySortByDirection;
 }

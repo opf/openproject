@@ -40,7 +40,8 @@ import {
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalResource, HalResourceEmbedded, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
@@ -54,23 +55,23 @@ import { formatWorkPackageId } from 'core-app/shared/helpers/work-package-id-pat
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
-  assignee:HalResource|any;
+  assignee:HalResource|null;
   attachments:AttachmentCollectionResource;
   fileLinks?:CollectionResource;
-  author:HalResource|any;
-  availableWatchers:HalResource|any;
-  category:HalResource|any;
+  author:HalResource;
+  availableWatchers:HalResource;
+  category:HalResource|null;
   children:WorkPackageResource[];
   parent:WorkPackageResource|null;
-  priority:HalResource|any;
-  project:HalResource|any;
+  priority:HalResource;
+  project:HalResource;
   relations:CollectionResource;
-  responsible:HalResource|any;
-  revisions:CollectionResource|any;
-  status:StatusResource|any;
-  timeEntries:HalResource[]|any[];
+  responsible:HalResource|null;
+  revisions:CollectionResource;
+  status:StatusResource;
+  timeEntries:HalResource[];
   type:TypeResource;
-  version:HalResource|any;
+  version:HalResource|null;
   watchers:CollectionResource;
   // For regular work packages
   startDate:string;
@@ -81,46 +82,31 @@ export interface WorkPackageResourceEmbedded {
   scheduleManually:boolean;
 }
 
-export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
-  addAttachment(attachment:HalResource):Promise<any>;
-
-  addChild(child:HalResource):Promise<any>;
-
-  addComment(comment:unknown, headers?:any):Promise<any>;
-
-  addRelation(relation:any):Promise<any>|undefined;
-
-  addWatcher(watcher:HalResource):Promise<any>;
-
-  changeParent(params:any):Promise<any>;
-
-  copy():Promise<WorkPackageResource>;
-
-  delete():Promise<any>;
-
-  logTime():Promise<any>;
-
-  startTimer():Promise<unknown>;
-
-  move():Promise<any>;
-
-  removeWatcher():Promise<any>;
-
-  self():Promise<WorkPackageResource>;
-
-  update(payload:any):Promise<FormResource<WorkPackageResource>>;
-
-  updateImmediately(payload:any):Promise<WorkPackageResource>;
-
-  watch():Promise<any>;
+export interface WorkPackageResourceLinks {
+  addAttachment:CallableHalLink;
+  addChild:CallableHalLink;
+  addComment:CallableHalLink;
+  addRelation:CallableHalLink<RelationResource>;
+  addWatcher:CallableHalLink;
+  changeParent:CallableHalLink<WorkPackageResource>;
+  copy:CallableHalLink<WorkPackageResource>;
+  delete:CallableHalLink;
+  logTime:CallableHalLink;
+  startTimer:CallableHalLink;
+  move:CallableHalLink;
+  removeWatcher:CallableHalLink;
+  update:CallableHalLink<FormResource<WorkPackageResource>>;
+  updateImmediately:CallableHalLink<WorkPackageResource>;
+  watch:CallableHalLink;
 }
 
-export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
-  schema:HalResource;
+export interface WorkPackageLinksObject extends HalResourceLinks, WorkPackageResourceLinks {
+  self:CallableHalLink<WorkPackageResource>;
+  schema:CallableHalLink;
 }
 
 export class WorkPackageBaseResource extends HalResource {
-  public $embedded:WorkPackageResourceEmbedded;
+  public $embedded:WorkPackageResourceEmbedded & HalResourceEmbedded;
 
   public $links:WorkPackageLinksObject;
 
@@ -145,8 +131,8 @@ export class WorkPackageBaseResource extends HalResource {
    * bare hrefs).
    */
   public get displayId():string {
-    return this.$source.displayId?.toString()
-      ?? this.$source._links?.self?.displayId?.toString()
+    return (this.$source.displayId as string|number|undefined)?.toString()
+      ?? (this.$source._links?.self as HalLinkInterface|undefined)?.displayId?.toString()
       ?? this.id?.toString()
       ?? '';
   }
@@ -166,7 +152,11 @@ export class WorkPackageBaseResource extends HalResource {
 
   public hasProjectAttributes:boolean;
 
-  public description:any;
+  public description:api.v3.Formattable;
+
+  public configureForm?:HalResource;
+
+  public bcfViewpoints?:HalResource[];
 
   public activities:CollectionResource;
 
@@ -256,33 +246,10 @@ export class WorkPackageBaseResource extends HalResource {
     return otherWorkPackage.parent?.$links.self.$link.href === this.$links.self.$link.href;
   }
 
-  /**
-   * Invalidate a set of linked resources of this work package.
-   * And inform the cache service about the work package update.
-   *
-   * Return a promise that returns the linked resources as properties.
-   * Return a rejected promise, if the resource is not a property of the work package.
-   */
-  public updateLinkedResources(...resourceNames:string[]):Promise<any> {
-    const resources:Record<string, Promise<HalResource>> = {};
-
-    resourceNames.forEach((name) => {
-      const linked = this[name];
-      resources[name] = linked ? linked.$update() : Promise.reject(undefined);
-    });
-
-    const promise = Promise.all(Object.values(resources));
-    promise.then(() => {
-      this.wpCacheService.touch(this.id!);
-    });
-
-    return promise;
-  }
-
-  public $initialize(source:any) {
+  public $initialize(source:unknown) {
     super.$initialize(source);
 
-    const attachments:any = this.attachments || { $source: {}, elements: [] };
+    const attachments:unknown = this.attachments || { $source: {}, elements: [] };
     this.attachments = new AttachmentCollectionResource(
       this.injector,
       // Attachments MAY be an array if we're building from a form
@@ -304,7 +271,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the associated state to this HAL resource, if any.
    */
   public get state():InputState<this> {
-    return this.states.workPackages.get(this.id!) as any;
+    return this.states.workPackages.get(this.id!) as unknown as InputState<this>;
   }
 
   /**
@@ -315,10 +282,10 @@ export class WorkPackageBaseResource extends HalResource {
 
     // If there is a parent, its view has to be updated as well
     if (newValue.parent) {
-      this.apiV3Service.work_packages.id(newValue.parent).refresh();
+      void this.apiV3Service.work_packages.id(newValue.parent as WorkPackageResource).refresh();
     }
 
-    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as any);
+    return this.apiV3Service.work_packages.cache.updateWorkPackage(newValue as unknown as WorkPackageResource);
   }
 }
 
