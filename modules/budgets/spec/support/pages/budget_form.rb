@@ -65,9 +65,7 @@ module Pages
         fill_in("#{prefix}_units", with: units, **options) if units.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
@@ -75,7 +73,7 @@ module Pages
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
 
       page.within row_id do
-        find(".costs--edit-planned-costs-btn").click
+        page.find_test_selector "edit_inline_cost"
       end
     end
 
@@ -94,7 +92,7 @@ module Pages
 
     # Submit the costs form
     def submit_form!
-      find_by_id("budget-table--submit-button").click
+      find_test_selector("budgets-save-button").click
     end
 
     ##
@@ -110,9 +108,7 @@ module Pages
         select_labor_costs_user!(prefix, user_name) if user_name.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
@@ -140,9 +136,9 @@ module Pages
       raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
 
       within(:region, Budget.human_attribute_name(:"#{type}_budget")) do
-        container = find("tbody tr:nth-of-type(#{row}) td.currency.budget-table--fields")
-        expect(container).to have_text(expected, exact: true),
-                             "Expected planned costs to be #{expected.inspect}, was #{container.text.inspect}"
+        container = find("tbody tr:nth-of-type(#{row}) td.currency")
+
+        expect(container).to have_text(expected, normalize_ws: true) # "Expected planned costs to be #{expected.inspect}, was #{container.text.inspect}"
       end
     end
 

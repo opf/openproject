@@ -27,40 +27,46 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
-      }
-    )
-  end
+module Budgets
+  module LaborBudgetItems
+    class SubformComponent < ApplicationComponent
+      extend Dry::Initializer
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
+      option :form
+      option :budget
+      option :project
 
-  subject do
-    described_class.new budget:, project:
-  end
+      attr_reader :budget_items, :template_object
 
-  before do
-    login_as user
-  end
+      def initialize(...)
+        super
 
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
+        @budget_items = @budget.labor_budget_items
+        # we have to assign the budget here as following methods depend on the item having an object
+        @template_object = @budget_items.build.tap do |i|
+          i.budget = @budget
+        end
+      end
 
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
+      private
 
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+      def table
+        @table ||= SubformTableComponent.new(
+          rows: budget_items,
+          form:,
+          budget:,
+          project:,
+          table_arguments: {
+            id: "labor_budget_items",
+            data: { costs__budget_subform_target: "table" }
+          }
+        )
+      end
+
+      def template_row
+        SubformRowComponent.new(row: template_object, row_counter: nil, table:, templated: true)
+      end
     end
   end
 end

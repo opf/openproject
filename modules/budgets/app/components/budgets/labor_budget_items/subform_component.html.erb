@@ -27,33 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t(:label_budget_new)) %>
-
 <%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { t(:label_budget_new) }
-    header.with_breadcrumbs(
-      [{ href: project_overview_path(@project.id), text: @project.name },
-       { href: projects_budgets_path(@project.id), text: t(:label_budget_plural) },
-       t(:label_budget_new)]
-    )
-  end
+  render Primer::OpenProject::CollapsibleSection.new(
+    id: "labor_budget_items_fieldset",
+    display: :block,
+    mt: 3,
+    data: {
+      controller: "costs--budget-subform",
+      costs__budget_subform_item_count_value: budget_items.size,
+      costs__budget_subform_update_url_value: url_for(action: :update_labor_budget_item, project_id: project.id)
+    }
+  ) do |section|
 %>
+  <% section.with_title(tag: :h3) { Budget.human_attribute_name(:labor_budget) } %>
+  <% section.with_collapsible_content do %>
+    <%= render(table) %>
 
-<%=
-  primer_form_with(
-    model: @budget,
-    as: :budget,
-    url: projects_budgets_path(@project),
-    html: { multipart: true, id: "budget_form" }
-  ) do |f|
-    render(
-      Primer::Forms::FormList.new(
-        Budgets::Form.new(f),
-        Budgets::LaborBudgetItems::SubformComponent.new(form: f, budget: @budget, project: @project),
-        Budgets::MaterialBudgetItems::SubformComponent.new(form: f, budget: @budget, project: @project),
-        Budgets::CreateOrContinue.new(f)
-      )
-    )
-  end
-%>
+    <table style="display:none" data-costs--budget-subform-target="template">
+      <%= render(template_row) %>
+    </table>
+  <% end %>
+<% end %>

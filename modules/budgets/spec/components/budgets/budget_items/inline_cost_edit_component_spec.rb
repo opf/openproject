@@ -27,40 +27,28 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
+
 require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
-      }
-    )
+RSpec.describe Budgets::BudgetItems::InlineCostEditComponent, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
   end
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
+  let(:input_name) { "test[field]" }
+  let(:input_id) { "test_field" }
+  let(:cost_value) { "20.00" }
 
-  subject do
-    described_class.new budget:, project:
+  subject(:rendered_component) do
+    render_component(input_name:, input_id:, cost_value:)
   end
 
-  before do
-    login_as user
+  it "renders 2 buttons" do
+    expect(rendered_component).to have_button count: 1, visible: :visible
+    expect(rendered_component).to have_button count: 1, visible: :hidden
   end
 
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
-
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
-    end
+  it "renders field describedby currency" do
+    expect(rendered_component).to have_field "test_field", with: cost_value, described_by: "EUR"
   end
 end
