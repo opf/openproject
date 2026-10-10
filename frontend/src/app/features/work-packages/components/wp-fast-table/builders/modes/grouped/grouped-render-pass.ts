@@ -195,6 +195,14 @@ export class GroupedRenderPass extends PlainRenderPass {
 
     const groupClass = groupClassNameFor(group);
     const rowElement = this.sumsBuilder.buildSumsRow(group);
-    this.appendNonWorkPackageRow(rowElement, groupClass);
+    const hidden = !!group.collapsed;
+    const additionalClasses = [groupedRowClassName(group.index)];
+
+    if (hidden) {
+      additionalClasses.push(collapsedRowClass);
+    }
+
+    rowElement.classList.add(...additionalClasses);
+    this.appendNonWorkPackageRow(rowElement, groupClass, additionalClasses, hidden);
   }
 }

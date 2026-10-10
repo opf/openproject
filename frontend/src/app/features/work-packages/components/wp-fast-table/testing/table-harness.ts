@@ -90,6 +90,9 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
+import { IntegerDisplayField } from 'core-app/shared/components/fields/display/field-types/integer-display-field.module';
+import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
 
 export interface TableHarnessOptions {
@@ -127,9 +130,13 @@ export interface TableHarness {
   rows():HTMLTableRowElement[];
   row(workPackageId:string):HTMLTableRowElement;
   timelineRow(workPackageId:string):HTMLElement;
+  /** The timeline cell at the position of the given table row; both sides render one element per row. */
+  timelineRowOf(row:HTMLElement):HTMLElement;
   groupHeaderOf(row:HTMLElement):HTMLTableRowElement|null;
   /** Fresh lookup; group headers are replaced on every collapse toggle. */
   groupHeader(index:number):HTMLTableRowElement;
+  /** Selects the given columns as the column configuration does, redrawing the table without reloading results. */
+  setColumns(columnIds:string[]):void;
   rowIds():string[];
   /** Work-package entries of the rendered state, in order, as `[workPackageId, hidden]`. */
   renderedState():[string, boolean][];
@@ -156,10 +163,14 @@ const unbuildableColumns:WorkPackageTableConfigurationObject = {
   dragAndDropEnabled: false,
 };
 
+const sumsSchemaHref = '/api/v3/work_packages/schemas/sums';
+
 export function buildTable(options:TableHarnessOptions):TableHarness {
   const dragService = new FakeDragAndDropService();
   const injector = createEnvironmentInjector(harnessProviders(dragService, options), TestBed.inject(EnvironmentInjector));
-  injector.get(DisplayFieldService).addFieldType(TextDisplayField, 'text', ['String']);
+  injector.get(DisplayFieldService)
+    .addFieldType(TextDisplayField, 'text', ['String'])
+    .addFieldType(IntegerDisplayField, 'integer', ['Integer']);
   const querySpace = injector.get(IsolatedQuerySpace);
   const states = injector.get(States);
   const dom = buildDom();
@@ -218,7 +229,7 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       });
 
       const rendered = nextRender();
-      querySpace.results.putValue({ elements: resources } as WorkPackageCollectionResource);
+      querySpace.results.putValue({ elements: resources, sumsSchema: { href: sumsSchemaHref } } as WorkPackageCollectionResource);
       querySpace.initialized.putValue(null);
 
       return rendered;
@@ -246,6 +257,14 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       return row;
     },
 
+    timelineRowOf(row) {
+      const cell = dom.timelineBody.children.item(Array.from(dom.tbody.children).indexOf(row));
+      if (!(cell instanceof HTMLElement)) {
+        throw new Error('No rendered timeline row at the position of the given table row');
+      }
+      return cell;
+    },
+
     groupHeaderOf(row) {
       return locatePredecessorBySelector(row, `.${rowGroupClassName}`) as HTMLTableRowElement|null;
     },
@@ -256,6 +275,10 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
         throw new Error(`No rendered group header ${index}`);
       }
       return header;
+    },
+
+    setColumns(columnIds) {
+      injector.get(WorkPackageViewColumnsService).setColumns(columnIds.map(buildColumn));
     },
 
     rowIds() {
@@ -348,6 +371,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
   const editable = !!options.editing;
   const formWritable = options.editing?.formWritable ?? true;
   const subjectSchema = (writable:boolean) => ({ type: 'String', name: 'subject', writable });
+  const sumsSchema = buildSumsSchema(options.groups ?? []);
 
   return [
     { provide: States, useValue: options.states ?? new States() },
@@ -381,6 +405,7 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     {
       provide: SchemaCacheService,
       useValue: {
+        state: () => ({ value: sumsSchema }),
         of: () => ({
           ofProperty: (attribute:string) => (attribute === 'subject' ? subjectSchema(editable) : undefined),
           mappedName: (attribute:string) => attribute,
@@ -457,10 +482,20 @@ function buildDom() {
   };
 }
 
+function buildSumsSchema(groups:GroupFixture[]):Record<string, IFieldSchema> {
+  const attributes = groups.flatMap((group) => Object.keys(group.sums ?? {}));
+
+  return Object.fromEntries(attributes.map((name) => [name, { type: 'Integer', name, writable: false, hasDefault: false }]));
+}
+
+function buildColumn(id:string):QueryColumn {
+  return { id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` } as QueryColumn;
+}
+
 function buildQuery(columns:string[], groupBy:string|null, showHierarchies:boolean, timelineVisible:boolean):QueryResource {
   return {
     id: null,
-    columns: columns.map((id) => ({ id, name: id, _type: 'QueryColumn', href: `/api/v3/queries/columns/${id}` })),
+    columns: columns.map(buildColumn),
     sortBy: [],
     groupBy: groupBy ? { id: groupBy, name: groupBy, href: `/api/v3/queries/group_bys/${groupBy}` } : null,
     showHierarchies,
