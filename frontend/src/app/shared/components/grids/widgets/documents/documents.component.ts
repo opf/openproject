@@ -43,6 +43,8 @@ import { DocumentResource } from '../../../../../../../../modules/documents/fron
   standalone: false,
 })
 export class WidgetDocumentsComponent extends AbstractWidgetComponent implements OnInit {
+  protected override readonly hasWidgetHeading = true;
+
   readonly halResource = inject(HalResourceService);
   readonly pathHelper = inject(PathHelperService);
   readonly apiV3Service = inject(ApiV3Service);

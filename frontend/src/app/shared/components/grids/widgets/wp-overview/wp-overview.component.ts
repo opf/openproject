@@ -35,4 +35,6 @@ import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widget
   standalone: false,
 })
 export class WidgetWpOverviewComponent extends AbstractWidgetComponent {
+  protected override readonly hasWidgetHeading = true;
+
 }
