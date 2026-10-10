@@ -70,13 +70,11 @@ export class CombinedDateDisplayField extends DateDisplayField {
   }
 
   private get startDate():string|null {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.resource.startDate;
+    return this.resource.startDate as string|null;
   }
 
   private get dueDate():string|null {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return this.resource.dueDate;
+    return this.resource.dueDate as string|null;
   }
 
   private renderSingleDate(field:'date'|'startDate'|'dueDate', element:HTMLElement):void {

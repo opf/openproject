@@ -33,7 +33,7 @@ export class FloatDisplayField extends DisplayField {
       return '';
     }
 
-    return this.value.toLocaleString(
+    return (this.value as number).toLocaleString(
       this.I18n.locale,
       { useGrouping: true, maximumFractionDigits: 20 },
     );

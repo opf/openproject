@@ -291,7 +291,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     if (item instanceof WorkPackageResource) {
       window.location.href = this.wpPath(item.displayId);
     } else if (item) {
-      this.searchInScope(item.projectScope);
+      this.searchInScope((item as SearchOptionItem).projectScope);
     }
   }
 

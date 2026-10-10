@@ -54,6 +54,8 @@ export class FormResource<T = HalResource> extends HalResource implements FormRe
 
   public configureForm?:HalResource;
 
+  public customFields?:HalResource;
+
   public getErrors():ErrorResource|null {
     const errors = Object.values(this.validationErrors ?? {});
     const count = errors.length;

@@ -27,6 +27,7 @@
 
 import { take } from 'lodash-es';
 import { cssClassCustomOption, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
@@ -34,7 +35,7 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   public get stringValue():string[] {
-    const cf = this.resource[this.name];
+    const cf = this.resource[this.name] as { elements?:HalResource[], map?:HalResource[]['map'], name?:string }|null|undefined;
     if (this.schema && cf) {
       if (cf.elements) {
         return cf.elements.map((e:any) => e.name);

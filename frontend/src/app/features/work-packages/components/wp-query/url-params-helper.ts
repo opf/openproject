@@ -402,8 +402,9 @@ export class UrlParamsHelperService {
     if (query.columns) {
       return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
     }
-    if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => idFromLink(column.href)) as string[];
+    const links = query._links as { columns?:HalLink[] };
+    if (links.columns) {
+      return links.columns.map((column:HalLink) => idFromLink(column.href));
     }
 
     return [];
@@ -449,7 +450,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
-    const href = filter.filter ? filter.filter.href : filter._links.filter.href;
+    const href = filter.filter ? filter.filter.href : (filter._links as { filter:HalLink }).filter.href;
 
     return idFromLink(href as string);
   }
@@ -465,13 +466,13 @@ export class UrlParamsHelperService {
     if (filter.operator) {
       return filter.operator.id || idFromLink(filter.operator.href);
     }
-    const { href } = filter._links.operator;
+    const { href } = (filter._links as { operator:HalLink }).operator;
 
     return idFromLink(href as string);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
-    const sortBys = query.sortBy ? query.sortBy : query._links.sortBy;
+    const sortBys = query.sortBy ? query.sortBy : (query._links as { sortBy:QuerySortByResource[] }).sortBy;
     const sortByIds = sortBys.map((sort:QuerySortByResource) => {
       if (sort.id) {
         return sort.id;

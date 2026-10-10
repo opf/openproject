@@ -58,7 +58,7 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
 
     const routingId = this.wpRoutingId;
     const link = this.uiStateBuilder.linkToShow(
-      this.wpId,
+      this.wpId!,
       this.text.linkTitle,
       this.valueString,
       routingId,
