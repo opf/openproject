@@ -36,11 +36,6 @@ module Llm
     # available at all for a deployment that publishes no model list. It is also
     # the only one that costs money, so it runs on demand rather than on the
     # schedule -- see LlmConnection#deep_health_check.
-    #
-    # Deliberately absent: probes for tool calling and structured output. Several
-    # current vLLM releases answer a tool call with plain text on a fully capable
-    # server, deterministically, so a probe would turn a wrong answer into a
-    # confident one rather than discovering anything.
     class InferenceValidator < HealthReports::ValidatorGroup
       PROMPT = "ping"
 
