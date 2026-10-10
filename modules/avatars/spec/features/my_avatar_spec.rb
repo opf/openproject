@@ -54,4 +54,14 @@ RSpec.describe "My avatar management", :js do
 
     expect(page).to have_no_test_selector("avatar-delete-link", wait: 20)
   end
+
+  it "updates the avatar fallback color" do
+    visit avatar_management_path
+
+    fill_in "avatar_color", with: "#123abc"
+    click_button I18n.t(:button_save)
+
+    expect(page).to have_text(I18n.t("avatars.message_avatar_color_updated"))
+    expect(user.reload.pref.avatar_color).to eq("#123ABC")
+  end
 end

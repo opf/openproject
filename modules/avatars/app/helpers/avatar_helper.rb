@@ -164,7 +164,8 @@ module AvatarHelper
     {
       href: API::V3::Utilities::PathHelper::ApiV3Path.send(principal_type, user.id),
       name: user.name,
-      id: user.id
-    }
+      id: user.id,
+      avatarColor: user.respond_to?(:pref) ? user.pref.avatar_color : nil
+    }.compact
   end
 end

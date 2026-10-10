@@ -52,6 +52,8 @@ export interface IUser {
 
   avatar:string;
 
+  avatarColor?:string;
+
   status:string;
 
   _links:IUserHalResourceLinks;

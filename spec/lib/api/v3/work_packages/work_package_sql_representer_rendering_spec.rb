@@ -199,6 +199,32 @@ RSpec.describe API::V3::WorkPackages::WorkPackageSqlRepresenter, "rendering" do
       end
     end
 
+    context "with a user who has a custom avatar color" do
+      let(:principal_object) { create(:user) }
+
+      let(:expected) do
+        {
+          _links: {
+            link_name => {
+              href: api_v3_paths.user(principal_object.id),
+              title: principal_object.name,
+              avatarColor: "#AABBCC"
+            }
+          }
+        }
+      end
+
+      before do
+        principal_object.pref.avatar_color = "#AABBCC"
+        principal_object.pref.save!
+      end
+
+      it "renders as expected" do
+        expect(json)
+          .to be_json_eql(expected.to_json)
+      end
+    end
+
     unless only_user
       context "with a group" do
         let(:principal_object) { create(:group) }

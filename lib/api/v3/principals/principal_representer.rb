@@ -39,6 +39,8 @@ module API
 
         self_link
 
+        cached_representer dependencies: ->(*) { [principal_avatar_color] }
+
         link :memberships,
              cache_if: -> { current_user_allowed_to_see_members? } do
           filters = [
@@ -61,6 +63,12 @@ module API
 
         property :name,
                  render_nil: true
+
+        property :avatar_color,
+                 as: :avatarColor,
+                 exec_context: :decorator,
+                 getter: ->(*) { principal_avatar_color },
+                 render_nil: false
 
         date_time_property :created_at,
                            cache_if: -> { current_user_can_see_date_properties? }
@@ -87,6 +95,10 @@ module API
         def current_user_allowed_to_see_members?
           current_user.allowed_in_any_project?(:view_members) ||
             current_user.allowed_in_any_project?(:manage_members)
+        end
+
+        def principal_avatar_color
+          represented.pref.avatar_color if represented.respond_to?(:pref)
         end
       end
     end

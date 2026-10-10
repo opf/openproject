@@ -522,7 +522,9 @@ module API
 
         associated_resource :author,
                             v3_path: :user,
-                            representer: ::API::V3::Users::UserRepresenter
+                            representer: ::API::V3::Users::UserRepresenter,
+                            link: ::API::V3::Principals::PrincipalRepresenterFactory
+                              .create_link_lambda(:author)
 
         associated_resource :responsible,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory

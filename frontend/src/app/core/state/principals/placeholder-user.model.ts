@@ -40,5 +40,7 @@ export interface IPlaceholderUser {
   createdAt:string;
   updatedAt:string;
 
+  avatarColor?:string;
+
   _links:IPlaceholderUserHalResourceLinks;
 }

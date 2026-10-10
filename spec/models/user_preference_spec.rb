@@ -337,6 +337,24 @@ RSpec.describe UserPreference do
     end
   end
 
+  describe "#avatar_color=" do
+    it "normalizes a long hex form to uppercase" do
+      subject.avatar_color = "#aabbcc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "normalizes a short hex form to its long uppercase form" do
+      subject.avatar_color = "#abc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "clears the value when set to blank" do
+      subject.avatar_color = "#aabbcc"
+      subject.avatar_color = ""
+      expect(subject.avatar_color).to be_nil
+    end
+  end
+
   describe "contrast settings" do
     it_behaves_like "accepts real and false booleans",
                     :increase_theme_contrast=,

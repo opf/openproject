@@ -38,10 +38,16 @@ module API
             link name,
                  href: associated_user_link_href(plural_name, column_name),
                  title: associated_user_link_title(plural_name),
-                 join: associated_user_link_join(plural_name, column_name)
+                 join: associated_user_link_join(plural_name, column_name),
+                 avatarColor: associated_user_link_avatar_color(plural_name)
           end
 
           private
+
+          def associated_user_link_avatar_color(table_name)
+            "(SELECT settings->>'avatar_color' FROM user_preferences " \
+              "WHERE user_preferences.user_id = #{table_name}_id)"
+          end
 
           def associated_user_link_href(table_name, column_name)
             ->(*) {
@@ -82,7 +88,8 @@ module API
           def associated_user_link_join(table_name, column_name)
             { table: :users,
               condition: "#{table_name}.id = #{column_name}",
-              select: ["#{table_name}.firstname #{table_name}_firstname",
+              select: ["#{table_name}.id #{table_name}_id",
+                       "#{table_name}.firstname #{table_name}_firstname",
                        "#{table_name}.lastname #{table_name}_lastname",
                        "#{table_name}.login #{table_name}_login",
                        "#{table_name}.mail #{table_name}_mail",

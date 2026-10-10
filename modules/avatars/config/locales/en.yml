@@ -4,12 +4,16 @@ en:
   avatar_deleted: "Avatar deleted successfully."
   avatars:
     label_avatar: "Avatar"
+    label_avatar_color: "Fallback color"
     label_gravatar: 'Gravatar'
     label_local_avatar: 'Custom avatar'
+    message_avatar_color_updated: "Fallback color changed successfully."
     settings:
       enable_gravatars: 'Enable user gravatars'
       enable_local_avatars: 'Enable user custom avatars'
       gravatar_default: "Default Gravatar image"
+    text_avatar_color: >-
+      Used as the background color of your avatar when you have no uploaded image.
     text_avatar_gravatar_html: >-
       OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
     text_avatar_local: >-

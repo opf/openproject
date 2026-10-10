@@ -20,6 +20,13 @@ To use a different profile picture, click your current avatar to upload a custom
 > [!TIP]
 > For the best results, use an image that is 128 × 128 pixels. Larger images will be cropped automatically.
 
+If you have not uploaded a custom avatar and no Gravatar is available, your initials will be shown on a colored background instead. By default, this color is generated automatically from your name.
+
+To use your own color instead, enter a hex color code (e.g. `#AABBCC`) in the **Fallback color** field below the avatar and click **Save**. Leave the field empty to go back to the automatically generated color.
+
+> [!TIP]
+> You can either type the hex code directly or pick a color with the color picker next to the input field.
+
 ![Avatar settings under OpenProject user account settings](openproject_account_settings_avatar.png)
 
 ## User attributes

@@ -54,6 +54,9 @@ module UserPreferences
     validate :valid_pause_days,
              if: -> { model.pause_reminders.present? && model.pause_reminders[:enabled] }
 
+    validate :avatar_color_correctness,
+             if: -> { model.avatar_color.present? }
+
     class << self
       ##
       # Returns time zones supported by OpenProject. Those include only the subset of all the
@@ -114,6 +117,10 @@ module UserPreferences
       unless model.daily_reminders[:times].all? { |time| time.end_with?("00:00+00:00") }
         errors.add :daily_reminders, :full_hour
       end
+    end
+
+    def avatar_color_correctness
+      errors.add(:avatar_color, :invalid) unless model.avatar_color.match?(/\A#[0-9A-F]{6}\z/)
     end
 
     def no_duplicate_workdays

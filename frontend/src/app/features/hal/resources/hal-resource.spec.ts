@@ -405,6 +405,28 @@ describe('HalResource', () => {
     });
   });
 
+  describe('when creating a resource from a source with a linked resource carrying an avatarColor', () => {
+    beforeEach(() => {
+      source = {
+        _links: {
+          self: {
+            href: 'unicorn/69',
+          },
+          assignee: {
+            href: 'users/1',
+            title: 'Bob',
+            avatarColor: '#AABBCC',
+          },
+        },
+      };
+      resource = halResourceService.createHalResource(source);
+    });
+
+    it('should carry the avatarColor onto the linked resource', () => {
+      expect(resource.assignee.avatarColor).toEqual('#AABBCC');
+    });
+  });
+
   describe('when creating a resource from a source with embedded resources', () => {
     beforeEach(() => {
       source = {

@@ -91,6 +91,7 @@ properties:
       principal:
         allOf:
           - $ref: './link.yml'
+          - $ref: './principal_link_avatar_color.yml'
           - description: |-
               The principal the membership is related to.
 

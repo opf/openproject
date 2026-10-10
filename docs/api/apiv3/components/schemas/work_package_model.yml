@@ -421,6 +421,7 @@ allOf:
           author:
             allOf:
               - $ref: "./link.yml"
+              - $ref: "./principal_link_avatar_color.yml"
               - description: |-
                   The person that created the work package
 
@@ -429,6 +430,7 @@ allOf:
           assignee:
             allOf:
               - $ref: "./link.yml"
+              - $ref: "./principal_link_avatar_color.yml"
               - description: |-
                   The person that is intended to work on the work package
 
@@ -542,6 +544,7 @@ allOf:
           responsible:
             allOf:
               - $ref: "./link.yml"
+              - $ref: "./principal_link_avatar_color.yml"
               - description: |-
                   The person that is responsible for the overall outcome
 

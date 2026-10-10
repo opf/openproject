@@ -20,6 +20,14 @@ properties:
   name:
     type: string
     description: The principal's display name, layout depends on instance settings.
+  avatarColor:
+    type:
+      - 'string'
+      - 'null'
+    description: |-
+      A custom hex color (e.g. "#AABBCC") used as the background of the principal's
+      fallback avatar when no avatar image is uploaded. Only ever set for users;
+      absent or `null` otherwise, in which case a color is generated from the name.
   createdAt:
     type: string
     format: date-time

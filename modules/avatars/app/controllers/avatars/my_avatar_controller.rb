@@ -4,7 +4,8 @@ module ::Avatars
     before_action :set_user
 
     no_authorization_required! :update,
-                               :destroy
+                               :destroy,
+                               :update_color
 
     private
 

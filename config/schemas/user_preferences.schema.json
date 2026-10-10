@@ -9,6 +9,9 @@
                 "time_zone": {
                     "type": ["string", "null"]
                 },
+                "avatar_color": {
+                    "type": ["string", "null"]
+                },
                 "theme": {
                   "type": "string",
                   "enum": ["light", "dark", "sync_with_os"]

@@ -40,7 +40,10 @@ describe('PrincipalRendererService', () => {
         PrincipalRendererService,
         ColorsService,
         { provide: PathHelperService, useValue: {} },
-        { provide: ApiV3Service, useValue: {} },
+        {
+          provide: ApiV3Service,
+          useValue: { users: { id: () => ({ avatar: { toString: () => '' } }) } },
+        },
       ],
     });
 
@@ -80,6 +83,36 @@ describe('PrincipalRendererService', () => {
 
     it('keeps emoji-only names as complete code points', () => {
       expect(renderFallback('🤖')).toBe('🤖');
+    });
+  });
+
+  describe('fallback avatar color', () => {
+    const renderFallbackBackground = (avatarColor?:string):string => {
+      const container = document.createElement('div');
+
+      service.render(
+        container,
+        {
+          id: '1', name: 'John Doe', href: '/api/v3/users/1', avatarColor,
+        },
+        { hide: true, link: false },
+        { hide: false, size: 'default' },
+        { isActivated: false },
+      );
+
+      return container.querySelector<HTMLElement>('.op-avatar--fallback')!.style.background;
+    };
+
+    it('uses the custom avatar color when given', () => {
+      expect(renderFallbackBackground('#aabbcc')).toBe('rgb(170, 187, 204)');
+    });
+
+    it('falls back to a generated color when none is given', () => {
+      // The browser normalizes both hsl() and the custom hex color to rgb() upon
+      // reading the style back, so the generated color is only distinguishable
+      // from the custom one by its value, not its original notation.
+      expect(renderFallbackBackground(undefined)).not.toBe('');
+      expect(renderFallbackBackground(undefined)).not.toBe(renderFallbackBackground('#aabbcc'));
     });
   });
 });

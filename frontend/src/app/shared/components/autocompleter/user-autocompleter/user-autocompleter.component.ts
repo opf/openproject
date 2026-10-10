@@ -63,6 +63,7 @@ export interface IUserAutocompleteItem {
   email?:string|null;
   href:string|null;
   avatar?:string|null;
+  avatarColor?:string|null;
 }
 
 @Component({
@@ -121,7 +122,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     const filteredURL = this.buildFilteredURL(searchTerm);
 
     filteredURL.searchParams.set('pageSize', '-1');
-    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/email,elements/self,total,count,pageSize');
+    filteredURL.searchParams.set('select', 'elements/id,elements/name,elements/email,elements/avatarColor,elements/self,total,count,pageSize');
 
     return this
       .http
@@ -138,7 +139,13 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
         }),
         map((users) => {
           const mapped:IUserAutocompleteItem[] = users.map((user) => {
-              return { id: user.id, name: user.name, href: user._links.self?.href, email: user.email };
+              return {
+                id: user.id,
+                name: user.name,
+                href: user._links.self?.href,
+                email: user.email,
+                avatarColor: user.avatarColor,
+              };
           });
 
           if (this.additionalOptions) {
@@ -155,7 +162,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
     if (searchTerm?.length) {
-      searchFilters.add(this.searchKey || 'name', '~', [searchTerm]);
+      searchFilters.add(this.searchKey ?? 'name', '~', [searchTerm]);
     }
 
     return addFiltersToPath(this.url, searchFilters);
@@ -171,7 +178,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
   }
 
   protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
-    return (item) => item.href || item.name;
+    return (item) => item.href ?? item.name;
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
