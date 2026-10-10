@@ -1,0 +1,7 @@
+<%= render(OpenProject::Common::AttributesGroupComponent.new) do |component|
+      component.with_attribute(key: "Some key") { "A value" }
+
+      component.with_attribute(key: "With icons") { op_icon("icon-checkmark") }
+
+      component.with_attribute(key: "With HTML") { link_to("OpenProject homepage", "https://www.openproject.org") }
+    end %>

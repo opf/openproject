@@ -5370,19 +5370,16 @@ en:
       builtin: Built-in instance application
       client_credentials: "Client credentials"
       confidential: Confidential
-      default_scopes: "(Default scopes)"
       instructions:
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        default_scopes: ""
-        enabled: "Enable this application, allowing users to perform authorization grants with it."
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        client_credential_user_id: "Optional user ID to impersonate when clients use the client credentials flow to obtain an access token. Leave empty to only allow authorization code flow."
+        confidential: "Check if the application is able to keep a client secret confidential. Native mobile apps and Single Page Apps are usually not able to do this, but web applications can."
+        enabled: "Enable this application, allowing it to obtain access tokens."
+        name: "The name of your application. This will be displayed to users upon authorization."
+        page_description: "OAuth allows other applications to integrate with OpenProject and obtain access tokens on behalf of your users."
         redirect_uri_html: >
           The allowed URLs authorized users can be redirected to. One entry per line.
-          <br/>
-          If you're registering a desktop application, use the following URL.
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
+          If your application does not need a redirect URL, use the following URL:
+        scopes: "Select the scopes you want to allow for the application. If no scope is checked, api_v3 is assumed."
       named: "OAuth application '%{name}'"
       new: "New OAuth application"
       non_confidential: Non confidential
@@ -5400,9 +5397,9 @@ en:
         <strong>It has requested the following permissions:</strong>
     authorization_error: "An authorization error has occurred."
     client_credentials: "User used for Client credentials"
-    client_credentials_impersonation_html: >
-      By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}.
-      You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
+    client_credentials_impersonation: >
+      By default, OpenProject provides OAuth 2.0 authorization via [authorization code flow](authorization_code).
+      You can optionally enable [client credentials flow](client_credentials), but you must provide a user on whose behalf requests will be performed.
     client_credentials_impersonation_set_to: "Client credentials user set to"
     client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
     client_id: "Client ID"
@@ -5426,9 +5423,12 @@ en:
       other_applications: Other OAuth applications
     my_registered_applications: "Registered OAuth applications"
     scopes:
-      api_v3: "Full API v3 access"
+      api_v3: "Access to APIv3"
       api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
-      mcp: "Access to MCP"
+      explanations_admin:
+        api_v3: "Application will receive full read & write access to the OpenProject API v3 to perform actions on the user's behalf."
+        mcp: "Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents."
+      mcp: "Access to Model Context Protocol"
       mcp_text: "Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents."
 
   oauth_client:

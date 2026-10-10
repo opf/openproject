@@ -41,31 +41,12 @@ See COPYRIGHT and LICENSE files for more details.
       </p>
 
       <%=
-        render(AttributeGroups::AttributeGroupComponent.new) do |component|
-          component.with_attribute(
-            key: User.human_attribute_name(:login),
-            value: @user.login
-          )
-
-          component.with_attribute(
-            key: User.human_attribute_name(:mail),
-            value: @user.mail
-          )
-
-          component.with_attribute(
-            key: User.human_attribute_name(:name),
-            value: @user.name
-          )
-
-          component.with_attribute(
-            key: t(:label_current_status),
-            value: full_user_status(@user, true)
-          )
-
-          component.with_attribute(
-            key: t(:status_change),
-            value: new_status
-          )
+        render(OpenProject::Common::AttributesGroupComponent.new) do |component|
+          component.with_attribute(key: User.human_attribute_name(:login)) { @user.login }
+          component.with_attribute(key: User.human_attribute_name(:mail)) { @user.mail }
+          component.with_attribute(key: User.human_attribute_name(:name)) { @user.name }
+          component.with_attribute(key: t(:label_current_status)) { full_user_status(@user, true) }
+          component.with_attribute(key: t(:status_change)) { new_status }
         end
       %>
 

@@ -27,8 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<div class="attributes-group--header">
-  <div class="attributes-group--header-container">
-    <h3 class="attributes-group--header-text"><%= title %></h3>
+<%= render(Primer::BaseComponent.new(tag: :div, **system_arguments)) do %>
+  <%= header %>
+
+  <div class="AttributesGroupWrap">
+    <% attributes.each do |attribute| %>
+      <div class="AttributesGroupItem">
+        <%= attribute %>
+      </div>
+    <% end %>
   </div>
-</div>
+<% end %>
