@@ -210,7 +210,7 @@ RSpec.describe Rake::Task, :copyright do
         "modules/gitlab_integration/frontend/source.ts",
         "frontend/node_modules/.vite/vitest/deps/dependency.ts",
         "frontend/node_modules/package/source.ts",
-        "frontend/src/vendor/ckeditor/source.ts",
+        "frontend/src/vendor/source.ts",
         "tmp/source.ts"
       ]
       excluded_paths.each { |path| write_source(path, source) }
@@ -254,7 +254,7 @@ RSpec.describe Rake::Task, :copyright do
       excluded_paths = [
         "modules/gitlab_integration/frontend/source.js",
         "frontend/node_modules/.vite/vitest/deps/dependency.js",
-        "frontend/src/vendor/ckeditor/ckeditor.js",
+        "frontend/src/vendor/enjoyhint.js",
         "public/assets/frontend/chunk-SFO6FRYT.js",
         "frontend/out-tsc/app/frontend/src/app/shared/shared.module.js",
         "frontend/dist/main.js"

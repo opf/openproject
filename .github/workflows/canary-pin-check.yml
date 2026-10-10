@@ -1,0 +1,29 @@
+name: Canary pins
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - release/*
+
+permissions:
+  contents: read
+
+jobs:
+  canary-pins:
+    name: Canary pins
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Reject snapshot versions of npm dependencies
+        run: |
+          pins="$(jq -r '[(.dependencies // {}), (.devDependencies // {})] | add | to_entries[] | select(.value | test("^0\\.0\\.0-")) | "\(.key)@\(.value)"' frontend/package.json)"
+
+          if [ -n "$pins" ]; then
+            echo "::error file=frontend/package.json::Snapshot versions are for testing only and must not be merged: ${pins//$'\n'/, }"
+            exit 1
+          fi
