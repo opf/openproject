@@ -86,7 +86,7 @@ module OpenProject::Backlogs::CreatedResolved
       @collected_days ||= day_query.where(date: ..Time.zone.today).order(:date).map(&:date)
     end
 
-    def data_for_dates
+    def data_for_dates # rubocop:disable Metrics/AbcSize
       query_string = <<~SQL.squish
         SELECT
           days.date,
@@ -103,8 +103,8 @@ module OpenProject::Backlogs::CreatedResolved
           AND journals.data_type = '#{Journal::WorkPackageJournal.name}'
           AND #{Journal::WorkPackageJournal.table_name}.sprint_id = #{sprint.id}
           AND #{Journal::WorkPackageJournal.table_name}.project_id = #{project.id}
-        LEFT JOIN 
-          work_packages 
+        LEFT JOIN
+          work_packages
         ON journals.journable_id = work_packages.id
         JOIN
           (#{day_query.to_sql}) days
@@ -133,7 +133,7 @@ module OpenProject::Backlogs::CreatedResolved
       upper_date = sprint.finish_date
       upper_bound = Time.zone.today.clamp(lower_bound, upper_date)
 
-      #is required for testing
+      # is required for testing
       return Day.none unless upper_bound && lower_bound
 
       Day.working.from_range(from: lower_bound, to: upper_bound)

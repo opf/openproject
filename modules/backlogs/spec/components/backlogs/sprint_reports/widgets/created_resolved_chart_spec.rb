@@ -39,6 +39,12 @@ RSpec.describe Backlogs::SprintReports::Widgets::CreatedResolvedChart, type: :co
 
   subject(:rendered_component) { render_inline(described_class.new(sprint, project)) }
 
+  current_user { build_stubbed(:user) }
+
+  before do
+      mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
+  end
+
   context "when the sprint has a date range set" do
     let(:created_resolved) do
       instance_double(
