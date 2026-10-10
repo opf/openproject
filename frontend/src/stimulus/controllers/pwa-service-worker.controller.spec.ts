@@ -34,15 +34,15 @@ describe('PwaServiceWorkerController', () => {
   let ctx:StimulusTestContext;
   let register:ReturnType<typeof vi.fn>;
 
-  const html = `
-    <div data-controller="pwa-service-worker"
-         data-pwa-service-worker-url-value="/openproject/service-worker"
-         data-pwa-service-worker-scope-value="/openproject/"></div>
-  `;
-
-  async function mount() {
+  async function mount(signedIn:'true'|'false'|null = 'true') {
+    const signedInAttribute = signedIn === null ? '' : `data-pwa-service-worker-signed-in-value="${signedIn}"`;
     ctx = await setupStimulusTest({ controllers: { 'pwa-service-worker': PwaServiceWorkerController } });
-    await ctx.mount(html);
+    await ctx.mount(`
+      <div data-controller="pwa-service-worker"
+           data-pwa-service-worker-url-value="/openproject/service-worker"
+           data-pwa-service-worker-scope-value="/openproject/"
+           ${signedInAttribute}></div>
+    `);
   }
 
   beforeEach(() => {
@@ -98,5 +98,72 @@ describe('PwaServiceWorkerController', () => {
     await mount();
 
     expect(register).toHaveBeenCalled();
+  });
+
+  describe('shell caches', () => {
+    let keys:ReturnType<typeof vi.fn>;
+    let deleteCache:ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+      keys = vi.fn().mockResolvedValue(['openproject-shell-abc', 'some-other-cache', 'openproject-shell-def']);
+      deleteCache = vi.fn().mockResolvedValue(true);
+      vi.stubGlobal('caches', { keys, delete: deleteCache });
+    });
+
+    it('deletes only the shell caches when signed out', async () => {
+      await mount('false');
+      await ctx.nextFrame();
+
+      expect(deleteCache).toHaveBeenCalledTimes(2);
+      expect(deleteCache).toHaveBeenCalledWith('openproject-shell-abc');
+      expect(deleteCache).toHaveBeenCalledWith('openproject-shell-def');
+    });
+
+    it('keeps the caches when signed in', async () => {
+      await mount('true');
+      await ctx.nextFrame();
+
+      expect(deleteCache).not.toHaveBeenCalled();
+    });
+
+    it('keeps the caches when the signed in state is missing', async () => {
+      await mount(null);
+      await ctx.nextFrame();
+
+      expect(deleteCache).not.toHaveBeenCalled();
+    });
+
+    it('still registers the worker when signed out', async () => {
+      await mount('false');
+
+      expect(register).toHaveBeenCalled();
+    });
+
+    it('does nothing without Cache Storage support', async () => {
+      delete (window as { caches?:unknown }).caches;
+
+      await expect(mount('false')).resolves.toBeUndefined();
+    });
+
+    it('swallows a rejected cache listing', async () => {
+      const unhandled = vi.fn();
+      window.addEventListener('unhandledrejection', unhandled);
+      keys.mockRejectedValue(new Error('SecurityError'));
+
+      await mount('false');
+      await ctx.nextFrame();
+
+      expect(keys).toHaveBeenCalled();
+      expect(unhandled).not.toHaveBeenCalled();
+      window.removeEventListener('unhandledrejection', unhandled);
+    });
+
+    it('swallows a synchronous cache error', async () => {
+      keys.mockImplementation(() => { throw new Error('boom'); });
+
+      await mount('false');
+
+      expect(keys).toHaveBeenCalled();
+    });
   });
 });

@@ -316,7 +316,8 @@ module ApplicationHelper
 
     {
       pwa_service_worker_url_value: pwa_service_worker_path,
-      pwa_service_worker_scope_value: root_path
+      pwa_service_worker_scope_value: root_path,
+      pwa_service_worker_signed_in_value: User.current.logged?
     }
   end
 
