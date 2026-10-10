@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe "References to paths" do # rubocop:disable RSpec/DescribeClass
-  let(:existing_files) { Dir[Rails.root.join("docs/api/apiv3/paths/*.yml").to_s].map { |path| path.split("/").last } }
+  let(:existing_files) { Rails.root.glob("docs/api/apiv3/paths/*.yml").map { it.basename.to_s } }
   let(:referenced_files) do
     YAML.load_file(Rails.root.join("docs/api/apiv3/openapi-spec.yml"))
         .fetch("paths")
