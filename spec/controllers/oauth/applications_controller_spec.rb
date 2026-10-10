@@ -69,6 +69,21 @@ RSpec.describe OAuth::ApplicationsController do
       expect(response.status).to be 200
       expect(response).to render_template :new
     end
+
+    context "with an internal scope registered" do
+      render_views
+
+      before do
+        allow(OpenProject::Authentication).to receive(:internal_oauth_scopes).and_return(["mcp"])
+      end
+
+      it "does not offer the internal scope" do
+        get :new
+
+        expect(response.body).to have_field("application[scopes][]", with: "api_v3")
+        expect(response.body).to have_no_field("application[scopes][]", with: "mcp")
+      end
+    end
   end
 
   describe "#edit" do

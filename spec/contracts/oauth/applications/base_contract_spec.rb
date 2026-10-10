@@ -93,4 +93,43 @@ RSpec.describe OAuth::Applications::BaseContract, type: :model do # rubocop:disa
       it_behaves_like "oauth application contract is invalid"
     end
   end
+
+  describe ":scopes" do
+    let(:application) { build(:oauth_application, scopes: "api_v3 mcp") }
+
+    before do
+      allow(OpenProject::Authentication).to receive(:internal_oauth_scopes).and_return(["mcp"])
+    end
+
+    context "if an internal scope is assigned by an admin" do
+      it_behaves_like "oauth application contract is invalid"
+
+      it "adds an error on the scopes" do
+        contract = described_class.new(application, user)
+        contract.validate
+
+        expect(contract.errors.symbols_for(:scopes)).to contain_exactly(:inclusion)
+      end
+    end
+
+    context "if an internal scope is assigned by the system" do
+      let(:user) { User.system }
+
+      it_behaves_like "oauth application contract is valid"
+    end
+
+    context "if an application with an internal scope is changed otherwise by an admin" do
+      let(:application) do
+        create(:oauth_application, scopes: "api_v3 mcp").tap { |app| app.name = "Renamed" }
+      end
+
+      it_behaves_like "oauth application contract is valid"
+    end
+
+    context "if only non-internal scopes are assigned" do
+      let(:application) { build_stubbed(:oauth_application, secret: "my_secret", scopes: "api_v3") }
+
+      it_behaves_like "oauth application contract is valid"
+    end
+  end
 end

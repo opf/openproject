@@ -118,6 +118,10 @@ module OpenProject::Documents
       "#{root}/documents/#{id}"
     end
 
+    add_api_path :document_collaboration_token do |id|
+      "#{document(id)}/collaboration_token"
+    end
+
     add_api_path :attachments_by_document do |id|
       "#{document(id)}/attachments"
     end
@@ -128,6 +132,14 @@ module OpenProject::Documents
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Documents::DocumentsAPI
+    end
+
+    config.to_prepare do
+      Doorkeeper.configuration.scopes.add(Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
+
+      OpenProject::Authentication.add_internal_oauth_scope(Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
+      OpenProject::Authentication.add_restricted_oauth_scope(OpenProject::Authentication::Scope::API_V3,
+                                                             Documents::OAuth::EDIT_DOCUMENTS_SCOPE)
     end
 
     # Add documents to allowed search params

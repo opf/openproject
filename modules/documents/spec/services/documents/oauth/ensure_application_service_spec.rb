@@ -49,6 +49,7 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         application = result.result
 
         expect(application.uid).to eq(described_class::APPLICATION_UID)
+        expect(application.scopes.to_a).to eq([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
       end
     end
 
@@ -65,6 +66,13 @@ RSpec.describe Documents::OAuth::EnsureApplicationService do
         result = service_call
         expect(result).to be_success
         expect(result.result).to eq(existing_application)
+      end
+
+      it "restricts the application to the edit documents scope" do
+        expect { service_call }
+          .to change { existing_application.reload.scopes.to_a }
+          .from(["api_v3"])
+          .to([Documents::OAuth::EDIT_DOCUMENTS_SCOPE])
       end
     end
   end

@@ -2384,6 +2384,10 @@ en:
         date: "YYYY-MM-DD (ISO 8601 date only)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
+      insufficient_scope: >-
+        The access token used for this request does not grant access to this resource.
+        It only grants the scope(s) %{granted}, but this request requires the scope '%{required}'.
+        Authenticate with a session, an API key, or an OAuth access token with the '%{required}' scope.
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
       invalid_json: "The request could not be parsed as JSON."

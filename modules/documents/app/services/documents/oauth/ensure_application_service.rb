@@ -35,7 +35,7 @@ module Documents
     #
     # This service is responsible for finding or creating a Doorkeeper OAuth application
     # that is used for authenticating the YJS provider with the OpenProject API.
-    # The application is created as a confidential client with API v3 scope.
+    # The application is created as a confidential client with the edit documents scope.
     class EnsureApplicationService < BaseServices::BaseCallable
       APPLICATION_NAME = "Documents OAuth Application"
       APPLICATION_UID = "documents_yjs_provider"
@@ -43,7 +43,7 @@ module Documents
       def perform
         application = find_or_create_application
 
-        if application.persisted?
+        if application.persisted? && application.errors.empty?
           ServiceResult.success(result: application)
         else
           ServiceResult.failure(errors: application.errors)
@@ -54,9 +54,18 @@ module Documents
 
       def find_or_create_application
         existing = Doorkeeper::Application.find_by(uid: APPLICATION_UID)
-        return existing if existing
+        return ensure_edit_documents_scope(existing) if existing
 
         create_application
+      end
+
+      def ensure_edit_documents_scope(application)
+        return application if application.scopes.to_a == [EDIT_DOCUMENTS_SCOPE]
+
+        ::OAuth::Applications::UpdateService
+          .new(model: application, user: User.system)
+          .call(scopes: EDIT_DOCUMENTS_SCOPE)
+          .result
       end
 
       def create_application
@@ -66,7 +75,7 @@ module Documents
             uid: APPLICATION_UID,
             name: APPLICATION_NAME,
             redirect_uri: "urn:ietf:wg:oauth:2.0:oob",
-            scopes: "api_v3",
+            scopes: EDIT_DOCUMENTS_SCOPE,
             confidential: true,
             owner: User.system
           )

@@ -85,6 +85,97 @@ RSpec.describe API::V3::Documents::DocumentRepresenter, "rendering" do
         let(:link) { :update }
       end
     end
+
+    describe "createCollaborationToken", with_settings: { real_time_text_collaboration_enabled: true } do
+      let(:link) { :createCollaborationToken }
+      let(:document_permissions) { %i(view_documents) }
+
+      before do
+        mock_permissions_for(current_user) do |mock|
+          mock.allow_in_project(*document_permissions, project: workspace) if document_permissions.any?
+        end
+      end
+
+      context "when the user may view documents" do
+        it_behaves_like "has an untitled link" do
+          let(:href) { api_v3_paths.document_collaboration_token document.id }
+        end
+
+        it "indicates the POST method" do
+          expect(subject).to be_json_eql("post".to_json).at_path("_links/createCollaborationToken/method")
+        end
+      end
+
+      context "when the user may manage documents" do
+        let(:document_permissions) { %i(view_documents manage_documents) }
+
+        it_behaves_like "has an untitled link" do
+          let(:href) { api_v3_paths.document_collaboration_token document.id }
+        end
+      end
+
+      context "when the user may not view documents" do
+        let(:document_permissions) { [] }
+
+        it_behaves_like "has no link"
+      end
+
+      context "when the user is anonymous, even though they may view documents" do
+        let(:current_user) { build_stubbed(:anonymous) }
+
+        it_behaves_like "has no link"
+      end
+
+      context "when the document is not collaborative" do
+        let(:document) do
+          build_stubbed(:document, kind: "classic") do |document|
+            allow(document)
+              .to receive(:project)
+              .and_return(workspace)
+          end
+        end
+
+        it_behaves_like "has no link"
+      end
+
+      context "when real-time collaboration is disabled",
+              with_settings: { real_time_text_collaboration_enabled: false } do
+        it_behaves_like "has no link"
+      end
+
+      context "when real-time collaboration is disabled after the representer has been cached" do
+        it "no longer renders the link" do
+          expect(described_class.create(document, current_user:, embed_links:).to_json)
+            .to have_json_path("_links/createCollaborationToken")
+
+          allow(Setting).to receive(:real_time_text_collaboration_enabled?).and_return(false)
+
+          expect(described_class.create(document, current_user:, embed_links:).to_json)
+            .not_to have_json_path("_links/createCollaborationToken")
+        end
+      end
+
+      context "when rendered for a permitted user first and a user without permission afterwards" do
+        let(:other_user) { build_stubbed(:user) }
+        let(:permitted_representer) { described_class.create(document, current_user:, embed_links:) }
+        let(:unpermitted_representer) { described_class.create(document, current_user: other_user, embed_links:) }
+
+        before do
+          mock_permissions_for(other_user, &:forbid_everything)
+        end
+
+        it "does not leak the link through the representer cache" do
+          expect(permitted_representer.to_json).to have_json_path("_links/createCollaborationToken")
+
+          # Make sure the second rendering is actually served from the cache filled by the first one.
+          expect(unpermitted_representer.json_cache_key).to eq(permitted_representer.json_cache_key)
+          expect(Rails.cache.exist?(OpenProject::Cache::CacheKey.key(permitted_representer.json_cache_key)))
+            .to be(true)
+
+          expect(unpermitted_representer.to_json).not_to have_json_path("_links/createCollaborationToken")
+        end
+      end
+    end
   end
 
   describe "properties" do

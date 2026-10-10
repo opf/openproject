@@ -1,0 +1,148 @@
+# /api/v3/documents/{id}/collaboration_token
+---
+post:
+  parameters:
+  - description: Document id
+    example: 1
+    in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+  requestBody:
+    required: false
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            token:
+              type: string
+              description: |-
+                A previously issued collaboration token to revoke 30 seconds after the new token is created.
+                The previous token may be expired, but must not be revoked (i.e. must not have been sent before).
+                Omit it to create a new token without revoking any.
+        examples:
+          create:
+            summary: Create a new token
+            value: {}
+          withPreviousToken:
+            summary: Create a new token and revoke the previous one
+            value:
+              token: "Q2lwaGVydGV4dA==--SXZJdlZJdg==--QXV0aFRhZw=="
+  responses:
+    '201':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _type: CollaborationToken
+                token: "Q2lwaGVydGV4dA==--SXZJdlZJdg==--QXV0aFRhZw=="
+                documentName: "https://openproject.example.com/api/v3/documents/1"
+                expiresAt: '2025-01-04T09:05:00Z'
+                expiresInSeconds: 300
+                _links:
+                  document:
+                    href: "/api/v3/documents/1"
+                    title: Some document
+                  createCollaborationToken:
+                    href: "/api/v3/documents/1/collaboration_token"
+                    method: post
+                  collaborationServer:
+                    href: "wss://hocuspocus.example.com"
+          schema:
+            "$ref": "../components/schemas/collaboration_token_model.yml"
+      description: "Created. The response must not be cached (`Cache-Control: no-store`)."
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InsufficientScope
+                message: The access token used for this request does not grant access to this resource. It only
+                  grants the scope(s) 'edit_documents', but this request requires the scope 'api_v3'.
+                  Authenticate with a session, an API key, or an OAuth access token with the 'api_v3' scope.
+      description: |-
+        Returned if the request is authenticated with an OAuth access token that lacks the `api_v3` scope,
+        e.g. the token inside a collaboration token. Such tokens can not request further tokens.
+      headers: {}
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the document does not exist or if the user does not have permission to view it.
+
+        **Required permission** `view documents` in the project the document belongs to
+      headers: {}
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            not_collaborative:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: The document does not support real-time collaboration.
+            collaboration_disabled:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: Real-time collaboration is not enabled.
+            invalid_previous_token:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:UnprocessableContent
+                message: The previous collaboration token is invalid, already revoked, or does not belong to this
+                  document and user.
+      description: |-
+        Returned if the document is not collaborative, if real-time collaboration is disabled, or if the
+        previous token is invalid, was issued for another document, belongs to another user or is already
+        revoked. Nothing is created or revoked in that case.
+      headers: {}
+    '500':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:InternalServerError
+                message: An internal error has occurred.
+      description: Returned if the token could not be issued. Nothing is revoked in that case.
+      headers: {}
+  tags:
+  - Documents
+  description: |-
+    Creates a short-lived token for the real-time collaboration (Hocuspocus) server for the document.
+
+    The token is issued for the requesting user. Users who may only view documents receive a read-only token.
+    Requests authenticated with a token issued to the collaboration server are rejected.
+
+    To revoke the previous token while creating a new one, send it as `token` in the request body. The request
+    is authorized by the client's own credentials, exactly like creating a token without one. The previous token
+    only identifies which token to revoke, so it may be expired. This allows clients to recover after sleep or
+    offline periods. The previous token must not be revoked (i.e. must not have been sent before), otherwise
+    the request is rejected.
+
+    The previous token is revoked 30 seconds after the new token is created. Clients should hand the new token
+    to the collaboration server right away, e.g. by calling `sendToken()` on the Hocuspocus provider.
+  operationId: Create_document_collaboration_token
+  summary: Create collaboration token

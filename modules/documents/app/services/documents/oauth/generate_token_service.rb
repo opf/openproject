@@ -57,7 +57,7 @@ module Documents
       def create_access_token(application)
         application.access_tokens.create(
           resource_owner_id: @user.id,
-          scopes: "api_v3",
+          scopes: EDIT_DOCUMENTS_SCOPE,
           expires_in: 5.minutes.to_i
         )
       end

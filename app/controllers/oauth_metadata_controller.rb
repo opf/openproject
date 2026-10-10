@@ -41,7 +41,7 @@ class OAuthMetadataController < ApplicationController
       authorization_endpoint: oauth_authorization_url,
       token_endpoint: oauth_token_url,
       introspection_endpoint: oauth_introspect_url,
-      scopes_supported: Doorkeeper.configuration.scopes.to_a,
+      scopes_supported: supported_scopes,
       response_types_supported: response_types(Doorkeeper.configuration.grant_flows),
       grant_types_supported: grant_types,
       service_documentation: OpenProject::Static::Links.url_for(:oauth_applications)
@@ -60,6 +60,10 @@ class OAuthMetadataController < ApplicationController
   end
 
   private
+
+  def supported_scopes
+    Doorkeeper.configuration.scopes.to_a - OpenProject::Authentication.internal_oauth_scopes
+  end
 
   def response_types(grant_types)
     grant_types.filter_map do |grant|

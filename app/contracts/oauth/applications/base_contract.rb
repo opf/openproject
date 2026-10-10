@@ -38,6 +38,7 @@ module OAuth
       validate :validate_client_credential_user
       validate :validate_integration
       validate :validate_admin_only
+      validate :validate_internal_scopes
 
       attribute :enabled
       attribute :name
@@ -56,6 +57,14 @@ module OAuth
 
       def validate_admin_only
         errors.add :base, :error_unauthorized unless user.admin?
+      end
+
+      def validate_internal_scopes
+        return if user.is_a?(SystemUser) || !model.will_save_change_to_scopes?
+
+        if model.scopes.to_a.intersect?(OpenProject::Authentication.internal_oauth_scopes)
+          errors.add :scopes, :inclusion
+        end
       end
 
       def validate_integration

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -27,26 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module Documents
+  module OAuth
+    ##
+    # Shared cipher configuration for the collaboration token sent to the Hocuspocus server.
+    # Including classes define `cipher_operation` ("encrypt" or "decrypt") for error messages.
+    #
+    # The Hocuspocus server decrypts the token with the same algorithm and the SHA256 digest
+    # of the shared secret, so both directions must stay in sync.
+    module TokenEncryptor
+      ALGORITHM = "aes-256-gcm"
 
-RSpec.describe API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+      private
 
-  describe "#document" do
-    subject { helper.attachments_by_document 42 }
+      def message_encryptor
+        ActiveSupport::MessageEncryptor.new(
+          key,
+          cipher: ALGORITHM,
+          serializer: ActiveSupport::MessageEncryptor::NullSerializer
+        )
+      end
 
-    it { is_expected.to eql("/api/v3/documents/42/attachments") }
-  end
+      def key
+        @key ||= begin
+          secret = Setting.collaborative_editing_hocuspocus_secret
+          raise "Collaborative editing secret is not set. Cannot #{cipher_operation} token." if secret.blank?
 
-  describe "#attachments_by_document" do
-    subject { helper.prepare_attachments_by_document 42 }
-
-    it { is_expected.to eql("/api/v3/documents/42/attachments/prepare") }
-  end
-
-  describe "#document_collaboration_token" do
-    subject { helper.document_collaboration_token 42 }
-
-    it { is_expected.to eql("/api/v3/documents/42/collaboration_token") }
+          Digest::SHA256.digest(secret)
+        end
+      end
+    end
   end
 end

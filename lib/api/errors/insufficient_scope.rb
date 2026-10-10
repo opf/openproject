@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -27,26 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "spec_helper"
+module API
+  module Errors
+    class InsufficientScope < ErrorBase
+      identifier "InsufficientScope"
+      code 403
 
-RSpec.describe API::V3::Utilities::PathHelper do
-  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
-
-  describe "#document" do
-    subject { helper.attachments_by_document 42 }
-
-    it { is_expected.to eql("/api/v3/documents/42/attachments") }
-  end
-
-  describe "#attachments_by_document" do
-    subject { helper.prepare_attachments_by_document 42 }
-
-    it { is_expected.to eql("/api/v3/documents/42/attachments/prepare") }
-  end
-
-  describe "#document_collaboration_token" do
-    subject { helper.document_collaboration_token 42 }
-
-    it { is_expected.to eql("/api/v3/documents/42/collaboration_token") }
+      def initialize(granted_scopes:, required_scope:)
+        super(
+          I18n.t("api_v3.errors.insufficient_scope",
+                 granted: granted_scopes.map { |scope| "'#{scope}'" }.join(", "),
+                 required: required_scope)
+        )
+      end
+    end
   end
 end
