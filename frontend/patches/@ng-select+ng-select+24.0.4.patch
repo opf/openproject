@@ -1,8 +1,8 @@
 diff --git a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
-index 03e59e1..235a6bc 100644
+index 8dcf1f5..d4ca72d 100644
 --- a/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
 +++ b/node_modules/@ng-select/ng-select/fesm2022/ng-select-ng-select.mjs
-@@ -3406,6 +3406,9 @@ class NgSelectComponent {
+@@ -3500,6 +3500,9 @@ class NgSelectComponent {
      }
      _changeSearch(searchTerm) {
          this._searchTerm.set(searchTerm);
