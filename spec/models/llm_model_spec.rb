@@ -60,4 +60,19 @@ RSpec.describe LlmModel do
       expect(llm_model.model_type).to eq(:chat)
     end
   end
+
+  describe "withdrawal", :llm_server_helpers, :webmock, with_flag: { llm_connection: true } do
+    let(:base_url) { "https://example.com/v1" }
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+    let(:model) { connection.models.find_by(external_id: "qwen3.6-27b") }
+
+    it "only describes a discovered model the server stopped reporting" do
+      withdrawn = create(:llm_model, :withdrawn, llm_connection: connection, external_id: "gone")
+      typed = create(:llm_model, :manual, :withdrawn, llm_connection: connection, external_id: "hand-typed")
+
+      expect(withdrawn).to be_withdrawn
+      expect(typed).not_to be_withdrawn
+      expect(model).not_to be_withdrawn
+    end
+  end
 end

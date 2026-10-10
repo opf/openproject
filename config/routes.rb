@@ -874,6 +874,7 @@ Rails.application.routes.draw do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+        patch :defaults, action: :update_defaults
       end
 
       member do

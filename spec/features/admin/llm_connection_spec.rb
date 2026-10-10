@@ -36,11 +36,18 @@ RSpec.describe "LLM connection administration",
                :js, :llm_server_helpers, :selenium, :webmock,
                driver: :firefox_de,
                with_flag: { llm_connection: true } do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   let(:base_url) { "https://example.com/v1" }
 
   current_user { admin }
+
+  def default_chat_model_picker
+    find("[data-test-selector='llm-connection--defaults-form'] " \
+         "opce-autocompleter[data-input-name*='default_chat_model_id']")
+  end
 
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
@@ -145,7 +152,19 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to have_test_selector("llm-model--edit-#{connection.models.first.id}")
       expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "picks and saves the default chat model" do
+      visit llm_models_path
+
+      select_autocomplete(default_chat_model_picker, query: "qwen", select_text: "qwen3.6-27b")
+      within_test_selector("llm-connection--defaults-form") { click_on "Save" }
+
+      expect(page).to have_text(I18n.t("admin.llm_models.defaults.success"))
+      expect(connection.reload.default_chat_model.external_id).to eq("qwen3.6-27b")
+      expect_current_autocompleter_value(default_chat_model_picker, "qwen3.6-27b")
     end
 
     # The chat capabilities are hidden client-side, so only a browser shows that
