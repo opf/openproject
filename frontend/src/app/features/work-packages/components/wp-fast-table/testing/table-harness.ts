@@ -41,10 +41,12 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { States } from 'core-app/core/states/states.service';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
+import { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { InlineCreateRowBuilder } from 'core-app/features/work-packages/components/wp-inline-create/inline-create-row-builder';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 import { TableDragActionService } from 'core-app/features/work-packages/components/wp-table/drag-and-drop/actions/table-drag-action.service';
@@ -139,6 +141,8 @@ export interface TableHarness {
   /** Feeds a drop to the registered drag member; resolves with the transaction's `complete` value. */
   drop(sourceId:string, targetId:string|null, edge:Edge|null):Promise<boolean>;
   addRelationRow(workPackageId:string, afterId:string):HTMLTableRowElement;
+  /** Appends the unsaved row the inline-create component renders into its own `<tbody>`. */
+  addInlineCreateRow():HTMLTableRowElement;
   destroy():Promise<void>;
 }
 
@@ -292,6 +296,18 @@ export function buildTable(options:TableHarnessOptions):TableHarness {
       const index = rendered.findIndex((entry) => entry.classIdentifier === this.row(afterId).dataset.classIdentifier);
       rendered.splice(index + 1, 0, { classIdentifier: row.dataset.classIdentifier, workPackageId, hidden: false });
       querySpace.tableRendered.putValue(rendered);
+      return row;
+    },
+
+    addInlineCreateRow() {
+      const workPackage = buildWorkPackage({ id: HAL_NEW_RESOURCE_ID, subject: '' });
+      states.workPackages.get(HAL_NEW_RESOURCE_ID).putValue(workPackage);
+      const builder = new InlineCreateRowBuilder(injector, table);
+      table.editing.startEditing(workPackage, builder.classIdentifier(workPackage));
+      const [row] = builder.buildEmpty(workPackage);
+      const inlineCreateBody = document.createElement('tbody');
+      inlineCreateBody.append(row);
+      dom.tbody.after(inlineCreateBody);
       return row;
     },
 
