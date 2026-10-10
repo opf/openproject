@@ -26,23 +26,29 @@
 //++
 
 import { connectStreamSource, disconnectStreamSource } from '@hotwired/turbo';
-import { Consumer, createConsumer, Subscription } from '@rails/actioncable';
+import { ChannelNameWithParams, Consumer, createConsumer, Subscription } from '@rails/actioncable';
+import { snakeCase } from 'lodash-es';
 
 export const WEBSOCKET_TIMEOUT_MS = 5_000;
 export const TRANSPORT_STORAGE_KEY = 'op-cable-transport';
 
-// Replaces turbo-rails' <turbo-cable-stream-source> (rendered by `turbo_stream_from`) to fall
-// back to AnyCable's SSE endpoint when no WebSocket can be opened, e.g. behind proxies that
-// strip the Upgrade header. The fallback is Turbo's own <turbo-stream-source>, which cannot
-// replace the WebSocket path because AnyCable's WebSocket speaks the Action Cable protocol.
+// Takes the place of turbo-rails' <turbo-cable-stream-source> (rendered by `turbo_stream_from`),
+// following its implementation, and falls back to AnyCable's SSE endpoint when no WebSocket can be
+// opened, e.g. behind proxies that strip the Upgrade header. Both transports subscribe to the same
+// channel, so the subscription is authorized by OpenProject over RPC either way.
 export class CableStreamSourceElement extends HTMLElement {
+  static observedAttributes = ['channel', 'signed-stream-name'];
+
   private static consumer?:Consumer;
   private static webSocketSources = new Set<CableStreamSourceElement>();
 
   private subscription?:Subscription;
+  private eventSource?:EventSource;
   private fallbackTimer?:number;
 
   connectedCallback():void {
+    connectStreamSource(this);
+
     if (this.sseUsed()) {
       this.connectEventSource();
     } else {
@@ -52,38 +58,56 @@ export class CableStreamSourceElement extends HTMLElement {
 
   disconnectedCallback():void {
     this.disconnectWebSocket();
+    this.disconnectEventSource();
+    disconnectStreamSource(this);
   }
 
-  private get signedStreamName():string {
-    return this.getAttribute('signed-stream-name') ?? '';
+  attributeChangedCallback():void {
+    if (this.subscription || this.eventSource) {
+      this.disconnectedCallback();
+      this.connectedCallback();
+    }
+  }
+
+  dispatchMessageEvent(data:unknown):boolean {
+    return this.dispatchEvent(new MessageEvent('message', { data }));
+  }
+
+  subscriptionConnected():void {
+    window.clearTimeout(this.fallbackTimer);
+    this.setAttribute('connected', '');
+  }
+
+  subscriptionDisconnected({ willAttemptReconnect }:{ willAttemptReconnect:boolean|undefined }):void {
+    this.removeAttribute('connected');
+
+    // The server refused the connection (e.g. not logged in); SSE would be refused too.
+    if (!willAttemptReconnect) {
+      window.clearTimeout(this.fallbackTimer);
+    }
+  }
+
+  // Like turbo-rails, data attributes are passed on as snake_case channel parameters.
+  get channel():ChannelNameWithParams {
+    const params = Object.fromEntries(Object.entries(this.dataset).map(([key, value]) => [snakeCase(key), value]));
+
+    return {
+      channel: this.getAttribute('channel') ?? 'Turbo::StreamsChannel',
+      signed_stream_name: this.getAttribute('signed-stream-name'),
+      ...params,
+    };
   }
 
   private connectWebSocket():void {
-    connectStreamSource(this);
     CableStreamSourceElement.webSocketSources.add(this);
     this.fallbackTimer = window.setTimeout(() => this.fallBackToEventSource(), WEBSOCKET_TIMEOUT_MS);
 
-    this.subscription = this.getConsumer().subscriptions.create(
-      {
-        channel: this.getAttribute('channel') ?? 'Turbo::StreamsChannel',
-        signed_stream_name: this.signedStreamName,
-      },
-      {
-        received: (data:string) => this.dispatchEvent(new MessageEvent('message', { data })),
-        connected: () => {
-          window.clearTimeout(this.fallbackTimer);
-          this.setAttribute('connected', '');
-        },
-        disconnected: ({ willAttemptReconnect }:{ willAttemptReconnect:boolean|undefined }) => {
-          this.removeAttribute('connected');
-          // The server refused the connection (e.g. not logged in); SSE would be refused too.
-          if (!willAttemptReconnect) {
-            window.clearTimeout(this.fallbackTimer);
-          }
-        },
-        rejected: () => window.clearTimeout(this.fallbackTimer),
-      },
-    );
+    this.subscription = this.getConsumer().subscriptions.create(this.channel, {
+      received: this.dispatchMessageEvent.bind(this),
+      connected: this.subscriptionConnected.bind(this),
+      disconnected: this.subscriptionDisconnected.bind(this),
+      rejected: () => window.clearTimeout(this.fallbackTimer),
+    });
   }
 
   private disconnectWebSocket():void {
@@ -91,7 +115,6 @@ export class CableStreamSourceElement extends HTMLElement {
     this.subscription?.unsubscribe();
     this.subscription = undefined;
     this.removeAttribute('connected');
-    disconnectStreamSource(this);
     CableStreamSourceElement.webSocketSources.delete(this);
   }
 
@@ -105,11 +128,20 @@ export class CableStreamSourceElement extends HTMLElement {
   }
 
   private connectEventSource():void {
-    const name = encodeURIComponent(this.signedStreamName);
-    const source = document.createElement('turbo-stream-source');
-    source.setAttribute('src', `${window.appBasePath ?? ''}/events?turbo_signed_stream_name=${name}`);
-    this.replaceChildren(source);
+    const identifier = encodeURIComponent(JSON.stringify(this.channel));
+    this.eventSource = new EventSource(`${window.appBasePath ?? ''}/events?identifier=${identifier}`);
+    this.eventSource.addEventListener('message', this.receiveEventSourceMessage);
   }
+
+  private disconnectEventSource():void {
+    this.eventSource?.close();
+    this.eventSource = undefined;
+  }
+
+  // AnyCable sends each broadcast JSON-encoded over SSE, while Turbo expects the stream HTML itself.
+  private receiveEventSourceMessage = (event:MessageEvent<string>) => {
+    this.dispatchMessageEvent(JSON.parse(event.data) as unknown);
+  };
 
   private getConsumer():Consumer {
     CableStreamSourceElement.consumer ??= createConsumer();

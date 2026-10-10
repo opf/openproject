@@ -50,13 +50,9 @@ enabled = true
 # Enable whispering support for pub/sub streams
 whisper = true
 #
-# Authorize Turbo Streams at the AnyCable server side.
-# IMPORTANT: Make sure your Turbo verifier key is the same as AnyCable secret.
-# Add this line to your Rails configuration (if missing):
-#
-#  config.turbo.signed_stream_verifier_key = AnyCable.config.secret
-#
-turbo = true
+# Turbo Streams subscriptions are authorized by OpenProject over RPC (OpenProject::LiveUpdates.allowed?).
+# Handling them here would only check the signature and bypass that authorization.
+turbo = false
 
 [redis]
 # IMPORTANT: In production, provide Redis address via the REDIS_URL or ANYCABLE_REDIS_URL env var

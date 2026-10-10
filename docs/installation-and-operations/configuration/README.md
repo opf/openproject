@@ -208,9 +208,12 @@ AnyCable server:
 ANYCABLE_SECRET=<shared secret>
 ANYCABLE_RPC_HOST=http://<openproject host>:<openproject port>/_anycable
 ANYCABLE_BROADCAST_ADAPTER=http
-ANYCABLE_TURBO_STREAMS=true
 ANYCABLE_SSE=true
 ```
+
+Do not enable `ANYCABLE_TURBO_STREAMS` on the AnyCable server. OpenProject authorizes every subscription itself
+through the `/_anycable` endpoint, checking that the user may see the subscribed object. With that option, the AnyCable
+server would accept subscriptions on its own, checking only their signature.
 
 Configure your reverse proxy to forward `/cable` (WebSocket) and `/events` (server-sent events, with response buffering
 disabled) on the OpenProject host name to the AnyCable server. If OpenProject runs under a path prefix, prefix both paths
@@ -236,6 +239,25 @@ ANYCABLE_HTTP_RPC_SECRET=<rpc secret>
 `ANYCABLE_SECRET` is still required in this case, as it also signs the live update streams.
 
 The token is sent with every call, so keep `ANYCABLE_RPC_HOST` on a trusted network or use an `https://` URL.
+
+Only the AnyCable server needs to reach `/_anycable`. Block the path for public traffic in your reverse proxy,
+so that the endpoint is not exposed beyond its token, and let the AnyCable server call OpenProject directly.
+
+nginx:
+
+```nginx
+location /_anycable {
+  return 404;
+}
+```
+
+Apache:
+
+```apache
+<Location "/_anycable">
+  Require all denied
+</Location>
+```
 
 ## Seeding through environment
 

@@ -41,6 +41,39 @@ module OpenProject
         AnyCable.config.websocket_url.present?
     end
 
+    # Registers who may subscribe to `turbo_stream_from record` (or `turbo_stream_from record, topic`)
+    # for records of the model. Without a rule, a record's own stream requires `record.visible?(user)`
+    # and topic streams are denied.
+    def register(model, topic: nil, &rule)
+      rules[[rule_key(model), topic&.to_s]] = rule
+    end
+
+    def allowed?(stream_name, user)
+      gid, topic = stream_name.to_s.split(":", 2)
+      record = GlobalID::Locator.locate(gid)
+      return false unless record
+
+      rule = rules[[rule_key(record.class), topic]]
+
+      User.execute_as(user) do
+        if rule
+          rule.call(record, user)
+        else
+          topic.nil? && record.respond_to?(:visible?) && record.visible?(user)
+        end
+      end
+    rescue ActiveRecord::RecordNotFound, URI::InvalidURIError
+      false
+    end
+
+    def rules
+      @rules ||= {}
+    end
+
+    def rule_key(model)
+      (model.try(:base_class) || model).name
+    end
+
     # The event dispatched on `document` in pages subscribed to a record of the model via `turbo_stream_from`,
     # e.g. "op-dispatched:meeting-changed".
     def changed_event(model)

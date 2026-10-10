@@ -30,8 +30,8 @@
 
 module ApplicationCable
   # Authenticates WebSocket and SSE connections from the session cookie, which AnyCable
-  # forwards over RPC. Subscriptions are authorized by anycable-go itself via Turbo's
-  # signed stream names, so no channel classes are needed.
+  # forwards over RPC. Subscriptions are authorized by Turbo::StreamsChannel via the
+  # OpenProject::LiveUpdates::StreamAuthorization.
   class Connection < ActionCable::Connection::Base
     include OpenProject::Authentication::SessionExpiration
 

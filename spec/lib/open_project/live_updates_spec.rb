@@ -41,6 +41,51 @@ RSpec.describe OpenProject::LiveUpdates do
     end
   end
 
+  describe ".allowed?" do
+    shared_let(:project) { create(:project, public: false) }
+    shared_let(:admin) { create(:admin) }
+    shared_let(:user) { create(:user) }
+
+    let(:stream) { project.to_gid_param }
+
+    it "allows a record's stream to users who can see the record" do
+      expect(described_class.allowed?(stream, admin)).to be(true)
+    end
+
+    it "denies a record's stream to users who cannot see the record" do
+      expect(described_class.allowed?(stream, user)).to be(false)
+    end
+
+    it "denies topic streams without a registered rule" do
+      expect(described_class.allowed?("#{stream}:meetings", admin)).to be(false)
+    end
+
+    it "denies streams of records that do not exist" do
+      missing = GlobalID.new(URI::GID.build(app: GlobalID.app, model_name: "Project", model_id: "0")).to_param
+
+      expect(described_class.allowed?(missing, admin)).to be(false)
+    end
+
+    it "denies streams without a verified name" do
+      expect(described_class.allowed?(nil, admin)).to be(false)
+    end
+
+    context "with a rule registered for a topic" do
+      before do
+        described_class.register(Project, topic: :meetings) { |_project, subscriber| subscriber == user }
+      end
+
+      after do
+        described_class.rules.delete(["Project", "meetings"])
+      end
+
+      it "applies the rule instead of the record's visibility" do
+        expect(described_class.allowed?("#{stream}:meetings", user)).to be(true)
+        expect(described_class.allowed?("#{stream}:meetings", admin)).to be(false)
+      end
+    end
+  end
+
   describe ".broadcast_changed" do
     let(:project) { build_stubbed(:project) }
 

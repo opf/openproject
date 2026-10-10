@@ -60,6 +60,9 @@ describe('turbo-cable-stream-source', () => {
   let element:HTMLElement;
 
   const mixin = ():BaseMixin => consumer.subscriptions.create.mock.calls[0][1];
+  const sseUrl = `/events?identifier=${encodeURIComponent(
+    JSON.stringify({ channel: 'Turbo::StreamsChannel', signed_stream_name: 'signed==--abc' }),
+  )}`;
 
   const attach = ():void => {
     element = document.createElement('turbo-cable-stream-source');
@@ -97,6 +100,30 @@ describe('turbo-cable-stream-source', () => {
     expect(element.hasAttribute('connected')).toBe(true);
   });
 
+  it('passes data attributes on as snake_case channel parameters', () => {
+    element = document.createElement('turbo-cable-stream-source');
+    element.setAttribute('channel', 'Meetings::ChangesChannel');
+    element.dataset.meetingId = '8';
+    document.body.appendChild(element);
+
+    expect(consumer.subscriptions.create).toHaveBeenCalledWith(
+      { channel: 'Meetings::ChangesChannel', signed_stream_name: null, meeting_id: '8' },
+      expect.any(Object),
+    );
+  });
+
+  it('resubscribes when the signed stream name changes', () => {
+    attach();
+
+    element.setAttribute('signed-stream-name', 'other==--def');
+
+    expect(subscription.unsubscribe).toHaveBeenCalled();
+    expect(consumer.subscriptions.create).toHaveBeenLastCalledWith(
+      { channel: 'Turbo::StreamsChannel', signed_stream_name: 'other==--def' },
+      expect.any(Object),
+    );
+  });
+
   it('re-dispatches received broadcasts as message events', () => {
     attach();
     const listener = vi.fn();
@@ -123,9 +150,7 @@ describe('turbo-cable-stream-source', () => {
 
     expect(subscription.unsubscribe).toHaveBeenCalled();
     expect(consumer.disconnect).toHaveBeenCalled();
-    expect(element.querySelector('turbo-stream-source')?.getAttribute('src'))
-      .toBe('/events?turbo_signed_stream_name=signed%3D%3D--abc');
-    expect(FakeEventSource.instances[0].url).toBe('/events?turbo_signed_stream_name=signed%3D%3D--abc');
+    expect(FakeEventSource.instances[0].url).toBe(sseUrl);
     expect(sessionStorage.getItem(TRANSPORT_STORAGE_KEY)).toBe('sse');
   });
 
@@ -145,6 +170,17 @@ describe('turbo-cable-stream-source', () => {
     vi.advanceTimersByTime(WEBSOCKET_TIMEOUT_MS);
 
     expect(FakeEventSource.instances).toHaveLength(0);
+  });
+
+  it('decodes SSE broadcasts before handing them to Turbo', () => {
+    sessionStorage.setItem(TRANSPORT_STORAGE_KEY, 'sse');
+    attach();
+    const listener = vi.fn();
+    element.addEventListener('message', listener);
+
+    FakeEventSource.instances[0].dispatchEvent(new MessageEvent('message', { data: JSON.stringify('<turbo-stream>') }));
+
+    expect((listener.mock.calls[0][0] as MessageEvent).data).toBe('<turbo-stream>');
   });
 
   it('closes the event source when removed', () => {

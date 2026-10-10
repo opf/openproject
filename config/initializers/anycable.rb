@@ -29,8 +29,9 @@
 #++
 
 Rails.application.configure do
-  # anycable-go verifies Turbo's signed stream names with the same secret (--turbo_streams).
-  config.turbo.signed_stream_verifier_key = AnyCable.config.secret.presence
+  config.to_prepare do
+    Turbo::StreamsChannel.include(OpenProject::LiveUpdates::StreamAuthorization)
+  end
 
   # Without a secret the HTTP RPC endpoint would accept unauthenticated calls.
   if AnyCable.config.secret.blank?
