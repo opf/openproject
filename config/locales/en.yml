@@ -5596,6 +5596,12 @@ en:
         caption: Add a table of contents page indexing the section headers.
         label: Table of contents
     page_nr_footer: "Page %{page} of %{total}"
+    template_zendis_artefact:
+      address_caption: "Render this work package custom field on a separate contact page. Configure the content fields and their order in the type's form configuration."
+      address_field: "Address custom field"
+      caption: "Work package custom fields and related work packages in the ZenDiS document layout."
+      document_date: "Last updated: %{date}"
+      label: "ZenDiS Artefakt"
     template_artefact:
       caption: Work package details rendered as a PMflex Artefact.
       label: "PMflex Artefact"
@@ -7249,6 +7255,7 @@ en:
             label: "Upload file to external file storage and add file link to work package"
           intro: "Automatically generate a PDF artefact of a work package of this type whenever its status changes."
           invalid_mode: "Invalid artefact export mode."
+          invalid_template: "Invalid automatic export template."
           label: "Automatic artefact export"
           off_mode:
             caption: "No PDF is generated automatically."

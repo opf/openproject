@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,17 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Type::ArtefactExport
-  # No automatic export (default; existing types are unaffected).
-  OFF = "off"
-  # Save the generated PDF as a work package file attachment.
-  ATTACHMENT = "attachment"
-  # Upload the generated PDF to the project's Nextcloud storage and add a file link.
-  FILE_LINK = "file_link"
+module WorkPackages
+  module Exports
+    module Generate
+      module Templates
+        class ZendisArtefactSettingsComponent < ArtefactSettingsComponent
+          TEMPLATE_ID = "zendis_artefact"
 
-  MODES = [OFF, ATTACHMENT, FILE_LINK].freeze
-  DEFAULT = OFF
-  TEMPLATES = %w[artefact zendis_artefact].freeze
+          def self.fields
+            super + %w[address_custom_field_id]
+          end
+
+          def address_custom_field_id
+            settings[:address_custom_field_id].to_s
+          end
+
+          def address_custom_fields
+            WorkPackageCustomField.where(field_format: %w[text string]).order(:name)
+          end
+        end
+      end
+    end
+  end
 end

@@ -1,0 +1,71 @@
+<%= flex_layout do |fields|
+      fields.with_row(mt: 0) do
+        render(
+          Primer::Alpha::CheckBox.new(
+            id: "zendis_toc_enabled",
+            name: "toc",
+            checked: toc,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.toc.label"),
+            caption: I18n.t("pdf_generator.dialog.toc.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          Primer::Alpha::CheckBox.new(
+            id: "zendis_include_lifecycle_enabled",
+            name: "include_lifecycle",
+            checked: include_lifecycle,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.include_lifecycle.label"),
+            caption: I18n.t("pdf_generator.dialog.include_lifecycle.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          Primer::Alpha::CheckBox.new(
+            id: "zendis_include_budget_enabled",
+            name: "include_budget",
+            checked: include_budget,
+            value: "true",
+            unchecked_value: "false",
+            label: I18n.t("pdf_generator.dialog.include_budget.label"),
+            caption: I18n.t("pdf_generator.dialog.include_budget.caption"),
+            visually_hide_label: false,
+            disabled: disabled
+          )
+        )
+      end
+      fields.with_row(mt: 3) do
+        render(
+          WorkPackages::Exports::Generate::Templates::HyphenationFieldsComponent.new(
+            template_id: "zendis_artefact",
+            enabled: hyphenation_enabled,
+            language: hyphenation_language,
+            disabled: disabled
+          )
+        )
+      end
+    end %>
+
+<% if show_default_hint %>
+  <%= render(Primer::Alpha::Select.new(
+        name: "address_custom_field_id",
+        label: I18n.t("pdf_generator.template_zendis_artefact.address_field"),
+        caption: I18n.t("pdf_generator.template_zendis_artefact.address_caption"),
+        disabled: disabled
+      )) do |select| %>
+    <% select.option(label: I18n.t(:label_none), value: "", selected: address_custom_field_id.blank?) %>
+    <% address_custom_fields.each do |field| %>
+      <% select.option(label: field.name, value: field.id, selected: address_custom_field_id == field.id.to_s) %>
+    <% end %>
+  <% end %>
+<% end %>

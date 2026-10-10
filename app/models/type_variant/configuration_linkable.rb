@@ -147,6 +147,13 @@ class TypeVariant
       source.default_work_package_description
     end
 
+    def artefact_export_template
+      source = source_for(TypeVariant::PDF_EXPORT)
+      return super if source.nil?
+
+      source.artefact_export_template
+    end
+
     def artefact_export_mode
       source = source_for(TypeVariant::PDF_EXPORT)
       return super if source.nil?

@@ -57,6 +57,7 @@ class TypeVariant < ApplicationRecord
   store_attribute :pdf_export_templates_config, :export_templates_disabled, :json
   store_attribute :pdf_export_templates_config, :export_templates_order, :json
   store_attribute :pdf_export_templates_config, :artefact_export_mode, :string
+  store_attribute :pdf_export_templates_config, :artefact_export_template, :string
   store_attribute :pdf_export_templates_config, :export_templates_settings, :json
 
   belongs_to :type
@@ -80,6 +81,7 @@ class TypeVariant < ApplicationRecord
                            autosave: false
   has_many :projects, through: :project_types
 
+  validates :artefact_export_template, inclusion: { in: Type::ArtefactExport::TEMPLATES }
   validates :variant_name, length: { maximum: 255 }
   validates :variant_name,
             presence: true,
@@ -187,6 +189,10 @@ class TypeVariant < ApplicationRecord
 
   def artefact_export_mode
     super.presence || Type::ArtefactExport::DEFAULT
+  end
+
+  def artefact_export_template
+    super.presence || "artefact"
   end
 
   def artefact_export_enabled?

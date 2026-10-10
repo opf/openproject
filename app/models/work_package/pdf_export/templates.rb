@@ -48,6 +48,12 @@ module WorkPackage::PDFExport::Templates
         label: I18n.t("pdf_generator.template_artefact.label"),
         caption: I18n.t("pdf_generator.template_artefact.caption"),
         settings_component: WorkPackages::Exports::Generate::Templates::ArtefactSettingsComponent
+      },
+      {
+        id: "zendis_artefact",
+        label: I18n.t("pdf_generator.template_zendis_artefact.label"),
+        caption: I18n.t("pdf_generator.template_zendis_artefact.caption"),
+        settings_component: WorkPackages::Exports::Generate::Templates::ZendisArtefactSettingsComponent
       }
     ]
   end

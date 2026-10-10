@@ -93,6 +93,16 @@ In addition to the options above, you can adjust the following:
 > [!TIP]
 > Administrators can configure [automatic artefact export](../../../../system-admin-guide/manage-work-packages/work-package-types/pdf-export/#automatic-artefact-export) for a work package type. The artefact is then generated whenever the status of a work package changes and either added to the work package as an attachment or uploaded to the connected Nextcloud folder of the project.
 
+## ZenDiS Artefakt
+
+This template uses the ZenDiS document layout for work packages of any type. The cover shows the work package type and display ID, the subject as a subtitle, and the date of the last change. Content pages repeat the title and subtitle and use turquoise headings on a black background. There is no watermark or status badge.
+
+Configure the artefact's content in separate long text custom fields. The export follows the groups and field order in the work package type's form configuration and does not include the main work package description. Project attributes and the optional table of contents, lifecycle and budgets use the same configuration and rendering as PMflex. Related work packages retain their descriptions and long text custom fields.
+
+Administrators can select an **Address custom field** in the template settings. If that work package field has a value, it is rendered on a separate final contact page and omitted from the main attributes. Its field name is used as the contact heading. Leave the setting empty to use the ordinary form rendering without an additional contact page.
+
+The logo, cover illustration and footer image come from the existing instance-wide [PDF export design configuration](../../../../system-admin-guide/design/). Page numbering includes the cover page. The footer shows the date of the last change and the current and total page numbers.
+
 ## Generate the export
 
 Click the **Download** button to generate the PDF export.

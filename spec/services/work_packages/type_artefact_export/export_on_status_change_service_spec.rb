@@ -179,6 +179,23 @@ RSpec.describe WorkPackages::TypeArtefactExport::ExportOnStatusChangeService do
       end
     end
 
+    context "when ZenDiS is selected for automatic export" do
+      before do
+        type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT,
+                                     artefact_export_template: "zendis_artefact")
+        type.default_variant.pdf_export_templates.update_settings("zendis_artefact", toc: "false")
+        type.default_variant.save!
+      end
+
+      it "uses the ZenDiS exporter and its settings" do
+        allow(WorkPackage::PDFExport::ZendisArtefact).to receive(:new).and_call_original
+
+        expect { instance.call!(changes:) }.to change { work_package.reload.attachments.count }.by(1)
+
+        expect(WorkPackage::PDFExport::ZendisArtefact).to have_received(:new).with(work_package, toc: "false")
+      end
+    end
+
     context "when the type has stored artefact export settings" do
       before do
         type.default_variant.update!(artefact_export_mode: Type::ArtefactExport::ATTACHMENT)

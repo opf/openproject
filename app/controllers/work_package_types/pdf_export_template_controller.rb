@@ -73,13 +73,13 @@ module WorkPackageTypes
 
     def update_artefact_export
       mode = params.dig(@variant.model_name.param_key.to_sym, :artefact_export_mode)
-      unless Type::ArtefactExport::MODES.include?(mode)
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t("types.edit.export_configuration.artefact_export.invalid_mode")
-        )
-        return respond_with_turbo_streams(status: :unprocessable_entity)
-      end
+      return invalid_artefact_export(:invalid_mode) unless Type::ArtefactExport::MODES.include?(mode)
 
+      template = params.dig(@variant.model_name.param_key.to_sym, :artefact_export_template)
+      return invalid_artefact_export(:invalid_template) if template.present? && Type::ArtefactExport::TEMPLATES.exclude?(template)
+      raise Type::PdfExportTemplates::ReadonlyError if @variant.pdf_export_templates.readonly?
+
+      @variant.artefact_export_template = template if template.present?
       @variant.artefact_export_mode = mode
       @variant.save!
       render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
@@ -128,6 +128,13 @@ module WorkPackageTypes
     end
 
     protected
+
+    def invalid_artefact_export(key)
+      render_error_flash_message_via_turbo_stream(
+        message: I18n.t("types.edit.export_configuration.artefact_export.#{key}")
+      )
+      respond_with_turbo_streams(status: :unprocessable_entity)
+    end
 
     def permitted_settings
       params.permit(*@template.settings_component.fields).to_h
