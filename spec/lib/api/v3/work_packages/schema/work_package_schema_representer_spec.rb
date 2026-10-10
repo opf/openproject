@@ -1534,6 +1534,15 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         expect(joined_cache_key).not_to eql(original)
       end
+
+      it "changes the cache key when the form configuration in force is edited" do
+        original = joined_cache_key
+
+        variant.update!(attribute_groups: [["Edited group", %w(assignee)]])
+        project.reload
+
+        expect(joined_cache_key).not_to eql(original)
+      end
     end
   end
 end

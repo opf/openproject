@@ -116,6 +116,10 @@ class FormConfiguration < ApplicationRecord
 
     attribute_group_rows.store(groups)
     remove_instance_variable(:@stored_attribute_groups) if defined?(@stored_attribute_groups)
+
+    # The groups live in their own tables, so saving them leaves this record untouched and
+    # anything cached against its timestamp (the work package schema) would stay stale.
+    touch
   end
 
   def neutral_variant
