@@ -3700,6 +3700,11 @@ en:
       leave_project: "Leave project"
       no_favorite_projects: "You have no favorite projects."
       title: "Projects"
+    whats_new_component:
+      description: "Information about new features will be available here soon."
+      title: "What's new in %{version}"
+    whats_new_menu_component:
+      title: "What's new"
 
   health_reports:
     common:
