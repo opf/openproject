@@ -26,7 +26,7 @@ module OpenProject::Avatars
              author_url: "https://www.openproject.org",
              settings: {
                default: {
-                 enable_gravatars: !Rails.env.test?,
+                 enable_gravatars: false,
                  enable_local_avatars: !Rails.env.test?
                },
                partial: "settings/openproject_avatars",
