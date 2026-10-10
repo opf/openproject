@@ -249,6 +249,20 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
 
       after { OpenProject::Llm::Features.all.delete(feature_key) }
 
+      it "says that models were left out of the picker" do
+        get llm_feature_bindings_path
+
+        expect(response.body).to include(I18n.t("admin.llm_feature_bindings.form.model_caption_ruled_out"))
+      end
+
+      it "says nothing of the kind once no model is ruled out" do
+        verdict.destroy!
+
+        get llm_feature_bindings_path
+
+        expect(response.body).not_to include(I18n.t("admin.llm_feature_bindings.form.model_caption_ruled_out"))
+      end
+
       it "names the capability the verdict is about" do
         patch llm_feature_binding_path(feature_key), params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }
 
