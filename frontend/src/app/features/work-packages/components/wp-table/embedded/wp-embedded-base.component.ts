@@ -71,6 +71,8 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);
     // Set embedded status in configuration
     this.configuration.isEmbedded = true;
+    // Embedded tables must never write their query state into the host page's URL/history
+    this.wpListChecksumService.urlSyncDisabled = true;
     this.initialized = true;
 
     super.ngOnInit();
