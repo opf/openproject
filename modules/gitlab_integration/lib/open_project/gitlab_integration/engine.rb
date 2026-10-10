@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2023 Ben Tey
@@ -92,6 +94,17 @@ module OpenProject::GitlabIntegration
     initializer "gitlab.register_hook" do
       ::OpenProject::Webhooks.register_hook "gitlab" do |hook, environment, params, user|
         HookHandler.new.process(hook, environment, params, user)
+      end
+    end
+
+    initializer "gitlab.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_static(key: "gitlab_issue_status",
+                                                 values: ::GitlabIntegration::IssueStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_merge_request_status",
+                                                 values: ::GitlabIntegration::MergeRequestStatuses::AVAILABLE)
+        ::Highlighting::Registry.register_static(key: "gitlab_pipeline_status",
+                                                 values: ::GitlabIntegration::PipelineStatuses::AVAILABLE)
       end
     end
 

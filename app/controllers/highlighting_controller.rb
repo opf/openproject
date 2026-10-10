@@ -29,30 +29,23 @@
 #++
 
 class HighlightingController < ApplicationController
-  before_action :determine_freshness
   skip_before_action :check_if_login_required, only: [:styles]
   no_authorization_required! :styles
 
   def styles
     response.content_type = Mime[:css]
     request.format = :css
+    cache_key = Highlighting::Registry.cache_key
 
     expires_in 1.year, public: true, must_revalidate: false
-    return unless stale?(last_modified: Time.zone.parse(@max_updated_at), etag: @highlight_version_tag, public: true)
+    return unless stale?(etag: cache_key, public: true)
 
     # The cached value has to be rendered explicitly. Rendering inside the block only
     # populates the response on a miss, leaving a hit with nothing rendered at all.
-    css = OpenProject::Cache.fetch(["highlighting/styles", @highlight_version_tag]) do
+    css = OpenProject::Cache.fetch(["highlighting/styles", cache_key]) do
       render_to_string template: "highlighting/styles", formats: [:css]
     end
 
     render plain: css, content_type: Mime[:css].to_s
-  end
-
-  private
-
-  def determine_freshness
-    @max_updated_at = helpers.highlight_css_updated_at.to_s || Time.now.iso8601
-    @highlight_version_tag = helpers.highlight_css_version_tag(@max_updated_at)
   end
 end
