@@ -183,6 +183,60 @@ You can unset it, for example, by adding the following option to the run command
 -e OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL=
 ```
 
+## Live updates
+
+Some pages, such as the meeting agenda, are notified about changes made by other users in real time through an
+[AnyCable](https://docs.anycable.io) server. Without it, these pages keep checking for changes periodically.
+
+OpenProject and the AnyCable server trust each other through a shared secret. Generate one, for example with
+`openssl rand -hex 32`, and pass the same value as `ANYCABLE_SECRET` to all OpenProject processes (web and worker) and
+to the AnyCable server. Use a dedicated value, not your `SECRET_KEY_BASE`.
+
+OpenProject:
+
+```shell
+ANYCABLE_SECRET=<shared secret>
+ANYCABLE_WEBSOCKET_URL=/cable
+ANYCABLE_HTTP_RPC=true
+# Only needed when the AnyCable server does not run on localhost:8080
+ANYCABLE_HTTP_BROADCAST_URL=http://<anycable host>:8080/_broadcast
+```
+
+AnyCable server:
+
+```shell
+ANYCABLE_SECRET=<shared secret>
+ANYCABLE_RPC_HOST=http://<openproject host>:<openproject port>/_anycable
+ANYCABLE_BROADCAST_ADAPTER=http
+ANYCABLE_TURBO_STREAMS=true
+ANYCABLE_SSE=true
+```
+
+Configure your reverse proxy to forward `/cable` (WebSocket) and `/events` (server-sent events, with response buffering
+disabled) on the OpenProject host name to the AnyCable server. If OpenProject runs under a path prefix, prefix both paths
+and `ANYCABLE_WEBSOCKET_URL` with it.
+
+Live updates stay disabled, and OpenProject keeps polling, as long as `ANYCABLE_SECRET` or `ANYCABLE_WEBSOCKET_URL` is
+not set. The `/_anycable` endpoint that the AnyCable server calls to authenticate users is only enabled when a secret is
+configured.
+
+### RPC secret
+
+The AnyCable server authenticates its calls to the `/_anycable` endpoint with a token in the `Authorization` header.
+Unless `ANYCABLE_HTTP_RPC_SECRET` is set, both sides derive this token from `ANYCABLE_SECRET`, so no further
+configuration is needed.
+
+To use a separate token, for example to rotate it independently, set the same value as `ANYCABLE_HTTP_RPC_SECRET` for
+OpenProject and the AnyCable server:
+
+```shell
+ANYCABLE_HTTP_RPC_SECRET=<rpc secret>
+```
+
+`ANYCABLE_SECRET` is still required in this case, as it also signs the live update streams.
+
+The token is sent with every call, so keep `ANYCABLE_RPC_HOST` on a trusted network or use an `https://` URL.
+
 ## Seeding through environment
 
 OpenProject allows some resources to be seeded/created initially through configuration variables.

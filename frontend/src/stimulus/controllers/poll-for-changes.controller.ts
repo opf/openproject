@@ -26,7 +26,14 @@
 //++
 
 import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { renderStreamMessage, session } from '@hotwired/turbo';
+
+// Turbo remembers the ids of the requests this tab sent and ignores its own `refresh`
+// broadcasts the same way (Session#refresh). `recentRequests` is not part of Turbo's typings.
+function sentByThisTab(requestId:string|undefined):boolean {
+  const { recentRequests } = session as unknown as { recentRequests?:{ has(id:string):boolean } };
+  return !!requestId && !!recentRequests?.has(requestId);
+}
 
 export default class PollForChangesController extends ApplicationController {
   static values = {
@@ -34,6 +41,7 @@ export default class PollForChangesController extends ApplicationController {
     interval: Number,
     reference: String,
     continuous: Boolean,
+    event: String,
   };
 
   static targets = ['reference'];
@@ -45,13 +53,17 @@ export default class PollForChangesController extends ApplicationController {
   declare urlValue:string;
   declare intervalValue:number;
   declare continuousValue:boolean;
+  declare eventValue:string;
 
   private interval:number;
 
   connect() {
     super.connect();
 
-    if (this.intervalValue !== 0) {
+    // When `eventValue` is provided, a live update is requested instead of polling.
+    if (this.eventValue) {
+      document.addEventListener(this.eventValue, this.handleChange);
+    } else if (this.intervalValue !== 0) {
       this.interval = window.setInterval(() => {
         void this.triggerTurboStream();
       }, this.intervalValue || 10_000);
@@ -60,7 +72,7 @@ export default class PollForChangesController extends ApplicationController {
 
   disconnect() {
     super.disconnect();
-    clearInterval(this.interval);
+    this.stop();
   }
 
   buildReference():string {
@@ -80,12 +92,25 @@ export default class PollForChangesController extends ApplicationController {
       .then(async (r) => {
       if (r.status === 200) {
         if (!this.continuousValue) {
-          clearInterval(this.interval);
+          this.stop();
         }
 
         const html = await r.text();
         renderStreamMessage(html);
       }
     });
+  }
+
+  private handleChange = (event:Event) => {
+    if (!sentByThisTab((event as CustomEvent<{ requestId?:string }|null>).detail?.requestId)) {
+      this.triggerTurboStream();
+    }
+  };
+
+  private stop() {
+    clearInterval(this.interval);
+    if (this.eventValue) {
+      document.removeEventListener(this.eventValue, this.handleChange);
+    }
   }
 }
