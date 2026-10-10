@@ -27,28 +27,38 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+RSpec::Matchers.define :include_route_definition do |expected|
+  match do |routes|
+    routes.any? { |route| is_matching_route?(route, expected) }
+  end
 
-module API::V3::Days
-  class DaysAPI < ::API::OpenProjectAPI
-    helpers ::API::Utilities::UrlPropsParsingHelper
+  match_when_negated do |routes|
+    routes.none? { |route| is_matching_route?(route, expected) }
+  end
 
-    resources :days do
-      mount NonWorkingDaysAPI
-      mount WeekAPI
+  def split_into_elements(path)
+    path.split("/").map { |element| is_id?(element) ? id_placeholder : element.downcase }
+  end
 
-      get &::API::V3::Utilities::Endpoints::Index.new(
-        model: Day,
-        self_path: -> { api_v3_paths.days },
-        scope: -> { Day.includes(:non_working_days) }
-      ).mount
+  def is_id?(element)
+    # ID elements are defined as :id or *id (in grape routes) or {id} (in OpenAPI paths),
+    element =~ /^(:[\w-]+)|(\*[\w-]+)|({[\w-]+})$/
+  end
 
-      route_param :date, type: String, desc: "Date" do
-        after_validation do
-          @day = Day.find_by!(date: declared_params[:date])
-        end
+  def is_matching_route?(one, other)
+    one[:method].downcase == other[:method].downcase &&
+      split_into_elements(one[:path]) == split_into_elements(other[:path])
+  end
 
-        get &::API::V3::Utilities::Endpoints::Show.new(model: Day).mount
-      end
-    end
+  def id_placeholder
+    "ID_PLACEHOLDER"
+  end
+
+  failure_message do
+    "expected routes to include #{expected[:method].upcase} #{expected[:path]}"
+  end
+
+  failure_message_when_negated do
+    "expected routes not to include #{expected[:method].upcase} #{expected[:path]}"
   end
 end

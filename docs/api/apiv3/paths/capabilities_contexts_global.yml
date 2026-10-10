@@ -1,4 +1,4 @@
-# /api/v3/capabilities/context/global
+# /api/v3/capabilities/contexts/global
 ---
 get:
   responses:
@@ -10,7 +10,7 @@ get:
               value:
                 _links:
                   self:
-                    href: "/api/v3/capabilities/context/global"
+                    href: "/api/v3/capabilities/contexts/global"
                 _type: CapabilityContext::Global
                 id: global
           schema:

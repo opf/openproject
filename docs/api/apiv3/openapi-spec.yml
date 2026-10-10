@@ -217,8 +217,8 @@ paths:
     "$ref": "./paths/budget.yml"
   "/api/v3/capabilities":
     "$ref": "./paths/capabilities.yml"
-  "/api/v3/capabilities/context/global":
-    "$ref": "./paths/capabilities_context_global.yml"
+  "/api/v3/capabilities/contexts/global":
+    "$ref": "./paths/capabilities_contexts_global.yml"
   "/api/v3/capabilities/{id}":
     "$ref": "./paths/capability.yml"
   "/api/v3/categories/{id}":
@@ -255,12 +255,6 @@ paths:
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
     "$ref": "./paths/document.yml"
-  "/api/v3/example/form":
-    "$ref": "./paths/example_form.yml"
-  "/api/v3/example/schema":
-    "$ref": "./paths/example_schema.yml"
-  "/api/v3/examples":
-    "$ref": "./paths/examples.yml"
   "/api/v3/file_links/{id}":
     "$ref": "./paths/file_link.yml"
   "/api/v3/file_links/{id}/open":
@@ -541,8 +535,8 @@ paths:
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
     "$ref": "./paths/time_entries_id_form.yml"
-  "/api/v3/time_entries/activity/{id}":
-    "$ref": "./paths/time_entry_activity.yml"
+  "/api/v3/time_entries/activities/{id}":
+    "$ref": "./paths/time_entry_activities.yml"
   "/api/v3/time_entries/available_projects":
     "$ref": "./paths/time_entries_available_projects.yml"
   "/api/v3/time_entries/form":
@@ -573,7 +567,7 @@ paths:
     "$ref": "./paths/user_working_hours.yml"
   "/api/v3/users/{id}/working_hours/{working_hours_id}":
     "$ref": "./paths/user_working_hours_record.yml"
-  "/api/v3/values/schema/{id}":
+  "/api/v3/values/schemas/{id}":
     "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
@@ -653,9 +647,9 @@ paths:
     "$ref": "./paths/workspace_favorite.yml"
   "/api/v3/workspaces/{id}/queries/default":
     "$ref": "./paths/workspace_queries_default.yml"
-  "/api/v3/workspace/{id}/queries/filter_instance_schemas":
+  "/api/v3/workspaces/{id}/queries/filter_instance_schemas":
     "$ref": "./paths/workspace_queries_filter_instance_schemas.yml"
-  "/api/v3/workspace/{id}/queries/schema":
+  "/api/v3/workspaces/{id}/queries/schema":
     "$ref": "./paths/workspace_queries_schema.yml"
   "/api/v3/workspaces/{id}/types":
     "$ref": "./paths/workspace_types.yml"
