@@ -280,6 +280,139 @@ RSpec.describe Meeting do
     end
   end
 
+  describe "sections" do
+    shared_let(:meeting) { create(:meeting, author: user) }
+    shared_let(:section, refind: true) { create(:meeting_section, meeting:, title: "Discussion") }
+
+    def section_journals = meeting.journals.reload.last.section_journals
+
+    def section_journal_of(section) = section_journals.find_by(section_id: section.id)
+
+    before do
+      meeting.touch_and_save_journals
+    end
+
+    it "records the section" do
+      expect(section_journal_of(section))
+        .to have_attributes(title: "Discussion", position: section.position, backlog: false)
+    end
+
+    it "records the backlog section" do
+      expect(section_journal_of(meeting.own_backlog)).to have_attributes(backlog: true)
+    end
+
+    context "when nothing changes" do
+      it "does not create a journal" do
+        expect { meeting.touch_and_save_journals }.not_to change(Journal, :count)
+      end
+    end
+
+    context "when renaming a section within the aggregation time" do
+      subject(:rename_section) do
+        section.update!(title: "Decisions")
+        meeting.touch_and_save_journals
+      end
+
+      it { expect { rename_section }.not_to change(Journal, :count) }
+
+      it "updates the section journal" do
+        expect { rename_section }.to change { section_journal_of(section).title }.to("Decisions")
+      end
+    end
+
+    context "when renaming a section outside the aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:rename_section) do
+        section.update!(title: "Decisions")
+        meeting.touch_and_save_journals
+      end
+
+      it { expect { rename_section }.to change(Journal, :count).by(1) }
+
+      it "records the new title in the new journal and keeps the previous one" do
+        previous_section_journal = section_journal_of(section)
+
+        rename_section
+
+        expect(section_journal_of(section).title).to eq("Decisions")
+        expect(previous_section_journal.reload.title).to eq("Discussion")
+      end
+    end
+
+    context "when reordering a section outside the aggregation time",
+            with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:other_section) { create(:meeting_section, meeting:) }
+
+      it "records the positions before and after the move in separate journals" do
+        meeting.touch_and_save_journals
+        journal_before_move = meeting.journals.last
+
+        other_section.move_to_top
+        meeting.touch_and_save_journals
+
+        expect(meeting.journals.last).not_to eq(journal_before_move)
+        expect(journal_before_move.section_journals.find_by(section_id: other_section.id).position).to eq(2)
+        expect(section_journal_of(other_section).position).to eq(1)
+        expect(section_journal_of(section).position).to eq(2)
+      end
+    end
+
+    context "when removing a section outside the aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:remove_section) do
+        section.destroy
+        meeting.touch_and_save_journals
+      end
+
+      it { expect { remove_section }.to change(Journal, :count).by(1) }
+
+      it "removes the section from the new journal and keeps it in the previous one" do
+        previous_journal = meeting.journals.last
+
+        remove_section
+
+        expect(section_journal_of(section)).to be_nil
+        expect(previous_journal.section_journals.where(section_id: section.id)).to exist
+      end
+    end
+
+    context "for a series template" do
+      shared_let(:meeting) { create(:recurring_meeting).template }
+
+      it "records the series backlog" do
+        expect(section_journal_of(meeting.own_backlog)).to have_attributes(backlog: true)
+      end
+    end
+
+    describe "agenda items", with_settings: { journal_aggregation_time_minutes: 0 } do
+      shared_let(:agenda_item) { create(:meeting_agenda_item, meeting:, meeting_section: section) }
+      shared_let(:other_section) { create(:meeting_section, meeting:) }
+      shared_let(:presenter) { create(:user) }
+
+      def agenda_item_journal = meeting.journals.reload.last.agenda_item_journals.find_by(agenda_item_id: agenda_item.id)
+
+      it "records the section of the agenda item" do
+        expect(agenda_item_journal.meeting_section_id).to eq(section.id)
+      end
+
+      it "records moving the agenda item to another section" do
+        expect do
+          agenda_item.update!(meeting_section: other_section)
+          meeting.touch_and_save_journals
+        end.to change(Journal, :count).by(1)
+
+        expect(agenda_item_journal.meeting_section_id).to eq(other_section.id)
+      end
+
+      it "records the presenter of the agenda item" do
+        expect do
+          agenda_item.update!(presenter:)
+          meeting.touch_and_save_journals
+        end.to change(Journal, :count).by(1)
+
+        expect(agenda_item_journal.presenter_id).to eq(presenter.id)
+      end
+    end
+  end
+
   describe "participants" do
     shared_let(:participant_user) { create(:user) }
 

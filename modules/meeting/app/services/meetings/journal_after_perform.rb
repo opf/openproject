@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,19 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module AfterPerformHook
-    extend ActiveSupport::Concern
+module Meetings
+  module JournalAfterPerform
+    protected
 
-    included do
-      def after_perform(call)
-        meeting_agenda_item = call.result
-        meeting = meeting_agenda_item.meeting
+    def after_perform(call)
+      call.result.meeting&.touch_and_save_journals
 
-        meeting&.touch_and_save_journals
-
-        call
-      end
+      super
     end
   end
 end

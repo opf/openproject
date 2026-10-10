@@ -114,6 +114,7 @@ module Journals
     # * New entries in the customizable_journals table, one for every custom value the journable has at the time.
     # * New entries in the storages_file_links_journals table, one for file link value the journable has at the time.
     # * New entries in the meeting_agenda_item_journals table, one for agenda_item the journable has at the time.
+    # * New entries in the meeting_section_journals table, one for each section the journable has at the time.
     #
     # It consists of a couple of parts that are kept as individual queries (as CTEs) but
     # are all executed within a single database call.
@@ -135,6 +136,8 @@ module Journals
     # * the journable's file_links are compared to the storages_file_links_journals entries being associated with the most
     #   recent journal.
     # * the journable's meeting_agenda_items are compared to the meeting_agenda_item_journals entries being associated with the
+    #   most recent journal.
+    # * the journable's meeting_sections are compared to the meeting_section_journals entries being associated with the
     #   most recent journal.
     # When comparing text based values, newlines are normalized as otherwise users having a different OS might change a text value
     # without intending to.

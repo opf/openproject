@@ -30,7 +30,6 @@
 
 module MeetingAgendaItems
   class DropService < ::BaseServices::BaseCallable
-    include AfterPerformHook
     include JournalizeWorkPackageActivity
 
     attr_reader :user
