@@ -26,17 +26,15 @@
 //++
 
 import { onAuthenticatePayload } from "@hocuspocus/server";
-import { afterAll, beforeAll, describe, expect, test, vi } from "vitest";
+import { afterAll, describe, expect, test, vi } from "vitest";
 import { OpenProjectApi } from "../../src/extensions/openProjectApi";
 import { server } from "../mocks/node";
 
-describe("when an override URL for the OpenProject instance is defined", () => {
-  beforeAll(() => {
-    vi.hoisted(() => {
-      vi.stubEnv("OPENPROJECT_URL", "https://my.op-instance.com/");
-    });
-  });
+vi.hoisted(() => {
+  vi.stubEnv("OPENPROJECT_URL", "https://my.op-instance.com/");
+});
 
+describe("when an override URL for the OpenProject instance is defined", () => {
   afterAll(() => {
     vi.unstubAllEnvs();
   });
