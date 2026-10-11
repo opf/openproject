@@ -30,6 +30,7 @@ import { describe, expect, test, vi } from "vitest";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../../src/closeEvents";
 import { createEditor, OpenProjectApi } from "../../src/extensions/openProjectApi";
+import { DocumentLoadError } from "../../src/services/storedDocumentService";
 import { createExpiredToken, createTestToken } from "../helpers/tokenHelper";
 import { server } from "../mocks/node";
 import { http, HttpResponse } from "msw";
@@ -252,19 +253,54 @@ describe("OpenProjectApi", () => {
       expect(updatedContent).toBe('test content');
     });
 
-    test("should return early when response is not successful", async () => {
+    test("should throw without retrying when the document cannot be accessed", async () => {
       const data = {
         context: { token: "superValidToken", resourceUrl: "https://test.api/api/v3/documents/404" },
         document: new Y.Doc(),
       } as onLoadDocumentPayload;
 
-      const initialContent = data.document.getText('content').toString();
+      await expect(new OpenProjectApi([0, 0]).onLoadDocument(data)).rejects.toThrowError(DocumentLoadError);
+      expect(data.document.getXmlFragment("document-store").length).toBe(0);
+    });
 
-      const api = new OpenProjectApi();
-      await api.onLoadDocument(data);
+    test("should retry transient failures", async () => {
+      const sourceDoc = new Y.Doc();
+      sourceDoc.getText('content').insert(0, 'test content');
+      const base64Update = Buffer.from(Y.encodeStateAsUpdate(sourceDoc)).toString('base64');
+      let attempts = 0;
 
-      const updatedContent = data.document.getText('content').toString();
-      expect(updatedContent).toBe(initialContent);
+      server.use(http.get('https://test.api/api/v3/documents/122', () => {
+        attempts++;
+        if (attempts === 1) return HttpResponse.error();
+        if (attempts === 2) return HttpResponse.json({}, { status: 503 });
+        return HttpResponse.json({ contentBinary: base64Update });
+      }));
+
+      const data = {
+        context: { token: "superValidToken", resourceUrl: "https://test.api/api/v3/documents/122" },
+        document: new Y.Doc(),
+      } as onLoadDocumentPayload;
+
+      await new OpenProjectApi([0, 0]).onLoadDocument(data);
+
+      expect(attempts).toBe(3);
+      expect(data.document.getText('content').toString()).toBe('test content');
+    });
+
+    test("should throw once retries are exhausted", async () => {
+      let attempts = 0;
+      server.use(http.get('https://test.api/api/v3/documents/123', () => {
+        attempts++;
+        return HttpResponse.json({}, { status: 502 });
+      }));
+
+      const data = {
+        context: { token: "superValidToken", resourceUrl: "https://test.api/api/v3/documents/123" },
+        document: new Y.Doc(),
+      } as onLoadDocumentPayload;
+
+      await expect(new OpenProjectApi([0, 0]).onLoadDocument(data)).rejects.toThrowError("after 3 attempt(s)");
+      expect(attempts).toBe(3);
     });
   });
 

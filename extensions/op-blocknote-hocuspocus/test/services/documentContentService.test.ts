@@ -30,9 +30,9 @@ import * as Y from "yjs";
 import { createEditor, DOCUMENT_FRAGMENT } from "../../src/editor";
 import {
   duplicateBlockIds,
+  editOnto,
   normalizeBlocks,
   readBlocks,
-  revisionOf,
   writeBlocks,
 } from "../../src/services/documentContentService";
 
@@ -59,13 +59,6 @@ describe("documentContentService", () => {
 
   it("normalizes an empty document into a single empty paragraph", () => {
     expect(normalizeBlocks([])).toMatchObject([{ type: "paragraph", content: [] }]);
-  });
-
-  it("derives a stable revision from the content", () => {
-    const blocks = normalizeBlocks([{ id: "a", type: "paragraph", content: "A" }]);
-
-    expect(revisionOf(blocks)).toEqual(revisionOf(JSON.parse(JSON.stringify(blocks))));
-    expect(revisionOf(blocks)).not.toEqual(revisionOf(normalizeBlocks([{ id: "a", type: "paragraph", content: "B" }])));
   });
 
   it("finds duplicate ids, including nested blocks", () => {
@@ -114,5 +107,51 @@ describe("documentContentService", () => {
     writeBlocks(doc, readBlocks(doc));
 
     expect(updates).toHaveLength(0);
+  });
+
+  describe("editOnto", () => {
+    function contents(doc: Y.Doc) {
+      return readBlocks(doc).map(({ id, content }) => [id, (content as { text: string }[]).map(({ text }) => text).join("")]);
+    }
+
+    function typeInto(doc: Y.Doc, blockIndex: number, index: number, text: string) {
+      const blockGroup = doc.getXmlFragment(DOCUMENT_FRAGMENT).firstChild as Y.XmlElement;
+      const paragraph = (blockGroup.get(blockIndex) as Y.XmlElement).firstChild as Y.XmlElement;
+      (paragraph.firstChild as Y.XmlText).insert(index, text);
+    }
+
+    it("merges an edit with concurrent typing in the same block", () => {
+      const live = documentWith([{ id: "a", type: "paragraph", content: "Hello world" }]);
+      const base = Y.encodeStateAsUpdate(live);
+      typeInto(live, 0, 5, ", dear");
+
+      const { update } = editOnto(base, normalizeBlocks([{ id: "a", type: "paragraph", content: "Hello world!" }]));
+      Y.applyUpdate(live, update);
+
+      expect(contents(live)).toEqual([["a", "Hello, dear world!"]]);
+    });
+
+    it("keeps blocks inserted concurrently by others", () => {
+      const live = documentWith([{ id: "a", type: "paragraph", content: "A" }, { id: "b", type: "paragraph", content: "B" }]);
+      const base = Y.encodeStateAsUpdate(live);
+      const target = readBlocks(live);
+      writeBlocks(live, normalizeBlocks([...target, { id: "user", type: "paragraph", content: "By user" }]));
+
+      const { update } = editOnto(base, normalizeBlocks([{ id: "ai", type: "paragraph", content: "By AI" }, ...target]));
+      Y.applyUpdate(live, update);
+
+      expect(contents(live)).toEqual([["ai", "By AI"], ["a", "A"], ["b", "B"], ["user", "By user"]]);
+    });
+
+    it("produces only the new changes when editing on top of its own edited state", () => {
+      const live = documentWith([{ id: "a", type: "paragraph", content: "Hello" }]);
+      const first = editOnto(Y.encodeStateAsUpdate(live), normalizeBlocks([{ id: "a", type: "paragraph", content: "Hello!" }]));
+      Y.applyUpdate(live, first.update);
+
+      const repeated = editOnto(first.editedState, normalizeBlocks([{ id: "a", type: "paragraph", content: "Hello!" }]));
+      Y.applyUpdate(live, repeated.update);
+
+      expect(contents(live)).toEqual([["a", "Hello!"]]);
+    });
   });
 });

@@ -89,11 +89,14 @@ Requests to the content endpoints authenticate with the same encrypted token the
 | `GET /api/v1/documents/content`   | Returns `{ revision, blocks }` with the current content of the document.                          |
 | `PUT /api/v1/documents/content`   | Takes `{ revision, blocks }` and replaces the content of the document with the given blocks.      |
 
-A `PUT` validates the blocks against the schema (`422` otherwise) and applies only the difference to the current
-content as Yjs operations. The `revision` names the content the edit was based on. If the document changed since,
-the edit is merged with those changes on block level. Changes to the same block, or changes to the order or nesting
-of blocks on both sides, are rejected with `409`; the client then needs to read the document again.
-Read revisions are remembered in memory for an hour.
+A `PUT` validates the blocks against the schema (`422` otherwise). The edit is then turned into a Yjs update relative
+to the state of the given `revision`, exactly like the update an editor makes on that state, and applied to the live
+document. Changes others made since that revision are merged by Yjs, as with any other editor; edits are never rejected
+because of concurrent changes. Submitting again with the same revision only applies what changed since the previous
+submission. Revisions are kept in memory for an hour; an unknown or expired revision is rejected with `409`.
+
+If the stored document cannot be loaded from OpenProject, loading is retried with backoff. If it still fails, the
+document is not opened at all, instead of continuing with an empty document that would overwrite the stored content.
 
 ### Starting the Server
 

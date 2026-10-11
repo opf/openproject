@@ -146,7 +146,7 @@ describe("GET content", () => {
   it("returns the stored blocks with a revision", async () => {
     const { revision, blocks } = await readContent();
 
-    expect(revision).toMatch(/^[0-9a-f]{32}$/);
+    expect(revision).toEqual(expect.any(String));
     expect(blocks.map(({ id, content }) => [id, content])).toEqual([
       ["intro", text("Introduction")],
       ["body", text("Body")],
@@ -177,7 +177,7 @@ describe("PUT content", () => {
     ]);
     expect(patches).toHaveLength(1);
     expect(patches[0].description).toContain("Edited body");
-    expect((await readContent()).revision).toEqual(result.revision);
+    expect((await readContent()).blocks).toEqual(result.blocks);
   });
 
   it("broadcasts the edit to connected editors", async () => {
@@ -210,7 +210,7 @@ describe("PUT content", () => {
       const bodyParagraph = (blockGroup.get(1) as Y.XmlElement).firstChild as Y.XmlElement;
       const bodyText = bodyParagraph.firstChild as Y.XmlText;
       bodyText.insert(4, " typed by a user");
-      await expect.poll(async () => (await readContent()).revision).not.toEqual(revision);
+      await expect.poll(async () => (await readContent()).blocks[1].content).toEqual(text("Body typed by a user"));
 
       blocks[0].content = text("Introduction by the assistant");
       const response = await request("PUT", CONTENT_PATH, { body: { revision, blocks } });
@@ -224,25 +224,49 @@ describe("PUT content", () => {
     }
   });
 
-  it("rejects conflicting edits of the same block", async () => {
+  it("merges concurrent typing in the same block", async () => {
+    const editorDocument = new Y.Doc();
+    const provider = connectEditor(editorDocument);
+
+    try {
+      await expect.poll(() => provider.synced, { timeout: 10000 }).toBe(true);
+      const { revision, blocks } = await readContent();
+
+      const blockGroup = editorDocument.getXmlFragment(DOCUMENT_FRAGMENT).firstChild as Y.XmlElement;
+      const introParagraph = (blockGroup.get(0) as Y.XmlElement).firstChild as Y.XmlElement;
+      (introParagraph.firstChild as Y.XmlText).insert(0, "Short ");
+      await expect.poll(async () => (await readContent()).blocks[0].content).toEqual(text("Short Introduction"));
+
+      blocks[0].content = text("Introduction, extended by the assistant");
+      const response = await request("PUT", CONTENT_PATH, { body: { revision, blocks } });
+
+      expect(response.status).toBe(200);
+      expect((await response.json()).blocks[0].content).toEqual(text("Short Introduction, extended by the assistant"));
+      await expect.poll(() => readBlocks(editorDocument)[0]?.content, { timeout: 5000 })
+        .toEqual(text("Short Introduction, extended by the assistant"));
+    } finally {
+      provider.destroy();
+    }
+  });
+
+  it("applies a repeated submission based on the same revision only once", async () => {
     const { revision, blocks } = await readContent();
+    const body = { revision, blocks: [...blocks, { type: "paragraph", content: "Added once" }] };
 
-    const first = structuredClone(blocks);
-    first[0].content = text("First");
-    expect((await request("PUT", CONTENT_PATH, { body: { revision, blocks: first } })).status).toBe(200);
+    const first = await (await request("PUT", CONTENT_PATH, { body })).json();
+    const added = first.blocks[2];
+    body.blocks[2] = added;
+    const second = await request("PUT", CONTENT_PATH, { body });
 
-    blocks[0].content = text("Second");
-    const response = await request("PUT", CONTENT_PATH, { body: { revision, blocks } });
-
-    expect(response.status).toBe(409);
-    expect(await response.json()).toMatchObject({ reason: "content", blockIds: ["intro"] });
+    expect(second.status).toBe(200);
+    expect((await second.json()).blocks.map(({ id }: { id: string }) => id)).toEqual(["intro", "body", added.id]);
   });
 
   it("rejects edits based on an unknown revision", async () => {
     const response = await request("PUT", CONTENT_PATH, { body: { revision: "unknown", blocks: [{ type: "paragraph" }] } });
 
     expect(response.status).toBe(409);
-    expect(await response.json()).toMatchObject({ reason: "unknown_revision" });
+    expect((await response.json()).error).toContain("Read the document again");
   });
 
   it("rejects blocks that do not match the schema", async () => {

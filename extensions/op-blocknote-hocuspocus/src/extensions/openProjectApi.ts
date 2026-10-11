@@ -31,7 +31,7 @@ import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
 import { fetchResource } from "../services/resourceService";
-import { loadStoredDocument } from "../services/storedDocumentService";
+import { loadStoredDocument, LOAD_RETRY_DELAYS_MS } from "../services/storedDocumentService";
 import { createEditor, DOCUMENT_FRAGMENT } from "../editor";
 
 export { createEditor, editorSchema } from "../editor";
@@ -41,6 +41,8 @@ function printLog(message:string) {
 }
 
 export class OpenProjectApi implements Extension {
+  constructor(private readonly loadRetryDelaysMs = LOAD_RETRY_DELAYS_MS) {}
+
   /**
    * Authenticate the user by validating the token and document access
    */
@@ -90,15 +92,12 @@ export class OpenProjectApi implements Extension {
   }
 
   /**
-    * Retrieve data from the API. This should return the YDoc data
+    * Retrieve data from the API. This should return the YDoc data.
+    * Throws if the data cannot be retrieved, which makes hocuspocus refuse the connection.
     */
   async onLoadDocument(data: onLoadDocumentPayload) {
     const { resourceUrl } = data.context;
-    const loaded = await loadStoredDocument(resourceUrl, data.context.token, data.document);
-
-    if (!loaded) {
-      return;
-    }
+    await loadStoredDocument(resourceUrl, data.context.token, data.document, this.loadRetryDelaysMs);
 
     return data.document;
   }

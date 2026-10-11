@@ -25,7 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { createHash } from "node:crypto";
 import { updateYFragment } from "y-prosemirror";
 import * as Y from "yjs";
 import { createEditor, DOCUMENT_FRAGMENT, type OpEditor } from "../editor";
@@ -42,10 +41,6 @@ function editor(): OpEditor {
 
 export function readBlocks(doc: Y.Doc): DocumentBlock[] {
   return editor().yXmlFragmentToBlocks(doc.getXmlFragment(DOCUMENT_FRAGMENT));
-}
-
-export function revisionOf(blocks: DocumentBlock[]): string {
-  return createHash("sha256").update(JSON.stringify(blocks)).digest("hex").slice(0, 32);
 }
 
 /**
@@ -87,4 +82,23 @@ export function writeBlocks(doc: Y.Doc, blocks: DocumentBlock[]): void {
   const fragment = doc.getXmlFragment(DOCUMENT_FRAGMENT);
 
   updateYFragment(doc, fragment, node, { mapping: new Map(), isOMark: new Map() });
+}
+
+/**
+ * Turns the given blocks into a Yjs update relative to the document state they were based on,
+ * like the update a connected editor would send after making the same edit on that state.
+ * Applying it to a document that moved on since merges the edit with everything that happened in between.
+ * Also returns the resulting state, so further edits on the same base only produce what changed on top.
+ */
+export function editOnto(baseState: Uint8Array, blocks: DocumentBlock[]): { update: Uint8Array, editedState: Uint8Array } {
+  const fork = new Y.Doc();
+  Y.applyUpdate(fork, baseState);
+  const baseVector = Y.encodeStateVector(fork);
+
+  writeBlocks(fork, blocks);
+
+  return {
+    update: Y.encodeStateAsUpdate(fork, baseVector),
+    editedState: Y.encodeStateAsUpdate(fork),
+  };
 }

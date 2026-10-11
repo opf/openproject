@@ -28,18 +28,16 @@
 import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Extension, Hocuspocus, onRequestPayload } from "@hocuspocus/server";
 import * as Y from "yjs";
-import { mergeBlocks, type MergeConflict } from "../services/blockMergeService";
 import {
   type DocumentBlock,
   duplicateBlockIds,
+  editOnto,
   normalizeBlocks,
   readBlocks,
-  revisionOf,
-  writeBlocks,
 } from "../services/documentContentService";
 import { documentJsonSchema, validateBlocks } from "../services/documentSchemaService";
 import { RevisionStore } from "../services/revisionStore";
-import { loadStoredDocument } from "../services/storedDocumentService";
+import { DocumentLoadError, loadStoredDocument } from "../services/storedDocumentService";
 import { validateRequestToken } from "../services/tokenValidationService";
 
 export const SCHEMA_PATH = "/api/v1/documents/schema";
@@ -109,15 +107,15 @@ async function authenticate(request: IncomingMessage): Promise<AuthenticatedRequ
   }
 }
 
-function conflictError(conflict: MergeConflict | "unknown_revision"): HttpError {
-  const message = "The document was changed by someone else in a way that conflicts with your edit. " +
-    "Read the document again and reapply your changes to its current content.";
-
-  if (conflict === "unknown_revision") {
-    return new HttpError(409, message, { reason: "unknown_revision" });
+async function withLoadErrorHandling<T>(load: () => Promise<T>): Promise<T> {
+  try {
+    return await load();
+  } catch (error) {
+    if (error instanceof DocumentLoadError) {
+      throw new HttpError(502, "The document could not be loaded from OpenProject.");
+    }
+    throw error;
   }
-
-  return new HttpError(409, message, { ...conflict });
 }
 
 function parseUpdate(body: unknown): { revision: string, blocks: DocumentBlock[] } {
@@ -150,7 +148,8 @@ function parseUpdate(body: unknown): { revision: string, blocks: DocumentBlock[]
  * HTTP API for reading and editing document content outside of a websocket editing session,
  * e.g. on behalf of an AI assistant connected through OpenProject's MCP server.
  *
- * Edits are applied to the live Yjs document, so they reach every connected editor immediately.
+ * The client takes part like any other editor: an edit becomes a Yjs update relative to the revision it was based on,
+ * which merges with concurrent changes and reaches every connected editor immediately.
  */
 export class DocumentContentApi implements Extension {
   constructor(private readonly revisions = new RevisionStore()) {}
@@ -192,13 +191,13 @@ export class DocumentContentApi implements Extension {
 
   private async read(auth: AuthenticatedRequest, instance: Hocuspocus) {
     const liveDocument = instance.documents.get(auth.resourceUrl);
-    const document = liveDocument ?? new Y.Doc();
-
-    if (!liveDocument && !(await loadStoredDocument(auth.resourceUrl, auth.token, document))) {
-      throw new HttpError(502, "The document could not be loaded from OpenProject.");
+    if (liveDocument) {
+      return this.snapshot(auth.resourceUrl, liveDocument);
     }
 
-    return this.snapshot(auth.resourceUrl, readBlocks(document));
+    const document = new Y.Doc();
+    await withLoadErrorHandling(() => loadStoredDocument(auth.resourceUrl, auth.token, document));
+    return this.snapshot(auth.resourceUrl, document);
   }
 
   private async update(auth: AuthenticatedRequest, body: unknown, instance: Hocuspocus) {
@@ -207,55 +206,36 @@ export class DocumentContentApi implements Extension {
     }
 
     const { revision, blocks } = parseUpdate(body);
-    const connection = await instance.openDirectConnection(auth.resourceUrl, {
+    const baseState = this.revisions.recall(auth.resourceUrl, revision);
+    if (!baseState) {
+      throw new HttpError(409, "The revision is unknown or has expired. Read the document again and reapply your changes.");
+    }
+
+    const { update, editedState } = editOnto(baseState, blocks);
+    const connection = await withLoadErrorHandling(() => instance.openDirectConnection(auth.resourceUrl, {
       resourceUrl: auth.resourceUrl,
       token: auth.token,
       tokenExpiresAt: auth.tokenExpiresAt,
       readonly: false,
-    });
+    }));
 
     try {
-      let failure: HttpError | undefined;
-      let result: DocumentBlock[] = [];
+      let result: ReturnType<DocumentContentApi["snapshot"]> | undefined;
 
       await connection.transact((document) => {
-        const current = readBlocks(document);
-        const target = this.resolveTarget(auth.resourceUrl, revision, blocks, current);
-
-        if (target instanceof HttpError) {
-          failure = target;
-          return;
-        }
-
-        writeBlocks(document, target);
-        result = readBlocks(document);
+        Y.applyUpdate(document, update);
+        this.revisions.replace(auth.resourceUrl, revision, editedState);
+        result = this.snapshot(auth.resourceUrl, document);
       });
 
-      if (failure) throw failure;
-
-      return this.snapshot(auth.resourceUrl, result);
+      return result!;
     } finally {
       await connection.disconnect();
     }
   }
 
-  private resolveTarget(resourceUrl: string, revision: string, mine: DocumentBlock[], current: DocumentBlock[]) {
-    if (revisionOf(current) === revision) {
-      return mine;
-    }
-
-    const base = this.revisions.recall(resourceUrl, revision);
-    if (!base) {
-      return conflictError("unknown_revision");
-    }
-
-    const merge = mergeBlocks(base, mine, current);
-    return "conflict" in merge ? conflictError(merge.conflict) : merge.merged;
-  }
-
-  private snapshot(resourceUrl: string, blocks: DocumentBlock[]) {
-    const revision = revisionOf(blocks);
-    this.revisions.remember(resourceUrl, revision, blocks);
-    return { revision, blocks };
+  private snapshot(resourceUrl: string, document: Y.Doc) {
+    const revision = this.revisions.remember(resourceUrl, Y.encodeStateAsUpdate(document));
+    return { revision, blocks: readBlocks(document) };
   }
 }

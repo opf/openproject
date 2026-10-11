@@ -25,36 +25,36 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import type { DocumentBlock } from "./documentContentService";
+import { randomUUID } from "node:crypto";
 
 interface Entry {
-  blocks: DocumentBlock[];
+  state: Uint8Array;
   storedAt: number;
 }
 
 /**
- * Keeps the block content of recently read document revisions in memory,
- * so a later update can be merged against the exact state it was based on.
+ * Keeps the Yjs state of recently read document revisions in memory,
+ * so a later edit can be expressed relative to the exact state it was based on.
  */
 export class RevisionStore {
   private readonly entries = new Map<string, Entry>();
 
   constructor(
-    private readonly maxEntries = 500,
+    private readonly maxEntries = 200,
     private readonly ttlMs = 60 * 60 * 1000,
   ) {}
 
-  remember(documentName: string, revision: string, blocks: DocumentBlock[]): void {
-    const key = this.key(documentName, revision);
-    this.entries.delete(key);
-    this.entries.set(key, { blocks, storedAt: Date.now() });
-
-    while (this.entries.size > this.maxEntries) {
-      this.entries.delete(this.entries.keys().next().value!);
-    }
+  remember(documentName: string, state: Uint8Array): string {
+    const revision = randomUUID();
+    this.store(documentName, revision, state);
+    return revision;
   }
 
-  recall(documentName: string, revision: string): DocumentBlock[] | undefined {
+  replace(documentName: string, revision: string, state: Uint8Array): void {
+    this.store(documentName, revision, state);
+  }
+
+  recall(documentName: string, revision: string): Uint8Array | undefined {
     const key = this.key(documentName, revision);
     const entry = this.entries.get(key);
 
@@ -64,7 +64,17 @@ export class RevisionStore {
       return undefined;
     }
 
-    return entry.blocks;
+    return entry.state;
+  }
+
+  private store(documentName: string, revision: string, state: Uint8Array): void {
+    const key = this.key(documentName, revision);
+    this.entries.delete(key);
+    this.entries.set(key, { state, storedAt: Date.now() });
+
+    while (this.entries.size > this.maxEntries) {
+      this.entries.delete(this.entries.keys().next().value!);
+    }
   }
 
   private key(documentName: string, revision: string): string {
