@@ -705,6 +705,34 @@ RSpec.describe Version do
     end
   end
 
+  describe ".ordered_by_status_and_date" do
+    shared_let(:project) { create(:project) }
+
+    let!(:open_no_date) { create(:version, project:, status: "open", effective_date: nil, name: "Open No Date") }
+    let!(:open_far) { create(:version, project:, status: "open", effective_date: 1.year.from_now, name: "Open Far") }
+    let!(:open_soon) { create(:version, project:, status: "open", effective_date: 1.month.from_now, name: "Open Soon") }
+    let!(:locked_no_date) { create(:version, project:, status: "locked", effective_date: nil, name: "Locked No Date") }
+    let!(:locked_dated) { create(:version, project:, status: "locked", effective_date: 2.months.from_now, name: "Locked Dated") }
+    let!(:closed_no_date) { create(:version, project:, status: "closed", effective_date: nil, name: "Closed No Date") }
+    let!(:closed_old) { create(:version, project:, status: "closed", effective_date: 1.year.ago, name: "Closed Old") }
+    let!(:closed_recent) { create(:version, project:, status: "closed", effective_date: 1.month.ago, name: "Closed Recent") }
+
+    subject { described_class.ordered_by_status_and_date.pluck(:name) }
+
+    it "orders by status (open -> locked -> closed) then by effective_date DESC with NULLs last" do
+      expect(subject).to eq([
+        "Open Far",        # open, furthest date
+        "Open Soon",       # open, nearer date
+        "Open No Date",    # open, no date (last in open group)
+        "Locked Dated",    # locked, has date
+        "Locked No Date",  # locked, no date
+        "Closed Recent",   # closed, most recent
+        "Closed Old",      # closed, older
+        "Closed No Date"   # closed, no date (last in closed group)
+      ])
+    end
+  end
+
   describe "destroying a version referenced by work packages" do
     shared_let(:owning_project) { create(:project) }
     shared_let(:other_project) { create(:project) }

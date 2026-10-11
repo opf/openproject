@@ -65,7 +65,7 @@ RSpec.describe VersionsController do
         expect(subject.include?(version2)).to be_truthy
       end
 
-      it "not shows Completed version" do
+      it "does not show completed version" do
         expect(subject.include?(version3)).to be_falsey
       end
     end
@@ -158,8 +158,25 @@ RSpec.describe VersionsController do
         expect(subject.include?(version2)).to be_truthy
       end
 
-      it "not shows Completed version" do
+      it "shows completed version" do
         expect(subject.include?(version3)).to be_truthy
+      end
+    end
+
+    context "with version ordering" do
+      let(:project) { create(:public_project) }
+      let!(:version_z) { create(:version, project:, name: "Zebra") }
+      let!(:version_a) { create(:version, project:, name: "Alpha") }
+      let!(:version_m) { create(:version, project:, name: "Middle") }
+
+      before do
+        login_as(user)
+        get :index, params: { project_id: project.id }
+      end
+
+      it "orders versions alphabetically by name" do
+        versions = assigns(:versions)
+        expect(versions.map(&:name)).to eq(%w[Alpha Middle Zebra])
       end
     end
 
@@ -186,7 +203,7 @@ RSpec.describe VersionsController do
         end
       end
 
-      shared_examples "shows sub project's' version" do
+      shared_examples "shows sub project's version" do
         it "sets @with_subprojects to true" do
           expect(assigns(:with_subprojects)).to be_truthy
         end
@@ -210,7 +227,7 @@ RSpec.describe VersionsController do
         let(:params) { { project_id: project.id, with_subprojects: 1 } }
 
         include_examples "is successful"
-        include_examples "shows sub project's' version"
+        include_examples "shows sub project's version"
       end
 
       context "when with_subprojects param is set to 0" do
@@ -226,7 +243,7 @@ RSpec.describe VersionsController do
           let(:params) { { project_id: project.id } }
 
           include_examples "is successful"
-          include_examples "shows sub project's' version"
+          include_examples "shows sub project's version"
         end
 
         context "and with_subprojects is set to 0" do
