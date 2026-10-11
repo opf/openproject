@@ -63,7 +63,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
 
     if (queryCustomFields) {
       this.items.push({
-        href: queryCustomFields.href,
+        href: queryCustomFields.href as string|undefined,
         icon: 'icon-custom-fields',
         linkText: queryCustomFields.name,
         onClick: () => false,

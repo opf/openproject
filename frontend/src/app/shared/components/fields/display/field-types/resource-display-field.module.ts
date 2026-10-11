@@ -26,11 +26,12 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ResourceDisplayField extends DisplayField {
   public get value() {
     if (this.schema) {
-      return this.attribute?.name;
+      return (this.attribute as HalResource|null|undefined)?.name;
     }
     return null;
   }

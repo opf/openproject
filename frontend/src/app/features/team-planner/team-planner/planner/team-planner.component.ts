@@ -121,6 +121,7 @@ import {
   personIconData,
   toDOMString,
 } from '@openproject/octicons-angular';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export type TeamPlannerViewOptionKey = 'resourceTimelineWorkWeek'|'resourceTimelineWeek'|'resourceTimelineTwoWeeks'|'resourceTimelineFourWeeks'|'resourceTimelineEightWeeks';
 export type TeamPlannerViewOptions = Record<TeamPlannerViewOptionKey, RawOptionsFromRefiners<Required<ViewOptionRefiners>>>;
@@ -873,8 +874,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private eventResourceEditable(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return !!schema.assignee?.writable && schema.isAttributeEditable('assignee');
+    return !!(schema.assignee as IOPFieldSchema|undefined)?.writable && schema.isAttributeEditable('assignee');
   }
 
   // Todo: Evaluate whether we really want to use that from a UI perspective ¯\_(ツ)_/¯

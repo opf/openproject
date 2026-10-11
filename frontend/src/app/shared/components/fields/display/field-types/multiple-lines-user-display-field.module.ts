@@ -34,7 +34,7 @@ export class MultipleLinesUserFieldModule extends ResourcesDisplayField {
   @LazyInject() principalRenderer:PrincipalRendererService;
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.attribute;
+    const values = this.attribute as UserResource[];
     element.setAttribute('title', displayText);
     element.textContent = displayText;
 
