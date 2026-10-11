@@ -72,6 +72,18 @@ RSpec.describe Llm::Adapters::Openrouter, :llm_server_helpers, :webmock do
     expect(adapter.models.pluck(:id)).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 
+  it "logs a refused filtered request by connection, without the URL" do
+    logged = []
+    allow(Rails.logger).to receive(:info) { |*args, &block| logged << (block ? block.call : args.first) }
+    mock_llm_embedding_models_response(base_url, response_code: 404)
+    connection.save!
+
+    adapter.models
+
+    expect(logged.join).to include("connection #{connection.id}")
+    expect(logged.join).not_to include("openrouter.ai")
+  end
+
   it "fails the sync when the unfiltered catalogue is refused" do
     mock_llm_models_response(base_url, response_code: 500)
     mock_llm_embedding_models_response(base_url)
