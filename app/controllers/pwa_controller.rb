@@ -31,7 +31,8 @@
 # Browsers fetch the manifest and the service worker without credentials, so these stay
 # outside the session and login handling of ApplicationController.
 class PwaController < ActionController::Base # rubocop:disable Rails/ApplicationController
-  skip_forgery_protection
+  # Browsers register the worker with a plain GET for JavaScript, which the cross-origin script guard rejects.
+  skip_after_action :verify_same_origin_request, only: :service_worker
 
   def manifest
     render template: "pwa/manifest", layout: false
