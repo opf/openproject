@@ -2,6 +2,8 @@
 
 OpenProject uses the ckEditor WYSIWYG editor. ckEditor is a great WYSIWYG framework with a lot of functionalities and great flexibility (custom builds, plugins...). All the OpenProject code related to ckEditor is hosted on a separate [repository](https://github.com/opf/commonmark-ckeditor-build).
 
+The build is published to npm as `@openproject/commonmark-ckeditor-build` and pinned to an exact version in `frontend/package.json`. To change the editor, follow the release and canary instructions in that repository's README, then update the pinned version here. For local development, that repository's `npm run watch` copies each build over the installed package in `frontend/node_modules`, which also reaches the `frontend` container of the docker development setup.
+
 ckEditor is used in OpenProject as an input for string fields that require formatting, for example the description of a task, a comment or a wiki page.
 
 ## MarkDown

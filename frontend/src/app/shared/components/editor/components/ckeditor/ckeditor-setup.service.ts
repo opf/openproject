@@ -203,12 +203,7 @@ export class CKEditorSetupService {
    * Load the ckeditor asset
    */
   private async load():Promise<void> {
-    // untyped modules cannot be dynamically imported
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const loadEditorScript = import('core-vendor/ckeditor/ckeditor');
-
-    const promises = [loadEditorScript];
+    const promises:Promise<unknown>[] = [import('@openproject/commonmark-ckeditor-build')];
 
     if (I18n.locale !== 'en') {
       promises.push(this.loadLocale());
@@ -219,8 +214,10 @@ export class CKEditorSetupService {
 
   private async loadLocale():Promise<void> {
     try {
-      await import(`../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`);
-      this.loadedLocale = I18n.locale;
+      const { loadTranslation } = await import('@openproject/commonmark-ckeditor-build/translations');
+      // Resolves with CKEditor's name for the locale (zh-cn for our zh-CN),
+      // which is the one its dictionary is registered under.
+      this.loadedLocale = await loadTranslation(I18n.locale);
     } catch (e:unknown) {
       console.warn(`Failed to load translation for CKEditor: ${e as string}`);
     }
