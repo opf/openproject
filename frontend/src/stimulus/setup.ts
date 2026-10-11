@@ -79,6 +79,7 @@ import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
 import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
+import QuerySelectController from './controllers/query-select.controller';
 import { installElements } from '@openproject/stimulus-elements';
 
 declare global {
@@ -137,6 +138,7 @@ OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
 OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
+OpenProjectStimulusApplication.preregister('query-select', QuerySelectController);
 
 installElements();
 
