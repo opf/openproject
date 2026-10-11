@@ -337,6 +337,41 @@ RSpec.describe "Status action board",
       end
     end
 
+    context "with a subproject and work packages within it (Regression #31613)",
+            with_settings: { display_subprojects_work_packages: false } do
+      let!(:child_project) do
+        create(:project,
+               parent: project,
+               types: [type],
+               enabled_module_names: %i[work_package_tracking board_view],
+               members: { user => role })
+      end
+      let!(:child_work_package) do
+        create(:work_package, subject: "WP SUB", project: child_project, type:, status: whatever_status)
+      end
+
+      it "offers the work package once a subproject filter is added" do
+        board_index.visit!
+
+        board_page = board_index.create_board action: "Kanban"
+        board_page.expect_list "Open"
+
+        board_page.expect_not_referencable("Open", child_work_package)
+
+        board_page.add_list option: "Whatever"
+        board_page.expect_list "Whatever"
+
+        filters.open
+        filters.add_filter_by("subproject", "is not empty", nil, "subprojectId")
+        board_page.expect_card("Whatever", child_work_package.subject)
+
+        board_page.reference("Open", child_work_package)
+
+        wait_for { child_work_package.reload.status }.to eq(open_status)
+        expect(child_work_package.project).to eq(child_project)
+      end
+    end
+
     it "shows the default column only once (regression #40858)" do
       board_index.visit!
 
