@@ -41,6 +41,7 @@ RSpec.describe Documents::CollaborationServer::Client, :webmock,
   let(:document) { create(:document, :collaborative) }
   let(:content_url) { "http://10.0.0.5:1234/collab/api/v1/documents/content" }
   let(:blocks) { [{ "id" => "a", "type" => "paragraph", "content" => [], "children" => [] }] }
+
   describe ".base_url" do
     it "derives the HTTP URL from the websocket URL" do
       expect(described_class.base_url).to eq("http://10.0.0.5:1234/collab")
