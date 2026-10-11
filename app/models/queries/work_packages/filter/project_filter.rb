@@ -48,6 +48,10 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
     :list_optional
   end
 
+  def type_strategy
+    @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+  end
+
   def self.key
     :project_id
   end

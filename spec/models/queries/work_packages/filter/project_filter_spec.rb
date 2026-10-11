@@ -106,6 +106,35 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
       end
     end
 
+    describe "#valid?" do
+      before do
+        allow(Project).to receive(:project_tree)
+      end
+
+      it "does not load the project tree for the any operator" do
+        instance.operator = "*"
+        instance.values = []
+
+        expect(instance).to be_valid
+        expect(Project).not_to have_received(:project_tree)
+      end
+
+      it "does not load the project tree for selected projects" do
+        instance.operator = "="
+        instance.values = [visible_projects.first.id.to_s]
+
+        expect(instance).to be_valid
+        expect(Project).not_to have_received(:project_tree)
+      end
+
+      it "is invalid for a value that is not an integer" do
+        instance.operator = "="
+        instance.values = ["foo"]
+
+        expect(instance).not_to be_valid
+      end
+    end
+
     describe "#ar_object_filter?" do
       it "is true" do
         expect(instance)
