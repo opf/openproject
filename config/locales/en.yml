@@ -1852,7 +1852,6 @@ en:
         api_key_placeholder_stored: "API key stored"
         api_key_remove: "Remove key"
         base_url_caption: "The base URL of the server, for example https://example.com/v1."
-        button_connect: "Connect"
         env_applied: "Applied from the environment on %{time}. Changed variables take effect the next time the database is seeded."
         env_pending: "Environment variables configure this connection but have not been applied yet. The next database seed replaces the values below and locks this page."
         label_connecting: "Contacting the LLM server…"
