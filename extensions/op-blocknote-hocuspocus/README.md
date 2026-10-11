@@ -74,6 +74,27 @@ https redirects.
 OPENPROJECT_HTTPS=true
 ```
 
+### HTTP API
+
+Besides websocket connections for the editor, the server offers an HTTP API that OpenProject uses to read and edit
+document content on behalf of MCP clients. Edits are applied to the live document, so they reach every connected editor
+immediately.
+
+Requests to the content endpoints authenticate with the same encrypted token the editor uses, sent as
+`Authorization: Bearer <token>`. The token determines the document.
+
+| Request                           | Description                                                                                       |
+|-----------------------------------|---------------------------------------------------------------------------------------------------|
+| `GET /api/v1/documents/schema`    | JSON schema of the BlockNote blocks OpenProject documents consist of. Requires no authentication. |
+| `GET /api/v1/documents/content`   | Returns `{ revision, blocks }` with the current content of the document.                          |
+| `PUT /api/v1/documents/content`   | Takes `{ revision, blocks }` and replaces the content of the document with the given blocks.      |
+
+A `PUT` validates the blocks against the schema (`422` otherwise) and applies only the difference to the current
+content as Yjs operations. The `revision` names the content the edit was based on. If the document changed since,
+the edit is merged with those changes on block level. Changes to the same block, or changes to the order or nesting
+of blocks on both sides, are rejected with `409`; the client then needs to read the document again.
+Read revisions are remembered in memory for an hour.
+
 ### Starting the Server
 
 ```bash

@@ -60,6 +60,12 @@ interface AuthenticatedRequest {
   readonly: boolean;
 }
 
+// Reverse proxies may forward requests without stripping the path hocuspocus is mounted under.
+function routedPath(request: IncomingMessage): string | undefined {
+  const { pathname } = new URL(request.url ?? "/", "http://localhost");
+  return [SCHEMA_PATH, CONTENT_PATH].find((path) => pathname.endsWith(path));
+}
+
 function sendJson(response: ServerResponse, status: number, body: unknown) {
   response.writeHead(status, { "Content-Type": "application/json" });
   response.end(JSON.stringify(body));
@@ -150,12 +156,12 @@ export class DocumentContentApi implements Extension {
   constructor(private readonly revisions = new RevisionStore()) {}
 
   async onRequest({ request, response, instance }: onRequestPayload): Promise<void> {
-    const path = new URL(request.url ?? "/", "http://localhost").pathname;
-    const route = `${request.method} ${path}`;
-
-    if (path !== SCHEMA_PATH && path !== CONTENT_PATH) {
+    const path = routedPath(request);
+    if (!path) {
       return;
     }
+
+    const route = `${request.method} ${path}`;
 
     try {
       switch (route) {

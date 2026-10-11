@@ -128,6 +128,20 @@ describe("GET schema", () => {
   });
 });
 
+describe("routing", () => {
+  it("serves requests forwarded with the path hocuspocus is mounted under", async () => {
+    expect((await request("GET", `/hocuspocus${SCHEMA_PATH}`, { token: null })).status).toBe(200);
+  });
+
+  it("leaves other requests to hocuspocus", async () => {
+    expect(await (await request("GET", "/", { token: null })).text()).toBe("Welcome to Hocuspocus!");
+  });
+
+  it("rejects unsupported methods", async () => {
+    expect((await request("DELETE", CONTENT_PATH)).status).toBe(405);
+  });
+});
+
 describe("GET content", () => {
   it("returns the stored blocks with a revision", async () => {
     const { revision, blocks } = await readContent();

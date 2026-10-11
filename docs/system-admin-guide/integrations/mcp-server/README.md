@@ -97,12 +97,15 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `current_user` | Current user | Returns the currently authenticated user. Also available as an MCP resource. |
 | `delete_time_entry` | Delete time entry | Delete an existing time entry. |
 | `delete_work_package_relation` | Delete work package relation | Delete an existing relation between two work packages. |
+| `get_document_schema` | Get document schema | Returns the JSON schema that the content blocks of collaborative documents must follow. Validate blocks against it before updating the content of a document. |
 | `list_statuses` | List statuses | Lists all work package statuses available on this OpenProject instance. Also available as an MCP resource. |
 | `list_types` | List types | Lists all work package types available on this OpenProject instance. Also available as an MCP resource. |
 | `list_work_package_comments` | List work package comments | List comments of the given work package. |
 | `list_work_package_relations` | List work package relations | List relations of the given work package towards other work packages. |
+| `read_document` | Read document | Reads the current content of a collaborative document as BlockNote blocks, including edits of users who are editing it right now. The returned revision is needed to update the content. The blocks follow the schema returned by get_document_schema. |
 | `search_custom_field_items` | Search custom field items | Access items available as values for the given custom field. Usable for hierarchy and weighted item list custom fields. |
 | `search_custom_fields` | Search custom fields | Show details of the custom fields matching given criteria. |
+| `search_documents` | Search documents | Search documents matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 documents. To get the rest of the results, call the tool again with a page number of 2 or higher. The content of collaborative documents can be read with read_document. |
 | `search_portfolios` | Search portfolios | Search portfolios matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 portfolios. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_programs` | Search programs | Search programs matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 programs. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_projects` | Search projects | Search projects matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 projects. To get the rest of the results, call the tool again with a page number of 1 or higher. |
@@ -110,6 +113,7 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `search_users` | Search users | Search users matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 users. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_versions` | Search versions | Search versions matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 versions. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_work_packages` | Search work packages | Search work packages matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 work packages. To get the rest of the results, call the tool again with a page number of 2 or higher. Names of custom fields should be resolved through the corresponding tool before showing them to the user. They should not be rendered as 'customFieldN'. |
+| `update_document_content` | Update document content | Replaces the content of a collaborative document with the given BlockNote blocks. Users currently editing the document see the change immediately. Only the differences to the current content are applied. Edits that others made in the meantime are kept, unless they touch the same blocks. In that case the update is rejected; read the document again and reapply your changes. |
 | `update_time_entry` | Update time entry | Update an existing time entry. |
 | `update_work_package` | Update work package | Updates a work package in-place. |
 | `update_work_package_relation` | Update work package relation | Update an existing relation between two work packages. |
@@ -170,5 +174,38 @@ The relevant tools are:
 -   `create_time_entry`
 -   `update_time_entry`
 -   `delete_time_entry`
+
+### Documents
+
+MCP clients can find documents and, for collaborative documents, read and edit their content. The content is exchanged as
+[BlockNote](https://www.blocknotejs.org/) blocks in JSON. Reading and editing goes through the
+[collaboration server](../../documents/#real-time-collaboration-in-documents) (hocuspocus), so it requires real-time collaboration to be enabled,
+and edits show up immediately for everyone who has the document open.
+
+The relevant tools are:
+
+-   `search_documents`
+-   `get_document_schema`
+-   `read_document`
+-   `update_document_content`
+
+A typical edit reads the document, changes the returned blocks and sends back the complete list of blocks together with the
+revision it read. Blocks keep their `id`, new blocks are sent without one, and blocks that are left out are deleted. The
+collaboration server validates the blocks against the schema returned by `get_document_schema` and applies only the
+differences. If others changed the document in the meantime, their changes are kept as long as they touched different
+blocks. Otherwise the update is rejected and the client needs to read the document again.
+
+OpenProject sends these requests over plain HTTP to the configured hocuspocus URL, with `wss://` replaced by `https://`
+(and `ws://` by `http://`). A reverse proxy in front of hocuspocus therefore needs to forward regular HTTP requests in
+addition to websocket connections. With Apache 2.4.47 or later, this can be configured like this:
+
+```apache
+ProxyPass        /hocuspocus  http://127.0.0.1:1234/hocuspocus upgrade=websocket
+ProxyPassReverse /hocuspocus  http://127.0.0.1:1234/hocuspocus
+```
+
+If the collaboration server is reachable from OpenProject under a different URL, for example inside a container network,
+configure it with `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__API__URL`. Connections to private or loopback IP
+addresses additionally need to be allowed through `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST`.
 
 Actions performed through MCP use the permissions of the authenticated OpenProject user.

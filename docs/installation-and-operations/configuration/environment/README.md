@@ -176,6 +176,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_CACHE__REDIS__URL` | `nil` | URL to the redis cache server |
 | `OPENPROJECT_CAPTURE__EXTERNAL__LINKS` | `false` | Redirect external links through a warning page before leaving the application |
 | `OPENPROJECT_CAPTURE__EXTERNAL__LINKS__REQUIRE__LOGIN` | `false` | Require users to be logged in before being able to navigate to external links |
+| `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__API__URL` | `nil` | The base URL under which OpenProject reaches the HTTP API of the hocuspocus server, used to read and edit document content on behalf of MCP clients. Only needed if hocuspocus is reachable from OpenProject under a different URL than from browsers. Defaults to the hocuspocus URL with its websocket scheme replaced by the matching HTTP scheme. |
 | `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET` | `nil` | The secret used for generating access tokens to access documents on hocuspocus server. |
 | `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__URL` | `nil` | The URL of the hocuspocus server used by BlockNoteJS editor to enable collaborative editing. |
 | `OPENPROJECT_COMMIT__FIX__KEYWORDS` | `"fixes,closes"` | Keywords to look for in commit for fixing work packages |
