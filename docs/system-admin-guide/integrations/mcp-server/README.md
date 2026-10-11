@@ -113,7 +113,7 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `search_users` | Search users | Search users matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 users. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_versions` | Search versions | Search versions matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 versions. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_work_packages` | Search work packages | Search work packages matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 work packages. To get the rest of the results, call the tool again with a page number of 2 or higher. Names of custom fields should be resolved through the corresponding tool before showing them to the user. They should not be rendered as 'customFieldN'. |
-| `update_document_content` | Update document content | Replaces the content of a collaborative document with the given BlockNote blocks. Users currently editing the document see the change immediately. Only the differences to the current content are applied. Edits that others made in the meantime are kept, unless they touch the same blocks. In that case the update is rejected; read the document again and reapply your changes. |
+| `update_document_content` | Update document content | Replaces the content of a collaborative document with the given BlockNote blocks. Your changes are applied relative to the revision you read, like the edits of any other real-time editor: users currently editing the document see them immediately, and edits that others made in the meantime are merged in. Use the returned revision for further updates. |
 | `update_time_entry` | Update time entry | Update an existing time entry. |
 | `update_work_package` | Update work package | Updates a work package in-place. |
 | `update_work_package_relation` | Update work package relation | Update an existing relation between two work packages. |
@@ -178,9 +178,7 @@ The relevant tools are:
 ### Documents
 
 MCP clients can find documents and, for collaborative documents, read and edit their content. The content is exchanged as
-[BlockNote](https://www.blocknotejs.org/) blocks in JSON. Reading and editing goes through the
-[collaboration server](../../documents/#real-time-collaboration-in-documents) (hocuspocus), so it requires real-time collaboration to be enabled,
-and edits show up immediately for everyone who has the document open.
+[BlockNote](https://www.blocknotejs.org/) blocks in JSON.
 
 The relevant tools are:
 
@@ -189,23 +187,21 @@ The relevant tools are:
 -   `read_document`
 -   `update_document_content`
 
-A typical edit reads the document, changes the returned blocks and sends back the complete list of blocks together with the
-revision it read. Blocks keep their `id`, new blocks are sent without one, and blocks that are left out are deleted. The
-collaboration server validates the blocks against the schema returned by `get_document_schema` and applies only the
-differences. If others changed the document in the meantime, their changes are kept as long as they touched different
-blocks. Otherwise the update is rejected and the client needs to read the document again.
+Reading and editing content goes through the
+[collaboration server](../../documents/#real-time-collaboration-in-documents) (hocuspocus). The content tools are therefore
+only offered to MCP clients while real-time collaboration is enabled.
 
-OpenProject sends these requests over plain HTTP to the configured hocuspocus URL, with `wss://` replaced by `https://`
-(and `ws://` by `http://`). A reverse proxy in front of hocuspocus therefore needs to forward regular HTTP requests in
-addition to websocket connections. With Apache 2.4.47 or later, this can be configured like this:
+An MCP client edits a document like any other real-time editor. It reads the document, changes the returned blocks and
+sends back the complete list of blocks together with the revision it read. Blocks keep their `id`, new blocks are sent
+without one, and blocks that are left out are deleted. The collaboration server validates the blocks against the schema
+returned by `get_document_schema`, turns the difference to the read revision into a regular collaborative edit and
+applies it to the live document. Everyone who has the document open sees the change immediately, and changes others made
+in the meantime are merged, down to individual characters within the same paragraph.
 
-```apache
-ProxyPass        /hocuspocus  http://127.0.0.1:1234/hocuspocus upgrade=websocket
-ProxyPassReverse /hocuspocus  http://127.0.0.1:1234/hocuspocus
-```
-
-If the collaboration server is reachable from OpenProject under a different URL, for example inside a container network,
-configure it with `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__API__URL`. Connections to private or loopback IP
-addresses additionally need to be allowed through `OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST`.
+OpenProject sends these requests over HTTP to the configured hocuspocus URL, with `wss://` replaced by `https://`
+(and `ws://` by `http://`). If the collaboration server is reachable from OpenProject under a different URL, for example
+inside a container network, configure it with `OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__API__URL`. The
+collaboration server is exempt from OpenProject's protection against requests to private IP addresses, so it can run on
+the same host or in the same private network without further configuration.
 
 Actions performed through MCP use the permissions of the authenticated OpenProject user.

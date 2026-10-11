@@ -42,6 +42,10 @@ RSpec.describe Documents::CollaborationServer::Client,
   let(:content_url) { "https://hocuspocus.local/collab/api/v1/documents/content" }
   let(:blocks) { [{ "id" => "a", "type" => "paragraph", "content" => [], "children" => [] }] }
 
+  before do
+    allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("10.0.0.5")] })
+  end
+
   describe ".base_url" do
     it "derives the HTTP URL from the websocket URL" do
       expect(described_class.base_url).to eq("https://hocuspocus.local/collab")
@@ -97,6 +101,23 @@ RSpec.describe Documents::CollaborationServer::Client,
 
         payload["resource_url"].end_with?("/api/v3/documents/#{document.id}") && !payload["readonly"]
       end)
+    end
+  end
+
+  describe "SSRF protection" do
+    let(:session) { OpenProject.httpx }
+
+    before do
+      stub_request(:get, content_url).to_return(status: 200, body: { revision: "abc", blocks: }.to_json)
+      allow(OpenProject).to receive(:httpx).and_return(session)
+      allow(session).to receive(:with).and_call_original
+    end
+
+    it "allows the addresses of the collaboration server, even if they are private" do
+      client.content
+
+      expect(session).to have_received(:with)
+        .with(hash_including(safe_private_ranges: include(IPAddr.new("10.0.0.5"))))
     end
   end
 

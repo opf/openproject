@@ -76,8 +76,17 @@ module Documents
           headers["Authorization"] = "Bearer #{token.result[:encrypted_token]}"
         end
 
-        response = OpenProject.httpx.with(headers:).request(verb.to_s.upcase, "#{base_url}#{path}", **)
+        response = http(base_url, headers).request(verb.to_s.upcase, "#{base_url}#{path}", **)
         handle_response(response)
+      end
+
+      def http(base_url, headers)
+        server_addresses = OpenProject::SsrfProtection.resolver.call(URI(base_url).host)
+
+        OpenProject.httpx.with(
+          headers:,
+          safe_private_ranges: OpenProject::Configuration.ssrf_protection_ip_allowlist + server_addresses
+        )
       end
 
       def document_token

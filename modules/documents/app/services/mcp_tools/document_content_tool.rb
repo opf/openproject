@@ -30,11 +30,15 @@
 
 module McpTools
   class DocumentContentTool < Base
+    class << self
+      def available?
+        Setting.real_time_text_collaboration_enabled?
+      end
+    end
+
     private
 
     def find_document(id)
-      return Failure("Real-time collaboration on documents is not enabled.") unless Setting.real_time_text_collaboration_enabled?
-
       document = Document.visible(current_user).find_by(id:)
       return Failure("The given document could not be found.") if document.nil?
       return Failure("Only the content of collaborative documents can be accessed as blocks.") unless document.collaborative?

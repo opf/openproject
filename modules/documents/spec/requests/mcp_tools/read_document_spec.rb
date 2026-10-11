@@ -124,10 +124,7 @@ RSpec.describe McpTools::ReadDocument,
     end
 
     context "when real-time collaboration is disabled", with_settings: { real_time_text_collaboration_enabled: false } do
-      it "responds with an error" do
-        mcp_request
-        expect(result_item.fetch("error")).to eq("Real-time collaboration on documents is not enabled.")
-      end
+      it_behaves_like "MCP error response"
     end
   end
 

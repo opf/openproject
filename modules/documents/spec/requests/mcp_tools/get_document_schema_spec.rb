@@ -67,6 +67,7 @@ RSpec.describe McpTools::GetDocumentSchema,
     server_config.save!
     tool_config.save!
 
+    allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("10.0.0.5")] })
     stub_request(:get, "https://hocuspocus.local/api/v1/documents/schema")
       .to_return(status: 200, body: schema.to_json)
   end

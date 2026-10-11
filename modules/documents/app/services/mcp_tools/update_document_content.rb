@@ -32,10 +32,9 @@ module McpTools
   class UpdateDocumentContent < DocumentContentTool
     default_title "Update document content"
     default_description "Replaces the content of a collaborative document with the given BlockNote blocks. " \
-                        "Users currently editing the document see the change immediately. " \
-                        "Only the differences to the current content are applied. Edits that others made in the meantime " \
-                        "are kept, unless they touch the same blocks. In that case the update is rejected; read the document " \
-                        "again and reapply your changes."
+                        "Your changes are applied relative to the revision you read, like the edits of any other " \
+                        "real-time editor: users currently editing the document see them immediately, and edits that " \
+                        "others made in the meantime are merged in. Use the returned revision for further updates."
 
     name "update_document_content"
     annotations read_only: false, idempotent: true, destructive: true
