@@ -27,6 +27,7 @@
 
 import { Logger } from "@hocuspocus/extension-logger";
 import { Server } from "@hocuspocus/server";
+import { DocumentContentApi } from "./extensions/documentContentApi";
 import { OpenProjectApi } from "./extensions/openProjectApi";
 
 const server = new Server({
@@ -34,6 +35,7 @@ const server = new Server({
   quiet: false,
   extensions: [
     new OpenProjectApi(),
+    new DocumentContentApi(),
     new Logger({
       onChange: false,
     }),

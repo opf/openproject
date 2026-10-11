@@ -25,35 +25,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { BlockNoteSchema } from "@blocknote/core";
-import { ServerBlockNoteEditor } from "@blocknote/server-util";
 import type { beforeHandleMessagePayload, onAuthenticatePayload, onLoadDocumentPayload, onStoreDocumentPayload, onTokenSyncPayload } from "@hocuspocus/server";
 import { Extension } from "@hocuspocus/server";
-import {
-  openProjectWorkPackageStaticBlockSpec,
-  openProjectWorkPackageStaticInlineSpec,
-} from "op-blocknote-extensions/server";
 import * as Y from "yjs";
 import { TokenExpired, TokenExpiryMissing, unauthorized } from "../closeEvents";
 import { decryptAndValidateToken } from "../services/tokenValidationService";
-import type { ApiResponseDocument } from "../types";
 import { fetchResource } from "../services/resourceService";
+import { loadStoredDocument } from "../services/storedDocumentService";
+import { createEditor, DOCUMENT_FRAGMENT } from "../editor";
 
-export const editorSchema = BlockNoteSchema.create().extend({
-  blockSpecs: {
-    openProjectWorkPackageBlock: openProjectWorkPackageStaticBlockSpec(),
-  },
-  inlineContentSpecs: {
-    openProjectWorkPackageInline: openProjectWorkPackageStaticInlineSpec,
-  },
-});
+export { createEditor, editorSchema } from "../editor";
 
 function printLog(message:string) {
   console.log(`[${new Date().toISOString()}] ${message}`);
-}
-
-export function createEditor() {
-  return ServerBlockNoteEditor.create({ schema: editorSchema });
 }
 
 export class OpenProjectApi implements Extension {
@@ -110,17 +94,10 @@ export class OpenProjectApi implements Extension {
     */
   async onLoadDocument(data: onLoadDocumentPayload) {
     const { resourceUrl } = data.context;
-    const response = await fetchResource(resourceUrl, data.context.token);
+    const loaded = await loadStoredDocument(resourceUrl, data.context.token, data.document);
 
-    if (response.status != 200) {
-      console.warn(`Error fetching document (${response.status}: ${response.statusText})`);
+    if (!loaded) {
       return;
-    }
-
-    const jsonData = await response.json() as ApiResponseDocument;
-    if (jsonData.contentBinary) {
-      const update = new Uint8Array(Buffer.from(jsonData.contentBinary, 'base64'));
-      Y.applyUpdate(data.document, update);
     }
 
     return data.document;
@@ -147,7 +124,7 @@ export class OpenProjectApi implements Extension {
     const editor = createEditor();
     const tempYdoc = new Y.Doc();
     Y.applyUpdate(tempYdoc, Y.encodeStateAsUpdate(data.document));
-    const tempFragment = tempYdoc.getXmlFragment("document-store");
+    const tempFragment = tempYdoc.getXmlFragment(DOCUMENT_FRAGMENT);
     const editorData = editor.yXmlFragmentToBlocks(tempFragment);
     const markdownData = await editor.blocksToMarkdownLossy(editorData);
 
