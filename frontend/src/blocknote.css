@@ -1,4 +1,5 @@
 @import "@blocknote/mantine/style.css";
+@import "../node_modules/@primer/react/dist/ActionBar/ActionBar-3767d551.css";
 @import "../node_modules/@primer/react/dist/ActionList/ActionList-64885d7a.css";
 @import "../node_modules/@primer/react/dist/ActionList/Group-d89306a8.css";
 @import "../node_modules/@primer/react/dist/ActionMenu/ActionMenu-c4e2a589.css";
@@ -35,6 +36,19 @@
 
 .op-primer-formatting-toolbar > * {
   flex-shrink: 0;
+}
+
+.op-primer-formatting-toolbar > [data-component="ActionBar"] {
+  flex-shrink: 1;
+  min-width: var(--control-medium-size);
+}
+
+.op-primer-formatting-toolbar > [data-component="ActionBar"]:not(:has([data-test])) {
+  display: none;
+}
+
+.op-primer-formatting-toolbar [data-more-button-inactive="true"] {
+  display: none;
 }
 
 .op-primer-formatting-toolbar [data-component="IconButton"] > svg {

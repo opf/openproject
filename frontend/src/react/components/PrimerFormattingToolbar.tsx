@@ -25,26 +25,61 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, PortalElementOverride, preventFocusOnTap, useComponentsContext } from '@blocknote/react';
+import {
+  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, NestBlockButton,
+  PortalElementOverride, preventFocusOnTap, TableCellMergeButton, TextAlignButton, UnnestBlockButton,
+  useBlockNoteEditor, useComponentsContext, usePortalElement, useUIMode,
+} from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
-import { ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
+import { ActionBar, ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
-import { useContext, useLayoutEffect, useMemo } from 'react';
+import { Children, createContext, isValidElement, useContext, useLayoutEffect, useMemo } from 'react';
 
 type Toolbar = ComponentProps['FormattingToolbar'];
 
+const InActionBar = createContext(false);
+const actionButtons = [TextAlignButton, NestBlockButton, UnnestBlockButton, TableCellMergeButton];
+
 function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar['Root']) {
+  const portalElement = usePortalElement();
+  const { portalContainerName } = useContext(PortalContext);
+  useLayoutEffect(() => {
+    if (!portalElement || !portalContainerName) return undefined;
+    registerPortalRoot(portalElement, portalContainerName);
+    return () => registerPortalRoot(document.body, portalContainerName);
+  }, [portalElement, portalContainerName]);
+
+  const mobile = useUIMode() === 'mobile';
+  const label = window.I18n.t('js.blocknote.formatting_toolbar');
+  const controls = Children.toArray(children);
+  const isAction = (control:typeof controls[number]) => isValidElement(control) && actionButtons.some((type) => type === control.type);
+  const isStyle = (control:typeof controls[number]) => isValidElement(control) && control.type === BasicTextStyleButton;
+  const isPicker = (control:typeof controls[number]) => isValidElement(control) && control.type === BlockNoteBlockTypeSelect;
+
   return (
     <Stack
-      role="toolbar"
-      aria-label={window.I18n.t('js.blocknote.formatting_toolbar')}
+      role={mobile ? 'toolbar' : 'group'}
+      aria-label={label}
       className={`${className} op-primer-formatting-toolbar`}
       direction="horizontal"
       align="center"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <PrimerActionMenus returnFocusToEditor>{children}</PrimerActionMenus>
+      <PrimerActionMenus returnFocusToEditor>
+        {mobile ? children : (
+          <>
+            {controls.filter(isPicker)}
+            <ActionBar flush size="medium" gap="none" aria-label={label}>
+              <InActionBar.Provider value>
+                <ActionBar.Group>{controls.filter(isStyle)}</ActionBar.Group>
+                {controls.filter(isAction)}
+              </InActionBar.Provider>
+            </ActionBar>
+            {controls.filter((control) => !isPicker(control) && !isAction(control) && !isStyle(control))}
+          </>
+        )}
+      </PrimerActionMenus>
     </Stack>
   );
 }
@@ -52,6 +87,8 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
 function ToolbarButton({
   children, icon, isSelected, isDisabled, label, mainTooltip, secondaryTooltip, variant, ...rest
 }:Toolbar['Button']) {
+  const inActionBar = useContext(InActionBar);
+  const editor = useBlockNoteEditor();
   const props = {
     ...rest,
     variant: 'invisible' as const,
@@ -61,6 +98,23 @@ function ToolbarButton({
     'data-compact': variant === 'compact' || undefined,
     onMouseDown: preventFocusOnTap,
   };
+
+  if (inActionBar) {
+    const name = mainTooltip ?? label ?? '';
+    return (
+      <ActionBar.IconButton
+        {...props}
+        icon={icon}
+        aria-label={isSelected ? window.I18n.t('js.blocknote.active_format', { format: name }) : name}
+        keybindingHint={secondaryTooltip?.replace(/^(⌘|Ctrl)\+/, 'Mod+')}
+        onClick={(event) => {
+          const fromOverflow = event.currentTarget.getAttribute('role') === 'menuitem';
+          rest.onClick?.(event);
+          if (fromOverflow) requestAnimationFrame(() => editor.focus());
+        }}
+      />
+    );
+  }
 
   if (children) {
     return <Button {...props} aria-label={label} title={mainTooltip}>{children}</Button>;
@@ -76,14 +130,7 @@ function ToolbarButton({
   );
 }
 
-function BlockTypeSelect({ items, isDisabled, portalElement }:Toolbar['Select']) {
-  const { portalContainerName } = useContext(PortalContext);
-  useLayoutEffect(() => {
-    if (!portalElement || !portalContainerName) return undefined;
-    registerPortalRoot(portalElement, portalContainerName);
-    return () => registerPortalRoot(document.body, portalContainerName);
-  }, [portalElement, portalContainerName]);
-
+function BlockTypeSelect({ items, isDisabled }:Toolbar['Select']) {
   const selectedItem = items.find((item) => item.isSelected);
   if (!selectedItem) return null;
 

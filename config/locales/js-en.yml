@@ -1020,6 +1020,7 @@ en:
       label_search_watchers: Search watchers
       typeahead_placeholder: Search for possible watchers
     blocknote:
+      active_format: "%{format} (active)"
       formatting_toolbar: "Text formatting"
       block_type: "Block type"
       row_actions: "Row actions"
