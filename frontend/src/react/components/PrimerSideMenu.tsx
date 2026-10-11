@@ -49,7 +49,7 @@ function Root({ children, onOpenChange }:Menu['Root']) {
 
 function Dropdown({ children, className, sub }:Menu['Dropdown']) {
   return (
-    <ActionMenu.Overlay side={sub ? 'outside-right' : 'outside-left'} overflow="auto" maxHeight="large">
+    <ActionMenu.Overlay className="op-blocknote-action-menu" side={sub ? 'outside-right' : 'outside-left'} overflow="auto" maxHeight="large">
       <ActionList className={className}>{children}</ActionList>
     </ActionMenu.Overlay>
   );

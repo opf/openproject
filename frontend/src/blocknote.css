@@ -10,6 +10,43 @@
 @import "../node_modules/@primer/react/dist/Spinner/Spinner-2dbceeca.css";
 @import "../node_modules/@primer/react/dist/_VisuallyHidden-1f156b61.css";
 
+@import "../node_modules/@primer/react/dist/Button/ButtonBase-c8dab214.css";
+@import "../node_modules/@primer/react/dist/Stack/Stack-1790a166.css";
+@import "../node_modules/@primer/react/dist/TooltipV2/Tooltip-dd983e5b.css";
+
+.op-blocknote-action-menu {
+  width: max-content;
+}
+
+.op-blocknote-action-menu [data-component="ActionList.Item.Label"] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bn-mantine .op-primer-formatting-toolbar {
+  background: var(--overlay-bgColor);
+  border: 1px solid var(--borderColor-muted);
+  box-shadow: var(--shadow-floating-medium);
+  border-radius: var(--borderRadius-large);
+  padding: var(--base-size-4);
+  max-width: calc(100vw - 16px);
+}
+
+.op-primer-formatting-toolbar > * {
+  flex-shrink: 0;
+}
+
+.op-primer-formatting-toolbar button[aria-pressed="true"] {
+  background: var(--control-transparent-bgColor-selected);
+  color: var(--fgColor-accent);
+}
+
+.bn-mobile-formatting-toolbar .op-primer-formatting-toolbar button {
+  min-width: 40px;
+  min-height: 40px;
+}
+
 .op-primer-slash-menu {
   background: var(--overlay-bgColor, white);
   border: 1px solid var(--borderColor-muted);

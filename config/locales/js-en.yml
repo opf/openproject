@@ -1019,6 +1019,9 @@ en:
       label_loading: loading watchers...
       label_search_watchers: Search watchers
       typeahead_placeholder: Search for possible watchers
+    blocknote:
+      formatting_toolbar: "Text formatting"
+      block_type: "Block type"
     wiki_formatting:
       code: "Inline Code"
       deleted: "Deleted"

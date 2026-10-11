@@ -43,7 +43,6 @@ import {
   openProjectWorkPackageAttributeInlineSpec,
   openProjectWorkPackageAttributeBlockSpec,
   getOpenProjectSlashMenuItems,
-  OpenProjectFormattingToolbar,
   OpenProjectHashMenu,
 } from '@openproject/blocknote-extensions';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
@@ -51,6 +50,7 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
 import { PrimerSideMenuController } from './PrimerSideMenu';
 import { PrimerSlashMenu } from './PrimerSlashMenu';
 import { tableBlockSpec } from '../blocks/table';
@@ -186,7 +186,7 @@ export function OpBlockNoteEditor({
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
-        <OpenProjectFormattingToolbar />
+        <PrimerFormattingToolbar />
         <PrimerSideMenuController />
         <SuggestionMenuController
           triggerCharacter="/"
