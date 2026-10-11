@@ -51,6 +51,8 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { PrimerSideMenuController } from './PrimerSideMenu';
+import { PrimerSlashMenu } from './PrimerSlashMenu';
 import { tableBlockSpec } from '../blocks/table';
 
 // Mantine >= 9.3 locks a popover's first placement and falls back to it when neither side fits,
@@ -178,14 +180,17 @@ export function OpBlockNoteEditor({
       <BlockNoteView
         editor={editor}
         slashMenu={false}
+        sideMenu={false}
         formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
         <OpenProjectFormattingToolbar />
+        <PrimerSideMenuController />
         <SuggestionMenuController
           triggerCharacter="/"
+          suggestionMenuComponent={PrimerSlashMenu}
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
         <OpenProjectHashMenu />

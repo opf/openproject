@@ -1,0 +1,67 @@
+@import "@blocknote/mantine/style.css";
+@import "../node_modules/@primer/react/dist/ActionList/ActionList-64885d7a.css";
+@import "../node_modules/@primer/react/dist/ActionList/Group-d89306a8.css";
+@import "../node_modules/@primer/react/dist/ActionMenu/ActionMenu-c4e2a589.css";
+@import "../node_modules/@primer/react/dist/AnchoredOverlay/AnchoredOverlay-83281f45.css";
+@import "../node_modules/@primer/react/dist/Overlay/Overlay-214d10dd.css";
+@import "../node_modules/@primer/react/dist/KeybindingHint/KeybindingHint-0856c11b.css";
+@import "../node_modules/@primer/react/dist/KeybindingHint/components/Chord-d4edcc89.css";
+@import "../node_modules/@primer/react/dist/Text/Text-d649cda5.css";
+@import "../node_modules/@primer/react/dist/Spinner/Spinner-2dbceeca.css";
+@import "../node_modules/@primer/react/dist/_VisuallyHidden-1f156b61.css";
+
+.op-primer-slash-menu {
+  background: var(--overlay-bgColor, white);
+  border: 1px solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large, 8px);
+  box-shadow: var(--shadow-floating-medium);
+  width: min(22rem, calc(100vw - 20px));
+  max-height: inherit;
+  overflow-y: auto;
+}
+
+.op-primer-slash-menu [aria-selected="true"] {
+  background: var(--control-transparent-bgColor-hover);
+}
+
+.block-note-editor-container .bn-block-content[data-content-type="checkListItem"] > div > input {
+  appearance: none;
+  display: inline-grid;
+  place-content: center;
+  vertical-align: middle;
+  width: 16px;
+  height: 16px;
+  margin-inline: 4px 8px;
+  background: var(--bgColor-default);
+  border: 1px solid var(--control-borderColor-emphasis);
+  border-radius: var(--borderRadius-small, 3px);
+}
+
+.block-note-editor-container .bn-block-content[data-content-type="checkListItem"] input:checked {
+  background: var(--control-checked-bgColor-rest);
+  border-color: var(--control-checked-bgColor-rest);
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:checked::after {
+  content: "";
+  width: 8px;
+  height: 4px;
+  border: solid var(--fgColor-onEmphasis);
+  border-width: 0 0 2px 2px;
+  transform: translateY(-1px) rotate(-45deg);
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.block-note-editor-container [data-content-type="checkListItem"] input:focus-visible {
+  box-shadow: 0 0 0 2px var(--bgColor-default), 0 0 0 4px var(--focus-outlineColor);
+}
+
+@media (forced-colors: active) {
+  .block-note-editor-container .bn-block-content[data-content-type="checkListItem"] > div > input {
+    appearance: auto;
+  }
+}
