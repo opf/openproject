@@ -1022,6 +1022,8 @@ en:
     blocknote:
       formatting_toolbar: "Text formatting"
       block_type: "Block type"
+      row_actions: "Row actions"
+      column_actions: "Column actions"
     wiki_formatting:
       code: "Inline Code"
       deleted: "Deleted"

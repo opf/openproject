@@ -28,7 +28,8 @@
 import { ComponentProps, ComponentsContext, PortalElementOverride, preventFocusOnTap, useComponentsContext } from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
 import { ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
-import { useContext, useId, useLayoutEffect, useMemo } from 'react';
+import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
+import { useContext, useLayoutEffect, useMemo } from 'react';
 
 type Toolbar = ComponentProps['FormattingToolbar'];
 
@@ -43,7 +44,7 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {children}
+      <PrimerActionMenus returnFocusToEditor>{children}</PrimerActionMenus>
     </Stack>
   );
 }
@@ -54,7 +55,7 @@ function ToolbarButton({
   const props = {
     ...rest,
     variant: 'invisible' as const,
-    size: 'small' as const,
+    size: 'medium' as const,
     disabled: isDisabled,
     'aria-pressed': isSelected,
     'data-compact': variant === 'compact' || undefined,
@@ -113,8 +114,6 @@ function BlockTypeSelect({ items, isDisabled, portalElement }:Toolbar['Select'])
 
 export function PrimerFormattingToolbar() {
   const components = useComponentsContext()!;
-  const portalContainerName = useId();
-  const portalContext = useMemo(() => ({ portalContainerName }), [portalContainerName]);
   const value = useMemo(() => ({
     ...components,
     FormattingToolbar: {
@@ -128,9 +127,9 @@ export function PrimerFormattingToolbar() {
 
   return (
     <PortalElementOverride target={document.body}>
-      <PortalContext.Provider value={portalContext}>
+      <PrimerMenuPortal>
         <ComponentsContext.Provider value={value}><OpenProjectFormattingToolbar /></ComponentsContext.Provider>
-      </PortalContext.Provider>
+      </PrimerMenuPortal>
     </PortalElementOverride>
   );
 }

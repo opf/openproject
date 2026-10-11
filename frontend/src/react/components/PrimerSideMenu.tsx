@@ -25,82 +25,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, SideMenu, SideMenuController, useComponentsContext, usePortalElement } from '@blocknote/react';
-import { ActionList, ActionMenu, PortalContext, registerPortalRoot } from '@primer/react';
-import { CheckIcon } from '@primer/octicons-react';
-import { Children, isValidElement, ReactElement, useContext, useId, useLayoutEffect, useMemo } from 'react';
-
-type Menu = ComponentProps['Generic']['Menu'];
-
-function Trigger({ children }:Menu['Trigger']) {
-  return children;
-}
-
-function Root({ children, onOpenChange }:Menu['Root']) {
-  const slots = Children.toArray(children).filter(isValidElement).map((child) => {
-    if (isValidElement<{ children:ReactElement }>(child) && child.type === Trigger) {
-      return <ActionMenu.Anchor>{child.props.children}</ActionMenu.Anchor>;
-    }
-    return child;
-  });
-
-  return <ActionMenu onOpenChange={onOpenChange}>{slots}</ActionMenu>;
-}
-
-function Dropdown({ children, className, sub }:Menu['Dropdown']) {
-  return (
-    <ActionMenu.Overlay className="op-blocknote-action-menu" side={sub ? 'outside-right' : 'outside-left'} overflow="auto" maxHeight="large">
-      <ActionList className={className}>{children}</ActionList>
-    </ActionMenu.Overlay>
-  );
-}
-
-function Item({ children, icon, checked, onClick, subTrigger, ...rest }:Menu['Item']) {
-  return (
-    <ActionList.Item
-      {...rest}
-      role={checked === undefined ? 'menuitem' : 'menuitemcheckbox'}
-      aria-checked={checked}
-      onSelect={subTrigger ? undefined : onClick}
-    >
-      {icon && <ActionList.LeadingVisual>{icon}</ActionList.LeadingVisual>}
-      {children}
-      {checked && <ActionList.TrailingVisual><CheckIcon /></ActionList.TrailingVisual>}
-    </ActionList.Item>
-  );
-}
-
-function Label({ children }:Menu['Label']) {
-  return <ActionList.GroupHeading headingWrapElement="li">{children}</ActionList.GroupHeading>;
-}
+import { SideMenu, SideMenuController } from '@blocknote/react';
+import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
 
 function PrimerSideMenu() {
-  const components = useComponentsContext()!;
-  const portalElement = usePortalElement();
-  const { portalContainerName } = useContext(PortalContext);
-  useLayoutEffect(() => {
-    if (!portalElement || !portalContainerName) return undefined;
-    registerPortalRoot(portalElement, portalContainerName);
-    return () => registerPortalRoot(document.body, portalContainerName);
-  }, [portalElement, portalContainerName]);
-
-  const value = useMemo(() => ({
-    ...components,
-    Generic: {
-      ...components.Generic,
-      Menu: { ...components.Generic.Menu, Root, Trigger, Dropdown, Item, Label },
-    },
-  }), [components]);
-
-  return <ComponentsContext.Provider value={value}><SideMenu /></ComponentsContext.Provider>;
+  return <PrimerActionMenus><SideMenu /></PrimerActionMenus>;
 }
 
 export function PrimerSideMenuController() {
-  const portalContainerName = useId();
-  const portalContext = useMemo(() => ({ portalContainerName }), [portalContainerName]);
   return (
-    <PortalContext.Provider value={portalContext}>
+    <PrimerMenuPortal>
       <SideMenuController sideMenu={PrimerSideMenu} portalElement={document.body} />
-    </PortalContext.Provider>
+    </PrimerMenuPortal>
   );
 }

@@ -50,6 +50,7 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { PrimerTableHandles } from './PrimerTableHandles';
 import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
 import { PrimerSideMenuController } from './PrimerSideMenu';
 import { PrimerSlashMenu } from './PrimerSlashMenu';
@@ -181,6 +182,7 @@ export function OpBlockNoteEditor({
         editor={editor}
         slashMenu={false}
         sideMenu={false}
+        tableHandles={false}
         formattingToolbar={false}
         theme={theme}
         editable={!readOnly}
@@ -188,6 +190,7 @@ export function OpBlockNoteEditor({
       >
         <PrimerFormattingToolbar />
         <PrimerSideMenuController />
+        <PrimerTableHandles />
         <SuggestionMenuController
           triggerCharacter="/"
           suggestionMenuComponent={PrimerSlashMenu}

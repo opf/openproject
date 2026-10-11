@@ -37,6 +37,11 @@
   flex-shrink: 0;
 }
 
+.op-primer-formatting-toolbar [data-component="IconButton"] > svg {
+  width: var(--base-size-20, 20px);
+  height: var(--base-size-20, 20px);
+}
+
 .op-primer-formatting-toolbar button[aria-pressed="true"] {
   background: var(--control-transparent-bgColor-selected);
   color: var(--fgColor-accent);
