@@ -30,31 +30,26 @@
 
 require "spec_helper"
 
-RSpec.describe Documents::CollaborationServer::Client,
+RSpec.describe Documents::CollaborationServer::Client, :webmock,
                with_settings: {
-                 collaborative_editing_hocuspocus_url: "wss://hocuspocus.local/collab/",
+                 collaborative_editing_hocuspocus_url: "ws://10.0.0.5:1234/collab/",
                  collaborative_editing_hocuspocus_secret: "secret12345"
                } do
   subject(:client) { described_class.new(user:, document:) }
 
   let(:user) { create(:user, member_with_permissions: { document.project => %i[view_documents manage_documents] }) }
   let(:document) { create(:document, :collaborative) }
-  let(:content_url) { "https://hocuspocus.local/collab/api/v1/documents/content" }
+  let(:content_url) { "http://10.0.0.5:1234/collab/api/v1/documents/content" }
   let(:blocks) { [{ "id" => "a", "type" => "paragraph", "content" => [], "children" => [] }] }
-
-  before do
-    allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("10.0.0.5")] })
-  end
-
   describe ".base_url" do
     it "derives the HTTP URL from the websocket URL" do
-      expect(described_class.base_url).to eq("https://hocuspocus.local/collab")
+      expect(described_class.base_url).to eq("http://10.0.0.5:1234/collab")
     end
 
-    context "with an unencrypted websocket URL",
-            with_settings: { collaborative_editing_hocuspocus_url: "ws://hocuspocus:1234" } do
-      it "uses plain HTTP" do
-        expect(described_class.base_url).to eq("http://hocuspocus:1234")
+    context "with an encrypted websocket URL",
+            with_settings: { collaborative_editing_hocuspocus_url: "wss://hocuspocus.example.com/collab" } do
+      it "uses HTTPS" do
+        expect(described_class.base_url).to eq("https://hocuspocus.example.com/collab")
       end
     end
 
@@ -113,7 +108,7 @@ RSpec.describe Documents::CollaborationServer::Client,
       allow(session).to receive(:with).and_call_original
     end
 
-    it "allows the addresses of the collaboration server, even if they are private" do
+    it "allows the private address of the collaboration server" do
       client.content
 
       expect(session).to have_received(:with)
@@ -157,7 +152,7 @@ RSpec.describe Documents::CollaborationServer::Client,
     subject(:client) { described_class.new(user:) }
 
     it "returns the schema without authenticating" do
-      stub_request(:get, "https://hocuspocus.local/collab/api/v1/documents/schema")
+      stub_request(:get, "http://10.0.0.5:1234/collab/api/v1/documents/schema")
         .with { |request| !request.headers.key?("Authorization") }
         .to_return(status: 200, body: { type: "array" }.to_json)
 

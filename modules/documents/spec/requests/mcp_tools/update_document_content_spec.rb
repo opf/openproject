@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe McpTools::UpdateDocumentContent,
-               with_settings: {
-                 collaborative_editing_hocuspocus_url: "wss://hocuspocus.local",
+               with_config: {
+                 collaborative_editing_hocuspocus_url: "ws://10.0.0.5:1234",
                  collaborative_editing_hocuspocus_secret: "secret12345",
                  real_time_text_collaboration_enabled: true
                } do

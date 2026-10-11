@@ -30,10 +30,11 @@
 
 require "spec_helper"
 
-RSpec.describe McpTools::GetDocumentSchema,
-               with_settings: {
-                 collaborative_editing_hocuspocus_url: "wss://hocuspocus.local",
-                 collaborative_editing_hocuspocus_secret: "secret12345"
+RSpec.describe McpTools::GetDocumentSchema, :webmock,
+               with_config: {
+                 collaborative_editing_hocuspocus_url: "ws://10.0.0.5:1234",
+                 collaborative_editing_hocuspocus_secret: "secret12345",
+                 real_time_text_collaboration_enabled: true
                } do
   subject(:mcp_request) do
     header "Authorization", "Bearer #{access_token.plaintext_token}"
@@ -67,8 +68,7 @@ RSpec.describe McpTools::GetDocumentSchema,
     server_config.save!
     tool_config.save!
 
-    allow(OpenProject::SsrfProtection).to receive(:resolver).and_return(->(_host) { [IPAddr.new("10.0.0.5")] })
-    stub_request(:get, "https://hocuspocus.local/api/v1/documents/schema")
+    stub_request(:get, "http://10.0.0.5:1234/api/v1/documents/schema")
       .to_return(status: 200, body: schema.to_json)
   end
 

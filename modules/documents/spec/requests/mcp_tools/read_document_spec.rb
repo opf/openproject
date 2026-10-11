@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe McpTools::ReadDocument,
-               with_settings: {
-                 collaborative_editing_hocuspocus_url: "wss://hocuspocus.local",
+               with_config: {
+                 collaborative_editing_hocuspocus_url: "ws://10.0.0.5:1234",
                  collaborative_editing_hocuspocus_secret: "secret12345",
                  real_time_text_collaboration_enabled: true
                } do
@@ -123,7 +123,7 @@ RSpec.describe McpTools::ReadDocument,
       end
     end
 
-    context "when real-time collaboration is disabled", with_settings: { real_time_text_collaboration_enabled: false } do
+    context "when real-time collaboration is disabled", with_config: { real_time_text_collaboration_enabled: false } do
       it_behaves_like "MCP error response"
     end
   end
