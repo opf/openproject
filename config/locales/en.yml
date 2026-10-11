@@ -4641,6 +4641,13 @@ en:
         default_chat_model: "Default chat model"
         default_embedding_model: "Default embedding model"
         header: "Models"
+      report:
+        checked_at: "Checked at"
+        connection: "Connection"
+        setting: "Setting"
+        settings: "Connection settings"
+        title: "LLM connection health report"
+        value: "Value"
       server:
         credentials_accepted: "The server accepts the API key"
         header: "Server"
