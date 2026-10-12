@@ -2335,6 +2335,7 @@ en:
         label: "Check health"
         description: "Finds where this work package does not agree with its tree, relations and pull requests."
     health_check:
+      last_activity: "Last activity on %{date}"
       and_more:
         one: "and 1 more"
         other: "and %{count} more"
@@ -2349,6 +2350,9 @@ en:
         stale_open_descendants:
           one: "1 open descendant did not change for %{days} days."
           other: "%{count} open descendants did not change for %{days} days."
+        closed_with_open_prerequisites: "This work package is closed, but %{id} is still open (%{relation})."
+        open_duplicate_of_closed: "This work package duplicates %{id}, which is closed, but it is still open."
+        stale_work_package: "This work package is open, but nothing changed for %{days} days."
   ai:
     text_transform:
       errors:

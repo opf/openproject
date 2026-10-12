@@ -65,6 +65,25 @@ module AI
           descendants.reject(&:closed?)
         end
 
+        # [relation type seen from this work package, other work package], for every relation
+        # to a work package the user can see.
+        def relations
+          @relations ||= begin
+            all = Relation.of_work_package(work_package).includes(from: :status, to: :status).to_a
+            visible_ids = WorkPackage.visible(user)
+                                     .where(id: all.map { |r| r.other_work_package(work_package).id })
+                                     .pluck(:id)
+            all.filter_map do |relation|
+              other = relation.other_work_package(work_package)
+              [relation.relation_type_for(work_package), other] if visible_ids.include?(other.id)
+            end
+          end
+        end
+
+        def last_activity_at
+          [work_package.journals.maximum(:created_at), work_package.updated_at].compact.max
+        end
+
         def stale?(record)
           record.updated_at < STALE_AFTER.ago
         end

@@ -46,7 +46,10 @@ module AI
               Rules::ClosedWithOpenDescendants,
               Rules::OpenWithAllDescendantsClosed,
               Rules::ClosedDescendantWithOpenBelow,
-              Rules::StaleOpenDescendants
+              Rules::StaleOpenDescendants,
+              Rules::ClosedWithOpenPrerequisites,
+              Rules::OpenDuplicateOfClosed,
+              Rules::StaleWorkPackage
             ]
           end
         end
