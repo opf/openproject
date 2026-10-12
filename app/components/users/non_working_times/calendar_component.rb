@@ -33,6 +33,7 @@ module Users
     class CalendarComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include OpStimulus::ControllerData
 
       options non_working_times: [],
               year: Date.current.year,
@@ -49,20 +50,17 @@ module Users
       end
 
       def wrapper_data
-        data = {
-          "controller" => "users--non-working-times",
-          "users--non-working-times-events-value" => events_json,
-          "users--non-working-times-year-value" => year,
-          "users--non-working-times-locale-value" => I18n.locale,
-          "users--non-working-times-start-of-week-value" => first_day_of_week,
-          "users--non-working-times-working-days-value" => working_days.to_json
+        values = {
+          events: events_json,
+          locale: I18n.locale,
+          start_of_week: first_day_of_week,
+          working_days: working_days.to_json,
+          year:
         }
 
-        if can_create?
-          data["users--non-working-times-new-url-value"] = new_user_non_working_time_path(user)
-        end
+        values[:new_url] = new_user_non_working_time_path(user) if can_create?
 
-        data
+        stimulus_controller_data("users--non-working-times", **values)
       end
 
       def working_days
