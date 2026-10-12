@@ -2328,6 +2328,27 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
+  ai_assistance:
+    button: "AI Assistance"
+    skills:
+      health_check:
+        label: "Check health"
+        description: "Finds where this work package does not agree with its tree, relations and pull requests."
+    health_check:
+      and_more:
+        one: "and 1 more"
+        other: "and %{count} more"
+      rules:
+        closed_with_open_descendants:
+          one: "This work package is closed, but 1 descendant is still open."
+          other: "This work package is closed, but %{count} descendants are still open."
+        open_with_all_descendants_closed:
+          one: "The only descendant is closed, but this work package is still open."
+          other: "All %{count} descendants are closed, but this work package is still open."
+        closed_descendant_with_open_below: "Descendant %{id} is closed, but a work package below it is still open."
+        stale_open_descendants:
+          one: "1 open descendant did not change for %{days} days."
+          other: "%{count} open descendants did not change for %{days} days."
   ai:
     text_transform:
       errors:
