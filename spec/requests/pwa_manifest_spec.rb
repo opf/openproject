@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require "mini_magick"
 
 RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_web_app: true } do
   subject(:manifest) { response.parsed_body }
@@ -83,6 +84,21 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
 
     it "paints the window in the default header colour" do
       expect(manifest).to include("theme_color" => "#1A67A3")
+    end
+
+    # Chrome silently declines to install when an icon is missing or mis-sized.
+    it "names icons that exist at the size they declare" do
+      icons = manifest["icons"]
+      expect(icons.map { it.values_at("sizes", "purpose") })
+        .to contain_exactly(["192x192", nil], ["512x512", nil], ["512x512", "maskable"])
+
+      icons.each do |icon|
+        get icon["src"]
+
+        expect(response).to have_http_status(:ok), "#{icon['src']} is not served"
+        image = MiniMagick::Image.read(response.body)
+        expect("#{image.width}x#{image.height}").to eq(icon["sizes"])
+      end
     end
   end
 
