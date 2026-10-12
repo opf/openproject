@@ -126,6 +126,7 @@ module Planner
     def subject_link_arguments
       {
         href: work_package_path(planned_work_package || work_package),
+        target: "_blank",
         scheme: closed? ? :secondary : :primary,
         font_weight: :semibold,
         style: ("text-decoration: line-through" if closed?)

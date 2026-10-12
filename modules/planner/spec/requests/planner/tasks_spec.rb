@@ -69,12 +69,16 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect(response.body).to include("2026-10-20")
         expect(response.body).to match(/name="task\[day_part\]"[^>]*value="evening"|value="evening"[^>]*name="task\[day_part\]"/)
         expect(response.body).to include('name="view"')
+        expect(response.body).to include("augmented-text-area-description")
+        expect(response.body).to include("data-in-dialog=\"&quot;#{Planner::AddTodoDialogComponent::DIALOG_ID}&quot;\"")
       end
 
       it "closes once the to-do is added" do
-        post(planner_tasks_path, params: { task: { subject: "Book train", date: "2026-10-20", day_part: "evening" } }, headers:)
+        post(planner_tasks_path,
+             params: { task: { subject: "Book train", date: "2026-10-20", day_part: "evening", description: "Window seat" } },
+             headers:)
 
-        expect(WorkPackage.last.due_date).to eq(Date.new(2026, 10, 20))
+        expect(WorkPackage.last).to have_attributes(due_date: Date.new(2026, 10, 20), description: "Window seat")
         expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
       end
     end
