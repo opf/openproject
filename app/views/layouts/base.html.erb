@@ -104,13 +104,13 @@ See COPYRIGHT and LICENSE files for more details.
         <div id="menu-sidebar">
           <div class="main-menu--top-container">
             <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, pt: 3)) do |flex|
-              flex.with_column(overflow: :hidden) do
-                render_projects_top_menu_node
-              end
-              flex.with_column(text_align: :right, flex: :auto) do
-                render(OpenProject::Common::MainMenuToggleComponent.new(expanded: true))
-              end
-            end %>
+                  flex.with_column(overflow: :hidden) do
+                    render_projects_top_menu_node
+                  end
+                  flex.with_column(text_align: :right, flex: :auto) do
+                    render(OpenProject::Common::MainMenuToggleComponent.new(expanded: true))
+                  end
+                end %>
 
             <%= render(
                   Primer::BaseComponent.new(
@@ -149,6 +149,7 @@ See COPYRIGHT and LICENSE files for more details.
                       id: "content",
                       class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}" do %>
         <h1 class="sr-only accessibility-helper"><%= t(:label_content) %></h1>
+        <%= render(AdminElevationSessions::BannerComponent.new(project: @project, user: User.current)) %>
         <% if content_for?(:content_header) %>
           <div id="content-header">
             <%=
