@@ -81,6 +81,18 @@ RSpec.describe MeetingAgendaItems::UpdateService do
       it "does not create any attachments" do
         expect { service_call }.not_to change(Attachment, :count)
       end
+
+      it "journals both meetings", with_settings: { journal_aggregation_time_minutes: 0 } do
+        meeting_b
+        meeting_a.save_journals
+
+        expect { service_call }
+          .to change { meeting_a.journals.count }.by(1)
+          .and change { meeting_b.journals.count }.by(1)
+
+        expect(meeting_a.journals.last.agenda_item_journals).to be_empty
+        expect(meeting_b.journals.last.agenda_item_journals.pluck(:agenda_item_id)).to contain_exactly(agenda_item.id)
+      end
     end
 
     context "when meeting does not change" do

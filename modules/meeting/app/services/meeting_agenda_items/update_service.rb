@@ -48,6 +48,7 @@ module MeetingAgendaItems
       if call.success?
         copy_attachments_from_meeting(call.result, @old_meeting_id)
         journalize_move(call.result)
+        journalize_source_meeting(call.result)
       end
 
       call
@@ -57,6 +58,12 @@ module MeetingAgendaItems
       return if @old_meeting_id == agenda_item.meeting_id
 
       journalize_agenda_item(agenda_item, Journal::CausedByMeetingAgendaItemMoved.new(agenda_item.meeting))
+    end
+
+    def journalize_source_meeting(agenda_item)
+      return if @old_meeting_id.nil? || @old_meeting_id == agenda_item.meeting_id
+
+      Meeting.find(@old_meeting_id).save_journals
     end
   end
 end

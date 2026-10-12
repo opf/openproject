@@ -51,7 +51,7 @@ module MeetingAgendaItems
 
       if service_call.success?
         journalize_move_on_work_package
-        journalize_meeting
+        journalize_meetings
       end
 
       # after_perform(service_call) if service_call.success? # TODO properly integrate after_perform_hook
@@ -100,8 +100,8 @@ module MeetingAgendaItems
 
     private
 
-    def journalize_meeting
-      @meeting_agenda_item.meeting.save_journals
+    def journalize_meetings
+      [@old_section.meeting, @meeting_agenda_item.meeting].uniq.each(&:save_journals)
     end
 
     def journalize_move_on_work_package

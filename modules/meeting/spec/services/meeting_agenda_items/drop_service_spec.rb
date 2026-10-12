@@ -230,6 +230,21 @@ RSpec.describe MeetingAgendaItems::DropService do
           expect(meeting_agenda_item.meeting_section).to eq(template.backlog)
           expect(meeting_agenda_item.meeting).to eq(template)
         end
+
+        it "journals both the occurrence and the template", with_settings: { journal_aggregation_time_minutes: 0 } do
+          meeting_agenda_item
+          occurrence_meeting.save_journals
+          template.save_journals
+
+          expect { service_call }
+            .to change { occurrence_meeting.journals.count }.by(1)
+            .and change { template.journals.count }.by(1)
+
+          expect(occurrence_meeting.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .not_to include(meeting_agenda_item.id)
+          expect(template.journals.last.agenda_item_journals.pluck(:agenda_item_id))
+            .to include(meeting_agenda_item.id)
+        end
       end
 
       context "when moving to the backlog of another recurring meeting" do
