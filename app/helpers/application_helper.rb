@@ -428,18 +428,34 @@ module ApplicationHelper
     end
   end
 
-  # To avoid FOUC (menu flickering / dark mode on logout), hide page
-  # wrapper on load except in test environment.
-  def initial_menu_styles
-    Rails.env.test? || "display:none"
+  MAIN_MENU_WIDTH_COOKIE = "op_main_menu_width"
+  # Must match DeviceService.smallDesktopWidthThreshold and $breakpoint-lg.
+  SMALL_DESKTOP_WIDTH_THRESHOLD = 1012
+
+  # Must match MainMenuToggleService.minOpenWidth.
+  MAIN_MENU_MIN_OPEN_WIDTH = 11
+  MAIN_MENU_COLLAPSED_WIDTH = 0
+
+  def initial_main_menu_width
+    value = cookies[MAIN_MENU_WIDTH_COOKIE]
+    return MAIN_MENU_COLLAPSED_WIDTH if value == MAIN_MENU_COLLAPSED_WIDTH.to_s
+    return unless value&.match?(/\A\d+\z/)
+
+    width = value.to_i
+    width if width >= MAIN_MENU_MIN_OPEN_WIDTH
   end
 
-  def initial_menu_classes(side_displayed, show_decoration)
-    classes = "can-hide-navigation"
-    classes += " nosidebar" unless side_displayed
-    classes += " nomenus" unless show_decoration
+  def initial_html_styles(main_menu_displayed, width)
+    "--main-menu-width: #{width}px" if main_menu_displayed && width
+  end
 
-    classes
+  def initial_menu_classes(side_displayed, show_decoration, width)
+    class_names(
+      "can-hide-navigation",
+      nosidebar: !side_displayed,
+      nomenus: !show_decoration,
+      "hidden-navigation": side_displayed && show_decoration && width == MAIN_MENU_COLLAPSED_WIDTH
+    )
   end
 
   # Add a HTML meta tag to control robots (web spiders)

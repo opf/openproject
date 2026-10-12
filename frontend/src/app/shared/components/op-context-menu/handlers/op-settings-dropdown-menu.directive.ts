@@ -349,7 +349,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger implements Aft
       {
         // Settings modal
         hidden: !this.query.results.customFields || this.hideTableOptions,
-        href: this.query.results.customFields?.href,
+        href: this.query.results.customFields?.href as string|undefined,
         linkText: this.query.results.customFields?.name,
         icon: 'icon-custom-fields',
         onClick: () => false,

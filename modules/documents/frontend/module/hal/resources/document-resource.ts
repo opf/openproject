@@ -27,15 +27,16 @@
 
 // This resource exists solely for the purpose of uploading attachments via the
 // WYSIWYIG editor.
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import { HalResource, HalResourceLinks } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { Attachable } from "core-app/features/hal/resources/mixins/attachable-mixin";
 
 export interface DocumentResourceLinks {
-    addAttachment(attachment:HalResource):Promise<any>;
+    addAttachment:CallableHalLink;
 }
 
 class DocumentBaseResource extends HalResource {
-    public $links:DocumentResourceLinks;
+    public $links:DocumentResourceLinks & HalResourceLinks;
 
     private attachmentsBackend = false;
 }

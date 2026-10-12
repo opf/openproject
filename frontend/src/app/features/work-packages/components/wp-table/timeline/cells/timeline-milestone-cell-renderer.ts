@@ -50,6 +50,7 @@ import {
   MouseDirection,
 } from './timeline-cell-renderer';
 import { WorkPackageCellLabels } from './wp-timeline-cell-labels';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
@@ -63,7 +64,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   public canMoveDates(wp:WorkPackageResource) {
     const schema = this.schemaCache.of(wp);
-    return schema.date.writable && schema.isAttributeEditable('date');
+    return (schema.date as IOPFieldSchema).writable && schema.isAttributeEditable('date');
   }
 
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {

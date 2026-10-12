@@ -129,9 +129,9 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    */
   public toggleStarred(query:QueryResource):Promise<unknown> {
     if (query.starred) {
-      return query.unstar();
+      return query.unstar!();
     }
-    return query.star();
+    return query.star!();
   }
 
   /**
