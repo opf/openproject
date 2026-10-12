@@ -264,7 +264,7 @@ class CustomField < ApplicationRecord
     items.value_or([])
   end
 
-  def cast_value(value)
+  def cast_value(value) # rubocop:disable Metrics/AbcSize
     return if value.blank?
 
     case field_format
