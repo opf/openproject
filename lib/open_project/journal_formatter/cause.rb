@@ -101,9 +101,17 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       import_message
     when "work_package_parent_deleted"
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
+    when "assistant_skill"
+      assistant_skill_message
     else
       related_work_package_changed_message
     end
+  end
+
+  def assistant_skill_message
+    name = cause["assistant_name"].to_s
+    I18n.t("journals.cause_descriptions.assistant_skill",
+           assistant_name: html? ? ERB::Util.html_escape(name) : name)
   end
 
   def system_update_message

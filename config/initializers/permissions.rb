@@ -368,6 +368,15 @@ Rails.application.reloader.to_prepare do
                      dependencies: :view_work_packages,
                      contract_actions: { work_packages: %i[update] }
 
+      wpt.permission :use_ai_assistance,
+                     {
+                       "work_packages/ai_assistance/menus": %i[show items],
+                       "work_packages/ai_assistance/runs": %i[index show create poll],
+                       "work_packages/ai_assistance/findings": %i[apply dismiss]
+                     },
+                     permissible_on: %i[work_package project],
+                     dependencies: :view_work_packages
+
       wpt.permission :move_work_packages,
                      { "work_packages/moves": %i[new create] },
                      permissible_on: :project,

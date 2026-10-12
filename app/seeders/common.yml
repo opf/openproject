@@ -319,6 +319,7 @@ project_roles:
     position: 3
     permissions:
       - :view_work_packages
+      - :use_ai_assistance
       - :export_work_packages
       - :add_work_packages
       - :move_work_packages

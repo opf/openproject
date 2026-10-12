@@ -3837,6 +3837,7 @@ en:
         Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
         Child work packages without Work are ignored.
+      assistant_skill: proposed by %{assistant_name} and applied by the user
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
@@ -3853,6 +3854,7 @@ en:
           non_working: "%{day} is now non-working"
           working: "%{day} is now working"
     caused_changes:
+      assistant_skill: "AI Assistance:"
       budget_deleted: "Budget has been deleted"
       dates_changed: "Dates changed"
       default_attribute_written: "Read-only attributes written"
@@ -5713,6 +5715,7 @@ en:
   permission_select_project_phases: "Select project phases"
   permission_select_project_phases_explanation: "Activate/Deactivate the phases in a project. Enables the user to select the life cycle appropriate for the project as inactive phases will not be visible in the project overview page nor the project list."
   permission_share_work_packages: "Share work packages"
+  permission_use_ai_assistance: "Use AI assistance"
   permission_view_all_principals: "View all users and groups"
   permission_view_all_principals_explanation: >
     Allows users to see all users and groups in the system, even if they are not members of any joined projects or groups.

@@ -303,6 +303,31 @@ RSpec.describe OpenProject::JournalFormatter::Cause do
     end
   end
 
+  context "when the change was applied from an AI assistant proposal" do
+    subject(:cause) do
+      {
+        "type" => "assistant_skill",
+        "run_id" => 1,
+        "skill_key" => "health_check",
+        "assistant_name" => "QA <assistant>"
+      }
+    end
+
+    it do
+      expect(cause).to render_html_variant(
+        "<strong>#{I18n.t('journals.caused_changes.assistant_skill')}</strong> " \
+        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA &lt;assistant&gt;')}"
+      )
+    end
+
+    it do
+      expect(cause).to render_raw_variant(
+        "#{I18n.t('journals.caused_changes.assistant_skill')} " \
+        "#{I18n.t('journals.cause_descriptions.assistant_skill', assistant_name: 'QA <assistant>')}"
+      )
+    end
+  end
+
   context "when the change was caused by working day changes" do
     subject(:cause) do
       {
