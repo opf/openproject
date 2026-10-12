@@ -107,4 +107,16 @@ RSpec.describe CreateMeetingSectionJournals, type: :model do
 
     expect { meeting.touch_and_save_journals }.not_to change(Journal, :count)
   end
+
+  context "for sections created while the journal was the current one, e.g. on a copied meeting" do
+    shared_let(:copied_meeting) { create(:meeting) }
+    shared_let(:copied_section) { create(:meeting_section, meeting: copied_meeting, title: "Copied") }
+
+    it "records the sections in that journal" do
+      migrate
+
+      expect(copied_meeting.journals.sole.section_journals.pluck(:section_id))
+        .to contain_exactly(copied_meeting.own_backlog.id, copied_section.id)
+    end
+  end
 end

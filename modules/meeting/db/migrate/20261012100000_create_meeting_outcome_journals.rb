@@ -25,8 +25,8 @@ class CreateMeetingOutcomeJournals < ActiveRecord::Migration[8.1]
 
   private
 
-  # Historic values are unknown, so every journal gets the current values of the outcomes that existed by then.
-  # An outcome is only recorded in journals that also record its agenda item.
+  # Historic values are unknown, so every journal gets the current values of the outcomes created before the journal
+  # was superseded. An outcome is only recorded in journals that also record its agenda item.
   def backfill_outcome_journals
     execute(<<~SQL.squish)
       INSERT INTO meeting_outcome_journals
@@ -42,7 +42,7 @@ class CreateMeetingOutcomeJournals < ActiveRecord::Migration[8.1]
       JOIN meeting_agenda_item_journals ON meeting_agenda_item_journals.journal_id = journals.id
       JOIN meeting_outcomes ON meeting_outcomes.meeting_agenda_item_id = meeting_agenda_item_journals.agenda_item_id
       WHERE journals.journable_type = 'Meeting'
-        AND meeting_outcomes.created_at <= journals.updated_at
+        AND meeting_outcomes.created_at < COALESCE(upper(journals.validity_period), 'infinity')
     SQL
   end
 end

@@ -28,7 +28,9 @@ class CreateMeetingSectionJournals < ActiveRecord::Migration[8.1]
 
   private
 
-  # Historic values are unknown, so every journal gets the current values of the sections that existed by then.
+  # Historic values are unknown, so every journal gets the current values of the sections created before the journal
+  # was superseded. This includes sections created while the journal was the current one, e.g. the sections a copied
+  # meeting receives right after its creation journal was written.
   def backfill_section_journals
     execute(<<~SQL.squish)
       INSERT INTO meeting_section_journals (journal_id, section_id, title, position, backlog)
@@ -36,7 +38,7 @@ class CreateMeetingSectionJournals < ActiveRecord::Migration[8.1]
       FROM journals
       JOIN meeting_sections ON meeting_sections.meeting_id = journals.journable_id
       WHERE journals.journable_type = 'Meeting'
-        AND meeting_sections.created_at <= journals.updated_at
+        AND meeting_sections.created_at < COALESCE(upper(journals.validity_period), 'infinity')
     SQL
   end
 

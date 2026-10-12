@@ -99,4 +99,15 @@ RSpec.describe CreateMeetingOutcomeJournals, type: :model do
 
     expect { meeting.save_journals }.not_to change(Journal, :count)
   end
+
+  context "for outcomes created while the journal was the current one" do
+    shared_let(:later_outcome) { create(:meeting_outcome, meeting_agenda_item: first_item, notes: "Follow-up") }
+
+    it "records the outcomes in that journal" do
+      migrate
+
+      expect(journals.last.outcome_journals.pluck(:outcome_id))
+        .to contain_exactly(first_outcome.id, moved_item_outcome.id, later_outcome.id)
+    end
+  end
 end
