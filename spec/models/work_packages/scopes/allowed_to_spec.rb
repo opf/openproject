@@ -122,6 +122,60 @@ RSpec.describe WorkPackage, ".allowed_to" do
         expect(subject).to contain_exactly(work_package_in_public_project)
       end
     end
+
+    context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+      context "when the admin is not elevated" do
+        it "returns no work packages" do
+          expect(subject).to be_empty
+        end
+      end
+
+      context "when the admin is elevated in the private project" do
+        before do
+          user.admin_elevation = Users::AdminElevation.in_projects([private_project.id])
+        end
+
+        it "returns the work packages of that project" do
+          expect(subject).to contain_exactly(
+            work_package_in_private_project,
+            other_work_package_in_private_project
+          )
+        end
+      end
+
+      context "when the admin is elevated in the private project and a member of the public project" do
+        let(:project_permissions) { [action] }
+
+        before do
+          create(:member, project: public_project, user:, roles: [project_role])
+          user.admin_elevation = Users::AdminElevation.in_projects([private_project.id])
+        end
+
+        it "returns the work packages of both projects" do
+          expect(subject).to contain_exactly(
+            work_package_in_public_project,
+            work_package_in_private_project,
+            other_work_package_in_private_project
+          )
+        end
+      end
+
+      context "when the admin is elevated in the public project and has a work package shared in the private project" do
+        let(:work_package_permissions) { [action] }
+
+        before do
+          create(:work_package_member, entity: work_package_in_private_project, user:, roles: [work_package_role])
+          user.admin_elevation = Users::AdminElevation.in_projects([public_project.id])
+        end
+
+        it "returns the work packages of the public project and the shared work package" do
+          expect(subject).to contain_exactly(
+            work_package_in_public_project,
+            work_package_in_private_project
+          )
+        end
+      end
+    end
   end
 
   context "when the user is a non admin, logged in user" do
