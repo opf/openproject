@@ -47,14 +47,18 @@ module AI
 
         work_package = proposal.proposal_work_package.reload
         # A comment alone conflicts with nothing, so it skips the version check.
-        work_package.lock_version = proposal.base_lock_version unless proposal.change_action_keys == %w[comment]
+        work_package.lock_version = proposal.base_lock_version unless proposal.comment_only?
         work_package.journal_cause = proposal.proposal_journal_cause
 
         result = Automations::UpdateWorkPackageService
                    .new(action: Automation.new(name: "AI Assistance", actions:), user:, strict: true)
                    .call(work_package:)
 
-        result.success? ? applied(work_package) : failure(conflict?(result) ? :conflict : :invalid, result.errors)
+        if result.success?
+          applied(work_package)
+        else
+          failure(conflict?(result) ? :conflict : :invalid, result.errors)
+        end
       end
 
       private
@@ -62,24 +66,16 @@ module AI
       def precondition_error
         if proposal.proposal_user != user || !allowed_change_set? then :not_allowed
         elsif !proposal.open? || !proposal.change_set? then :not_open
-        elsif lost_references.any? then :lost_content
+        elsif proposal.lost_references.any? then :lost_content
         end
       end
 
-      # Only on the proposal's own work package, and only actions and values that are
-      # allowed now: an admin may have made the skill read-only since.
+      # Only actions and values that are allowed now: an admin may have narrowed the
+      # skill's proposal scope since. The target is always "self" (AI::Proposal validates it).
       def allowed_change_set?
         options = ChangeOptions.new(keys: proposal.proposal_changeable_attributes,
-                                 work_package: proposal.proposal_work_package, user:)
-        proposal.change_target == "self" &&
-          proposal.change_actions.all? { |action| options.allowed?(action["key"], action["values"].first) }
-      end
-
-      def lost_references
-        description = proposal.change_value_for(:description)
-        return [] unless description
-
-        ContentGuard.lost_references(proposal.proposal_work_package.description, description)
+                                    work_package: proposal.proposal_work_package, user:)
+        proposal.change_actions.all? { |action| options.allowed?(action["key"], action["values"].first) }
       end
 
       def actions

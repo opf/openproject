@@ -36,7 +36,6 @@ module AI
 
     enum :source, { rule: "rule", ai: "ai" }, validate: true
     enum :severity, { high: "high", medium: "medium", low: "low" }, validate: true
-    enum :state, { open: "open", applied: "applied", dismissed: "dismissed" }, default: "open", validate: true
     enum :dismiss_reason, {
       wrong: "wrong",
       not_relevant: "not_relevant",

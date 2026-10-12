@@ -53,7 +53,7 @@ module AI
       private
 
       def skill_type
-        @skill_type ||= AI::AssistantSkills::Registry.fetch(run.skill.skill_key)
+        @skill_type ||= run.skill.skill_type
       end
 
       def run_rules
@@ -67,8 +67,7 @@ module AI
       end
 
       def log
-        skipped = run.not_checked.find { |entry| entry["area"] == "ai_review" }&.fetch("reason", nil)
-        review = run.ai_running? ? "started" : "skipped (#{skipped || 'none'})"
+        review = run.ai_running? ? "started" : "skipped"
         run.log_event(:rules, findings: run.findings.size, review:)
 
         text = "#{run.skill.skill_key} on work package #{run.work_package_id}: " \

@@ -32,6 +32,7 @@ module AI
   module Assistance
     class RunComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include Polling
 
       attr_reader :run
 
@@ -55,8 +56,8 @@ module AI
         end
       end
 
-      def poll_path
-        url_helpers.poll_work_package_ai_assistance_run_path(run.work_package, run)
+      def wrapper_data
+        run.ai_running? ? poll_data(url_helpers.poll_work_package_ai_assistance_run_path(run.work_package, run)) : {}
       end
 
       def started_at

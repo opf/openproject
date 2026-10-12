@@ -1526,7 +1526,6 @@ en:
         no_prompt: "No prompt: rules only"
         no_prompt_not_offered: "No prompt: not offered"
         output_rules_caption: "Added after the instructions. Says how to answer: language, changes, what to do with user text. {{locale}} becomes the locale of the user who starts the run."
-        template_ref: "Template"
         template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
@@ -1539,7 +1538,7 @@ en:
           comment_only_caption: "Proposes comments only."
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
-        prompt_caption: "What the model does. Without instructions, a preset runs only its rules, and a chat is not offered."
+        prompt_caption: "What the model does. Without instructions, Check health runs only its rules, and a custom prompt or a chat is not offered."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
         types:
@@ -2388,11 +2387,11 @@ en:
       button: "Apply changes"
       empty: "(empty)"
       errors:
-        conflict: "The work package changed after this check. Run the check again to get a current proposal."
+        conflict: "The work package changed after this proposal was made. Ask again to get a current proposal."
         invalid: "The changes could not be applied."
         lost_content: "This proposal removes images, mentions or macros, so it cannot be applied."
         not_allowed: "You cannot apply these changes."
-        not_open: "This finding was already applied or dismissed."
+        not_open: "This proposal was already applied or dismissed."
       label:
         assigned_to: "Proposed assignee"
         comment: "Proposed comment"
@@ -2432,10 +2431,13 @@ en:
       answer: "The model answered in %{seconds} s."
       dropped: "dropped findings"
       error: "error message"
-      failure: "The AI review failed (%{error})."
+      failure: "The model call failed (%{error})."
       message: "message"
       raw_answer: "answer"
       request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
+      review:
+        skipped: "skipped"
+        started: "started"
       rules:
         one: "The rules found 1 finding. AI review: %{review}."
         other: "The rules found %{count} findings. AI review: %{review}."

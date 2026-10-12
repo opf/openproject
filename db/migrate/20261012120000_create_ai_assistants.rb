@@ -65,8 +65,6 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.text :prompt
       t.text :output_rules
       t.string :template_ref
-      # A read-only skill reports findings only. Otherwise it may propose changes to the
-      # attributes its type supports; the workflow and permissions decide the values.
       # changes, comment_only or read_only: what the skill may propose.
       t.string :proposal_scope, null: false, default: "changes"
       t.integer :position
@@ -82,7 +80,6 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
 
   def create_runs
     create_table :ai_assistant_runs do |t|
-      t.uuid :uuid, null: false, default: -> { "gen_random_uuid()" }, index: { unique: true }
       t.references :skill, null: false, foreign_key: { to_table: :ai_assistant_skills, on_delete: :cascade }
       t.references :user, null: false, foreign_key: { on_delete: :cascade }, index: false
       t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
@@ -95,7 +92,6 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.jsonb :not_checked, null: false, default: []
       # What happened during the run, shown in the run dialog: [{at, kind, data}].
       t.jsonb :events, null: false, default: []
-      t.string :error_message
       t.datetime :finished_at
 
       t.timestamps

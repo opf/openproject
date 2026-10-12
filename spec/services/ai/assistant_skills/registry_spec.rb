@@ -31,8 +31,8 @@
 require "spec_helper"
 
 RSpec.describe AI::AssistantSkills::Registry do
-  it "lists the health check" do
-    expect(described_class.keys).to include("health_check")
+  it "lists the health check, the custom prompt and the chat" do
+    expect(described_class.keys).to eq(%w[health_check prompt chat])
   end
 
   it "fetches a skill by key" do

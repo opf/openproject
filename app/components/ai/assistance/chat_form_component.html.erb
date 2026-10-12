@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= component_wrapper(style: "width: 100%;") do %>
+<%= component_wrapper(class: "width-full") do %>
   <%= primer_form_with(url: send_path, method: :post, html: { class: "mb-0" }, data: { test_selector: "ai-assistance-chat-form" }) do %>
     <%= hidden_field_tag :skill_id, skill.id %>
     <% if chat %>

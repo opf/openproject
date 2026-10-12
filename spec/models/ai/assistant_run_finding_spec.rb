@@ -45,7 +45,7 @@ RSpec.describe AI::AssistantRunFinding do
   end
 
   it "accepts a change set as a list of Automations actions on the work package itself" do
-    finding.change_set = described_class.change_set_for({ "subject" => "New subject" })
+    finding.change_set = AI::Proposal.change_set_for({ "subject" => "New subject" })
 
     expect(finding).to be_valid
     expect(finding.change_target).to eq("self")
@@ -54,7 +54,7 @@ RSpec.describe AI::AssistantRunFinding do
   end
 
   it "rejects a change set for another target" do
-    finding.change_set = described_class.change_set_for({ "subject" => "New subject" }, target: "parent")
+    finding.change_set = AI::Proposal.change_set_for({ "subject" => "New subject" }, target: "parent")
 
     expect(finding).not_to be_valid
     expect(finding.errors.symbols_for(:change_set)).to include(:invalid)

@@ -42,7 +42,7 @@ module AI
              inverse_of: :skill,
              dependent: :destroy
 
-    validates :skill_key, presence: true
+    validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
     validates :label, :template_ref, length: { maximum: 255 }
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
@@ -50,7 +50,6 @@ module AI
          default: "changes", validate: true, prefix: :scope
 
     scope :active, -> { where(active: true) }
-    scope :ordered, -> { order(:position, :id) }
 
     def skill_type
       AI::AssistantSkills::Registry.fetch(skill_key)
@@ -86,6 +85,11 @@ module AI
     # The admin's label or description, else the text of the skill type.
     def display_label
       label.presence || skill_type&.label || skill_key
+    end
+
+    # "QA assistance · Check health": the title of its dialogs and history entries.
+    def full_label
+      "#{assistant.name} · #{display_label}"
     end
 
     def display_description

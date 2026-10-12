@@ -39,7 +39,7 @@ module AI
       end
 
       def model_id
-        own = @assistant&.model_id.presence
+        own = @assistant.model_id.presence
         return own if own && @connection.available_model_ids.include?(own)
 
         @connection.default_chat_model&.external_id

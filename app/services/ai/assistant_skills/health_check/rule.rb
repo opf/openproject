@@ -44,8 +44,6 @@ module AI
 
         attr_reader :context
 
-        delegate :work_package, :user, to: :context
-
         def initialize(context)
           @context = context
         end

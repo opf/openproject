@@ -34,6 +34,7 @@ module AI
     # an answer is pending.
     class ChatComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include Polling
 
       attr_reader :work_package, :skill, :chat
 
@@ -55,13 +56,7 @@ module AI
       end
 
       def wrapper_data
-        return {} unless pending?
-
-        { controller: "poll-for-changes", poll_for_changes_url_value: poll_path, poll_for_changes_interval_value: 2000 }
-      end
-
-      def poll_path
-        url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat&.id)
+        pending? ? poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)) : {}
       end
 
       def apply_path(message)

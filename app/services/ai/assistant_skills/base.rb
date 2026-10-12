@@ -52,14 +52,14 @@ module AI
           []
         end
 
-        def build_context(work_package:, user:)
+        def build_context(**)
           raise SubclassResponsibilityError
         end
 
         # The work package attributes this skill type can propose changes to, as Automations
-        # action keys. An admin can make a skill read-only.
+        # action keys. The skill's proposal scope can narrow them (AI::AssistantSkill).
         def changeable_attributes
-          []
+          AI::Assistance::ChangeOptions::ATTRIBUTE_KEYS
         end
 
         # The class that builds the AI review for a run, or nil for rules only.
@@ -89,10 +89,6 @@ module AI
         # Whether the skill is offered only when an admin set its instructions.
         def prompt_required?
           false
-        end
-
-        def available?(_work_package, _user)
-          true
         end
       end
     end

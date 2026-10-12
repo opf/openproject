@@ -38,7 +38,8 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   # Opens the user's latest chat of this skill about this work package, or an empty one.
   def show
-    respond_with_dialog AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat) do |format|
+    respond_with_dialog AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill,
+                                                                chat: @chat) do |format|
       format.html { redirect_to work_package_path(@work_package) }
     end
   end
@@ -53,7 +54,10 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def start
     @chat = new_chat
     call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
-    return respond_with_dialog(AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat)) if call.success?
+    if call.success?
+      return respond_with_dialog(AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill,
+                                                                         chat: @chat))
+    end
 
     render_error_flash_message_via_turbo_stream(message: call.message)
     respond_with_turbo_streams(status: :unprocessable_entity)
@@ -74,18 +78,8 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   def apply
-    call = AI::Assistance::ApplyProposalService.new(proposal: @message, user: current_user).call
-
-    if call.success?
-      dispatch_event_via_turbo_stream(WorkPackagesController::UPDATED_EVENT_NAME,
-                                      detail: { work_package_id: @work_package.id })
-      render_success_flash_message_via_turbo_stream(message: I18n.t("ai_assistance.apply.success"))
-    else
-      render_error_flash_message_via_turbo_stream(message: call.message)
-    end
-
-    @chat = @message.chat
-    @skill = @chat.skill
+    call = apply_proposal(@message)
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
     replace_chat
   end
 
@@ -121,7 +115,9 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     @message = AI::AssistantChatMessage.joins(:chat)
                                        .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
                                        .find(params[:message_id])
-    render_404 unless chat_skill(@message.chat.skill_id)
+    @chat = @message.chat
+    @skill = chat_skill(@chat.skill_id)
+    render_404 unless @skill
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -132,7 +128,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   def form_component
     AI::Assistance::ChatFormComponent.new(work_package: @work_package, skill: @skill, chat: @chat,
-                                         dialog_id: AI::Assistance::ChatDialogComponent::DIALOG_ID)
+                                          dialog_id: AI::Assistance::ChatDialogComponent::DIALOG_ID)
   end
 
   # The conversation and the footer together: a new question clears the field, and a

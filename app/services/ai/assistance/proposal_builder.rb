@@ -72,8 +72,8 @@ module AI
         work_package = @change_options.work_package
         case key
         when "comment" then nil
-        when "status", "priority", "assigned_to", "responsible" then work_package.public_send(:"#{key}_id").to_s
-        when "start_date", "due_date" then work_package.public_send(key)&.iso8601
+        when *ChangeOptions::ASSOCIATION_KEYS then work_package.public_send(:"#{key}_id").to_s
+        when *ChangeOptions::DATE_KEYS then work_package.public_send(key)&.iso8601
         else work_package.public_send(key).to_s
         end
       end

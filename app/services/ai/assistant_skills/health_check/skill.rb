@@ -49,10 +49,6 @@ module AI
             Review
           end
 
-          def changeable_attributes
-            %w[subject description status priority start_date due_date assigned_to responsible]
-          end
-
           def rules
             [
               Rules::ClosedWithOpenDescendants,

@@ -28,13 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Adds a comment to the work package. It appends to a comment that another action of the
-# same automation (Notify) already set.
+# Adds a comment to the work package. It runs after Notify, which sets the comment text,
+# and appends to it.
 class Automations::Actions::Comment < Automations::Actions::Base
   include Automations::Actions::Strategies::Text
 
   def self.key
     :comment
+  end
+
+  def priority
+    DEFAULT_PRIORITY + 1
   end
 
   def apply(work_package)

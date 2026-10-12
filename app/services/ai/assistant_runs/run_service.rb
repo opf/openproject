@@ -48,7 +48,7 @@ module AI
       end
 
       def call
-        unless AI::AssistantSkills::Registry.fetch(skill.skill_key)
+        unless skill.skill_type
           return ServiceResult.failure(message: I18n.t("ai_assistance.errors.unknown_skill"))
         end
 
@@ -76,11 +76,7 @@ module AI
       def create_run
         AI::AssistantRun.create!(skill:, work_package:, user:, trigger:, automation:,
                                  work_package_lock_version: work_package.lock_version,
-                                 locale: locale.to_s)
-      end
-
-      def locale
-        @locale ||= user.language.presence&.to_sym.then { |l| I18n.available_locales.include?(l) ? l : I18n.default_locale }
+                                 locale: AI::Assistance::Locale.for(user).to_s)
       end
     end
   end

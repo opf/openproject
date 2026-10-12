@@ -30,8 +30,9 @@
 
 module Admin
   class AIAssistantsController < ::ApplicationController
+    include AIAssistance::RequireFeature
+
     before_action :require_admin
-    before_action :require_feature
     before_action :find_assistant, only: %i[edit update destroy]
 
     menu_item :ai_assistants
@@ -43,13 +44,13 @@ module Admin
     end
 
     def new
-      @assistant = AI::Assistant.new(position: (AI::Assistant.maximum(:position) || 0) + 1)
+      @assistant = AI::Assistant.new
     end
 
     def edit; end
 
     def create
-      @assistant = AI::Assistant.new(assistant_params)
+      @assistant = AI::Assistant.new(assistant_params.merge(position: (AI::Assistant.maximum(:position) || 0) + 1))
 
       if @assistant.save
         flash[:notice] = t(:notice_successful_create)
@@ -76,16 +77,12 @@ module Admin
 
     private
 
-    def require_feature
-      render_404 unless OpenProject::FeatureDecisions.ai_assistance_active?
-    end
-
     def find_assistant
       @assistant = AI::Assistant.find(params[:id])
     end
 
     def assistant_params
-      params.expect(ai_assistant: %i[name description icon model_id position active])
+      params.expect(ai_assistant: %i[name description icon model_id active])
     end
   end
 end

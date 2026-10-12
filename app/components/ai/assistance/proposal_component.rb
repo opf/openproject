@@ -55,29 +55,20 @@ module AI
           key = action["key"]
           new_value = action["values"].first.to_s
           if key == "comment"
-            { label: label(key), text: helpers.format_text(new_value) }
+            { label: label(key), html: helpers.format_text(new_value) }
           elsif AI::Assistance::ChangeOptions::TEXT_KEYS.include?(key)
-            { label: label(key), diff: diff(key, current_value(key), new_value) }
+            { label: label(key), html: diff(key, current_value(key), new_value) }
           else
             { label: label(key), from: current_label(key), to: new_label(key, new_value) }
           end
         end
       end
 
-      def lost_references
-        description = proposal.change_value_for(:description)
-        return [] unless description
-
-        AI::Assistance::ContentGuard.lost_references(work_package.description, description)
-      end
+      delegate :lost_references, to: :proposal
 
       def can_apply?
-        permission = comment_only? ? :add_work_package_comments : :edit_work_packages
+        permission = proposal.comment_only? ? :add_work_package_comments : :edit_work_packages
         lost_references.empty? && User.current.allowed_in_work_package?(permission, work_package)
-      end
-
-      def comment_only?
-        proposal.change_action_keys == %w[comment]
       end
 
       private
@@ -110,7 +101,7 @@ module AI
 
       def change_options
         @change_options ||= AI::Assistance::ChangeOptions.new(keys: proposal.proposal_changeable_attributes,
-                                                           work_package:, user: proposal.proposal_user)
+                                                              work_package:, user: proposal.proposal_user)
       end
 
       def diff(key, old_value, new_value)

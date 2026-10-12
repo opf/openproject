@@ -29,22 +29,18 @@
 #++
 
 # Shared by the AI Assistance controllers: the feature flag, the work package and the
-# permission. Every run is looked up through the current user, so nobody sees another
-# user's run.
+# permission. Every run and chat is looked up through the current user, so nobody sees
+# another user's runs or chats.
 module WorkPackages::AIAssistance::Scoped
   extend ActiveSupport::Concern
+  include AIAssistance::RequireFeature
 
   included do
-    before_action :require_feature
     before_action :find_work_package
     before_action :authorize
   end
 
   private
-
-  def require_feature
-    render_404 unless OpenProject::FeatureDecisions.ai_assistance_active?
-  end
 
   def find_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])
@@ -70,11 +66,17 @@ module WorkPackages::AIAssistance::Scoped
       .merge(AI::Assistant.active)
       .includes(:assistant)
       .order("ai_assistants.position", "ai_assistants.id", :position, :id)
-      .select { |skill| skill_available?(skill) }
+      .select(&:ready?)
   end
 
-  def skill_available?(skill)
-    skill_type = AI::AssistantSkills::Registry.fetch(skill.skill_key)
-    skill_type&.available?(@work_package, current_user) && skill.ready?
+  # Applies a finding or a chat answer. On success, the toolbar reloads the work package.
+  def apply_proposal(proposal)
+    AI::Assistance::ApplyProposalService.new(proposal:, user: current_user).call.tap do |call|
+      next unless call.success?
+
+      dispatch_event_via_turbo_stream(WorkPackagesController::UPDATED_EVENT_NAME,
+                                      detail: { work_package_id: @work_package.id })
+      render_success_flash_message_via_turbo_stream(message: I18n.t("ai_assistance.apply.success"))
+    end
   end
 end

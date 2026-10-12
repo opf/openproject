@@ -69,7 +69,7 @@ FactoryBot.define do
     trait :with_change_set do
       source { "ai" }
       rule_key { nil }
-      change_set { AI::AssistantRunFinding.change_set_for({ "description" => "A better description" }) }
+      change_set { AI::Proposal.change_set_for({ "description" => "A better description" }) }
       base_lock_version { run.work_package_lock_version }
     end
   end

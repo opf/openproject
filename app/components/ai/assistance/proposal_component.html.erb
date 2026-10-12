@@ -33,12 +33,10 @@
   <% changes.each do |change| %>
     <% box.with_row do %>
       <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, font_size: :small, mb: 1)) { change[:label] } %>
-      <% if change.key?(:text) %>
-        <div class="op-uc-container"><%= change[:text] %></div>
-      <% elsif change.key?(:diff) %>
-        <div class="op-uc-container"><%= change[:diff] %></div>
+      <% if change.key?(:html) %>
+        <div class="op-uc-container"><%= change[:html] %></div>
       <% else %>
-        <%= render(Primer::Beta::Text.new(color: :muted, style: "text-decoration: line-through;")) { change[:from].presence || t("ai_assistance.apply.empty") } %>
+        <%= render(Primer::Beta::Text.new(tag: :del, color: :muted)) { change[:from].presence || t("ai_assistance.apply.empty") } %>
         <%= render(Primer::Beta::Octicon.new(icon: :"arrow-right", mx: 1, color: :muted)) %>
         <%= render(Primer::Beta::Text.new(font_weight: :bold)) { change[:to] } %>
       <% end %>

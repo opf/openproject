@@ -52,8 +52,14 @@ RSpec.describe AI::AssistantRuns::Review do
   before do
     connection.update_column(:default_chat_model_id, model.id)
     allow(Llm::Session).to receive(:for).and_return(session)
-    allow(chat).to receive(:with_instructions) { |text| sent[:system] = text; chat }
-    allow(chat).to receive(:with_schema) { |schema| sent[:schema] = schema; chat }
+    allow(chat).to receive(:with_instructions) { |text|
+      sent[:system] = text
+      chat
+    }
+    allow(chat).to receive(:with_schema) { |schema|
+      sent[:schema] = schema
+      chat
+    }
     allow(chat).to receive(:ask) do |text|
       sent[:user] = text
       instance_double(RubyLLM::Message, content: answer.deep_stringify_keys)
@@ -70,16 +76,17 @@ RSpec.describe AI::AssistantRuns::Review do
         { severity: "medium", area: "content", text: "Der Kommentar ändert den Umfang.",
           evidence: ["Public note"], changes: [{ field: "description", value: "New text" }] },
         { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
-        { severity: "low", area: "status", text: "Falsches Feld.", evidence: ["x"], changes: [{ field: "status_id", value: "1" }] }
+        { severity: "low", area: "status", text: "Falsches Feld.", evidence: ["x"],
+          changes: [{ field: "status", value: "No such status" }] }
       ] }
     end
 
-    it "stores the findings with evidence, and only subject or description changes" do
+    it "stores the findings with evidence, and only changes to allowed values" do
       call
 
       findings = run.reload.findings.ai
       expect(findings.size).to eq(2)
-      expect(findings.first).to have_attributes(change_set: AI::AssistantRunFinding.change_set_for({ "description" => "New text" }),
+      expect(findings.first).to have_attributes(change_set: AI::Proposal.change_set_for({ "description" => "New text" }),
                                                 base_lock_version: work_package.reload.lock_version)
       expect(findings.second.change_set).to be_nil
       expect(run).to be_finished

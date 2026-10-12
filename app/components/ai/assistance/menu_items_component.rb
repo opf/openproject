@@ -55,8 +55,14 @@ module AI
         url_helpers.work_package_ai_assistance_runs_path(work_package)
       end
 
-      def skill_type(skill)
-        AI::AssistantSkills::Registry.fetch(skill.skill_key)
+      # A chat opens its dialog; a custom prompt starts a conversation; other skills start a run.
+      def item_arguments(skill)
+        if skill.chat?
+          { href: chat_path(skill), content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
+        else
+          { href: skill.conversation? ? start_path : runs_path,
+            form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
+        end
       end
     end
   end

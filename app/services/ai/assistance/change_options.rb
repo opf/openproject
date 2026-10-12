@@ -38,6 +38,8 @@ module AI
       TEXT_KEYS = %w[subject description comment].freeze
       DATE_KEYS = %w[start_date due_date].freeze
       ASSOCIATION_KEYS = %w[status priority assigned_to responsible].freeze
+      # The work package attributes a skill can propose changes to; a comment comes on top.
+      ATTRIBUTE_KEYS = (%w[subject description] + ASSOCIATION_KEYS + DATE_KEYS).freeze
 
       attr_reader :work_package, :user
 

@@ -49,17 +49,11 @@ module AI
 
         answer = AI::AssistantChat.transaction do
           chat.messages.create!(role: "user", content: content.truncate(MAX_LENGTH))
-          chat.messages.create!(role: "assistant", status: "pending", locale: locale.to_s,
+          chat.messages.create!(role: "assistant", status: "pending", locale: AI::Assistance::Locale.for(user).to_s,
                                 base_lock_version: chat.work_package.reload.lock_version)
         end
         ReplyJob.perform_later(answer.id)
         ServiceResult.success(result: answer)
-      end
-
-      private
-
-      def locale
-        user.language.presence&.to_sym.then { |l| I18n.available_locales.include?(l) ? l : I18n.default_locale }
       end
     end
   end

@@ -54,10 +54,6 @@ module AI
           def prompt_required?
             true
           end
-
-          def changeable_attributes
-            AI::AssistantSkills::HealthCheck::Skill.changeable_attributes
-          end
         end
       end
     end

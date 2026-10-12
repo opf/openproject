@@ -47,7 +47,7 @@
                   <%= render(Primer::Beta::Text.new(color: :accent, font_size: :small)) { t("ai_assistance.events.show", what: label) } %>
                 <% end %>
                 <% block.with_body do %>
-                  <pre class="mt-1 p-2 color-bg-subtle rounded-2" style="white-space: pre-wrap; max-height: 24rem; overflow: auto;"><%= text %></pre>
+                  <pre class="mt-1 p-2 color-bg-subtle rounded-2 overflow-auto" style="white-space: pre-wrap; max-height: 24rem;"><%= text %></pre>
                 <% end %>
               <% end %>
             <% end %>

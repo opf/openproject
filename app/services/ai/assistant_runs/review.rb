@@ -33,12 +33,8 @@ module AI
     # Asks the model for findings the rules cannot see, and stores the ones that cite
     # evidence. Any failure keeps the rule findings, lists the AI part as not checked and
     # finishes the run, so the dialog never waits for a run that will not finish.
-    #
-    # Logs one line when it asks and one when it ends (tag "AI Assistance"). The full
-    # prompt, message and answer are logged at debug level only: they hold user content.
     class Review
       MAX_FINDINGS = 15
-      MAX_ERROR_LENGTH = 255
 
       attr_reader :run
 
@@ -47,7 +43,7 @@ module AI
       end
 
       def call
-        review = skill_type.review_class.new(run)
+        review = run.skill.skill_type.review_class.new(run)
         raw_findings = Array(ask(review)[:findings])
         kept = store(review, raw_findings)
         run.log_event(:stored, findings: raw_findings.size, stored: kept, dropped: @dropped)
@@ -59,38 +55,12 @@ module AI
 
       private
 
-      def skill_type
-        AI::AssistantSkills::Registry.fetch(run.skill.skill_key)
-      end
-
       def ask(review)
         model_id = AI::Assistance::ModelChoice.new(run.skill.assistant).model_id
         raise Llm::Errors::NotReady, "no model" unless model_id
 
-        system = system_prompt(review)
-        message = review.user_message
-        log(:info, "asking model=#{model_id} system=#{system.size}c message=#{message.size}c")
-        run.log_event(:request, model: model_id, system:, message:)
-        log(:debug, "system prompt:\n#{system}")
-        log(:debug, "message:\n#{message}")
-
-        started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        answer = Llm::Session.for(LlmConnection.active_connection)
-                             .chat(model_id)
-                             .with_instructions(system)
-                             .with_schema(review.schema)
-                             .ask(message)
-        duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
-        content = answer.respond_to?(:content) ? answer.content : answer
-        log(:info, "answered in #{duration}s")
-        log(:debug, "answer:\n#{content.inspect}")
-        run.log_event(:answer, seconds: duration, content: content.is_a?(String) ? content : JSON.pretty_generate(content))
-
-        Llm::StructuredOutput.parse!(answer)
-      end
-
-      def system_prompt(_review)
-        run.skill.system_prompt(locale: run.locale)
+        llm_call.ask(model_id:, system: run.skill.system_prompt(locale: run.locale),
+                     message: review.user_message, schema: review.schema)
       end
 
       def store(review, raw_findings)
@@ -110,22 +80,19 @@ module AI
       end
 
       def fail_review(error)
-        level = error.is_a?(Llm::Errors::Error) ? :warn : :error
-        log(level, "failed: #{error.class}: #{error.message}")
-        log(:debug, Array(error.backtrace).first(15).join("\n")) if level == :error
-
         run.reload
-        run.log_event(:failure, error: error.class.name, message: error.message.to_s.truncate(2_000))
+        llm_call.record_failure(error)
         run.add_not_checked(:ai_review, :failed)
-        run.update!(status: "finished",
-                    error_message: "#{error.class.name.demodulize}: #{error.message}".truncate(MAX_ERROR_LENGTH))
+        run.update!(status: "finished")
       rescue StandardError => e
         log(:error, "could not finish the run after a failure: #{e.class}: #{e.message}")
       end
 
-      def log(level, text)
-        Rails.logger.tagged("AI Assistance", "run #{run.id}") { Rails.logger.public_send(level, text) }
+      def llm_call
+        @llm_call ||= AI::Assistance::LlmCall.new(record: run, log_tag: "run #{run.id}")
       end
+
+      def log(level, text) = llm_call.log(level, text)
     end
   end
 end

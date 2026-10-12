@@ -42,13 +42,7 @@ module AI
         @run = run
       end
 
-      def title
-        "#{run.skill.assistant.name} · #{run.skill.display_label}"
-      end
-
-      def skill_type
-        AI::AssistantSkills::Registry.fetch(run.skill.skill_key)
-      end
+      def title = run.skill.full_label
 
       def runs_path
         url_helpers.work_package_ai_assistance_runs_path(run.work_package)

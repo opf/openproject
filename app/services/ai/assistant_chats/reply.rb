@@ -35,7 +35,6 @@ module AI
     # Any failure marks the answer as failed, so the dialog never waits forever.
     class Reply
       MAX_TURNS = 20
-      MAX_ERROR_LENGTH = 255
 
       attr_reader :message
 
@@ -48,7 +47,7 @@ module AI
         message.update!(content: answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"),
                         change_set: proposal_builder.build(answer[:changes]),
                         status: "done")
-        log(:info, "answered#{' with a proposal' if message.change_set?}")
+        llm_call.log(:info, "answered#{' with a proposal' if message.change_set?}")
       rescue StandardError => e
         fail_reply(e)
       end
@@ -69,23 +68,11 @@ module AI
         raise Llm::Errors::NotReady, "no chat prompt" if system.blank?
         raise Llm::Errors::NotReady, "no model" unless model_id
 
-        system = "#{system}\n\nContext (JSON):\n#{context_json}"
         history = earlier_turns
         question = history.pop
-        log(:info, "asking model=#{model_id} system=#{system.size}c turns=#{history.size}")
-        message.log_event(:request, model: model_id, system:, message: question&.content.to_s)
-
-        started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        llm_chat = Llm::Session.for(LlmConnection.active_connection).chat(model_id).with_instructions(system)
-        history.each { |turn| llm_chat.add_message(role: turn.from_user? ? :user : :assistant, content: turn.content) }
-        answer = llm_chat.with_schema(schema).ask(question&.content.to_s)
-
-        duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
-        content = answer.respond_to?(:content) ? answer.content : answer
-        log(:info, "answered in #{duration}s")
-        message.log_event(:answer, seconds: duration, content: content.is_a?(String) ? content : JSON.pretty_generate(content))
-
-        Llm::StructuredOutput.parse!(answer)
+        llm_call.ask(model_id:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
+                     message: question&.content.to_s, schema:,
+                     history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn.content] })
       end
 
       # The finished turns before this answer, oldest first, ending with the question.
@@ -120,17 +107,15 @@ module AI
       end
 
       def fail_reply(error)
-        log(error.is_a?(Llm::Errors::Error) ? :warn : :error, "failed: #{error.class}: #{error.message}")
         message.reload
-        message.log_event(:failure, error: error.class.name, message: error.message.to_s.truncate(2_000))
-        message.update!(status: "failed", content: "",
-                        error_message: "#{error.class.name.demodulize}: #{error.message}".truncate(MAX_ERROR_LENGTH))
+        llm_call.record_failure(error)
+        message.update!(status: "failed", content: "")
       rescue StandardError => e
-        log(:error, "could not mark the answer as failed: #{e.class}: #{e.message}")
+        llm_call.log(:error, "could not mark the answer as failed: #{e.class}: #{e.message}")
       end
 
-      def log(level, text)
-        Rails.logger.tagged("AI Assistance", "chat #{chat.id}") { Rails.logger.public_send(level, text) }
+      def llm_call
+        @llm_call ||= AI::Assistance::LlmCall.new(record: message, log_tag: "chat #{chat.id}")
       end
     end
   end

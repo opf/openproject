@@ -7,7 +7,7 @@ keywords: AI, assistants, skills, health check, automations, LLM
 
 # Development concept: AI Assistance
 
-The "AI Assistance" menu on the work package page offers skills, for example "Check health". A skill finds problems in a work package. It can propose a change set, and the user applies the change set or dismisses it. Every run starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a change set.
+The "AI Assistance" menu on the work package page offers skills: presets such as "Check health" or "Generate test cases", and a chat. A skill can propose a change set, and the user applies it or dismisses it. Every skill starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a change set.
 
 This document describes the design. It also shows how the first pull request is split into smaller pull requests for review.
 
@@ -16,10 +16,10 @@ This document describes the design. It also shows how the first pull request is 
 | Term | Meaning |
 |---|---|
 | **Assistant** | A record (`AI::Assistant`) that an admin configures: a name, an icon and an optional model. It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
-| **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. The first one is `health_check`. |
+| **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. There are three: `health_check` (a preset with rules), `prompt` (a preset with instructions only) and `chat`. |
 | **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
-| **Finding** | One problem that a run found (`AI::AssistantRunFinding`). It has a severity, an area, a text, evidence, and an optional fix. |
+| **Finding** | One problem that a run found (`AI::AssistantRunFinding`). It has a severity, an area, a text, evidence, and an optional change set. |
 | **Change set** | A proposed change in the Automations action vocabulary: a target (only `self` for now) and a list of actions with values, for example `{"target": "self", "actions": [{"key": "description", "values": ["…"]}]}`. Which action keys a change set may use depends on the skill type and its proposal scope (see "Proposal scope and changeable attributes"). The user applies the change set through the Automations services. |
 
 ## Flow
@@ -40,8 +40,8 @@ flowchart LR
 ```
 
 1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame.
-2. The menu items are loaded when the menu opens (`#items`). There is one flat item for each active skill of each active assistant, and a "History" item at the end.
-3. An item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog.
+2. The menu items are loaded when the menu opens (`#items`). There is one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
+3. A health check item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog. A chat item opens `ChatsController#show`, and a custom prompt item posts to `ChatsController#start` (see "Chat" and "Custom prompt presets").
 4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::ReviewJob` starts. The dialog polls `#poll` until the run is finished.
 5. The user applies a change set (`FindingsController#apply`) or dismisses a finding, with an optional reason.
 
@@ -51,18 +51,18 @@ flowchart LR
 - **Rules and AI are separate.** The rules are deterministic, need no LLM, and always run. The AI review is optional. If it is not available or fails, the run lists it under "Not checked", and the rule findings stay.
 - **What the AI reads.** It reads only what the user can see: the work package, visible descendants and relations, and comments filtered by `journals.internal_visible`. Internal comments are included only when the user may see them. The prompt tells the model that this text is user data, not instructions.
 - **Evidence is required.** An AI finding without evidence is dropped. Findings and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
-- **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register` and refuses keys that the skill type does not declare. For the health check, these are the new `Automations::Actions::Subject` and `Automations::Actions::Description`. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
+- **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register`. It refuses actions that `ChangeOptions#allowed?` does not allow now: keys outside the skill's proposal scope, and values that are not valid now. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
 - **Conflicts use a strict `lockVersion`.** Each finding stores the work package version from which it was made (`base_lock_version`). If the work package changed after that, the apply fails and the user runs the check again. After a successful apply, the other open findings of the same run move to the new version, so a second change set from the same run can apply.
 - **Content guard.** A description change that removes an attachment reference, a mention or a macro cannot be applied (`AI::Assistance::ContentGuard`).
 - **One AI job at a time** for each user, work package and skill. A second click opens the run that is in progress. An AI review that runs for more than 10 minutes is marked as timed out.
-- **Journal cause.** Each applied change set writes `Journal::CausedByAssistantSkill`, with `source` and `depth` for the loop protection of a later trigger model. The activity tab shows "AI Assistance: proposed by … and applied by the user".
-- **Automations stay the write layer.** Existing Automations do not change. The only change that admins can see is the two new action types.
+- **Journal cause.** A change set from a run writes `Journal::CausedByAssistantSkill`, and one from a chat or a custom prompt writes `Journal::CausedByAssistantChat`. Both carry `source` and `depth` for the loop protection of a later trigger model.
+- **Automations stay the write layer.** Existing Automations do not change. The only change that admins can see is three new action types: Subject, Description and Comment.
 
 ## Prompts
 
-The prompt is data, not code. OpenProject ships no prompt text. Each skill stores:
+The prompt is data, not code: admins edit it on the skill page. The basic data seeder creates the "QA assistance" assistant with three skills and their prompts (`app/seeders/common.yml`): Check health, Chat and "Generate test cases". Each skill stores:
 
-- **Instructions** (`prompt`): what the model checks. Without instructions, the skill runs only its rules, and the run lists the AI review as "Not checked".
+- **Instructions** (`prompt`): what the model does. Without instructions, Check health runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
 - **Output rules** (`output_rules`): how the model answers, for example the language, the changes, and what to do with user text. `{{locale}}` becomes the locale of the user who starts the run.
 - **Template** (`template_ref`): the template in a separate prompt registry that the skill was created from. Nothing reads it yet. A later sync from the registry uses it.
 
@@ -87,13 +87,11 @@ A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (
 
 | Layer | Set by | Health check |
 |---|---|---|
-| What the skill type can change (`changeable_attributes`) | Code | `subject`, `description`, `status`, `priority`, `start_date`, `due_date`, `assigned_to`, `responsible` |
+| What the skill type can change (`changeable_attributes`, `ChangeOptions::ATTRIBUTE_KEYS`) | Code | `subject`, `description`, `status`, `priority`, `assigned_to`, `responsible`, `start_date`, `due_date`, and a `comment` |
 | The proposal scope | Admin, on the skill page | Changes |
-| Which values are valid now (`AI::Assistance::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees` of `WorkPackages::UpdateContract` |
+| Which values are valid now (`AI::Assistance::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees`, `assignable_responsibles` of `WorkPackages::UpdateContract` |
 
 The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who narrows a skill's scope after a run also blocks its open proposals.
-
-When a skill may change assignee or accountable, the model gets the names of the users who can be assigned.
 
 The dialog shows text changes as a diff, and other changes as "old → new".
 
@@ -113,7 +111,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 ## Gating
 
 - The feature flag `ai_assistance` (off by default in production). The AI part also needs the `llm_connection` flag, the `llm_features_enabled` setting and a configured connection.
-- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Applying a change set also needs `edit_work_packages`.
+- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Applying a change set also needs `edit_work_packages`, or only `add_work_package_comments` for a comment.
 - There is no enterprise gate yet. See "Follow-ups".
 
 ## Data model
@@ -121,11 +119,13 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | Table | Holds |
 |---|---|
 | `ai_assistants` | name, description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active |
-| `ai_assistant_skills` | `assistant_id`, `skill_key`, `prompt`, position, active |
-| `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, error |
+| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, position, active |
+| `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events`, `finished_at` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
+| `ai_assistant_chats` | skill, user, work package |
+| `ai_assistant_chat_messages` | chat, role, content, status, locale, `change_set`, `base_lock_version`, state, `events` |
 
-Runs and findings are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "QA assistance" assistant with the `health_check` skill when the table is empty, also on an upgrade.
+Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "QA assistance" assistant with its three skills when the table is empty, also on an upgrade.
 
 ## How to try it
 
@@ -137,7 +137,7 @@ Runs and findings are deleted with their user, their work package or their skill
 
 ## Split for review
 
-This change comes as one pull request so that it can be tried end to end. Each commit is one review step. The steps can be cut into separate pull requests in this order, each one stacked on the one before it:
+This change comes as one pull request so that it can be tried end to end. Each commit is one review step, except the commit that adds this document. The steps can be cut into separate pull requests in this order, each one stacked on the one before it:
 
 | # | Commit | Contents | Depends on |
 |---|---|---|---|
@@ -155,13 +155,15 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |
 | 13 | Add custom prompt presets, a comment-only scope and a copy button | Custom prompt skill type, `ChatsController#start`, `proposal_scope`, copy button | 12 |
 | 14 | Use "AI review" in the interface | Wording | 9 |
+| 15 | Rename the AI judgement to AI review, and move shared proposal classes to AI::Assistance | Renames only | 14 |
+| 16 | Clean up AI Assistance after review | Shared LLM call, event log and locale helpers, dead code, seeded prompts, this document | 15 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 
 ## Follow-ups
 
 - **Enterprise gate.** Gate the menu, the runs and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
-- **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10 and 11 need specs, and the toolbar needs browser specs (full view and split view).
+- **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10–16 need specs, and the toolbar needs browser specs (full view and split view).
 - **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the conditions of Automations, and a path to triggers. The result is still a proposal.
 - **Edit before apply.** Open a proposed description in the description editor.
 - **Retention.** Runs are kept without a limit. A cleanup job can come when usage shows the need.

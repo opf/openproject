@@ -54,7 +54,7 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   # Polled by the run dialog while the AI review runs. No content until the run is
   # finished; then the whole run is replaced, which also stops the polling.
   def poll
-    return head(:no_content) unless @run.terminal?
+    return head(:no_content) unless @run.finished?
 
     render turbo_stream: AI::Assistance::RunComponent.new(run: @run)
                                                       .render_as_turbo_stream(view_context:, action: :replace)

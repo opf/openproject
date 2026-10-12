@@ -44,9 +44,7 @@ module AI
         @chat = chat
       end
 
-      def title
-        "#{skill.assistant.name} · #{skill.display_label}"
-      end
+      def title = skill.full_label
     end
   end
 end

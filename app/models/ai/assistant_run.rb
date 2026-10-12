@@ -30,7 +30,7 @@
 
 module AI
   class AssistantRun < ApplicationRecord
-    TERMINAL_STATUSES = %w[finished failed].freeze
+    include AI::EventLog
 
     belongs_to :skill, class_name: "AI::AssistantSkill", inverse_of: :runs
     belongs_to :user
@@ -46,8 +46,7 @@ module AI
     enum :status, {
       running: "running",
       ai_running: "ai_running",
-      finished: "finished",
-      failed: "failed"
+      finished: "finished"
     }, default: "running", validate: true
 
     enum :trigger, {
@@ -56,26 +55,12 @@ module AI
       schedule: "schedule"
     }, default: "menu", validate: true, prefix: :triggered_by
 
-    attribute :uuid, default: -> { SecureRandom.uuid }
-
     validates :locale, presence: true
 
-    before_save :stamp_finished_at, if: -> { status_changed? && terminal? }
+    before_save :stamp_finished_at, if: -> { status_changed? && finished? }
 
     scope :for, ->(user, work_package) { where(user:, work_package:) }
     scope :newest_first, -> { order(created_at: :desc, id: :desc) }
-
-    def terminal?
-      TERMINAL_STATUSES.include?(status)
-    end
-
-    # Appends one entry in a single statement, so a job and a request that both write
-    # events never overwrite each other.
-    def log_event(kind, **data)
-      entry = { "at" => Time.current.iso8601(3), "kind" => kind.to_s, "data" => data.deep_stringify_keys }
-      self.class.where(id:).update_all(["events = events || ?::jsonb", [entry].to_json])
-      events << entry
-    end
 
     def add_not_checked(area, reason)
       not_checked << { "area" => area.to_s, "reason" => reason.to_s }

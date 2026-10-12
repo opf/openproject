@@ -36,7 +36,7 @@ module AI
 
       SEVERITY_SCHEMES = { "high" => :danger, "medium" => :attention, "low" => :secondary }.freeze
 
-      attr_reader :finding
+      attr_reader :finding, :error
 
       def initialize(finding:, error: nil)
         super
@@ -44,14 +44,8 @@ module AI
         @error = error
       end
 
-      attr_reader :error
-
       def apply_path
         url_helpers.apply_work_package_ai_assistance_run_finding_path(finding.run.work_package, finding.run, finding)
-      end
-
-      def run_again_path
-        url_helpers.work_package_ai_assistance_runs_path(finding.run.work_package)
       end
 
       def wrapper_key
@@ -90,9 +84,9 @@ module AI
 
       def dismiss_path(reason = nil)
         url_helpers.dismiss_work_package_ai_assistance_run_finding_path(finding.run.work_package,
-                                                                      finding.run,
-                                                                      finding,
-                                                                      reason:)
+                                                                        finding.run,
+                                                                        finding,
+                                                                        reason:)
       end
 
       def dismiss_reasons

@@ -52,7 +52,6 @@ class CreateAIAssistantChats < ActiveRecord::Migration[8.1]
       t.integer :base_lock_version
       t.string :state, null: false, default: "open"
       t.jsonb :events, null: false, default: []
-      t.string :error_message
 
       t.timestamps
 

@@ -63,7 +63,9 @@ module AI
         data = event["data"]
         case event["kind"]
         when "rules"
-          I18n.t("ai_assistance.events.rules", count: data["findings"], review: data["review"])
+          I18n.t("ai_assistance.events.rules", count: data["findings"],
+                                               review: I18n.t("ai_assistance.events.review.#{data['review']}",
+                                                              default: data["review"].to_s))
         when "request"
           I18n.t("ai_assistance.events.request", model: data["model"],
                                                  system: data["system"].to_s.size, message: data["message"].to_s.size)

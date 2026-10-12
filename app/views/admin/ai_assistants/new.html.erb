@@ -44,8 +44,4 @@
   end
 %>
 
-<%= settings_primer_form_with(model: @assistant, scope: :ai_assistant,
-                              url: @assistant.persisted? ? admin_ai_assistant_path(@assistant) : admin_ai_assistants_path,
-                              method: @assistant.persisted? ? :patch : :post) do |f| %>
-  <%= render(AI::Assistants::Form.new(f)) %>
-<% end %>
+<%= render "form", url: admin_ai_assistants_path, method: :post %>

@@ -42,28 +42,22 @@
        title]
     )
 
-    if @assistant.persisted?
-      header.with_action_button(
-        scheme: :danger,
-        mobile_icon: :trash,
-        mobile_label: t("button_delete"),
-        tag: :a,
-        href: admin_ai_assistant_path(@assistant),
-        data: { turbo_method: :delete, turbo_confirm: t("admin.ai_assistants.delete.confirm"),
-                test_selector: "ai-assistant-delete" }
-      ) do |button|
-        button.with_leading_visual_icon(icon: :trash)
-        t("button_delete")
-      end
+    header.with_action_button(
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t("button_delete"),
+      tag: :a,
+      href: admin_ai_assistant_path(@assistant),
+      data: { turbo_method: :delete, turbo_confirm: t("admin.ai_assistants.delete.confirm"),
+              test_selector: "ai-assistant-delete" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      t("button_delete")
     end
   end
 %>
 
-<%= settings_primer_form_with(model: @assistant, scope: :ai_assistant,
-                              url: @assistant.persisted? ? admin_ai_assistant_path(@assistant) : admin_ai_assistants_path,
-                              method: @assistant.persisted? ? :patch : :post) do |f| %>
-  <%= render(AI::Assistants::Form.new(f)) %>
-<% end %>
+<%= render "form", url: admin_ai_assistant_path(@assistant), method: :patch %>
 
 <%= render(Primer::Beta::Subhead.new(mt: 6)) do |subhead| %>
   <% subhead.with_heading(tag: :h2) { t("admin.ai_assistants.skills.title") } %>

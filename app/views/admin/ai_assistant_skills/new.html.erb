@@ -29,24 +29,4 @@
   ++#
 %>
 
-<% title = @skill.persisted? ? @skill.display_label : t("admin.ai_assistants.skills.add") %>
-<% html_title t(:label_administration), t("menus.admin.ai_assistants"), @assistant.name, title %>
-
-<%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { title }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: mcp_configurations_path, text: t("menus.admin.ai") },
-       { href: admin_ai_assistants_path, text: t("menus.admin.ai_assistants") },
-       { href: edit_admin_ai_assistant_path(@assistant), text: @assistant.name },
-       title]
-    )
-  end
-%>
-
-<%= settings_primer_form_with(model: @skill, scope: :ai_assistant_skill,
-                              url: @skill.persisted? ? admin_ai_assistant_skill_path(@assistant, @skill) : admin_ai_assistant_skills_path(@assistant),
-                              method: @skill.persisted? ? :patch : :post) do |f| %>
-  <%= render(AI::AssistantSkillForm.new(f)) %>
-<% end %>
+<%= render "page", title: t("admin.ai_assistants.skills.add"), url: admin_ai_assistant_skills_path(@assistant), method: :post %>

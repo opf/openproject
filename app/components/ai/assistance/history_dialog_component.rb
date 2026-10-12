@@ -61,16 +61,11 @@ module AI
         end
       end
 
+      # A chat also shows its first question. A preset's first question is its own label.
       def entry_label(entry)
-        if chat?(entry)
-          title = "#{entry.skill.assistant.name} · #{entry.skill.display_label}"
-          # A preset's first question is its own label, so only a chat shows it.
-          return title unless entry.skill.chat?
+        return entry.skill.full_label unless entry.skill.chat?
 
-          "#{title} · #{entry.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
-        else
-          "#{entry.skill.assistant.name} · #{entry.skill.display_label}"
-        end
+        "#{entry.skill.full_label} · #{entry.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
       end
 
       def entry_detail(entry)
@@ -82,7 +77,7 @@ module AI
       end
 
       def entry_icon(entry)
-        (chat?(entry) ? entry.skill.skill_type&.icon : nil) || :pulse
+        entry.skill.skill_type&.icon || :pulse
       end
     end
   end

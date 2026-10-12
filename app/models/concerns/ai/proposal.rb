@@ -49,11 +49,9 @@ module AI
     end
 
     included do
-      validate :change_set_shape
-    end
+      enum :state, { open: "open", applied: "applied", dismissed: "dismissed" }, default: "open", validate: true
 
-    class_methods do
-      def change_set_for(...) = AI::Proposal.change_set_for(...)
+      validate :change_set_shape
     end
 
     def change_set?
@@ -74,6 +72,18 @@ module AI
 
     def change_value_for(key)
       change_actions.find { |action| action["key"] == key.to_s }&.dig("values", 0)
+    end
+
+    def comment_only?
+      change_action_keys == %w[comment]
+    end
+
+    # Attachment references, mentions and macros that the proposed description would drop.
+    def lost_references
+      @lost_references ||= begin
+        description = change_value_for(:description)
+        description ? AI::Assistance::ContentGuard.lost_references(proposal_work_package.description, description) : []
+      end
     end
 
     private

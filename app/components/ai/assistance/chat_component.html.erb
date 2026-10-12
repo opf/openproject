@@ -31,7 +31,7 @@
 
 <%# position: relative keeps absolutely positioned form labels inside the scrolling body;
     without it they stretch the dialog and give it a second scrollbar. %>
-<%= component_wrapper(data: wrapper_data, style: "position: relative;") do %>
+<%= component_wrapper(data: wrapper_data, class: "position-relative") do %>
   <% if messages.empty? %>
     <%= render(Primer::Beta::Blankslate.new(data: { test_selector: "ai-assistance-chat-empty" })) do |slate| %>
       <% slate.with_visual_icon(icon: :sparkle) %>

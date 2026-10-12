@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= component_wrapper(data: run.ai_running? ? { controller: "poll-for-changes", poll_for_changes_url_value: poll_path, poll_for_changes_interval_value: 2500 } : {}, style: "position: relative;") do %>
+<%= component_wrapper(data: wrapper_data, class: "position-relative") do %>
   <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 3)) do %>
     <%= t("ai_assistance.run.started_at", time: started_at) %>
   <% end %>

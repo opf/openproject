@@ -36,10 +36,17 @@ module BasicData
 
     def create_model!(model_data)
       super.tap do |assistant|
-        Array(model_data["skills"]).each_with_index do |skill_key, index|
-          assistant.skills.create!(skill_key:, position: index + 1)
+        Array(model_data["skills"]).each_with_index do |skill_data, index|
+          assistant.skills.create!(**skill_attributes(skill_data), position: index + 1)
         end
       end
+    end
+
+    def skill_attributes(skill_data)
+      skill_data
+        .slice("skill_key", "label", "description", "prompt", "output_rules", "proposal_scope")
+        .compact
+        .symbolize_keys
     end
 
     def model_attributes(assistant_data)

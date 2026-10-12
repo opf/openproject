@@ -30,8 +30,9 @@
 
 module Admin
   class AIAssistantSkillsController < ::ApplicationController
+    include AIAssistance::RequireFeature
+
     before_action :require_admin
-    before_action :require_feature
     before_action :find_assistant
     before_action :find_skill, only: %i[edit update destroy]
 
@@ -40,20 +41,19 @@ module Admin
     layout "admin"
 
     def new
-      @skill = @assistant.skills.build(skill_key: AI::AssistantSkills::Registry.keys.first,
-                                               position: (@assistant.skills.maximum(:position) || 0) + 1)
+      @skill = @assistant.skills.build(skill_key: AI::AssistantSkills::Registry.keys.first)
     end
 
     def edit; end
 
     def create
-      @skill = @assistant.skills.build(skill_params.merge(skill_key: params.dig(:ai_assistant_skill, :skill_key)))
+      @skill = @assistant.skills.build(skill_params.merge(skill_key: params.dig(:ai_assistant_skill, :skill_key),
+                                                          position: (@assistant.skills.maximum(:position) || 0) + 1))
 
-      if AI::AssistantSkills::Registry.fetch(@skill.skill_key) && @skill.save
+      if @skill.save
         flash[:notice] = t(:notice_successful_create)
         redirect_to edit_admin_ai_assistant_path(@assistant)
       else
-        @skill.errors.add(:skill_key, :inclusion) if @skill.errors.empty?
         render :new, status: :unprocessable_entity
       end
     end
@@ -75,10 +75,6 @@ module Admin
 
     private
 
-    def require_feature
-      render_404 unless OpenProject::FeatureDecisions.ai_assistance_active?
-    end
-
     def find_assistant
       @assistant = AI::Assistant.find(params[:ai_assistant_id])
     end
@@ -89,7 +85,7 @@ module Admin
 
     # The key is set once, on create: runs refer to the skill by it.
     def skill_params
-      params.expect(ai_assistant_skill: %i[label description prompt output_rules template_ref proposal_scope position active])
+      params.expect(ai_assistant_skill: %i[label description prompt output_rules template_ref proposal_scope active])
     end
   end
 end
