@@ -159,6 +159,8 @@ class ApplicationController < ActionController::Base
                 :action_hooks,
                 :reload_mailer_settings!
 
+  after_action :record_admin_elevation_usage
+
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
 

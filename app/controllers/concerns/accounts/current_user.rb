@@ -64,6 +64,14 @@ module Accounts::CurrentUser
       end
   end
 
+  def record_admin_elevation_usage
+    return unless @project.is_a?(Project) && current_user.admin? && session[:user_id] == current_user.id
+
+    AdminElevationSessions::RecordUsageService
+      .new(user: current_user, session_id: session.id.private_id)
+      .call(project: @project)
+  end
+
   # check if login is globally required to access the application
   def check_if_login_required
     # no check needed if user is already logged in
