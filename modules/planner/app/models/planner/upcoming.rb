@@ -59,10 +59,6 @@ module Planner
       @working_days ||= WorkPackages::Shared::WorkingDays.new
     end
 
-    def time_range
-      dates.first.in_time_zone(user.time_zone).beginning_of_day..dates.last.in_time_zone(user.time_zone).end_of_day
-    end
-
     def work_packages
       @work_packages ||= project
                            .work_packages
@@ -73,45 +69,7 @@ module Planner
     end
 
     def meetings
-      @meetings ||= (existing_meetings + scheduled_occurrences).sort_by(&:start_time)
-    end
-
-    def existing_meetings
-      Meeting
-        .visible(user)
-        .not_templated
-        .participated_by(user)
-        .where(start_time: time_range)
-        .includes(:project)
-        .map { Occurrence.for(it) }
-    end
-
-    def scheduled_occurrences
-      participating_series.flat_map do |series|
-        taken = created_occurrence_times(series)
-
-        scheduled_times(series)
-          .reject { |time| taken.include?(time.to_i) }
-          .map { |time| Occurrence.scheduled(series, time) }
-      end
-    end
-
-    # Occurrences that exist as meetings, cancelled ones included, so they are not listed twice.
-    def created_occurrence_times(series)
-      series.meetings.not_templated.where(recurrence_start_time: time_range).pluck(:recurrence_start_time).to_set(&:to_i)
-    end
-
-    def scheduled_times(series)
-      series.schedule.occurrences_between(time_range.begin, time_range.end).map(&:to_time)
-    end
-
-    def participating_series
-      RecurringMeeting
-        .joins(template: :participants)
-        .where(meeting_participants: { user_id: user.id })
-        .where(project_id: Project.allowed_to(user, :view_meetings).select(:id))
-        .includes(:template, :project)
-        .distinct
+      @meetings ||= MeetingOccurrences.new(user:, dates:).to_a
     end
 
     def local_date(time) = time.in_time_zone(user.time_zone).to_date
