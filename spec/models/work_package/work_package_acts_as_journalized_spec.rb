@@ -1030,6 +1030,34 @@ RSpec.describe WorkPackage do
       end
     end
 
+    context "on a comment within aggregation time after a journal with a meeting cause" do
+      let(:meeting_cause) { { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+
+      shared_let(:journable) do
+        create(:work_package,
+               journals: {
+                 10.minutes.ago => { user: },
+                 4.minutes.ago => { user:, cause: { "type" => "meeting_agenda_item_added", "meeting_id" => 42 } }
+               })
+      end
+
+      include_examples "journaled values for",
+                       new_values_set: {
+                         "journal_notes" => "Please prepare the figures"
+                       },
+                       expected_values: {},
+                       expected_notes: "Please prepare the figures",
+                       expect_new_journal: true
+
+      # Meeting causes decide who sees a journal; a comment folded into one would be hidden with it.
+      it "keeps the comment out of the meeting's journal" do
+        journable.journal_notes = "Please prepare the figures"
+        journable.save!
+
+        expect(journable.journals.reload[-2]).to have_attributes(cause: meeting_cause, notes: "")
+      end
+    end
+
     context "on mixed journal cause, notes and attribute adding outside of aggregation time" do
       shared_let(:journable) do
         create(:work_package,
