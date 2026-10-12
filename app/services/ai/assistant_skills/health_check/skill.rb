@@ -49,7 +49,9 @@ module AI
               Rules::StaleOpenDescendants,
               Rules::ClosedWithOpenPrerequisites,
               Rules::OpenDuplicateOfClosed,
-              Rules::StaleWorkPackage
+              Rules::StaleWorkPackage,
+              Rules::MergedPullRequestDefaultStatus,
+              Rules::ClosedWithOpenPullRequest
             ]
           end
         end

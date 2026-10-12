@@ -80,8 +80,38 @@ module AI
           end
         end
 
+        # The pull requests of every integration that is enabled in the project. An integration
+        # that the user may not read is listed as not checked.
+        def linked_pull_requests
+          @linked_pull_requests ||= pull_request_sources.flat_map do |module_name, permission, association, builder|
+            next [] unless work_package.project.module_enabled?(module_name)
+
+            unless user.allowed_in_work_package?(permission, work_package)
+              add_not_checked(:pull_requests, :"no_permission_#{module_name}")
+              next []
+            end
+
+            work_package.public_send(association).map { |record| LinkedPullRequest.public_send(builder, record) }
+          end
+        end
+
+        def default_status?
+          work_package.status&.is_default?
+        end
+
         def last_activity_at
           [work_package.journals.maximum(:created_at), work_package.updated_at].compact.max
+        end
+
+        def pull_request_sources
+          sources = []
+          if work_package.respond_to?(:github_pull_requests)
+            sources << [:github, :show_github_content, :github_pull_requests, :from_github]
+          end
+          if work_package.respond_to?(:gitlab_merge_requests)
+            sources << [:gitlab, :show_gitlab_content, :gitlab_merge_requests, :from_gitlab]
+          end
+          sources
         end
 
         def stale?(record)

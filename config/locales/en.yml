@@ -2353,6 +2353,8 @@ en:
         closed_with_open_prerequisites: "This work package is closed, but %{id} is still open (%{relation})."
         open_duplicate_of_closed: "This work package duplicates %{id}, which is closed, but it is still open."
         stale_work_package: "This work package is open, but nothing changed for %{days} days."
+        merged_pull_request_default_status: "A linked pull request is merged, but the status is still the initial one."
+        closed_with_open_pull_request: "This work package is closed, but a linked pull request is still open."
   ai:
     text_transform:
       errors:
