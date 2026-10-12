@@ -29,7 +29,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Alpha::Banner.new(icon: :"shield-lock", full: true, test_selector: "admin-elevation-banner")) do |banner|
-    banner.with_action_button(tag: :a, href: "#") { t("admin_elevation.banner.elevate") }
+    banner.with_action_button(
+      tag: :a,
+      href: new_project_admin_elevation_path(project, back_url: request.fullpath),
+      data: { controller: "async-dialog" }
+    ) { t("admin_elevation.banner.elevate") }
 
     t("admin_elevation.banner.not_elevated")
   end

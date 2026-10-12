@@ -43,7 +43,8 @@ RSpec.describe AdminElevationSessions::BannerComponent, type: :component do
 
         expect(page).to have_test_selector("admin-elevation-banner",
                                            text: I18n.t("admin_elevation.banner.not_elevated"))
-        expect(page).to have_link(I18n.t("admin_elevation.banner.elevate"), href: "#")
+        expect(page).to have_link(I18n.t("admin_elevation.banner.elevate"),
+                                  href: %r{\A/projects/#{project.identifier}/admin_elevation/new})
       end
     end
 
