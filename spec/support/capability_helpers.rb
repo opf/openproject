@@ -29,6 +29,8 @@
 #++
 
 module CapabilityHelpers
+  # A global permission is granted without a project, so the modules a project has enabled
+  # never gate it, even when it is declared inside a project module.
   def global_admin_capabilities(principal)
     admin_contract_actions { it[:global] }
       .map { [it, principal.id, nil] }
