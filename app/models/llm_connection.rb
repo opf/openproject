@@ -70,6 +70,28 @@ class LlmConnection < ApplicationRecord
     # Identifying attributes are left unset here and filled in by
     # LlmConnections::SetAttributesService as system changes, so that they do not
     # register as user-made changes to non-writable attributes.
+    # Keyed, so the stored value gives away nothing about the API key it covers.
+    def env_fingerprint(config = Setting.llm_connection)
+      key = Rails.application.key_generator.generate_key("llm connection environment")
+
+      OpenSSL::HMAC.hexdigest("SHA256", key, canonical_env(config).to_json)
+    end
+
+    # The same headers can reach the setting as a hash or as a JSON string, in
+    # any order.
+    def canonical_env(config)
+      env = config.to_h.transform_keys(&:to_s)
+      env["custom_headers"] = LlmConnections::EnvSyncService.custom_headers(env["custom_headers"])
+
+      sorted_deeply(env)
+    end
+
+    def sorted_deeply(value)
+      return value unless value.is_a?(Hash)
+
+      value.transform_keys(&:to_s).sort.to_h { |key, nested| [key, sorted_deeply(nested)] }
+    end
+
     def active_connection
       active.first || new(active: true)
     end
@@ -101,6 +123,12 @@ class LlmConnection < ApplicationRecord
   def provisioned_from_env? = persisted? && env_provisioned_at_in_database.present?
 
   def env_pending? = Setting.llm_connection.present? && !provisioned_from_env?
+
+  def env_changed_since_applied?
+    applied = env_fingerprint_in_database
+
+    configured_from_env? && applied.present? && applied != self.class.env_fingerprint
+  end
 
   def env_named_default?(llm_model)
     configured_from_env? &&

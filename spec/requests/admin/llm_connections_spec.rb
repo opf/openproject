@@ -230,6 +230,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(response.body).not_to include("have not been applied yet")
         end
 
+        it "warns once the variables differ from the ones that were applied" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => "https://old.example/v1"))
+
+          get llm_connection_path
+
+          expect(response.body).to include("have changed since they were applied")
+          expect(page).to have_field("Host URL", disabled: true)
+        end
+
+        it "does not warn while the applied variables are still the current ones" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => base_url))
+
+          get llm_connection_path
+
+          expect(response.body).not_to include("have changed since they were applied")
+        end
+
         it "does not ask for a key that cannot be entered" do
           get llm_connection_path
 
