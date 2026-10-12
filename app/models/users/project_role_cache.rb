@@ -42,14 +42,21 @@ class Users::ProjectRoleCache
   private
 
   def roles(context)
-    # Return all roles if user is admin
-    return all_givable_roles if user.admin?
+    return all_givable_roles if admin_with_all_roles?(context)
 
     # Project is nil if checking global role
     # No roles on archived projects, unless the active state is being changed
     return [] if context.is_a?(Project) && archived?(context)
 
     ::Authorization.roles(user, context).eager_load(:role_permissions).to_a
+  end
+
+  def admin_with_all_roles?(context)
+    if context.is_a?(Project)
+      user.admin_in_project?(context)
+    else
+      user.admin?
+    end
   end
 
   def cache
