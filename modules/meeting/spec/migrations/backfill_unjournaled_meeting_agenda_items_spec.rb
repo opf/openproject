@@ -34,28 +34,34 @@ require Rails.root.join("modules/meeting/db/migrate/20261010090000_backfill_unjo
 RSpec.describe BackfillUnjournaledMeetingAgendaItems, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.new.migrate(:up) } }
 
+  def meeting_created_at = Time.zone.local(2026, 1, 1, 9)
+  def backlog_journaled_at = Time.zone.local(2026, 1, 1, 9, 10)
+  def unjournaled_item_added_at = Time.zone.local(2026, 1, 1, 9, 30)
+  def journaled_item_added_at = Time.zone.local(2026, 1, 1, 10)
+  def journaled_item_changed_at = Time.zone.local(2026, 1, 1, 11)
+
   # Journal 1: the meeting is created. Journal 2: its backlog is journaled.
-  shared_let(:meeting) { travel_to(3.hours.ago) { create(:meeting) } }
+  shared_let(:meeting) { travel_to(meeting_created_at) { create(:meeting) } }
 
   before_all do
-    travel_to(170.minutes.ago) { meeting.touch_and_save_journals }
+    travel_to(backlog_journaled_at) { meeting.touch_and_save_journals }
   end
 
   # Created while journal 2 was the current one, but never journaled.
   shared_let(:unjournaled_item) do
-    travel_to(150.minutes.ago) { create(:meeting_agenda_item, meeting:, title: "Never journaled") }
+    travel_to(unjournaled_item_added_at) { create(:meeting_agenda_item, meeting:, title: "Never journaled") }
   end
 
   # Journal 3: an agenda item is added and journaled.
-  shared_let(:journaled_item) { travel_to(2.hours.ago) { create(:meeting_agenda_item, meeting:) } }
+  shared_let(:journaled_item) { travel_to(journaled_item_added_at) { create(:meeting_agenda_item, meeting:) } }
 
   before_all do
-    travel_to(2.hours.ago) { meeting.touch_and_save_journals }
+    travel_to(journaled_item_added_at) { meeting.touch_and_save_journals }
   end
 
   # Journal 4: the journaled item is changed.
   before_all do
-    travel_to(1.hour.ago) do
+    travel_to(journaled_item_changed_at) do
       journaled_item.update!(title: "Changed")
       meeting.touch_and_save_journals
     end

@@ -36,24 +36,34 @@ RSpec.describe CreateMeetingSectionJournals, type: :model do
 
   shared_let(:presenter) { create(:user) }
 
+  def meeting_created_at = Time.zone.local(2026, 1, 1, 9)
+  def first_section_added_at = Time.zone.local(2026, 1, 1, 10)
+  def second_section_added_at = Time.zone.local(2026, 1, 1, 11)
+
   # Journal 1: only the backlog exists.
-  shared_let(:meeting) { travel_to(3.hours.ago) { create(:meeting) } }
+  shared_let(:meeting) { travel_to(meeting_created_at) { create(:meeting) } }
 
   # Journal 2: the first section and an agenda item in it are added.
-  shared_let(:first_section) { travel_to(2.hours.ago) { create(:meeting_section, meeting:, title: "Discussion") } }
+  shared_let(:first_section) do
+    travel_to(first_section_added_at) { create(:meeting_section, meeting:, title: "Discussion") }
+  end
   shared_let(:agenda_item) do
-    travel_to(2.hours.ago) { create(:meeting_agenda_item, meeting:, meeting_section: first_section, presenter:) }
+    travel_to(first_section_added_at) do
+      create(:meeting_agenda_item, meeting:, meeting_section: first_section, presenter:)
+    end
   end
 
   before_all do
-    travel_to(2.hours.ago) { meeting.touch_and_save_journals }
+    travel_to(first_section_added_at) { meeting.touch_and_save_journals }
   end
 
   # Journal 3: a second section is added and the agenda item moved into it.
-  shared_let(:second_section) { travel_to(1.hour.ago) { create(:meeting_section, meeting:, title: "Decisions") } }
+  shared_let(:second_section) do
+    travel_to(second_section_added_at) { create(:meeting_section, meeting:, title: "Decisions") }
+  end
 
   before_all do
-    travel_to(1.hour.ago) do
+    travel_to(second_section_added_at) do
       agenda_item.update!(meeting_section: second_section)
       meeting.touch_and_save_journals
     end

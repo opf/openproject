@@ -34,33 +34,43 @@ require Rails.root.join("modules/meeting/db/migrate/20261012100000_create_meetin
 RSpec.describe CreateMeetingOutcomeJournals, type: :model do
   subject(:migrate) { ActiveRecord::Migration.suppress_messages { described_class.new.migrate(:up) } }
 
+  def meeting_created_at = Time.zone.local(2026, 1, 1, 9)
+  def first_item_journaled_at = Time.zone.local(2026, 1, 1, 9, 10)
+  def other_meeting_outcome_recorded_at = Time.zone.local(2026, 1, 1, 9, 30)
+  def first_outcome_recorded_at = Time.zone.local(2026, 1, 1, 10)
+  def item_moved_at = Time.zone.local(2026, 1, 1, 11)
+
   # Journal 1: the meeting is created. Journal 2: only the first agenda item exists.
-  shared_let(:meeting) { travel_to(3.hours.ago) { create(:meeting) } }
-  shared_let(:first_item) { travel_to(3.hours.ago) { create(:meeting_agenda_item, meeting:) } }
+  shared_let(:meeting) { travel_to(meeting_created_at) { create(:meeting) } }
+  shared_let(:first_item) { travel_to(meeting_created_at) { create(:meeting_agenda_item, meeting:) } }
 
   before_all do
-    travel_to(170.minutes.ago) { meeting.touch_and_save_journals }
+    travel_to(first_item_journaled_at) { meeting.touch_and_save_journals }
   end
 
   # Not yet part of the meeting: its outcome exists before journal 3 but its agenda item only joins in journal 4.
   shared_let(:other_meeting) { create(:meeting) }
-  shared_let(:moved_item) { travel_to(150.minutes.ago) { create(:meeting_agenda_item, meeting: other_meeting) } }
+  shared_let(:moved_item) do
+    travel_to(other_meeting_outcome_recorded_at) { create(:meeting_agenda_item, meeting: other_meeting) }
+  end
   shared_let(:moved_item_outcome) do
-    travel_to(150.minutes.ago) { create(:meeting_outcome, meeting_agenda_item: moved_item, notes: "Moved along") }
+    travel_to(other_meeting_outcome_recorded_at) do
+      create(:meeting_outcome, meeting_agenda_item: moved_item, notes: "Moved along")
+    end
   end
 
   # Journal 3: an outcome is recorded for the first agenda item.
   shared_let(:first_outcome) do
-    travel_to(2.hours.ago) { create(:meeting_outcome, meeting_agenda_item: first_item, notes: "Agreed") }
+    travel_to(first_outcome_recorded_at) { create(:meeting_outcome, meeting_agenda_item: first_item, notes: "Agreed") }
   end
 
   before_all do
-    travel_to(2.hours.ago) { meeting.touch_and_save_journals }
+    travel_to(first_outcome_recorded_at) { meeting.touch_and_save_journals }
   end
 
   # Journal 4: the other agenda item is moved into the meeting.
   before_all do
-    travel_to(1.hour.ago) do
+    travel_to(item_moved_at) do
       moved_item.update!(meeting:, meeting_section: meeting.sections.first || meeting.own_backlog)
       meeting.touch_and_save_journals
     end
