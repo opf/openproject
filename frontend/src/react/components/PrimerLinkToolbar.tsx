@@ -27,13 +27,14 @@
 
 import { LinkToolbarExtension } from '@blocknote/core/extensions';
 import {
-  ComponentProps, ComponentsContext, GenericPopover, LinkToolbar, LinkToolbarProps, PortalElementOverride, preventFocusOnTap,
+  ComponentProps, ComponentsContext, DeleteLinkButton, EditLinkButton, GenericPopover, LinkToolbar, LinkToolbarProps, OpenLinkButton, PortalElementOverride, preventFocusOnTap,
   useBlockNoteEditor, useComponentsContext, useEditorDOMElement, useExtension,
 } from '@blocknote/react';
 import { flip, offset, safePolygon } from '@floating-ui/react';
+import { LinkExternalIcon, UnlinkIcon } from '@primer/octicons-react';
 import { Button, IconButton, Stack } from '@primer/react';
 import {
-  useEffect, useMemo, useState,
+  createContext, useContext, useEffect, useMemo, useState,
 } from 'react';
 import type { PropsWithChildren } from 'react';
 
@@ -44,10 +45,13 @@ function LinkToolbarRoot({ children }:ComponentProps['LinkToolbar']['Root']) {
   return <Stack className="op-blocknote-link-toolbar" direction="horizontal" gap="none">{children}</Stack>;
 }
 
+const LinkIcon = createContext<typeof LinkExternalIcon | undefined>(undefined);
+
 function LinkButton({ children, label, mainTooltip, icon, isSelected: _isSelected, isDisabled, ...props }:ComponentProps['LinkToolbar']['Button']) {
+  const Icon = useContext(LinkIcon);
   return children
     ? <Button {...props} variant="invisible" size="medium" disabled={isDisabled} onMouseDown={preventFocusOnTap}>{children}</Button>
-    : <IconButton {...props} icon={icon} aria-label={label ?? mainTooltip ?? ''} size="medium"
+    : <IconButton {...props} icon={Icon ? <Icon /> : icon} aria-label={label ?? mainTooltip ?? ''} size="medium"
         variant="invisible" disabled={isDisabled} onMouseDown={preventFocusOnTap} />;
 }
 
@@ -130,6 +134,7 @@ function FloatingLinkToolbar() {
   }, [active, editor, element, frozen, links]);
 
   if (!active || !editor.isEditable) return null;
+  const controls = { url: active.url, text: active.text, range: active.range, setToolbarOpen: setOpen, setToolbarPositionFrozen: setFrozen };
   return (
     <GenericPopover reference={active.reference}
       useFloatingOptions={{
@@ -142,8 +147,11 @@ function FloatingLinkToolbar() {
       }}
       useHoverProps={{ enabled: active.source === 'hover', delay: { open: 250, close: 250 }, handleClose: safePolygon() }}
       focusManagerProps={{ disabled: true }} elementProps={{ style: { zIndex: 50 } }}>
-      <LinkToolbar url={active.url} text={active.text} range={active.range}
-        setToolbarOpen={setOpen} setToolbarPositionFrozen={setFrozen} />
+      <LinkToolbar {...controls}>
+        <EditLinkButton {...controls} />
+        <LinkIcon.Provider value={LinkExternalIcon}><OpenLinkButton url={active.url} /></LinkIcon.Provider>
+        <LinkIcon.Provider value={UnlinkIcon}><DeleteLinkButton range={active.range} setToolbarOpen={setOpen} /></LinkIcon.Provider>
+      </LinkToolbar>
     </GenericPopover>
   );
 }

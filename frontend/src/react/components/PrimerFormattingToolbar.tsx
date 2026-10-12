@@ -26,21 +26,60 @@
 //++
 
 import {
-  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, FileCaptionButton, FileRenameButton, FileReplaceButton, NestBlockButton,
+  AddCommentButton, AddTiptapCommentButton, BasicTextStyleButton, blockTypeSelectItems, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, FileCaptionButton, FileDeleteButton, FileDownloadButton, FilePreviewButton, FileRenameButton, FileReplaceButton, NestBlockButton,
   PortalElementOverride, preventFocusOnTap, TableCellMergeButton, TextAlignButton, UnnestBlockButton,
   useBlockNoteEditor, useComponentsContext, usePortalElement, useUIMode,
 } from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
+import {
+  BoldIcon, CodeIcon, CommentIcon, DownloadIcon, EyeIcon, ItalicIcon, LinkIcon, ListOrderedIcon, ListUnorderedIcon,
+  NoteIcon, PencilIcon, QuoteIcon, StrikethroughIcon, TasklistIcon, TrashIcon, TypographyIcon,
+} from '@primer/octicons-react';
 import { ActionBar, ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
 import { PrimerReplaceButton } from './PrimerFilePanel';
 import { PrimerToolbarForm } from './PrimerToolbarForm';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
-import { Children, createContext, isValidElement, useContext, useLayoutEffect, useMemo } from 'react';
+import { Children, createContext, isValidElement, ReactElement, ReactNode, useContext, useLayoutEffect, useMemo } from 'react';
 
 type Toolbar = ComponentProps['FormattingToolbar'];
 
 const InActionBar = createContext(false);
 const actionButtons = [TextAlignButton, NestBlockButton, UnnestBlockButton, TableCellMergeButton];
+
+const ToolbarIcon = createContext<typeof BoldIcon | undefined>(undefined);
+const styles:Partial<Record<string, typeof BoldIcon>> = { bold: BoldIcon, italic: ItalicIcon, strike: StrikethroughIcon, code: CodeIcon };
+const blockIcons:Partial<Record<string, typeof BoldIcon>> = {
+  paragraph: TypographyIcon, quote: QuoteIcon, bulletListItem: ListUnorderedIcon, numberedListItem: ListOrderedIcon, checkListItem: TasklistIcon,
+};
+const buttons = new Map<ReactElement['type'], typeof BoldIcon>([
+  [FileCaptionButton, NoteIcon], [FileRenameButton, PencilIcon], [FileDeleteButton, TrashIcon], [FileDownloadButton, DownloadIcon],
+  [FilePreviewButton, EyeIcon], [CreateLinkButton, LinkIcon], [AddCommentButton, CommentIcon], [AddTiptapCommentButton, CommentIcon],
+]);
+
+function PrimerBlockTypeSelect() {
+  const editor = useBlockNoteEditor();
+  const items = useMemo(() => blockTypeSelectItems(editor.dictionary).map((item) => {
+    const Icon = blockIcons[item.type];
+    return Icon ? { ...item, icon: () => <Icon /> } : item;
+  }), [editor]);
+  return <BlockNoteBlockTypeSelect items={items} />;
+}
+
+function renderControl(control:ReactNode) {
+  if (!isValidElement<{ basicTextStyle?:string, items?:unknown }>(control)) return control;
+  if (control.type === BlockNoteBlockTypeSelect && !control.props.items) return <PrimerBlockTypeSelect key={control.key} />;
+  if (control.type === FileReplaceButton) return <PrimerReplaceButton key={control.key} />;
+
+  const Icon = control.type === BasicTextStyleButton && control.props.basicTextStyle
+    ? styles[control.props.basicTextStyle] : buttons.get(control.type);
+  if (!Icon) return control;
+  const live = control.type === FileCaptionButton || control.type === FileRenameButton;
+  return (
+    <ToolbarIcon.Provider key={control.key} value={Icon}>
+      {live || control.type === CreateLinkButton ? <PrimerToolbarForm live={live}>{control}</PrimerToolbarForm> : control}
+    </ToolbarIcon.Provider>
+  );
+}
 
 function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar['Root']) {
   const portalElement = usePortalElement();
@@ -53,15 +92,7 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
 
   const mobile = useUIMode() === 'mobile';
   const label = window.I18n.t('js.blocknote.formatting_toolbar');
-  const controls = Children.toArray(children).map((control) => {
-    if (!isValidElement(control)) return control;
-    if (control.type === FileReplaceButton) return <PrimerReplaceButton key={control.key} />;
-    if (control.type === FileCaptionButton || control.type === FileRenameButton) {
-      return <PrimerToolbarForm key={control.key} live>{control}</PrimerToolbarForm>;
-    }
-    if (control.type === CreateLinkButton) return <PrimerToolbarForm key={control.key}>{control}</PrimerToolbarForm>;
-    return control;
-  });
+  const controls = Children.toArray(children);
   const isAction = (control:typeof controls[number]) => isValidElement(control) && actionButtons.some((type) => type === control.type);
   const isStyle = (control:typeof controls[number]) => isValidElement(control) && control.type === BasicTextStyleButton;
   const isPicker = (control:typeof controls[number]) => isValidElement(control) && control.type === BlockNoteBlockTypeSelect;
@@ -77,16 +108,16 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
       onMouseLeave={onMouseLeave}
     >
       <PrimerActionMenus returnFocusToEditor>
-        {mobile ? controls : (
+        {mobile ? controls.map(renderControl) : (
           <>
-            {controls.filter(isPicker)}
+            {controls.filter(isPicker).map(renderControl)}
             <ActionBar flush size="medium" gap="none" aria-label={label}>
               <InActionBar.Provider value>
-                <ActionBar.Group>{controls.filter(isStyle)}</ActionBar.Group>
-                {controls.filter(isAction)}
+                <ActionBar.Group>{controls.filter(isStyle).map(renderControl)}</ActionBar.Group>
+                {controls.filter(isAction).map(renderControl)}
               </InActionBar.Provider>
             </ActionBar>
-            {controls.filter((control) => !isPicker(control) && !isAction(control) && !isStyle(control))}
+            {controls.filter((control) => !isPicker(control) && !isAction(control) && !isStyle(control)).map(renderControl)}
           </>
         )}
       </PrimerActionMenus>
@@ -97,6 +128,7 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
 function ToolbarButton({
   children, icon, isSelected, isDisabled, label, mainTooltip, secondaryTooltip, variant, ...rest
 }:Toolbar['Button']) {
+  const Icon = useContext(ToolbarIcon);
   const inActionBar = useContext(InActionBar);
   const editor = useBlockNoteEditor();
   const props = {
@@ -114,7 +146,7 @@ function ToolbarButton({
     return (
       <ActionBar.IconButton
         {...props}
-        icon={icon}
+        icon={Icon ? <Icon /> : icon}
         aria-label={isSelected ? window.I18n.t('js.blocknote.active_format', { format: name }) : name}
         keybindingHint={secondaryTooltip?.replace(/^(⌘|Ctrl)\+/, 'Mod+')}
         onClick={(event) => {
@@ -133,7 +165,7 @@ function ToolbarButton({
   return (
     <IconButton
       {...props}
-      icon={icon}
+      icon={Icon ? <Icon /> : icon}
       aria-label={mainTooltip ?? label ?? ''}
       keybindingHint={secondaryTooltip?.replace(/^(⌘|Ctrl)\+/, 'Mod+')}
     />

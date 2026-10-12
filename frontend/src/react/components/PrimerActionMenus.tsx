@@ -26,6 +26,7 @@
 //++
 
 import { ComponentProps, ComponentsContext, useBlockNoteEditor, useComponentsContext, useDictionary, useUIMode } from '@blocknote/react';
+import { GrabberIcon, PlusIcon } from '@primer/octicons-react';
 import { ActionList, ActionMenu, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
 import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, useContext, useEffect, useId, useMemo } from 'react';
 
@@ -131,13 +132,18 @@ const HandleButton = forwardRef<HTMLButtonElement, Menu['Button']>(
     const name = label ?? anchorLabel;
     if (!name) return <button type="button" ref={ref} {...button}>{icon ?? children}</button>;
 
+    return <IconButton {...button} ref={ref} aria-label={name} icon={icon ?? children} variant="invisible" size="small" />;
+  },
+);
+
+const SideMenuButton = forwardRef<HTMLButtonElement, Menu['Button']>(
+  function SideMenuButton({ icon, ...button }, ref) {
+    if (button.draggable) return <HandleButton ref={ref} {...button} icon={<GrabberIcon data-test="dragHandle" />} />;
     // BlockNote 0.55 puts the add-block action on its icon (SE-661).
     if (isValidElement<{ onClick?:() => void }>(icon) && icon.props.onClick && !button.onClick) {
-      return <IconButton {...button} ref={ref} aria-label={name} icon={cloneElement(icon, { onClick: undefined })}
-        onClick={icon.props.onClick} variant="invisible" size="small" />;
+      return <HandleButton ref={ref} {...button} icon={<PlusIcon data-test="dragHandleAdd" />} onClick={icon.props.onClick} />;
     }
-
-    return <IconButton {...button} ref={ref} aria-label={name} icon={icon ?? children} variant="invisible" size="small" />;
+    return <HandleButton ref={ref} {...button} icon={icon} />;
   },
 );
 
@@ -154,7 +160,7 @@ export function PrimerActionMenus({ children, label, returnFocusToEditor = false
   const mode = useUIMode();
   const value = useMemo(() => ({
     ...components,
-    SideMenu: { ...components.SideMenu, Button: HandleButton },
+    SideMenu: { ...components.SideMenu, Button: SideMenuButton },
     TableHandle: { ...components.TableHandle, Root: HandleButton, ExtendButton: HandleButton },
     Generic: {
       ...components.Generic,

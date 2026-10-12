@@ -26,9 +26,34 @@
 //++
 
 import { DefaultReactSuggestionItem, SuggestionMenuProps, useDictionary } from '@blocknote/react';
+import {
+  CodeSquareIcon, FileIcon, HorizontalRuleIcon, ImageIcon, ListOrderedIcon, ListUnorderedIcon, QuoteIcon,
+  SmileyIcon, TableIcon, TasklistIcon, TypographyIcon, UnmuteIcon, VideoIcon,
+} from '@primer/octicons-react';
 import { ActionList, Spinner } from '@primer/react';
 import { KeybindingHint } from '@primer/react/experimental';
 import { useEffect, useRef } from 'react';
+
+const commandIcons:Partial<Record<string, typeof FileIcon>> = {
+  audio: UnmuteIcon,
+  bullet_list: ListUnorderedIcon,
+  check_list: TasklistIcon,
+  code_block: CodeSquareIcon,
+  divider: HorizontalRuleIcon,
+  emoji: SmileyIcon,
+  file: FileIcon,
+  image: ImageIcon,
+  numbered_list: ListOrderedIcon,
+  paragraph: TypographyIcon,
+  quote: QuoteIcon,
+  table: TableIcon,
+  video: VideoIcon,
+};
+
+function commandIcon(item:DefaultReactSuggestionItem) {
+  const Icon = 'key' in item && typeof item.key === 'string' ? commandIcons[item.key] : undefined;
+  return Icon ? <Icon /> : item.icon;
+}
 
 export function PrimerSlashMenu({ items, selectedIndex, onItemClick, loadingState }:SuggestionMenuProps<DefaultReactSuggestionItem>) {
   const dictionary = useDictionary();
@@ -57,7 +82,7 @@ export function PrimerSlashMenu({ items, selectedIndex, onItemClick, loadingStat
               tabIndex={-1}
               onSelect={() => onItemClick?.(item)}
             >
-              {item.icon && <ActionList.LeadingVisual>{item.icon}</ActionList.LeadingVisual>}
+              {item.icon && <ActionList.LeadingVisual>{commandIcon(item)}</ActionList.LeadingVisual>}
               {item.title}
               {item.subtext && <ActionList.Description variant="block">{item.subtext}</ActionList.Description>}
               {item.badge && (
