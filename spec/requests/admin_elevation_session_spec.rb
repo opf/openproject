@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin privilege elevation for session requests",
+RSpec.describe "Admin privilege elevation for Rails requests",
                :skip_csrf,
                type: :rails_request,
                with_flag: { admin_privilege_elevation: true } do
@@ -38,74 +38,97 @@ RSpec.describe "Admin privilege elevation for session requests",
   shared_let(:admin) { create(:admin, password:, password_confirmation: password) }
   shared_let(:project) { create(:project, public: false) }
 
-  let(:browser) { ActionDispatch::Integration::Session.new(Rails.application) }
-  let(:session_id) { browser.request.session.id.private_id }
-  let(:project_settings_path) { "/projects/#{project.identifier}/settings/general" }
-
-  def get_project_settings
-    browser.get project_settings_path
-    browser.response
+  let(:browser) do
+    ActionDispatch::Integration::Session.new(Rails.application).tap { it.host! Setting.host_name }
   end
 
-  before do
-    browser.host! Setting.host_name
-    browser.post "/login", params: { username: admin.login, password: }
-    5.times do
-      break unless browser.response.redirect?
+  context "when authenticated by the session" do
+    let(:session_id) { browser.request.session.id.private_id }
+    let(:project_settings_path) { "/projects/#{project.identifier}/settings/general" }
 
-      browser.follow_redirect!
+    def get_project_settings
+      browser.get project_settings_path
+      browser.response
+    end
+
+    before do
+      browser.post "/login", params: { username: admin.login, password: }
+      5.times do
+        break unless browser.response.redirect?
+
+        browser.follow_redirect!
+      end
+    end
+
+    context "without an elevation" do
+      it "denies access to the project settings" do
+        expect(get_project_settings).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an active elevation for the project in the session" do
+      before { create(:admin_elevation_session, user: admin, project:, session_id:) }
+
+      it "grants access to the project settings" do
+        expect(get_project_settings).to have_http_status(:ok)
+      end
+    end
+
+    context "with an active elevation for the project in another session" do
+      before { create(:admin_elevation_session, user: admin, project:, session_id: "other") }
+
+      it "denies access to the project settings" do
+        expect(get_project_settings).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an ended elevation for the project in the session" do
+      before { create(:admin_elevation_session, user: admin, project:, session_id:, ended_at: Time.current) }
+
+      it "denies access to the project settings" do
+        expect(get_project_settings).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an idle elevation for the project in the session" do
+      before { create(:admin_elevation_session, user: admin, project:, session_id:, last_used_at: 1.day.ago) }
+
+      it "denies access to the project settings" do
+        expect(get_project_settings).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an active elevation for another project in the session" do
+      before { create(:admin_elevation_session, user: admin, project: create(:project), session_id:) }
+
+      it "denies access to the project settings" do
+        expect(get_project_settings).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "grants access to the project settings without an elevation" do
+        expect(get_project_settings).to have_http_status(:ok)
+      end
     end
   end
 
-  context "without an elevation" do
-    it "denies access to the project settings" do
-      expect(get_project_settings).to have_http_status(:forbidden)
+  context "when authenticated by an RSS key" do
+    let(:rss_token) { create(:rss_token, user: admin) }
+
+    def get_news_feed
+      browser.get "/projects/#{project.identifier}/news.atom", params: { key: rss_token.plain_value }
+      browser.response
     end
-  end
 
-  context "with an active elevation for the project in the session" do
-    before { create(:admin_elevation_session, user: admin, project:, session_id:) }
-
-    it "grants access to the project settings" do
-      expect(get_project_settings).to have_http_status(:ok)
+    it "grants access to the news feed without an elevation" do
+      expect(get_news_feed).to have_http_status(:ok)
     end
-  end
 
-  context "with an active elevation for the project in another session" do
-    before { create(:admin_elevation_session, user: admin, project:, session_id: "other") }
-
-    it "denies access to the project settings" do
-      expect(get_project_settings).to have_http_status(:forbidden)
-    end
-  end
-
-  context "with an ended elevation for the project in the session" do
-    before { create(:admin_elevation_session, user: admin, project:, session_id:, ended_at: Time.current) }
-
-    it "denies access to the project settings" do
-      expect(get_project_settings).to have_http_status(:forbidden)
-    end
-  end
-
-  context "with an idle elevation for the project in the session" do
-    before { create(:admin_elevation_session, user: admin, project:, session_id:, last_used_at: 1.day.ago) }
-
-    it "denies access to the project settings" do
-      expect(get_project_settings).to have_http_status(:forbidden)
-    end
-  end
-
-  context "with an active elevation for another project in the session" do
-    before { create(:admin_elevation_session, user: admin, project: create(:project), session_id:) }
-
-    it "denies access to the project settings" do
-      expect(get_project_settings).to have_http_status(:forbidden)
-    end
-  end
-
-  context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
-    it "grants access to the project settings without an elevation" do
-      expect(get_project_settings).to have_http_status(:ok)
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "grants access to the news feed without an elevation" do
+        expect(get_news_feed).to have_http_status(:ok)
+      end
     end
   end
 end
