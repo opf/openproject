@@ -87,7 +87,7 @@ export interface ICKEditorInstance {
 export interface ICKEditorStatic {
   create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
 
-  createCustomized(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
+  createCustomized(el:HTMLElement, config?:unknown):Promise<ICKEditorInstance>;
 
   defaultConfig?:{ toolbar?:{ items:string[] } };
 
