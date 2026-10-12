@@ -30,9 +30,14 @@
 
 module PwaHelper
   SHORT_NAME_MAX_LENGTH = 12
+  OFFLINE_WORDMARK = Rails.root.join("app/assets/images/logo_openproject_white_big.png")
 
   def pwa_short_name(title = Setting.app_title)
     [title, title.split.first].compact.find { it.length <= SHORT_NAME_MAX_LENGTH }
+  end
+
+  def pwa_offline_wordmark_data_uri
+    "data:image/png;base64,#{Base64.strict_encode64(OFFLINE_WORDMARK.binread)}"
   end
 
   def pwa_theme_color_tags

@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
     get "manifest" => "rails/pwa#manifest", as: :pwa_manifest, format: false, defaults: { format: :json }
+    get "offline" => "pwa/offline#show", as: :pwa_offline, format: false
   end
 
   # Route for error pages
