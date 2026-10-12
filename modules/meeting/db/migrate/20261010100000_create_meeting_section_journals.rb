@@ -6,7 +6,7 @@ class CreateMeetingSectionJournals < ActiveRecord::Migration[8.1]
       t.integer :journal_id, null: false
       t.bigint :section_id, null: false
       t.string :title
-      t.integer :position, null: false
+      t.integer :position
       t.boolean :backlog, default: false, null: false
     end
 
