@@ -87,11 +87,18 @@ RSpec.describe Token::API do
       expect(token.expires_on).to eq(berlin.local(2026, 10, 12).end_of_day)
     end
 
-    it "clears the expiry when blank" do
+    it "clears the expiry when nil" do
       token.expires_on = 1.day.from_now
-      token.expires_on_date = ""
+      token.expires_on_date = nil
 
       expect(token.expires_on).to be_nil
+    end
+
+    it "rejects a blank date" do
+      token.expires_on_date = ""
+
+      expect(token).not_to be_valid
+      expect(token.errors.symbols_for(:expires_on)).to contain_exactly(:blank)
     end
 
     it "reads back the date in the user's time zone" do

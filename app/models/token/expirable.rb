@@ -39,7 +39,7 @@ module Token
       scope :not_expired, -> { where(expires_on: nil).or(where(expires_on: Time.current..)) }
 
       validate :validate_expires_on_in_future, if: :expires_on_changed?
-      validate :validate_expires_on_date_format
+      validate :validate_expires_on_date
     end
 
     def expired?
@@ -51,16 +51,16 @@ module Token
     end
 
     def expires_on_date=(date_or_iso_string)
-      @invalid_expires_on_date = false
+      @expires_on_date_error = nil
 
       date = case date_or_iso_string
              when Date then date_or_iso_string
-             when String then Date.iso8601(date_or_iso_string) if date_or_iso_string.present?
+             when String then Date.iso8601(date_or_iso_string)
              end
 
       self.expires_on = date&.in_time_zone(user.time_zone)&.end_of_day
     rescue Date::Error
-      @invalid_expires_on_date = true
+      @expires_on_date_error = date_or_iso_string.blank? ? :blank : :not_a_date
     end
 
     private
@@ -69,8 +69,8 @@ module Token
       errors.add(:expires_on, :datetime_must_be_in_future) if expired?
     end
 
-    def validate_expires_on_date_format
-      errors.add(:expires_on, :not_a_date) if @invalid_expires_on_date
+    def validate_expires_on_date
+      errors.add(:expires_on, @expires_on_date_error) if @expires_on_date_error
     end
   end
 end

@@ -129,6 +129,14 @@ RSpec.describe My::AccessTokensController do
         expect(user.api_tokens.last.expires_on).to be_nil
       end
 
+      it "re-renders the form with an error for an empty custom date" do
+        generate(expiry: "custom", expires_on_date: "")
+
+        expect(response).to have_http_status(:bad_request)
+        expect(user.api_tokens).to be_empty
+        expect(response.body).to include("Expiration date can&#39;t be blank.")
+      end
+
       it "re-renders the form with an error for a past custom date" do
         generate(expiry: "custom", expires_on_date: (berlin.today - 1.day).iso8601)
 
