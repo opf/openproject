@@ -143,33 +143,23 @@ RSpec.describe AdminElevationSession do
     end
   end
 
-  describe "#use!" do
-    let(:elevation_session) { create(:admin_elevation_session, user: admin, project:, last_used_at: 10.minutes.ago) }
+  describe ".covering" do
+    shared_let(:child) { create(:project, parent: project) }
+    shared_let(:sibling) { create(:project) }
 
-    it "moves the last use to now" do
-      freeze_time do
-        elevation_session.use!
-
-        expect(elevation_session.reload.last_used_at).to eq(Time.current)
-      end
+    let!(:for_project) { create(:admin_elevation_session, user: admin, project:) }
+    let!(:for_project_with_subprojects) do
+      create(:admin_elevation_session, user: admin, project:, include_subprojects: true)
     end
-  end
+    let!(:for_child) { create(:admin_elevation_session, user: admin, project: child) }
+    let!(:for_sibling) { create(:admin_elevation_session, user: admin, project: sibling) }
 
-  describe "#end!" do
-    let(:elevation_session) { create(:admin_elevation_session, user: admin, project:) }
-
-    it "sets the end to now" do
-      freeze_time do
-        elevation_session.end!
-
-        expect(elevation_session.reload.ended_at).to eq(Time.current)
-      end
+    it "returns the elevation sessions for the project itself" do
+      expect(described_class.covering(project)).to contain_exactly(for_project, for_project_with_subprojects)
     end
 
-    it "makes the elevation session inactive" do
-      elevation_session.end!
-
-      expect(described_class.active).not_to include(elevation_session)
+    it "returns the elevation sessions for the project and those including it as a subproject" do
+      expect(described_class.covering(child)).to contain_exactly(for_child, for_project_with_subprojects)
     end
   end
 end
