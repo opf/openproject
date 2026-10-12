@@ -42,12 +42,11 @@ module MeetingAgendaItems
       # The reload is required because, the time slot calculations are changing the
       # `start_time`, `end_time` attributes and they should be available for rendering.
       call.result.reload
+      copy_attachments_from_source(call.result)
+
       super
 
-      if call.success?
-        copy_attachments_from_source(call.result)
-        journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
-      end
+      journalize_agenda_item(call.result, Journal::CausedByMeetingAgendaItemAdded.new(call.result.meeting))
 
       call
     end

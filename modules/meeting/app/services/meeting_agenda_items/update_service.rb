@@ -43,13 +43,12 @@ module MeetingAgendaItems
     end
 
     def after_perform(call)
+      copy_attachments_from_meeting(call.result, @old_meeting_id)
+
       super
 
-      if call.success?
-        copy_attachments_from_meeting(call.result, @old_meeting_id)
-        journalize_move(call.result)
-        journalize_source_meeting(call.result)
-      end
+      journalize_move(call.result)
+      journalize_source_meeting(call.result)
 
       call
     end
