@@ -2476,7 +2476,9 @@ en:
     run:
       no_findings: "No findings"
       no_findings_description: "Everything that was checked is consistent."
-      review_running: "The rules are checked. The AI review is in progress; its findings appear here."
+      review_running: "The AI review is in progress. Its findings appear below the rule findings."
+      review_running_description: "The rules found nothing. The AI findings appear here when the review is done."
+      review_running_title: "Reviewing the work package…"
       not_checked: "Not checked"
       run_again: "Run again"
       started_at: "Checked at %{time}. Only you can see this result."

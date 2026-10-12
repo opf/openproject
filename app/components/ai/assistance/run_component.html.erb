@@ -34,14 +34,19 @@
     <%= t("ai_assistance.run.started_at", time: started_at) %>
   <% end %>
 
-  <% if run.ai_running? %>
-    <%= render(Primer::Alpha::Banner.new(icon: :sparkle, mb: 3, data: { test_selector: "ai-assistance-review-running" })) do %>
-      <%= t("ai_assistance.run.review_running") %>
+  <% if run.ai_running? && findings.any? %>
+    <%= render(Primer::Box.new(display: :flex, align_items: :center, mb: 3, data: { test_selector: "ai-assistance-review-running" })) do %>
+      <%= render(Primer::Beta::Spinner.new(size: :small, mr: 2)) %>
+      <%= render(Primer::Beta::Text.new(color: :muted)) { t("ai_assistance.run.review_running") } %>
     <% end %>
   <% end %>
 
   <% if findings.empty? && run.ai_running? %>
-    <%= render(Primer::Alpha::SkeletonBox.new(height: "80px")) %>
+    <%= render(Primer::Beta::Blankslate.new(border: true, data: { test_selector: "ai-assistance-review-running" })) do |slate| %>
+      <% slate.with_visual_spinner(size: :large) %>
+      <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.run.review_running_title")) %>
+      <% slate.with_description { t("ai_assistance.run.review_running_description") } %>
+    <% end %>
   <% elsif findings.empty? %>
     <%= render(Primer::Beta::Blankslate.new(border: true, data: { test_selector: "ai-assistance-no-findings" })) do |slate| %>
       <% slate.with_visual_icon(icon: :"check-circle") %>
