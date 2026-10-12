@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe AI::AssistantRuns::Judgement do
+RSpec.describe AI::AssistantRuns::Review do
   shared_let(:project) { create(:project, enabled_internal_comments: true) }
   shared_let(:user) do
     create(:user, language: "de", member_with_permissions: { project => %i[view_work_packages] })
@@ -108,11 +108,11 @@ RSpec.describe AI::AssistantRuns::Judgement do
   context "when the model fails" do
     before { allow(chat).to receive(:ask).and_raise(Llm::Errors::TimeoutError, "slow") }
 
-    it "keeps the run and lists the AI judgement as not checked" do
+    it "keeps the run and lists the AI review as not checked" do
       call
 
       expect(run.reload).to be_finished
-      expect(run.not_checked).to include("area" => "ai_judgement", "reason" => "failed")
+      expect(run.not_checked).to include("area" => "ai_review", "reason" => "failed")
     end
   end
 
@@ -121,10 +121,10 @@ RSpec.describe AI::AssistantRuns::Judgement do
       allow(chat).to receive(:ask).and_return(instance_double(RubyLLM::Message, content: "plain text"))
     end
 
-    it "lists the AI judgement as not checked" do
+    it "lists the AI review as not checked" do
       call
 
-      expect(run.reload.not_checked).to include("area" => "ai_judgement", "reason" => "failed")
+      expect(run.reload.not_checked).to include("area" => "ai_review", "reason" => "failed")
     end
   end
 end

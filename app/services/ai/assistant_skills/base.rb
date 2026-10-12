@@ -62,8 +62,8 @@ module AI
           []
         end
 
-        # The class that builds the AI judgement for a run, or nil for rules only.
-        def judgement_class
+        # The class that builds the AI review for a run, or nil for rules only.
+        def review_class
           nil
         end
 

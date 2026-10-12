@@ -29,7 +29,7 @@ flowchart LR
   U([User]) -->|click| M["AI Assistance menu<br/>(Primer ActionMenu, deferred)"]
   M -->|POST runs| RS["RunService"]
   RS -->|in the request| R["Rules<br/>(tree, relations, PRs, staleness)"]
-  RS -->|LLM available| J["JudgementJob<br/>(as the user)"]
+  RS -->|LLM available| J["ReviewJob<br/>(as the user)"]
   J --> LLM["LlmConnection<br/>(structured output)"]
   R --> F[("Findings")]
   J --> F
@@ -42,7 +42,7 @@ flowchart LR
 1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame.
 2. The menu items are loaded when the menu opens (`#items`). There is one flat item for each active skill of each active assistant, and a "History" item at the end.
 3. An item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog.
-4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::JudgementJob` starts. The dialog polls `#poll` until the run is finished.
+4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::ReviewJob` starts. The dialog polls `#poll` until the run is finished.
 5. The user applies a change set (`FindingsController#apply`) or dismisses a finding, with an optional reason.
 
 ## Decisions
@@ -51,9 +51,9 @@ flowchart LR
 - **Rules and AI are separate.** The rules are deterministic, need no LLM, and always run. The AI review is optional. If it is not available or fails, the run lists it under "Not checked", and the rule findings stay.
 - **What the AI reads.** It reads only what the user can see: the work package, visible descendants and relations, and comments filtered by `journals.internal_visible`. Internal comments are included only when the user may see them. The prompt tells the model that this text is user data, not instructions.
 - **Evidence is required.** An AI finding without evidence is dropped. Findings and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
-- **Change sets are Automations actions.** `AI::AssistantRuns::ApplyProposalService` looks up each action key in `Automations::Register` and refuses keys that the skill type does not declare. For the health check, these are the new `Automations::Actions::Subject` and `Automations::Actions::Description`. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
+- **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register` and refuses keys that the skill type does not declare. For the health check, these are the new `Automations::Actions::Subject` and `Automations::Actions::Description`. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
 - **Conflicts use a strict `lockVersion`.** Each finding stores the work package version from which it was made (`base_lock_version`). If the work package changed after that, the apply fails and the user runs the check again. After a successful apply, the other open findings of the same run move to the new version, so a second change set from the same run can apply.
-- **Content guard.** A description change that removes an attachment reference, a mention or a macro cannot be applied (`AI::AssistantRuns::ContentGuard`).
+- **Content guard.** A description change that removes an attachment reference, a mention or a macro cannot be applied (`AI::Assistance::ContentGuard`).
 - **One AI job at a time** for each user, work package and skill. A second click opens the run that is in progress. An AI review that runs for more than 10 minutes is marked as timed out.
 - **Journal cause.** Each applied change set writes `Journal::CausedByAssistantSkill`, with `source` and `depth` for the loop protection of a later trigger model. The activity tab shows "AI Assistance: proposed by … and applied by the user".
 - **Automations stay the write layer.** Existing Automations do not change. The only change that admins can see is the two new action types.
@@ -66,14 +66,14 @@ The prompt is data, not code. OpenProject ships no prompt text. Each skill store
 - **Output rules** (`output_rules`): how the model answers, for example the language, the changes, and what to do with user text. `{{locale}}` becomes the locale of the user who starts the run.
 - **Template** (`template_ref`): the template in a separate prompt registry that the skill was created from. Nothing reads it yet. A later sync from the registry uses it.
 
-The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Judgement#user_message`), the answer schema, and the checks on the answer.
+The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Review#user_message`), the answer schema, and the checks on the answer.
 
 ## Chat
 
 The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An admin adds it to an assistant like any other skill, and the menu shows it among the skills. It opens a private conversation for each user, work package and skill (`ai_assistant_chats.skill_id`, `ai_assistant_chat_messages`), not a run. "New chat" starts an empty one.
 
 - **Prompt:** the skill's instructions, output rules and proposal scope. The model is the assistant's model. Without instructions, the chat is not offered.
-- **What the model gets:** the instructions and output rules, the same work package context as the health check (`AI::AssistantRuns::WorkPackageContext`) with `change_options`, and the last 20 turns.
+- **What the model gets:** the instructions and output rules, the same work package context as the health check (`AI::Assistance::WorkPackageContext`) with `change_options`, and the last 20 turns.
 - **Answer:** structured output with `answer` (Markdown, rendered with the normal text formatting) and `changes`. The changes become a proposal in the same shape as a finding's change set (`AI::Proposal`), shown with the same view and applied by the same `ApplyProposalService`. The journal cause is `Journal::CausedByAssistantChat`.
 - **Execution:** `SendMessageService` stores the question and a pending answer; `AI::AssistantChats::ReplyJob` answers as the user. The dialog polls until the answer is done or failed. Each answer has its own Details timeline.
 
@@ -89,7 +89,7 @@ A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (
 |---|---|---|
 | What the skill type can change (`changeable_attributes`) | Code | `subject`, `description`, `status`, `priority`, `start_date`, `due_date`, `assigned_to`, `responsible` |
 | The proposal scope | Admin, on the skill page | Changes |
-| Which values are valid now (`AI::AssistantRuns::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees` of `WorkPackages::UpdateContract` |
+| Which values are valid now (`AI::Assistance::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees` of `WorkPackages::UpdateContract` |
 
 The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who narrows a skill's scope after a run also blocks its open proposals.
 
@@ -149,7 +149,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 6 | Add the health check rules for linked pull requests | GitHub and GitLab rules, "Not checked" entries | 4 |
 | 7 | Add the run service, the run controllers and the run dialog | `RunService`, runs and findings controllers, dismiss, Primer dialog and history | 4 |
 | 8 | Add the AI Assistance menu to the work package toolbars | Angular slot, menu button, deferred menu items | 7 |
-| 9 | Add the AI review to the health check | Job, judgement, model choice, single-job guard, polling | 7 |
+| 9 | Add the AI review to the health check | Job, review, model choice, single-job guard, polling | 7 |
 | 10 | Apply proposed changes from AI findings | `ApplyProposalService`, content guard, diff view, toolbar refresh | 1, 9 |
 | 11 | Add admin pages for AI assistants and their skills | Admin controllers, Primer forms, menu entry | 3 |
 | 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |

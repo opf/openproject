@@ -2437,8 +2437,8 @@ en:
       raw_answer: "answer"
       request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
       rules:
-        one: "The rules found 1 finding. AI review: %{judgement}."
-        other: "The rules found %{count} findings. AI review: %{judgement}."
+        one: "The rules found 1 finding. AI review: %{review}."
+        other: "The rules found %{count} findings. AI review: %{review}."
       show: "Show %{what}"
       stored: "Stored %{stored} of %{findings} findings; %{dropped} dropped because they had no evidence or did not fit."
       system_prompt: "prompt"
@@ -2474,7 +2474,7 @@ en:
     run:
       no_findings: "No findings"
       no_findings_description: "Everything that was checked is consistent."
-      judgement_running: "The rules are checked. The AI review is in progress; its findings appear here."
+      review_running: "The rules are checked. The AI review is in progress; its findings appear here."
       not_checked: "Not checked"
       run_again: "Run again"
       started_at: "Checked at %{time}. Only you can see this result."

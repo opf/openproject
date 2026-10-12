@@ -31,7 +31,7 @@
 module AI
   # A proposed change to a work package, in the vocabulary of Automations: a target and a
   # list of actions with values. Findings of a run and answers in the chat both carry one,
-  # and AI::AssistantRuns::ApplyProposalService applies either.
+  # and AI::Assistance::ApplyProposalService applies either.
   #
   # Including classes implement:
   # - proposal_work_package, proposal_user

@@ -42,7 +42,7 @@ module AI
              inverse_of: :run,
              dependent: :delete_all
 
-    # running: the rules run. ai_running: the rules are done and the AI judgement job runs.
+    # running: the rules run. ai_running: the rules are done and the AI review job runs.
     enum :status, {
       running: "running",
       ai_running: "ai_running",

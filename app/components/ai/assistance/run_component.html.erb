@@ -35,8 +35,8 @@
   <% end %>
 
   <% if run.ai_running? %>
-    <%= render(Primer::Alpha::Banner.new(icon: :sparkle, mb: 3, data: { test_selector: "ai-assistance-judgement-running" })) do %>
-      <%= t("ai_assistance.run.judgement_running") %>
+    <%= render(Primer::Alpha::Banner.new(icon: :sparkle, mb: 3, data: { test_selector: "ai-assistance-review-running" })) do %>
+      <%= t("ai_assistance.run.review_running") %>
     <% end %>
   <% end %>
 

@@ -56,7 +56,7 @@ module AI
           new_value = action["values"].first.to_s
           if key == "comment"
             { label: label(key), text: helpers.format_text(new_value) }
-          elsif AI::AssistantRuns::ChangeOptions::TEXT_KEYS.include?(key)
+          elsif AI::Assistance::ChangeOptions::TEXT_KEYS.include?(key)
             { label: label(key), diff: diff(key, current_value(key), new_value) }
           else
             { label: label(key), from: current_label(key), to: new_label(key, new_value) }
@@ -68,7 +68,7 @@ module AI
         description = proposal.change_value_for(:description)
         return [] unless description
 
-        AI::AssistantRuns::ContentGuard.lost_references(work_package.description, description)
+        AI::Assistance::ContentGuard.lost_references(work_package.description, description)
       end
 
       def can_apply?
@@ -99,7 +99,7 @@ module AI
       end
 
       def new_label(key, value)
-        if AI::AssistantRuns::ChangeOptions::DATE_KEYS.include?(key)
+        if AI::Assistance::ChangeOptions::DATE_KEYS.include?(key)
           helpers.format_date(Date.iso8601(value))
         else
           change_options.label(key, value)
@@ -109,7 +109,7 @@ module AI
       end
 
       def change_options
-        @change_options ||= AI::AssistantRuns::ChangeOptions.new(keys: proposal.proposal_changeable_attributes,
+        @change_options ||= AI::Assistance::ChangeOptions.new(keys: proposal.proposal_changeable_attributes,
                                                            work_package:, user: proposal.proposal_user)
       end
 

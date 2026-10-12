@@ -34,7 +34,7 @@ module AI
     # The trigger records why the run started: the menu now, an automation later. The run
     # and its findings are stored for that user only.
     class RunService
-      # A judgement job that did not finish in this time is treated as lost.
+      # A review job that did not finish in this time is treated as lost.
       AI_RUN_TIMEOUT = 10.minutes
 
       attr_reader :skill, :work_package, :user, :trigger, :automation
@@ -52,7 +52,7 @@ module AI
           return ServiceResult.failure(message: I18n.t("ai_assistance.errors.unknown_skill"))
         end
 
-        running = running_judgement
+        running = running_review
         return ServiceResult.success(result: running) if running
 
         run = create_run
@@ -62,12 +62,12 @@ module AI
 
       private
 
-      # Only one judgement runs at a time for a user, a work package and a skill. Another
+      # Only one review runs at a time for a user, a work package and a skill. Another
       # start opens the run that is in progress instead of paying for a second one.
-      def running_judgement
+      def running_review
         runs = AI::AssistantRun.for(user, work_package).where(skill:).ai_running
         runs.where(created_at: ...AI_RUN_TIMEOUT.ago).find_each do |lost|
-          lost.add_not_checked(:ai_judgement, :timed_out)
+          lost.add_not_checked(:ai_review, :timed_out)
           lost.update!(status: "finished")
         end
         runs.where(created_at: AI_RUN_TIMEOUT.ago..).newest_first.first

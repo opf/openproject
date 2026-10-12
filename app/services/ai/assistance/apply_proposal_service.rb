@@ -29,7 +29,7 @@
 #++
 
 module AI
-  module AssistantRuns
+  module Assistance
     # Applies a proposal (a finding of a run, or an answer in the chat) through the
     # Automations services, as the user it was made for. It only applies to the work
     # package as it was when the proposal was made: any change since then is a conflict.

@@ -29,7 +29,7 @@
 #++
 
 module AI
-  module AssistantRuns
+  module Assistance
     # Turns the model's list of { field, value } into a stored proposal: Automations
     # actions with resolved values. A value that is not allowed, or that changes nothing,
     # is dropped.

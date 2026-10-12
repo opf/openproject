@@ -108,7 +108,7 @@ RSpec.describe "AI Assistance runs", :skip_csrf, type: :rails_request, with_flag
   describe "GET poll" do
     let(:run) { create(:ai_assistant_run, skill:, user:, work_package:, status: "ai_running") }
 
-    it "has no content while the judgement runs" do
+    it "has no content while the review runs" do
       get "/work_packages/#{work_package.id}/ai_assistance/runs/#{run.id}/poll"
 
       expect(response).to have_http_status(:no_content)

@@ -36,7 +36,7 @@ class WorkPackages::AIAssistance::FindingsController < ApplicationController
   before_action :find_finding
 
   def apply
-    call = AI::AssistantRuns::ApplyProposalService.new(proposal: @finding, user: current_user).call
+    call = AI::Assistance::ApplyProposalService.new(proposal: @finding, user: current_user).call
 
     if call.success?
       dispatch_event_via_turbo_stream(WorkPackagesController::UPDATED_EVENT_NAME,

@@ -29,7 +29,7 @@
 #++
 
 module AI
-  module AssistantRuns
+  module Assistance
     # The values a proposal may set on one work package for one user: the attributes the
     # skill may change (the admin's choice), with the values that are valid now
     # (workflow, assignable users). The model

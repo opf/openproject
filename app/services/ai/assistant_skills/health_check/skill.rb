@@ -45,8 +45,8 @@ module AI
             Context.new(work_package:, user:)
           end
 
-          def judgement_class
-            Judgement
+          def review_class
+            Review
           end
 
           def changeable_attributes

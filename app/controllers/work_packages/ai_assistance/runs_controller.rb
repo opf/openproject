@@ -51,7 +51,7 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
     end
   end
 
-  # Polled by the run dialog while the AI judgement runs. No content until the run is
+  # Polled by the run dialog while the AI review runs. No content until the run is
   # finished; then the whole run is replaced, which also stops the polling.
   def poll
     return head(:no_content) unless @run.terminal?

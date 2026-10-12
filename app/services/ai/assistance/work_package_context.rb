@@ -29,7 +29,7 @@
 #++
 
 module AI
-  module AssistantRuns
+  module Assistance
     # What the model gets to know about a work package, for one user: the work package,
     # its descendants and relations, and its comments. Only what that user can see;
     # internal comments only with the permission to view them.

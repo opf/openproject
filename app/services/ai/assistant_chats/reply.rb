@@ -64,7 +64,7 @@ module AI
       def skill = chat.skill
 
       def ask
-        model_id = AI::AssistantRuns::ModelChoice.new(skill.assistant).model_id
+        model_id = AI::Assistance::ModelChoice.new(skill.assistant).model_id
         system = skill.system_prompt(locale: message.locale)
         raise Llm::Errors::NotReady, "no chat prompt" if system.blank?
         raise Llm::Errors::NotReady, "no model" unless model_id
@@ -94,7 +94,7 @@ module AI
       end
 
       def context_json
-        AI::AssistantRuns::WorkPackageContext.new(work_package:, user:).to_h
+        AI::Assistance::WorkPackageContext.new(work_package:, user:).to_h
                                              .merge(change_options: change_options.for_prompt)
                                              .to_json
       end
@@ -112,11 +112,11 @@ module AI
       end
 
       def change_options
-        @change_options ||= AI::AssistantRuns::ChangeOptions.new(keys: skill.changeable_attributes, work_package:, user:)
+        @change_options ||= AI::Assistance::ChangeOptions.new(keys: skill.changeable_attributes, work_package:, user:)
       end
 
       def proposal_builder
-        @proposal_builder ||= AI::AssistantRuns::ProposalBuilder.new(change_options)
+        @proposal_builder ||= AI::Assistance::ProposalBuilder.new(change_options)
       end
 
       def fail_reply(error)

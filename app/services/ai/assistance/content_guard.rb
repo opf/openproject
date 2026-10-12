@@ -29,7 +29,7 @@
 #++
 
 module AI
-  module AssistantRuns
+  module Assistance
     # A proposed description must keep what the model cannot recreate: attachment
     # references, mentions and macros. Returns the ones the proposal drops.
     module ContentGuard

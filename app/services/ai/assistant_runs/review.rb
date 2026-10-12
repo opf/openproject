@@ -36,7 +36,7 @@ module AI
     #
     # Logs one line when it asks and one when it ends (tag "AI Assistance"). The full
     # prompt, message and answer are logged at debug level only: they hold user content.
-    class Judgement
+    class Review
       MAX_FINDINGS = 15
       MAX_ERROR_LENGTH = 255
 
@@ -47,14 +47,14 @@ module AI
       end
 
       def call
-        judgement = skill_type.judgement_class.new(run)
-        raw_findings = Array(ask(judgement)[:findings])
-        kept = store(judgement, raw_findings)
+        review = skill_type.review_class.new(run)
+        raw_findings = Array(ask(review)[:findings])
+        kept = store(review, raw_findings)
         run.log_event(:stored, findings: raw_findings.size, stored: kept, dropped: @dropped)
         run.update!(status: "finished")
         log(:info, "stored #{kept} of #{raw_findings.size} findings (#{raw_findings.size - kept} dropped)")
       rescue StandardError => e
-        fail_judgement(e)
+        fail_review(e)
       end
 
       private
@@ -63,12 +63,12 @@ module AI
         AI::AssistantSkills::Registry.fetch(run.skill.skill_key)
       end
 
-      def ask(judgement)
-        model_id = ModelChoice.new(run.skill.assistant).model_id
+      def ask(review)
+        model_id = AI::Assistance::ModelChoice.new(run.skill.assistant).model_id
         raise Llm::Errors::NotReady, "no model" unless model_id
 
-        system = system_prompt(judgement)
-        message = judgement.user_message
+        system = system_prompt(review)
+        message = review.user_message
         log(:info, "asking model=#{model_id} system=#{system.size}c message=#{message.size}c")
         run.log_event(:request, model: model_id, system:, message:)
         log(:debug, "system prompt:\n#{system}")
@@ -78,7 +78,7 @@ module AI
         answer = Llm::Session.for(LlmConnection.active_connection)
                              .chat(model_id)
                              .with_instructions(system)
-                             .with_schema(judgement.schema)
+                             .with_schema(review.schema)
                              .ask(message)
         duration = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
         content = answer.respond_to?(:content) ? answer.content : answer
@@ -89,34 +89,34 @@ module AI
         Llm::StructuredOutput.parse!(answer)
       end
 
-      def system_prompt(_judgement)
+      def system_prompt(_review)
         run.skill.system_prompt(locale: run.locale)
       end
 
-      def store(judgement, raw_findings)
+      def store(review, raw_findings)
         @dropped = []
         AI::AssistantRun.transaction do
           raw_findings.first(MAX_FINDINGS).count do |raw|
-            attributes = judgement.finding_attributes(raw)
+            attributes = review.finding_attributes(raw)
             unless attributes
               log(:debug, "dropped finding: #{raw.inspect}")
               @dropped << raw.to_h
               next false
             end
 
-            run.findings.create!(attributes.merge(source: "ai", base_lock_version: judgement.lock_version))
+            run.findings.create!(attributes.merge(source: "ai", base_lock_version: review.lock_version))
           end
         end
       end
 
-      def fail_judgement(error)
+      def fail_review(error)
         level = error.is_a?(Llm::Errors::Error) ? :warn : :error
         log(level, "failed: #{error.class}: #{error.message}")
         log(:debug, Array(error.backtrace).first(15).join("\n")) if level == :error
 
         run.reload
         run.log_event(:failure, error: error.class.name, message: error.message.to_s.truncate(2_000))
-        run.add_not_checked(:ai_judgement, :failed)
+        run.add_not_checked(:ai_review, :failed)
         run.update!(status: "finished",
                     error_message: "#{error.class.name.demodulize}: #{error.message}".truncate(MAX_ERROR_LENGTH))
       rescue StandardError => e

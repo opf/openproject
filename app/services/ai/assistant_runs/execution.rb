@@ -30,7 +30,7 @@
 
 module AI
   module AssistantRuns
-    # Executes a stored run: the rules in the run's locale, then the AI judgement in a job
+    # Executes a stored run: the rules in the run's locale, then the AI review in a job
     # when it is available. Callable inline (the menu) or from a job (an automation).
     # Everything acts as the run's user, never as User.current.
     class Execution
@@ -43,10 +43,10 @@ module AI
       def call
         AI::AssistantRun.transaction do
           run_rules
-          run.update!(status: judgement_status)
+          run.update!(status: review_status)
         end
         log
-        JudgementJob.perform_later(run.id) if run.ai_running?
+        ReviewJob.perform_later(run.id) if run.ai_running?
         run
       end
 
@@ -67,26 +67,26 @@ module AI
       end
 
       def log
-        skipped = run.not_checked.find { |entry| entry["area"] == "ai_judgement" }&.fetch("reason", nil)
-        judgement = run.ai_running? ? "started" : "skipped (#{skipped || 'none'})"
-        run.log_event(:rules, findings: run.findings.size, judgement:)
+        skipped = run.not_checked.find { |entry| entry["area"] == "ai_review" }&.fetch("reason", nil)
+        review = run.ai_running? ? "started" : "skipped (#{skipped || 'none'})"
+        run.log_event(:rules, findings: run.findings.size, review:)
 
         text = "#{run.skill.skill_key} on work package #{run.work_package_id}: " \
-               "#{run.findings.size} rule findings, judgement #{judgement}"
+               "#{run.findings.size} rule findings, review #{review}"
         Rails.logger.tagged("AI Assistance", "run #{run.id}") { Rails.logger.info(text) }
       end
 
-      def judgement_status
-        if skill_type.judgement_class.nil?
+      def review_status
+        if skill_type.review_class.nil?
           "finished"
         elsif run.skill.prompt.blank?
-          run.add_not_checked(:ai_judgement, :no_prompt)
+          run.add_not_checked(:ai_review, :no_prompt)
           "finished"
         elsif !LlmConnection.available?
-          run.add_not_checked(:ai_judgement, :no_llm_connection)
+          run.add_not_checked(:ai_review, :no_llm_connection)
           "finished"
-        elsif ModelChoice.new(run.skill.assistant).model_id.nil?
-          run.add_not_checked(:ai_judgement, :no_model)
+        elsif AI::Assistance::ModelChoice.new(run.skill.assistant).model_id.nil?
+          run.add_not_checked(:ai_review, :no_model)
           "finished"
         else
           "ai_running"

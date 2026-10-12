@@ -34,7 +34,7 @@ module AI
       # The message the model gets for a health check, and how its answer becomes findings.
       # The prompt itself is data on the skill (instructions and output rules), not code.
       # It reads only what the user who started the run can see: the job runs as that user.
-      class Judgement
+      class Review
         AREAS = %w[content status relations tree].freeze
 
         attr_reader :run
@@ -77,7 +77,7 @@ module AI
         end
 
         def user_message
-          AI::AssistantRuns::WorkPackageContext.new(work_package:, user: run.user).to_h.merge(
+          AI::Assistance::WorkPackageContext.new(work_package:, user: run.user).to_h.merge(
             rule_findings: run.findings.rule.map(&:text),
             change_options: change_options.for_prompt
           ).to_json
@@ -102,11 +102,11 @@ module AI
         private
 
         def change_options
-          @change_options ||= AI::AssistantRuns::ChangeOptions.new(keys: run.skill.changeable_attributes, work_package:, user: run.user)
+          @change_options ||= AI::Assistance::ChangeOptions.new(keys: run.skill.changeable_attributes, work_package:, user: run.user)
         end
 
         def proposal_builder
-          @proposal_builder ||= AI::AssistantRuns::ProposalBuilder.new(change_options)
+          @proposal_builder ||= AI::Assistance::ProposalBuilder.new(change_options)
         end
       end
     end

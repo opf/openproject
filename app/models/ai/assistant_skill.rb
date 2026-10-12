@@ -71,7 +71,7 @@ module AI
       return false if skill_type.prompt_required? && prompt.blank?
       return true unless conversation?
 
-      LlmConnection.available? && AI::AssistantRuns::ModelChoice.new(assistant).model_id.present?
+      LlmConnection.available? && AI::Assistance::ModelChoice.new(assistant).model_id.present?
     end
 
     # The action keys this skill may propose: none when read-only, a comment when

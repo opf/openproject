@@ -30,19 +30,21 @@
 
 module AI
   module AssistantRuns
-    # The assistant's own model when the connection still offers it, otherwise the
-    # connection's default chat model.
-    class ModelChoice
-      def initialize(assistant, connection: LlmConnection.active_connection)
-        @assistant = assistant
-        @connection = connection
-      end
+    class ReviewJob < ApplicationJob
+      queue_with_priority :above_normal
 
-      def model_id
-        own = @assistant&.model_id.presence
-        return own if own && @connection.available_model_ids.include?(own)
+      def perform(run_id)
+        run = AI::AssistantRun.find_by(id: run_id)
+        unless run&.ai_running?
+          Rails.logger.tagged("AI Assistance", "run #{run_id}") { Rails.logger.info("job skipped: run is #{run&.status || 'gone'}") }
+          return
+        end
 
-        @connection.default_chat_model&.external_id
+        User.execute_as(run.user) do
+          I18n.with_locale(run.locale) do
+            AI::AssistantRuns::Review.new(run).call
+          end
+        end
       end
     end
   end

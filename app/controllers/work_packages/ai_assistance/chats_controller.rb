@@ -74,7 +74,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   def apply
-    call = AI::AssistantRuns::ApplyProposalService.new(proposal: @message, user: current_user).call
+    call = AI::Assistance::ApplyProposalService.new(proposal: @message, user: current_user).call
 
     if call.success?
       dispatch_event_via_turbo_stream(WorkPackagesController::UPDATED_EVENT_NAME,

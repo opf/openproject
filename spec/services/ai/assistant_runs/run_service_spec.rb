@@ -65,8 +65,8 @@ RSpec.describe AI::AssistantRuns::RunService do
     )
   end
 
-  it "does not start the AI judgement without an LLM connection" do
-    expect(call.result.not_checked).to include("area" => "ai_judgement", "reason" => "no_llm_connection")
+  it "does not start the AI review without an LLM connection" do
+    expect(call.result.not_checked).to include("area" => "ai_review", "reason" => "no_llm_connection")
   end
 
   context "with an LLM connection", with_flag: { llm_connection: true }, with_settings: { llm_features_enabled: true } do
@@ -81,12 +81,12 @@ RSpec.describe AI::AssistantRuns::RunService do
       without_prompt = create(:ai_assistant_skill, prompt: nil)
       run = described_class.new(skill: without_prompt, work_package: work_package.reload, user:).call.result
 
-      expect(run.not_checked).to include("area" => "ai_judgement", "reason" => "no_prompt")
+      expect(run.not_checked).to include("area" => "ai_review", "reason" => "no_prompt")
       expect(run).to be_finished
     end
 
-    it "starts the AI judgement in a job" do
-      expect { call }.to have_enqueued_job(AI::AssistantRuns::JudgementJob)
+    it "starts the AI review in a job" do
+      expect { call }.to have_enqueued_job(AI::AssistantRuns::ReviewJob)
       expect(call.result).to be_ai_running
     end
 
@@ -103,7 +103,7 @@ RSpec.describe AI::AssistantRuns::RunService do
 
       expect(call.result).not_to eq(first)
       expect(first.reload).to be_finished
-      expect(first.not_checked).to include("area" => "ai_judgement", "reason" => "timed_out")
+      expect(first.not_checked).to include("area" => "ai_review", "reason" => "timed_out")
     end
   end
 
