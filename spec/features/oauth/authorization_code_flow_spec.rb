@@ -94,9 +94,9 @@ RSpec.describe "OAuth authorization code flow", :js, :selenium do
     expect(page).to have_test_selector("oauth-application-#{app.id}-name", text: app.name)
 
     # Revoke the application
-    find_test_selector("oauth-token-row-#{app.id}-revoke").click
-
-    page.driver.browser.switch_to.alert.accept
+    accept_confirm do
+      find_test_selector("oauth-token-row-#{app.id}-revoke").click
+    end
 
     # Should be back on access_token path
     expect_flash(message: "Revocation of application Cool API app! successful.")
