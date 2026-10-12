@@ -33,7 +33,7 @@ import { HeadingLinkExtension } from '../extensions/heading-link';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { withCollaboration } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
-import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
+import { getDefaultReactSlashMenuItems, GridSuggestionMenuController, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
 import { createTheme, MantineProvider } from '@mantine/core';
 import {
@@ -54,6 +54,7 @@ import { enablePrimerDialogs } from '@openproject/blocknote-extensions/primer';
 import { BlockNoteFormResourcePicker } from './BlockNoteFormResourcePicker';
 import { BlockNoteWorkPackagePicker } from './BlockNoteWorkPackagePicker';
 import { PrimerTableHandles } from './PrimerTableHandles';
+import { PrimerEmojiPicker } from './PrimerEmojiPicker';
 import { PrimerFilePanel } from './PrimerFilePanel';
 import { PrimerLinkToolbar } from './PrimerLinkToolbar';
 import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
@@ -192,6 +193,7 @@ export function OpBlockNoteEditor({
         formattingToolbar={false}
         linkToolbar={false}
         filePanel={false}
+        emojiPicker={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
@@ -206,6 +208,8 @@ export function OpBlockNoteEditor({
           suggestionMenuComponent={PrimerSlashMenu}
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
         />
+        {!readOnly && <GridSuggestionMenuController triggerCharacter=":" columns={10} minQueryLength={2}
+          gridSuggestionMenuComponent={PrimerEmojiPicker} />}
         <OpenProjectHashMenu />
       </BlockNoteView>
     </MantineProvider>

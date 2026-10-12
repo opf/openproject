@@ -105,6 +105,16 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(editor.element).to have_link("Team handbook", href: "https://example.org/team", count: 1)
   end
 
+  it "replaces an emoji query and keeps the caret in the document" do
+    visit document_path(document)
+    editor.fill_in(":rocket")
+    expect(editor.shadow_root).to have_css("[role='gridcell'][aria-selected='true']", exact_text: "🚀")
+    send_keys(:enter, "launch")
+    expect(editor.element).to have_text("🚀 launch")
+    page.refresh
+    expect(editor.element).to have_text("🚀 launch")
+  end
+
   it "formats tables with header rows, cell colors and merged cells" do
     visit document_path(document)
     expect(page).to have_test_selector("blocknote-document-description")

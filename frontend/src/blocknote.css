@@ -56,6 +56,41 @@
   text-overflow: ellipsis;
 }
 
+.op-blocknote-emoji-picker {
+  width: min(21rem, calc(100vw - var(--base-size-16)));
+  max-height: inherit;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: var(--base-size-4);
+  background: var(--overlay-bgColor);
+  border: var(--borderWidth-thin) solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large);
+  box-shadow: var(--shadow-floating-medium);
+}
+
+.op-blocknote-emoji-picker [role="grid"] {
+  max-height: 16rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.op-blocknote-emoji-row {
+  display: grid;
+}
+
+.op-blocknote-emoji-row [role="gridcell"] {
+  min-width: 0;
+  padding-inline: 0;
+  font-size: var(--text-title-size-medium, 1.25rem);
+}
+
+.op-blocknote-emoji-row [aria-selected="true"] {
+  background-color: var(--control-transparent-bgColor-selected);
+  outline: var(--borderWidth-thin) solid var(--focus-outlineColor);
+  outline-offset: -1px;
+}
+
 .op-blocknote-file-panel {
   position: relative;
   width: min(20rem, calc(100vw - var(--base-size-32)));
