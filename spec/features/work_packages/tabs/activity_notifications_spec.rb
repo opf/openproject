@@ -5,7 +5,7 @@ require "spec_helper"
 require "features/work_packages/work_packages_page"
 require "support/edit_fields/edit_field"
 
-RSpec.describe "Activity tab notifications", :js do
+RSpec.describe "Activity tab notifications", :js, :selenium do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:work_package) do
     create(:work_package,

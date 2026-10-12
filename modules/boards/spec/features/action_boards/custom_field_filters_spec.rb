@@ -32,7 +32,9 @@ require "spec_helper"
 require_relative "../support//board_index_page"
 require_relative "../support/board_page"
 
-RSpec.describe "Custom field filter in boards", :js do
+RSpec.describe "Custom field filter in boards",
+               :js,
+               :selenium do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })

@@ -30,6 +30,7 @@ require_relative "../spec_helper"
 
 RSpec.describe "model viewer",
                :js,
+               :selenium,
                with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined

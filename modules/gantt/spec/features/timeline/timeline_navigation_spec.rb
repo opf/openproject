@@ -29,7 +29,8 @@
 require "spec_helper"
 
 RSpec.describe "Work package timeline navigation",
-               :js do
+               :js,
+               :selenium do
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }

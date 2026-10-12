@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Manage webhooks through UI", :js do
+RSpec.describe "Manage webhooks through UI", :js, :selenium do
   before do
     login_as user
   end
