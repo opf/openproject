@@ -1020,6 +1020,7 @@ en:
       label_search_watchers: Search watchers
       typeahead_placeholder: Search for possible watchers
     blocknote:
+      file_source: "File source"
       link_url: "URL"
       link_text: "Link text"
       active_format: "%{format} (active)"

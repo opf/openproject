@@ -54,6 +54,7 @@ import { enablePrimerDialogs } from '@openproject/blocknote-extensions/primer';
 import { BlockNoteFormResourcePicker } from './BlockNoteFormResourcePicker';
 import { BlockNoteWorkPackagePicker } from './BlockNoteWorkPackagePicker';
 import { PrimerTableHandles } from './PrimerTableHandles';
+import { PrimerFilePanel } from './PrimerFilePanel';
 import { PrimerLinkToolbar } from './PrimerLinkToolbar';
 import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
 import { PrimerSideMenuController } from './PrimerSideMenu';
@@ -190,12 +191,14 @@ export function OpBlockNoteEditor({
         tableHandles={false}
         formattingToolbar={false}
         linkToolbar={false}
+        filePanel={false}
         theme={theme}
         editable={!readOnly}
         className={'block-note-editor-container'}
       >
         <PrimerFormattingToolbar />
         <PrimerLinkToolbar />
+        {!readOnly && <PrimerFilePanel />}
         <PrimerSideMenuController />
         <PrimerTableHandles />
         <SuggestionMenuController

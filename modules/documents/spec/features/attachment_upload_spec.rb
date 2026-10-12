@@ -159,8 +159,8 @@ RSpec.describe "Upload attachment to documents",
 
   shared_examples "with non-whitelisted file types" do
     context "with an incompatible attachment allowlist",
-            with_settings: { attachment_whitelist: %w[image/jpg] } do
-      it "shows a nice error" do
+            with_settings: { attachment_whitelist: %w[image/webp] } do
+      it "shows why an upload failed and accepts a retry from the same panel" do
         editor.open_add_image_dialog
         expect do
           editor.attach_file(image_fixture.path)
@@ -168,6 +168,12 @@ RSpec.describe "Upload attachment to documents",
                                            value: "image/png")
           expect(editor.element).to have_no_css("img[alt='image.png']")
         end.not_to change { document.attachments.count }
+
+        expect(editor.shadow_root).to have_css("[role='alert']", text: "Error: Upload failed")
+        expect do
+          editor.attach_file(Rails.root.join("spec/fixtures/files/image.webp").to_s)
+          expect(editor.element).to have_css("img[alt='image.webp'][src*='/api/v3/attachments/']")
+        end.to change { document.attachments.count }.by(1)
       end
     end
   end

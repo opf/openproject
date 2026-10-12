@@ -1,4 +1,6 @@
 @import "@blocknote/mantine/style.css";
+@import "../node_modules/@primer/react/dist/experimental/UnderlinePanels/UnderlinePanels-162f9aed.css";
+@import "../node_modules/@primer/react/dist/internal/components/UnderlineTabbedInterface-a5cd75c0.css";
 @import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionList-6808e67a.css";
 @import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionListLoaders-bdda3d7e.css";
 @import "../node_modules/@primer/react/dist/FormControl/FormControl-fa33984d.css";
@@ -52,6 +54,37 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.op-blocknote-file-panel {
+  position: relative;
+  width: min(20rem, calc(100vw - var(--base-size-32)));
+  background: var(--overlay-bgColor);
+  border: var(--borderWidth-thin) solid var(--borderColor-muted);
+  border-radius: var(--borderRadius-large);
+  box-shadow: var(--shadow-floating-medium);
+}
+
+.op-blocknote-file-content {
+  padding: var(--base-size-16);
+}
+
+.op-blocknote-embed-form {
+  display: grid;
+  gap: var(--base-size-12);
+}
+
+.op-blocknote-embed-form > button {
+  justify-self: end;
+}
+
+.op-blocknote-file-progress {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--overlay-bgColor);
+  border-radius: inherit;
 }
 
 .op-blocknote-link-form {
