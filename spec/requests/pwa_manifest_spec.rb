@@ -148,6 +148,70 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     end
   end
 
+  describe "the theme-color tags" do
+    let(:tags) { 'meta[name="theme-color"]' }
+
+    def sign_in_with_theme(theme, **preferences)
+      login_as create(:user, preferences: { theme:, **preferences })
+      get "/my/page"
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "paints the title bar in the header colour for a light preference" do
+      sign_in_with_theme("light")
+
+      expect(page).to have_css(%(#{tags}[content="#1A67A3"]), count: 1, visible: :all)
+      expect(page).to have_no_css("#{tags}[media]", visible: :all)
+    end
+
+    it "paints the title bar in the dark header colour for a dark preference" do
+      sign_in_with_theme("dark")
+
+      expect(page).to have_css(%(#{tags}[content="#010409"]), count: 1, visible: :all)
+      expect(page).to have_no_css("#{tags}[media]", visible: :all)
+    end
+
+    def rendered_tags
+      page.all(tags, visible: :all).map { [it[:media], it[:content]] }
+    end
+
+    # The browser uses the first tag whose media matches, so the system high contrast tag must come first.
+    it "follows the operating system, including its contrast setting, when the preference syncs with it" do
+      sign_in_with_theme("sync_with_os")
+
+      expect(rendered_tags).to eq([
+                                    ["(prefers-color-scheme: light) and (prefers-contrast: more)", "#eff2f5"],
+                                    ["(prefers-color-scheme: light)", "#1A67A3"],
+                                    ["(prefers-color-scheme: dark)", "#010409"]
+                                  ])
+    end
+
+    it "paints the title bar in the high contrast header colour for a light preference with more contrast" do
+      sign_in_with_theme("light", increase_theme_contrast: true)
+
+      expect(page).to have_css(%(#{tags}[content="#eff2f5"]), count: 1, visible: :all)
+    end
+
+    it "uses the high contrast light colour when syncing with the OS and forcing light contrast" do
+      sign_in_with_theme("sync_with_os", force_light_theme_contrast: true)
+
+      expect(rendered_tags).to eq([
+                                    ["(prefers-color-scheme: light)", "#eff2f5"],
+                                    ["(prefers-color-scheme: dark)", "#010409"]
+                                  ])
+    end
+
+    it "paints the title bar in a custom header colour", with_ee: %i[define_custom_style] do
+      create(:custom_style)
+      DesignColor.create!(variable: "header-bg-color", hexcode: "#123456")
+
+      sign_in_with_theme("light")
+
+      expect(page).to have_css(%(#{tags}[content="#123456"]), count: 1, visible: :all)
+    end
+  end
+
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
     it "serves no manifest" do
       expect { get "/manifest" }.to raise_error(ActionController::RoutingError)
@@ -157,6 +221,12 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       get "/login"
 
       expect(page).to have_no_css('link[rel="manifest"]', visible: :all)
+    end
+
+    it "renders no theme-color tag" do
+      get "/login"
+
+      expect(page).to have_no_css('meta[name="theme-color"]', visible: :all)
     end
   end
 end
