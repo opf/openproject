@@ -204,6 +204,39 @@ RSpec.describe Authorization::UserPermissibleService do
 
             it { is_expected.not_to be_allowed_in_project(permission, project) }
           end
+
+          context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+            let(:queried_user) { User.find(admin.id) }
+
+            context "and the admin is not elevated" do
+              it { is_expected.not_to be_allowed_in_project(permission, project) }
+
+              context "when requesting a permission admins have without elevation" do
+                let(:permission) { :view_project }
+
+                it { is_expected.to be_allowed_in_project(permission, project) }
+              end
+
+              context "and the admin is a member with a role granting the permission" do
+                let(:role) { create(:project_role, permissions: [permission]) }
+                let!(:admin_member) { create(:member, user: admin, project:, roles: [role]) }
+
+                it { is_expected.to be_allowed_in_project(permission, project) }
+              end
+            end
+
+            context "and the admin is elevated in the project" do
+              before { queried_user.admin_elevation = Users::AdminElevation.in_projects([project.id]) }
+
+              it { is_expected.to be_allowed_in_project(permission, project) }
+            end
+
+            context "and the admin is elevated in another project" do
+              before { queried_user.admin_elevation = Users::AdminElevation.in_projects([project.id + 1]) }
+
+              it { is_expected.not_to be_allowed_in_project(permission, project) }
+            end
+          end
         end
       end
 
@@ -419,6 +452,20 @@ RSpec.describe Authorization::UserPermissibleService do
             end
 
             it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+          end
+
+          context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+            let(:queried_user) { User.find(admin.id) }
+
+            context "and the admin is not elevated" do
+              it { is_expected.not_to be_allowed_in_entity(permission, work_package, WorkPackage) }
+            end
+
+            context "and the admin is elevated in the work package's project" do
+              before { queried_user.admin_elevation = Users::AdminElevation.in_projects([project.id]) }
+
+              it { is_expected.to be_allowed_in_entity(permission, work_package, WorkPackage) }
+            end
           end
 
           context "when the permission is not granted to admins" do

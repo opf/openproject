@@ -287,14 +287,14 @@ RSpec.describe User, "permission check methods" do
       end
 
       it "is elevated only in the projects of an InProjects elevation", :aggregate_failures do
-        subject.admin_elevation = Users::AdminElevation::InProjects.new([project.id])
+        subject.admin_elevation = Users::AdminElevation.in_projects([project.id])
 
         expect(subject.admin_in_project?(project)).to be true
         expect(subject.admin_in_project?(other_project)).to be false
       end
 
       it "is elevated in every project with an Everywhere elevation" do
-        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+        subject.admin_elevation = Users::AdminElevation.everywhere
 
         expect(subject.admin_in_project?(project)).to be true
       end
@@ -304,7 +304,7 @@ RSpec.describe User, "permission check methods" do
       subject { build_stubbed(:admin, status: :locked) }
 
       it "is never elevated" do
-        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+        subject.admin_elevation = Users::AdminElevation.everywhere
 
         expect(subject.admin_in_project?(project)).to be false
       end
@@ -314,7 +314,7 @@ RSpec.describe User, "permission check methods" do
       subject { build_stubbed(:user) }
 
       it "is never elevated" do
-        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+        subject.admin_elevation = Users::AdminElevation.everywhere
 
         expect(subject.admin_in_project?(project)).to be false
       end
@@ -335,7 +335,7 @@ RSpec.describe User, "permission check methods" do
     it "resets the permission caches" do
       allow(admin).to receive(:reset_permission_caches)
 
-      admin.admin_elevation = Users::AdminElevation::None.new
+      admin.admin_elevation = Users::AdminElevation.none
 
       expect(admin).to have_received(:reset_permission_caches)
     end

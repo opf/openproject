@@ -134,7 +134,7 @@ module Users::PermissionChecks
   # "May" because this method does not check e.g. whether the module
   # the permission belongs to is active.
   def all_permissions_for(context)
-    if admin?
+    if admin_in_context?(context)
       OpenProject::AccessControl
         .permissions
         .select { |p| p.permissible_on?(context) && p.grant_to_admin? }
@@ -201,11 +201,22 @@ module Users::PermissionChecks
 
   private
 
+  def admin_in_context?(context)
+    case context
+    when Project
+      admin_in_project?(context)
+    when nil
+      admin?
+    else
+      context.respond_to?(:project) ? admin_in_project?(context.project) : admin?
+    end
+  end
+
   def default_admin_elevation
     if OpenProject::FeatureDecisions.admin_privilege_elevation_active?
-      Users::AdminElevation::None.new
+      Users::AdminElevation.none
     else
-      Users::AdminElevation::Everywhere.new
+      Users::AdminElevation.everywhere
     end
   end
 

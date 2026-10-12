@@ -605,7 +605,7 @@ class User < Principal
     previous_user_readonly_state = user.readonly?
     previous_user_admin_elevation = user.instance_variable_get(:@admin_elevation)
     user.admin = true
-    user.admin_elevation = Users::AdminElevation::Everywhere.new
+    user.admin_elevation = Users::AdminElevation.everywhere
     user.readonly!
     yield
   ensure

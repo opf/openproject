@@ -38,7 +38,7 @@ class SystemUser < User
   def name(*_args); "System" end
 
   def admin_elevation
-    Users::AdminElevation::Everywhere.new
+    Users::AdminElevation.everywhere
   end
 
   def run_given

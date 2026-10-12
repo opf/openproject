@@ -111,7 +111,7 @@ module Authorization
       permissions_filtered_for_project = permissions_by_enabled_project_modules(project, permissions)
 
       return false if permissions_filtered_for_project.empty?
-      return true if admin_and_all_granted_to_admin?(permissions)
+      return true if admin_in_project_and_all_granted_to_admin?(permissions, project)
 
       cached_permissions(project).intersect?(permissions_filtered_for_project)
     end
@@ -167,6 +167,13 @@ module Authorization
 
     def admin_and_all_granted_to_admin?(permissions)
       user.active_admin? && permissions.all?(&:grant_to_admin?)
+    end
+
+    def admin_in_project_and_all_granted_to_admin?(permissions, project)
+      return false unless admin_and_all_granted_to_admin?(permissions)
+
+      user.admin_in_project?(project) ||
+        permissions.all? { Users::AdminElevation::PERMISSIONS_WITHOUT_ELEVATION.include?(it.name) }
     end
 
     def authorizable_user?

@@ -168,7 +168,7 @@ RSpec.describe User, ".execute_as_admin" do # rubocop:disable RSpec/SpecFilePath
     end
 
     it "restores a previously set elevation", :aggregate_failures do
-      admin.admin_elevation = Users::AdminElevation::InProjects.new([other_project.id])
+      admin.admin_elevation = Users::AdminElevation.in_projects([other_project.id])
 
       described_class.execute_as_admin(admin) do
         expect(admin.admin_in_project?(project)).to be true
