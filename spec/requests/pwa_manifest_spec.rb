@@ -89,7 +89,8 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
     # Chrome silently declines to install when an icon is missing or mis-sized.
     it "names icons that exist at the size they declare" do
       icons = manifest["icons"]
-      expect(icons.pluck("sizes")).to contain_exactly("192x192", "512x512")
+      expect(icons.map { it.values_at("sizes", "purpose") })
+        .to contain_exactly(["192x192", nil], ["512x512", nil], ["512x512", "maskable"])
 
       icons.each do |icon|
         get icon["src"]

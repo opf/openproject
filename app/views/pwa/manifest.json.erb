@@ -18,7 +18,7 @@
     background_color: theme_color,
     icons: [192, 512].map do |size|
       { src: image_path("pwa/icon-#{size}.png"), sizes: "#{size}x#{size}", type: "image/png" }
-    end
+    end + [{ src: image_path("pwa/icon-512-maskable.png"), sizes: "512x512", type: "image/png", purpose: "maskable" }]
   }.compact
 %>
 <%== JSON.pretty_generate(manifest) %>
