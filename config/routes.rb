@@ -1153,6 +1153,10 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :ai_assistants, except: :show do
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show]
+    end
+
     resources :text_transform_actions, except: :show do
       member do
         get :deletion_dialog

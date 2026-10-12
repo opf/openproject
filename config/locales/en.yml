@@ -88,6 +88,22 @@ en:
 
   activerecord:
     attributes:
+      ai/assistant:
+        active: "Active"
+        description: "Description"
+        icon: "Icon"
+        model: "Model"
+        model_id: "Model"
+        name: "Name"
+      ai/assistant_skill:
+        active: "Active"
+        description: "Description"
+        label: "Label"
+        output_rules: "Output rules"
+        read_only: "Read-only"
+        template_ref: "Template"
+        skill_key: "Skill"
+        prompt: "Prompt"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1491,6 +1507,33 @@ en:
       removed_date: "date deleted %{date}"
 
   admin:
+    ai_assistants:
+      delete:
+        confirm: "Delete this assistant, its skills and every run of them?"
+      form:
+        model_caption: "Empty uses the default chat model of the LLM connection."
+        model_default: "Default of the LLM connection"
+        name_caption: "Shown as a label next to each action of this assistant in the AI Assistance menu."
+      inactive: "Inactive"
+      index:
+        add: "Assistant"
+        description: "Assistants group the skills of the AI Assistance menu on work packages. Each run uses the permissions of the user who starts it."
+        empty: "There are no assistants yet."
+      new:
+        title: "New assistant"
+      skills:
+        add: "Add skill"
+        no_prompt: "No prompt: rules only"
+        output_rules_caption: "Added after the instructions. Says how to answer: language, changes, what to do with user text. {{locale}} becomes the locale of the user who starts the run."
+        template_ref: "Template"
+        template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
+        description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
+        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
+        delete_confirm: "Delete this skill and every run of it?"
+        empty: "This assistant has no skills."
+        read_only_caption: "The skill reports findings and proposes no changes. Otherwise it may propose changes to work package attributes, with assignee and accountable among them: the model then gets the names of the users who can be assigned. The workflow and the user's permissions decide the values, and the user applies each change."
+        prompt_caption: "What the model checks. Without instructions, the skill runs only its rules."
+        title: "Skills"
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
@@ -2332,6 +2375,7 @@ en:
     button: "AI Assistance"
     apply:
       button: "Apply changes"
+      empty: "(empty)"
       errors:
         conflict: "The work package changed after this check. Run the check again to get a current proposal."
         invalid: "The changes could not be applied."
@@ -2339,7 +2383,13 @@ en:
         not_allowed: "You cannot apply these changes."
         not_open: "This finding was already applied or dismissed."
       label:
+        assigned_to: "Proposed assignee"
         description: "Proposed description"
+        due_date: "Proposed finish date"
+        priority: "Proposed priority"
+        responsible: "Proposed accountable"
+        start_date: "Proposed start date"
+        status: "Proposed status"
         subject: "Proposed subject"
       lost_content: "This proposal removes images, mentions or macros from the description. Edit the description yourself."
       success: "The changes were applied."
@@ -2387,6 +2437,7 @@ en:
       no_llm_connection: "No LLM connection is available, so only the rules were checked."
       no_model: "No model is selected for this assistant, so only the rules were checked."
       timed_out: "The AI judgement did not finish in time. Only the rules were checked."
+      no_prompt: "This skill has no prompt, so only the rules were checked."
       no_permission_github: "Linked GitHub pull requests: you do not have permission to see them."
       no_permission_gitlab: "Linked GitLab merge requests: you do not have permission to see them."
       too_many_descendants: "Only the first 200 descendants were checked."
@@ -2404,7 +2455,7 @@ en:
     skills:
       health_check:
         label: "Check health"
-        description: "Finds where this work package does not agree with its tree, relations and pull requests."
+        description: "Finds contradictions between this work package, its descendants, relations, comments and pull requests."
     health_check:
       last_activity: "Last activity on %{date}"
       and_more:
@@ -5138,6 +5189,7 @@ en:
     admin:
       aggregation: "Aggregation"
       ai: "Artificial Intelligence (AI)"
+      ai_assistants: "Assistants"
       api_and_webhooks: "API and webhooks"
       llm_connection: "LLM settings"
       mail_notification: "Email notifications"

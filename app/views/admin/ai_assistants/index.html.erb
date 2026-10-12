@@ -1,0 +1,82 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<% html_title t(:label_administration), t("menus.admin.ai_assistants") %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { t("menus.admin.ai_assistants") }
+    header.with_description { t("admin.ai_assistants.index.description") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t(:label_administration) },
+       { href: mcp_configurations_path, text: t("menus.admin.ai") },
+       t("menus.admin.ai_assistants")]
+    )
+  end
+%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(scheme: :primary, leading_icon: :plus, label: t("admin.ai_assistants.index.add"),
+                                 tag: :a, href: new_admin_ai_assistant_path) do
+      t("admin.ai_assistants.index.add")
+    end
+  end
+%>
+
+<% if @assistants.empty? %>
+  <%= render(Primer::Beta::Blankslate.new(border: true)) do |slate| %>
+    <% slate.with_visual_icon(icon: :sparkle) %>
+    <% slate.with_heading(tag: :h2).with_content(t("admin.ai_assistants.index.empty")) %>
+  <% end %>
+<% else %>
+  <%= render(Primer::Beta::BorderBox.new) do |box| %>
+    <% @assistants.each do |assistant| %>
+      <% box.with_row(data: { test_selector: "ai-assistant-row" }) do %>
+        <%= flex_layout(align_items: :center) do |row| %>
+          <% row.with_column(mr: 2) { render(Primer::Beta::Octicon.new(icon: assistant.icon.presence || :sparkle)) } %>
+          <% row.with_column(flex: 1) do %>
+            <%= render(Primer::Beta::Link.new(href: edit_admin_ai_assistant_path(assistant), font_weight: :bold)) { assistant.name } %>
+            <% unless assistant.active? %>
+              <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("admin.ai_assistants.inactive") } %>
+            <% end %>
+            <% assistant.skills.each do |skill| %>
+              <%= render(Primer::Beta::Label.new(ml: 2)) { skill.display_label } %>
+            <% end %>
+            <% if assistant.description.present? %>
+              <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 0)) { assistant.description } %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
