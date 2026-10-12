@@ -34,6 +34,10 @@ module Users
       def covers?(_project)
         true
       end
+
+      def allowed_scope(admin_scope:, **)
+        admin_scope
+      end
     end
   end
 end
