@@ -32,8 +32,25 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { t("planner.views.#{@view}") }
+    header.with_description { t("planner.description") }
     header.with_breadcrumbs([{ href: planner_path, text: t("label_planner") }, t("planner.views.#{@view}")])
   end
 %>
+
+<% if @component.add_todo_group %>
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_action_button(
+        scheme: :primary,
+        leading_icon: :plus,
+        label: t("planner.add_todo"),
+        tag: :a,
+        href: Planner::Menu.path_for(@view, adding: @component.add_todo_group)
+      ) do
+        t("planner.add_todo")
+      end
+    end
+  %>
+<% end %>
 
 <%= render(@component) %>

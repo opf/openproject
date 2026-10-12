@@ -31,58 +31,27 @@
 module Planner
   class MeetingRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
-    include AvatarHelper
 
-    SOON_MINUTES = 60
-    SHOWN_PARTICIPANTS = 3
-
-    def initialize(meeting:, user:, scheme:, lead_width:)
+    def initialize(occurrence:, user:)
       super()
-      @meeting = meeting
+      @occurrence = occurrence
       @user = user
-      @scheme = scheme
-      @lead_width = lead_width
     end
 
     private
 
-    attr_reader :meeting, :user, :scheme, :lead_width
+    attr_reader :occurrence, :user
 
-    def start_time = local_time(meeting.start_time)
-
-    def end_time = local_time(meeting.end_time)
-
-    def duration
-      OpenProject::Common::DurationComponent.new(meeting.duration, :hours, abbreviated: true).text
+    def path
+      occurrence.meeting ? meeting_path(occurrence.meeting) : recurring_meeting_path(occurrence.series)
     end
+
+    def time_range = "#{local_time(occurrence.start_time)} - #{local_time(occurrence.end_time)}"
 
     def local_time(time)
       helpers.format_time(time, include_date: false, time_zone: user.time_zone)
     end
 
-    def kind
-      meeting.recurring_meeting_id ? t("planner.meeting_recurring") : t("planner.meeting_one_time")
-    end
-
-    def starts_in
-      minutes = ((meeting.start_time - Time.current) / 60).ceil
-      t("planner.starts_in", count: minutes) if minutes.between?(1, SOON_MINUTES)
-    end
-
-    def participants
-      meeting.participants.filter_map(&:user)
-    end
-
-    def shown_participants = participants.first(SHOWN_PARTICIPANTS)
-
-    def hidden_participants_count = participants.size - shown_participants.size
-
-    def avatar_stack_arguments
-      { tooltipped: true, disable_expand: true, body_arguments: { label: participants.map(&:name).join(", ") } }
-    end
-
-    def avatar_options(participant)
-      { src: avatar_url(participant), alt: participant.name, unique_id: participant.id }
-    end
+    def kind = occurrence.recurring? ? t("planner.meeting_recurring") : t("planner.meeting_one_time")
   end
 end

@@ -46,10 +46,9 @@ RSpec.describe Planner::Upcoming, with_settings: { working_days: [1, 2, 3, 4, 5]
 
   def day(date) = upcoming.days.find { it.date == date }
 
-  it "covers the next week's working days, starting tomorrow" do
-    expect(upcoming.days.map(&:date))
-      .to eq([Date.new(2026, 10, 8), Date.new(2026, 10, 9), Date.new(2026, 10, 12), Date.new(2026, 10, 13),
-              Date.new(2026, 10, 14)])
+  it "covers the next week, starting tomorrow, and marks the non-working days" do
+    expect(upcoming.days.map(&:date)).to eq((Date.new(2026, 10, 8)..Date.new(2026, 10, 14)).to_a)
+    expect(upcoming.days.reject(&:working?).map(&:date)).to eq([Date.new(2026, 10, 10), Date.new(2026, 10, 11)])
   end
 
   it "puts tasks on their day" do
@@ -80,7 +79,9 @@ RSpec.describe Planner::Upcoming, with_settings: { working_days: [1, 2, 3, 4, 5]
       expect(thursday.map(&:meeting)).to eq([thursday_occurrence])
 
       monday = day(Date.new(2026, 10, 12)).meetings
-      expect(monday.map { [it.title, it.series, it.start_time] }).to eq([["Daily", series, Time.zone.parse("2026-10-12 09:30")]])
+      expect(monday.map { [it.title, it.series, it.start_time, it.project] })
+        .to eq([["Daily", series, Time.zone.parse("2026-10-12 09:30"), meeting_project]])
+      expect(monday).to all(be_recurring)
     end
 
     it "leaves out cancelled occurrences" do

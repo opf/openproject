@@ -29,19 +29,21 @@
 #++
 
 module Planner
-  # The user's next working days after today: their "My work" tasks planned for each day and the
-  # meetings they take part in, including occurrences of recurring series not created yet.
+  # The user's next days after today: their "My work" tasks planned for each day and the meetings
+  # they take part in, including occurrences of recurring series not created yet.
   class Upcoming < View
     DAYS_AHEAD = 7
 
-    Day = Data.define(:date, :meetings, :work_packages) { include Group }
+    Day = Data.define(:date, :working, :meetings, :work_packages) do
+      include Group
 
-    # A meeting as Upcoming lists it: an existing meeting, or a scheduled occurrence of a series.
-    Occurrence = Data.define(:title, :start_time, :end_time, :meeting, :series)
+      def working? = working
+    end
 
     def days
       @days ||= dates.map do |date|
         Day.new(date:,
+                working: working_days.working?(date),
                 meetings: meetings.select { local_date(it.start_time) == date },
                 work_packages: work_packages.select { it.due_date == date })
       end
@@ -50,9 +52,11 @@ module Planner
     private
 
     def dates
-      working_days = WorkPackages::Shared::WorkingDays.new
+      @dates ||= (1..DAYS_AHEAD).map { user.today + it }
+    end
 
-      (1..DAYS_AHEAD).map { user.today + it }.select { working_days.working?(it) }
+    def working_days
+      @working_days ||= WorkPackages::Shared::WorkingDays.new
     end
 
     def time_range
@@ -69,7 +73,7 @@ module Planner
     end
 
     def meetings
-      @meetings ||= dates.empty? ? [] : (existing_meetings + scheduled_occurrences).sort_by(&:start_time)
+      @meetings ||= (existing_meetings + scheduled_occurrences).sort_by(&:start_time)
     end
 
     def existing_meetings
@@ -78,7 +82,8 @@ module Planner
         .not_templated
         .participated_by(user)
         .where(start_time: time_range)
-        .map { Occurrence.new(title: it.title, start_time: it.start_time, end_time: it.end_time, meeting: it, series: nil) }
+        .includes(:project)
+        .map { Occurrence.for(it) }
     end
 
     def scheduled_occurrences
@@ -87,7 +92,7 @@ module Planner
 
         scheduled_times(series)
           .reject { |time| taken.include?(time.to_i) }
-          .map { |time| scheduled_occurrence(series, time) }
+          .map { |time| Occurrence.scheduled(series, time) }
       end
     end
 
@@ -100,17 +105,12 @@ module Planner
       series.schedule.occurrences_between(time_range.begin, time_range.end).map(&:to_time)
     end
 
-    def scheduled_occurrence(series, time)
-      Occurrence.new(title: series.template.title, start_time: time, end_time: time + series.template.duration.hours,
-                     meeting: nil, series:)
-    end
-
     def participating_series
       RecurringMeeting
         .joins(template: :participants)
         .where(meeting_participants: { user_id: user.id })
         .where(project_id: Project.allowed_to(user, :view_meetings).select(:id))
-        .includes(:template)
+        .includes(:template, :project)
         .distinct
     end
 

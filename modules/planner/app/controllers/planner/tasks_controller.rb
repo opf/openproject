@@ -34,13 +34,13 @@ module Planner
 
     before_action :require_login
     before_action :require_planner
-    before_action :find_task, only: %i[update plan]
-    no_authorization_required! :create, :update, :plan, :create_from_work_package
+    before_action :find_task, only: %i[update plan drop]
+    no_authorization_required! :create, :update, :plan, :drop, :create_from_work_package
 
     def create
       call = Planner::CreateTaskService
                .new(user: current_user)
-               .call(subject: task_params[:subject], day_part: task_params[:day_part])
+               .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date)
 
       respond_with_view(call)
     end
@@ -55,6 +55,14 @@ module Planner
 
     def plan
       call = Planner::PlanTaskService.new(user: current_user, work_package: @task).call(to: params[:to])
+
+      respond_with_view(call)
+    end
+
+    # Dropping a task on a day part or a day of the sortable lists plans it there. Its place within
+    # the list is not kept, as tasks have no order of their own.
+    def drop
+      call = Planner::PlanTaskService.new(user: current_user, work_package: @task).call(to: params[:list_id])
 
       respond_with_view(call)
     end
@@ -88,7 +96,16 @@ module Planner
     end
 
     def task_params
-      params.expect(task: %i[subject day_part])
+      params.expect(task: %i[subject day_part date])
+    end
+
+    # Without a date the task is due today; an empty one leaves it undated.
+    def task_date
+      return current_user.today unless task_params.key?(:date)
+
+      Date.iso8601(task_params[:date]) if task_params[:date].present?
+    rescue Date::Error
+      current_user.today
     end
 
     def respond_with_view(call)
@@ -107,7 +124,7 @@ module Planner
     end
 
     def refresh_view_via_turbo_stream
-      replace_via_turbo_stream(component: Planner::BaseComponent.for(current_view, current_user))
+      replace_via_turbo_stream(component: Planner::BaseComponent.for(current_view, current_user, adding: params[:adding]))
       turbo_streams << turbo_stream.update("planner_sidemenu", submenu.render_in(view_context))
     end
 

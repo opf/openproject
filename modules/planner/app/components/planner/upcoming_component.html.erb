@@ -27,41 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: { test_selector: "planner-upcoming" }) do %>
+<%= component_wrapper(data: { test_selector: "planner-upcoming", **sortable_root_data(:upcoming) }) do %>
   <% upcoming.days.each do |day| %>
-    <%= render(Primer::Box.new(mt: 3, test_selector: "planner-upcoming-day")) do %>
-      <%= flex_layout(align_items: :baseline, px: 2, pb: 1, border: :bottom) do |header| %>
-        <% header.with_column(mr: 2) do %>
-          <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { day.date.day.to_s } %>
-        <% end %>
-        <% header.with_column(mr: 2) do %>
-          <%= render(Primer::Beta::Text.new(font_weight: :semibold, color: :muted)) { day_name(day.date) } %>
-        <% end %>
-        <% header.with_column(ml: :auto) do %>
-          <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { counts(day) } %>
-        <% end %>
+    <% group = day.date.iso8601 %>
+    <%= render(Primer::Beta::BorderBox.new(**day_box_arguments(day))) do |box| %>
+      <% box.with_header(px: 3, py: 3) do %>
+        <%= render(Planner::SectionHeaderComponent.new(title: day_name(day.date), subtitle: subtitle(day), counts: counts(day))) %>
       <% end %>
 
       <% day.meetings.each do |occurrence| %>
-        <%= flex_layout(align_items: :center, px: 2, py: 1, border: :bottom, bg: :subtle, test_selector: "planner-upcoming-meeting") do |row| %>
-          <% row.with_column(mr: 3, text_align: :right, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0") do %>
-            <%= render(Primer::Beta::Text.new(font_weight: :bold, color: :accent)) { start_time(occurrence) } %>
-          <% end %>
-          <% row.with_column(flex: 1, mr: 3, classes: "min-width-0") do %>
-            <%= render(Primer::Beta::Truncate.new) do %>
-              <%= render(Primer::Beta::Link.new(href: occurrence_path(occurrence), scheme: :primary, font_weight: :semibold)) { occurrence.title } %>
-            <% end %>
-          <% end %>
-          <% row.with_column(flex_shrink: 0) do %>
-            <%= render(Primer::Beta::Label.new(scheme: :secondary)) { meeting_kind(occurrence) } %>
-          <% end %>
+        <% box.with_row(test_selector: "planner-upcoming-meeting") do %>
+          <%= render(Planner::MeetingRowComponent.new(occurrence:, user: upcoming.user)) %>
         <% end %>
       <% end %>
 
       <% day.work_packages.each do |work_package| %>
-        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "planner-upcoming-task")) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, lead_width:, references: upcoming.references, view: :upcoming)) %>
+        <% box.with_row(test_selector: "planner-upcoming-task", data: sortable_item_data(work_package)) do %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references: upcoming.references, view: :upcoming)) %>
         <% end %>
+      <% end %>
+
+      <% box.with_row(px: 3) do %>
+        <%= render(Planner::AddTodoComponent.new(group:, view: :upcoming, open: adding?(group), task_fields: { date: group })) %>
       <% end %>
     <% end %>
   <% end %>

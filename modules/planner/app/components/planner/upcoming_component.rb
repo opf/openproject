@@ -30,30 +30,28 @@
 
 module Planner
   class UpcomingComponent < BaseComponent
-    def initialize(upcoming:)
-      super()
+    def initialize(upcoming:, adding: nil)
+      super(adding:)
       @upcoming = upcoming
     end
+
+    def add_todo_group = upcoming.days.first.date.iso8601
 
     private
 
     attr_reader :upcoming
 
     def day_name(date)
-      date == upcoming.user.today + 1 ? t("planner.upcoming.tomorrow") : I18n.l(date, format: "%A")
+      return t("planner.upcoming.tomorrow") if date == upcoming.user.today + 1
+
+      weekday_and_day(date)
     end
 
-    def start_time(occurrence)
-      helpers.format_time(occurrence.start_time, include_date: false, time_zone: upcoming.user.time_zone)
+    def day_box_arguments(day)
+      { padding: :condensed, mb: 4, test_selector: "planner-upcoming-day",
+        data: sortable_list_data(day.date.iso8601, day_name(day.date)) }
     end
 
-    def meeting_kind(occurrence)
-      recurring = occurrence.series || occurrence.meeting.recurring_meeting_id
-      recurring ? t("planner.meeting_recurring") : t("planner.meeting_one_time")
-    end
-
-    def occurrence_path(occurrence)
-      occurrence.meeting ? meeting_path(occurrence.meeting) : recurring_meeting_path(occurrence.series)
-    end
+    def subtitle(day) = (t("planner.upcoming.non_working_day") unless day.working?)
   end
 end

@@ -28,19 +28,25 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= component_wrapper(data: { test_selector: "planner-overdue" }) do %>
-  <% if overdue.work_packages.empty? %>
-    <%= render(Primer::Beta::Blankslate.new(test_selector: "planner-overdue-empty")) do |blankslate| %>
-      <% blankslate.with_visual_icon(icon: :"check-circle") %>
-      <% blankslate.with_heading(tag: :h3).with_content(t("planner.overdue.empty")) %>
-      <% blankslate.with_description { t("planner.overdue.description") } %>
-    <% end %>
-  <% else %>
-    <%= render(Primer::Box.new(border: :top)) do %>
-      <% overdue.work_packages.each do |work_package| %>
-        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "planner-overdue-task")) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, lead_width:, references: overdue.references, view: :overdue)) %>
+  <%= render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box| %>
+    <% if overdue.work_packages.empty? %>
+      <% box.with_row do %>
+        <%= render(Primer::Beta::Blankslate.new(narrow: true, test_selector: "planner-overdue-empty")) do |blankslate| %>
+          <% blankslate.with_visual_icon(icon: :"check-circle") %>
+          <% blankslate.with_heading(tag: :h3).with_content(t("planner.overdue.empty")) %>
+          <% blankslate.with_description { t("planner.overdue.description") } %>
         <% end %>
       <% end %>
+    <% end %>
+
+    <% overdue.work_packages.each do |work_package| %>
+      <% box.with_row(test_selector: "planner-overdue-task") do %>
+        <%= render(Planner::TaskRowComponent.new(work_package:, references: overdue.references, view: :overdue)) %>
+      <% end %>
+    <% end %>
+
+    <% box.with_row(px: 3) do %>
+      <%= render(Planner::AddTodoComponent.new(group: GROUP, view: :overdue, open: adding?(GROUP), task_fields: { date: "" })) %>
     <% end %>
   <% end %>
 <% end %>

@@ -32,18 +32,9 @@ module Planner
   class TaskRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    # Fixed widths keep the meta of every row in the same columns, whether it describes a quick task
-    # or a planned work package.
-    META_WIDTHS = { planned_for: "9rem", kind: "8rem" }.freeze
-
-    # Ids sit before the checkbox in the lead column; longer ones are truncated.
-    ID_CHARACTERS = 8
-    ID_MAX_WIDTH = "#{ID_CHARACTERS}ch".freeze
-
-    def initialize(work_package:, lead_width:, references:, view: :today, day_part: nil)
+    def initialize(work_package:, references:, view: :today, day_part: nil)
       super()
       @work_package = work_package
-      @lead_width = lead_width
       @references = references
       @view = view
       @day_part = day_part
@@ -51,11 +42,13 @@ module Planner
 
     private
 
-    attr_reader :work_package, :lead_width, :references, :view, :day_part
+    attr_reader :work_package, :references, :view, :day_part
 
     def overdue? = view == :overdue
 
     def completed? = view == :completed
+
+    def draggable? = view.in?(%i[today upcoming])
 
     # Where the Move menu can send the task: the other day parts when it is planned for today,
     # otherwise into today; and tomorrow, unless that is already its day.
@@ -70,18 +63,16 @@ module Planner
       targets.map { [it, t("planner.move_to.#{it}")] }
     end
 
-    # Quick tasks and planned work packages share one look: the type in its colour, with own tasks
-    # named as quick tasks.
-    def kind_name
-      planned_work_package ? planned_work_package.type.name.upcase : t("planner.quick_task").upcase
+    # Overdue lists the day a task was planned for; elsewhere a planned work package shows its own
+    # finish date.
+    def shown_date
+      overdue? ? work_package.due_date : planned_work_package&.due_date
     end
 
-    def kind_classes
-      helpers.class_names("__hl_uppercase", helpers.hl_foreground_class("type", shown_work_package.type))
-    end
+    def date_color = overdue? || shown_date < User.current.today ? :severe : :muted
 
-    def meta_cell(name)
-      { mr: 2, classes: "min-width-0", style: "width: #{META_WIDTHS.fetch(name)}; flex-shrink: 0" }
+    def date_title
+      t("planner.planned_for", date: helpers.format_date(shown_date)) if overdue?
     end
 
     def view_param = (view unless view == :today)
@@ -105,8 +96,6 @@ module Planner
       parts = subject_parts.reject { it.is_a?(String) && it.blank? }
       @planned_work_package = parts.first if parts.one? && parts.first.is_a?(WorkPackage)
     end
-
-    def shown_work_package = planned_work_package || work_package
 
     def closed? = work_package.closed?
 
@@ -136,7 +125,7 @@ module Planner
 
     def subject_link_arguments
       {
-        href: work_package_path(shown_work_package),
+        href: work_package_path(planned_work_package || work_package),
         scheme: closed? ? :secondary : :primary,
         font_weight: :semibold,
         style: ("text-decoration: line-through" if closed?)

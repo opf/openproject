@@ -41,9 +41,9 @@ module Planner
       [menu_group(header: nil, children: ICONS.map { |view, icon| view_item(view, icon) })]
     end
 
-    def self.path_for(view)
+    def self.path_for(view, **query)
       url_helpers = Rails.application.routes.url_helpers
-      view.to_s == "today" ? url_helpers.planner_path : url_helpers.planner_view_path(view)
+      view.to_s == "today" ? url_helpers.planner_path(**query) : url_helpers.planner_view_path(view, **query)
     end
 
     private

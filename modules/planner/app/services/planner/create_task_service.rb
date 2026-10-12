@@ -29,16 +29,17 @@
 #++
 
 module Planner
-  # Creates a task in the user's "My work" project, due today in the given day part. Work packages
-  # referenced as #123 or ##PROJ-42 get a "relates to" link the user is allowed to add.
+  # Creates a task in the user's "My work" project, due on the given day in the given day part, or
+  # without a date. Work packages referenced as #123 or ##PROJ-42 get a "relates to" link the user is
+  # allowed to add.
   class CreateTaskService
     def initialize(user:)
       @user = user
     end
 
-    def call(subject:, day_part:)
+    def call(subject:, day_part: nil, date: user.today)
       ProjectService.new(user).call.bind do |project|
-        create_task(project, subject, day_part)
+        create_task(project, subject, day_part, date)
           .on_success { |call| link_references(call.result) }
       end
     end
@@ -47,14 +48,14 @@ module Planner
 
     attr_reader :user
 
-    def create_task(project, subject, day_part)
+    def create_task(project, subject, day_part, date)
       WorkPackages::CreateService
         .new(user:)
         .call(project:,
               type: project.project_types.first.type,
               subject: subject.to_s.strip,
-              start_date: user.today,
-              due_date: user.today,
+              start_date: date,
+              due_date: date,
               **DayPartField.find.attributes_for(day_part))
     end
 

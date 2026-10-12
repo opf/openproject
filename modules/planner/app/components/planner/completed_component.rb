@@ -43,7 +43,7 @@ module Planner
       case date
       when completed.user.today then t("planner.today")
       when completed.user.today - 1 then t("planner.completed.yesterday")
-      else I18n.l(date, format: "%A")
+      else weekday_and_day(date)
       end
     end
   end

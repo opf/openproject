@@ -77,9 +77,8 @@ RSpec.describe Planner::Today do
       expect(section(:evening).work_packages).to contain_exactly(closed_task)
     end
 
-    it "counts only open tasks" do
-      expect(today.open_count).to eq(2)
-      expect(section(:evening).open_count).to eq(0)
+    it "counts all tasks of a day part, closed ones included" do
+      expect(section(:evening).todo_count).to eq(1)
     end
   end
 
@@ -114,20 +113,13 @@ RSpec.describe Planner::Today do
     end
 
     it "shows the meetings the user takes part in on their local day, by local start time" do
-      expect(section(:morning).meetings).to contain_exactly(morning_meeting)
-      expect(section(:afternoon).meetings).to contain_exactly(afternoon_meeting)
-      expect(section(:evening).meetings).to contain_exactly(late_meeting)
-    end
-
-    it "loads every participant, not only the user" do
-      other = create(:meeting_participant, meeting: morning_meeting).user
-
-      expect(section(:morning).meetings.first.participants.map(&:user)).to contain_exactly(user, other)
+      expect(section(:morning).meetings.map(&:meeting)).to contain_exactly(morning_meeting)
+      expect(section(:afternoon).meetings.map(&:meeting)).to contain_exactly(afternoon_meeting)
+      expect(section(:evening).meetings.map(&:meeting)).to contain_exactly(late_meeting)
     end
 
     it "knows which day part it is now" do
-      expect(today).to be_now(:morning)
-      expect(today).not_to be_now(:afternoon)
+      expect(today.current_day_part).to eq(:morning)
     end
 
     context "when the user can no longer see the meeting project" do

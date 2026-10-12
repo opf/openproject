@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Planner views", type: :rails_request do
+RSpec.describe "Planner views", type: :rails_request, with_settings: { working_days: [1, 2, 3, 4, 5] } do
   let!(:task) { create(:type_task) }
   let!(:role) do
     create(:project_role, permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR + %i[view_work_packages])
@@ -78,26 +78,25 @@ RSpec.describe "Planner views", type: :rails_request do
       create(:member, project: meeting_project, principal: user,
                       roles: [create(:project_role, permissions: %i[view_meetings view_work_packages])])
       create(:meeting_participant, meeting:, user:)
-      create_list(:meeting_participant, 4, meeting:)
     end
 
-    it "shows meetings with their time, duration and participants" do
+    it "shows meetings with their project, kind and time" do
       subject
 
-      expect(page).to have_test_selector("planner-meeting-morning", text: "09:30 AM–09:45 AM")
-      expect(page).to have_test_selector("planner-meeting-duration", text: "15 mins")
-      expect(page).to have_test_selector("planner-meeting-morning", text: "+2")
+      expect(page).to have_test_selector("planner-meeting-morning", text: "XWiki daily")
+      expect(page).to have_test_selector("planner-meeting-morning", text: meeting_project.name)
+      expect(page).to have_test_selector("planner-meeting-morning", text: "One-time meeting")
+      expect(page).to have_test_selector("planner-meeting-time", text: "09:30 AM - 09:45 AM")
     end
 
-    it "describes quick tasks and planned work packages alike, by type and id" do
+    it "describes planned work packages by type, id and status" do
       subject
 
       expect(page).to have_test_selector("planner-reference", text: "Show GitLab branches", count: 1)
       expect(page).to have_test_selector("planner-planned", text: "Branch tracking via GitLab webhook")
-      expect(page).to have_test_selector("planner-task-meta", text: planned.type.name.upcase)
-      expect(page).to have_test_selector("planner-task-meta", text: "QUICK TASK", count: 2)
-      expect(page).to have_test_selector("planner-task-id", text: planned.formatted_id)
-      expect(page).to have_no_css(".op-status-badge")
+      expect(page).to have_test_selector("planner-task-info", count: 1)
+      expect(page).to have_test_selector("planner-task-info", text: planned.formatted_id)
+      expect(page).to have_test_selector("planner-task-info", text: planned.status.name)
     end
 
     context "with a /meeting task" do
@@ -124,10 +123,40 @@ RSpec.describe "Planner views", type: :rails_request do
 
       expect(page).to have_css("turbo-frame#planner_sidemenu")
       expect(page).to have_test_selector("planner-today")
-      expect(page).to have_test_selector("planner-quick-add")
-      expect(page).to have_css("segmented-control [aria-current=true]", text: "Morning")
       expect(page).to have_test_selector("planner-task-morning", text: "Book train to the offsite")
-      expect(page).to have_test_selector("planner-section-afternoon", text: "Nothing planned.")
+      expect(page).to have_test_selector("planner-section-counts", text: "3 to-dos | 1 meeting")
+      expect(page).to have_test_selector("planner-section-afternoon", text: "No entries")
+    end
+
+    it "lets to-dos be dragged between day parts" do
+      subject
+
+      expect(page).to have_css("[data-controller='sortable-lists'][data-test-selector='planner-today']")
+      expect(page).to have_css("[data-controller='sortable-lists--list'][data-sortable-lists--list-id-value='evening']")
+      item = "[data-controller='sortable-lists--item'][data-sortable-lists--item-id-value='#{work_package.id}']"
+      expect(page).to have_css("#{item} .DragHandle")
+      expect(page).to have_test_selector("planner-meeting-morning")
+      expect(page).to have_no_css("[data-test-selector='planner-meeting-morning'] .DragHandle")
+    end
+
+    it "adds to-dos in every day part, with the header button opening the current one" do
+      subject
+
+      expect(page).to have_link("Add to-do", href: planner_path(adding: :morning))
+      %w[morning afternoon evening].each do |day_part|
+        expect(page).to have_css("details[data-test-selector='planner-add-todo-#{day_part}']:not([open])")
+      end
+    end
+
+    context "when adding to the afternoon" do
+      let(:path) { planner_path(adding: :afternoon) }
+
+      it "opens its form" do
+        subject
+
+        expect(page).to have_css("details[open][data-test-selector='planner-add-todo-afternoon'] input[autofocus]")
+        expect(page).to have_field("task[day_part]", type: :hidden, with: "afternoon")
+      end
     end
 
     context "on Upcoming" do
@@ -138,13 +167,15 @@ RSpec.describe "Planner views", type: :rails_request do
         meeting.update_columns(start_time: meeting.start_time + 1.day)
       end
 
-      it "lists the coming working days" do
+      it "lists the coming days" do
         subject
 
         expect(page).to have_test_selector("planner-upcoming")
+        expect(page).to have_test_selector("planner-upcoming-day", count: 7)
         expect(page).to have_test_selector("planner-upcoming-day", text: "Tomorrow")
+        expect(page).to have_test_selector("planner-upcoming-day", text: /Saturday 10th\s+Non-working day/)
         expect(page).to have_test_selector("planner-upcoming-task", text: "Book train to the offsite")
-        expect(page).to have_test_selector("planner-upcoming-meeting", text: "Meeting · One-time")
+        expect(page).to have_test_selector("planner-upcoming-meeting", text: "One-time meeting")
       end
     end
 

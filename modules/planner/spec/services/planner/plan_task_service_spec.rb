@@ -86,6 +86,25 @@ RSpec.describe Planner::PlanTaskService do
     end
   end
 
+  context "to a later date" do
+    let(:to) { (today + 5).iso8601 }
+
+    it "keeps the day part and plans it for that date" do
+      expect(subject).to be_success
+      expect(task.reload).to have_attributes(start_date: today + 5, due_date: today + 5)
+      expect(day_part_field.day_part_of(task)).to eq(:morning)
+    end
+  end
+
+  context "to a past date" do
+    let(:to) { (today - 1).iso8601 }
+
+    it "fails" do
+      expect(subject).to be_failure
+      expect(subject.message).to eq(I18n.t("planner.errors.unknown_target"))
+    end
+  end
+
   context "with an unknown target" do
     let(:to) { "next_year" }
 

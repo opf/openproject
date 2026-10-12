@@ -52,7 +52,7 @@ module Planner
 
     # Work package attributes that put a task into the given day part.
     def attributes_for(day_part)
-      { "custom_field_#{custom_field.id}": option_ids[DAY_PARTS.index(day_part.to_sym) || 0] }
+      { "custom_field_#{custom_field.id}": option_ids[DAY_PARTS.index(day_part&.to_sym) || 0] }
     end
 
     private

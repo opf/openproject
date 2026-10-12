@@ -30,40 +30,32 @@
 
 module Planner
   class TodayComponent < BaseComponent
-    COLOR_SCHEMES = { morning: :attention, afternoon: :accent, evening: :done }.freeze
-
-    def initialize(today:)
-      super()
+    def initialize(today:, adding: nil)
+      super(adding:)
       @today = today
     end
+
+    def add_todo_group = today.current_day_part
 
     private
 
     attr_reader :today
 
-    def summary
-      [
-        I18n.l(today.date, format: "%A, %-d %B"),
-        t("planner.open_tasks", count: today.open_count),
-        t("planner.meetings", count: today.meetings.size)
-      ].join(" · ")
+    def section_box_arguments(section)
+      name = t("planner.day_part.#{section.day_part}")
+
+      { padding: :condensed, mb: 4, test_selector: "planner-section-#{section.day_part}",
+        data: sortable_list_data(section.day_part, name) }
     end
 
-    def row_arguments(day_part, **)
-      { border: :bottom, px: 2, py: 1, test_selector: "planner-#{day_part}", ** }
+    def section_header(section)
+      SectionHeaderComponent.new(title: t("planner.day_part.#{section.day_part}"),
+                                 subtitle: t("planner.time_range.#{section.day_part}"),
+                                 counts: counts(section))
     end
 
-    def subject_field_arguments
-      {
-        name: "task[subject]",
-        label: t("planner.quick_add.label"),
-        visually_hide_label: true,
-        placeholder: t("planner.quick_add.placeholder"),
-        required: true,
-        autocomplete: "off",
-        full_width: true,
-        size: :small
-      }
+    def add_todo(day_part)
+      AddTodoComponent.new(group: day_part, view: :today, open: adding?(day_part), task_fields: { day_part: })
     end
   end
 end
