@@ -102,7 +102,7 @@ module Users::PermissionChecks
   end
 
   def admin_elevation
-    @admin_elevation || default_admin_elevation
+    @admin_elevation || Users::AdminElevation.default
   end
 
   def admin_elevation=(elevation)
@@ -209,14 +209,6 @@ module Users::PermissionChecks
       admin?
     else
       context.respond_to?(:project) ? admin_in_project?(context.project) : admin?
-    end
-  end
-
-  def default_admin_elevation
-    if OpenProject::FeatureDecisions.admin_privilege_elevation_active?
-      Users::AdminElevation.none
-    else
-      Users::AdminElevation.everywhere
     end
   end
 

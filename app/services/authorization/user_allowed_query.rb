@@ -53,7 +53,7 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
                                   has_role.and(has_permission)
                                 end
 
-      is_admin = if admins_allowed_without_membership?(action)
+      is_admin = if admins_allowed_without_membership?(action, project)
                    users_table[:admin].eq(true)
                  else
                    Arel::Nodes::Equality.new(1, 0)
@@ -90,9 +90,9 @@ class Authorization::UserAllowedQuery < Authorization::AbstractUserQuery
     end
   end
 
-  def self.admins_allowed_without_membership?(action)
+  def self.admins_allowed_without_membership?(action, project)
     OpenProject::AccessControl.grant_to_admin?(action) &&
-      !OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+      Users::AdminElevation.default.covers?(project)
   end
 
   def self.roles_member_roles_join(project)
