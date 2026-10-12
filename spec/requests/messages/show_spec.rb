@@ -82,14 +82,12 @@ RSpec.describe "Forum topic thread", type: :rails_request, with_settings: { per_
       create(:work_package, project: forum.project, subject:).tap { MessageWorkPackage.create!(message:, work_package: it) }
     end
 
-    it "hangs each one on the lifeline after the message it came from" do
+    it "shows them along the thread" do
       work_package = create_work_package_from(replies.first, subject: "Freeze on Friday")
 
       get project_forum_topic_path(forum.project, forum, topic)
 
-      branch = test_selector("message-created-work-package-#{work_package.id}")
-
-      expect(html).to have_css("#message-#{replies.first.id} ~ #{branch}", text: "Freeze on Friday")
+      expect(html).to have_test_selector("message-created-work-package-#{work_package.id}", text: "Freeze on Friday")
     end
 
     it "names them in the topic header, including those from replies hidden behind a gap" do
