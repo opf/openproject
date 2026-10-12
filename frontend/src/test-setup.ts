@@ -25,10 +25,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-// Keeps the NgModule graph in the spec program: @angular/build >= 22.2.0
-// ignores the non-declaration `files`/`include` roots of tsconfig.spec.json.
-// https://github.com/angular/angular-cli/issues/34231
-import type {} from './main';
 import { I18n } from 'i18n-js';
 import '@testing-library/jest-dom/vitest';
 import { afterEach, vi } from 'vitest';
