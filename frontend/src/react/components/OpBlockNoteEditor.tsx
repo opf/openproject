@@ -39,6 +39,7 @@ import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   getOpenProjectSlashMenuItems,
+  HeadingLinkExtension,
   OpenProjectFormattingToolbar,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
@@ -98,6 +99,7 @@ export function OpBlockNoteEditor({
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
         ExternalLinkA11yExtension,
+        HeadingLinkExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
         ...(hocuspocusProvider ? [CollaborationCursorLabelFitExtension] : []),
       ],
