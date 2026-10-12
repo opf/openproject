@@ -38,9 +38,8 @@ RSpec.describe "Versions and categories admin settings" do
   end
 
   def confirm_irreversible_action
-    checkbox = find_field("I understand that this action is not reversible", visible: :all)
-    page.execute_script("arguments[0].click()", checkbox)
-    expect(checkbox).to be_checked
+    check "I understand that this action is not reversible"
+    expect(page).to have_checked_field("I understand that this action is not reversible")
   end
 
   context "when the setting is off", with_settings: { work_package_multiple_versions: false } do

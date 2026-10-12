@@ -57,8 +57,7 @@ RSpec.describe "Admin lists project mappings for a storage",
   current_user { admin }
 
   def choose_manually_managed_folder
-    input = find_by_id("storages_project_storage_project_folder_mode_manual", visible: :all)
-    page.execute_script("arguments[0].click()", input)
+    choose "Existing folder with manually managed permissions"
     expect(page).to have_checked_field("storages_project_storage_project_folder_mode_manual")
   end
 

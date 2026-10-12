@@ -64,9 +64,8 @@ module Components
 
       def confirm_deletion
         within_dialog do
-          checkbox = find_field("#{dialog_id}-check_box", visible: :all)
-          page.execute_script("arguments[0].click()", checkbox)
-          expect(page).to have_checked_field("#{dialog_id}-check_box", visible: :all)
+          check "#{dialog_id}-check_box", allow_label_click: true
+          expect(page).to have_checked_field("#{dialog_id}-check_box")
         end
 
         expect(page).to have_button "Delete permanently", disabled: false

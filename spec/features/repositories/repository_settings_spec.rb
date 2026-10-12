@@ -68,8 +68,7 @@ RSpec.describe "Repository Settings", :js do
         expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
         within("#destroy-repository-dialog") do
           confirmation_label = "I understand that this deletion cannot be reversed."
-          confirmation = find_field(confirmation_label)
-          page.execute_script("arguments[0].click()", confirmation) unless confirmation.checked?
+          check confirmation_label
 
           delete_button = nil
           page.document.synchronize(10) do

@@ -73,9 +73,8 @@ RSpec.describe "LDAP group sync administration spec", :js do
       find(".buttons a", text: "Delete").click
 
       within_dialog "Remove synchronized group cn=bar,ou=groups,dc=example,dc=com" do
-        confirmation = find_field("I understand that this deletion cannot be reversed.", visible: :all)
-        page.execute_script("arguments[0].click()", confirmation)
-        expect(confirmation).to be_checked
+        check "I understand that this deletion cannot be reversed."
+        expect(page).to have_checked_field("I understand that this deletion cannot be reversed.")
         find_button("Delete permanently", disabled: false, wait: 20).click
       end
 

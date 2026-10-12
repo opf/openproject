@@ -120,9 +120,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     hierarchy_page.open_action_menu_for("Phoenix Squad")
     click_on "Delete"
     expect(page).to have_test_selector("op-custom-fields--delete-item-dialog")
-    confirmation = find_field("I understand that this deletion cannot be reversed.", visible: :all)
-    page.execute_script("arguments[0].click()", confirmation)
-    expect(confirmation).to be_checked
+    check "I understand that this deletion cannot be reversed.", allow_label_click: true
+    expect(page).to have_checked_field("I understand that this deletion cannot be reversed.")
     expect(page).to have_button("Delete permanently", disabled: false)
     click_on "Delete permanently"
     expect(page).not_to have_test_selector("op-custom-fields--delete-item-dialog")
