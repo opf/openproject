@@ -41,6 +41,9 @@ class AdminElevationSession < ApplicationRecord
 
   scope :for_session, ->(session_id) { where(session_id:) }
   scope :active, -> { where(ended_at: nil).where(last_used_at: idle_timeout.ago..) }
+  scope :covering, ->(project) {
+    where(project:).or(where(include_subprojects: true, project_id: project.ancestors.select(:id)))
+  }
 
   def self.idle_timeout
     Setting.admin_elevation_idle_timeout.minutes
@@ -60,13 +63,5 @@ class AdminElevationSession < ApplicationRecord
 
   def active?
     ended_at.nil? && expires_at.future?
-  end
-
-  def use!
-    update!(last_used_at: Time.current)
-  end
-
-  def end!
-    update!(ended_at: Time.current)
   end
 end
