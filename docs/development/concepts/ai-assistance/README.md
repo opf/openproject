@@ -16,7 +16,7 @@ This document describes the design. It also shows how the first pull request is 
 | Term | Meaning |
 |---|---|
 | **Assistant** | A record (`AI::Assistant`) that an admin configures: a name, an icon and an optional model. It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
-| **Skill type** | Code that defines what a skill does: its rules, the message its AI judgement sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. The first one is `health_check`. |
+| **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. The first one is `health_check`. |
 | **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
 | **Finding** | One problem that a run found (`AI::AssistantRunFinding`). It has a severity, an area, a text, evidence, and an optional fix. |
@@ -48,13 +48,13 @@ flowchart LR
 ## Decisions
 
 - **Assistants are records, not users.** A run always acts with the permissions of the user who started it. The job runs in `User.execute_as(run.user)`.
-- **Rules and AI are separate.** The rules are deterministic, need no LLM, and always run. The AI judgement is optional. If it is not available or fails, the run lists it under "Not checked", and the rule findings stay.
+- **Rules and AI are separate.** The rules are deterministic, need no LLM, and always run. The AI review is optional. If it is not available or fails, the run lists it under "Not checked", and the rule findings stay.
 - **What the AI reads.** It reads only what the user can see: the work package, visible descendants and relations, and comments filtered by `journals.internal_visible`. Internal comments are included only when the user may see them. The prompt tells the model that this text is user data, not instructions.
 - **Evidence is required.** An AI finding without evidence is dropped. Findings and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
 - **Change sets are Automations actions.** `AI::AssistantRuns::ApplyProposalService` looks up each action key in `Automations::Register` and refuses keys that the skill type does not declare. For the health check, these are the new `Automations::Actions::Subject` and `Automations::Actions::Description`. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
 - **Conflicts use a strict `lockVersion`.** Each finding stores the work package version from which it was made (`base_lock_version`). If the work package changed after that, the apply fails and the user runs the check again. After a successful apply, the other open findings of the same run move to the new version, so a second change set from the same run can apply.
 - **Content guard.** A description change that removes an attachment reference, a mention or a macro cannot be applied (`AI::AssistantRuns::ContentGuard`).
-- **One AI job at a time** for each user, work package and skill. A second click opens the run that is in progress. A judgement that runs for more than 10 minutes is marked as timed out.
+- **One AI job at a time** for each user, work package and skill. A second click opens the run that is in progress. An AI review that runs for more than 10 minutes is marked as timed out.
 - **Journal cause.** Each applied change set writes `Journal::CausedByAssistantSkill`, with `source` and `depth` for the loop protection of a later trigger model. The activity tab shows "AI Assistance: proposed by … and applied by the user".
 - **Automations stay the write layer.** Existing Automations do not change. The only change that admins can see is the two new action types.
 
@@ -62,7 +62,7 @@ flowchart LR
 
 The prompt is data, not code. OpenProject ships no prompt text. Each skill stores:
 
-- **Instructions** (`prompt`): what the model checks. Without instructions, the skill runs only its rules, and the run lists the AI judgement as "Not checked".
+- **Instructions** (`prompt`): what the model checks. Without instructions, the skill runs only its rules, and the run lists the AI review as "Not checked".
 - **Output rules** (`output_rules`): how the model answers, for example the language, the changes, and what to do with user text. `{{locale}}` becomes the locale of the user who starts the run.
 - **Template** (`template_ref`): the template in a separate prompt registry that the skill was created from. Nothing reads it yet. A later sync from the registry uses it.
 
@@ -106,8 +106,8 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 - **Change set in the action vocabulary.** The same shape can serve an AI proposal, an automation step and the answer of an external service.
 - **`Automations::Actions::Base#after_success`.** It is called after a successful save. It is the extension point for actions with an effect outside the work package: run a skill, call a webhook, create a work package.
 - **A run records its trigger** (`menu` now; `automation` and `schedule` later) and an optional `automation_id`.
-- **Run creation and execution are separate.** `RunService` creates and starts a run; `Execution` runs the rules and starts the judgement, so a job can execute a run without a request.
-- **The run's user is the only actor.** Skills, rules, the judgement and apply never read `User.current`. A run that a schedule starts can act as a service account.
+- **Run creation and execution are separate.** `RunService` creates and starts a run; `Execution` runs the rules and starts the AI review, so a job can execute a run without a request.
+- **The run's user is the only actor.** Skills, rules, the AI review and apply never read `User.current`. A run that a schedule starts can act as a service account.
 - **The journal cause carries `source` and `depth`.**
 
 ## Gating
@@ -141,7 +141,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 
 | # | Commit | Contents | Depends on |
 |---|---|---|---|
-| 1 | Add Subject and Description automation actions and a strict mode | Two Automations action types, a text area for text actions, `strict:` and the `after_success` hook in `Automations::UpdateWorkPackageService` | – |
+| 1 | Add Subject and Description automation actions and a strict mode | Three Automations action types (Subject, Description, Comment), a text area for text actions, `strict:` and the `after_success` hook in `Automations::UpdateWorkPackageService` | – |
 | 2 | Add the ai_assistance flag, permission and journal cause | Feature flag, `use_ai_assistance`, seeded role, `Journal::CausedByAssistantSkill` | – |
 | 3 | Add AI assistant, skill, run and finding models | Migration, four models, seeder, factories | 2 |
 | 4 | Add the skill registry and the health check tree rules | Registry, `HealthCheck::Context`, four tree rules | 3 |
@@ -149,10 +149,12 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 6 | Add the health check rules for linked pull requests | GitHub and GitLab rules, "Not checked" entries | 4 |
 | 7 | Add the run service, the run controllers and the run dialog | `RunService`, runs and findings controllers, dismiss, Primer dialog and history | 4 |
 | 8 | Add the AI Assistance menu to the work package toolbars | Angular slot, menu button, deferred menu items | 7 |
-| 9 | Add the AI judgement to the health check | Job, judgement, model choice, single-job guard, polling | 7 |
+| 9 | Add the AI review to the health check | Job, judgement, model choice, single-job guard, polling | 7 |
 | 10 | Apply proposed changes from AI findings | `ApplyProposalService`, content guard, diff view, toolbar refresh | 1, 9 |
 | 11 | Add admin pages for AI assistants and their skills | Admin controllers, Primer forms, menu entry | 3 |
 | 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |
+| 13 | Add custom prompt presets, a comment-only scope and a copy button | Custom prompt skill type, `ChatsController#start`, `proposal_scope`, copy button | 12 |
+| 14 | Use "AI review" in the interface | Wording | 9 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 
