@@ -40,6 +40,14 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<% unless OpenProject::WebPush.key_readable? %>
+  <%=
+    render(Primer::Alpha::Banner.new(scheme: :danger, mb: 3)) do
+      t("admin.settings.push_notifications.key_unreadable")
+    end
+  %>
+<% end %>
+
 <%=
   settings_primer_form_with(
     url: admin_settings_push_notifications_path,
@@ -76,4 +84,13 @@ See COPYRIGHT and LICENSE files for more details.
       data: { turbo_submits_with: t("admin.settings.push_notifications.checking") }
     ) do %>
   <%= render(Primer::Beta::Button.new(type: :submit)) { t("admin.settings.push_notifications.check_reachability") } %>
+<% end %>
+
+<%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mt: 4, mb: 2)) { t("admin.settings.push_notifications.key_section") } %>
+<%= primer_form_with(
+      url: regenerate_key_admin_settings_push_notifications_path,
+      method: :post,
+      data: { turbo_confirm: t("admin.settings.push_notifications.regenerate_key_confirm") }
+    ) do %>
+  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger)) { t("admin.settings.push_notifications.regenerate_key") } %>
 <% end %>

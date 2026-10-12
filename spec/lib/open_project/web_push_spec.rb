@@ -49,6 +49,11 @@ RSpec.describe OpenProject::WebPush do
       expect(described_class.push_service_host?(".push.apple.com")).to be(false)
       expect(described_class.push_service_host?("evil.example.com")).to be(false)
     end
+
+    it "rejects nil and blank hosts" do
+      expect(described_class.push_service_host?(nil)).to be(false)
+      expect(described_class.push_service_host?("")).to be(false)
+    end
   end
 
   describe ".vapid_key" do
@@ -71,22 +76,36 @@ RSpec.describe OpenProject::WebPush do
     end
 
     context "when the stored key cannot be decrypted" do
-      let!(:subscription) { create(:push_subscription) }
-      let!(:old_public_key) { described_class.public_key }
-
       before do
+        described_class.public_key
         Setting.find_by!(name: "web_push_vapid_private_key").update_columns(value: "corrupted")
         Setting.clear_cache
-        allow(Rails.logger).to receive(:warn)
       end
 
-      it "regenerates the key, drops the subscriptions and logs" do
-        new_public_key = described_class.public_key
+      it "raises an unreadable key error naming the setting" do
+        expect { described_class.public_key }
+          .to raise_error(described_class::UnreadableKey, /web_push_vapid_private_key.*regenerate/i)
+      end
 
-        expect(new_public_key).not_to eq(old_public_key)
-        expect(described_class.public_key).to eq(new_public_key)
-        expect(PushSubscription.count).to eq(0)
-        expect(Rails.logger).to have_received(:warn).with(a_string_matching(/VAPID/))
+      it "keeps the stored value and the subscriptions" do
+        create(:push_subscription)
+
+        expect { described_class.public_key }.to raise_error(described_class::UnreadableKey)
+
+        expect(stored_value).to eq("corrupted")
+        expect(PushSubscription.count).to eq(1)
+      end
+    end
+
+    context "when the stored value is missing" do
+      before do
+        Setting.where(name: "web_push_vapid_private_key").delete_all
+        Setting.clear_cache
+        allow(Setting).to receive(:web_push_vapid_private_key).and_return(nil)
+      end
+
+      it "raises an unreadable key error" do
+        expect { described_class.public_key }.to raise_error(described_class::UnreadableKey)
       end
     end
 
@@ -103,6 +122,65 @@ RSpec.describe OpenProject::WebPush do
 
         expect(described_class.public_key).to eq(expected.public_key)
       end
+    end
+  end
+
+  describe ".regenerate_key!" do
+    let!(:subscription) { create(:push_subscription) }
+    let!(:old_public_key) { described_class.public_key }
+
+    it "writes a fresh key and deletes every subscription" do
+      described_class.regenerate_key!
+
+      expect(described_class.public_key).not_to eq(old_public_key)
+      expect(PushSubscription.count).to eq(0)
+    end
+
+    it "restores a corrupted key" do
+      Setting.find_by!(name: "web_push_vapid_private_key").update_columns(value: "corrupted")
+      Setting.clear_cache
+
+      described_class.regenerate_key!
+
+      expect(described_class).to be_key_readable
+    end
+  end
+
+  describe ".key_readable?" do
+    it "is true for a readable key" do
+      expect(described_class).to be_key_readable
+    end
+
+    it "is false for a corrupted key" do
+      described_class.public_key
+      Setting.find_by!(name: "web_push_vapid_private_key").update_columns(value: "corrupted")
+      Setting.clear_cache
+
+      expect(described_class).not_to be_key_readable
+    end
+
+    it "is false when the stored value is nil" do
+      allow(Setting).to receive(:web_push_vapid_private_key).and_return(nil)
+
+      expect(described_class).not_to be_key_readable
+    end
+
+    it "is true when the key is provided through the environment",
+       :settings_reset,
+       with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => Base64.strict_encode64(
+         OpenSSL::PKey::EC.generate("prime256v1").private_to_der
+       ) } do
+      reset(:web_push_vapid_private_key)
+
+      expect(described_class).to be_key_readable
+    end
+  end
+
+  describe "request log filtering" do
+    it "masks push subscription endpoints" do
+      filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
+
+      expect(filter.filter(endpoint: "https://fcm.googleapis.com/fcm/send/abc")).to eq(endpoint: "[FILTERED]")
     end
   end
 

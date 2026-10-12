@@ -50,7 +50,11 @@ module My
         @subscriptions ||= ::PushSubscription.where(user:).preload(:session).order(:created_at, :id).to_a
       end
 
+      def available? = OpenProject::WebPush.key_readable?
+
       def stimulus_data
+        return {} unless available?
+
         {
           controller: "my--push-subscription",
           "my--push-subscription-vapid-public-key-value": OpenProject::WebPush.public_key,

@@ -63,7 +63,9 @@ RSpec.describe PushSubscriptions::CreateContract do
     "https://fcm.googleapis.com/#{'a' * 4096}",
     "https://.push.apple.com/x",
     "https://.notify.windows.com/x",
-    "not a url"
+    "not a url",
+    "https:/x",
+    "https://"
   ].each do |invalid_endpoint|
     context "with the endpoint #{invalid_endpoint.truncate(60)}" do
       let(:endpoint) { invalid_endpoint }
@@ -90,6 +92,26 @@ RSpec.describe PushSubscriptions::CreateContract do
     let(:subscription) { PushSubscription.new(user: model_user, endpoint:) }
 
     it_behaves_like "contract is invalid", session_id: :blank
+  end
+
+  context "when the user already holds the maximum number of subscriptions" do
+    before { create_list(:push_subscription, PushSubscription::MAX_PER_USER, user: current_user) }
+
+    it_behaves_like "contract is invalid", base: :too_many_push_subscriptions
+  end
+
+  context "when the user holds one fewer than the maximum" do
+    before { create_list(:push_subscription, PushSubscription::MAX_PER_USER - 1, user: current_user) }
+
+    it_behaves_like "contract is valid"
+  end
+
+  context "when re-saving one of the maximum number of subscriptions" do
+    let(:subscription) do
+      create_list(:push_subscription, PushSubscription::MAX_PER_USER, user: current_user).first
+    end
+
+    it_behaves_like "contract is valid"
   end
 
   include_examples "contract reuses the model errors"

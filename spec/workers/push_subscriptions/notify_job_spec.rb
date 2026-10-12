@@ -88,7 +88,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
         .to have_received(:post)
         .with(a_string_starting_with("https://fcm.googleapis.com/"),
               headers: hash_including("Urgency" => "low",
-                                      "Topic" => "op-unread-#{user.id}",
+                                      "Topic" => "op-unread",
                                       "Authorization" => a_string_starting_with("vapid t=")),
               body: nil,
               http_options: { open_timeout: 5, read_timeout: 10 })
@@ -113,6 +113,21 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       perform
 
       expect(subscriptions.map { it.reload.updated_at }).to all(be_within(1.minute).of(Time.current))
+    end
+
+    context "when the VAPID key is unreadable" do
+      before do
+        allow(OpenProject::WebPush).to receive(:vapid_key).and_raise(OpenProject::WebPush::UnreadableKey)
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it "logs once, posts nothing and keeps the subscriptions" do
+        expect { perform }.not_to raise_error
+
+        expect_no_post
+        expect(Rails.logger).to have_received(:error).once
+        expect(PushSubscription.where(user_id: user.id).count).to eq(2)
+      end
     end
 
     context "with the feature flag off", with_flag: { progressive_web_app: false } do
@@ -178,7 +193,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
     end
 
-    [401, 403, 404, 410].each do |code|
+    [400, 401, 403, 404, 410, 413].each do |code|
       context "when the push service answers #{code}" do
         let(:response_code) { code.to_s }
 
@@ -281,6 +296,18 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
         allow(OpenProject::SsrfProtection).to receive(:post).and_raise(SsrfFilter::PrivateIPAddress)
       end
 
+      it "logs the subscription id and error class without the endpoint" do
+        allow(Rails.logger).to receive(:warn)
+
+        perform
+
+        subscriptions.each do |subscription|
+          expect(Rails.logger)
+            .to have_received(:warn)
+            .with("Push subscription #{subscription.id} rejected: SsrfFilter::PrivateIPAddress")
+        end
+      end
+
       it "destroys the subscriptions" do
         perform
 
@@ -313,7 +340,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
     end
 
     context "when the push service answers with an unexpected code" do
-      let(:response_code) { "400" }
+      let(:response_code) { "302" }
 
       it "logs and keeps the subscriptions" do
         allow(Rails.logger).to receive(:warn)

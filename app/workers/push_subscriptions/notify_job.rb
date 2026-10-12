@@ -35,7 +35,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   end
 
   DEBOUNCE = 1.minute
-  GONE_CODES = [401, 403, 404, 410].freeze
+  TOPIC = "op-unread"
 
   queue_with_priority :notification
 
@@ -70,14 +70,18 @@ class PushSubscriptions::NotifyJob < ApplicationJob
       return
     end
 
-    return unless wakeable?(user)
+    deliver_all(user) if wakeable?(user)
+  rescue OpenProject::WebPush::UnreadableKey => e
+    Rails.logger.error("Browser push is paused: #{e.message}")
+  end
 
+  private
+
+  def deliver_all(user)
     outcomes = user.push_subscriptions.map { deliver(it) }
 
     raise RetryableResponse if outcomes.include?(:retry)
   end
-
-  private
 
   def wakeable?(user)
     !user.pref.reminders_paused_on?(user.today) &&
@@ -96,15 +100,15 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   rescue *TRANSIENT_ERRORS
     :retry
   rescue SsrfFilter::Error => e
-    Rails.logger.warn("Push endpoint rejected for subscription #{subscription.id}: #{e.message}")
+    Rails.logger.warn("Push subscription #{subscription.id} rejected: #{e.class}")
     subscription.destroy!
   end
 
   def handle_response(subscription, code)
     case code
     when 200..299 then subscription.touch
-    when *GONE_CODES then subscription.destroy!
     when 429, 500..599 then :retry
+    when 400..499 then subscription.destroy!
     else Rails.logger.warn("Push service answered #{code} for subscription #{subscription.id}")
     end
   end
@@ -117,6 +121,6 @@ class PushSubscriptions::NotifyJob < ApplicationJob
            ttl: 3600,
            urgency: "low")
       .headers
-      .merge("Topic" => "op-unread-#{subscription.user_id}")
+      .merge("Topic" => TOPIC)
   end
 end

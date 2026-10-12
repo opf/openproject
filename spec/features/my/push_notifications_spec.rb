@@ -52,6 +52,21 @@ RSpec.describe "My account browser push",
     expect(page).to have_no_test_selector("push-subscription-row")
   end
 
+  context "when the VAPID key is unreadable" do
+    before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
+
+    it "shows the unavailable status and no buttons without reading the public key" do
+      allow(OpenProject::WebPush).to receive(:public_key).and_raise(OpenProject::WebPush::UnreadableKey)
+
+      visit my_notifications_path(tab: "push")
+
+      expect(page).to have_text(I18n.t("my_account.push_notifications.unavailable"))
+      expect(page).to have_no_button(I18n.t("my_account.push_notifications.enable"))
+      expect(page).to have_no_button(I18n.t("my_account.push_notifications.disable"))
+      expect(OpenProject::WebPush).not_to have_received(:public_key)
+    end
+  end
+
   context "with the setting off", with_settings: { web_push_enabled: false } do
     it "hides the tab" do
       visit my_notifications_path

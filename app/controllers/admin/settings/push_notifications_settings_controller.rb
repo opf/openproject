@@ -48,6 +48,12 @@ module Admin::Settings
       redirect_to admin_settings_push_notifications_path, status: :see_other
     end
 
+    def regenerate_key
+      OpenProject::WebPush.regenerate_key!
+      flash[:notice] = t("admin.settings.push_notifications.key_regenerated")
+      redirect_to admin_settings_push_notifications_path, status: :see_other
+    end
+
     private
 
     def require_feature

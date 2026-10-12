@@ -68,6 +68,27 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     end
   end
 
+  context "with credentials other than a session", with_settings: { web_push_enabled: true } do
+    let(:password) { "Sup3rS3cret!pass" }
+    let(:password_user) { create(:user, password:, password_confirmation: password) }
+
+    it "answers 401 for a valid API key" do
+      token = create(:api_token, user:)
+
+      get "/push-notification",
+          headers: { "Authorization" => ActionController::HttpAuthentication::Basic.encode_credentials("apikey", token.plain_value) }
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    it "answers 401 for HTTP Basic user credentials" do
+      get "/push-notification",
+          headers: { "Authorization" => ActionController::HttpAuthentication::Basic.encode_credentials(password_user.login, password) }
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
     it "is not routed" do
       login_as user

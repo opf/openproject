@@ -32,9 +32,20 @@ module OpenProject::WebPush
   PUSH_SERVICE_HOSTS = %w[fcm.googleapis.com updates.push.services.mozilla.com].freeze
   PUSH_SERVICE_HOST_SUFFIXES = %w[.notify.windows.com .push.apple.com].freeze
 
+  class UnreadableKey < StandardError
+    MESSAGE = "The stored web_push_vapid_private_key setting could not be read. " \
+              "Regenerate it from the browser push administration page."
+
+    def initialize(message = MESSAGE)
+      super
+    end
+  end
+
   module_function
 
   def push_service_host?(host)
+    return false if host.blank?
+
     PUSH_SERVICE_HOSTS.include?(host) ||
       PUSH_SERVICE_HOST_SUFFIXES.any? { host.end_with?(it) && host.length > it.length }
   end
@@ -69,18 +80,31 @@ module OpenProject::WebPush
     value = Setting.web_push_vapid_private_key
     return value unless Settings::Definition[:web_push_vapid_private_key].writable?
 
-    decrypt_or_rotate(value)
+    decrypt(value)
   end
 
-  def decrypt_or_rotate(value)
+  def decrypt(value)
     raise ActiveSupport::MessageEncryptor::InvalidMessage if value.nil?
 
     encryptor.decrypt_and_verify(value)
   rescue ActiveSupport::MessageEncryptor::InvalidMessage
-    Rails.logger.warn("Stored web push VAPID key is unreadable; generating a new key and dropping all push subscriptions")
-    Setting.web_push_vapid_private_key = generate_encrypted_private_key
-    PushSubscription.delete_all
-    encryptor.decrypt_and_verify(Setting.web_push_vapid_private_key)
+    raise UnreadableKey
+  end
+
+  def key_readable?
+    vapid_key
+    true
+  rescue UnreadableKey
+    false
+  end
+
+  def regenerate_key!
+    OpenProject::Mutex.with_advisory_lock(Setting, "persist_default_web_push_vapid_private_key") do
+      PushSubscription.transaction do
+        Setting.web_push_vapid_private_key = generate_encrypted_private_key
+        PushSubscription.delete_all
+      end
+    end
   end
 
   def encryptor

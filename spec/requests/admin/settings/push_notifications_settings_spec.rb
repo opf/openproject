@@ -52,6 +52,26 @@ RSpec.describe "Push Notifications Settings",
         expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.reachable"))
       end
 
+      it "offers to regenerate a readable key after confirmation" do
+        get "/admin/settings/push_notifications"
+
+        expect(page).to have_no_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
+        expect(page).to have_button(I18n.t("admin.settings.push_notifications.regenerate_key"))
+        confirmation = I18n.t("admin.settings.push_notifications.regenerate_key_confirm")
+        expect(page).to have_css("form[data-turbo-confirm='#{confirmation}']")
+      end
+
+      context "when the key is unreadable" do
+        before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
+
+        it "shows the danger banner with the regenerate button" do
+          get "/admin/settings/push_notifications"
+
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_unreadable"))
+          expect(page).to have_button(I18n.t("admin.settings.push_notifications.regenerate_key"))
+        end
+      end
+
       context "when logged in as a non-admin" do
         let(:current_user) { create(:user) }
 
@@ -117,6 +137,46 @@ RSpec.describe "Push Notifications Settings",
 
         expect(response).to have_http_status(:not_found)
         expect(OpenProject::WebPush::ReachabilityCheck).not_to have_received(:call)
+      end
+    end
+  end
+
+  describe "POST /admin/settings/push_notifications/regenerate_key" do
+    context "with the feature flag on", with_flag: { progressive_web_app: true } do
+      let!(:subscription) { create(:push_subscription) }
+      let!(:old_public_key) { OpenProject::WebPush.public_key }
+
+      it "replaces the key, deletes the subscriptions and redirects with a notice" do
+        post "/admin/settings/push_notifications/regenerate_key"
+
+        expect(response).to redirect_to("/admin/settings/push_notifications")
+        expect(response).to have_http_status(:see_other)
+        expect(flash[:notice]).to eq(I18n.t("admin.settings.push_notifications.key_regenerated"))
+        expect(PushSubscription.count).to eq(0)
+        expect(OpenProject::WebPush.public_key).not_to eq(old_public_key)
+      end
+
+      context "when logged in as a non-admin" do
+        let(:current_user) { create(:user) }
+
+        it "is forbidden and keeps the key and the subscriptions" do
+          post "/admin/settings/push_notifications/regenerate_key"
+
+          expect(response).to have_http_status(:forbidden)
+          expect(PushSubscription.count).to eq(1)
+          expect(OpenProject::WebPush.public_key).to eq(old_public_key)
+        end
+      end
+    end
+
+    context "with the feature flag off", with_flag: { progressive_web_app: false } do
+      it "is not found" do
+        create(:push_subscription)
+
+        post "/admin/settings/push_notifications/regenerate_key"
+
+        expect(response).to have_http_status(:not_found)
+        expect(PushSubscription.count).to eq(1)
       end
     end
   end
