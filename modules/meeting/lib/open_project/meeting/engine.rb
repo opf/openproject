@@ -178,6 +178,7 @@ module OpenProject::Meeting
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
     patches %i[Project Journal WorkPackage]
+    patch_with_namespace :Principals, :DeleteJob
 
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],
