@@ -65,6 +65,7 @@ import { UserEditFieldComponent } from './edit/field-types/user-edit-field.compo
 import { VersionsEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/versions-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
+import { DateTimeEditFieldComponent } from './edit/field-types/datetime-edit-field.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
@@ -115,6 +116,7 @@ import { FormsModule } from '@angular/forms';
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
     CombinedDateEditFieldComponent,
+    DateTimeEditFieldComponent,
     ProjectEditFieldComponent,
     UserEditFieldComponent,
     VersionsEditFieldComponent,
