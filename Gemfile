@@ -334,7 +334,7 @@ group :ldap do
 end
 
 group :development do
-  gem "listen", "~> 3.10.0" # Use for event-based reloaders
+  gem "listen", "~> 3.10.1" # Use for event-based reloaders
 
   gem "letter_opener_web"
 
