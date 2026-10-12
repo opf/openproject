@@ -479,3 +479,11 @@ ai_text_transform_actions:
       6. Every section of the template has italic instruction text (lines starting with _). This instruction text must appear in your output for every section, whether the section received content or not. Content is added below the instruction text.
       7. Do not invent content. If the user did not mention something, keep only the section heading and instruction text.
       8. Every section heading from the template must appear in your output.
+ai_assistants:
+  - reference: :default_ai_assistant_qa
+    t_name: QA assistance
+    t_description: Checks work packages for inconsistencies and proposes changes.
+    icon: checklist
+    position: 1
+    skills:
+      - health_check
