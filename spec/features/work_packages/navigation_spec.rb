@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package navigation", :js, :selenium do
+RSpec.describe "Work package navigation", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: "Some project", enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }
@@ -85,7 +85,8 @@ RSpec.describe "Work package navigation", :js, :selenium do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(global_work_packages.table_container).to have_css(".wp-row-#{work_package.id}.-checked")
+    global_work_packages.expect_work_package_listed(work_package)
+    expect(page).to have_css("#{global_work_packages.row_selector(work_package)}.-checked")
 
     # deep link work package show
 
@@ -189,7 +190,7 @@ RSpec.describe "Work package navigation", :js, :selenium do
 
     wait_for_network_idle
 
-    page.find(".wp-table--cell-td.id a", text: work_package.id).click
+    page.find(".wp-table--cell-td.id a", text: work_package.id, wait: 20).click
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "inline create work package", :js, :selenium do
+RSpec.describe "inline create work package", :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 
@@ -104,8 +104,6 @@ RSpec.describe "inline create work package", :js, :selenium do
         wp_table.visit!
         filters.open
         filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
-
-        sleep(0.3)
 
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)

@@ -72,13 +72,15 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
   let(:pagination) { Components::TablePagination.new }
 
   def expect_query_order(query, expected)
-    retry_block do
+    page.document.synchronize(20) do
       query.reload
 
       # work_package4 was not positioned
       found = query.ordered_work_packages.pluck(:work_package_id)
 
-      raise "Backend order is incorrect: #{found} != #{expected}" unless found == expected
+      unless found == expected
+        raise Capybara::ExpectationNotMet, "Backend order is incorrect: #{found} != #{expected}"
+      end
     end
   end
 
@@ -215,8 +217,10 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
         wp_table.drag_and_drop_work_package from: 0, to: 3
 
-        expect(page).to have_css(".group--value", text: "Task (1)")
-        expect(page).to have_css(".group--value", text: "Bug (3)")
+        # The drop triggers a full query transition. Under parallel browser
+        # load the group rows can remain absent beyond Capybara's default wait.
+        expect(page).to have_css(".group--value", text: "Task (1)", wait: 20)
+        expect(page).to have_css(".group--value", text: "Bug (3)", wait: 20)
 
         rows = page.all(".wp-table--row")
         source_row = rows[1]
@@ -239,8 +243,8 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
 
         wp_table.drag_and_drop_work_package from: 1, to: 3
 
-        expect(page).to have_css(".group--value", text: "Task (1)")
-        expect(page).to have_css(".group--value", text: "Bug (3)")
+        expect(page).to have_css(".group--value", text: "Task (1)", wait: 20)
+        expect(page).to have_css(".group--value", text: "Bug (3)", wait: 20)
 
         expect(page).to have_no_css ".op-toast.error"
       end
@@ -370,7 +374,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       # instead of adding to it.
       first_target = find(".work-package-table--container tr:nth-of-type(1) .wp-table--cell-td.id")
       loading_indicator_saveguard
-      first_target.click
+      page.execute_script("arguments[0].click()", first_target)
       loading_indicator_saveguard
       # :meta (not :control) mirrors select_work_package_row_spec's helper: the
       # click handler accepts either modifier, but :control replaces the
@@ -468,6 +472,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       wp_table.drag_and_drop_work_package from: 1, to: 3
 
       wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
+      wp_table.expect_and_dismiss_toaster message: "Successful creation."
 
       # Try to sort by creation date
       sort_by.sort_via_header "Subject"
