@@ -38,6 +38,10 @@ module Users
       def allowed_scope(member_scope:, **)
         member_scope
       end
+
+      def project_condition(_project_id_column)
+        Arel::Nodes::False.new
+      end
     end
   end
 end
