@@ -6062,6 +6062,19 @@ en:
       sidebar_content_title: "Content"
       success: "Project attributes saved and artefact work package created successfully."
       title: "Project initiation request"
+  pwa:
+    offline:
+      body: "%{app_title} reloads automatically as soon as your connection returns."
+      headline: "You’re offline"
+      headline_online: "You’re back online"
+      reloading: "Reloading…"
+      retry: "Retry"
+      retrying: "Retrying…"
+      status_checking: "Checking your connection…"
+      status_restored: "Connection restored. Reloading…"
+      status_still: "Still offline. We’ll try again in a moment."
+      title: "Offline"
+
   queries:
     apply_filter: Apply preconfigured filter
     configure_view:
@@ -6074,19 +6087,6 @@ en:
         automatic:
           description: "Order the %{plural} by one or more sorting criteria. You will lose the previous sorting."
           heading: "Automatic"
-
-  pwa:
-    offline:
-      title: "Offline"
-      headline: "You’re offline"
-      headline_online: "You’re back online"
-      body: "%{app_title} reloads automatically as soon as your connection returns."
-      retry: "Retry"
-      retrying: "Retrying…"
-      reloading: "Reloading…"
-      status_checking: "Checking your connection…"
-      status_still: "Still offline. We’ll try again in a moment."
-      status_restored: "Connection restored. Reloading…"
 
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
