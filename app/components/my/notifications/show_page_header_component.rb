@@ -44,20 +44,36 @@ module My
       end
 
       def tabs
-        [
-          {
-            name: "notifications",
-            path: helpers.my_notifications_path(tab: "notifications"),
-            label: t("my_account.notifications_and_email.tabs.notifications"),
-            data: { turbo: false }
-          },
-          {
-            name: "reminders",
-            path: helpers.my_notifications_path(tab: "reminders"),
-            label: t("my_account.notifications_and_email.tabs.email_reminders"),
-            data: { turbo: false }
-          }
-        ]
+        [notifications_tab, reminders_tab, (push_tab if OpenProject::WebPush.enabled?)].compact
+      end
+
+      private
+
+      def notifications_tab
+        {
+          name: "notifications",
+          path: helpers.my_notifications_path(tab: "notifications"),
+          label: t("my_account.notifications_and_email.tabs.notifications"),
+          data: { turbo: false }
+        }
+      end
+
+      def reminders_tab
+        {
+          name: "reminders",
+          path: helpers.my_notifications_path(tab: "reminders"),
+          label: t("my_account.notifications_and_email.tabs.email_reminders"),
+          data: { turbo: false }
+        }
+      end
+
+      def push_tab
+        {
+          name: "push",
+          path: helpers.my_notifications_path(tab: "push"),
+          label: t("my_account.notifications_and_email.tabs.browser_push"),
+          data: { turbo: false }
+        }
       end
     end
   end

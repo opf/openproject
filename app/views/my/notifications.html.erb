@@ -41,6 +41,8 @@ See COPYRIGHT and LICENSE files for more details.
           update_email_alerts_url: { action: "update_email_alerts" }
         )
       ) %>
+<% elsif params[:tab] == "push" && OpenProject::WebPush.enabled? %>
+  <%= render(My::PushSubscriptions::ShowPageComponent.new(user: @user, current_session: session)) %>
 <% else %>
   <%= render(
         My::Notifications::ShowPageComponent.new(

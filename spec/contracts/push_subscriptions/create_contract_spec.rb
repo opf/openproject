@@ -86,5 +86,11 @@ RSpec.describe PushSubscriptions::CreateContract do
     it_behaves_like "contract is invalid", session_id: :invalid
   end
 
+  context "when the subscription has no session" do
+    let(:subscription) { PushSubscription.new(user: model_user, endpoint:) }
+
+    it_behaves_like "contract is invalid", session_id: :blank
+  end
+
   include_examples "contract reuses the model errors"
 end

@@ -49,9 +49,11 @@ module PushSubscriptions
     end
 
     def validate_session
-      return if model.session_id.blank?
-
-      errors.add(:session_id, :invalid) unless Sessions::UserSession.exists?(id: model.session_id, user_id: user.id)
+      if model.session_id.blank?
+        errors.add(:session_id, :blank)
+      elsif !Sessions::UserSession.exists?(id: model.session_id, user_id: user.id)
+        errors.add(:session_id, :invalid)
+      end
     end
 
     def validate_endpoint
