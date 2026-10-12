@@ -98,7 +98,26 @@ module Capabilities::Scopes
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name
-          WHERE (projects.id IS NOT NULL AND (enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL)) OR "actions".global
+          WHERE "actions".global
+          OR (
+            projects.id IS NOT NULL
+            AND (enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL)
+            AND (#{admin_project_condition})
+          )
+        SQL_PART
+      end
+
+      def admin_project_condition
+        current_user = User.current
+        project_id_field = Project.arel_table[:id]
+        permissions_without_elevation = Users::AdminElevation::PERMISSIONS_WITHOUT_ELEVATION
+                                          .map { connection.quote(it.to_s) }
+                                          .join(", ")
+
+        <<~SQL_PART
+          "actions".permission IN (#{permissions_without_elevation})
+          OR (users.id = #{current_user.id} AND #{current_user.admin_elevation.project_condition(project_id_field).to_sql})
+          OR (users.id <> #{current_user.id} AND #{Users::AdminElevation.default.project_condition(project_id_field).to_sql})
         SQL_PART
       end
 
