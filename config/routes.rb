@@ -32,11 +32,11 @@ Rails.application.routes.draw do
   root to: "homescreen#index", as: "home"
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
 
-  get "manifest" => "rails/pwa#manifest",
-      as: :pwa_manifest,
-      format: false,
-      defaults: { format: :json },
-      constraints: ->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }
+  constraints(->(_) { OpenProject::FeatureDecisions.progressive_web_app_active? }) do
+    get "manifest" => "pwa#manifest", as: :pwa_manifest, format: false, defaults: { format: :json }
+  end
+
+  get "service-worker" => "pwa#service_worker", as: :pwa_service_worker, format: false, defaults: { format: :js }
 
   # Route for error pages
   get "/404", to: "errors#not_found"
