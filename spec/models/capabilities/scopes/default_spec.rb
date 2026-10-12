@@ -32,6 +32,8 @@ require "spec_helper"
 require_relative "shared_examples"
 
 RSpec.describe Capabilities::Scopes::Default do
+  include CapabilityHelpers
+
   # we focus on the non current user capabilities to make the tests easier to understand
   subject(:scope) { Capability.default.where(principal_id: user.id) }
 
@@ -313,25 +315,7 @@ RSpec.describe Capabilities::Scopes::Default do
         include_examples "consists of contract actions",
                          with: "all actions of all permissions (project and global) grantable to admin" do
           let(:expected) do
-            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-            item = ->(namespace, action, global, module_name) {
-              # We only expect contract actions for project modules that are enabled by default. In the
-              # default edition the Bim module is not enabled by default for instance and thus its contract
-              # actions are not expected to be part of the default capabilities.
-              return if module_name.present? && project.enabled_module_names.exclude?(module_name.to_s)
-
-              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-               user.id,
-               global ? nil : project.id]
-            }
-
-            OpenProject::AccessControl
-              .contract_actions_map
-              .select { |_, v| v[:grant_to_admin] }
-              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-              .flatten(2)
-              .compact
-              .uniq { |v| v.join(",") }
+            global_admin_capabilities(user) + project_admin_capabilities(user, project)
           end
 
           it "does not include actions of permissions non-grantable to admin" do
@@ -352,24 +336,7 @@ RSpec.describe Capabilities::Scopes::Default do
         include_examples "consists of contract actions",
                          with: "all actions of all core permissions without the ones from modules" do
           let(:expected) do
-            # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
-            item = ->(namespace, action, global, module_name) {
-              # A global permission is granted without a project, so the modules a project
-              # has enabled never gate it, even when it is declared inside a project module.
-              return if module_name.present? && !global
-
-              ["#{API::Utilities::PropertyNameConverter.from_ar_name(namespace.to_s.singularize).pluralize.underscore}/#{action}",
-               user.id,
-               global ? nil : project.id]
-            }
-
-            OpenProject::AccessControl
-              .contract_actions_map
-              .select { |_, v| v[:grant_to_admin] }
-              .map { |_, v| v[:actions].map { |vk, vv| vv.map { |vvv| item.call(vk, vvv, v[:global], v[:module_name]) } } }
-              .flatten(2)
-              .compact
-              .uniq { |v| v.join(",") }
+            global_admin_capabilities(user) + project_admin_capabilities(user, project)
           end
         end
       end
@@ -539,8 +506,6 @@ RSpec.describe Capabilities::Scopes::Default do
   end
 
   describe ".default for admins with privilege elevation" do
-    include CapabilityHelpers
-
     shared_let(:other_project) { create(:project) }
 
     before do
