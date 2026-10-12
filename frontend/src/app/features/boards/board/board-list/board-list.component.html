@@ -12,6 +12,7 @@
       </div>
     }
     <div class="op-board-list--header"
+      [ngClass]="{ '-large-header': hasLargeHeader }"
       data-test-selector="op-board-list--header">
       @if (headerComponent) {
         <ndc-dynamic [ndcDynamicComponent]="headerComponent"
