@@ -31,8 +31,7 @@ require "spec_helper"
 require_relative "../../support/pages/my/page"
 
 RSpec.describe "Accountable widget on my page",
-               :js,
-               :selenium do
+               :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -89,12 +88,7 @@ RSpec.describe "Accountable widget on my page",
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
 
-    # Actually there are two success messages displayed currently. One for the grid getting updated and one
-    # for the query assigned to the new widget being created. A user will not notice it but the automated
-    # browser can get confused. Therefore we wait.
-    sleep(1)
-
-    my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
+    my_page.expect_and_dismiss_all_toasters message: I18n.t("js.notice_successful_update")
 
     accountable_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(3)")
 

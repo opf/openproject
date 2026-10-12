@@ -30,7 +30,6 @@ require_relative "../spec_helper"
 
 RSpec.describe "model viewer",
                :js,
-               :selenium,
                with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
@@ -86,8 +85,12 @@ RSpec.describe "model viewer",
         show_model_page.visit_and_wait_until_finished_loading!
 
         model_tree.select_model_menu_item(model.title, "Delete")
-        show_model_page.finished_loading
-        expect(page).to have_text(I18n.t("js.ifc_models.empty_warning"))
+        expect(page).to have_css(
+          ".op-toast.-info",
+          text: I18n.t("js.ifc_models.empty_warning"),
+          visible: :all,
+          wait: 30
+        )
       end
     end
 
