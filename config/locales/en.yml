@@ -5063,7 +5063,7 @@ en:
           create_button: "Create"
           dialog_body: "This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name."
           dialog_title: "Create new API token"
-          expires_on_caption: "The token stays valid until the end of this day."
+          expires_on_caption: "The token stays valid until the end of the selected day."
           expiry_custom: "Custom date"
           expiry_label: "Expiration"
           expiry_never: "No expiration"
