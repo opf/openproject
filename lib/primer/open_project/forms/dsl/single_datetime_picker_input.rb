@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,13 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Homescreen
-  module Blocks
-    class MyAccount < Grids::WidgetComponent
-      def title
-        I18n.t(:label_my_account)
+module Primer
+  module OpenProject
+    module Forms
+      module Dsl
+        class SingleDatetimePickerInput < SingleDatePickerInput
+          def derive_datepicker_options(options)
+            options.reverse_merge(
+              component: "opce-basic-single-datetime-picker"
+            )
+          end
+
+          def type
+            :single_datetime_picker
+          end
+        end
       end
     end
   end

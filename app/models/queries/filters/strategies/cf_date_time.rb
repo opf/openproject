@@ -28,62 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  ##
-  # A select field to select a time zone from.
-  class TimeZoneSettingComponent < ::ApplicationComponent
-    options :form, :title
-    options container_class: "-wide"
-    options include_blank: true
-
-    # name of setting and tag
-    def name
-      model
-    end
-
-    def render_select
-      if form.nil?
-        render_setting_select
+module Queries::Filters::Strategies
+  class CfDateTime < CfDate
+    def validate
+      if [Queries::Operators::OnDateTime, Queries::Operators::BetweenDateTime].include?(operator)
+        validate_values_all_datetime
       else
-        render_form_select
+        super
       end
     end
 
-    def render_form_select
-      form.select(
-        name,
-        time_zone_entries,
-        include_blank:,
-        container_class:,
-        title:
-      )
-    end
+    def sql_for_field(values, db_table, db_field)
+      return super if blank_check?
 
-    def render_setting_select
-      helpers.setting_select(
-        name,
-        time_zone_entries,
-        include_blank:,
-        container_class:,
-        title:
-      )
-    end
-
-    def time_zone_entries
-      UserPreferences::UpdateContract
-        .assignable_time_zones
-        .group_by { |tz| tz.tzinfo.canonical_zone }
-        .map { |canonical_zone, included_zones| time_zone_option(canonical_zone, included_zones) }
+      "#{db_table}.#{db_field} <> '' AND #{super(values, db_table, "#{db_field}::timestamp")}"
     end
 
     private
 
-    def time_zone_option(canonical_zone, zones)
-      zone_names = zones.map(&:name).join(", ")
-      [
-        "(UTC#{ActiveSupport::TimeZone.seconds_to_utc_offset(canonical_zone.base_utc_offset)}) #{zone_names}",
-        canonical_zone.identifier
-      ]
+    def blank_check?
+      [Queries::Operators::AllAndNonBlank, Queries::Operators::NoneOrBlank].include?(operator)
+    end
+
+    def operator_map
+      super.merge(
+        "=d" => Queries::Operators::OnDateTime,
+        "<>d" => Queries::Operators::BetweenDateTime
+      )
+    end
+
+    def validate_values_all_datetime
+      unless values.all? { |value| value.blank? || datetime?(value) }
+        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime"))
+      end
+    end
+
+    def datetime?(str)
+      true if ::DateTime.parse(str)
+    rescue ArgumentError
+      false
     end
   end
 end

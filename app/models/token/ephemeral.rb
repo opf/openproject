@@ -47,52 +47,36 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 module Token
-  module ExpirableToken
+  module Ephemeral
     extend ActiveSupport::Concern
 
     included do
-      # Set the expiration time
+      scope :not_expired, -> { where(expires_on: Time.current..) }
+      scope :expired, -> { where(expires_on: ...Time.current) }
+
       after_initialize :set_expiration_time, if: :new_record?
 
-      # Remove outdated token
       after_save :delete_expired_tokens
 
       delegate :validity_time, to: :class
-
-      def valid_plaintext?(input)
-        return false if expired?
-
-        super
-      end
-
-      def expired?
-        expires_on.nil? || expires_on.past?
-      end
-
-      ##
-      # Set the expiration column
-      def set_expiration_time
-        self.expires_on = validity_time.from_now
-      end
-
-      # Delete all expired tokens
-      def delete_expired_tokens
-        self.class.expired.delete_all
-      end
     end
 
-    module ClassMethods
-      ##
-      # Return a scope of active tokens
-      def not_expired
-        where(expires_on: Time.current..)
-      end
+    def valid_plaintext?(input)
+      return false if expired?
 
-      ##
-      # Return a scope of active tokens
-      def expired
-        where(expires_on: ...Time.current)
-      end
+      super
+    end
+
+    def expired?
+      expires_on.nil? || expires_on.past?
+    end
+
+    def set_expiration_time
+      self.expires_on = validity_time.from_now
+    end
+
+    def delete_expired_tokens
+      self.class.expired.delete_all
     end
   end
 end
