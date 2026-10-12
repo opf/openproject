@@ -58,6 +58,15 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     it "takes control of its clients" do
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
+
+    it "wakes on a push, reads the unread summary and handles clicks on its notification" do
+      expect(response.body).to include('addEventListener("push"', 'addEventListener("notificationclick"',
+                                       '"/push-notification"', "New activity in OpenProject")
+    end
+
+    it "shows a silent all-read notification and re-alerts on a rising count" do
+      expect(response.body).to include("No unread notifications", "renotify: true", "silent: true")
+    end
   end
 
   describe "the registration wiring" do
@@ -97,6 +106,8 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
       expect(response.media_type).to eq("text/javascript")
       expect(response.body).to include("unregister")
       expect(response.body).not_to include("clients.claim")
+      expect(response.body).not_to include('addEventListener("push"', 'addEventListener("notificationclick"',
+                                           "/push-notification", "New activity in OpenProject")
     end
 
     it "registers no worker" do
