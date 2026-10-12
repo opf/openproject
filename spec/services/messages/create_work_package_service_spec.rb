@@ -94,5 +94,19 @@ RSpec.describe Messages::CreateWorkPackageService do
       expect(Journal.where(journable_type: "WorkPackage")).to be_empty
       expect(MessageWorkPackage.count).to eq(0)
     end
+
+    context "with journal aggregation turned off", with_settings: { journal_aggregation_time_minutes: 0 } do
+      before { login_as(user) }
+
+      it "journals the cause as an activity entry of its own, linking the message", :aggregate_failures do
+        work_package = service.call(work_package_params:).result
+        initial, caused = work_package.journals.reload
+
+        expect(initial.cause).to be_empty
+        expect(caused.cause).to eq("type" => "forum_message", "message_id" => reply.id)
+        expect(caused.render_detail(["cause", [nil, caused.cause]], html: false))
+          .to eq("Created from forum message Release planning")
+      end
+    end
   end
 end
