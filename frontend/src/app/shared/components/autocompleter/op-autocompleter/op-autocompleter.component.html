@@ -157,55 +157,9 @@
       </span>
     }
     @case (resource === 'work_packages' || resource === 'parent-child') {
-      <div class="op-autocompleter--option-wrapper" title="{{ item.subject }}">
-        @if (item.author && item.author.href) {
-          <op-principal class="op-autocompleter--option-principal"
-            [principal]="item.author"
-            [hideName]="true"
-           />
-        } @else {
-          <span
-            class="op-autocompleter--option-principal op-autocompleter--option-principal-fallback op-avatar op-avatar--fallback"
-            role="img"
-            [attr.title]="item.author?.name || null"
-            [attr.aria-label]="item.author?.name || null"
-            [attr.aria-hidden]="item.author?.name ? null : 'true'"
-          >
-            <op-icon icon-classes="icon-user" aria-hidden="true" />
-          </span>
-        }
-        <span
-          class="op-autocompleter--wp-subject"
-          data-test-selector="op-autocompleter-item-subject"
-          >
-          @if (item.type) {
-            <span
-              [ngClass]="highlighting('type', item.type.id)"
-              textContent="{{ item.type.name }} "
-            ></span>
-          }
-          <span
-            [ngOptionHighlight]="search"
-            [textContent]="item.subject">
-          </span>
-        </span>
-        <div class="op-autocompleter--wp-content">
-          <span
-            [ngOptionHighlight]="search"
-            [textContent]="$safeNavigationMigration(item.project?.name)"
-            class="op-autocompleter--wp-project"
-          ></span>
-          <span
-            class="op-autocompleter--wp-id"
-            [ngOptionHighlight]="search"
-          >{{ item.formattedId }}</span>
-          <span
-            [textContent]="$safeNavigationMigration(item.status?.name)"
-            [ngClass]="highlighting('status',$safeNavigationMigration(item.status?.id))"
-            class="op-autocompleter--wp-status"
-          ></span>
-        </div>
-      </div>
+      <ng-container [ngTemplateOutlet]="workPackageOption"
+        [ngTemplateOutletContext]="{$implicit: item, search: search}"
+       />
     }
     @case (resource ==='users' || resource ==='assignee' || resource === 'principals') {
       @if (item && item.href) {
@@ -239,6 +193,45 @@
       }
     }
   }
+</ng-template>
+
+<ng-template let-item let-search="search" #workPackageOption>
+  <div class="op-autocompleter--wp-wrapper" title="{{ item.subject }}">
+    <div class="op-autocompleter--wp-line">
+      @if (item.type) {
+        <span
+          [ngClass]="highlighting('type', item.type.id)"
+          [ngOptionHighlight]="search"
+          [textContent]="item.type.name"
+        ></span>
+      }
+      <span
+        class="op-autocompleter--wp-id"
+        [ngOptionHighlight]="search"
+      >{{ item.formattedId }}</span>
+      @if (item.status) {
+        <span
+          [ngClass]="highlighting('status', item.status.id)"
+          [ngOptionHighlight]="search"
+          [textContent]="item.status.name"
+          class="op-autocompleter--wp-status"
+        ></span>
+      }
+      @if (item.project?.name) {
+        <span>-</span>
+        <span
+          [ngOptionHighlight]="search"
+          [textContent]="item.project.name"
+          class="op-autocompleter--wp-project"
+        ></span>
+      }
+    </div>
+    <span
+      [ngOptionHighlight]="search"
+      [textContent]="item.subject"
+      class="op-autocompleter--wp-subject"
+    ></span>
+  </div>
 </ng-template>
 
 <ng-template let-item let-search="search" let-clear="clear" #defaultLabel>
