@@ -58,6 +58,20 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
     it "takes control of its clients" do
       expect(response.body).to include("skipWaiting", "clients.claim")
     end
+
+    it "precaches the offline page under a cache named after its contents" do
+      expect(response.body).to include(ApplicationController.helpers.pwa_cache_name, '"/offline"')
+    end
+
+    context "when served under a path prefix" do
+      include_context "with a relative url root"
+
+      it "points at the prefixed offline page" do
+        get "/service-worker", env: { "SCRIPT_NAME" => "/openproject" }
+
+        expect(response.body).to include('"/openproject/offline"')
+      end
+    end
   end
 
   describe "the registration wiring" do
@@ -90,13 +104,13 @@ RSpec.describe "PWA service worker", type: :rails_request, with_flag: { progress
   end
 
   context "with the feature flag off", with_flag: { progressive_web_app: false } do
-    it "serves a worker that unregisters itself" do
+    it "serves a worker that removes the offline caches and unregisters itself" do
       get "/service-worker"
 
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/javascript")
-      expect(response.body).to include("unregister")
-      expect(response.body).not_to include("fetch")
+      expect(response.body).to include("openproject-offline-", "unregister")
+      expect(response.body).not_to include('addEventListener("fetch"')
     end
 
     it "registers no worker" do
