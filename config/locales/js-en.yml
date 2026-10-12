@@ -786,6 +786,12 @@ en:
       identifier_suggestion:
         loading: "Loading suggestion..."
         set_name_first: "Please set the name first."
+    push_subscription:
+      blocked: "Notifications are blocked for this site in your browser settings."
+      disabled: "Browser push is off on this device."
+      enabled: "Browser push is enabled on this device."
+      error: "Browser push could not be changed. Please try again."
+      unsupported: "Browser push is not available in this browser."
     relation_buttons:
       abort: "Abort"
       add_existing: "Add existing"

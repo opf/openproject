@@ -1,0 +1,317 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { vi } from 'vitest';
+import { setupStimulusTest, type StimulusTestContext } from '../../../test-helpers';
+import PushSubscriptionController from './push-subscription.controller';
+
+type AsyncSpy = ReturnType<typeof vi.fn<(...args:unknown[]) => Promise<unknown>>>;
+
+describe('PushSubscriptionController', () => {
+  let ctx:StimulusTestContext;
+  let fetchMock:AsyncSpy;
+  let unsubscribe:ReturnType<typeof vi.fn>;
+  let subscribe:AsyncSpy;
+  let getSubscription:ReturnType<typeof vi.fn>;
+  let getRegistration:ReturnType<typeof vi.fn>;
+
+  const known = { endpoint: 'https://push.example/known', revokeUrl: '/my/push_subscriptions/1' };
+
+  const status = () => document.querySelector('[data-my--push-subscription-target="status"]')!.textContent;
+  const enableButton = () => document.getElementById('enable') as HTMLButtonElement;
+  const disableButton = () => document.getElementById('disable') as HTMLButtonElement;
+  const settled = () => vi.waitFor(() => {
+    expect(enableButton().disabled).toBe(false);
+    expect(disableButton().disabled).toBe(false);
+  });
+  async function mount({ settle = true }:{ settle?:boolean } = {}) {
+    ctx = await setupStimulusTest({ controllers: { 'my--push-subscription': PushSubscriptionController } });
+    await ctx.mount(`
+      <div data-controller="my--push-subscription"
+           data-my--push-subscription-vapid-public-key-value="-_8"
+           data-my--push-subscription-create-url-value="/my/push_subscriptions"
+           data-my--push-subscription-subscriptions-value='${JSON.stringify([known])}'>
+        <span data-my--push-subscription-target="status"></span>
+        <button id="enable" data-my--push-subscription-target="enable"
+                data-action="my--push-subscription#enable">enable</button>
+        <button id="disable" data-my--push-subscription-target="disable"
+                data-action="my--push-subscription#disable">disable</button>
+      </div>
+    `);
+    if (settle) await settled();
+  }
+
+  const deferred = <T>() => {
+    let resolve!:(value:T) => void;
+    const promise = new Promise<T>((res) => { resolve = res; });
+    return { promise, resolve };
+  };
+
+  beforeEach(() => {
+    unsubscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue(true);
+    subscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue({ endpoint: 'https://push.example/new', unsubscribe });
+    getSubscription = vi.fn().mockResolvedValue(null);
+    getRegistration = vi.fn().mockResolvedValue({ pushManager: { getSubscription, subscribe } });
+    fetchMock = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockImplementation(() => Promise.resolve(new Response('', { status: 200 })));
+
+    vi.stubGlobal('I18n', { t: vi.fn((key:string) => key) });
+    vi.stubGlobal('isSecureContext', true);
+    vi.stubGlobal('PushManager', class {});
+    vi.stubGlobal('Notification', { permission: 'default' });
+    vi.stubGlobal('fetch', fetchMock);
+    Object.defineProperty(navigator, 'serviceWorker', {
+      value: { getRegistration },
+      configurable: true,
+    });
+  });
+
+  afterEach(() => {
+    ctx.dispose();
+    vi.unstubAllGlobals();
+    delete (navigator as { serviceWorker?:unknown }).serviceWorker;
+  });
+
+  it('reports an unsupported environment and hides both buttons', async () => {
+    vi.stubGlobal('PushManager', undefined);
+    delete (window as { PushManager?:unknown }).PushManager;
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.unsupported');
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('reports unsupported when no service worker is registered', async () => {
+    getRegistration.mockResolvedValue(undefined);
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.unsupported');
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('reports blocked notifications when permission is denied', async () => {
+    vi.stubGlobal('Notification', { permission: 'denied' });
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.blocked');
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('shows an error when reading the current subscription fails', async () => {
+    getSubscription.mockRejectedValue(new Error('boom'));
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.error');
+  });
+
+  it('keeps both buttons disabled until the initial sync finishes', async () => {
+    const pending = deferred<null>();
+    getSubscription.mockReturnValue(pending.promise);
+    await mount({ settle: false });
+
+    expect(enableButton().disabled).toBe(true);
+    expect(disableButton().disabled).toBe(true);
+
+    pending.resolve(null);
+    await settled();
+    expect(status()).toBe('js.push_subscription.disabled');
+  });
+
+  it('shows the enabled state for a subscription known to the server', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.enabled');
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(false);
+    expect(unsubscribe).not.toHaveBeenCalled();
+  });
+
+  it('drops a browser subscription the server does not know and shows the disabled state', async () => {
+    getSubscription.mockResolvedValue({ endpoint: 'https://push.example/stale', unsubscribe });
+    await mount();
+
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(status()).toBe('js.push_subscription.disabled');
+    expect(enableButton().hidden).toBe(false);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('shows the disabled state without a subscription', async () => {
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.disabled');
+    expect(enableButton().hidden).toBe(false);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('subscribes with the decoded key and posts the endpoint to the server on enable', async () => {
+    await mount();
+    enableButton().click();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    const options = subscribe.mock.calls[0][0] as { userVisibleOnly:boolean; applicationServerKey:Uint8Array };
+    expect(options.userVisibleOnly).toBe(true);
+    expect(options.applicationServerKey).toBeInstanceOf(Uint8Array);
+    expect(Array.from(options.applicationServerKey)).toEqual([0xfb, 0xff]);
+
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe('/my/push_subscriptions');
+    expect(init.method?.toLowerCase()).toBe('post');
+    expect(JSON.parse(init.body as string)).toEqual({ endpoint: 'https://push.example/new' });
+    expect(new Headers(init.headers).get('Accept')).toContain('text/vnd.turbo-stream.html');
+  });
+
+  it('shows the enabled state locally after a successful enable', async () => {
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.enabled'));
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('subscribes and posts only once on a double click', async () => {
+    await mount();
+    enableButton().click();
+    enableButton().click();
+    await settled();
+
+    expect(subscribe).toHaveBeenCalledTimes(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('disables both buttons while a request is in flight', async () => {
+    const pending = deferred<{ endpoint:string; unsubscribe:typeof unsubscribe }>();
+    subscribe.mockReturnValue(pending.promise);
+    await mount();
+    enableButton().click();
+
+    expect(enableButton().disabled).toBe(true);
+    expect(disableButton().disabled).toBe(true);
+
+    pending.resolve({ endpoint: 'https://push.example/new', unsubscribe });
+    await settled();
+  });
+
+  it('does not let a slow initial sync unsubscribe a subscription created by enable', async () => {
+    const pending = deferred<{ endpoint:string; unsubscribe:typeof unsubscribe }>();
+    getSubscription.mockReturnValue(pending.promise);
+    await mount({ settle: false });
+
+    enableButton().disabled = false;
+    enableButton().click();
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.enabled'));
+
+    pending.resolve({ endpoint: 'https://push.example/new', unsubscribe });
+    await ctx.nextFrame();
+
+    expect(unsubscribe).not.toHaveBeenCalled();
+    expect(status()).toBe('js.push_subscription.enabled');
+    expect(enableButton().hidden).toBe(true);
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('shows an error and does not post when subscribing fails', async () => {
+    subscribe.mockRejectedValue(new Error('failed'));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.error'));
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('shows the blocked state when subscribing fails because permission was denied', async () => {
+    subscribe.mockImplementation(() => {
+      vi.stubGlobal('Notification', { permission: 'denied' });
+      return Promise.reject(new Error('denied'));
+    });
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.blocked'));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(enableButton().hidden).toBe(true);
+  });
+
+  it('unsubscribes and shows an error when the server rejects the subscription', async () => {
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 422 })));
+    await mount();
+    enableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.error'));
+    expect(unsubscribe).toHaveBeenCalled();
+  });
+
+  it('sends a DELETE to the revoke url of the current subscription on disable', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    await mount();
+    disableButton().click();
+    await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
+
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe(known.revokeUrl);
+    expect(init.method?.toLowerCase()).toBe('delete');
+    expect(new Headers(init.headers).get('Accept')).toContain('text/vnd.turbo-stream.html');
+  });
+
+  it('unsubscribes the browser and shows the disabled state after a successful disable', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.disabled'));
+    expect(unsubscribe).toHaveBeenCalled();
+    expect(enableButton().hidden).toBe(false);
+    expect(disableButton().hidden).toBe(true);
+  });
+
+  it('keeps the disable button visible with an error when the DELETE fails', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    fetchMock.mockImplementation(() => Promise.resolve(new Response('', { status: 500 })));
+    await mount();
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.error'));
+    expect(disableButton().hidden).toBe(false);
+    expect(enableButton().hidden).toBe(true);
+    expect(unsubscribe).not.toHaveBeenCalled();
+  });
+
+  it('sends no request when the current subscription has no known revoke url', async () => {
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    await mount();
+    getSubscription.mockResolvedValue({ endpoint: 'https://push.example/other', unsubscribe });
+    disableButton().click();
+
+    await vi.waitFor(() => expect(status()).toBe('js.push_subscription.error'));
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(disableButton().hidden).toBe(false);
+  });
+});
