@@ -101,6 +101,19 @@ module Users::PermissionChecks
     admin? || members.exists?(project_id: project.id)
   end
 
+  def admin_elevation
+    @admin_elevation || default_admin_elevation
+  end
+
+  def admin_elevation=(elevation)
+    @admin_elevation = elevation
+    reset_permission_caches
+  end
+
+  def admin_in_project?(project)
+    active_admin? && admin_elevation.covers?(project)
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
@@ -187,6 +200,14 @@ module Users::PermissionChecks
   end
 
   private
+
+  def default_admin_elevation
+    if OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+      Users::AdminElevation::None.new
+    else
+      Users::AdminElevation::Everywhere.new
+    end
+  end
 
   def user_permissible_service
     @user_permissible_service ||= ::Authorization::UserPermissibleService.new(self)

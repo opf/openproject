@@ -153,6 +153,40 @@ RSpec.describe User, ".execute_as_admin" do # rubocop:disable RSpec/SpecFilePath
     end
   end
 
+  context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+    shared_let(:admin, reload: true) { create(:admin) }
+    shared_let(:other_project) { create(:project) }
+
+    it "elevates the user everywhere for the duration of the block", :aggregate_failures do
+      expect(admin.admin_in_project?(project)).to be false
+
+      described_class.execute_as_admin(admin) do
+        expect(admin.admin_in_project?(project)).to be true
+      end
+
+      expect(admin.admin_in_project?(project)).to be false
+    end
+
+    it "restores a previously set elevation", :aggregate_failures do
+      admin.admin_elevation = Users::AdminElevation::InProjects.new([other_project.id])
+
+      described_class.execute_as_admin(admin) do
+        expect(admin.admin_in_project?(project)).to be true
+      end
+
+      expect(admin.admin_in_project?(project)).to be false
+      expect(admin.admin_in_project?(other_project)).to be true
+    end
+
+    it "restores the elevation when the block raises" do
+      expect do
+        described_class.execute_as_admin(admin) { raise ArgumentError }
+      end.to raise_error(ArgumentError)
+
+      expect(admin.admin_in_project?(project)).to be false
+    end
+  end
+
   it "throws an error if the user is attempted to be saved", :aggregate_failures do
     described_class.execute_as_admin(user) do
       expect { user.save }.to raise_error ActiveRecord::ReadOnlyRecord

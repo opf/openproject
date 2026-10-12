@@ -267,6 +267,80 @@ RSpec.describe User, "permission check methods" do
     end
   end
 
+  describe "#admin_in_project?" do
+    let(:project) { build_stubbed(:project) }
+    let(:other_project) { build_stubbed(:project) }
+
+    context "for an admin with the feature flag inactive" do
+      subject { build_stubbed(:admin) }
+
+      it "is elevated in every project" do
+        expect(subject.admin_in_project?(project)).to be true
+      end
+    end
+
+    context "for an admin with the feature flag active", with_flag: { admin_privilege_elevation: true } do
+      subject { build_stubbed(:admin) }
+
+      it "is not elevated by default" do
+        expect(subject.admin_in_project?(project)).to be false
+      end
+
+      it "is elevated only in the projects of an InProjects elevation", :aggregate_failures do
+        subject.admin_elevation = Users::AdminElevation::InProjects.new([project.id])
+
+        expect(subject.admin_in_project?(project)).to be true
+        expect(subject.admin_in_project?(other_project)).to be false
+      end
+
+      it "is elevated in every project with an Everywhere elevation" do
+        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+
+        expect(subject.admin_in_project?(project)).to be true
+      end
+    end
+
+    context "for a locked admin" do
+      subject { build_stubbed(:admin, status: :locked) }
+
+      it "is never elevated" do
+        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+
+        expect(subject.admin_in_project?(project)).to be false
+      end
+    end
+
+    context "for a non-admin" do
+      subject { build_stubbed(:user) }
+
+      it "is never elevated" do
+        subject.admin_elevation = Users::AdminElevation::Everywhere.new
+
+        expect(subject.admin_in_project?(project)).to be false
+      end
+    end
+
+    context "for the system user", with_flag: { admin_privilege_elevation: true } do
+      subject { build_stubbed(:system) }
+
+      it "is elevated in every project" do
+        expect(subject.admin_in_project?(project)).to be true
+      end
+    end
+  end
+
+  describe "#admin_elevation=" do
+    let(:admin) { build_stubbed(:admin) }
+
+    it "resets the permission caches" do
+      allow(admin).to receive(:reset_permission_caches)
+
+      admin.admin_elevation = Users::AdminElevation::None.new
+
+      expect(admin).to have_received(:reset_permission_caches)
+    end
+  end
+
   describe "#allowed_to_condition_with_project_id" do
     let(:permission) { :view_own_time_entries }
     let(:project) { create(:project) }

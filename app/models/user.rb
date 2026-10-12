@@ -603,13 +603,14 @@ class User < Principal
   def self.execute_as_admin(user)
     previous_user_admin_state = user.admin
     previous_user_readonly_state = user.readonly?
+    previous_user_admin_elevation = user.instance_variable_get(:@admin_elevation)
     user.admin = true
-    user.reset_permission_caches
+    user.admin_elevation = Users::AdminElevation::Everywhere.new
     user.readonly!
     yield
   ensure
     user.admin = previous_user_admin_state
-    user.reset_permission_caches
+    user.admin_elevation = previous_user_admin_elevation
     user.instance_variable_set(:@readonly, previous_user_readonly_state)
   end
 

@@ -37,6 +37,10 @@ class SystemUser < User
 
   def name(*_args); "System" end
 
+  def admin_elevation
+    Users::AdminElevation::Everywhere.new
+  end
+
   def run_given
     User.execute_as(self) do
       yield self
