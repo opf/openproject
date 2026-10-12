@@ -67,10 +67,52 @@ RSpec.describe "Admin privilege elevation for Rails requests",
     end
 
     context "with an active elevation for the project in the session" do
-      before { create(:admin_elevation_session, user: admin, project:, session_id:) }
+      let!(:elevation_session) do
+        create(:admin_elevation_session, user: admin, project:, session_id:, last_used_at: 10.minutes.ago)
+      end
 
       it "grants access to the project settings" do
         expect(get_project_settings).to have_http_status(:ok)
+      end
+
+      it "moves the last use of the elevation to now" do
+        freeze_time do
+          get_project_settings
+
+          expect(elevation_session.reload.last_used_at).to eq(Time.current)
+        end
+      end
+
+      context "with an active elevation for another project in the session" do
+        let!(:other_elevation_session) do
+          create(:admin_elevation_session, user: admin, project: create(:project), session_id:,
+                                           last_used_at: 10.minutes.ago)
+        end
+
+        it "does not move the last use of the other elevation" do
+          expect { get_project_settings }.not_to change { other_elevation_session.reload.last_used_at }
+        end
+      end
+    end
+
+    context "with an active elevation including subprojects for the parent project in the session" do
+      let(:project_settings_path) { "/projects/#{subproject.identifier}/settings/general" }
+      let(:subproject) { create(:project, parent: project, public: false) }
+      let!(:elevation_session) do
+        create(:admin_elevation_session, user: admin, project:, session_id:, include_subprojects: true,
+                                         last_used_at: 10.minutes.ago)
+      end
+
+      it "grants access to the settings of the subproject" do
+        expect(get_project_settings).to have_http_status(:ok)
+      end
+
+      it "moves the last use of the elevation to now" do
+        freeze_time do
+          get_project_settings
+
+          expect(elevation_session.reload.last_used_at).to eq(Time.current)
+        end
       end
     end
 
