@@ -28,17 +28,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+module Admin
+  module Settings
+    class UsersSettings::UserConsentForm < ApplicationForm
+      settings_form do |sf|
+        sf.fieldset_group(title: I18n.t(:label_consent_settings)) do |fg|
+          fg.check_box(name: :consent_required)
+          fg.multi_language_text_select(
+            name: :consent_info,
+            current_language: I18n.locale.to_s
+          )
+          fg.object.check_box(
+            name: :toggle_consent_time,
+            label: I18n.t(:setting_consent_time),
+            value: "1",
+            checked: Setting.consent_time.blank?,
+            scope_name_to_model: false,
+            scope_id_to_model: false
+          )
+          fg.text_field(
+            name: :consent_decline_mail,
+            type: :email,
+            input_width: :medium,
+            caption: I18n.t(:"consent.contact_mail_instructions")
+          )
+        end
+      end
 
-RSpec.describe Settings::TimeZoneSettingComponent, type: :component do
-  subject { render_inline(described_class.new("user_default_timezone")) }
+      private
 
-  it "renders the timezones as options, grouping cities with the same identifier" do
-    subject
-
-    expect(page).to have_css("option[value=\"America/Los_Angeles\"]",
-                             text: "(UTC-08:00) Pacific Time (US & Canada)")
-    expect(page).to have_css("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
-    expect(page).to have_css("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
+      def update_time
+        if Setting.consent_time.present?
+          helpers.format_time(Setting.consent_time)
+        else
+          I18n.t(:label_never)
+        end
+      end
+    end
   end
 end
