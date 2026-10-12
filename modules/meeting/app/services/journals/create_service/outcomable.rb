@@ -59,7 +59,7 @@ class Journals::CreateService
     end
 
     def changes_sql
-      sanitize(<<~SQL.squish, journable_id:)
+      sanitize(<<~SQL, journable_id:) # rubocop:disable Rails/SquishedSQLHeredocs -- squish breaks normalize_newlines_sql
         SELECT
           max_journals.journable_id
         FROM

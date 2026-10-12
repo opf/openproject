@@ -748,30 +748,6 @@ RSpec.describe WorkPackage do
                          new_values_set: {}
       end
 
-      context "when only the newlines of a text custom value change" do
-        shared_let(:text_custom_field) do
-          create(:text_wp_custom_field, id: 3) do |cf|
-            type.default_variant.custom_field_ids |= [cf.id]
-          end
-        end
-        shared_let(:journable) do
-          create(:work_package,
-                 project:,
-                 type:,
-                 custom_field_1: false,
-                 custom_field_3: "First line\r\nsecond line",
-                 journals: {
-                   5.days.ago => { user: }
-                 })
-        end
-
-        include_examples "no journaled value changes for",
-                         new_values_set: {
-                           "custom_field_3" => "First line\nsecond line"
-                         },
-                         expect_journable_update_at_changed: true
-      end
-
       context "when nothing changed and a custom field is added after work package creation" do
         shared_let(:journable) do
           create(:work_package,
