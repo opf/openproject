@@ -37,7 +37,7 @@ module Planner
       @overdue = overdue
     end
 
-    def add_todo_group = GROUP
+    def add_todo_defaults = { date: overdue.user.today, day_part: :morning }
 
     private
 

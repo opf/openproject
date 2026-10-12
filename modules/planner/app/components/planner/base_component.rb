@@ -51,8 +51,8 @@ module Planner
       @adding = adding
     end
 
-    # The group the page header's "Add to-do" button opens the form of, if the view takes to-dos.
-    def add_todo_group = nil
+    # The date and day part the "Add to-do" dialog starts with, if the view takes to-dos.
+    def add_todo_defaults = nil
 
     private
 

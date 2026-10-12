@@ -139,10 +139,12 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
       expect(page).to have_no_css("[data-test-selector='planner-meeting-morning'] .DragHandle")
     end
 
-    it "adds to-dos in every day part, with the header button opening the current one" do
+    it "adds to-dos in every day part, and through a dialog from the header" do
       subject
 
-      expect(page).to have_link("Add to-do", href: planner_path(adding: :morning))
+      link = page.find_link("Add to-do", href: new_dialog_planner_tasks_path(view: :today, date: user.today, day_part: :morning),
+                                         match: :first)
+      expect(link["data-controller"]).to eq("async-dialog")
       %w[morning afternoon evening].each do |day_part|
         expect(page).to have_css("details[data-test-selector='planner-add-todo-#{day_part}']:not([open])")
       end

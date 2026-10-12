@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     resources :tasks, only: %i[create update] do
       patch :plan, on: :member
       put :drop, on: :member
+      get :new_dialog, on: :collection
     end
     post "work_packages/:work_package_id", to: "tasks#create_from_work_package", as: :work_package
   end

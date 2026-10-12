@@ -75,6 +75,11 @@ en:
       unavailable: "The Planner is not available for you."
       cannot_close: "The workflow doesn't allow closing this task."
       cannot_reopen: "The workflow doesn't allow reopening this task."
+    task_form:
+      date: "Date"
+      day_part: "Day time"
+      subject: "To-do"
+      placeholder: "Add a text description or use # to link work packages"
     quick_add:
       label: "New to-do"
       placeholder: "Add a to-do. #123 links a work package"
