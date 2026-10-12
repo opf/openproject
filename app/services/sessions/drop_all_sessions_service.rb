@@ -36,6 +36,8 @@ module Sessions
         ::Sessions::UserSession
           .for_user(user)
           .delete_all
+
+        ::AdminElevationSessions::EndAllService.new(user:).call
       end
     end
   end
