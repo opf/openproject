@@ -47,3 +47,13 @@ You can also opt-in to receive **email alerts for other items (that are not work
 - **Wiki page updated** - ...updates a [Wiki page](../../wiki/)
 - **Membership added** - ...adds you to a new [Work package](../../../getting-started/work-packages-introduction/)
 - **Membership updated** - ...updates your membership associations
+
+## Browser push
+
+The **Browser push** tab is shown when your administrator has enabled browser push notifications and you have installed OpenProject as a desktop application. This works in Chrome, Edge and Safari on macOS, and in the Firefox desktop browser.
+
+Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser push, each with a **Revoke** button.
+
+When you have unread notifications, the installed application shows a notification with the number of unread notifications. The notification does not contain their content.
+
+Pausing your email reminders also pauses browser push. Signing out removes the device from the list.
