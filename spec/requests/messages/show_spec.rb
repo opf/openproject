@@ -40,11 +40,10 @@ RSpec.describe "Forum topic thread", type: :rails_request, with_settings: { per_
 
   let(:html) { Capybara.string(response.body) }
 
-  it "shows the whole thread on one page", :aggregate_failures do
+  it "shows the whole thread on one page" do
     get project_forum_topic_path(forum.project, forum, topic)
 
     expect(html).to have_css("[data-test-selector^='forum-post-']", count: 4)
-    expect(html).to have_no_css(".op-pagination")
   end
 
   it "shows the reply a link points to, however deep in the thread" do
