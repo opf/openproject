@@ -85,7 +85,7 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.references :skill, null: false, foreign_key: { to_table: :ai_assistant_skills, on_delete: :cascade }
       t.references :user, null: false, foreign_key: { on_delete: :cascade }, index: false
       t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
-      t.integer :lock_version, null: false
+      t.integer :work_package_lock_version, null: false
       # Why the run started: "menu" now; "automation" and "schedule" once Automations can run skills.
       t.string :trigger, null: false, default: "menu"
       t.references :automation, foreign_key: { on_delete: :nullify }, index: false

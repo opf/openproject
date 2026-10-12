@@ -48,7 +48,7 @@ FactoryBot.define do
     skill { association :ai_assistant_skill }
     user
     work_package
-    lock_version { work_package.lock_version }
+    work_package_lock_version { work_package.lock_version }
     locale { "en" }
 
     trait :finished do
@@ -70,7 +70,7 @@ FactoryBot.define do
       source { "ai" }
       rule_key { nil }
       change_set { AI::AssistantRunFinding.change_set_for({ "description" => "A better description" }) }
-      base_lock_version { run.lock_version }
+      base_lock_version { run.work_package_lock_version }
     end
   end
 end

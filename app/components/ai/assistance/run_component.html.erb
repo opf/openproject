@@ -1,0 +1,61 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%= component_wrapper(style: "position: relative;") do %>
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, font_size: :small, mb: 3)) do %>
+    <%= t("ai_assistance.run.started_at", time: started_at) %>
+  <% end %>
+
+  <% if findings.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(border: true, data: { test_selector: "ai-assistance-no-findings" })) do |slate| %>
+      <% slate.with_visual_icon(icon: :"check-circle") %>
+      <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.run.no_findings")) %>
+      <% slate.with_description { t("ai_assistance.run.no_findings_description") } %>
+    <% end %>
+  <% else %>
+    <%= render(Primer::Beta::BorderBox.new(data: { test_selector: "ai-assistance-findings" })) do |box| %>
+      <% findings.each do |finding| %>
+        <% box.with_row do %>
+          <%= render(AI::Assistance::FindingComponent.new(finding:)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if not_checked.any? %>
+    <%= render(Primer::Beta::Heading.new(tag: :h4, font_size: :normal, mt: 4, mb: 2)) { t("ai_assistance.run.not_checked") } %>
+    <ul class="mb-0 pl-3" data-test-selector="ai-assistance-not-checked">
+      <% not_checked.each do |line| %>
+        <li><%= render(Primer::Beta::Text.new(color: :muted)) { line } %></li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

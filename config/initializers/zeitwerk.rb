@@ -88,6 +88,7 @@ end
 
 OpenProject::Inflector.inflection(
   "ai" => "AI",
+  "ai_assistance" => "AIAssistance",
   "rss" => "RSS",
   "sha1" => "SHA1",
   "sso" => "SSO",

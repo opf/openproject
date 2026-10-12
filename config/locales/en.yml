@@ -2330,6 +2330,44 @@ en:
       workflow_button: "Workflow"
   ai_assistance:
     button: "AI Assistance"
+    areas:
+      content: "Content"
+      pull_requests: "Pull requests"
+      relations: "Relations"
+      status: "Status"
+      tree: "Hierarchy"
+    errors:
+      unknown_skill: "This skill is not available."
+    finding:
+      applied: "Applied"
+      dismiss: "Dismiss"
+      dismiss_reasons:
+        already_known: "Dismiss: already known"
+        not_relevant: "Dismiss: not relevant"
+        wrong: "Dismiss: wrong"
+      dismissed: "Dismissed"
+    history:
+      empty: "You did not run an assistant on this work package yet."
+      findings:
+        one: "1 finding"
+        other: "%{count} findings"
+        zero: "No findings"
+      title: "History"
+    not_checked:
+      default: "%{area} was not checked."
+      no_permission_github: "Linked GitHub pull requests: you do not have permission to see them."
+      no_permission_gitlab: "Linked GitLab merge requests: you do not have permission to see them."
+      too_many_descendants: "Only the first 200 descendants were checked."
+    run:
+      no_findings: "No findings"
+      no_findings_description: "Everything that was checked is consistent."
+      not_checked: "Not checked"
+      run_again: "Run again"
+      started_at: "Checked at %{time}. Only you can see this result."
+    severities:
+      high: "High"
+      low: "Low"
+      medium: "Medium"
     skills:
       health_check:
         label: "Check health"

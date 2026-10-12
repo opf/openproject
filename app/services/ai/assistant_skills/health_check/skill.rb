@@ -41,6 +41,10 @@ module AI
             "pulse"
           end
 
+          def build_context(work_package:, user:)
+            Context.new(work_package:, user:)
+          end
+
           def rules
             [
               Rules::ClosedWithOpenDescendants,

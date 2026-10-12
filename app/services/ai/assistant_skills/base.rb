@@ -52,6 +52,10 @@ module AI
           []
         end
 
+        def build_context(work_package:, user:)
+          raise SubclassResponsibilityError
+        end
+
         def available?(_work_package, _user)
           true
         end
