@@ -101,6 +101,9 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
   private removeEditorErrorListener?:() => void;
 
+  // Set after an unhandled editor error; the source mode then opens read-only.
+  private editorFailed = false;
+
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly Notifications = inject(ToastService);
@@ -344,6 +347,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
             smartIndent: true,
             value: current,
             mode: resolvedMode,
+            readOnly: this.editorFailed,
           },
         );
 
@@ -356,15 +360,17 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   /**
    * Listen to unhandled errors of the editor and ask the user to reload.
    * After such an error, the editor state may be inconsistent. The editor
-   * becomes read-only, so the user can still copy the content but cannot
-   * change it any further.
+   * and the source mode become read-only, so the user can still copy the
+   * content but cannot change it any further.
    *
    * @param editor
    * @private
    */
   private setupErrorHandling(editor:ICKEditorInstance) {
     this.removeEditorErrorListener = this.ckEditorSetup.onEditorError(editor, () => {
+      this.editorFailed = true;
       editor.enableReadOnlyMode('op-ckeditor-error');
+      this.codeMirrorInstance?.setOption('readOnly', true);
       this.error = this.text.errorReload;
       this.cdRef.markForCheck();
     });
