@@ -122,6 +122,21 @@ RSpec.describe Planner::Today do
       expect(today.current_day_part).to eq(:morning)
     end
 
+    context "with a recurring series" do
+      let!(:series) do
+        create(:recurring_meeting, project: meeting_project, author: user, title: "Daily",
+                                   start_time: berlin.parse("2026-10-05 09:30"), frequency: "working_days",
+                                   end_after: "never")
+      end
+
+      it "lists today's occurrence before it is created" do
+        daily = section(:morning).meetings.find { it.series == series }
+
+        expect(daily).to have_attributes(title: "Daily", meeting: nil, start_time: berlin.parse("2026-10-06 09:30"))
+        expect(daily).to be_recurring
+      end
+    end
+
     context "when the user can no longer see the meeting project" do
       before { Member.where(project: meeting_project, principal: user).destroy_all }
 

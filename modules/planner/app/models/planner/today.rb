@@ -30,7 +30,8 @@
 
 module Planner
   # What the user has planned for today: their "My work" tasks due today and the meetings they take
-  # part in, split into day parts. Tasks without a day part count as morning.
+  # part in, including occurrences of recurring series not created yet, split into day parts. Tasks
+  # without a day part count as morning.
   class Today < View
     AFTERNOON_FROM = 12
     EVENING_FROM = 18
@@ -42,7 +43,7 @@ module Planner
     def sections
       @sections ||= DayPartField::DAY_PARTS.map do |day_part|
         Section.new(day_part:,
-                    meetings: meetings.select { day_part_at(it.start_time) == day_part }.map { Occurrence.for(it) },
+                    meetings: meetings.select { day_part_at(it.start_time) == day_part },
                     work_packages: work_packages.select { day_part_field.day_part_of(it) == day_part })
       end
     end
@@ -50,14 +51,7 @@ module Planner
     def current_day_part = day_part_at(Time.current)
 
     def meetings
-      @meetings ||= Meeting
-                      .visible(user)
-                      .not_templated
-                      .participated_by(user)
-                      .includes(:project)
-                      .where(start_time: date.in_time_zone(user.time_zone).all_day)
-                      .order(:start_time)
-                      .to_a
+      @meetings ||= MeetingOccurrences.new(user:, dates: [date]).to_a
     end
 
     def work_packages
