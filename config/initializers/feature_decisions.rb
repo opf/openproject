@@ -71,3 +71,7 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :progressive_web_app,
+                                  description: "Lets OpenProject be installed as a desktop application (PWA). " \
+                                               "See SE-647 for details."
