@@ -129,6 +129,7 @@ Rails.application.config.after_initialize do
       img_src << asset_host if asset_host.present?
       policy.img_src(*img_src.compact.uniq)
       policy.manifest_src("'self'")
+      policy.worker_src("'self'")
       policy.script_src(*script_src)
       policy.script_src_attr("'none'")
       policy.style_src(*assets_src, "'unsafe-inline'")
