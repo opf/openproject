@@ -9,18 +9,8 @@ RSpec.shared_examples "as an accessible inplace editor" do
   end
 
   it "triggers edit mode on RETURN key" do
-    if using_cuprite?
-      page.document.synchronize(20) do
-        element = field.display_element
-        scroll_to_element(element)
-        page.execute_script(<<~JS, element)
-          arguments[0].dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }))
-        JS
-      end
-    else
-      page.document.synchronize(20) { scroll_to_element(field.display_element) }
-      field.display_element.send_keys(:return)
-    end
+    page.document.synchronize(20) { scroll_to_element(field.display_element) }
+    field.display_element.send_keys(:return)
     field.expect_active!
     field.cancel_by_escape
   end

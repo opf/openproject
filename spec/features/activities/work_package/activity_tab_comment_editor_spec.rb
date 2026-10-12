@@ -190,8 +190,7 @@ RSpec.describe "Work package activity tab comment editor",
         target_id: "work-package-journal-form-element",
         wait: 20
       ) do
-        submit = page.find_test_selector("op-submit-work-package-journal-form")
-        page.execute_script("arguments[0].form.requestSubmit(arguments[0])", submit)
+        click_on "Submit"
       end
 
       expect(page).to have_test_selector("op-journal-notes-body", text: "An image caption", wait: 20)

@@ -81,15 +81,6 @@ RSpec.describe "Meeting Presentation Mode", :js do
     TextEditorField.new(page, "Outcome", selector: test_selector("meeting-outcome-input-for-#{agenda_item.id}"))
   end
 
-  def disable_presentation_polling
-    polling_root = page.find("[data-controller~='poll-for-changes']")
-    page.execute_script(
-      "window.Stimulus.getControllerForElementAndIdentifier(arguments[0], 'poll-for-changes').disconnect()",
-      polling_root
-    )
-    wait_for_network_idle
-  end
-
   before do
     login_as user
   end
@@ -109,7 +100,6 @@ RSpec.describe "Meeting Presentation Mode", :js do
     # Verify we're in presentation mode
     expect(page).to have_current_path(project_meeting_presentation_path(project, meeting), ignore_query: true)
     expect(page).to have_css(".op-meeting-presentation")
-    disable_presentation_polling
     expect(page).to have_text("Sprint Planning")
     expect(page).to have_text("First Item")
     expect(page).to have_link("Next")
@@ -198,8 +188,6 @@ RSpec.describe "Meeting Presentation Mode", :js do
     end
 
     # 3. Manage outcomes: add, edit, and delete
-    disable_presentation_polling
-
     # Add an outcome
     show_page.add_outcome_from_menu(item)
     field = outcome_field_for(item)

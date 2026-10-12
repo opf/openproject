@@ -297,11 +297,9 @@ module Pages::Meetings
     def open_menu(item, &)
       selector = test_selector("op-meeting-agenda-actions")
       overlay = page.document.synchronize(10) do
-        # A previous nested menu can remain open briefly while its Turbo Stream
-        # replaces the agenda item. Always reopen the current item's main menu.
-        page.execute_script(
-          "document.querySelectorAll('anchored-position:popover-open').forEach((element) => element.hidePopover())"
-        )
+        # A previous nested menu can stay open while its Turbo Stream replaces
+        # the agenda item. Close it with Escape before the next menu opens.
+        page.send_keys(:escape) if page.has_css?("anchored-position:popover-open", visible: :all, wait: 0)
         button = page.within("#meeting-agenda-item-#{item.id}") do
           page.find("action-menu[data-ready='true'] button#{selector}")
         end

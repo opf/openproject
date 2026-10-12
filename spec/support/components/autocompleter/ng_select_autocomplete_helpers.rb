@@ -187,18 +187,8 @@ module Components::Autocompleter
       text = (select_text.presence || query).to_s
       dropdown_selector = results_selector == "body" ? "body .ng-dropdown-panel" : results_selector
 
-      page.document.synchronize do
-        clicked = page.evaluate_script(<<~JS, "#{dropdown_selector} .ng-option", text)
-          ((selector, expectedText) => {
-          const normalize = (value) => String(value).replace(/\s+/g, ' ').trim();
-          const option = Array.from(document.querySelectorAll(selector)).find((element) =>
-            element.getClientRects().length > 0 && normalize(element.innerText).includes(normalize(expectedText))
-          );
-          option?.click();
-          return Boolean(option);
-          })(arguments[0], arguments[1])
-        JS
-        raise Capybara::ElementNotFound unless clicked
+      page.document.synchronize(15) do
+        page.document.first("#{dropdown_selector} .ng-option", text:, minimum: 1, wait: 0).click
       end
     end
 
