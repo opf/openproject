@@ -38,9 +38,20 @@ module AI
 
       attr_reader :finding
 
-      def initialize(finding:)
+      def initialize(finding:, error: nil)
         super
         @finding = finding
+        @error = error
+      end
+
+      attr_reader :error
+
+      def apply_path
+        url_helpers.apply_work_package_ai_assistance_run_finding_path(finding.run.work_package, finding.run, finding)
+      end
+
+      def run_again_path
+        url_helpers.work_package_ai_assistance_runs_path(finding.run.work_package)
       end
 
       def wrapper_key

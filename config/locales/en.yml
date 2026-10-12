@@ -2330,6 +2330,19 @@ en:
       workflow_button: "Workflow"
   ai_assistance:
     button: "AI Assistance"
+    apply:
+      button: "Apply changes"
+      errors:
+        conflict: "The work package changed after this check. Run the check again to get a current proposal."
+        invalid: "The changes could not be applied."
+        lost_content: "This proposal removes images, mentions or macros, so it cannot be applied."
+        not_allowed: "You cannot apply these changes."
+        not_open: "This finding was already applied or dismissed."
+      label:
+        description: "Proposed description"
+        subject: "Proposed subject"
+      lost_content: "This proposal removes images, mentions or macros from the description. Edit the description yourself."
+      success: "The changes were applied."
     areas:
       content: "Content"
       pull_requests: "Pull requests"

@@ -35,6 +35,20 @@ class WorkPackages::AIAssistance::FindingsController < ApplicationController
   before_action :find_run
   before_action :find_finding
 
+  def apply
+    call = AI::AssistantRuns::ApplyProposalService.new(proposal: @finding, user: current_user).call
+
+    if call.success?
+      dispatch_event_via_turbo_stream(WorkPackagesController::UPDATED_EVENT_NAME,
+                                      detail: { work_package_id: @work_package.id })
+      render_success_flash_message_via_turbo_stream(message: I18n.t("ai_assistance.apply.success"))
+    end
+
+    replace_via_turbo_stream(component: AI::Assistance::FindingComponent.new(finding: @finding.reload,
+                                                                              error: call.failure? ? call.result : nil))
+    respond_with_turbo_streams
+  end
+
   def dismiss
     reason = params[:reason].presence_in(AI::AssistantRunFinding.dismiss_reasons.keys)
     @finding.update!(state: "dismissed", dismiss_reason: reason) if @finding.open?
