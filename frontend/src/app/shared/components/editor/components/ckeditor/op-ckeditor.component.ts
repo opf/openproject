@@ -216,12 +216,10 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   ngOnDestroy() {
-    try {
-      this.removeEditorErrorListener?.();
-      this.ckEditorInstance?.destroy();
-    } catch (e) {
+    this.removeEditorErrorListener?.();
+    this.ckEditorInstance?.destroy().catch((e:unknown) => {
       console.error('Failed to destroy CKEditor instance:', e);
-    }
+    });
   }
 
   private initializeEditor() {
