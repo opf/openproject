@@ -26,13 +26,14 @@
 //++
 
 import {
-  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, NestBlockButton,
+  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, FileCaptionButton, FileRenameButton, FileReplaceButton, NestBlockButton,
   PortalElementOverride, preventFocusOnTap, TableCellMergeButton, TextAlignButton, UnnestBlockButton,
   useBlockNoteEditor, useComponentsContext, usePortalElement, useUIMode,
 } from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
 import { ActionBar, ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
-import { PrimerLinkControls } from './PrimerLinkToolbar';
+import { PrimerReplaceButton } from './PrimerFilePanel';
+import { PrimerToolbarForm } from './PrimerToolbarForm';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
 import { Children, createContext, isValidElement, useContext, useLayoutEffect, useMemo } from 'react';
 
@@ -52,11 +53,15 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
 
   const mobile = useUIMode() === 'mobile';
   const label = window.I18n.t('js.blocknote.formatting_toolbar');
-  const controls = Children.toArray(children).map((control) => (
-    isValidElement(control) && control.type === CreateLinkButton
-      ? <PrimerLinkControls key={control.key}>{control}</PrimerLinkControls>
-      : control
-  ));
+  const controls = Children.toArray(children).map((control) => {
+    if (!isValidElement(control)) return control;
+    if (control.type === FileReplaceButton) return <PrimerReplaceButton key={control.key} />;
+    if (control.type === FileCaptionButton || control.type === FileRenameButton) {
+      return <PrimerToolbarForm key={control.key} live>{control}</PrimerToolbarForm>;
+    }
+    if (control.type === CreateLinkButton) return <PrimerToolbarForm key={control.key}>{control}</PrimerToolbarForm>;
+    return control;
+  });
   const isAction = (control:typeof controls[number]) => isValidElement(control) && actionButtons.some((type) => type === control.type);
   const isStyle = (control:typeof controls[number]) => isValidElement(control) && control.type === BasicTextStyleButton;
   const isPicker = (control:typeof controls[number]) => isValidElement(control) && control.type === BlockNoteBlockTypeSelect;

@@ -28,101 +28,17 @@
 import { LinkToolbarExtension } from '@blocknote/core/extensions';
 import {
   ComponentProps, ComponentsContext, GenericPopover, LinkToolbar, LinkToolbarProps, PortalElementOverride, preventFocusOnTap,
-  useAutoFocus, useBlockNoteEditor, useComponentsContext, useDictionary, useEditorDOMElement, useExtension,
+  useBlockNoteEditor, useComponentsContext, useEditorDOMElement, useExtension,
 } from '@blocknote/react';
 import { flip, offset, safePolygon } from '@floating-ui/react';
-import { AnchoredOverlay, Button, FormControl, IconButton, PortalContext, registerPortalRoot, Stack, TextInput } from '@primer/react';
+import { Button, IconButton, Stack } from '@primer/react';
 import {
-  cloneElement, createContext, isValidElement, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState,
+  useEffect, useMemo, useState,
 } from 'react';
-import type { ComponentPropsWithRef, PropsWithChildren, RefObject } from 'react';
+import type { PropsWithChildren } from 'react';
 
+import { PrimerToolbarForm } from './PrimerToolbarForm';
 import { PrimerMenuPortal } from './PrimerActionMenus';
-
-type Popover = ComponentProps['Generic']['Popover'];
-type Form = ComponentProps['Generic']['Form'];
-
-const LinkFormMode = createContext<'create' | 'edit'>('create');
-
-const LinkPopoverContext = createContext<{
-  open:boolean;
-  setOpen:(open:boolean) => void;
-  anchorRef:RefObject<HTMLButtonElement | null>;
-  portalContainerName?:string;
-} | null>(null);
-
-function LinkPopover({ open: controlledOpen, onOpenChange, portalElement, children }:Popover['Root']) {
-  const [localOpen, setLocalOpen] = useState(false);
-  const anchorRef = useRef<HTMLButtonElement>(null);
-  const { portalContainerName } = useContext(PortalContext);
-  useLayoutEffect(() => {
-    if (!portalElement || !portalContainerName) return undefined;
-    registerPortalRoot(portalElement, portalContainerName);
-    return () => registerPortalRoot(document.body, portalContainerName);
-  }, [portalElement, portalContainerName]);
-  const value = useMemo(() => ({
-    open: controlledOpen ?? localOpen, anchorRef, portalContainerName,
-    setOpen(open:boolean) {
-      setLocalOpen(open);
-      onOpenChange?.(open);
-    },
-  }), [controlledOpen, localOpen, onOpenChange, portalContainerName]);
-  return <LinkPopoverContext.Provider value={value}>{children}</LinkPopoverContext.Provider>;
-}
-
-function LinkTrigger({ children }:Popover['Trigger']) {
-  const popup = useContext(LinkPopoverContext);
-  if (!popup || !isValidElement<ComponentPropsWithRef<'button'>>(children)) return null;
-  return cloneElement(children, {
-    ref: popup.anchorRef,
-    'aria-haspopup': 'dialog',
-    'aria-expanded': popup.open,
-    onClick: children.props.onClick ?? (() => popup.setOpen(!popup.open)),
-  });
-}
-
-function LinkContent({ children }:Popover['Content']) {
-  const popup = useContext(LinkPopoverContext);
-  const dict = useDictionary();
-  const editor = useBlockNoteEditor();
-  const mode = useContext(LinkFormMode);
-  const label = mode === 'edit' ? dict.link_toolbar.edit.text : dict.formatting_toolbar.link.tooltip;
-  if (!popup) return null;
-  return (
-    <AnchoredOverlay renderAnchor={null} anchorRef={popup.anchorRef} open={popup.open} width="medium"
-      focusZoneSettings={{ disabled: true }}
-      onClose={(gesture) => {
-        popup.setOpen(false);
-        if (gesture === 'escape') editor.focus();
-      }}
-      overlayProps={{ preventFocusOnOpen: true, preventFocusOnClose: true, role: 'dialog', 'aria-label': label, portalContainerName: popup.portalContainerName }}>
-      {children}
-    </AnchoredOverlay>
-  );
-}
-
-function LinkForm({ children, onSubmit }:Form['Root']) {
-  return (
-    <form className="op-blocknote-link-form" onSubmit={(event) => {
-      event.preventDefault();
-      onSubmit?.();
-    }}>
-      {children}
-      <Button type="submit" variant="primary">{window.I18n.t('js.button_save')}</Button>
-    </form>
-  );
-}
-
-function LinkInput({ name, value, onChange, autoFocus, placeholder }:Form['TextInput']) {
-  const ref = useAutoFocus<HTMLInputElement>(autoFocus);
-  return (
-    <FormControl>
-      <FormControl.Label>{window.I18n.t(name === 'url' ? 'js.blocknote.link_url' : 'js.blocknote.link_text')}</FormControl.Label>
-      <TextInput block name={name} value={value} onChange={onChange} ref={ref}
-        placeholder={placeholder} required={name === 'url'} autoComplete="off" />
-    </FormControl>
-  );
-}
 
 function LinkToolbarRoot({ children }:ComponentProps['LinkToolbar']['Root']) {
   return <Stack className="op-blocknote-link-toolbar" direction="horizontal" gap="none">{children}</Stack>;
@@ -135,16 +51,11 @@ function LinkButton({ children, label, mainTooltip, icon, isSelected: _isSelecte
         variant="invisible" disabled={isDisabled} onMouseDown={preventFocusOnTap} />;
 }
 
-export function PrimerLinkControls({ children }:PropsWithChildren) {
+function PrimerLinkControls({ children }:PropsWithChildren) {
   const components = useComponentsContext()!;
   const value = useMemo(() => ({
     ...components,
     LinkToolbar: { ...components.LinkToolbar, Root: LinkToolbarRoot, Button: LinkButton },
-    Generic: {
-      ...components.Generic,
-      Popover: { Root: LinkPopover, Trigger: LinkTrigger, Content: LinkContent },
-      Form: { Root: LinkForm, TextInput: LinkInput },
-    },
   }), [components]);
   return <ComponentsContext.Provider value={value}>{children}</ComponentsContext.Provider>;
 }
@@ -240,11 +151,11 @@ function FloatingLinkToolbar() {
 export function PrimerLinkToolbar() {
   return (
     <PrimerMenuPortal>
-      <LinkFormMode.Provider value="edit">
+      <PrimerToolbarForm>
         <PortalElementOverride target={document.body}>
           <PrimerLinkControls><FloatingLinkToolbar /></PrimerLinkControls>
         </PortalElementOverride>
-      </LinkFormMode.Provider>
+      </PrimerToolbarForm>
     </PrimerMenuPortal>
   );
 }

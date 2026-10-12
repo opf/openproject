@@ -221,6 +221,34 @@ RSpec.describe "Upload attachment to documents",
       expect(page).to have_no_element("opce-ckeditor-augmented-textarea") # rubocop:disable RSpec/ExpectInHook
     end
 
+    it "replaces an existing image and saves its caption and display name" do
+      editor.open_add_image_dialog
+      editor.attach_file(image_fixture.path)
+      editor.element.find("img[alt='image.png']").click
+      editor.click_formatting_toolbar_button("Replace image")
+      editor.attach_file(Rails.root.join("spec/fixtures/files/airplane-wing-over-cloudy-sky.jpg").to_s)
+
+      expect(editor.element).to have_css("img[alt='airplane-wing-over-cloudy-sky.jpg']")
+      page.refresh
+      editor.element.find("img[alt='airplane-wing-over-cloudy-sky.jpg']").click
+      editor.click_formatting_toolbar_button("Edit caption")
+      within(:dialog, "Edit caption") do
+        fill_in "Edit caption", with: "Project overview"
+        find_field("Edit caption").send_keys(:enter)
+      end
+
+      editor.element.find("img[alt='airplane-wing-over-cloudy-sky.jpg']").click
+      editor.click_formatting_toolbar_button("Rename image")
+      within(:dialog, "Rename image") do
+        fill_in "Rename image", with: "Overview.jpg"
+        click_on "Close"
+      end
+
+      page.refresh
+      expect(editor.element).to have_css("img[alt='Overview.jpg']", count: 1)
+      expect(editor.element).to have_text("Project overview")
+    end
+
     context "with internal uploads" do
       it_behaves_like "can upload an image in BlockNote"
       it_behaves_like "with non-whitelisted file types"

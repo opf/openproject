@@ -122,13 +122,13 @@
   border-radius: inherit;
 }
 
-.op-blocknote-link-form {
+.op-blocknote-toolbar-form {
   display: grid;
   gap: var(--base-size-12);
   padding: var(--base-size-16);
 }
 
-.op-blocknote-link-form > button {
+.op-blocknote-toolbar-form > button {
   justify-self: end;
 }
 

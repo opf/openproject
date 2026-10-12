@@ -25,13 +25,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { FilePanelExtension } from '@blocknote/core/extensions';
+import { ArrowSwitchIcon } from '@primer/octicons-react';
 import {
   ComponentProps, ComponentsContext, EmbedTab, FilePanelController, FilePanelProps,
-  useBlockNoteEditor, useComponentsContext, useDictionary,
+  preventFocusOnTap, useBlockNoteEditor, useComponentsContext, useDictionary, useEditorState, useExtension,
 } from '@blocknote/react';
-import { Button, FormControl, Spinner, TextInput } from '@primer/react';
+import { Button, FormControl, IconButton, Spinner, TextInput } from '@primer/react';
 import { UnderlinePanels } from '@primer/react/experimental';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 type Panel = ComponentProps['FilePanel'];
 
@@ -41,11 +43,16 @@ function MediaPanel({ blockId }:FilePanelProps) {
   const [tab, setTab] = useState(dict.upload.title);
   const [uploadState, setUploadState] = useState<'idle' | 'loading' | 'failed'>('idle');
   const block = editor.getBlock(blockId);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const replacing = !!block && 'url' in block.props && !!block.props.url;
+  useEffect(() => {
+    if (replacing) panelRef.current?.querySelector<HTMLElement>('[role="tab"][aria-selected="true"], input:not([type="file"])')?.focus({ preventScroll: true });
+  }, [blockId, replacing]);
   if (!block) return null;
 
   const embed = <EmbedTab blockId={blockId} />;
   const { uploadFile } = editor;
-  if (!uploadFile) return <div className="op-blocknote-file-panel">{embed}</div>;
+  if (!uploadFile) return <div ref={panelRef} className="op-blocknote-file-panel">{embed}</div>;
 
   const types = editor.schema.blockSpecs[block.type].implementation.meta?.fileBlockAccept;
   const placeholder = dict.upload.file_placeholder[block.type] ?? dict.upload.file_placeholder.file;
@@ -69,7 +76,7 @@ function MediaPanel({ blockId }:FilePanelProps) {
     }
   };
   return (
-    <div className="op-blocknote-file-panel" aria-busy={loading}>
+    <div ref={panelRef} className="op-blocknote-file-panel" aria-busy={loading}>
       <div inert={loading}>
         <UnderlinePanels aria-label={window.I18n.t('js.blocknote.file_source')} value={tab} onChange={({ value }) => setTab(value)}>
           {[dict.upload.title, dict.embed.title].map((title) => (
@@ -148,4 +155,22 @@ export function PrimerFilePanel() {
     Generic: { ...components.Generic, Form: { ...components.Generic.Form, Root: EmbedForm } },
   }), [components]);
   return <ComponentsContext.Provider value={value}><FilePanelController filePanel={MediaPanel} /></ComponentsContext.Provider>;
+}
+
+export function PrimerReplaceButton() {
+  const editor = useBlockNoteEditor();
+  const panel = useExtension(FilePanelExtension);
+  const labels = useDictionary().formatting_toolbar.file_replace.tooltip;
+  const target = useEditorState({
+    editor,
+    selector: () => {
+      const blocks = editor.getSelection()?.blocks ?? [editor.getTextCursorPosition().block];
+      const [block] = blocks;
+      if (!editor.isEditable || blocks.length !== 1 || !('url' in block.props)) return undefined;
+      return { id: block.id, type: block.type };
+    },
+  });
+  if (!target) return null;
+  return <IconButton icon={ArrowSwitchIcon} aria-label={labels[target.type] ?? labels.file} size="medium" variant="invisible"
+    onMouseDown={preventFocusOnTap} onClick={() => panel.showMenu(target.id)} />;
 }
