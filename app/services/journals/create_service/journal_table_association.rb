@@ -29,11 +29,66 @@
 #++
 
 class Journals::CreateService
-  # Journals every column of the including service's `journal_class` table, so adding a column there journals it.
-  # The `reference_column` holds the id of the source row; every other column is copied from the source column of
-  # the same name.
-  module JournalTableColumns
+  # Journals the rows returned by `current_rows_sql` into the table of `journal_class`, one row per source row.
+  # Every column of the journal table is journaled, so adding a column there journals it. The `reference_column`
+  # holds the id of the source row; every other column is copied from the source column of the same name.
+  # The journal table needs a unique index on `journal_id` and the `reference_column`.
+  class JournalTableAssociation < Association
+    def cleanup_predecessor(predecessor, notes, cause)
+      cleanup_predecessor_for(predecessor,
+                              notes,
+                              cause,
+                              journal_table_name,
+                              :journal_id,
+                              :id)
+    end
+
+    def insert_sql
+      sanitize(<<~SQL.squish, journable_id:)
+        INSERT INTO
+          #{journal_table_name} (#{sink_columns_sql})
+        SELECT
+          #{source_columns_sql}
+        FROM (#{current_rows_sql}) current_rows
+        WHERE
+          #{only_if_created_sql}
+        #{upsert_sql}
+      SQL
+    end
+
+    def changes_sql
+      sanitize(<<~SQL, journable_id:) # rubocop:disable Rails/SquishedSQLHeredocs -- squish breaks normalize_newlines_sql
+        SELECT
+          max_journals.journable_id
+        FROM
+          max_journals
+        LEFT OUTER JOIN
+          #{journal_table_name}
+        ON
+          #{journal_table_name}.journal_id = max_journals.id
+        FULL JOIN
+          (#{current_rows_sql}) current_rows
+        ON
+          current_rows.id = #{journal_table_name}.#{reference_column}
+        WHERE
+          #{changed_columns_condition_sql}
+      SQL
+    end
+
     private
+
+    def journal_class
+      raise SubclassResponsibilityError
+    end
+
+    def reference_column
+      raise SubclassResponsibilityError
+    end
+
+    # Selects the rows to journal, scoped to `:journable_id`.
+    def current_rows_sql
+      raise SubclassResponsibilityError
+    end
 
     def journal_table_name = journal_class.table_name
 
@@ -45,14 +100,14 @@ class Journals::CreateService
       ["journal_id", *journaled_columns].join(", ")
     end
 
-    def source_columns_sql(source)
-      [id_from_inserted_journal_sql, *journaled_columns.map { "#{source}.#{source_column(it)}" }].join(", ")
+    def source_columns_sql
+      [id_from_inserted_journal_sql, *journaled_columns.map { "current_rows.#{source_column(it)}" }].join(", ")
     end
 
-    def changed_columns_condition_sql(source)
+    def changed_columns_condition_sql
       journaled_columns
         .map do |column|
-          current = "#{source}.#{source_column(column)}"
+          current = "current_rows.#{source_column(column)}"
           journaled = "#{journal_table_name}.#{column}"
 
           if text_column?(column)

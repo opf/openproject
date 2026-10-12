@@ -29,52 +29,9 @@
 #++
 
 class Journals::CreateService
-  class Outcomable < Association
-    include JournalTableColumns
-
+  class Outcomable < JournalTableAssociation
     def associated?
       journable.respond_to?(:agenda_items)
-    end
-
-    def cleanup_predecessor(predecessor, notes, cause)
-      cleanup_predecessor_for(predecessor,
-                              notes,
-                              cause,
-                              journal_table_name,
-                              :journal_id,
-                              :id)
-    end
-
-    def insert_sql
-      sanitize(<<~SQL.squish, journable_id:)
-        INSERT INTO
-          #{journal_table_name} (#{sink_columns_sql})
-        SELECT
-          #{source_columns_sql('outcomes')}
-        FROM (#{current_outcomes_sql}) outcomes
-        WHERE
-          #{only_if_created_sql}
-        #{upsert_sql}
-      SQL
-    end
-
-    def changes_sql
-      sanitize(<<~SQL, journable_id:) # rubocop:disable Rails/SquishedSQLHeredocs -- squish breaks normalize_newlines_sql
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          #{journal_table_name}
-        ON
-          #{journal_table_name}.journal_id = max_journals.id
-        FULL JOIN
-          (#{current_outcomes_sql}) outcomes
-        ON
-          outcomes.id = #{journal_table_name}.#{reference_column}
-        WHERE
-          #{changed_columns_condition_sql('outcomes')}
-      SQL
     end
 
     private
@@ -83,7 +40,7 @@ class Journals::CreateService
 
     def reference_column = "outcome_id"
 
-    def current_outcomes_sql
+    def current_rows_sql
       <<~SQL.squish
         SELECT meeting_outcomes.*
         FROM meeting_outcomes

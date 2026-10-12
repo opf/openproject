@@ -29,52 +29,9 @@
 #++
 
 class Journals::CreateService
-  class Sectionable < Association
-    include JournalTableColumns
-
+  class Sectionable < JournalTableAssociation
     def associated?
       journable.respond_to?(:sections)
-    end
-
-    def cleanup_predecessor(predecessor, notes, cause)
-      cleanup_predecessor_for(predecessor,
-                              notes,
-                              cause,
-                              journal_table_name,
-                              :journal_id,
-                              :id)
-    end
-
-    def insert_sql
-      sanitize(<<~SQL.squish, journable_id:)
-        INSERT INTO
-          #{journal_table_name} (#{sink_columns_sql})
-        SELECT
-          #{source_columns_sql('sections')}
-        FROM (#{current_sections_sql}) sections
-        WHERE
-          #{only_if_created_sql}
-        #{upsert_sql}
-      SQL
-    end
-
-    def changes_sql
-      sanitize(<<~SQL, journable_id:) # rubocop:disable Rails/SquishedSQLHeredocs -- squish breaks normalize_newlines_sql
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          #{journal_table_name}
-        ON
-          #{journal_table_name}.journal_id = max_journals.id
-        FULL JOIN
-          (#{current_sections_sql}) sections
-        ON
-          sections.id = #{journal_table_name}.#{reference_column}
-        WHERE
-          #{changed_columns_condition_sql('sections')}
-      SQL
     end
 
     private
@@ -83,7 +40,7 @@ class Journals::CreateService
 
     def reference_column = "section_id"
 
-    def current_sections_sql
+    def current_rows_sql
       "SELECT * FROM meeting_sections WHERE meeting_sections.meeting_id = :journable_id"
     end
   end
