@@ -63,6 +63,23 @@ RSpec.describe OpenProject::Dev::CableTunnel do
     connection.close
   end
 
+  it "keeps WebSocket upgrades as such" do
+    tunnel.call(env.merge("HTTP_CONNECTION" => "keep-alive, Upgrade"))
+
+    head = upstream.accept.readpartial(4096)
+    expect(head).to include("CONNECTION: Upgrade\r\n")
+    expect(head).not_to include("keep-alive")
+  end
+
+  it "closes SSE connections after the response, so the browser cannot reuse them for page requests" do
+    sse = env.except("HTTP_UPGRADE").merge("PATH_INFO" => "/events", "HTTP_CONNECTION" => "keep-alive")
+    tunnel.call(sse)
+
+    head = upstream.accept.readpartial(4096)
+    expect(head).to include("CONNECTION: close\r\n")
+    expect(head).not_to include("keep-alive")
+  end
+
   it "answers with 502 when anycable-go is not running" do
     port = upstream.addr[1]
     upstream.close

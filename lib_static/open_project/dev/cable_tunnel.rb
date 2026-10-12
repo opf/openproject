@@ -61,10 +61,13 @@ module OpenProject
         query = env["QUERY_STRING"].presence
         request_line = "#{env['REQUEST_METHOD']} #{env['PATH_INFO']}#{"?#{query}" if query} HTTP/1.1"
         headers = env.filter_map do |key, value|
-          "#{key.delete_prefix('HTTP_').tr('_', '-')}: #{value}" if key.start_with?("HTTP_")
+          "#{key.delete_prefix('HTTP_').tr('_', '-')}: #{value}" if key.start_with?("HTTP_") && key != "HTTP_CONNECTION"
         end
+        # The browser would otherwise reuse a finished SSE connection for page requests, which then
+        # end up at anycable-go instead of the app. WebSocket connections are never reused.
+        connection = env["HTTP_UPGRADE"] ? "Upgrade" : "close"
 
-        [request_line, *headers, "", ""].join("\r\n")
+        [request_line, *headers, "CONNECTION: #{connection}", "", ""].join("\r\n")
       end
 
       def pipe(client, upstream)
