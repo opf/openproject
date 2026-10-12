@@ -40,6 +40,7 @@ module MeetingAgendaItems
                    first_and_last: [],
                    current_occurrence: nil,
                    presentation_mode: false,
+                   slide: nil,
                    started_at: nil)
       super
 
@@ -49,6 +50,7 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
       @started_at = started_at
     end
 
@@ -133,6 +135,7 @@ module MeetingAgendaItems
                          @meeting_agenda_item.meeting,
                          @meeting_agenda_item,
                          presentation_mode: @presentation_mode,
+                         slide: @slide,
                          current_occurrence: @current_occurrence
                        ),
                        method: "GET"
@@ -422,6 +425,14 @@ module MeetingAgendaItems
                        )
                      } }) do |item|
         item.with_leading_visual_icon(icon: "op-move")
+      end
+    end
+
+    def formatted_notes
+      if presentation_mode?
+        @meeting_agenda_item.slides.content(@slide)
+      else
+        format_text(@meeting_agenda_item, :notes)
       end
     end
 

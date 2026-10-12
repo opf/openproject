@@ -34,12 +34,13 @@ module Meetings
       include ApplicationHelper
       include OpTurbo::Streamable
 
-      def initialize(meeting:, sorted_agenda_item_ids:, current_item:, started_at:)
+      def initialize(meeting:, sorted_agenda_item_ids:, current_item:, current_slide:, started_at:)
         super()
 
         @meeting = meeting
         @project = meeting.project
         @current_item = current_item
+        @current_slide = current_item.slides.clamp(current_slide)
         @started_at = started_at.iso8601
         @agenda_item_ids = sorted_agenda_item_ids
         @current_index = sorted_agenda_item_ids.index(current_item.id)
@@ -57,16 +58,36 @@ module Meetings
         @total_items ||= @agenda_item_ids.size
       end
 
+      def total_slides
+        current_item.slides.count
+      end
+
       def has_previous?
-        @current_index > 0
+        has_previous_item? || @current_slide > 1
       end
 
       def has_next?
+        has_next_item? || @current_slide < total_slides
+      end
+
+      def has_previous_item?
+        @current_index > 0
+      end
+
+      def has_next_item?
         @current_index < total_items - 1
       end
 
+      def navigation_path(action_type)
+        project_meeting_presentation_path(@project, @meeting,
+                                          current_id: @current_item.id,
+                                          slide: @current_slide,
+                                          action_type:,
+                                          started_at: @started_at)
+      end
+
       def next_item
-        return nil unless has_next?
+        return nil unless has_next_item?
 
         if defined?(@next_item)
           @next_item
@@ -77,7 +98,7 @@ module Meetings
       end
 
       def previous_item
-        return nil unless has_previous?
+        return nil unless has_previous_item?
 
         if defined?(@previous_item)
           @previous_item
@@ -101,6 +122,12 @@ module Meetings
         else
           t("meeting.presentation_mode.total_items", current: @current_index + 1, total: total_items)
         end
+      end
+
+      def slide_progress_text
+        return if total_slides <= 1
+
+        t("meeting.presentation_mode.slide_progress", current: @current_slide, total: total_slides)
       end
 
       def running_time

@@ -254,7 +254,7 @@ module Meetings
             **
           )
         )
-        update_show_items_via_turbo_stream(current_occurrence:)
+        update_show_items_via_turbo_stream(current_occurrence:) unless presentation_mode
       end
 
       def add_item_via_turbo_stream(current_occurrence:, meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize
