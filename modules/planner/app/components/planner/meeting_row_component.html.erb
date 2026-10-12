@@ -28,34 +28,32 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout(align_items: :center) do |row| %>
-  <% row.with_column(mr: 3, text_align: :right, font_family: :mono, font_size: :small, style: "width: #{lead_width}; flex-shrink: 0") do %>
-    <%= render(Primer::Beta::Text.new(font_weight: :bold, color: scheme)) { start_time } %><%= render(Primer::Beta::Text.new(color: :muted)) { "–#{end_time}" } %>
+  <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, style: "visibility: hidden", aria: { hidden: true }) do %>
+    <%= render(Primer::Beta::Octicon.new(:grabber)) %>
   <% end %>
-  <% row.with_column(flex: 1, mr: 3, classes: "min-width-0") do %>
-    <%= render(Primer::Beta::Truncate.new) do %>
-      <%= render(Primer::Beta::Link.new(href: meeting_path(meeting), scheme: :primary, font_weight: :semibold)) { meeting.title } %>
-      <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, ml: 1, test_selector: "planner-meeting-duration")) { "· #{duration}" } %>
-      <% if starts_in %>
-        <%= render(Primer::Beta::Text.new(color: :danger, font_size: :small, font_weight: :semibold, ml: 2)) { starts_in } %>
+  <% row.with_column(mr: 1, flex_shrink: 0, display: :flex, justify_content: :center, style: "width: var(--control-small-size)") do %>
+    <%= render(Primer::Beta::Octicon.new(:"comment-discussion", color: :muted, aria: { label: t("planner.meeting") })) %>
+  <% end %>
+  <% row.with_column(mr: 2, classes: "min-width-0") do %>
+    <%= render(Primer::Beta::Truncate.new) do |truncate| %>
+      <% truncate.with_item do %>
+        <%= render(Primer::Beta::Link.new(href: path, scheme: :primary, font_weight: :semibold)) { occurrence.title } %>
       <% end %>
     <% end %>
   <% end %>
   <% row.with_column(mr: 2, flex_shrink: 0) do %>
+    <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { occurrence.project.name } %>
+  <% end %>
+  <% row.with_column(mr: 2, flex_shrink: 0) do %>
     <%= render(Primer::Beta::Label.new(scheme: :secondary)) { kind } %>
   <% end %>
-  <% if participants.any? %>
-    <% row.with_column(mr: 2, flex_shrink: 0, test_selector: "planner-meeting-participants") do %>
-      <%= render(Primer::OpenProject::AvatarStack.new(**avatar_stack_arguments)) do |stack| %>
-        <% shown_participants.each { |participant| stack.with_avatar_with_fallback(**avatar_options(participant)) } %>
-      <% end %>
-    <% end %>
-    <% if hidden_participants_count.positive? %>
-      <% row.with_column(mr: 2, flex_shrink: 0) do %>
-        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { "+#{hidden_participants_count}" } %>
-      <% end %>
-    <% end %>
+  <% row.with_column(ml: :auto, mr: 2, flex_shrink: 0, test_selector: "planner-meeting-time") do %>
+    <%= render(Primer::Beta::Octicon.new(:clock, color: :muted, mr: 1)) %><%= render(Primer::Beta::Text.new(font_size: :small)) { time_range } %>
   <% end %>
   <% row.with_column(flex_shrink: 0) do %>
-    <%= render(Primer::Beta::Button.new(tag: :a, href: meeting_path(meeting), scheme: :invisible, size: :small)) { t("planner.agenda") } %>
+    <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu| %>
+      <% menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("planner.meeting_actions"), scheme: :invisible, size: :small) %>
+      <% menu.with_item(label: t("planner.open_meeting"), href: path) %>
+    <% end %>
   <% end %>
 <% end %>

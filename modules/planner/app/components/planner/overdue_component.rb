@@ -30,10 +30,14 @@
 
 module Planner
   class OverdueComponent < BaseComponent
-    def initialize(overdue:)
-      super()
+    GROUP = "overdue"
+
+    def initialize(overdue:, adding: nil)
+      super(adding:)
       @overdue = overdue
     end
+
+    def add_todo_group = GROUP
 
     private
 

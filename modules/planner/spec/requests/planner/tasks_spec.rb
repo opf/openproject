@@ -58,6 +58,31 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       expect(page).to have_test_selector("planner-task-evening", text: "Book train to the offsite")
     end
 
+    context "when adding on Upcoming" do
+      let(:date) { user.today + 2 }
+      let(:params) { { task: { subject: "Book train", date: date.iso8601 }, view: "upcoming", adding: date.iso8601 } }
+      let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+      subject { post planner_tasks_path, params:, headers: }
+
+      it "adds the task to that day and keeps the day's form open" do
+        expect { subject }.to change(WorkPackage, :count).by(1)
+        expect(WorkPackage.last.due_date).to eq(date)
+        expect(response.body).to include('target="planner-upcoming-component"')
+        expect(response.body[/<details[^>]*planner-add-todo-#{date.iso8601}"[^>]*>/]).to include("open")
+      end
+    end
+
+    context "when adding on Overdue" do
+      let(:params) { { task: { subject: "Someday", date: "" }, view: "overdue" } }
+
+      it "adds an undated task" do
+        expect { subject }.to change(WorkPackage, :count).by(1)
+        expect(WorkPackage.last.due_date).to be_nil
+        expect(response).to redirect_to(planner_view_path(:overdue))
+      end
+    end
+
     context "with a blank subject" do
       let(:params) { { task: { subject: "", day_part: "evening" } } }
 
@@ -112,6 +137,23 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
 
       expect(response).to have_http_status(:ok)
       expect(Planner::DayPartField.find.day_part_of(task.reload)).to eq(:evening)
+    end
+
+    it "plans a task dropped on another day part" do
+      put(drop_planner_task_path(task), params: { list_type: "todo", list_id: "afternoon", prev_id: "" }, headers:)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('target="planner-today-component"')
+      expect(Planner::DayPartField.find.day_part_of(task.reload)).to eq(:afternoon)
+    end
+
+    it "plans a task dropped on a day of Upcoming" do
+      date = user.today + 3
+      put(drop_planner_task_path(task, view: "upcoming"), params: { list_type: "todo", list_id: date.iso8601 }, headers:)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('target="planner-upcoming-component"')
+      expect(task.reload.due_date).to eq(date)
     end
 
     context "when planning from Overdue" do

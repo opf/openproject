@@ -29,11 +29,11 @@
 #++
 
 module Planner
-  # A view of the user's "My work" project: Today, Upcoming or Overdue.
+  # A view of the user's "My work" project: Today, Upcoming, Overdue or Completed.
   class View
     # Days and day parts group meetings and tasks alike.
     module Group
-      def open_count = work_packages.count { !it.closed? }
+      def todo_count = work_packages.size
 
       def empty? = meetings.empty? && work_packages.empty?
     end

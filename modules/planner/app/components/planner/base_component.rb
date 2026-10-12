@@ -29,37 +29,80 @@
 #++
 
 module Planner
-  # Shared by the Today, Upcoming and Overdue views, which refresh themselves via Turbo Streams.
+  # Shared by the Planner views, which refresh themselves via Turbo Streams. A view keeps the "Add
+  # to-do" form of the group named by `adding` open, so that to-dos can be added one after another.
   class BaseComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def self.for(view, user)
+    DRAG_TYPE = "todo"
+
+    def self.for(view, user, adding: nil)
       case view.to_s
-      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.for(user))
-      when "overdue" then OverdueComponent.new(overdue: Overdue.for(user))
+      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.for(user), adding:)
+      when "overdue" then OverdueComponent.new(overdue: Overdue.for(user), adding:)
       when "completed" then CompletedComponent.new(completed: Completed.for(user))
-      else TodayComponent.new(today: Today.for(user))
+      else TodayComponent.new(today: Today.for(user), adding:)
       end
     end
 
-    private
-
-    # Wide enough for a meeting's "start–end" in the configured time format and for a task's id
-    # followed by its checkbox, so that meeting and task titles start at the same point.
-    def lead_width
-      latest = helpers.format_time(Time.utc(2000, 12, 31, 23, 59), include_date: false, time_zone: "UTC")
-
-      "#{[(latest.length * 2) + 2, TaskRowComponent::ID_CHARACTERS + 5].max}ch"
+    def initialize(adding: nil)
+      super()
+      @adding = adding
     end
 
+    # The group the page header's "Add to-do" button opens the form of, if the view takes to-dos.
+    def add_todo_group = nil
+
+    private
+
+    attr_reader :adding
+
+    def adding?(group) = adding.to_s == group.to_s
+
+    # Today and Upcoming are sortable lists: dropping a to-do on another day part or day plans it there.
+    def sortable_root_data(view)
+      {
+        controller: "sortable-lists",
+        sortable_lists_move_url_templates_value: { DRAG_TYPE => drop_url_template(view) }.to_json,
+        sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
+        sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
+      }
+    end
+
+    def sortable_list_data(id, name)
+      {
+        controller: "sortable-lists--list",
+        sortable_lists__list_type_value: DRAG_TYPE,
+        sortable_lists__list_accepted_type_value: DRAG_TYPE,
+        sortable_lists__list_id_value: id,
+        sortable_lists__list_name_value: name
+      }
+    end
+
+    def sortable_item_data(work_package)
+      {
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_type_value: DRAG_TYPE,
+        sortable_lists__item_label_value: work_package.subject
+      }
+    end
+
+    # Built with a sentinel so that relative URL roots are kept; the controller expands {id}.
+    def drop_url_template(view)
+      drop_planner_task_path("__id__", view: (view unless view == :today)).sub("__id__", "{id}")
+    end
+
+    def weekday_and_day(date) = "#{I18n.l(date, format: '%A')} #{date.day.ordinalize}"
+
     def counts(group)
-      return t("planner.empty_section") if group.empty?
+      return t("planner.no_entries") if group.empty?
 
       [
-        t("planner.open_tasks", count: group.open_count),
+        (t("planner.todos", count: group.todo_count) if group.work_packages.any?),
         (t("planner.meetings", count: group.meetings.size) if group.meetings.any?)
-      ].compact.join(" · ")
+      ].compact.join(" | ")
     end
   end
 end

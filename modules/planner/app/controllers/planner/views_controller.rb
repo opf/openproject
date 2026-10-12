@@ -39,7 +39,7 @@ module Planner
 
     def show
       @view = params[:view]
-      @component = Planner::BaseComponent.for(@view, current_user)
+      @component = Planner::BaseComponent.for(@view, current_user, adding: params[:adding])
     end
 
     private

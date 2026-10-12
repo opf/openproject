@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= component_wrapper(data: { test_selector: "planner-completed" }) do %>
   <% if completed.days.empty? %>
-    <%= render(Primer::Beta::Blankslate.new(test_selector: "planner-completed-empty")) do |blankslate| %>
+    <%= render(Primer::Beta::Blankslate.new(border: true, test_selector: "planner-completed-empty")) do |blankslate| %>
       <% blankslate.with_visual_icon(icon: :"check-circle") %>
       <% blankslate.with_heading(tag: :h3).with_content(t("planner.completed.empty")) %>
       <% blankslate.with_description { t("planner.completed.description") } %>
@@ -37,19 +37,14 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% completed.days.each do |day| %>
-    <%= render(Primer::Box.new(mt: 3, test_selector: "planner-completed-day")) do %>
-      <%= flex_layout(align_items: :baseline, px: 2, pb: 1, border: :bottom) do |header| %>
-        <% header.with_column(mr: 2) do %>
-          <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 3)) { day.date.day.to_s } %>
-        <% end %>
-        <% header.with_column(mr: 2) do %>
-          <%= render(Primer::Beta::Text.new(font_weight: :semibold, color: :muted)) { day_name(day.date) } %>
-        <% end %>
+    <%= render(Primer::Beta::BorderBox.new(padding: :condensed, mb: 4, test_selector: "planner-completed-day")) do |box| %>
+      <% box.with_header(px: 3, py: 3) do %>
+        <%= render(Planner::SectionHeaderComponent.new(title: day_name(day.date), counts: t("planner.todos", count: day.work_packages.size))) %>
       <% end %>
 
       <% day.work_packages.each do |work_package| %>
-        <%= render(Primer::Box.new(border: :bottom, px: 2, py: 1, test_selector: "planner-completed-task")) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, lead_width:, references: completed.references, view: :completed)) %>
+        <% box.with_row(test_selector: "planner-completed-task") do %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references: completed.references, view: :completed)) %>
         <% end %>
       <% end %>
     <% end %>

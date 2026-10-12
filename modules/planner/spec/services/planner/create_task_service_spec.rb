@@ -60,6 +60,26 @@ RSpec.describe Planner::CreateTaskService do
     expect(day_part_field.day_part_of(task)).to eq(:afternoon)
   end
 
+  context "with a date" do
+    subject { described_class.new(user:).call(subject: subject_text, date: user.today + 3) }
+
+    it "creates the task due that day, in the morning" do
+      expect(subject).to be_success, -> { subject.message }
+      expect(task.due_date).to eq(user.today + 3)
+      expect(day_part_field.day_part_of(task)).to eq(:morning)
+    end
+  end
+
+  context "without a date" do
+    subject { described_class.new(user:).call(subject: subject_text, date: nil) }
+
+    it "creates an undated task" do
+      expect(subject).to be_success, -> { subject.message }
+      expect(task.due_date).to be_nil
+      expect(task.start_date).to be_nil
+    end
+  end
+
   context "when the subject references work packages" do
     let(:subject_text) do
       "Questions on ##{team_work_package.id} and ###{hidden_work_package.id}, not #99999 or C#"
