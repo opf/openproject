@@ -1,0 +1,122 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+class PushSubscriptions::NotifyJob < ApplicationJob
+  include GoodJob::ActiveJobExtensions::Concurrency
+
+  class RetryableResponse < StandardError
+  end
+
+  DEBOUNCE = 1.minute
+  GONE_CODES = [401, 403, 404, 410].freeze
+
+  queue_with_priority :notification
+
+  good_job_control_concurrency_with(
+    enqueue_limit: 1,
+    key: -> { "#{self.class.name}-#{arguments.first}" }
+  )
+
+  TRANSIENT_ERRORS = [
+    Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout,
+    SsrfFilter::UnresolvedHostname, SystemCallError, SocketError, IOError,
+    OpenSSL::SSL::SSLError, Net::ProtocolError
+  ].freeze
+
+  retry_on RetryableResponse, wait: :polynomially_longer, attempts: 4 do |job, _error|
+    Rails.logger.warn("Giving up on push wake-up for user #{job.arguments.first} after repeated transient failures")
+  end
+
+  def self.schedule_for(user_id)
+    return unless OpenProject::WebPush.enabled? && PushSubscription.exists?(user_id:)
+
+    set(wait: DEBOUNCE).perform_later(user_id)
+  end
+
+  def perform(user_id)
+    return unless OpenProject::WebPush.enabled?
+
+    user = User.find_by(id: user_id)
+
+    if user.nil? || !user.active?
+      PushSubscription.where(user_id:).delete_all
+      return
+    end
+
+    return unless wakeable?(user)
+
+    outcomes = user.push_subscriptions.map { deliver(it) }
+
+    raise RetryableResponse if outcomes.include?(:retry)
+  end
+
+  private
+
+  def wakeable?(user)
+    !user.pref.reminders_paused_on?(user.today) &&
+      Notification.visible(user).exists?(read_ian: false)
+  end
+
+  def deliver(subscription)
+    response = OpenProject::SsrfProtection.post(
+      subscription.endpoint,
+      headers: headers_for(subscription),
+      body: nil,
+      http_options: { open_timeout: 5, read_timeout: 10 }
+    )
+
+    handle_response(subscription, response.code.to_i)
+  rescue *TRANSIENT_ERRORS
+    :retry
+  rescue SsrfFilter::Error => e
+    Rails.logger.warn("Push endpoint rejected for subscription #{subscription.id}: #{e.message}")
+    subscription.destroy!
+  end
+
+  def handle_response(subscription, code)
+    case code
+    when 200..299 then subscription.touch
+    when *GONE_CODES then subscription.destroy!
+    when 429, 500..599 then :retry
+    else Rails.logger.warn("Push service answered #{code} for subscription #{subscription.id}")
+    end
+  end
+
+  def headers_for(subscription)
+    ::WebPush::Request
+      .new(message: nil,
+           subscription: { endpoint: subscription.endpoint },
+           vapid: { subject: OpenProject::WebPush.subject, pem: OpenProject::WebPush.vapid_key.to_pem },
+           ttl: 3600,
+           urgency: "low")
+      .headers
+      .merge("Topic" => "op-unread-#{subscription.user_id}")
+  end
+end
