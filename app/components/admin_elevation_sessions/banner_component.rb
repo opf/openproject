@@ -30,19 +30,33 @@
 
 module AdminElevationSessions
   class BannerComponent < ApplicationComponent
-    def initialize(project:, user:)
+    def initialize(project:, user:, elevation_sessions:)
       super()
 
       @project = project
       @user = user
+      @elevation_sessions = elevation_sessions
     end
 
     def render?
-      project.is_a?(Project) && project.persisted? && user.active_admin? && !user.admin_in_project?(project)
+      project.is_a?(Project) && project.persisted? && user.active_admin? &&
+        (elevated? || !user.admin_in_project?(project))
     end
 
     private
 
-    attr_reader :project, :user
+    attr_reader :project, :user, :elevation_sessions
+
+    def elevated?
+      covering_elevation_sessions.any?
+    end
+
+    def expires_at
+      covering_elevation_sessions.map(&:expires_at).max
+    end
+
+    def covering_elevation_sessions
+      @covering_elevation_sessions ||= elevation_sessions.covering(project).to_a
+    end
   end
 end
