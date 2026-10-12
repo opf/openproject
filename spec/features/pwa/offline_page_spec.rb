@@ -61,7 +61,7 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
     expect(page).to have_no_css("[aria-busy='true']")
   end
 
-  it "announces the restored connection and reloads the original url" do
+  it "announces the restored connection and leaves the offline page for the home page" do
     visit offline_path
     stub_fetch(respond_ok)
     page.execute_script("window.__sameDocument = true")
@@ -71,9 +71,9 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
     expect(page).to have_heading(offline_text("headline-online"))
     expect(page.evaluate_script("window.__fetchUrls")).to eq([offline_path])
     expect(page).to have_text(offline_text("status-restored"))
-    expect(page).to have_heading(offline_text("headline-offline"))
+    expect(page).to have_no_current_path(offline_path)
+    expect(page).to have_no_css("[data-offline-page]")
     expect(page.evaluate_script("window.__sameDocument")).to be_nil
-    expect(page).to have_current_path(offline_path)
   end
 
   it "ignores further clicks while a check is running" do

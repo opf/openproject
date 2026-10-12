@@ -29,6 +29,7 @@
   };
 
   const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const onOfflinePage = () => location.pathname === new URL(root.dataset.probeUrl, location.href).pathname;
 
   const scheduleRetry = () => {
     const delay = BACKOFF_MS[Math.min(attempt, BACKOFF_MS.length - 1)];
@@ -49,7 +50,7 @@
     if (reachable) {
       render("online", { text: "reloadingLabel", status: "statusRestored" });
       await pause(RELOAD_DELAY_MS);
-      location.replace(location.href);
+      location.replace(onOfflinePage() ? root.dataset.homeUrl : location.href);
     } else {
       render("still", { text: "retryLabel", status: "statusStill" });
       scheduleRetry();
