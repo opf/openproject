@@ -86,6 +86,7 @@ class User < Principal
   has_many :non_working_times, class_name: "UserNonWorkingTime",
                                dependent: :destroy,
                                inverse_of: :user
+  has_many :admin_elevation_sessions, dependent: :delete_all
 
   # The user might have one invitation token
   has_one :invitation_token, class_name: "::Token::Invitation", dependent: :destroy

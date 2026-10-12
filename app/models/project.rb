@@ -100,6 +100,7 @@ class Project < ApplicationRecord
   has_one :wiki, dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :admin_elevation_sessions, dependent: :delete_all
   has_many :project_storages, dependent: :destroy, class_name: "Storages::ProjectStorage"
   has_many :storages, through: :project_storages
   has_many :phases, class_name: "Project::Phase", dependent: :destroy
