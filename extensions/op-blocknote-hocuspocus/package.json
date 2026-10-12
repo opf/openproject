@@ -33,7 +33,7 @@
   "devDependencies": {
     "@blocknote/core": "^0.54.2",
     "@eslint/js": "^10.0.1",
-    "@eslint/json": "^2.1.0",
+    "@eslint/json": "^2.1.1",
     "@hocuspocus/provider": "^4.7.0",
     "@hocuspocus/provider-prev-test-only": "npm:@hocuspocus/provider@^3",
     "@stylistic/eslint-plugin": "^5.3.1",
