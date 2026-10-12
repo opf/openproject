@@ -877,7 +877,11 @@ RSpec.describe CustomField do
         it "handles custom field with format #{field_format}" do
           field = build(:custom_field, field_format:)
 
-          input = field_format == "date" ? "2025.10.27" : "1"
+          input = case field_format
+                  when "date" then "2025.10.27"
+                  when "datetime" then "2025-10-27T12:30:00Z"
+                  else "1"
+                  end
 
           if field_format == "empty"
             expect(field.cast_value(input)).to be_nil

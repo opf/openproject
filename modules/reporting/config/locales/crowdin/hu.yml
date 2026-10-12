@@ -106,7 +106,6 @@ hu:
   plugin_openproject_reporting:
     description: Ez a bővítmény lehetővé teszi az OpenProjekt „Idő és költségek” bővítmény által létrehozott, szűréssel és csoportosítással ellátott egyedi költségjelentések készítését.
     name: OpenProjekt jelentések
-  project_module_reporting_module: Költség jelentések
   reporting:
     group_by:
       selected_columns: A kijelölt oszlopok

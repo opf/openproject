@@ -69,9 +69,14 @@ module ResourcePlannerViews::WorkPackageList
     def identifiable
       @identifiable ||= allocations.select do |allocation|
         allocation.principal_id.nil? ||
+          deleted_user?(allocation) ||
           visible_principal_ids.nil? ||
           visible_principal_ids.include?(allocation.principal_id)
       end
+    end
+
+    def deleted_user?(allocation)
+      allocation.principal.is_a?(DeletedUser)
     end
 
     def avatar_options

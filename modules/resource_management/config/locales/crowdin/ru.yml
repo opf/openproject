@@ -119,6 +119,7 @@ ru:
       criteria:
         empty: Критерии не заданы.
         label: Критерий
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Для выбранного пользователя на эти даты не настроены рабочие часы, поэтому считается, что у него отсутствует рабочая загрузка.
         partial: Для выбранного пользователя не настроены рабочие часы в системе %{dates}, поэтому эти дни учитываются как дни без доступности.
@@ -133,6 +134,7 @@ ru:
         schedule_note: Этот пользователь работает с %{schedule}.
         submit: Выделить сверхурочную работу
         title: Вы хотите выделить сверхурочную работу пользователю?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Распределить
       success_message: Ресурсы выделены.
       title: Выделить ресурс
@@ -183,6 +185,8 @@ ru:
     label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
     label_resource_planner_plural: Планировщики ресурсов
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Добавить представление
     public_caption: Сделать публичным для всех участников проекта. Это не влияет на видимость пакетов работ, которые все еще зависят от разрешения каждого пользователя.

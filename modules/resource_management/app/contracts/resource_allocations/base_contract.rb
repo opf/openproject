@@ -57,9 +57,15 @@ module ResourceAllocations
 
     def principal_must_be_member
       return if model.principal.nil? || model.project.nil?
+      return if kept_deleted_user?
       return if Principal.in_project(model.project).exists?(id: model.principal_id)
 
       errors.add :principal, :not_a_member
+    end
+
+    # Deleting a user moves their allocations to the DeletedUser, who is a member nowhere.
+    def kept_deleted_user?
+      model.principal.is_a?(DeletedUser) && !model.principal_id_changed?
     end
   end
 end

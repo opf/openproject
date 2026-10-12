@@ -180,7 +180,6 @@ ar:
   button_add_time_entry: وقت السجل
   button_log_costs: سجل تكاليف الوحدة
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: حُجِِز على المشروع
@@ -250,7 +249,6 @@ ar:
   label_current: Current
   label_current_default_rate: المعدل الافتراضي الحالي
   label_date_on: على
-  label_day: اليوم
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: أنواع التكلفة المحذوفة
   label_display_cost_entries: عرض تكاليف الوحدة
@@ -266,43 +264,28 @@ ar:
   label_less_or_equal: "=>"
   label_list: القائمة
   label_log_costs: سجل تكاليف الوحدة
-  label_month: شهر
-  label_my_time_tracking: تتبع الوقت الخاص بي
   label_new_time_entry_activity: New time entry activity
-  label_next_day: اليوم التالي
-  label_next_month: الشهر القادم
-  label_next_week: الأسبوع القادم
-  label_next_workweek: Next work week
   label_no: لا
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: لا يوجد وقت مسجل
   label_option_plural: الخيارات
   label_overall_costs: التكاليف الإجمالية
-  label_previous_day: Previous day
-  label_previous_month: الشهر السابق
-  label_previous_week: الأسبوع الماضي
-  label_previous_workweek: Previous work week
   label_rate_plural: الأسعار
   label_show: إظهار
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: مكتمل
   label_time: الوقت
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: اليوم
   label_units: وحدات التكلفة
   label_until: حتى
   label_using_current_default_rate: Using current default rate
   label_valid_from: صالح من
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: أضِف عامل تصفية لمجموعة العمل
-  label_workweek: أسبوع العمل
   label_yes: نعم
   notice_cost_logged_successfully: تمّ تسجيل تكلفة الوحدة بنجاح.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

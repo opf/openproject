@@ -34,7 +34,8 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(agenda_item:, datetime:, skipped_cancelled: nil, skipped_closed: nil, next_occurrence: nil)
+    def initialize(agenda_item:, datetime:, skipped_cancelled: nil, skipped_closed: nil, next_occurrence: nil,
+                   presentation_mode: false, started_at: nil)
       super
 
       @agenda_item = agenda_item
@@ -42,6 +43,8 @@ module MeetingAgendaItems
       @skipped_cancelled = skipped_cancelled
       @skipped_closed = skipped_closed
       @next_occurrence = next_occurrence
+      @presentation_mode = presentation_mode
+      @started_at = started_at
     end
 
     private

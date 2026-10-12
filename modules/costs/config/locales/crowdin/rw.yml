@@ -144,7 +144,6 @@ rw:
   button_add_time_entry: Log time
   button_log_costs: Log unit costs
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Booked on project
@@ -214,7 +213,6 @@ rw:
   label_current: Current
   label_current_default_rate: Current default rate
   label_date_on: 'on'
-  label_day: Day
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Deleted cost types
   label_display_cost_entries: Display unit costs
@@ -230,43 +228,28 @@ rw:
   label_less_or_equal: "<="
   label_list: List
   label_log_costs: Log unit costs
-  label_month: Month
-  label_my_time_tracking: My time tracking
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Next day
-  label_next_month: Next month
-  label_next_week: Next week
-  label_next_workweek: Next work week
   label_no: 'No'
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: No time tracked
   label_option_plural: Options
   label_overall_costs: Overall costs
-  label_previous_day: Previous day
-  label_previous_month: Previous month
-  label_previous_week: Previous week
-  label_previous_workweek: Previous work week
   label_rate_plural: Rates
   label_show: Show
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Finished
   label_time: Time
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Today
   label_units: Cost units
   label_until: until
   label_using_current_default_rate: Using current default rate
   label_valid_from: Valid from
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Add work package filter
-  label_workweek: Work week
   label_yes: 'Yes'
   notice_cost_logged_successfully: Unit cost logged successfully.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

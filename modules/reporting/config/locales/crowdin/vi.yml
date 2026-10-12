@@ -104,7 +104,6 @@ vi:
   plugin_openproject_reporting:
     description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
     name: Báo cáo OpenProject
-  project_module_reporting_module: Các báo cáo chi phí
   reporting:
     group_by:
       selected_columns: Cột đã chọn

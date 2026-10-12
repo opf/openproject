@@ -32,13 +32,6 @@ module Admin::Settings
   class UsersSettingsController < ::Admin::SettingsController
     menu_item :user_settings
 
-    def show
-      @options = {}
-      @options[:user_format] = User::USER_FORMATS_STRUCTURE.keys.map { |f| [User.current.name(f), f.to_s] }
-
-      respond_to :html
-    end
-
     def settings_params
       super.tap do |settings|
         if settings["consent_required"] == "1" && params["toggle_consent_time"] == "1"

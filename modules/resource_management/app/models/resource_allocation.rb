@@ -230,18 +230,26 @@ class ResourceAllocation < ApplicationRecord
     principal_id.present?
   end
 
+  def staffed?
+    filter_based? && user_assigned?
+  end
+
   def placeholder_or_user
-    placeholder_user || principal
+    principal || placeholder_user
   end
 
   def placeholder_or_user_id
-    placeholder_user_id || principal_id
+    principal_id || placeholder_user_id
   end
 
+  # Picking a user for a staffed allocation re-staffs it, so the placeholder
+  # stays as the original request.
   def placeholder_or_user=(value)
     if value.is_a?(PlaceholderUser)
       self.placeholder_user = value
       self.principal = nil
+    elsif value && staffed?
+      self.principal = value
     else
       self.principal = value
       self.placeholder_user = nil

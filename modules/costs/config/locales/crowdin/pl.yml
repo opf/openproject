@@ -162,7 +162,6 @@ pl:
   button_add_time_entry: Rejestruj czas pracy
   button_log_costs: Rejestruj koszty jednostkowe
   button_log_time: Dziennik
-  button_stop_timer: Zatrzymaj zegar
   button_update_limits: Zaktualizuj limity
   button_update_start_finish_times: Zaktualizuj czasy rozpoczęcia i zakończenia
   caption_booked_on_project: Zarezerwowano na projekt
@@ -232,7 +231,6 @@ pl:
   label_current: Bieżący
   label_current_default_rate: Aktualne stawki domyślne
   label_date_on: na
-  label_day: Dzień
   label_defaults_and_limits: Ustawienia domyślne i limity
   label_deleted_cost_types: Usunięte typy kosztów
   label_display_cost_entries: Pokaż koszty jednostkowe
@@ -248,43 +246,28 @@ pl:
   label_less_or_equal: "≤"
   label_list: Lista
   label_log_costs: Rejestruj koszty jednostkowe
-  label_month: Miesiąc
-  label_my_time_tracking: Moje śledzenie czasu
   label_new_time_entry_activity: Nowa aktywność wprowadzania czasu
-  label_next_day: Następny dzień
-  label_next_month: Następny miesiąc
-  label_next_week: Następny tydzień
-  label_next_workweek: Następny tydzień pracy
   label_no: Nie
   label_no_default_rate: Nie ustawiono stawki domyślnej
   label_no_project_rate: Nie ustawiono stawki dla tego projektu
-  label_no_time: Brak śledzonego czasu
   label_option_plural: Opcje
   label_overall_costs: Koszt całkowity
-  label_previous_day: Poprzedni dzień
-  label_previous_month: Poprzedni miesiąc
-  label_previous_week: Poprzedni tygodzień
-  label_previous_workweek: Poprzedni tydzień pracy
   label_rate_plural: Taryfy
   label_show: Pokaż
   label_specific_day: Dzień %{day}
   label_specific_month: Miesiąc %{month}
-  label_stack: Stack
   label_start_and_finished: Godziny rozpoczęcia i zakończenia
   label_status_finished: Zakończone
   label_time: Czas
   label_time_entry_activity_form_description: Zmiany tej aktywności wprowadzania czasu zostaną odzwierciedlone we wszystkich projektach, w których jest ona włączona.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limity
-  label_timer_since: Rozpoczęto o %{time}
   label_today_capitalized: Dzisiaj
   label_units: Koszt jednostki
   label_until: do
   label_using_current_default_rate: Używanie stawek domyślnych
   label_valid_from: Ważny od
-  label_view_mode_switcher: Zmień widok
   label_work_package_filter_add: Dodaj filtr Zestawu zadań
-  label_workweek: Tydzień roboczy
   label_yes: Tak
   notice_cost_logged_successfully: Koszt jednostkowy zarejestrowano pomyślnie.
   notice_different_time_zones: Ten użytkownik ma inną strefę czasową (%{tz}). Godzina będzie rejestrowana przy użyciu tej strefy czasowej.

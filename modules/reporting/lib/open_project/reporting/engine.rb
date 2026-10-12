@@ -40,7 +40,7 @@ module OpenProject::Reporting
       view_controllers = ["cost_reports", "reporting/cost_reports"]
       entry_permissions = %i[view_time_entries view_own_time_entries view_cost_entries view_own_cost_entries]
 
-      # register reporting_module including permissions
+      # Cost reports have no project module of their own and are enabled together with costs.
       project_module :costs do
         permission :save_cost_reports,
                    { cost_reports: edit_actions, "reporting/cost_reports": edit_actions },
@@ -130,6 +130,5 @@ module OpenProject::Reporting
 
     prepend_module "OpenProject::Reporting::Patches::CustomFieldsControllerPatch",
                    into: "Admin::Settings::CustomFieldsBaseController"
-    patch_with_namespace :BasicData, :SettingSeeder
   end
 end

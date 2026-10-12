@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -34,6 +33,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
 
 @Component({
   selector: 'op-filter-integer-value',
@@ -69,7 +69,7 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   }
 
   public get unit() {
-    switch ((this.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
+    switch (((this.schema.filter as SchemaAttributeObject<QueryFilterResource>).allowedValues as QueryFilterResource[])[0].id) {
       case 'startDate':
       case 'dueDate':
       case 'updatedAt':

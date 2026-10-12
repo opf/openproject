@@ -144,7 +144,6 @@ fr:
   button_add_time_entry: Consigner du temps
   button_log_costs: Consigner des coûts unitaires
   button_log_time: Consigner
-  button_stop_timer: Arrêter le suivi du temps
   button_update_limits: Mettre à jour les limites
   button_update_start_finish_times: Mettre à jour les heures de début et de fin
   caption_booked_on_project: Réservé pour le projet
@@ -214,7 +213,6 @@ fr:
   label_current: Actuel
   label_current_default_rate: Taux par défaut actuel
   label_date_on: le
-  label_day: Jour
   label_defaults_and_limits: Valeurs par défaut et limites
   label_deleted_cost_types: Types de coût effacés
   label_display_cost_entries: Afficher les coûts unitaires
@@ -230,43 +228,28 @@ fr:
   label_less_or_equal: "<="
   label_list: Liste
   label_log_costs: Consigner des coûts unitaires
-  label_month: Mois
-  label_my_time_tracking: Mon suivi du temps
   label_new_time_entry_activity: Nouvelle activité de saisie de temps
-  label_next_day: Jour suivant
-  label_next_month: Mois suivant
-  label_next_week: Semaine suivante
-  label_next_workweek: Prochaine semaine de travail
   label_no: Non
   label_no_default_rate: Aucun taux par défaut défini
   label_no_project_rate: Aucun taux défini pour ce projet
-  label_no_time: Aucun temps saisi
   label_option_plural: Options
   label_overall_costs: Coûts globaux
-  label_previous_day: Jour précédent
-  label_previous_month: Mois précédent
-  label_previous_week: Semaine précédente
-  label_previous_workweek: Semaine de travail précédente
   label_rate_plural: Tarifs
   label_show: Afficher
   label_specific_day: Jour %{day}
   label_specific_month: Mois %{month}
-  label_stack: Stack
   label_start_and_finished: Heures de début et de fin
   label_status_finished: Terminé
   label_time: Heure 
   label_time_entry_activity_form_description: Les modifications apportées à cette activité de saisie de temps seront répercutées dans tous les projets où elle est activée.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limites
-  label_timer_since: Commencé à %{time}
   label_today_capitalized: Aujourd'hui
   label_units: Unités de coût
   label_until: jusque
   label_using_current_default_rate: Utilisation du taux par défaut actuel
   label_valid_from: Valable à partir du
-  label_view_mode_switcher: Changer la vue
   label_work_package_filter_add: Ajouter filtre de lot de travaux
-  label_workweek: Semaine de travail
   label_yes: Oui
   notice_cost_logged_successfully: Coût unitaire enregistré avec succès.
   notice_different_time_zones: Cet utilisateur a un fuseau horaire différent (%{tz}). Le temps sera saisi selon son fuseau horaire.

@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
       url: admin_cost_type_path(cost_type),
       method: :put,
       data: { controller: "subform" }
-    ) do |f| %>
+    ) do %>
   <%= helpers.error_messages_for "cost_type" %>
 
   <div class="generic-table--container">

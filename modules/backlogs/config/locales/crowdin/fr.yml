@@ -359,7 +359,7 @@ fr:
             label: Story points
           time:
             caption: Les cartes et graphiques afficheront les estimations du temps de travail.
-            label: Work time estimate
+            label: Estimation du temps de travail
       backlog_sharing:
         options:
           no_sharing:
@@ -381,8 +381,8 @@ fr:
         sprint_sharing: Partager les sprints
       backlogs:
         estimation_unit_form_component:
-          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
-          heading: Default unit of velocity, effort and capacity
+          description: Sélectionnez l'unité de mesure par défaut pour l'effort, la vélocité et la capacité qui correspond au déroulement des tâches de votre équipe agile. Ces unités apparaîtront dans les rapports sur le backlog et les sprints.
+          heading: Unité par défaut de la vitesse, de l'effort et de la capacité
         multiple_active_sprints:
           description: Par défaut, un seul sprint peut être actif à la fois par projet. Vous pouvez modifier ce paramètre afin que plusieurs sprints puissent être actifs en parallèle dans ce projet.
           heading: Nombre de sprints actifs

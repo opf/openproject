@@ -45,7 +45,7 @@ class Projects::StatusBadgeComponent < ApplicationComponent
 
     @system_arguments[:classes] = class_names(
       @system_arguments[:classes],
-      helpers.hl_background_class(:project_status, @status.id)
+      helpers.hl_background_muted_class(:project_status, @status.id)
     )
   end
 

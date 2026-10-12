@@ -107,6 +107,7 @@ fa:
       criteria:
         empty: هیچ معیاری تعیین نشده است.
         label: معیارها
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: کاربر انتخاب‌شده برای این تاریخ‌ها هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین فاقد ظرفیت در نظر گرفته می‌شود.
         partial: کاربر انتخاب‌شده برای %{dates} هیچ ساعت کاری پیکربندی‌شده‌ای ندارد، بنابراین آن روزها فاقد ظرفیت در نظر گرفته می‌شوند.
@@ -121,6 +122,7 @@ fa:
         schedule_note: این کاربر طبق %{schedule} کار می‌کند.
         submit: تخصیص اضافه‌کاری
         title: آیا می‌خواهید برای کاربر اضافه‌کاری تخصیص دهید؟
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: تخصیص
       success_message: منبع تخصیص داده شد.
       title: تخصیص منبع
@@ -171,6 +173,8 @@ fa:
     label_new_resource_planner: برنامه‌ریز منابع جدید
     label_resource_planner: برنامه‌ریز منابع
     label_resource_planner_plural: برنامه‌ریزهای منابع
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: افزودن نما
     public_caption: این نما را برای همهٔ اعضای پروژه عمومی کنید. این کار بر قابلیت مشاهدهٔ بسته‌های کاری اثری ندارد؛ مشاهدهٔ آن‌ها همچنان به مجوزهای هر کاربر بستگی دارد.

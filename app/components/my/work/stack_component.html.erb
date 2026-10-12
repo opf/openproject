@@ -1,0 +1,10 @@
+<% helpers.html_title t(:label_my_work), "#{t("label_#{mode}")} #{t(:label_stack)} #{I18n.l(date)}" -%>
+<%= render(My::Work::ViewFrameComponent.new) do %>
+  <%= flex_layout(classes: "my-work-stack-view") do |stack_page| %>
+    <% stack_page.with_row { render(My::Work::HeaderComponent.new(mode:, date:, entries:, view_mode: :stack)) } %>
+    <% stack_page.with_row { render(My::Work::SubHeaderComponent.new(mode:, date:, entries:, view_mode: :stack)) } %>
+    <% stack_page.with_row(classes: "my-work-stack-view--body") do %>
+      <%= render(My::Work::StackEntriesComponent.new(time_entries:, allocations:, mode:, date:)) %>
+    <% end %>
+  <% end %>
+<% end %>
