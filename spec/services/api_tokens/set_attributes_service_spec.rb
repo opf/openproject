@@ -28,17 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
+require "spec_helper"
 
-RSpec.describe Settings::TimeZoneSettingComponent, type: :component do
-  subject { render_inline(described_class.new("user_default_timezone")) }
+RSpec.describe APITokens::SetAttributesService, type: :model do
+  let(:user) { build(:user, preferences: { time_zone: "Europe/Berlin" }) }
+  let(:token) { Token::API.new }
+  let(:contract_class) do
+    class_double(APITokens::CreateContract, new: instance_double(APITokens::CreateContract, validate: true))
+  end
 
-  it "renders the timezones as options, grouping cities with the same identifier" do
-    subject
+  subject(:result) do
+    described_class
+      .new(user:, model: token, contract_class:)
+      .call(token_name: "with expiry", expires_on_date: "2026-10-12")
+  end
 
-    expect(page).to have_css("option[value=\"America/Los_Angeles\"]",
-                             text: "(UTC-08:00) Pacific Time (US & Canada)")
-    expect(page).to have_css("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
-    expect(page).to have_css("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
+  it "assigns the user before converting the expiry date in the user's time zone" do
+    expect(result).to be_success
+    expect(token.user).to eq(user)
+    expect(token.expires_on).to eq(Time.find_zone("Europe/Berlin").local(2026, 10, 12).end_of_day)
   end
 end

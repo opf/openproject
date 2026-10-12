@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,17 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Homescreen
-  module Blocks
-    class Administration < Grids::WidgetComponent
-      include HookHelper
-      include SecurityBadgeHelper
+class CustomValue::DateTimeStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
 
-      def title
-        I18n.t(:label_administration)
-      end
-    end
+  def typed_value
+    return if value.blank?
+
+    parse(value)
+  end
+
+  def formatted_value
+    format_time(typed_value) || value.to_s
+  end
+
+  def parse_value(val)
+    parse(val)&.utc&.iso8601 || val
+  end
+
+  def validate_type_of_value
+    :not_a_datetime unless parse(value)
+  end
+
+  private
+
+  def parse(val)
+    ActiveSupport::TimeZone["UTC"].iso8601(val.to_s)
+  rescue ArgumentError
+    nil
   end
 end

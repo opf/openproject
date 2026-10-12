@@ -30,6 +30,7 @@ require "spec_helper"
 
 RSpec.describe "Main menu initial state" do
   shared_let(:user) { create(:user) }
+  let(:user_menu) { Components::UserMenu.new }
 
   context "when rendered on the server" do
     before { login_as user }
@@ -95,7 +96,9 @@ RSpec.describe "Main menu initial state" do
       wait_for { menu_width_cookie }.to eq("0")
 
       page.execute_script("window.opMenuSpecMarker = true")
-      within "#content" do
+
+      user_menu.open
+      within ".op-app-header" do
         click_on "My page"
       end
 
@@ -148,7 +151,9 @@ RSpec.describe "Main menu initial state" do
         expect(page).to have_css("#main-menu", visible: :visible)
 
         page.execute_script("window.opMenuSpecMarker = true")
-        within "#main-menu" do
+
+        user_menu.open
+        within ".op-app-header" do
           click_on "My page"
         end
 

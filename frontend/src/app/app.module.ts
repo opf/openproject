@@ -93,6 +93,9 @@ import {
   OpBasicSingleDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import {
+  OpBasicSingleDatetimePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-single-datetime-picker/basic-single-datetime-picker.component';
+import {
   OpBasicRangeDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
 import { GlobalSearchInputComponent } from 'core-app/core/global_search/input/global-search-input.component';
@@ -358,6 +361,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
+    registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
     registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });
