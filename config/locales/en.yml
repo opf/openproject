@@ -2172,7 +2172,7 @@ en:
           error: "The section could not be reordered."
       push_notifications:
         check_reachability: "Check reachability"
-        checking: "Checking..."
+        checking: "Checking…"
         hosts_intro: "This instance must reach these hosts over HTTPS. Entries with * cover all subdomains:"
         http_status: "HTTP %{code}"
         reachable: "Reachable"
@@ -5064,8 +5064,8 @@ en:
       llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
-      push_notifications: "Browser push notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
+      push_notifications: "Browser push notifications"
       text_transform_actions: "Text transform actions"
     quick_add:
       label: "Add…"

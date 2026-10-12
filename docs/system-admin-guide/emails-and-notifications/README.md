@@ -63,11 +63,13 @@ To configure **Incoming emails** in OpenProject, navigate to **Administration �
 
 ## Browser push notifications
 
-Navigate to **Administration → Emails and notifications → Browser push notifications**. The page has a single checkbox, **Browser push notifications**, which is enabled by default.
+Navigate to **Administration → Emails and notifications → Browser push notifications**. The page has a checkbox, **Browser push notifications**, which is enabled by default. It also has a reachability check and a VAPID key section, both described below.
 
 The page is only available while the **Progressive web app** feature flag is active under **Administration → Experimental features**.
 
-When the setting is enabled, users who have installed OpenProject as a desktop application can turn on browser push for each of their devices under **My account → Notifications → Browser push**. This works in Chrome, Edge and Safari on macOS, and in the Firefox desktop browser. When a subscribed user has unread notifications, the instance sends a push that wakes the installed application. The application then shows a notification reading "N unread notifications" and updates the badge on its icon.
+When the setting is enabled, users who have installed OpenProject as a desktop application can turn on browser push for each of their devices under **My account → Notifications → Browser push**. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser push from a normal browser tab while Firefox is running. When a subscribed user has unread notifications, the instance sends a push that wakes the application. The application then shows a notification and updates the badge on its icon.
+
+The operating system notification shows the actor and the work package subject of the latest unread notification. Projects with sensitive work package subjects may prefer to keep the setting off.
 
 The instance sends at most one push per user per minute. Each push is sent with low urgency and a time to live of one hour.
 
@@ -93,6 +95,8 @@ The instance must be able to reach the following hosts over HTTPS:
 - `updates.push.services.mozilla.com`
 - `*.push.apple.com`
 
+Click **Check reachability** to test this from the instance. The results show **Reachable** or **Unreachable** for each host, with a reason for every host that cannot be reached.
+
 Air-gapped instances cannot use browser push. The checkbox can stay enabled without harm; nothing is sent until a user subscribes a device.
 
 ### Subscription lifecycle
@@ -112,13 +116,15 @@ Pausing reminders in **My account** also pauses browser push.
 
 The instance signs each push with a VAPID key. The key is generated on first use and stored encrypted in the database.
 
-To supply your own key, set the environment variable `OPENPROJECT_WEB_PUSH_VAPID_PRIVATE_KEY` to the base64 encoding of a PKCS#8 DER P-256 private key. The following command generates a suitable value:
+To supply your own key, set the environment variable `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` to the base64 encoding of a PKCS#8 DER P-256 private key. The following command generates a suitable value:
 
 ```shell
 openssl ecparam -name prime256v1 -genkey -noout | openssl pkcs8 -topk8 -nocrypt -outform DER | base64 -w0
 ```
 
 Changing or rotating the key invalidates every subscription. Users then enable push again on each device.
+
+If the stored key can no longer be read, for example after the instance secret key base changed, the page shows a banner and browser push stays unavailable to users. Click **Regenerate key** to create a new key. You can also use this button to rotate the key on purpose. Regenerating the key deletes every subscription, so users need to enable push again on each of their devices.
 
 ### Storage
 

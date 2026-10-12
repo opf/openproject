@@ -50,10 +50,12 @@ You can also opt-in to receive **email alerts for other items (that are not work
 
 ## Browser push
 
-The **Browser push** tab is shown when your administrator has enabled browser push notifications and you have installed OpenProject as a desktop application. This works in Chrome, Edge and Safari on macOS, and in the Firefox desktop browser.
+The **Browser push** tab is shown when your administrator has enabled browser push notifications and you have installed OpenProject as a desktop application. This works in Chrome, Edge and Safari on macOS. Firefox on desktop does not install web applications, but it supports browser push from a normal browser tab while Firefox is running.
+
+If the tab shows **Browser push is temporarily unavailable on this instance**, browser push cannot be used right now. Please contact your administrator.
 
 Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser push, each with a **Revoke** button.
 
-When you have unread notifications, the installed application shows a notification with the number of unread notifications. The notification does not contain their content.
+When you have unread notifications, the application shows a notification for the latest one. The operating system notification shows who triggered it and the work package subject.
 
 Pausing your email reminders also pauses browser push. Signing out removes the device from the list.
