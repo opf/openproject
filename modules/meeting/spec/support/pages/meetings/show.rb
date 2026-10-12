@@ -125,6 +125,24 @@ module Pages::Meetings
       expect(page).to have_css("#meeting-agenda-item-#{created_id}") if created_id
     end
 
+    def open_add_item_relative(item, position:)
+      open_menu(item) do
+        click_on I18n.t("label_agenda_item_add")
+        click_on(position == :above ? I18n.t("label_agenda_item_add_above") : I18n.t("label_agenda_item_add_below"))
+      end
+    end
+
+    def add_agenda_item_relative(item, position:, save: true, &)
+      open_add_item_relative(item, position:)
+
+      created_id = nil
+      page.within("#meeting-agenda-items-new-component-relative-#{item.id}-#{position}") do
+        yield
+        created_id = click_save_and_wait_for_agenda_item_creation if save
+      end
+      expect(page).to have_css("#meeting-agenda-item-#{created_id}") if created_id
+    end
+
     def expect_modal(...)
       Components::Common::Modal.new.expect_modal(...)
     end
