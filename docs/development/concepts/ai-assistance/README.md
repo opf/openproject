@@ -39,7 +39,7 @@ flowchart LR
   AU --> WP["Work package<br/>+ journal cause"]
 ```
 
-1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame.
+1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame, and so does every user while no LLM connection with a model is available.
 2. The menu items are loaded when the menu opens (`#items`). There is one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
 3. A health check item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog. A chat item opens `ChatsController#show`, and a custom prompt item posts to `ChatsController#start` (see "Chat" and "Custom prompt presets").
 4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::ReviewJob` starts. The dialog polls `#poll` until the run is finished.
@@ -48,7 +48,7 @@ flowchart LR
 ## Decisions
 
 - **Assistants are records, not users.** A run always acts with the permissions of the user who started it. The job runs in `User.execute_as(run.user)`.
-- **Rules and AI are separate.** The rules are deterministic, need no LLM, and always run. The AI review is optional. If it is not available or fails, the run lists it under "Not checked", and the rule findings stay.
+- **Rules and AI are separate.** The rules are deterministic and always run. The menu is offered only when an LLM connection with a model is available, but Check health without instructions runs only its rules. If the AI review fails, the run lists it under "Not checked", and the rule findings stay.
 - **What the AI reads.** It reads only what the user can see: the work package, visible descendants and relations, and comments filtered by `journals.internal_visible`. Internal comments are included only when the user may see them. The prompt tells the model that this text is user data, not instructions.
 - **Evidence is required.** An AI finding without evidence is dropped. Findings and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
 - **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register`. It refuses actions that `ChangeOptions#allowed?` does not allow now: keys outside the skill's proposal scope, and values that are not valid now. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.

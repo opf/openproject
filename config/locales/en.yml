@@ -2476,6 +2476,7 @@ en:
     run:
       no_findings: "No findings"
       no_findings_description: "Everything that was checked is consistent."
+      no_findings_partly_checked: "Nothing was found, but some parts were not checked. See the list below."
       review_running: "The AI review is in progress. Its findings appear below the rule findings."
       review_running_description: "The rules found nothing. The AI findings appear here when the review is done."
       review_running_title: "Reviewing the work package…"

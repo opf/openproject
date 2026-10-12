@@ -63,12 +63,11 @@ module AI
       skill_type&.conversation? || false
     end
 
-    # Offered in the menu: a skill that needs instructions also needs them set, and a
-    # conversation also needs an LLM connection and a model.
+    # Offered in the menu: every skill needs an LLM connection and a model, and a skill
+    # that needs instructions also needs them set.
     def ready?
       return false if skill_type.nil?
       return false if skill_type.prompt_required? && prompt.blank?
-      return true unless conversation?
 
       LlmConnection.available? && AI::Assistance::ModelChoice.new(assistant).model_id.present?
     end

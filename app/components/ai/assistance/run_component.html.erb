@@ -51,7 +51,9 @@
     <%= render(Primer::Beta::Blankslate.new(border: true, data: { test_selector: "ai-assistance-no-findings" })) do |slate| %>
       <% slate.with_visual_icon(icon: :"check-circle") %>
       <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.run.no_findings")) %>
-      <% slate.with_description { t("ai_assistance.run.no_findings_description") } %>
+      <% slate.with_description do %>
+        <%= not_checked.any? ? t("ai_assistance.run.no_findings_partly_checked") : t("ai_assistance.run.no_findings_description") %>
+      <% end %>
     <% end %>
   <% else %>
     <%= render(Primer::Beta::BorderBox.new(data: { test_selector: "ai-assistance-findings" })) do |box| %>
