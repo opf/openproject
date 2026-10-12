@@ -58,6 +58,16 @@ RSpec.describe Search::SemanticResult do
         expect(result.map(&:id)).not_to include(invisible_wp.id)
       end
 
+      it "ranks only work packages the user can see" do
+        stub_const("#{described_class}::RESULT_LIMIT", 2)
+        WorkPackageEmbedding.where(work_package: [wp1, wp2]).delete_all
+        create(:work_package_embedding, work_package: wp1, embedding: [0.1, 0.2, 0.35])
+        create(:work_package_embedding, work_package: wp2, embedding: [0.1, 0.2, 0.4])
+        create_list(:work_package_embedding, 2, embedding: [0.1, 0.2, 0.3])
+
+        expect(described_class.for("some query", user).map(&:id)).to eq([wp1.id, wp2.id])
+      end
+
       it "returns no work packages when the LLM call fails" do
         allow(session_double).to receive(:embed).and_raise(Llm::Errors::ConnectionError, "timeout")
 
