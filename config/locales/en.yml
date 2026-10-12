@@ -2337,6 +2337,18 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
+  admin_elevation:
+    banner:
+      elevate: "Elevate privileges"
+      not_elevated: "You are an administrator, but you are seeing this project only with the permissions of your memberships. Elevate your privileges to act on it as an administrator."
+    dialog:
+      confirmation_placeholder: "Confirming your identity with two-factor authentication or your password will be required here."
+      description: "You will have full administrator privileges in this project for this browser session. They end after %{minutes} minutes of inactivity in the project."
+      include_subprojects: "Include subprojects"
+      include_subprojects_caption: "Also elevate your privileges in all subprojects of this project."
+      submit: "Elevate privileges"
+      title: "Elevate privileges in %{project}"
+    notice_elevated: "You now have elevated privileges in %{project}."
   ai:
     text_transform:
       errors:
