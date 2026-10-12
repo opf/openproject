@@ -46,6 +46,14 @@ module Accounts::CurrentUser
   def user_setup
     # Find the current user
     User.current = find_current_user
+    apply_admin_elevation
+  end
+
+  def apply_admin_elevation
+    return if performed?
+    return unless current_user.admin? && session[:user_id] == current_user.id
+
+    current_user.admin_elevation = Users::AdminElevation.for_session(current_user, session.id.private_id)
   end
 
   # check if login is globally required to access the application
