@@ -71,10 +71,30 @@ module API
 
       def authenticate
         User.current = warden.authenticate! scope: authentication_scope
+        apply_admin_elevation
 
         if Setting.login_required? && !logged_in? && !allowed_unauthenticated_route?
           raise ::API::Errors::Unauthenticated
         end
+      end
+
+      def apply_admin_elevation
+        return unless current_user.admin?
+
+        current_user.admin_elevation =
+          if authenticated_by_session?
+            Users::AdminElevation.for_session(current_user, env["rack.session"].id&.private_id)
+          else
+            # Admins authenticated in any other way (API key, basic auth, OAuth, JWT) are elevated
+            # everywhere for now, so that integrations keep working. This will be handled once
+            # tokens can carry their own elevation, e.g. through a sudo scope.
+            Users::AdminElevation.everywhere
+          end
+      end
+
+      def authenticated_by_session?
+        warden.winning_strategies[authentication_scope]
+              .is_a?(OpenProject::Authentication::Strategies::Warden::Session)
       end
 
       def allowed_unauthenticated_route?

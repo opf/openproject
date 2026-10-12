@@ -51,9 +51,17 @@ module Accounts::CurrentUser
 
   def apply_admin_elevation
     return if performed?
-    return unless current_user.admin? && session[:user_id] == current_user.id
+    return unless current_user.admin?
 
-    current_user.admin_elevation = Users::AdminElevation.for_session(current_user, session.id.private_id)
+    current_user.admin_elevation =
+      if session[:user_id] == current_user.id
+        Users::AdminElevation.for_session(current_user, session.id.private_id)
+      else
+        # Admins authenticated in any other way (API key, RSS key) are elevated everywhere for now,
+        # so that integrations keep working. This will be handled once tokens can carry their own
+        # elevation, e.g. through a sudo scope.
+        Users::AdminElevation.everywhere
+      end
   end
 
   # check if login is globally required to access the application
