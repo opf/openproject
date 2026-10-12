@@ -50,6 +50,9 @@ import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
 import { useBlockNoteLocale } from '../hooks/useBlockNoteLocale';
 import { useOpTheme } from '../hooks/useOpTheme';
+import { enablePrimerDialogs } from '@openproject/blocknote-extensions/primer';
+import { BlockNoteFormResourcePicker } from './BlockNoteFormResourcePicker';
+import { BlockNoteWorkPackagePicker } from './BlockNoteWorkPackagePicker';
 import { PrimerTableHandles } from './PrimerTableHandles';
 import { PrimerFormattingToolbar } from './PrimerFormattingToolbar';
 import { PrimerSideMenuController } from './PrimerSideMenu';
@@ -107,6 +110,7 @@ export function OpBlockNoteEditor({
   const { enabled: attachmentsEnabled, uploadFile } = useBlockNoteAttachments(attachmentsCollectionKey, attachmentsUploadUrl);
 
   useEffect(() => {
+    enablePrimerDialogs({ WorkPackagePicker: BlockNoteWorkPackagePicker, FormResourcePicker: BlockNoteFormResourcePicker });
     initializeOpBlockNoteExtensions({ baseUrl: openProjectUrl, locale: localeString, projectId });
   }, [openProjectUrl, localeString, projectId]);
 

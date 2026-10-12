@@ -116,7 +116,7 @@
     "@mantine/utils": "^6.0.22",
     "@ng-select/ng-select": "^24.2.1",
     "@ngneat/content-loader": "^7.0.0",
-    "@openproject/blocknote-extensions": "^0.3.4",
+    "@openproject/blocknote-extensions": "file:openproject-blocknote-extensions-0.3.4.tgz",
     "@openproject/octicons-angular": "^19.38.0",
     "@openproject/primer-view-components": "^0.96.0",
     "@openproject/reactivestates": "^3.0.1",

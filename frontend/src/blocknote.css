@@ -1,4 +1,19 @@
 @import "@blocknote/mantine/style.css";
+@import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionList-6808e67a.css";
+@import "../node_modules/@primer/react/dist/FilteredActionList/FilteredActionListLoaders-bdda3d7e.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControl-fa33984d.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControlCaption-f58db5f7.css";
+@import "../node_modules/@primer/react/dist/FormControl/FormControlLeadingVisual-e217df71.css";
+@import "../node_modules/@primer/react/dist/SelectPanel/SelectPanel-00796bf3.css";
+@import "../node_modules/@primer/react/dist/Dialog/Dialog-b7da369a.css";
+@import "../node_modules/@primer/react/dist/ScrollableRegion/ScrollableRegion-c1018dbe.css";
+@import "../node_modules/@primer/react/dist/TextInput/TextInput-dff8f842.css";
+@import "../node_modules/@primer/react/dist/Textarea/TextArea-2dc51d35.css";
+@import "../node_modules/@primer/react/dist/Checkbox/Checkbox-7476a7ba.css";
+@import "../node_modules/@primer/react/dist/Checkbox/shared-edc41e16.css";
+@import "../node_modules/@primer/react/dist/SegmentedControl/SegmentedControl-99b8e34e.css";
+@import "../node_modules/@primer/react/dist/internal/components/TextInputWrapper-b2f7f9fa.css";
+@import "../node_modules/@primer/react/dist/internal/components/UnstyledTextInput-8270f063.css";
 @import "../node_modules/@primer/react/dist/ActionBar/ActionBar-3767d551.css";
 @import "../node_modules/@primer/react/dist/ActionList/ActionList-64885d7a.css";
 @import "../node_modules/@primer/react/dist/ActionList/Group-d89306a8.css";
@@ -14,6 +29,14 @@
 @import "../node_modules/@primer/react/dist/Button/ButtonBase-c8dab214.css";
 @import "../node_modules/@primer/react/dist/Stack/Stack-1790a166.css";
 @import "../node_modules/@primer/react/dist/TooltipV2/Tooltip-dd983e5b.css";
+
+[data-component="Portal"]:has(.op-bn-create-wp, .op-bn-picker-options) {
+  z-index: 10000 !important;
+}
+
+.op-bn-dialog-field {
+  margin-block-end: var(--base-size-16);
+}
 
 .op-blocknote-action-menu {
   width: max-content;

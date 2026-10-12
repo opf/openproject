@@ -369,9 +369,11 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       end
 
       def pick_attribute(name)
-        fill_in "Work package", with: "tiger"
+        within editor.insert_attribute_dialog do
+          find("opce-autocompleter [role='combobox']").set("tiger")
+        end
         find("[role='option']", text: "pet a tiger").click
-        find_field("Attribute").click
+        editor.insert_attribute_dialog.click_button(accessible_name: "Attribute")
         find("[role='option']", exact_text: name).click
       end
 
@@ -380,8 +382,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(page).to have_test_selector("blocknote-document-description")
 
         editor.open_insert_attribute_dialog
+        pick_attribute("Status")
         within editor.insert_attribute_dialog do
-          pick_attribute("Status")
           click_on "Label + value"
           expect(page).to have_text("Status: Open")
 
@@ -391,6 +393,15 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element).to have_text("Status: Open")
         macro = %(workPackageLabel:#{work_package.display_id}:"status": workPackageValue:#{work_package.display_id}:"status")
         editor.wait_for_autosave { document.reload.description&.include?(macro) }
+
+        editor.open_insert_attribute_dialog
+        within editor.insert_attribute_dialog do
+          expect(find("opce-autocompleter")).to have_text(work_package.subject)
+          click_button "Clear"
+          expect(find("opce-autocompleter")).to have_no_text(work_package.subject)
+          expect(page).to have_button("Insert", disabled: true)
+          click_button "Cancel"
+        end
       end
 
       it "inserts the description as a block" do
@@ -398,8 +409,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(page).to have_test_selector("blocknote-document-description")
 
         editor.open_insert_attribute_dialog
+        pick_attribute("Description")
         within editor.insert_attribute_dialog do
-          pick_attribute("Description")
           click_on "Insert"
         end
 
@@ -420,6 +431,8 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
       let!(:default_priority) { create(:priority, is_default: true) }
       let!(:other_project) { create(:project, name: "Another project", types: [type]) }
 
+      let!(:assignee) { create(:user, member_with_permissions: { project => [:work_package_assigned] }) }
+
       it "creates it in the project of the document, with the fields the chosen type requires" do
         visit document_path(document)
         expect(page).to have_test_selector("blocknote-document-description")
@@ -427,23 +440,28 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.open_create_work_package_dialog
 
         within editor.create_work_package_form do
-          expect(page).to have_field("Project", with: project.name)
+          expect(page).to have_css("opce-project-autocompleter .ng-value-label", text: project.name)
 
-          find_field("Type").click
-          find("[role='option']", text: type.name).click
+          find_button("op-bn-create-wp-type").click
+          page.document.find("[role='menuitemradio']", text: /#{Regexp.escape(type.name)}/i).click
           fill_in "Subject", with: "Write the release notes"
           fill_in "Release note", with: "16.0"
+          within "opce-user-autocompleter" do
+            find("[role='combobox']").set(assignee.lastname)
+            find("[role='option']", text: assignee.name).click
+          end
 
           click_on "Create"
         end
 
-        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+        expect(page).to have_no_selector(:dialog, "Create new work package")
         expect(editor.element).to have_text("Write the release notes")
 
         work_package = WorkPackage.last
         expect(work_package.project).to eq(project)
         expect(work_package.type).to eq(type)
         expect(work_package.subject).to eq("Write the release notes")
+        expect(work_package.assigned_to).to eq(assignee)
         expect(work_package.custom_value_for(release_note).value).to eq("16.0")
       end
     end
@@ -466,15 +484,15 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.click_formatting_toolbar_button("Create work package")
 
         within editor.create_work_package_form do
-          expect(page).to have_field("Subject", with: "Write the release notes")
+          expect(page).to have_field("op-bn-create-wp-subject", with: "Write the release notes")
 
-          find_field("Type").click
-          find("[role='option']", text: type.name).click
+          find_button("op-bn-create-wp-type").click
+          page.document.find("[role='menuitemradio']", text: /#{Regexp.escape(type.name)}/i).click
 
           click_on "Create"
         end
 
-        expect(page).to have_no_css("[data-testid='create-wp-modal']")
+        expect(page).to have_no_selector(:dialog, "Create new work package")
 
         work_package = WorkPackage.find_by(subject: "Write the release notes")
         expect(work_package).to be_present

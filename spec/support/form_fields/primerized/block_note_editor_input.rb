@@ -75,7 +75,7 @@ module FormFields
       end
 
       def click_formatting_toolbar_button(label)
-        shadow_root.find("button[aria-label='#{label}']").click
+        page.find(".op-primer-formatting-toolbar").click_button(accessible_name: label)
       end
 
       def insert_table
@@ -111,12 +111,12 @@ module FormFields
       end
 
       def create_work_package_form
-        page.find("[data-testid='create-wp-modal']")
+        page.find(:dialog, "Create new work package")
       end
 
       # Portalled out of the editor like the create form, so it is in the light DOM.
       def insert_attribute_dialog
-        page.find("[role='dialog'][aria-label='Insert work package attribute']")
+        page.find(:dialog, "Insert work package attribute")
       end
 
       def fill_in(content)

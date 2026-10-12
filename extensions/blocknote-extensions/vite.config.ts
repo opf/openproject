@@ -16,6 +16,7 @@ export default defineConfig({
     lib: {
       entry: {
         'blocknote-extensions': path.resolve(__dirname, 'lib/index.ts'),
+        'blocknote-extensions-primer': path.resolve(__dirname, 'lib/primer.ts'),
         'blocknote-extensions-server': path.resolve(__dirname, 'lib/server.ts'),
       },
       name: 'OpBlocknoteExtensions',

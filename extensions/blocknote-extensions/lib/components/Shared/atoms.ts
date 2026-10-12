@@ -78,10 +78,7 @@ const rowMarkHover = css`
 const MODAL_WIDTH = '460px';
 const MODAL_TOP_OFFSET = 'min(10vh, 4rem)';
 
-export const Overlay = styled.div.attrs({
-  className: 'op-bn-create-wp-overlay',
-  'data-testid': 'create-wp-overlay',
-})`
+export const dialogVariables = css`
   ${defaultWpVariables}
 
   --op-create-wp-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
@@ -106,7 +103,7 @@ export const Overlay = styled.div.attrs({
       rather than the operating system.  */
   color-scheme: light;
 
-  [data-color-scheme="dark"] & {
+  &[data-color-scheme="dark"], [data-color-scheme="dark"] & {
     --op-create-wp-shadow: 0 4px 28px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04);
     --op-create-wp-surface: var(--bgColor-default, #0d1117);
     --op-create-wp-border: var(--borderColor-default, #3d444d);
@@ -131,6 +128,13 @@ export const Overlay = styled.div.attrs({
     box-sizing: border-box;
   }
 
+`;
+
+export const Overlay = styled.div.attrs({
+  className: 'op-bn-create-wp-overlay',
+  'data-testid': 'create-wp-overlay',
+})`
+  ${dialogVariables}
   position: fixed;
   inset: 0;
   z-index: 10000;
