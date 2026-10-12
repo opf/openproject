@@ -69,6 +69,7 @@ class User < Principal
            through: :group_users,
            source: :group
 
+  has_many :push_subscriptions, dependent: :delete_all
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -196,6 +197,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+  after_commit -> { push_subscriptions.delete_all }, if: -> { saved_change_to_status? && !active? && !previously_new_record? }
 
   scope :admin, -> { where(admin: true) }
 
