@@ -175,7 +175,8 @@ en:
   label_agenda_backlog_clear_title: "Clear agenda backlog?"
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_add: "Add agenda item"
-
+  label_agenda_item_add_above: "Add item above"
+  label_agenda_item_add_below: "Add item below"
   label_agenda_item_add_notes: "Add notes"
   label_agenda_item_add_outcome: "Add outcome"
   label_agenda_item_convert_to_work_package: "Convert to work package"

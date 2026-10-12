@@ -325,6 +325,40 @@ module MeetingAgendaItems
       move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"), "move-to-bottom") unless last?
     end
 
+    def add_item_action?
+      editable? && !presentation_mode? && !in_backlog?
+    end
+
+    def add_item_action_items(menu)
+      menu.with_sub_menu_item(label: t("label_agenda_item_add")) do |submenu|
+        submenu.with_leading_visual_icon(icon: :plus)
+
+        with_item_group(submenu) do
+          add_item_relative_action_item(submenu, "above", t("label_agenda_item_add_above"), "fold-up")
+          add_item_relative_action_item(submenu, "below", t("label_agenda_item_add_below"), "fold-down")
+        end
+      end
+    end
+
+    def add_item_relative_action_item(menu, insert_position, label_text, icon)
+      menu.with_item(label: label_text,
+                     tag: :button,
+                     content_arguments: { data: {
+                       action: "click->meetings--submit#intercept",
+                       href: new_project_meeting_agenda_item_path(
+                         @meeting.project,
+                         @meeting,
+                         type: :simple,
+                         relative_to_id: @meeting_agenda_item.id,
+                         insert_position:,
+                         current_occurrence: @current_occurrence
+                       ),
+                       method: "GET"
+                     } }) do |item|
+        item.with_leading_visual_icon(icon:)
+      end
+    end
+
     def delete_action_item(menu)
       return unless editable?
       return if presentation_mode?

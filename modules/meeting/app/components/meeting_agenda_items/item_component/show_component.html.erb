@@ -109,6 +109,10 @@
             end
           end
 
+          if add_item_action?
+            with_item_group(menu) { add_item_action_items(menu) }
+          end
+
           with_item_group(menu) { delete_action_item(menu) }
         end
       end
