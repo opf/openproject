@@ -57,7 +57,7 @@ RSpec.describe "multi select custom values", :js do
       expect(page).to have_text custom_field.name
 
       cf_edit_field.activate!
-      cf_edit_field.set_value "Da Real"
+      cf_edit_field.set_value "Da"
       cf_edit_field.set_value "groupfoo"
       cf_edit_field.set_value "PLACEHOLDER"
 
@@ -112,7 +112,7 @@ RSpec.describe "multi select custom values", :js do
 
         cf_edit_field.expect_state_text "-"
         cf_edit_field.activate!
-        cf_edit_field.set_value "Da Real"
+        cf_edit_field.set_value "Da"
         cf_edit_field.set_value "groupfoo"
         cf_edit_field.set_value "PLACEHOLDER"
 

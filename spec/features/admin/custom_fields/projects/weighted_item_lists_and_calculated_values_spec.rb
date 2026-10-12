@@ -104,8 +104,11 @@ RSpec.describe "Weighted item lists and calculated values", :js, with_ee: %i[cal
         open_action_menu(one)
         click_on "Delete"
 
-        page.find_field("confirm_dangerous_action").click
-        click_on "Delete permanently"
+        expect(page).to have_css("danger-dialog-form-helper:defined", wait: 20)
+        checkbox = page.find_field("confirm_dangerous_action", visible: :all)
+        page.execute_script("arguments[0].click()", checkbox)
+        expect(page).to have_checked_field("confirm_dangerous_action", visible: :all)
+        page.find_button("Delete permanently", disabled: false, wait: 20).click
 
         # ensure thet processing finished
         expect(page).to have_no_selector(row_selector(one))
