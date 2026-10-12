@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require Rails.root.join("db/migrate/migration_utils/utils")
+
 class AddUniqueIndexToMeetingAgendaItemJournals < ActiveRecord::Migration[8.1]
+  include Migration::Utils
+
   def up
     execute(<<~SQL.squish)
       DELETE FROM meeting_agenda_item_journals
@@ -17,6 +21,8 @@ class AddUniqueIndexToMeetingAgendaItemJournals < ActiveRecord::Migration[8.1]
   end
 
   def down
-    remove_index :meeting_agenda_item_journals, name: :idx_meeting_agenda_item_journals_journal_item
+    remove_index_on :meeting_agenda_item_journals,
+                    :idx_meeting_agenda_item_journals_journal_item,
+                    %w[journal_id agenda_item_id]
   end
 end
