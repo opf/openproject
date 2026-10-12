@@ -32,7 +32,7 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   include OpTurbo::ComponentStream
   include WorkPackages::AIAssistance::Scoped
 
-  before_action :find_run, only: %i[show]
+  before_action :find_run, only: %i[show poll]
 
   # Both open a dialog. A plain page request (a link opened in a new tab) goes back to
   # the work package instead of failing.
@@ -47,6 +47,15 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
     respond_with_dialog AI::Assistance::RunDialogComponent.new(run: @run) do |format|
       format.html { redirect_to work_package_path(@work_package) }
     end
+  end
+
+  # Polled by the run dialog while the AI judgement runs. No content until the run is
+  # finished; then the whole run is replaced, which also stops the polling.
+  def poll
+    return head(:no_content) unless @run.terminal?
+
+    render turbo_stream: AI::Assistance::RunComponent.new(run: @run)
+                                                      .render_as_turbo_stream(view_context:, action: :replace)
   end
 
   def create

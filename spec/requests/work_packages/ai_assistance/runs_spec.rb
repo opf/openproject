@@ -105,6 +105,25 @@ RSpec.describe "AI Assistance runs", :skip_csrf, type: :rails_request, with_flag
     end
   end
 
+  describe "GET poll" do
+    let(:run) { create(:ai_assistant_run, skill:, user:, work_package:, status: "ai_running") }
+
+    it "has no content while the judgement runs" do
+      get "/work_packages/#{work_package.id}/ai_assistance/runs/#{run.id}/poll"
+
+      expect(response).to have_http_status(:no_content)
+    end
+
+    it "replaces the run once it is finished" do
+      run.update!(status: "finished")
+
+      get "/work_packages/#{work_package.id}/ai_assistance/runs/#{run.id}/poll"
+
+      expect(response).to have_http_status(:ok)
+      expect(response).to have_turbo_stream(action: "replace", target: "ai-assistance-run-#{run.id}")
+    end
+  end
+
   describe "GET index" do
     before do
       create(:ai_assistant_run, :finished, skill:, user:, work_package:)

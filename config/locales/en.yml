@@ -2338,6 +2338,21 @@ en:
       tree: "Hierarchy"
     errors:
       unknown_skill: "This skill is not available."
+    events:
+      answer: "The model answered in %{seconds} s."
+      dropped: "dropped findings"
+      error: "error message"
+      failure: "The AI judgement failed (%{error})."
+      message: "message"
+      raw_answer: "answer"
+      request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
+      rules:
+        one: "The rules found 1 finding. AI judgement: %{judgement}."
+        other: "The rules found %{count} findings. AI judgement: %{judgement}."
+      show: "Show %{what}"
+      stored: "Stored %{stored} of %{findings} findings; %{dropped} dropped because they had no evidence or did not fit."
+      system_prompt: "prompt"
+      title: "Details"
     finding:
       applied: "Applied"
       dismiss: "Dismiss"
@@ -2355,12 +2370,17 @@ en:
       title: "History"
     not_checked:
       default: "%{area} was not checked."
+      failed: "The AI judgement failed. Only the rules were checked."
+      no_llm_connection: "No LLM connection is available, so only the rules were checked."
+      no_model: "No model is selected for this assistant, so only the rules were checked."
+      timed_out: "The AI judgement did not finish in time. Only the rules were checked."
       no_permission_github: "Linked GitHub pull requests: you do not have permission to see them."
       no_permission_gitlab: "Linked GitLab merge requests: you do not have permission to see them."
       too_many_descendants: "Only the first 200 descendants were checked."
     run:
       no_findings: "No findings"
       no_findings_description: "Everything that was checked is consistent."
+      judgement_running: "The rules are checked. The AI judgement is in progress; its findings appear here."
       not_checked: "Not checked"
       run_again: "Run again"
       started_at: "Checked at %{time}. Only you can see this result."

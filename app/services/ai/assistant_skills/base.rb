@@ -56,6 +56,17 @@ module AI
           raise SubclassResponsibilityError
         end
 
+        # The work package attributes this skill type can propose changes to, as Automations
+        # action keys. An admin can make a skill read-only.
+        def changeable_attributes
+          []
+        end
+
+        # The class that builds the AI judgement for a run, or nil for rules only.
+        def judgement_class
+          nil
+        end
+
         def available?(_work_package, _user)
           true
         end

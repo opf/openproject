@@ -30,42 +30,53 @@
 
 module AI
   module AssistantRuns
-    # Starts a run of a skill on a work package for a user. The rules run at once,
-    # in the user's locale; the run and its findings are stored for that user only.
+    # Starts a run of a skill on a work package for a user, and executes it at once.
+    # The trigger records why the run started: the menu now, an automation later. The run
+    # and its findings are stored for that user only.
     class RunService
-      attr_reader :skill, :work_package, :user
+      # A judgement job that did not finish in this time is treated as lost.
+      AI_RUN_TIMEOUT = 10.minutes
 
-      def initialize(skill:, work_package:, user:)
+      attr_reader :skill, :work_package, :user, :trigger, :automation
+
+      def initialize(skill:, work_package:, user:, trigger: "menu", automation: nil)
         @skill = skill
         @work_package = work_package
         @user = user
+        @trigger = trigger.to_s
+        @automation = automation
       end
 
       def call
-        skill_type = AI::AssistantSkills::Registry.fetch(skill.skill_key)
-        return ServiceResult.failure(message: I18n.t("ai_assistance.errors.unknown_skill")) unless skill_type
+        unless AI::AssistantSkills::Registry.fetch(skill.skill_key)
+          return ServiceResult.failure(message: I18n.t("ai_assistance.errors.unknown_skill"))
+        end
 
-        run = AI::AssistantRun.transaction { create_run(skill_type) }
+        running = running_judgement
+        return ServiceResult.success(result: running) if running
+
+        run = create_run
+        Execution.new(run).call
         ServiceResult.success(result: run)
       end
 
       private
 
-      def create_run(skill_type)
-        run = AI::AssistantRun.create!(skill:, work_package:, user:,
-                                       work_package_lock_version: work_package.lock_version,
-                                       locale: locale.to_s)
-
-        I18n.with_locale(locale) do
-          context = skill_type.build_context(work_package:, user:)
-          skill_type.rules.flat_map { |rule| rule.call(context) }.each do |finding|
-            run.findings.create!(finding.to_record_attributes.merge(base_lock_version: run.work_package_lock_version))
-          end
-          run.not_checked = context.not_checked
+      # Only one judgement runs at a time for a user, a work package and a skill. Another
+      # start opens the run that is in progress instead of paying for a second one.
+      def running_judgement
+        runs = AI::AssistantRun.for(user, work_package).where(skill:).ai_running
+        runs.where(created_at: ...AI_RUN_TIMEOUT.ago).find_each do |lost|
+          lost.add_not_checked(:ai_judgement, :timed_out)
+          lost.update!(status: "finished")
         end
+        runs.where(created_at: AI_RUN_TIMEOUT.ago..).newest_first.first
+      end
 
-        run.update!(status: "finished")
-        run
+      def create_run
+        AI::AssistantRun.create!(skill:, work_package:, user:, trigger:, automation:,
+                                 work_package_lock_version: work_package.lock_version,
+                                 locale: locale.to_s)
       end
 
       def locale

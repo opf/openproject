@@ -55,6 +55,10 @@ module AI
         end
       end
 
+      def poll_path
+        url_helpers.poll_work_package_ai_assistance_run_path(run.work_package, run)
+      end
+
       def started_at
         helpers.format_time(run.created_at)
       end
