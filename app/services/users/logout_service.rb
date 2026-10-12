@@ -43,8 +43,10 @@ module Users
       if OpenProject::Configuration.drop_old_sessions_on_logout?
         remove_all_autologin_tokens! user
         remove_all_sessions! user
+        ::AdminElevationSessions::EndAllService.new(user:).call
       else
         remove_matching_autologin_token! user
+        end_admin_elevations_of_current_session! user
       end
 
       controller.reset_session
@@ -53,6 +55,14 @@ module Users
     end
 
     private
+
+    def end_admin_elevations_of_current_session!(user)
+      user
+        .admin_elevation_sessions
+        .for_session(controller.session.id.private_id)
+        .where(ended_at: nil)
+        .find_each { ::AdminElevationSessions::EndService.new(user:, model: it).call }
+    end
 
     def remove_all_sessions!(user)
       ::Sessions::UserSession.for_user(user.id).delete_all
