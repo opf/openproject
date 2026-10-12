@@ -32,6 +32,14 @@ module Users
   module AdminElevation
     PERMISSIONS_WITHOUT_ELEVATION = %i[view_project].freeze
 
+    def self.default
+      if OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+        none
+      else
+        everywhere
+      end
+    end
+
     def self.everywhere
       Everywhere.new
     end

@@ -48,6 +48,10 @@ module Users
         model.where(id: member_scope.select(:id))
              .or(model.where(id: admin_scope.where(project_id_column => @project_ids).select(:id)))
       end
+
+      def project_condition(project_id_column)
+        project_id_column.in(@project_ids)
+      end
     end
   end
 end
