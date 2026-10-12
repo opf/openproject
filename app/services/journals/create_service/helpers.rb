@@ -61,7 +61,7 @@ class Journals::CreateService
     end
 
     def normalize_newlines_sql(column)
-      "REGEXP_REPLACE(COALESCE(#{column},''), '\\r\\n', '\n', 'g')"
+      "REGEXP_REPLACE(COALESCE(#{column},''), E'\\r\\n', E'\\n', 'g')"
     end
 
     def only_if_created_sql
