@@ -42,6 +42,13 @@ module Token
       validate :validate_expires_on_date
     end
 
+    class_methods do
+      def find_by_plaintext_value(input)
+        token = super
+        token unless token&.expired?
+      end
+    end
+
     def expired?
       expires_on.present? && expires_on.past?
     end

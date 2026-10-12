@@ -47,6 +47,33 @@ RSpec.describe Token::API do
     end
   end
 
+  describe ".find_by_plaintext_value" do
+    let(:token) { create(:api_token, user:) }
+    let!(:plain_value) { token.plain_value }
+
+    it "finds a token without expiry" do
+      expect(described_class.find_by_plaintext_value(plain_value)).to eq(token)
+    end
+
+    it "finds a token expiring in the future" do
+      token.update_column(:expires_on, 1.day.from_now)
+
+      expect(described_class.find_by_plaintext_value(plain_value)).to eq(token)
+    end
+
+    it "does not find an expired token" do
+      token.update_column(:expires_on, 1.day.ago)
+
+      expect(described_class.find_by_plaintext_value(plain_value)).to be_nil
+    end
+
+    it "does not find an expired token hashed with the legacy function" do
+      token.update_columns(value: described_class.legacy_hash_function(plain_value), expires_on: 1.day.ago)
+
+      expect(described_class.find_by_plaintext_value(plain_value)).to be_nil
+    end
+  end
+
   describe "#expired?" do
     subject(:token) { build(:api_token, user:, expires_on:) }
 
