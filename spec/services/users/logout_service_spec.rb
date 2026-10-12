@@ -39,6 +39,7 @@ RSpec.describe Users::LogoutService, type: :model do
                     platform: instance_double(Browser::Platform::Linux, name: "Linux"))
   end
   let(:cookies) { {} }
+  let(:session_id) { Rack::Session::SessionId.new("current") }
   let(:controller) { instance_double(ApplicationController, browser:, cookies:) }
 
   let(:instance) { described_class.new(controller:) }
@@ -47,6 +48,38 @@ RSpec.describe Users::LogoutService, type: :model do
 
   before do
     allow(controller).to(receive(:reset_session))
+    allow(controller).to receive(:session).and_return(instance_double(ActionDispatch::Request::Session, id: session_id))
+  end
+
+  describe "admin elevations" do
+    shared_let(:project) { create(:project) }
+
+    let!(:current_elevation) do
+      create(:admin_elevation_session, user:, project:, session_id: session_id.private_id)
+    end
+    let!(:other_elevation) { create(:admin_elevation_session, user:, project:, session_id: "other") }
+
+    context "when dropping old sessions is disabled", with_config: { drop_old_sessions_on_logout: false } do
+      it "ends only the elevations of the current session", :aggregate_failures do
+        freeze_time do
+          subject
+
+          expect(current_elevation.reload.ended_at).to eq(Time.current)
+          expect(other_elevation.reload.ended_at).to be_nil
+        end
+      end
+    end
+
+    context "when dropping old sessions is enabled", with_config: { drop_old_sessions_on_logout: true } do
+      it "ends the elevations of all sessions", :aggregate_failures do
+        freeze_time do
+          subject
+
+          expect(current_elevation.reload.ended_at).to eq(Time.current)
+          expect(other_elevation.reload.ended_at).to eq(Time.current)
+        end
+      end
+    end
   end
 
   describe "User.current" do
