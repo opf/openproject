@@ -1,0 +1,68 @@
+<% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
+const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
+const CACHE_NAME = <%== pwa_cache_name.to_json %>;
+const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
+
+// A failed install keeps the previous worker, so a gateway answering with its own page never gets cached.
+const precacheOfflinePage = async () => {
+  const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit" }));
+  if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
+
+  const cache = await caches.open(CACHE_NAME);
+  await cache.put(OFFLINE_URL, response);
+};
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(precacheOfflinePage().then(() => self.skipWaiting()));
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) =>
+        Promise.all(
+          names
+            .filter((name) => name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME)
+            .map((name) => caches.delete(name)),
+        ),
+      )
+      .then(() => self.registration.navigationPreload?.enable())
+      .then(() => self.clients.claim()),
+  );
+});
+
+// The URL stays the requested one so the offline page can retry it.
+self.addEventListener("fetch", (event) => {
+  const { request } = event;
+  if (request.mode !== "navigate" || request.method !== "GET") return;
+
+  event.respondWith(
+    (async () => {
+      try {
+        return (await event.preloadResponse) || (await fetch(request));
+      } catch {
+        const cache = await caches.open(CACHE_NAME);
+        return (await cache.match(OFFLINE_URL)) || Response.error();
+      }
+    })(),
+  );
+});
+<% else %>
+const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches
+      .keys()
+      .then((names) =>
+        Promise.all(names.filter((name) => name.startsWith(CACHE_PREFIX)).map((name) => caches.delete(name))),
+      )
+      .then(() => self.registration.unregister()),
+  );
+});
+<% end %>

@@ -28,7 +28,15 @@
 #++
 
 module PwaHelper
+  CACHE_PREFIX = "openproject-offline-"
   OFFLINE_WORDMARK = Rails.root.join("app/assets/images/logo_openproject_white_big.png")
+
+  def pwa_cache_prefix = CACHE_PREFIX
+
+  def pwa_cache_name
+    version = [pwa_offline_path, Setting.app_title, OpenProject::VERSION.to_s].join
+    "#{CACHE_PREFIX}#{Digest::SHA256.hexdigest(version).first(16)}"
+  end
 
   def pwa_offline_wordmark_data_uri
     "data:image/png;base64,#{Base64.strict_encode64(OFFLINE_WORDMARK.binread)}"

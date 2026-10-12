@@ -56,4 +56,22 @@ module Labels
       ServiceResult.success(result: Label.named(name).first!)
     end
   end
+
+  describe "#pwa_cache_name" do
+    it "changes when the app title changes" do
+      name = helper.pwa_cache_name
+
+      allow(Setting).to receive(:app_title).and_return("Another title")
+
+      expect(helper.pwa_cache_name).not_to eq(name)
+    end
+
+    it "changes when the version changes" do
+      name = helper.pwa_cache_name
+
+      stub_const("OpenProject::VERSION", "0.0.1")
+
+      expect(helper.pwa_cache_name).not_to eq(name)
+    end
+  end
 end
