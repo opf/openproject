@@ -152,7 +152,13 @@ See COPYRIGHT and LICENSE files for more details.
         <%# Styles inlined so the description stays hidden before the stylesheets load. %>
         <span id="open-blank-target-link-description" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:rect(0 0 0 0);overflow-wrap:normal;border:0"><%= I18n.t("open_link_in_a_new_tab") %></span>
         <h1 class="sr-only accessibility-helper"><%= t(:label_content) %></h1>
-        <%= render(AdminElevationSessions::BannerComponent.new(project: @project, user: User.current)) %>
+        <%= render(
+              AdminElevationSessions::BannerComponent.new(
+                project: @project,
+                user: User.current,
+                elevation_sessions: current_admin_elevation_sessions
+              )
+            ) %>
         <% if content_for?(:content_header) %>
           <div id="content-header">
             <%=

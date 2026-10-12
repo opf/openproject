@@ -50,6 +50,15 @@ class Projects::AdminElevationController < ApplicationController
     redirect_back_or_default(project_path(@project), status: :see_other)
   end
 
+  def destroy
+    current_admin_elevation_sessions.covering(@project).find_each do |elevation_session|
+      AdminElevationSessions::EndService.new(user: current_user, model: elevation_session).call
+    end
+
+    flash[:notice] = I18n.t("admin_elevation.notice_ended", project: @project.name)
+    redirect_to project_path(@project), status: :see_other
+  end
+
   private
 
   def elevate

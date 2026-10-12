@@ -134,4 +134,71 @@ RSpec.describe "Elevating admin privileges in a project",
       end
     end
   end
+
+  describe "DELETE destroy" do
+    shared_let(:subproject) { create(:project, parent: project, public: false) }
+
+    def end_elevation(in_project: project)
+      browser.delete "/projects/#{in_project.identifier}/admin_elevation"
+      browser.response
+    end
+
+    context "with an elevation for the project in the session" do
+      let!(:elevation) { create(:admin_elevation_session, user: admin, project:, session_id:) }
+
+      it "ends the elevation" do
+        freeze_time do
+          end_elevation
+
+          expect(elevation.reload.ended_at).to eq(Time.current)
+        end
+      end
+
+      it "redirects to the project overview", :aggregate_failures do
+        expect(end_elevation).to have_http_status(:see_other)
+        expect(browser.response.location).to end_with("/projects/#{project.identifier}")
+      end
+
+      it "takes away the elevated access to the project settings" do
+        end_elevation
+        browser.get "/projects/#{project.identifier}/settings/general"
+
+        expect(browser.response).to have_http_status(:forbidden)
+      end
+    end
+
+    context "with an elevation for the parent project including subprojects in the session" do
+      let!(:elevation) do
+        create(:admin_elevation_session, user: admin, project:, session_id:, include_subprojects: true)
+      end
+
+      it "ends the elevation when ending it from the subproject" do
+        end_elevation(in_project: subproject)
+
+        expect(elevation.reload.ended_at).to be_present
+      end
+    end
+
+    context "with an elevation for another project in the session" do
+      let!(:other_elevation) do
+        create(:admin_elevation_session, user: admin, project: create(:project), session_id:)
+      end
+
+      it "does not end it" do
+        end_elevation
+
+        expect(other_elevation.reload.ended_at).to be_nil
+      end
+    end
+
+    context "with an elevation for the project in another session" do
+      let!(:other_elevation) { create(:admin_elevation_session, user: admin, project:, session_id: "other") }
+
+      it "does not end it" do
+        end_elevation
+
+        expect(other_elevation.reload.ended_at).to be_nil
+      end
+    end
+  end
 end
