@@ -179,7 +179,7 @@
     <p class="op-offline__status" data-offline-target="status" role="status" aria-live="polite" aria-atomic="true"></p>
   </main>
 
-  <%= nonced_javascript_tag do %>
+  <%= nonced_javascript_tag type: :module do %>
     <%= render partial: "pwa/offline_script", formats: [:js] %>
   <% end %>
 </body>
