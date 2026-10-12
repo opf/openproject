@@ -37,9 +37,9 @@ module Planner
       @user = user
     end
 
-    def call(subject:, day_part: nil, date: user.today)
+    def call(subject:, day_part: nil, date: user.today, description: nil)
       ProjectService.new(user).call.bind do |project|
-        create_task(project, subject, day_part, date)
+        create_task(project, subject:, day_part:, date:, description:)
           .on_success { |call| link_references(call.result) }
       end
     end
@@ -48,12 +48,13 @@ module Planner
 
     attr_reader :user
 
-    def create_task(project, subject, day_part, date)
+    def create_task(project, subject:, day_part:, date:, description:)
       WorkPackages::CreateService
         .new(user:)
         .call(project:,
               type: project.project_types.first.type,
               subject: subject.to_s.strip,
+              description: description.presence,
               start_date: date,
               due_date: date,
               **DayPartField.find.attributes_for(day_part))

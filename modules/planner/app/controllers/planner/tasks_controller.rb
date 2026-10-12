@@ -46,7 +46,8 @@ module Planner
     def create
       call = Planner::CreateTaskService
                .new(user: current_user)
-               .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date)
+               .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date,
+                     description: task_params[:description])
 
       close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID) if call.success?
       respond_with_view(call)
@@ -103,7 +104,7 @@ module Planner
     end
 
     def task_params
-      params.expect(task: %i[subject day_part date])
+      params.expect(task: %i[subject day_part date description])
     end
 
     # Without a date the task is due today; an empty one leaves it undated.

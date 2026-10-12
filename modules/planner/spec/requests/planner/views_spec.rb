@@ -89,11 +89,24 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
       expect(page).to have_test_selector("planner-meeting-time", text: "09:30 AM - 09:45 AM")
     end
 
+    it "marks to-dos with notes" do
+      WorkPackage.where.not(id: work_package.id).update_all(description: nil)
+      WorkPackage.where(id: work_package.id).update_all(description: "Window seat")
+
+      subject
+
+      expect(page).to have_test_selector("planner-task-notes", count: 1)
+      expect(page.find("[data-test-selector='planner-task-morning']", text: "Book train to the offsite"))
+        .to have_test_selector("planner-task-notes")
+    end
+
     it "describes planned work packages by type, id and status" do
       subject
 
       expect(page).to have_test_selector("planner-reference", text: "Show GitLab branches", count: 1)
       expect(page).to have_test_selector("planner-planned", text: "Branch tracking via GitLab webhook")
+      expect(page).to have_css("a[target='_blank'][data-test-selector='planner-planned']")
+      expect(page).to have_css("a[target='_blank'][data-test-selector='planner-reference']")
       expect(page).to have_test_selector("planner-task-info", count: 1)
       expect(page).to have_test_selector("planner-task-info", text: planned.formatted_id)
       expect(page).to have_test_selector("planner-task-info", text: planned.status.name)

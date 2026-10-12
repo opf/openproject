@@ -70,6 +70,15 @@ RSpec.describe Planner::CreateTaskService do
     end
   end
 
+  context "with notes" do
+    subject { described_class.new(user:).call(subject: subject_text, description: "Ask about **slot 2**") }
+
+    it "keeps them as the task's description" do
+      expect(subject).to be_success, -> { subject.message }
+      expect(task.description).to eq("Ask about **slot 2**")
+    end
+  end
+
   context "without a date" do
     subject { described_class.new(user:).call(subject: subject_text, date: nil) }
 

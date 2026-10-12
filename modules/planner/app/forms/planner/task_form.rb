@@ -36,7 +36,8 @@ module Planner
         label: I18n.t("planner.task_form.date"),
         value: @date&.iso8601,
         required: true,
-        leading_visual: { icon: :calendar }
+        leading_visual: { icon: :calendar },
+        datepicker_options: { inDialog: AddTodoDialogComponent::DIALOG_ID }
       )
 
       f.segmented_control(
@@ -53,6 +54,12 @@ module Planner
         required: true,
         autocomplete: "off",
         autofocus: true
+      )
+
+      f.rich_text_area(
+        name: :description,
+        label: I18n.t("planner.task_form.description"),
+        rich_text_options: { showAttachments: false, primerized: true }
       )
     end
 
