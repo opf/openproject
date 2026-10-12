@@ -54,6 +54,7 @@ class Journals::CreateService
         FROM (#{current_agenda_items_sql}) agenda_items
         WHERE
           #{only_if_created_sql}
+        #{upsert_sql}
       SQL
     end
 
