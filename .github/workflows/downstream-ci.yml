@@ -25,7 +25,11 @@ jobs:
   trigger_saas_tests:
     permissions:
       contents: none
-    if: github.repository == 'opf/openproject' && github.actor != 'dependabot[bot]'
+    # Secrets are not passed to pull requests from forks, so the trigger would fail with 401
+    if: >-
+      github.repository == 'opf/openproject'
+      && github.actor != 'dependabot[bot]'
+      && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
     name: SaaS tests
     runs-on: ubuntu-latest
     steps:
