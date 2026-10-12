@@ -44,8 +44,7 @@ module Admin
             value: "1",
             checked: Setting.consent_time.blank?,
             scope_name_to_model: false,
-            scope_id_to_model: false,
-            caption: consent_time_caption
+            scope_id_to_model: false
           )
           fg.text_field(
             name: :consent_decline_mail,
@@ -58,16 +57,12 @@ module Admin
 
       private
 
-      def consent_time_caption
-        update_time = Setting.consent_time.present? ? helpers.format_time(Setting.consent_time) : I18n.t(:label_never)
-
-        helpers.safe_join(
-          [
-            I18n.t("consent.text_update_consent_time"),
-            helpers.tag.br,
-            helpers.tag.strong(I18n.t("consent.update_consent_last_time", update_time:))
-          ]
-        )
+      def update_time
+        if Setting.consent_time.present?
+          helpers.format_time(Setting.consent_time)
+        else
+          I18n.t(:label_never)
+        end
       end
     end
   end
