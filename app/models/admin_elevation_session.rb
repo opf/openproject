@@ -37,8 +37,6 @@ class AdminElevationSession < ApplicationRecord
        prefix: true,
        validate: true
 
-  attribute :last_used_at, default: -> { Time.current }
-
   validates :session_id, presence: true
 
   scope :for_session, ->(session_id) { where(session_id:) }

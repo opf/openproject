@@ -67,14 +67,6 @@ RSpec.describe AdminElevationSession do
     end
   end
 
-  describe "#last_used_at" do
-    it "defaults to the time of creation" do
-      freeze_time do
-        expect(described_class.new.last_used_at).to eq(Time.current)
-      end
-    end
-  end
-
   describe ".for_session" do
     let!(:own_session) { create(:admin_elevation_session, user: admin, project:, session_id: "own") }
     let!(:other_session) { create(:admin_elevation_session, user: admin, project:, session_id: "other") }

@@ -34,5 +34,6 @@ FactoryBot.define do
     project
     session_id { SecureRandom.hex(16) }
     confirmed_with { "password" }
+    last_used_at { Time.current }
   end
 end
