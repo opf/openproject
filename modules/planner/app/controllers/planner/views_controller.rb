@@ -30,6 +30,9 @@
 
 module Planner
   class ViewsController < ApplicationController
+    include OpTurbo::ComponentStream
+    include Planner::Filtering
+
     before_action :require_login
     before_action :require_planner
     no_authorization_required! :show
@@ -39,7 +42,13 @@ module Planner
 
     def show
       @view = params[:view]
-      @component = Planner::BaseComponent.for(@view, current_user, adding: params[:adding])
+      @component = Planner::BaseComponent.for(@view, current_user, adding: params[:adding], filter: planner_filter)
+
+      # The "Add to-do" links open and close a group's input row by refreshing the view in place.
+      if request.format.turbo_stream?
+        replace_via_turbo_stream(component: @component)
+        respond_with_turbo_streams
+      end
     end
 
     private

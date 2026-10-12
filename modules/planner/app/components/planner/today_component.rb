@@ -30,12 +30,14 @@
 
 module Planner
   class TodayComponent < BaseComponent
-    def initialize(today:, adding: nil)
-      super(adding:)
+    def initialize(today:, adding: nil, filter: FILTERS.first)
+      super(adding:, filter:)
       @today = today
     end
 
     def add_todo_defaults = { date: today.date, day_part: today.current_day_part }
+
+    def filterable? = true
 
     private
 
@@ -54,8 +56,8 @@ module Planner
                                  counts: counts(section))
     end
 
-    def add_todo(day_part)
-      AddTodoComponent.new(group: day_part, view: :today, open: adding?(day_part), task_fields: { day_part: })
+    def todo_input(day_part)
+      TodoInputComponent.new(group: day_part, view: :today, task_fields: { day_part: })
     end
   end
 end

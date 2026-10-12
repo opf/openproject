@@ -34,20 +34,27 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(section_header(section)) %>
       <% end %>
 
-      <% section.meetings.each do |occurrence| %>
+      <% shown_meetings(section).each do |occurrence| %>
         <% box.with_row(test_selector: "planner-meeting-#{section.day_part}") do %>
           <%= render(Planner::MeetingRowComponent.new(occurrence:, user: today.user)) %>
         <% end %>
       <% end %>
 
-      <% section.work_packages.each do |work_package| %>
+      <% shown_work_packages(section).each do |work_package| %>
         <% box.with_row(test_selector: "planner-task-#{section.day_part}", data: sortable_item_data(work_package)) do %>
           <%= render(Planner::TaskRowComponent.new(work_package:, references: today.references, day_part: section.day_part)) %>
         <% end %>
       <% end %>
 
-      <% box.with_row(px: 3) do %>
-        <%= render(add_todo(section.day_part)) %>
+      <% if todos_shown? %>
+        <% if adding?(section.day_part) %>
+          <% box.with_row do %>
+            <%= render(todo_input(section.day_part)) %>
+          <% end %>
+        <% end %>
+        <% box.with_row do %>
+          <%= render(Planner::AddTodoComponent.new(group: section.day_part, view: :today)) %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

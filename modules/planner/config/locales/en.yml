@@ -38,6 +38,10 @@ en:
       completed: "Completed"
     description: "Add your personal tasks as to-dos to your planner. Meetings you take part in are added to the view automatically."
     add_todo: "Add to-do"
+    filter:
+      all: "All entries"
+      todos: "To-dos only"
+      meetings: "Meetings only"
     no_entries: "No entries"
     todos:
       one: "1 to-do"
@@ -84,7 +88,6 @@ en:
       placeholder: "Add a text description or use # to link work packages"
     quick_add:
       label: "New to-do"
-      placeholder: "Add a to-do. #123 links a work package"
       submit: "Add"
     meeting_one_time: "One-time meeting"
     meeting_recurring: "Recurring meeting"

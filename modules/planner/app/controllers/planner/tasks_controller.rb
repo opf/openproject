@@ -31,6 +31,7 @@
 module Planner
   class TasksController < ApplicationController
     include OpTurbo::ComponentStream
+    include Planner::Filtering
 
     before_action :require_login
     before_action :require_planner
@@ -136,7 +137,9 @@ module Planner
     end
 
     def refresh_view_via_turbo_stream
-      replace_via_turbo_stream(component: Planner::BaseComponent.for(current_view, current_user, adding: params[:adding]))
+      replace_via_turbo_stream(
+        component: Planner::BaseComponent.for(current_view, current_user, adding: params[:adding], filter: planner_filter)
+      )
       turbo_streams << turbo_stream.update("planner_sidemenu", submenu.render_in(view_context))
     end
 
