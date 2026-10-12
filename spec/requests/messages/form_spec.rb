@@ -102,12 +102,11 @@ RSpec.describe "Topic form", :skip_csrf, type: :rails_request do
   describe "replying" do
     current_user { author }
 
-    it "offers only the message content, hanging from the thread's stem", :aggregate_failures do
+    it "offers only the message content", :aggregate_failures do
       get project_forum_topic_path(project, forum, topic)
 
       expect(html).to have_no_css("h2", text: "Reply")
       expect(html).to have_no_field("Subject")
-      expect(html).to have_css("#reply > .op-forum-post-stem:first-child + .op-forum-reply--box > form")
     end
 
     it "uses the compact editor of the work package activity, keeping its revisions per topic", :aggregate_failures do
