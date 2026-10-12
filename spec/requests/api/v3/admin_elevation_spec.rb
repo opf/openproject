@@ -74,6 +74,17 @@ RSpec.describe "API v3 admin privilege elevation",
       end
     end
 
+    context "with an active elevation for the project in the session of a user that is no longer an admin" do
+      before do
+        create(:admin_elevation_session, user: admin, project:, session_id:)
+        User.where(id: admin.id).update_all(admin: false)
+      end
+
+      it "does not find the work package" do
+        expect(get_work_package).to have_http_status(:not_found)
+      end
+    end
+
     context "with an active elevation for the project in another session" do
       before { create(:admin_elevation_session, user: admin, project:, session_id: "other") }
 
