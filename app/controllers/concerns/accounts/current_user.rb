@@ -34,7 +34,7 @@ module Accounts::CurrentUser
   extend ActiveSupport::Concern
 
   included do
-    helper_method :current_user
+    helper_method :current_user, :current_admin_elevation_sessions
   end
 
   protected
@@ -54,7 +54,7 @@ module Accounts::CurrentUser
     return unless current_user.admin?
 
     current_user.admin_elevation =
-      if session[:user_id] == current_user.id
+      if session_authenticated_admin?
         Users::AdminElevation.for_session(current_user, session.id.private_id)
       else
         # Admins authenticated in any other way (API key, RSS key) are elevated everywhere for now,
@@ -65,11 +65,24 @@ module Accounts::CurrentUser
   end
 
   def record_admin_elevation_usage
-    return unless @project.is_a?(Project) && current_user.admin? && session[:user_id] == current_user.id
+    return unless @project.is_a?(Project) && session_authenticated_admin?
 
     AdminElevationSessions::RecordUsageService
       .new(user: current_user, session_id: session.id.private_id)
       .call(project: @project)
+  end
+
+  def current_admin_elevation_sessions
+    @current_admin_elevation_sessions ||=
+      if session_authenticated_admin?
+        current_user.admin_elevation_sessions.active.for_session(session.id.private_id)
+      else
+        AdminElevationSession.none
+      end
+  end
+
+  def session_authenticated_admin?
+    current_user.admin? && session[:user_id] == current_user.id
   end
 
   # check if login is globally required to access the application

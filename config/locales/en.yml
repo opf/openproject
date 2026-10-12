@@ -2340,6 +2340,9 @@ en:
   admin_elevation:
     banner:
       elevate: "Elevate privileges"
+      elevated_html: "You have elevated administrator privileges in this project. Without further activity in the project, they end %{time}."
+      end: "End elevation"
+      end_confirmation: "Do you want to end your elevated administrator privileges in this project?"
       not_elevated: "You are an administrator, but you are seeing this project only with the permissions of your memberships. Elevate your privileges to act on it as an administrator."
     dialog:
       confirmation_placeholder: "Confirming your identity with two-factor authentication or your password will be required here."
@@ -2349,6 +2352,7 @@ en:
       submit: "Elevate privileges"
       title: "Elevate privileges in %{project}"
     notice_elevated: "You now have elevated privileges in %{project}."
+    notice_ended: "Your elevated privileges in %{project} have ended."
   ai:
     text_transform:
       errors:

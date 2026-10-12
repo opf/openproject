@@ -149,7 +149,13 @@ See COPYRIGHT and LICENSE files for more details.
                       id: "content",
                       class: "#{initial_classes} #{'content--split' if content_for?(:content_body_right)}" do %>
         <h1 class="sr-only accessibility-helper"><%= t(:label_content) %></h1>
-        <%= render(AdminElevationSessions::BannerComponent.new(project: @project, user: User.current)) %>
+        <%= render(
+              AdminElevationSessions::BannerComponent.new(
+                project: @project,
+                user: User.current,
+                elevation_sessions: current_admin_elevation_sessions
+              )
+            ) %>
         <% if content_for?(:content_header) %>
           <div id="content-header">
             <%=

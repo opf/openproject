@@ -574,7 +574,7 @@ Rails.application.routes.draw do
       end
 
       resource :templated, only: %i[create destroy], controller: "templated"
-      resource :admin_elevation, only: %i[new create], controller: "admin_elevation"
+      resource :admin_elevation, only: %i[new create destroy], controller: "admin_elevation"
       resource :archive, only: %i[create destroy], controller: "archive" do
         collection do
           get :dialog
