@@ -47,4 +47,36 @@ module PwaHelper
   def pwa_offline_wordmark_data_uri
     "data:image/png;base64,#{Base64.strict_encode64(OFFLINE_WORDMARK.binread)}"
   end
+
+  def pwa_theme_color_tags
+    pref = User.current.pref
+
+    if pref.sync_with_os_theme?
+      safe_join(sync_with_os_theme_color_tags(force_light_contrast: pref.force_light_theme_contrast?), "\n")
+    else
+      theme_color_tag(header_bg_color(pref.dark_color_mode? ? :dark : :light,
+                                      high_contrast: pref.increase_theme_contrast?))
+    end
+  end
+
+  private
+
+  def sync_with_os_theme_color_tags(force_light_contrast:)
+    light = "(prefers-color-scheme: light)"
+    dark_tag = theme_color_tag(header_bg_color(:dark), media: "(prefers-color-scheme: dark)")
+
+    if force_light_contrast
+      [theme_color_tag(header_bg_color(:light, high_contrast: true), media: light), dark_tag]
+    else
+      [
+        theme_color_tag(header_bg_color(:light, high_contrast: true), media: "#{light} and (prefers-contrast: more)"),
+        theme_color_tag(header_bg_color(:light), media: light),
+        dark_tag
+      ]
+    end
+  end
+
+  def theme_color_tag(color, media: nil)
+    tag.meta(name: "theme-color", content: color, media:)
+  end
 end
