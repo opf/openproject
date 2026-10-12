@@ -78,6 +78,33 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     expect(page).to have_css("head link[rel='stylesheet'][href='#{blocknote_stylesheet_url}']", visible: :all, count: 1)
   end
 
+  it "creates a link from selected text and edits its URL and label" do
+    visit document_path(document)
+    editor.fill_in("Project handbook")
+    select_to_line_start
+    editor.click_formatting_toolbar_button("Create link")
+
+    within(:dialog, "Create link") do
+      fill_in "URL", with: "https://example.org/handbook"
+      click_on "Save"
+    end
+
+    link = editor.element.find_link("Project handbook", href: "https://example.org/handbook")
+    page.driver.browser.action(duration: 0).move_to(link.native).perform
+    click_on "Edit link"
+
+    within(:dialog, "Edit link") do
+      expect(page).to have_field("Link text", with: "Project handbook")
+      fill_in "Link text", with: "Team handbook"
+      fill_in "URL", with: "https://example.org/team"
+      find_field("URL").send_keys(:enter)
+    end
+
+    expect(editor.element).to have_link("Team handbook", href: "https://example.org/team", count: 1)
+    page.refresh
+    expect(editor.element).to have_link("Team handbook", href: "https://example.org/team", count: 1)
+  end
+
   it "formats tables with header rows, cell colors and merged cells" do
     visit document_path(document)
     expect(page).to have_test_selector("blocknote-document-description")

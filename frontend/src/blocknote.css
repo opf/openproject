@@ -54,6 +54,17 @@
   text-overflow: ellipsis;
 }
 
+.op-blocknote-link-form {
+  display: grid;
+  gap: var(--base-size-12);
+  padding: var(--base-size-16);
+}
+
+.op-blocknote-link-form > button {
+  justify-self: end;
+}
+
+.op-blocknote-link-toolbar,
 .bn-mantine .op-primer-formatting-toolbar {
   background: var(--overlay-bgColor);
   border: 1px solid var(--borderColor-muted);

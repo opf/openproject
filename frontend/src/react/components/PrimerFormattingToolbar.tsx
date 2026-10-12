@@ -26,12 +26,13 @@
 //++
 
 import {
-  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, NestBlockButton,
+  BasicTextStyleButton, BlockTypeSelect as BlockNoteBlockTypeSelect, ComponentProps, ComponentsContext, CreateLinkButton, NestBlockButton,
   PortalElementOverride, preventFocusOnTap, TableCellMergeButton, TextAlignButton, UnnestBlockButton,
   useBlockNoteEditor, useComponentsContext, usePortalElement, useUIMode,
 } from '@blocknote/react';
 import { OpenProjectFormattingToolbar } from '@openproject/blocknote-extensions';
 import { ActionBar, ActionList, ActionMenu, Button, IconButton, PortalContext, registerPortalRoot, Stack } from '@primer/react';
+import { PrimerLinkControls } from './PrimerLinkToolbar';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
 import { Children, createContext, isValidElement, useContext, useLayoutEffect, useMemo } from 'react';
 
@@ -51,7 +52,11 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
 
   const mobile = useUIMode() === 'mobile';
   const label = window.I18n.t('js.blocknote.formatting_toolbar');
-  const controls = Children.toArray(children);
+  const controls = Children.toArray(children).map((control) => (
+    isValidElement(control) && control.type === CreateLinkButton
+      ? <PrimerLinkControls key={control.key}>{control}</PrimerLinkControls>
+      : control
+  ));
   const isAction = (control:typeof controls[number]) => isValidElement(control) && actionButtons.some((type) => type === control.type);
   const isStyle = (control:typeof controls[number]) => isValidElement(control) && control.type === BasicTextStyleButton;
   const isPicker = (control:typeof controls[number]) => isValidElement(control) && control.type === BlockNoteBlockTypeSelect;
@@ -67,7 +72,7 @@ function ToolbarRoot({ className, children, onMouseEnter, onMouseLeave }:Toolbar
       onMouseLeave={onMouseLeave}
     >
       <PrimerActionMenus returnFocusToEditor>
-        {mobile ? children : (
+        {mobile ? controls : (
           <>
             {controls.filter(isPicker)}
             <ActionBar flush size="medium" gap="none" aria-label={label}>
