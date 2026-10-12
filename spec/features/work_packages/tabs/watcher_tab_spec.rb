@@ -27,7 +27,7 @@ RSpec.describe "Watcher tab", :js, :selenium do
   def toggle_watching(watched:)
     current_button = watched ? "#watch-button" : "#unwatch-button"
     expected_button = watched ? "#unwatch-button" : "#watch-button"
-    page.execute_script("arguments[0].click()", find(current_button, wait: 20))
+    find(current_button, wait: 20).click
 
     page.document.synchronize(30) do
       persisted = work_package.reload.watched_by?(user) == watched
@@ -38,11 +38,13 @@ RSpec.describe "Watcher tab", :js, :selenium do
   def expect_button_is_watching
     title = I18n.t("js.label_unwatch_work_package")
     expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 30)
+    expect(page).to have_css("#unwatch-button .button--icon[eye-icon]")
   end
 
   def expect_button_is_not_watching
     title = I18n.t("js.label_watch_work_package")
     expect(page).to have_css("#watch-button[title='#{title}']")
+    expect(page).to have_css("#watch-button .button--icon[eye-closed-icon]")
   end
 
   shared_examples "watch and unwatch with button" do

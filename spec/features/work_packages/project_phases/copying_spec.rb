@@ -57,8 +57,7 @@ RSpec.describe "Copying a work package with linked project phases", :js do
   current_user { user }
 
   def submit_copy(button_text)
-    submit_button = find_button(button_text)
-    page.execute_script("arguments[0].click()", submit_button)
+    click_on button_text
 
     copied_work_package_id = nil
     page.document.synchronize(20) do

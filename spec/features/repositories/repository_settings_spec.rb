@@ -78,7 +78,7 @@ RSpec.describe "Repository Settings", :js do
             raise Capybara::ElementNotFound unless confirmation.checked?
           end
 
-          page.execute_script("arguments[0].click()", delete_button)
+          delete_button.click
         end
       else
         find("a.icon-remove", text: I18n.t(:button_remove)).click

@@ -102,8 +102,7 @@ module Components
         def submit
           wait_for_turbo_stream(wait: 20) do
             within_dialog do
-              button = page.find("[data-test-selector='save-project-life-cycle-button']")
-              using_cuprite? ? button.trigger("click") : button.click
+              page.find("[data-test-selector='save-project-life-cycle-button']").click
             end
           end
         end

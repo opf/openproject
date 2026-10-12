@@ -58,15 +58,13 @@ module Components
       def start
         close_dropdown
         page.within("op-wp-timer-button") do
-          button = find('[data-test-selector="timer-inactive"]')
-          page.execute_script("arguments[0].click()", button)
+          find('[data-test-selector="timer-inactive"]').click
         end
       end
 
       def stop
         page.within("op-wp-timer-button") do
-          button = find('[data-test-selector="timer-active"]')
-          page.execute_script("arguments[0].click()", button)
+          find('[data-test-selector="timer-active"]').click
         end
       end
 

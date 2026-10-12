@@ -46,7 +46,7 @@ module Pages::Meeting
         page.find(overlay_selector, visible: :all, wait: 0).find("[role='menuitem']", text: "History", wait: 0)
       end
 
-      page.execute_script("arguments[0].click()", menu_item)
+      menu_item.click
       expect(page).to have_css(".op-activity-list--item", wait: 20)
     end
 

@@ -314,8 +314,7 @@ module Pages
 
     def click_create_wp_button(type)
       expect_angular_frontend_initialized
-      button = find(".add-work-package:not([disabled])", text: "Create")
-      page.execute_script("arguments[0].click()", button)
+      find(".add-work-package:not([disabled])", text: "Create").click
 
       find("#types-context-menu .menu-item", text: type.name.upcase, wait: 30).click
     end

@@ -89,7 +89,7 @@ module Components
         wait_for_network_idle
         selector = "#{results_selector} #{item_selector}"
         item = page.first(selector, text: query, wait: 5) || page.find(selector, wait: 5)
-        using_cuprite? ? item.trigger("click") : item.click
+        item.click
       end
 
       def search_results

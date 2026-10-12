@@ -250,8 +250,7 @@ RSpec.describe "Work display", :js do
 
   def follow_calculation_link(label)
     previous_url = page.current_url
-    link = page.first("a", text: label, exact_text: true, minimum: 1, wait: 30)
-    using_cuprite? ? link.trigger("click") : link.click
+    page.first("a", text: label, exact_text: true, minimum: 1, wait: 30).click
     wait_for { page.current_url }.not_to eq(previous_url)
   end
 end

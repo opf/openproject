@@ -83,8 +83,7 @@ RSpec.describe "Working Days", :js do
 
   def save_and_reschedule
     within_dialog("Change working days") do
-      button = find_button("Save and reschedule")
-      page.execute_script("arguments[0].click()", button)
+      click_button "Save and reschedule"
     end
     Capybara.using_wait_time(30) do
       expect(page).to have_no_selector(:dialog, "Change working days")
@@ -354,7 +353,9 @@ RSpec.describe "Working Days", :js do
         expect(page).to have_css("tr", text: nwd.date.strftime("%B %-d, %Y"))
       end
 
-      page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
+      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
+      delete_button.hover
+      delete_button.click
       expect(page).to have_css(
         "input[name='settings[non_working_days_attributes][#{non_working_days.first.id}][_destroy]'][value='true']",
         visible: :hidden
@@ -378,7 +379,9 @@ RSpec.describe "Working Days", :js do
               .and_return(errors)
       # rubocop:enable RSpec/AnyInstance
 
-      page.first(".op-non-working-days-list--delete-icon", visible: :all).trigger("click")
+      delete_button = page.first(".op-non-working-days-list--delete-icon .icon-delete", visible: :all)
+      delete_button.hover
+      delete_button.click
       expect(page).to have_css(
         "input[name='settings[non_working_days_attributes][#{non_working_days.second.id}][_destroy]'][value='true']",
         visible: :hidden

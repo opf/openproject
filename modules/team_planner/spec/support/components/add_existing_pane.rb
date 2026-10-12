@@ -39,8 +39,7 @@ module Components
     end
 
     def open
-      toggle = page.find('[data-test-selector="op-team-planner--add-existing-toggle"]')
-      page.execute_script("arguments[0].click()", toggle)
+      page.find('[data-test-selector="op-team-planner--add-existing-toggle"]').click
       expect_open
     end
 

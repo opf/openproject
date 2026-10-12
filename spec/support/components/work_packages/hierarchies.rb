@@ -125,8 +125,7 @@ module Components
       end
 
       def toggle_row(work_package)
-        indicator = find(".wp-row-#{work_package.id} .wp-table--hierarchy-indicator")
-        page.driver.is_a?(Capybara::Cuprite::Driver) ? indicator.trigger("click") : indicator.click
+        find(".wp-row-#{work_package.id} .wp-table--hierarchy-indicator").click
       end
     end
   end

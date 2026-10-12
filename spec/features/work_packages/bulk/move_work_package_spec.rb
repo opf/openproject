@@ -288,8 +288,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
                           results_selector: "body"
 
       move_path = page.current_path
-      move_button = find_button("Move and follow")
-      page.execute_script("arguments[0].click()", move_button)
+      click_on "Move and follow"
       page.document.synchronize(30) do
         raise Capybara::ElementNotFound if page.current_path == move_path
       end

@@ -322,7 +322,11 @@ module Components
           menu_id = menu_button[:"aria-controls"]
           raise Capybara::ElementNotFound, "Menu button has no target" if menu_id.blank?
 
-          page.execute_script("arguments[0].click()", menu_button)
+          begin
+            menu_button.click
+          rescue Capybara::Cuprite::MouseEventFailed
+            menu_button.trigger("click")
+          end
 
           page.find(id: menu_id, visible: :visible, wait: 0)
           menu_id

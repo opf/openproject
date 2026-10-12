@@ -78,16 +78,7 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
 
       wait_for_network_idle
 
-      page.document.synchronize do
-        submitted = page.evaluate_script(<<~JS)
-          (() => {
-            const button = document.querySelector("[name='follow']");
-            button?.click();
-            return Boolean(button);
-          })()
-        JS
-        raise Capybara::ElementNotFound unless submitted
-      end
+      click_on "Move and follow"
       page.document.synchronize(30) do
         moved = work_package.reload.project == target_project
         raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")
@@ -114,16 +105,7 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
 
       wait_for_network_idle
 
-      page.document.synchronize do
-        submitted = page.evaluate_script(<<~JS)
-          (() => {
-            const button = document.querySelector("[name='follow']");
-            button?.click();
-            return Boolean(button);
-          })()
-        JS
-        raise Capybara::ElementNotFound unless submitted
-      end
+      click_on "Move and follow"
       page.document.synchronize(30) do
         moved = work_package.reload.project == target_project
         raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")

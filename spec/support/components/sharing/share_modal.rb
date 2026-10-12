@@ -442,11 +442,7 @@ module Components
           menu = yield
           button = menu.find("button", wait: 0)
           overlay_selector = "##{button['popovertarget']}:popover-open"
-          page.execute_script("arguments[0].click()", button) unless page.has_selector?(
-            overlay_selector,
-            visible: :all,
-            wait: 0
-          )
+          button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
           page.find(overlay_selector, visible: :all, wait: 0)
         end
       end

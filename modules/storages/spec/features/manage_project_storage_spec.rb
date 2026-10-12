@@ -108,8 +108,7 @@ RSpec.describe("Activation of storages in projects",
     wait_for_network_idle
 
     # Enable one file storage together with a project folder mode
-    new_storage_link = page.first(:link, "New storage")
-    page.execute_script("arguments[0].click()", new_storage_link)
+    page.first(:link, "New storage").click
     expect(page).to have_current_path new_project_settings_project_storage_path(project_id: project)
     expect(page).to have_text("Add a file storage")
     expect(page).to have_select("storages_project_storage_storage_id", options: [storage.typed_label])

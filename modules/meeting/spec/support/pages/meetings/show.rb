@@ -265,8 +265,7 @@ module Pages::Meetings
 
     def click_menu_item(label)
       page.document.synchronize(20) do
-        item = page.find("[role='menuitem']", text: label, exact_text: true, wait: 0)
-        page.driver.is_a?(Capybara::Cuprite::Driver) ? item.trigger("click") : item.click
+        page.find("[role='menuitem']", text: label, exact_text: true, wait: 0).click
       end
     end
 
@@ -325,8 +324,7 @@ module Pages::Meetings
         page.find(overlay_selector, visible: :all, wait: 0)
       end
 
-      menu_item = overlay.find("[role='menuitem']", text: action)
-      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
+      overlay.find("[role='menuitem']", text: action).click
     end
 
     def expect_no_outcome_actions
@@ -498,9 +496,7 @@ module Pages::Meetings
         button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
         page.find(overlay_selector, visible: :all, wait: 0)
       end
-      menu_item = overlay
-        .find("[role='menuitem']", text: action, visible: :visible)
-      page.driver.is_a?(Capybara::Cuprite::Driver) ? menu_item.trigger("click") : menu_item.click
+      overlay.find("[role='menuitem']", text: action, visible: :visible).click
     end
 
     def backlog_menu_button

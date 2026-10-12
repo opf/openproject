@@ -109,8 +109,7 @@ module Components
                    open_relation_sub_menu
                    add_relation_sub_menu
                  end
-          menu_item = menu.find(:link, relation_type, wait: 0)
-          page.execute_script("arguments[0].click()", menu_item)
+          menu.find(:link, relation_type, wait: 0).click
         end
       end
 
@@ -195,9 +194,9 @@ module Components
         page.find_test_selector("op-relation-row-#{actual_relatable.id}-edit-button")
       end
 
-      def relatable_delete_button(relatable, **)
+      def relatable_delete_button(relatable)
         actual_relatable = find_relatable(relatable)
-        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button", **)
+        page.find_test_selector("op-relation-row-#{actual_relatable.id}-delete-button")
       end
 
       def expect_relatable_delete_button(relatable)
@@ -291,8 +290,7 @@ module Components
         wait_for_turbo_stream(wait: 20) do
           open_action_menu_with_work_package(relatable) do
             page.document.synchronize(20) do
-              menu_item = relatable_edit_button(relatable).find("[role='menuitem']", wait: 0)
-              using_cuprite? ? menu_item.trigger("click") : menu_item.click
+              relatable_edit_button(relatable).find("[role='menuitem']", wait: 0).click
             end
           end
         end
@@ -453,11 +451,11 @@ module Components
         open_action_menu_with_work_package(relatable) do
           accept_confirm(wait: 20) do
             page.document.synchronize(20) do
-              button = relatable_delete_button(relatable, visible: :all).find("button", visible: :all, wait: 0)
+              button = relatable_delete_button(relatable).find("button", wait: 0)
               connected = page.evaluate_script("arguments[0].isConnected", button)
               raise Capybara::ElementNotFound unless connected
 
-              using_cuprite? ? button.trigger("click") : button.click
+              button.click
             end
           end
         end
@@ -471,9 +469,7 @@ module Components
           within(find_row(relatable)) do
             button = relatable_action_menu(relatable).find("button[popovertarget]")
             overlay_selector = "##{button['popovertarget']}:popover-open"
-            page.execute_script("arguments[0].click()", button) unless page.has_selector?(overlay_selector,
-                                                                                          visible: :all,
-                                                                                          wait: 0)
+            button.click unless page.has_selector?(overlay_selector, visible: :all, wait: 0)
             page.find(overlay_selector, visible: :all, wait: 0)
           end
         end

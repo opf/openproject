@@ -374,7 +374,7 @@ RSpec.describe "Manual sorting of WP table", :js, :selenium do
       # instead of adding to it.
       first_target = find(".work-package-table--container tr:nth-of-type(1) .wp-table--cell-td.id")
       loading_indicator_saveguard
-      page.execute_script("arguments[0].click()", first_target)
+      first_target.click
       loading_indicator_saveguard
       # :meta (not :control) mirrors select_work_package_row_spec's helper: the
       # click handler accepts either modifier, but :control replaces the

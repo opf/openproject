@@ -42,8 +42,7 @@ module Pages
 
         def click_wp_create_button
           expect_angular_frontend_initialized
-          button = find(".add-work-package:not([disabled])", text: "Create")
-          page.execute_script("arguments[0].click()", button)
+          find(".add-work-package:not([disabled])", text: "Create").click
         end
 
         def expect_wp_create_button
