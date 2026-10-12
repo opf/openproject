@@ -34,6 +34,10 @@ module Users
       def covers?(_project)
         false
       end
+
+      def allowed_scope(member_scope:, **)
+        member_scope
+      end
     end
   end
 end

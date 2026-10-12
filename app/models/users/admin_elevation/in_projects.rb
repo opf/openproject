@@ -38,6 +38,16 @@ module Users
       def covers?(project)
         @project_ids.include?(project.id)
       end
+
+      # PostgreSQL applies the OR as a row filter, so this scans the whole table and its cost grows with
+      # the total number of records, not with what the admin can see. On large instances where admins
+      # hold few memberships, combining both sides into one `id IN (... UNION ALL ...)` could be faster.
+      def allowed_scope(admin_scope:, member_scope:, project_id_column:)
+        model = admin_scope.klass
+
+        model.where(id: member_scope.select(:id))
+             .or(model.where(id: admin_scope.where(project_id_column => @project_ids).select(:id)))
+      end
     end
   end
 end

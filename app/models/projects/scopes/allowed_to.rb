@@ -35,14 +35,14 @@ module Projects::Scopes
     class_methods do
       # Returns an ActiveRecord::Relation to find all entries for which
       # +user+ has the given +permission+.
-      def allowed_to(user, permission)
+      def allowed_to(user, permission) # rubocop:disable Metrics/PerceivedComplexity
         permissions = allowed_to_permissions(permission)
 
         return none if user.locked? || user.deleted?
         return none if permissions.empty?
 
         if user.admin? && permissions.all?(&:grant_to_admin?)
-          allowed_to_admin(permissions)
+          allowed_to_admin(user, permissions)
         elsif user.anonymous?
           allowed_to_anonymous(user, permissions)
         else
@@ -128,8 +128,13 @@ module Projects::Scopes
           .not
       end
 
-      def allowed_to_admin(permissions)
-        where(id: allowed_to_admin_relation(permissions))
+      def allowed_to_admin(user, permissions)
+        admin_scope = where(id: allowed_to_admin_relation(permissions))
+        return admin_scope if permissions.all? { Users::AdminElevation::PERMISSIONS_WITHOUT_ELEVATION.include?(it.name) }
+
+        user.admin_elevation.allowed_scope(admin_scope:,
+                                           member_scope: allowed_to_member(user, permissions),
+                                           project_id_column: :id)
       end
 
       def allowed_to_anonymous(user, permissions)
