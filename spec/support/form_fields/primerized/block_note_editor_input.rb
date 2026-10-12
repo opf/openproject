@@ -85,29 +85,27 @@ module FormFields
 
       def open_table_row_menu
         shadow_root.first("table td, table th").hover
-        shadow_root.find(".bn-table-handle:not([style*='rotate'])").click
+        page.click_button(accessible_name: "Row actions")
       end
 
       def open_table_cell_menu(cell)
         handle = page.document.synchronize do
           cell.hover
-          shadow_root.find(".bn-table-cell-handle", wait: 0).tap do |current|
+          page.find_button(accessible_name: "Cell actions", wait: 0).tap do |current|
             raise Capybara::ExpectationNotMet, "Cell handle is not on the hovered cell" unless horizontally_within?(current, cell)
           end
         end
         handle.click
       end
 
-      # The colors menu lists the text colors first, then the background colors, with the same names.
       def pick_table_cell_color(name, background: false)
-        click_table_menu_item("Colors", hover: true)
-        shadow_root.all("[role='menuitem']", text: /#{name}\z/, minimum: 2)[background ? 1 : 0].click
-        send_keys(:escape)
+        page.find("[role='menuitem']", exact_text: "Colors").send_keys(:right)
+        group = background ? "Background" : "Text"
+        page.find("[role='group'][aria-label='#{group}'] [role='menuitemradio']", text: /#{Regexp.escape(name)}\z/).click
       end
 
-      def click_table_menu_item(text, hover: false)
-        item = shadow_root.find(".bn-menu-item", exact_text: text)
-        hover ? item.hover : item.click
+      def click_table_menu_item(text)
+        page.find("[role='menuitemcheckbox']", exact_text: text).click
       end
 
       def create_work_package_form

@@ -25,10 +25,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ComponentProps, ComponentsContext, useBlockNoteEditor, useComponentsContext, useUIMode } from '@blocknote/react';
-import { ActionList, ActionMenu, PortalContext, registerPortalRoot } from '@primer/react';
-import { CheckIcon } from '@primer/octicons-react';
-import { Children, createContext, isValidElement, PropsWithChildren, ReactElement, useContext, useEffect, useId, useMemo } from 'react';
+import { ComponentProps, ComponentsContext, useBlockNoteEditor, useComponentsContext, useDictionary, useUIMode } from '@blocknote/react';
+import { ActionList, ActionMenu, IconButton, PortalContext, registerPortalRoot } from '@primer/react';
+import { Children, cloneElement, createContext, forwardRef, Fragment, isValidElement, PropsWithChildren, useContext, useEffect, useId, useMemo } from 'react';
 
 type Menu = ComponentProps['Generic']['Menu'];
 
@@ -49,7 +48,7 @@ function Root({ children, onOpenChange, portalElement, position, sub }:Menu['Roo
     onOpenChange?.(open);
   };
   const slots = Children.toArray(children).filter(isValidElement).map((child) => {
-    if (isValidElement<{ children:ReactElement }>(child) && child.type === Trigger) {
+    if (child.type === Trigger && isValidElement<Menu['Trigger']>(child) && isValidElement(child.props.children)) {
       return <ActionMenu.Anchor {...(label && !sub ? { 'aria-label': label } : {})}>{child.props.children}</ActionMenu.Anchor>;
     }
     return child;
@@ -60,6 +59,28 @@ function Root({ children, onOpenChange, portalElement, position, sub }:Menu['Roo
     <ReturnFocusToEditor.Provider value={returnFocusToEditor && !sub}>
       <MenuSide.Provider value={side}><ActionMenu onOpenChange={changeOpen}>{slots}</ActionMenu></MenuSide.Provider>
     </ReturnFocusToEditor.Provider>
+  );
+}
+
+const InColorGroup = createContext(false);
+
+function MenuContents({ children, className }:Menu['Dropdown']) {
+  const dict = useDictionary();
+  if (!className?.split(' ').includes('bn-color-picker-dropdown')
+    || !isValidElement<{ text?:unknown; background?:unknown }>(children)) return children;
+
+  return (
+    <InColorGroup.Provider value>
+      {(['text', 'background'] as const).filter(kind => children.props[kind]).map((kind, index) => (
+        <Fragment key={kind}>
+          {index > 0 && <ActionList.Divider />}
+          <ActionList.Group selectionVariant="single">
+            <ActionList.GroupHeading>{dict.color_picker[`${kind}_title`]}</ActionList.GroupHeading>
+            {cloneElement(children, kind === 'text' ? { background: undefined } : { text: undefined })}
+          </ActionList.Group>
+        </Fragment>
+      ))}
+    </InColorGroup.Provider>
   );
 }
 
@@ -76,29 +97,49 @@ function Dropdown({ children, className }:Menu['Dropdown']) {
       maxHeight="large"
       {...(returnFocusToEditor && { returnFocusRef: editorRef })}
     >
-      <ActionList className={className}>{children}</ActionList>
+      <ActionList className={className}><MenuContents className={className}>{children}</MenuContents></ActionList>
     </ActionMenu.Overlay>
   );
 }
 
 function Item({ children, icon, checked, onClick, subTrigger, ...rest }:Menu['Item']) {
-  return (
+  const inColorGroup = useContext(InColorGroup);
+  const item = (
     <ActionList.Item
       {...rest}
-      role={checked === undefined ? 'menuitem' : 'menuitemcheckbox'}
-      aria-checked={checked}
+      selected={checked}
+      aria-keyshortcuts={inColorGroup && typeof children === 'string' ? children[0]?.toLowerCase() : undefined}
       onSelect={subTrigger ? undefined : onClick}
     >
-      {icon && <ActionList.LeadingVisual>{icon}</ActionList.LeadingVisual>}
+      {icon && <ActionList.LeadingVisual aria-hidden>{icon}</ActionList.LeadingVisual>}
       {children}
-      {checked && <ActionList.TrailingVisual><CheckIcon /></ActionList.TrailingVisual>}
     </ActionList.Item>
   );
+  return checked !== undefined && !inColorGroup
+    ? <ActionList.Group selectionVariant="multiple" className="op-blocknote-toggle-group">{item}</ActionList.Group>
+    : item;
 }
 
 function Label({ children }:Menu['Label']) {
+  if (useContext(InColorGroup)) return null;
   return <ActionList.GroupHeading headingWrapElement="li">{children}</ActionList.GroupHeading>;
 }
+
+const HandleButton = forwardRef<HTMLButtonElement, Menu['Button']>(
+  function HandleButton({ label, children, icon, ...button }, ref) {
+    const anchorLabel = useContext(AnchorLabel);
+    const name = label ?? anchorLabel;
+    if (!name) return <button type="button" ref={ref} {...button}>{icon ?? children}</button>;
+
+    // BlockNote 0.55 puts the add-block action on its icon (SE-661).
+    if (isValidElement<{ onClick?:() => void }>(icon) && icon.props.onClick && !button.onClick) {
+      return <IconButton {...button} ref={ref} aria-label={name} icon={cloneElement(icon, { onClick: undefined })}
+        onClick={icon.props.onClick} variant="invisible" size="small" />;
+    }
+
+    return <IconButton {...button} ref={ref} aria-label={name} icon={icon ?? children} variant="invisible" size="small" />;
+  },
+);
 
 export function PrimerMenuPortal({ children }:PropsWithChildren) {
   const portalContainerName = useId();
@@ -113,9 +154,11 @@ export function PrimerActionMenus({ children, label, returnFocusToEditor = false
   const mode = useUIMode();
   const value = useMemo(() => ({
     ...components,
+    SideMenu: { ...components.SideMenu, Button: HandleButton },
+    TableHandle: { ...components.TableHandle, Root: HandleButton, ExtendButton: HandleButton },
     Generic: {
       ...components.Generic,
-      Menu: { ...components.Generic.Menu, Root, Trigger, Dropdown, Item, Label },
+      Menu: { ...components.Generic.Menu, Root, Trigger, Dropdown, Item, Label, Button: HandleButton },
     },
   }), [components]);
 

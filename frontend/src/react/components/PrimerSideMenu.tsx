@@ -25,17 +25,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { SideMenu, SideMenuController } from '@blocknote/react';
+import { PortalElementOverride, SideMenu, SideMenuController } from '@blocknote/react';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
 
+// BlockNote listens for native block drag events on the editor’s shadow root (SE-661).
 function PrimerSideMenu() {
-  return <PrimerActionMenus><SideMenu /></PrimerActionMenus>;
+  return (
+    <PortalElementOverride target={document.body}>
+      <PrimerActionMenus><SideMenu /></PrimerActionMenus>
+    </PortalElementOverride>
+  );
 }
 
 export function PrimerSideMenuController() {
   return (
     <PrimerMenuPortal>
-      <SideMenuController sideMenu={PrimerSideMenu} portalElement={document.body} />
+      <SideMenuController sideMenu={PrimerSideMenu} />
     </PrimerMenuPortal>
   );
 }

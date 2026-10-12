@@ -1023,6 +1023,9 @@ en:
       active_format: "%{format} (active)"
       formatting_toolbar: "Text formatting"
       block_type: "Block type"
+      cell_actions: "Cell actions"
+      extend_rows: "Extend rows"
+      extend_columns: "Extend columns"
       row_actions: "Row actions"
       column_actions: "Column actions"
     wiki_formatting:

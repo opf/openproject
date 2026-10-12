@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { TableHandle, TableHandleProps, TableHandlesController } from '@blocknote/react';
+import { ExtendButton, ExtendButtonProps, TableCellButton, TableCellButtonProps, TableHandle, TableHandleProps, TableHandlesController } from '@blocknote/react';
 import { PrimerActionMenus, PrimerMenuPortal } from './PrimerActionMenus';
 
 function PrimerTableHandle(props:TableHandleProps) {
@@ -33,10 +33,19 @@ function PrimerTableHandle(props:TableHandleProps) {
   return <PrimerActionMenus returnFocusToEditor label={label}><TableHandle {...props} /></PrimerActionMenus>;
 }
 
+function PrimerCellHandle(props:TableCellButtonProps) {
+  return <PrimerActionMenus returnFocusToEditor label={window.I18n.t('js.blocknote.cell_actions')}><TableCellButton {...props} /></PrimerActionMenus>;
+}
+
+function PrimerExtendButton(props:ExtendButtonProps) {
+  const label = props.orientation === 'addOrRemoveRows' ? window.I18n.t('js.blocknote.extend_rows') : window.I18n.t('js.blocknote.extend_columns');
+  return <PrimerActionMenus label={label}><ExtendButton {...props} /></PrimerActionMenus>;
+}
+
 export function PrimerTableHandles() {
   return (
     <PrimerMenuPortal>
-      <TableHandlesController tableHandle={PrimerTableHandle} portalElement={document.body} />
+      <TableHandlesController tableHandle={PrimerTableHandle} tableCellHandle={PrimerCellHandle} extendButton={PrimerExtendButton} portalElement={document.body} />
     </PrimerMenuPortal>
   );
 }
