@@ -413,6 +413,93 @@ RSpec.describe Meeting do
     end
   end
 
+  describe "outcomes" do
+    shared_let(:meeting) { create(:meeting, author: user) }
+    shared_let(:agenda_item) { create(:meeting_agenda_item, meeting:) }
+    shared_let(:outcome, refind: true) { create(:meeting_outcome, meeting_agenda_item: agenda_item, notes: "Agreed") }
+
+    def outcome_journals = meeting.journals.reload.last.outcome_journals
+
+    def outcome_journal_of(outcome) = outcome_journals.find_by(outcome_id: outcome.id)
+
+    before do
+      meeting.save_journals
+    end
+
+    it "records the outcome" do
+      expect(outcome_journal_of(outcome))
+        .to have_attributes(meeting_agenda_item_id: agenda_item.id, kind: MeetingOutcome.kinds[:information],
+                            notes: "Agreed", work_package_id: nil)
+    end
+
+    context "when nothing changes" do
+      it "does not create a journal" do
+        expect { meeting.save_journals }.not_to change(Journal, :count)
+      end
+    end
+
+    context "when only the newlines of the notes change" do
+      it "does not create a journal" do
+        outcome.update!(notes: "Agreed\r\nby all")
+        meeting.save_journals
+
+        expect do
+          outcome.update!(notes: "Agreed\nby all")
+          meeting.save_journals
+        end.not_to change { outcome_journal_of(outcome).notes }
+      end
+    end
+
+    context "when updating an outcome within the aggregation time" do
+      subject(:update_outcome) do
+        outcome.update!(notes: "Rejected")
+        meeting.save_journals
+      end
+
+      it { expect { update_outcome }.not_to change(Journal, :count) }
+
+      it "updates the outcome journal" do
+        expect { update_outcome }.to change { outcome_journal_of(outcome).notes }.to("Rejected")
+      end
+    end
+
+    context "when updating an outcome outside the aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:update_outcome) do
+        outcome.update!(notes: "Rejected")
+        meeting.save_journals
+      end
+
+      it { expect { update_outcome }.to change(Journal, :count).by(1) }
+
+      it "records the new notes in the new journal and keeps the previous one" do
+        previous_outcome_journal = outcome_journal_of(outcome)
+
+        update_outcome
+
+        expect(outcome_journal_of(outcome).notes).to eq("Rejected")
+        expect(previous_outcome_journal.reload.notes).to eq("Agreed")
+      end
+    end
+
+    context "when removing an outcome outside the aggregation time", with_settings: { journal_aggregation_time_minutes: 0 } do
+      subject(:remove_outcome) do
+        outcome.destroy
+        meeting.save_journals
+      end
+
+      it { expect { remove_outcome }.to change(Journal, :count).by(1) }
+
+      it "removes the outcome from the new journal and keeps it in the previous one" do
+        previous_journal = meeting.journals.last
+
+        remove_outcome
+
+        expect(outcome_journal_of(outcome)).to be_nil
+        expect(previous_journal.outcome_journals.where(outcome_id: outcome.id)).to exist
+      end
+    end
+  end
+
   describe "participants" do
     shared_let(:participant_user) { create(:user) }
 
