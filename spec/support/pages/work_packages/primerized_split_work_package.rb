@@ -37,8 +37,10 @@ module Pages
     end
 
     def switch_to_tab(tab:)
-      in_split_view do
-        page.find_test_selector(tab_selector(tab)).click
+      wait_for_turbo_frame(frame: "content-bodyRight", wait: 20) do
+        in_split_view do
+          page.find_test_selector(tab_selector(tab)).click
+        end
       end
     end
 
@@ -55,9 +57,10 @@ module Pages
     end
 
     def expect_tab(tab)
-      within_test_selector(tab_selector(tab)) do |link|
-        link["data-aria-current"] == "page"
-      end
+      expect(page).to have_css(
+        %([data-test-selector="#{tab_selector(tab)}"][aria-current="page"]),
+        wait: 20
+      )
     end
 
     def within_active_tab(&)

@@ -35,14 +35,16 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      attr_reader :container
-
       def initialize(container)
         @container = container
       end
 
+      def container
+        @container.respond_to?(:call) ? @container.call : @container
+      end
+
       def hover!
-        @container.find(".timeline-element").hover
+        container.find(".timeline-element").hover
       end
 
       def expect_hovered_labels(left:, right:)
@@ -79,12 +81,22 @@ module Components
         wait_until_hoverable
         scrollToLeft
         offset_x = offset_days * 30
-        page.driver.browser.action.move_to(@container.native, offset_x).perform
+        if using_cuprite?
+          x, y = pointer_coordinates(offset_x)
+          page.driver.browser.mouse.move(x:, y:, steps: 5)
+        else
+          page.driver.browser.action.move_to(container.native, offset_x).perform
+        end
       end
 
       def click_bar(offset_days: 0)
         hover_bar(offset_days:)
-        page.driver.browser.action.click.perform
+        if using_cuprite?
+          x, y = pointer_coordinates(offset_days * 30)
+          page.driver.browser.mouse.click(x:, y:)
+        else
+          page.driver.browser.action.click.perform
+        end
       end
 
       def expect_hovered_bar(duration: 1)
@@ -93,7 +105,7 @@ module Components
       end
 
       def expect_bar(duration: 1)
-        loading_indicator_saveguard
+        loading_indicator_saveguard(wait: 20)
         expected_length = duration * 30
         expect(container).to have_css(".timeline-element", style: { width: "#{expected_length}px" })
       end
@@ -111,20 +123,43 @@ module Components
         wait_until_hoverable
         scrollToLeft
         offset_x_start = offset_days * 30
-        start_dragging(container, offset_x: offset_x_start)
         offset_x = ((days - 1) * 30) + offset_x_start
-        drag_element_to(container, offset_x:)
-        drag_release
+        if using_cuprite?
+          start_x, start_y = pointer_coordinates(offset_x_start)
+          target_x, target_y = pointer_coordinates(offset_x)
+          mouse = page.driver.browser.mouse
+          mouse.move(x: start_x, y: start_y, steps: 5)
+          mouse.down
+          mouse.move(x: target_x, y: target_y, steps: 10)
+          mouse.up
+        else
+          start_dragging(container, offset_x: offset_x_start)
+          drag_element_to(container, offset_x:)
+          drag_release
+        end
       end
 
       def wait_until_hoverable
         # The timeline element and the mouse handlers are lazily loaded and can
         # be hidden if no dates are set. Finding it waits until the lazy loading
         # has completed.
-        container.find(".timeline-element", visible: :all)
+        container.find(".timeline-element", visible: :all, wait: 10)
       end
 
       private
+
+      def pointer_coordinates(offset_x)
+        page.evaluate_script(<<~JS, container.native, offset_x)
+          (() => {
+            const rect = arguments[0].getBoundingClientRect();
+            const left = Math.max(0, rect.left);
+            const right = Math.min(window.innerWidth, rect.right);
+            const top = Math.max(0, rect.top);
+            const bottom = Math.min(window.innerHeight, rect.bottom);
+            return [(left + right) / 2 + arguments[1], (top + bottom) / 2];
+          })()
+        JS
+      end
 
       def scrollToLeft
         # timeline being scrolled to today is potentially moving elements of the tests out of sight
