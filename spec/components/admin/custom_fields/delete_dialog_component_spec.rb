@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
-  let(:custom_field) { build_stubbed(:work_package_custom_field, id: 1312, name: "Field666") }
+  let(:custom_field) { build_stubbed(:work_package_custom_field, id: 4242, name: "Field666") }
 
   it "includes the name of the custom field in the dialog title" do
     render_inline(described_class.new(custom_field:))
@@ -55,19 +55,19 @@ RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
   it "submits a DELETE request to the custom field's admin path" do
     render_inline(described_class.new(custom_field:))
 
-    expect(page).to have_element(:form, action: "/admin/settings/work_package_custom_fields/1312")
+    expect(page).to have_element(:form, action: "/admin/settings/work_package_custom_fields/4242")
     form = page.find("form")
     expect(form).to have_field("_method", type: :hidden, with: "delete")
   end
 
-  %i[work_package_custom_field user_custom_field version_custom_field group_custom_field].each do |type|
+  %i[work_package_custom_field user_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
     context "for a #{type.to_s.humanize.downcase}" do
-      let(:custom_field) { build_stubbed(type, id: 1312, name: "Field666") }
+      let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
 
       it "has the corresponding form" do
         render_inline(described_class.new(custom_field:))
 
-        expect(page).to have_element(:form, action: "/admin/settings/#{type}s/1312")
+        expect(page).to have_element(:form, action: "/admin/settings/#{type}s/4242")
         form = page.find("form")
         expect(form).to have_field("_method", type: :hidden, with: "delete")
       end
