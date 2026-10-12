@@ -68,3 +68,10 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 OpenProject::FeatureDecisions.add :progressive_web_app,
                                   description: "Lets OpenProject be installed as a desktop application (PWA). " \
                                                "See the SE-647 epic for details."
+OpenProject::FeatureDecisions.add :llm_connection,
+                                  description: "Enables the administration page connecting OpenProject to an " \
+                                               "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :admin_privilege_elevation,
+                                  description: "Requires admins to temporarily elevate their privileges to act on " \
+                                               "projects they are not a member of. See SE-663 for details."
