@@ -51,5 +51,18 @@ module Users
     def self.none
       None.new
     end
+
+    def self.for_session(user, session_id)
+      return everywhere unless OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+
+      project_ids = user
+                      .admin_elevation_sessions
+                      .active
+                      .for_session(session_id)
+                      .includes(:project)
+                      .flat_map(&:project_ids)
+
+      project_ids.empty? ? none : in_projects(project_ids.uniq)
+    end
   end
 end
