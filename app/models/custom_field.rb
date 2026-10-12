@@ -102,9 +102,9 @@ class CustomField < ApplicationRecord
     self.class.visible(usr).exists?(id: id)
   end
 
-  # make sure int, float, date, and bool are not searchable
+  # make sure int, float, date, datetime, and bool are not searchable
   def check_searchability
-    self.searchable = false if %w(int float date bool user version).include?(field_format)
+    self.searchable = false if %w(int float date datetime bool user version).include?(field_format)
     true
   end
 
@@ -276,6 +276,8 @@ class CustomField < ApplicationRecord
       rescue StandardError
         nil
       end
+    when "datetime"
+      CustomValue.new(custom_field: self, value:).typed_value
     when "bool"
       ActiveRecord::Type::Boolean.new.cast(value)
     when "int"

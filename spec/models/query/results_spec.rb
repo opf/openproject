@@ -304,6 +304,29 @@ RSpec.describe Query::Results do
         expect(query_results.work_package_count_by_group).to eql(Time.zone.today => 2, nil => 1)
       end
     end
+
+    context "when grouping by datetime custom field" do
+      let!(:custom_field) do
+        create(:datetime_wp_custom_field,
+               is_for_all: true,
+               is_filter: true,
+               types: [wp_p1[0].type])
+      end
+      let(:time) { Time.utc(2026, 10, 1, 12, 30) }
+
+      let(:group_by) { custom_field.column_name }
+
+      before do
+        login_as(user1)
+
+        wp_p1[0].update_attribute(custom_field.attribute_name, time)
+        wp_p1[1].update_attribute(custom_field.attribute_name, time)
+      end
+
+      it "returns a hash of counts by UTC time" do
+        expect(query_results.work_package_count_by_group).to eql(time => 2, nil => 1)
+      end
+    end
   end
 
   describe "filtering" do

@@ -63,9 +63,18 @@ module API
         def value
           if query.group_by_column.name == :done_ratio
             represented ? "#{represented}%" : nil
+          elsif datetime_custom_field_group?
+            ::API::V3::Utilities::DateTimeFormatter.format_datetime(represented, allow_nil: true)
           else
             super
           end
+        end
+
+        private
+
+        def datetime_custom_field_group?
+          column = query.group_by_column
+          column.respond_to?(:custom_field) && column.custom_field.field_format == "datetime"
         end
       end
     end

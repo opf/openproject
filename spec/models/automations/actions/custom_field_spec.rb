@@ -70,6 +70,9 @@ RSpec.describe Automations::Actions::CustomField do
   let(:date_custom_field) do
     build_stubbed(:date_wp_custom_field)
   end
+  let(:datetime_custom_field) do
+    build_stubbed(:datetime_wp_custom_field)
+  end
 
   let(:custom_field) do
     list_custom_field
@@ -84,7 +87,8 @@ RSpec.describe Automations::Actions::CustomField do
      text_custom_field,
      string_custom_field,
      link_custom_field,
-     date_custom_field]
+     date_custom_field,
+     datetime_custom_field]
   end
   let(:klass) do
     allow(WorkPackageCustomField)
@@ -187,6 +191,26 @@ RSpec.describe Automations::Actions::CustomField do
       let(:custom_field) { date_custom_field }
 
       it_behaves_like "date values transformation"
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+      let(:user) { build_stubbed(:user, preferences: { time_zone: "Europe/Brussels" }) }
+
+      current_user { user }
+
+      it "normalizes the values to ISO 8601 in UTC, reading values without offset in the user's time zone" do
+        instance.values = ["2026-10-01T14:30", "2026-10-01T12:30:00Z", Time.utc(2026, 10, 2, 8), "2026-10-01", "bogus", nil]
+
+        expect(instance.values)
+          .to contain_exactly("2026-10-01T12:30:00Z", "2026-10-02T08:00:00Z", nil)
+      end
+
+      it "renders the input value in the user's time zone" do
+        instance.values = ["2026-10-01T12:30:00Z"]
+
+        expect(instance.input_value).to eq("2026-10-01T14:30")
+      end
     end
   end
 
@@ -345,6 +369,15 @@ RSpec.describe Automations::Actions::CustomField do
       it "is :date_property" do
         expect(instance.type)
           .to be(:date_property)
+      end
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+
+      it "is :datetime_property" do
+        expect(instance.type)
+          .to be(:datetime_property)
       end
     end
   end
@@ -617,6 +650,19 @@ RSpec.describe Automations::Actions::CustomField do
 
       it_behaves_like "date custom action validations"
     end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { datetime_custom_field }
+      let(:errors) { build_stubbed(:automation).errors }
+
+      it "adds an error on actions if there is more than one value" do
+        instance.values = ["2026-10-01T12:30:00Z", "2026-10-02T12:30:00Z"]
+
+        instance.validate(errors)
+
+        expect(errors.symbols_for(:actions)).to eql [:only_one_allowed]
+      end
+    end
   end
 
   describe "#apply" do
@@ -666,6 +712,23 @@ RSpec.describe Automations::Actions::CustomField do
             .to have_received(custom_field.attribute_setter)
                   .with(Date.current)
         end
+      end
+    end
+
+    context "for a datetime custom field" do
+      let(:custom_field) { create(:datetime_wp_custom_field) }
+      let(:work_package) { create(:work_package) }
+
+      before do
+        work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+        work_package.reload
+      end
+
+      it "sets the work package value to the stored UTC time" do
+        instance.values = "2026-10-01T12:30:00Z"
+        instance.apply(work_package)
+
+        expect(work_package.typed_custom_value_for(custom_field)).to eq(Time.utc(2026, 10, 1, 12, 30))
       end
     end
 

@@ -80,6 +80,8 @@ class Automations::Actions::CustomField < Automations::Actions::Base
         Automations::Actions::Strategies::Float
       when "date"
         Automations::Actions::Strategies::Date
+      when "datetime"
+        Automations::Actions::Strategies::DateTime
       when "bool"
         Automations::Actions::Strategies::Boolean
       when "user"

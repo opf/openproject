@@ -166,6 +166,14 @@ See COPYRIGHT and LICENSE files for more details.
               <%= angular_component_tag "opce-custom-date-action-admin",
                                         data: { "field-value": date.try(:iso8601) || date, "field-name": input_name } %>
             </div>
+          <% elsif action.type == :datetime_property %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag input_name,
+                                        action.input_value,
+                                        id: "automation_actions_#{action.key}",
+                                        container_class: "-slim",
+                                        type: "datetime-local" %>
+            </div>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <div class="form--field-container">
               <%= styled_text_field_tag input_name, action.values, container_class: "-slim" %>

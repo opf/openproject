@@ -59,13 +59,13 @@ RSpec.describe OpenProject::CustomFieldFormat do
       context "with some enterprise addons", with_ee: %i[weighted_item_lists custom_field_hierarchies] do
         it_behaves_like "custom field formats",
                         "WorkPackage",
-                        %w[string text link int float list date bool user version hierarchy weighted_item_list]
+                        %w[string text link int float list date bool user version hierarchy weighted_item_list datetime]
       end
 
       context "without enterprise addons" do
         it_behaves_like "custom field formats",
                         "WorkPackage",
-                        %w[string text link int float list date bool user version]
+                        %w[string text link int float list date bool user version datetime]
       end
     end
 
@@ -112,7 +112,7 @@ RSpec.describe OpenProject::CustomFieldFormat do
     context "for a 'WorkPackage' class" do
       it_behaves_like "custom field formats",
                       "WorkPackage",
-                      %w[string text link int float list date bool user version hierarchy weighted_item_list]
+                      %w[string text link int float list date bool user version hierarchy weighted_item_list datetime]
     end
 
     context "for a 'Version' class" do
@@ -143,7 +143,8 @@ RSpec.describe OpenProject::CustomFieldFormat do
   describe ".registered_formats" do
     it "returns all formats" do
       expect(described_class.registered_formats)
-        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
+        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value
+                  datetime])
     end
   end
 
@@ -157,39 +158,40 @@ RSpec.describe OpenProject::CustomFieldFormat do
     context "without any ee" do
       it_behaves_like "available custom field formats",
                       "not requiring an ee",
-                      %w[string text link int float list date bool user version empty]
+                      %w[string text link int float list date bool user version empty datetime]
     end
 
     context "with a custom_field_hierarchies ee", with_ee: [:custom_field_hierarchies] do
       it_behaves_like "available custom field formats",
                       "including hierarchy",
-                      %w[string text link int float list date bool user version empty hierarchy]
+                      %w[string text link int float list date bool user version empty hierarchy datetime]
     end
 
     context "with a weighted_item_lists ee", with_ee: [:weighted_item_lists] do
       it_behaves_like "available custom field formats",
                       "including hierarchy",
-                      %w[string text link int float list date bool user version empty weighted_item_list]
+                      %w[string text link int float list date bool user version empty weighted_item_list datetime]
     end
 
     context "with a calculated_values ee", with_ee: [:calculated_values] do
       it_behaves_like "available custom field formats",
                       "including calculated values",
-                      %w[string text link int float list date bool user version empty calculated_value]
+                      %w[string text link int float list date bool user version empty calculated_value datetime]
     end
 
     context "with all ees", with_ee: %i[custom_field_hierarchies weighted_item_lists calculated_values] do
       it_behaves_like "available custom field formats",
                       "including hierarchy",
                       %w[string text link int float list date bool user version empty hierarchy weighted_item_list
-                         calculated_value]
+                         calculated_value datetime]
     end
   end
 
   describe ".enabled_formats" do
     it "returns all formats" do
       expect(described_class.enabled_formats)
-        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
+        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value
+                  datetime])
     end
   end
 

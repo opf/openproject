@@ -481,7 +481,7 @@ module Redmine
             # N.B. we do no strict type checking here, it would be possible to assign a user
             # to an integer custom field...
             value = value.id if value.respond_to?(:id)
-            self.custom_field_values = { custom_field.id => Array(value) }
+            self.custom_field_values = { custom_field.id => Array.wrap(value) }
           end
 
           define_singleton_method custom_field.comment_attribute_setter do |text|
@@ -497,7 +497,7 @@ module Redmine
         end
 
         def update_custom_value(custom_field_id, existing_cv_by_value, new_values)
-          new_values = Array(new_values).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
+          new_values = Array.wrap(new_values).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
 
           assign_new_values(custom_field_id, existing_cv_by_value, new_values)
           delete_obsolete_custom_values(existing_cv_by_value, new_values)

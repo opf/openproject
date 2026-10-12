@@ -949,6 +949,89 @@ RSpec.describe "API v3 Work package resource",
         end
       end
 
+      context "with a datetime custom field" do
+        let(:custom_field) { create(:datetime_wp_custom_field) }
+        let(:cf_path) { custom_field.attribute_name(:camel_case) }
+        let(:params) { valid_params.merge(cf_path => value) }
+
+        before do
+          work_package.type.default_variant.custom_field_ids |= [custom_field.id]
+        end
+
+        context "with an ISO 8601 value carrying an offset" do
+          let(:value) { "2026-10-01T14:30:00+02:00" }
+
+          include_context "patch request"
+
+          it "stores and responds with the value in UTC", :aggregate_failures do
+            expect(response).to have_http_status(:ok)
+            expect(subject.body).to be_json_eql("2026-10-01T12:30:00.000Z".to_json).at_path(cf_path)
+            expect(work_package.reload.typed_custom_value_for(custom_field)).to eq(Time.utc(2026, 10, 1, 12, 30))
+          end
+        end
+
+        context "with a value that is not a datetime" do
+          let(:value) { "yesterday" }
+
+          include_context "patch request"
+
+          it "responds with a format error" do
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(subject.body).to be_json_eql("urn:openproject-org:api:v3:errors:PropertyFormatError".to_json)
+                                      .at_path("errorIdentifier")
+          end
+        end
+
+        context "with a value already set" do
+          before do
+            work_package.custom_field_values = { custom_field.id => "2026-10-01T12:30:00Z" }
+            work_package.save!(validate: false)
+          end
+
+          [nil, ""].each do |clearing_value|
+            context "when writing #{clearing_value.to_json}" do
+              let(:value) { clearing_value }
+
+              include_context "patch request"
+
+              it "clears the value", :aggregate_failures do
+                expect(response).to have_http_status(:ok)
+                expect(subject.body).to be_json_eql(nil.to_json).at_path(cf_path)
+                expect(work_package.reload.typed_custom_value_for(custom_field)).to be_nil
+              end
+            end
+          end
+
+          [false, [], {}, "  "].each do |invalid_value|
+            context "when writing #{invalid_value.to_json}" do
+              let(:value) { invalid_value }
+
+              include_context "patch request"
+
+              it "responds with a format error and keeps the value", :aggregate_failures do
+                expect(response).to have_http_status(:unprocessable_entity)
+                expect(subject.body).to be_json_eql("urn:openproject-org:api:v3:errors:PropertyFormatError".to_json)
+                                          .at_path("errorIdentifier")
+                expect(work_package.reload.typed_custom_value_for(custom_field)).to eq(Time.utc(2026, 10, 1, 12, 30))
+              end
+            end
+          end
+        end
+
+        context "with a date without a time of day" do
+          let(:value) { "2026-10-01" }
+
+          include_context "patch request"
+
+          it "responds with a format error and keeps the value unset", :aggregate_failures do
+            expect(response).to have_http_status(:unprocessable_entity)
+            expect(subject.body).to be_json_eql("urn:openproject-org:api:v3:errors:PropertyFormatError".to_json)
+                                      .at_path("errorIdentifier")
+            expect(work_package.reload.typed_custom_value_for(custom_field)).to be_nil
+          end
+        end
+      end
+
       describe "update with read-only attributes" do
         describe "single read-only violation" do
           context "created and updated" do

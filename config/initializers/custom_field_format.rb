@@ -108,4 +108,10 @@ OpenProject::CustomFieldFormat.tap do |formats|
                    order: 14,
                    enterprise_feature: :calculated_values,
                    formatter: "CustomValue::CalculatedValueStrategy")
+
+  formats.register("datetime",
+                   label: :label_date_and_time,
+                   only: %w(WorkPackage),
+                   order: 15,
+                   formatter: "CustomValue::DateTimeStrategy")
 end
