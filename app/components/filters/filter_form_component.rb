@@ -196,7 +196,7 @@ class Filters::FilterFormComponent < ApplicationComponent
       Filters::Inputs::AutocompleteForm
     elsif filter.type.in? %i[list list_optional list_all]
       Filters::Inputs::ListForm
-    elsif filter.type.in? %i[datetime_past date]
+    elsif filter.type.in? %i[datetime_past datetime date]
       Filters::Inputs::DateForm
     else
       Filters::Inputs::TextForm

@@ -80,4 +80,80 @@ RSpec.describe MeetingPresentationController do
       end
     end
   end
+
+  describe "GET #show" do
+    let!(:agenda_item) { create(:meeting_agenda_item, meeting:, notes: "One\n\n---\n\nTwo\n\n---\n\nThree") }
+    let!(:second_item) { create(:meeting_agenda_item, meeting:, notes: "Four\n\n---\n\nFive") }
+
+    let(:navigation_params) { {} }
+
+    before do
+      get :show, params: { project_id: project.id, meeting_id: meeting.id, **navigation_params }
+    end
+
+    shared_examples "presents" do |item:, slide:|
+      it "presents slide #{slide} of the #{item}" do
+        expect(response).to have_http_status(:ok)
+        expect(assigns(:current_id)).to eq(send(item).id)
+        expect(assigns(:current_slide)).to eq(slide)
+      end
+    end
+
+    context "without a position" do
+      it "starts at the first slide" do
+        expect(assigns(:current_id)).to be_nil
+        expect(assigns(:current_slide)).to eq(1)
+      end
+    end
+
+    context "when moving to the next slide within an item" do
+      let(:navigation_params) { { current_id: agenda_item.id, slide: 1, action_type: "next" } }
+
+      it_behaves_like "presents", item: :agenda_item, slide: 2
+    end
+
+    context "when moving next from the last slide of an item" do
+      let(:navigation_params) { { current_id: agenda_item.id, slide: 3, action_type: "next" } }
+
+      it_behaves_like "presents", item: :second_item, slide: 1
+    end
+
+    context "when moving next from the last slide of the last item" do
+      let(:navigation_params) { { current_id: second_item.id, slide: 2, action_type: "next" } }
+
+      it_behaves_like "presents", item: :second_item, slide: 2
+    end
+
+    context "when moving to the previous slide within an item" do
+      let(:navigation_params) { { current_id: second_item.id, slide: 2, action_type: "previous" } }
+
+      it_behaves_like "presents", item: :second_item, slide: 1
+    end
+
+    context "when moving previous from the first slide of an item" do
+      let(:navigation_params) { { current_id: second_item.id, slide: 1, action_type: "previous" } }
+
+      it_behaves_like "presents", item: :agenda_item, slide: 3
+    end
+
+    context "when moving previous from the first slide of the first item" do
+      let(:navigation_params) { { current_id: agenda_item.id, slide: 1, action_type: "previous" } }
+
+      it_behaves_like "presents", item: :agenda_item, slide: 1
+    end
+
+    context "when the slide is beyond the item's slides" do
+      context "and moving next" do
+        let(:navigation_params) { { current_id: agenda_item.id, slide: 9, action_type: "next" } }
+
+        it_behaves_like "presents", item: :second_item, slide: 1
+      end
+
+      context "and moving previous" do
+        let(:navigation_params) { { current_id: agenda_item.id, slide: 9, action_type: "previous" } }
+
+        it_behaves_like "presents", item: :agenda_item, slide: 2
+      end
+    end
+  end
 end

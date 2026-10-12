@@ -79,7 +79,7 @@ export class QuerySharingFormComponent {
     const form = this.querySpace.queryForm.value!;
 
     return this.authorisationService.can('query', 'updateImmediately')
-      && form.schema.public.writable;
+      && form.schema.public!.writable;
   }
 
   public updateStarred(val:boolean) {

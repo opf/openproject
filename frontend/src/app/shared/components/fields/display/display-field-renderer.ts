@@ -38,7 +38,7 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -94,8 +94,7 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     const span = document.createElement('span');
     const schema = this.schema(resource, change);
     const attributeName = this.attributeName(requestedAttribute, schema);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const fieldSchema = schema.ofProperty(attributeName) as IFieldSchema;
+    const fieldSchema = schema.ofProperty(attributeName);
 
     // If the resource does not have that field, return an empty
     // span (e.g., for the table).
@@ -170,17 +169,16 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
     }
   }
 
-  private isAttributeEditable(schema:SchemaResource, fieldName:string):boolean {
+  private isAttributeEditable(schema:ISchemaProxy, fieldName:string):boolean {
     // We need to handle start/due date cases like they were combined dates
     if (['startDate', 'dueDate', 'date'].includes(fieldName)) {
       fieldName = 'combinedDate';
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    return schema.isAttributeEditable(fieldName) as boolean;
+    return schema.isAttributeEditable(fieldName);
   }
 
-  private getAriaLabel(field:DisplayField, schema:SchemaResource):string {
+  private getAriaLabel(field:DisplayField, schema:ISchemaProxy):string {
     let titleContent;
     const labelContent = this.getLabelContent(field);
 
@@ -197,7 +195,6 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
       titleContent = labelContent;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (field.writable && !!schema.isAttributeEditable(field.name)) {
       return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
     }
@@ -218,22 +215,21 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
    * @param schema
    * @param attribute
    */
-  private attributeName(attribute:string, schema:SchemaResource):string {
+  private attributeName(attribute:string, schema:ISchemaProxy):string {
     if (schema.mappedName) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return schema.mappedName(attribute) as string;
+      return schema.mappedName(attribute);
     }
 
     return attribute;
   }
 
-  private schema(resource:T, change:ResourceChangeset<T>|null):SchemaResource {
+  private schema(resource:T, change:ResourceChangeset<T>|null):ISchemaProxy {
     if (change) {
       return change.schema;
     }
 
     if (this.halEditing.typedState(resource).hasValue()) {
-      const val = this.halEditing.typedState(resource).value as { schema:SchemaResource };
+      const val = this.halEditing.typedState(resource).value as { schema:ISchemaProxy };
       return val.schema;
     }
 

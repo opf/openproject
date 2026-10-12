@@ -55,7 +55,7 @@ jobs:
         instance_type: cpx42
         ports: 80,443
         default_port: 443
-        ttl: 10d
+        ttl: 2d
         dns: my.opf.run
       env:
         HCLOUD_TOKEN: "${{ secrets.HCLOUD_TOKEN }}"

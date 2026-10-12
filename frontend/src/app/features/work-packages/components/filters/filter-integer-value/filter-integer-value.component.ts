@@ -33,6 +33,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
 
 @Component({
   selector: 'op-filter-integer-value',
@@ -68,7 +69,7 @@ export class FilterIntegerValueComponent extends UntilDestroyedMixin {
   }
 
   public get unit() {
-    switch ((this.schema.filter.allowedValues as QueryFilterResource[])[0].id) {
+    switch (((this.schema.filter as SchemaAttributeObject<QueryFilterResource>).allowedValues as QueryFilterResource[])[0].id) {
       case 'startDate':
       case 'dueDate':
       case 'updatedAt':

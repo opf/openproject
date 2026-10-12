@@ -27,6 +27,7 @@
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export class HalPayloadHelper {
   /**
@@ -62,13 +63,13 @@ export class HalPayloadHelper {
     const nonLinkProperties = [];
 
     for (const key in schema) {
-      if (schema.hasOwnProperty(key) && schema[key]?.writable) {
+      if (Object.hasOwn(schema, key) && (schema[key] as IOPFieldSchema|undefined)?.writable) {
         if (resource.$links[key]) {
           if (Array.isArray(resource[key])) {
             payload._links[key] = (resource[key] as HalResource[]).map((element) => ({ href: element.href }));
           } else {
             payload._links[key] = {
-              href: (resource[key]?.href),
+              href: (resource[key] as HalResource|undefined)?.href,
             };
           }
         } else {
@@ -82,7 +83,7 @@ export class HalPayloadHelper {
         if (Array.isArray(resource[property])) {
           payload[property] = (resource[property] as HalResource[]).map((element) => {
             if (element instanceof HalResource) {
-              return this.extractPayloadFromSchema(element, element.currentSchema || element.schema);
+              return this.extractPayloadFromSchema(element, (element.currentSchema ?? element.schema) as SchemaResource);
             }
             return element;
           });

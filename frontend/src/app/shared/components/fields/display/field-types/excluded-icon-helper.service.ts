@@ -37,7 +37,7 @@ export class ExcludedIconHelperService {
 
   public addIconIfExcludedFromTotals(element:HTMLElement, resource:WorkPackageResource):void {
     if (resource?.status) {
-      this.apiV3Service.statuses.id(resource.status as StatusResource).get().subscribe(
+      this.apiV3Service.statuses.id(resource.status).get().subscribe(
         (status:StatusResource) => {
           if (status.excludedFromTotals) {
             this.addExcludedInfoIcon(element, status.name);

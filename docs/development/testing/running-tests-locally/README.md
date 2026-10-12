@@ -69,6 +69,8 @@ CI additionally typechecks the application and spec sources with `tsc`, which re
 npm run typecheck
 ```
 
+For guidance on writing frontend specs — the Stimulus test helpers, Testing Library queries and coverage — see [frontend/doc/TESTING.md](https://github.com/opf/openproject/blob/dev/frontend/doc/TESTING.md).
+
 ## Unit tests
 
 After following the prerequisites, use the following command to run individual specs:

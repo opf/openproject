@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,14 +26,47 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Homescreen
-  module Blocks
-    class MyAccount < Grids::WidgetComponent
-      def title
-        I18n.t(:label_my_account)
+module Queries::Filters::Strategies
+  class CfDateTime < CfDate
+    def validate
+      if [Queries::Operators::OnDateTime, Queries::Operators::BetweenDateTime].include?(operator)
+        validate_values_all_datetime
+      else
+        super
       end
+    end
+
+    def sql_for_field(values, db_table, db_field)
+      return super if blank_check?
+
+      "#{db_table}.#{db_field} <> '' AND #{super(values, db_table, "#{db_field}::timestamp")}"
+    end
+
+    private
+
+    def blank_check?
+      [Queries::Operators::AllAndNonBlank, Queries::Operators::NoneOrBlank].include?(operator)
+    end
+
+    def operator_map
+      super.merge(
+        "=d" => Queries::Operators::OnDateTime,
+        "<>d" => Queries::Operators::BetweenDateTime
+      )
+    end
+
+    def validate_values_all_datetime
+      unless values.all? { |value| value.blank? || datetime?(value) }
+        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_datetime"))
+      end
+    end
+
+    def datetime?(str)
+      true if ::DateTime.parse(str)
+    rescue ArgumentError
+      false
     end
   end
 end
