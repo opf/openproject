@@ -629,6 +629,19 @@ module Settings
         persist_on_first_read: true,
         secret: true
       },
+      web_push_enabled: {
+        format: :boolean,
+        default: true
+      },
+      web_push_vapid_private_key: {
+        description: "VAPID private key for browser push, base64 PKCS#8 DER. " \
+                     "Generated on first use and stored encrypted. " \
+                     "Changing this invalidates every browser push subscription.",
+        format: :string,
+        default: -> { OpenProject::WebPush.generate_encrypted_private_key },
+        persist_on_first_read: true,
+        secret: true
+      },
       host_name: {
         format: :string,
         default: -> { "#{ENV.fetch('HOST', 'localhost')}:#{ENV.fetch('PORT', 3000)}" },
