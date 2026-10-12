@@ -69,7 +69,7 @@ module AI
       end
 
       def read_only?
-        skill.read_only?
+        skill.scope_read_only?
       end
     end
   end

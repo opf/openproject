@@ -1279,6 +1279,7 @@ Rails.application.routes.draw do
     resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "work_packages/ai_assistance/chats",
                                   only: %i[show create] do
       post :messages, action: :send_message
+      post :start
       get :poll
       post "messages/:message_id/apply", action: :apply, as: :apply_message
     end

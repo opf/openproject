@@ -89,7 +89,7 @@ module Admin
 
     # The key is set once, on create: runs refer to the skill by it.
     def skill_params
-      params.expect(ai_assistant_skill: %i[label description prompt output_rules template_ref read_only position active])
+      params.expect(ai_assistant_skill: %i[label description prompt output_rules template_ref proposal_scope position active])
     end
   end
 end

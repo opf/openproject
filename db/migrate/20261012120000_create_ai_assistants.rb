@@ -67,7 +67,8 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.string :template_ref
       # A read-only skill reports findings only. Otherwise it may propose changes to the
       # attributes its type supports; the workflow and permissions decide the values.
-      t.boolean :read_only, null: false, default: false
+      # changes, comment_only or read_only: what the skill may propose.
+      t.string :proposal_scope, null: false, default: "changes"
       t.integer :position
       t.boolean :active, null: false, default: true
 

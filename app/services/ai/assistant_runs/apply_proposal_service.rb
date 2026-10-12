@@ -46,7 +46,8 @@ module AI
         return failure(error) if error
 
         work_package = proposal.proposal_work_package.reload
-        work_package.lock_version = proposal.base_lock_version
+        # A comment alone conflicts with nothing, so it skips the version check.
+        work_package.lock_version = proposal.base_lock_version unless proposal.change_action_keys == %w[comment]
         work_package.journal_cause = proposal.proposal_journal_cause
 
         result = Automations::UpdateWorkPackageService

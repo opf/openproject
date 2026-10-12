@@ -47,6 +47,10 @@ module AI
             true
           end
 
+          def conversation?
+            true
+          end
+
           def prompt_required?
             true
           end

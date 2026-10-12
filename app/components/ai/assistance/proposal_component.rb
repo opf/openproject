@@ -54,7 +54,9 @@ module AI
         proposal.change_actions.map do |action|
           key = action["key"]
           new_value = action["values"].first.to_s
-          if AI::AssistantRuns::ChangeOptions::TEXT_KEYS.include?(key)
+          if key == "comment"
+            { label: label(key), text: helpers.format_text(new_value) }
+          elsif AI::AssistantRuns::ChangeOptions::TEXT_KEYS.include?(key)
             { label: label(key), diff: diff(key, current_value(key), new_value) }
           else
             { label: label(key), from: current_label(key), to: new_label(key, new_value) }
@@ -70,7 +72,12 @@ module AI
       end
 
       def can_apply?
-        lost_references.empty? && User.current.allowed_in_work_package?(:edit_work_packages, work_package)
+        permission = comment_only? ? :add_work_package_comments : :edit_work_packages
+        lost_references.empty? && User.current.allowed_in_work_package?(permission, work_package)
+      end
+
+      def comment_only?
+        proposal.change_action_keys == %w[comment]
       end
 
       private

@@ -100,7 +100,7 @@ en:
         description: "Description"
         label: "Label"
         output_rules: "Output rules"
-        read_only: "Read-only"
+        proposal_scope: "Proposals"
         template_ref: "Template"
         skill_key: "Type"
         prompt: "Prompt"
@@ -1532,7 +1532,13 @@ en:
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         delete_confirm: "Delete this skill and every run of it?"
         empty: "This assistant has no skills."
-        read_only_caption: "Proposes no changes. When off, the model also gets the names of the users who can be assigned."
+        proposal_scopes:
+          changes: "Changes"
+          changes_caption: "Proposes changes to attributes and comments. The model also gets the names of the users who can be assigned."
+          comment_only: "Comment only"
+          comment_only_caption: "Proposes comments only."
+          read_only: "Read-only"
+          read_only_caption: "Proposes nothing."
         prompt_caption: "What the model does. Without instructions, a preset runs only its rules, and a chat is not offered."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
@@ -2389,6 +2395,7 @@ en:
         not_open: "This finding was already applied or dismissed."
       label:
         assigned_to: "Proposed assignee"
+        comment: "Proposed comment"
         description: "Proposed description"
         due_date: "Proposed finish date"
         priority: "Proposed priority"
@@ -2405,6 +2412,7 @@ en:
       status: "Status"
       tree: "Hierarchy"
     chat:
+      copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
       empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."
       empty_description_read_only: "Ask about this work package."
@@ -2475,6 +2483,9 @@ en:
       low: "Low"
       medium: "Medium"
     skills:
+      prompt:
+        label: "Custom prompt"
+        description: "Runs its instructions on this work package. You can ask follow-up questions."
       chat:
         label: "Chat"
         description: "Ask questions about this work package. Only you see the chat."

@@ -373,7 +373,7 @@ Rails.application.reloader.to_prepare do
                        "work_packages/ai_assistance/menus": %i[show items],
                        "work_packages/ai_assistance/runs": %i[index show create poll],
                        "work_packages/ai_assistance/findings": %i[apply dismiss],
-                       "work_packages/ai_assistance/chats": %i[show create send_message poll apply]
+                       "work_packages/ai_assistance/chats": %i[show create start send_message poll apply]
                      },
                      permissible_on: %i[work_package project],
                      dependencies: :view_work_packages

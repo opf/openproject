@@ -59,8 +59,12 @@ module AI
                    input_width: :large, caption: I18n.t("admin.ai_assistants.skills.template_ref_caption"))
 
       if model.skill_type&.changeable_attributes.present?
-        f.check_box(name: :read_only, label: AI::AssistantSkill.human_attribute_name(:read_only),
-                    caption: I18n.t("admin.ai_assistants.skills.read_only_caption"))
+        f.radio_button_group(name: :proposal_scope, label: AI::AssistantSkill.human_attribute_name(:proposal_scope)) do |group|
+          AI::AssistantSkill.proposal_scopes.each_key do |value|
+            group.radio_button(value:, label: I18n.t("admin.ai_assistants.skills.proposal_scopes.#{value}"),
+                               caption: I18n.t("admin.ai_assistants.skills.proposal_scopes.#{value}_caption"))
+          end
+        end
       end
 
       f.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))

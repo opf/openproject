@@ -17,10 +17,10 @@ This document describes the design. It also shows how the first pull request is 
 |---|---|
 | **Assistant** | A record (`AI::Assistant`) that an admin configures: a name, an icon and an optional model. It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
 | **Skill type** | Code that defines what a skill does: its rules, the message its AI judgement sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. The first one is `health_check`. |
-| **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and a read-only flag. |
+| **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
 | **Finding** | One problem that a run found (`AI::AssistantRunFinding`). It has a severity, an area, a text, evidence, and an optional fix. |
-| **Change set** | A proposed change in the Automations action vocabulary: a target (only `self` for now) and a list of actions with values, for example `{"target": "self", "actions": [{"key": "description", "values": ["…"]}]}`. Which action keys a change set may use depends on the skill type and its read-only flag (see "Read-only skills and changeable attributes"). The user applies the change set through the Automations services. |
+| **Change set** | A proposed change in the Automations action vocabulary: a target (only `self` for now) and a list of actions with values, for example `{"target": "self", "actions": [{"key": "description", "values": ["…"]}]}`. Which action keys a change set may use depends on the skill type and its proposal scope (see "Proposal scope and changeable attributes"). The user applies the change set through the Automations services. |
 
 ## Flow
 
@@ -72,22 +72,26 @@ The code keeps what is a contract between OpenProject and the model: the message
 
 The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An admin adds it to an assistant like any other skill, and the menu shows it among the skills. It opens a private conversation for each user, work package and skill (`ai_assistant_chats.skill_id`, `ai_assistant_chat_messages`), not a run. "New chat" starts an empty one.
 
-- **Prompt:** the skill's instructions, output rules and read-only flag. The model is the assistant's model. Without instructions, the chat is not offered.
+- **Prompt:** the skill's instructions, output rules and proposal scope. The model is the assistant's model. Without instructions, the chat is not offered.
 - **What the model gets:** the instructions and output rules, the same work package context as the health check (`AI::AssistantRuns::WorkPackageContext`) with `change_options`, and the last 20 turns.
 - **Answer:** structured output with `answer` (Markdown, rendered with the normal text formatting) and `changes`. The changes become a proposal in the same shape as a finding's change set (`AI::Proposal`), shown with the same view and applied by the same `ApplyProposalService`. The journal cause is `Journal::CausedByAssistantChat`.
 - **Execution:** `SendMessageService` stores the question and a pending answer; `AI::AssistantChats::ReplyJob` answers as the user. The dialog polls until the answer is done or failed. Each answer has its own Details timeline.
 
-## Read-only skills and changeable attributes
+## Custom prompt presets
 
-A skill is either **read-only** (`ai_assistant_skills.read_only`) or it may propose changes. There is no list of attributes to maintain in the UI: with custom fields, such a list would grow without limit.
+A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Generate test cases". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
+
+## Proposal scope and changeable attributes
+
+A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (attribute changes and comments), **Comment only** or **Read-only** (nothing). A comment is the Automations action `Comment`, and it needs only the permission to comment. There is no list of attributes to maintain in the UI: with custom fields, such a list would grow without limit.
 
 | Layer | Set by | Health check |
 |---|---|---|
 | What the skill type can change (`changeable_attributes`) | Code | `subject`, `description`, `status`, `priority`, `start_date`, `due_date`, `assigned_to`, `responsible` |
-| Read-only or not | Admin, on the skill page | Not read-only by default |
+| The proposal scope | Admin, on the skill page | Changes |
 | Which values are valid now (`AI::AssistantRuns::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees` of `WorkPackages::UpdateContract` |
 
-The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who makes a skill read-only after a run also blocks its open proposals.
+The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who narrows a skill's scope after a run also blocks its open proposals.
 
 When a skill may change assignee or accountable, the model gets the names of the users who can be assigned.
 

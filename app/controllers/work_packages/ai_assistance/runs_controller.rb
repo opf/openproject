@@ -61,7 +61,7 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   end
 
   def create
-    skill = available_skills.find { |s| !s.chat? && s.id.to_s == params[:skill_id].to_s }
+    skill = available_skills.find { |s| !s.conversation? && s.id.to_s == params[:skill_id].to_s }
     return render_404 unless skill
 
     call = AI::AssistantRuns::RunService.new(skill:, work_package: @work_package, user: current_user).call

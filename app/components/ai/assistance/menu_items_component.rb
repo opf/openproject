@@ -47,6 +47,10 @@ module AI
         url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id)
       end
 
+      def start_path
+        url_helpers.start_work_package_ai_assistance_chat_path(work_package)
+      end
+
       def runs_path
         url_helpers.work_package_ai_assistance_runs_path(work_package)
       end

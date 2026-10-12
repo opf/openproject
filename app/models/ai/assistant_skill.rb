@@ -45,6 +45,10 @@ module AI
     validates :skill_key, presence: true
     validates :label, :template_ref, length: { maximum: 255 }
 
+    # What the skill may propose: attribute changes and comments, comments only, or nothing.
+    enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
+         default: "changes", validate: true, prefix: :scope
+
     scope :active, -> { where(active: true) }
     scope :ordered, -> { order(:position, :id) }
 
@@ -56,20 +60,27 @@ module AI
       skill_type&.chat? || false
     end
 
+    def conversation?
+      skill_type&.conversation? || false
+    end
+
     # Offered in the menu: a skill that needs instructions also needs them set, and a
-    # chat also needs an LLM connection and a model.
+    # conversation also needs an LLM connection and a model.
     def ready?
       return false if skill_type.nil?
       return false if skill_type.prompt_required? && prompt.blank?
-      return true unless chat?
+      return true unless conversation?
 
       LlmConnection.available? && AI::AssistantRuns::ModelChoice.new(assistant).model_id.present?
     end
 
-    # The attributes this skill may propose changes to: none when read-only, otherwise what
-    # its type supports.
+    # The action keys this skill may propose: none when read-only, a comment when
+    # comment-only, otherwise what its type supports and a comment.
     def changeable_attributes
-      read_only? ? [] : (skill_type&.changeable_attributes || [])
+      return [] if skill_type.nil? || scope_read_only?
+      return %w[comment] if scope_comment_only?
+
+      skill_type.changeable_attributes + %w[comment]
     end
 
     # The admin's label or description, else the text of the skill type.

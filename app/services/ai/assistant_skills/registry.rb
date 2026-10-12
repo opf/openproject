@@ -36,6 +36,7 @@ module AI
         def skills
           [
             AI::AssistantSkills::HealthCheck::Skill,
+            AI::AssistantSkills::Prompt::Skill,
             AI::AssistantSkills::Chat::Skill
           ]
         end

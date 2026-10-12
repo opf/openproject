@@ -34,6 +34,8 @@
     <% type = skill_type(skill) %>
     <% item_arguments = if skill.chat?
                           { href: chat_path(skill), content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
+                        elsif skill.conversation?
+                          { href: start_path, form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
                         else
                           { href: runs_path, form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
                         end %>

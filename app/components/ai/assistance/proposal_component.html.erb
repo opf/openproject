@@ -33,7 +33,9 @@
   <% changes.each do |change| %>
     <% box.with_row do %>
       <%= render(Primer::Beta::Text.new(tag: :p, font_weight: :bold, font_size: :small, mb: 1)) { change[:label] } %>
-      <% if change.key?(:diff) %>
+      <% if change.key?(:text) %>
+        <div class="op-uc-container"><%= change[:text] %></div>
+      <% elsif change.key?(:diff) %>
         <div class="op-uc-container"><%= change[:diff] %></div>
       <% else %>
         <%= render(Primer::Beta::Text.new(color: :muted, style: "text-decoration: line-through;")) { change[:from].presence || t("ai_assistance.apply.empty") } %>

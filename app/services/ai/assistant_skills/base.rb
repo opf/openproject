@@ -67,8 +67,13 @@ module AI
           nil
         end
 
-        # A chat skill opens a conversation instead of a run.
+        # A chat: the user writes the questions.
         def chat?
+          false
+        end
+
+        # Answered in a conversation (AI::AssistantChat) instead of a run with findings.
+        def conversation?
           false
         end
 

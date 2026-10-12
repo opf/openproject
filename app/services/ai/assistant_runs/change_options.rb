@@ -35,7 +35,7 @@ module AI
     # (workflow, assignable users). The model
     # gets the names; answers are mapped back to ids here, so the model never invents ids.
     class ChangeOptions
-      TEXT_KEYS = %w[subject description].freeze
+      TEXT_KEYS = %w[subject description comment].freeze
       DATE_KEYS = %w[start_date due_date].freeze
       ASSOCIATION_KEYS = %w[status priority assigned_to responsible].freeze
 

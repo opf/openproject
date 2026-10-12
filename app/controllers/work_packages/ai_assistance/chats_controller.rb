@@ -32,7 +32,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   include OpTurbo::ComponentStream
   include WorkPackages::AIAssistance::Scoped
 
-  before_action :find_skill, only: %i[create]
+  before_action :find_skill, only: %i[create start]
   before_action :find_chat, only: %i[show send_message poll]
   before_action :find_message, only: %i[apply]
 
@@ -47,6 +47,16 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def create
     @chat = new_chat
     replace_chat
+  end
+
+  # A preset: a new conversation whose first question runs the skill's instructions.
+  def start
+    @chat = new_chat
+    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
+    return respond_with_dialog(AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat)) if call.success?
+
+    render_error_flash_message_via_turbo_stream(message: call.message)
+    respond_with_turbo_streams(status: :unprocessable_entity)
   end
 
   def send_message
@@ -82,7 +92,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   private
 
   def chat_skill(id)
-    available_skills.find { |skill| skill.chat? && skill.id.to_s == id.to_s }
+    available_skills.find { |skill| skill.conversation? && skill.id.to_s == id.to_s }
   end
 
   def find_skill

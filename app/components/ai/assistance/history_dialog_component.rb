@@ -63,8 +63,11 @@ module AI
 
       def entry_label(entry)
         if chat?(entry)
-          first_question = entry.messages.find(&:from_user?)&.content.to_s
-          "#{entry.skill.assistant.name} · #{entry.skill.display_label} · #{first_question.truncate(60)}"
+          title = "#{entry.skill.assistant.name} · #{entry.skill.display_label}"
+          # A preset's first question is its own label, so only a chat shows it.
+          return title unless entry.skill.chat?
+
+          "#{title} · #{entry.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
         else
           "#{entry.skill.assistant.name} · #{entry.skill.display_label}"
         end
@@ -79,7 +82,7 @@ module AI
       end
 
       def entry_icon(entry)
-        chat?(entry) ? :"comment-discussion" : :pulse
+        (chat?(entry) ? entry.skill.skill_type&.icon : nil) || :pulse
       end
     end
   end
