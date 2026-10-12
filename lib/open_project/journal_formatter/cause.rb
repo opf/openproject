@@ -103,6 +103,8 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
       I18n.t("journals.cause_descriptions.work_package_parent_deleted")
     when "assistant_skill"
       assistant_skill_message
+    when "assistant_chat"
+      I18n.t("journals.cause_descriptions.assistant_chat")
     else
       related_work_package_changed_message
     end

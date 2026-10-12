@@ -487,3 +487,4 @@ ai_assistants:
     position: 1
     skills:
       - health_check
+      - chat

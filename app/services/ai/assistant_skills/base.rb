@@ -67,6 +67,25 @@ module AI
           nil
         end
 
+        # A chat skill opens a conversation instead of a run.
+        def chat?
+          false
+        end
+
+        # Preset: one click, fixed instructions. Chat: questions in free form.
+        def kind
+          chat? ? "chat" : "preset"
+        end
+
+        def kind_label
+          I18n.t("admin.ai_assistants.skills.types.#{kind}")
+        end
+
+        # Whether the skill is offered only when an admin set its instructions.
+        def prompt_required?
+          false
+        end
+
         def available?(_work_package, _user)
           true
         end

@@ -33,9 +33,10 @@ module AI
     form do |f|
       if model.new_record?
         f.select_list(name: :skill_key, label: AI::AssistantSkill.human_attribute_name(:skill_key),
+                      caption: I18n.t("admin.ai_assistants.skills.type_caption"),
                       include_blank: false, input_width: :large) do |select|
-          AI::AssistantSkills::Registry.keys.each do |key|
-            select.option(value: key, label: AI::AssistantSkills::Registry.fetch(key).label)
+          AI::AssistantSkills::Registry.skills.each do |type|
+            select.option(value: type.key, label: type_option_label(type))
           end
         end
       end
@@ -66,6 +67,14 @@ module AI
 
       f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
                scheme: :primary)
+    end
+
+    private
+
+    # "Preset" or "Chat"; with several types of one kind, the type's name is added.
+    def type_option_label(type)
+      same_kind = AI::AssistantSkills::Registry.skills.count { |other| other.kind == type.kind }
+      same_kind > 1 ? "#{type.kind_label}: #{type.label}" : type.kind_label
     end
   end
 end

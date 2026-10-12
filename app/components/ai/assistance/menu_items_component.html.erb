@@ -32,9 +32,13 @@
 <%= render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |list| %>
   <% skills.each do |skill| %>
     <% type = skill_type(skill) %>
+    <% item_arguments = if skill.chat?
+                          { href: chat_path(skill), content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
+                        else
+                          { href: runs_path, form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
+                        end %>
     <% list.with_item(label: skill.display_label,
-                      href: runs_path,
-                      form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] },
+                      **item_arguments,
                       data: { test_selector: "wp-ai-assistance-skill-#{skill.skill_key}" }) do |item| %>
       <% item.with_leading_visual_icon(icon: type.icon) %>
       <% item.with_trailing_visual_label(scheme: :secondary) { skill.assistant.name } %>

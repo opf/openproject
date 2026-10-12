@@ -30,25 +30,56 @@
 
 module AI
   module Assistance
+    # The user's skill runs and chats on this work package, newest first.
     class HistoryDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
       DIALOG_ID = "ai-assistance-history-dialog"
 
-      attr_reader :work_package, :runs
+      attr_reader :work_package
 
-      def initialize(work_package:, runs:)
+      def initialize(work_package:, runs:, chats: [])
         super
         @work_package = work_package
-        @runs = runs
+        @runs = runs.to_a
+        @chats = chats.to_a.select { |chat| chat.messages.any? }
       end
 
-      def run_path(run)
-        url_helpers.work_package_ai_assistance_run_path(work_package, run)
+      def entries
+        (@runs + @chats).sort_by(&:created_at).reverse
       end
 
-      def run_label(run)
-        "#{run.skill.assistant.name} · #{run.skill.display_label}"
+      def chat?(entry)
+        entry.is_a?(AI::AssistantChat)
+      end
+
+      def entry_path(entry)
+        if chat?(entry)
+          url_helpers.work_package_ai_assistance_chat_path(work_package, chat_id: entry.id)
+        else
+          url_helpers.work_package_ai_assistance_run_path(work_package, entry)
+        end
+      end
+
+      def entry_label(entry)
+        if chat?(entry)
+          first_question = entry.messages.find(&:from_user?)&.content.to_s
+          "#{entry.skill.assistant.name} · #{entry.skill.display_label} · #{first_question.truncate(60)}"
+        else
+          "#{entry.skill.assistant.name} · #{entry.skill.display_label}"
+        end
+      end
+
+      def entry_detail(entry)
+        if chat?(entry)
+          I18n.t("ai_assistance.history.questions", count: entry.messages.count(&:from_user?))
+        else
+          I18n.t("ai_assistance.history.findings", count: entry.findings.size)
+        end
+      end
+
+      def entry_icon(entry)
+        chat?(entry) ? :"comment-discussion" : :pulse
       end
     end
   end

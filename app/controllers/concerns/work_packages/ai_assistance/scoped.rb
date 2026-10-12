@@ -75,6 +75,6 @@ module WorkPackages::AIAssistance::Scoped
 
   def skill_available?(skill)
     skill_type = AI::AssistantSkills::Registry.fetch(skill.skill_key)
-    skill_type&.available?(@work_package, current_user)
+    skill_type&.available?(@work_package, current_user) && skill.ready?
   end
 end

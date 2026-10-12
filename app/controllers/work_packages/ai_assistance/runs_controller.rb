@@ -37,8 +37,10 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   # Both open a dialog. A plain page request (a link opened in a new tab) goes back to
   # the work package instead of failing.
   def index
+    chats = AI::AssistantChat.for(current_user, @work_package).includes(:messages, skill: :assistant)
     respond_with_dialog AI::Assistance::HistoryDialogComponent.new(work_package: @work_package,
-                                                                   runs: runs.newest_first.includes(skill: :assistant)) do |format|
+                                                                   runs: runs.newest_first.includes(skill: :assistant),
+                                                                   chats:) do |format|
       format.html { redirect_to work_package_path(@work_package) }
     end
   end
@@ -59,7 +61,7 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   end
 
   def create
-    skill = available_skills.find { |p| p.id.to_s == params[:skill_id].to_s }
+    skill = available_skills.find { |s| !s.chat? && s.id.to_s == params[:skill_id].to_s }
     return render_404 unless skill
 
     call = AI::AssistantRuns::RunService.new(skill:, work_package: @work_package, user: current_user).call

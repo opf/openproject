@@ -36,6 +36,11 @@ module AI
              foreign_key: :skill_id,
              inverse_of: :skill,
              dependent: :destroy
+    has_many :chats,
+             class_name: "AI::AssistantChat",
+             foreign_key: :skill_id,
+             inverse_of: :skill,
+             dependent: :destroy
 
     validates :skill_key, presence: true
     validates :label, :template_ref, length: { maximum: 255 }
@@ -45,6 +50,20 @@ module AI
 
     def skill_type
       AI::AssistantSkills::Registry.fetch(skill_key)
+    end
+
+    def chat?
+      skill_type&.chat? || false
+    end
+
+    # Offered in the menu: a skill that needs instructions also needs them set, and a
+    # chat also needs an LLM connection and a model.
+    def ready?
+      return false if skill_type.nil?
+      return false if skill_type.prompt_required? && prompt.blank?
+      return true unless chat?
+
+      LlmConnection.available? && AI::AssistantRuns::ModelChoice.new(assistant).model_id.present?
     end
 
     # The attributes this skill may propose changes to: none when read-only, otherwise what

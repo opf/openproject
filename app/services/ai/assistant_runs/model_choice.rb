@@ -31,7 +31,7 @@
 module AI
   module AssistantRuns
     # The assistant's own model when the connection still offers it, otherwise the
-    # connection's default chat model. Without an assistant (the chat), the default.
+    # connection's default chat model.
     class ModelChoice
       def initialize(assistant, connection: LlmConnection.active_connection)
         @assistant = assistant

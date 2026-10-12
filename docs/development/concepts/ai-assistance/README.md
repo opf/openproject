@@ -70,9 +70,9 @@ The code keeps what is a contract between OpenProject and the model: the message
 
 ## Chat
 
-The AI Assistance menu ends with **Chat**. It opens one private conversation for each user and work package (`ai_assistant_chats`, `ai_assistant_chat_messages`). "New chat" starts an empty one.
+The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An admin adds it to an assistant like any other skill, and the menu shows it among the skills. It opens a private conversation for each user, work package and skill (`ai_assistant_chats.skill_id`, `ai_assistant_chat_messages`), not a run. "New chat" starts an empty one.
 
-- **Prompt:** one for the whole instance, in settings (`ai_assistance_chat_prompt`, `ai_assistance_chat_output_rules`, `ai_assistance_chat_read_only`), edited at **Administration → Artificial Intelligence (AI) → Assistants → Chat**. Without instructions, the chat is not offered.
+- **Prompt:** the skill's instructions, output rules and read-only flag. The model is the assistant's model. Without instructions, the chat is not offered.
 - **What the model gets:** the instructions and output rules, the same work package context as the health check (`AI::AssistantRuns::WorkPackageContext`) with `change_options`, and the last 20 turns.
 - **Answer:** structured output with `answer` (Markdown, rendered with the normal text formatting) and `changes`. The changes become a proposal in the same shape as a finding's change set (`AI::Proposal`), shown with the same view and applied by the same `ApplyProposalService`. The journal cause is `Journal::CausedByAssistantChat`.
 - **Execution:** `SendMessageService` stores the question and a pending answer; `AI::AssistantChats::ReplyJob` answers as the user. The dialog polls until the answer is done or failed. Each answer has its own Details timeline.
@@ -148,7 +148,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 9 | Add the AI judgement to the health check | Job, judgement, model choice, single-job guard, polling | 7 |
 | 10 | Apply proposed changes from AI findings | `ApplyProposalService`, content guard, diff view, toolbar refresh | 1, 9 |
 | 11 | Add admin pages for AI assistants and their skills | Admin controllers, Primer forms, menu entry | 3 |
-| 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat dialog, menu entry, chat settings page, `Journal::CausedByAssistantChat` | 10, 11 |
+| 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 

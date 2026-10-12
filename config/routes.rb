@@ -1276,6 +1276,12 @@ Rails.application.routes.draw do
                                   only: :show do
       get :items
     end
+    resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "work_packages/ai_assistance/chats",
+                                  only: %i[show create] do
+      post :messages, action: :send_message
+      get :poll
+      post "messages/:message_id/apply", action: :apply, as: :apply_message
+    end
     resources :ai_assistance_runs, path: "ai_assistance/runs", controller: "work_packages/ai_assistance/runs",
                                    only: %i[index show create] do
       get :poll, on: :member

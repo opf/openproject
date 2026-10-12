@@ -102,7 +102,7 @@ en:
         output_rules: "Output rules"
         read_only: "Read-only"
         template_ref: "Template"
-        skill_key: "Skill"
+        skill_key: "Type"
         prompt: "Prompt"
       ai/text_transform_action:
         active: "Active"
@@ -1524,6 +1524,7 @@ en:
       skills:
         add: "Add skill"
         no_prompt: "No prompt: rules only"
+        no_prompt_not_offered: "No prompt: not offered"
         output_rules_caption: "Added after the instructions. Says how to answer: language, changes, what to do with user text. {{locale}} becomes the locale of the user who starts the run."
         template_ref: "Template"
         template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
@@ -1531,9 +1532,13 @@ en:
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         delete_confirm: "Delete this skill and every run of it?"
         empty: "This assistant has no skills."
-        read_only_caption: "The skill reports findings and proposes no changes. Otherwise it may propose changes to work package attributes, with assignee and accountable among them: the model then gets the names of the users who can be assigned. The workflow and the user's permissions decide the values, and the user applies each change."
-        prompt_caption: "What the model checks. Without instructions, the skill runs only its rules."
+        read_only_caption: "Proposes no changes. When off, the model also gets the names of the users who can be assigned."
+        prompt_caption: "What the model does. Without instructions, a preset runs only its rules, and a chat is not offered."
         title: "Skills"
+        type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
+        types:
+          chat: "Chat"
+          preset: "Preset"
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
@@ -2399,6 +2404,20 @@ en:
       relations: "Relations"
       status: "Status"
       tree: "Hierarchy"
+    chat:
+      empty_answer: "(The model gave no answer.)"
+      empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."
+      empty_description_read_only: "Ask about this work package."
+      empty_title: "Chat about this work package"
+      errors:
+        empty: "Write a question first."
+        pending: "Wait for the answer to the last question."
+      failed: "The answer failed. Open Details for more, or ask again."
+      new: "New chat"
+      placeholder: "Ask something about %{id}…"
+      question: "Question"
+      send: "Send"
+      thinking: "Thinking…"
     errors:
       unknown_skill: "This skill is not available."
     events:
@@ -2425,11 +2444,14 @@ en:
         wrong: "Dismiss: wrong"
       dismissed: "Dismissed"
     history:
-      empty: "You did not run an assistant on this work package yet."
+      empty: "You did not use AI Assistance on this work package yet."
       findings:
         one: "1 finding"
         other: "%{count} findings"
         zero: "No findings"
+      questions:
+        one: "1 question"
+        other: "%{count} questions"
       title: "History"
     not_checked:
       default: "%{area} was not checked."
@@ -2453,6 +2475,9 @@ en:
       low: "Low"
       medium: "Medium"
     skills:
+      chat:
+        label: "Chat"
+        description: "Ask questions about this work package. Only you see the chat."
       health_check:
         label: "Check health"
         description: "Finds contradictions between this work package, its descendants, relations, comments and pull requests."
@@ -3986,6 +4011,7 @@ en:
         Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
         Child work packages without Work are ignored.
+      assistant_chat: proposed in the chat and applied by the user
       assistant_skill: proposed by %{assistant_name} and applied by the user
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
@@ -4003,6 +4029,7 @@ en:
           non_working: "%{day} is now non-working"
           working: "%{day} is now working"
     caused_changes:
+      assistant_chat: "AI Assistance:"
       assistant_skill: "AI Assistance:"
       budget_deleted: "Budget has been deleted"
       dates_changed: "Dates changed"

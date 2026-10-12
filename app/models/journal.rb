@@ -96,6 +96,8 @@ class Journal < ApplicationRecord
                    run_id
                    skill_key
                    assistant_name
+                   chat_id
+                   message_id
                  ],
                  prefix: true
 
@@ -108,6 +110,7 @@ class Journal < ApplicationRecord
   ].freeze
 
   VALID_CAUSE_TYPES = (%w[
+    assistant_chat
     assistant_skill
     default_attribute_written
     import

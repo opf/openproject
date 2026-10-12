@@ -35,7 +35,8 @@ module AI
       class << self
         def skills
           [
-            AI::AssistantSkills::HealthCheck::Skill
+            AI::AssistantSkills::HealthCheck::Skill,
+            AI::AssistantSkills::Chat::Skill
           ]
         end
 

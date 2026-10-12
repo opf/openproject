@@ -51,7 +51,8 @@ class WorkPackages::AIAssistance::MenusController < ApplicationController
   private
 
   def authorize_or_render_empty
-    return if current_user.allowed_in_work_package?(:use_ai_assistance, @work_package) && available_skills.any?
+    return if current_user.allowed_in_work_package?(:use_ai_assistance, @work_package) &&
+              available_skills.any?
 
     render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, empty: true), layout: false
   end

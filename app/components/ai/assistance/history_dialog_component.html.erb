@@ -32,17 +32,18 @@
 <%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: t("ai_assistance.history.title"), size: :medium, data: { test_selector: "ai-assistance-history-dialog" })) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
-    <% if runs.empty? %>
+    <% if entries.empty? %>
       <%= render(Primer::Beta::Blankslate.new) do |slate| %>
         <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.history.empty")) %>
       <% end %>
     <% else %>
       <%= render(Primer::Beta::BorderBox.new) do |box| %>
-        <% runs.each do |run| %>
-          <% box.with_row do %>
-            <%= render(Primer::Beta::Link.new(href: run_path(run), data: { controller: "async-dialog", turbo_stream: true })) { run_label(run) } %>
+        <% entries.each do |entry| %>
+          <% box.with_row(data: { test_selector: chat?(entry) ? "ai-assistance-history-chat" : "ai-assistance-history-run" }) do %>
+            <%= render(Primer::Beta::Octicon.new(icon: entry_icon(entry), color: :muted, mr: 1)) %>
+            <%= render(Primer::Beta::Link.new(href: entry_path(entry), data: { controller: "async-dialog", turbo_stream: true })) { entry_label(entry) } %>
             <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, ml: 2)) do %>
-              <%= helpers.format_time(run.created_at) %> · <%= t("ai_assistance.history.findings", count: run.findings.size) %>
+              <%= helpers.format_time(entry.created_at) %> · <%= entry_detail(entry) %>
             <% end %>
           <% end %>
         <% end %>

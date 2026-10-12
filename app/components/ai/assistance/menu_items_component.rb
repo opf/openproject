@@ -43,6 +43,10 @@ module AI
 
       def menu_id = MenuButtonComponent::MENU_ID
 
+      def chat_path(skill)
+        url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id)
+      end
+
       def runs_path
         url_helpers.work_package_ai_assistance_runs_path(work_package)
       end

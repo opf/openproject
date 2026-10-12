@@ -1,0 +1,69 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%# position: relative keeps absolutely positioned form labels inside the scrolling body;
+    without it they stretch the dialog and give it a second scrollbar. %>
+<%= component_wrapper(data: wrapper_data, style: "position: relative;") do %>
+  <% if messages.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(data: { test_selector: "ai-assistance-chat-empty" })) do |slate| %>
+      <% slate.with_visual_icon(icon: :sparkle) %>
+      <% slate.with_heading(tag: :h3).with_content(t("ai_assistance.chat.empty_title")) %>
+      <% slate.with_description { read_only? ? t("ai_assistance.chat.empty_description_read_only") : t("ai_assistance.chat.empty_description") } %>
+    <% end %>
+  <% end %>
+
+  <% messages.each_with_index do |message, index| %>
+    <% last = index == messages.size - 1 %>
+    <% if message.from_user? %>
+      <%= render(Primer::Box.new(display: :flex, justify_content: :flex_end, mb: 2)) do %>
+        <%= render(Primer::Box.new(bg: :accent, border_radius: 2, p: 2, style: "max-width: 85%; white-space: pre-wrap;", data: { test_selector: "ai-assistance-chat-question" })) { message.content } %>
+      <% end %>
+    <% else %>
+      <%= render(Primer::Box.new(mb: 3, data: { test_selector: "ai-assistance-chat-answer", controller: (last ? "scroll-into-view" : nil) })) do %>
+        <% if message.pending? %>
+          <%= render(Primer::Beta::Text.new(color: :muted)) do %>
+            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= t("ai_assistance.chat.thinking") %>
+          <% end %>
+        <% elsif message.failed? %>
+          <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { t("ai_assistance.chat.failed") } %>
+        <% else %>
+          <div class="op-uc-container"><%= helpers.format_text(message.content) %></div>
+          <%= render(AI::Assistance::ProposalComponent.new(proposal: message, apply_path: apply_path(message))) %>
+          <% if message.applied? %>
+            <%= render(Primer::Beta::Label.new(scheme: :success, mt: 1)) { t("ai_assistance.finding.applied") } %>
+          <% end %>
+        <% end %>
+        <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+<% end %>
