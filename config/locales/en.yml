@@ -2166,6 +2166,22 @@ en:
           error: "The section could not be reordered."
         move:
           error: "The section could not be reordered."
+      push_notifications:
+        check_reachability: "Check reachability"
+        checking: "Checking..."
+        hosts_intro: "This instance must reach these hosts over HTTPS. Entries with * cover all subdomains:"
+        http_status: "HTTP %{code}"
+        reachable: "Reachable"
+        reasons:
+          connection: "The connection failed"
+          filtered: "The request was blocked by SSRF protection"
+          private_address: "The host resolved to a private address"
+          sample_unresolved: "Sample host could not be resolved; result inconclusive"
+          timeout: "No response within %{seconds} seconds"
+          tls: "The TLS handshake failed"
+          unresolved: "The host name could not be resolved"
+        unreachable: "Unreachable"
+        what_is_sent: "What is sent: a content-free wake-up push. The installed application fetches the unread count from this instance over the user's session. Push services see the subscription endpoint, this instance's address and public key, and the time of each push."
       user_custom_field_sections:
         destroy:
           error: "The section could not be deleted."
@@ -5044,6 +5060,7 @@ en:
       llm_connection: "LLM settings"
       mail_notification: "Email notifications"
       mails_and_notifications: "Emails and notifications"
+      push_notifications: "Browser push notifications"
       mcp_configurations: "Model Context Protocol (MCP)"
       text_transform_actions: "Text transform actions"
     quick_add:
