@@ -36,7 +36,6 @@ module ::WorkPackages
       :latest_activity,
       :recently_created,
       :overdue,
-      :summary,
       :created_by_me,
       :assigned_to_me,
       :shared_with_users,
@@ -59,7 +58,7 @@ module ::WorkPackages
     def call(query_key: DEFAULT_QUERY)
       return { work_package_default: true } if query_key == DEFAULT_QUERY
 
-      params = self.class.assign_params(query_key, project)
+      params = self.class.assign_params(query_key)
 
       return if params.nil?
 
@@ -96,10 +95,6 @@ module ::WorkPackages
                 { "n" => "status", "o" => "o", "v" => [] }]
           }
         )
-      end
-
-      def summary_query
-        {}
       end
 
       def created_by_me_query
@@ -140,7 +135,7 @@ module ::WorkPackages
         )
       end
 
-      def assign_params(query_key, project)
+      def assign_params(query_key)
         case query_key
         when :latest_activity
           latest_activity_query
@@ -148,10 +143,6 @@ module ::WorkPackages
           recently_created_query
         when :overdue
           overdue_query
-        when :summary
-          return if project.blank?
-
-          summary_query
         else
           return unless User.current.logged?
 

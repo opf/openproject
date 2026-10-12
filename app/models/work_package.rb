@@ -409,80 +409,6 @@ class WorkPackage < ApplicationRecord
     Project.allowed_to(user, :add_work_packages)
   end
 
-  # Extracted from the ReportsController.
-  def self.by_type(project)
-    count_and_group_by project:,
-                       field: "type_id",
-                       joins: ::Type.table_name
-  end
-
-  def self.by_version(project)
-    # Counts via the target version associations rather than the deprecated
-    # version_id column, so a work package assigned to several versions is
-    # counted under each of them.
-    sql = sanitize_sql_array(
-      ["SELECT s.id AS status_id,
-               s.is_closed AS closed,
-               wpv.version_id AS version_id,
-               COUNT(i.id) AS total
-          FROM #{WorkPackage.table_name} i
-          INNER JOIN #{Status.table_name} s ON i.status_id = s.id
-          INNER JOIN #{WorkPackageVersion.table_name} wpv
-             ON wpv.work_package_id = i.id AND wpv.kind = :kind
-         WHERE i.project_id = :project_id
-         GROUP BY s.id, s.is_closed, wpv.version_id",
-       { kind: WorkPackageVersion.kinds[:target], project_id: project.id }]
-    )
-    ActiveRecord::Base.connection.select_all(sql).to_a
-  end
-
-  def self.by_priority(project)
-    count_and_group_by project:,
-                       field: "priority_id",
-                       joins: IssuePriority.table_name
-  end
-
-  def self.by_category(project)
-    count_and_group_by project:,
-                       field: "category_id",
-                       joins: Category.table_name
-  end
-
-  def self.by_assigned_to(project)
-    count_and_group_by project:,
-                       field: "assigned_to_id",
-                       joins: User.table_name
-  end
-
-  def self.by_responsible(project)
-    count_and_group_by project:,
-                       field: "responsible_id",
-                       joins: User.table_name
-  end
-
-  def self.by_author(project)
-    count_and_group_by project:,
-                       field: "author_id",
-                       joins: User.table_name
-  end
-
-  def self.by_subproject(project)
-    return unless project.descendants.active.any?
-
-    ActiveRecord::Base.connection.select_all(
-      "select    s.id as status_id,
-        s.is_closed as closed,
-        i.project_id as project_id,
-        count(i.id) as total
-      from
-        #{WorkPackage.table_name} i, #{Status.table_name} s
-      where
-        i.status_id=s.id
-        and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
-      group by s.id, s.is_closed, i.project_id"
-    ).to_a
-  end
-
   def self.order_by_ancestors(direction)
     max_relation_depth = WorkPackageHierarchy
                          .group(:descendant_id)
@@ -683,30 +609,6 @@ class WorkPackage < ApplicationRecord
   # * project - Project to search in.
   # * field - String. Issue field to key off of in the grouping.
   # * joins - String. The table name to join against.
-  def self.count_and_group_by(options)
-    project = options.delete(:project)
-    select_field = options.delete(:field)
-    joins = options.delete(:joins)
-
-    where = "i.#{select_field}=j.id"
-
-    ActiveRecord::Base.connection.select_all(
-      "select    s.id as status_id,
-        s.is_closed as closed,
-        j.id as #{select_field},
-        count(i.id) as total
-      from
-          #{WorkPackage.table_name} i, #{Status.table_name} s, #{joins} j
-      where
-        i.status_id=s.id
-        and #{where}
-        and i.project_id=#{project.id}
-      group by s.id, s.is_closed, j.id"
-    ).to_a
-  end
-
-  private_class_method :count_and_group_by
-
   def set_attachments_error_details
     if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"

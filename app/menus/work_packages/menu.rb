@@ -57,8 +57,6 @@ module WorkPackages
       end
 
       if project.present?
-        return report_project_work_packages_path(project, { name: query_params[:name] }) if query_params[:name] == :summary
-
         project_work_packages_path(project, query_params)
       else
         work_packages_path(query_params)
@@ -85,9 +83,8 @@ module WorkPackages
     def check_for_redirected_urls(query_params)
       # Special rules, as those are redirected to completely new pages where only the name parameter is preserved
       return true if query_params[:name] == :shared_with_me && params[:name] == "shared_with_me"
-      return true if query_params[:name] == :shared_with_users && params[:name] == "shared_with_users"
 
-      true if query_params[:name] == :summary && params[:name] == "summary"
+      true if query_params[:name] == :shared_with_users && params[:name] == "shared_with_users"
     end
   end
 end
