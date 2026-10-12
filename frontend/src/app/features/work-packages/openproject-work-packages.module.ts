@@ -100,6 +100,7 @@ import {
 import {
   WorkPackageRelationsTabComponent,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/relations-tab/relations-tab.component';
+import { WorkPackageAiAssistanceSlotComponent } from 'core-app/features/work-packages/components/wp-ai-assistance/wp-ai-assistance-slot.component';
 import {
   WorkPackageRelationsComponent,
 } from 'core-app/features/work-packages/components/wp-relations/wp-relations.component';
@@ -598,6 +599,9 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
 
     // Project attributes tab
     WorkPackageProjectAttributesTabComponent,
+
+    // AI Assistance
+    WorkPackageAiAssistanceSlotComponent,
 
     // Split view
     WorkPackageDetailsViewButtonComponent,
