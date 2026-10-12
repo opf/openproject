@@ -33,7 +33,7 @@ module Meetings
     protected
 
     def after_perform(call)
-      call.result.meeting&.touch_and_save_journals
+      call.result.meeting&.save_journals
 
       super
     end

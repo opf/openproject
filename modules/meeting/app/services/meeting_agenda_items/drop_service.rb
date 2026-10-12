@@ -101,7 +101,7 @@ module MeetingAgendaItems
     private
 
     def journalize_meeting
-      @meeting_agenda_item.meeting.touch_and_save_journals
+      @meeting_agenda_item.meeting.save_journals
     end
 
     def journalize_move_on_work_package
