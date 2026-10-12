@@ -80,6 +80,25 @@ RSpec.describe Authorization::UserAllowedQuery do
       it "returns the user" do
         expect(described_class.query(action, project)).to contain_exactly(user)
       end
+
+      context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+        it "does not return the user" do
+          expect(described_class.query(action, project)).to be_empty
+        end
+
+        context "with the user being member in the project with the role having the necessary permission" do
+          before do
+            role.add_permission! action
+            role.save!
+
+            member.save!
+          end
+
+          it "returns the user" do
+            expect(described_class.query(action, project)).to contain_exactly(user)
+          end
+        end
+      end
     end
 
     context "without the project being public " \
