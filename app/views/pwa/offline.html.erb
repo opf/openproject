@@ -75,7 +75,7 @@
       text-wrap: pretty;
     }
 
-    .op-offline .Button {
+    .op-offline__button {
       display: grid;
       align-items: center;
       justify-items: center;
@@ -93,11 +93,11 @@
       cursor: pointer;
     }
 
-    .op-offline .Button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
+    .op-offline__button:hover:not([aria-disabled="true"]) { background-color: var(--offline-button-hover-bg); }
 
-    .op-offline .Button[aria-disabled="true"] { cursor: default; }
+    .op-offline__button[aria-disabled="true"] { cursor: default; }
 
-    .op-offline .Button:focus-visible {
+    .op-offline__button:focus-visible {
       outline: 2px solid var(--focus-outlineColor);
       outline-offset: -2px;
       box-shadow: inset 0 0 0 3px var(--fgColor-onEmphasis);
@@ -142,6 +142,7 @@
   <main class="op-offline"
         data-offline-page
         data-probe-url="<%= pwa_offline_path %>"
+        data-home-url="<%= root_path %>"
         data-state="offline"
         data-retry-label="<%= t("pwa.offline.retry") %>"
         data-retrying-label="<%= t("pwa.offline.retrying") %>"
@@ -164,14 +165,14 @@
 
     <p class="op-offline__body"><%= t("pwa.offline.body", app_title:) %></p>
 
-    <button type="button" class="Button Button--primary Button--medium" data-offline-target="button">
+    <button type="button" class="op-offline__button" data-offline-target="button">
       <span class="op-offline__button-content">
         <%= render(Primer::Beta::Spinner.new(size: :small, sr_text: nil, style: "box-sizing: content-box; color: currentColor;", wrapper_arguments: { hidden: true, data: { offline_target: "spinner" } })) %>
-        <span class="Button-label" data-offline-target="label"><%= t("pwa.offline.retry") %></span>
+        <span data-offline-target="label"><%= t("pwa.offline.retry") %></span>
       </span>
       <span class="op-offline__button-ghost" aria-hidden="true">
         <span class="op-offline__button-spacer"></span>
-        <span class="Button-label"><%= [t("pwa.offline.retrying"), t("pwa.offline.reloading")].max_by(&:length) %></span>
+        <span><%= [t("pwa.offline.retrying"), t("pwa.offline.reloading")].max_by(&:length) %></span>
       </span>
     </button>
 

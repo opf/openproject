@@ -188,7 +188,7 @@ You can use the [Budgets module](../user-guide/budgets/#budgets) for a plan/actu
 
 ### Can I use OpenProject offline?
 
-No. OpenProject needs a connection to the server it is installed on (Enterprise cloud or on-premises). If you use the installed app and the connection drops, it shows an offline page and reloads automatically when the connection returns. No content is available offline and nothing can be edited.
+No. OpenProject needs a connection to the server it is installed on (Enterprise cloud or on-premises). If the connection drops while you are using the installed app or a browser tab, OpenProject shows an offline page and reloads automatically when the connection returns. No content is available offline and nothing can be edited.
 
 ### Can I import tasks from spreadsheets like Excel or LibreOffice?
 
