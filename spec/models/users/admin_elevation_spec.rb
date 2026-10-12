@@ -71,6 +71,110 @@ RSpec.describe Users::AdminElevation do
     end
   end
 
+  describe ".for_session", with_flag: { admin_privilege_elevation: true } do
+    shared_let(:admin) { create(:admin) }
+    shared_let(:subproject) { create(:project, parent: elevated_project) }
+
+    subject(:elevation) { described_class.for_session(admin, "session") }
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "is elevated everywhere" do
+        expect(elevation).to be_a(described_class::Everywhere)
+      end
+
+      context "with an active elevation session in the session" do
+        before { create(:admin_elevation_session, user: admin, project: elevated_project, session_id: "session") }
+
+        it "is still elevated everywhere" do
+          expect(elevation).to be_a(described_class::Everywhere)
+        end
+      end
+    end
+
+    context "without any elevation sessions" do
+      it "is not elevated" do
+        expect(elevation).to be_a(described_class::None)
+      end
+    end
+
+    context "with an active elevation session in the session" do
+      before { create(:admin_elevation_session, user: admin, project: elevated_project, session_id: "session") }
+
+      it "covers the elevated project", :aggregate_failures do
+        expect(elevation.covers?(elevated_project)).to be true
+        expect(elevation.covers?(other_project)).to be false
+      end
+
+      it "does not cover the subprojects" do
+        expect(elevation.covers?(subproject)).to be false
+      end
+    end
+
+    context "with an active elevation session including subprojects" do
+      before do
+        create(:admin_elevation_session,
+               user: admin, project: elevated_project, session_id: "session", include_subprojects: true)
+      end
+
+      it "covers the elevated project and its subprojects", :aggregate_failures do
+        expect(elevation.covers?(elevated_project)).to be true
+        expect(elevation.covers?(subproject)).to be true
+        expect(elevation.covers?(other_project)).to be false
+      end
+    end
+
+    context "with active elevation sessions for several projects in the session" do
+      before do
+        create(:admin_elevation_session, user: admin, project: elevated_project, session_id: "session")
+        create(:admin_elevation_session, user: admin, project: other_project, session_id: "session")
+      end
+
+      it "covers all of them", :aggregate_failures do
+        expect(elevation.covers?(elevated_project)).to be true
+        expect(elevation.covers?(other_project)).to be true
+        expect(elevation.covers?(member_project)).to be false
+      end
+    end
+
+    context "with an ended elevation session in the session" do
+      before do
+        create(:admin_elevation_session,
+               user: admin, project: elevated_project, session_id: "session", ended_at: Time.current)
+      end
+
+      it "is not elevated" do
+        expect(elevation).to be_a(described_class::None)
+      end
+    end
+
+    context "with an idle elevation session in the session" do
+      before do
+        create(:admin_elevation_session,
+               user: admin, project: elevated_project, session_id: "session", last_used_at: 1.day.ago)
+      end
+
+      it "is not elevated" do
+        expect(elevation).to be_a(described_class::None)
+      end
+    end
+
+    context "with an active elevation session in another session" do
+      before { create(:admin_elevation_session, user: admin, project: elevated_project, session_id: "other") }
+
+      it "is not elevated" do
+        expect(elevation).to be_a(described_class::None)
+      end
+    end
+
+    context "with an active elevation session of another admin in the session" do
+      before { create(:admin_elevation_session, project: elevated_project, session_id: "session") }
+
+      it "is not elevated" do
+        expect(elevation).to be_a(described_class::None)
+      end
+    end
+  end
+
   describe Users::AdminElevation::Everywhere do
     subject(:elevation) { described_class.new }
 
