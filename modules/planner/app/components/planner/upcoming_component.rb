@@ -35,7 +35,7 @@ module Planner
       @upcoming = upcoming
     end
 
-    def add_todo_group = upcoming.days.first.date.iso8601
+    def add_todo_defaults = { date: upcoming.days.first.date, day_part: :morning }
 
     private
 

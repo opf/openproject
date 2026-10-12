@@ -35,7 +35,7 @@ module Planner
       @today = today
     end
 
-    def add_todo_group = today.current_day_part
+    def add_todo_defaults = { date: today.date, day_part: today.current_day_part }
 
     private
 

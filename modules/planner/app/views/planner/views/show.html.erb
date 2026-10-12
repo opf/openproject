@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<% if @component.add_todo_group %>
+<% if @component.add_todo_defaults %>
   <%=
     render(Primer::OpenProject::SubHeader.new) do |subheader|
       subheader.with_action_button(
@@ -45,7 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
         leading_icon: :plus,
         label: t("planner.add_todo"),
         tag: :a,
-        href: Planner::Menu.path_for(@view, adding: @component.add_todo_group)
+        href: new_dialog_planner_tasks_path(view: @view, **@component.add_todo_defaults),
+        data: { controller: "async-dialog" }
       ) do
         t("planner.add_todo")
       end

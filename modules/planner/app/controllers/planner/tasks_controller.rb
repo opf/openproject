@@ -35,13 +35,20 @@ module Planner
     before_action :require_login
     before_action :require_planner
     before_action :find_task, only: %i[update plan drop]
-    no_authorization_required! :create, :update, :plan, :drop, :create_from_work_package
+    no_authorization_required! :new_dialog, :create, :update, :plan, :drop, :create_from_work_package
+
+    def new_dialog
+      respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
+                                                              day_part: params[:day_part],
+                                                              view: current_view)
+    end
 
     def create
       call = Planner::CreateTaskService
                .new(user: current_user)
                .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date)
 
+      close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID) if call.success?
       respond_with_view(call)
     end
 
@@ -103,9 +110,13 @@ module Planner
     def task_date
       return current_user.today unless task_params.key?(:date)
 
-      Date.iso8601(task_params[:date]) if task_params[:date].present?
+      date_param(task_params[:date]) || current_user.today if task_params[:date].present?
+    end
+
+    def date_param(value)
+      Date.iso8601(value.to_s)
     rescue Date::Error
-      current_user.today
+      nil
     end
 
     def respond_with_view(call)

@@ -58,6 +58,27 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       expect(page).to have_test_selector("planner-task-evening", text: "Book train to the offsite")
     end
 
+    describe "the Add to-do dialog" do
+      let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+      it "starts with the given date and day part" do
+        get(new_dialog_planner_tasks_path(view: :upcoming, date: "2026-10-20", day_part: :evening), headers:)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(Planner::AddTodoDialogComponent::DIALOG_ID)
+        expect(response.body).to include("2026-10-20")
+        expect(response.body).to match(/name="task\[day_part\]"[^>]*value="evening"|value="evening"[^>]*name="task\[day_part\]"/)
+        expect(response.body).to include('name="view"')
+      end
+
+      it "closes once the to-do is added" do
+        post(planner_tasks_path, params: { task: { subject: "Book train", date: "2026-10-20", day_part: "evening" } }, headers:)
+
+        expect(WorkPackage.last.due_date).to eq(Date.new(2026, 10, 20))
+        expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
+      end
+    end
+
     context "when adding on Upcoming" do
       let(:date) { user.today + 2 }
       let(:params) { { task: { subject: "Book train", date: date.iso8601 }, view: "upcoming", adding: date.iso8601 } }
