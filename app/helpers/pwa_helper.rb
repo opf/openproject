@@ -28,6 +28,12 @@
 #++
 
 module PwaHelper
+  OFFLINE_WORDMARK = Rails.root.join("app/assets/images/logo_openproject_white_big.png")
+
+  def pwa_offline_wordmark_data_uri
+    "data:image/png;base64,#{Base64.strict_encode64(OFFLINE_WORDMARK.binread)}"
+  end
+
   def pwa_theme_color_tags
     pref = User.current.pref
 
