@@ -30,6 +30,11 @@
 module CustomStylesHelper
   include TabsHelper
 
+  # The dark, dark high contrast and light high contrast themes paint the header with Primer's --bgColor-inset,
+  # which a meta tag cannot resolve.
+  DARK_HEADER_BG_COLOR = "#010409"
+  LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR = "#eff2f5"
+
   def pdf_tab?
     selected = selected_tab(design_tabs)
     selected && selected[:pdf]
@@ -102,6 +107,14 @@ module CustomStylesHelper
     # Apply custom styles either if EE allows OR we are on a BIM edition with the BIM theme active.
     CustomStyle.current.present? &&
       (EnterpriseToken.allows_to?(:define_custom_style) || skip_ee_check)
+  end
+
+  def header_bg_color(color_mode = :light, high_contrast: false)
+    return DARK_HEADER_BG_COLOR if color_mode == :dark
+    return LIGHT_HIGH_CONTRAST_HEADER_BG_COLOR if high_contrast
+
+    custom_header_bg_color ||
+      color_theme(OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME).dig(:colors, "header-bg-color")
   end
 
   def mobile_logo_present?
@@ -199,6 +212,12 @@ module CustomStylesHelper
   end
 
   private
+
+  def custom_header_bg_color
+    RequestStore.fetch(:custom_header_bg_color) do
+      DesignColor.overwritten.find { it.variable == "header-bg-color" }&.hexcode if apply_custom_styles?
+    end
+  end
 
   def color_theme(current_theme)
     OpenProject::CustomStyles::ColorThemes.themes.find do |theme|
