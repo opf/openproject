@@ -33,11 +33,15 @@ class Automations::UpdateWorkPackageService
   include Contracted
 
   attr_accessor :user,
-                :action
+                :action,
+                :strict
 
-  def initialize(action:, user:)
+  # In strict mode, an action that fails validation fails the whole call,
+  # instead of being dropped while the other actions apply.
+  def initialize(action:, user:, strict: false)
     self.action = action
     self.user = user
+    self.strict = strict
     self.contract_class = ::WorkPackages::UpdateContract
   end
 
@@ -49,6 +53,8 @@ class Automations::UpdateWorkPackageService
                   model: work_package)
              .call
 
+    action.actions.each { |a| a.after_success(result.result, user) } if result.success?
+
     block_with_result(result, &)
   end
 
@@ -59,7 +65,7 @@ class Automations::UpdateWorkPackageService
     apply_actions_sorted(work_package, actions)
 
     success, errors = validate(work_package, user)
-    retry_apply_actions(work_package, actions, errors, changes_before) unless success
+    retry_apply_actions(work_package, actions, errors, changes_before) unless success || strict
   end
 
   def retry_apply_actions(work_package, actions, errors, changes_before)

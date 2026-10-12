@@ -96,6 +96,10 @@ class Automations::Actions::Base
     DEFAULT_PRIORITY
   end
 
+  # Called once the work package is saved with the changes of every action. Actions with
+  # an effect outside the work package (a notification, a call, a run) do it here.
+  def after_success(_work_package, _user); end
+
   private
 
   def deconstruct_keys(*)
