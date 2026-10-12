@@ -37,26 +37,42 @@ module Planner
 
     DRAG_TYPE = "todo"
 
-    def self.for(view, user, adding: nil)
+    # What Today and Upcoming list: everything, only to-dos or only meetings.
+    FILTERS = %w[all todos meetings].freeze
+
+    def self.for(view, user, adding: nil, filter: FILTERS.first)
       case view.to_s
-      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.for(user), adding:)
+      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.for(user), adding:, filter:)
       when "overdue" then OverdueComponent.new(overdue: Overdue.for(user), adding:)
       when "completed" then CompletedComponent.new(completed: Completed.for(user))
-      else TodayComponent.new(today: Today.for(user), adding:)
+      else TodayComponent.new(today: Today.for(user), adding:, filter:)
       end
     end
 
-    def initialize(adding: nil)
+    def initialize(adding: nil, filter: FILTERS.first)
       super()
       @adding = adding
+      @filter = filter
     end
+
+    attr_reader :filter
 
     # The date and day part the "Add to-do" dialog starts with, if the view takes to-dos.
     def add_todo_defaults = nil
 
+    def filterable? = false
+
     private
 
     attr_reader :adding
+
+    def todos_shown? = filter != "meetings"
+
+    def meetings_shown? = filter != "todos"
+
+    def shown_meetings(group) = meetings_shown? ? group.meetings : []
+
+    def shown_work_packages(group) = todos_shown? ? group.work_packages : []
 
     def adding?(group) = adding.to_s == group.to_s
 
@@ -97,11 +113,13 @@ module Planner
     def weekday_and_day(date) = "#{I18n.l(date, format: '%A')} #{date.day.ordinalize}"
 
     def counts(group)
-      return t("planner.no_entries") if group.empty?
+      meetings = shown_meetings(group)
+      work_packages = shown_work_packages(group)
+      return t("planner.no_entries") if meetings.empty? && work_packages.empty?
 
       [
-        (t("planner.todos", count: group.todo_count) if group.work_packages.any?),
-        (t("planner.meetings", count: group.meetings.size) if group.meetings.any?)
+        (t("planner.todos", count: work_packages.size) if work_packages.any?),
+        (t("planner.meetings", count: meetings.size) if meetings.any?)
       ].compact.join(" | ")
     end
   end

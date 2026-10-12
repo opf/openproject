@@ -29,36 +29,33 @@
 #++
 
 module Planner
-  # The "Add to-do" row of a group: a disclosure with a form that adds a to-do with the group's
-  # task fields, such as its day part or date.
+  # The "+ Add to-do" row of a group. It asks for the group to be shown with a to-do input row.
   class AddTodoComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(group:, view:, open: false, task_fields: {})
+    def initialize(group:, view:)
       super()
       @group = group
       @view = view
-      @open = open
-      @task_fields = task_fields
     end
 
     private
 
-    attr_reader :group, :view, :open, :task_fields
+    attr_reader :group, :view
 
-    def view_param = (view unless view == :today)
+    # Rows of the sortable views start with a drag handle, which the link leaves room for.
+    def handle_space? = view.in?(%i[today upcoming])
 
-    def subject_field_arguments
+    def link_arguments
       {
-        name: "task[subject]",
-        label: t("planner.quick_add.label"),
-        visually_hide_label: true,
-        placeholder: t("planner.quick_add.placeholder"),
-        required: true,
-        autocomplete: "off",
-        autofocus: open,
-        full_width: true,
-        size: :small
+        href: Planner::Menu.path_for(view, adding: group),
+        scheme: :secondary,
+        font_size: :small,
+        display: :flex,
+        align_items: :center,
+        style: "min-height: var(--control-small-size)",
+        data: { turbo_stream: true },
+        test_selector: "planner-add-todo-#{group}"
       }
     end
   end

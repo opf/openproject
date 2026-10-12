@@ -35,20 +35,27 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(Planner::SectionHeaderComponent.new(title: day_name(day.date), subtitle: subtitle(day), counts: counts(day))) %>
       <% end %>
 
-      <% day.meetings.each do |occurrence| %>
+      <% shown_meetings(day).each do |occurrence| %>
         <% box.with_row(test_selector: "planner-upcoming-meeting") do %>
           <%= render(Planner::MeetingRowComponent.new(occurrence:, user: upcoming.user)) %>
         <% end %>
       <% end %>
 
-      <% day.work_packages.each do |work_package| %>
+      <% shown_work_packages(day).each do |work_package| %>
         <% box.with_row(test_selector: "planner-upcoming-task", data: sortable_item_data(work_package)) do %>
           <%= render(Planner::TaskRowComponent.new(work_package:, references: upcoming.references, view: :upcoming)) %>
         <% end %>
       <% end %>
 
-      <% box.with_row(px: 3) do %>
-        <%= render(Planner::AddTodoComponent.new(group:, view: :upcoming, open: adding?(group), task_fields: { date: group })) %>
+      <% if todos_shown? %>
+        <% if adding?(group) %>
+          <% box.with_row do %>
+            <%= render(Planner::TodoInputComponent.new(group:, view: :upcoming, task_fields: { date: group })) %>
+          <% end %>
+        <% end %>
+        <% box.with_row do %>
+          <%= render(Planner::AddTodoComponent.new(group:, view: :upcoming)) %>
+        <% end %>
       <% end %>
     <% end %>
   <% end %>

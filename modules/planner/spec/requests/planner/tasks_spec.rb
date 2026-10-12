@@ -94,7 +94,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect { subject }.to change(WorkPackage, :count).by(1)
         expect(WorkPackage.last.due_date).to eq(date)
         expect(response.body).to include('target="planner-upcoming-component"')
-        expect(response.body[/<details[^>]*planner-add-todo-#{date.iso8601}"[^>]*>/]).to include("open")
+        expect(response.body).to include("planner-todo-input-#{date.iso8601}")
       end
     end
 

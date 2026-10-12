@@ -107,6 +107,8 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
       expect(page).to have_test_selector("planner-planned", text: "Branch tracking via GitLab webhook")
       expect(page).to have_css("a[target='_blank'][data-test-selector='planner-planned']")
       expect(page).to have_css("a[target='_blank'][data-test-selector='planner-reference']")
+      expect(page.find("[data-test-selector='planner-planned-box']"))
+        .to have_test_selector("planner-planned").and have_test_selector("planner-task-info")
       expect(page).to have_test_selector("planner-task-info", count: 1)
       expect(page).to have_test_selector("planner-task-info", text: planned.formatted_id)
       expect(page).to have_test_selector("planner-task-info", text: planned.status.name)
@@ -159,18 +161,62 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
                                          match: :first)
       expect(link["data-controller"]).to eq("async-dialog")
       %w[morning afternoon evening].each do |day_part|
-        expect(page).to have_css("details[data-test-selector='planner-add-todo-#{day_part}']:not([open])")
+        link = page.find("[data-test-selector='planner-add-todo-#{day_part}']")
+        expect(link[:href]).to eq(planner_path(adding: day_part))
+        expect(link["data-turbo-stream"]).to eq("true")
+      end
+      expect(page).to have_no_css("[data-test-selector^='planner-todo-input-']")
+    end
+
+    describe "filtering" do
+      it "shows all entries by default" do
+        subject
+
+        expect(page).to have_test_selector("planner-filter", text: "All entries")
+        expect(page).to have_link("To-dos only", href: planner_path(filter: "todos"))
+        expect(page).to have_test_selector("planner-meeting-morning")
+        expect(page).to have_test_selector("planner-task-morning")
+      end
+
+      it "shows only meetings, and keeps the filter for later visits" do
+        get planner_path(filter: "meetings")
+
+        expect(page).to have_test_selector("planner-meeting-morning")
+        expect(page).not_to have_test_selector("planner-task-morning")
+        expect(page).to have_no_css("[data-test-selector^='planner-add-todo-']")
+        expect(page).to have_test_selector("planner-section-counts", text: "1 meeting")
+
+        get planner_view_path(:upcoming)
+
+        expect(page).to have_test_selector("planner-filter", text: "Meetings only")
+      end
+
+      it "shows only to-dos" do
+        get planner_path(filter: "todos")
+
+        expect(page).not_to have_test_selector("planner-meeting-morning")
+        expect(page).to have_test_selector("planner-task-morning", text: "Book train to the offsite")
       end
     end
 
     context "when adding to the afternoon" do
       let(:path) { planner_path(adding: :afternoon) }
 
-      it "opens its form" do
+      it "shows an input row above the Add to-do link" do
         subject
 
-        expect(page).to have_css("details[open][data-test-selector='planner-add-todo-afternoon'] input[autofocus]")
+        expect(page).to have_css("[data-test-selector='planner-todo-input-afternoon'] input[autofocus]")
         expect(page).to have_field("task[day_part]", type: :hidden, with: "afternoon")
+        expect(page).to have_test_selector("planner-add-todo-afternoon")
+        expect(page).to have_link("Cancel", href: planner_path)
+        expect(page).to have_test_selector("planner-todo-input-afternoon", count: 1)
+      end
+
+      it "refreshes the view in place when asked for a Turbo Stream" do
+        get path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response.body).to include('turbo-stream action="replace" target="planner-today-component"')
+        expect(response.body).to include("planner-todo-input-afternoon")
       end
     end
 

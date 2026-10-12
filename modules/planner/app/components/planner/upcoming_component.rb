@@ -30,12 +30,14 @@
 
 module Planner
   class UpcomingComponent < BaseComponent
-    def initialize(upcoming:, adding: nil)
-      super(adding:)
+    def initialize(upcoming:, adding: nil, filter: FILTERS.first)
+      super(adding:, filter:)
       @upcoming = upcoming
     end
 
     def add_todo_defaults = { date: upcoming.days.first.date, day_part: :morning }
+
+    def filterable? = true
 
     private
 

@@ -42,12 +42,25 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
     <% end %>
   <% end %>
-  <% row.with_column(mr: 2, classes: "min-width-0") do %>
-    <%= render(Primer::Beta::Truncate.new) do |truncate| %>
-      <% truncate.with_item do %>
-        <% if planned_work_package %>
-          <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { planned_work_package.subject } %>
-        <% else %>
+  <% if planned_work_package %>
+    <% row.with_column(mr: 2, classes: "min-width-0") do %>
+      <%= flex_layout(align_items: :center, bg: :subtle, border: true, border_color: :muted, border_radius: 2, px: 2, py: 1, test_selector: "planner-planned-box") do |box| %>
+        <% box.with_column(mr: 2, classes: "min-width-0") do %>
+          <%= render(Primer::Beta::Truncate.new) do |truncate| %>
+            <% truncate.with_item do %>
+              <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { planned_work_package.subject } %>
+            <% end %>
+          <% end %>
+        <% end %>
+        <% box.with_column(flex_shrink: 0, test_selector: "planner-task-info") do %>
+          <%= render(WorkPackages::InfoLineComponent.new(work_package: planned_work_package, wrap: false)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% row.with_column(mr: 2, classes: "min-width-0") do %>
+      <%= render(Primer::Beta::Truncate.new) do |truncate| %>
+        <% truncate.with_item do %>
           <% subject_parts.each do |part| %>
             <% if part.is_a?(WorkPackage) %>
               <%= render(Primer::Beta::Link.new(href: work_package_path(part), target: "_blank", border: true, border_radius: 2, px: 1, bg: :subtle, test_selector: "planner-reference")) do %>
@@ -66,11 +79,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% if work_package.description.present? %>
     <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, title: t("planner.has_notes"), test_selector: "planner-task-notes") do %>
       <%= render(Primer::Beta::Octicon.new(:note, color: :muted, aria: { label: t("planner.has_notes") })) %>
-    <% end %>
-  <% end %>
-  <% if planned_work_package %>
-    <% row.with_column(mr: 2, flex_shrink: 0, test_selector: "planner-task-info") do %>
-      <%= render(WorkPackages::InfoLineComponent.new(work_package: planned_work_package, wrap: false)) %>
     <% end %>
   <% end %>
   <% row.with_column(flex: 1) %>
