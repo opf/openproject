@@ -250,6 +250,26 @@ RSpec.describe UserPreferences::UpdateContract do
       it_behaves_like "contract is invalid", time_zone: :inclusion
     end
 
+    context "with a valid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "#AABBCC"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an invalid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "red"
+        }
+      end
+
+      it_behaves_like "contract is invalid", avatar_color: :invalid
+    end
+
     context "with duplicate workday entries" do
       let(:settings) do
         {
