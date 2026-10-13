@@ -89,6 +89,8 @@ An assistant has an optional owner, `ai_assistants.principal_id`:
 - **A group:** only the group's direct members see it. An admin chooses the group when creating the assistant (Administration → AI → Assistants).
 - **A user:** a personal assistant (see below).
 
+The development data seeds a sample group assistant, "Comms assistance", for the Marketing & Communications department (`DevelopmentData::GroupAiAssistantSeeder`, data in `app/seeders/standard.yml`). It has two presets, "Draft an announcement" and "Check the wording", and a chat. Marko Marketing and Connie Comms see it.
+
 The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills, runs and chats.
 
 ### Personal assistants

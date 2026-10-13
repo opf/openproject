@@ -31,7 +31,7 @@
 module AI
   module Assistants
     class Form < ApplicationForm
-      ICONS = %w[checklist pulse sparkle beaker briefcase people rocket book tools].freeze
+      ICONS = %w[checklist pulse sparkle beaker briefcase people rocket book tools megaphone].freeze
 
       form do |f|
         f.text_field(name: :name, label: AI::Assistant.human_attribute_name(:name), required: true,
