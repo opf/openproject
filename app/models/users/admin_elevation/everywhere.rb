@@ -42,6 +42,10 @@ module Users
       def project_condition(_project_id_column)
         Arel::Nodes::True.new
       end
+
+      def to_h
+        { "type" => "everywhere" }
+      end
     end
   end
 end
