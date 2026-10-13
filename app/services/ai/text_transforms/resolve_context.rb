@@ -51,33 +51,35 @@ module AI
 
       def work_package_context(id)
         work_package = WorkPackage.visible(user).find_by(id:)
-        return not_found(:work_package) unless work_package
-        return forbidden unless user.allowed_in_work_package?(:edit_work_packages, work_package)
+        return not_found(WorkPackage) unless work_package
+        return forbidden(work_package) unless user.allowed_in_work_package?(:edit_work_packages, work_package)
 
         ServiceResult.success(result: Context.for_work_package(work_package))
       end
 
       def new_work_package_context(project_id, type_id)
         project = Project.visible(user).find_by(id: project_id)
-        return not_found(:project) unless project
-        return forbidden unless user.allowed_in_project?(:add_work_packages, project)
+        return not_found(Project) unless project
+        return forbidden(project) unless user.allowed_in_project?(:add_work_packages, project)
 
         type = project.enabled_types.find_by(id: type_id)
-        return not_found(:type) unless type
+        return not_found(Type) unless type
 
         ServiceResult.success(result: Context.for_new_work_package(project:, type:))
       end
 
-      def not_found(model)
-        failure(:not_found, model:)
+      def not_found(model_class)
+        failure(model_class.new, :error_not_found)
       end
 
-      def forbidden
-        failure(:forbidden)
+      def forbidden(record)
+        failure(record, :error_unauthorized)
       end
 
-      def failure(error, **details)
-        ServiceResult.failure.tap { |result| result.errors.add(:base, error, **details) }
+      def failure(record, error)
+        errors = ActiveModel::Errors.new(record)
+        errors.add(:base, error)
+        ServiceResult.failure(errors:)
       end
     end
   end

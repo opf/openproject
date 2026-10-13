@@ -45,14 +45,46 @@ RSpec.describe AI::TextTransforms::ResolveContext do
 
   subject(:call) { described_class.new(user: current_user).call(**params) }
 
-  shared_examples "fails with" do |error, **details|
-    it "fails with #{error}" do
+  shared_examples "fails with" do |error, model_class, message|
+    it "fails with #{error} on #{model_class}" do
       expect(call).to be_failure
-      expect(call.errors.details[:base]).to eq([{ error:, **details }])
+      expect(call.errors.details[:base]).to eq([{ error: }])
+      expect(call.errors.first.base).to be_a(model_class)
+      expect(call.errors.full_messages).to eq([message])
+    end
+  end
+
+  shared_examples "not found" do |model_class|
+    it_behaves_like "fails with", :error_not_found, model_class, "not found."
+  end
+
+  shared_examples "forbidden" do |model_class|
+    it_behaves_like "fails with", :error_unauthorized, model_class, "may not be accessed."
+  end
+
+  shared_examples "ignores the logged in user" do |model_class|
+    context "when only the logged in user has access" do
+      let(:current_user) { stranger }
+
+      it "checks the given user" do
+        result = User.execute_as(user) { call }
+
+        expect(result).to be_failure
+        expect(result.errors.first).to have_attributes(type: :error_not_found, base: be_a(model_class))
+      end
     end
   end
 
   context "without ids" do
+    it "resolves no context" do
+      expect(call).to be_success
+      expect(call.result).to have_attributes(work_package: nil, project: nil, type: nil)
+    end
+  end
+
+  context "with a type id only" do
+    let(:params) { { type_id: type.id } }
+
     it "resolves no context" do
       expect(call).to be_success
       expect(call.result).to have_attributes(work_package: nil, project: nil, type: nil)
@@ -70,28 +102,30 @@ RSpec.describe AI::TextTransforms::ResolveContext do
     context "when the work package is invisible to the user" do
       let(:current_user) { stranger }
 
-      it_behaves_like "fails with", :not_found, model: :work_package
-    end
-
-    context "when the user may not edit the work package" do
-      let(:current_user) { viewer }
-
-      it_behaves_like "fails with", :forbidden
+      it_behaves_like "not found", WorkPackage
     end
 
     context "when the work package does not exist" do
       let(:params) { { work_package_id: 0 } }
 
-      it_behaves_like "fails with", :not_found, model: :work_package
+      it_behaves_like "not found", WorkPackage
     end
 
-    context "when only the logged in user has access" do
-      let(:current_user) { stranger }
+    context "when the user may not edit the work package" do
+      let(:current_user) { viewer }
 
-      before { allow(User).to receive(:current).and_return(user) }
-
-      it_behaves_like "fails with", :not_found, model: :work_package
+      it_behaves_like "forbidden", WorkPackage
     end
+
+    context "with a project and type id as well" do
+      let(:params) { { work_package_id: work_package.id, project_id: create(:project).id, type_id: create(:type).id } }
+
+      it "resolves the work package context" do
+        expect(call.result).to have_attributes(work_package:, project:, type:)
+      end
+    end
+
+    it_behaves_like "ignores the logged in user", WorkPackage
   end
 
   context "with a project and type id" do
@@ -105,25 +139,33 @@ RSpec.describe AI::TextTransforms::ResolveContext do
     context "when the project is invisible to the user" do
       let(:current_user) { stranger }
 
-      it_behaves_like "fails with", :not_found, model: :project
+      it_behaves_like "not found", Project
+    end
+
+    context "when the project does not exist" do
+      let(:params) { { project_id: 0, type_id: type.id } }
+
+      it_behaves_like "not found", Project
     end
 
     context "when the user may not add work packages" do
       let(:current_user) { viewer }
 
-      it_behaves_like "fails with", :forbidden
+      it_behaves_like "forbidden", Project
     end
 
     context "when the type is not enabled in the project" do
       let(:params) { { project_id: project.id, type_id: create(:type).id } }
 
-      it_behaves_like "fails with", :not_found, model: :type
+      it_behaves_like "not found", Type
     end
 
     context "without a type id" do
       let(:params) { { project_id: project.id } }
 
-      it_behaves_like "fails with", :not_found, model: :type
+      it_behaves_like "not found", Type
     end
+
+    it_behaves_like "ignores the logged in user", Project
   end
 end

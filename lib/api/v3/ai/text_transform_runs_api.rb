@@ -47,10 +47,10 @@ module API
             end
 
             def raise_context_failure(errors)
-              detail = errors.details[:base].first
-              raise ::API::Errors::Unauthorized if detail[:error] == :forbidden
+              not_found = errors.find { |error| error.type == :error_not_found }
+              raise ::API::Errors::NotFound.new(model: not_found.base.model_name.element) if not_found
 
-              raise ::API::Errors::NotFound.new(model: detail[:model].to_s)
+              raise ::API::Errors::ErrorBase.create_and_merge_errors(errors)
             end
 
             def run_representer(run, after: 0)
