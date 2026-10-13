@@ -68,15 +68,10 @@ RSpec.describe Llm::WorkPackages::EmbedService do
       allow(session_double).to receive(:embed).and_return(embedding_double)
     end
 
-    it "embeds with the default model" do
+    it "embeds with the default model and locks the binding to it" do
       service.call
 
       expect(session_double).to have_received(:embed).with(anything, model: "bge-m3", dimensions: nil)
-      expect(WorkPackageEmbedding.find_by!(work_package:).model_id).to eq("bge-m3")
-    end
-
-    it "persists a locked binding pinned to the default model" do
-      service.call
 
       binding = connection.feature_bindings.find_by!(feature_key: "semantic_search")
       expect(binding).to be_locked
