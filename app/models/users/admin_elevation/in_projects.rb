@@ -52,6 +52,10 @@ module Users
       def project_condition(project_id_column)
         project_id_column.in(@project_ids)
       end
+
+      def to_h
+        { "type" => "in_projects", "project_ids" => @project_ids }
+      end
     end
   end
 end

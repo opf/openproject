@@ -71,6 +71,28 @@ RSpec.describe Users::AdminElevation do
     end
   end
 
+  describe ".from_h" do
+    it "restores an Everywhere elevation" do
+      expect(described_class.from_h(described_class.everywhere.to_h)).to be_a(described_class::Everywhere)
+    end
+
+    it "restores a None elevation" do
+      expect(described_class.from_h(described_class.none.to_h)).to be_a(described_class::None)
+    end
+
+    it "restores an InProjects elevation with its projects", :aggregate_failures do
+      elevation = described_class.from_h(described_class.in_projects([elevated_project.id]).to_h)
+
+      expect(elevation).to be_a(described_class::InProjects)
+      expect(elevation.covers?(elevated_project)).to be true
+      expect(elevation.covers?(other_project)).to be false
+    end
+
+    it "restores an unknown type as no elevation" do
+      expect(described_class.from_h({ "type" => "unknown" })).to be_a(described_class::None)
+    end
+  end
+
   describe ".for_session", with_flag: { admin_privilege_elevation: true } do
     shared_let(:admin) { create(:admin) }
     shared_let(:subproject) { create(:project, parent: elevated_project) }
