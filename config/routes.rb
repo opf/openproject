@@ -967,6 +967,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do

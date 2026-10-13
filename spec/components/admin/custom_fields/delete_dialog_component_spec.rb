@@ -56,7 +56,16 @@ RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
     expect(form).to have_field("_method", type: :hidden, with: "delete")
   end
 
-  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field user_custom_field].each do |type|
+  it "renders an optional description message" do
+    render_inline(described_class.new(custom_field:))
+    expect(page).to have_no_css(".blankslate-description")
+
+    render_inline(described_class.new(custom_field:, description: "This is a more thorough warning…"))
+    expect(page).to have_css("p.blankslate-description", text: "This is a more thorough warning…")
+  end
+
+  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field user_custom_field
+     project_custom_field].each do |type|
     context "for a #{type.to_s.humanize.downcase}" do
       let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
 

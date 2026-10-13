@@ -34,12 +34,13 @@ module Admin
       include ::CustomFields::AdminRoutes
       include OpTurbo::Streamable
 
-      def initialize(custom_field:, **)
+      def initialize(custom_field:, description: nil, **)
         @custom_field = custom_field
+        @description = description
         super(**)
       end
 
-      attr_reader :custom_field
+      attr_reader :custom_field, :description
 
       def call
         render(
@@ -50,6 +51,7 @@ module Admin
         ) do |dialog|
           dialog.with_confirmation_message do |message|
             message.with_heading(tag: :h2) { t(".heading", name: custom_field.name) }
+            message.with_description_content(description) if description.present?
           end
         end
       end
