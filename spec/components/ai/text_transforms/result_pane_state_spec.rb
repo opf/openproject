@@ -173,14 +173,4 @@ RSpec.describe AI::TextTransforms::ResultPaneState do
       it { expect(pane.label).to eq("Summarize") }
     end
   end
-
-  describe "#selection?" do
-    it { expect(pane).not_to be_selection }
-
-    context "with the selection scope" do
-      let(:scope) { "selection" }
-
-      it { expect(pane).to be_selection }
-    end
-  end
 end

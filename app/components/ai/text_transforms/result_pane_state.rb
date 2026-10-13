@@ -74,10 +74,6 @@ module AI
         run&.uuid || "rejected"
       end
 
-      def selection?
-        scope.to_s == "selection"
-      end
-
       private
 
       def events

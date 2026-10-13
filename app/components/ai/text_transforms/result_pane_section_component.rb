@@ -51,10 +51,6 @@ module AI
 
       delegate :state, to: :pane
 
-      def context_label
-        label(pane.selection? ? :context_selection : :context_description)
-      end
-
       def output
         helpers.format_text(pane.text, object: pane.work_package)
       end

@@ -58,16 +58,6 @@ RSpec.describe AI::TextTransforms::ResultPaneSectionComponent, type: :component 
   describe "body" do
     subject { render_section(:body) }
 
-    it "shows the document context label" do
-      expect(subject).to have_css(".Label", text: "Work package description")
-    end
-
-    context "with the selection scope" do
-      let(:scope) { "selection" }
-
-      it { is_expected.to have_css(".Label", text: "Selected text") }
-    end
-
     context "when generating" do
       it "shows the formatted text so far" do
         expect(subject).to have_css(".op-uc-container strong", text: "works")
