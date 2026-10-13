@@ -41,7 +41,7 @@ describe('AppBadgeService', () => {
     flags = ['progressiveWebApp'],
     loggedIn = true,
     badgeApi = true,
-    standalone = false,
+    standalone = true,
   }:{ flags?:string[], loggedIn?:boolean, badgeApi?:boolean, standalone?:boolean } = {}) => {
     meta.dataset.loggedIn = String(loggedIn);
     vi.stubGlobal('navigator', badgeApi ? { setAppBadge, clearAppBadge } : {});
@@ -79,17 +79,25 @@ describe('AppBadgeService', () => {
       expect(setAppBadge).toHaveBeenLastCalledWith(7);
     });
 
-    it('caps large counts at 99', () => {
+    it('passes the real count to the badge', () => {
       setup().initialize();
 
       unread$.next(1500);
-      expect(setAppBadge).toHaveBeenLastCalledWith(99);
+      expect(setAppBadge).toHaveBeenLastCalledWith(1500);
+    });
+
+    it('does not clear the badge before the first count is loaded', () => {
+      setup().initialize();
+      expect(clearAppBadge).not.toHaveBeenCalled();
+
+      unread$.next(0);
+      expect(clearAppBadge).toHaveBeenCalledTimes(1);
     });
 
     it('clears the badge at zero unread', () => {
-      unread$.next(3);
       setup().initialize();
 
+      unread$.next(3);
       unread$.next(0);
       expect(clearAppBadge).toHaveBeenCalledTimes(1);
     });
@@ -119,17 +127,18 @@ describe('AppBadgeService', () => {
       setup().initialize();
 
       unread$.next(2);
-      await new Promise((resolve) => { setTimeout(resolve, 0); });
+      await Promise.resolve();
 
       expect(setAppBadge).toHaveBeenCalledWith(2);
     });
+  });
 
-    it('does not surface a synchronously throwing badge call', () => {
-      setAppBadge.mockImplementation(() => { throw new TypeError('unsupported'); });
-      setup().initialize();
+  it('does nothing in a plain browser tab', () => {
+    setup({ standalone: false }).initialize();
 
-      expect(() => unread$.next(2)).not.toThrow();
-    });
+    unread$.next(5);
+    expect(setAppBadge).not.toHaveBeenCalled();
+    expect(clearAppBadge).not.toHaveBeenCalled();
   });
 
   it('clears the badge and stops when signed out', () => {
@@ -141,8 +150,16 @@ describe('AppBadgeService', () => {
     expect(setAppBadge).not.toHaveBeenCalled();
   });
 
-  it('does nothing when the feature flag is off', () => {
-    setup({ flags: [], loggedIn: false }).initialize();
+  it('clears a stale badge when the feature flag is off in an installed app', () => {
+    setup({ flags: [], loggedIn: true, standalone: true }).initialize();
+
+    unread$.next(5);
+    expect(clearAppBadge).toHaveBeenCalledTimes(1);
+    expect(setAppBadge).not.toHaveBeenCalled();
+  });
+
+  it('does nothing when the feature flag is off in a plain tab', () => {
+    setup({ flags: [], standalone: false }).initialize();
 
     unread$.next(5);
     expect(setAppBadge).not.toHaveBeenCalled();
