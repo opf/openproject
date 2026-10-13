@@ -72,6 +72,17 @@ RSpec.describe Cron::ReauthorizeLiveUpdatesJob, type: :job do
       expect(OpenProject::LiveUpdates).not_to have_received(:reauthorize)
     end
 
+    it "counts a subscription that cannot be checked as revoked, checking the others" do
+      LiveUpdatesSubscription.create!(user:, session_id:, stream_name: "gid://open-project/Removed/1",
+                                      updated_at: checked_at)
+      allowed = LiveUpdatesSubscription.create!(user: admin, session_id:, stream_name:, updated_at: checked_at)
+
+      described_class.perform_now
+
+      expect(OpenProject::LiveUpdates).to have_received(:reauthorize).with(contain_exactly(user))
+      expect(allowed.reload.updated_at).to be > checked_at
+    end
+
     it "reconnects the users of stale subscriptions so they are recorded afresh" do
       LiveUpdatesSubscription.create!(user: admin, session_id:, stream_name:,
                                       created_at: (described_class::STALE_AFTER + 1.minute).ago)

@@ -121,7 +121,8 @@ module OpenProject
       end
 
       OpenProject::Notifications.subscribe(OpenProject::Events::USER_UPDATED) do |payload|
-        reauthorize(payload[:user]) if payload[:user].saved_change_to_status?
+        user = payload[:user]
+        reauthorize(user) if user.saved_change_to_status? || user.saved_change_to_admin?
       end
 
       OpenProject::Notifications.subscribe(OpenProject::Events::PROJECT_ARCHIVED) do |payload|

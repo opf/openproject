@@ -183,6 +183,18 @@ describe('turbo-cable-stream-source', () => {
     expect((listener.mock.calls[0][0] as MessageEvent).data).toBe('<turbo-stream>');
   });
 
+  it('marks itself connected while the event source is open', () => {
+    sessionStorage.setItem(TRANSPORT_STORAGE_KEY, 'sse');
+    attach();
+    const [eventSource] = FakeEventSource.instances;
+
+    eventSource.dispatchEvent(new Event('open'));
+    expect(element.hasAttribute('connected')).toBe(true);
+
+    eventSource.dispatchEvent(new Event('error'));
+    expect(element.hasAttribute('connected')).toBe(false);
+  });
+
   it('closes the event source when removed', () => {
     sessionStorage.setItem(TRANSPORT_STORAGE_KEY, 'sse');
     attach();

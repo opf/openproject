@@ -131,11 +131,14 @@ export class CableStreamSourceElement extends HTMLElement {
     const identifier = encodeURIComponent(JSON.stringify(this.channel));
     this.eventSource = new EventSource(`${window.appBasePath ?? ''}/events?identifier=${identifier}`);
     this.eventSource.addEventListener('message', this.receiveEventSourceMessage);
+    this.eventSource.addEventListener('open', () => this.setAttribute('connected', ''));
+    this.eventSource.addEventListener('error', () => this.removeAttribute('connected'));
   }
 
   private disconnectEventSource():void {
     this.eventSource?.close();
     this.eventSource = undefined;
+    this.removeAttribute('connected');
   }
 
   // AnyCable sends each broadcast JSON-encoded over SSE, while Turbo expects the stream HTML itself.

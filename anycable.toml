@@ -28,14 +28,14 @@ broadcast_adapters = ["http"]
 # pubsub_adapter = "redis" # or "nats"
 
 [logging]
-debug = true
+# debug = true
 
 # RPC is used to authorized subscriptions and perform channel actions.
 # You only need it if you use custom Action Cable channel classes.
 # Read more: https://docs.anycable.io/anycable-go/rpc
 [rpc]
 # It authenticates connections from the session cookie (ApplicationCable::Connection).
-# Subscriptions are authorized by the Turbo signed streams below, without RPC.
+# Subscriptions are authorized via RPC as well using OpenProject::LiveUpdates.allowed?.
 implementation = "http"
 host = "http://localhost:3000/_anycable"
 
@@ -48,13 +48,12 @@ enabled = true
 # Enable public (unsigned) streams
 # public = true
 # Enable whispering support for pub/sub streams
-whisper = true
+# whisper = true
 #
 # Turbo Streams subscriptions are authorized by OpenProject over RPC (OpenProject::LiveUpdates.allowed?).
 # Handling them here would only check the signature and bypass that authorization.
 turbo = false
 
-[redis]
+# [redis]
 # IMPORTANT: In production, provide Redis address via the REDIS_URL or ANYCABLE_REDIS_URL env var
-url = "redis://localhost:6379"
-
+# url = "redis://localhost:6379"

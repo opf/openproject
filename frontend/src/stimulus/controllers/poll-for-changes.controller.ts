@@ -60,12 +60,15 @@ export default class PollForChangesController extends ApplicationController {
   connect() {
     super.connect();
 
-    // When `eventValue` is provided, a live update is requested instead of polling.
     if (this.eventValue) {
       document.addEventListener(this.eventValue, this.handleChange);
-    } else if (this.intervalValue !== 0) {
+    }
+
+    if (this.intervalValue !== 0) {
       this.interval = window.setInterval(() => {
-        void this.triggerTurboStream();
+        if (!this.liveUpdatesConnected()) {
+          void this.triggerTurboStream();
+        }
       }, this.intervalValue || 10_000);
     }
   }
@@ -106,6 +109,11 @@ export default class PollForChangesController extends ApplicationController {
       this.triggerTurboStream();
     }
   };
+
+  // Polling stays the fallback while no live updates connection is open, e.g. when the AnyCable server is down.
+  private liveUpdatesConnected():boolean {
+    return !!this.eventValue && document.querySelector('turbo-cable-stream-source[connected]') !== null;
+  }
 
   private stop() {
     clearInterval(this.interval);

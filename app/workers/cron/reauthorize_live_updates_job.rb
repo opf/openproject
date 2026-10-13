@@ -70,10 +70,19 @@ module Cron
 
       revoked = subscriptions_due
                    .select(:stream_name, :user_id).distinct.includes(:user)
-                   .reject { |subscription| OpenProject::LiveUpdates.allowed?(subscription.stream_name, subscription.user) }
+                   .reject { |subscription| allowed?(subscription) }
                    .map(&:user_id)
       subscriptions_due.touch_all
       revoked
+    end
+
+    # A subscription that cannot be checked, e.g. to a record of a model that no longer exists,
+    # counts as revoked instead of aborting the checks of all others.
+    def allowed?(subscription)
+      OpenProject::LiveUpdates.allowed?(subscription.stream_name, subscription.user)
+    rescue StandardError => e
+      Rails.logger.error { "Failed to reauthorize live updates stream #{subscription.stream_name}: #{e.message}" }
+      false
     end
   end
 end

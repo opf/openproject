@@ -208,6 +208,12 @@ RSpec.describe OpenProject::LiveUpdates do
       expect(described_class).to have_received(:reauthorize).with(user)
     end
 
+    it "reauthorizes a user whose admin flag changes" do
+      user.update!(admin: true)
+
+      expect(described_class).to have_received(:reauthorize).with(user)
+    end
+
     it "does not reauthorize a user whose other attributes change" do
       user.update!(firstname: "Changed")
 

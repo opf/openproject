@@ -99,12 +99,21 @@ describe('PollForChangesController', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
-  it('does not poll when an event is configured', async () => {
+  it('does not poll while a live updates connection is open', async () => {
     await render();
+    fixture.insertAdjacentHTML('beforeend', '<turbo-cable-stream-source connected></turbo-cable-stream-source>');
 
     vi.advanceTimersByTime(INTERVAL_MS * 2);
 
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('polls while no live updates connection is open', async () => {
+    await render();
+
+    vi.advanceTimersByTime(INTERVAL_MS);
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   it('polls and ignores change events when no event is configured', async () => {
