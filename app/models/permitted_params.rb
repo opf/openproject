@@ -642,6 +642,7 @@ class PermittedParams
           scope
           filter
           submit
+          search_mode
         ),
         status: %i(
           name

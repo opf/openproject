@@ -42,10 +42,6 @@ class SearchController < ApplicationController
     if @tokens.any?
       @results, @results_count = search_results(@tokens)
 
-      if search_params[:filter] == "work_packages"
-        @semantic_results = load_semantic_results
-      end
-
       if search_params[:previous].nil?
         limit_results_first_page
       else
@@ -173,9 +169,5 @@ class SearchController < ApplicationController
 
   def scope_class(scope)
     scope.singularize.camelcase.constantize
-  end
-
-  def load_semantic_results
-    Search::SemanticResult.for(@question, current_user)
   end
 end

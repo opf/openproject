@@ -1,65 +1,98 @@
 # frozen_string_literal: true
 
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 require "spec_helper"
 
 RSpec.describe Search::SemanticResult do
-  describe ".for" do
-    let(:user) { create(:user) }
-    let(:project) { create(:project, members: { user => create(:project_role, permissions: [:view_work_packages]) }) }
-    let!(:wp1) { create(:work_package, project:) }
-    let!(:wp2) { create(:work_package, project:) }
+  let(:connection) { create(:llm_connection, :with_models) }
+  let(:session_double) { instance_double(Llm::Session) }
+  let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [0.1, 0.2, 0.3]) }
 
-    context "when no active binding exists" do
-      it "returns no work packages" do
-        expect(described_class.for("some query", user)).to be_empty
-      end
+  def create_binding(locked_at: Time.current)
+    create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
+                                 model_id: "bge-m3", dimensions: 3, locked_at:)
+  end
+
+  describe ".available?" do
+    it "is false without a binding" do
+      expect(described_class).not_to be_available
     end
 
-    context "when a binding exists but is not yet locked" do
-      let(:connection) { create(:llm_connection, :with_models) }
-      let!(:binding) do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
-                                     model_id: "bge-m3", dimensions: 3)
-      end
+    it "is false while the binding is not locked" do
+      create_binding(locked_at: nil)
 
-      it "returns no work packages" do
-        expect(described_class.for("some query", user)).to be_empty
-      end
+      expect(described_class).not_to be_available
     end
 
-    context "when the binding is locked and embeddings exist" do
-      let(:connection) { create(:llm_connection, :with_models) }
-      let!(:binding) do
-        create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
-                                     model_id: "bge-m3", dimensions: 3,
-                                     locked_at: Time.current)
-      end
-      let(:session_double) { instance_double(Llm::Session) }
-      let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [0.1, 0.2, 0.3]) }
+    it "is true once the binding is locked" do
+      create_binding
 
+      expect(described_class).to be_available
+    end
+  end
 
-      before do
-        allow(Llm::Session).to receive(:for).with(connection).and_return(session_double)
-        allow(session_double).to receive(:embed).and_return(embedding_double)
+  describe ".query_vector" do
+    before do
+      allow(Llm::Session).to receive(:for).with(connection).and_return(session_double)
+      allow(session_double).to receive(:embed).and_return(embedding_double)
+    end
 
-        create(:work_package_embedding, work_package: wp1, embedding: [0.1, 0.2, 0.5])
-        create(:work_package_embedding, work_package: wp2, embedding: [0.1, 0.2, 0.4])
+    it "returns nothing without a locked binding" do
+      create_binding(locked_at: nil)
 
-        # more embeddings for work packages the user can't see
-        create_list(:work_package_embedding, 2)
-      end
+      expect(described_class.query_vector("some query")).to be_nil
+    end
 
-      it "ranks work packages the user can see, ascending by vector distance" do
-        search_result = described_class.for("some query", user).map(&:id)
+    context "with a locked binding" do
+      before { create_binding }
 
-        # wp2 embedding is closer to search embedding, so it's first
-        expect(search_result).to eq([wp2.id, wp1.id])
+      it "embeds the query as a vector literal" do
+        expect(described_class.query_vector("some query")).to eq("[0.1,0.2,0.3]")
+        expect(session_double).to have_received(:embed).with("some query", model: "bge-m3", dimensions: 3)
       end
 
-      it "returns no work packages when the LLM call fails" do
+      it "embeds the same query only once per request" do
+        2.times { described_class.query_vector("some query") }
+
+        expect(session_double).to have_received(:embed).once
+      end
+
+      it "returns nothing for a blank query" do
+        expect(described_class.query_vector("")).to be_nil
+        expect(session_double).not_to have_received(:embed)
+      end
+
+      it "returns nothing when the LLM call fails" do
         allow(session_double).to receive(:embed).and_raise(Llm::Errors::ConnectionError, "timeout")
 
-        expect(described_class.for("some query", user)).to be_empty
+        expect(described_class.query_vector("some query")).to be_nil
       end
     end
   end

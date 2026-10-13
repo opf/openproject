@@ -2258,6 +2258,7 @@ en:
     role: "Role"
     roles: "Roles"
     search: "Search"
+    semantic_similarity: "Similarity"
     slug: "Slug"
     sprint: "Sprint"
     start_date: "Start date"
@@ -3279,8 +3280,6 @@ en:
   general_text_true: "true"
   general_text_yes: "yes"
   global_search:
-    semantic_results:
-      heading: "Semantic search results"
     overwritten_tabs:
       all: "All"
       messages: "Forum"
@@ -4081,6 +4080,7 @@ en:
   label_scroll_left: "Scroll left"
   label_scroll_right: "Scroll right"
   label_search: "Search"
+  label_search_by_meaning: "Search by meaning"
   label_search_by_name: "Search by name"
   label_seeded_from_env_warning: This record has been created through a setting environment variable. It is not editable through UI.
   label_select_main_menu_item: Select new main menu item
