@@ -62,8 +62,8 @@ zh-TW:
           label: Hocuspocus 伺服器 URL
         page_header:
           description_html: |-
-            啟用時，即時協作可讓多位使用者同時編輯一份文件。
-            它需要工作中的 %{hocuspocus_server_link} 才能運作。
+            啟用即時協作功能後，多名使用者即可同時編輯同一份文件。
+            此功能需有可正常運作的 [Hocuspocus 伺服器](hocuspocus_server_link) 方能運作。
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: 我瞭解我可能會永久遺失資料
         confirmation_message: |-
