@@ -1,0 +1,26 @@
+services:
+  opf:
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    build:
+      context: ../
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/home/dev/openproject
+    environment:
+      OPENPROJECT_DB_URL: postgres://openproject:openproject@postgresql:5432/openproject
+  postgresql:
+    image: postgres:17.11
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: openproject
+      POSTGRES_PASSWORD: openproject
+      POSTGRES_DB: openproject
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
