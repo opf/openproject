@@ -40,7 +40,7 @@ module Llm
 
         result = session.embed(texts, model: binding.resolved_model_id, dimensions: binding.dimensions)
 
-        work_packages.zip(result.vectors).each { |wp, vectors| upsert(wp, vectors) }
+        store(result.vectors)
         lock_binding_on_first_write
       end
 
@@ -66,13 +66,12 @@ module Llm
         work_packages.map { |wp| EmbeddableText.for(wp, context_window: context_window) }
       end
 
+      def store(vectors)
+        rows = work_packages.zip(vectors).map do |work_package, vector|
+          { work_package_id: work_package.id, embedding: WorkPackageEmbedding.vector_literal(vector) }
+        end
 
-      def upsert(work_package, vectors)
-        record = WorkPackageEmbedding.find_or_initialize_by(work_package_id: work_package.id)
-        record.model_id = binding.resolved_model_id
-        record.dimensions = binding.dimensions || vectors.length
-        record.embedding = vectors
-        record.save!
+        WorkPackageEmbedding.upsert_all(rows, unique_by: :work_package_id)
       end
 
       def lock_binding_on_first_write
