@@ -612,7 +612,7 @@ Rails.application.reloader.to_prepare do
 
       forum.permission :view_messages,
                        { forums: %i[index show],
-                         messages: [:show] },
+                         messages: %i[show replies] },
                        permissible_on: :project,
                        public: true
 
