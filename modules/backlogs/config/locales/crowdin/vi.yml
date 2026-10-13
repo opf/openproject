@@ -24,9 +24,9 @@ vi:
   activerecord:
     attributes:
       project:
-        allow_multiple_active_sprints: Allow multiple active sprints
+        allow_multiple_active_sprints: Cho phép nhiều print hoạt động đồng thời
         backlog_excluded_types: Các loại gói công việc bị loại trừ khỏi Backlog
-        estimation_unit: Unit
+        estimation_unit: Đơn vị
         sprint_sharing: Chia sẻ Sprint
         statuses_considered_closed: Các trạng thái được xem là đã đóng
       sprint:
@@ -39,7 +39,7 @@ vi:
           active: Đang hoạt động
           completed: Đã hoàn thành
           in_planning: Đang lập kế hoạch
-        work_packages: Work packages
+        work_packages: Gói công việc
       sprint_goal:
         text: Sprint goal
       work_package:

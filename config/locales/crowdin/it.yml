@@ -399,6 +399,8 @@ it:
         ongoing: In Corso
         spent_on: Data
         type: Tipo
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Calendario
         ical_token_query_assignment: Assegnazione della query
@@ -4941,6 +4943,13 @@ it:
           create_button: Crea
           dialog_body: Questo token consentirà alle applicazioni di terzi di comunicare con la tua istanza. Per distinguere il nuovo token API, assegnagli un nome.
           dialog_title: Crea nuovo token API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Nome del token
       failed_to_create_token: 'Creazione del token di accesso non riuscita: %{error}'
       failed_to_reset_token: 'Impossibile reimpostare il token di accesso: %{error}'
@@ -4970,6 +4979,7 @@ it:
     access_tokens:
       access_tokens: Token di accesso
       description: I token provider vengono emessi da OpenProject, consentendo ad altre applicazioni di accedervi. I token client vengono emessi da altre applicazioni, consentendo a OpenProject di accedervi.
+      expired_on: Expired on %{date}
       headers:
         action: Azione
         expiration: Scade

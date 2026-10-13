@@ -484,6 +484,7 @@ hy:
       no_items: Օրակարգի կետեր չկան
       no_items_flash: Ներկայացնելու օրակարգի կետեր չկան։
       previous: Նախորդ
+      slide_progress: Slide %{current}/%{total}
       title: Ներկայացման ռեժիմ
       total_items: "%{current}-ը %{total}-ից"
     types:
@@ -690,6 +691,7 @@ hy:
   text_agenda_item_duplicate_in_next_meeting: Համոզվա՞ծ եք, որ ցանկանում եք այս օրակարգի կետի պատճենն ավելացնել հաջորդ հանդիպմանը՝ %{date}, ժամը %{time}։ Արդյունքները չեն կրկնօրինակվի։
   text_agenda_item_duplicated_in_next_meeting: Օրակարգի կետը կրկնօրինակվել է հաջորդ հանդիպումում՝ %{date}
   text_agenda_item_move_next_meeting: Այս տարրը կտեղափոխվի հաջորդ հանդիպում՝ %{date}, ժամը %{time}։
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Օրակարգի կետը տեղափոխվել է հաջորդ հանդիպում՝ %{date}
   text_agenda_item_no_available_occurrence: Առաջիկա կրկնություններ հասանելի չեն։
   text_agenda_item_no_notes: Նշումներ տրամադրված չեն

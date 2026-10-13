@@ -484,6 +484,7 @@ pt-PT:
       no_items: Sem elementos na agenda
       no_items_flash: Não há elementos na agenda para apresentar.
       previous: Anterior
+      slide_progress: Slide %{current}/%{total}
       title: Modo de apresentação
       total_items: "%{current} de %{total}"
     types:
@@ -696,6 +697,7 @@ pt-PT:
   text_agenda_item_duplicate_in_next_meeting: Tem a certeza de que quer acrescentar uma cópia deste ponto da ordem de trabalhos à próxima reunião, em %{date} em %{time}? Os resultados não serão duplicados.
   text_agenda_item_duplicated_in_next_meeting: Ponto da ordem de trabalhos duplicado na próxima reunião, em %{date}
   text_agenda_item_move_next_meeting: Este ponto será transferido para a próxima reunião em %{date} em %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Ponto da ordem de trabalhos transferido para a reunião seguinte, a %{date}
   text_agenda_item_no_available_occurrence: Não estão disponíveis ocorrências futuras.
   text_agenda_item_no_notes: Nenhuma nota fornecida.

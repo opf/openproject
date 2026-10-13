@@ -116,7 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: URL de redirection supplémentaires autorisées pour la connexion
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -240,9 +240,9 @@ fr:
         api_format: Format d'API
         api_key: Clé API
         base_url: URL de l'hôte
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        llm_features_enabled: Enable LLMs for this instance
+        default_chat_model: Modèle de chat par défaut
+        default_embedding_model: Modèle d'intégration par défaut
+        llm_features_enabled: Activer les LLMs pour cette instance
       llm_model:
         admin_context_window: Fenêtre de contexte
         display_name: Nom d'affichage
@@ -399,6 +399,8 @@ fr:
         ongoing: En cours
         spent_on: date
         type: Type
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Calendrier
         ical_token_query_assignment: Affectation d'une requête
@@ -645,7 +647,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: Les lignes « %{invalid_lines} » ne constituent pas des URL HTTP ou HTTPS valides.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -720,13 +722,13 @@ fr:
         form_configuration:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
+              attribute_unknown: Un attribut de lot de travaux non valide est utilisé.
+              attribute_unknown_name: 'Un attribut de lot de travaux non valide est utilisé : %{attribute}'
+              duplicate_group: Le nom de groupe « %{group} » est utilisé plus d'une fois. Les noms de groupe doivent être uniques.
               group_without_name: Le nom du groupe ne peut pas être vide.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              query_invalid: 'La requête intégrée « %{group} » est invalide : %{details}'
             base:
-              default_undeletable: The default form cannot be deleted. Mark another form as default first.
+              default_undeletable: Le formulaire par défaut ne peut pas être supprimé. Veuillez d'abord définir un autre formulaire comme formulaire par défaut.
         grids/grid:
           end_before_start: la valeur finale doit être supérieure à la valeur de départ.
           outside: est hors de la grille.
@@ -750,7 +752,7 @@ fr:
               blank: Le nom ne peut pas être vide.
               format: "%{message}"
               taken: Une étiquette portant ce nom existe déjà. Veuillez en choisir une autre.
-              too_long: Name is too long (maximum is %{count} characters).
+              too_long: Le nom est trop long (le nombre maximal de caractères est de %{count}).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -759,7 +761,7 @@ fr:
         llm_connection:
           attributes:
             api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+              not_supported: nécessite des informations de connexion qu'OpenProject ne peut pas stocker, comme une clé secrète distincte ou un identifiant de région.
             api_key:
               invalid_api_key: a été rejeté par le serveur LLM.
             base:
@@ -1189,7 +1191,7 @@ fr:
         other: Paramètres d'exportation
       form_configuration:
         one: Formulaire
-        other: Forms
+        other: Formulaires
       forum:
         one: Forum
         other: Forums
@@ -1483,9 +1485,9 @@ fr:
         modes:
           dark:
             description: L'en-tête de l'application sera noir. Nous vous recommandons d'utiliser un logo blanc sur fond transparent.
-            name: Dark mode logo
+            name: Logo du mode sombre
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Veillez à télécharger un logo présentant un contraste suffisant avec la couleur choisie pour l'en-tête de l'application.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1865,7 +1867,7 @@ fr:
               title: Create work packages
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Télécharger les pièces jointes
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -1886,23 +1888,23 @@ fr:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        confirmation: Je comprends que cette action n'est pas réversible
+        description_html: Cela supprimera l'étiquette <strong>%{name}</strong> de tous les lots de travail de tous les projets.
+        heading: Supprimer ce libellé ?
+        title: Supprimer ce libellé ?
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: Créer un label
+        rename_title: Renommer «%{name}»
       index:
-        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+        description: Tous les utilisateurs habilités à modifier les lots de travail peuvent librement attribuer à ces derniers des étiquettes existantes ou en créer de nouvelles instantanément. Cela inclut toutes les étiquettes créées par les utilisateurs, tous projets confondus.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} lot de travaux"
+          other: Lots de travaux %{count}
       sub_header_component:
-        button_add: Label
-        label_add: Add label
-        search_placeholder: Type here to search
+        button_add: Libellé
+        label_add: Ajouter un libellé
+        search_placeholder: Tapez ici pour rechercher
       table_component:
         blank_slate:
           description: Labels created by users on work packages will appear here.
@@ -1911,14 +1913,14 @@ fr:
           name: Label
           usage: Used in
         no_matches:
-          description: Try a different search term.
+          description: Essayez un autre terme de recherche.
           title: No labels match your search
     llm_connections:
       delete_api_key:
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
+        description: OpenProject cessera d'envoyer une clé API avec ses requêtes. Les fonctionnalités continueront de fonctionner uniquement si le serveur ne nécessite aucune authentification. Vous pouvez saisir une nouvelle clé à tout moment.
+        heading: Supprimer la clé API enregistrée ?
+        menu_label: Supprime la clé API
+        success: La clé API a été supprimée.
         title: Remove API key
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
@@ -1927,27 +1929,27 @@ fr:
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
+        success: OpenProject s'est déconnecté du serveur LLM.
+        title: Déconnecter
       form:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
+        api_key_placeholder_stored: Clé API stockée
+        api_key_remove: Supprimer la clé
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        button_connect: Connecter
         label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
+        llm_features_enabled_caption: Une fois désactivées, toutes les fonctionnalités d'IA basées sur le LLM cessent de fonctionner. Les paramètres de connexion sont conservés.
+        server_description: Connectez OpenProject à un serveur prenant en charge l'API « %{api_format} », afin que les fonctionnalités d'IA puissent l'utiliser. L'URL de l'hôte ci-dessous permet de déterminer de quel serveur il s'agit.
+        server_group: Serveur
       show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+        description: Connectez OpenProject à un serveur LLM afin que les fonctionnalités d'IA puissent l'utiliser.
+        description_enabled: Une fois connecté, consultez les modèles proposés par le serveur dans l'onglet [Modèles](models_url).
       tabs:
-        connection: Connection
-        models: Models
+        connection: Connexion
+        models: Modèles
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
@@ -1987,23 +1989,23 @@ fr:
         filter_label: Filter models
         identifier: Model
         kind: Type
-        refresh: Refresh models
+        refresh: Actualiser les modèles
         source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+        source_discovered: Serveur
+        source_discovered_description: Signalé par le serveur
+        source_manual: Manuel
+        source_manual_description: Ajouté manuellement par un administrateur
+        source_withdrawn: Retiré
+        source_withdrawn_description: N'est plus signalé par le serveur
+        stale_warning: Les paramètres de connexion ont été modifiés depuis la dernière actualisation de la liste des modèles ; il se peut donc que celle-ci ne soit plus à jour. Veuillez actualiser la liste des modèles pour vous en assurer.
       new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
+        description: Citez un modèle que ce serveur peut utiliser mais qu'il ne diffuse pas, et décrivez ce qu'il permet de faire.
+        title: Ajouter un modèle
       refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
+        failure: La liste des modèles n'a pas pu être actualisée. Veuillez vérifier que le serveur LLM est toujours accessible.
+        success: La liste des modèles a été mise à jour.
       update:
-        success: "%{model} has been updated."
+        success: "%{model} a été mis à jour."
     mcp_configurations:
       index:
         description: Le protocole de contexte de modèle permet aux agents d'IA de fournir à leurs utilisateurs les outils et les ressources exposés par cette instance d'OpenProject. Cette fonctionnalité est encore en version bêta.
@@ -2259,8 +2261,8 @@ fr:
         save: Enregistrer les modifications et continuer
         title: Enregistrer les modifications avant de continuer ?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Modifier le flux de travail
+        text_html: 'Vous utilisez actuellement un workflow existant. Pour y apporter des modifications, vous pouvez soit modifier le workflow d''origine, soit cliquer sur <b> « + %{action}» </b> ci-dessus pour en créer un nouveau.
 
           '
       role_selector:
@@ -2292,7 +2294,7 @@ fr:
           assignee: Transitions supplémentaires disponibles pour la personne assignée au lot de travaux.
           author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
         menu_label: Transitions affichées
-      workflow_button: Workflow
+      workflow_button: Flux de travail
   ai:
     text_transform:
       errors:
@@ -2301,7 +2303,7 @@ fr:
         timeout: Le service d'IA n'a pas répondu à temps.
         upstream_error: Le service d'IA a renvoyé une erreur.
   announcements:
-    content: Content
+    content: Contenu
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
     show_until: Afficher jusqu'à
@@ -2494,7 +2496,7 @@ fr:
     work_package_id: Lot de travaux
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'N''utilisez cette option que si la connexion échoue parce que le fournisseur d''identité redirige le navigateur vers d''autres serveurs. Saisissez une URL par ligne, par exemple l''adresse que la console du navigateur indique comme étant bloquée. Lors de la connexion, OpenProject autorise les redirections vers les serveurs correspondant à ces URL.
 
         '
     login_and_registration: Connexion et inscription
@@ -4938,6 +4940,13 @@ fr:
           create_button: Créer
           dialog_body: Ce jeton permettra aux applications tierces de communiquer avec votre instance. Pour différencier le nouveau jeton API, veuillez lui donner un nom.
           dialog_title: Créer un nouveau jeton d'API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Nom du jeton
       failed_to_create_token: 'Impossible de créer le jeton d''accès : %{error}'
       failed_to_reset_token: 'Impossible de réinitialiser le jeton d''accès : %{error}'
@@ -4967,6 +4976,7 @@ fr:
     access_tokens:
       access_tokens: Jetons d'accès
       description: Les jetons de fournisseur sont émis par OpenProject, ce qui permet à d'autres applications d'y accéder. Les jetons clients sont émis par d'autres applications, permettant à OpenProject d'y accéder.
+      expired_on: Expired on %{date}
       headers:
         action: Action
         expiration: Expiration

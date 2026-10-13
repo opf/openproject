@@ -484,6 +484,7 @@ fa:
       no_items: بدون مورد دستور جلسه
       no_items_flash: هیچ مورد دستور جلسه‌ای برای ارائه وجود ندارد.
       previous: قبلی
+      slide_progress: Slide %{current}/%{total}
       title: حالت ارائه
       total_items: "%{current} از %{total}"
     types:
@@ -696,6 +697,7 @@ fa:
   text_agenda_item_duplicate_in_next_meeting: آیا مطمئن هستید که می‌خواهید یک کپی از این مورد دستور جلسه را به جلسه بعدی در %{date} ساعت %{time} اضافه کنید؟ نتایج تکثیر نخواهند شد.
   text_agenda_item_duplicated_in_next_meeting: مورد دستور جلسه در جلسه بعدی، در %{date} تکثیر شد
   text_agenda_item_move_next_meeting: این مورد به جلسه بعدی در %{date} ساعت %{time} منتقل خواهد شد.
+  text_agenda_item_moved_to_backlog: مورد دستور جلسه به فهرست کارهای معوق منتقل شد
   text_agenda_item_moved_to_next_meeting: مورد دستور جلسه به جلسه بعدی، در %{date} منتقل شد
   text_agenda_item_no_available_occurrence: نوبت پیشِ رویی در دسترس نیست.
   text_agenda_item_no_notes: یادداشتی ارائه نشده است
