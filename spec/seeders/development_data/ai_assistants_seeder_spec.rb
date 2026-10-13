@@ -33,11 +33,11 @@ require "spec_helper"
 RSpec.describe DevelopmentData::AiAssistantsSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
-  let(:group) { create(:group, lastname: "Marketing & Communications") }
+  let(:group) { create(:group, lastname: "COMMS") }
   let(:admin) { create(:admin) }
   let(:seed_data) do
     Source::SeedData.new(data_hash).tap do |data|
-      data.store_reference(:marketing, group)
+      data.store_reference(:team__comms, group)
       data.store_reference(:openproject_admin, admin)
     end
   end
@@ -52,13 +52,13 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
             label: Find risks
             prompt: List them.
       - reference: :ai_assistant_comms
-        principal: :marketing
+        principal: :team__comms
         name: COMMS assistant
         icon: megaphone
         position: 1
         skills:
           - skill_key: prompt
-            label: Draft an announcement
+            label: Write a test plan
             prompt: Draft it.
           - skill_key: chat
       - reference: :ai_assistant_tom

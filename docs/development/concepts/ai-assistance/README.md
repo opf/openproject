@@ -92,7 +92,7 @@ An assistant has an optional owner, `ai_assistants.principal_id`:
 The development data seeds one sample for each kind of owner (`DevelopmentData::AiAssistantsSeeder`, data in `app/seeders/standard.yml`):
 
 - **PM assistant** (global, next to QA assistance): "Write a status update" and "Find risks".
-- **COMMS assistant** (the Marketing & Communications department; Marko Marketing and Connie Comms see it): "Draft an announcement", "Check the wording" and a chat.
+- **COMMS assistant** (the COMMS team, which builds the communication features; `DevelopmentData::TeamSeeder` seeds the team with the admin user as its member): "Write a test plan" and a chat.
 - **Tom's assistant** (personal, of the admin user): "My next steps" and a chat.
 
 The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills, runs and chats.
