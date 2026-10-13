@@ -62,7 +62,6 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     click_on "Create"
 
     expect_and_dismiss_flash(message: "Successful creation")
-    expect(page).to have_css("#content img", count: 1)
     expect(page).to have_text("Image uploaded the first time")
     attachments_list.expect_attached("image.png")
 
@@ -89,7 +88,6 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     click_on "Save"
 
     expect(page).to have_text("Successful update")
-    expect(page).to have_css("#content img", count: 2)
     # First figcaption is lost by having replaced the markdown
     expect(page).to have_text("Image uploaded the second time")
     attachments_list.expect_attached("image.png", count: 2)

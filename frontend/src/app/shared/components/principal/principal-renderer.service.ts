@@ -217,6 +217,7 @@ export class PrincipalRendererService {
     image.classList.add('op-principal--avatar');
     image.classList.add('op-avatar');
     image.classList.add(`op-avatar_${options.size}`);
+    image.classList.add('op-avatar_user');
 
     this.setHoverCardAttributes(image, hoverCard, principal, 'user');
 

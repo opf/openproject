@@ -107,6 +107,7 @@ describe('PrincipalRendererService', () => {
 
       expect(image?.tagName).toBe('IMG');
       expect(image?.getAttribute('src')).toBe('/api/v3/users/1/avatar');
+      expect(image).toHaveClass('op-avatar_user');
     });
 
     it('retries once with fallback=true when the image fails to load', () => {

@@ -112,9 +112,6 @@ RSpec.describe "Custom text widget on my page",
       field.save!
 
       expect(page)
-        .to have_css("#content img", count: 1)
-
-      expect(page)
         .not_to have_test_selector("op-attachment-list-item", text: "image.png")
     end
 

@@ -4,8 +4,8 @@ en:
   avatar_deleted: "Avatar deleted successfully."
   avatars:
     label_avatar: "Avatar"
-    label_gravatar: 'Gravatar'
     label_avatar_color: "Fallback color"
+    label_gravatar: 'Gravatar'
     label_local_avatar: 'Custom avatar'
     message_avatar_color_updated: "Fallback color changed successfully."
     settings:

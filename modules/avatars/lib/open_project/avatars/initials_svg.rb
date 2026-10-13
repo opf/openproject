@@ -41,7 +41,7 @@ module OpenProject
       end
 
       def color_for(user)
-        custom_color = user.pref.avatar_color if user.respond_to?(:pref)
+        custom_color = user.respond_to?(:pref) ? user.pref.avatar_color : nil
         return custom_color if custom_color.present?
 
         "hsl(#{hue_for("#{user.id}#{user.name}")}, 50%, 30%)"
