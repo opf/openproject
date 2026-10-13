@@ -37,10 +37,13 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
   shared_context "with a relative url root" do
     around do |example|
       previous = OpenProject::Configuration["rails_relative_url_root"]
+      previous_asset_root = ActionController::Base.config.relative_url_root
       OpenProject::Configuration["rails_relative_url_root"] = "/openproject"
+      ActionController::Base.config.relative_url_root = "/openproject"
       example.run
     ensure
       OpenProject::Configuration["rails_relative_url_root"] = previous
+      ActionController::Base.config.relative_url_root = previous_asset_root
     end
   end
 
@@ -127,6 +130,10 @@ RSpec.describe "PWA manifest", type: :rails_request, with_flag: { progressive_we
       expect(manifest).to include("id" => "/openproject/",
                                   "start_url" => "/openproject/",
                                   "scope" => "/openproject/")
+    end
+
+    it "serves the icons under the prefix" do
+      expect(manifest["icons"]).to all(include("src" => start_with("/openproject/")))
     end
   end
 
