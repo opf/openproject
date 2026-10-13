@@ -496,6 +496,8 @@ ai_assistants:
           Look for:
           - comments that changed the scope, a decision or a deadline, which the description
             does not show yet;
+          - meeting notes or outcomes about this work package that the description or the
+            status does not show yet;
           - a subject that no longer names what the work package is about;
           - a description that promises work which the descendants do not cover, or the opposite;
           - a status that the comments contradict.

@@ -30,12 +30,16 @@
 
 module AI
   module Assistance
-    # What the model gets to know about a work package, for one user: the work package,
-    # its descendants and relations, and its comments. Only what that user can see;
-    # internal comments only with the permission to view them.
+    # What the model gets to know about a work package, for one user: its project, the
+    # work package, its descendants and relations, its comments, and the agendas of the
+    # meetings that discuss it. Only what that user can see; internal comments only with
+    # the permission to view them.
     class WorkPackageContext
       MAX_COMMENTS = 30
       MAX_TEXT = 4_000
+      MAX_MEETINGS = 10
+      MAX_AGENDA_ITEMS = 30
+      MAX_AGENDA_TEXT = 1_000
 
       attr_reader :work_package, :user
 
@@ -46,10 +50,12 @@ module AI
 
       def to_h
         {
+          project: { name: work_package.project.name, identifier: work_package.project.identifier },
           work_package: work_package_data,
           descendants: descendants_data,
           relations: relations_data,
-          comments: comments_data
+          comments: comments_data,
+          meetings: meetings_data
         }
       end
 
@@ -98,6 +104,54 @@ module AI
         else
           work_package.journals.where(internal: false)
         end
+      end
+
+      # The newest meetings, visible to the user, with this work package on the agenda or
+      # in an outcome. Each agenda in full, so the model sees decisions in their context.
+      def meetings_data
+        return [] unless defined?(::Meeting)
+
+        meetings = ::Meeting.visible(user).not_templated.where(id: related_meeting_ids)
+                            .reorder(start_time: :desc).limit(MAX_MEETINGS)
+                            .includes(sections: { agenda_items: %i[outcomes work_package] })
+                            .to_a
+        visible_ids = visible_agenda_work_package_ids(meetings)
+
+        meetings.map do |meeting|
+          items = meeting.sections.sort_by(&:position).flat_map(&:agenda_items).first(MAX_AGENDA_ITEMS)
+          { title: meeting.title, start_time: meeting.start_time&.iso8601, state: meeting.state,
+            agenda: items.map { |item| agenda_item_data(item, visible_ids) } }
+        end
+      end
+
+      def related_meeting_ids
+        on_agenda = ::MeetingAgendaItem.where(work_package_id: work_package.id).pluck(:meeting_id)
+        in_outcome = ::MeetingAgendaItem.joins(:outcomes)
+                                       .where(meeting_outcomes: { work_package_id: work_package.id })
+                                       .pluck(:meeting_id)
+        (on_agenda + in_outcome).uniq
+      end
+
+      # An agenda item about another work package names it only when the user can see it.
+      def visible_agenda_work_package_ids(meetings)
+        ids = meetings.flat_map { |m| m.sections.flat_map(&:agenda_items) }.filter_map(&:work_package_id)
+        WorkPackage.visible(user).where(id: ids).pluck(:id).to_set
+      end
+
+      def agenda_item_data(item, visible_ids)
+        {
+          title: agenda_item_title(item, visible_ids),
+          about_this_work_package: item.work_package_id == work_package.id,
+          notes: item.notes.to_s.truncate(MAX_AGENDA_TEXT).presence,
+          outcomes: item.outcomes.filter_map { |outcome| outcome.notes.to_s.truncate(MAX_AGENDA_TEXT).presence }.presence
+        }.compact
+      end
+
+      def agenda_item_title(item, visible_ids)
+        return item.title if item.work_package_id.nil?
+        return "(work package not visible)" unless visible_ids.include?(item.work_package_id)
+
+        "#{item.work_package.formatted_id} #{item.work_package.subject}"
       end
 
       def comments_data
