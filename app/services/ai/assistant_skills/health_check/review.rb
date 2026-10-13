@@ -35,7 +35,7 @@ module AI
       # The prompt itself is data on the skill (instructions and output rules), not code.
       # It reads only what the user who started the run can see: the job runs as that user.
       class Review
-        AREAS = %w[content status relations tree].freeze
+        AREAS = %w[content status relations tree pull_requests].freeze
 
         attr_reader :run
 
