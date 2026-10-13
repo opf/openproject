@@ -54,7 +54,7 @@ module AI
         g.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))
       end
 
-      f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.instructions"), mt: 4) do |g|
+      f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.instructions")) do |g|
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
 
@@ -62,7 +62,7 @@ module AI
       end
 
       if model.skill_type&.changeable_attributes.present?
-        f.fieldset_group(title: AI::AssistantSkill.human_attribute_name(:proposal_scope), mt: 4) do |g|
+        f.fieldset_group(title: AI::AssistantSkill.human_attribute_name(:proposal_scope)) do |g|
           g.radio_button_group(name: :proposal_scope, label: AI::AssistantSkill.human_attribute_name(:proposal_scope),
                                visually_hide_label: true) do |group|
             AI::AssistantSkill.proposal_scopes.each_key do |value|
@@ -74,7 +74,7 @@ module AI
       end
 
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.conditions"),
-                       description: I18n.t("admin.ai_assistants.skills.conditions.caption"), mt: 4) do |g|
+                       description: I18n.t("admin.ai_assistants.skills.conditions.caption")) do |g|
         g.group(layout: :horizontal) do |row|
           condition_input(row, :type_ids, Type.order(:position).pluck(:id, :name))
           condition_input(row, :status_ids, Status.order(:position).pluck(:id, :name))
@@ -86,7 +86,7 @@ module AI
       end
 
       f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
-               scheme: :primary, mt: 4)
+               scheme: :primary)
     end
 
     private

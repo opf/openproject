@@ -50,7 +50,7 @@ module AI
 
         # The owner is chosen once. An admin creates a global assistant or one for a group.
         if @admin && model.new_record?
-          f.fieldset_group(title: I18n.t("admin.ai_assistants.form.owner"), mt: 4) do |g|
+          f.fieldset_group(title: I18n.t("admin.ai_assistants.form.owner")) do |g|
             g.select_list(name: :principal_id, label: I18n.t("admin.ai_assistants.form.owner"), visually_hide_label: true,
                           input_width: :large, caption: I18n.t("admin.ai_assistants.form.owner_caption"),
                           include_blank: I18n.t("admin.ai_assistants.index.owners.global")) do |select|
@@ -60,14 +60,14 @@ module AI
         end
 
         f.fieldset_group(title: I18n.t("admin.ai_assistants.form.sections.instructions"),
-                         description: I18n.t("admin.ai_assistants.form.instructions_caption"), mt: 4) do |g|
+                         description: I18n.t("admin.ai_assistants.form.instructions_caption")) do |g|
           g.text_area(name: :instructions, label: AI::Assistant.human_attribute_name(:instructions),
                       visually_hide_label: true, rows: 5)
         end
 
         # A personal assistant uses the default model; only an admin chooses one.
         if @admin
-          f.fieldset_group(title: AI::Assistant.human_attribute_name(:model_id), mt: 4) do |g|
+          f.fieldset_group(title: AI::Assistant.human_attribute_name(:model_id)) do |g|
             g.select_list(name: :model_id, label: AI::Assistant.human_attribute_name(:model_id), visually_hide_label: true,
                           input_width: :large, caption: I18n.t("admin.ai_assistants.form.model_caption"),
                           include_blank: I18n.t("admin.ai_assistants.form.model_default")) do |select|
@@ -77,7 +77,7 @@ module AI
         end
 
         f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
-                 scheme: :primary, mt: 4)
+                 scheme: :primary)
       end
 
       def initialize(admin: false)
