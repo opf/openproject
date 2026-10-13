@@ -48,6 +48,16 @@ See COPYRIGHT and LICENSE files for more details.
 
       if @component.add_todo_defaults
         subheader.with_action_button(
+          leading_icon: :search,
+          label: t("planner.add_work_package"),
+          tag: :a,
+          href: new_dialog_planner_tasks_path(view: @view, kind: :work_package, **@component.add_todo_defaults),
+          data: { controller: "async-dialog" }
+        ) do
+          t("planner.add_work_package")
+        end
+
+        subheader.with_action_button(
           scheme: :primary,
           leading_icon: :plus,
           label: t("planner.add_todo"),

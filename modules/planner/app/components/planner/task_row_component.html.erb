@@ -112,9 +112,12 @@ See COPYRIGHT and LICENSE files for more details.
         <% move_targets.each do |to, label| %>
           <% menu.with_item(label:, href: plan_path(to), form_arguments: plan_form_arguments) %>
         <% end %>
+        <% menu.with_divider %>
         <% unless overdue? %>
-          <% menu.with_divider %>
           <% menu.with_item(label: t("planner.move_to.remove"), href: plan_path(:remove), form_arguments: plan_form_arguments) %>
+        <% end %>
+        <% menu.with_item(label: delete_label, scheme: :danger, href: planner_task_path(work_package, view: view_param), form_arguments: delete_form_arguments, test_selector: "planner-delete-task") do |item| %>
+          <% item.with_leading_visual_icon(icon: :trash) %>
         <% end %>
       <% end %>
     <% end %>
