@@ -294,6 +294,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
 
+  // Exposed so other autocompleter consumers (e.g. global search) can render
+  // work package results with the exact same markup/styling.
+  @ViewChild('workPackageOption') public workPackageOption:TemplateRef<Element>;
+
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;
 
