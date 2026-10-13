@@ -1060,7 +1060,7 @@ GEM
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-racecar (0.7.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-rack (0.31.1)
+    opentelemetry-instrumentation-rack (0.31.2)
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-rails (0.42.0)
       opentelemetry-instrumentation-action_mailer (~> 0.7)
@@ -2151,7 +2151,7 @@ CHECKSUMS
   opentelemetry-instrumentation-pg (0.37.0) sha256=90b29a772bcd2e19f6baf31f2b8741ffaa001c9a5523853896bebf4cbfc3dbc0
   opentelemetry-instrumentation-que (0.13.0) sha256=95e04b8c17e89eaa446f5dff7975cf72c2e74f7e1e84717be47facf510613112
   opentelemetry-instrumentation-racecar (0.7.0) sha256=93a991917687aa0a6e785ccd8d0de5746af110122552b2bf1e3abe12ab04584a
-  opentelemetry-instrumentation-rack (0.31.1) sha256=29a9c145ce6d3fa2938f30334209787c29b581a51fdb472e2098a1d69e15536a
+  opentelemetry-instrumentation-rack (0.31.2) sha256=4a183066110455711a0c77754e3f46652f646221d7704d968a48d155b47f8309
   opentelemetry-instrumentation-rails (0.42.0) sha256=5ea3808373ca73ee9fa4ecf337471bad1c28e98ea64460b89ab225f5b6eaf8b3
   opentelemetry-instrumentation-rake (0.6.0) sha256=71746e4e172560f8ccf1d3c91354196f5aa0fd9b0c477d6ff17a451cef901822
   opentelemetry-instrumentation-rdkafka (0.10.0) sha256=ad1a4aa78c0ab43c1f130d961f54e1d6ac20c674b0180b87d4364770b81ec209
