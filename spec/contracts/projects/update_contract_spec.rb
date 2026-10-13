@@ -111,6 +111,22 @@ RSpec.describe Projects::UpdateContract do
       include_examples "contract is invalid", template_id: :error_readonly
     end
 
+    context "when changing templated as an admin with admin privilege elevation required",
+            with_flag: { admin_privilege_elevation: true } do
+      let(:current_user) { build_stubbed(:admin) }
+      let(:project_templated) { true }
+
+      context "when not elevated in the project" do
+        include_examples "contract is invalid", templated: %i(error_unauthorized)
+      end
+
+      context "when elevated in the project" do
+        before { current_user.admin_elevation = Users::AdminElevation.in_projects([project.id]) }
+
+        include_examples "contract is valid"
+      end
+    end
+
     describe "permissions" do
       let(:readonly_attribute_errors) do
         {
