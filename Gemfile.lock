@@ -1085,7 +1085,7 @@ GEM
       opentelemetry-instrumentation-base (~> 0.25)
     opentelemetry-instrumentation-sidekiq (0.29.0)
       opentelemetry-instrumentation-base (~> 0.25)
-    opentelemetry-instrumentation-sinatra (0.30.0)
+    opentelemetry-instrumentation-sinatra (0.30.1)
       opentelemetry-instrumentation-rack (~> 0.29)
     opentelemetry-instrumentation-trilogy (0.69.0)
       opentelemetry-helpers-mysql
@@ -2160,7 +2160,7 @@ CHECKSUMS
   opentelemetry-instrumentation-restclient (0.28.0) sha256=749b76d46c85a78882d924ba2edeff408f50def33099a67d95d88ddc4fa10307
   opentelemetry-instrumentation-ruby_kafka (0.25.0) sha256=33ceccd5cef4f648e652fa45896d0b014da1a71b3a80f17064829ee5aa84e285
   opentelemetry-instrumentation-sidekiq (0.29.0) sha256=b1d2a0cb9041a5e14239fe7c94d99e3dd07f870e2759460ab63592d7cdd8aadc
-  opentelemetry-instrumentation-sinatra (0.30.0) sha256=b67301153420f43264a0c68cdb3ca5bd77467cf5054e57b83a2bf891aaaa0361
+  opentelemetry-instrumentation-sinatra (0.30.1) sha256=d7424fa20ffe7c972da94d7feded8c591638409e9301bc6f1ca048fa5324f1a0
   opentelemetry-instrumentation-trilogy (0.69.0) sha256=0676dd720eeab284abfa52f273967442156fcac7084a1e1411373cf14ec026ad
   opentelemetry-logs-api (0.6.0) sha256=b889ac61d90326bffadb83bf7278d246d1086e2349c9052aeb072ed375ce73d0
   opentelemetry-metrics-api (0.9.0) sha256=e11a12055113e11421313f71c758e5e10e4662e9e5c3b91786218a692e81206d
