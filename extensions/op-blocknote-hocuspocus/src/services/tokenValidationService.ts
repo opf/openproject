@@ -29,6 +29,10 @@ import { decryptToken } from "./decryptTokenService";
 import { fetchResource } from "./resourceService";
 import type { ApiResponseDocument } from "../types";
 
+// Origins accepted in addition to the token's own origin.
+// "file://" lets the OpenProject mobile app connect (its webview sends `Origin: file://`).
+const ALLOWED_ORIGINS = ["file://"];
+
 export interface TokenValidationResult {
   decryptedToken: string;
   readonly: boolean;
@@ -37,7 +41,8 @@ export interface TokenValidationResult {
 
 /**
  * Decrypt and validate packed auth params against the OpenProject API.
- * Validates origin and resource URL match, then verifies access with the API.
+ * Validates that the request origin exactly matches the token's origin (or is an allowed origin)
+ * and that the resource URL matches, then verifies access with the API.
  * Returns the decrypted oauth_token and readonly status, or throws if validation fails.
  */
 export async function decryptAndValidateToken(
@@ -51,8 +56,10 @@ export async function decryptAndValidateToken(
     expires_at,
   } = decryptToken(encryptedToken);
 
-  if (requestOrigin && !tokenResourceUrl?.startsWith(requestOrigin)) {
-    throw new Error(`Unauthorized: Token origin does not match request origin. Expected ${tokenResourceUrl} to start with ${requestOrigin}.`);
+  // Compare the raw header against the allowlist, since `new URL("file://").origin` is "null".
+  const tokenOrigin = new URL(tokenResourceUrl).origin;
+  if (requestOrigin && requestOrigin !== tokenOrigin && !ALLOWED_ORIGINS.includes(requestOrigin)) {
+    throw new Error(`Unauthorized: Token origin does not match request origin. Expected ${tokenOrigin}, got ${requestOrigin}.`);
   }
 
   if (tokenResourceUrl !== resourceUrl) {
