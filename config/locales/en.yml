@@ -1510,6 +1510,8 @@ en:
     ai_assistants:
       delete:
         confirm: "Delete this assistant, its skills and every run of them?"
+      edit:
+        personal_banner: "This is a personal assistant of %{user}. It shows only in their AI Assistance menu."
       form:
         model_caption: "Empty uses the default chat model of the LLM connection."
         model_default: "Default of the LLM connection"
@@ -1519,6 +1521,11 @@ en:
         add: "Assistant"
         description: "Assistants group the skills of the AI Assistance menu on work packages. Each run uses the permissions of the user who starts it."
         empty: "There are no assistants yet."
+        owner_filter: "Owner"
+        owners:
+          all: "All"
+          global: "Global"
+          personal: "Personal"
       new:
         title: "New assistant"
       skills:
@@ -5292,6 +5299,10 @@ en:
         logged: "Logged time only"
 
   my_account:
+    ai_assistants:
+      title: "AI assistants"
+      description: "Your own assistants. They show only in your AI Assistance menu on work packages, and they use the default model of the LLM connection."
+      empty_description: "Add an assistant, then add skills with your own instructions."
     access_tokens:
       access_tokens: "Access tokens"
       description: "Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them."
@@ -5878,6 +5889,8 @@ en:
     Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don't have.
     This includes changing their own roles, allowing users to give themselves more permissions on the project.
   permission_manage_news: "Manage news"
+  permission_manage_own_ai_assistants: "Manage own AI assistants"
+  permission_manage_own_ai_assistants_explanation: "Create personal AI assistants in My account. They show only in the user's AI Assistance menu, and they use the default model of the LLM connection."
   permission_manage_own_reminders: "Create own reminders"
   permission_manage_own_working_times: "Manage own working times"
   permission_manage_own_working_times_explanation: >

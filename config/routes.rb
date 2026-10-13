@@ -1470,6 +1470,10 @@ Rails.application.routes.draw do
   end
 
   namespace :my do
+    resources :ai_assistants, except: :show do
+      resources :skills, controller: "ai_assistant_skills", except: %i[index show]
+    end
+
     resources :access_tokens, only: %i[index] do
       collection do
         get :dialog

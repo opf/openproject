@@ -29,21 +29,15 @@
   ++#
 %>
 
-<% html_title t(:label_administration), t("menus.admin.ai_assistants"), @assistant.name, title %>
+<% html_title(*pages.html_title_parts, @assistant.name, title) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { title }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: mcp_configurations_path, text: t("menus.admin.ai") },
-       { href: admin_ai_assistants_path, text: t("menus.admin.ai_assistants") },
-       { href: edit_admin_ai_assistant_path(@assistant), text: @assistant.name },
-       title]
-    )
+    header.with_breadcrumbs(pages.breadcrumbs({ href: pages.edit_assistant_path(@assistant), text: @assistant.name }, title))
   end
 %>
 
 <%= settings_primer_form_with(model: @skill, scope: :ai_assistant_skill, url:, method:) do |f| %>
-  <%= render(AI::AssistantSkillForm.new(f)) %>
+  <%= render(AI::AssistantSkillForm.new(f, admin: pages.admin?)) %>
 <% end %>

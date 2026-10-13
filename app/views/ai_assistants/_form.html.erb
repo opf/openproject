@@ -30,5 +30,5 @@
 %>
 
 <%= settings_primer_form_with(model: @assistant, scope: :ai_assistant, url:, method:) do |f| %>
-  <%= render(AI::Assistants::Form.new(f)) %>
+  <%= render(AI::Assistants::Form.new(f, admin: pages.admin?)) %>
 <% end %>

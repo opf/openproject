@@ -30,18 +30,13 @@
 %>
 
 <% title = t("admin.ai_assistants.new.title") %>
-<% html_title t(:label_administration), t("menus.admin.ai_assistants"), title %>
+<% html_title(*pages.html_title_parts, title) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { title }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: mcp_configurations_path, text: t("menus.admin.ai") },
-       { href: admin_ai_assistants_path, text: t("menus.admin.ai_assistants") },
-       title]
-    )
+    header.with_breadcrumbs(pages.breadcrumbs(title))
   end
 %>
 
-<%= render "form", url: admin_ai_assistants_path, method: :post %>
+<%= render "ai_assistants/form", url: pages.assistants_path, method: :post %>

@@ -81,6 +81,19 @@ The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An ad
 
 A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Generate test cases". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
 
+## Personal assistants
+
+A user can create their own assistants with their own skills at **My account → AI assistants** (`My::AIAssistantsController`, `My::AIAssistantSkillsController`).
+
+- **Permission:** the global permission `manage_own_ai_assistants`. An admin gives it through a global role. To give it to all users, add it to the Standard global role.
+- **Owner:** `ai_assistants.user_id`. Null means a global assistant. The owner never changes (`attr_readonly`).
+- **Menu:** a personal assistant shows only in its owner's menu, after the global assistants. When the owner loses the permission, the assistant stays, but it is not offered (`AI::Assistant#usable?`).
+- **Model:** a personal assistant uses the default model of the LLM connection. Only an admin can set a model, also on a personal assistant.
+- **Template:** the My account form does not show `template_ref`.
+- **Admin:** the admin list shows all assistants with their owner, and filters by owner. The admin edits, deactivates and deletes personal assistants on the same pages.
+- **Deletion:** personal assistants are deleted with their owner, together with their skills, runs and chats.
+- **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
+
 ## Proposal scope and changeable attributes
 
 A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (attribute changes and comments), **Comment only** or **Read-only** (nothing). A comment is the Automations action `Comment`, and it needs only the permission to comment. There is no list of attributes to maintain in the UI: with custom fields, such a list would grow without limit.
@@ -111,21 +124,21 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 ## Gating
 
 - The feature flag `ai_assistance` (off by default in production). The AI part also needs the `llm_connection` flag, the `llm_features_enabled` setting and a configured connection.
-- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Applying a change set also needs `edit_work_packages`, or only `add_work_package_comments` for a comment.
+- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Personal assistants also need the global permission `manage_own_ai_assistants`. Applying a change set also needs `edit_work_packages`, or only `add_work_package_comments` for a comment.
 - There is no enterprise gate yet. See "Follow-ups".
 
 ## Data model
 
 | Table | Holds |
 |---|---|
-| `ai_assistants` | name, description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active |
+| `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `user_id` (the owner of a personal assistant) |
 | `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, position, active |
 | `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events`, `finished_at` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 | `ai_assistant_chats` | skill, user, work package |
 | `ai_assistant_chat_messages` | chat, role, content, status, locale, `change_set`, `base_lock_version`, state, `events` |
 
-Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "QA assistance" assistant with its three skills when the table is empty, also on an upgrade.
+Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "QA assistance" assistant with its three skills when there is no global assistant, also on an upgrade.
 
 ## How to try it
 
@@ -134,6 +147,7 @@ Runs, chats and their rows are deleted with their user, their work package or th
 3. Open a closed work package with an open child, and use **AI Assistance → Refresh work package**.
 4. For the AI part, configure an LLM connection with a default chat model, then run the check again. To see a change set, add a comment that changes the scope.
 5. Configure assistants at **Administration → Artificial Intelligence (AI) → Assistants**.
+6. For personal assistants, add "Manage own AI assistants" to a global role, then open **My account → AI assistants**.
 
 ## Split for review
 
@@ -157,6 +171,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 14 | Use "AI review" in the interface | Wording | 9 |
 | 15 | Rename the AI judgement to AI review, and move shared proposal classes to AI::Assistance | Renames only | 14 |
 | 16 | Clean up AI Assistance after review | Shared LLM call, event log and locale helpers, dead code, seeded prompts, this document | 15 |
+| 17 | Add personal AI assistants in My account | Owner column, `manage_own_ai_assistants`, My account pages, shared admin and My controller logic | 11 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 
@@ -165,6 +180,6 @@ Steps 1 and 2 are useful on their own and can merge first. After step 8, the fea
 - **Coding agent.** Start an external coding agent (opilot) from the menu. The OpenProject work is in [Coding agent integration](./coding-agent.md).
 - **Enterprise gate.** Gate the menu, the runs and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
 - **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10–16 need specs, and the toolbar needs browser specs (full view and split view).
-- **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the conditions of Automations, and a path to triggers. The result is still a proposal.
+- **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the conditions of Automations, and a path to triggers. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
 - **Edit before apply.** Open a proposed description in the description editor.
 - **Retention.** Runs are kept without a limit. A cleanup job can come when usage shows the need.

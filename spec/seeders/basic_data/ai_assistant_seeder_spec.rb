@@ -73,4 +73,20 @@ RSpec.describe BasicData::AiAssistantSeeder do
 
     expect(AI::Assistant.count).to eq(1)
   end
+
+  context "when only personal assistants exist" do
+    let(:owner) { create(:user) }
+
+    before do
+      AI::Assistant.destroy_all
+      create(:ai_assistant, name: "QA assistance", user: owner)
+    end
+
+    it "seeds the global assistant" do
+      described_class.new(basic_seed_data.merge(Source::SeedData.new(data_hash))).seed!
+
+      expect(AI::Assistant.global.find_by!(name: "QA assistance").skills.count).to eq(3)
+      expect(AI::Assistant.personal.count).to eq(1)
+    end
+  end
 end

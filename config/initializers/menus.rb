@@ -317,6 +317,14 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my/sessions", action: :index },
             caption: :"users.sessions.title",
             icon: "devices"
+  menu.push :ai_assistants,
+            { controller: "/my/ai_assistants", action: "index" },
+            caption: :"my_account.ai_assistants.title",
+            icon: "sparkle",
+            if: ->(*) {
+              OpenProject::FeatureDecisions.ai_assistance_active? &&
+                User.current.allowed_globally?(:manage_own_ai_assistants)
+            }
   menu.push :notifications,
             { controller: "/my", action: "notifications" },
             caption: I18n.t("my_account.notifications_and_email.title"),

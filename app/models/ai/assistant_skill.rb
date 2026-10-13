@@ -44,6 +44,7 @@ module AI
 
     validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
     validates :label, :template_ref, length: { maximum: 255 }
+    validates :prompt, :output_rules, length: { maximum: 20_000 }
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -68,6 +69,7 @@ module AI
     def ready?
       return false if skill_type.nil?
       return false if skill_type.prompt_required? && prompt.blank?
+      return false unless assistant.usable?
 
       LlmConnection.available? && AI::Assistance::ModelChoice.new(assistant).model_id.present?
     end

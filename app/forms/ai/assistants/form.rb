@@ -44,16 +44,24 @@ module AI
           ICONS.each { |icon| select.option(value: icon, label: icon) }
         end
 
-        f.select_list(name: :model_id, label: AI::Assistant.human_attribute_name(:model_id), input_width: :large,
-                      caption: I18n.t("admin.ai_assistants.form.model_caption"),
-                      include_blank: I18n.t("admin.ai_assistants.form.model_default")) do |select|
-          model_ids.each { |id| select.option(value: id, label: id) }
+        # A personal assistant uses the default model; only an admin chooses one.
+        if @admin
+          f.select_list(name: :model_id, label: AI::Assistant.human_attribute_name(:model_id), input_width: :large,
+                        caption: I18n.t("admin.ai_assistants.form.model_caption"),
+                        include_blank: I18n.t("admin.ai_assistants.form.model_default")) do |select|
+            model_ids.each { |id| select.option(value: id, label: id) }
+          end
         end
 
         f.check_box(name: :active, label: AI::Assistant.human_attribute_name(:active))
 
         f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
                  scheme: :primary)
+      end
+
+      def initialize(admin: false)
+        super()
+        @admin = admin
       end
 
       private

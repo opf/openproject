@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assistance: true } do
+  include_context "with an available LLM for AI Assistance"
+
   shared_let(:project) { create(:project) }
   shared_let(:assistant) { create(:ai_assistant, name: "QA assistance") }
   shared_let(:skill) { create(:ai_assistant_skill, assistant:) }
@@ -84,6 +86,47 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       expect(response.body).to include("QA assistance")
       expect(response.body).to include(%(name="skill_id" value="#{skill.id}"))
       expect(response.body).to include("History")
+    end
+  end
+
+  describe "a personal assistant" do
+    let(:owner) do
+      create(:user, member_with_permissions: { project => permissions },
+                    global_permissions: %i[manage_own_ai_assistants])
+    end
+    let!(:personal_skill) do
+      create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "My helper", user: owner),
+                                  skill_key: "prompt", prompt: "Summarize it.")
+    end
+
+    context "for its owner" do
+      let(:user) { owner }
+
+      it "lists its skill after the global ones" do
+        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+
+        expect(response.body).to include("My helper")
+        expect(response.body.index(%(value="#{skill.id}"))).to be < response.body.index(%(value="#{personal_skill.id}"))
+      end
+    end
+
+    context "for another user" do
+      it "does not list it" do
+        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+
+        expect(response.body).not_to include("My helper")
+      end
+    end
+
+    context "when the owner lost the permission" do
+      let(:owner) { create(:user, member_with_permissions: { project => permissions }) }
+      let(:user) { owner }
+
+      it "does not list it" do
+        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+
+        expect(response.body).not_to include("My helper")
+      end
     end
   end
 end

@@ -63,9 +63,9 @@ module WorkPackages::AIAssistance::Scoped
     AI::AssistantSkill
       .active
       .joins(:assistant)
-      .merge(AI::Assistant.active)
+      .merge(AI::Assistant.active.visible_to(current_user).ordered)
       .includes(:assistant)
-      .order("ai_assistants.position", "ai_assistants.id", :position, :id)
+      .order(:position, :id)
       .select(&:ready?)
   end
 

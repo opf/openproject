@@ -56,4 +56,44 @@ RSpec.describe AI::Assistant do
 
     expect(variant).to be_valid
   end
+
+  describe "owners" do
+    let(:owner) { create(:user) }
+    let!(:global_assistant) { create(:ai_assistant, position: 2) }
+    let!(:personal_assistant) { create(:ai_assistant, user: owner, position: 1) }
+
+    it "orders global assistants before personal ones" do
+      expect(described_class.ordered).to eq([global_assistant, personal_assistant])
+    end
+
+    it "shows a personal assistant only to its owner" do
+      expect(described_class.visible_to(owner)).to contain_exactly(global_assistant, personal_assistant)
+      expect(described_class.visible_to(create(:user))).to contain_exactly(global_assistant)
+    end
+
+    it "requires a unique name for each owner" do
+      expect(build(:ai_assistant, name: global_assistant.name, user: owner)).to be_valid
+      expect(build(:ai_assistant, name: personal_assistant.name, user: owner)).not_to be_valid
+      expect(build(:ai_assistant, name: personal_assistant.name)).to be_valid
+    end
+
+    it "never changes its owner" do
+      expect { personal_assistant.update(user: create(:user)) }.to raise_error(ActiveRecord::ReadonlyAttributeError)
+    end
+
+    it "is deleted with its owner" do
+      owner.destroy
+
+      expect(described_class.exists?(personal_assistant.id)).to be(false)
+      expect(described_class.exists?(global_assistant.id)).to be(true)
+    end
+
+    it "is usable only while its owner may manage their own assistants" do
+      expect(global_assistant).to be_usable
+      expect(personal_assistant).not_to be_usable
+
+      allowed = create(:user, global_permissions: %i[manage_own_ai_assistants])
+      expect(create(:ai_assistant, user: allowed)).to be_usable
+    end
+  end
 end

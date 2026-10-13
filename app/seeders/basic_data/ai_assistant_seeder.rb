@@ -32,7 +32,12 @@ module BasicData
   class AiAssistantSeeder < ModelSeeder
     self.model_class = AI::Assistant
     self.seed_data_model_key = "ai_assistants"
-    self.attribute_names_for_lookups = %i[name]
+    self.attribute_names_for_lookups = %i[name user_id]
+
+    # Personal assistants do not count: the seed is about the global ones.
+    def applicable?
+      AI::Assistant.global.none? && seed_data.all_references_exist?(all_required_references)
+    end
 
     def create_model!(model_data)
       super.tap do |assistant|
@@ -52,6 +57,7 @@ module BasicData
     def model_attributes(assistant_data)
       {
         name: assistant_data["name"],
+        user_id: nil,
         description: assistant_data["description"],
         icon: assistant_data["icon"],
         position: assistant_data["position"]

@@ -55,8 +55,10 @@ module AI
       f.text_area(name: :output_rules, label: AI::AssistantSkill.human_attribute_name(:output_rules), rows: 10,
                   caption: I18n.t("admin.ai_assistants.skills.output_rules_caption"))
 
-      f.text_field(name: :template_ref, label: AI::AssistantSkill.human_attribute_name(:template_ref),
-                   input_width: :large, caption: I18n.t("admin.ai_assistants.skills.template_ref_caption"))
+      if @admin
+        f.text_field(name: :template_ref, label: AI::AssistantSkill.human_attribute_name(:template_ref),
+                     input_width: :large, caption: I18n.t("admin.ai_assistants.skills.template_ref_caption"))
+      end
 
       if model.skill_type&.changeable_attributes.present?
         f.radio_button_group(name: :proposal_scope, label: AI::AssistantSkill.human_attribute_name(:proposal_scope)) do |group|
@@ -71,6 +73,11 @@ module AI
 
       f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
                scheme: :primary)
+    end
+
+    def initialize(admin: false)
+      super()
+      @admin = admin
     end
 
     private

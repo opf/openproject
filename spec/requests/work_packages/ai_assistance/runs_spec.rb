@@ -31,6 +31,8 @@
 require "rails_helper"
 
 RSpec.describe "AI Assistance runs", :skip_csrf, type: :rails_request, with_flag: { ai_assistance: true } do
+  include_context "with an available LLM for AI Assistance"
+
   shared_let(:project) { create(:project) }
   shared_let(:skill) { create(:ai_assistant_skill) }
 
@@ -60,6 +62,21 @@ RSpec.describe "AI Assistance runs", :skip_csrf, type: :rails_request, with_flag
         request
 
         expect(response).to have_http_status(:forbidden)
+        expect(AI::AssistantRun.count).to eq(0)
+      end
+    end
+
+    context "with a personal skill of another user" do
+      let(:owner) { create(:user, global_permissions: %i[manage_own_ai_assistants]) }
+      let(:personal_skill) do
+        create(:ai_assistant_skill, assistant: create(:ai_assistant, user: owner), skill_key: "prompt", prompt: "Hi")
+      end
+
+      it "responds with not found and stores nothing" do
+        post "/work_packages/#{work_package.id}/ai_assistance/runs",
+             params: { skill_id: personal_skill.id }, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
         expect(AI::AssistantRun.count).to eq(0)
       end
     end

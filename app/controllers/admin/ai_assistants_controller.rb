@@ -30,59 +30,41 @@
 
 module Admin
   class AIAssistantsController < ::ApplicationController
-    include AIAssistance::RequireFeature
+    OWNER_FILTERS = %w[global personal].freeze
 
     before_action :require_admin
-    before_action :find_assistant, only: %i[edit update destroy]
+
+    # After the access checks: the shared actions look up records.
+    include AIAssistance::AssistantsActions
 
     menu_item :ai_assistants
 
     layout "admin"
 
-    def index
-      @assistants = AI::Assistant.ordered.includes(:skills)
-    end
-
-    def new
-      @assistant = AI::Assistant.new
-    end
-
-    def edit; end
-
-    def create
-      @assistant = AI::Assistant.new(assistant_params.merge(position: (AI::Assistant.maximum(:position) || 0) + 1))
-
-      if @assistant.save
-        flash[:notice] = t(:notice_successful_create)
-        redirect_to edit_admin_ai_assistant_path(@assistant)
-      else
-        render :new, status: :unprocessable_entity
-      end
-    end
-
-    def update
-      if @assistant.update(assistant_params)
-        flash[:notice] = t(:notice_successful_update)
-        redirect_to admin_ai_assistants_path
-      else
-        render :edit, status: :unprocessable_entity
-      end
-    end
-
-    def destroy
-      @assistant.destroy
-      flash[:notice] = t(:notice_successful_delete)
-      redirect_to admin_ai_assistants_path
-    end
-
     private
 
-    def find_assistant
-      @assistant = AI::Assistant.find(params[:id])
+    # All assistants, global and personal; ?owner= narrows the list.
+    def assistant_scope
+      scope = AI::Assistant.includes(:user)
+      owner_filter ? scope.public_send(owner_filter) : scope
+    end
+
+    def owner_filter
+      params[:owner] if action_name == "index" && OWNER_FILTERS.include?(params[:owner])
+    end
+    helper_method :owner_filter
+
+    # An admin creates global assistants. A personal one keeps its owner.
+    def new_assistant(attributes = {})
+      AI::Assistant.new(attributes)
     end
 
     def assistant_params
       params.expect(ai_assistant: %i[name description icon model_id active])
+    end
+
+    def pages
+      @pages ||= AIAssistance::Pages.new(helpers, :admin)
     end
   end
 end

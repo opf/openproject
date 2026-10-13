@@ -69,6 +69,7 @@ An admin configures where the agent runs.
 ### 3. The coding agent skill type
 
 - **Skill type** `AI::AssistantSkills::CodingAgent::Skill`, key `coding_agent`. It is a conversation, like Chat and Custom prompt. Its kind label is "Agent".
+- **Global assistants only.** The skill form in My account does not offer this type, because the connection and its costs are the admin's.
 - **Skill setting:** the agent connection. Add a nullable `agent_connection_id` to `ai_assistant_skills`, shown on the skill form only for this type.
 - **Ready check** (`AI::AssistantSkill#ready?`): the connection is active, and the MCP server is enabled. This skill does not need an LLM connection in OpenProject, because the agent brings its own model.
 - **Menu:** a menu item opens the conversation dialog of this skill. While a session runs, the item shows a "Running" label, and a second click opens the running session.

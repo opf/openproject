@@ -50,6 +50,15 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      contract_actions: { programs: %i[create] }
 
+      map.permission :manage_own_ai_assistants,
+                     {
+                       "my/ai_assistants": %i[index new create edit update destroy],
+                       "my/ai_assistant_skills": %i[new create edit update destroy]
+                     },
+                     permissible_on: :global,
+                     require: :loggedin,
+                     visible: -> { OpenProject::FeatureDecisions.ai_assistance_active? }
+
       map.permission :archive_project,
                      {
                        "projects/archive": %i[create dialog]

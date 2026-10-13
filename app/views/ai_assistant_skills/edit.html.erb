@@ -29,4 +29,4 @@
   ++#
 %>
 
-<%= render "page", title: @skill.display_label, url: admin_ai_assistant_skill_path(@assistant, @skill), method: :patch %>
+<%= render "ai_assistant_skills/page", title: @skill.display_label, url: pages.skill_path(@assistant, @skill), method: :patch %>

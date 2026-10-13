@@ -30,24 +30,19 @@
 %>
 
 <% title = @assistant.name %>
-<% html_title t(:label_administration), t("menus.admin.ai_assistants"), title %>
+<% html_title(*pages.html_title_parts, title) %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
     header.with_title { title }
-    header.with_breadcrumbs(
-      [{ href: admin_index_path, text: t(:label_administration) },
-       { href: mcp_configurations_path, text: t("menus.admin.ai") },
-       { href: admin_ai_assistants_path, text: t("menus.admin.ai_assistants") },
-       title]
-    )
+    header.with_breadcrumbs(pages.breadcrumbs(title))
 
     header.with_action_button(
       scheme: :danger,
       mobile_icon: :trash,
       mobile_label: t("button_delete"),
       tag: :a,
-      href: admin_ai_assistant_path(@assistant),
+      href: pages.assistant_path(@assistant),
       data: { turbo_method: :delete, turbo_confirm: t("admin.ai_assistants.delete.confirm"),
               test_selector: "ai-assistant-delete" }
     ) do |button|
@@ -57,12 +52,18 @@
   end
 %>
 
-<%= render "form", url: admin_ai_assistant_path(@assistant), method: :patch %>
+<% if pages.admin? && @assistant.personal? %>
+  <%= render(Primer::Alpha::Banner.new(mb: 4, icon: :person)) do %>
+    <%= t("admin.ai_assistants.edit.personal_banner", user: @assistant.user.name) %>
+  <% end %>
+<% end %>
+
+<%= render "ai_assistants/form", url: pages.assistant_path(@assistant), method: :patch %>
 
 <%= render(Primer::Beta::Subhead.new(mt: 6)) do |subhead| %>
   <% subhead.with_heading(tag: :h2) { t("admin.ai_assistants.skills.title") } %>
   <% subhead.with_actions do %>
-    <%= render(Primer::Beta::Button.new(tag: :a, href: new_admin_ai_assistant_skill_path(@assistant))) do |button| %>
+    <%= render(Primer::Beta::Button.new(tag: :a, href: pages.new_skill_path(@assistant))) do |button| %>
       <% button.with_leading_visual_icon(icon: :plus) %>
       <%= t("admin.ai_assistants.skills.add") %>
     <% end %>
@@ -77,7 +78,7 @@
     <% box.with_row(data: { test_selector: "ai-assistant-skill-row" }) do %>
       <%= flex_layout(align_items: :center) do |row| %>
         <% row.with_column(flex: 1) do %>
-          <%= render(Primer::Beta::Link.new(href: edit_admin_ai_assistant_skill_path(@assistant, skill))) { skill.display_label } %>
+          <%= render(Primer::Beta::Link.new(href: pages.edit_skill_path(@assistant, skill))) { skill.display_label } %>
           <% if skill.skill_type && skill.skill_type.kind_label != skill.display_label %>
             <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { skill.skill_type.kind_label } %>
           <% end %>
@@ -91,7 +92,9 @@
           <% end %>
         <% end %>
         <% row.with_column do %>
-          <%= button_to t(:button_delete), admin_ai_assistant_skill_path(@assistant, skill), method: :delete,
+          <%= button_to t(:button_delete),
+                        pages.skill_path(@assistant, skill),
+                        method: :delete,
                         class: "Button Button--invisibleVariant Button--small",
                         form: { data: { turbo_confirm: t("admin.ai_assistants.skills.delete_confirm") } } %>
         <% end %>
