@@ -38,6 +38,47 @@ RSpec.describe ResourceAllocations::UpdateContract do
     let(:contract) { described_class.new(resource_allocation, current_user) }
   end
 
+  context "for an assignee who is not a member of the work package's project" do
+    let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
+    end
+    let(:work_package) { create(:work_package, project:) }
+    let(:member) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+    let(:deleted_user) { create(:deleted_user) }
+    let(:contract) { described_class.new(resource_allocation, current_user) }
+
+    context "when the deleted user stays assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: deleted_user).tap do |allocation|
+          allocation.allocated_time = 16 * 60
+        end
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "when a user removed from the project stays assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: create(:user)).tap do |allocation|
+          allocation.allocated_time = 16 * 60
+        end
+      end
+
+      it_behaves_like "contract is invalid", principal: :not_a_member
+    end
+
+    context "when the deleted user is newly assigned" do
+      let(:resource_allocation) do
+        build_stubbed(:resource_allocation, entity: work_package, principal: member).tap do |allocation|
+          allocation.principal = deleted_user
+        end
+      end
+
+      it_behaves_like "contract is invalid", principal: :not_a_member
+    end
+  end
+
   describe "writable attributes" do
     let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
     let(:current_user) do

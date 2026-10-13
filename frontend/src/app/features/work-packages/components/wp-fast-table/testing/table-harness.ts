@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -92,6 +91,7 @@ import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipb
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { TextDisplayField } from 'core-app/shared/components/fields/display/field-types/text-display-field.module';
 import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface TableHarnessOptions {
   workPackages:WorkPackageFixture[];
@@ -107,6 +107,7 @@ export interface TableHarnessOptions {
   dragAction?:Partial<TableDragActionService>;
   /** Makes `subject` inline-editable; `formWritable: false` has the loaded form refuse the field. */
   editing?:{ formWritable?:boolean };
+  requireDoubleClickForInlineEdit?:boolean;
   /** The application-wide resource cache; pass one instance to tables that share a page. */
   states?:States;
   /** Shows the timeline side through the query, as a saved Gantt view does. */
@@ -406,6 +407,10 @@ function harnessProviders(dragService:FakeDragAndDropService, options:TableHarne
     { provide: WorkPackageRelationsService, useValue: { state: () => ({ hasValue: () => false, value: undefined }) } },
     { provide: WorkPackageContextMenuHelperService, useValue: { getPermittedActions: () => [] } },
     { provide: OPContextMenuService, useValue: { close: () => undefined, show: () => undefined } },
+    {
+      provide: ConfigurationService,
+      useValue: { requireDoubleClickForInlineEdit: () => !!options.requireDoubleClickForInlineEdit },
+    },
     {
       provide: OpTableActionsService,
       useFactory: () => {

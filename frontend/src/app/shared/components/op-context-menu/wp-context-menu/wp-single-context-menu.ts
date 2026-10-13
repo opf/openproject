@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -94,7 +93,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   protected open(evt:Event) {
-    this.workPackage.project.$load().then(() => {
+    void this.workPackage.project.$load().then(() => {
       this.authorisationService.initModelAuth('work_package', this.workPackage.$links);
 
       const authorization = new WorkPackageAuthorization(this.workPackage, this.PathHelper);
@@ -125,7 +124,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         break;
       case 'copy':
         if (this.workPackage.id) {
-          window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier, this.workPackage.id)}`;
+          window.location.href = `${this.PathHelper.workPackageCopyPath(this.workPackage.project.identifier as string|null, this.workPackage.id)}`;
         }
         break;
       case 'delete': {
@@ -211,7 +210,6 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
   }
 
   protected buildItems(permittedActions:WorkPackageAction[]):OpContextMenuItem[] {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const configureFormLink = this.workPackage.configureForm;
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
@@ -243,7 +241,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     if (configureFormLink) {
       this.items.push(
         {
-          href: configureFormLink.href,
+          href: configureFormLink.href as string|undefined,
           icon: 'icon-settings3',
           linkText: I18n.t('js.button_configure-form'),
           onClick: () => false,

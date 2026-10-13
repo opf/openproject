@@ -96,12 +96,12 @@ module Components
 
     def expect_work_package_option(wp)
       expect(page)
-        .to have_css(".global-search--option", text: wp.subject.to_s, wait: 10)
+        .to have_css(".global-search .ng-option", text: wp.subject.to_s, wait: 10)
     end
 
     def expect_no_work_package_option(wp)
       expect(page)
-        .to have_no_css(".global-search--option", text: wp.subject.to_s)
+        .to have_no_css(".global-search .ng-option", text: wp.subject.to_s)
     end
 
     def click_work_package(wp)
@@ -113,8 +113,8 @@ module Components
     end
 
     def find_option(text)
-      expect(page).to have_css(".global-search--wp-subject", text:, wait: 10)
-      find(".global-search--wp-subject", text:)
+      expect(page).to have_css(".global-search .op-autocompleter--wp-subject", text:, wait: 10)
+      find(".global-search .op-autocompleter--wp-subject", text:)
     end
 
     def cancel

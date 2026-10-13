@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -43,6 +42,7 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
@@ -64,6 +64,7 @@ describe('WorkPackageSubjectComponent', () => {
         { provide: States, useValue: {} },
         { provide: I18nService, useValue: { t: (key:string) => key } },
         { provide: SchemaCacheService, useValue: { of: () => schemaStub } },
+        { provide: ConfigurationService, useValue: { requireDoubleClickForInlineEdit: () => false } },
         {
           provide: EditFormComponent,
           useValue: {

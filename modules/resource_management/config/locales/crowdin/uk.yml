@@ -119,6 +119,7 @@ uk:
       criteria:
         empty: Критерії не встановлено.
         label: Критерії
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Для вибраного користувача на ці дати не налаштовано робочі години, тому вважається, що він не має завантаження.
         partial: Для вибраного користувача на %{dates} не налаштовано робочі години, тому вважається, що в ці дні він не має завантаження.
@@ -133,6 +134,7 @@ uk:
         schedule_note: Цей користувач працює %{schedule}.
         submit: Виділити понаднормовий час
         title: Хочете виділити цьому користувачу понаднормовий час?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Виділити
       success_message: Ресурси виділено.
       title: Виділити ресурс
@@ -183,6 +185,8 @@ uk:
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Додати подання
     public_caption: Якщо зробити це подання загальнодоступним, доступ до нього отримають усі учасники проєкту. Це не вплине на видимість пакетів робіт, яка все ще залежить від того, чи є в користувача відповідний дозвіл.

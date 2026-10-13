@@ -218,4 +218,10 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
       end
     end
   end
+
+  describe ".to_eager_load" do
+    it "eager loads the sprint and backlog bucket" do
+      expect(described_class.to_eager_load).to include(:sprint, :backlog_bucket)
+    end
+  end
 end

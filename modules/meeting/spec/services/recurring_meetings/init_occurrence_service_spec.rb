@@ -176,5 +176,10 @@ RSpec.describe RecurringMeetings::InitOccurrenceService, type: :model do
       irrelevant = RecurringMeetingInterimResponse.find(irrelevant_interim_response.id)
       expect(irrelevant).not_to be_nil
     end
+
+    it "journals the moved participation status" do
+      expect(created_meeting.journals.last.participant_journals.find_by(user_id: user.id))
+        .to have_attributes(participation_status: "declined")
+    end
   end
 end

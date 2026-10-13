@@ -107,6 +107,7 @@ sv:
       criteria:
         empty: Inga kriterier angivna.
         label: Kriterier
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Den valda användaren har inga arbetstider angivna för dessa datum och räknas därför som att sakna kapacitet.
         partial: Den valda användaren har inga arbetstider angivna för %{dates}, så dessa dagar räknas som att sakna kapacitet.
@@ -121,6 +122,7 @@ sv:
         schedule_note: Den här användaren arbetar %{schedule}.
         submit: Tilldela övertid
         title: Vill du tilldela användaren övertid?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Tilldela
       success_message: Resursen har tilldelats.
       title: Tilldela resurs
@@ -171,6 +173,8 @@ sv:
     label_new_resource_planner: Ny resursplanerare
     label_resource_planner: Resursplanerare
     label_resource_planner_plural: Resursplanerare
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Lägg till vy
     public_caption: Gör den här vyn offentlig för alla projektmedlemmar. Detta påverkar inte synligheten för arbetspaket, som fortfarande beror på varje användares behörigheter.

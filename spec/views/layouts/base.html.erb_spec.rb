@@ -266,6 +266,21 @@ RSpec.describe "layouts/base" do
     end
   end
 
+  describe "blank target link description" do
+    let(:current_user) { anonymous }
+
+    before do
+      render
+    end
+
+    it "is hidden via inline styles so it stays invisible before the stylesheets load" do
+      expect(rendered).to have_css(
+        "span#open-blank-target-link-description.sr-only[style*='position:absolute'][style*='clip-path']",
+        visible: :all
+      )
+    end
+  end
+
   describe "openproject_initializer meta tag" do
     let(:current_user) { anonymous }
     let(:base) { "meta[name=openproject_initializer]" }

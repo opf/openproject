@@ -38,7 +38,7 @@ module OpenProject::Gantt
              settings: {} do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.map do |ac_map|
-          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95, &:enabled_by_default!)
         end
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|

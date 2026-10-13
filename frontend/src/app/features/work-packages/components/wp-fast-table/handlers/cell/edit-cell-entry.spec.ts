@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -60,6 +59,34 @@ describe('Edit cell entry', () => {
 
       await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
       expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['2']);
+    });
+  });
+
+  describe('when the user requires a double click', () => {
+    beforeEach(() => renderTable({ editing: {}, requireDoubleClickForInlineEdit: true }));
+
+    it('selects the row on a single click instead of opening the editor', async () => {
+      fireEvent.click(subjectField('1'));
+
+      await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+      expect(harness.focus.focusedWorkPackage).toBe('1');
+    });
+
+    it('opens the editor on a double click without opening the work package', async () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+
+      fireEvent.dblClick(subjectField('1'));
+
+      await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+      expect(itemClicked).not.toHaveBeenCalled();
+    });
+
+    it('opens the editor on Enter', async () => {
+      fireEvent.keyDown(subjectField('1'), { key: 'Enter' });
+
+      await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
     });
   });
 

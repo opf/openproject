@@ -144,7 +144,6 @@ de:
   button_add_time_entry: Zeit buchen
   button_log_costs: Stückkosten buchen
   button_log_time: Buchen
-  button_stop_timer: Timer stoppen
   button_update_limits: Beschränkungen bearbeiten
   button_update_start_finish_times: Start- und Endzeiten bearbeiten
   caption_booked_on_project: Auf das Projekt gebucht
@@ -214,7 +213,6 @@ de:
   label_current: Aktuell
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
-  label_day: Tag
   label_defaults_and_limits: Standardwerte und Beschränkungen
   label_deleted_cost_types: Gelöschte Kostentypen
   label_display_cost_entries: Stückkosten anzeigen
@@ -230,43 +228,28 @@ de:
   label_less_or_equal: "<="
   label_list: Liste
   label_log_costs: Stückkosten buchen
-  label_month: Monat
-  label_my_time_tracking: Meine Zeiterfassung
   label_new_time_entry_activity: Neue Aktivität für Zeiterfassung
-  label_next_day: Nächster Tag
-  label_next_month: Nächster Monat
-  label_next_week: Woche vor
-  label_next_workweek: Nächste Arbeitswoche
   label_no: Nein
   label_no_default_rate: Kein Standardsatz festgelegt
   label_no_project_rate: Kein Standardsatz für dieses Projekt festgelegt
-  label_no_time: Keine Zeit erfasst
   label_option_plural: Optionen
   label_overall_costs: Gesamtkosten
-  label_previous_day: Vorheriger Tag
-  label_previous_month: Vorheriger Monat
-  label_previous_week: Woche zurück
-  label_previous_workweek: Vorherige Arbeitswoche
   label_rate_plural: Sätze
   label_show: Anzeigen
   label_specific_day: Tag %{day}
   label_specific_month: Monat %{month}
-  label_stack: Stapel
   label_start_and_finished: Start- und Endzeiten
   label_status_finished: Abgeschlossen
   label_time: Zeit
   label_time_entry_activity_form_description: Änderungen an dieser Aktivität für Zeitbuchungen werden in allen verwendenden Projekten sichtbar.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Beschränkungen
-  label_timer_since: Begonnen um %{time}
   label_today_capitalized: Heute
   label_units: Einheiten
   label_until: bis
   label_using_current_default_rate: Unter Verwendung des aktuellen Standardsatzes
   label_valid_from: Gültig ab
-  label_view_mode_switcher: Ansicht ändern
   label_work_package_filter_add: Ticketfilter hinzufügen
-  label_workweek: Arbeitswoche
   label_yes: Ja
   notice_cost_logged_successfully: Stückkosten erfolgreich gebucht.
   notice_different_time_zones: Diese Person hat eine andere Zeitzone (%{tz}). Die Zeit wird unter Verwendung seiner Zeitzone protokolliert.

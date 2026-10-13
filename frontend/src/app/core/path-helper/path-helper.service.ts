@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -457,8 +456,8 @@ export class PathHelperService {
     return `${this.staticBase}/time_entries/${timeEntryId}`;
   }
 
-  public myTimeTrackingRefresh(date:string, viewMode:string, mode:string) {
-    return `${this.staticBase}/my/time-tracking/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}`;
+  public myWorkRefresh(date:string, viewMode:string, mode:string, entries:string) {
+    return `${this.staticBase}/my/work/refresh?date=${date}&view_mode=${viewMode}&mode=${mode}&entries=${entries}`;
   }
 
   public previewCustomFieldRoleAssignmentDialog(customFieldId:number, roleId:number) {

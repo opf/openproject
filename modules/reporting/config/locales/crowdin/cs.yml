@@ -110,7 +110,6 @@ cs:
   plugin_openproject_reporting:
     description: Tento modul umožňuje vytvářet vlastní přehledy nákladů s filtrováním a seskupením vytvořených OpenProject plugin čas & náklady .
     name: Reportování OpenProject
-  project_module_reporting_module: Výkazy nákladů
   reporting:
     group_by:
       selected_columns: Vybrané sloupce

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -51,12 +50,12 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface FieldDescriptor {
   name:string;
@@ -208,7 +207,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const resource = change.projectedResource;
     if (!this.currentProject.inProjectContext) {
       this.projectContext.field = this.getFields(change, ['project']);
-      this.workPackage.project = resource.project as HalResource;
+      this.workPackage.project = resource.project;
     }
 
     if (resource.project === null) {
@@ -396,13 +395,13 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const projectHref:string|null = workPackage.project?.href;
 
     if (schema.baseSchema) {
-      schemaHref = schema.baseSchema.href;
+      schemaHref = (schema.baseSchema as HalResource).href;
     } else {
       schemaHref = schema.href;
     }
 
     return {
-      isNew: workPackage.isNew,
+      isNew: workPackage.isNew as boolean,
       schema: schemaHref,
       project: projectHref,
     };

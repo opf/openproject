@@ -240,6 +240,7 @@ Available settings include:
 - **Time zone** – By default, the time zone is determined from the selected language but can be changed.
 - **Color mode** – Choose the preferred appearance. Some color modes override custom theme colors to improve accessibility and readability. Select **Light mode** for full compatibility with custom themes.
 - **Disable keyboard shortcuts** – Disable the default [keyboard shortcuts](../../../user-guide/keyboard-shortcuts-access-keys/?go_to_locale=en). This can be helpful when using a screen reader or to avoid triggering actions accidentally.
+- **Require double click to edit fields** – Only open editable fields on a double click instead of a single click, which makes it easier to select and copy text. See [Interface settings](../../../user-guide/account-settings/interface/#require-double-click-to-edit-fields) for details.
 
 Remember to **Save** your changes before leaving the page.
 
@@ -319,7 +320,7 @@ This tab shows whether a user has activated a device for two-factor authenticati
 
 ## Delete users
 
-Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+Two [settings](../settings/#deletion) allow users to be deleted from the system:
 
 - **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 - **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.

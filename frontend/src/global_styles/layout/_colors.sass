@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -106,8 +105,10 @@
   --hl-lightness-switch: max(0, min(calc(1 / (#{$threshold} - var(--hl-perceived-lightness))), 1))
 
 @mixin hl_color_variables
-  @include hl_lightness_switch(0.453)
-  --hl-lighten-by: -20
+  @include hl_lightness_switch(0.35)
+  // For light mode, we invert the switch to make the text lighter (that's why we subtract from 1)
+  // Further, the lightness switch threshold is set to a lower value than in dark mode
+  --hl-lighten-by: calc((0.35 - var(--hl-perceived-lightness)) * 100 * (1 - var(--hl-lightness-switch)))
 
   body[data-color-mode="dark"] &
     @include hl_lightness_switch(0.6)

@@ -399,6 +399,8 @@ ru:
         ongoing: В процессе
         spent_on: Дата
         type: Тип
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Календарь
         ical_token_query_assignment: Задание запроса
@@ -2897,6 +2899,7 @@ ru:
   button_set_reminder: Установить напоминание
   button_show: Показать
   button_sort: Сортировать
+  button_stop_timer: Остановить таймер
   button_submit: Отправить
   button_test: Тест
   button_unarchive: Разархивировать
@@ -3003,10 +3006,6 @@ ru:
     plural: Пользовательские действия
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Это пользовательское поле включено во всех проектах, так как отмечена опция «Для всех проектов». Его нельзя отключить для отдельных проектов.
-          heading: Для всех проектов
       hierarchy:
         subitems:
           one: 1 подпункт
@@ -3030,7 +3029,7 @@ ru:
           short: Короткое имя
           weight: Вес
       notice:
-        remember_items_and_projects: Не забудьте задать элементы и проекты на соответствующих вкладках для этого пользовательского поля.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Вы можете автоматически предоставить определенную роль проекта любому пользователю, назначенному на этот атрибут проекта, независимо от первоначальной роли этого пользователя в проекте.
         dialog:
@@ -4248,6 +4247,7 @@ ru:
   label_date_from_to: C %{start} по %{end}
   label_date_to: Кому
   label_dates: Даты
+  label_day: День
   label_day_plural: дней
   label_default: по умолчанию
   label_defaults: По умолчанию
@@ -4464,6 +4464,7 @@ ru:
   label_module_plural: Модули
   label_modules: Модули
   label_modules_and_plugins: Модули и плагины
+  label_month: Месяц
   label_months_from: месяцев с
   label_more: Более
   label_more_information: Больше информации
@@ -4477,6 +4478,7 @@ ru:
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
   label_my_security: Безопасность
+  label_my_work: My work
   label_name: Имя
   label_never: Никогда
   label_new: Новое
@@ -4491,7 +4493,10 @@ ru:
   label_news_singular: Новости
   label_news_view_all: Посмотреть все новости
   label_next: Следующие
+  label_next_day: След. день
+  label_next_month: Следующий месяц
   label_next_week: На следующей неделе
+  label_next_workweek: Следующая рабочая неделя
   label_next_year: Следующий год
   label_no_change_option: "(Без изменений)"
   label_no_data: Нет данных для отображения
@@ -4499,6 +4504,7 @@ ru:
   label_no_parent_group: "(Нет родительской группы)"
   label_no_parent_page: Без родительской страницы
   label_no_start_date: нет даты начала
+  label_no_time: Нет учтённого времени
   label_nobody: никто
   label_non_working_days: Доступный календарь
   label_non_working_days_summary: Итог
@@ -4565,7 +4571,10 @@ ru:
   label_preview: Предварительный просмотр
   label_preview_not_available: Предварительный просмотр недоступен
   label_previous: Предыдущие
+  label_previous_day: Предыдущий день
+  label_previous_month: Предыдущий месяц
   label_previous_week: Предыдущая неделя
+  label_previous_workweek: Предыдущая рабочая неделя
   label_previous_year: Предыдущий год
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной почте"
   label_principal_search: Добавление существующих пользователей или групп
@@ -4684,6 +4693,7 @@ ru:
   label_sort_lowest: Переместить вниз
   label_sorted_by: отсортировано по %{value}
   label_spent_time: Затраченное время
+  label_stack: Stack
   label_start_to_end: от начала до конца
   label_start_to_start: Пуск, чтобы начать
   label_starts_with: начинается с
@@ -4717,6 +4727,7 @@ ru:
   label_time: Время
   label_time_entry_activity_plural: Потраченное время
   label_time_entry_plural: Затраченное время
+  label_timer_since: Начато в %{time}
   label_title: Заголовок
   label_today: Сегодня
   label_today_as_date: Выберите сегодня в качестве даты.
@@ -4766,6 +4777,7 @@ ru:
   label_videos: Видео
   label_view_all_revisions: Посмотреть все версии
   label_view_diff: Посмотреть различия
+  label_view_mode_switcher: Изменить вид
   label_view_revisions: Просмотр версий
   label_view_x: 'Вид: %{x}'
   label_watched_work_packages: Наблюдаемые пакеты работ
@@ -4813,6 +4825,7 @@ ru:
   label_working_days: Рабочие дни
   label_working_days_and_hours: Рабочие дни и часы
   label_working_hours: График работы
+  label_workweek: Рабочая неделя
   label_x_closed_work_packages_abbr:
     one: 1 закрыто
     other: "%{count} закрыто"
@@ -5254,6 +5267,15 @@ ru:
           create_button: Создать
           dialog_body: Этот токен позволит сторонним приложениям взаимодействовать с вашим экземпляром. Чтобы выделить новый токен API, пожалуйста, дайте ему имя.
           dialog_title: Создать новый токен API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Название токена
       failed_to_create_token: 'Не удалось создать токен доступа: %{error}'
       failed_to_reset_token: 'Не удалось сбросить маркер доступа: %{error}'
@@ -5267,10 +5289,23 @@ ru:
     password_confirmation_dialog:
       confirmation_required: Чтобы подтвердить изменения, введите пароль учетной записи.
       title: Подтвердите свой пароль, чтобы продолжить
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Маркеры доступа
       description: Провайдерские токены выпускаются OpenProject, позволяя другим приложениям получать к ним доступ. Клиентские токены выпускаются другими приложениями, позволяя OpenProject получить к ним доступ.
+      expired_on: Expired on %{date}
       headers:
         action: Действие
         expiration: Срок действия
@@ -5472,7 +5507,6 @@ ru:
   notice_password_confirmation_failed: Введенный пароль неверен.
   notice_principals_found_multiple: Найдено %{number} результатов. Нажмите <TAB> для перехода к первому.
   notice_principals_found_single: Найден один результат. Нажмите <TAB> для перехода к нему.
-  notice_project_cannot_update_custom_fields: 'Не удается обновить имеющиеся настраиваемые поля проекта. Этот проект является недопустимым: %{errors}'
   notice_project_not_deleted: Проект удалён не был.
   notice_project_not_found: Проект не найден.
   notice_requires_enterprise_token: Токен Enterprise отсутствует или не разрешает доступ к этой странице.
@@ -5482,9 +5516,6 @@ ru:
   notice_successful_create: Создание выполнено.
   notice_successful_delete: Удаление выполнено.
   notice_successful_update: Обновление выполнено.
-  notice_successful_update_custom_fields_added_to_project: |
-    Успешное обновление. Пользовательские поля активированных типов автоматически активируются
-    в форме пакета работ. <a href="%{url}" target="_blank">Подробнее</a>.
   notice_to_many_principals_to_display: Слишком много результатов. Сузьте поиск, введя имя нового участника (или группы).
   notice_unsuccessful_create: Создание не удалось.
   notice_unsuccessful_create_with_reason: 'Создание не удалось: %{reason}'
@@ -5839,6 +5870,9 @@ ru:
   permission_manage_dashboards: Управление панелями инструментов
   permission_manage_forums: Управление форумами
   permission_manage_members: Управление участниками
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Управление новостями
   permission_manage_own_reminders: Создать собственные напоминания
   permission_manage_own_working_times: Управлять своим рабочим временем
@@ -5867,7 +5901,6 @@ ru:
   permission_save_bcf_queries: Сохранить запросы BCF
   permission_save_queries: Сохранить представления
   permission_search_project: Поиск проекта
-  permission_select_custom_fields: Выберите настраиваемые поля
   permission_select_project_custom_fields: Выберите атрибуты проекта
   permission_select_project_modules: Выбор модулей проекта
   permission_select_project_phases: Выбрать этапы проекта
@@ -7365,10 +7398,10 @@ ru:
         blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
         blankslate_title: Нет групп
         confirm_delete_group: Вы уверены, что хотите удалить эту секцию? Это действие нельзя автоматически отменить.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Вы уверены, что хотите сбросить форму?
         custom_field: Настраиваемое поле
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Удалить секцию
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
@@ -7577,6 +7610,13 @@ ru:
       remove_default_notice: "%{name} в новых проектах эта функция больше не активируется."
       type_label: Тип
       variant_label: Вариант
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        few: "%{type} without %{fields} and %{count} more fields"
+        many: "%{type} without %{fields} and %{count} more fields"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Веха
     patterns:
       formats:
@@ -7952,6 +7992,8 @@ ru:
       required_description: Отмечает этот пакет работ как требование к связанному
       requires_description: Отмечает связанный с этим пакет работ как требование к нему
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Пакеты работ не могут быть скопированы.
       could_not_be_deleted: 'Следующие пакеты работ удалить не удалось:'

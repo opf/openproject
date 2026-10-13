@@ -153,7 +153,6 @@ ro:
   button_add_time_entry: Consum timp
   button_log_costs: Costurile unitare ale buștenilor
   button_log_time: Jurnal
-  button_stop_timer: Oprește cronometrul
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Rezervat pe proiect
@@ -223,7 +222,6 @@ ro:
   label_current: Current
   label_current_default_rate: Tarif implicit actual
   label_date_on: pe
-  label_day: Zi
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Tipuri de costuri șterse
   label_display_cost_entries: Afișarea costurilor unitare
@@ -239,43 +237,28 @@ ro:
   label_less_or_equal: "<="
   label_list: Listă
   label_log_costs: Înregistrare costuri unitare
-  label_month: Luna
-  label_my_time_tracking: Urmărirea timpului meu
   label_new_time_entry_activity: Activitate nouă de înregistrare a timpului
-  label_next_day: Ziua următoare
-  label_next_month: Luna următoare
-  label_next_week: Săptămâna viitoare
-  label_next_workweek: Următoarea săptămână de lucru
   label_no: Nu
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Nici un timp urmărit
   label_option_plural: Opțiuni
   label_overall_costs: Costuri totale
-  label_previous_day: Ziua precedentă
-  label_previous_month: Luna anterioară
-  label_previous_week: Săptămâna trecută
-  label_previous_workweek: Săptămâna lucru anterioară
   label_rate_plural: Tarife
   label_show: Arată
   label_specific_day: Ziua %{day}
   label_specific_month: Luna %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Finalizat
   label_time: Timp
   label_time_entry_activity_form_description: Modificările acestei activități de intrare în timp se vor reflecta în toate proiectele în care este activată.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limite
-  label_timer_since: Început la %{time}
   label_today_capitalized: Azi
   label_units: Unități de cost
   label_until: până la
   label_using_current_default_rate: Using current default rate
   label_valid_from: Valabil de la
-  label_view_mode_switcher: Schimbă vizualizarea
   label_work_package_filter_add: Adaugă un filtru pentru pachetul de lucru
-  label_workweek: Săptămână de lucru
   label_yes: Da
   notice_cost_logged_successfully: Costul unitar a fost înregistrat cu succes.
   notice_different_time_zones: Acest utilizator are un alt fus orar (%{tz}). Timpul va fi înregistrat folosind fusul orar.

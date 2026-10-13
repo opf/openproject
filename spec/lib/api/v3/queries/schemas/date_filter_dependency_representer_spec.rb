@@ -107,6 +107,20 @@ RSpec.describe API::V3::Queries::Schemas::DateFilterDependencyRepresenter do
 
           it_behaves_like "filter dependency"
         end
+
+        context "for operator 'Queries::Operators::GreaterOrEqualDate'" do
+          let(:operator) { Queries::Operators::GreaterOrEqualDate }
+          let(:type) { "[1]Date" }
+
+          it_behaves_like "filter dependency"
+        end
+
+        context "for operator 'Queries::Operators::LessOrEqualDate'" do
+          let(:operator) { Queries::Operators::LessOrEqualDate }
+          let(:type) { "[1]Date" }
+
+          it_behaves_like "filter dependency"
+        end
       end
     end
 

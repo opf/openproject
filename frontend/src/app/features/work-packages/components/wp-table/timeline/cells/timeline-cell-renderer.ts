@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -48,6 +47,7 @@ import {
   timelineElementCssClass,
   timelineMarkerSelectionStartClass,
 } from '../wp-timeline';
+import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
 
 export interface CellDateMovement {
   // Target values to move work package to
@@ -107,7 +107,7 @@ export class TimelineCellRenderer {
 
   public canMoveDates(wp:WorkPackageResource):boolean {
     const schema = this.schemaCache.of(wp);
-    return schema.startDate.writable && schema.dueDate.writable && schema.isAttributeEditable('startDate');
+    return (schema.startDate as IOPFieldSchema).writable && (schema.dueDate as IOPFieldSchema).writable && schema.isAttributeEditable('startDate');
   }
 
   public isEmpty(wp:WorkPackageResource) {

@@ -104,7 +104,6 @@ ja:
   plugin_openproject_reporting:
     description: このプラグインは、OpenProject の時間とコストプラグインによって作成されたフィルタリングとグループ化でカスタムコストレポートを作成することができます。
     name: OpenProject レポート
-  project_module_reporting_module: コストレポート
   reporting:
     group_by:
       selected_columns: 選択された列

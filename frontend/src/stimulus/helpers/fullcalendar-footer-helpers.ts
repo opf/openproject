@@ -20,36 +20,43 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { html, nothing, render } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
-import { clockIconData, toDOMString } from '@openproject/octicons-angular';
+import { clockIconData, opPersonAssignedIconData, toDOMString } from '@openproject/octicons-angular';
 import { displayDuration } from 'core-stimulus/helpers/duration-helpers';
 
 export const FOOTER_TOTALS_CLASS_NAME = 'fc-timegrid-footer-totals';
 
 export type FooterCellContent = (date:string) => string|Node;
 
-// What a day column totals up to: the time logged on it, next to the time the user is
-// scheduled to work that day.
-export function renderDayTotal(logged:number, scheduled:number):Node {
-  const clock = toDOMString(clockIconData, 'small', {
+// What a day column totals up to: the time logged and still allocated on it, and how much
+// of the time the user is scheduled to work that day they cover together. A day with only
+// allocations leaves the logged time out.
+export function renderDayTotal(logged:number, allocated:number, scheduled:number):Node {
+  const icon = (data:Parameters<typeof toDOMString>[0]) => unsafeHTML(toDOMString(data, 'small', {
     'aria-hidden': 'true',
     class: 'octicon',
-  });
+  }));
 
   const wrapper = document.createElement('div');
   render(
     html`
       <div class="te-day-total">
-        <span class="te-day-total--icon">${unsafeHTML(clock)}</span>
-        <span>${displayDuration(logged)}</span>
-        ${scheduled > 0 ? html`<span class="te-day-total--scheduled">${displayDuration(scheduled)}</span>` : nothing}
+        ${logged > 0 || allocated === 0 ? html`
+          <span class="te-day-total--icon">${icon(clockIconData)}</span>
+          <span>${displayDuration(logged)}</span>` : nothing}
+        ${allocated > 0 ? html`
+          <span class="te-day-total--icon">${icon(opPersonAssignedIconData)}</span>
+          <span>${displayDuration(allocated)}</span>` : nothing}
+        ${scheduled > 0 ? html`
+          <span class="te-day-total--scheduled ${logged + allocated > scheduled ? 'te-day-total--over' : ''}">
+            - ${displayDuration(logged + allocated)}/${displayDuration(scheduled)}
+          </span>` : nothing}
       </div>`,
     wrapper,
   );

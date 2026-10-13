@@ -135,7 +135,6 @@ ko:
   button_add_time_entry: 작업시간 기록
   button_log_costs: 단위 비용 기록
   button_log_time: 기록
-  button_stop_timer: 타이머 중지
   button_update_limits: 제한 업데이트
   button_update_start_finish_times: 시작 및 완료 시간 업데이트
   caption_booked_on_project: 프로젝트에서 예약됨
@@ -205,7 +204,6 @@ ko:
   label_current: 현재
   label_current_default_rate: 현재 기본 요금
   label_date_on: "-"
-  label_day: 일
   label_defaults_and_limits: 기본값 및 제한
   label_deleted_cost_types: 삭제된 비용 유형
   label_display_cost_entries: 단위 비용 표시
@@ -221,43 +219,28 @@ ko:
   label_less_or_equal: "<="
   label_list: 목록
   label_log_costs: 단위 비용 기록
-  label_month: 월
-  label_my_time_tracking: 내 시간 추적
   label_new_time_entry_activity: 새로운 시간 입력 활동
-  label_next_day: 다음 날
-  label_next_month: 다음 달
-  label_next_week: 다음 주
-  label_next_workweek: 다음 근무 주
   label_no: 아니요
   label_no_default_rate: 기본 요금 설정 안 됨
   label_no_project_rate: 이 프로젝트에 대한 요금 설정 안 됨
-  label_no_time: 추적된 시간 없음
   label_option_plural: 옵션
   label_overall_costs: 전체 비용
-  label_previous_day: 이전 날
-  label_previous_month: 이전 달
-  label_previous_week: 이전 주
-  label_previous_workweek: 이전 근무 주
   label_rate_plural: 요금
   label_show: 표시
   label_specific_day: "%{day}일"
   label_specific_month: "%{month}월"
-  label_stack: Stack
   label_start_and_finished: 시작 및 완료 시간
   label_status_finished: 마침
   label_time: 시간
   label_time_entry_activity_form_description: 이 시간 입력 활동의 변경 사항은 이 활동이 활성화된 모든 프로젝트에서 반영됩니다.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: 제한
-  label_timer_since: "%{time}에 시작됨"
   label_today_capitalized: 오늘
   label_units: 단위 비용
   label_until: '다음까지:'
   label_using_current_default_rate: 현재 기본 요금 사용
   label_valid_from: 다음부터 유효함
-  label_view_mode_switcher: 보기 변경
   label_work_package_filter_add: 작업 패키지 필터 추가
-  label_workweek: 근무 주
   label_yes: 예
   notice_cost_logged_successfully: 단위 비용이 기록되었습니다.
   notice_different_time_zones: 이 사용자의 표준 시간대(%{tz})가 다릅니다. 시간은 해당 표준 시간대를 사용하여 기록됩니다.

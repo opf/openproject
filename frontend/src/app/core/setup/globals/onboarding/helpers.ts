@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -45,9 +44,14 @@ export function waitForElement(
   execFunction:(match:HTMLElement) => void,
   filterFunction:(match:HTMLElement) => boolean = () => true,
 ):void {
-  const container = document.querySelector(containerSelector)!;
+  const findMatch = () => {
+    const container = document.querySelector(containerSelector);
+
+    return container && matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+  };
+
   // If the element is ready immediately
-  const initial = matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+  const initial = findMatch();
   if (initial) {
     execFunction(initial);
     return;
@@ -55,14 +59,14 @@ export function waitForElement(
 
   // Wait for the element to be ready
   const observer = new MutationObserver((mutations, observerInstance) => {
-    const matches = matchingFilter(container.querySelectorAll<HTMLElement>(selector), filterFunction);
+    const matches = findMatch();
     if (matches) {
       execFunction(matches);
       observerInstance.disconnect();
     }
   });
 
-  observer.observe(container, {
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
   });

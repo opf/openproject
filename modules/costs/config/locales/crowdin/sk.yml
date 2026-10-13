@@ -162,7 +162,6 @@ sk:
   button_add_time_entry: Zaprotokoluj čas
   button_log_costs: Zaúčtovať jednotkové náklady
   button_log_time: Log
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Rezervované na projekte
@@ -232,7 +231,6 @@ sk:
   label_current: Current
   label_current_default_rate: Aktuálna štandardná sadzba
   label_date_on: dňa
-  label_day: Deň
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Odstránené typy nákladov
   label_display_cost_entries: Zobrazenie jednotkových nákladov
@@ -248,43 +246,28 @@ sk:
   label_less_or_equal: "<="
   label_list: Zoznam
   label_log_costs: Zaúčtovať jednotkové náklady
-  label_month: Mesiac
-  label_my_time_tracking: My time tracking
   label_new_time_entry_activity: New time entry activity
-  label_next_day: Next day
-  label_next_month: Next month
-  label_next_week: Budúci týždeň
-  label_next_workweek: Next work week
   label_no: Nie
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: No time tracked
   label_option_plural: Voľby
   label_overall_costs: Celkové náklady
-  label_previous_day: Previous day
-  label_previous_month: Previous month
-  label_previous_week: Predchádzajúci týždeň
-  label_previous_workweek: Previous work week
   label_rate_plural: Sadzby
   label_show: Ukázať
   label_specific_day: Day %{day}
   label_specific_month: Month %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Dokončené
   label_time: Čas
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: Started at %{time}
   label_today_capitalized: Dnes
   label_units: Nákladové jednotky
   label_until: do
   label_using_current_default_rate: Using current default rate
   label_valid_from: Platný od
-  label_view_mode_switcher: Change view
   label_work_package_filter_add: Pridať filter pracovného balíčka
-  label_workweek: Work week
   label_yes: Áno
   notice_cost_logged_successfully: Jednotkové náklady boli úspešne zaznamenané.
   notice_different_time_zones: This user has a different time zone (%{tz}). Time will be logged using their time zone.

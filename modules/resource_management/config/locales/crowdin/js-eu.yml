@@ -5,4 +5,7 @@ eu:
     resource_management:
       create_placeholder_user: Create placeholder user with filter criteria
       hidden_user: Hidden user
+      my_work:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
       show_allocations: Show resource allocations
