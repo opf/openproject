@@ -31,9 +31,6 @@
 module AI
   module TextTransforms
     class ResultPaneState
-      SCOPES = %w[document selection].freeze
-      REQUEST_ID = /\A\h{8}-\h{4}-\h{4}-\h{4}-\h{12}\z/
-
       attr_reader :run, :scope, :request_id, :work_package, :context_ids, :rejection
 
       def self.rejected(message:, label:, scope:, request_id:, context_ids: {})
@@ -42,8 +39,8 @@ module AI
 
       def initialize(run:, scope:, request_id:, work_package: nil, context_ids: {}, label: nil, rejection: nil)
         @run = run
-        @scope = SCOPES.include?(scope.to_s) ? scope.to_s : "document"
-        @request_id = REQUEST_ID.match?(request_id.to_s) ? request_id.to_s : nil
+        @scope = scope
+        @request_id = request_id
         @work_package = work_package
         @context_ids = context_ids
         @label = label
@@ -78,7 +75,7 @@ module AI
       end
 
       def selection?
-        scope == "selection"
+        scope.to_s == "selection"
       end
 
       private

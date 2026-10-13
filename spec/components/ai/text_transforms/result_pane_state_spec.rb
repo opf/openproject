@@ -174,32 +174,13 @@ RSpec.describe AI::TextTransforms::ResultPaneState do
     end
   end
 
-  describe "#scope" do
-    context "with selection" do
+  describe "#selection?" do
+    it { expect(pane).not_to be_selection }
+
+    context "with the selection scope" do
       let(:scope) { "selection" }
 
       it { expect(pane).to be_selection }
-    end
-
-    context "with an unknown scope" do
-      let(:scope) { "everything" }
-
-      it "falls back to document" do
-        expect(pane.scope).to eq("document")
-        expect(pane).not_to be_selection
-      end
-    end
-  end
-
-  describe "#request_id" do
-    it { expect(pane.request_id).to eq(request_id) }
-
-    ["<script>", "-" * 36, "a" * 36].each do |invalid|
-      context "with #{invalid.inspect}" do
-        let(:request_id) { invalid }
-
-        it { expect(pane.request_id).to be_nil }
-      end
     end
   end
 end
