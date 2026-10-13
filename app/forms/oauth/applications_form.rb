@@ -33,49 +33,59 @@ module OAuth
     include Redmine::I18n
 
     form do |f|
-      f.check_box(
-        name: :enabled,
-        label: Doorkeeper::Application.human_attribute_name(:enabled),
-        caption: I18n.t("oauth.application.instructions.enabled")
-      )
+      f.fieldset_group(
+        title: I18n.t("oauth.application.basic_details")
+      ) do |cf|
+        cf.check_box(
+          name: :enabled,
+          label: Doorkeeper::Application.human_attribute_name(:enabled),
+          caption: I18n.t("oauth.application.instructions.enabled")
+        )
 
-      f.text_field(
-        name: :name,
-        label: Doorkeeper::Application.human_attribute_name(:name),
-        caption: I18n.t("oauth.application.instructions.name"),
-        required: true
-      )
+        cf.text_field(
+          name: :name,
+          label: Doorkeeper::Application.human_attribute_name(:name),
+          caption: I18n.t("oauth.application.instructions.name"),
+          required: true
+        )
 
-      f.text_area(
-        name: :redirect_uri,
-        label: Doorkeeper::Application.human_attribute_name(:redirect_uri),
-        required: true,
-        caption: "#{I18n.t('oauth.application.instructions.redirect_uri_html')} #{::Doorkeeper.configuration.native_redirect_uri}"
-      )
+        cf.text_area(
+          name: :redirect_uri,
+          label: Doorkeeper::Application.human_attribute_name(:redirect_uri),
+          required: true,
+          caption: "#{I18n.t('oauth.application.instructions.redirect_uri_html')} " \
+                   "#{::Doorkeeper.configuration.native_redirect_uri}"
+        )
 
-      f.check_box(
-        name: :confidential,
-        label: Doorkeeper::Application.human_attribute_name(:confidential),
-        caption: I18n.t("oauth.application.instructions.confidential"),
-        required: true
-      )
+        cf.check_box(
+          name: :confidential,
+          label: Doorkeeper::Application.human_attribute_name(:confidential),
+          caption: I18n.t("oauth.application.instructions.confidential"),
+          required: true
+        )
+      end
 
-      f.check_box_group(
-        name: :scopes,
-        label: Doorkeeper::Application.human_attribute_name(:scopes),
-        caption: I18n.t("oauth.application.instructions.scopes")
-      ) do |group|
-        Doorkeeper.configuration.scopes.each do |scope|
-          checkbox_options = {
-            name: :scopes,
-            label: I18n.exists?(scope, scope: "oauth.scopes") ? "#{I18n.t(scope, scope: 'oauth.scopes')} (#{scope})" : scope,
-            required: true,
-            value: scope
-          }
-          if I18n.exists?(scope, scope: "oauth.scopes.explanations_admin")
-            checkbox_options[:caption] = I18n.t(scope, scope: "oauth.scopes.explanations_admin")
+      f.fieldset_group(
+        title: Doorkeeper::Application.human_attribute_name(:scopes),
+        description: I18n.t("oauth.application.instructions.scopes")
+      ) do |fg|
+        fg.check_box_group(
+          name: :scopes,
+          label: Doorkeeper::Application.human_attribute_name(:scopes),
+          visually_hide_label: true
+        ) do |group|
+          Doorkeeper.configuration.scopes.each do |scope|
+            checkbox_options = {
+              name: :scopes,
+              label: I18n.exists?(scope, scope: "oauth.scopes") ? "#{I18n.t(scope, scope: 'oauth.scopes')} (#{scope})" : scope,
+              required: true,
+              value: scope
+            }
+            if I18n.exists?(scope, scope: "oauth.scopes.explanations_admin")
+              checkbox_options[:caption] = I18n.t(scope, scope: "oauth.scopes.explanations_admin")
+            end
+            group.check_box(**checkbox_options)
           end
-          group.check_box(**checkbox_options)
         end
       end
 

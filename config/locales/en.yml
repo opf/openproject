@@ -5340,6 +5340,7 @@ en:
           tb: "TB"
   oauth:
     application:
+      basic_details: Basic details
       builtin: Built-in instance application
       client_credentials: "Client credentials"
       confidential: Confidential
