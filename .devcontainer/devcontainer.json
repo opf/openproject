@@ -3,7 +3,7 @@
   "dockerComposeFile": [
     "docker-compose.yaml"
   ],
-  "service": "opf",
+  "service": "openproject",
   "workspaceFolder": "/home/dev/openproject",
   "containerUser": "dev",
   "updateRemoteUserUID": true,

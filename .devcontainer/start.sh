@@ -5,46 +5,44 @@ set -euo pipefail
 "${HOME}/openproject/.devcontainer/start-base.sh"
 
 cat <<EOF
-             ╭──────────╮
-             │          │
-             │  ╭────╮  │
-             │  │    │  │
-             │  │    │  │
- ╭───────────┘  └────╯  │
- │                      │
- │  ╭───────────────────╯
- │  │   ┌──┐ ┌──┐
- │  │   │  │ │  │
- │  │   │  │ ╰──╯
- │  ╰───╯  │
- │         │
- ╰─────────╯
 
- OpenProject Dev Container
-===========================
+                                  ╭──────────╮
+                                  │          │
+                                  │  ╭────╮  │
+                                  │  │    │  │
+                                  │  │    │  │
+                      ╭───────────┘  └────╯  │
+                      │                      │
+                      │  ╭───────────────────╯
+                      │  │   ┌──┐ ┌──┐
+                      │  │   │  │ │  │
+                      │  │   │  │ ╰──╯
+                      │  ╰───╯  │
+                      │         │
+                      ╰─────────╯
 
-The backend is now running
-on localhost:3000 and the
-frontend on localhost:4200.
+                      OpenProject Dev Container
+==========================================================================
 
-Visit the following link
-in your browser:
+Please add the following entries to your /etc/hosts file:
 
-  http://localhost:3000
+    127.0.0.1 openproject.local openproject-assets.local
 
-If you need to see the
-backend or frontend logs,
-enter:
+You can then open OpenProject in your browser:
+
+    https://openproject.local
+
+You will get a certificate warning, and you may also have to open
+https://openproject-assets.local in your browser for everything to work.
+
+If you need to see the backend or frontend logs, enter:
 
   screen -x backend
   screen -x frontend
 
-You can exit the screen
-with Ctrl+A+D.
+You can exit the screen with Ctrl+A+D.
 
-The frontend and backend
-builds may still need a
-few minutes, please be
+The frontend and backend builds may still need a few minutes, please be
 patient.
 
 Happy coding!
