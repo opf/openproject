@@ -180,25 +180,18 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).to include("base_url")
     end
 
-    it "is a Markdown document a person can read" do
+    it "is plain YAML, without serialised Ruby objects" do
+      connection.update_columns(last_synced_at: Time.zone.parse("2026-10-07 14:42:41"))
+
       get llm_connection_health_status_report_path(format: :txt)
 
-      expect(response.media_type).to eq("text/markdown")
-      expect(response.headers["Content-Disposition"]).to include(".md")
-      expect(response.body).to start_with("# LLM connection health report")
-      expect(response.body).to include("## #{I18n.t('llm.health_checks.server.header')}")
-      expect(response.body).to include("- **#{I18n.t('llm.health_checks.server.reachable')}**: Passed")
-      expect(response.body).to include("- base_url: `https://example.com/v1`")
+      expect(response.media_type).to eq("text/plain")
+      expect(response.headers["Content-Disposition"]).to include(".txt")
       expect(response.body).not_to include("!ruby")
-    end
 
-    it "names the code and the explanation of a check that did not pass" do
-      mock_llm_models_response(base_url, response_code: 401)
-      post llm_connection_health_status_report_path
-
-      get llm_connection_health_status_report_path(format: :txt)
-
-      expect(response.body).to match(/- \*\*.+\*\*: Failed \(`[A-Z_]+`\)\. \S/)
+      report = YAML.safe_load(response.body, permitted_classes: [Symbol])
+      expect(report["configuration"]).to include("base_url" => base_url, "last_synced_at" => "2026-10-07T14:42:41Z")
+      expect(report["configuration"].values).to all(be_nil.or(be_a(String)).or(be_a(Integer)).or(be(true)).or(be(false)))
     end
 
     # The report is pasted into support tickets. A gateway header routinely

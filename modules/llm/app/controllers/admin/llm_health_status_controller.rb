@@ -52,9 +52,9 @@ module Admin
           return head :not_found if @report.nil?
 
           timestamp = @report.created_at.iso8601
-          send_data Llm::HealthReportMarkdown.new(@connection, @report).to_s,
-                    filename: "llm_connection_health_report_#{timestamp}.md",
-                    type: "text/markdown",
+          send_data text_report(timestamp),
+                    filename: "llm_connection_health_report_#{timestamp}.txt",
+                    type: "text/plain",
                     disposition: :attachment
         end
       end
@@ -76,6 +76,18 @@ module Admin
     end
 
     private
+
+    # Downloaded and pasted into support tickets, so it must not contain the API
+    # key or the custom headers -- a gateway header routinely carries a second
+    # credential.
+    def text_report(timestamp)
+      {
+        connection: @connection.identifier,
+        configuration: @connection.non_confidential_configuration,
+        ran_at: timestamp,
+        results: @report ? @report.results.map(&:to_h) : []
+      }.to_yaml(stringify_names: true)
+    end
 
     def tally_counts(report)
       tally = report.tally
