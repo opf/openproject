@@ -295,7 +295,7 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    active_record_doctor (2.0.1)
+    active_record_doctor (2.1.0)
       activerecord (>= 7.0.0)
     activejob (8.1.4)
       activesupport (= 8.1.4)
@@ -1592,7 +1592,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
-  active_record_doctor (~> 2.0.1)
+  active_record_doctor (~> 2.1.0)
   activemodel-serializers-xml (~> 1.0.1)
   activerecord-import (~> 2.3.0)
   activerecord-nulldb-adapter (~> 1.2.2)
@@ -1828,7 +1828,7 @@ CHECKSUMS
   actionpack-xml_parser (2.0.1) sha256=40cb461ee99445314ab580a783fb7413580deb8b28113c9e70ecd7c1b334d5e6
   actiontext (8.1.4) sha256=33ee99bea7da6af911fc7d98b17013a8e1ec62aa01b20b20e9a5366f40dbf644
   actionview (8.1.4) sha256=eff1efd07c4d969abad288322b423bcb67fdbab5e324c91ca37352b80f226076
-  active_record_doctor (2.0.1) sha256=7af0ac02195385c8f2f67d0e4ebe72b1fc79d65eaaf329e0db07f4d12a84069a
+  active_record_doctor (2.1.0) sha256=9926d54ed5d76543dfc848b5e126bb87111daa136c43992d0880e1798bce1ac9
   activejob (8.1.4) sha256=4ed5b2ed8d4cc5c8f5f09becfef8346f202a4884eee0c8c73cae5ac378824099
   activemodel (8.1.4) sha256=9a0906c127bd118aa5f06157db12b8f750da83dccee72db2f658547a0ae7a0e8
   activemodel-serializers-xml (1.0.3) sha256=fa1b16305e7254cc58a59c68833e3c0a593a59c8ab95d3be5aaea7cd9416c397

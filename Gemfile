@@ -390,7 +390,7 @@ group :development, :test do
   gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
-  gem "active_record_doctor", "~> 2.0.1"
+  gem "active_record_doctor", "~> 2.1.0"
 end
 
 # API gems
