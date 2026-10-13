@@ -48,7 +48,7 @@ module Planner
 
     def completed? = view == :completed
 
-    def draggable? = view.in?(%i[today upcoming])
+    def draggable? = View.sortable?(view)
 
     # Where the Move menu can send the task: the other day parts when it is planned for today,
     # otherwise into today; and tomorrow, unless that is already its day.
@@ -75,7 +75,7 @@ module Planner
       t("planner.planned_for", date: helpers.format_date(shown_date)) if overdue?
     end
 
-    def view_param = (view unless view == :today)
+    def view_param = View.param(view)
 
     def plan_path(to) = plan_planner_task_path(work_package, to:, view: view_param)
 
@@ -97,21 +97,30 @@ module Planner
       end
     end
 
-    # A task that only references a work package stands for that work package, so the row shows it
-    # instead of the reference.
+    # The row shows the work package a task stands for instead of the reference.
     def planned_work_package
       return @planned_work_package if defined?(@planned_work_package)
 
-      parts = subject_parts.reject { it.is_a?(String) && it.blank? }
-      @planned_work_package = parts.first if parts.one? && parts.first.is_a?(WorkPackage)
+      @planned_work_package = References.planned_id(work_package.subject)&.then { references[it] }
     end
 
     def closed? = work_package.closed?
 
+    def notes
+      return if notes_text.blank?
+
+      render(Primer::Beta::Truncate.new(tag: :div, color: :muted, font_size: :small, mt: 1,
+                                        test_selector: "planner-task-notes")) { notes_text }
+    end
+
+    def notes_text
+      @notes_text ||= helpers.strip_tags(helpers.format_text(work_package, :description)).squish
+    end
+
     def meeting_command
       return @meeting_command if defined?(@meeting_command)
 
-      @meeting_command = (MeetingCommand.for(work_package, helpers.current_user) unless closed?)
+      @meeting_command = (MeetingCommand.for(work_package, User.current) unless closed?)
     end
 
     def new_meeting_path

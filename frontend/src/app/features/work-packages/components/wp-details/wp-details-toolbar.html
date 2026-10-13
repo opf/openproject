@@ -15,8 +15,8 @@
   @if (displayReminderButton$ | async) {
     <wp-reminder-button [workPackage]="workPackage"
        />
-    @if (displayAddToTodayButton) {
-      <wp-add-to-today-button [workPackage]="workPackage" />
+    @if (displayAddToPlannerButton) {
+      <wp-add-to-planner-button [workPackage]="workPackage" />
     }
   }
 

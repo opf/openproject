@@ -30,37 +30,46 @@
 
 module Planner
   # Plans a work package: a task referencing it on the given day and in the given day part, by
-  # default today in the current day part, unless one of that day's tasks already refers to it.
+  # default today in the current day part, unless one of that day's tasks already stands for it.
   class AddWorkPackageService
     def initialize(user:)
       @user = user
     end
 
-    def call(work_package:, date: user.today, day_part: nil)
+    # With a note, the task says what to do about the work package, so it is added even when the
+    # work package is already planned for that day.
+    def call(work_package:, date: user.today, day_part: nil, note: nil, description: nil)
       project = ProjectService.new(user).call.result
       return ServiceResult.failure(message: I18n.t("planner.errors.unavailable")) unless project
-      return ServiceResult.success(message: I18n.t("planner.already_planned")) if planned?(project, work_package, date)
+      if note.blank? && planned?(project, work_package, date)
+        return ServiceResult.success(message: I18n.t("planner.already_planned"))
+      end
 
-      create_task(work_package, date, day_part.presence || Today.new(user:, project:).current_day_part)
+      day_part = day_part.presence || Today.new(user:, project:).current_day_part
+      create_task(subject: subject_for(work_package, note), date:, day_part:, description:)
     end
 
     private
 
     attr_reader :user
 
-    def create_task(work_package, date, day_part)
+    def subject_for(work_package, note)
+      return note if References.ids_in(note).intersect?(References.ids_of(work_package))
+
+      [note, "##{work_package.display_id}"].compact_blank.join(" ")
+    end
+
+    def create_task(subject:, date:, day_part:, description:)
       CreateTaskService
         .new(user:)
-        .call(subject: "##{work_package.display_id}", day_part:, date:)
+        .call(subject:, day_part:, date:, description:)
         .tap { |call| call.message = added_message(date, day_part) if call.success? }
     end
 
     def planned?(project, work_package, date)
-      task_ids = project.work_packages.where(due_date: date).pluck(:id)
+      ids = References.ids_of(work_package)
 
-      Relation.where(from_id: task_ids, to_id: work_package.id)
-              .or(Relation.where(from_id: work_package.id, to_id: task_ids))
-              .exists?
+      project.work_packages.where(due_date: date).pluck(:subject).any? { References.planned_id(it).in?(ids) }
     end
 
     def added_message(date, day_part)

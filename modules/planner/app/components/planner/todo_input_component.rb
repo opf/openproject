@@ -45,9 +45,9 @@ module Planner
 
     attr_reader :group, :view, :task_fields
 
-    def view_param = (view unless view == :today)
+    def view_param = View.param(view)
 
-    def handle_space? = view.in?(%i[today upcoming])
+    def handle_space? = View.sortable?(view)
 
     def cancel_path = Planner::Menu.path_for(view)
 

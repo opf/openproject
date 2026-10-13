@@ -37,19 +37,16 @@ module Planner
 
     DRAG_TYPE = "todo"
 
-    # What Today and Upcoming list: everything, only to-dos or only meetings.
-    FILTERS = %w[all todos meetings].freeze
-
-    def self.for(view, user, adding: nil, filter: FILTERS.first)
+    def self.for(view, user:, project:, adding: nil, filter: View::FILTERS.first)
       case view.to_s
-      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.for(user), adding:, filter:)
-      when "overdue" then OverdueComponent.new(overdue: Overdue.for(user), adding:)
-      when "completed" then CompletedComponent.new(completed: Completed.for(user))
-      else TodayComponent.new(today: Today.for(user), adding:, filter:)
+      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.new(user:, project:), adding:, filter:)
+      when "overdue" then OverdueComponent.new(overdue: Overdue.new(user:, project:), adding:)
+      when "completed" then CompletedComponent.new(completed: Completed.new(user:, project:))
+      else TodayComponent.new(today: Today.new(user:, project:), adding:, filter:)
       end
     end
 
-    def initialize(adding: nil, filter: FILTERS.first)
+    def initialize(adding: nil, filter: View::FILTERS.first)
       super()
       @adding = adding
       @filter = filter
@@ -107,7 +104,7 @@ module Planner
 
     # Built with a sentinel so that relative URL roots are kept; the controller expands {id}.
     def drop_url_template(view)
-      drop_planner_task_path("__id__", view: (view unless view == :today)).sub("__id__", "{id}")
+      drop_planner_task_path("__id__", view: View.param(view)).sub("__id__", "{id}")
     end
 
     def weekday_and_day(date) = "#{I18n.l(date, format: '%A')} #{date.day.ordinalize}"

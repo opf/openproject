@@ -390,8 +390,8 @@ import {
   WorkPackageReminderButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-reminder-button/wp-reminder-button.component';
 import {
-  WorkPackageAddToTodayButtonComponent,
-} from 'core-app/features/work-packages/components/wp-buttons/wp-add-to-today-button/wp-add-to-today-button.component';
+  WorkPackageAddToPlannerButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-add-to-planner-button/wp-add-to-planner-button.component';
 import {
   WorkPackageReminderModalComponent,
 } from 'core-app/features/work-packages/components/wp-reminder-modal/wp-reminder.modal';
@@ -611,7 +611,7 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageSplitViewToolbarComponent,
     WorkPackageWatcherButtonComponent,
     WorkPackageReminderButtonComponent,
-    WorkPackageAddToTodayButtonComponent,
+    WorkPackageAddToPlannerButtonComponent,
     WorkPackageReminderContextMenuDirective,
     WorkPackageShareButtonComponent,
     WorkPackageSubjectComponent,

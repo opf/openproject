@@ -31,7 +31,7 @@
 module Planner
   # Instance-wide pieces every user's "My work" project shares: the "Day part" field and a variant
   # of the first non-milestone type whose form shows it. The field is the anchor: the variant is
-  # found through it, so renaming any of these in the administration keeps My Day working.
+  # found through it, so renaming any of these in the administration keeps the Planner working.
   class SetupService
     def call
       OpenProject::Mutex.with_advisory_lock(TypeVariant, "planner_setup") do

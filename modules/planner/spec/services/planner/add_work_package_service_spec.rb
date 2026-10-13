@@ -76,6 +76,23 @@ RSpec.describe Planner::AddWorkPackageService do
     end
   end
 
+  context "when a to-do about it is planned for today" do
+    before { described_class.new(user:).call(work_package:, note: "Write Maya about") }
+
+    it "still plans the work package itself" do
+      expect { subject }.to change(WorkPackage, :count).by(1)
+      expect(subject.result.subject).to eq("##{work_package.display_id}")
+    end
+  end
+
+  context "with a note that already references it" do
+    subject { described_class.new(user:).call(work_package:, note: "Ask Maya about ##{work_package.display_id} docs") }
+
+    it "does not add the reference twice" do
+      expect(subject.result.subject).to eq("Ask Maya about ##{work_package.display_id} docs")
+    end
+  end
+
   context "when it is already planned for today" do
     before { described_class.new(user:).call(work_package:) }
 
@@ -83,6 +100,17 @@ RSpec.describe Planner::AddWorkPackageService do
       expect { subject }.not_to change(WorkPackage, :count)
       expect(subject).to be_success
       expect(subject.message).to eq(I18n.t("planner.already_planned"))
+    end
+
+    context "with a note" do
+      subject { described_class.new(user:).call(work_package:, note: "Write Maya about the docs", description: "API docs") }
+
+      it "adds a to-do about it" do
+        expect { subject }.to change(WorkPackage, :count).by(1)
+        expect(subject.result).to have_attributes(subject: "Write Maya about the docs ##{work_package.display_id}",
+                                                  description: "API docs")
+        expect(subject.message).to eq("Added to Afternoon in the Planner.")
+      end
     end
   end
 end

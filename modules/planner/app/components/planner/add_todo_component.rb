@@ -44,7 +44,7 @@ module Planner
     attr_reader :group, :view
 
     # Rows of the sortable views start with a drag handle, which the link leaves room for.
-    def handle_space? = view.in?(%i[today upcoming])
+    def handle_space? = View.sortable?(view)
 
     def link_arguments
       {

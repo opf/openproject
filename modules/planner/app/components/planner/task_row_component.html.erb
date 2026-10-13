@@ -56,6 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(WorkPackages::InfoLineComponent.new(work_package: planned_work_package, wrap: false)) %>
         <% end %>
       <% end %>
+      <%= notes %>
     <% end %>
   <% else %>
     <% row.with_column(mr: 2, classes: "min-width-0") do %>
@@ -74,11 +75,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
         <% end %>
       <% end %>
-    <% end %>
-  <% end %>
-  <% if work_package.description.present? %>
-    <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, title: t("planner.has_notes"), test_selector: "planner-task-notes") do %>
-      <%= render(Primer::Beta::Octicon.new(:note, color: :muted, aria: { label: t("planner.has_notes") })) %>
+      <%= notes %>
     <% end %>
   <% end %>
   <% row.with_column(flex: 1) %>

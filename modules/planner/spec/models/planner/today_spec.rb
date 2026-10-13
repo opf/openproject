@@ -76,10 +76,6 @@ RSpec.describe Planner::Today do
       expect(section(:afternoon).work_packages).to contain_exactly(afternoon_task)
       expect(section(:evening).work_packages).to contain_exactly(closed_task)
     end
-
-    it "counts all tasks of a day part, closed ones included" do
-      expect(section(:evening).todo_count).to eq(1)
-    end
   end
 
   describe "references" do

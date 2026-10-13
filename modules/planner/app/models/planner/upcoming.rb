@@ -35,8 +35,6 @@ module Planner
     DAYS_AHEAD = 7
 
     Day = Data.define(:date, :working, :meetings, :work_packages) do
-      include Group
-
       def working? = working
     end
 

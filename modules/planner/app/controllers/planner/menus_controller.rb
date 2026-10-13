@@ -30,11 +30,12 @@
 
 module Planner
   class MenusController < ApplicationController
-    before_action :require_login
+    include Planner::RequestContext
+
     no_authorization_required! :show
 
     def show
-      @sidebar_menu_items = Planner::Menu.new(params:, user: current_user).menu_items
+      @sidebar_menu_items = Planner::Menu.new(params:, user: current_user, project: planner_project).menu_items
 
       render layout: nil
     end

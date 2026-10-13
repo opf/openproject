@@ -33,25 +33,24 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'wp-add-to-today-button',
-  templateUrl: './wp-add-to-today-button.html',
+  selector: 'wp-add-to-planner-button',
+  templateUrl: './wp-add-to-planner-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class WorkPackageAddToTodayButtonComponent {
+export class WorkPackageAddToPlannerButtonComponent {
   readonly I18n = inject(I18nService);
   readonly pathHelper = inject(PathHelperService);
   readonly turboRequests = inject(TurboRequestsService);
 
   @Input() public workPackage:WorkPackageResource;
 
-  public buttonTitle = this.I18n.t('js.planner.add_to_today');
+  public buttonTitle = this.I18n.t('js.planner.add_to_planner');
 
-  addToToday():void {
-    void this.turboRequests.request(
-      `${this.pathHelper.staticBase}/planner/work_packages/${this.workPackage.id}`,
-      { method: 'POST', headers: { Accept: 'text/vnd.turbo-stream.html' } },
-      true,
-    ).catch(() => undefined);
+  openPlannerDialog():void {
+    const query = new URLSearchParams({ work_package_id: this.workPackage.id! });
+    void this.turboRequests
+      .requestStream(`${this.pathHelper.staticBase}/planner/tasks/new_dialog?${query.toString()}`)
+      .catch(() => undefined);
   }
 }
