@@ -98,17 +98,17 @@ RSpec.describe AI::AssistantRuns::Review do
 
     expect(sent[:user]).to include("Public note")
     expect(sent[:user]).not_to include("Secret note")
-    expect(sent[:system]).to include("locale code de")
+    expect(sent[:system]).to include(%(locale code "de"))
   end
 
   context "with a prompt set by an admin" do
     let(:admin_prompt) { "Only check the subject." }
 
-    it "sends the instructions and the output rules with the locale filled in" do
+    it "sends the prompt and the generated output rules with the locale filled in" do
       call
 
       expect(sent[:system]).to start_with("Only check the subject.")
-      expect(sent[:system]).to include("locale code de.")
+      expect(sent[:system]).to include(%(locale code "de".))
     end
   end
 

@@ -49,7 +49,7 @@ module BasicData
 
     def skill_attributes(skill_data)
       skill_data
-        .slice("skill_key", "label", "description", "prompt", "output_rules", "proposal_scope")
+        .slice("skill_key", "label", "description", "prompt", "proposal_scope")
         .compact
         .symbolize_keys
     end
@@ -59,6 +59,7 @@ module BasicData
         name: assistant_data["name"],
         principal_id: nil,
         description: assistant_data["description"],
+        instructions: assistant_data["instructions"],
         icon: assistant_data["icon"],
         position: assistant_data["position"]
       }

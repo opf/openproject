@@ -58,8 +58,7 @@ module AI
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
 
-        g.text_area(name: :output_rules, label: AI::AssistantSkill.human_attribute_name(:output_rules), rows: 5,
-                    caption: I18n.t("admin.ai_assistants.skills.output_rules_caption"))
+        g.html_content { prompt_preview }
 
         if @admin
           g.text_field(name: :template_ref, label: AI::AssistantSkill.human_attribute_name(:template_ref),
@@ -101,6 +100,24 @@ module AI
     end
 
     private
+
+    # The full system prompt as it is sent, for the saved skill, in the current locale.
+    def prompt_preview
+      render(Primer::Beta::Details.new) do |details|
+        details.with_summary(button: false) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { I18n.t("admin.ai_assistants.skills.prompt_preview") }
+        end
+        details.with_body do
+          render(Primer::Beta::Text.new(tag: :p, font_size: :small, color: :muted, mt: 1, mb: 0)) do
+            I18n.t("admin.ai_assistants.skills.prompt_preview_caption")
+          end +
+          render(Primer::Beta::Text.new(tag: :pre, font_size: :small, p: 2, mt: 1, bg: :subtle, border: true, border_radius: 2,
+                                        style: "white-space: pre-wrap", data: { test_selector: "ai-skill-prompt-preview" })) do
+            model.full_system_prompt(locale: I18n.locale)
+          end
+        end
+      end
+    end
 
     # A multi-select of ids. The hidden blank makes a cleared input clear the condition.
     def condition_input(form, key, choices)

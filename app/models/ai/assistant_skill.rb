@@ -44,7 +44,7 @@ module AI
 
     validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
     validates :label, :template_ref, length: { maximum: 255 }
-    validates :prompt, :output_rules, length: { maximum: 20_000 }
+    validates :prompt, length: { maximum: 20_000 }
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -118,13 +118,15 @@ module AI
       description.presence || skill_type&.description
     end
 
-    # The system prompt for a run, or nil when no instructions are set. The output rules
-    # may use {{locale}}; other placeholders stay as they are.
+    # The system prompt for a run, or nil when the skill has no prompt: the assistant's
+    # instructions, the skill's prompt, and the output rules that the code owns.
     def system_prompt(locale:)
-      return if prompt.blank?
+      full_system_prompt(locale:) if prompt.present?
+    end
 
-      rules = output_rules.to_s.gsub(/\{\{\s*locale\s*\}\}/, locale.to_s)
-      [prompt, rules].compact_blank.join("\n\n")
+    # Also without a prompt, to show on the skill page.
+    def full_system_prompt(locale:)
+      [assistant&.instructions, prompt, AI::Assistance::OutputRules.new(self, locale:).to_s].compact_blank.join("\n\n")
     end
 
     private

@@ -47,7 +47,7 @@ module My
     end
 
     def skill_params
-      params.expect(ai_assistant_skill: %i[label description prompt output_rules proposal_scope active])
+      params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active])
     end
   end
 end

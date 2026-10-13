@@ -60,13 +60,15 @@ flowchart LR
 
 ## Prompts
 
-The prompt is data, not code: admins edit it on the skill page. The basic data seeder creates the global "OP assistant" with two skills and their prompts (`app/seeders/common.yml`): Refresh work package and Chat. Each skill stores:
+The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`):
 
-- **Instructions** (`prompt`): what the model does. Without instructions, Refresh work package runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
-- **Output rules** (`output_rules`): how the model answers, for example the language, the changes, and what to do with user text. `{{locale}}` becomes the locale of the user who starts the run.
-- **Template** (`template_ref`): the template in a separate prompt registry that the skill was created from. Nothing reads it yet. A later sync from the registry uses it.
+1. **The assistant's instructions** (`ai_assistants.instructions`, optional): what every skill of the assistant shares, for example who it helps and the domain. Edited on the assistant page.
+2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, Refresh work package runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
+3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, the changes that the skill's type and proposal scope allow, and the guard against instructions in the context. Admins and users do not edit them, so an assistant cannot break the contract with the code.
 
-The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Review#user_message`), the answer schema, and the checks on the answer.
+The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each run and answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat. A skill also stores a **template** (`template_ref`): the template in a separate prompt registry that it was created from. Nothing reads it yet.
+
+The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Review#user_message`), the answer schema, the output rules, and the checks on the answer.
 
 ## Chat
 
@@ -150,8 +152,8 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 
 | Table | Holds |
 |---|---|
-| `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
-| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, `conditions`, position, active |
+| `ai_assistants` | name (unique for each owner), description, `instructions`, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
+| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `template_ref`, `proposal_scope`, `conditions`, position, active |
 | `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 | `ai_assistant_chats` | skill, user, work package |
@@ -193,6 +195,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 17 | Add personal AI assistants in My account | Owner column, `manage_own_ai_assistants`, My account pages, shared admin and My controller logic | 11 |
 | 18 | Let a group own an AI assistant | `principal_id` owner, group choice in admin, menu for group members | 17 |
 | 19 | Offer skills only where their conditions match | `conditions` on skills, the menu filter, the skill form in sections | 11 |
+| 20 | Generate the output rules, and share instructions across an assistant's skills | `AI::Assistance::OutputRules`, `instructions` on assistants, the prompt preview, the assistant form in sections | 11 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 

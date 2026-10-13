@@ -34,38 +34,50 @@ module AI
       ICONS = %w[checklist pulse sparkle beaker briefcase people rocket book tools megaphone].freeze
 
       form do |f|
-        f.text_field(name: :name, label: AI::Assistant.human_attribute_name(:name), required: true,
-                     caption: I18n.t("admin.ai_assistants.form.name_caption"), input_width: :large)
+        f.fieldset_group(title: I18n.t("admin.ai_assistants.form.sections.general")) do |g|
+          g.text_field(name: :name, label: AI::Assistant.human_attribute_name(:name), required: true,
+                       caption: I18n.t("admin.ai_assistants.form.name_caption"), input_width: :large)
 
-        f.text_area(name: :description, label: AI::Assistant.human_attribute_name(:description), rows: 3)
+          g.text_area(name: :description, label: AI::Assistant.human_attribute_name(:description), rows: 3)
+
+          g.select_list(name: :icon, label: AI::Assistant.human_attribute_name(:icon), input_width: :small,
+                        include_blank: false) do |select|
+            ICONS.each { |icon| select.option(value: icon, label: icon) }
+          end
+
+          g.check_box(name: :active, label: AI::Assistant.human_attribute_name(:active))
+        end
 
         # The owner is chosen once. An admin creates a global assistant or one for a group.
         if @admin && model.new_record?
-          f.select_list(name: :principal_id, label: I18n.t("admin.ai_assistants.form.owner"), input_width: :large,
-                        caption: I18n.t("admin.ai_assistants.form.owner_caption"),
-                        include_blank: I18n.t("admin.ai_assistants.index.owners.global")) do |select|
-            Group.order(:lastname).each { |group| select.option(value: group.id, label: group.name) }
+          f.fieldset_group(title: I18n.t("admin.ai_assistants.form.owner"), mt: 4) do |g|
+            g.select_list(name: :principal_id, label: I18n.t("admin.ai_assistants.form.owner"), visually_hide_label: true,
+                          input_width: :large, caption: I18n.t("admin.ai_assistants.form.owner_caption"),
+                          include_blank: I18n.t("admin.ai_assistants.index.owners.global")) do |select|
+              Group.order(:lastname).each { |group| select.option(value: group.id, label: group.name) }
+            end
           end
         end
 
-        f.select_list(name: :icon, label: AI::Assistant.human_attribute_name(:icon), input_width: :small,
-                      include_blank: false) do |select|
-          ICONS.each { |icon| select.option(value: icon, label: icon) }
+        f.fieldset_group(title: I18n.t("admin.ai_assistants.form.sections.instructions"),
+                         description: I18n.t("admin.ai_assistants.form.instructions_caption"), mt: 4) do |g|
+          g.text_area(name: :instructions, label: AI::Assistant.human_attribute_name(:instructions),
+                      visually_hide_label: true, rows: 5)
         end
 
         # A personal assistant uses the default model; only an admin chooses one.
         if @admin
-          f.select_list(name: :model_id, label: AI::Assistant.human_attribute_name(:model_id), input_width: :large,
-                        caption: I18n.t("admin.ai_assistants.form.model_caption"),
-                        include_blank: I18n.t("admin.ai_assistants.form.model_default")) do |select|
-            model_ids.each { |id| select.option(value: id, label: id) }
+          f.fieldset_group(title: AI::Assistant.human_attribute_name(:model_id), mt: 4) do |g|
+            g.select_list(name: :model_id, label: AI::Assistant.human_attribute_name(:model_id), visually_hide_label: true,
+                          input_width: :large, caption: I18n.t("admin.ai_assistants.form.model_caption"),
+                          include_blank: I18n.t("admin.ai_assistants.form.model_default")) do |select|
+              model_ids.each { |id| select.option(value: id, label: id) }
+            end
           end
         end
 
-        f.check_box(name: :active, label: AI::Assistant.human_attribute_name(:active))
-
         f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
-                 scheme: :primary)
+                 scheme: :primary, mt: 4)
       end
 
       def initialize(admin: false)

@@ -40,7 +40,6 @@ FactoryBot.define do
     assistant { association :ai_assistant }
     skill_key { "health_check" }
     prompt { "Check the work package for contradictions." }
-    output_rules { "Write in the language with the locale code {{locale}}." }
     sequence(:position)
   end
 

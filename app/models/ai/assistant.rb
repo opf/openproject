@@ -44,6 +44,7 @@ module AI
 
     validates :name, presence: true, uniqueness: { scope: :principal_id }, length: { maximum: 255 }
     validates :icon, length: { maximum: 255 }
+    validates :instructions, length: { maximum: 20_000 }
     validate :owner_type_supported
 
     attr_readonly :principal_id

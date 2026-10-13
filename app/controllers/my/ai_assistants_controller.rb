@@ -53,7 +53,7 @@ module My
     end
 
     def assistant_params
-      params.expect(ai_assistant: %i[name description icon active])
+      params.expect(ai_assistant: %i[name description instructions icon active])
     end
   end
 end

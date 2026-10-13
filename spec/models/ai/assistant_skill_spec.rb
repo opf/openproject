@@ -83,4 +83,22 @@ RSpec.describe AI::AssistantSkill do
       end
     end
   end
+
+  describe "#system_prompt" do
+    let(:assistant) { build(:ai_assistant, instructions: "You help the COMMS team.") }
+    let(:skill) { build(:ai_assistant_skill, assistant:, skill_key: "prompt", prompt: "Write a test plan.") }
+
+    it "joins the assistant's instructions, the prompt and the generated output rules" do
+      expect(skill.system_prompt(locale: "en")).to eq(
+        "You help the COMMS team.\n\nWrite a test plan.\n\n#{AI::Assistance::OutputRules.new(skill, locale: 'en')}"
+      )
+    end
+
+    it "is nil without a prompt, while the full prompt still shows the rest" do
+      skill.prompt = ""
+
+      expect(skill.system_prompt(locale: "en")).to be_nil
+      expect(skill.full_system_prompt(locale: "en")).to start_with("You help the COMMS team.\n\nWrite \"answer\"")
+    end
+  end
 end
