@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -86,7 +85,7 @@ describe("OpenProjectApi", () => {
       server.events.on('request:end', ({ request }) => {
         authHeader = request.headers.get("Authorization") || "";
       });
-      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401})}));
+      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401});}));
 
       await expect(() =>
         new OpenProjectApi().onAuthenticate({
@@ -123,7 +122,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -151,7 +150,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -236,7 +235,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const targetDoc = new Y.Doc();
