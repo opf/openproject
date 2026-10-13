@@ -37,14 +37,14 @@ module Admin::Settings
     end
 
     def show
-      @reachability = flash[:web_push_reachability]&.map do |result|
+      @reachability = flash[:_web_push_reachability]&.map do |result|
         OpenProject::WebPush::ReachabilityCheck::Result.new(**result.symbolize_keys)
       end
     end
 
     def check
       results = OpenProject::WebPush::ReachabilityCheck.call
-      flash[:web_push_reachability] = results.map(&:to_h)
+      flash[:_web_push_reachability] = results.map(&:to_h)
       redirect_to admin_settings_push_notifications_path, status: :see_other
     end
 
