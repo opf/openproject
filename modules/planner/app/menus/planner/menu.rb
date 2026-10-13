@@ -32,9 +32,10 @@ module Planner
   class Menu < Submenu
     ICONS = { today: :sun, upcoming: :calendar, overdue: :alert, completed: :"check-circle" }.freeze
 
-    def initialize(params:, user:)
+    def initialize(params:, user:, project:)
       super(view_type: nil, params:)
       @user = user
+      @project = project
     end
 
     def menu_items
@@ -48,7 +49,7 @@ module Planner
 
     private
 
-    attr_reader :user
+    attr_reader :user, :project
 
     def view_item(view, icon)
       href = self.class.path_for(view)
@@ -61,7 +62,7 @@ module Planner
     end
 
     def overdue_count
-      Overdue.for(user)&.count.to_i.nonzero?
+      Overdue.new(user:, project:).count.nonzero?
     end
   end
 end

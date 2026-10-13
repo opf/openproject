@@ -524,7 +524,7 @@ class MeetingsController < ApplicationController
     @copy_from = Meeting.templates_visible_in_project(@project).find_by(id: params[:template_id]) if params[:template_id].present?
   end
 
-  # A title and participants handed to the new meeting dialog, e.g. from a task in My Day. Participants
+  # A title and participants handed to the new meeting dialog, e.g. from a task in the Planner. Participants
   # are only taken for one-time meetings and always include the creator.
   def prefilled_attributes(meeting_class, title:, user_ids:)
     attributes = { title: title.presence }.compact

@@ -33,16 +33,22 @@ module Planner
   # written with.
   class References
     PATTERN = /(?<![\w#])\#{1,3}(#{WorkPackage::SemanticIdentifier::SEMANTIC_ID_PATTERN.source}|\d+)\b/
+    ONLY = /\A\s*#{PATTERN.source}\s*\z/
 
     def self.for(user, work_packages)
-      ids = work_packages.flat_map { it.subject.scan(PATTERN) }.flatten
-
       WorkPackage
         .visible(user)
-        .where_display_id_in(ids)
+        .where_display_id_in(work_packages.flat_map { ids_in(it.subject) })
         .includes(:status, :project, :type)
-        .flat_map { [[it.id.to_s, it], [it.display_id.to_s, it]] }
+        .flat_map { |work_package| ids_of(work_package).map { [it, work_package] } }
         .to_h
     end
+
+    def self.ids_in(text) = text.to_s.scan(PATTERN).flatten
+
+    def self.ids_of(work_package) = [work_package.id.to_s, work_package.display_id.to_s]
+
+    # A task whose subject is nothing but a reference stands for the referenced work package.
+    def self.planned_id(subject) = subject[ONLY, 1]
   end
 end

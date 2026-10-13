@@ -39,7 +39,11 @@ module Planner
     end
 
     def call
+      return ServiceResult.success(result: existing_project) if existing_project
+
       OpenProject::Mutex.with_advisory_lock(User, "planner_project_#{user.id}") do
+        # Another request may have created the project while this one waited for the lock.
+        user.pref.reload if user.pref.persisted?
         existing_project ? ServiceResult.success(result: existing_project) : create_project
       end
     end

@@ -31,20 +31,18 @@
 module Planner
   class TasksController < ApplicationController
     include OpTurbo::ComponentStream
-    include Planner::Filtering
+    include Planner::RequestContext
 
-    before_action :require_login
-    before_action :require_planner
     before_action :find_task, only: %i[update destroy plan drop]
-    no_authorization_required! :new_dialog, :create, :update, :destroy, :plan, :drop, :create_from_work_package
+    no_authorization_required! :new_dialog, :create, :update, :destroy, :plan, :drop
 
     def new_dialog
-      planner_project = (Planner::ProjectService.new(current_user).call.result if params[:kind] == "work_package")
+      return new_dialog_for_work_package if params.key?(:work_package_id)
 
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
                                                               day_part: params[:day_part],
                                                               view: current_view,
-                                                              planner_project:)
+                                                              planner_project: work_package_search_project)
     end
 
     def create
@@ -87,30 +85,10 @@ module Planner
       respond_with_view(call)
     end
 
-    def create_from_work_package
-      work_package = WorkPackage.visible(current_user).find_by_display_id(params[:work_package_id])
-      return render_404 unless work_package
-
-      call = Planner::AddWorkPackageService.new(user: current_user).call(work_package:)
-
-      if call.success?
-        render_success_flash_message_via_turbo_stream(message: call.message)
-      else
-        render_error_flash_message_via_turbo_stream(message: call.message)
-      end
-
-      respond_with_turbo_streams(status: call)
-    end
-
     private
 
-    def require_planner
-      render_404 unless OpenProject::FeatureDecisions.planner_active?
-    end
-
     def find_task
-      call = Planner::ProjectService.new(current_user).call
-      @task = call.result.work_packages.find_by_display_id(params[:id]) if call.success?
+      @task = planner_project.work_packages.find_by_display_id(params[:id])
 
       render_404 unless @task
     end
@@ -119,8 +97,23 @@ module Planner
       params.expect(task: %i[subject day_part date description work_package_id])
     end
 
+    def work_package_search_project = (planner_project if params[:kind] == "work_package")
+
+    def find_visible_work_package(id) = WorkPackage.visible(current_user).find_by_display_id(id.to_s)
+
+    def new_dialog_for_work_package
+      work_package = find_visible_work_package(params[:work_package_id])
+      return render_404 unless work_package
+
+      today = Planner::Today.new(user: current_user, project: planner_project)
+      respond_with_dialog Planner::AddTodoDialogComponent.new(date: today.date,
+                                                              day_part: today.current_day_part,
+                                                              view: current_view,
+                                                              work_package:)
+    end
+
     def create_for_work_package
-      work_package = WorkPackage.visible(current_user).find_by_display_id(task_params[:work_package_id].to_s)
+      work_package = find_visible_work_package(task_params[:work_package_id])
       return respond_with_view(ServiceResult.failure(message: t("planner.errors.work_package_not_found"))) unless work_package
 
       call = plan_work_package(work_package)
@@ -131,7 +124,8 @@ module Planner
     def plan_work_package(work_package)
       Planner::AddWorkPackageService
         .new(user: current_user)
-        .call(work_package:, date: task_date || current_user.today, day_part: task_params[:day_part])
+        .call(work_package:, date: task_date || current_user.today, day_part: task_params[:day_part],
+              note: task_params[:subject], description: task_params[:description])
     end
 
     def confirm_planned(call)
@@ -169,17 +163,17 @@ module Planner
 
     def refresh_view_via_turbo_stream
       replace_via_turbo_stream(
-        component: Planner::BaseComponent.for(current_view, current_user, adding: params[:adding], filter: planner_filter)
+        component: Planner::BaseComponent.for(current_view, user: current_user, project: planner_project,
+                                                            adding: params[:adding], filter: planner_filter)
       )
       turbo_streams << turbo_stream.update("planner_sidemenu", submenu.render_in(view_context))
     end
 
     # The submenu carries the Overdue count, which most changes to the plan affect.
     def submenu
-      menu = Planner::Menu.new(params: { current_href: Planner::Menu.path_for(current_view) }, user: current_user)
+      menu = Planner::Menu.new(params: { current_href: Planner::Menu.path_for(current_view) }, user: current_user,
+                               project: planner_project)
       OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: menu.menu_items)
     end
-
-    def current_view = params[:view].presence || "today"
   end
 end

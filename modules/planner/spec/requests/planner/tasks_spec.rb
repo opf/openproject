@@ -228,6 +228,13 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       expect(task.reload.due_date).to eq(date)
     end
 
+    it "re-renders Today for a view it does not know" do
+      patch(plan_planner_task_path(task, to: :evening, view: "someday"), headers:)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('target="planner-today-component"')
+    end
+
     context "when planning from Overdue" do
       let!(:left_over) do
         Planner::CreateTaskService.new(user:).call(subject: "Left over", day_part: :afternoon).result.tap do |task|
@@ -301,26 +308,47 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "adding a work package", with_flag: { planner: true } do
+  describe "adding to the Planner from a work package", with_flag: { planner: true } do
     let(:team_project) { create(:project) }
-    let!(:work_package) { create(:work_package, project: team_project) }
+    let!(:work_package) { create(:work_package, project: team_project, subject: "Contact sponsoring partners") }
     let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
-
-    subject { post planner_work_package_path(work_package.display_id), headers: }
 
     context "when the user can see it" do
       before { create(:member, project: team_project, principal: user, roles: [role]) }
 
-      it "plans it for today and confirms with a flash" do
-        expect { subject }.to change(WorkPackage, :count).by(1)
+      it "opens the dialog for a to-do about it" do
+        travel_to(user.time_zone.parse("#{user.today} 19:00")) do
+          get(new_dialog_planner_tasks_path(work_package_id: work_package.display_id), headers:)
+        end
+
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Added to")
+        expect(response.body).to include("Add to Planner")
+        expect(response.body).to include("planner-add-todo-work-package").and include("Contact sponsoring partners")
+        expect(response.body).to match(/value="#{work_package.id}"[^>]*type="hidden" name="task\[work_package_id\]"/)
+        expect(response.body).to match(/name="task\[day_part\]"[^>]*value="evening"|value="evening"[^>]*name="task\[day_part\]"/)
+        expect(response.body).to include('name="task[subject]"').and include("augmented-text-area-description")
+        expect(response.body).not_to include("planner-work-package-autocompleter")
+      end
+
+      it "adds a to-do about it and confirms with a flash" do
+        post(planner_tasks_path,
+             params: { task: { work_package_id: work_package.id, subject: "Write Maya about the docs",
+                               date: user.today.iso8601, day_part: "afternoon", description: "Docs for the API" } },
+             headers:)
+
+        task = WorkPackage.last
+        expect(task).to have_attributes(subject: "Write Maya about the docs ##{work_package.display_id}",
+                                        description: "Docs for the API")
+        expect(Relation.where(from: task, to: work_package)).to exist
+        expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
+        expect(response.body).to include("Added to Afternoon in the Planner.")
       end
     end
 
     context "when the user cannot see it" do
       it "is not found" do
-        expect { subject }.not_to change(WorkPackage, :count)
+        get(new_dialog_planner_tasks_path(work_package_id: work_package.display_id), headers:)
+
         expect(response).to have_http_status(:not_found)
       end
     end

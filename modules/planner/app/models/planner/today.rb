@@ -36,7 +36,7 @@ module Planner
     AFTERNOON_FROM = 12
     EVENING_FROM = 18
 
-    Section = Data.define(:day_part, :meetings, :work_packages) { include Group }
+    Section = Data.define(:day_part, :meetings, :work_packages)
 
     def date = user.today
 

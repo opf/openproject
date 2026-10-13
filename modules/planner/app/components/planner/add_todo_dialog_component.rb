@@ -37,21 +37,27 @@ module Planner
     FORM_ID = "planner-add-todo-form"
 
     # With the user's "My work" project, the dialog plans an existing work package instead of
-    # adding a to-do.
-    def initialize(date:, day_part:, view:, planner_project: nil)
+    # adding a to-do. With a work package, it adds a to-do about that work package.
+    def initialize(date:, day_part:, view:, planner_project: nil, work_package: nil)
       super()
       @date = date
       @day_part = day_part
       @view = view
       @planner_project = planner_project
+      @work_package = work_package
     end
 
     private
 
-    attr_reader :date, :day_part, :view, :planner_project
+    attr_reader :date, :day_part, :view, :planner_project, :work_package
 
-    def title = planner_project ? t("planner.add_work_package") : t("planner.add_todo")
+    def title
+      if work_package then t("planner.add_to_planner")
+      elsif planner_project then t("planner.add_work_package")
+      else t("planner.add_todo")
+      end
+    end
 
-    def view_param = (view unless view.to_s == "today")
+    def view_param = View.param(view)
   end
 end

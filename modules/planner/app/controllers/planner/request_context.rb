@@ -29,16 +29,42 @@
 #++
 
 module Planner
-  # Remembers the filter of Today and Upcoming in the session, so that it stays while switching
-  # views and while the views refresh themselves.
-  module Filtering
+  # What the Planner's controllers share: the feature flag, the user's "My work" project, the view
+  # and its filter. The filter is kept in the session, so that it stays while switching views and
+  # while the views refresh themselves.
+  module RequestContext
+    extend ActiveSupport::Concern
+
+    included do
+      before_action :require_login
+      before_action :require_planner
+      before_action :require_planner_project
+    end
+
     private
+
+    def require_planner
+      render_404 unless OpenProject::FeatureDecisions.planner_active?
+    end
+
+    def require_planner_project
+      render_error(message: I18n.t("planner.errors.unavailable"), status: 422) unless planner_project
+    end
+
+    def planner_project
+      return @planner_project if defined?(@planner_project)
+
+      call = Planner::ProjectService.new(current_user).call
+      @planner_project = call.result if call.success?
+    end
+
+    def current_view = params.fetch(:view, nil).presence_in(View::NAMES) || View::NAMES.first
 
     def planner_filter
       requested = params.fetch(:filter, nil)
-      session[:planner_filter] = requested if requested.in?(BaseComponent::FILTERS)
+      session[:planner_filter] = requested if requested.in?(View::FILTERS)
 
-      session[:planner_filter].presence_in(BaseComponent::FILTERS) || BaseComponent::FILTERS.first
+      session[:planner_filter].presence_in(View::FILTERS) || View::FILTERS.first
     end
   end
 end

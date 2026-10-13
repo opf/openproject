@@ -30,7 +30,7 @@
 
 module Planner
   class TodayComponent < BaseComponent
-    def initialize(today:, adding: nil, filter: FILTERS.first)
+    def initialize(today:, adding: nil, filter: View::FILTERS.first)
       super(adding:, filter:)
       @today = today
     end

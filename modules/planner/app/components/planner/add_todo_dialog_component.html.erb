@@ -30,11 +30,21 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title:, position: :right, size: :large, data: { "keep-open-on-submit": true })) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
+    <% if work_package %>
+      <%= flex_layout(align_items: :center, bg: :subtle, border: true, border_color: :muted, border_radius: 2, px: 2, py: 1, mb: 3, test_selector: "planner-add-todo-work-package") do |box| %>
+        <% box.with_column(mr: 2, classes: "min-width-0") do %>
+          <%= render(Primer::Beta::Truncate.new(font_weight: :semibold)) { work_package.subject } %>
+        <% end %>
+        <% box.with_column(flex_shrink: 0) do %>
+          <%= render(WorkPackages::InfoLineComponent.new(work_package:, wrap: false)) %>
+        <% end %>
+      <% end %>
+    <% end %>
     <%= primer_form_with(url: planner_tasks_path, scope: :task, id: FORM_ID, data: { turbo_stream: true }) do |f| %>
       <% if view_param %>
         <%= hidden_field_tag :view, view_param, id: nil %>
       <% end %>
-      <%= render(Planner::TaskForm.new(f, date:, day_part:, planner_project:)) %>
+      <%= render(Planner::TaskForm.new(f, date:, day_part:, planner_project:, work_package:)) %>
     <% end %>
   <% end %>
   <% dialog.with_footer do %>

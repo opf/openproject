@@ -30,7 +30,7 @@
 
 module Planner
   class UpcomingComponent < BaseComponent
-    def initialize(upcoming:, adding: nil, filter: FILTERS.first)
+    def initialize(upcoming:, adding: nil, filter: View::FILTERS.first)
       super(adding:, filter:)
       @upcoming = upcoming
     end

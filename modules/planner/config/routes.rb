@@ -39,6 +39,5 @@ Rails.application.routes.draw do
       put :drop, on: :member
       get :new_dialog, on: :collection
     end
-    post "work_packages/:work_package_id", to: "tasks#create_from_work_package", as: :work_package
   end
 end

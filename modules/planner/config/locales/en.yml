@@ -39,6 +39,7 @@ en:
     description: "Add your personal tasks as to-dos to your planner. Meetings you take part in are added to the view automatically."
     add_todo: "Add to-do"
     add_work_package: "Add work package"
+    add_to_planner: "Add to Planner"
     filter:
       all: "All entries"
       todos: "To-dos only"
@@ -59,7 +60,6 @@ en:
       yesterday: "Yesterday"
       description: "Tasks you completed in the last 7 days show up here."
       empty: "Nothing completed in the last 7 days."
-    has_notes: "Has notes"
     task_actions: "To-do actions"
     meeting: "Meeting"
     meeting_actions: "Meeting actions"
@@ -92,6 +92,8 @@ en:
       work_package: "Work package"
       description: "Notes"
       placeholder: "Add a text description or use # to link work packages"
+      note_placeholder: "For example: Write Maya about the docs"
+      note_caption: "Leave it empty to plan the work package itself."
     quick_add:
       label: "New to-do"
       submit: "Add"
