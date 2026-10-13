@@ -148,8 +148,8 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         it "keeps the save button back until LLMs are enabled" do
           get llm_connection_path
 
-          expect(page).to have_no_button("Save")
-          expect(page).to have_button("Save", visible: :hidden)
+          expect(page).to have_css("button.d-none[data-visibility-class='d-none']", text: "Save")
+          expect(page).to have_no_css(".d-none button, button[hidden]", visible: :all)
           expect(page).to have_no_button("Connect", visible: :all)
         end
 
@@ -157,6 +157,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           get llm_connection_path
 
           expect(page).to have_button("Save")
+          expect(page).to have_no_button(class: "d-none", visible: :all)
         end
       end
 

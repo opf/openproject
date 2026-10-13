@@ -80,7 +80,8 @@ module Llm
       I18n.t(STATUS.fetch(result.state), scope: "health_reports.result_component.status")
     end
 
-    def cell(value) = literal(value).gsub("|", "\\|")
+    # A table cell unescapes nothing but the pipe, so backslashes stay as they are.
+    def cell(value) = literal(value).gsub("|") { "\\|" }
 
     def literals(context) = context.to_h.symbolize_keys.transform_values { |value| literal(value) }
 
