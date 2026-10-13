@@ -40,6 +40,10 @@ module Users
       end
     end
 
+    def self.default_for(user)
+      RequestStore.store.fetch(:admin_elevations, {}).fetch(user.id) { default }
+    end
+
     def self.from_h(hash)
       case hash["type"]
       when "everywhere" then everywhere
