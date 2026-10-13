@@ -148,7 +148,7 @@ RSpec.describe "Work package timeline date formatting",
 
   describe "with US/CA settings",
            # According to our documentation:
-           # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-format
+           # https://www.openproject.org/docs/system-admin-guide/calendars-and-dates/#date-and-time-formats
            with_settings: { start_of_week: "7", first_week_of_year: "6" } do
     let(:current_user) { create(:admin) }
 
