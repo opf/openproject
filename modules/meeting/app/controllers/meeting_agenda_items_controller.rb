@@ -55,11 +55,19 @@ class MeetingAgendaItemsController < ApplicationController
                 only: %i[move_to_next_meeting move_to_next_meeting_dialog duplicate_in_next_meeting
                          duplicate_in_next_meeting_dialog]
   before_action :assign_drop_params, only: %i[drop]
+  before_action :set_relative_insert, only: %i[new create cancel_new]
 
   def new
     if @meeting.closed?
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
+    elsif @relative_to.present?
+      render_relative_agenda_item_form_via_turbo_stream(
+        relative_to: @relative_to,
+        insert_position: @insert_position,
+        type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
     else
       if params[:meeting_section_id].present?
         meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
@@ -75,18 +83,11 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def cancel_new
-    if params[:meeting_section_id].present?
-      meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
-      if meeting_section.agenda_items.empty?
-        if meeting_section.backlog?
-          collapsed = false
-        end
-        update_section_via_turbo_stream(form_hidden: true, meeting_section:, collapsed:, current_occurrence: @current_occurrence)
-      end
+    if @relative_to.present?
+      remove_relative_agenda_item_form_via_turbo_stream(relative_to: @relative_to, insert_position: @insert_position)
+    else
+      cancel_new_in_section
     end
-
-    update_new_component_via_turbo_stream(hidden: true, meeting_section:, current_occurrence: @current_occurrence)
-    update_new_button_via_turbo_stream(disabled: false) unless meeting_section&.backlog?
 
     respond_with_turbo_streams
   end
@@ -115,7 +116,7 @@ class MeetingAgendaItemsController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(
@@ -128,22 +129,9 @@ class MeetingAgendaItemsController < ApplicationController
     @meeting_agenda_item = call.result
 
     if call.success?
-      if @meeting_agenda_item.meeting_section.backlog?
-        update_section_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section, collapsed: false,
-                                        current_occurrence: @current_occurrence)
-      else
-        reset_meeting_from_agenda_item
-        # enable continue editing
-        update_header_component_via_turbo_stream
-        update_sidebar_details_component_via_turbo_stream
-        add_item_via_turbo_stream(clear_slate: false, current_occurrence: @current_occurrence)
-      end
+      handle_successful_create
     else
-      # show errors
-      update_new_component_via_turbo_stream(
-        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type, current_occurrence: @current_occurrence
-      )
-      render_base_error_in_flash_message_via_turbo_stream(call.errors)
+      handle_failed_create(call)
     end
 
     respond_with_turbo_streams
@@ -380,6 +368,65 @@ class MeetingAgendaItemsController < ApplicationController
 
   private
 
+  def cancel_new_in_section
+    if params[:meeting_section_id].present?
+      meeting_section = MeetingSection.find_by(id: params[:meeting_section_id])
+      if meeting_section.agenda_items.empty?
+        if meeting_section.backlog?
+          collapsed = false
+        end
+        update_section_via_turbo_stream(form_hidden: true, meeting_section:, collapsed:, current_occurrence: @current_occurrence)
+      end
+    end
+
+    update_new_component_via_turbo_stream(hidden: true, meeting_section:, current_occurrence: @current_occurrence)
+    update_new_button_via_turbo_stream(disabled: false) unless meeting_section&.backlog?
+  end
+
+  def handle_successful_create
+    if @relative_to.present?
+      insert_agenda_item_relative_to(@relative_to, @insert_position)
+      reset_meeting_from_agenda_item
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+      add_relative_item_via_turbo_stream(relative_to: @relative_to, insert_position: @insert_position,
+                                         current_occurrence: @current_occurrence)
+    elsif @meeting_agenda_item.meeting_section.backlog?
+      update_section_via_turbo_stream(meeting_section: @meeting_agenda_item.meeting_section, collapsed: false,
+                                      current_occurrence: @current_occurrence)
+    else
+      reset_meeting_from_agenda_item
+      # enable continue editing
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+      add_item_via_turbo_stream(clear_slate: false, current_occurrence: @current_occurrence)
+    end
+  end
+
+  def handle_failed_create(call)
+    if @relative_to.present?
+      update_relative_agenda_item_form_via_turbo_stream(
+        relative_to: @relative_to,
+        insert_position: @insert_position,
+        meeting_agenda_item: @meeting_agenda_item,
+        type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
+    else
+      update_new_component_via_turbo_stream(
+        hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type,
+        current_occurrence: @current_occurrence
+      )
+    end
+    render_base_error_in_flash_message_via_turbo_stream(call.errors)
+  end
+
+  def insert_agenda_item_relative_to(relative_to, insert_position)
+    relative_to.reload
+    target_position = insert_position == "above" ? relative_to.position : relative_to.position + 1
+    @meeting_agenda_item.insert_at(target_position)
+  end
+
   def convert_to_work_package_service
     @convert_to_work_package_service ||=
       ::MeetingAgendaItems::ConvertToWorkPackageService.new(user: current_user, project: @project)
@@ -434,7 +481,14 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def set_meeting_agenda_item
-    @meeting_agenda_item = @meeting.agenda_items.find(params[:id])
+    @meeting_agenda_item = @meeting.agenda_items.find(params.expect(:id))
+  end
+
+  def set_relative_insert
+    return if params[:relative_to_id].blank?
+
+    @relative_to = @meeting.agenda_items.find(params.expect(:relative_to_id))
+    @insert_position = params[:insert_position]
   end
 
   def set_current_occurrence

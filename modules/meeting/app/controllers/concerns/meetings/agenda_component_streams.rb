@@ -202,6 +202,81 @@ module Meetings
         update_new_button_via_turbo_stream(disabled: true) unless meeting_section == meeting.backlog
       end
 
+      def render_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:, current_occurrence:,
+                                                            type: :simple)
+        remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+
+        new_component = MeetingAgendaItems::NewComponent.new(
+          meeting: relative_to.meeting,
+          meeting_section: relative_to.meeting_section,
+          hidden: false,
+          type:,
+          current_occurrence:,
+          relative_to:,
+          insert_position:
+        )
+        target_component = MeetingAgendaItems::ItemComponent.new(
+          meeting_agenda_item: relative_to,
+          current_occurrence:
+        )
+
+        if insert_position == "above"
+          add_before_via_turbo_stream(component: new_component, target_component:)
+        else
+          add_after_via_turbo_stream(component: new_component, target_component:)
+        end
+      end
+
+      def add_relative_item_via_turbo_stream(relative_to:, insert_position:, current_occurrence:,
+                                             meeting_agenda_item: @meeting_agenda_item)
+        remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+
+        item_component = MeetingAgendaItems::ItemComponent.new(
+          state: :show,
+          meeting_agenda_item:,
+          current_occurrence:
+        )
+        target_component = MeetingAgendaItems::ItemComponent.new(
+          meeting_agenda_item: relative_to,
+          current_occurrence:
+        )
+
+        if insert_position == "above"
+          add_before_via_turbo_stream(component: item_component, target_component:)
+        else
+          add_after_via_turbo_stream(component: item_component, target_component:)
+        end
+
+        update_show_items_via_turbo_stream(current_occurrence:)
+      end
+
+      def update_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:, meeting_agenda_item:,
+                                                            type: :simple, current_occurrence: nil)
+        update_via_turbo_stream(
+          component: MeetingAgendaItems::NewComponent.new(
+            meeting: relative_to.meeting,
+            meeting_section: relative_to.meeting_section,
+            meeting_agenda_item:,
+            hidden: false,
+            type:,
+            current_occurrence:,
+            relative_to:,
+            insert_position:
+          )
+        )
+      end
+
+      def remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+        remove_via_turbo_stream(
+          component: MeetingAgendaItems::NewComponent.new(
+            meeting: relative_to.meeting,
+            meeting_section: relative_to.meeting_section,
+            relative_to:,
+            insert_position:
+          )
+        )
+      end
+
       def render_agenda_item_form_for_empty_meeting_via_turbo_stream(type: :simple)
         update_new_component_via_turbo_stream(
           hidden: false,
