@@ -135,6 +135,48 @@ RSpec.describe "Elevating admin privileges in a project",
     end
   end
 
+  describe "creating a project" do
+    def create_project
+      browser.post "/projects", params: { project: { name: "Brand new", workspace_type: "project" } }
+      browser.response
+    end
+
+    let(:new_project) { Project.find_by(name: "Brand new") }
+
+    it "elevates the admin in the new project for the session", :aggregate_failures do
+      expect { create_project }.to change(AdminElevationSession, :count).by(1)
+
+      expect(AdminElevationSession.last).to have_attributes(user: admin,
+                                                            project: new_project,
+                                                            session_id:,
+                                                            include_subprojects: false,
+                                                            confirmed_with: "project_creation")
+    end
+
+    it "grants access to the settings of the new project right away" do
+      create_project
+      browser.get "/projects/#{new_project.identifier}/settings/general"
+
+      expect(browser.response).to have_http_status(:ok)
+    end
+
+    context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
+      it "does not elevate the admin" do
+        expect { create_project }.not_to change(AdminElevationSession, :count)
+      end
+    end
+
+    context "for a regular user allowed to add projects" do
+      let(:user) do
+        create(:user, password:, password_confirmation: password, global_permissions: [:add_project])
+      end
+
+      it "does not elevate the user" do
+        expect { create_project }.not_to change(AdminElevationSession, :count)
+      end
+    end
+  end
+
   describe "DELETE destroy" do
     shared_let(:subproject) { create(:project, parent: project, public: false) }
 

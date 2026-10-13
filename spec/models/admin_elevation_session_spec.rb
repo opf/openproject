@@ -58,7 +58,7 @@ RSpec.describe AdminElevationSession do
       expect(elevation_session).not_to be_valid
     end
 
-    %w[two_factor password confirmation].each do |method|
+    %w[two_factor password confirmation project_creation].each do |method|
       it "accepts #{method} as confirmation method" do
         elevation_session.confirmed_with = method
 
