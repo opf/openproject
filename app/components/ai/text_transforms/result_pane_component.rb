@@ -35,7 +35,12 @@ module AI
       include OpPrimer::ComponentHelpers
       include ResultPaneHelpers
 
-      EDGES = %w[left right bottom-left bottom-right].freeze
+      RESIZE_HANDLES = {
+        "left" => :"op-resizer-vertical-lines",
+        "right" => :"op-resizer-vertical-lines",
+        "bottom-left" => :"op-resizer-bottom-right",
+        "bottom-right" => :"op-resizer-bottom-right"
+      }.freeze
 
       def initialize(pane:)
         super()

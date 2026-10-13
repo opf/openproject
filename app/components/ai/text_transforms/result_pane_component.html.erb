@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
             box.with_body(flex: 1, overflow: :auto) { section(:body) }
             box.with_footer(bg: :subtle) { section(:footer) }
           end,
-          *EDGES.map do |edge|
+          *RESIZE_HANDLES.map do |edge, icon|
             render(
               Primer::BaseComponent.new(
                 tag: :span,
@@ -62,7 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
                 data: { edge: },
                 "aria-hidden": true
               )
-            )
+            ) do
+              render(Primer::Beta::Octicon.new(icon:, color: :muted))
+            end
           end
         ]
       )

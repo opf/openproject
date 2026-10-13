@@ -64,7 +64,9 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
     end
   end
 
-  it "renders the four resize handles" do
+  it "renders the four resize handles with the OpenProject resizer icons" do
     expect(subject).to have_css(".op-ai-result-pane--resize[aria-hidden=true]", count: 4)
+    expect(subject).to have_css(".op-ai-result-pane--resize .octicon-op-resizer-vertical-lines", count: 2)
+    expect(subject).to have_css(".op-ai-result-pane--resize .octicon-op-resizer-bottom-right", count: 2)
   end
 end
