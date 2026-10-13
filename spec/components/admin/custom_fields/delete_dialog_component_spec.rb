@@ -56,7 +56,7 @@ RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
     expect(form).to have_field("_method", type: :hidden, with: "delete")
   end
 
-  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
+  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field user_custom_field].each do |type|
     context "for a #{type.to_s.humanize.downcase}" do
       let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
 
