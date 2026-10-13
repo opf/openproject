@@ -15,7 +15,7 @@ RSpec.describe Search::SemanticResult do
       end
     end
 
-    context "when a binding exists but is not yet locked (no index)" do
+    context "when a binding exists but is not yet locked" do
       let(:connection) { create(:llm_connection, :with_models) }
       let!(:binding) do
         create(:llm_feature_binding, llm_connection: connection, feature_key: "semantic_search",
@@ -37,35 +37,23 @@ RSpec.describe Search::SemanticResult do
       let(:session_double) { instance_double(Llm::Session) }
       let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [0.1, 0.2, 0.3]) }
 
+
       before do
         allow(Llm::Session).to receive(:for).with(connection).and_return(session_double)
         allow(session_double).to receive(:embed).and_return(embedding_double)
 
-        create(:work_package_embedding, work_package: wp1, model_id: "bge-m3", dimensions: 3)
-        create(:work_package_embedding, work_package: wp2, model_id: "bge-m3", dimensions: 3)
-      end
-
-      it "returns work packages visible to the user" do
-        result = described_class.for("some query", user)
-        expect(result.map(&:id)).to include(wp1.id, wp2.id)
-      end
-
-      it "does not return work packages the user cannot see" do
-        invisible_wp = create(:work_package)
-        create(:work_package_embedding, work_package: invisible_wp, model_id: "bge-m3", dimensions: 3)
-
-        result = described_class.for("some query", user)
-        expect(result.map(&:id)).not_to include(invisible_wp.id)
-      end
-
-      it "ranks only work packages the user can see" do
-        stub_const("#{described_class}::RESULT_LIMIT", 2)
-        WorkPackageEmbedding.where(work_package: [wp1, wp2]).delete_all
-        create(:work_package_embedding, work_package: wp1, embedding: [0.1, 0.2, 0.35])
+        create(:work_package_embedding, work_package: wp1, embedding: [0.1, 0.2, 0.5])
         create(:work_package_embedding, work_package: wp2, embedding: [0.1, 0.2, 0.4])
-        create_list(:work_package_embedding, 2, embedding: [0.1, 0.2, 0.3])
 
-        expect(described_class.for("some query", user).map(&:id)).to eq([wp1.id, wp2.id])
+        # more embeddings for work packages the user can't see
+        create_list(:work_package_embedding, 2)
+      end
+
+      it "ranks work packages the user can see, ascending by vector distance" do
+        search_result = described_class.for("some query", user).map(&:id)
+
+        # wp2 embedding is closer to search embedding, so it's first
+        expect(search_result).to eq([wp2.id, wp1.id])
       end
 
       it "returns no work packages when the LLM call fails" do

@@ -31,8 +31,6 @@
 FactoryBot.define do
   factory :work_package_embedding do
     association :work_package
-    model_id { "text-embedding-3-small" }
-    dimensions { 3 }
     embedding { [0.1, 0.2, 0.3] }
   end
 end

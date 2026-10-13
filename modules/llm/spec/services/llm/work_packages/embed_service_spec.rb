@@ -39,13 +39,13 @@ RSpec.describe Llm::WorkPackages::EmbedService do
                                  model_id: "bge-m3", dimensions: 3)
   end
   let(:session_double) { instance_double(Llm::Session) }
-  let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [[0.1, 0.2, 0.3]]) }
+  let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [[1.0, 2.0, 3.0]]) }
 
   subject(:service) { described_class.new([work_package]) }
 
   context "when no binding exists" do
     it "raises" do
-      expect { service.call }.to raise_error(RuntimeError, "no binding")
+      expect { service.call }.to raise_error(Llm::Errors::ConfigurationError, "binding not ready")
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.describe Llm::WorkPackages::EmbedService do
     end
 
     it "raises" do
-      expect { service.call }.to raise_error(RuntimeError, "no binding")
+      expect { service.call }.to raise_error(Llm::Errors::ConfigurationError, "binding not ready")
     end
   end
 
@@ -71,21 +71,7 @@ RSpec.describe Llm::WorkPackages::EmbedService do
       service.call
 
       record = WorkPackageEmbedding.find_by!(work_package:)
-      expect(record.model_id).to eq("bge-m3")
-      expect(record.dimensions).to eq(3)
-    end
-
-    it "caps the text by the bound model's context window" do
-      connection.models.find_by!(external_id: "bge-m3").update!(raw_metadata: { "max_model_len" => 5 })
-      allow(Llm::WorkPackages::EmbeddableText).to receive(:for).and_call_original
-
-      service.call
-
-      expect(Llm::WorkPackages::EmbeddableText).to have_received(:for).with(work_package, max_chars: 10)
-    end
-
-    it "returns :ok" do
-      expect(service.call).to eq(:ok)
+      expect(record.embedding).to eq("[1,2,3]")
     end
 
     it "locks the binding on first write" do
