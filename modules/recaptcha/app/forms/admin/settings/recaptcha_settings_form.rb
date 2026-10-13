@@ -36,7 +36,16 @@ module Admin
       form do |f|
         f.select_list(name: :recaptcha_type,
                       label: I18n.t("recaptcha.settings.type"),
-                      caption: @type_caption,
+                      caption: helpers.t(
+                        "recaptcha.settings.captcha_description_html",
+                        hcaptcha_link: helpers.link_to("https://docs.hcaptcha.com/switch/", "https://docs.hcaptcha.com/switch/",
+                                                       target: "_blank", rel: "noopener"),
+                        recaptcha_link: helpers.link_to("https://www.google.com/recaptcha", "https://www.google.com/recaptcha",
+                                                        target: "_blank", rel: "noopener"),
+                        turnstile_link: helpers.link_to("https://developers.cloudflare.com/turnstile/",
+                                                        "https://developers.cloudflare.com/turnstile/",
+                                                        target: "_blank", rel: "noopener")
+                      ),
                       input_width: :medium) do |list|
           recaptcha_available_options.each do |label, value|
             list.option(label:,
@@ -50,7 +59,7 @@ module Admin
           label: I18n.t("recaptcha.settings.website_key"),
           caption: I18n.t("recaptcha.settings.website_key_text"),
           value: Setting.plugin_openproject_recaptcha["website_key"],
-          input_width: :medium
+          input_width: :large
         )
 
         f.text_field(
@@ -58,7 +67,7 @@ module Admin
           label: I18n.t("recaptcha.settings.secret_key"),
           caption: I18n.t("recaptcha.settings.secret_key_text"),
           value: Setting.plugin_openproject_recaptcha["secret_key"],
-          input_width: :medium
+          input_width: :large
         )
 
         f.text_field(
@@ -73,11 +82,6 @@ module Admin
         f.submit(name: :submit,
                  label: I18n.t(:button_save),
                  scheme: :primary)
-      end
-
-      def initialize(type_caption:)
-        super()
-        @type_caption = type_caption
       end
     end
   end

@@ -11,20 +11,12 @@
   end
 %>
 
-<%
-  type_caption = t(
-    "recaptcha.settings.captcha_description_html",
-    hcaptcha_link: link_to("https://docs.hcaptcha.com/switch/", "https://docs.hcaptcha.com/switch/", target: "_blank", rel: "noopener"),
-    recaptcha_link: link_to("https://www.google.com/recaptcha", "https://www.google.com/recaptcha", target: "_blank", rel: "noopener"),
-    turnstile_link: link_to("https://developers.cloudflare.com/turnstile/", "https://developers.cloudflare.com/turnstile/", target: "_blank", rel: "noopener")
-  )
-%>
 <%= settings_primer_form_with(
       scope: :settings,
       model: false,
-      method: :patch,
+      method: :post,
       url: { action: :update },
       id: "update-recaptcha-settings-form"
     ) do |f| %>
-  <%= render(Admin::Settings::RecaptchaSettingsForm.new(f, type_caption:)) %>
+  <%= render(Admin::Settings::RecaptchaSettingsForm.new(f)) %>
 <% end %>
