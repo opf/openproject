@@ -74,7 +74,7 @@ gem "rubytree", "~> 2.2.2"
 gem "addressable", "~> 2.9.0"
 
 # Remove whitespace from model input
-gem "auto_strip_attributes", "~> 2.5"
+gem "auto_strip_attributes", "~> 3.0"
 
 # Provide timezone info for TZInfo used by AR
 gem "tzinfo-data", "~> 1.2026.4"
