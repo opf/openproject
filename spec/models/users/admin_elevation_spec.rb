@@ -71,6 +71,26 @@ RSpec.describe Users::AdminElevation do
     end
   end
 
+  describe ".default_for" do
+    let(:admin) { build_stubbed(:admin) }
+
+    it "is the default without an elevation for the user in the request store" do
+      expect(described_class.default_for(admin)).to be_a(described_class::Everywhere)
+    end
+
+    context "with an elevation for the user in the request store", with_flag: { admin_privilege_elevation: true } do
+      before { RequestStore[:admin_elevations] = { admin.id => described_class.in_projects([elevated_project.id]) } }
+
+      it "is that elevation" do
+        expect(described_class.default_for(admin).covers?(elevated_project)).to be true
+      end
+
+      it "is the default for another user" do
+        expect(described_class.default_for(build_stubbed(:admin))).to be_a(described_class::None)
+      end
+    end
+  end
+
   describe ".from_h" do
     it "restores an Everywhere elevation" do
       expect(described_class.from_h(described_class.everywhere.to_h)).to be_a(described_class::Everywhere)
