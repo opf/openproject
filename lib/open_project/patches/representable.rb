@@ -72,7 +72,7 @@ module OpenProject::Patches::Representable
   end
 end
 
-OpenProject::Patches.patch_gem_version "representable", "3.2.0" do
+OpenProject::Patches.patch_gem_version "representable", "3.3.1" do
   unless Representable::Decorator.included_modules.include?(OpenProject::Patches::Representable::DecoratorPatch)
     Representable::Decorator.include OpenProject::Patches::Representable::DecoratorPatch
   end
