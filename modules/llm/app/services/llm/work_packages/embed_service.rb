@@ -38,12 +38,10 @@ module Llm
       def call
         raise Llm::Errors::ConfigurationError, "binding not ready" unless binding_ready?
 
-        texts = work_packages.map { |wp| EmbeddableText.for(wp) }
         result = session.embed(texts, model: binding.resolved_model_id, dimensions: binding.dimensions)
 
         work_packages.zip(result.vectors).each { |wp, vectors| upsert(wp, vectors) }
         lock_binding_on_first_write
-        :ok
       end
 
       private
@@ -60,9 +58,14 @@ module Llm
         binding.present? && binding.resolved_model_id.present?
       end
 
-      def session
-        @session ||= Llm::Session.for(binding.llm_connection)
+      def session = Llm::Session.for(binding.llm_connection)
+
+      def texts
+        context_window = binding.llm_connection.models.find_by(external_id: binding.resolved_model_id)&.context_window
+
+        work_packages.map { |wp| EmbeddableText.for(wp, context_window: context_window) }
       end
+
 
       def upsert(work_package, vectors)
         record = WorkPackageEmbedding.find_or_initialize_by(work_package_id: work_package.id)

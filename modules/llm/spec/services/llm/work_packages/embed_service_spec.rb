@@ -75,6 +75,15 @@ RSpec.describe Llm::WorkPackages::EmbedService do
       expect(record.dimensions).to eq(3)
     end
 
+    it "caps the text by the bound model's context window" do
+      connection.models.find_by!(external_id: "bge-m3").update!(raw_metadata: { "max_model_len" => 5 })
+      allow(Llm::WorkPackages::EmbeddableText).to receive(:for).and_call_original
+
+      service.call
+
+      expect(Llm::WorkPackages::EmbeddableText).to have_received(:for).with(work_package, max_chars: 10)
+    end
+
     it "returns :ok" do
       expect(service.call).to eq(:ok)
     end

@@ -33,9 +33,18 @@ module Llm
     module EmbeddableText
       SANITIZER = Rails::Html::FullSanitizer.new
 
-      def self.for(work_package)
+      # Chars per token differs per language.
+      # 2 characters per token is on the low end, to be on the safe side.
+      CHARS_PER_TOKEN = 2
+      DEFAULT_CONTEXT_WINDOW = 8000
+
+      def self.for(work_package, context_window: DEFAULT_CONTEXT_WINDOW)
+        context_window = context_window.to_i
+        max_chars = (context_window.positive? ? context_window : DEFAULT_CONTEXT_WINDOW) * CHARS_PER_TOKEN
+
         description = SANITIZER.sanitize(work_package.description.to_s)
-        [work_package.subject, description].join("\n").strip
+
+        [work_package.subject, description].join("\n").strip[0, max_chars]
       end
     end
   end

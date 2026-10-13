@@ -58,5 +58,23 @@ RSpec.describe Llm::WorkPackages::EmbeddableText do
         expect(described_class.for(work_package)).to eq("Fix login bug")
       end
     end
+
+    context "with text longer than max_chars" do
+      let(:description) { "Users cannot log in after password reset." }
+
+      it "truncates subject and description together" do
+        expect(described_class.for(work_package, max_chars: 20)).to eq("Fix login bug\nUsers ")
+      end
+    end
+  end
+
+  describe ".max_chars_for" do
+    it "allows two characters per token of the context window" do
+      expect(described_class.max_chars_for(8_192)).to eq(16_384)
+    end
+
+    it "falls back to MAX_CHARS without a context window" do
+      expect(described_class.max_chars_for(nil)).to eq(described_class::MAX_CHARS)
+    end
   end
 end
