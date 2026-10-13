@@ -34,6 +34,9 @@ Afterwards users that want to make use of MCP on a personal basis, can create a 
 token. However, this only works properly with locally running MCP clients that are only used by a single user and it requires the user
 to configure the MCP endpoint themselves.
 
+API tokens can [expire](../../../user-guide/account-settings/access-tokens/#api). Once the token used by an MCP client has expired,
+OpenProject rejects its requests, and the user needs to create a new token and configure it in the MCP client.
+
 #### Shared access via OAuth
 
 If multiple users shall be able to use information from the same OpenProject instance and when using web-based MCP clients, the typical
@@ -103,7 +106,7 @@ MCP tools allow connected clients to perform operations in OpenProject. Each too
 | `list_work_package_relations` | List work package relations | List relations of the given work package towards other work packages. |
 | `search_custom_field_items` | Search custom field items | Access items available as values for the given custom field. Usable for hierarchy and weighted item list custom fields. |
 | `search_custom_fields` | Search custom fields | Show details of the custom fields matching given criteria. |
-| `search_portfolios` | Search portfolios | Search portfolios matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 portfolios. To get the rest of the results, call the tool again with apage number of 2 or higher. |
+| `search_portfolios` | Search portfolios | Search portfolios matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 portfolios. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_programs` | Search programs | Search programs matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 programs. To get the rest of the results, call the tool again with a page number of 2 or higher. |
 | `search_projects` | Search projects | Search projects matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 100 projects. To get the rest of the results, call the tool again with a page number of 1 or higher. |
 | `search_time_entries` | Search time entries | Search time entries matching all of the passed input parameters. Parameters not passed are ignored. Results are limited to a maximum of 40 time entries. To get the rest of the results, call the tool again with a page number of 2 or higher. |

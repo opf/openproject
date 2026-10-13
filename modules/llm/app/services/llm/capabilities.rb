@@ -85,7 +85,8 @@ module Llm
     # @return [Hash{Symbol => Symbol}] capability => state, empty when the card
     #   declares nothing
     def declared_for(raw_metadata)
-      modalities = Array(raw_metadata.to_h.dig("architecture", "output_modalities")).map(&:to_s)
+      architecture = raw_metadata.to_h["architecture"]
+      modalities = architecture.is_a?(Hash) ? Array(architecture["output_modalities"]).map(&:to_s) : []
       return {} if modalities.empty?
 
       { embeddings: modalities.include?("embeddings") ? :supported : :unsupported }

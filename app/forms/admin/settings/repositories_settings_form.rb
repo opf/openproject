@@ -37,7 +37,6 @@ module Admin
             name: :sys_api_key,
             id: "settings_sys_api_key",
             disabled: !Setting.sys_api_enabled?,
-            label: I18n.t(:setting_mail_handler_api_key),
             input_width: :medium,
             data: {
               disable_when_checked_target: "effect",

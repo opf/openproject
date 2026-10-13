@@ -54,7 +54,7 @@ module Admin
       def build_enumeration_menu(menu)
         with_item_group(menu) do
           edit_enumeration(menu)
-          move_enumeration(menu)
+          with_move_submenu(menu)
         end
         with_item_group(menu) { deletion_enumeration(menu) }
       end
@@ -64,20 +64,6 @@ module Admin
                        tag: :a,
                        href: helpers.url_for(action: :edit, id: enumeration)) do |item|
           item.with_leading_visual_icon(icon: :pencil)
-        end
-      end
-
-      def move_enumeration(menu)
-        menu.with_item(
-          component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-          label: I18n.t(:button_move),
-          select_variant: :none,
-          form_arguments: {},
-          data: { sortable_lists__item_target: "moveMenu" }
-        ) do |submenu|
-          submenu.with_leading_visual_icon(icon: :"op-arrow-in")
-
-          with_move_items(submenu)
         end
       end
 

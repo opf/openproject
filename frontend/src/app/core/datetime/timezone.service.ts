@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -196,5 +195,26 @@ export class TimezoneService {
 
   public getTimeFormat():string {
     return this.configurationService.timeFormatPresent() ? this.configurationService.timeFormat() : 'LT';
+  }
+
+  /**
+   * Parses a date and time in the user's date and time format and time zone,
+   * as produced by formattedDatetime, and returns it as UTC ISO 8601 string.
+   *
+   * Uses moment instead of luxon, as the configured date and time formats are delivered
+   * as moment tokens (see API::V3::Configuration::ConfigurationRepresenter#date_format).
+   */
+  public parseFormattedDatetime(text:string):string|null {
+    const format = `${this.getDateFormat()} ${this.getTimeFormat()}`;
+    const parsed = moment.tz(text, format, true, this.userTimezone());
+
+    return parsed.isValid() ? parsed.utc().format() : null;
+  }
+
+  public uses24HourClock():boolean {
+    const format = this.getTimeFormat();
+    const expandedFormat = moment.localeData().longDateFormat(format as moment.LongDateFormatKey) || format;
+
+    return !/[aA]/.test(expandedFormat);
   }
 }

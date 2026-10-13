@@ -84,36 +84,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter d
     end
   end
 
-  describe "overallCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "overallCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.overall_costs") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
-  describe "laborCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "laborCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.labor_costs") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
-  describe "materialCosts" do
-    it_behaves_like "has basic schema properties" do
-      let(:path) { "materialCosts" }
-      let(:type) { "String" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.material_costs") }
-      let(:required) { false }
-      let(:writable) { false }
-    end
-  end
-
   context "custom field x" do
     it_behaves_like "has basic schema properties" do
       let(:path) { "customField#{custom_field.id}" }

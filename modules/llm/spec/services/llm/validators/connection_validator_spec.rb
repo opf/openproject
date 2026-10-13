@@ -327,8 +327,18 @@ RSpec.describe Llm::Validators::ConnectionValidator, :llm_server_helpers, :webmo
         -> { mock_llm_models_response(base_url) },
         -> { mock_llm_models_response(base_url, response_code: 401) },
         -> { mock_llm_models_response(base_url, response_code: 404) },
-        -> { mock_llm_models_response(base_url, timeout: true) }
+        -> { mock_llm_models_response(base_url, timeout: true) },
+        -> { deep_check { mock_llm_chat_response(base_url) } },
+        -> { deep_check { mock_llm_chat_response(base_url, response_code: 401) } },
+        -> { deep_check { mock_llm_chat_response(base_url, response_code: 404) } },
+        -> { deep_check { mock_llm_chat_response(base_url, timeout: true) } }
       ]
+    end
+
+    def deep_check
+      connection.deep_health_check = true
+      mock_llm_models_response(base_url)
+      yield
     end
 
     it "exist for every check and every code the validator can emit" do

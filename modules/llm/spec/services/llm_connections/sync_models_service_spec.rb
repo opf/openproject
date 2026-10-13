@@ -101,6 +101,30 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.feature_bindings).to be_empty
     end
 
+    it "keeps a locked binding, which records what an existing index was written with" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                                    dimensions: 1024, locked_at: Time.current)
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(binding.reload).to have_attributes(model_id: "bge-m3", dimensions: 1024)
+      expect(binding).to be_locked
+    end
+
+    it "leaves a kept binding dangling when the new server offers a model of the same name" do
+      binding = connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      binding.update_columns(locked_at: Time.current, locked_deployment_fingerprint: connection.connection_fingerprint)
+      mock_llm_models_response("https://elsewhere.example/v1")
+
+      service.call
+
+      expect(connection.reload.available_model_ids).to include("qwen3.6-27b")
+      expect(binding.reload).to be_dangling
+    end
+
     # on_delete: :nullify on the two default_*_model_id foreign keys.
     it "lets go of a connection default that named a model the previous server offered" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))

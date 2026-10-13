@@ -69,7 +69,8 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(
                 WorkPackageTypes::VariantRowComponent.new(
                   variant:,
-                  linked: configurable?(variant)
+                  linked: configurable?(variant),
+                  project:
                 )
               ) do |row| %>
             <% row.with_caption { variant_caption(variant) } %>

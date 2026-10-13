@@ -33,6 +33,8 @@ module WorkPackageTypes
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
+    include WorkPackageTypes::VariantRoutes
+    include SortableLists::MoveMenu
 
     def initialize(variant:, template:, readonly: false)
       super
@@ -45,7 +47,7 @@ module WorkPackageTypes
     def readonly? = @readonly
 
     def edit_settings_path
-      edit_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id)
+      edit_settings_variant_pdf_export_template_path(helpers.variant_scope_project, @variant, @template.id)
     end
 
     def wrapper_uniq_by

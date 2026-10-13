@@ -272,6 +272,68 @@ RSpec.describe LlmConnection do
     end
   end
 
+  describe "#env_changed_since_applied?" do
+    let(:env) { { "base_url" => "https://example.com/v1", "api_key" => "sk-from-env" } }
+    let(:connection) { create(:llm_connection, :provisioned_from_env) }
+
+    before { allow(Setting).to receive(:llm_connection).and_return(env) }
+
+    it "is false while the variables are the ones that were applied" do
+      connection.update_columns(env_fingerprint: described_class.env_fingerprint(env))
+
+      expect(connection.reload).not_to be_env_changed_since_applied
+    end
+
+    it "is true once a variable differs from what was applied" do
+      connection.update_columns(env_fingerprint: described_class.env_fingerprint(env.merge("api_key" => "sk-rotated")))
+
+      expect(connection.reload).to be_env_changed_since_applied
+    end
+
+    it "is false for a connection applied before a fingerprint was recorded" do
+      expect(connection.env_fingerprint).to be_nil
+      expect(connection).not_to be_env_changed_since_applied
+    end
+
+    it "is false once the environment no longer configures the connection" do
+      connection.update_columns(env_fingerprint: described_class.env_fingerprint(env))
+      allow(Setting).to receive(:llm_connection).and_return({})
+
+      expect(connection.reload).not_to be_env_changed_since_applied
+    end
+
+    it "does not carry the API key" do
+      expect(described_class.env_fingerprint(env)).not_to include("sk-from-env")
+    end
+
+    it "does not depend on the order of the variables" do
+      expect(described_class.env_fingerprint(env.to_a.reverse.to_h)).to eq(described_class.env_fingerprint(env))
+    end
+
+    it "does not depend on how the same custom headers are written" do
+      as_hash = env.merge("custom_headers" => { "api-version" => "2", "apikey" => "gateway" })
+      reordered = env.merge("custom_headers" => { "apikey" => "gateway", "api-version" => "2" })
+      as_json = env.merge("custom_headers" => '{ "apikey": "gateway",  "api-version": "2" }')
+
+      expect(described_class.env_fingerprint(reordered)).to eq(described_class.env_fingerprint(as_hash))
+      expect(described_class.env_fingerprint(as_json)).to eq(described_class.env_fingerprint(as_hash))
+    end
+
+    it "treats absent and empty custom headers alike" do
+      ["", "{}", {}, nil].each do |empty|
+        expect(described_class.env_fingerprint(env.merge("custom_headers" => empty)))
+          .to eq(described_class.env_fingerprint(env))
+      end
+    end
+
+    it "changes when a custom header does" do
+      one = env.merge("custom_headers" => { "apikey" => "gateway" })
+      other = env.merge("custom_headers" => { "apikey" => "rotated" })
+
+      expect(described_class.env_fingerprint(other)).not_to eq(described_class.env_fingerprint(one))
+    end
+  end
+
   describe "#env_named_default?" do
     let(:connection) { create(:llm_connection, :provisioned_from_env) }
     let(:chat_model) { create(:llm_model, :manual, llm_connection: connection) }

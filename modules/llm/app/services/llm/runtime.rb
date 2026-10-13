@@ -104,7 +104,7 @@ module Llm
 
       model_id = resolved_model_id
       return resolution(:unbound) if model_id.blank?
-      return resolution(:model_missing, model_id:) unless connection.available_model_ids.include?(model_id)
+      return resolution(:model_missing, model_id:) unless usable?(model_id)
 
       missing = unsupported_capabilities(model_id)
       return resolution(:incapable, model_id:, missing_capabilities: missing) if missing.any?
@@ -133,8 +133,18 @@ module Llm
       override.presence
     end
 
+    def usable?(model_id)
+      connection.available_model_ids.include?(model_id) && !(binding_model_id == model_id && binding.from_another_deployment?)
+    end
+
+    def binding
+      return @binding if defined?(@binding)
+
+      @binding = connection.feature_bindings.find_by(feature_key: feature.key.to_s)
+    end
+
     def binding_model_id
-      connection.feature_bindings.find_by(feature_key: feature.key.to_s)&.model_id.presence
+      binding&.model_id.presence
     end
 
     def connection_default

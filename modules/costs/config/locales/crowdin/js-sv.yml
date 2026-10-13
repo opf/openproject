@@ -25,8 +25,6 @@ sv:
     button_log_costs: Logga enhetskostnader
     label_hour: timme
     label_hours: timmar
-    myTimeTracking:
-      noSpecificTime: Ingen specifik tid
     text_are_you_sure: Är du säker?
     work_packages:
       properties:

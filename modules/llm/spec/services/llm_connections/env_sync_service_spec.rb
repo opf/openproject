@@ -64,6 +64,12 @@ RSpec.describe LlmConnections::EnvSyncService do
 
       expect(result.result.saved_changes).not_to have_key("env_provisioned_at")
     end
+
+    it "records which configuration it applied" do
+      expect(result).to be_success
+
+      expect(connection.reload.env_fingerprint).to eq(LlmConnection.env_fingerprint(env_config))
+    end
   end
 
   # The previous server reported the model, so the row the default points at

@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe SortableLists::MoveMenu, type: :component do
-  let(:harness_class) do
+  def harness_class_calling(builder, system_arguments: {})
     Class.new(ApplicationComponent) do
       include SortableLists::MoveMenu
 
@@ -39,50 +39,101 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
         "MoveMenuHarnessComponent"
       end
 
-      def call
+      define_method(:call) do
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button { "Actions" }
-          with_move_items(menu)
+          send(builder, menu, **system_arguments)
         end
       end
     end
   end
 
-  let(:move_items) do
-    page.all("li[data-sortable-lists--item-target~='moveItem']", visible: :all)
+  let(:directions) do
+    {
+      "top" => ["Move to top", :"move-to-top"],
+      "up" => ["Move up", :"chevron-up"],
+      "down" => ["Move down", :"chevron-down"],
+      "bottom" => ["Move to bottom", :"move-to-bottom"]
+    }
   end
 
   before { render_inline(harness_class.new) }
 
-  it "renders the four directions in top, up, down, bottom order" do
-    expect(move_items.pluck("data-sortable-lists--item-direction-param"))
-      .to eq(%w[top up down bottom])
-  end
+  describe "#with_move_items" do
+    let(:harness_class) { harness_class_calling(:with_move_items) }
 
-  it "wires every item to the item controller's move action" do
-    expect(move_items.pluck("data-action"))
-      .to all(eq("click->sortable-lists--item#move"))
-  end
+    it "renders the four directions in top, up, down, bottom order" do
+      expect(page.all(:menuitem).map { it.text.squish })
+        .to eq(["Move to top", "Move up", "Move down", "Move to bottom"])
+    end
 
-  it "labels each direction with the existing sort translations and icons" do
-    {
-      "top" => [:label_sort_highest, "move-to-top"],
-      "up" => [:label_sort_higher, "chevron-up"],
-      "down" => [:label_sort_lower, "chevron-down"],
-      "bottom" => [:label_sort_lowest, "move-to-bottom"]
-    }.each do |direction, (label, icon)|
-      item = page.find("li[data-sortable-lists--item-direction-param='#{direction}']", visible: :all)
+    it "gives each direction its icon", :aggregate_failures do
+      directions.each_value do |label, icon|
+        expect(page).to have_selector(:menuitem, label) do |item|
+          expect(item).to have_octicon(icon)
+        end
+      end
+    end
 
-      expect(item).to have_button(I18n.t(label), visible: :all)
-      expect(item).to have_css(".octicon-#{icon}", visible: :all)
+    it "wires every item to the item controller's move action", :aggregate_failures do
+      directions.each do |direction, (label, _icon)|
+        expect(page).to have_element(:li, "data-sortable-lists--item-direction-param": direction) do |item|
+          expect(item["data-sortable-lists--item-target"]).to eq("moveItem")
+          expect(item["data-action"]).to eq("click->sortable-lists--item#move")
+          expect(item).to have_selector(:menuitem, label)
+        end
+      end
     end
   end
 
-  it "does not expose the builder as public component API" do
-    expect(harness_class.new).not_to respond_to(:with_move_items)
+  describe "#with_move_submenu" do
+    let(:system_arguments) { {} }
+    let(:harness_class) { harness_class_calling(:with_move_submenu, system_arguments:) }
+
+    it "renders a Move item with the incoming-arrow icon that opens a submenu", :aggregate_failures do
+      expect(page).to have_selector(:menuitem, "Move", exact: true, count: 1) do |item|
+        expect(item).to have_octicon(:"op-arrow-in")
+        expect(item["aria-haspopup"]).to eq("true")
+      end
+    end
+
+    it "marks the Move item as the target the item controller hides" do
+      expect(page).to have_element(:li, "data-sortable-lists--item-target": "moveMenu", count: 1) do |item|
+        expect(item).to have_selector(:menuitem, "Move", exact: true)
+      end
+    end
+
+    it "renders the four directions into the submenu the Move item controls" do
+      move_item = page.find(:menuitem, "Move", exact: true)
+
+      expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
+        expect(submenu.all(:menuitem).map { it.text.squish })
+          .to eq(["Move to top", "Move up", "Move down", "Move to bottom"])
+      end
+    end
+
+    context "with caller-supplied additional arguments" do
+      let(:system_arguments) do
+        {
+          classes: "additional-class",
+          data: { projects__settings__border_box_filter_target: "hideWhenFiltering" }
+        }
+      end
+
+      it "merges the caller's data with the moveMenu target data and keeps other system arguments",
+         :aggregate_failures do
+        expect(page).to have_element(:li, "data-sortable-lists--item-target": "moveMenu", count: 1) do |item|
+          expect(item["data-projects--settings--border-box-filter-target"]).to eq("hideWhenFiltering")
+          expect(item[:class]).to include("additional-class")
+          expect(item).to have_selector(:menuitem, "Move", exact: true)
+        end
+      end
+    end
   end
 
   describe "DIRECTIONS" do
+    let(:harness_class) { harness_class_calling(:with_move_items) }
+
     it "is frozen" do
       expect(described_class::DIRECTIONS).to be_frozen
     end

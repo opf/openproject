@@ -146,6 +146,15 @@ module OpenProject
         modules
       end
 
+      def default_project_modules
+        enabled_by_default = @modules.filter_map do |entry|
+          condition = entry[:enabled_by_default]
+          entry[:name] if condition.respond_to?(:call) ? condition.call : condition
+        end
+
+        available_project_modules & enabled_by_default
+      end
+
       def disabled_project_modules
         modules
           .select { |entry| entry[:if].respond_to?(:call) && !entry[:if].call }

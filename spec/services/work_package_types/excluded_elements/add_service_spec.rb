@@ -110,11 +110,20 @@ RSpec.describe WorkPackageTypes::ExcludedElements::AddService do
     end
   end
 
-  context "when the variant owns the aspect" do
+  context "when the variant owns its project attributes" do
+    let(:aspect) { TypeVariant::PROJECT_ATTRIBUTES }
+
     it "fails and explains that there is nothing to exclude" do
       expect(service_call).to be_failure
       expect(service_call.errors.full_messages.join)
         .to include(I18n.t("types.edit.reuse_mode.exclusions.not_inherited"))
+    end
+  end
+
+  context "when the variant is the only one using its form" do
+    it "excludes the element all the same" do
+      expect(service_call).to be_success
+      expect(excluded_elements).to contain_exactly("custom_field_1")
     end
   end
 

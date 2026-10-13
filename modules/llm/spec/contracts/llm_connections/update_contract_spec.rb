@@ -60,6 +60,16 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   context "when the server rejects the credentials" do
     let!(:models_request) { mock_llm_models_response(base_url, response_code: 401) }
 
+    it "logs the failure by connection, without the URL it probed" do
+      logged = []
+      allow(Rails.logger).to receive(:info) { |*args, &block| logged << (block ? block.call : args.first) }
+
+      contract.validate
+
+      expect(logged.join).to include("connection #{connection.id}")
+      expect(logged.join).not_to include("example.com")
+    end
+
     include_examples "contract is invalid", api_key: :invalid_api_key
   end
 

@@ -195,15 +195,7 @@ module Projects
     def project_status
       return nil unless user_can_view_project_attributes?
 
-      status_code = project.status_code
-      if status_code
-        classes = helpers.project_status_css_class(status_code)
-
-        capture do
-          concat content_tag(:span, "", class: "project-status--bulb -inline #{classes}")
-          concat content_tag(:span, helpers.project_status_name(status_code), class: "project-status--name #{classes}")
-        end
-      end
+      render(Projects::StatusBadgeComponent.new(project:))
     end
 
     def status_explanation

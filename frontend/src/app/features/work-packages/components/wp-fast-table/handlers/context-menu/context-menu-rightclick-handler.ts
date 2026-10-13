@@ -20,16 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageViewSelectionGesturesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection-gestures.service';
-import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
@@ -38,8 +35,6 @@ import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
-  @LazyInject() readonly selectionGestures:WorkPackageViewSelectionGesturesService;
-
   constructor(public readonly injector:Injector) {
     super(injector);
   }
@@ -74,12 +69,9 @@ export class ContextMenuRightClickHandler extends ContextMenuHandler {
 
     // Locate the row from event
     const element = target.closest<HTMLElement>(this.SELECTOR);
-    const wpId = element?.dataset.workPackageId;
 
-    if (wpId) {
-      this.selectionGestures.handleContextMenu(wpId, view.workPackageTable.renderedRows, element.dataset.classIdentifier);
-
-      this.openContextMenu(view.workPackageTable, evt, wpId);
+    if (element?.dataset.workPackageId) {
+      this.openContextMenu(view.workPackageTable, evt, element);
     }
 
     return false;

@@ -89,7 +89,7 @@ RSpec.describe "LLM connection administration",
 
       check "Enable LLMs for this instance"
       fill_in "Host URL", with: base_url
-      click_on "Connect"
+      click_on "Save"
 
       expect(page).to have_test_selector("llm-settings--tabs")
 

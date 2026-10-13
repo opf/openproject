@@ -34,7 +34,6 @@ module WorkPackageTypes
   # copying (yet).
   module CopyConfiguration
     SERVICES = {
-      TypeVariant::FORM_CONFIGURATION => FormConfigurationService,
       TypeVariant::DEFAULTS => DefaultsService,
       TypeVariant::PDF_EXPORT => PdfExportService,
       TypeVariant::PROJECT_ATTRIBUTES => ProjectAttributesService

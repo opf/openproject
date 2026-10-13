@@ -103,7 +103,7 @@ module LlmConnections
         .new(user: User.system,
              model:,
              contract_class: EnvironmentUpdateContract)
-        .call(**attributes, env_provisioned_at:)
+        .call(**attributes, env_provisioned_at:, env_fingerprint: LlmConnection.env_fingerprint(config))
     end
 
     def env_provisioned_at

@@ -43,21 +43,12 @@ module CustomFields
 
     alias_method :custom_field, :model
 
-    def form_url
-      if model.new_record?
-        case model.type
-        when "ProjectCustomField" then admin_settings_project_custom_fields_path
-        when "UserCustomField" then admin_settings_user_custom_fields_path
-        else custom_fields_path
-        end
-      else
-        case model.type
-        when "ProjectCustomField" then admin_settings_project_custom_field_path(model)
-        when "UserCustomField" then admin_settings_user_custom_field_path(model)
-        else custom_field_path(model)
-        end
-      end
+    def initialize(model = nil, form_url:, **)
+      super(model, **)
+      @form_url = form_url
     end
+
+    attr_reader :form_url
 
     def form_method
       model.new_record? ? :post : :put
@@ -93,15 +84,24 @@ module CustomFields
 
     def persisted_cf_has_no_items_or_projects?
       return false unless custom_field.persisted?
-      return false unless custom_field_has_no_projects?
+      return false unless custom_field_in_no_project?
 
       custom_field_has_no_items?
     end
 
     private
 
-    def custom_field_has_no_projects?
-      !custom_field.respond_to?(:projects) || custom_field.projects.empty?
+    def custom_field_in_no_project?
+      if custom_field.is_a?(WorkPackageCustomField)
+        WorkPackageCustomField
+          .on_visible_type_and_project(projects: Project.active)
+          .where(id: custom_field.id)
+          .none?
+      elsif custom_field.respond_to?(:projects)
+        custom_field.projects.empty?
+      else
+        true
+      end
     end
 
     def custom_field_has_no_items?

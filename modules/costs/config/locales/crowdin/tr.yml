@@ -144,7 +144,6 @@ tr:
   button_add_time_entry: Zaman kaydet
   button_log_costs: Günlük birim maliyetleri
   button_log_time: Kayıt
-  button_stop_timer: Zamanlayıcıyı durdur
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Proje rezervasyonu yaptırdı
@@ -214,7 +213,6 @@ tr:
   label_current: Mevcut
   label_current_default_rate: Güncel varsayılan oran
   label_date_on: tarihinde
-  label_day: Gün
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Silinmiş maliyet türleri
   label_display_cost_entries: Birim maliyetlerini göster
@@ -230,42 +228,28 @@ tr:
   label_less_or_equal: "<="
   label_list: Liste
   label_log_costs: Günlük birim maliyetleri
-  label_month: Ay
-  label_my_time_tracking: Zaman takibim
   label_new_time_entry_activity: Yeni zaman girişi etkinliği
-  label_next_day: Sonraki gün
-  label_next_month: Sonraki ay
-  label_next_week: Gelecek hafta
-  label_next_workweek: Sonraki çalışma haftası
   label_no: Hayır
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Zaman takibi yok
   label_option_plural: Ayarlar
   label_overall_costs: Tüm maliyetler
-  label_previous_day: Önceki gün
-  label_previous_month: Önceki ay
-  label_previous_week: Geçen Hafta
-  label_previous_workweek: Önceki çalışma haftası
   label_rate_plural: Oranlar
   label_show: Göster
   label_specific_day: Gün %{day}
   label_specific_month: Ay %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Tamamlandı
   label_time: Zaman
   label_time_entry_activity_form_description: Bu zaman girişi etkinliğinde yapılan değişiklikler, etkin olduğu tüm projelere yansıtılacaktır.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limits
-  label_timer_since: "%{time} zamanında başladı"
   label_today_capitalized: Bugün
   label_units: Maliyet birimleri
   label_until: kadar
   label_using_current_default_rate: Using current default rate
   label_valid_from: Geçerlilik
-  label_view_mode_switcher: Görünümü değiştir
   label_work_package_filter_add: İş paketi filtresi ekle
-  label_workweek: Çalışma haftası
   label_yes: Evet
   notice_cost_logged_successfully: Birim maliyet başarıyla kaydedildi.
   notice_different_time_zones: Bu kullanıcı farklı bir saat dilimine sahiptir (%{tz}). Zaman, onun zaman dilimi kullanılarak kaydedilecektir.

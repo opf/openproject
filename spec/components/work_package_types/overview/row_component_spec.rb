@@ -34,6 +34,8 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
                type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { type.default_variant }
 
@@ -80,7 +82,7 @@ RSpec.describe WorkPackageTypes::Overview::RowComponent,
 
         expect(page).to have_text("Inheriting from")
         expect(page).to have_link(type.default_variant.composite_name,
-                                  href: edit_type_defaults_path(type_id: type.id, variant_id: type.default_variant.id))
+                                  href: edit_type_defaults_path(type_id: type.id))
       end
     end
   end

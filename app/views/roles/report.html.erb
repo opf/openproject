@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
               </caption>
               <colgroup>
                 <col data-highlight="false">
-                <% @roles.size.times do |role| %>
+                <% @roles.size.times do %>
                   <col>
                 <% end %>
               </colgroup>
@@ -184,7 +184,7 @@ See COPYRIGHT and LICENSE files for more details.
                         <% end %>
                       <% end %>
                     </th>
-                    <% @roles.each.with_index do |role, i| %>
+                    <% @roles.each do |role| %>
                       <td>
                         <% if setable_permissions(role).include?(permission) %>
                           <%=

@@ -86,6 +86,14 @@ RSpec.describe Llm::Capabilities do
       end
     end
 
+    context "with a card whose architecture is not an object" do
+      let(:raw_metadata) { { "architecture" => "transformer" } }
+
+      it "says nothing rather than raising" do
+        expect(declared).to eq({})
+      end
+    end
+
     context "with a card declaring nothing" do
       let(:raw_metadata) { { "max_model_len" => 8192 } }
 

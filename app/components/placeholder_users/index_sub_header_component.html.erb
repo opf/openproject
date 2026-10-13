@@ -1,9 +1,6 @@
 <%=
   render(
-    Primer::OpenProject::SubHeader.new(
-      collapsed_search: collapsed_search?,
-      data: sub_header_data_attributes
-    )
+    Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)
   ) do |subheader|
     subheader.with_action_button(
       scheme: :primary,
