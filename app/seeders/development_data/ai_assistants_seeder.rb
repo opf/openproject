@@ -29,18 +29,21 @@
 #++
 
 module DevelopmentData
-  # Sample AI assistants that belong to the departments of the development data. Only
-  # the direct members of a department see its assistants.
-  class GroupAiAssistantSeeder < BasicData::AiAssistantSeeder
-    self.seed_data_model_key = "group_ai_assistants"
+  # Sample AI assistants of the development data, one for each kind of owner: global,
+  # a department (its direct members see it) and a user. A sample without a principal
+  # reference is global.
+  class AiAssistantsSeeder < BasicData::AiAssistantSeeder
+    self.seed_data_model_key = "development_ai_assistants"
     self.attribute_names_for_required_references = %w[principal]
 
     def applicable?
-      AI::Assistant.for_groups.none? && seed_data.all_references_exist?(all_required_references)
+      AI::Assistant.where(name: models_data.pluck("name")).none? &&
+        seed_data.all_references_exist?(all_required_references)
     end
 
     def model_attributes(assistant_data)
-      super.merge(principal_id: seed_data.find_reference(assistant_data["principal"]).id)
+      reference = assistant_data["principal"]
+      super.merge(principal_id: reference && seed_data.find_reference(reference).id)
     end
   end
 end

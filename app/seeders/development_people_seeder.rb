@@ -39,7 +39,7 @@ class DevelopmentPeopleSeeder < CompositeSeeder
     [
       DevelopmentData::UserCustomFieldsSeeder,
       DevelopmentData::DepartmentSeeder,
-      DevelopmentData::GroupAiAssistantSeeder,
+      DevelopmentData::AiAssistantsSeeder,
       DevelopmentData::WorkingTimeSeeder
     ]
   end
