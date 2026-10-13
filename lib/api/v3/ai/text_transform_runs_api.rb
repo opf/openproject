@@ -35,28 +35,22 @@ module API
         resources :ai_text_transform_runs do
           helpers do
             def context_from_params
-              if params[:workPackageId]
-                work_package_context
-              elsif params[:projectId]
-                new_work_package_context
-              else
-                ::AI::TextTransforms::Context.none
-              end
+              call = ::AI::TextTransforms::ResolveContext
+                       .new(user: current_user)
+                       .call(work_package_id: params[:workPackageId],
+                             project_id: params[:projectId],
+                             type_id: params[:typeId])
+
+              raise_context_failure(call.errors) if call.failure?
+
+              call.result
             end
 
-            def work_package_context
-              work_package = WorkPackage.visible.find(params[:workPackageId])
-              authorize_in_work_package(:edit_work_packages, work_package:)
+            def raise_context_failure(errors)
+              detail = errors.details[:base].first
+              raise ::API::Errors::Unauthorized if detail[:error] == :forbidden
 
-              ::AI::TextTransforms::Context.for_work_package(work_package)
-            end
-
-            def new_work_package_context
-              project = Project.visible(current_user).find(params[:projectId])
-              authorize_in_project(:add_work_packages, project:)
-              type = project.enabled_types.find(params[:typeId])
-
-              ::AI::TextTransforms::Context.for_new_work_package(project:, type:)
+              raise ::API::Errors::NotFound.new(model: detail[:model].to_s)
             end
 
             def run_representer(run, after: 0)
