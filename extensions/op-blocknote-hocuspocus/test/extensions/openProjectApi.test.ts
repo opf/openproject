@@ -85,7 +85,7 @@ describe("OpenProjectApi", () => {
       server.events.on('request:end', ({ request }) => {
         authHeader = request.headers.get("Authorization") || "";
       });
-      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401})}));
+      server.use(http.get('https://test.api/api/v3/documents/1', () => { return HttpResponse.json({id: 42}, {status: 401});}));
 
       await expect(() =>
         new OpenProjectApi().onAuthenticate({
@@ -122,7 +122,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -150,7 +150,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const data = {
@@ -235,7 +235,7 @@ describe("OpenProjectApi", () => {
           }, {
             status: 200
           }
-        )
+        );
       }));
 
       const targetDoc = new Y.Doc();
