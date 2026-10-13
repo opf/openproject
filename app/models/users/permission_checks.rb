@@ -201,14 +201,16 @@ module Users::PermissionChecks
 
   private
 
+  # Unlike admin_in_project?, this does not require an active admin: invited and registered
+  # admins get their permissions, only locked users are filtered out by the permission checks.
   def admin_in_context?(context)
     case context
     when Project
-      admin_in_project?(context)
+      admin? && admin_elevation.covers?(context)
     when nil
       admin?
     else
-      context.respond_to?(:project) ? admin_in_project?(context.project) : admin?
+      context.respond_to?(:project) ? admin? && admin_elevation.covers?(context.project) : admin?
     end
   end
 

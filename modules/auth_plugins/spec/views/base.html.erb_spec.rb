@@ -36,7 +36,9 @@ RSpec.describe "layouts/base" do
 
     before do
       without_partial_double_verification do
-        allow(view).to receive_messages(current_menu_item: "overview", current_user: anonymous)
+        allow(view).to receive_messages(current_menu_item: "overview",
+                                        current_user: anonymous,
+                                        current_admin_elevation_sessions: AdminElevationSession.none)
       end
       allow(OpenProject::Plugins::AuthPlugin).to receive(:providers).and_return([provider])
     end

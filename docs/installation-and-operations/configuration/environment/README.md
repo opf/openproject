@@ -126,6 +126,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_2FA` | `{"active_strategies" => [], "enforced" => false, "allow_remember_for_days" => 0}` |  |
 | `OPENPROJECT_ACTIVITY__DAYS__DEFAULT` | `30` | Days displayed on project activity |
 | `OPENPROJECT_ADDITIONAL__HOST__NAMES` | `[]` | Additional allowed host names for the application. |
+| `OPENPROJECT_ADMIN__ELEVATION__IDLE__TIMEOUT` | `30` | Minutes of inactivity after which an admin's elevated privileges in a project expire |
 | `OPENPROJECT_AFTER__FIRST__LOGIN__REDIRECT__URL` | `nil` | URL users logging in for the first time will be redirected to (e.g., a help screen) |
 | `OPENPROJECT_AFTER__LOGIN__DEFAULT__REDIRECT__URL` | `nil` | Override URL to which logged in users are redirected instead of the Home page |
 | `OPENPROJECT_AI__TEXT__TRANSFORM__ACTIONS__ENABLED` | `false` | Enable AI text transform actions in the rich text editor |

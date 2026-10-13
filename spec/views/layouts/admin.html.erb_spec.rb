@@ -42,7 +42,8 @@ RSpec.describe "layouts/admin" do
       parent_menu_item = Object.new
       allow(parent_menu_item).to receive(:name).and_return :root
       allow(view).to receive_messages(current_menu_item: "overview", current_user: admin,
-                                      admin_first_level_menu_entry: parent_menu_item)
+                                      admin_first_level_menu_entry: parent_menu_item,
+                                      current_admin_elevation_sessions: AdminElevationSession.none)
 
       allow(controller).to receive(:default_search_scope)
       allow(view).to receive(:render_to_string)
