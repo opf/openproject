@@ -31,7 +31,10 @@
 module Queries::Filters::Strategies
   class CfDateTime < CfDate
     def validate
-      if [Queries::Operators::OnDateTime, Queries::Operators::BetweenDateTime].include?(operator)
+      if [Queries::Operators::OnDateTime,
+          Queries::Operators::BetweenDateTime,
+          Queries::Operators::GreaterOrEqualDateTime,
+          Queries::Operators::LessOrEqualDateTime].include?(operator)
         validate_values_all_datetime
       else
         super
@@ -53,7 +56,9 @@ module Queries::Filters::Strategies
     def operator_map
       super.merge(
         "=d" => Queries::Operators::OnDateTime,
-        "<>d" => Queries::Operators::BetweenDateTime
+        "<>d" => Queries::Operators::BetweenDateTime,
+        ">d" => Queries::Operators::GreaterOrEqualDateTime,
+        "<d" => Queries::Operators::LessOrEqualDateTime
       )
     end
 
