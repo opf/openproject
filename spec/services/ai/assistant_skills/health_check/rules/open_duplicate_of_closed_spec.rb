@@ -43,7 +43,7 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::OpenDuplicateOfClosed do
 
     it "reports a medium finding" do
       expect(findings.size).to eq(1)
-      expect(findings.first.evidence.first["work_package_id"]).to eq(original.id)
+      expect(findings.first[:evidence].first["work_package_id"]).to eq(original.id)
     end
   end
 

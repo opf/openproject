@@ -57,13 +57,11 @@ module AI
       end
 
       def run_rules
-        I18n.with_locale(run.locale) do
-          context = skill_type.build_context(work_package: run.work_package, user: run.user)
-          skill_type.rules.flat_map { |rule| rule.call(context) }.each do |finding|
-            run.findings.create!(finding.to_record_attributes.merge(base_lock_version: run.work_package_lock_version))
-          end
-          run.not_checked = context.not_checked
+        context = skill_type.build_context(work_package: run.work_package, user: run.user)
+        skill_type.rules.flat_map { |rule| rule.call(context) }.each do |finding|
+          run.findings.create!(finding.merge(base_lock_version: run.work_package_lock_version))
         end
+        run.not_checked = context.not_checked
       end
 
       def log
@@ -76,15 +74,13 @@ module AI
       end
 
       def review_status
-        if skill_type.review_class.nil?
-          "finished"
-        elsif run.skill.prompt.blank?
+        if run.skill.prompt.blank?
           run.add_not_checked(:ai_review, :no_prompt)
           "finished"
         elsif !LlmConnection.available?
           run.add_not_checked(:ai_review, :no_llm_connection)
           "finished"
-        elsif AI::Assistance::ModelChoice.new(run.skill.assistant).model_id.nil?
+        elsif run.skill.assistant.effective_model_id.nil?
           run.add_not_checked(:ai_review, :no_model)
           "finished"
         else

@@ -42,10 +42,8 @@ module AI
     extend ActiveSupport::Concern
 
     # Only "self" is a target for now; parent, children and related come later.
-    CHANGE_TARGETS = %w[self].freeze
-
-    def self.change_set_for(actions, target: "self")
-      { "target" => target, "actions" => actions.map { |key, values| { "key" => key.to_s, "values" => Array(values) } } }
+    def self.change_set_for(actions)
+      { "target" => "self", "actions" => actions.map { |key, values| { "key" => key.to_s, "values" => Array(values) } } }
     end
 
     included do
@@ -58,16 +56,8 @@ module AI
       change_set.present?
     end
 
-    def change_target
-      change_set&.fetch("target", nil)
-    end
-
     def change_actions
       Array(change_set&.fetch("actions", nil))
-    end
-
-    def change_action_keys
-      change_actions.pluck("key")
     end
 
     def change_value_for(key)
@@ -75,7 +65,7 @@ module AI
     end
 
     def comment_only?
-      change_action_keys == %w[comment]
+      change_actions.pluck("key") == %w[comment]
     end
 
     # Attachment references, mentions and macros that the proposed description would drop.
@@ -96,7 +86,7 @@ module AI
 
     def valid_change_set?
       change_set.is_a?(Hash) &&
-        CHANGE_TARGETS.include?(change_set["target"]) &&
+        change_set["target"] == "self" &&
         change_set["actions"].is_a?(Array) && change_set["actions"].any? &&
         change_set["actions"].all? { |a| a.is_a?(Hash) && a["key"].is_a?(String) && a["values"].is_a?(Array) }
     end

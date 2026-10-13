@@ -44,7 +44,7 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::StaleWorkPackage do
 
     it "reports a low finding" do
       expect(findings.size).to eq(1)
-      expect(findings.first.text).to include("90 days")
+      expect(findings.first[:text]).to include("90 days")
     end
 
     context "and the work package is closed" do

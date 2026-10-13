@@ -46,8 +46,8 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::StaleOpenDescendants do
 
     it "reports only the stale open one" do
       expect(findings.size).to eq(1)
-      expect(findings.first.evidence.pluck("work_package_id")).to eq([stale.id])
-      expect(findings.first.text).to include("60 days")
+      expect(findings.first[:evidence].pluck("work_package_id")).to eq([stale.id])
+      expect(findings.first[:text]).to include("60 days")
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::StaleOpenDescendants do
     before { 7.times { child_of(work_package, status: open_status, updated_at: 90.days.ago) } }
 
     it "shows five and counts the rest" do
-      evidence = findings.first.evidence
+      evidence = findings.first[:evidence]
 
       expect(evidence.size).to eq(6)
       expect(evidence.last).to eq("text" => "and 2 more")

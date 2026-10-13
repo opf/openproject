@@ -1273,9 +1273,7 @@ Rails.application.routes.draw do
     end
 
     resource :ai_assistance_menu, path: "ai_assistance/menu", controller: "work_packages/ai_assistance/menus",
-                                  only: :show do
-      get :items
-    end
+                                  only: :show
     resource :ai_assistance_chat, path: "ai_assistance/chat", controller: "work_packages/ai_assistance/chats",
                                   only: %i[show create] do
       post :messages, action: :send_message

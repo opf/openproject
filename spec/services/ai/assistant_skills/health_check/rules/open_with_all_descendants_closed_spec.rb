@@ -41,8 +41,8 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::OpenWithAllDescendantsCl
 
     it "reports a low finding" do
       expect(findings.size).to eq(1)
-      expect(findings.first).to have_attributes(severity: "low", area: "status")
-      expect(findings.first.text).to include("All 2 descendants")
+      expect(findings.first).to include(severity: "low", area: "status")
+      expect(findings.first[:text]).to include("All 2 descendants")
     end
   end
 

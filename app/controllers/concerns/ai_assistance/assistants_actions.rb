@@ -29,7 +29,7 @@
 #++
 
 # The assistant pages, shared by Administration and My account. The controller supplies
-# assistant_scope, assistant_params, new_assistant and pages.
+# assistant_scope, assistant_params and new_assistant.
 module AIAssistance::AssistantsActions
   extend ActiveSupport::Concern
 
@@ -83,6 +83,11 @@ module AIAssistance::AssistantsActions
   end
 
   private
+
+  # Admin::… or My::…: the namespace says where the pages live.
+  def pages
+    @pages ||= AIAssistance::Pages.new(helpers, self.class.module_parent_name.underscore.to_sym)
+  end
 
   def find_assistant
     @assistant = assistant_scope.find(params[:id])

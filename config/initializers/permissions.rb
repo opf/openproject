@@ -379,7 +379,7 @@ Rails.application.reloader.to_prepare do
 
       wpt.permission :use_ai_assistance,
                      {
-                       "work_packages/ai_assistance/menus": %i[show items],
+                       "work_packages/ai_assistance/menus": %i[show],
                        "work_packages/ai_assistance/runs": %i[index show create poll],
                        "work_packages/ai_assistance/findings": %i[apply dismiss],
                        "work_packages/ai_assistance/chats": %i[show create start send_message poll apply]

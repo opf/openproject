@@ -44,8 +44,8 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::ClosedWithOpenPrerequisi
 
     it "reports a medium finding" do
       expect(findings.size).to eq(1)
-      expect(findings.first).to have_attributes(severity: "medium", area: "relations")
-      expect(findings.first.text).to include("blocked by")
+      expect(findings.first).to include(severity: "medium", area: "relations")
+      expect(findings.first[:text]).to include("blocked by")
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::ClosedWithOpenPrerequisi
     before { create(:relation, from: work_package, to: other, relation_type: Relation::TYPE_FOLLOWS) }
 
     it "reports a finding" do
-      expect(findings.first.evidence.first["work_package_id"]).to eq(other.id)
+      expect(findings.first[:evidence].first["work_package_id"]).to eq(other.id)
     end
   end
 

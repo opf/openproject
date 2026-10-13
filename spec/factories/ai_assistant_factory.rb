@@ -53,7 +53,6 @@ FactoryBot.define do
 
     trait :finished do
       status { "finished" }
-      finished_at { Time.current }
     end
   end
 

@@ -38,9 +38,7 @@ module AI
         return unless message&.pending?
 
         User.execute_as(message.chat.user) do
-          I18n.with_locale(message.locale || I18n.default_locale) do
-            AI::AssistantChats::Reply.new(message).call
-          end
+          AI::AssistantChats::Reply.new(message).call
         end
       end
     end

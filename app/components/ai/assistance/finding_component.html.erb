@@ -46,11 +46,6 @@
           </li>
         <% end %>
       </ul>
-      <% if error %>
-        <%= render(Primer::Alpha::Banner.new(scheme: error == :conflict ? :warning : :danger, mt: 2, data: { test_selector: "ai-assistance-apply-error" })) do %>
-          <%= t("ai_assistance.apply.errors.#{error}") %>
-        <% end %>
-      <% end %>
       <%= render(AI::Assistance::ProposalComponent.new(proposal: finding, apply_path:)) %>
     <% end %>
     <% row.with_column do %>

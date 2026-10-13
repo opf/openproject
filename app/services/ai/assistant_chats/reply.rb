@@ -63,7 +63,7 @@ module AI
       def skill = chat.skill
 
       def ask
-        model_id = AI::Assistance::ModelChoice.new(skill.assistant).model_id
+        model_id = skill.assistant.effective_model_id
         system = skill.system_prompt(locale: message.locale)
         raise Llm::Errors::NotReady, "no chat prompt" if system.blank?
         raise Llm::Errors::NotReady, "no model" unless model_id

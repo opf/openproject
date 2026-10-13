@@ -15,7 +15,7 @@ This document describes the design. It also shows how the first pull request is 
 
 | Term | Meaning |
 |---|---|
-| **Assistant** | A record (`AI::Assistant`) that an admin configures: a name, an icon and an optional model. It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
+| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global assistants, and a user can create personal ones (see "Personal assistants"). It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
 | **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. There are three: `health_check` (a preset with rules, shown as "Refresh work package"), `prompt` (a preset with instructions only) and `chat`. |
 | **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
@@ -26,7 +26,7 @@ This document describes the design. It also shows how the first pull request is 
 
 ```mermaid
 flowchart LR
-  U([User]) -->|click| M["AI Assistance menu<br/>(Primer ActionMenu, deferred)"]
+  U([User]) -->|click| M["AI Assistance menu<br/>(Primer ActionMenu)"]
   M -->|POST runs| RS["RunService"]
   RS -->|in the request| R["Rules<br/>(tree, relations, PRs, staleness)"]
   RS -->|LLM available| J["ReviewJob<br/>(as the user)"]
@@ -40,7 +40,7 @@ flowchart LR
 ```
 
 1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame, and so does every user while no LLM connection with a model is available.
-2. The menu items are loaded when the menu opens (`#items`). There is one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
+2. The menu frame renders the items with the button. There is one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
 3. A Refresh work package item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog. A chat item opens `ChatsController#show`, and a custom prompt item posts to `ChatsController#start` (see "Chat" and "Custom prompt presets").
 4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::ReviewJob` starts. The dialog polls `#poll` until the run is finished.
 5. The user applies a change set (`FindingsController#apply`) or dismisses a finding, with an optional reason.
@@ -133,7 +133,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 |---|---|
 | `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `user_id` (the owner of a personal assistant) |
 | `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, position, active |
-| `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events`, `finished_at` |
+| `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 | `ai_assistant_chats` | skill, user, work package |
 | `ai_assistant_chat_messages` | chat, role, content, status, locale, `change_set`, `base_lock_version`, state, `events` |
@@ -162,8 +162,8 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 5 | Add the health check relation and staleness rules | Three rules | 4 |
 | 6 | Add the health check rules for linked pull requests | GitHub and GitLab rules, "Not checked" entries | 4 |
 | 7 | Add the run service, the run controllers and the run dialog | `RunService`, runs and findings controllers, dismiss, Primer dialog and history | 4 |
-| 8 | Add the AI Assistance menu to the work package toolbars | Angular slot, menu button, deferred menu items | 7 |
-| 9 | Add the AI review to the health check | Job, review, model choice, single-job guard, polling | 7 |
+| 8 | Add the AI Assistance menu to the work package toolbars | Angular slot, menu button and items | 7 |
+| 9 | Add the AI review to the health check | Job, review, model choice (`AI::Assistant#effective_model_id`), single-job guard, polling | 7 |
 | 10 | Apply proposed changes from AI findings | `ApplyProposalService`, content guard, diff view, toolbar refresh | 1, 9 |
 | 11 | Add admin pages for AI assistants and their skills | Admin controllers, Primer forms, menu entry | 3 |
 | 12 | Add the AI Assistance chat on work packages | Chat tables and models, reply job, chat skill type, chat dialog, `Journal::CausedByAssistantChat` | 10, 11 |

@@ -62,9 +62,5 @@ module Admin
     def assistant_params
       params.expect(ai_assistant: %i[name description icon model_id active])
     end
-
-    def pages
-      @pages ||= AIAssistance::Pages.new(helpers, :admin)
-    end
   end
 end

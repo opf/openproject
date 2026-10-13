@@ -38,9 +38,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-
-// WorkPackagesController::UPDATED_EVENT_NAME, dispatched once an applied proposal changed the work package.
-const WORK_PACKAGE_UPDATED_EVENT = 'op-dispatched:work-packages:updated';
+import { WORK_PACKAGE_UPDATED_EVENT } from 'core-stimulus/helpers/my-work-entry-menus';
 
 /**
  * Places the Rails-rendered AI Assistance menu into the work package toolbar, and reloads

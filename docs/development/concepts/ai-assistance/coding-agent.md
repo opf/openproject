@@ -17,7 +17,7 @@ The agent's own work (its `serve` mode, its gateways and its pipeline) is not pa
 - **The agent writes nothing to OpenProject.** It reports through a callback. OpenProject shows the reports, and any change to the work package is a proposal that the user applies, as for the other skills.
 - **The agent publishes code as its own contributor account.** OpenProject does not give it GitHub credentials. The pull request links back to the work package, so the GitHub integration shows it on the work package.
 - **Only an admin configures where OpenProject sends requests.** A user cannot choose the URL.
-- **The agent is a skill type.** It uses the assistants, the skill admin, the skill conditions and the chat dialog that already exist.
+- **The agent is a skill type.** It uses the assistants, the skill admin and the chat dialog that already exist, and the skill conditions when they come.
 
 ## Flow
 

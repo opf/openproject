@@ -38,12 +38,6 @@ RSpec.describe AI::AssistantRun do
     expect(run).not_to be_finished
   end
 
-  it "stamps finished_at when it finishes" do
-    run.update!(status: "finished")
-
-    expect(run.finished_at).to be_present
-  end
-
   it "records what was not checked" do
     run.add_not_checked(:pull_requests, :module_disabled)
     run.save!

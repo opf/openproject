@@ -58,9 +58,12 @@ RSpec.describe AI::AssistantRuns::RunService do
     expect(call.result.automation).to be_nil
   end
 
-  it "writes the findings in the user's language" do
-    expect(call.result.locale).to eq("de")
-    expect(call.result.findings.first.text).to eq(
+  # In a request, the locale is the user's (SetLocalizationService).
+  it "writes the findings in the locale of the request" do
+    run = I18n.with_locale(:de) { call.result }
+
+    expect(run.locale).to eq("de")
+    expect(run.findings.first.text).to eq(
       I18n.t("ai_assistance.health_check.rules.closed_with_open_descendants", count: 1, locale: :de)
     )
   end

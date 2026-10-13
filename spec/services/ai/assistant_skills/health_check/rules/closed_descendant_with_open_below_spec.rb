@@ -42,9 +42,9 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::ClosedDescendantWithOpen
     before { child_of(child_of(closed_child, status: closed_status), status: open_status) }
 
     it "reports each closed node above the open one" do
-      expect(findings.map { |f| f.evidence.first["work_package_id"] })
+      expect(findings.map { |f| f[:evidence].first["work_package_id"] })
         .to eq([closed_child.id, closed_child.children.first.id])
-      expect(findings).to all(have_attributes(severity: "medium", area: "tree"))
+      expect(findings).to all(include(severity: "medium", area: "tree"))
     end
   end
 

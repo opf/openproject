@@ -31,10 +31,7 @@
 
 <%= content_tag("turbo-frame", id: FRAME_ID) do %>
   <% unless empty? %>
-    <%= render(Primer::Alpha::ActionMenu.new(menu_id: MENU_ID,
-                                             src: items_path,
-                                             anchor_align: :end,
-                                             data: { test_selector: "wp-ai-assistance-menu" })) do |menu| %>
+    <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end, data: { test_selector: "wp-ai-assistance-menu" })) do |menu| %>
       <% if compact? %>
         <% menu.with_show_button(icon: :sparkle, scheme: :default, "aria-label": t("ai_assistance.button"), tooltip_direction: :s) %>
       <% else %>
@@ -43,6 +40,27 @@
           <% button.with_trailing_action_icon(icon: :"triangle-down") %>
           <%= t("ai_assistance.button") %>
         <% end %>
+      <% end %>
+      <% skills.each do |skill| %>
+        <% menu.with_item(
+             label: skill.display_label,
+             **item_arguments(skill),
+             data: { test_selector: "wp-ai-assistance-skill-#{skill.skill_key}" }
+           ) do |item| %>
+          <% item.with_leading_visual_icon(icon: skill.skill_type.icon) %>
+          <% item.with_trailing_visual_label(scheme: :secondary) { skill.assistant.name } %>
+          <% if skill.display_description.present? %>
+            <% item.with_description { skill.display_description } %>
+          <% end %>
+        <% end %>
+      <% end %>
+      <% menu.with_divider %>
+      <% menu.with_item(
+           label: t("ai_assistance.history.title"),
+           href: runs_path,
+           content_arguments: { data: { controller: "async-dialog", turbo_stream: true } }
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :history) %>
       <% end %>
     <% end %>
   <% end %>

@@ -42,8 +42,8 @@ RSpec.describe AI::AssistantSkills::HealthCheck::Rules::ClosedWithOpenDescendant
 
     it "reports one high finding with the open descendant as evidence" do
       expect(findings.size).to eq(1)
-      expect(findings.first).to have_attributes(severity: "high", area: "tree", rule_key: "closed_with_open_descendants")
-      expect(findings.first.evidence.pluck("work_package_id")).to eq([grandchild.id])
+      expect(findings.first).to include(severity: "high", area: "tree", rule_key: "closed_with_open_descendants")
+      expect(findings.first[:evidence].pluck("work_package_id")).to eq([grandchild.id])
     end
   end
 

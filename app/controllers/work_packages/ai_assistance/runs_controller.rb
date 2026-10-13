@@ -34,21 +34,15 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
 
   before_action :find_run, only: %i[show poll]
 
-  # Both open a dialog. A plain page request (a link opened in a new tab) goes back to
-  # the work package instead of failing.
   def index
     chats = AI::AssistantChat.for(current_user, @work_package).includes(:messages, skill: :assistant)
-    respond_with_dialog AI::Assistance::HistoryDialogComponent.new(work_package: @work_package,
-                                                                   runs: runs.newest_first.includes(skill: :assistant),
-                                                                   chats:) do |format|
-      format.html { redirect_to work_package_path(@work_package) }
-    end
+    respond_with_wp_dialog AI::Assistance::HistoryDialogComponent.new(work_package: @work_package,
+                                                                      runs: runs.newest_first.includes(skill: :assistant),
+                                                                      chats:)
   end
 
   def show
-    respond_with_dialog AI::Assistance::RunDialogComponent.new(run: @run) do |format|
-      format.html { redirect_to work_package_path(@work_package) }
-    end
+    respond_with_wp_dialog AI::Assistance::RunDialogComponent.new(run: @run)
   end
 
   # Polled by the run dialog while the AI review runs. No content until the run is
@@ -61,16 +55,12 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
   end
 
   def create
-    skill = available_skills.find { |s| !s.conversation? && s.id.to_s == params[:skill_id].to_s }
+    skill = offered_skill(params[:skill_id], conversation: false)
     return render_404 unless skill
 
     call = AI::AssistantRuns::RunService.new(skill:, work_package: @work_package, user: current_user).call
+    return respond_with_failure(call) if call.failure?
 
-    if call.success?
-      respond_with_dialog AI::Assistance::RunDialogComponent.new(run: call.result)
-    else
-      render_error_flash_message_via_turbo_stream(message: call.message)
-      respond_with_turbo_streams(status: :unprocessable_entity)
-    end
+    respond_with_wp_dialog AI::Assistance::RunDialogComponent.new(run: call.result)
   end
 end

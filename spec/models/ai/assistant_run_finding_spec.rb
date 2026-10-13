@@ -48,13 +48,11 @@ RSpec.describe AI::AssistantRunFinding do
     finding.change_set = AI::Proposal.change_set_for({ "subject" => "New subject" })
 
     expect(finding).to be_valid
-    expect(finding.change_target).to eq("self")
-    expect(finding.change_action_keys).to eq(["subject"])
     expect(finding.change_value_for(:subject)).to eq("New subject")
   end
 
   it "rejects a change set for another target" do
-    finding.change_set = AI::Proposal.change_set_for({ "subject" => "New subject" }, target: "parent")
+    finding.change_set = AI::Proposal.change_set_for({ "subject" => "New subject" }).merge("target" => "parent")
 
     expect(finding).not_to be_valid
     expect(finding.errors.symbols_for(:change_set)).to include(:invalid)

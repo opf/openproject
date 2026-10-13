@@ -55,9 +55,5 @@ module My
     def assistant_params
       params.expect(ai_assistant: %i[name description icon active])
     end
-
-    def pages
-      @pages ||= AIAssistance::Pages.new(helpers, :my)
-    end
   end
 end

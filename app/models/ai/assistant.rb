@@ -55,6 +55,15 @@ module AI
       user_id.present?
     end
 
+    # The assistant's own model when the connection still offers it, otherwise the
+    # connection's default chat model.
+    def effective_model_id
+      connection = LlmConnection.active_connection
+      return model_id if model_id.present? && connection.available_model_ids.include?(model_id)
+
+      connection.default_chat_model&.external_id
+    end
+
     # A personal assistant is offered only while its owner may manage their own.
     def usable?
       !personal? || user.allowed_globally?(:manage_own_ai_assistants)

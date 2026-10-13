@@ -76,7 +76,7 @@ module AI
       def create_run
         AI::AssistantRun.create!(skill:, work_package:, user:, trigger:, automation:,
                                  work_package_lock_version: work_package.lock_version,
-                                 locale: AI::Assistance::Locale.for(user).to_s)
+                                 locale: I18n.locale.to_s)
       end
     end
   end

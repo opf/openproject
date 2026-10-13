@@ -56,7 +56,7 @@ module AI
       private
 
       def ask(review)
-        model_id = AI::Assistance::ModelChoice.new(run.skill.assistant).model_id
+        model_id = run.skill.assistant.effective_model_id
         raise Llm::Errors::NotReady, "no model" unless model_id
 
         llm_call.ask(model_id:, system: run.skill.system_prompt(locale: run.locale),

@@ -29,7 +29,7 @@
 #++
 
 # The skill pages of an assistant, shared by Administration and My account. The
-# controller supplies assistant_scope, skill_params and pages.
+# controller supplies assistant_scope and skill_params.
 module AIAssistance::AssistantSkillsActions
   extend ActiveSupport::Concern
 
@@ -79,6 +79,11 @@ module AIAssistance::AssistantSkillsActions
   end
 
   private
+
+  # Admin::… or My::…: the namespace says where the pages live.
+  def pages
+    @pages ||= AIAssistance::Pages.new(helpers, self.class.module_parent_name.underscore.to_sym)
+  end
 
   def find_assistant
     @assistant = assistant_scope.find(params[:ai_assistant_id])

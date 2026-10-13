@@ -54,8 +54,8 @@ RSpec.describe "health check pull request rules" do # rubocop:disable RSpec/Desc
 
     it "reports a high finding with a link to the pull request" do
       expect(merged.size).to eq(1)
-      expect(merged.first).to have_attributes(severity: "high", area: "pull_requests")
-      expect(merged.first.evidence.first["url"]).to start_with("https://github.com/")
+      expect(merged.first).to include(severity: "high", area: "pull_requests")
+      expect(merged.first[:evidence].first["url"]).to start_with("https://github.com/")
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe "health check pull request rules" do # rubocop:disable RSpec/Desc
 
     it "reports one medium finding for the pull request that is not a draft" do
       expect(closed_open.size).to eq(1)
-      expect(closed_open.first.evidence.size).to eq(1)
+      expect(closed_open.first[:evidence].size).to eq(1)
     end
   end
 

@@ -30,15 +30,17 @@
 
 module AI
   module Assistance
+    # The AI Assistance menu: one flat item per skill, with the assistant's name as an
+    # inline label, and the user's history at the end. Empty renders only the frame.
     class MenuButtonComponent < ApplicationComponent
       FRAME_ID = "wp-ai-assistance-menu"
-      MENU_ID = "wp-ai-assistance-menu-list"
 
-      attr_reader :work_package
+      attr_reader :work_package, :skills
 
-      def initialize(work_package:, compact: false, empty: false)
+      def initialize(work_package:, skills: [], compact: false, empty: false)
         super
         @work_package = work_package
+        @skills = skills
         @compact = compact
         @empty = empty
       end
@@ -47,8 +49,19 @@ module AI
 
       def compact? = @compact
 
-      def items_path
-        url_helpers.items_work_package_ai_assistance_menu_path(work_package)
+      def runs_path
+        url_helpers.work_package_ai_assistance_runs_path(work_package)
+      end
+
+      # A chat opens its dialog; a custom prompt starts a conversation; other skills start a run.
+      def item_arguments(skill)
+        if skill.chat?
+          { href: url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id),
+            content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
+        else
+          { href: skill.conversation? ? url_helpers.start_work_package_ai_assistance_chat_path(work_package) : runs_path,
+            form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
+        end
       end
     end
   end

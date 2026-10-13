@@ -48,23 +48,10 @@ module AI
           I18n.t("ai_assistance.skills.#{key}.description")
         end
 
-        def rules
-          []
-        end
-
-        def build_context(**)
-          raise SubclassResponsibilityError
-        end
-
         # The work package attributes this skill type can propose changes to, as Automations
         # action keys. The skill's proposal scope can narrow them (AI::AssistantSkill).
         def changeable_attributes
           AI::Assistance::ChangeOptions::ATTRIBUTE_KEYS
-        end
-
-        # The class that builds the AI review for a run, or nil for rules only.
-        def review_class
-          nil
         end
 
         # A chat: the user writes the questions.
@@ -73,6 +60,7 @@ module AI
         end
 
         # Answered in a conversation (AI::AssistantChat) instead of a run with findings.
+        # A run skill type also defines rules, build_context and review_class.
         def conversation?
           false
         end

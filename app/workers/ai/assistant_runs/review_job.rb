@@ -41,9 +41,7 @@ module AI
         end
 
         User.execute_as(run.user) do
-          I18n.with_locale(run.locale) do
-            AI::AssistantRuns::Review.new(run).call
-          end
+          AI::AssistantRuns::Review.new(run).call
         end
       end
     end

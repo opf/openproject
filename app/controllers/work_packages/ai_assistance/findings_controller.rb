@@ -37,9 +37,9 @@ class WorkPackages::AIAssistance::FindingsController < ApplicationController
 
   def apply
     call = apply_proposal(@finding)
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
 
-    replace_via_turbo_stream(component: AI::Assistance::FindingComponent.new(finding: @finding.reload,
-                                                                             error: call.failure? ? call.result : nil))
+    replace_via_turbo_stream(component: AI::Assistance::FindingComponent.new(finding: @finding.reload))
     respond_with_turbo_streams
   end
 

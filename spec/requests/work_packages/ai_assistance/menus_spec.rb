@@ -77,9 +77,9 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
   end
 
-  describe "GET items" do
+  describe "the menu items" do
     it "lists each skill with its assistant as a label, and the history" do
-      get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+      get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Refresh work package")
@@ -103,7 +103,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       let(:user) { owner }
 
       it "lists its skill after the global ones" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+        get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
         expect(response.body).to include("My helper")
         expect(response.body.index(%(value="#{skill.id}"))).to be < response.body.index(%(value="#{personal_skill.id}"))
@@ -112,7 +112,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
 
     context "for another user" do
       it "does not list it" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+        get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
         expect(response.body).not_to include("My helper")
       end
@@ -123,7 +123,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       let(:user) { owner }
 
       it "does not list it" do
-        get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
+        get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
         expect(response.body).not_to include("My helper")
       end

@@ -48,9 +48,5 @@ module Admin
     def skill_params
       params.expect(ai_assistant_skill: %i[label description prompt output_rules template_ref proposal_scope active])
     end
-
-    def pages
-      @pages ||= AIAssistance::Pages.new(helpers, :admin)
-    end
   end
 end

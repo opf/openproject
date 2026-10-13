@@ -54,12 +54,14 @@ module AI
 
         private
 
+        # The attributes of an AI::AssistantRunFinding.
         def finding(severity:, area:, evidence:, **text_args)
-          Finding.new(rule_key: self.class.key,
-                      severity: severity.to_s,
-                      area: area.to_s,
-                      text: I18n.t("ai_assistance.health_check.rules.#{self.class.key}", **text_args),
-                      evidence:)
+          { source: "rule",
+            rule_key: self.class.key,
+            severity: severity.to_s,
+            area: area.to_s,
+            text: I18n.t("ai_assistance.health_check.rules.#{self.class.key}", **text_args),
+            evidence: }
         end
 
         def evidence_for(work_packages)

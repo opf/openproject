@@ -60,13 +60,30 @@ module WorkPackages::AIAssistance::Scoped
   end
 
   def available_skills
-    AI::AssistantSkill
+    @available_skills ||= AI::AssistantSkill
       .active
       .joins(:assistant)
       .merge(AI::Assistant.active.visible_to(current_user).ordered)
       .includes(:assistant)
       .order(:position, :id)
       .select(&:ready?)
+  end
+
+  # The offered skill with this id: a conversation (chat, custom prompt) or a run skill.
+  def offered_skill(id, conversation:)
+    available_skills.find { |skill| skill.conversation? == conversation && skill.id.to_s == id.to_s }
+  end
+
+  # A plain page request (a link opened in a new tab) goes back to the work package.
+  def respond_with_wp_dialog(component)
+    respond_with_dialog(component) do |format|
+      format.html { redirect_to work_package_path(@work_package) }
+    end
+  end
+
+  def respond_with_failure(call)
+    render_error_flash_message_via_turbo_stream(message: call.message)
+    respond_with_turbo_streams(status: :unprocessable_entity)
   end
 
   # Applies a finding or a chat answer. On success, the toolbar reloads the work package.

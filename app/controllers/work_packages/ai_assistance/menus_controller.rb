@@ -37,14 +37,8 @@ class WorkPackages::AIAssistance::MenusController < ApplicationController
   before_action :authorize_or_render_empty
 
   def show
-    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package,
+    render AI::Assistance::MenuButtonComponent.new(work_package: @work_package, skills: available_skills,
                                                    compact: params[:compact] == "true"),
-           layout: false
-  end
-
-  def items
-    render AI::Assistance::MenuItemsComponent.new(work_package: @work_package,
-                                                  skills: available_skills),
            layout: false
   end
 

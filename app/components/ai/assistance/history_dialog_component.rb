@@ -38,7 +38,7 @@ module AI
 
       attr_reader :work_package
 
-      def initialize(work_package:, runs:, chats: [])
+      def initialize(work_package:, runs:, chats:)
         super
         @work_package = work_package
         @runs = runs.to_a

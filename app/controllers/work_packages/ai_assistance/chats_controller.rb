@@ -38,10 +38,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   # Opens the user's latest chat of this skill about this work package, or an empty one.
   def show
-    respond_with_dialog AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill,
-                                                                chat: @chat) do |format|
-      format.html { redirect_to work_package_path(@work_package) }
-    end
+    respond_with_wp_dialog chat_dialog
   end
 
   # Starts a new, empty chat.
@@ -54,13 +51,9 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def start
     @chat = new_chat
     call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
-    if call.success?
-      return respond_with_dialog(AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill,
-                                                                         chat: @chat))
-    end
+    return respond_with_failure(call) if call.failure?
 
-    render_error_flash_message_via_turbo_stream(message: call.message)
-    respond_with_turbo_streams(status: :unprocessable_entity)
+    respond_with_wp_dialog chat_dialog
   end
 
   def send_message
@@ -85,12 +78,8 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   private
 
-  def chat_skill(id)
-    available_skills.find { |skill| skill.conversation? && skill.id.to_s == id.to_s }
-  end
-
   def find_skill
-    @skill = chat_skill(params[:skill_id])
+    @skill = offered_skill(params[:skill_id], conversation: true)
     render_404 unless @skill
   end
 
@@ -99,9 +88,9 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def find_chat
     if params[:chat_id].present?
       @chat = AI::AssistantChat.for(current_user, @work_package).find_by(id: params[:chat_id])
-      @skill = chat_skill(@chat&.skill_id)
+      @skill = offered_skill(@chat&.skill_id, conversation: true)
     else
-      @skill = chat_skill(params[:skill_id])
+      @skill = offered_skill(params[:skill_id], conversation: true)
       @chat = AI::AssistantChat.latest_for(current_user, @work_package, @skill) if @skill
     end
     render_404 unless @skill
@@ -116,10 +105,14 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
                                        .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
                                        .find(params[:message_id])
     @chat = @message.chat
-    @skill = chat_skill(@chat.skill_id)
+    @skill = offered_skill(@chat.skill_id, conversation: true)
     render_404 unless @skill
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def chat_dialog
+    AI::Assistance::ChatDialogComponent.new(work_package: @work_package, skill: @skill, chat: @chat)
   end
 
   def chat_component

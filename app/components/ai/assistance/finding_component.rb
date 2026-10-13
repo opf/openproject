@@ -36,12 +36,11 @@ module AI
 
       SEVERITY_SCHEMES = { "high" => :danger, "medium" => :attention, "low" => :secondary }.freeze
 
-      attr_reader :finding, :error
+      attr_reader :finding
 
-      def initialize(finding:, error: nil)
+      def initialize(finding:)
         super
         @finding = finding
-        @error = error
       end
 
       def apply_path

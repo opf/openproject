@@ -31,8 +31,8 @@
 # Makes the LLM checks of AI Assistance pass without a real connection.
 RSpec.shared_context "with an available LLM for AI Assistance" do
   before do
-    allow(LlmConnection).to receive(:available?).and_return(true)
-    allow(AI::Assistance::ModelChoice).to receive(:new)
-      .and_return(instance_double(AI::Assistance::ModelChoice, model_id: "test-model"))
+    connection = instance_double(LlmConnection, available_model_ids: ["test-model"],
+                                                default_chat_model: instance_double(LlmModel, external_id: "test-model"))
+    allow(LlmConnection).to receive_messages(available?: true, active_connection: connection)
   end
 end

@@ -71,7 +71,7 @@ module AI
       return false if skill_type.prompt_required? && prompt.blank?
       return false unless assistant.usable?
 
-      LlmConnection.available? && AI::Assistance::ModelChoice.new(assistant).model_id.present?
+      LlmConnection.available? && assistant.effective_model_id.present?
     end
 
     # The action keys this skill may propose: none when read-only, a comment when
@@ -102,9 +102,7 @@ module AI
     def system_prompt(locale:)
       return if prompt.blank?
 
-      rules = output_rules.to_s.gsub(/\{\{\s*(\w+)\s*\}\}/) do |match|
-        Regexp.last_match(1) == "locale" ? locale.to_s : match
-      end
+      rules = output_rules.to_s.gsub(/\{\{\s*locale\s*\}\}/, locale.to_s)
       [prompt, rules].compact_blank.join("\n\n")
     end
   end

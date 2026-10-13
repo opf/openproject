@@ -49,9 +49,5 @@ module My
     def skill_params
       params.expect(ai_assistant_skill: %i[label description prompt output_rules proposal_scope active])
     end
-
-    def pages
-      @pages ||= AIAssistance::Pages.new(helpers, :my)
-    end
   end
 end

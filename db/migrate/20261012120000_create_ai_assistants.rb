@@ -92,7 +92,6 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.jsonb :not_checked, null: false, default: []
       # What happened during the run, shown in the run dialog: [{at, kind, data}].
       t.jsonb :events, null: false, default: []
-      t.datetime :finished_at
 
       t.timestamps
 

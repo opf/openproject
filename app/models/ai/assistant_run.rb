@@ -57,19 +57,11 @@ module AI
 
     validates :locale, presence: true
 
-    before_save :stamp_finished_at, if: -> { status_changed? && finished? }
-
     scope :for, ->(user, work_package) { where(user:, work_package:) }
     scope :newest_first, -> { order(created_at: :desc, id: :desc) }
 
     def add_not_checked(area, reason)
       not_checked << { "area" => area.to_s, "reason" => reason.to_s }
-    end
-
-    private
-
-    def stamp_finished_at
-      self.finished_at ||= Time.current
     end
   end
 end

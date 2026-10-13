@@ -93,19 +93,6 @@ module AI
         end
       end
 
-      # The rule of WorkPackage#journals.internal_visible, for this user instead of
-      # User.current: a job may run without that user's request.
-      def visible_journals
-        project = work_package.project
-        if EnterpriseToken.allows_to?(:internal_comments) &&
-           project.enabled_internal_comments &&
-           user.allowed_in_project?(:view_internal_comments, project)
-          work_package.journals
-        else
-          work_package.journals.where(internal: false)
-        end
-      end
-
       # The newest meetings, visible to the user, with this work package on the agenda or
       # in an outcome. Each agenda in full, so the model sees decisions in their context.
       def meetings_data
@@ -155,7 +142,8 @@ module AI
       end
 
       def comments_data
-        visible_journals.where.not(notes: [nil, ""])
+        # The jobs run as the user, so User.current is the user here.
+        work_package.journals.internal_visible.where.not(notes: [nil, ""])
                         .includes(:user)
                         .reorder(created_at: :desc)
                         .limit(MAX_COMMENTS)
