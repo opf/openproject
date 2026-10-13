@@ -33,6 +33,8 @@ require "rails_helper"
 RSpec.describe Types::EditPageHeaderComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   shared_let(:project) { create(:project, name: "Apollo") }
   shared_let(:type) { create(:type, name: "Bug") }
   shared_let(:variant) { create(:type_variant, type:, variant_name: "Internal") }
@@ -65,11 +67,9 @@ RSpec.describe Types::EditPageHeaderComponent, type: :component do
   end
 
   context "when the screen is reached from a project's settings" do
-    before do
-      # What the controller sets, and what the trail keys off.
-      vc_test_controller.instance_variable_set(:@project, project)
-      render_header
-    end
+    let(:variant_scope_project) { project }
+
+    before { render_header }
 
     it "leads back through the project, not administration" do
       expect(page).to have_link("Apollo", href: project_overview_path(project.id))

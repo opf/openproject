@@ -36,8 +36,8 @@ RSpec.describe GitlabUser do
 
   describe "Validations" do
     it { is_expected.to validate_presence_of :gitlab_id }
-    it { is_expected.to validate_presence_of :gitlab_name }
-    it { is_expected.to validate_presence_of :gitlab_username }
-    it { is_expected.to validate_presence_of :gitlab_avatar_url }
+    it { is_expected.to validate_presence_of :name }
+    it { is_expected.to validate_presence_of :username }
+    it { is_expected.to validate_presence_of :avatar_url }
   end
 end

@@ -70,7 +70,9 @@ RSpec.describe "Projects phase definition settings", :js do
       create(:color, name: "Gold", hexcode: "#ffd800")
     end
 
-    it "allows managing definitions" do
+    # Real drag coverage needs the Selenium driver: Cuprite cannot reliably
+    # deliver the native drag lifecycle the sortable-lists controller relies on.
+    it "allows managing definitions", :selenium do
       definitions_page.visit!
       definitions_page.expect_listed(["Initiating", "Executing"])
 
@@ -127,27 +129,20 @@ RSpec.describe "Projects phase definition settings", :js do
       definitions_page.expect_gates_mentioned_for("Initiating", "Start and finish gate")
 
       # moving
-      definitions_page.click_definition_action("Processing", action: "Move to bottom")
-      wait_for_network_idle
-      definitions_page.expect_listed(["Starting", "Imagining", "Initiating", "Processing"])
+      definitions_page.move_definition("Processing", direction: "Move to bottom")
+      definitions_page.expect_move_settled(["Starting", "Imagining", "Initiating", "Processing"])
 
-      definitions_page.click_definition_action("Initiating", action: "Move to top")
-      wait_for_network_idle
-      definitions_page.expect_listed(["Initiating", "Starting", "Imagining", "Processing"])
+      definitions_page.move_definition("Initiating", direction: "Move to top")
+      definitions_page.expect_move_settled(["Initiating", "Starting", "Imagining", "Processing"])
 
-      definitions_page.click_definition_action("Starting", action: "Move down")
-      wait_for_network_idle
-      definitions_page.expect_listed(["Initiating", "Imagining", "Starting", "Processing"])
+      definitions_page.move_definition("Starting", direction: "Move down")
+      definitions_page.expect_move_settled(["Initiating", "Imagining", "Starting", "Processing"])
 
-      definitions_page.click_definition_action("Starting", action: "Move up")
-      wait_for_network_idle
-      definitions_page.expect_listed(["Initiating", "Starting", "Imagining", "Processing"])
+      definitions_page.move_definition("Starting", direction: "Move up")
+      definitions_page.expect_move_settled(["Initiating", "Starting", "Imagining", "Processing"])
 
-      definitions_page.drag_and_drop_list(from: 0, to: 3,
-                                          elements: "[data-test-selector=project-phase-definition]",
-                                          handler: ".DragHandle")
-      wait_for_network_idle
-      definitions_page.expect_listed(["Starting", "Imagining", "Processing", "Initiating"])
+      definitions_page.drag_definition("Initiating", after: "Processing")
+      definitions_page.expect_move_settled(["Starting", "Imagining", "Processing", "Initiating"])
 
       definitions_page.reload!
       definitions_page.expect_listed(["Starting", "Imagining", "Processing", "Initiating"])

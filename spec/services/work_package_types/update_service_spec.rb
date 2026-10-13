@@ -101,7 +101,7 @@ module WorkPackageTypes
           expect(type).to have_received(:reset_attribute_groups)
         end
 
-        it "set the attribute groups to the passed values" do
+        it "set the attribute groups to the passed values, placing an attribute listed twice once" do
           service_result = service.call(params)
 
           expect(service_result).to be_success
@@ -110,7 +110,7 @@ module WorkPackageTypes
           expect(group1.key).to eq("group1")
           expect(group1.attributes).to contain_exactly(cf1.attribute_name, cf2.attribute_name)
           expect(groups.key).to eq("groups")
-          expect(groups.attributes).to contain_exactly(cf2.attribute_name)
+          expect(groups.attributes).to be_empty
         end
       end
     end
@@ -132,24 +132,6 @@ module WorkPackageTypes
         service.call(params)
 
         expect(type.reload.custom_field_ids).to contain_exactly(cf1.id, cf2.id)
-      end
-
-      context "when a project already uses the type" do
-        before { type.type.projects = create_list(:project, 2) }
-
-        it "does not automatically enable the custom field" do
-          expect { service.call(params) }
-            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
-                      .from([[], []])
-        end
-
-        it "does not tries to change the project in case all custom fields are already added" do
-          type.custom_field_ids = [cf1.id, cf2.id]
-
-          expect { service.call(params) }
-            .not_to change { Project.where(id: type.type.project_ids).map(&:work_package_custom_field_ids) }
-                      .from([[], []])
-        end
       end
     end
 

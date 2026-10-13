@@ -7,3 +7,8 @@
 <%= resource_color_css("meeting_status", Meetings::Statuses::AVAILABLE) %>
 <%= resource_color_css("project_status", Projects::Statuses::AVAILABLE) %>
 <%= resource_color_css("color", ::Color.all) %>
+
+/* TODO: move to module */
+<%= resource_color_css("gitlab_issue_status", GitlabIntegration::IssueStatuses::AVAILABLE) %>
+<%= resource_color_css("gitlab_merge_request_status", GitlabIntegration::MergeRequestStatuses::AVAILABLE) %>
+<%= resource_color_css("gitlab_pipeline_status", GitlabIntegration::PipelineStatuses::AVAILABLE) %>

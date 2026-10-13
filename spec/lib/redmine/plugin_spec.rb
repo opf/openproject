@@ -95,6 +95,44 @@ RSpec.describe Redmine::Plugin do
     end
   end
 
+  describe ".register with #project_module" do
+    include_context "with blank access control state"
+
+    before do
+      allow(Rails.application.reloader).to receive(:to_prepare).and_yield
+    end
+
+    context "when the module is enabled by default" do
+      before do
+        described_class.register :foo do
+          project_module :foo_module do
+            permission :view_foo, { foo: :index }, permissible_on: :project
+            enabled_by_default!
+          end
+        end
+      end
+
+      it "adds the module to the default project modules" do
+        expect(OpenProject::AccessControl.default_project_modules).to eq(%i[foo_module])
+      end
+    end
+
+    context "when the module is enabled by default with a condition" do
+      before do
+        described_class.register :foo do
+          project_module :foo_module do
+            permission :view_foo, { foo: :index }, permissible_on: :project
+            enabled_by_default! if: -> { false }
+          end
+        end
+      end
+
+      it "evaluates the condition" do
+        expect(OpenProject::AccessControl.default_project_modules).to be_empty
+      end
+    end
+  end
+
   describe ".register with #requires_openproject" do
     it "allows registering with a version requirement lower than the op version" do
       expect do

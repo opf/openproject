@@ -45,7 +45,7 @@ module WorkPackageTypes
           .to_json
       end
 
-      subject(:service) { described_class.new(user:, variant:) }
+      subject(:service) { described_class.new(user:, form_configuration: variant.form_configuration) }
 
       it "creates an attribute group from service params" do
         result = service.call(group_type: "attribute", name: "New Group")

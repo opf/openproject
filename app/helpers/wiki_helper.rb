@@ -42,6 +42,14 @@ module WikiHelper
                                               ids:)
   end
 
+  def wiki_page_cancel_href(page, project)
+    if page.new_record?
+      url_for(controller: "/wiki", action: "index", project_id: project.identifier)
+    else
+      url_for(controller: "/wiki", action: "show", project_id: project.identifier, id: page)
+    end
+  end
+
   def breadcrumb_for_page(project, page, action = nil)
     breadcrumbs = []
     breadcrumbs << project_breadcrumb(project)

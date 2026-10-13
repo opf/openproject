@@ -84,7 +84,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s],
+                                            tab: "always")
           )
         end
 
@@ -99,7 +100,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s], tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s],
+                                            tab: "always")
           )
           expect(response.location).not_to include("status_ids")
         end
@@ -125,8 +127,8 @@ RSpec.describe Workflows::MatrixController do
               }
 
           expect(response).to redirect_to(
-            edit_type_workflow_path(type_id: variant.type_id, variant_id: variant.id, role_ids: [role.id.to_s, role2.id.to_s],
-                                    tab: "always")
+            edit_type_variant_workflow_path(type_id: variant.type_id, variant_id: variant.id,
+                                            role_ids: [role.id.to_s, role2.id.to_s], tab: "always")
           )
         end
       end

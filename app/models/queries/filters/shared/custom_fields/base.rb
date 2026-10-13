@@ -80,6 +80,7 @@ module Queries::Filters::Shared
           string: Queries::Filters::Strategies::CfString,
           text: Queries::Filters::Strategies::CfText,
           date: Queries::Filters::Strategies::CfDate,
+          datetime: Queries::Filters::Strategies::CfDateTime,
           hierarchy: Queries::Filters::Strategies::CfHierarchy,
           integer: Queries::Filters::Strategies::CfInteger,
           float: if custom_field.field_format == "calculated_value"
@@ -100,6 +101,8 @@ module Queries::Filters::Shared
           :text
         when "date"
           :date
+        when "datetime"
+          :datetime
         when "hierarchy", "weighted_item_list"
           :hierarchy
         else
@@ -134,7 +137,7 @@ module Queries::Filters::Shared
       def condition
         [
           custom_field_context.where_subselect_conditions,
-          operator_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
+          type_strategy.sql_for_field(values_replaced, CustomValue.table_name, "value")
         ].compact.join(" AND ")
       end
 

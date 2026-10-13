@@ -76,7 +76,7 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
 
     it "counts them in a row above the add action", :aggregate_failures do
       count_link = "a[href='#{type_variants_path(type_id: root_type.id)}']"
-      add_link = "a[href='#{new_creation_wizard_types_path(type_id: root_type.id, back_url: types_path)}']"
+      add_link = "a[href='#{new_creation_wizard_type_variants_path(type_id: root_type.id, back_url: types_path)}']"
 
       expect(rendered_component).to have_css(".Box-row #{count_link}")
       expect(rendered_component).to have_no_css(".Box-footer #{count_link}")
@@ -162,6 +162,84 @@ RSpec.describe WorkPackageTypes::Types::GroupedListComponent, type: :component d
         expect(rendered_component).to have_css(".Box-row .Label", text: label_text)
         expect(rendered_component).to have_no_css(".Box-header .Label")
       end
+    end
+  end
+
+  describe "sortable groups", with_settings: { per_page_options: "2,100" } do
+    let!(:types) { %w[A B C D E].map { |name| create(:type, name:) } }
+    let(:page_two) { Type.order(:position).page(2).per_page(2) }
+    let(:expanded) { page_two.first }
+    let!(:variant) { create(:type_variant, type: expanded, variant_name: "Variant") }
+    let(:wrapper) { described_class.wrapper_key }
+
+    subject(:rendered_component) do
+      with_request_url "/types?page=2&per_page=2" do
+        render_inline(described_class.new(types: page_two, expanded_type_id: expanded.id))
+      end
+    end
+
+    it_behaves_like "a sortable-lists list", list_type: "type", name: "Types"
+
+    it "wires the component wrapper as the sortable-lists root", :aggregate_failures do
+      expect(rendered_component).to have_element(id: wrapper) do |root|
+        expect(root["data-controller"]).to eq("sortable-lists")
+        expect(root["data-sortable-lists-sortable-lists--list-outlet"])
+          .to eq("##{wrapper} [data-controller~='sortable-lists--list']")
+        expect(root["data-sortable-lists-sortable-lists--item-outlet"])
+          .to eq("##{wrapper} [data-controller~='sortable-lists--item']")
+      end
+    end
+
+    it "lists the types of the page by name" do
+      expect(rendered_component).to have_selector(:list, "Types") do |list|
+        expect(list.all(:heading).map { it.text.squish }).to eq(page_two.map(&:name))
+      end
+    end
+
+    it "registers type groups, not variant rows, as sortable items", :aggregate_failures do
+      expect(rendered_component)
+        .to have_element(role: "listitem", "data-controller": "sortable-lists--item", count: 2)
+      expect(rendered_component).to have_no_element(:li, "data-controller": "sortable-lists--item")
+    end
+
+    it "gives each type group a single drag handle as its item handle" do
+      expect(rendered_component).to have_button(accessible_name: "Drag to reorder", count: 2) do |handle|
+        handle["data-sortable-lists--item-target"] == "handle"
+      end
+    end
+
+    it "carries page context through the move URL" do
+      expected = move_type_path("__id__", page: 2, per_page: 2, expand: expanded.id).sub("__id__", "{id}")
+
+      expect(rendered_component).to have_element(id: wrapper) do |root|
+        expect(root["data-sortable-lists-move-url-template-value"]).to eq(expected)
+      end
+    end
+
+    it "carries page context through the pagination links" do
+      expect(rendered_component).to have_link("1", href: types_path(page: 1, per_page: 2, expand: expanded.id))
+    end
+
+    it "carries page context into the lazy menus" do
+      expect(rendered_component)
+        .to have_element(:"include-fragment", src: menu_type_path(expanded, page: 2, per_page: 2, expand: expanded.id))
+    end
+  end
+
+  describe "a lone type" do
+    let!(:lone) { create(:type, name: "Only") }
+
+    subject(:rendered_component) do
+      with_request_url "/types" do
+        render_inline(described_class.new(types: Type.page(1).per_page(10)))
+      end
+    end
+
+    it "fixes a lone type in place without a drag handle", :aggregate_failures do
+      expect(Type.count).to eq(1)
+      expect(rendered_component)
+        .to have_element(role: "listitem", "data-sortable-lists--item-mobility-value": "fixed", count: 1)
+      expect(rendered_component).to have_no_button(accessible_name: "Drag to reorder")
     end
   end
 end

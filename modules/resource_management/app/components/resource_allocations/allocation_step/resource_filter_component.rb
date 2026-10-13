@@ -39,15 +39,25 @@ module ResourceAllocations
         component_wrapper do
           next if placeholder_user.nil?
 
-          render(Primer::Box.new(mt: 2)) do
-            render(Primer::Beta::Text.new(tag: :div, font_weight: :bold, mb: 1)) do
-              I18n.t("resource_management.allocate_resource_dialog.criteria.label")
-            end + criteria_text
-          end
+          safe_join([staffed_from_text, criteria_label, criteria_text].compact)
         end
       end
 
       private
+
+      def staffed_from_text
+        return unless @allocation.staffed?
+
+        render(Primer::Beta::Text.new(tag: :div, mb: 2, test_selector: "op-resource-allocation-staffed-from")) do
+          I18n.t("resource_management.allocate_resource_dialog.staffed_from", placeholder: placeholder_user.name)
+        end
+      end
+
+      def criteria_label
+        render(Primer::Beta::Text.new(tag: :div, font_weight: :bold, mb: 1)) do
+          I18n.t("resource_management.allocate_resource_dialog.criteria.label")
+        end
+      end
 
       def placeholder_user
         @allocation.placeholder_user

@@ -32,13 +32,13 @@ require "rails_helper"
 
 RSpec.describe Projects::Exports::Formatters::BudgetCurrencyAttribute do
   let(:project) { create(:project) }
-  let(:project_budgets_double) { instance_double(Budgets::Patches::Projects::RowComponentPatch::ProjectBudgets) }
-  let(:budgets_patch_class) { Budgets::Patches::Projects::RowComponentPatch::ProjectBudgets }
+  let(:aggregation_double) { instance_double(Budgets::ProjectBudgetAggregation) }
+  let(:aggregation_class) { Budgets::ProjectBudgetAggregation }
   let(:user_with_permission) { create(:user, member_with_permissions: { project => [:view_budgets] }) }
   let(:user_without_permission) { create(:user) }
 
   before do
-    allow(budgets_patch_class).to receive(:new).with(project).and_return(project_budgets_double)
+    allow(aggregation_class).to receive(:new).with(project).and_return(aggregation_double)
   end
 
   describe ".apply?" do
@@ -58,14 +58,14 @@ RSpec.describe Projects::Exports::Formatters::BudgetCurrencyAttribute do
 
   describe "#format" do
     it "returns nil when the an attribute is not available" do
-      allow(project_budgets_double).to receive(:total_available).and_return(42.7)
+      allow(aggregation_double).to receive(:total_available).and_return(42.7)
       instance = described_class.new(:budget_available)
 
       expect(instance.format(project)).to be_nil
     end
 
-    it "returns nil when ProjectBudgets is not available" do
-      allow(budgets_patch_class).to receive(:new).with(project).and_return(nil)
+    it "returns nil when the budget aggregation is not available" do
+      allow(aggregation_class).to receive(:new).with(project).and_return(nil)
       instance = described_class.new(:budget_spent_ratio)
 
       expect(instance.format(project)).to be_nil
@@ -77,7 +77,7 @@ RSpec.describe Projects::Exports::Formatters::BudgetCurrencyAttribute do
       end
 
       it "returns nil" do
-        allow(project_budgets_double).to receive(:total_available).and_return(42.7)
+        allow(aggregation_double).to receive(:total_available).and_return(42.7)
         instance = described_class.new(:budget_available)
 
         expect(instance.format(project)).to be_nil
@@ -90,21 +90,21 @@ RSpec.describe Projects::Exports::Formatters::BudgetCurrencyAttribute do
       end
 
       it "returns the raw budget available value" do
-        allow(project_budgets_double).to receive(:total_available).and_return(42.7)
+        allow(aggregation_double).to receive(:total_available).and_return(42.7)
         instance = described_class.new(:budget_available)
 
         expect(instance.format(project)).to eq(42.7)
       end
 
       it "returns the raw budget spent value" do
-        allow(project_budgets_double).to receive(:total_spent).and_return(42.7)
+        allow(aggregation_double).to receive(:total_spent).and_return(42.7)
         instance = described_class.new(:budget_spent)
 
         expect(instance.format(project)).to eq(42.7)
       end
 
       it "returns the raw budget planned value" do
-        allow(project_budgets_double).to receive(:total_planned).and_return(42.7)
+        allow(aggregation_double).to receive(:total_planned).and_return(42.7)
         instance = described_class.new(:budget_planned)
 
         expect(instance.format(project)).to eq(42.7)

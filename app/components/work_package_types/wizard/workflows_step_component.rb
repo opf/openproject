@@ -44,8 +44,8 @@ module WorkPackageTypes
       def variant = model
 
       def matrix_url
-        helpers.type_workflow_matrix_path(
-          **variant.path_args,
+        helpers.variant_workflow_matrix_path(
+          helpers.variant_scope_project, variant,
           wizard: true,
           tab: helpers.params[:tab],
           role_ids: roles.map(&:id),

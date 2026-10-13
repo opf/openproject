@@ -31,12 +31,19 @@
 module ConfigurationLinkHelpers
   def link_configuration(variant, aspect:, excluded: [])
     v = variant_of(variant)
-    v.link!(aspect)
+    if aspect == TypeVariant::FORM_CONFIGURATION
+      v.update!(form_configuration: v.type.default_variant.form_configuration)
+    else
+      v.link!(aspect)
+    end
     v.update!("#{aspect}_excluded_elements" => excluded) if excluded.any? && TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
   end
 
   def unlink_configuration(variant, aspect:)
-    variant_of(variant).unlink!(aspect)
+    v = variant_of(variant)
+    return v.unlink!(aspect) unless aspect == TypeVariant::FORM_CONFIGURATION
+
+    v.update!(form_configuration: create(:form_configuration), form_configuration_excluded_elements: [])
   end
 
   def exclude_configuration_elements(variant, aspect:, elements:)

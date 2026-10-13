@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -47,6 +46,7 @@ export interface CreateAutocompleterValueOption {
 
 @Component({
   templateUrl: './create-autocompleter.component.html',
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'create-autocompleter',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./create-autocompleter.component.sass'],
@@ -77,16 +77,22 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @Input() public hideSelected = false;
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onChange = new EventEmitter<HalResource>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onKeydown = new EventEmitter<KeyboardEvent>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onOpen = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onClose = new EventEmitter<void>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAfterViewInit = new EventEmitter<this>();
 
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onAddNew = new EventEmitter<HalResource>();
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
@@ -132,7 +138,7 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public closeSelect() {
-    this.ngSelectComponent && this.ngSelectComponent.close();
+    this.ngSelectComponent?.close();
   }
 
   public changeModel(element:HalResource) {
@@ -165,6 +171,6 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
   }
 
   public focusInputField() {
-    this.ngSelectComponent && this.ngSelectComponent.focus();
+    this.ngSelectComponent?.focus();
   }
 }

@@ -52,10 +52,13 @@ RSpec.describe "Work package type required attributes",
 
   def toggle(variant, in_project: nil, row_key: custom_field.attribute_name)
     args = { type_id: type.id, variant_id: variant.id, row_key: }
-    args[:in_project_id] = in_project if in_project
+    path = if in_project
+             toggle_required_project_type_variant_form_configuration_row_path(project_id: in_project, **args)
+           else
+             toggle_required_type_variant_form_configuration_row_path(**args)
+           end
 
-    put toggle_required_type_form_configuration_row_path(**args),
-        headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    put path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
   end
 
   def required_on(variant)

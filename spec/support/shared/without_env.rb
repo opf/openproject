@@ -32,7 +32,7 @@
 # Usage:
 # it "runs a spec", without_env: ["OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET"] do
 RSpec.configure do |config|
-  config.include_context "with settings reset"
+  config.include_context "with settings reset", :without_env
 
   config.around do |example|
     environment_overrides = aggregate_metadata(example, :without_env)

@@ -31,7 +31,7 @@
 module Queries::Filters::Strategies
   module WorkPackages
     module SharedWithUser
-      class ListOptional < ::Queries::Filters::Strategies::List
+      class ListOptional < ::Queries::Filters::Strategies::HugeList
         self.supported_operators = %w[= &= *]
 
         def operator_map

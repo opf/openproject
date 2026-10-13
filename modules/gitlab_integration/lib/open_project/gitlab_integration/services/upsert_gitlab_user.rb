@@ -55,9 +55,9 @@ module OpenProject
         def extract_params(payload)
           {
             gitlab_id: payload.id,
-            gitlab_name: payload.name,
-            gitlab_username: payload.username,
-            gitlab_avatar_url: avatar_url(payload.avatar_url)
+            name: payload.name,
+            username: payload.username,
+            avatar_url: avatar_url(payload.avatar_url)
           }
         end
       end

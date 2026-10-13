@@ -30,6 +30,8 @@
 
 module WorkPackages::Dialogs
   class CreateDialogComponent < ApplicationComponent
+    DIALOG_ID = "create-work-package-dialog"
+
     include ApplicationHelper
     include OpenProject::FormTagHelper
     include OpTurbo::Streamable
