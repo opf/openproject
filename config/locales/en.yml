@@ -103,7 +103,6 @@ en:
         prompt: "System prompt"
         proposal_scope: "Proposals"
         skill_key: "Type"
-        template_ref: "Template"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1566,7 +1565,6 @@ en:
           instructions: "Instructions"
           menu: "Menu entry"
           menu_description: "How the skill shows in the AI Assistance menu on work packages."
-        template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
         types:

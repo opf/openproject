@@ -39,5 +39,5 @@
 %>
 
 <%= settings_primer_form_with(model: @skill, scope: :ai_assistant_skill, url:, method:) do |f| %>
-  <%= render(AI::AssistantSkillForm.new(f, admin: pages.admin?)) %>
+  <%= render(AI::AssistantSkillForm.new(f)) %>
 <% end %>

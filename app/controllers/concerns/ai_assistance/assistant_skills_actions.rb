@@ -29,7 +29,7 @@
 #++
 
 # The skill pages of an assistant, shared by Administration and My account. The
-# controller supplies assistant_scope and skill_params.
+# controller supplies assistant_scope.
 module AIAssistance::AssistantSkillsActions
   extend ActiveSupport::Concern
 
@@ -91,6 +91,10 @@ module AIAssistance::AssistantSkillsActions
 
   def find_skill
     @skill = @assistant.skills.find(params[:id])
+  end
+
+  def skill_params
+    params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active])
   end
 
   # The condition inputs are outside the model scope: each posts a list of ids, and a

@@ -66,7 +66,7 @@ The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`
 2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, Refresh work package runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
 3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, the changes that the skill's type and proposal scope allow, and the guard against instructions in the context. Admins and users do not edit them, so an assistant cannot break the contract with the code.
 
-The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each run and answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat. A skill also stores a **template** (`template_ref`): the template in a separate prompt registry that it was created from. Nothing reads it yet.
+The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each run and answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
 
 The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Review#user_message`), the answer schema, the output rules, and the checks on the answer.
 
@@ -105,7 +105,6 @@ A user can create their own assistants with their own skills at **My account →
 - **Permission:** the global permission `manage_own_ai_assistants`. An admin gives it through a global role. To give it to all users, add it to the Standard global role.
 - **Menu:** a personal assistant shows only in its owner's menu, after the global assistants. When the owner loses the permission, the assistant stays, but it is not offered (`AI::Assistant#usable?`).
 - **Model:** a personal assistant uses the default model of the LLM connection. Only an admin can set a model, also on a personal assistant.
-- **Template:** the My account form does not show `template_ref`.
 - **Admin:** the admin list shows all assistants with their owner, and filters by owner (Global, Groups, Personal). The admin edits, deactivates and deletes personal assistants on the same pages.
 - **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
 
@@ -153,7 +152,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | Table | Holds |
 |---|---|
 | `ai_assistants` | name (unique for each owner), description, `instructions`, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
-| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `template_ref`, `proposal_scope`, `conditions`, position, active |
+| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `proposal_scope`, `conditions`, position, active |
 | `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 | `ai_assistant_chats` | skill, user, work package |

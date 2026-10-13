@@ -43,7 +43,7 @@ module AI
              dependent: :destroy
 
     validates :skill_key, inclusion: { in: ->(_) { AI::AssistantSkills::Registry.keys } }
-    validates :label, :template_ref, length: { maximum: 255 }
+    validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.

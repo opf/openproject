@@ -113,12 +113,12 @@ RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: 
   end
 
   describe "POST /my/ai_assistants/:id/skills" do
-    it "creates a skill and ignores a template reference" do
+    it "creates a skill" do
       post my_ai_assistant_skills_path(own_assistant),
-           params: { ai_assistant_skill: { skill_key: "prompt", prompt: "Summarize it.", template_ref: "admin/only" } }
+           params: { ai_assistant_skill: { skill_key: "prompt", prompt: "Summarize it." } }
 
       skill = own_assistant.skills.sole
-      expect(skill).to have_attributes(skill_key: "prompt", prompt: "Summarize it.", template_ref: nil)
+      expect(skill).to have_attributes(skill_key: "prompt", prompt: "Summarize it.")
       expect(response).to redirect_to(edit_my_ai_assistant_path(own_assistant))
     end
   end

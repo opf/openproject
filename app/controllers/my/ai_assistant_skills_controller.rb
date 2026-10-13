@@ -45,9 +45,5 @@ module My
     def assistant_scope
       AI::Assistant.where(principal: current_user)
     end
-
-    def skill_params
-      params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active])
-    end
   end
 end

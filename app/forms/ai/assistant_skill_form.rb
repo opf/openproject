@@ -59,11 +59,6 @@ module AI
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
 
         g.html_content { prompt_preview }
-
-        if @admin
-          g.text_field(name: :template_ref, label: AI::AssistantSkill.human_attribute_name(:template_ref),
-                       input_width: :large, caption: I18n.t("admin.ai_assistants.skills.template_ref_caption"))
-        end
       end
 
       if model.skill_type&.changeable_attributes.present?
@@ -92,11 +87,6 @@ module AI
 
       f.submit(name: :submit, label: model.persisted? ? I18n.t(:button_save) : I18n.t(:button_create),
                scheme: :primary, mt: 4)
-    end
-
-    def initialize(admin: false)
-      super()
-      @admin = admin
     end
 
     private
