@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
          href: home_path(jump: @jump),
          show_tooltip: false,
          aria: { label: t("header.project_select_component.leave_project") },
-         data: { test_selector: "op-header-project-select--remove-item" }
+         test_selector: "op-header-project-select--remove-item"
        )
      end
    end %>
@@ -48,7 +48,8 @@ See COPYRIGHT and LICENSE files for more details.
        expanded: expanded?,
        href:,
        disabled: !matches_query?,
-       data: { node_id: project.id, test_selector: "op-header-project-select--item" }
+       test_selector: "op-header-project-select--item",
+       data: { node_id: project.id }
      ) do |sub| %>
     <% add_icons.call(sub) %>
     <% if deferred? %>
@@ -73,7 +74,8 @@ See COPYRIGHT and LICENSE files for more details.
        current: current?,
        href:,
        disabled: !matches_query?,
-       data: { node_id: project.id, test_selector: "op-header-project-select--item" }
+       test_selector: "op-header-project-select--item",
+       data: { node_id: project.id }
      ) do |leaf| %>
     <% add_icons.call(leaf) %>
   <% end %>

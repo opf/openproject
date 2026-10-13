@@ -117,7 +117,8 @@ See COPYRIGHT and LICENSE files for more details.
           leading_icon: :plus,
           label: workflow_button_label,
           href: create_workflow_dialog_path,
-          data: { controller: "async-dialog", test_selector: "workflow-create-new" }
+          test_selector: "workflow-create-new",
+          data: { controller: "async-dialog" }
         ) do
           workflow_button_label
         end

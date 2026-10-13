@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
       size: :medium,
       href: url_for(controller: "wiki", action: "history", id: @page),
       aria: { label: t(:label_history) },
-      data: { "test-selector": "wiki-history-button" },
+      test_selector: "wiki-history-button",
       title: t(:label_history)
     ) do |button|
       button.with_leading_visual_icon(icon: "book")

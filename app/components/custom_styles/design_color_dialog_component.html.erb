@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
       icon: :pencil,
       scheme: :invisible,
       "aria-label": I18n.t("admin.custom_styles.edit_color", color: color_label),
-      data: { test_selector: "edit-design-color-#{variable}" }
+      test_selector: "edit-design-color-#{variable}"
     )
     dialog.with_header(variant: :large)
 
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
             type: :submit,
             scheme: :primary,
             form: form_id,
-            data: { test_selector: "save-design-color-#{variable}" }
+            test_selector: "save-design-color-#{variable}"
           )
         ) { I18n.t(:button_save) }
       )

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  flex_layout(classes: "op-user-hover-card", data: { test_selector: "user-hover-card-#{@user.id}" }) do |flex|
+  flex_layout(classes: "op-user-hover-card", test_selector: "user-hover-card-#{@user.id}") do |flex|
     flex.with_row do
       render(Users::AvatarComponent.new(user: @user, show_name: false, link: false, hover_card: { active: false }))
     end
@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
     flex.with_row do
       flex_layout(classes: "op-user-hover-card--info") do |f|
         f.with_column(classes: "op-user-hover-card--name") do
-          render(Primer::Beta::Text.new(font_weight: :semibold, data: { test_selector: "user-hover-card-name" })) do
+          render(Primer::Beta::Text.new(font_weight: :semibold, test_selector: "user-hover-card-name")) do
             @user.name
           end
         end
@@ -47,7 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
               Primer::Beta::Text.new(
                 font_size: :small,
                 color: :muted,
-                data: { test_selector: "user-hover-card-email" }
+                test_selector: "user-hover-card-email"
               )
             ) do
               @user.mail
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
     card_sections_with_fields.flat_map(&:last).each do |custom_field|
       value = @user.formatted_custom_value_for(custom_field)
 
-      flex.with_row(data: { test_selector: "user-hover-card-custom-field" }) do
+      flex.with_row(test_selector: "user-hover-card-custom-field") do
         flex_layout(classes: "op-user-hover-card--custom-field") do |cf|
           cf.with_column(color: :muted, mr: 2) { custom_field.name }
           cf.with_column do
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
 
           f.with_column do
-            render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-department" })) do
+            render(Primer::Beta::Text.new(test_selector: "user-hover-card-department")) do
               @user.department.name
             end
           end
@@ -93,7 +93,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         f.with_column do
-          render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-groups" })) do
+          render(Primer::Beta::Text.new(test_selector: "user-hover-card-groups")) do
             group_membership_summary
           end
         end
@@ -105,7 +105,7 @@ See COPYRIGHT and LICENSE files for more details.
         Primer::Beta::Button.new(
           tag: :a,
           href: helpers.allowed_management_user_profile_path(@user),
-          data: { test_selector: "user-hover-card-profile-btn" }
+          test_selector: "user-hover-card-profile-btn"
         )
       ) do
         I18n.t("users.open_profile")

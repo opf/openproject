@@ -12,7 +12,7 @@
               leading_icon: :undo,
               label: t("types.edit.form_configuration.reset_to_defaults"),
               href: @context.reset_dialog_path,
-              "data-test-selector": "type-form-configuration-reset-button",
+              test_selector: "type-form-configuration-reset-button",
               data: { controller: "async-dialog" }
             ) do
               t("types.edit.form_configuration.reset_to_defaults")
@@ -27,7 +27,7 @@
                 button_arguments: {
                   scheme: :primary,
                   "aria-label": t(:button_add),
-                  "data-test-selector": "type-form-configuration-add-button"
+                  test_selector: "type-form-configuration-add-button"
                 }
               ) do |menu|
                 menu.with_item(
@@ -45,8 +45,8 @@
                   label: t("types.edit.form_configuration.add_query_group"),
                   tag: :button,
                   content_arguments: {
-                    data: { action: "click->admin--type-form-configuration--main#addQueryGroup",
-                            test_selector: "admin--type-form-configuration--add-query-group" }
+                    test_selector: "admin--type-form-configuration--add-query-group",
+                    data: { action: "click->admin--type-form-configuration--main#addQueryGroup" }
                   }
                 ) do |item|
                   item.with_leading_visual_icon(icon: :table)

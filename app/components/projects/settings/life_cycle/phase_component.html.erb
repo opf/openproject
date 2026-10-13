@@ -22,7 +22,7 @@
         Primer::Alpha::ToggleSwitch.new(
           src: toggle_project_settings_life_cycle_step_path(id: definition.id),
           csrf_token: form_authenticity_token,
-          data: { test_selector: "toggle-project-life-cycle-#{definition.id}" },
+          test_selector: "toggle-project-life-cycle-#{definition.id}",
           aria: { label: toggle_aria_label },
           checked: active?,
           size: :small,

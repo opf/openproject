@@ -47,9 +47,9 @@ module Meetings
         Primer::Beta::Button.new(
           tag: :a,
           href: toggle_attendance_project_meeting_participant_path(@meeting.project, @meeting, @participant),
+          test_selector: "attendance_button_#{@participant.user_id}",
           data: {
-            turbo_method: :post,
-            test_selector: "attendance_button_#{@participant.user_id}"
+            turbo_method: :post
           },
           align_self: :center
         )

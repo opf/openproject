@@ -96,9 +96,9 @@
             label: t(:button_archive),
             href: helpers.dialog_project_archive_path(project),
             content_arguments: {
+              test_selector: "project-settings--archive",
               data: {
-                turbo_stream: true,
-                test_selector: "project-settings--archive"
+                turbo_stream: true
               }
             }
           ) do |item|

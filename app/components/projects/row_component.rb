@@ -90,12 +90,10 @@ module Projects
     def render_calculated_value(custom_field, custom_value)
       if (error = custom_field.first_calculation_error(project))
         render(Primer::Alpha::Dialog.new(title: I18n.t("calculated_values.error_dialog.title"),
-                                         data: {
-                                           test_selector: "calculated-value-error-dialog-#{custom_field.id}"
-                                         })) do |dialog|
+                                         test_selector: "calculated-value-error-dialog-#{custom_field.id}")) do |dialog|
           dialog.with_show_button(icon: "alert-fill",
                                   "aria-label": I18n.t("calculated_values.error_dialog.title"),
-                                  data: { test_selector: "calculated-value-error-btn-#{custom_field.id}" },
+                                  test_selector: "calculated-value-error-btn-#{custom_field.id}",
                                   scheme: :invisible)
           dialog.with_body { calculated_value_error_msg(error) }
         end

@@ -19,8 +19,8 @@
       <%= render Primer::Beta::Text.new(
             display: :none,
             classes: "op-submenu--search-no-results-container",
+            test_selector: "op-submenu--search-no-results",
             data: {
-              "test-selector": "op-submenu--search-no-results",
               "filter--filter-list-target": "noResultsText"
             }
           ) do

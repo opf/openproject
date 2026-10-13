@@ -12,9 +12,7 @@
         button_arguments: { icon: "kebab-horizontal",
                             classes: "hide-when-print",
                             "aria-label": "Menu",
-                            data: {
-                              "test-selector": "recurring-meeting-action-menu"
-                            } }
+                            test_selector: "recurring-meeting-action-menu" }
       ) do |menu, _button|
         if edit_meeting?
           menu.with_item(

@@ -101,9 +101,7 @@ module Admin::EnterpriseTokens
         menu.with_show_button(icon: "kebab-horizontal",
                               "aria-label": t(:label_more),
                               scheme: :invisible,
-                              data: {
-                                "test-selector": "more-button"
-                              })
+                              test_selector: "more-button")
 
         delete_action(menu)
       end

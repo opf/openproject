@@ -98,9 +98,7 @@ module Meetings
         menu.with_show_button(icon: "kebab-horizontal",
                               "aria-label": t(:label_more),
                               scheme: :invisible,
-                              data: {
-                                "test-selector": "more-button"
-                              })
+                              test_selector: "more-button")
 
         if recurring?
           nil

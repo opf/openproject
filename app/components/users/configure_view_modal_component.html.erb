@@ -22,6 +22,6 @@
   <% end %>
   <%= render(Primer::Alpha::Dialog::Footer.new) do %>
     <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": MODAL_ID })) { t(:button_cancel) } %>
-    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, data: { "test-selector": "#{MODAL_ID}-submit" }, form: QUERY_FORM_ID)) { t(:button_apply) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, test_selector: "#{MODAL_ID}-submit", form: QUERY_FORM_ID)) { t(:button_apply) } %>
   <% end %>
 <% end %>

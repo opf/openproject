@@ -34,9 +34,7 @@
             src: toggle_oauth_application_path(@application),
             csrf_token: form_authenticity_token,
             checked: @application.enabled?,
-            data: {
-              "test-selector": "op-admin-oauth--application-enabled-toggle-switch"
-            }
+            test_selector: "op-admin-oauth--application-enabled-toggle-switch"
           )
         )
       end

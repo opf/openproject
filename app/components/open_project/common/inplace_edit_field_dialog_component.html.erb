@@ -24,8 +24,8 @@
             Primer::Beta::Button.new(scheme: :primary,
                                      type: :submit,
                                      form: form_id,
+                                     test_selector: "save-inplace-edit-field-button",
                                      data: {
-                                       test_selector: "save-inplace-edit-field-button",
                                        turbo: true
                                      })
           ) do

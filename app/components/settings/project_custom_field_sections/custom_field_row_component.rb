@@ -52,7 +52,8 @@ module Settings
       def edit_action_item(menu)
         menu.with_item(label: t("label_edit"),
                        href: edit_admin_settings_project_custom_field_path(@project_custom_field),
-                       data: { turbo: "false", test_selector: "project-custom-field-edit" }) do |item|
+                       test_selector: "project-custom-field-edit",
+                       data: { turbo: "false" }) do |item|
           item.with_leading_visual_icon(icon: :pencil)
 
           if show_enterprise_icon_for_edit_action?

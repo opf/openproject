@@ -114,7 +114,7 @@ module Settings
                        tag: :button,
                        content_arguments: {
                          "data-show-dialog-id": "project-custom-field-section-dialog#{@project_custom_field_section.id}",
-                         "data-test-selector": "project-custom-field-section-edit"
+                         test_selector: "project-custom-field-section-edit"
                        },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
@@ -165,8 +165,8 @@ module Settings
             field_format: format.name,
             custom_field_section_id: @project_custom_field_section.id
           ),
-          content_arguments: { data: { turbo: "false",
-                                       test_selector: "new-project-custom-field-in-section-button-#{format.name}" } }
+          content_arguments: { test_selector: "new-project-custom-field-in-section-button-#{format.name}",
+                               data: { turbo: "false" } }
         )
       end
 

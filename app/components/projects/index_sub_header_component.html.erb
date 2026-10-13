@@ -27,7 +27,7 @@
           label: new_workspace_label(new_type),
           disabled: @disable_buttons,
           size: :medium,
-          data: { "test-selector": "workspace-new-button" }
+          test_selector: "workspace-new-button"
         ) do |button|
           unless workspace_type_enterprise_feature_allowed?(new_type)
             button.with_trailing_visual_icon(icon: :"op-enterprise-addons", classes: "upsell-colored")

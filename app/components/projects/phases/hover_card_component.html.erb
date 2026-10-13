@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  flex_layout(classes: "op-phase-gate-hover-card", data: { test_selector: "phase-gate-hover-card-#{phase.id}" }) do |flex|
+  flex_layout(classes: "op-phase-gate-hover-card", test_selector: "phase-gate-hover-card-#{phase.id}") do |flex|
     flex.with_row do
       flex_layout(classes: "op-phase-gate-hover-card--info", justify_content: :space_between) do |f|
         f.with_column(classes: "op-phase-gate-hover-card--name flex-self-start") do
@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
               render Primer::Beta::Octicon.new(icon: gate_icon)
             end
             fl.with_column do
-              render(Primer::Beta::Text.new(data: { test_selector: "phase-gate-hover-card-name" })) { phase_gate_name }
+              render(Primer::Beta::Text.new(test_selector: "phase-gate-hover-card-name")) { phase_gate_name }
             end
           end
         end
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
               render Primer::Beta::Octicon.new(icon: :calendar, color: :muted)
             end
             fl.with_column do
-              render(Primer::Beta::Text.new(data: { test_selector: "phase-gate-hover-card-date" })) { phase_gate_date }
+              render(Primer::Beta::Text.new(test_selector: "phase-gate-hover-card-date")) { phase_gate_date }
             end
           end
         end

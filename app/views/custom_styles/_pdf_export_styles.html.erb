@@ -99,9 +99,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%=
         render(Primer::Beta::Button.new(
           type: :submit,
-          data: {
-            "test-selector": "text-color-change"
-          }
+          test_selector: "text-color-change"
         )) do |button|
           I18n.t(:button_save)
         end

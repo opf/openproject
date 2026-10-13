@@ -59,10 +59,10 @@ module WorkPackages
         banner.with_action_button(
           tag: :a,
           href: "#",
+          test_selector: "op-work-package-update-conflict-reload-button",
           data: {
             turbo: false,
-            action: "click->flash#reloadPage",
-            test_selector: "op-work-package-update-conflict-reload-button"
+            action: "click->flash#reloadPage"
           },
           size: :medium
         ) { @button_text }

@@ -62,9 +62,9 @@ See COPYRIGHT and LICENSE files for more details.
             tag: :a,
             href: new_dialog_project_backlogs_buckets_path(project, backlog_filter_params),
             aria: { label: t(".button_new_backlog_bucket") },
+            test_selector: "op-backlog-buckets--new-backlog-bucket-button",
             data: {
-              controller: "async-dialog",
-              test_selector: "op-backlog-buckets--new-backlog-bucket-button"
+              controller: "async-dialog"
             }
           ) do |button|
             button.with_leading_visual_icon(icon: :plus)

@@ -29,8 +29,8 @@
 
           if OpenProject::Enterprise.user_limit.present?
             invite_form.with_area('userLimitWarning',
-                                  data: { 'user-limit-target': 'limitWarning',
-                                          'test-selector': 'op-share-dialog-user-limit' },
+                                  test_selector: 'op-share-dialog-user-limit',
+                                  data: { 'user-limit-target': 'limitWarning' },
                                   display: :none) do
               flex_layout do |user_limit_row|
                 user_limit_row.with_column(mr: 2) do
@@ -51,8 +51,8 @@
           end
 
           invite_form.with_area('userSelectedWarning',
-                                data: { 'shares--user-selected-target': 'error',
-                                        'test-selector': 'op-share-dialog-no-user-selected' },
+                                test_selector: 'op-share-dialog-no-user-selected',
+                                data: { 'shares--user-selected-target': 'error' },
                                 display: :none) do
             flex_layout do |no_selected_user_row|
               no_selected_user_row.with_column(mr: 2) do
@@ -69,7 +69,7 @@
 
           if @errors.present?
             invite_form.with_area('errors',
-                                  data: { 'test-selector': 'op-share-dialog-error-message' }) do
+                                  test_selector: 'op-share-dialog-error-message') do
               flex_layout do |error_rows|
                 @errors.full_messages.each do |error_message|
                   error_rows.with_row do

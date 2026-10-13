@@ -115,7 +115,7 @@ module Settings
                        tag: :button,
                        content_arguments: {
                          "data-show-dialog-id": "user-custom-field-section-dialog#{@user_custom_field_section.id}",
-                         "data-test-selector": "user-custom-field-section-edit"
+                         test_selector: "user-custom-field-section-edit"
                        },
                        value: "") do |item|
           item.with_leading_visual_icon(icon: :pencil)
@@ -164,8 +164,7 @@ module Settings
             field_format: format.name,
             custom_field_section_id: @user_custom_field_section.id
           ),
-          content_arguments: { data: { turbo: "false",
-                                       test_selector: "new-user-custom-field-in-section-button-#{format.name}" } }
+          content_arguments: { test_selector: "new-user-custom-field-in-section-button-#{format.name}", data: { turbo: "false" } }
         )
       end
     end

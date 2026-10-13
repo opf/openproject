@@ -50,7 +50,7 @@ module Storages::Admin
 
     def provider_type
       render(
-        Primer::Beta::Truncate.new(font_weight: :light, data: { test_selector: "storage-provider" })
+        Primer::Beta::Truncate.new(font_weight: :light, test_selector: "storage-provider")
       ) { I18n.t("storages.provider_types.#{storage.short_provider_type}.name") }
     end
 
@@ -80,7 +80,7 @@ module Storages::Admin
           href: url_helpers.edit_admin_settings_storage_path(storage),
           font_weight: :bold,
           mr: 1,
-          data: { test_selector: "storage-name" }
+          test_selector: "storage-name"
         )
       ) { storage.name }
     end
@@ -101,7 +101,7 @@ module Storages::Admin
 
     def host_line
       render(
-        Primer::Beta::Truncate.new(font_weight: :light, color: :subtle, data: { test_selector: "storage-host" })
+        Primer::Beta::Truncate.new(font_weight: :light, color: :subtle, test_selector: "storage-host")
       ) { storage.host }
     end
   end

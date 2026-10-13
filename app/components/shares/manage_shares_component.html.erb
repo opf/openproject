@@ -11,10 +11,9 @@
     end
   end
 
-  modal_content.with_row(data: { 'test-selector': 'op-share-dialog-active-list',
-                                  controller: 'shares--bulk-selection' }) do
+  modal_content.with_row(test_selector: 'op-share-dialog-active-list', data: { controller: 'shares--bulk-selection' }) do
     render(border_box_container(list_arguments: { id: insert_target_modifier_id })) do |border_box|
-      border_box.with_header(color: :muted, data: { 'test-selector': 'op-share-dialog-header' }) do
+      border_box.with_header(color: :muted, test_selector: 'op-share-dialog-header') do
         grid_layout('op-share-dialog-modal-body--header', tag: :div, align_items: :center) do |header_grid|
           header_grid.with_area(:counter, tag: :div) do
             render(Shares::CounterComponent.new(strategy:, count: strategy.shares.size))
@@ -31,8 +30,8 @@
                                                       dynamic_label: true,
                                                       dynamic_label_prefix: I18n.t('sharing.filter.type'),
                                                       color: :muted,
-                                                      data: { 'test-selector': 'op-share-dialog-filter-type' })) do |menu|
-                  menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-type-button' }) do |button|
+                                                      test_selector: 'op-share-dialog-filter-type')) do |menu|
+                  menu.with_show_button(scheme: :invisible, color: :muted, test_selector: 'op-share-dialog-filter-type-button') do |button|
                     button.with_trailing_action_icon(icon: "triangle-down")
                     I18n.t('sharing.filter.type')
                   end
@@ -54,8 +53,8 @@
                                                       dynamic_label: true,
                                                       dynamic_label_prefix: I18n.t('sharing.filter.role'),
                                                       color: :muted,
-                                                      data: { 'test-selector': 'op-share-dialog-filter-role' })) do |menu|
-                  menu.with_show_button(scheme: :invisible, color: :muted, data: { 'test-selector': 'op-share-dialog-filter-role-button' }) do |button|
+                                                      test_selector: 'op-share-dialog-filter-role')) do |menu|
+                  menu.with_show_button(scheme: :invisible, color: :muted, test_selector: 'op-share-dialog-filter-role-button') do |button|
                     button.with_trailing_action_icon(icon: "triangle-down")
                     I18n.t('sharing.filter.role')
                   end

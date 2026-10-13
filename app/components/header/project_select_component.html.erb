@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
        id: "projects-menu",
        classes: "op-project-select--trigger-button",
        scheme: :invisible,
-       data: { "test-selector": "op-projects-menu" },
+       test_selector: "op-projects-menu",
        accesskey: "5"
      ) do |button| %>
      <%= trigger_label %>
@@ -50,8 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% overlay.with_body(
-       classes: "op-project-select--body", data: { controller: "header-project-select",
-                                                   test_selector: "op-header-project-select" }
+       classes: "op-project-select--body", test_selector: "op-header-project-select", data: { controller: "header-project-select" }
      ) do %>
     <%= helpers.turbo_frame_tag "op-header-project-frame",
                                 src: tree_src,

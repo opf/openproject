@@ -5,7 +5,7 @@
         render(
           Primer::Alpha::ActionMenu.new(
             select_variant: :single, dynamic_label: true,
-            data: { test_selector: "op-wp-journals-filter-menu" }
+            test_selector: "op-wp-journals-filter-menu"
           )
         ) do |menu|
           menu.with_show_button do |button|
@@ -15,9 +15,9 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_all"),
             href: update_filter_work_package_activities_path(work_package),
             content_arguments: {
+              test_selector: "op-wp-journals-filter-show-all",
               data: {
-                turbo_stream: true, action: "click->work-packages--activities-tab--index#unsetFilter",
-                test_selector: "op-wp-journals-filter-show-all"
+                turbo_stream: true, action: "click->work-packages--activities-tab--index#unsetFilter"
               }
             },
             active: show_all?
@@ -26,9 +26,9 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_only_changes"),
             href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::ONLY_CHANGES),
             content_arguments: {
+              test_selector: "op-wp-journals-filter-show-only-changes",
               data: {
-                turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyChanges",
-                test_selector: "op-wp-journals-filter-show-only-changes"
+                turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyChanges"
               }
             },
             active: show_only_changes?
@@ -37,9 +37,9 @@
             label: t("activities.work_packages.activity_tab.label_activity_show_only_comments"),
             href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::ONLY_COMMENTS),
             content_arguments: {
+              test_selector: "op-wp-journals-filter-show-only-comments",
               data: {
-                turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyComments",
-                test_selector: "op-wp-journals-filter-show-only-comments"
+                turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToOnlyComments"
               }
             },
             active: show_only_comments?
@@ -49,9 +49,9 @@
               label: t("activities.work_packages.activity_tab.label_activity_hide_meetings"),
               href: update_filter_work_package_activities_path(work_package, filter: WorkPackages::ActivitiesTab::Filters::HIDE_MEETINGS),
               content_arguments: {
+                test_selector: "op-wp-journals-filter-hide-meetings",
                 data: {
-                  turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToHideMeetings",
-                  test_selector: "op-wp-journals-filter-hide-meetings"
+                  turbo_stream: true, action: "click->work-packages--activities-tab--index#setFilterToHideMeetings"
                 }
               },
               active: hide_meetings?
@@ -61,7 +61,7 @@
       end
       container.with_column do
         render(Primer::Alpha::ActionMenu.new(select_variant: :single, dynamic_label: true)) do |menu|
-          menu.with_show_button(scheme: :invisible, data: { test_selector: "op-wp-journals-sorting-menu" }) do |button|
+          menu.with_show_button(scheme: :invisible, test_selector: "op-wp-journals-sorting-menu") do |button|
             button.with_trailing_action_icon(icon: :"triangle-down")
           end
           menu.with_item(
@@ -69,7 +69,8 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :desc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { turbo_stream: true, test_selector: "op-wp-journals-sorting-desc" }
+              test_selector: "op-wp-journals-sorting-desc",
+              data: { turbo_stream: true }
             },
             active: journal_sorting.desc?
           )
@@ -78,7 +79,8 @@
             href: update_sorting_work_package_activities_path(work_package, sorting: :asc, filter:),
             form_arguments: { method: :put },
             content_arguments: {
-              data: { turbo_stream: true, test_selector: "op-wp-journals-sorting-asc" }
+              test_selector: "op-wp-journals-sorting-asc",
+              data: { turbo_stream: true }
             },
             active: journal_sorting.asc?
           )

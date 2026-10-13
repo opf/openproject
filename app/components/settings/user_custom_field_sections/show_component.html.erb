@@ -16,7 +16,7 @@
 
           section_header_container.with_column(flex_layout: true, justify_content: :flex_end) do |actions_container|
             actions_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "user-custom-field-section-action-menu" })) do |menu|
+              render(Primer::Alpha::ActionMenu.new(test_selector: "user-custom-field-section-action-menu")) do |menu|
                 menu.with_show_button(icon: "kebab-horizontal", "aria-label": t(".label_section_actions"), scheme: :invisible)
                 edit_action_item(menu)
                 move_actions(menu)
@@ -32,7 +32,7 @@
                   label: t("settings.user_custom_fields.label_new_attribute"),
                   content_arguments: {
                     aria: { label: t(".label_add_attribute") },
-                    data: { test_selector: "new-user-custom-field-in-section-submenu" }
+                    test_selector: "new-user-custom-field-in-section-submenu"
                   }
                 ) do |sub_menu|
                   sub_menu.with_leading_visual_icon(icon: :plus)
@@ -66,7 +66,7 @@
               render(Primer::Beta::Text.new(color: :subtle)) { t(".label_no_user_custom_fields") }
             end
             empty_list_container.with_column do
-              render(Primer::Alpha::ActionMenu.new(data: { test_selector: "new-user-custom-field-in-section-button" })) do |menu|
+              render(Primer::Alpha::ActionMenu.new(test_selector: "new-user-custom-field-in-section-button")) do |menu|
                 menu.with_show_button(
                   scheme: :secondary,
                   "aria-label": t("settings.user_custom_fields.label_new_attribute")

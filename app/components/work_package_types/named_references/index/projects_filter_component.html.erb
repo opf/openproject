@@ -34,7 +34,8 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(
         Primer::Beta::Button.new(
           scheme: :secondary,
-          data: { "show-dialog-id": dialog_id, test_selector: "quick-filter-tree-panel-button" }
+          test_selector: "quick-filter-tree-panel-button",
+          data: { "show-dialog-id": dialog_id }
         )
       ) do |button| %>
     <% button.with_trailing_visual_counter(count: current_values.size) if current_values.any? %>
@@ -62,13 +63,15 @@ See COPYRIGHT and LICENSE files for more details.
     <% dialog.with_footer(show_divider: true) do %>
       <%= render(
             Primer::Beta::Button.new(
-              data: { action: "click->quick-filter--tree-panel#clear", test_selector: "quick-filter-clear-button" }
+              test_selector: "quick-filter-clear-button",
+              data: { action: "click->quick-filter--tree-panel#clear" }
             )
           ) { t(:button_clear) } %>
       <%= render(
             Primer::Beta::Button.new(
               scheme: :primary,
-              data: { action: "click->quick-filter--tree-panel#apply", test_selector: "quick-filter-apply-button" }
+              test_selector: "quick-filter-apply-button",
+              data: { action: "click->quick-filter--tree-panel#apply" }
             )
           ) { t(:button_apply) } %>
     <% end %>
