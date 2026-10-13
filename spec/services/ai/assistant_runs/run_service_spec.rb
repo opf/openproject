@@ -108,7 +108,8 @@ RSpec.describe AI::AssistantRuns::RunService do
   end
 
   context "with a skill key that is not registered" do
-    let(:skill) { create(:ai_assistant_skill, skill_key: "unknown") }
+    # A type that was removed after the skill was saved.
+    let(:skill) { create(:ai_assistant_skill).tap { it.update_column(:skill_key, "unknown") } }
 
     it "fails and stores nothing" do
       expect(call).to be_failure

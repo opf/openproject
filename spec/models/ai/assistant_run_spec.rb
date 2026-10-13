@@ -35,7 +35,7 @@ RSpec.describe AI::AssistantRun do
 
   it "starts as running" do
     expect(run).to be_running
-    expect(run).not_to be_terminal
+    expect(run).not_to be_finished
   end
 
   it "stamps finished_at when it finishes" do
