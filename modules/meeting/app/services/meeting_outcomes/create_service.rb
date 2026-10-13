@@ -30,6 +30,7 @@
 
 module MeetingOutcomes
   class CreateService < ::BaseServices::Create
+    include Meetings::JournalAfterPerform
     include MeetingAgendaItems::JournalizeWorkPackageActivity
 
     def after_perform(call)

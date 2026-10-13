@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-#-- copyright
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2025 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,21 +26,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module MeetingAgendaItems
-  module AfterPerformHook
-    extend ActiveSupport::Concern
+require "rails_helper"
 
-    included do
-      def after_perform(call)
-        meeting_agenda_item = call.result
-        meeting = meeting_agenda_item.meeting
+RSpec.describe OpStimulus::ControllerData do
+  it "creates controller attribute" do
+    expect(described_class.stimulus_controller_data("my--controller")).to eq("controller" => "my--controller")
+  end
 
-        meeting&.touch_and_save_journals
-
-        call
-      end
-    end
+  it "constructs value attribute names without changing values" do
+    expect(
+      described_class.stimulus_controller_data(
+        "my--namespaced--controller",
+        a_string: "foo_bar",
+        an_integer: 1,
+        a_boolean: false,
+        an_absent_value: nil
+      )
+    ).to eq(
+      "controller" => "my--namespaced--controller",
+      "my--namespaced--controller-a-string-value" => "foo_bar",
+      "my--namespaced--controller-an-integer-value" => 1,
+      "my--namespaced--controller-a-boolean-value" => false,
+      "my--namespaced--controller-an-absent-value-value" => nil
+    )
   end
 end

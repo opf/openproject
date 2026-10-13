@@ -123,6 +123,15 @@ RSpec.describe AllMeetings::HandleICalResponseService, type: :model do
         }.from("needs_action").to("declined")
         expect(subject).to be_success
       end
+
+      it "journals the meeting as the responding user" do
+        subject
+
+        journal = meeting.journals.last
+        expect(journal.user).to eq(user)
+        expect(journal.participant_journals.find_by(user_id: user.id))
+          .to have_attributes(participation_status: "declined")
+      end
     end
 
     context "when tentatively accepting the invitation" do

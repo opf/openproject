@@ -226,7 +226,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.10", require: false
+gem "appsignal", "~> 5.0", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
@@ -236,7 +236,7 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
 gem "openproject-octicons", "~>19.37.0"
@@ -384,13 +384,13 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.6"
+  gem "brakeman", "~> 8.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
-  gem "active_record_doctor", "~> 2.0.1"
+  gem "active_record_doctor", "~> 2.1.0"
 end
 
 # API gems
@@ -415,7 +415,7 @@ gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf
 gem "counter_culture", "~> 3.14"
 
 group :postgres do
-  gem "pg", "~> 1.6.2"
+  gem "pg", "~> 1.7.0"
 end
 
 # Support application loading when no database exists yet.

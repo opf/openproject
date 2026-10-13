@@ -447,9 +447,11 @@ INSERT INTO table_manifest SELECT unnest(ARRAY[
   'meeting_agenda_item_journals',
   'meeting_agenda_items',
   'meeting_journals',
+  'meeting_outcome_journals',
   'meeting_outcomes',
   'meeting_participant_journals',
   'meeting_participants',
+  'meeting_section_journals',
   'meeting_sections',
   'meetings',
   'member_roles',
@@ -890,7 +892,7 @@ if [ "$PUBLIC_PROJECTS_ONLY" = true ]; then
   SECRET_PATTERN='-----BEGIN [A-Z ]*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{22,}|glpat-[A-Za-z0-9_-]{20}|xox[abprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16}'
   EMAIL_PATTERN='[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'
   CREDENTIAL_URL_PATTERN='[a-z][a-z0-9+.-]*://[^/[:space:]:@]+:[^/[:space:]@]+@'
-  CONTENT_TABLES='^public[.](attachments|attachment_journals|budgets|budget_journals|changesets|changeset_journals|comments|cost_entries|custom_comments|custom_comment_journals|custom_values|customizable_journals|documents|document_journals|github_check_runs|github_pull_requests|gitlab_issues|gitlab_merge_requests|gitlab_pipelines|grid_widgets|journals|meeting_agenda_items|meeting_agenda_item_journals|meeting_journals|meeting_outcomes|meeting_sections|meetings|message_journals|messages|news|news_journals|project_journals|projects|time_entries|time_entry_journals|type_variants|versions|wiki_page_journals|wiki_pages|work_package_journals|work_packages)$'
+  CONTENT_TABLES='^public[.](attachments|attachment_journals|budgets|budget_journals|changesets|changeset_journals|comments|cost_entries|custom_comments|custom_comment_journals|custom_values|customizable_journals|documents|document_journals|github_check_runs|github_pull_requests|gitlab_issues|gitlab_merge_requests|gitlab_pipelines|grid_widgets|journals|meeting_agenda_items|meeting_agenda_item_journals|meeting_journals|meeting_outcomes|meeting_outcome_journals|meeting_sections|meeting_section_journals|meetings|message_journals|messages|news|news_journals|project_journals|projects|time_entries|time_entry_journals|type_variants|versions|wiki_page_journals|wiki_pages|work_package_journals|work_packages)$'
 
   findings=$(
     {
