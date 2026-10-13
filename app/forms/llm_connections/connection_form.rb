@@ -162,8 +162,11 @@ module LlmConnections
       data = { "admin--llm-connection-form-target": "submitButton" }
       return { data: } if model.persisted?
 
-      { hidden: !model.llm_features_enabled,
-        data: data.merge(target_name: "llm_features_enabled", show_when_checked_target: "effect", show_when: "checked") }
+      # Primer hides an input through a wrapper the toggle cannot reach, so the
+      # button carries the class itself.
+      { classes: ("d-none" unless model.llm_features_enabled),
+        data: data.merge(target_name: "llm_features_enabled", show_when_checked_target: "effect", show_when: "checked",
+                         visibility_class: "d-none") }
     end
 
     def api_key_caption

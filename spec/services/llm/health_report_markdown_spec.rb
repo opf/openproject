@@ -68,4 +68,14 @@ RSpec.describe Llm::HealthReportMarkdown do
   it "puts the settings into code spans too" do
     expect(document).to include("| base_url | `https://example.com/v1` |")
   end
+
+  context "with a setting that holds a pipe and a backslash" do
+    before do
+      allow(connection).to receive(:non_confidential_configuration).and_return("base_url" => 'C:\\models|local')
+    end
+
+    it "escapes the pipe only, so the row keeps its two cells" do
+      expect(document).to include('| base_url | `C:\\models\\|local` |')
+    end
+  end
 end
