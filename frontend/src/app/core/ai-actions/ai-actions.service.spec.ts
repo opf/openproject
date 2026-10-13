@@ -25,6 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { vi } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
@@ -263,6 +264,52 @@ describe('AiActionsService', () => {
       expect(editor.inserted).toBeNull();
       expect(editor.readOnlyLocks).toEqual([]);
       expect(toasts).toEqual([{ type: 'error', message: 'This AI action is not active.' }]);
+    });
+  });
+
+  describe('defaultAction', () => {
+    const makeConcise = { id: 2, label: 'Make concise', position: 2, injectsTypeTemplate: false };
+    const storageKey = 'openproject.ai_actions.last_action_id';
+
+    beforeEach(() => window.localStorage.removeItem(storageKey));
+    afterEach(() => {
+      vi.restoreAllMocks();
+      window.localStorage.removeItem(storageKey);
+    });
+
+    it('is the first action while none was run yet', () => {
+      expect(service.defaultAction([fixGrammar, makeConcise])).toBe(fixGrammar);
+    });
+
+    it('is the action that was run last, whatever the outcome', async () => {
+      const promise = service.run(makeConcise, editor, existingWorkPackage);
+
+      (await nextRequest('/api/v3/ai_text_transform_runs')).flush(
+        { _type: 'Error', message: 'This AI action is not active.' },
+        { status: 422, statusText: 'Unprocessable Content' },
+      );
+      await promise;
+
+      expect(service.defaultAction([fixGrammar, makeConcise])).toBe(makeConcise);
+      expect(window.localStorage.getItem(storageKey)).toBe('2');
+    });
+
+    it('remembers the last action across page loads', () => {
+      window.localStorage.setItem(storageKey, '2');
+
+      expect(service.defaultAction([fixGrammar, makeConcise])).toBe(makeConcise);
+    });
+
+    it('falls back to the first action when the last one is not offered', () => {
+      window.localStorage.setItem(storageKey, '99');
+
+      expect(service.defaultAction([fixGrammar, makeConcise])).toBe(fixGrammar);
+    });
+
+    it('is the first action when the browser storage is unavailable', () => {
+      vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('blocked'); });
+
+      expect(service.defaultAction([fixGrammar, makeConcise])).toBe(fixGrammar);
     });
   });
 

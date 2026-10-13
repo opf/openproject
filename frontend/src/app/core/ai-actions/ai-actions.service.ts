@@ -82,6 +82,7 @@ const MIN_POLL_DELAY = 400;
 const MAX_POLL_DELAY = 1000;
 const RUN_TIMEOUT = 200_000;
 const REQUEST_TIMEOUT = 30_000;
+const LAST_ACTION_STORAGE_KEY = 'openproject.ai_actions.last_action_id';
 
 // Counterpart of the CKEditor AI actions dropdown, which only renders the
 // list and reports the selection. Availability is decided entirely
@@ -119,6 +120,12 @@ export class AiActionsService {
     }
   }
 
+  defaultAction(actions:IAiTextTransformAction[]):IAiTextTransformAction|undefined {
+    const lastActionId = this.lastActionId();
+
+    return actions.find((action) => action.id === lastActionId) ?? actions[0];
+  }
+
   async run(action:IAiTextTransformAction, editor:IEditorWithContent, resource:IEditorContextResource|undefined):Promise<void> {
     const context = this.runContext(resource);
 
@@ -126,6 +133,7 @@ export class AiActionsService {
       return;
     }
 
+    this.rememberAction(action);
     this.busyEditors.add(editor);
     const state:IRunState = {
       deadline: Date.now() + RUN_TIMEOUT, runId: null, editorGone: false, cancelRequested: false,
@@ -163,6 +171,24 @@ export class AiActionsService {
       if (!state.editorGone) {
         editor.disableReadOnlyMode(READ_ONLY_LOCK);
       }
+    }
+  }
+
+  private rememberAction(action:IAiTextTransformAction):void {
+    this.withStorage((storage) => storage.setItem(LAST_ACTION_STORAGE_KEY, String(action.id)));
+  }
+
+  private lastActionId():number|null {
+    const stored = this.withStorage((storage) => storage.getItem(LAST_ACTION_STORAGE_KEY));
+
+    return stored == null ? null : Number(stored);
+  }
+
+  private withStorage<T>(access:(storage:Storage) => T):T|null {
+    try {
+      return access(window.localStorage);
+    } catch {
+      return null;
     }
   }
 
