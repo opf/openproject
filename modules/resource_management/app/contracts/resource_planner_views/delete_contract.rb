@@ -30,10 +30,13 @@
 module ResourcePlannerViews
   class DeleteContract < ::DeleteContract
     delete_permission(lambda do
-      next true if user.active_admin?
-
       planner = model.parent
-      planner.is_a?(ResourcePlanner) && planner.manageable_by?(user)
+
+      if planner.is_a?(ResourcePlanner)
+        planner.deletable_by?(user)
+      else
+        user.active_admin?
+      end
     end)
   end
 end

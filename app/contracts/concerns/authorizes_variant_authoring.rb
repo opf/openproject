@@ -40,8 +40,7 @@ module AuthorizesVariantAuthoring
 
   def validate_may_author_variant
     return errors.add(:base, :error_unauthorized) unless user.active?
-    return if user.admin?
-    return if owning_project && user.allowed_in_project?(:manage_project_variants, owning_project)
+    return if owning_project ? user.allowed_in_project?(:manage_project_variants, owning_project) : user.admin?
 
     errors.add(:base, :error_unauthorized)
   end
