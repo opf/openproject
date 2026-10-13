@@ -39,8 +39,7 @@ module Components
       include Toasts::Expectations
 
       def open_for(work_package, check_if_open: true, card_view: nil)
-        # Close
-        find("body").send_keys :escape
+        close_if_open
         sleep 0.5 unless using_cuprite?
 
         retry_block do
@@ -60,6 +59,14 @@ module Components
 
       def expect_open
         expect(page).to have_selector(:menu, work_package_context_menu_label)
+      end
+
+      # Escape would also clear the selection when no menu owns it.
+      def close_if_open
+        return unless page.has_selector?(:menu, work_package_context_menu_label, wait: 0)
+
+        find("body").send_keys :escape
+        expect_closed
       end
 
       def expect_closed

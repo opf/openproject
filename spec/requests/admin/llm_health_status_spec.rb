@@ -179,6 +179,27 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).to include("base_url")
     end
 
+    it "is a Markdown document a person can read" do
+      get llm_connection_health_status_report_path(format: :txt)
+
+      expect(response.media_type).to eq("text/markdown")
+      expect(response.headers["Content-Disposition"]).to include(".md")
+      expect(response.body).to start_with("# LLM connection health report")
+      expect(response.body).to include("## #{I18n.t('llm.health_checks.server.header')}")
+      expect(response.body).to include("- **#{I18n.t('llm.health_checks.server.reachable')}**: Passed")
+      expect(response.body).to include("| base_url | `https://example.com/v1` |")
+      expect(response.body).not_to include("!ruby")
+    end
+
+    it "names the code and the explanation of a check that did not pass" do
+      mock_llm_models_response(base_url, response_code: 401)
+      post llm_connection_health_status_report_path
+
+      get llm_connection_health_status_report_path(format: :txt)
+
+      expect(response.body).to match(/- \*\*.+\*\*: Failed \(`[A-Z_]+`\)\. \S/)
+    end
+
     # The report is pasted into support tickets. A gateway header routinely
     # carries a second credential, so neither it nor the API key may appear.
     it "contains no credentials" do

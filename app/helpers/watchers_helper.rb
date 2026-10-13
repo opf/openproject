@@ -56,7 +56,56 @@ module WatchersHelper
     end
   end
 
+  def watcher_menu_item(menu, object)
+    watcher_menu_args = watcher_menu_arguments(object, User.current)
+    return if watcher_menu_args.nil?
+
+    watched = watcher_menu_args.delete(:watched)
+
+    menu.with_item(**watcher_menu_args) do |item|
+      item.with_leading_visual_icon(icon: watched ? "eye-closed" : "eye")
+    end
+  end
+
+  private
+
   def watcher_button_arguments(object, user)
+    info = watcher_link_info(object, user)
+    return if info.nil?
+
+    {
+      tag: :a,
+      href: info[:path],
+      scheme: :default,
+      aria: { label: info[:label] },
+      data: {
+        turbo_method: info[:watched] ? :delete : :post
+      },
+      mobile_icon: info[:watched] ? "eye-closed" : "eye",
+      mobile_label: info[:label]
+    }
+  end
+
+  def watcher_menu_arguments(object, user)
+    info = watcher_link_info(object, user)
+    return if info.nil?
+
+    {
+      tag: :a,
+      href: info[:path],
+      scheme: :default,
+      aria: { label: info[:label] },
+      content_arguments: {
+        data: {
+          turbo_method: info[:watched] ? :delete : :post
+        }
+      },
+      label: info[:label],
+      watched: info[:watched]
+    }
+  end
+
+  def watcher_link_info(object, user)
     return nil unless user&.logged? && object.respond_to?(:watched_by?)
 
     watched = object.watched_by?(user)
@@ -67,20 +116,8 @@ module WatchersHelper
 
     label = watched ? I18n.t(:button_unwatch) : I18n.t(:button_watch)
 
-    {
-      tag: :a,
-      href: path,
-      scheme: :default,
-      aria: { label: label },
-      data: {
-        turbo_method: watched ? :delete : :post
-      },
-      mobile_icon: watched ? "eye-closed" : "eye",
-      mobile_label: label
-    }
+    { watched:, path:, label: }
   end
-
-  private
 
   def valid_watcher_conditions?(object, user, options)
     raise ArgumentError, "Missing :replace option in options hash" if options[:replace].blank?

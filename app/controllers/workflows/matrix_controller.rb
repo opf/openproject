@@ -33,6 +33,7 @@
 class Workflows::MatrixController < ApplicationController
   include WorkPackageTypes::AddressesVariant
   include ::WorkPackageTypes::ConfiguredInScope
+  include ::WorkPackageTypes::VariantRoutes
   include OpTurbo::ComponentStream
 
   layout false
@@ -41,8 +42,8 @@ class Workflows::MatrixController < ApplicationController
 
   def show
     unless turbo_frame_request?
-      redirect_to edit_type_workflow_path(**variant.path_args,
-                                          role_ids: params[:role_ids], tab: matrix_context.tab)
+      redirect_to edit_variant_workflow_path(variant_scope_project, variant,
+                                             role_ids: params[:role_ids], tab: matrix_context.tab)
     end
   end
 
@@ -91,7 +92,7 @@ class Workflows::MatrixController < ApplicationController
     if standalone?
       edit_workflow_path(workflow, **)
     else
-      edit_type_workflow_path(**variant.path_args, **)
+      edit_variant_workflow_path(variant_scope_project, variant, **)
     end
   end
 
@@ -99,6 +100,7 @@ class Workflows::MatrixController < ApplicationController
     Workflows::MatrixContext.new(
       workflow:,
       variant:,
+      scope_project: variant_scope_project,
       tab: params[:tab],
       role_ids: params[:role_ids],
       status_ids: params[:status_ids],

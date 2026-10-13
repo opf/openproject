@@ -65,8 +65,8 @@ sv:
           label: Hocuspocus server URL
         page_header:
           description_html: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
+            När realtidssamarbete är aktiverat kan flera användare redigera ett dokument samtidigt.
+            Det kräver en fungerande [Hocuspocus-server](hocuspocus_server_link).
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: Jag förstår att jag kan permanent förlora data
         confirmation_message: |-
@@ -121,7 +121,7 @@ sv:
       currently_offline: Du är för närvarande offline.
     label_attachment_author: Författare för bilaga
     label_categories: Kategorier
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: Senast sparad %{time}.
     menu:
       all: Alla dokument
       collaboration_settings: Samarbete i realtid

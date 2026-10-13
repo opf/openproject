@@ -36,7 +36,7 @@ module LlmConnections
     # Primer::Forms::Base.new assigns the builder itself and calls this with the
     # remaining keywords, so the builder must not appear in the signature.
     def initialize(options:, inherit_label:, feature_key:, locked: false, embedding: false, dimensions_hint: nil,
-                   selected_model_id: nil)
+                   selected_model_id: nil, models_left_out: false)
       super()
       @selected_model_id = selected_model_id
       @model_options = options
@@ -45,12 +45,10 @@ module LlmConnections
       @locked = locked
       @embedding = embedding
       @dimensions_hint = dimensions_hint
+      @models_left_out = models_left_out
     end
 
     form do |f|
-      # An autocompleter rather than a select, so a model can be found by typing
-      # among the hundreds a gateway reports. decorated: true serialises the list
-      # into the element, so no endpoint is needed.
       f.autocompleter(
         name: :model_id,
         label: LlmFeatureBinding.human_attribute_name(:model_id),
@@ -100,7 +98,7 @@ module LlmConnections
     private
 
     attr_reader :model_options, :inherit_label, :feature_key, :locked, :embedding, :dimensions_hint,
-                :selected_model_id
+                :selected_model_id, :models_left_out
 
     # Blank is the right default: the server decides the vector size, and baking
     # in a number it may contradict helps nobody. Where the probe has already
@@ -114,11 +112,15 @@ module LlmConnections
     # Says why only a few of the stored models are on offer, for an administrator
     # who does not know what an embedding model is.
     def model_caption
-      return unless embedding
+      return ruled_out_caption unless embedding
 
       link_translate("admin.llm_feature_bindings.form.model_caption_embedding",
                      links: { docs_url: %i[embeddings_explanation] },
                      external: true)
+    end
+
+    def ruled_out_caption
+      I18n.t("admin.llm_feature_bindings.form.model_caption_ruled_out") if models_left_out
     end
 
     # The bound model stays choosable once it no longer qualifies, so that saving

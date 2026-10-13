@@ -113,9 +113,9 @@ module LlmConnections
       unless read_only?
         f.submit(
           name: :submit,
-          label: submit_label,
+          label: I18n.t(:button_save),
           scheme: :primary,
-          data: { "admin--llm-connection-form-target": "submitButton" }
+          **submit_visibility
         )
       end
     end
@@ -155,8 +155,15 @@ module LlmConnections
       )
     end
 
-    def submit_label
-      model.persisted? ? I18n.t(:button_save) : I18n.t("admin.llm_connections.form.button_connect")
+    # A stored connection always offers to save, so the switch can be turned back
+    # on. Without one there is nothing to submit until the switch reveals the
+    # server fields.
+    def submit_visibility
+      data = { "admin--llm-connection-form-target": "submitButton" }
+      return { data: } if model.persisted?
+
+      { hidden: !model.llm_features_enabled,
+        data: data.merge(target_name: "llm_features_enabled", show_when_checked_target: "effect", show_when: "checked") }
     end
 
     def api_key_caption

@@ -1,0 +1,8 @@
+<%= render Primer::Box.new(display: :flex, flex_wrap: :wrap) do %>
+  <% stats.each_with_index do |(number, label), index| %>
+    <%= render Primer::Box.new(flex: 1, p: 3, **(index.zero? ? {} : { border: :left })) do %>
+      <%= render(Primer::Beta::Text.new(tag: :div, font_size: 3, font_weight: :bold)) { number_with_delimiter(number) } %>
+      <%= render(Primer::Beta::Text.new(tag: :div, color: :muted, font_size: 6)) { label } %>
+    <% end %>
+  <% end %>
+<% end %>

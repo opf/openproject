@@ -49,8 +49,7 @@ RSpec.describe "Toggle watching", :js do
     [
       project_news_path(project, news),
       project_forum_path(project, forum),
-      project_forum_topic_path(project, forum, message),
-      project_wiki_path(project, wiki_page)
+      project_forum_topic_path(project, forum, message)
     ].each do |path|
       visit path
       click_link(I18n.t("button_watch"))
@@ -59,6 +58,28 @@ RSpec.describe "Toggle watching", :js do
       wait_for_network_idle
 
       click_link(I18n.t("button_unwatch"))
+      expect(page).to have_link(I18n.t("button_watch"))
+    end
+  end
+
+  it "can toggle watch and watch all from the menu" do
+    [
+      project_wiki_path(project, wiki_page)
+    ].each do |path|
+      visit path
+      page.find_test_selector("wiki-more-dropdown-menu").click
+      click_link(I18n.t("button_watch"))
+
+      wait_for_network_idle
+
+      page.find_test_selector("wiki-more-dropdown-menu").click
+      expect(page).to have_link(I18n.t("button_unwatch"))
+
+      click_link(I18n.t("button_unwatch"))
+
+      wait_for_network_idle
+
+      page.find_test_selector("wiki-more-dropdown-menu").click
       expect(page).to have_link(I18n.t("button_watch"))
     end
   end

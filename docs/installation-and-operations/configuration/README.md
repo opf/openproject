@@ -377,6 +377,7 @@ When this flag is true, the seeder runs only if no custom design (`CustomStyle`)
 - [`attachments_storage`](#attachments-storage) (default: file)
 - [`direct_uploads`](#direct-uploads) (default: true)
 - [`fog_download_url_expires_in`](#fog-download-url-expires-in) (default: 21600)
+- [`fog_direct_upload_expires_in`](#fog-direct-upload-expires-in) (default: 14400)
 - [`hidden_menu_items`](#hidden-menu-items-admin-menu) (default: {})
 - [`disabled_modules`](#disabled-modules) (default: [])
 - [`blacklisted_routes`](#blacklisted-routes) (default: [])
@@ -667,6 +668,37 @@ _default: 21600_
 ```yaml
 OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
 ```
+
+#### Fog direct upload expires in
+
+When [`direct_uploads`](#direct-uploads) are enabled, the browser uploads attachments straight to the remote storage using a signed upload form. This option determines how long such a form stays valid after it has been issued. Increase it if very large files regularly take longer than that to upload.
+
+The default is 14400 seconds, that is 4 hours.
+
+_default: 14400_
+
+```yaml
+OPENPROJECT_FOG__DIRECT__UPLOAD__EXPIRES__IN="3600"
+```
+
+#### Cleaning up staged direct uploads
+
+With [`direct_uploads`](#direct-uploads) enabled, browsers first upload files to a staging location in your bucket, under the `uploads/direct_uploads/` prefix. OpenProject then copies them to their final location and removes the staged file. Staged files of uploads that were abandoned or never completed can remain in the bucket.
+
+We recommend adding a lifecycle rule to your bucket that expires objects under this prefix after one day. The rule must keep staged files for longer than [`fog_direct_upload_expires_in`](#fog-direct-upload-expires-in). For example, with the AWS CLI:
+
+```shell
+aws s3api put-bucket-lifecycle-configuration --bucket «bucket-name» --lifecycle-configuration '{
+  "Rules": [{
+    "ID": "openproject-expire-staged-direct-uploads",
+    "Filter": { "Prefix": "uploads/direct_uploads/" },
+    "Status": "Enabled",
+    "Expiration": { "Days": 1 }
+  }]
+}'
+```
+
+Most S3-compatible storage providers support lifecycle rules. Please refer to your provider's documentation for details.
 
 ### Force help link
 

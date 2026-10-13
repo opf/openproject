@@ -38,11 +38,10 @@ class TypeVariant < ApplicationRecord
   ASPECTS = [
     PDF_EXPORT = "pdf_export",
     DEFAULTS = "defaults",
-    # TODO: Form reuse should move to named forms (cross-type), replacing the generic inherit/manual
-    # mode selector and the dropped one-time "copy from another type". Revisit all Form-related wiring.
-    FORM_CONFIGURATION = "form_configuration",
     PROJECT_ATTRIBUTES = "project_attributes"
   ].freeze
+
+  FORM_CONFIGURATION = "form_configuration"
 
   # The aspects a variant can reduce fields in
   EXCLUDABLE_ASPECTS = [FORM_CONFIGURATION, PROJECT_ATTRIBUTES].freeze
@@ -50,6 +49,7 @@ class TypeVariant < ApplicationRecord
   include ::Scopes::Scoped
   include ::Type::Attributes
   include ::Type::AttributeGroups
+  include ::TypeVariants::FormReference
   prepend ::TypeVariant::ConfigurationLinkable
 
   attribute :patterns, WorkPackageTypes::Patterns::CollectionType.new
@@ -73,11 +73,6 @@ class TypeVariant < ApplicationRecord
            dependent: :destroy
   has_many :project_custom_fields, through: :own_project_custom_field_type_mappings,
                                    class_name: "ProjectCustomField"
-
-  has_and_belongs_to_many :custom_fields, # rubocop:disable Rails/HasAndBelongsToMany
-                          class_name: "WorkPackageCustomField",
-                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
-                          association_foreign_key: "custom_field_id"
 
   # The projects this variant is in use
   # autosave must be turned off: If we autosaved here, the insert would only set variant_id and leave type_id NULL.
@@ -103,6 +98,8 @@ class TypeVariant < ApplicationRecord
   scope :default_variant, -> { where(is_default_variant: true) }
   scope :non_default_variants, -> { where(is_default_variant: false) }
 
+  scope :created_by_migration, -> { where(created_by_migration: true) }
+
   scope :global, -> { where(project_id: nil) }
   scope :project_owned, -> { where.not(project_id: nil) }
   scope :owned_by, ->(project) { where(project:) }
@@ -127,18 +124,16 @@ class TypeVariant < ApplicationRecord
     variant_name.presence || type.name
   end
 
-  # How the admin routes address this variant. The base one is implied by its type, so naming
-  # it would make every type-level URL carry a redundant id.
   def project_owned? = project_id.present?
 
-  def path_args
-    args = is_default_variant? ? { type_id: } : { type_id:, variant_id: id }
-    project_id.nil? ? args : args.merge(in_project_id: project)
+  def type_reference_id(reflection)
+    type.default_variant[reflection.foreign_key] unless is_default_variant?
   end
 
-  # The workflow the type itself uses, for a variant that is not the type.
-  def type_workflow
-    type.default_variant.workflow unless is_default_variant?
+  # Mirrors WorkPackageTypes::ConfiguredInScope: only a project-owned variant is addressable
+  # through a project, and that project is the one the controllers authorize against.
+  def configurable_by?(user)
+    user.admin? || (project_owned? && user.allowed_in_project?(:manage_project_variants, project))
   end
 
   # Full variant name, e.g., "Bug: Hardware"
@@ -176,18 +171,6 @@ class TypeVariant < ApplicationRecord
 
     scope = Workflow.statuses([workflow_id], role:, tab:)
     include_default ? scope.or(Status.where_default) : scope
-  end
-
-  # A project only shows custom fields its own activation includes, so fields on this
-  # variant's form have to be activated wherever that form is in force, or the form silently
-  # omits them.
-  # TODO: This needs to be removed in the custom field form migration
-  def activate_custom_fields_in_effective_projects!
-    return if custom_field_ids.empty?
-
-    projects.each do |project|
-      project.work_package_custom_field_ids |= custom_field_ids
-    end
   end
 
   def replacement_pattern_defined_for?(attribute)

@@ -33,13 +33,6 @@ module WorkPackageTypes
     # Shared scaffolding for narrowing what a variant inherits for one aspect. Subclasses only
     # implement #updated_elements.
     #
-    # Exclusions describe what this variant drops from what it inherits, so they only mean
-    # something while the aspect is linked. A variant that owns the aspect has nothing to
-    # exclude — it edits its own configuration directly — so the services fail rather than
-    # silently doing nothing.
-    #
-    # Writes target this variant's own exclusions only. A variant can never narrow an
-    # ancestor's; that ancestor's exclusions reach it through the chain instead.
     class BaseService < ::BaseServices::BaseCallable
       def initialize(user:, variant:)
         super()
@@ -50,7 +43,7 @@ module WorkPackageTypes
       def perform(*)
         aspect = params[:aspect].to_s
         return unknown_aspect_result(aspect) unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
-        return not_linked_result unless variant.linked?(aspect)
+        return not_linked_result unless variant.excludable?(aspect)
 
         narrow(aspect)
       end

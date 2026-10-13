@@ -33,18 +33,51 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
   let(:variant) { type.default_variant }
-  let(:draggable_records) { variant.pdf_export_templates.list }
+  let(:sortable_records) { variant.pdf_export_templates.list }
 
   subject(:rendered_component) { render_inline(described_class.new(variant:)) }
 
-  def drop_url_for(template)
-    drop_type_pdf_export_template_path(**variant.path_args, id: template.id)
+  it_behaves_like "rendering Box", row_count: 3
+
+  def move_url
+    id_placeholder = "__id__"
+    move_type_pdf_export_template_path(type_id: type.id, id: id_placeholder).sub(id_placeholder, "{id}")
   end
 
-  it_behaves_like "rendering Box", row_count: 3
-  it_behaves_like "a reorderable Border Box List", drag_type: "template"
+  # The move URL is scoped by the variant's type id, so it cannot be a fixed
+  # string the way the other sortable-lists consumers' URLs are.
+  it "wires #work-package-types-export-template-list-component as the sortable-lists root" do
+    expect(rendered_component).to have_css("#work-package-types-export-template-list-component") do |root|
+      expect(root["data-controller"]).to eq("sortable-lists")
+      expect(root["data-sortable-lists-move-url-template-value"]).to eq(move_url)
+      expect(root["data-sortable-lists-sortable-lists--list-outlet"])
+        .to eq("#work-package-types-export-template-list-component [data-controller~='sortable-lists--list']")
+      expect(root["data-sortable-lists-sortable-lists--item-outlet"])
+        .to eq("#work-package-types-export-template-list-component [data-controller~='sortable-lists--item']")
+    end
+  end
+
+  it_behaves_like "a sortable-lists list",
+                  list_type: "pdf_export_templates",
+                  name: I18n.t("types.edit.export_configuration.pdf_export_templates.label")
+  it_behaves_like "a Border Box sortable list", row_count: 3
+  it_behaves_like "no legacy drag-and-drop wiring"
+
+  it "wires every row as a sortable item of type template", :aggregate_failures do
+    sortable_records.each do |template|
+      expect(rendered_component)
+        .to have_css(".Box-row[data-sortable-lists--item-id-value='#{template.id}']") do |row|
+        expect(row["data-controller"]).to eq("sortable-lists--item")
+        expect(row["data-sortable-lists--item-type-value"]).to eq("pdf_export_templates")
+        expect(row["data-sortable-lists--item-label-value"]).to eq(template.label)
+        expect(row).to have_css(".DragHandle[data-sortable-lists--item-target~='handle']", visible: :all)
+      end
+    end
+  end
 
   it "renders the enable-all and disable-all header actions", :aggregate_failures do
     expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
@@ -52,23 +85,23 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
   end
 
   it "renders a unique wrapper for each template row" do
-    draggable_records.each do |template|
+    sortable_records.each do |template|
       expect(rendered_component)
         .to have_css("#work-package-types-export-template-row-component-#{template.id}", count: 1)
     end
   end
 
   it "links each template label to its settings page" do
-    draggable_records.each do |template|
+    sortable_records.each do |template|
       expect(rendered_component).to have_link(
         template.label,
-        href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+        href: edit_settings_type_pdf_export_template_path(type_id: type.id, id: template.id)
       )
     end
   end
 
   it "labels each template toggle button with its template" do
-    draggable_records.each do |template|
+    sortable_records.each do |template|
       expect(rendered_component).to have_button(
         accessible_name: I18n.t(
           "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
@@ -83,10 +116,10 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     subject(:rendered_component) { render_inline(described_class.new(variant:, readonly: true)) }
 
     it "renders no drag-and-drop wiring", :aggregate_failures do
-      expect(rendered_component).to have_no_css('[data-controller~="generic-drag-and-drop"]')
-      expect(rendered_component).to have_no_css("[data-generic-drag-and-drop-target]")
-      expect(rendered_component).to have_no_css("[data-draggable-id]")
-      expect(rendered_component).to have_no_css(".op-draggable-list-item--drag-handle")
+      expect(rendered_component).to have_no_css('[data-controller~="sortable-lists"]')
+      expect(rendered_component).to have_no_css('[data-controller~="sortable-lists--list"]')
+      expect(rendered_component).to have_no_css('[data-controller~="sortable-lists--item"]')
+      expect(rendered_component).to have_no_css(".DragHandle")
     end
 
     it "renders no header actions", :aggregate_failures do
@@ -95,9 +128,9 @@ RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component d
     end
 
     it "renders each template label as plain text instead of a link to its settings page" do
-      draggable_records.each do |template|
+      sortable_records.each do |template|
         expect(rendered_component).to have_no_link(
-          href: edit_settings_type_pdf_export_template_path(**variant.path_args, id: template.id)
+          href: edit_settings_type_pdf_export_template_path(type_id: type.id, id: template.id)
         )
         expect(rendered_component).to have_text(template.label)
       end

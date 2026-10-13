@@ -24,33 +24,33 @@ sv:
   js:
     backlogs:
       announcements:
-        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        batch_too_large: Det går inte att flytta %{count} arbetspaket samtidigt. Välj högst %{max}.
+        fallback_item_label: Arbetspaket
+        fallback_list_name: en annan lista
+        move_failed_check_position: Flytten misslyckades. Kontrollera arbetspaketets aktuella position.
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: Flytten misslyckades. Kontrollera arbetspaketens aktuella positioner.
+        move_failed_rolled_back: Flytten misslyckades. %{label} återställdes till sin tidigare position.
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
-        moved: "%{label} moved to position %{position} of %{total}"
+          other: Flytten misslyckades. %{count} arbetspaket återställdes till sina tidigare positioner.
+        moved: "%{label} flyttades till position %{position} av %{total}"
         moved_batch:
-          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} arbetspaket flyttades till positionerna %{first} till %{last} av %{total}"
         moved_batch_to_list:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+          other: "%{count} arbetspaket flyttades till %{list}, positionerna %{first} till %{last} av %{total}"
+        moved_to_list: "%{label} flyttades till %{list}, position %{position} av %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: Vald
+        cleared: Markeringen har rensats.
+        not_selectable: Markeringen är oförändrad. Det här arbetspaketet ingår inte i listans sorteringsordning.
+        range_blocked: Markeringen är oförändrad. Intervallet innehåller ett arbetspaket som inte ingår i listans sorteringsordning.
         range_restarted:
-          one: Could not extend the range. 1 work package selected.
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          one: Det gick inte att utöka intervallet. 1 arbetspaket markerat.
+          other: Det gick inte att utöka intervallet. %{count} arbetspaket markerade.
+        range_unavailable: Markeringen är oförändrad. Expandera listan för att markera intervallet.
         selected:
-          one: 1 work package selected.
-          other: "%{count} work packages selected."
+          one: 1 arbetspaket markerat.
+          other: "%{count} arbetspaket markerade."
     burndown:
       day: Dag
       points: Poäng

@@ -98,4 +98,31 @@ RSpec.describe LlmFeatureBinding do
       expect(binding.reload.model_id).to eq("bge-m3")
     end
   end
+
+  describe "a binding locked on one deployment" do
+    let(:binding) do
+      bind("qwen3.6-27b").tap(&:save!).tap { it.update!(locked_at: Time.current) }
+    end
+
+    it "remembers which deployment it was locked on" do
+      expect(binding.locked_deployment_fingerprint).to eq(connection.settings_fingerprint)
+    end
+
+    it "is intact while the connection still points there" do
+      expect(binding).not_to be_dangling
+    end
+
+    it "dangles once the connection points elsewhere, although the model name is still offered" do
+      binding
+      connection.update_columns(base_url: "https://elsewhere.example/v1")
+
+      expect(binding.reload).to be_dangling
+    end
+
+    it "dangles when the lock does not say which deployment it was taken on" do
+      binding.update_columns(locked_deployment_fingerprint: nil)
+
+      expect(binding.reload).to be_dangling
+    end
+  end
 end

@@ -237,6 +237,29 @@ RSpec.describe "ResourceAllocations requests",
       end
     end
 
+    context "for a single day as submitted by the range date picker" do
+      subject(:perform) do
+        post project_resource_allocations_path(project),
+             params: { resource_allocation: {
+               placeholder_or_user_id: assignee.id,
+               entity_type: "WorkPackage",
+               entity_id: work_package.id,
+               date_range: "2026-10-07",
+               allocated_hours: "3h"
+             } },
+             as: :turbo_stream
+      end
+
+      it "creates a one-day allocation" do
+        expect { perform }.to change(ResourceAllocation, :count).by(1)
+
+        expect(response).to have_http_status(:ok)
+        allocation = ResourceAllocation.last
+        expect(allocation.start_date).to eq(Date.new(2026, 10, 7))
+        expect(allocation.end_date).to eq(Date.new(2026, 10, 7))
+      end
+    end
+
     context "for a filter-criteria placeholder" do
       let!(:existing) do
         filters = UserQuery.new.tap { |query| query.where("name", "~", ["dev"]) }.filters
@@ -551,13 +574,13 @@ RSpec.describe "ResourceAllocations requests",
       create(:resource_allocation, entity: work_package, principal: assignee, allocated_time: 600)
     end
 
-    def perform(allocated_hours: "16h")
+    def perform(allocated_hours: "16h", date_range: "2026-03-02 - 2026-03-06")
       patch project_resource_allocation_path(project, allocation),
             params: { resource_allocation: {
               placeholder_or_user_id: assignee.id,
               entity_type: "WorkPackage",
               entity_id: work_package.id,
-              date_range: "2026-03-02 - 2026-03-06",
+              date_range:,
               allocated_hours:
             } },
             as: :turbo_stream
@@ -577,6 +600,14 @@ RSpec.describe "ResourceAllocations requests",
       perform
 
       expect_allocation_change_announced_for(work_package)
+    end
+
+    it "narrows the allocation to a single day as submitted by the range date picker" do
+      perform(date_range: "2026-03-04")
+
+      expect(response).to have_http_status(:ok)
+      expect(allocation.reload.start_date).to eq(Date.new(2026, 3, 4))
+      expect(allocation.end_date).to eq(Date.new(2026, 3, 4))
     end
 
     context "with invalid input" do

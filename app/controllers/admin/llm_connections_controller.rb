@@ -94,7 +94,7 @@ module Admin
       OpenProject::Mutex.with_advisory_lock_transaction(@connection) do
         next false if @connection.reload.configured_from_env?
 
-        @connection.update_columns(api_key: nil, env_provisioned_at: nil, updated_at: Time.current)
+        @connection.update_columns(api_key: nil, env_provisioned_at: nil, env_fingerprint: nil, updated_at: Time.current)
         yield if block_given?
         true
       end

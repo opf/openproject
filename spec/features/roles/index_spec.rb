@@ -68,6 +68,9 @@ RSpec.describe "Roles index", :js do
   def expect_roles_listed(*names)
     expect(page).to have_css("[id^='role-']", count: names.size)
     expect(role_names_in_order).to eq(names)
+    names.each.with_index(2) do |name, rowindex|
+      expect(page).to have_selector(:row, name, rowindex:)
+    end
   end
 
   def search_roles(term)

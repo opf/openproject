@@ -27,7 +27,7 @@ By default, the time entry limits are disabled, preserving the existing behavior
 
 The **Start and finish times** section controls whether time entries can include specific start and finish times.
 
-- **Allow start and finish times**: Enables users to enter a start and finish time when logging time. If disabled, users can only enter the amount of time spent. When this option is enabled, the calendar view is shown by default on the _My time tracking_ page. When it is disabled, the list view is shown by default.
+- **Allow start and finish times**: Enables users to enter a start and finish time when logging time. If disabled, users can only enter the amount of time spent. When this option is enabled, the calendar view is shown by default on the _My work_ page. When it is disabled, the list view is shown by default.
 
 - **Require start and finish times**: Makes start and finish times mandatory when logging time.
 

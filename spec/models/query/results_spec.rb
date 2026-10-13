@@ -220,7 +220,6 @@ RSpec.describe Query::Results do
         create(:integer_wp_custom_field,
                is_for_all: true,
                is_filter: true,
-               projects: [project1],
                types: [wp_p1[0].type])
       end
 
@@ -250,8 +249,7 @@ RSpec.describe Query::Results do
       before do
         login_as(user1)
 
-        wp_p1[0].type.default_variant.custom_fields << custom_field
-        project1.work_package_custom_fields << custom_field
+        wp_p1[0].type.default_variant.custom_field_ids |= [custom_field.id]
       end
 
       it "returns nil as user custom fields are not groupable" do
@@ -264,7 +262,6 @@ RSpec.describe Query::Results do
         create(:boolean_wp_custom_field,
                is_for_all: true,
                is_filter: true,
-               projects: [project1],
                types: [wp_p1[0].type])
       end
 
@@ -289,7 +286,6 @@ RSpec.describe Query::Results do
         create(:date_wp_custom_field,
                is_for_all: true,
                is_filter: true,
-               projects: [project1],
                types: [wp_p1[0].type])
       end
 
@@ -379,7 +375,7 @@ RSpec.describe Query::Results do
 
       let!(:custom_field) do
         create(:work_package_custom_field, is_for_all: true) do |cf|
-          cf.type_variants = project2.enabled_variants
+          project2.enabled_variants.each { |variant| variant.custom_field_ids |= [cf.id] }
         end
       end
 
@@ -491,7 +487,6 @@ RSpec.describe Query::Results do
     let(:bool_cf) do
       create(:boolean_wp_custom_field,
              is_filter: true,
-             projects: [work_package1.project],
              types: [work_package1.type])
     end
     let(:custom_value) do
@@ -569,22 +564,9 @@ RSpec.describe Query::Results do
 
         it_behaves_like "returns the wp"
 
-        context "and the cf not being active for the type" do
+        context "and the cf being on no type's form configuration" do
           let(:bool_cf) do
-            create(:boolean_wp_custom_field,
-                   is_filter: true,
-                   types: [work_package1.type])
-          end
-
-          it_behaves_like "is empty"
-        end
-
-        context "and the cf not being active in the project and the cf being for all" do
-          let(:bool_cf) do
-            create(:boolean_wp_custom_field,
-                   is_filter: true,
-                   is_for_all: true,
-                   projects: [work_package1.project])
+            create(:boolean_wp_custom_field, is_filter: true)
           end
 
           it_behaves_like "is empty"

@@ -33,7 +33,7 @@ module Import
     include JiraJobUtils
 
     def text
-      "Fetch Projects"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)

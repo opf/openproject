@@ -65,7 +65,7 @@ RSpec.describe "Work package show with a linked form configuration", :js do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   def link(variant, excluded: [])
-    variant.link!(aspect)
+    link_configuration(variant, aspect:)
     variant.update!("#{aspect}_excluded_elements" => excluded) if excluded.any?
   end
 

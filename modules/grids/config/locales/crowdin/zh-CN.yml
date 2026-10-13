@@ -42,7 +42,7 @@ zh-CN:
         sprints_link: 冲刺概览
         title: 项目时间线
         title_portfolio: 项目组合时间线
-        title_program: 项目群时间线
+        title_program: 计划时间线
       subitems:
         button_text: 子条目
         no_results: 没有可见的子级。

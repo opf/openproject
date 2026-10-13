@@ -54,6 +54,10 @@ module LlmConnections
       offerable_model_ids.map { |model_id| Option.new(model_id:, qualifies: qualifying_ids.include?(model_id)) }
     end
 
+    def models_left_out?
+      (model_ids_of_kind & ruled_out_model_ids).without(bound_model_id).any?
+    end
+
     private
 
     attr_reader :connection, :feature, :bound_model_id
@@ -73,7 +77,7 @@ module LlmConnections
     end
 
     def ruled_out_model_ids
-      connection.capability_verdicts.blocking(feature.requires).distinct.pluck(:model_id)
+      @ruled_out_model_ids ||= connection.capability_verdicts.blocking(feature.requires).distinct.pluck(:model_id)
     end
   end
 end

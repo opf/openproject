@@ -106,7 +106,6 @@ fr:
   plugin_openproject_reporting:
     description: Ce plugin permet de créer des rapports de coûts personnalisés à l'aide des fonctions de filtrage et de regroupement fournies par le plugin OpenProject Temps et coûts.
     name: Rapports OpenProject
-  project_module_reporting_module: Rapports de coût
   reporting:
     group_by:
       selected_columns: Colonnes sélectionnées

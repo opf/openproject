@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -38,6 +37,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { take, tap } from 'rxjs/operators';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { IAPIFilter } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
@@ -102,7 +102,6 @@ export class ProjectEditFieldComponent extends EditFieldComponent implements OnI
   }
 
   private setUrl():void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.url = this.schema.allowedValues.$link.href as string;
+    this.url = (this.schema.allowedValues as CallableHalLink).$link.href!;
   }
 }

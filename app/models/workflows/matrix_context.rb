@@ -30,15 +30,18 @@
 
 module Workflows
   class MatrixContext
+    include WorkPackageTypes::VariantRoutes
+
     TABS = %w[always author assignee].freeze
     DEFAULT_TAB = "always"
 
-    attr_reader :workflow, :variant
+    attr_reader :workflow, :variant, :scope_project
 
-    def initialize(workflow:, variant: nil, tab: nil, role_ids: nil, status_ids: nil,
+    def initialize(workflow:, variant: nil, scope_project: nil, tab: nil, role_ids: nil, status_ids: nil,
                    displayed_status_ids: nil, readonly: false, wizard: false)
       @workflow = workflow
       @variant = variant
+      @scope_project = scope_project
       @readonly = readonly
       @wizard = wizard
       @requested_tab = tab
@@ -65,14 +68,18 @@ module Workflows
     def reused? = !workflow.used_by_one_variant?
 
     def matrix_path(**)
-      standalone? ? routes.workflow_matrix_path(workflow, **) : routes.type_workflow_matrix_path(**scope, **)
+      if standalone?
+        routes.workflow_matrix_path(workflow, **)
+      else
+        variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
+      end
     end
 
     def status_dialog_path(**)
       if standalone?
         routes.status_dialog_workflow_matrix_path(workflow, **)
       else
-        routes.status_dialog_type_workflow_matrix_path(**scope, **)
+        status_dialog_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
       end
     end
 
@@ -80,14 +87,14 @@ module Workflows
       if standalone?
         routes.confirm_statuses_workflow_matrix_path(workflow, **)
       else
-        routes.confirm_statuses_type_workflow_matrix_path(**scope, **)
+        confirm_statuses_variant_workflow_matrix_path(scope_project, variant, **wizard_params, **)
       end
     end
 
     def copy_path(**)
       return routes.new_workflow_copy_path(workflow, **) if standalone?
 
-      routes.new_type_workflow_copy_path(**scope, **)
+      new_variant_workflow_copy_path(scope_project, variant, **wizard_params, **)
     end
 
     def eligible_roles
@@ -157,11 +164,7 @@ module Workflows
 
     def routes = Rails.application.routes.url_helpers
 
-    def scope
-      return variant.path_args unless wizard?
-
-      variant.path_args.merge(wizard: true)
-    end
+    def wizard_params = wizard? ? { wizard: true } : {}
 
     def status_ids_from(ids)
       Array(ids).flatten.map(&:to_i)

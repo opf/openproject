@@ -33,6 +33,7 @@ module WorkPackageTypes
     class SubHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(type:, variant:, query:)
         super()
@@ -80,10 +81,10 @@ module WorkPackageTypes
 
       attr_reader :type, :variant, :query
 
-      def add_path = url_helpers.new_link_type_projects_path(**variant.path_args)
+      def add_path = new_link_variant_projects_path(variant)
 
       def toggle_all_path
-        url_helpers.enable_all_type_projects_path(**variant.path_args, value: enabled_everywhere? ? "0" : "1")
+        enable_all_variant_projects_path(variant, value: enabled_everywhere? ? "0" : "1")
       end
 
       def toggle_all_label

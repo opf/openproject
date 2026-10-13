@@ -32,6 +32,7 @@ module WorkPackageTypes
   module ConfigurationIndependence
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "configuration-independence-confirm-dialog"
 
@@ -48,7 +49,7 @@ module WorkPackageTypes
       attr_reader :variant, :aspect, :mode
 
       def switch_path
-        type_configuration_independence_switch_path(**variant.path_args, aspect:)
+        variant_configuration_independence_switch_path(helpers.variant_scope_project, variant, aspect)
       end
     end
   end

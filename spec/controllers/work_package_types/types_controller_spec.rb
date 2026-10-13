@@ -32,8 +32,7 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::TypesController do
   let(:project) do
-    create(:project,
-           work_package_custom_fields: [custom_field_2])
+    create(:project)
   end
   let(:custom_field_1) do
     create(:work_package_custom_field,
@@ -67,9 +66,9 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "POST move" do
+    describe "PUT move" do
       describe "the access should be restricted" do
-        before { post "move", params: { id: "123" } }
+        before { put "move", params: { id: "123" } }
 
         it { expect(response).to have_http_status(:forbidden) }
       end
@@ -90,18 +89,17 @@ RSpec.describe WorkPackageTypes::TypesController do
       it { expect(response).to render_template "index" }
     end
 
-    describe "POST move" do
+    describe "PUT move" do
       context "with a successful update" do
         let!(:type) { create(:type, name: "My type", position: "1") }
         let!(:type2) { create(:type, name: "My type 2", position: "2") }
-        let(:params) { { "id" => type.id, "type" => { move_to: "lower" } } }
+        let(:params) { { "id" => type.id, "move_to" => "lower" } }
 
         before do
-          post :move, params:
+          put :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to be_redirect }
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:ok) }
 
         it "has the position updated" do
           expect(Type.find_by(name: "My type").position).to eq(2)
@@ -111,19 +109,19 @@ RSpec.describe WorkPackageTypes::TypesController do
       context "with a failed update" do
         let!(:type) { create(:type, name: "My type", position: "1") }
         let!(:type2) { create(:type, name: "My type 2", position: "2") }
-        let(:params) { { "id" => type.id, "type" => { move_to: "lower" } } }
+        let(:params) { { "id" => type.id, "move_to" => "lower" } }
 
         before do
           allow(Type).to receive(:find).and_return(type)
           allow(type).to receive(:update).and_return false
 
-          post :move, params:
+          put :move, params:, format: :turbo_stream
         end
 
-        it { expect(response).to redirect_to(types_path) }
+        it { expect(response).to have_http_status(:unprocessable_entity) }
 
         it "has an unsuccessful move flash" do
-          expect(flash[:error]).to eq(I18n.t(:error_type_could_not_be_saved))
+          expect(response.body).to include(I18n.t(:error_type_could_not_be_saved))
         end
 
         it "doesn't update the position" do
@@ -160,7 +158,6 @@ RSpec.describe WorkPackageTypes::TypesController do
         let(:archived_project) do
           create(:project,
                  :archived,
-                 work_package_custom_fields: [custom_field_2],
                  types: [type2])
         end
         let!(:work_package) do
@@ -224,14 +221,14 @@ RSpec.describe WorkPackageTypes::TypesController do
       end
     end
 
-    describe "PUT drop" do
+    describe "PUT move after an anchor" do
       let!(:first_type) { create(:type, name: "First") }
       let!(:second_type) { create(:type, name: "Second") }
 
-      it "reorders the dropped type to the given position" do
+      it "reorders the dropped type before the first item" do
         expect(first_type.position).to be < second_type.position
 
-        put :drop, params: { id: second_type.id, position: 1 }, format: :turbo_stream
+        put :move, params: { id: second_type.id, list_type: "type", list_id: "", prev_id: "" }, format: :turbo_stream
 
         expect(response).to have_http_status(:ok)
         expect(second_type.reload.position).to eq(1)
