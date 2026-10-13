@@ -119,11 +119,20 @@ class UserPreference < ApplicationRecord
     settings[:warn_on_leaving_unsaved] = to_boolean(value)
   end
 
+  def require_double_click_for_inline_edit?
+    settings.fetch(:require_double_click_for_inline_edit, false)
+  end
+
+  def require_double_click_for_inline_edit=(value)
+    settings[:require_double_click_for_inline_edit] = to_boolean(value)
+  end
+
   # Provide an alias to form builders
   alias :comments_in_reverse_order :comments_in_reverse_order?
   alias :warn_on_leaving_unsaved :warn_on_leaving_unsaved?
   alias :auto_hide_popups :auto_hide_popups?
   alias :disable_keyboard_shortcuts :disable_keyboard_shortcuts?
+  alias :require_double_click_for_inline_edit :require_double_click_for_inline_edit?
 
   def comments_in_reverse_order=(value)
     settings[:comments_sorting] = to_boolean(value) ? "desc" : "asc"

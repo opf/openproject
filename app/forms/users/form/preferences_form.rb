@@ -64,6 +64,12 @@ module Users
             caption: helpers.link_translate(:"user_preferences.disable_keyboard_shortcuts_caption",
                                             links: { docs_url: %i[shortcuts] })
           )
+
+          group.check_box(
+            name: :require_double_click_for_inline_edit,
+            label: UserPreference.human_attribute_name(:require_double_click_for_inline_edit),
+            caption: UserPreference.human_attribute_name(:require_double_click_for_inline_edit_caption)
+          )
         end
       end
 

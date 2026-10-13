@@ -307,11 +307,19 @@ module Components
       end
 
       def insert_two_single_dates(id, value)
-        fill_in("values-#{id}-begin", with: value[0]) if value[0]
-        fill_in("values-#{id}-end", with: value[1]) if value[1]
+        begin_value, end_value = value
 
-        ensure_value_is_input_correctly page.find("#values-#{id}-begin"), value: value[0] if value[0]
-        ensure_value_is_input_correctly page.find("#values-#{id}-end"), value: value[1] if value[1]
+        if begin_value
+          begin_input = page.find("#values-#{id}-begin")
+          ensure_value_is_input_correctly begin_input, value: begin_value
+          begin_input.send_keys(:enter)
+        end
+
+        if end_value
+          end_input = page.find("#values-#{id}-end")
+          ensure_value_is_input_correctly end_input, value: end_value
+          end_input.send_keys(:enter)
+        end
       end
 
       def insert_date_range(filter_element, value)
