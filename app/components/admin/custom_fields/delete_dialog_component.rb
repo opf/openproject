@@ -67,6 +67,7 @@ module Admin
         {
           icon: :trash,
           scheme: :danger,
+          size: :small,
           "aria-label": t(:button_delete),
           "data-test-selector": "op-custom-fields--delete-button"
         }
