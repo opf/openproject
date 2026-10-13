@@ -477,7 +477,7 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.18.0)
     daemons (1.4.1)
-    dalli (5.1.0)
+    dalli (5.1.2)
       logger
     date (3.5.1)
     date_validator (0.12.0)
@@ -1622,7 +1622,7 @@ DEPENDENCIES
   csv (~> 3.3)
   cuprite (~> 0.18.0)
   daemons
-  dalli (~> 5.1.0)
+  dalli (~> 5.1.2)
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
   dentaku (~> 3.5)!
@@ -1901,7 +1901,7 @@ CHECKSUMS
   csv (3.3.6) sha256=aba61e7e507a66f03d45cb1f3c4b6359861c3504038b422962875dce099e4456
   cuprite (0.18) sha256=32c3203a492f25dbd5a3525716ae09610bcef8936ddd32ff39f34477a98062b2
   daemons (1.4.1) sha256=8fc76d76faec669feb5e455d72f35bd4c46dc6735e28c420afb822fac1fa9a1d
-  dalli (5.1.0) sha256=a387fd8068777329aee25d2cb65ca636787028c4fbaf041156ef45cd5d1e03a3
+  dalli (5.1.2) sha256=4fb0c6c4a5133725c8f3b52fd4f65f3c64062aa8d8156c19d0f5d399ede4e2fb
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   deckar01-task_list (2.3.4) sha256=66abdc7e009ea759732bb53867e1ea42de550e2aa03ac30a015cbf42a04c1667
