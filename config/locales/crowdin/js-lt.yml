@@ -202,6 +202,7 @@ lt:
     description_subwork_package: 'Darbų paketo vaikas #%{id}'
     editor:
       ckeditor_error: CKEditor'iuje įvyko klaida
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Dokumento išsaugoti nepavyko. Klaida: %{error}'
       macro:
         attribute_reference:

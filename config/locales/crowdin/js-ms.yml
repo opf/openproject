@@ -202,6 +202,7 @@ ms:
     description_subwork_package: 'Anak kepada pakej kerja #%{id}'
     editor:
       ckeditor_error: Ralat berlaku dalam CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Penyimpanan dokumen gagal dengan ralat yang berikut: %{error}'
       macro:
         attribute_reference:

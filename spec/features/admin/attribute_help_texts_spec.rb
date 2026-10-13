@@ -71,7 +71,7 @@ RSpec.describe "Attribute help texts", :js do
 
     context "with help texts allowed by the enterprise token" do
       it "allows CRUD to attribute help texts" do
-        expect(page).to have_css(".generic-table--no-results-container")
+        expect(page).to have_css(".blankslate")
 
         # Create help text
         # -> new
@@ -89,7 +89,7 @@ RSpec.describe "Attribute help texts", :js do
         click_button "Save"
 
         # Should now show on index for editing
-        expect(page).to have_css(".attribute-help-text--entry td", text: "Status")
+        expect(page).to have_test_selector("attribute-help-text-row-#{instance.id}", text: "Status")
         expect(instance.attribute_scope).to eq "WorkPackage"
         expect(instance.attribute_name).to eq "status"
         expect(instance.help_text).to include "My attribute help text"
@@ -114,7 +114,7 @@ RSpec.describe "Attribute help texts", :js do
 
         # -> edit
         SeleniumHubWaiter.wait
-        find(".attribute-help-text--entry td a", text: "Status").click
+        within_test_selector("attribute-help-text-row-#{instance.id}") { click_on "Status" }
         SeleniumHubWaiter.wait
         expect(page).to have_css("#attribute_help_text_attribute_name[disabled]")
         editor.set_markdown(" ")
@@ -127,7 +127,7 @@ RSpec.describe "Attribute help texts", :js do
         click_button "Save"
 
         # On index again
-        expect(page).to have_css(".attribute-help-text--entry td", text: "Status")
+        expect(page).to have_test_selector("attribute-help-text-row-#{instance.id}", text: "Status")
         instance.reload
         expect(instance.help_text).to eq "New**help**text"
 
@@ -142,7 +142,7 @@ RSpec.describe "Attribute help texts", :js do
           click_on "Close"
         end
 
-        expect(page).to have_css(".attribute-help-text--entry td", text: "Status")
+        expect(page).to have_test_selector("attribute-help-text-row-#{instance.id}", text: "Status")
 
         # Open again and edit this time
         click_on "Preview text"
@@ -161,11 +161,11 @@ RSpec.describe "Attribute help texts", :js do
         visit attribute_help_texts_path
 
         # Destroy
-        accept_alert do
-          find(".attribute-help-text--entry .icon-delete").click
+        accept_confirm do
+          find_test_selector("attribute-help-text-delete-#{instance.id}").click
         end
 
-        expect(page).to have_css(".generic-table--no-results-container")
+        expect(page).to have_css(".blankslate")
         expect(AttributeHelpText.count).to be_zero
       end
     end

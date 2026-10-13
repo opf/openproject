@@ -508,6 +508,7 @@ ru:
       no_items: Нет пунктов повестки дня
       no_items_flash: На повестке дня нет никаких вопросов.
       previous: Предыдущий
+      slide_progress: Slide %{current}/%{total}
       title: Режим презентации
       total_items: "%{current} из %{total}"
     types:
@@ -728,6 +729,7 @@ ru:
   text_agenda_item_duplicate_in_next_meeting: Вы уверены, что хотите добавить копию этого пункта повестки дня к следующему совещанию на %{date} в %{time}? Результаты не будут дублироваться.
   text_agenda_item_duplicated_in_next_meeting: Пункт повестки дня дублируется на следующем совещании %{date}
   text_agenda_item_move_next_meeting: Этот элемент будет перемещен на следующую встречу на %{date} в %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Пункт повестки дня перенесен на следующее совещание на %{date}
   text_agenda_item_no_available_occurrence: Предстоящие события отсутствуют.
   text_agenda_item_no_notes: Примечания отсутствуют

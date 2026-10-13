@@ -399,6 +399,8 @@ sk:
         ongoing: Ongoing
         spent_on: Dátum
         type: Typ
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalendár
         ical_token_query_assignment: Query assignment
@@ -5266,6 +5268,15 @@ sk:
           create_button: Vytvoriť
           dialog_body: This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name.
           dialog_title: Create new API token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
       failed_to_reset_token: 'Nepodarilo sa obnoviť prístupový token: %{error}'
@@ -5295,6 +5306,7 @@ sk:
     access_tokens:
       access_tokens: Access tokens
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Akcia
         expiration: Expiruje

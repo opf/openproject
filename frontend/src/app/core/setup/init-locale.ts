@@ -29,7 +29,9 @@ import moment from 'moment';
 import { I18n } from 'i18n-js';
 import { getMetaElement } from './globals/global-helpers';
 
-export function initializeLocale() {
+export function initializeLocale(
+  loadLocale = (locale:string) => import(`../../../locales/${locale}.json`),
+) {
   const meta = getMetaElement('openproject_initializer');
   const getInitializerValue = (key:string, defaultValue = '') => meta?.dataset[key] ?? defaultValue;
   const userLocale = getInitializerValue('locale', 'en');
@@ -80,7 +82,7 @@ export function initializeLocale() {
 
   const localeImports = [...new Set([userLocale, instanceLocale])]
     .map(
-      (locale) => import(`../../../locales/${locale}.json`)
+      (locale) => loadLocale(locale)
         .then((imported:{ default:object }) => {
           i18n.store(imported.default);
         }),

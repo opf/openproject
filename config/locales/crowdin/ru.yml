@@ -399,6 +399,8 @@ ru:
         ongoing: В процессе
         spent_on: Дата
         type: Тип
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Календарь
         ical_token_query_assignment: Задание запроса
@@ -5265,6 +5267,15 @@ ru:
           create_button: Создать
           dialog_body: Этот токен позволит сторонним приложениям взаимодействовать с вашим экземпляром. Чтобы выделить новый токен API, пожалуйста, дайте ему имя.
           dialog_title: Создать новый токен API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Название токена
       failed_to_create_token: 'Не удалось создать токен доступа: %{error}'
       failed_to_reset_token: 'Не удалось сбросить маркер доступа: %{error}'
@@ -5294,6 +5305,7 @@ ru:
     access_tokens:
       access_tokens: Маркеры доступа
       description: Провайдерские токены выпускаются OpenProject, позволяя другим приложениям получать к ним доступ. Клиентские токены выпускаются другими приложениями, позволяя OpenProject получить к ним доступ.
+      expired_on: Expired on %{date}
       headers:
         action: Действие
         expiration: Срок действия

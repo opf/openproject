@@ -202,6 +202,7 @@ ne:
     description_subwork_package: 'Child of work package #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       macro:
         attribute_reference:

@@ -399,6 +399,8 @@ hy:
         ongoing: Ընթացող
         spent_on: Ամսաթիվ
         type: Տեսակ
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Օրացույց
         ical_token_query_assignment: Հարցման նշանակում
@@ -4936,6 +4938,13 @@ hy:
           create_button: Ստեղծել
           dialog_body: Այս թոքենը թույլ կտա երրորդ կողմի հավելվածներին հաղորդակցվել Ձեր համակարգի հետ։ Նոր API թոքենը տարբերակելու համար խնդրում ենք անվանում տալ դրան։
           dialog_title: Ստեղծել նոր API թոքեն
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Թոքենի անվանում
       failed_to_create_token: Չհաջողվեց ստեղծել մուտքի թոքենը՝ %{error}
       failed_to_reset_token: Չհաջողվեց վերակայել մուտքի թոքենը՝ %{error}
@@ -4965,6 +4974,7 @@ hy:
     access_tokens:
       access_tokens: Մուտքի թոքեններ
       description: Մատակարարի թոքենները տրվում են OpenProject-ի կողմից և թույլ են տալիս այլ հավելվածներին մուտք ունենալ դրան։ Հաճախորդի թոքենները տրվում են այլ հավելվածների կողմից և թույլ են տալիս OpenProject-ին մուտք ունենալ դրանց։
+      expired_on: Expired on %{date}
       headers:
         action: Գործողություն
         expiration: Վավեր է մինչև

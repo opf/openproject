@@ -29,77 +29,19 @@
 #++
 
 class Journals::CreateService
-  class AgendaItemable < Association
+  class AgendaItemable < JournalTableAssociation
     def associated?
       journable.respond_to?(:agenda_items)
     end
 
-    def cleanup_predecessor(predecessor, notes, cause)
-      cleanup_predecessor_for(predecessor,
-                              notes,
-                              cause,
-                              "meeting_agenda_item_journals",
-                              :journal_id,
-                              :id)
-    end
+    private
 
-    def insert_sql
-      sanitize(<<~SQL.squish, journable_id:)
-        INSERT INTO
-          meeting_agenda_item_journals (
-            journal_id,
-            agenda_item_id,
-            author_id,
-            title,
-            notes,
-            position,
-            duration_in_minutes,
-            work_package_id,
-            item_type
-          )
-        SELECT
-          #{id_from_inserted_journal_sql},
-          agenda_items.id,
-          agenda_items.author_id,
-          agenda_items.title,
-          agenda_items.notes,
-          agenda_items.position,
-          agenda_items.duration_in_minutes,
-          agenda_items.work_package_id,
-          agenda_items.item_type
-        FROM meeting_agenda_items agenda_items
-        WHERE
-          #{only_if_created_sql}
-          AND agenda_items.meeting_id = :journable_id
-      SQL
-    end
+    def journal_class = Journal::MeetingAgendaItemJournal
 
-    def changes_sql
-      sanitize(<<~SQL.squish, journable_id:)
-        SELECT
-          max_journals.journable_id
-        FROM
-          max_journals
-        LEFT OUTER JOIN
-          meeting_agenda_item_journals
-        ON
-          meeting_agenda_item_journals.journal_id = max_journals.id
-        FULL JOIN
-          (SELECT *
-           FROM meeting_agenda_items
-           WHERE meeting_agenda_items.meeting_id = :journable_id) agenda_items
-        ON
-          agenda_items.id = meeting_agenda_item_journals.agenda_item_id
-        WHERE
-          (agenda_items.id IS DISTINCT FROM meeting_agenda_item_journals.agenda_item_id)
-          OR (agenda_items.title IS DISTINCT FROM meeting_agenda_item_journals.title)
-          OR (#{normalize_newlines_sql('agenda_items.notes')} IS DISTINCT FROM
-              #{normalize_newlines_sql('meeting_agenda_item_journals.notes')})
-          OR (agenda_items.position IS DISTINCT FROM meeting_agenda_item_journals.position)
-          OR (agenda_items.duration_in_minutes IS DISTINCT FROM meeting_agenda_item_journals.duration_in_minutes)
-          OR (agenda_items.work_package_id IS DISTINCT FROM meeting_agenda_item_journals.work_package_id)
-          OR (agenda_items.item_type IS DISTINCT FROM meeting_agenda_item_journals.item_type)
-      SQL
+    def reference_column = "agenda_item_id"
+
+    def current_rows_sql
+      "SELECT * FROM meeting_agenda_items WHERE meeting_agenda_items.meeting_id = :journable_id"
     end
   end
 end

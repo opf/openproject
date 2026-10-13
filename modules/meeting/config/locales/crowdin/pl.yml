@@ -508,6 +508,7 @@ pl:
       no_items: Brak pozycji planu spotkania
       no_items_flash: Nie ma żadnych pozycji planu spotkania do zaprezentowania.
       previous: Poprzedni
+      slide_progress: Slide %{current}/%{total}
       title: Tryb prezentacji
       total_items: "%{current} z %{total}"
     types:
@@ -728,6 +729,7 @@ pl:
   text_agenda_item_duplicate_in_next_meeting: Czy na pewno chcesz dodać kopię tego punktu planu spotkania do następnego spotkania w dniu %{date} o godzinie %{time}? Wyniki nie będą duplikowane.
   text_agenda_item_duplicated_in_next_meeting: Pozycję planu spotkania zduplikowano w następnym spotkaniu w dniu %{date}
   text_agenda_item_move_next_meeting: Punkt ten zostanie przeniesiony na następne spotkanie w dniu %{date} o %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Punkt planu spotkania przeniesiono na następne spotkanie w dniu %{date}
   text_agenda_item_no_available_occurrence: Nie są dostępne żadne nadchodzące wystąpienia.
   text_agenda_item_no_notes: Brak uwag

@@ -305,7 +305,7 @@ nl:
         status_codes:
           at_risk: In gevaar
           discontinued: Stopgezet
-          finished: Afgewerkt
+          finished: Afgerond
           not_started: Nog niet gestart
           off_track: Buiten schema
           on_track: Op schema
@@ -399,6 +399,8 @@ nl:
         ongoing: Lopend
         spent_on: Datum
         type: Type
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalender
         ical_token_query_assignment: Query assignment
@@ -4936,6 +4938,13 @@ nl:
           create_button: Maken
           dialog_body: Deze sleutel zal applicaties van derden in staat stellen om met uw instantie te communiceren. Geef het nieuwe API-sleutel een naam om deze te onderscheiden.
           dialog_title: Nieuwe API-sleutel aanmaken
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Tokennaam
       failed_to_create_token: 'Aanmaken van toegang sleutel is mislukt: %{error}'
       failed_to_reset_token: 'Reset-toegangstoken mislukt: %{error}'
@@ -4965,6 +4974,7 @@ nl:
     access_tokens:
       access_tokens: Toegangs-tokens
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Actie
         expiration: Verloopt

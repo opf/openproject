@@ -202,6 +202,7 @@ fr:
     description_subwork_package: 'Enfant du lot de travaux #%{id}'
     editor:
       ckeditor_error: Une erreur s'est produite dans CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante : %{error}'
       macro:
         attribute_reference:

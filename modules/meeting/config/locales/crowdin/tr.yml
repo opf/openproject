@@ -484,6 +484,7 @@ tr:
       no_items: Gündem maddesi yok
       no_items_flash: Sunulacak herhangi bir gündem maddesi bulunmamaktadır.
       previous: Önceki
+      slide_progress: Slide %{current}/%{total}
       title: Sunum modu
       total_items: "%{current} / %{total}"
     types:
@@ -690,6 +691,7 @@ tr:
   text_agenda_item_duplicate_in_next_meeting: "%{time}Bu gündem maddesinin bir kopyasını %{date} adresindeki bir sonraki toplantıya eklemek istediğinizden emin misiniz? Sonuçlar çoğaltılmayacaktır."
   text_agenda_item_duplicated_in_next_meeting: Gündem maddesi bir sonraki toplantıda tekrarlandı, %{date}adresinde
   text_agenda_item_move_next_meeting: Bu madde %{date} tarihindeki %{time} saatli bir sonraki toplantıya taşınacaktır.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Gündem maddesi %{date} tarihli sonraki toplantıya taşındı
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Not verilmemiştir

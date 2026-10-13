@@ -202,6 +202,7 @@ de:
     description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       ckeditor_error: Innerhalb des Editors ist ein Fehler aufgetreten
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Fehler beim Speichern des Dokuments: %{error}'
       macro:
         attribute_reference:

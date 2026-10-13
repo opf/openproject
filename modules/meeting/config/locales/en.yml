@@ -165,6 +165,12 @@ en:
     meeting_agenda_opened: Meeting agenda opened
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: >-
+          Meeting history automatically synchronized with the current state of the meeting. Agenda sections and
+          outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: "Add to meeting"
   label_add_work_package_to_meeting_dialog_title: "Select meeting"
 
@@ -507,6 +513,7 @@ en:
       no_items: "No agenda items"
       no_items_flash: "There are no agenda items to present."
       previous: "Previous"
+      slide_progress: "Slide %{current}/%{total}"
       title: "Presentation Mode"
       total_items: "%{current} of %{total}"
     types:

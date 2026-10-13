@@ -851,60 +851,6 @@ RSpec.describe WorkPackage do
     end
   end
 
-  context "when destroying with agenda items" do
-    shared_let(:work_package) do
-      create(:work_package, project:, type:, status:, priority:)
-    end
-
-    shared_let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
-    shared_let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
-    shared_let(:other_meeting) { other_agenda_item.meeting }
-    let(:latest_journals) do
-      Journal
-        .select("DISTINCT ON (journable_id) *")
-        .where(journable_type: "Meeting", journable_id: meeting_agenda_items.pluck(:meeting_id))
-        .order("journable_id, updated_at DESC")
-    end
-
-    subject { work_package.destroy }
-
-    before do
-      work_package.save
-      Meeting.find_each(&:save_journals)
-    end
-
-    it "dissociates the agenda items" do
-      expect { subject }
-        .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect other agenda items" do
-      expect { subject }.not_to change(other_agenda_item, :reload)
-    end
-
-    it "updates the agenda item journal" do
-      expect { subject }
-        .to change {
-          Journal::MeetingAgendaItemJournal
-            .where(agenda_item: meeting_agenda_items)
-            .pluck(:work_package_id)
-        }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect the agenda item journal" do
-      expect { subject }
-        .not_to change {
-          Journal::MeetingAgendaItemJournal
-            .find_by(agenda_item: other_agenda_item)
-            .work_package_id
-        }
-    end
-  end
-
   describe "#remaining_hours" do
     it "allows empty value" do
       work_package.remaining_hours = ""

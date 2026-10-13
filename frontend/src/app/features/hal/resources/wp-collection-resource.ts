@@ -29,16 +29,20 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { FormResource } from 'core-app/features/hal/resources/form-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface WorkPackageCollectionResourceEmbedded {
   elements:WorkPackageResource[];
   groups:GroupObject[];
 }
 
-export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> {
+export class WorkPackageCollectionResource extends CollectionResource<WorkPackageResource> implements WorkPackageCollectionResourceEmbedded {
   public schemas:CollectionResource<SchemaResource>;
 
-  public createWorkPackage:any;
+  public createWorkPackage?:CallableHalLink<FormResource>;
+
+  public customFields?:HalResource;
 
   public elements:WorkPackageResource[];
 
@@ -50,8 +54,6 @@ export class WorkPackageCollectionResource extends CollectionResource<WorkPackag
 
   public representations:HalResource[];
 }
-
-export interface WorkPackageCollectionResource extends WorkPackageCollectionResourceEmbedded {}
 
 /**
  * A reference to a group object as returned from the API.
