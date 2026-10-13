@@ -26,12 +26,11 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, skip } from 'rxjs/operators';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { getMetaValue } from 'core-app/core/setup/globals/global-helpers';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
 
-const BADGE_LIMIT = 99;
 const INSTALLED_APP_BACKGROUND_FACTOR = 3;
 const BROWSER_TAB_BACKGROUND_FACTOR = 10;
 
@@ -41,7 +40,12 @@ export class AppBadgeService {
   private readonly configuration = inject(ConfigurationService);
 
   initialize():void {
-    if (!this.enabled) {
+    if (!this.badgeApiAvailable || !this.runsAsInstalledApp) {
+      return;
+    }
+
+    if (!this.flagEnabled) {
+      this.clear();
       return;
     }
 
@@ -51,24 +55,32 @@ export class AppBadgeService {
     }
 
     this.ianBell.unread$
-      .pipe(distinctUntilChanged())
+      .pipe(skip(1), distinctUntilChanged())
       .subscribe((count) => {
         if (count === 0) {
           this.clear();
         } else if (count > 0 && Number.isFinite(count)) {
-          this.call((nav) => nav.setAppBadge(Math.min(count, BADGE_LIMIT)));
+          this.call((nav) => nav.setAppBadge(count));
         }
       });
   }
 
   get backgroundPollingFactor():number {
-    return this.enabled && this.runsAsInstalledApp
+    return this.enabled
       ? INSTALLED_APP_BACKGROUND_FACTOR
       : BROWSER_TAB_BACKGROUND_FACTOR;
   }
 
   private get enabled():boolean {
-    return this.configuration.activeFeatureFlags.includes('progressiveWebApp') && 'setAppBadge' in navigator;
+    return this.flagEnabled && this.badgeApiAvailable && this.runsAsInstalledApp;
+  }
+
+  private get flagEnabled():boolean {
+    return this.configuration.activeFeatureFlags.includes('progressiveWebApp');
+  }
+
+  private get badgeApiAvailable():boolean {
+    return 'setAppBadge' in navigator;
   }
 
   private get runsAsInstalledApp():boolean {
@@ -79,12 +91,8 @@ export class AppBadgeService {
     this.call((nav) => nav.clearAppBadge());
   }
 
-  // Browsers that expose the API outside an installed app (Safari) reject the call instead of ignoring it.
+  // Safari rejects the call outside an installed app rather than ignoring it.
   private call(action:(nav:Navigator) => Promise<void>):void {
-    try {
-      action(navigator).catch(() => undefined);
-    } catch {
-      // Unsupported environment; the badge is a progressive enhancement.
-    }
+    action(navigator).catch(() => undefined);
   }
 }
