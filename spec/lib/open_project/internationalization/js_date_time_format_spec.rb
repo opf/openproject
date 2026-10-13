@@ -49,7 +49,7 @@ RSpec.describe OpenProject::Internationalization::JsDateTimeFormat do
 
   describe ".time" do
     it "translates known specifiers" do
-      expect(described_class.time("%H-%k-%I-%l-%P-%p-%M")).to eq("HH-H-hh-h-A-a-mm")
+      expect(described_class.time("%H-%k-%I-%l-%P-%p-%M")).to eq("HH-H-hh-h-a-A-mm")
     end
 
     it "drops unknown specifiers" do

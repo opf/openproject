@@ -93,7 +93,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       context "with time format", with_settings: { time_format: "%I:%M %p" } do
         it "indicates the timeFormat" do
           expect(subject)
-            .to be_json_eql("hh:mm a".to_json)
+            .to be_json_eql("hh:mm A".to_json)
             .at_path("timeFormat")
         end
       end
@@ -119,7 +119,7 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
 
         it "indicates the user's timeFormat" do
           expect(subject)
-            .to be_json_eql("hh:mm a".to_json)
+            .to be_json_eql("hh:mm A".to_json)
             .at_path("timeFormat")
         end
       end

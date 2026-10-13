@@ -53,8 +53,8 @@ module OpenProject
         "%k" => "H",
         "%I" => "hh",
         "%l" => "h",
-        "%P" => "A",
-        "%p" => "a",
+        "%P" => "a",
+        "%p" => "A",
         "%M" => "mm"
       }.freeze
 
