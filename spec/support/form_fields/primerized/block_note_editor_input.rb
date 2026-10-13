@@ -183,7 +183,7 @@ module FormFields
       def heading_block_id(text)
         page.evaluate_script(<<~JS, text)
           Array.from(#{shadow_root_query}.querySelectorAll('[data-content-type="heading"]'))
-            .find((heading) => heading.textContent === arguments[0])
+            .find((heading) => heading.textContent.trim() === arguments[0])
             .parentElement.dataset.id
         JS
       end

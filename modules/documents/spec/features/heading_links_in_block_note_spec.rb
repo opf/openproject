@@ -61,9 +61,9 @@ RSpec.describe "Links to headings in BlockNote editor",
     record_clipboard
 
     editor.shadow_root.find("[data-content-type='heading']", text: "Introduction").hover
-    editor.shadow_root.find("button[title='Copy link to heading']").click
+    editor.shadow_root.find("button[title='#{I18n.t('js.button_copy_link_to_clipboard')}']").click
 
-    expect(editor.shadow_root).to have_css("button[title='Link copied']")
+    expect(editor.shadow_root).to have_css("button[title='#{I18n.t('js.clipboard.copied_successful')}']")
     expect(page.evaluate_script("window.copiedText"))
       .to eq("#{page.current_url}#heading-#{editor.heading_block_id('Introduction')}")
   end
