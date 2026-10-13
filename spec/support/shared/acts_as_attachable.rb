@@ -33,15 +33,19 @@ RSpec.shared_examples_for "acts_as_attachable included" do
   let(:attachment2) { create(:attachment, container: nil, author: current_user) }
   let(:instance_project) { respond_to?(:project) ? project : model_instance.project }
 
-  let(:permission) do
+  let(:attachable_permissions) do
     if model_instance.persisted?
       Array(described_class.attachable_options[:add_on_persisted_permission])
     else
       Array(described_class.attachable_options[:add_on_new_permission])
     end
   end
+  let(:project_permissions) { attachable_permissions }
+  let(:global_permissions) { [] }
 
-  let(:user_with_permission) { create(:user, member_with_permissions: { instance_project => permission }) }
+  let(:user_with_permission) do
+    create(:user, member_with_permissions: { instance_project => project_permissions }, global_permissions:)
+  end
   let(:user_without_permission) { create(:user, member_with_permissions: { instance_project => [] }) }
   let(:other_user) { create(:user) }
   let(:current_user) { user_with_permission }

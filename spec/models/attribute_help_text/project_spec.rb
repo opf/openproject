@@ -48,6 +48,8 @@ RSpec.describe AttributeHelpText::Project do
   it_behaves_like "acts_as_attachable included" do
     let(:model_instance) { create(:project_help_text) }
     let(:project) { create(:project) }
+    let(:project_permissions) { [] }
+    let(:global_permissions) { attachable_permissions }
   end
 
   describe ".available_attributes" do
