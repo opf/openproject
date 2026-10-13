@@ -102,7 +102,7 @@ module Users::PermissionChecks
   end
 
   def admin_elevation
-    @admin_elevation || Users::AdminElevation.default
+    @admin_elevation || Users::AdminElevation.default_for(self)
   end
 
   def admin_elevation=(elevation)
