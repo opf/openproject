@@ -226,7 +226,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.10", require: false
+gem "appsignal", "~> 5.0", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
