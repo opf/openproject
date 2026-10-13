@@ -206,9 +206,9 @@ class LlmConnection < ApplicationRecord
       base_url: base_url_without_credentials,
       api_format:,
       llm_features_enabled: Setting.llm_features_enabled?,
-      server_flavour:,
-      last_synced_at:,
-      last_connected_at:,
+      server_flavour: server_flavour&.to_s,
+      last_synced_at: last_synced_at&.utc&.iso8601,
+      last_connected_at: last_connected_at&.utc&.iso8601,
       model_count: models.count,
       manual_model_count: models.where(manual: true).count
     }
