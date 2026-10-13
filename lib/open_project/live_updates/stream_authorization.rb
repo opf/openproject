@@ -32,11 +32,14 @@ module OpenProject
   module LiveUpdates
     # Included into Turbo::StreamsChannel, which anycable-go hands to Rails over RPC (`turbo = false`),
     # so that holding a signed stream name alone no longer grants the subscription.
+    # Granted subscriptions are recorded, so that Cron::ReauthorizeLiveUpdatesJob can check them again.
     module StreamAuthorization
       extend ActiveSupport::Concern
 
       included do
         before_subscribe :authorize_live_updates_stream!
+        after_subscribe :add_live_updates_subscription, unless: :subscription_rejected?
+        after_unsubscribe :remove_live_updates_subscription, unless: :subscription_rejected?
       end
 
       private
@@ -46,6 +49,21 @@ module OpenProject
 
         reject
         throw :abort
+      end
+
+      def add_live_updates_subscription
+        LiveUpdatesSubscription.create!(user: current_user,
+                                        session_id: connection.session_private_id,
+                                        stream_name: verified_stream_name_from_params)
+      end
+
+      # Other tabs of the session may be subscribed to the same stream, each with its own row.
+      def remove_live_updates_subscription
+        LiveUpdatesSubscription.where(user: current_user,
+                                      session_id: connection.session_private_id,
+                                      stream_name: verified_stream_name_from_params)
+                               .limit(1)
+                               .delete_all
       end
     end
   end

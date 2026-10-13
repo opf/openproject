@@ -41,6 +41,11 @@ module ApplicationCable
       self.current_user = find_session_user || reject_unauthorized_connection
     end
 
+    # The id the sessions table stores the session under.
+    def session_private_id
+      session.id.private_id
+    end
+
     private
 
     def find_session_user

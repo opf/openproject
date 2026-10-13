@@ -41,6 +41,7 @@ class Roles::UpdateService < BaseServices::Update
     permissions_diff = (@permissions_old - permissions_new) | (permissions_new - @permissions_old)
     OpenProject::Notifications.send(
       OpenProject::Events::ROLE_UPDATED,
+      role: call.result,
       permissions_diff:
     )
     call

@@ -124,4 +124,94 @@ RSpec.describe OpenProject::LiveUpdates do
       end
     end
   end
+
+  describe ".reauthorize" do
+    shared_let(:user) { create(:user) }
+    shared_let(:other_user) { create(:user) }
+
+    let(:connections) { instance_double(ActionCable::RemoteConnections::RemoteConnection, disconnect: nil) }
+    let(:remote_connections) { instance_double(ActionCable::RemoteConnections, where: connections) }
+
+    before do
+      allow(described_class).to receive(:enabled?).and_return(enabled)
+      allow(ActionCable.server).to receive(:remote_connections).and_return(remote_connections)
+    end
+
+    context "when live updates are enabled" do
+      let(:enabled) { true }
+
+      it "makes the user's connections reconnect to be authorized again" do
+        described_class.reauthorize(user)
+
+        expect(remote_connections).to have_received(:where).with(current_user: user)
+        expect(connections).to have_received(:disconnect)
+      end
+
+      it "reaches the users of a group" do
+        group = create(:group, members: [user, other_user])
+
+        described_class.reauthorize(group)
+
+        expect(remote_connections).to have_received(:where).with(current_user: user)
+        expect(remote_connections).to have_received(:where).with(current_user: other_user)
+      end
+    end
+
+    context "when live updates are not enabled" do
+      let(:enabled) { false }
+
+      it "does nothing" do
+        described_class.reauthorize(user)
+
+        expect(remote_connections).not_to have_received(:where)
+      end
+    end
+  end
+
+  describe "reauthorizing on access changes" do
+    shared_let(:project) { create(:project) }
+    shared_let(:role) { create(:project_role) }
+    shared_let(:user) { create(:user) }
+    shared_let(:member) { create(:member, project:, principal: user, roles: [role]) }
+
+    before do
+      allow(described_class).to receive(:reauthorize)
+    end
+
+    it "reauthorizes the principal of an updated membership" do
+      OpenProject::Notifications.send(OpenProject::Events::MEMBER_UPDATED, member:)
+
+      expect(described_class).to have_received(:reauthorize).with(user)
+    end
+
+    it "reauthorizes the principal of a removed membership" do
+      OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED, member:)
+
+      expect(described_class).to have_received(:reauthorize).with(user)
+    end
+
+    it "reauthorizes the users holding an updated role" do
+      OpenProject::Notifications.send(OpenProject::Events::ROLE_UPDATED, role:, permissions_diff: [])
+
+      expect(described_class).to have_received(:reauthorize).with(contain_exactly(user))
+    end
+
+    it "reauthorizes the members of an archived project" do
+      OpenProject::Notifications.send(OpenProject::Events::PROJECT_ARCHIVED, project:)
+
+      expect(described_class).to have_received(:reauthorize).with(contain_exactly(user))
+    end
+
+    it "reauthorizes a user whose status changes" do
+      user.update!(status: :locked)
+
+      expect(described_class).to have_received(:reauthorize).with(user)
+    end
+
+    it "does not reauthorize a user whose other attributes change" do
+      user.update!(firstname: "Changed")
+
+      expect(described_class).not_to have_received(:reauthorize)
+    end
+  end
 end

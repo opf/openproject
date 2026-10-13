@@ -48,6 +48,7 @@ module Users
       end
 
       controller.reset_session
+      OpenProject::LiveUpdates.reauthorize(user)
 
       User.current = User.anonymous
     end

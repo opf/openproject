@@ -36,7 +36,7 @@ RSpec.describe Turbo::StreamsChannel, "subscription authorization" do
   shared_let(:user) { create(:user) }
 
   def subscribe_to(record, current_user:)
-    stub_connection(current_user:)
+    stub_connection(current_user:, session_private_id: "session-1")
     subscribe(signed_stream_name: described_class.signed_stream_name(record))
   end
 
@@ -54,9 +54,51 @@ RSpec.describe Turbo::StreamsChannel, "subscription authorization" do
   end
 
   it "rejects forged stream names" do
-    stub_connection current_user: admin
+    stub_connection(current_user: admin)
     subscribe(signed_stream_name: "forged--signature")
 
     expect(subscription).to be_rejected
+  end
+
+  describe "tracking subscriptions for re-authorization" do
+    it "records a granted subscription" do
+      subscribe_to(project, current_user: admin)
+
+      expect(LiveUpdatesSubscription.where(user: admin, session_id: "session-1", stream_name: project.to_gid_param))
+        .to be_one
+    end
+
+    it "does not record a rejected subscription" do
+      subscribe_to(project, current_user: user)
+
+      expect(LiveUpdatesSubscription.count).to be_zero
+    end
+
+    it "keeps the records of the user's open subscriptions when rejecting another" do
+      LiveUpdatesSubscription.create!(user:, session_id: "session-1", stream_name: project.to_gid_param)
+      subscribe_to(project, current_user: user)
+
+      expect(subscription).to be_rejected
+      expect(LiveUpdatesSubscription.where(user:, stream_name: project.to_gid_param))
+        .to be_one
+    end
+
+    it "removes only its own record on unsubscribe, keeping those of the session's other tabs" do
+      LiveUpdatesSubscription.create!(user: admin, session_id: "session-1", stream_name: project.to_gid_param)
+      subscribe_to(project, current_user: admin)
+      unsubscribe
+
+      expect(LiveUpdatesSubscription.where(user: admin, session_id: "session-1", stream_name: project.to_gid_param))
+        .to be_one
+    end
+
+    it "keeps the records of the user's other sessions on unsubscribe" do
+      LiveUpdatesSubscription.create!(user: admin, session_id: "session-2", stream_name: project.to_gid_param)
+      subscribe_to(project, current_user: admin)
+      LiveUpdatesSubscription.where(session_id: "session-1").delete_all
+      unsubscribe
+
+      expect(LiveUpdatesSubscription.where(user: admin, session_id: "session-2")).to be_one
+    end
   end
 end

@@ -29,8 +29,20 @@
 #++
 
 Rails.application.configure do
-  config.to_prepare do
+  config.after_initialize do
+    # Include StreamAuthorization for custom permission checks on streams.
     Turbo::StreamsChannel.include(OpenProject::LiveUpdates::StreamAuthorization)
+
+    OpenProject::LiveUpdates.reauthorize_on_access_changes
+
+    if OpenProject::LiveUpdates.enabled?
+      config.good_job.cron.merge!(
+        "Cron::ReauthorizeLiveUpdatesJob": {
+          cron: "* * * * *", # Run every minute
+          class: Cron::ReauthorizeLiveUpdatesJob.name
+        }
+      )
+    end
   end
 
   # Without a secret the HTTP RPC endpoint would accept unauthenticated calls.

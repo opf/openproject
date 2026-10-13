@@ -97,5 +97,36 @@ module OpenProject
         )
       end
     end
+
+    # Makes the open connections of the principal's users reconnect once the current transaction
+    # commits. Reconnecting checks their session and every subscription again, so whatever they
+    # lost access to stays closed while the rest resumes.
+    def reauthorize(principals)
+      return unless enabled?
+
+      ActiveRecord.after_all_transactions_commit do
+        Array(principals).flat_map { |principal| principal.is_a?(Group) ? principal.users.to_a : principal }
+                         .grep(User).uniq
+                         .each { |user| ActionCable.server.remote_connections.where(current_user: user).disconnect }
+      end
+    end
+
+    def reauthorize_on_access_changes # rubocop:disable Metrics/AbcSize
+      [OpenProject::Events::MEMBER_UPDATED, OpenProject::Events::MEMBER_DESTROYED].each do |event|
+        OpenProject::Notifications.subscribe(event) { |payload| reauthorize(payload[:member].principal) }
+      end
+
+      OpenProject::Notifications.subscribe(OpenProject::Events::ROLE_UPDATED) do |payload|
+        reauthorize(User.joins(members: :member_roles).where(member_roles: { role_id: payload[:role].id }).distinct)
+      end
+
+      OpenProject::Notifications.subscribe(OpenProject::Events::USER_UPDATED) do |payload|
+        reauthorize(payload[:user]) if payload[:user].saved_change_to_status?
+      end
+
+      OpenProject::Notifications.subscribe(OpenProject::Events::PROJECT_ARCHIVED) do |payload|
+        reauthorize(User.in_anything_in_project(payload[:project].self_and_descendants))
+      end
+    end
   end
 end

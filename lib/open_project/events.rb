@@ -39,10 +39,10 @@ module OpenProject
   # @note Does not include all events but it should!
   # @see OpenProject::Notifications
   module Events
-    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready"
-    AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready"
-    AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready"
     AGGREGATED_MESSAGE_JOURNAL_READY = "aggregated_message_journal_ready"
+    AGGREGATED_NEWS_JOURNAL_READY = "aggregated_news_journal_ready"
+    AGGREGATED_WIKI_JOURNAL_READY = "aggregated_wiki_journal_ready"
+    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready"
 
     ATTACHMENT_CREATED = "attachment_created"
 
@@ -53,11 +53,12 @@ module OpenProject
     MEMBER_UPDATED = "member_updated"
     MEMBER_DESTROYED = "member_destroyed"
 
-    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created"
-
-    TIME_ENTRY_CREATED = "time_entry_created"
+    MODULE_ENABLED = "module_enabled"
+    MODULE_DISABLED = "module_disabled"
 
     NEWS_COMMENT_CREATED = "news_comment_created"
+
+    OAUTH_CLIENT_TOKEN_CREATED = "oauth_client_token_created"
 
     PROJECT_CREATED = "project_created"
     PROJECT_UPDATED = "project_updated"
@@ -69,19 +70,20 @@ module OpenProject
     PROJECT_STORAGE_UPDATED = "project_storage_updated"
     PROJECT_STORAGE_DESTROYED = "project_storage_destroyed"
 
-    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy"
-    STORAGE_TURNED_HEALTHY = "storage_turned_healthy"
-
     REMOTE_IDENTITY_CREATED = "remote_identity_created"
 
     ROLE_UPDATED = "role_updated"
     ROLE_DESTROYED = "role_destroyed"
 
+    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy"
+    STORAGE_TURNED_HEALTHY = "storage_turned_healthy"
+
+    TIME_ENTRY_CREATED = "time_entry_created"
+
+    USER_UPDATED = "user_updated"
+
     WATCHER_ADDED = "watcher_added"
     WATCHER_DESTROYED = "watcher_destroyed"
-
-    MODULE_ENABLED = "module_enabled"
-    MODULE_DISABLED = "module_disabled"
 
     WORK_PACKAGE_SHARED = "work_package_shared"
   end

@@ -3,7 +3,10 @@
 cd $(dirname $0)/..
 
 # It's recommended to use the exact version of AnyCable here
-version="1.6.17"
+# Note, the last versions from 1.6.16 to 1.6.18 have a bug and they close only one connection
+# per remote disconnect because of an early return.
+# See (https://github.com/anycable/anycable/commit/a0d532fa)
+version="1.6.15"
 
 if [ ! -f ./bin/dist/anycable-go ]; then
   echo "AnyCable server is not installed, downloading..."
