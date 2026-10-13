@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%=
       flex_layout(align_items: :center) do |header|
         header.with_column(mr: 2) do
-          render(Primer::Beta::Octicon.new(icon: :copilot, color: :done, size: :medium))
+          render(Primer::Beta::Octicon.new(icon: :sparkle, color: :done, size: :medium))
         end
         header.with_column do
           render(Primer::Beta::Heading.new(tag: :h2, font_size: 4)) { pane.label }

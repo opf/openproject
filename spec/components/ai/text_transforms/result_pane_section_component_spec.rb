@@ -49,7 +49,8 @@ RSpec.describe AI::TextTransforms::ResultPaneSectionComponent, type: :component 
   describe "title" do
     subject { render_section(:title) }
 
-    it "shows the action label as heading" do
+    it "shows the AI icon and the action label as heading" do
+      expect(subject).to have_css(".octicon-sparkle")
       expect(subject).to have_css("h2", text: "Fix grammar")
     end
   end
