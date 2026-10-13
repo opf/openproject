@@ -54,6 +54,15 @@ RSpec.describe AI::AssistantSkill do
       expect(skill.conditions).to eq("type_ids" => [feature.id])
     end
 
+    it "drops the ids of deleted records when it is saved" do
+      gone = create(:type)
+      skill = create(:ai_assistant_skill, conditions: { type_ids: [feature.id, gone.id], status_ids: [in_progress.id] })
+      gone.destroy
+      skill.update!(conditions: { type_ids: [feature.id, gone.id], status_ids: [0] })
+
+      expect(skill.reload.conditions).to eq("type_ids" => [feature.id])
+    end
+
     context "with a type condition" do
       let(:conditions) { { type_ids: [bug.id] } }
 
@@ -80,6 +89,10 @@ RSpec.describe AI::AssistantSkill do
       it "matches users with that role in the work package's project" do
         expect(skill.conditions_fulfilled?(work_package, user)).to be(true)
         expect(skill.conditions_fulfilled?(work_package, create(:user))).to be(false)
+      end
+
+      it "matches admins, who can see and change every skill" do
+        expect(skill.conditions_fulfilled?(work_package, create(:admin))).to be(true)
       end
     end
   end

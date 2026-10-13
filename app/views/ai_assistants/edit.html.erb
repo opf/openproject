@@ -91,6 +91,11 @@
               <%= skill.skill_type&.prompt_required? ? t("admin.ai_assistants.skills.no_prompt_not_offered") : t("admin.ai_assistants.skills.no_prompt") %>
             <% end %>
           <% end %>
+          <% if skill.conditions.present? %>
+            <%= render(Primer::Beta::Label.new(scheme: :accent, ml: 2, data: { test_selector: "ai-skill-conditions" })) do %>
+              <%= skill.conditions.map { |key, ids| t("admin.ai_assistants.skills.conditions.count.#{key}", count: ids.size) }.join(" · ") %>
+            <% end %>
+          <% end %>
           <% unless skill.active? %>
             <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { t("admin.ai_assistants.inactive") } %>
           <% end %>

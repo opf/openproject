@@ -84,6 +84,9 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
                       condition_type_ids: ["", type.id.to_s], condition_status_ids: [""] }
 
       expect(skill.reload.conditions).to eq("type_ids" => [type.id])
+
+      get edit_admin_ai_assistant_path(global_assistant)
+      expect(page).to have_css("[data-test-selector='ai-skill-conditions']", text: "1 type")
     end
   end
 

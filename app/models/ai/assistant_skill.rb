@@ -52,8 +52,11 @@ module AI
 
     # Where the skill is offered, as lists of ids. An empty list matches every work package.
     CONDITION_KEYS = %w[type_ids status_ids project_ids role_ids].freeze
+    CONDITION_MODELS = { "type_ids" => Type, "status_ids" => Status, "project_ids" => Project, "role_ids" => Role }.freeze
 
     scope :active, -> { where(active: true) }
+
+    before_save :drop_deleted_condition_ids
 
     def conditions=(value)
       ids = value.to_h.stringify_keys.slice(*CONDITION_KEYS)
@@ -70,7 +73,7 @@ module AI
       condition_matches?(:type_ids) { [work_package.type_id] } &&
         condition_matches?(:status_ids) { [work_package.status_id] } &&
         condition_matches?(:project_ids) { [work_package.project_id] } &&
-        condition_matches?(:role_ids) { user.roles_for_project(work_package.project).map(&:id) }
+        (user.admin? || condition_matches?(:role_ids) { user.roles_for_project(work_package.project).map(&:id) })
     end
 
     def skill_type
@@ -130,6 +133,12 @@ module AI
     end
 
     private
+
+    # A deleted type, status, project or role would match nothing, and a list of only
+    # deleted ids would hide the skill everywhere.
+    def drop_deleted_condition_ids
+      self.conditions = conditions.to_h { |key, ids| [key, CONDITION_MODELS.fetch(key).where(id: ids).pluck(:id)] }
+    end
 
     # The block gives the work package's ids for the key; it runs only for a set condition.
     def condition_matches?(key)

@@ -1540,6 +1540,19 @@ en:
         conditions:
           all: "All"
           caption: "The skill is offered only on work packages that match every list. An empty list matches all."
+          count:
+            project_ids:
+              one: "1 project"
+              other: "%{count} projects"
+            role_ids:
+              one: "1 role"
+              other: "%{count} roles"
+            status_ids:
+              one: "1 status"
+              other: "%{count} statuses"
+            type_ids:
+              one: "1 type"
+              other: "%{count} types"
           project_ids: "Projects"
           role_ids: "Roles of the user in the project"
           status_ids: "Statuses"
@@ -1548,8 +1561,8 @@ en:
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
-        no_prompt: "No prompt: rules only"
-        no_prompt_not_offered: "No prompt: not offered"
+        no_prompt: "No system prompt: rules only"
+        no_prompt_not_offered: "No system prompt: not offered"
         prompt_caption: "What the model does in this skill. Without it, Refresh work package runs only its rules, and a custom prompt or a chat is not offered."
         prompt_preview: "Show the full system prompt"
         prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type and its proposals. Shown as saved."
