@@ -32,6 +32,10 @@ uk:
         labels: Мітки
       gitlab_pipeline:
         ci_details: Деталі CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -71,13 +75,10 @@ uk:
   attributes:
     commit: Коміт
     gitlab: Ідентифікатор GitLab
-    gitlab_avatar_url: URL-адреса аватара
     gitlab_html_url: URL-адреса HTML GitLab
     gitlab_merge_request: Запит на злиття
-    gitlab_name: Назва GitLab
     gitlab_updated_at: Оновлено о
     gitlab_user_avatar_url: URL-адреса аватара GitLab
-    gitlab_username: Ім’я користувача GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

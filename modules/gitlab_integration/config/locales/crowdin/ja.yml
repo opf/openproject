@@ -32,6 +32,10 @@ ja:
         labels: ラベル
       gitlab_pipeline:
         ci_details: CI詳細
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -56,13 +60,10 @@ ja:
   attributes:
     commit: コミット
     gitlab: GitLab識別子
-    gitlab_avatar_url: アバターURL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: マージ・リクエスト
-    gitlab_name: GitLab名
     gitlab_updated_at: 更新日時
     gitlab_user_avatar_url: GitLabアバターURL
-    gitlab_username: GitLabユーザー名
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

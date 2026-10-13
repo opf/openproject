@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,10 +29,9 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 import './init-moment-locales';
 
-import 'moment-timezone/builds/moment-timezone-with-data.min';
 import '@openproject/primer-view-components/app/assets/javascripts/primer_view_components.js';
 
 import URI from 'urijs';

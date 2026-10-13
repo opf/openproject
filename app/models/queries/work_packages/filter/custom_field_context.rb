@@ -43,15 +43,16 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def custom_fields(context)
-      if context&.project
-        context
-          .project
-          .all_work_package_custom_fields
-          .merge(WorkPackageCustomField.filter)
+      if context&.project&.persisted?
+        WorkPackageCustomField
+          .filter
+          .on_visible_type_and_project(projects: context.project)
+      elsif context&.project
+        WorkPackageCustomField.filter
       else
         custom_field_class
           .filter
-          .for_all
+          .on_visible_type_and_project(User.current)
           .where
           .not(field_format: %w(user version))
       end
@@ -70,7 +71,6 @@ module Queries::WorkPackages::Filter::CustomFieldContext
     end
 
     def where_subselect_joins(custom_field)
-      cf_projects_db_table = "custom_fields_projects"
       cv_db_table = CustomValue.table_name
       work_package_db_table = WorkPackage.table_name
 
@@ -78,7 +78,7 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       form_join, form_configuration_id, excluded = TypeVariant.form_configuration_join(own_variant_expr)
       exclusion = TypeVariant.excluded_custom_field_condition(custom_field.id.to_s, excluded)
 
-      joins = <<~SQL.squish
+      <<~SQL.squish
         LEFT OUTER JOIN #{cv_db_table}
           ON #{cv_db_table}.customized_type = 'WorkPackage'
          AND #{cv_db_table}.customized_id = #{work_package_db_table}.id
@@ -92,16 +92,6 @@ module Queries::WorkPackages::Filter::CustomFieldContext
         #{form_join}
         #{placed_on_form_join(custom_field, form_configuration_id, exclusion)}
       SQL
-
-      unless custom_field.is_for_all
-        joins += <<~SQL.squish
-          JOIN #{cf_projects_db_table}
-            ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
-           AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}
-        SQL
-      end
-
-      joins
     end
 
     def where_subselect_conditions

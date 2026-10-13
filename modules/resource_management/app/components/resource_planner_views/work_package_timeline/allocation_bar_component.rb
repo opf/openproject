@@ -56,9 +56,13 @@ module ResourcePlannerViews
         allocation.filter_based?
       end
 
+      def deleted_user?
+        allocation.principal.is_a?(DeletedUser)
+      end
+
       def principal_visible?
         return false unless allocation.user_assigned?
-        return true if visible_principal_ids.nil?
+        return true if visible_principal_ids.nil? || deleted_user?
 
         visible_principal_ids.include?(allocation.principal_id)
       end

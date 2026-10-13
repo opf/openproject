@@ -25,8 +25,6 @@ pl:
     button_log_costs: Rejestruj koszty jednostkowe
     label_hour: godzina
     label_hours: godziny
-    myTimeTracking:
-      noSpecificTime: Brak określonego czasu
     text_are_you_sure: Jesteś pewny?
     work_packages:
       properties:

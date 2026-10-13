@@ -119,6 +119,10 @@ FactoryBot.define do
       field_format { "date" }
     end
 
+    trait :datetime do
+      field_format { "datetime" }
+    end
+
     trait :list do
       transient do
         default_option { nil }
@@ -267,16 +271,6 @@ FactoryBot.define do
       is_filter { true }
 
       activatable_on_types
-
-      transient do
-        projects { [] }
-      end
-
-      after(:create) do |custom_field, evaluator|
-        evaluator.projects.each do |project|
-          project.work_package_custom_fields << custom_field
-        end
-      end
 
       %w[
         boolean

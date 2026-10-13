@@ -472,6 +472,7 @@ id:
       no_items: Tidak ada agenda
       no_items_flash: Tidak ada agenda yang akan dibahas.
       previous: Sebelumnya
+      slide_progress: Slide %{current}/%{total}
       title: Mode Presentasi
       total_items: "%{current} dari %{total}"
     types:
@@ -680,6 +681,7 @@ id:
   text_agenda_item_duplicate_in_next_meeting: Apakah Anda yakin ingin menambahkan salinan item agenda ini ke rapat berikutnya pada %{date} pukul %{time}? Hasil rapat tidak akan diduplikasi.
   text_agenda_item_duplicated_in_next_meeting: Agenda item yang sama terulang dalam rapat berikutnya, yaitu pada %{date}
   text_agenda_item_move_next_meeting: Item ini akan dipindahkan ke rapat selanjutnya pada %{date} pukul %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Item agenda ini dipindahkan ke rapat berikutnya, yaitu pada %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Tidak ada catatan yang diberikan

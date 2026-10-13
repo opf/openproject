@@ -62,8 +62,7 @@ module Admin
       def extra_tabs
         return [] unless @custom_field.is_a?(WorkPackageCustomField)
 
-        [{ name: "custom_field_projects", path: custom_field_projects_path(@custom_field), label: t(:label_project_plural) },
-         { name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
+        [{ name: "attribute_help_text", path: attribute_help_text_path(@custom_field),
            label: AttributeHelpText.human_attribute_name(:help_text) }]
       end
 

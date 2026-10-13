@@ -45,7 +45,7 @@ RSpec.describe "The overview of a work package type",
     expect(page).to have_link("Defaults", href: edit_type_defaults_path(type_id: type.id))
     expect(page).to have_link("Variants", href: type_variants_path(type_id: type.id))
     expect(page).to have_link("Form", href: edit_type_form_configuration_path(type_id: type.id))
-    expect(page).to have_link("Workflows", href: edit_type_workflow_path(type_id: type.id))
+    expect(page).to have_link("Workflow", href: edit_type_workflow_path(type_id: type.id))
     expect(page).to have_link("Project attributes", href: edit_type_project_attributes_path(type_id: type.id))
     expect(page).to have_link("Projects", href: edit_type_projects_path(type_id: type.id))
     expect(page).to have_link("Generate PDF", href: edit_type_pdf_export_template_index_path(type_id: type.id))

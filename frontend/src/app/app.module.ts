@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -93,6 +92,9 @@ import { OpPrincipalComponent } from 'core-app/shared/components/principal/princ
 import {
   OpBasicSingleDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
+import {
+  OpBasicSingleDatetimePickerComponent,
+} from 'core-app/shared/components/datepicker/basic-single-datetime-picker/basic-single-datetime-picker.component';
 import {
   OpBasicRangeDatePickerComponent,
 } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
@@ -359,6 +361,7 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-macro-embedded-table', EmbeddedTablesMacroComponent, { injector });
     registerCustomElement('opce-principal', OpPrincipalComponent, { injector });
     registerCustomElement('opce-basic-single-date-picker', OpBasicSingleDatePickerComponent, { injector });
+    registerCustomElement('opce-basic-single-datetime-picker', OpBasicSingleDatetimePickerComponent, { injector });
     registerCustomElement('opce-range-date-picker', OpBasicRangeDatePickerComponent, { injector });
     registerCustomElement('opce-global-search', GlobalSearchInputComponent, { injector });
     registerCustomElement('opce-autocompleter', OpAutocompleterComponent, { injector });

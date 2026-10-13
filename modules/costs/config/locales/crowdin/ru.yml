@@ -162,7 +162,6 @@ ru:
   button_add_time_entry: Добавить трудозатраты
   button_log_costs: Журналировать расходы на единицу
   button_log_time: Журнал
-  button_stop_timer: Остановить таймер
   button_update_limits: Обновить ограничения
   button_update_start_finish_times: Обновить время начала и окончания
   caption_booked_on_project: Заказано на проект
@@ -232,7 +231,6 @@ ru:
   label_current: Текущий
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
-  label_day: День
   label_defaults_and_limits: Значения по умолчанию и ограничения
   label_deleted_cost_types: Типы удаленных расходов
   label_display_cost_entries: Отображать расходы на единицу
@@ -248,42 +246,28 @@ ru:
   label_less_or_equal: "<="
   label_list: Список
   label_log_costs: Внести расходы на единицу
-  label_month: Месяц
-  label_my_time_tracking: Мои трудозатраты
   label_new_time_entry_activity: Новая деятельность по учету рабочего времени
-  label_next_day: След. день
-  label_next_month: Следующий месяц
-  label_next_week: На следующей неделе
-  label_next_workweek: Следующая рабочая неделя
   label_no: Нет
   label_no_default_rate: Ставка по умолчанию не установлена
   label_no_project_rate: Для данного проекта ставка не установлена
-  label_no_time: Нет учтённого времени
   label_option_plural: Параметры
   label_overall_costs: Общие расходы
-  label_previous_day: Предыдущий день
-  label_previous_month: Предыдущий месяц
-  label_previous_week: Предыдущая неделя
-  label_previous_workweek: Предыдущая рабочая неделя
   label_rate_plural: Тарифы
   label_show: Показать
   label_specific_day: День %{day}
   label_specific_month: Месяц %{month}
-  label_stack: Stack
   label_start_and_finished: Время начала и окончания
   label_status_finished: Завершенные
   label_time: Время
   label_time_entry_activity_form_description: Изменения в записи этого времени будут отражаться во всех проектах, где он включен.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Ограничения
-  label_timer_since: Начато в %{time}
   label_today_capitalized: Сегодня
   label_units: Стоимость единицы
   label_until: До
   label_using_current_default_rate: Используется текущая ставка по умолчанию
   label_valid_from: Действует с
-  label_view_mode_switcher: Изменить вид
   label_work_package_filter_add: Добавить фильтр пакетов работы
-  label_workweek: Рабочая неделя
   label_yes: Да
   notice_cost_logged_successfully: 'Стоимость единицы успешно зажурналировано '
   notice_different_time_zones: У этого пользователя другой часовой пояс (%{tz}). Время будет журналироваться с учетом его часового пояса.

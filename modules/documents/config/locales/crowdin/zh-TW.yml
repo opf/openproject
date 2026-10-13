@@ -32,15 +32,15 @@ zh-TW:
           one_or_more_required: 無法刪除最後一個文件類型
     models:
       document:
-        other: Documents
+        other: 文件
       document_type:
-        other: Document types
+        other: 文件類型
   activity:
     filter:
       document: 文件
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus 伺服器 URL
-    documents: Documents
+    documents: 文件
   default_doc_category_tech: 技術文件
   default_doc_category_user: 使用者文件
   documents:
@@ -62,8 +62,8 @@ zh-TW:
           label: Hocuspocus 伺服器 URL
         page_header:
           description_html: |-
-            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
-            It requires a working [Hocuspocus server](hocuspocus_server_link) to function.
+            啟用時，即時協作可讓多位使用者同時編輯一份文件。
+            它需要工作中的 %{hocuspocus_server_link} 才能運作。
       disable_text_collaboration_dialog:
         confirmation_checkbox_message: 我瞭解我可能會永久遺失資料
         confirmation_message: |-
@@ -80,7 +80,7 @@ zh-TW:
         heading: 未啟用即時協作
         primary_action: 實現即時協作
         success: 已啟用即時協作。
-    button_add_type: Type
+    button_add_type: 類型
     delete_dialog:
       confirmation_message_html: 這將永久刪除本文件和所有檔案附件。您確定要這麼做？
       heading: 刪除此文件？
@@ -117,7 +117,7 @@ zh-TW:
       currently_offline: 你目前狀態為離線。
     label_attachment_author: 附件作者
     label_categories: 類別
-    last_updated_at_html: Last saved %{time}.
+    last_updated_at_html: 最後儲存 %{time}。
     menu:
       all: 所有文件
       collaboration_settings: 即時協作

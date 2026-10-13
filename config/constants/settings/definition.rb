@@ -384,14 +384,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: -> {
-          base_modules = %w[calendar board_view work_package_tracking gantt news costs]
-          if Setting.real_time_text_collaboration_enabled?
-            base_modules + %w[documents]
-          else
-            base_modules
-          end
-        },
+        default: -> { OpenProject::AccessControl.default_project_modules.map(&:to_s) },
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {

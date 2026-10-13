@@ -7,10 +7,10 @@ tr:
         bim_snippet: BIM snippet
         reference_links: Referans bağlantıları
         stage: Aşama
-        status_id: Status
+        status_id: Durum
         viewpoint: bakış açısı
       bim/bcf/viewpoint:
-        status_id: Status
+        status_id: Durum
       bim/ifc_models/ifc_model:
         attachments: IFC dosyası
         ifc_attachment: IFC dosyası
@@ -48,8 +48,8 @@ tr:
         one: BCF viewpoint
         other: BCF viewpoints
       bim/ifc_models/ifc_model:
-        one: IFC model
-        other: IFC models
+        one: IFC modeli
+        other: IFC modeli
   attributes:
     bcf_thumbnail: BCF görüntüsü
   bcf:

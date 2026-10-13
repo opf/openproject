@@ -484,6 +484,7 @@ de:
       no_items: Keine Tagesordnungspunkte
       no_items_flash: Es sind keine Tagesordnungspunkte vorhanden.
       previous: Zurück
+      slide_progress: Slide %{current}/%{total}
       title: Präsentationsmodus
       total_items: "%{current} von %{total}"
     types:
@@ -696,6 +697,7 @@ de:
   text_agenda_item_duplicate_in_next_meeting: Sind Sie sicher, dass Sie eine Kopie dieses Tagesordnungspunktes in die nächste Besprechung am %{date} um %{time} aufnehmen wollen? Ergebnisse dieses Eintrags werden nicht kopiert.
   text_agenda_item_duplicated_in_next_meeting: Tagesordnungspunkt zum nächsten Besprechung am %{date} kopiert
   text_agenda_item_move_next_meeting: Dieser Punkt wird auf die nächste Sitzung am %{date} auf %{time} verschoben.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Tagesordnungspunkt zur nächsten Besprechung am %{date} verschoben
   text_agenda_item_no_available_occurrence: Es gibt keine verfügbaren bevorstehende Ereignisse.
   text_agenda_item_no_notes: Keine Notizen angegeben.

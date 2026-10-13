@@ -104,7 +104,6 @@ zh-CN:
   plugin_openproject_reporting:
     description: 该插件允许使用 OpenProject 工时和成本插件创建自定义成本报告，并具有过滤和分组功能。
     name: OpenProject 报告
-  project_module_reporting_module: 成本报告
   reporting:
     group_by:
       selected_columns: 选定的列

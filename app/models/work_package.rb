@@ -36,7 +36,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
-  include WorkPackage::CustomActioned
+  include WorkPackage::Automatable
   include WorkPackage::Hooks
   # Must stay above WorkPackage::Journalized: its after_save persists the
   # version rows that the journal snapshot then reads.
@@ -509,8 +509,7 @@ class WorkPackage < ApplicationRecord
     type_variant_ids = type_variant_ids_by_pair(work_packages)
 
     custom_fields = available_custom_fields_from_db(work_packages)
-                    .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(wp_variants.own_id) available_type_ids",
+                    .select("array_agg(wp_variants.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
@@ -518,15 +517,9 @@ class WorkPackage < ApplicationRecord
       type_variant_id = type_variant_ids[custom_field_pair(work_package)]
 
       RequestStore.store[available_custom_field_key(work_package)] =
-        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
+        custom_fields.select { |cf| cf.available_type_ids.include?(type_variant_id) }
     end
   end
-
-  def self.available_for?(custom_field, work_package, type_variant_id)
-    (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
-      custom_field.available_type_ids.include?(type_variant_id)
-  end
-  private_class_method :available_for?
 
   # A work package stores its type, while its project may apply a variant resulting in a different
   # form configuration. The fields available therefore depend on the (project, type) pair
@@ -559,11 +552,8 @@ class WorkPackage < ApplicationRecord
     type_ids = type_variant_ids_by_pair(work_packages).values.compact.uniq
     return WorkPackageCustomField.none if type_ids.empty?
 
-    project_ids = work_packages.map(&:project_id).uniq
-    type_join = form_configuration_custom_fields_join(type_ids)
-
-    custom_fields_activated_in(type_join, project_ids)
-      .or(custom_fields_for_all(type_join))
+    WorkPackageCustomField
+      .joins(form_configuration_custom_fields_join(type_ids))
       .distinct
   end
   private_class_method :available_custom_fields_from_db
@@ -585,6 +575,8 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
+  # Match custom fields on the variant that owns the form configuration,
+  # excluding fields that are hidden somewhere in the source
   def self.form_configuration_custom_fields_join(variant_ids)
     values = variant_ids.map { |id| "(#{id})" }.join(", ")
     driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"

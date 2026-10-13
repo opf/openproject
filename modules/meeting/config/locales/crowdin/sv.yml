@@ -484,6 +484,7 @@ sv:
       no_items: Inga punkter på dagordningen
       no_items_flash: Det finns inga punkter på dagordningen att presentera.
       previous: Föregående
+      slide_progress: Slide %{current}/%{total}
       title: Presentationsläge
       total_items: "%{current} av %{total}"
     types:
@@ -696,6 +697,7 @@ sv:
   text_agenda_item_duplicate_in_next_meeting: Är du säker på att du vill lägga till en kopia av den här dagordningspunkten till nästa möte den %{date} kl. %{time}? Resultat dupliceras inte.
   text_agenda_item_duplicated_in_next_meeting: Dagordningspunkten duplicerades till nästa möte den %{date}
   text_agenda_item_move_next_meeting: Detta objekt kommer att flyttas till nästa möte på %{date} på %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Dagordningspunkten flyttad till nästa möte, på %{date}
   text_agenda_item_no_available_occurrence: Det finns inga kommande förekomster tillgängliga.
   text_agenda_item_no_notes: Inga anteckningar tillhandahållna

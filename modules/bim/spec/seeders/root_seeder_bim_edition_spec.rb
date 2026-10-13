@@ -66,6 +66,10 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count).to eq 2
     end
 
+    it "starts new projects with every seeded type" do
+      expect(TypeVariant.enabled_in_new_projects.count).to eq 7
+    end
+
     it "adds the BIM module to the default_projects_modules setting" do
       default_modules = Setting.find_by(name: "default_projects_modules").value
       expect(default_modules).to include("bim")
@@ -266,8 +270,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 13 development work package custom fields + 4 demo user custom fields
-      expect(CustomField.count).to eq 17
+      # 14 development work package custom fields + 4 demo user custom fields
+      expect(CustomField.count).to eq 18
     end
 
     it "creates 2 additional types for development" do

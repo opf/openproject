@@ -42,6 +42,7 @@ module PlannerRoutesCases
     allocation_path: ->(pr, ctx) { [pr, ctx[:allocation]] },
     edit_allocation_path: ->(pr, ctx) { [pr, ctx[:allocation]] },
     refresh_form_allocations_path: ->(pr, _ctx) { [pr] },
+    refresh_form_allocation_path: ->(pr, ctx) { [pr, ctx[:allocation]] },
     work_package_allocations_path: ->(pr, ctx) { [pr, ctx[:work_package]] },
     user_allocations_path: ->(pr, ctx) { [pr, ctx[:user], { resource_planner_view_id: 7 }] }
   }.freeze

@@ -101,6 +101,7 @@ zh-CN:
       criteria:
         empty: 尚未设置条件。
         label: 条件
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: 所选用户在这些日期没有配置工作时数，因此被计为没有产能。
         partial: 所选用户在 %{dates}没有配置工作时数，因此这些日期被计为没有产能。
@@ -115,6 +116,7 @@ zh-CN:
         schedule_note: 此用户%{schedule}工作。
         submit: 分配加班时间
         title: 是否要为用户分配加班时间？
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: 分配
       success_message: 资源已分配。
       title: 分配资源
@@ -165,6 +167,8 @@ zh-CN:
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: 添加视图
     public_caption: 向该项目的所有成员公开此视图。这不会影响工作包的可见性，工作包的可见性仍然取决于每位用户的权限。

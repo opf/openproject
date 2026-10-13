@@ -33,6 +33,26 @@ module Meetings
     extend ActiveSupport::Concern
 
     included do
+      helper_method :sorted_agenda_item_ids
+
+      def sorted_agenda_item_ids(meeting = @meeting)
+        meeting.sections
+               .includes(:agenda_items)
+               .order(:position)
+               .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
+      end
+
+      def replace_presentation_show_via_turbo_stream(current_id:)
+        replace_via_turbo_stream(
+          component: Meetings::PresentationMode::ShowComponent.new(
+            meeting: @meeting,
+            sorted_agenda_item_ids:,
+            current_id:,
+            started_at: @started_at
+          )
+        )
+      end
+
       def update_header_component_via_turbo_stream(meeting: @meeting, state: :show)
         update_via_turbo_stream(
           component: Meetings::HeaderComponent.new(
@@ -234,7 +254,7 @@ module Meetings
             **
           )
         )
-        update_show_items_via_turbo_stream(current_occurrence:)
+        update_show_items_via_turbo_stream(current_occurrence:) unless presentation_mode
       end
 
       def add_item_via_turbo_stream(current_occurrence:, meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize

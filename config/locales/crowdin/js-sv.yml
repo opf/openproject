@@ -202,6 +202,7 @@ sv:
     description_subwork_package: 'Underordnad till arbetspaket #%{id}'
     editor:
       ckeditor_error: Ett fel inträffade inom CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Misslyckades med att spara dokumentet på grund av följande fel: %{error}'
       macro:
         attribute_reference:

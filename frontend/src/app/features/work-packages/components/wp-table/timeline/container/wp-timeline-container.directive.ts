@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -84,6 +83,7 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import Mousetrap from 'mousetrap';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -566,7 +566,7 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     const changedGroupId = groupIdFromIdentifier(groupIdentifier);
     const changedGroupType = groupTypeFromIdentifier(groupIdentifier);
-    const changedGroupTableWorkPackages = tableWorkPackages.filter((tableWorkPackage) => tableWorkPackage[changedGroupType].id === changedGroupId);
+    const changedGroupTableWorkPackages = tableWorkPackages.filter((tableWorkPackage) => (tableWorkPackage[changedGroupType] as HalResource).id === changedGroupId);
     const changedGroupWpsWithHeaderCells = changedGroupTableWorkPackages.filter((tableWorkPackage) => this.shouldBeShownInCollapsedGroupHeaders(tableWorkPackage)
       && (tableWorkPackage.date || tableWorkPackage.startDate));
     const changedGroupWpsWithHeaderCellsIds = changedGroupWpsWithHeaderCells.map((workPackage) => workPackage.id!);

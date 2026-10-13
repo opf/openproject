@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -46,7 +45,7 @@ import { States } from 'core-app/core/states/states.service';
 import { debugLog } from '../../../../helpers/debug_output';
 import { hasSelectionWithin } from '../../../../helpers/selection-helpers';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
 @Component({
   selector: 'op-editable-attribute-field',
@@ -151,7 +150,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public get isEditable():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     return !!(this.editForm && this.schema.isAttributeEditable(this.fieldName));
   }
 
@@ -246,7 +244,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
-      const val = this.halEditing.typedState(this.resource).value as { schema:SchemaResource };
+      const val = this.halEditing.typedState(this.resource).value as { schema:ISchemaProxy };
       return val.schema;
     }
 

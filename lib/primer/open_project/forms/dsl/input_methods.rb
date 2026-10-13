@@ -78,6 +78,10 @@ module Primer
             add_input SingleDatePickerInput.new(builder:, form:, **decorate_options(**))
           end
 
+          def single_datetime_picker(**)
+            add_input SingleDatetimePickerInput.new(builder:, form:, **decorate_options(**))
+          end
+
           def storage_manual_project_folder_selection(**)
             add_input StorageManualProjectFolderSelectionInput.new(builder:, form:, **decorate_options(**))
           end

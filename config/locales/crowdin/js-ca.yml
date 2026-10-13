@@ -202,6 +202,7 @@ ca:
     description_subwork_package: 'Fill del paquet de treball #%{id}'
     editor:
       ckeditor_error: S'ha produït un error amb el CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'No s''ha pogut guardar el document per culpa del següent error: %{error}'
       macro:
         attribute_reference:

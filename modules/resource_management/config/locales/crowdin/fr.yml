@@ -107,6 +107,7 @@ fr:
       criteria:
         empty: Aucun critère défini.
         label: Critères
+      deleted_assignee: The user assigned to this allocation has been deleted. You can keep the allocation as it is or pick someone else.
       missing_working_hours:
         none: Aucun horaire de travail n'est configuré pour l'utilisateur sélectionné à ces dates. Sa capacité est donc considérée comme nulle.
         partial: 'Aucun horaire de travail n''est configuré pour l''utilisateur sélectionné aux dates suivantes : %{dates}. Sa capacité est donc considérée comme nulle pour ces jours.'
@@ -121,6 +122,7 @@ fr:
         schedule_note: Cet utilisateur utilise l'adresse %{schedule}.
         submit: Attribuer des heures supplémentaires
         title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
+      staffed_from: Staffed from placeholder user %{placeholder}
       submit: Attribuer
       success_message: Ressource attribuée.
       title: Attribuer une ressource
@@ -171,6 +173,8 @@ fr:
     label_new_resource_planner: Nouveau planificateur de ressources
     label_resource_planner: Planificateur de ressources
     label_resource_planner_plural: Planificateurs de ressources
+    my_work:
+      hidden_work_package: Work package not visible to you
     new_view_dialog:
       title: Ajouter une vue
     public_caption: Rendez cette vue publique pour tous les membres du projet. Cela n'affecte pas la visibilité des lots de travaux, qui dépend toujours de l'autorisation de chaque utilisateur.

@@ -82,6 +82,22 @@ RSpec.describe TypeVariant do
     end
   end
 
+  describe ".created_by_migration" do
+    subject(:authored) { create(:type_variant, type: bug, variant_name: "Hardware") }
+
+    let!(:converted) do
+      create(:type_variant, type: bug, variant_name: "Converted", created_by_migration: true)
+    end
+
+    it "is false for a variant a user authored" do
+      expect(authored).not_to be_created_by_migration
+    end
+
+    it "lists only the variants a data migration created" do
+      expect(described_class.created_by_migration).to contain_exactly(converted)
+    end
+  end
+
   describe "resolving an aspect" do
     let(:base) { bug.default_variant }
     let(:leaf) { create(:type_variant, type: bug, variant_name: "Hardware") }
@@ -293,6 +309,43 @@ RSpec.describe TypeVariant do
 
       expect(Workflow.where(id: workflow_id)).to be_present
       expect(Workflows::StatusTransition.where(workflow_id:).count).to eq(1)
+    end
+  end
+
+  describe "#configurable_by?" do
+    let(:project) { create(:project) }
+    let(:type) { create(:type) }
+
+    it "lets an administrator configure any variant" do
+      expect(create(:type_variant, type:)).to be_configurable_by(build_stubbed(:admin))
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(build_stubbed(:admin))
+    end
+
+    # Only the owning project's URL carries the project segment the controllers authorize against,
+    # so a variant nobody owns is administration's alone.
+    it "refuses a variant no project owns" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:type_variant, type:)).not_to be_configurable_by(user)
+    end
+
+    it "lets the owning project's manager configure its own variant" do
+      user = create(:user, member_with_permissions: { project => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).to be_configurable_by(user)
+    end
+
+    it "refuses a manager of another project" do
+      elsewhere = create(:project)
+      user = create(:user, member_with_permissions: { elsewhere => %i[manage_project_variants] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
+    end
+
+    it "refuses a member without the permission" do
+      user = create(:user, member_with_permissions: { project => %i[manage_types] })
+
+      expect(create(:project_owned_type_variant, type:, project:)).not_to be_configurable_by(user)
     end
   end
 end

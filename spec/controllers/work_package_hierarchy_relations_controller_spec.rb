@@ -109,7 +109,6 @@ RSpec.describe WorkPackageHierarchyRelationsController do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
             project.enabled_variants.first.custom_field_ids |= [cf.id]
-            project.work_package_custom_fields << cf
           end
         end
 
@@ -162,7 +161,6 @@ RSpec.describe WorkPackageHierarchyRelationsController do
         shared_let(:custom_field) do
           create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
             project.enabled_variants.first.custom_field_ids |= [cf.id]
-            project.work_package_custom_fields << cf
           end
         end
 
@@ -246,7 +244,6 @@ RSpec.describe WorkPackageHierarchyRelationsController do
       shared_let(:custom_field) do
         create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
           project.enabled_variants.first.custom_field_ids |= [cf.id]
-          project.work_package_custom_fields << cf
         end
       end
 
