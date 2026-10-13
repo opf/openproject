@@ -33,7 +33,10 @@ require_relative "base"
 class Tables::ServiceAccountAssociations < Tables::Base
   def self.table(migration)
     create_table migration do |t|
-      t.belongs_to :service_account, null: false, index: { unique: true }
+      t.belongs_to :service_account,
+                   null: false,
+                   index: { unique: true },
+                   foreign_key: { to_table: :users, on_delete: :cascade }
       t.belongs_to :service, null: false, index: false # necessary index covered by composite
       t.string :service_type, null: false
 

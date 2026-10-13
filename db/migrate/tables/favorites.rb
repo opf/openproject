@@ -34,12 +34,14 @@ class Tables::Favorites < Tables::Base
   def self.table(migration)
     create_table migration do |t|
       t.references :user, null: false, foreign_key: true, index: true
-      t.references :favored, null: false, polymorphic: true
+      # The index kept its name when the columns were renamed to favorited,
+      # duplicating index_favorites_on_favorited_type_and_favorited_id.
+      t.references :favorited, null: false, polymorphic: true, index: { name: "index_favorites_on_favored" }
 
       t.timestamps
 
-      t.index %i[favored_type favored_id]
-      t.index %i[user_id favored_type favored_id],
+      t.index %i[favorited_type favorited_id]
+      t.index %i[user_id favorited_type favorited_id],
               unique: true
     end
   end

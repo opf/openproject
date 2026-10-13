@@ -28,8 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddYDocBlobToDocuments < ActiveRecord::Migration[8.0]
-  def change
-    add_column :documents, :content_binary, :text
-  end
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/documents"
+require_relative "tables/document_journals"
+
+class AggregatedDocumentsMigrations < SquashedMigration
+  squashed_migrations *%w[
+    1012015_aggregated_documents_migrations
+    20250923064241_add_y_doc_blob_to_documents
+  ]
+
+  tables Tables::Documents,
+         Tables::DocumentJournals
 end

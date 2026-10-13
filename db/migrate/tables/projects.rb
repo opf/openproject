@@ -46,6 +46,7 @@ class Tables::Projects < Tables::Base
       t.integer :status_code
       t.text :status_explanation
       t.jsonb :settings, null: false, default: {}
+      t.string :workspace_type, null: false, index: true
 
       t.index :lft, name: "index_projects_on_lft"
       t.index :rgt, name: "index_projects_on_rgt"

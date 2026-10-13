@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,10 +26,14 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class AddExportFooterToCustomStyles < ActiveRecord::Migration[8.0]
-  def change
-    add_column :custom_styles, :export_footer, :string, default: nil
-  end
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+
+class AggregatedOverviewsMigrations < SquashedMigration
+  squashed_migrations *%w[
+    1019015_aggregated_overviews_migrations
+    20250910085916_rename_manage_overview_to_manage_dashboards
+    20250923120330_remove_news_beta_widgets
+  ]
 end

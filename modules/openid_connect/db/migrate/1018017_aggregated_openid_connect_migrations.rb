@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,30 +26,23 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class AddBacklogsToOneTimeMeetings < ActiveRecord::Migration[8.0]
-  def up
-    execute <<~SQL.squish
-      INSERT INTO meeting_sections (meeting_id, backlog, title, position, created_at, updated_at)
-      SELECT m.id, true, '', 0, NOW(), NOW()
-      FROM meetings m
-      WHERE (
-        m.recurring_meeting_id IS NULL
-        OR m.template = true
-      )
-    SQL
-  end
+require Rails.root.join("db/migrate/migration_utils/squashed_migration").to_s
+require_relative "tables/oidc_user_session_links"
+require_relative "tables/oidc_user_tokens"
+require_relative "tables/oidc_group_links"
+require_relative "tables/oidc_group_memberships"
 
-  def down
-    execute <<~SQL.squish
-      DELETE FROM meeting_agenda_items
-      WHERE meeting_section_id IN (SELECT id FROM meeting_sections WHERE backlog = true)
-    SQL
+class AggregatedOpenIDConnectMigrations < SquashedMigration
+  tables Tables::OidcUserSessionLinks,
+         Tables::OidcUserTokens,
+         Tables::OidcGroupLinks,
+         Tables::OidcGroupMemberships
 
-    execute <<~SQL.squish
-      DELETE FROM meeting_sections
-      WHERE backlog = true
-    SQL
-  end
+  squashed_migrations *%w[
+    1018016_aggregated_openid_connect_migrations
+    20250710133700_add_oidc_group_links
+    20250711133700_add_oidc_group_memberships
+  ]
 end

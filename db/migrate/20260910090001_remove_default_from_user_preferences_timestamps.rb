@@ -28,13 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddValidityPeriodToEnterpriseToken < ActiveRecord::Migration[8.0]
-  def change
-    change_table :enterprise_tokens, bulk: true do |table|
-      table.column :valid_from, :date
-      table.column :valid_until, :date
-
-      table.index %i[valid_from valid_until]
+# Up to OpenProject 16, Tables::UserPreferences declared the timestamps as
+# t.timestamps default: DateTime.now, which froze the moment the migration ran
+# into the column default. OpenProject 17 dropped the default from the table
+# class without removing it from existing installations.
+class RemoveDefaultFromUserPreferencesTimestamps < ActiveRecord::Migration[8.1]
+  def up
+    change_table :user_preferences, bulk: true do |t|
+      t.change_default :created_at, nil
+      t.change_default :updated_at, nil
     end
+  end
+
+  def down
+    # No-op. The defaults held an arbitrary point in time per installation and
+    # cannot be restored meaningfully.
   end
 end

@@ -27,21 +27,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class FixMissingMeetingsAttachments < ActiveRecord::Migration[8.0]
+
+class RemoveDuplicateFavoritesIndex < ActiveRecord::Migration[8.1]
+  disable_ddl_transaction!
+
   def up
-    execute <<-SQL.squish
-      UPDATE attachments
-      SET container_type = 'Meeting',
-          container_id = (
-            SELECT mc.meeting_id
-            FROM meeting_contents mc
-            WHERE mc.id = attachments.container_id
-          )
-      WHERE attachments.container_type = 'MeetingContent';
-    SQL
+    remove_index :favorites,
+                 name: "index_favorites_on_favored",
+                 algorithm: :concurrently,
+                 if_exists: true
   end
 
   def down
-    # Nothing to do
+    add_index :favorites,
+              %i[favorited_type favorited_id],
+              name: "index_favorites_on_favored",
+              algorithm: :concurrently,
+              if_not_exists: true
   end
 end

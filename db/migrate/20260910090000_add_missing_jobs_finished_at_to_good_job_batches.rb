@@ -28,10 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddFormulaToCustomFields < ActiveRecord::Migration[8.0]
-  def change
-    add_column :custom_fields, :formula, :jsonb, null: true
+# 20250210184018_add_jobs_finished_at_to_good_job_batches was emptied out when the
+# column moved into Tables::GoodJobBatches, although it had never shipped in an
+# OpenProject 16 release. Installations upgrading from 16 therefore never received
+# the column, while fresh installations get it from the table class.
+class AddMissingJobsFinishedAtToGoodJobBatches < ActiveRecord::Migration[8.1]
+  def up
+    add_column :good_job_batches, :jobs_finished_at, :datetime, if_not_exists: true
+  end
 
-    add_index :custom_fields, :formula, using: :gin
+  def down
+    # No-op. The column belongs to the table as described in
+    # Tables::GoodJobBatches, so it must not be removed here.
   end
 end
