@@ -107,6 +107,12 @@ A user can create their own assistants with their own skills at **My account →
 - **Admin:** the admin list shows all assistants with their owner, and filters by owner (Global, Groups, Personal). The admin edits, deactivates and deletes personal assistants on the same pages.
 - **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
 
+## Skill conditions
+
+A skill can be limited to work packages of some types, statuses and projects, and to users with some roles in the work package's project (`ai_assistant_skills.conditions`, a jsonb hash of id lists). An empty list matches all. The menu, and so the runs and chats controllers, offer only skills whose conditions match (`AI::AssistantSkill#conditions_fulfilled?`). The skill page edits them under "Where it is offered".
+
+The rules are the same as the conditions of Automations, but the code is separate for now: Automations store them in join tables and filter in SQL. A deleted type, status, project or role stays in the list until the skill is saved again; it then matches nothing.
+
 ## Proposal scope and changeable attributes
 
 A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (attribute changes and comments), **Comment only** or **Read-only** (nothing). A comment is the Automations action `Comment`, and it needs only the permission to comment. There is no list of attributes to maintain in the UI: with custom fields, such a list would grow without limit.
@@ -145,7 +151,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | Table | Holds |
 |---|---|
 | `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
-| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, position, active |
+| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, `conditions`, position, active |
 | `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 | `ai_assistant_chats` | skill, user, work package |
@@ -186,6 +192,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 16 | Clean up AI Assistance after review | Shared LLM call, event log and locale helpers, dead code, seeded prompts, this document | 15 |
 | 17 | Add personal AI assistants in My account | Owner column, `manage_own_ai_assistants`, My account pages, shared admin and My controller logic | 11 |
 | 18 | Let a group own an AI assistant | `principal_id` owner, group choice in admin, menu for group members | 17 |
+| 19 | Offer skills only where their conditions match | `conditions` on skills, the menu filter, the skill form in sections | 11 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 
@@ -194,6 +201,6 @@ Steps 1 and 2 are useful on their own and can merge first. After step 8, the fea
 - **Coding agent.** Start an external coding agent (opilot) from the menu. The OpenProject work is in [Coding agent integration](./coding-agent.md).
 - **Enterprise gate.** Gate the menu, the runs and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
 - **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10–16 need specs, and the toolbar needs browser specs (full view and split view).
-- **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the conditions of Automations, and a path to triggers. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
+- **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the triggers of Automations. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
 - **Edit before apply.** Open a proposed description in the description editor.
 - **Retention.** Runs are kept without a limit. A cleanup job can come when usage shows the need.

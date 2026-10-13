@@ -89,6 +89,27 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
   end
 
+  describe "a skill with conditions" do
+    let!(:bug_skill) do
+      create(:ai_assistant_skill, assistant:, skill_key: "prompt", label: "Reproduce the bug", prompt: "Try it.",
+                                  conditions: { type_ids: [create(:type).id] })
+    end
+
+    it "is not listed on a work package that does not match" do
+      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+
+      expect(response.body).not_to include("Reproduce the bug")
+    end
+
+    it "is listed on a work package that matches" do
+      bug = create(:work_package, project:, type: Type.find(bug_skill.condition_ids(:type_ids).first))
+
+      get "/work_packages/#{bug.id}/ai_assistance/menu"
+
+      expect(response.body).to include("Reproduce the bug")
+    end
+  end
+
   describe "a group assistant" do
     let(:group) { create(:group) }
     let!(:group_skill) do

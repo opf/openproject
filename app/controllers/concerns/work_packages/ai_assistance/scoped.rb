@@ -66,7 +66,7 @@ module WorkPackages::AIAssistance::Scoped
       .merge(AI::Assistant.active.visible_to(current_user).ordered)
       .includes(:assistant)
       .order(:position, :id)
-      .select(&:ready?)
+      .select { |skill| skill.ready? && skill.conditions_fulfilled?(@work_package, current_user) }
   end
 
   # The offered skill with this id: a conversation (chat, custom prompt) or a run skill.

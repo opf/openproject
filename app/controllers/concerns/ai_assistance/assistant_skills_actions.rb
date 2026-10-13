@@ -52,8 +52,8 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def create
-    @skill = @assistant.skills.build(skill_params.merge(skill_key: params.dig(:ai_assistant_skill, :skill_key),
-                                                        position: next_position))
+    @skill = @assistant.skills.build(skill_attributes.merge(skill_key: params.dig(:ai_assistant_skill, :skill_key),
+                                                            position: next_position))
 
     if @skill.save
       flash[:notice] = t(:notice_successful_create)
@@ -64,7 +64,7 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def update
-    if @skill.update(skill_params)
+    if @skill.update(skill_attributes)
       flash[:notice] = t(:notice_successful_update)
       redirect_to pages.edit_assistant_path(@assistant)
     else
@@ -91,6 +91,15 @@ module AIAssistance::AssistantSkillsActions
 
   def find_skill
     @skill = @assistant.skills.find(params[:id])
+  end
+
+  # The condition inputs are outside the model scope: each posts a list of ids, and a
+  # hidden blank so that a cleared input clears the condition.
+  def skill_attributes
+    conditions = AI::AssistantSkill::CONDITION_KEYS.filter_map do |key|
+      [key, params[:"condition_#{key}"]] if params.key?(:"condition_#{key}")
+    end
+    conditions.any? ? skill_params.merge(conditions: @skill&.conditions.to_h.merge(conditions.to_h)) : skill_params
   end
 
   def next_position

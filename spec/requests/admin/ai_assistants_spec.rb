@@ -74,6 +74,19 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "skill conditions" do
+    let(:skill) { create(:ai_assistant_skill, assistant: global_assistant, conditions: { status_ids: [1] }) }
+    let(:type) { create(:type) }
+
+    it "stores the chosen ids, and a cleared input clears its condition" do
+      patch admin_ai_assistant_skill_path(global_assistant, skill),
+            params: { ai_assistant_skill: { label: "Checked" },
+                      condition_type_ids: ["", type.id.to_s], condition_status_ids: [""] }
+
+      expect(skill.reload.conditions).to eq("type_ids" => [type.id])
+    end
+  end
+
   describe "POST /admin/ai_assistants" do
     it "creates a global assistant" do
       post admin_ai_assistants_path, params: { ai_assistant: { name: "Release helper" } }

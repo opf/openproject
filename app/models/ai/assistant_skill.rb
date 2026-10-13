@@ -50,7 +50,28 @@ module AI
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
          default: "changes", validate: true, prefix: :scope
 
+    # Where the skill is offered, as lists of ids. An empty list matches every work package.
+    CONDITION_KEYS = %w[type_ids status_ids project_ids role_ids].freeze
+
     scope :active, -> { where(active: true) }
+
+    def conditions=(value)
+      ids = value.to_h.stringify_keys.slice(*CONDITION_KEYS)
+                 .transform_values { |list| Array(list).compact_blank.map(&:to_i).uniq }
+      super(ids.compact_blank)
+    end
+
+    def condition_ids(key)
+      Array(conditions[key.to_s])
+    end
+
+    # Whether the work package and the user's roles in its project match every condition.
+    def conditions_fulfilled?(work_package, user)
+      condition_matches?(:type_ids) { [work_package.type_id] } &&
+        condition_matches?(:status_ids) { [work_package.status_id] } &&
+        condition_matches?(:project_ids) { [work_package.project_id] } &&
+        condition_matches?(:role_ids) { user.roles_for_project(work_package.project).map(&:id) }
+    end
 
     def skill_type
       AI::AssistantSkills::Registry.fetch(skill_key)
@@ -104,6 +125,13 @@ module AI
 
       rules = output_rules.to_s.gsub(/\{\{\s*locale\s*\}\}/, locale.to_s)
       [prompt, rules].compact_blank.join("\n\n")
+    end
+
+    private
+
+    # The block gives the work package's ids for the key; it runs only for a set condition.
+    def condition_matches?(key)
+      condition_ids(key).empty? || condition_ids(key).intersect?(yield)
     end
   end
 end

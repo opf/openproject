@@ -1534,6 +1534,13 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
+        conditions:
+          all: "All"
+          caption: "The skill is offered only on work packages that match every list. An empty list matches all."
+          project_ids: "Projects"
+          role_ids: "Roles of the user in the project"
+          status_ids: "Statuses"
+          type_ids: "Types"
         delete_confirm: "Delete this skill and every run of it?"
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
@@ -1549,6 +1556,11 @@ en:
           comment_only_caption: "Proposes comments only."
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
+        sections:
+          conditions: "Where it is offered"
+          instructions: "Instructions"
+          menu: "Menu entry"
+          menu_description: "How the skill shows in the AI Assistance menu on work packages."
         template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
