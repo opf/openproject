@@ -182,7 +182,7 @@ The **General** tab is divided into several sections.
 
 ### Avatar
 
-The **Avatar** section displays the user's current avatar. By default, a generic icon is shown. You can upload a custom avatar image for the user.
+The **Avatar** section displays the user's current avatar. By default, a generic image is shown. The color for that image can be defined. You can upload a custom avatar image for the user.
 
 If enabled, users can also use a [Gravatar](https://en.wikipedia.org/wiki/Gravatar), which they can manage in their [Account settings](../../../user-guide/account-settings/account/#set-an-avatar). Both custom avatars and Gravatar support can be disabled in the [Avatar settings](../avatars).
 
