@@ -38,7 +38,8 @@ See COPYRIGHT and LICENSE files for more details.
           tag: :a,
           href: @path,
           classes: "hide-when-print",
-          data: { "turbo-stream": true, "turbo-method": @method, "test-selector": "email-updates-mode-selector-button" }
+          test_selector: "email-updates-mode-selector-button",
+          data: { "turbo-stream": true, "turbo-method": @method }
         ) do |button|
           button.with_leading_visual_icon(icon: button_icon)
           button_label

@@ -55,7 +55,8 @@ See COPYRIGHT and LICENSE files for more details.
                 type: :button,
                 hidden: @times.size <= 1,
                 aria: { label: t("my_account.email_reminders.daily_reminders.remove_time") },
-                data: { action: "my--daily-reminders#removeTime", test_selector: "settings-daily-time--remove" }
+                test_selector: "settings-daily-time--remove",
+                data: { action: "my--daily-reminders#removeTime" }
               )
             )
           end
@@ -90,7 +91,8 @@ See COPYRIGHT and LICENSE files for more details.
               scheme: :invisible,
               type: :button,
               aria: { label: t("my_account.email_reminders.daily_reminders.remove_time") },
-              data: { action: "my--daily-reminders#removeTime", test_selector: "settings-daily-time--remove" }
+              test_selector: "settings-daily-time--remove",
+              data: { action: "my--daily-reminders#removeTime" }
             )
           )
         end

@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         mobile_label: t("ifc_models.label_show_defaults"),
         href: defaults_bcf_project_ifc_models_path,
         aria: { label: I18n.t("ifc_models.label_show_defaults") },
-        data: { test_selector: "ifc-show-default-button" },
+        test_selector: "ifc-show-default-button",
         title: I18n.t("ifc_models.label_show_defaults")
       ) do |button|
         button.with_leading_visual_icon(icon: :eye)
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
           scheme: :primary,
           leading_icon: :plus,
           label: I18n.t("ifc_models.label_new_ifc_model"),
-          data: { test_selector: "ifc-create-button" },
+          test_selector: "ifc-create-button",
           tag: :a,
           href: new_bcf_project_ifc_model_path
         ) do

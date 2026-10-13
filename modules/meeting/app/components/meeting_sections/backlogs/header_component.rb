@@ -91,7 +91,8 @@ module MeetingSections
                                                    meeting_section_id: @backlog.id,
                                                    current_occurrence: @current_occurrence),
         content_arguments: {
-          data: { "turbo-stream": true, "test-selector": "meeting-backlog-add-agenda-item-from-menu" }
+          test_selector: "meeting-backlog-add-agenda-item-from-menu",
+          data: { "turbo-stream": true }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :plus)
@@ -107,7 +108,8 @@ module MeetingSections
                                                    meeting_section_id: @backlog.id,
                                                    current_occurrence: @current_occurrence),
         content_arguments: {
-          data: { "turbo-stream": true, "test-selector": "meeting-backlog-add-work-package-from-menu" }
+          test_selector: "meeting-backlog-add-work-package-from-menu",
+          data: { "turbo-stream": true }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :plus)

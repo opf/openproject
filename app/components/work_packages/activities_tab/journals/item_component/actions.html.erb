@@ -15,7 +15,8 @@
         label: edit_action_label,
         href: edit_work_package_activity_path(journal.journable, journal),
         content_arguments: {
-          data: { turbo_stream: true, test_selector: "op-wp-journal-#{journal.id}-edit" }
+          test_selector: "op-wp-journal-#{journal.id}-edit",
+          data: { turbo_stream: true }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :pencil)

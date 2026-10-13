@@ -65,7 +65,7 @@ module Admin
         end
 
         def item_header
-          render(Primer::Beta::Breadcrumbs.new(data: { test_selector: "hierarchy-breadcrumbs" })) do |loaf|
+          render(Primer::Beta::Breadcrumbs.new(test_selector: "hierarchy-breadcrumbs")) do |loaf|
             slices.each do |slice|
               loaf.with_item(href: slice[:href], target: nil) { slice[:label] }
             end

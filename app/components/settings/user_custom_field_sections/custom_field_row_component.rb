@@ -47,7 +47,8 @@ module Settings
       def edit_action_item(menu)
         menu.with_item(label: t("label_edit"),
                        href: edit_admin_settings_user_custom_field_path(@user_custom_field),
-                       data: { turbo: "false", test_selector: "user-custom-field-edit" }) do |item|
+                       test_selector: "user-custom-field-edit",
+                       data: { turbo: "false" }) do |item|
           item.with_leading_visual_icon(icon: :pencil)
         end
       end

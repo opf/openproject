@@ -87,7 +87,7 @@ module WorkPackages
           header_container.with_column(
             flex_layout: true,
             classes: "work-packages-activities-tab-journals-item-component-details--journal-details-header ellipsis",
-            data: { "test-selector": "op-journal-details-header" }
+            test_selector: "op-journal-details-header"
           ) do |header_start_container|
             render_timeline_icon(header_start_container)
             render_user_avatar(header_start_container)
@@ -192,7 +192,8 @@ module WorkPackages
                      :"dot-fill", # color is set via CSS as requested by UI/UX Team
                      classes: "work-packages-activities-tab-journals-item-component-details--notification-dot-icon",
                      size: :small,
-                     data: { test_selector: "op-journal-unread-notification", "op-ian-center-update-immediate": true }
+                     test_selector: "op-journal-unread-notification",
+                     data: { "op-ian-center-update-immediate": true }
                    ))
           end
         end
@@ -250,7 +251,7 @@ module WorkPackages
           ) do
             render(Primer::Beta::Text.new(
                      classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-description",
-                     data: { "test-selector": "op-journal-detail-description" }
+                     test_selector: "op-journal-detail-description"
                    )) do
               rendered_detail
             end

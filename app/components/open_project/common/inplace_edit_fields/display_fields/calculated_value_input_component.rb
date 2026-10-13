@@ -53,7 +53,7 @@ module OpenProject
 
             render(Primer::OpenProject::FlexLayout.new(
                      align_items: :flex_start,
-                     data: { test_selector: "error--custom_field_#{custom_field.id}" }
+                     test_selector: "error--custom_field_#{custom_field.id}"
                    )) do |container|
               container.with_column do
                 render Primer::Beta::Octicon.new(icon: :"alert-fill", color: :danger)

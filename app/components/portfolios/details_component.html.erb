@@ -38,10 +38,10 @@
             render(
               Primer::Beta::ProgressBar.new(
                 size: :large,
+                test_selector: "op-portfolios--sub-status-bar",
                 data: {
                   hover_card_trigger_target: "trigger",
-                  hover_card_popover_template_id: sub_status_hover_card_id,
-                  test_selector: "op-portfolios--sub-status-bar"
+                  hover_card_popover_template_id: sub_status_hover_card_id
                 }
               )
             ) do |bar|
@@ -152,7 +152,7 @@
           render(
             Primer::Beta::Text.new(
               color: :muted,
-              data: { test_selector: "op-portfolios--updated-at" }
+              test_selector: "op-portfolios--updated-at"
             )
           ) do
             t(:label_updated_time, value: distance_of_time_in_words(Time.current, portfolio.updated_at))
@@ -169,9 +169,7 @@
     content_tag(:template, id: sub_status_hover_card_id) do
       flex_layout(
         classes: "op-portfolios--popover",
-        data: {
-          test_selector: "op-portfolios--hover-card-#{portfolio.id}"
-        }
+        test_selector: "op-portfolios--hover-card-#{portfolio.id}"
       ) do |popover|
         popover.with_column(mr: 3) do
           sub_item_count = sub_statuses_with_percentages.sum { |s| s[:count] }

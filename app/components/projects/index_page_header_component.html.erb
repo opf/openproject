@@ -1,7 +1,7 @@
 <%= component_wrapper(tag: "turbo-frame") do %>
   <%=
     render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
-      header.with_title(data: { "test-selector": "project-query-name" }) do |title|
+      header.with_title(test_selector: "project-query-name") do |title|
         title.with_editable_form(
           model: query,
           update_path: @query.new_record? ? project_queries_path(projects_query_params) : project_query_path(@query, projects_query_params),
@@ -41,7 +41,8 @@
           icon: "share-android",
           mobile_icon: "share-android",
           label: t(:label_share),
-          data: { controller: "async-dialog", test_selector: "toggle-share-dialog-button" }
+          test_selector: "toggle-share-dialog-button",
+          data: { controller: "async-dialog" }
         )
       end
 
@@ -54,7 +55,8 @@
             classes: "op-primer--star-icon",
             tag: :a,
             href: helpers.build_favorite_path(query, format: :html),
-            data: { turbo_method: :delete, "test-selector": "project-query-unfavorite" }
+            test_selector: "project-query-unfavorite",
+            data: { turbo_method: :delete }
           )
         else
           header.with_action_icon_button(
@@ -63,7 +65,8 @@
             label: t(:button_favorite),
             tag: :a,
             href: helpers.build_favorite_path(query, format: :html),
-            data: { turbo_method: :post, "test-selector": "project-query-favorite" }
+            test_selector: "project-query-favorite",
+            data: { turbo_method: :post }
           )
         end
       end
@@ -75,7 +78,7 @@
         button_arguments: {
           icon: "kebab-horizontal",
           "aria-label": t(:label_more),
-          data: { "test-selector": "project-more-dropdown-menu" }
+          test_selector: "project-more-dropdown-menu"
         }
       ) do |menu|
         if can_rename?
@@ -135,7 +138,7 @@
                 href: projects_path(format: key, **helpers.projects_query_params.except(:page, :per_page)),
                 content_arguments: { data: { controller: "job-dialog" }, rel: "nofollow" }
               ) do |item|
-                item.with_leading_visual_icon(icon: "op-#{key == "csv" ? "file-csv" : key}")
+                item.with_leading_visual_icon(icon: "op-#{key == 'csv' ? 'file-csv' : key}")
               end
             end
           end

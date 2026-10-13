@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
         flex_layout(
           align_items: :center, justify_content: :space_between,
           classes: "op-project-cost-type",
-          data: { test_selector: "project-cost-type-#{cost_type.id}" }
+          test_selector: "project-cost-type-#{cost_type.id}"
         ) do |row|
           row.with_column(flex: 1) do
             if User.current.admin?

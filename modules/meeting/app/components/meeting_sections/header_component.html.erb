@@ -24,7 +24,7 @@
 
         grid.with_area(:actions, tag: :div, justify_self: :end, classes: "hide-when-print") do
           if editable?
-            render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
+            render(Primer::Alpha::ActionMenu.new(test_selector: "meeting-section-action-menu")) do |menu|
               menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("settings.project_attributes.label_section_actions"), scheme: :invisible)
 
               with_item_group(menu) { edit_action_item(menu) }

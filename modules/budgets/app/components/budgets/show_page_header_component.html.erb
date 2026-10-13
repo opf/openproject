@@ -11,7 +11,7 @@
         size: :medium,
         href: url_for({ controller: "budgets", action: "edit", id: @budget }),
         aria: { label: t(:button_update) },
-        data: { test_selector: "budget-edit-button" },
+        test_selector: "budget-edit-button",
         title: t(:button_update)
       ) do |button|
         button.with_leading_visual_icon(icon: :pencil)
@@ -26,7 +26,7 @@
         size: :medium,
         href: url_for({ controller: "budgets", action: "copy", id: @budget }),
         aria: { label: I18n.t(:button_copy) },
-        data: { test_selector: "budget-copy-button" },
+        test_selector: "budget-copy-button",
         title: I18n.t(:button_copy)
       ) do |button|
         button.with_leading_visual_icon(icon: :copy)
@@ -42,10 +42,10 @@
         size: :medium,
         href: url_for({ controller: "budgets", action: "destroy", id: @budget }),
         aria: { label: I18n.t(:button_delete) },
+        test_selector: "budget-delete-button",
         data: {
           turbo_confirm: I18n.t(:text_are_you_sure),
-          turbo_method: :delete,
-          test_selector: "budget-delete-button"
+          turbo_method: :delete
         },
         title: I18n.t(:button_delete)
       ) do |button|

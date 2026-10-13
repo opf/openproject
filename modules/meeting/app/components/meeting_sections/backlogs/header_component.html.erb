@@ -16,7 +16,7 @@
 
       if edit_enabled?
         flex.with_column(classes: "hide-when-print") do
-          render(Primer::Alpha::ActionMenu.new(data: { test_selector: "meeting-section-action-menu" })) do |menu|
+          render(Primer::Alpha::ActionMenu.new(test_selector: "meeting-section-action-menu")) do |menu|
             menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("settings.project_attributes.label_section_actions"), scheme: :invisible)
             add_agenda_item_action(menu)
             add_work_package_action(menu)

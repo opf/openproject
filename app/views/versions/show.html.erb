@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
         size: :medium,
         href: edit_version_path(@version),
         aria: { label: I18n.t(:button_edit) },
-        data: { test_selector: "version-edit-button" },
+        test_selector: "version-edit-button",
         title: I18n.t(:button_edit)
       ) do |button|
         button.with_leading_visual_icon(icon: :pencil)
@@ -59,10 +59,10 @@ See COPYRIGHT and LICENSE files for more details.
         size: :medium,
         href: version_path(@version),
         aria: { label: I18n.t(:button_delete) },
+        test_selector: "version-delete-button",
         data: {
           turbo_confirm: I18n.t(:text_are_you_sure),
-          turbo_method: :delete,
-          test_selector: "version-delete-button"
+          turbo_method: :delete
         },
         title: I18n.t(:button_delete)
       ) do |button|

@@ -1,6 +1,6 @@
 <%=
   component_wrapper(class: "work-packages-activities-tab-journals-new-component") do
-    flex_layout(data: { test_selector: "op-work-package-journal-form" }) do |new_form_container|
+    flex_layout(test_selector: "op-work-package-journal-form") do |new_form_container|
       new_form_container.with_row(
         display: button_row_display_value,
         data: {
@@ -15,9 +15,9 @@
                 scheme: :default,
                 size: :medium,
                 block: true,
+                test_selector: "op-open-work-package-journal-form-trigger",
                 data: {
-                  action: "click->#{editor_stimulus_controller}#showForm dragover->#{editor_stimulus_controller}#showForm",
-                  test_selector: "op-open-work-package-journal-form-trigger"
+                  action: "click->#{editor_stimulus_controller}#showForm dragover->#{editor_stimulus_controller}#showForm"
                 }
               )
             ) do
@@ -78,8 +78,10 @@
                     data: { "#{internal_comment_stimulus_controller}-target": "learnMoreLink" },
                     pb: 1
                   ) do
-                    helpers.static_link_to(:enterprise_features, :internal_comments,
-                                           label: I18n.t(:label_learn_more))
+                    helpers.static_link_to(
+                      :enterprise_features, :internal_comments,
+                      label: I18n.t(:label_learn_more)
+                    )
                   end
                 end
               end

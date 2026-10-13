@@ -32,7 +32,7 @@ See COPYRIGHT and LICENSE files for more details.
     header.with_title(test_selector: "wiki-page-header-title") { @page.title }
     header.with_breadcrumbs(
       helpers.breadcrumb_for_page(@project, @page),
-      data: { "test-selector": "wiki-page-header-breadcrumbs" }
+      test_selector: "wiki-page-header-breadcrumbs"
     )
     if @editable
       if show_edit?
@@ -43,7 +43,7 @@ See COPYRIGHT and LICENSE files for more details.
           size: :medium,
           href: url_for(controller: "wiki", action: "edit", id: @page),
           aria: { label: I18n.t(:button_edit) },
-          data: { "test-selector": "wiki-edit-action-button" },
+          test_selector: "wiki-edit-action-button",
           title: I18n.t(:button_edit)
         ) do |button|
           button.with_leading_visual_icon(icon: :pencil)
@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
       button_arguments: {
         icon: "kebab-horizontal",
         "aria-label": t(:label_more),
-        data: { "test-selector": "wiki-more-dropdown-menu" }
+        test_selector: "wiki-more-dropdown-menu"
       }
     ) do |menu|
       with_item_group(menu) do
@@ -109,7 +109,7 @@ See COPYRIGHT and LICENSE files for more details.
                 label: t(:button_rename),
                 tag: :a,
                 size: :medium,
-                data: { "test-selector": "wiki-rename-action-menu-item" },
+                test_selector: "wiki-rename-action-menu-item",
                 href: url_for(controller: "wiki", action: "rename", id: @page)
               ) do |item|
                 item.with_leading_visual_icon(icon: "arrow-switch")
@@ -138,7 +138,7 @@ See COPYRIGHT and LICENSE files for more details.
             menu.with_item(
               label: t(:label_history),
               href: url_for(controller: "wiki", action: "history", id: @page),
-              data: { "test-selector": "wiki-history-action-menu-item" }
+              test_selector: "wiki-history-action-menu-item"
             ) do |item|
               item.with_leading_visual_icon(icon: :history)
             end
@@ -150,7 +150,7 @@ See COPYRIGHT and LICENSE files for more details.
             menu.with_item(
               label: t(:button_manage_menu_entry),
               href: url_for(controller: "/wiki_menu_items", action: "edit", project_id: @project.identifier, id: @page),
-              data: { "test-selector": "wiki-configure-menu-action-menu-item" }
+              test_selector: "wiki-configure-menu-action-menu-item"
             ) do |item|
               item.with_leading_visual_icon(icon: :"sidebar-collapse")
             end
@@ -212,7 +212,7 @@ See COPYRIGHT and LICENSE files for more details.
               size: :medium,
               content_arguments: { data: { turbo_confirm: t(:text_are_you_sure), turbo_method: :delete } },
               href: url_for(controller: "wiki", action: "destroy", id: @page),
-              data: { "test-selector": "wiki-delete-action-menu-item" }
+              test_selector: "wiki-delete-action-menu-item"
             ) do |item|
               item.with_leading_visual_icon(icon: :trash)
             end

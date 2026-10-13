@@ -1,7 +1,7 @@
 <%= component_wrapper(tag: "turbo-frame") do %>
   <%=
     render(Primer::OpenProject::PageHeader.new(state: @state)) do |header|
-      header.with_title(data: { "test-selector": "portfolio-query-name" }) do |_title|
+      header.with_title(test_selector: "portfolio-query-name") do |_title|
         page_title
       end
       header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: current_breadcrumb_element == page_title ? :bold : :normal)
@@ -13,7 +13,7 @@
         button_arguments: {
           icon: "kebab-horizontal",
           "aria-label": t(:label_more),
-          data: { "test-selector": "portfolio-more-dropdown-menu" }
+          test_selector: "portfolio-more-dropdown-menu"
         }
       ) do |menu|
         # TODO: WP-68900 Sort By

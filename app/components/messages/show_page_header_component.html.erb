@@ -14,7 +14,8 @@
         size: :medium,
         href: url_for({ action: "quote", id: @topic }),
         aria: { label: I18n.t(:button_delete) },
-        data: { action: "forum-messages#quote", test_selector: "message-quote-button" },
+        test_selector: "message-quote-button",
+        data: { action: "forum-messages#quote" },
         title: t(:button_quote)
       ) do |button|
         button.with_leading_visual_icon(icon: :quote)
@@ -31,7 +32,7 @@
         size: :medium,
         href: edit_project_forum_topic_path(@topic.forum.project, @topic.forum, @topic),
         aria: { label: t(:button_edit) },
-        data: { test_selector: "message-edit-button" },
+        test_selector: "message-edit-button",
         title: t(:button_edit)
       ) do |button|
         button.with_leading_visual_icon(icon: :pencil)

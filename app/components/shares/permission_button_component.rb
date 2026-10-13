@@ -55,7 +55,7 @@ module Shares
     end
 
     def wrapper_uniq_by
-      share.id || @system_arguments.dig(:data, :"test-selector")
+      share.id || @system_arguments[:test_selector]
     end
 
     private

@@ -44,7 +44,8 @@ See COPYRIGHT and LICENSE files for more details.
           classes: "op-primer--star-icon",
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :delete, turbo_frame: "_top", "test-selector": "resource-planner-unfavorite" }
+          test_selector: "resource-planner-unfavorite",
+          data: { turbo_method: :delete, turbo_frame: "_top" }
         )
       else
         header.with_action_icon_button(
@@ -53,7 +54,8 @@ See COPYRIGHT and LICENSE files for more details.
           label: t(:button_favorite),
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :post, turbo_frame: "_top", "test-selector": "resource-planner-favorite" }
+          test_selector: "resource-planner-favorite",
+          data: { turbo_method: :post, turbo_frame: "_top" }
         )
       end
 
@@ -67,7 +69,7 @@ See COPYRIGHT and LICENSE files for more details.
               label: t(:button_edit),
               tag: :a,
               href: edit_planner_path(@resource_planner),
-              content_arguments: { data: { controller: "async-dialog", "test-selector": "resource-planner-edit" } }
+              content_arguments: { test_selector: "resource-planner-edit", data: { controller: "async-dialog" } }
             ) do |item|
               item.with_leading_visual_icon(icon: :pencil)
             end
@@ -80,11 +82,11 @@ See COPYRIGHT and LICENSE files for more details.
               tag: :a,
               href: planner_path(@resource_planner),
               content_arguments: {
+                test_selector: "resource-planner-delete",
                 data: {
                   turbo_method: :delete,
                   turbo_frame: "_top",
-                  turbo_confirm: t(:text_are_you_sure),
-                  "test-selector": "resource-planner-delete"
+                  turbo_confirm: t(:text_are_you_sure)
                 }
               }
             ) do |item|

@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
             round: true,
             limit: 1_000,
             hide_if_zero: true,
-            data: { test_selector: "op-sprints--total-counter" }
+            test_selector: "op-sprints--total-counter"
           )
         )
       end
@@ -65,9 +65,9 @@ See COPYRIGHT and LICENSE files for more details.
             tag: :a,
             href: new_dialog_project_backlogs_sprints_path(project, backlog_filter_params),
             aria: { label: t(".button_new_sprint") },
+            test_selector: "op-sprints--new-sprint-button",
             data: {
-              controller: "async-dialog",
-              test_selector: "op-sprints--new-sprint-button"
+              controller: "async-dialog"
             }
           ) do |button|
             button.with_leading_visual_icon(icon: :plus)

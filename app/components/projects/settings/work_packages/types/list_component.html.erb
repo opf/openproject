@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
             collapsible: true,
             empty_state_behavior: :none,
             mt: 3,
-            data: { test_selector: "project-types-row-#{project_type.variant.id}" }
+            test_selector: "project-types-row-#{project_type.variant.id}"
           )
         ) do |list| %>
       <%# Open where a variant is in use: the row saying so is inside the group. %>
@@ -61,7 +61,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
 
       <% selectable_variants(project_type).each do |variant| %>
-        <% list.with_item(data: { test_selector: "project-types-variant-#{variant.id}" }) do |item| %>
+        <% list.with_item(test_selector: "project-types-variant-#{variant.id}") do |item| %>
           <% if actionable?(project_type, variant) %>
             <% item.with_menu { |menu| variant_actions(menu, project_type, variant) } %>
           <% end %>

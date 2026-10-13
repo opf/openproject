@@ -12,7 +12,7 @@
               render(MeetingAgendaItems::ListComponent.new(meeting: @meeting))
             end
 
-            agenda.with_row(data: { "test-selector": "meeting-main-add-button" }) do
+            agenda.with_row(test_selector: "meeting-main-add-button") do
               render(MeetingAgendaItems::NewButtonComponent.new(meeting: @meeting))
             end
 

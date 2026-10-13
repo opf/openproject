@@ -107,10 +107,10 @@ module WorkPackages
           Primer::Beta::Link.new(
             href: "",
             "aria-label": @is_milestone ? I18n.t("label_today_as_date") : I18n.t("label_today_as_#{name}"),
+            test_selector: "op-datepicker-modal--#{name.to_s.dasherize}-field--today",
             data: {
               action: "work-packages--date-picker--preview#setTodayForField",
-              "work-packages--date-picker--preview-field-reference-param": "work_package_#{name}",
-              test_selector: "op-datepicker-modal--#{name.to_s.dasherize}-field--today"
+              "work-packages--date-picker--preview-field-reference-param": "work_package_#{name}"
             }
           )
         ) { text }

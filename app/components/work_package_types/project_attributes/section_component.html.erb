@@ -20,10 +20,10 @@
           font_weight: :bold,
           color: :subtle,
           "aria-label": t("types.edit.project_attributes.actions.label_enable_all"),
+          test_selector: "enable-all-type-project-attributes-#{@project_custom_field_section.id}",
           data: {
             "turbo-method": :put,
-            "turbo-stream": true,
-            test_selector: "enable-all-type-project-attributes-#{@project_custom_field_section.id}"
+            "turbo-stream": true
           }
         ) do |button|
           button.with_leading_visual_icon(icon: "check-circle", color: :subtle)
@@ -37,10 +37,10 @@
           font_weight: :bold,
           color: :subtle,
           "aria-label": t("types.edit.project_attributes.actions.label_disable_all"),
+          test_selector: "disable-all-type-project-attributes-#{@project_custom_field_section.id}",
           data: {
             "turbo-method": :put,
-            "turbo-stream": true,
-            test_selector: "disable-all-type-project-attributes-#{@project_custom_field_section.id}"
+            "turbo-stream": true
           }
         ) do |button|
           button.with_leading_visual_icon(icon: "x-circle", color: :subtle)

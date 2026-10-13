@@ -49,8 +49,8 @@ module WorkPackages
                  scheme: :secondary,
                  underline: false,
                  font_size: :small,
+                 test_selector: "activity-anchor-link",
                  data: {
-                   test_selector: "activity-anchor-link",
                    turbo: false,
                    action: "click->#{auto_scrolling_controller}#setAnchor:prevent",
                    "#{auto_scrolling_controller}-id-param": journal_activity_id(journal),

@@ -55,7 +55,7 @@
         end
       else
         flex.with_row do
-          render Primer::Beta::Blankslate.new(border: true, data: { test_selector: "no-relations-blankslate" }) do |component|
+          render Primer::Beta::Blankslate.new(border: true, test_selector: "no-relations-blankslate") do |component|
             component.with_visual_icon(icon: "package-dependents")
             component.with_heading(tag: :h4).with_content(t("#{I18N_NAMESPACE}.index.blankslate_heading"))
             component.with_description { t("#{I18N_NAMESPACE}.index.blankslate_description") }

@@ -1,9 +1,7 @@
 <%=
   component_wrapper do
     flex_layout(
-      align_items: :center, justify_content: :space_between, classes: "op-project-custom-field", data: {
-        test_selector: "project-custom-field-#{@project_custom_field.id}"
-      }
+      align_items: :center, justify_content: :space_between, classes: "op-project-custom-field", test_selector: "project-custom-field-#{@project_custom_field.id}"
     ) do |custom_field_container|
       custom_field_container.with_column(flex_layout: true) do |title_container|
         title_container.with_column(pt: 1, mr: 2) do
@@ -11,7 +9,7 @@
             @project_custom_field.name
           end
         end
-        title_container.with_column(pt: 1, mr: 2, data: { test_selector: "custom-field-type" }) do
+        title_container.with_column(pt: 1, mr: 2, test_selector: "custom-field-type") do
           render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
             helpers.label_for_custom_field_format(@project_custom_field.field_format)
           end
@@ -53,9 +51,7 @@
             content_tag(:template, id: unique_hovercard_id) do
               flex_layout(
                 classes: "op-project-custom-field--popover",
-                data: {
-                  test_selector: "op-project-custom-field--hover-card-#{@project_custom_field.id}"
-                }
+                test_selector: "op-project-custom-field--hover-card-#{@project_custom_field.id}"
               ) do |hover_card|
                 hover_card.with_column do
                   render(Primer::Beta::Text.new) do

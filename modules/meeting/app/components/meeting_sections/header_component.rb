@@ -94,13 +94,12 @@ module MeetingSections
     def move_action_item(menu, move_to, label_text, icon)
       menu.with_item(label: label_text,
                      tag: :button,
-                     content_arguments: { data: {
+                     content_arguments: { test_selector: "meeting-section-move-#{move_to}", data: {
                        action: "click->meetings--submit#intercept",
                        href: move_project_meeting_section_path(@meeting_section.meeting.project,
                                                                @meeting_section.meeting,
                                                                @meeting_section,
-                                                               move_to:),
-                       test_selector: "meeting-section-move-#{move_to}"
+                                                               move_to:)
                      } }) do |item|
         item.with_leading_visual_icon(icon:)
       end
@@ -112,7 +111,8 @@ module MeetingSections
                                                              @meeting_section.meeting,
                                                              @meeting_section),
                      content_arguments: {
-                       data: { "turbo-stream": true, "test-selector": "meeting-section-edit" }
+                       test_selector: "meeting-section-edit",
+                       data: { "turbo-stream": true }
                      }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
       end
@@ -126,7 +126,8 @@ module MeetingSections
                                                    type: "simple",
                                                    meeting_section_id: @meeting_section&.id),
         content_arguments: {
-          data: { "turbo-stream": true, "test-selector": "meeting-section-add-agenda-item-from-menu" }
+          test_selector: "meeting-section-add-agenda-item-from-menu",
+          data: { "turbo-stream": true }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :plus)
@@ -141,7 +142,8 @@ module MeetingSections
                                                    type: "work_package",
                                                    meeting_section_id: @meeting_section&.id),
         content_arguments: {
-          data: { "turbo-stream": true, "test-selector": "meeting-section-add-work-package-from-menu" }
+          test_selector: "meeting-section-add-work-package-from-menu",
+          data: { "turbo-stream": true }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :plus)
@@ -158,14 +160,13 @@ module MeetingSections
       menu.with_item(label: t("text_destroy"),
                      tag: :button,
                      scheme: :danger,
-                     content_arguments: { data: {
+                     content_arguments: { test_selector: "meeting-section-delete", data: {
                        action: "click->meetings--submit#intercept",
                        href: project_meeting_section_path(@meeting_section.meeting.project,
                                                           @meeting_section.meeting,
                                                           @meeting_section),
                        method: "DELETE",
-                       confirm_message: confirm_text,
-                       test_selector: "meeting-section-delete"
+                       confirm_message: confirm_text
                      } }) do |item|
         item.with_leading_visual_icon(icon: :trash)
       end

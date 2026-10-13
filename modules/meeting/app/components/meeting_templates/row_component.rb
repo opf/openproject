@@ -51,7 +51,7 @@ module MeetingTemplates
           icon: "kebab-horizontal",
           "aria-label": t(:label_more),
           scheme: :invisible,
-          data: { "test-selector": "more-button" }
+          test_selector: "more-button"
         )
 
         edit_action(menu)

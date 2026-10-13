@@ -47,7 +47,7 @@ module Documents
               href: document_path(document),
               font_weight: :bold,
               mr: 1,
-              data: { test_selector: "document-name" }
+              test_selector: "document-name"
             )
           ) { document.title },
           classic_label
@@ -59,7 +59,7 @@ module Documents
       return if document.type.blank?
 
       render(
-        Primer::Beta::Truncate.new(font_weight: :normal, color: :subtle, data: { test_selector: "document-type" })
+        Primer::Beta::Truncate.new(font_weight: :normal, color: :subtle, test_selector: "document-type")
       ) { document.type.name }
     end
 

@@ -25,13 +25,13 @@
           id: "dialog-show-project-custom-field-section-dialog",
           tag: :a,
           href: new_link_admin_settings_project_custom_field_sections_path,
-          content_arguments: { data: { controller: "async-dialog", test_selector: "add-project-custom-field-section" } }
+          content_arguments: { test_selector: "add-project-custom-field-section", data: { controller: "async-dialog" } }
         )
 
         if allow_custom_field_creation?
           menu.with_sub_menu_item(
             label: t("settings.project_attributes.label_new_attribute"),
-            content_arguments: { data: { test_selector: "add-project-custom-field-attribute" } }
+            content_arguments: { test_selector: "add-project-custom-field-attribute" }
           ) do |sub_menu|
             OpenProject::CustomFieldFormat.enabled_for_class_name("Project")
                                           .sort_by(&:name)
@@ -40,8 +40,7 @@
                 label: helpers.label_for_custom_field_format(format.name),
                 tag: :a,
                 href: new_admin_settings_project_custom_field_path(field_format: format.name),
-                content_arguments: { data: { turbo: "false",
-                                             test_selector: "new-project-custom-field-button" } }
+                content_arguments: { test_selector: "new-project-custom-field-button", data: { turbo: "false" } }
               ) do |item|
                 unless format.enterprise_feature_allowed?
                   item.with_trailing_visual_icon(icon: :"op-enterprise-addons", classes: "upsell-colored")

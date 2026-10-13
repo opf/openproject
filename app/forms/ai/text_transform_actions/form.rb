@@ -139,7 +139,7 @@ module AI
             title: I18n.t("admin.text_transform_actions.form.select_types"),
             dynamic_label: true,
             form_arguments: { builder: @builder, name: :type_ids },
-            data: { test_selector: "text-transform-action-types-panel" }
+            test_selector: "text-transform-action-types-panel"
           )
         ) do |panel|
           types_show_button(panel, input_arguments)

@@ -58,9 +58,9 @@ See COPYRIGHT and LICENSE files for more details.
                 tag: :a,
                 scheme: :danger,
                 href: image[:delete_path],
+                test_selector: "delete-custom-style-image-#{image[:field]}",
                 data: {
-                  turbo_method: :delete,
-                  test_selector: "delete-custom-style-image-#{image[:field]}"
+                  turbo_method: :delete
                 }
               )
             ) do |button| %>

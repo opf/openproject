@@ -7,7 +7,7 @@
       if Setting.ical_enabled?
         header.with_action_menu(
           menu_arguments: { anchor_align: :end },
-          button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more), data: { "test-selector": "meeting-more" } }
+          button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more), test_selector: "meeting-more" }
         ) do |menu|
           menu.with_item(
             label: t("label_subscribe_icalendar"),

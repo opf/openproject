@@ -210,7 +210,7 @@ class SharesController < ApplicationController
       component: Shares::PermissionButtonComponent.new(
         share: @share,
         strategy: sharing_strategy,
-        data: { "test-selector": "op-share-dialog-update-role" }
+        test_selector: "op-share-dialog-update-role"
       )
     )
 
@@ -252,7 +252,7 @@ class SharesController < ApplicationController
         component: Shares::PermissionButtonComponent.new(
           share:,
           strategy: sharing_strategy,
-          data: { "test-selector": "op-share-dialog-update-role" }
+          test_selector: "op-share-dialog-update-role"
         )
       )
     end

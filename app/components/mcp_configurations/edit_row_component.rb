@@ -34,7 +34,7 @@ module McpConfigurations
       render(
         Primer::Beta::Text.new(
           font_weight: :bold,
-          data: { test_selector: "mcp-configuration--config-row-name" }
+          test_selector: "mcp-configuration--config-row-name"
         )
       ) { config.identifier.split("/", 2).last }
     end
