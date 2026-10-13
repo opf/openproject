@@ -141,7 +141,7 @@ See COPYRIGHT and LICENSE files for more details.
               <td><%= reorder_links("custom_field", { action: "update", id: custom_field, back_url: index_path }, method: :put) %></td>
             <% end %>
             <td class="buttons">
-              <%= render(Admin::CustomFields::DeleteDialogComponent.new(custom_field:)) %>
+              <%= render(Admin::CustomFields::DeleteButtonComponent.new(custom_field:)) %>
             </td>
           </tr>
         <% end %>

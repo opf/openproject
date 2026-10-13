@@ -43,13 +43,9 @@ RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
     expect(page).to have_css("h2", text: "Do you want to delete the custom field Field666?", visible: :visible)
   end
 
-  it "renders a delete icon button to open the dialog" do
+  it "does not render any button to open the dialog" do
     render_inline(described_class.new(custom_field:))
-
-    show_button = page.find("button[data-show-dialog-id]")
-    expect(show_button).to have_element(:svg, class: "octicon octicon-trash")
-
-    expect(page).to have_element("tool-tip", text: "Delete")
+    expect(page).to have_no_element("[data-show-dialog-id]")
   end
 
   it "submits a DELETE request to the custom field's admin path" do
@@ -60,7 +56,7 @@ RSpec.describe Admin::CustomFields::DeleteDialogComponent, type: :component do
     expect(form).to have_field("_method", type: :hidden, with: "delete")
   end
 
-  %i[work_package_custom_field user_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
+  %i[work_package_custom_field version_custom_field group_custom_field time_entry_custom_field].each do |type|
     context "for a #{type.to_s.humanize.downcase}" do
       let(:custom_field) { build_stubbed(type, id: 4242, name: "Field666") }
 

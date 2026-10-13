@@ -32,6 +32,7 @@ module Admin
   module CustomFields
     class DeleteDialogComponent < ApplicationComponent
       include ::CustomFields::AdminRoutes
+      include OpTurbo::Streamable
 
       def initialize(custom_field:, **)
         @custom_field = custom_field
@@ -47,7 +48,6 @@ module Admin
             form_arguments: form_arguments
           )
         ) do |dialog|
-          dialog.with_show_button(**show_button_args)
           dialog.with_confirmation_message do |message|
             message.with_heading(tag: :h2) { t(".heading", name: custom_field.name) }
           end
@@ -60,16 +60,6 @@ module Admin
         {
           action: member_path(custom_field),
           method: :delete
-        }
-      end
-
-      def show_button_args
-        {
-          icon: :trash,
-          scheme: :danger,
-          size: :small,
-          "aria-label": t(:button_delete),
-          "data-test-selector": "op-custom-fields--delete-button"
         }
       end
     end
