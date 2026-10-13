@@ -187,7 +187,7 @@ RSpec.describe "LLM connection health status", :llm_server_helpers, :skip_csrf, 
       expect(response.body).to start_with("# LLM connection health report")
       expect(response.body).to include("## #{I18n.t('llm.health_checks.server.header')}")
       expect(response.body).to include("- **#{I18n.t('llm.health_checks.server.reachable')}**: Passed")
-      expect(response.body).to include("| base_url | `https://example.com/v1` |")
+      expect(response.body).to include("- base_url: `https://example.com/v1`")
       expect(response.body).not_to include("!ruby")
     end
 
