@@ -117,6 +117,8 @@ module OpenProject
       end
 
       OpenProject::Notifications.subscribe(OpenProject::Events::ROLE_UPDATED) do |payload|
+        next unless payload[:role]
+
         reauthorize(User.joins(members: :member_roles).where(member_roles: { role_id: payload[:role].id }).distinct)
       end
 

@@ -50,6 +50,7 @@ RSpec.describe Roles::UpdateService, type: :model do
 
     expect(OpenProject::Notifications).to have_received(:send).with(
       OpenProject::Events::ROLE_UPDATED,
+      role:,
       permissions_diff: added_permissions
     )
   end
