@@ -39,12 +39,11 @@ module Storages
             private
 
             def validate
-              register_checks(:storage_configured, :host_url_accessible, :capabilities_request,
+              register_checks(:storage_configured, :host_url_accessible,
                               :dependencies_check, :dependencies_versions)
 
               storage_configuration_status
               host_url_not_found
-              capabilities_request_status
               missing_dependencies
               version_mismatch
             end
@@ -54,14 +53,6 @@ module Storages
                 pass_check(:storage_configured)
               else
                 fail_check(:storage_configured, :not_configured)
-              end
-            end
-
-            def capabilities_request_status
-              if capabilities.failure? && capabilities.failure.code != :not_found
-                fail_check(:capabilities_request, :unknown_error)
-              else
-                pass_check(:capabilities_request)
               end
             end
 
@@ -90,8 +81,15 @@ module Storages
             end
 
             def host_url_not_found
-              if capabilities.failure? && capabilities.failure.code == :not_found
-                fail_check(:host_url_accessible, :nc_host_not_found)
+              if capabilities.failure?
+                if capabilities.failure.code == :not_found
+                  fail_check(:host_url_accessible, :nc_host_not_found)
+                # TODO: maybe handle this specific error deeper in the stack and expect a SimpleError here?
+                elsif capabilities.failure.payload&.error.is_a?(OpenProject::ServerSideRequestForgeryError)
+                  fail_check(:host_url_accessible, :ssrf_rejected)
+                else
+                  fail_check(:host_url_accessible, :unknown_error)
+                end
               else
                 pass_check(:host_url_accessible)
               end
