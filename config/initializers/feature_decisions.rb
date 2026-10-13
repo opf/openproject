@@ -70,7 +70,7 @@ OpenProject::FeatureDecisions.add :project_settings_estimation_unit,
 
 OpenProject::FeatureDecisions.add :ai_assistance,
                                   description: "Enables the AI Assistance menu on work packages, " \
-                                               "with skills such as the health check."
+                                               "with skills such as Refresh work package."
 
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \

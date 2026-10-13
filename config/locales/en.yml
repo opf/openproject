@@ -1538,7 +1538,7 @@ en:
           comment_only_caption: "Proposes comments only."
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
-        prompt_caption: "What the model does. Without instructions, Check health runs only its rules, and a custom prompt or a chat is not offered."
+        prompt_caption: "What the model does. Without instructions, Refresh work package runs only its rules, and a custom prompt or a chat is not offered."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
         types:
@@ -2495,8 +2495,8 @@ en:
         label: "Chat"
         description: "Ask questions about this work package. Only you see the chat."
       health_check:
-        label: "Check health"
-        description: "Finds contradictions between this work package, its descendants, relations, comments and pull requests."
+        label: "Refresh work package"
+        description: "Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates."
     health_check:
       last_activity: "Last activity on %{date}"
       and_more:

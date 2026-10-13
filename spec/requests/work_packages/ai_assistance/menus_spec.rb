@@ -80,7 +80,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       get "/work_packages/#{work_package.id}/ai_assistance/menu/items"
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Check health")
+      expect(response.body).to include("Refresh work package")
       expect(response.body).to include("QA assistance")
       expect(response.body).to include(%(name="skill_id" value="#{skill.id}"))
       expect(response.body).to include("History")

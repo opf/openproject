@@ -31,7 +31,7 @@
 require "spec_helper"
 
 RSpec.describe AI::AssistantSkills::Registry do
-  it "lists the health check, the custom prompt and the chat" do
+  it "lists Refresh work package (health_check), the custom prompt and the chat" do
     expect(described_class.keys).to eq(%w[health_check prompt chat])
   end
 
