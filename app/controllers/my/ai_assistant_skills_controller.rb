@@ -43,7 +43,7 @@ module My
     private
 
     def assistant_scope
-      AI::Assistant.where(user: current_user)
+      AI::Assistant.where(principal: current_user)
     end
 
     def skill_params

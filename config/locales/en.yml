@@ -1511,11 +1511,14 @@ en:
       delete:
         confirm: "Delete this assistant, its skills and every run of them?"
       edit:
+        group_banner: "This assistant belongs to the group %{group}. It shows only in the AI Assistance menu of the group's members."
         personal_banner: "This is a personal assistant of %{user}. It shows only in their AI Assistance menu."
       form:
         model_caption: "Empty uses the default chat model of the LLM connection."
         model_default: "Default of the LLM connection"
         name_caption: "Shown as a label next to each action of this assistant in the AI Assistance menu."
+        owner: "Owner"
+        owner_caption: "Global shows the assistant to everyone with AI Assistance. A group shows it only to the group's members. The owner cannot be changed later."
       inactive: "Inactive"
       index:
         add: "Assistant"
@@ -1525,6 +1528,7 @@ en:
         owners:
           all: "All"
           global: "Global"
+          groups: "Groups"
           personal: "Personal"
       new:
         title: "New assistant"

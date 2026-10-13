@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: { ai_assistance: true } do
   let(:user) { create(:user, global_permissions: %i[manage_own_ai_assistants]) }
   let(:other_user) { create(:user, global_permissions: %i[manage_own_ai_assistants]) }
-  let!(:own_assistant) { create(:ai_assistant, name: "My helper", user:) }
-  let!(:other_assistant) { create(:ai_assistant, name: "Their helper", user: other_user) }
+  let!(:own_assistant) { create(:ai_assistant, name: "My helper", principal: user) }
+  let!(:other_assistant) { create(:ai_assistant, name: "Their helper", principal: other_user) }
   let!(:global_assistant) { create(:ai_assistant, name: "QA assistance") }
 
   current_user { user }
@@ -83,7 +83,7 @@ RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: 
       post my_ai_assistants_path, params: { ai_assistant: { name: "Reviewer", model_id: "expensive", active: "1" } }
 
       assistant = AI::Assistant.find_by!(name: "Reviewer")
-      expect(assistant).to have_attributes(user:, model_id: nil)
+      expect(assistant).to have_attributes(principal: user, model_id: nil)
       expect(response).to redirect_to(edit_my_ai_assistant_path(assistant))
     end
   end

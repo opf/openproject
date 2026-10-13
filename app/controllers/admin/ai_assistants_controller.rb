@@ -30,7 +30,7 @@
 
 module Admin
   class AIAssistantsController < ::ApplicationController
-    OWNER_FILTERS = %w[global personal].freeze
+    OWNER_FILTERS = { "global" => :global, "groups" => :for_groups, "personal" => :personal }.freeze
 
     before_action :require_admin
 
@@ -43,20 +43,25 @@ module Admin
 
     private
 
-    # All assistants, global and personal; ?owner= narrows the list.
+    # All assistants, global and owned; ?owner= narrows the list.
     def assistant_scope
-      scope = AI::Assistant.includes(:user)
-      owner_filter ? scope.public_send(owner_filter) : scope
+      scope = AI::Assistant.includes(:principal)
+      owner_filter ? scope.public_send(OWNER_FILTERS[owner_filter]) : scope
     end
 
     def owner_filter
-      params[:owner] if action_name == "index" && OWNER_FILTERS.include?(params[:owner])
+      params[:owner] if action_name == "index" && OWNER_FILTERS.key?(params[:owner])
     end
     helper_method :owner_filter
 
-    # An admin creates global assistants. A personal one keeps its owner.
+    # An admin creates a global assistant, or one for a group. The owner never changes.
     def new_assistant(attributes = {})
-      AI::Assistant.new(attributes)
+      AI::Assistant.new(attributes.merge(principal: chosen_group))
+    end
+
+    def chosen_group
+      id = params.dig(:ai_assistant, :principal_id).presence
+      Group.find_by(id:) if id
     end
 
     def assistant_params

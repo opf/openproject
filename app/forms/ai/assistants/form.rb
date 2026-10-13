@@ -39,6 +39,15 @@ module AI
 
         f.text_area(name: :description, label: AI::Assistant.human_attribute_name(:description), rows: 3)
 
+        # The owner is chosen once. An admin creates a global assistant or one for a group.
+        if @admin && model.new_record?
+          f.select_list(name: :principal_id, label: I18n.t("admin.ai_assistants.form.owner"), input_width: :large,
+                        caption: I18n.t("admin.ai_assistants.form.owner_caption"),
+                        include_blank: I18n.t("admin.ai_assistants.index.owners.global")) do |select|
+            Group.order(:lastname).each { |group| select.option(value: group.id, label: group.name) }
+          end
+        end
+
         f.select_list(name: :icon, label: AI::Assistant.human_attribute_name(:icon), input_width: :small,
                       include_blank: false) do |select|
           ICONS.each { |icon| select.option(value: icon, label: icon) }

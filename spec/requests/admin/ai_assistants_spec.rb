@@ -34,7 +34,7 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
   shared_let(:admin) { create(:admin) }
   shared_let(:owner) { create(:user, firstname: "Ada", lastname: "Owner") }
   shared_let(:global_assistant) { create(:ai_assistant, name: "QA assistance") }
-  shared_let(:personal_assistant) { create(:ai_assistant, name: "My helper", user: owner) }
+  shared_let(:personal_assistant) { create(:ai_assistant, name: "My helper", principal: owner) }
 
   current_user { admin }
 
@@ -70,7 +70,7 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
             params: { ai_assistant: { name: "Renamed", model_id: "test-model", active: "0" } }
 
       expect(personal_assistant.reload).to have_attributes(name: "Renamed", model_id: "test-model",
-                                                           active: false, user: owner)
+                                                           active: false, principal: owner)
     end
   end
 
@@ -78,7 +78,35 @@ RSpec.describe "Admin AI assistants", :skip_csrf, type: :rails_request, with_fla
     it "creates a global assistant" do
       post admin_ai_assistants_path, params: { ai_assistant: { name: "Release helper" } }
 
-      expect(AI::Assistant.find_by!(name: "Release helper").user).to be_nil
+      expect(AI::Assistant.find_by!(name: "Release helper").principal).to be_nil
+    end
+
+    it "creates an assistant for a group" do
+      group = create(:group, lastname: "Release team")
+
+      post admin_ai_assistants_path, params: { ai_assistant: { name: "Release helper", principal_id: group.id } }
+
+      expect(AI::Assistant.find_by!(name: "Release helper").principal).to eq(group)
+    end
+
+    it "does not make a user the owner" do
+      post admin_ai_assistants_path, params: { ai_assistant: { name: "Release helper", principal_id: owner.id } }
+
+      expect(AI::Assistant.find_by!(name: "Release helper").principal).to be_nil
+    end
+  end
+
+  describe "a group assistant" do
+    it "is filtered as a group assistant and keeps its group on update" do
+      group = create(:group, lastname: "Release team")
+      assistant = create(:ai_assistant, name: "Team helper", principal: group)
+
+      get admin_ai_assistants_path(owner: "groups")
+      expect(response.body).to include("Team helper", "Release team")
+      expect(response.body).not_to include("My helper")
+
+      patch admin_ai_assistant_path(assistant), params: { ai_assistant: { name: "Renamed", principal_id: "" } }
+      expect(assistant.reload).to have_attributes(name: "Renamed", principal: group)
     end
   end
 end

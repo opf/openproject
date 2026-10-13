@@ -45,11 +45,11 @@ module My
     private
 
     def assistant_scope
-      AI::Assistant.where(user: current_user)
+      AI::Assistant.where(principal: current_user)
     end
 
     def new_assistant(attributes = {})
-      AI::Assistant.new(attributes.merge(user: current_user))
+      AI::Assistant.new(attributes.merge(principal: current_user))
     end
 
     def assistant_params

@@ -46,6 +46,7 @@
         render(Primer::Alpha::SegmentedControl.new("aria-label": t("admin.ai_assistants.index.owner_filter"))) do |control|
           [[nil, t("admin.ai_assistants.index.owners.all")],
            ["global", t("admin.ai_assistants.index.owners.global")],
+           ["groups", t("admin.ai_assistants.index.owners.groups")],
            ["personal", t("admin.ai_assistants.index.owners.personal")]].each do |value, label|
             control.with_item(tag: :a, href: pages.assistants_path(owner: value), label:, selected: owner_filter == value)
           end
@@ -94,7 +95,7 @@
           <% if pages.admin? %>
             <% row.with_column(ml: 2, data: { test_selector: "ai-assistant-owner" }) do %>
               <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
-                <%= assistant.personal? ? assistant.user.name : t("admin.ai_assistants.index.owners.global") %>
+                <%= assistant.owned? ? assistant.principal.name : t("admin.ai_assistants.index.owners.global") %>
               <% end %>
             <% end %>
           <% end %>

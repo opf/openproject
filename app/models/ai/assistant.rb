@@ -30,8 +30,11 @@
 
 module AI
   class Assistant < ApplicationRecord
-    # A personal assistant belongs to its user; a global one has no user.
-    belongs_to :user, optional: true
+    # The owner: none for a global assistant, a user for a personal one, a group for the
+    # assistants of its members. Other principal types can be added later.
+    OWNER_TYPES = %w[User Group].freeze
+
+    belongs_to :principal, optional: true
 
     has_many :skills,
              -> { order(:position, :id) },
@@ -39,20 +42,31 @@ module AI
              inverse_of: :assistant,
              dependent: :destroy
 
-    validates :name, presence: true, uniqueness: { scope: :user_id }, length: { maximum: 255 }
+    validates :name, presence: true, uniqueness: { scope: :principal_id }, length: { maximum: 255 }
     validates :icon, length: { maximum: 255 }
+    validate :owner_type_supported
 
-    attr_readonly :user_id
+    attr_readonly :principal_id
 
     scope :active, -> { where(active: true) }
-    scope :global, -> { where(user_id: nil) }
-    scope :personal, -> { where.not(user_id: nil) }
-    scope :visible_to, ->(user) { where(user_id: [nil, user.id]) }
-    # Global assistants first, then personal ones.
-    scope :ordered, -> { order(Arel.sql("ai_assistants.user_id IS NOT NULL"), :position, :id) }
+    scope :global, -> { where(principal_id: nil) }
+    scope :for_groups, -> { where(principal_id: Group.select(:id)) }
+    scope :personal, -> { where.not(principal_id: nil).where.not(principal_id: Group.select(:id)) }
+    # Global assistants, the user's own, and those of the user's groups.
+    scope :visible_to, ->(user) { where(principal_id: [nil, user.id, *user.group_ids]) }
+    # Global assistants first, then owned ones.
+    scope :ordered, -> { order(Arel.sql("ai_assistants.principal_id IS NOT NULL"), :position, :id) }
+
+    def owned?
+      principal_id.present?
+    end
 
     def personal?
-      user_id.present?
+      principal.is_a?(User)
+    end
+
+    def group?
+      principal.is_a?(Group)
     end
 
     # The assistant's own model when the connection still offers it, otherwise the
@@ -64,9 +78,16 @@ module AI
       connection.default_chat_model&.external_id
     end
 
-    # A personal assistant is offered only while its owner may manage their own.
+    # A personal assistant is offered only while its owner may manage their own. Global
+    # and group assistants are an admin's.
     def usable?
-      !personal? || user.allowed_globally?(:manage_own_ai_assistants)
+      !personal? || principal.allowed_globally?(:manage_own_ai_assistants)
+    end
+
+    private
+
+    def owner_type_supported
+      errors.add(:principal, :inclusion) if principal && OWNER_TYPES.exclude?(principal.type)
     end
   end
 end

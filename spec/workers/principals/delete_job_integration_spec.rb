@@ -572,7 +572,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
 
       describe "AI assistance" do
         let!(:global_skill) { create(:ai_assistant_skill) }
-        let!(:personal_skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, user: principal)) }
+        let!(:personal_skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, principal:)) }
         let!(:run) { create(:ai_assistant_run, user: principal, skill: global_skill) }
         let!(:finding) { create(:ai_assistant_run_finding, run:) }
         let!(:chat) { AI::AssistantChat.create!(skill: global_skill, user: principal, work_package: run.work_package) }
@@ -597,6 +597,18 @@ RSpec.describe Principals::DeleteJob, type: :model do
       let(:group_members) { [] }
 
       it_behaves_like "removes the principal"
+
+      describe "AI assistants of the group" do
+        let!(:skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, principal:)) }
+
+        before { job }
+
+        it "removes them with their skills" do
+          expect(AI::Assistant.exists?(skill.assistant_id)).to be(false)
+          expect(AI::AssistantSkill.exists?(skill.id)).to be(false)
+        end
+      end
+
       it_behaves_like "work_package handling"
       it_behaves_like "member handling"
       it_behaves_like "mention rewriting"

@@ -89,13 +89,35 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
   end
 
+  describe "a group assistant" do
+    let(:group) { create(:group) }
+    let!(:group_skill) do
+      create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "Team helper", principal: group),
+                                  skill_key: "prompt", prompt: "Summarize it.")
+    end
+
+    it "is listed for the members of the group" do
+      GroupUser.create!(group:, user:)
+
+      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+
+      expect(response.body).to include("Team helper", %(value="#{group_skill.id}"))
+    end
+
+    it "is not listed for other users" do
+      get "/work_packages/#{work_package.id}/ai_assistance/menu"
+
+      expect(response.body).not_to include("Team helper")
+    end
+  end
+
   describe "a personal assistant" do
     let(:owner) do
       create(:user, member_with_permissions: { project => permissions },
                     global_permissions: %i[manage_own_ai_assistants])
     end
     let!(:personal_skill) do
-      create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "My helper", user: owner),
+      create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "My helper", principal: owner),
                                   skill_key: "prompt", prompt: "Summarize it.")
     end
 

@@ -79,7 +79,7 @@ RSpec.describe BasicData::AiAssistantSeeder do
 
     before do
       AI::Assistant.destroy_all
-      create(:ai_assistant, name: "QA assistance", user: owner)
+      create(:ai_assistant, name: "QA assistance", principal: owner)
     end
 
     it "seeds the global assistant" do

@@ -15,7 +15,7 @@ This document describes the design. It also shows how the first pull request is 
 
 | Term | Meaning |
 |---|---|
-| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global assistants, and a user can create personal ones (see "Personal assistants"). It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
+| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
 | **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. There are three: `health_check` (a preset with rules, shown as "Refresh work package"), `prompt` (a preset with instructions only) and `chat`. |
 | **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
@@ -81,17 +81,25 @@ The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An ad
 
 A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Generate test cases". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
 
-## Personal assistants
+## Owners
+
+An assistant has an optional owner, `ai_assistants.principal_id`:
+
+- **None:** a global assistant. Everyone with `use_ai_assistance` sees it.
+- **A group:** only the group's direct members see it. An admin chooses the group when creating the assistant (Administration → AI → Assistants).
+- **A user:** a personal assistant (see below).
+
+The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills, runs and chats.
+
+### Personal assistants
 
 A user can create their own assistants with their own skills at **My account → AI assistants** (`My::AIAssistantsController`, `My::AIAssistantSkillsController`).
 
 - **Permission:** the global permission `manage_own_ai_assistants`. An admin gives it through a global role. To give it to all users, add it to the Standard global role.
-- **Owner:** `ai_assistants.user_id`. Null means a global assistant. The owner never changes (`attr_readonly`).
 - **Menu:** a personal assistant shows only in its owner's menu, after the global assistants. When the owner loses the permission, the assistant stays, but it is not offered (`AI::Assistant#usable?`).
 - **Model:** a personal assistant uses the default model of the LLM connection. Only an admin can set a model, also on a personal assistant.
 - **Template:** the My account form does not show `template_ref`.
-- **Admin:** the admin list shows all assistants with their owner, and filters by owner. The admin edits, deactivates and deletes personal assistants on the same pages.
-- **Deletion:** personal assistants are deleted with their owner, together with their skills, runs and chats.
+- **Admin:** the admin list shows all assistants with their owner, and filters by owner (Global, Groups, Personal). The admin edits, deactivates and deletes personal assistants on the same pages.
 - **Shared pages:** the admin and the My account controllers include `AIAssistance::AssistantsActions` and `AIAssistance::AssistantSkillsActions`, and render the views in `app/views/ai_assistants/` and `app/views/ai_assistant_skills/`. `AIAssistance::Pages` gives the paths and the breadcrumbs of each place.
 
 ## Proposal scope and changeable attributes
@@ -131,7 +139,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 
 | Table | Holds |
 |---|---|
-| `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `user_id` (the owner of a personal assistant) |
+| `ai_assistants` | name (unique for each owner), description, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
 | `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `output_rules`, `template_ref`, `proposal_scope`, position, active |
 | `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
 | `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
@@ -172,6 +180,7 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 15 | Rename the AI judgement to AI review, and move shared proposal classes to AI::Assistance | Renames only | 14 |
 | 16 | Clean up AI Assistance after review | Shared LLM call, event log and locale helpers, dead code, seeded prompts, this document | 15 |
 | 17 | Add personal AI assistants in My account | Owner column, `manage_own_ai_assistants`, My account pages, shared admin and My controller logic | 11 |
+| 18 | Let a group own an AI assistant | `principal_id` owner, group choice in admin, menu for group members | 17 |
 
 Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
 

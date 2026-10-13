@@ -57,7 +57,7 @@ module AIAssistance::AssistantsActions
 
   def create
     @assistant = new_assistant(assistant_params)
-    @assistant.position = (AI::Assistant.where(user_id: @assistant.user_id).maximum(:position) || 0) + 1
+    @assistant.position = (AI::Assistant.where(principal_id: @assistant.principal_id).maximum(:position) || 0) + 1
 
     if @assistant.save
       flash[:notice] = t(:notice_successful_create)
