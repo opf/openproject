@@ -58,12 +58,8 @@ class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages:
   end
 
   def self.instances(context = nil)
-    if context
-      context.all_work_package_custom_fields
-    else
-      WorkPackageCustomField.all
-    end
-      .on_visible_type_and_project(User.current)
+    WorkPackageCustomField
+      .on_visible_type_and_project(User.current, project: context)
       .reject { |cf| cf.field_format == "text" }
       .map { |cf| new(cf) }
   end

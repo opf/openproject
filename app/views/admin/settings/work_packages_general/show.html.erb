@@ -72,19 +72,22 @@ See COPYRIGHT and LICENSE files for more details.
               }
             end
           ) %>
-      <div
-        class="form--field -indented -vertical"
-        data-show-when-value-selected-target="effect"
-        data-target-name="work_package_list_default_highlighting_mode"
-        data-value="inline"
-        <%= "hidden" unless Setting[:work_package_list_default_highlighting_mode] == "inline" %>>
+      <%= tag.div(
+            class: "form--field -indented -vertical",
+            data: {
+              show_when_value_selected_target: "effect",
+              target_name: "work_package_list_default_highlighting_mode",
+              value: "inline"
+            },
+            hidden: Setting[:work_package_list_default_highlighting_mode] != "inline"
+          ) do %>
         <%= setting_multiselect(
               :work_package_list_default_highlighted_attributes,
               Query.available_columns(nil).select(&:highlightable).map do |column|
                 [column.caption, column.name.to_s]
               end
             ) %>
-      </div>
+      <% end %>
     </div>
   </section>
 

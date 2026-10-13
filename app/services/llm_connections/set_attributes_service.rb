@@ -43,7 +43,7 @@ module LlmConnections
     # Only EnvSyncService passes the marker and only EnvironmentUpdateContract
     # accepts it, so any other write is an administrator's and ends the lock.
     def release_from_environment
-      model.change_by_system { model.env_provisioned_at = nil }
+      model.change_by_system { model.assign_attributes(env_provisioned_at: nil, env_fingerprint: nil) }
     end
 
     # +identifier+ names the record but is never user-editable, so it is set as a

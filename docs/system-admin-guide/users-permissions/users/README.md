@@ -319,7 +319,7 @@ This tab shows whether a user has activated a device for two-factor authenticati
 
 ## Delete users
 
-Two [settings](../settings/#user-deletion) allow users to be deleted from the system:
+Two [settings](../settings/#deletion) allow users to be deleted from the system:
 
 - **User accounts deletable by admins** - if ticked, a **Delete** button is shown on the user details page.
 - **Users allowed to delete their accounts** - if ticked, a **Delete account** menu entry is shown in the **Account settings** page.

@@ -34,14 +34,15 @@ See COPYRIGHT and LICENSE files for more details.
 <% no_filter_query = ::API::V3::Queries::QueryParamsRepresenter.new(Query.new_default.tap { |q| q.filters = [] }).to_json %>
 <%= render(
       WorkPackageTypes::ReloadableConfigurationFrameComponent.new(
-        reload_url: edit_type_form_configuration_path(**@variant.path_args)
+        reload_url: edit_variant_form_configuration_path(variant_scope_project, @variant)
       )
     ) do %>
-  <%= render(WorkPackageTypes::ReuseMode::SectionComponent.new(variant: @variant, aspect: TypeVariant::FORM_CONFIGURATION)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::TabSubHeaderComponent.new(variant: @variant)) %>
+  <%= render(WorkPackageTypes::FormConfiguration::ReadOnlyBannerComponent.new(context: form_editor_context)) %>
   <%= render(
         WorkPackageTypes::FormConfigurationComponent.new(
-          variant: @variant,
-          form_attributes: form_configuration_groups(@variant),
+          context: form_editor_context,
+          form_attributes: form_configuration_groups(form_editor_context),
           no_filter_query:
         )
       ) %>

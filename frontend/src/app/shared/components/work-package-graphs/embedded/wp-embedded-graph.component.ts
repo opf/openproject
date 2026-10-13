@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -241,7 +240,7 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private setHeight() {
-    if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
+    if (this.chartType === 'horizontalBar' && this.datasets?.[0]) {
       const labels:string[] = [];
       this.datasets.forEach((d) => { d.groups!.forEach((g) => {
         if (!labels.includes(g.value)) {

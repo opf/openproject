@@ -68,7 +68,7 @@ module API
               get do
                 attachment = Attachment.pending_direct_upload.find(params[:id])
 
-                raise API::Errors::NotFound unless attachment.file.readable?
+                raise API::Errors::NotFound unless DirectFogUploader.for_attachment(attachment).readable?
 
                 ::Attachments::FinishDirectUploadJob.perform_later attachment.id
 

@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Comparison
     class ColumnHeaderComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       # There might be a lot of possible duplicates, restrict it to some magic number.
       NAMED_DUPLICATES = 3
@@ -64,7 +65,7 @@ module WorkPackageTypes
         t("types.comparison.labels.duplicate_of_more", names: names.to_sentence, count: remaining)
       end
 
-      def configuration_path = type_settings_path(**variant.path_args)
+      def configuration_path = variant_settings_path(nil, variant)
     end
   end
 end

@@ -91,7 +91,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 2)
         expect(page)
-          .to have_css(".project_status", text: "OFF TRACK")
+          .to have_css(".Label", text: "Off track")
         expect(page)
           .to have_no_css(".created_at ")
       end
@@ -102,7 +102,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 1)
         expect(page)
-          .to have_css(".project_status", text: "ON TRACK")
+          .to have_css(".Label", text: "On track")
         expect(page)
           .to have_no_css(".created_at ")
       end
@@ -113,7 +113,7 @@ RSpec.describe "Projects lists columns", :js, with_settings: { login_required?: 
         expect(page)
           .to have_css(".cf_#{integer_custom_field.id}", text: 3)
         expect(page)
-          .to have_css(".project_status", text: "AT RISK")
+          .to have_css(".Label", text: "At risk")
         expect(page)
           .to have_no_css(".created_at ")
       end

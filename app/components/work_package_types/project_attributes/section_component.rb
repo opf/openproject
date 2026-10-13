@@ -16,6 +16,7 @@ module WorkPackageTypes
       include ApplicationHelper
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:, project_custom_field_section:, project_custom_fields:, linked: false, exclusion_state: nil)
         super()
@@ -32,19 +33,15 @@ module WorkPackageTypes
       attr_reader :linked, :exclusion_state
 
       def enable_all_path
-        bulk_path(:enable_all_of_section)
+        enable_all_of_section_variant_project_attributes_path(helpers.variant_scope_project, @variant, **section_params)
       end
 
       def disable_all_path
-        bulk_path(:disable_all_of_section)
+        disable_all_of_section_variant_project_attributes_path(helpers.variant_scope_project, @variant, **section_params)
       end
 
-      def bulk_path(action)
-        send(
-          :"#{action}_type_project_attributes_path",
-          **@variant.path_args,
-          project_custom_field_type_mapping: { custom_field_section_id: @project_custom_field_section.id }
-        )
+      def section_params
+        { project_custom_field_type_mapping: { custom_field_section_id: @project_custom_field_section.id } }
       end
 
       def wrapper_uniq_by

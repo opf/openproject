@@ -34,7 +34,7 @@ module Pages
   module CustomFields
     class New < Page
       def path
-        "/custom_fields/new?type=#{@type}"
+        Rails.application.routes.url_helpers.public_send(:"new_admin_settings_#{@type.underscore}_path")
       end
 
       def initialize(type = "WorkPackageCustomField")

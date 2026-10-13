@@ -16,7 +16,7 @@ The questions below provide a starting point for a detailed fit-gap analysis. Pl
 >
 ## Is OpenProject proven in large organizations?
 
-Yes. Many large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernisation (BMDS), and the [International Criminal Court (ICC)](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/) through openDesk.
+Yes. Many large organizations have been using OpenProject successfully for years. References and major deployments include Deutsche Bahn, Mercedes-AMG, Samsung, 3M, Charité, the German Federal Ministry for Digital Transformation and Government Modernization (BMDS), and the [International Criminal Court (ICC)](https://www.openproject.org/blog/digital-sovereignty-government-germany-opendesk/) through openDesk.
 
 OpenProject is trusted by organizations across government and public administration, healthcare, transportation, manufacturing, automotive, research and higher education, energy, IT, and consulting. It is increasingly adopted by public sector organizations pursuing digital sovereignty, open standards, and vendor independence. The [OpenProject customer overview](https://www.openproject.org/customers/) provides further examples across industries and geographies.
 

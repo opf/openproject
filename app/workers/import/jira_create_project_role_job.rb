@@ -33,7 +33,7 @@ module Import
     include Import::JiraOpenProjectReferenceCreation
 
     def text
-      "Create 'JiraMember' project role"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title")
     end
 
     def perform(jira_import_id)

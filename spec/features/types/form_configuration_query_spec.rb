@@ -89,7 +89,7 @@ RSpec.describe "form query configuration", :js do
   describe "with EE token", with_ee: %i[edit_attribute_groups] do
     before do
       login_as(admin)
-      visit edit_type_form_configuration_path(type_bug)
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
     end
 
     it "can save an empty query group" do
@@ -152,7 +152,7 @@ RSpec.describe "form query configuration", :js do
       filters.save
       wait_for_network_idle
 
-      visit edit_type_form_configuration_path(type_bug)
+      visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
       wait_for_network_idle
       form.edit_query_group(group_name)
 
@@ -176,7 +176,7 @@ RSpec.describe "form query configuration", :js do
 
         archived.update_attribute(:active, false)
 
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
         form.edit_query_group("Archived project")
 
         # Expect we now get the valid subset without the invalid project
@@ -286,7 +286,7 @@ RSpec.describe "form query configuration", :js do
         embedded_table.reference_work_package unrelated_task
 
         # Go back to type configuration
-        visit edit_type_form_configuration_path(type_bug)
+        visit edit_form_configuration_path(type_bug.default_variant.form_configuration)
 
         # Edit query to remove filters
         form.edit_query_group("Subtasks")

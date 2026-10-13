@@ -110,7 +110,6 @@ ru:
   plugin_openproject_reporting:
     description: Этот плагин позволяет создавать пользовательские отчеты о стоимости с фильтрацией и группировкой, созданной плагином OpenProject Time и затратами.
     name: Отчёт OpenProject
-  project_module_reporting_module: Отчет по стоимости
   reporting:
     group_by:
       selected_columns: Выбранные столбцы

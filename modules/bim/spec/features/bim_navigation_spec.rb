@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -63,7 +65,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
       model_page.finished_loading
     end
 
-    context "deep link on the page" do
+    context "when using a deep link on the page" do
       before do
         model_page.visit!
         model_page.finished_loading
@@ -73,11 +75,12 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         model_page.model_viewer_shows_a_toolbar true
         model_page.page_shows_a_toolbar true
         model_tree.sidebar_shows_viewer_menu true
-        expect(page).to have_test_selector("op-wp-card-view")
-        card_view.expect_work_package_listed work_package
       end
 
       it "can switch between the different view modes" do
+        expect(page).to have_test_selector("op-wp-card-view")
+        card_view.expect_work_package_listed work_package
+
         # Opening details view with info icon
         card_view.click_info_icon(work_package)
 
@@ -93,7 +96,7 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
 
         details_view.ensure_page_loaded
         details_view.expect_subject
-        details_view.go_back
+        details_view.close
 
         details_view.expect_closed
         card_view.expect_work_package_listed(work_package)
@@ -147,7 +150,15 @@ RSpec.describe "BIM navigation spec", :js, with_config: { edition: "bim" } do
         details_view.ensure_page_loaded
         details_view.expect_subject
         details_view.switch_to_tab tab: "Relations"
+        details_view.expect_tab "Relations"
 
+        # The "full screen" link's href is rendered server-side from the active tab,
+        # but it lags behind the tab nav's own selected-state update (data-aria-current,
+        # checked by expect_tab above) - wait for the href itself to catch up, or
+        # clicking too early still hits the pre-switch (activity) href.
+        expect(page).to have_css(
+          "[data-test-selector='wp-details-tab-component--full-screen'][href*='relations']"
+        )
         details_view.switch_to_fullscreen
         full_view.expect_tab "Relations"
 

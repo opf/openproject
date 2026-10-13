@@ -193,7 +193,7 @@ RSpec.describe(
           copied = project_copy.project_types.find_by(type: owned_type).variant
 
           expect(copied.form_configuration_excluded_elements).to contain_exactly("assignee")
-          expect(copied.source_for(:form_configuration)).to eq(owned_variant.source_for(:form_configuration))
+          expect(copied.form_configuration).to eq(owned_variant.form_configuration)
         end
 
         it "lets the copy reference the same workflow" do
@@ -439,35 +439,6 @@ RSpec.describe(
         end
       end
 
-      describe "work_package_custom_fields" do
-        context "with disabled work package custom field" do
-          it "is still disabled in the copy" do
-            custom_field = create(:text_wp_custom_field)
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-
-        context "with enabled work package custom field" do
-          it "is still enabled in the copy" do
-            custom_field = create(:text_wp_custom_field, projects: [source])
-            create(:type_task,
-                   projects: [source],
-                   custom_fields: [custom_field])
-
-            expect(subject).to be_success
-
-            expect(source.work_package_custom_fields).to eq([custom_field])
-            expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
-          end
-        end
-      end
     end
 
     context "when source project has a non-zero wp_sequence_counter",
@@ -1202,8 +1173,7 @@ RSpec.describe(
         describe "work package user custom field" do
           let(:custom_field) do
             create(:user_wp_custom_field).tap do |cf|
-              source.work_package_custom_fields << cf
-              work_package.type.default_variant.custom_fields << cf
+              work_package.type.default_variant.custom_field_ids |= [cf.id]
             end
           end
 

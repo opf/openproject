@@ -59,6 +59,9 @@ module OpenIDConnect
                   if: -> { model.public_send(:"#{attr}_changed?") && !path_attribute?(model.public_send(attr)) }
       end
 
+      attribute :additional_form_action_urls
+      validates :additional_form_action_urls, url_list: true
+
       attribute :post_logout_redirect_uri
       validates :post_logout_redirect_uri,
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },

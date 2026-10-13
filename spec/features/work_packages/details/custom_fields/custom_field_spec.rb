@@ -9,8 +9,7 @@ RSpec.describe "custom field inplace editor", :js do
   let(:type) { create(:type_task, custom_fields:) }
   let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: custom_fields)
+           types: [type])
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do

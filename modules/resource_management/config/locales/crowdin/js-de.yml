@@ -4,5 +4,8 @@ de:
     button_allocate_resource: Allocate resource
     resource_management:
       create_placeholder_user: Create placeholder user with filter criteria
-      hidden_user: Hidden user
+      hidden_user: Versteckter Benutzer
+      my_work:
+        finish_by: Finish by %{date}
+        finish_today: Finish today
       show_allocations: Show resource allocations

@@ -108,7 +108,6 @@ tr:
   plugin_openproject_reporting:
     description: Bu eklenti, OpenProject Zaman ve maliyetler eklentisi tarafından oluşturulan filtreleme ve gruplama ile özel maliyet raporları oluşturmaya izin verir.
     name: OpenProject Raporlama
-  project_module_reporting_module: Maliyet raporları
   reporting:
     group_by:
       selected_columns: Seçilen sütunlar

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -288,7 +287,7 @@ describe('Filters form pending rows', () => {
           </select>
           <div data-filter-name="dates_interval" data-filter--filters-form-target="filterValueContainer">
             <input id="dates_interval" aria-label="Dates interval range" value="${rangeValue}"
-              data-filter--filters-form-target="dateRange">
+              data-filter-name="dates_interval" data-filter--filters-form-target="dateRange">
           </div>
         </div>
       </div>`;

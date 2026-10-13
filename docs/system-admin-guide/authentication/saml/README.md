@@ -60,6 +60,8 @@ If some of the required fields (marked with an asterisk) are missing, fill them 
 
 The optional **Allowed clock drift** field relaxes the validation of the timestamps contained in the identity provider response by the given number of seconds, fractions of a second included. Leave it empty unless authentication fails because the clocks of OpenProject and the identity provider are out of sync, and prefer synchronizing the clocks over raising this value: a large tolerance weakens the protection against replayed assertions.
 
+The optional **Additional allowed login redirect URLs** field is for identity providers that redirect the browser to other servers during the login, for example an ADFS that forwards to a federation broker. Browsers block such redirects unless OpenProject allows them. If the login fails and the browser console shows a blocked `form-action` redirect, enter the blocked URL here, one URL per line. OpenProject then allows redirects to the hosts of these URLs, only during the login with this provider.
+
 Once you verified the configuration with your settings from the identity provider, click on **Continue**.
 
 ### Step 4: Signatures and Encryption
@@ -160,6 +162,9 @@ OPENPROJECT_SAML_SAML_IDP__SSO__SERVICE__URL="https://<hostname of your idp>/app
 
 # (Optional) Replace with your redirect flow single sign out URL that we should redirect to
 OPENPROJECT_SAML_SAML_IDP__SLO__SERVICE__URL=""
+
+# (Optional) URLs of other servers that your idP redirects the browser to during the login
+OPENPROJECT_SAML_SAML_ADDITIONAL__FORM__ACTION__URLS="['https://broker.example.com/login']"
 
 # Which SAMLAttribute we should look for for the corresponding attributes of OpenProject
 # can be a string or URI/URN depending on our idP format

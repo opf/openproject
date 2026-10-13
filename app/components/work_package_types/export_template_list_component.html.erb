@@ -34,14 +34,14 @@ See COPYRIGHT and LICENSE files for more details.
         container: "pdf-export-templates",
         position: :relative,
         mb: 3,
-        data: (readonly? ? {} : drag_and_drop_target_config)
+        data: list_data
       )
     ) do |list|
       list.with_header(title: I18n.t("types.edit.export_configuration.pdf_export_templates.label")) do |header|
         unless readonly?
           header.with_action_button(
             tag: :a,
-            href: enable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            href: enable_all_variant_pdf_export_template_index_path(helpers.variant_scope_project, @variant),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,
@@ -54,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
           end
           header.with_action_button(
             tag: :a,
-            href: disable_all_type_pdf_export_template_index_path(**@variant.path_args),
+            href: disable_all_variant_pdf_export_template_index_path(helpers.variant_scope_project, @variant),
             scheme: :invisible,
             font_weight: :bold,
             color: :subtle,
@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
       @variant.pdf_export_templates.list.each do |template|
         list.with_item(
           test_selector: "pdf-export-template-row-#{template.id}",
-          data: (readonly? ? {} : draggable_item_config(template))
+          data: item_data(template)
         ) do
           render(
             WorkPackageTypes::ExportTemplateRowComponent.new(

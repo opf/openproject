@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,6 +31,8 @@
 module Bim
   module IfcModels
     class IfcViewerController < BaseController
+      include WorkPackages::WithSplitView
+
       before_action :find_project_by_project_id
       before_action :authorize
       before_action :find_all_ifc_models
@@ -37,9 +41,37 @@ module Bim
 
       menu_item :ifc_models
 
-      def show; end
+      def index; end
+
+      def split_view
+        respond_to do |format|
+          format.html do
+            if turbo_frame_request?
+              render "work_packages/split_view", layout: false
+            else
+              render :index
+            end
+          end
+        end
+      end
+
+      def split_create
+        respond_to do |format|
+          format.html do
+            if turbo_frame_request?
+              render "work_packages/split_create", layout: false
+            else
+              render :index
+            end
+          end
+        end
+      end
 
       private
+
+      def split_view_base_route
+        bcf_project_frontend_path(@project, request.query_parameters)
+      end
 
       def parse_showing_models
         @shown_model_ids =
@@ -56,7 +88,7 @@ module Bim
         @ifc_models = @project
           .ifc_models
           .includes(:attachments)
-          .order("created_at ASC")
+          .order(:created_at)
       end
 
       def set_default_models

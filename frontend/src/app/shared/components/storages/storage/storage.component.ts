@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -62,7 +61,6 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
@@ -93,6 +91,7 @@ import {
 import {
   IHalErrorBase, v3ErrorIdentifierMissingEnterpriseToken,
 } from 'core-app/features/hal/resources/error-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 @Component({
   selector: 'op-storage',
@@ -191,7 +190,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return this.pathHelperService.fileLinksPath();
     }
 
-    return (this.resource.$links as { addFileLink:IHalResourceLink }).addFileLink.href;
+    return (this.resource.$links.addFileLink as CallableHalLink).href!;
   }
 
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
@@ -533,7 +532,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   private fileLinkSelfLink(storage:IStorage):string {
     const fileLinks = (this.resource as WorkPackageResource).$links.fileLinks;
-    return `${fileLinks?.href}?pageSize=-1&filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
+    return `${(fileLinks as CallableHalLink|undefined)?.href}?pageSize=-1&filters=[{"storage":{"operator":"=","values":["${storage.id}"]}}]`;
   }
 
   public onDropFiles(event:DragEvent):void {

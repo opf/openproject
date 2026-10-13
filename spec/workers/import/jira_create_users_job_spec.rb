@@ -645,4 +645,70 @@ RSpec.describe Import::JiraCreateUsersJob, with_settings: {
       end
     end
   end
+
+  describe "#progress" do
+    subject(:job) { described_class.new(jira_import.id) }
+
+    context "when no cursor is set" do
+      it "returns zeros" do
+        expect(job.progress).to eq({ current: 0, total: 0, percentage: 0 })
+      end
+    end
+
+    context "when cursor is set" do
+      let!(:jira_user1) do
+        create(:jira_user,
+               jira_import:,
+               payload: jira_user_payload(
+                 key: "JIRAUSER10200",
+                 name: "user1@example.com",
+                 display_name: "User One",
+                 email: "user1@example.com",
+                 groups: []
+               ))
+      end
+
+      let!(:jira_user2) do
+        create(:jira_user,
+               jira_import:,
+               payload: jira_user_payload(
+                 key: "JIRAUSER10201",
+                 name: "user2@example.com",
+                 display_name: "User Two",
+                 email: "user2@example.com",
+                 groups: []
+               ))
+      end
+
+      let!(:jira_user3) do
+        create(:jira_user,
+               jira_import:,
+               payload: jira_user_payload(
+                 key: "JIRAUSER10202",
+                 name: "user3@example.com",
+                 display_name: "User Three",
+                 email: "user3@example.com",
+                 groups: []
+               ))
+      end
+
+      it "calculates progress based on cursor position" do
+        jira_import.set_job_cursor(job, jira_user2.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(2)
+        expect(progress[:percentage]).to eq(66.67)
+      end
+
+      it "returns 100% when all users are processed" do
+        jira_import.set_job_cursor(job, jira_user3.id)
+
+        progress = job.progress
+        expect(progress[:total]).to eq(3)
+        expect(progress[:current]).to eq(3)
+        expect(progress[:percentage]).to eq(100.0)
+      end
+    end
+  end
 end

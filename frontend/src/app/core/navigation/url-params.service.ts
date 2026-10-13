@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -35,7 +34,6 @@ import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-patte
 @Injectable({ providedIn: 'root' })
 export class UrlParamsService {
   private navigation = inject(NavigationService);
-
 
   public get(key:string):string|null {
     return this.searchParams.get(key);
@@ -82,6 +80,11 @@ export class UrlParamsService {
   public splitCreatePath(url = window.location.pathname):string {
     const basePath = this.basePathWithoutDetails(url);
     return /\/(work_packages|gantt)$/.test(basePath) ? `${basePath}/create_new` : `${basePath}/details/new`;
+  }
+
+  /** Whether the split-create form (see splitCreatePath) is the page currently open. */
+  public isCreatePaneOpen(pathname = window.location.pathname):boolean {
+    return pathname.endsWith('/create_new') || pathname.endsWith('/details/new');
   }
 
   /** Raw URL-changed signal, for callers that need to react to more than one pattern at once. */

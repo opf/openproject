@@ -61,9 +61,5 @@ module PlaceholderUsers
     def clear_button_id
       "placeholder-user-filters-form-clear-button"
     end
-
-    def collapsed_search?
-      filter_input_value.blank?
-    end
   end
 end

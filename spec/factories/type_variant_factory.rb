@@ -8,6 +8,7 @@ FactoryBot.define do
     sequence(:variant_name) { |n| "Variant No. #{n}" }
 
     workflow { type.default_variant&.workflow || association(:named_workflow) }
+    form_configuration
 
     # A variant only the owning project can see or use.
     factory :project_owned_type_variant do

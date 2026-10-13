@@ -34,14 +34,14 @@ See COPYRIGHT and LICENSE files for more details.
       variant: @variant,
       title: t("types.edit.export_configuration.templates.settings.title", template: @template.label),
       additional_breadcrumb_items: [
-        { href: edit_type_pdf_export_template_index_path(**@variant.path_args),
+        { href: edit_variant_pdf_export_template_index_path(variant_scope_project, @variant),
           text: t("types.edit.export_configuration.tab") },
         @template.label
       ]
     ) %>
 
 <%= primer_form_with(
-      url: update_settings_type_pdf_export_template_path(**@variant.path_args, id: @template.id),
+      url: update_settings_variant_pdf_export_template_path(variant_scope_project, @variant, @template.id),
       method: :patch
     ) do %>
   <%= render(@template.settings_component.new(settings: @settings, disabled: @readonly, show_default_hint: true)) %>
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
                 Primer::Beta::Button.new(
                   tag: :a,
                   scheme: :default,
-                  href: edit_type_pdf_export_template_index_path(**@variant.path_args)
+                  href: edit_variant_pdf_export_template_index_path(variant_scope_project, @variant)
                 )
               ) { t(:button_cancel) }
             end

@@ -30,6 +30,9 @@
 
 class AddEnvProvisionedAtToLlmConnections < ActiveRecord::Migration[8.1]
   def change
-    add_column :llm_connections, :env_provisioned_at, :datetime
+    change_table :llm_connections, bulk: true do |t|
+      t.datetime :env_provisioned_at
+      t.string :env_fingerprint
+    end
   end
 end

@@ -129,6 +129,7 @@ class EditField
   alias :activate_edition :activate!
 
   def openSelectField
+    expect_enabled!
     autocomplete_selector.click
     wait_for_network_idle
   end
@@ -171,6 +172,7 @@ class EditField
 
   def expect_enabled!
     expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]", wait: 10
+    expect(@context).to have_no_css "#{@selector} ng-select.ng-select-disabled", wait: 10
   end
 
   def expect_invalid

@@ -39,7 +39,6 @@ RSpec.describe CustomValue::ListStrategy, "integration tests" do
       name: "Invalid List CF",
       multi_value: true,
       types: [type],
-      projects: [project],
       possible_values: ["A", "B"]
     )
   end

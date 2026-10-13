@@ -44,7 +44,7 @@ class LlmFeatureBinding < ApplicationRecord
   # vectors already written, not just the model.
   LOCKED_SETTINGS = ([:model_id] + EMBEDDING_SETTINGS).freeze
 
-  before_save :freeze_inherited_model_on_lock
+  before_save :freeze_on_lock
 
   validates :feature_key, presence: true, uniqueness: { scope: :llm_connection_id }
   validates :dimensions, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
@@ -71,7 +71,13 @@ class LlmFeatureBinding < ApplicationRecord
   # catalogue changed.
   def dangling?
     resolved = resolved_model_id
-    resolved.present? && llm_connection.available_model_ids.exclude?(resolved)
+    resolved.present? && (from_another_deployment? || llm_connection.available_model_ids.exclude?(resolved))
+  end
+
+  # The same model name on another server need not be the same model, so a lock
+  # only holds for the deployment it was taken on.
+  def from_another_deployment?
+    locked? && locked_deployment_fingerprint != llm_connection.settings_fingerprint
   end
 
   def locked? = locked_at.present?
@@ -80,12 +86,13 @@ class LlmFeatureBinding < ApplicationRecord
 
   # A lock freezes what the vectors were written with. A binding that inherits
   # the connection default would keep following it after the lock, so the
-  # resolved model is written down at the moment of locking.
-  def freeze_inherited_model_on_lock
+  # resolved model is written down at the moment of locking, together with the
+  # deployment it was resolved on.
+  def freeze_on_lock
     return unless locked_at.present? && locked_at_changed? && locked_at_was.nil?
-    return if model_id.present?
 
-    self.model_id = default_model_id
+    self.locked_deployment_fingerprint = llm_connection.settings_fingerprint
+    self.model_id = default_model_id if model_id.blank?
   end
 
   def default_model_id
