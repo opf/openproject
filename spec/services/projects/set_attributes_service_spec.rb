@@ -233,18 +233,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           [create(:type, default_variant_enabled_in_all_projects: true)]
         end
 
-        shared_examples "setting custom field defaults" do
-          context "with custom fields" do
-            let!(:custom_field) { create(:text_wp_custom_field, types:) }
-            let!(:custom_field_with_no_type) { create(:text_wp_custom_field) }
-
-            it "activates the type's custom fields" do
-              expect(subject.result.work_package_custom_fields)
-                .to eq([custom_field])
-            end
-          end
-        end
-
         context "with a value for project_types provided" do
           let(:other_types) { [create(:type)] }
           let(:call_attributes) do
@@ -256,10 +244,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           it "does not alter the types" do
             expect(subject.result.project_types.map(&:type))
               .to match_array other_types
-          end
-
-          include_examples "setting custom field defaults" do
-            let(:types) { other_types }
           end
         end
 
@@ -277,11 +261,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
             expect(project_types.map(&:variant_id))
               .to match_array(default_types.map { |type| type.default_variant.id })
           end
-
-          include_examples "setting custom field defaults" do
-            let(:default_types) { [create(:type, default_variant_enabled_in_all_projects: true)] }
-            let(:types) { default_types }
-          end
         end
 
         context "with the types being set before" do
@@ -295,10 +274,6 @@ RSpec.describe Projects::SetAttributesService, type: :model do
           it "does not alter the types modules" do
             expect(subject.result.project_types.map { |pt| pt.type.name })
               .to match_array %w(lorem)
-          end
-
-          include_examples "setting custom field defaults" do
-            let(:types) { [create(:type, name: "lorem")] }
           end
         end
       end

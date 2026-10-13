@@ -39,7 +39,9 @@ module MeetingAgendaItems
     def initialize(meeting_agenda_item:,
                    first_and_last: [],
                    current_occurrence: nil,
-                   presentation_mode: false)
+                   presentation_mode: false,
+                   slide: nil,
+                   started_at: nil)
       super
 
       @meeting_agenda_item = meeting_agenda_item
@@ -48,6 +50,8 @@ module MeetingAgendaItems
       @first_and_last = first_and_last
       @current_occurrence = current_occurrence
       @presentation_mode = presentation_mode
+      @slide = slide
+      @started_at = started_at
     end
 
     def wrapper_uniq_by
@@ -58,6 +62,12 @@ module MeetingAgendaItems
 
     def presentation_mode?
       @presentation_mode
+    end
+
+    def presentation_params
+      return {} unless presentation_mode?
+
+      { presentation_mode: true, started_at: @started_at&.iso8601 }
     end
 
     def drag_and_drop_enabled?
@@ -125,6 +135,7 @@ module MeetingAgendaItems
                          @meeting_agenda_item.meeting,
                          @meeting_agenda_item,
                          presentation_mode: @presentation_mode,
+                         slide: @slide,
                          current_occurrence: @current_occurrence
                        ),
                        method: "GET"
@@ -370,7 +381,8 @@ module MeetingAgendaItems
                          @meeting,
                          @meeting_agenda_item,
                          type: :to_backlog,
-                         current_occurrence: @current_occurrence
+                         current_occurrence: @current_occurrence,
+                         **presentation_params
                        )
                      } }) do |item|
         item.with_leading_visual_icon(icon: "discussion-outdated")
@@ -413,6 +425,14 @@ module MeetingAgendaItems
                        )
                      } }) do |item|
         item.with_leading_visual_icon(icon: "op-move")
+      end
+    end
+
+    def formatted_notes
+      if presentation_mode?
+        @meeting_agenda_item.slides.content(@slide)
+      else
+        format_text(@meeting_agenda_item, :notes)
       end
     end
 
@@ -471,7 +491,8 @@ module MeetingAgendaItems
                                                              @meeting_agenda_item,
                                                              datetime: next_date.iso8601,
                                                              skipped_cancelled: skipped_cancelled_iso,
-                                                             skipped_closed: skipped_closed_iso)
+                                                             skipped_closed: skipped_closed_iso,
+                                                             **presentation_params)
       when :duplicate_in_next
         duplicate_in_next_dialog_project_meeting_agenda_item_path(@meeting.project,
                                                                   @meeting,

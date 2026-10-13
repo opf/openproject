@@ -140,8 +140,7 @@ RSpec.describe ResourceWorkPackageList do
       end
 
       before do
-        project.work_package_custom_fields << custom_field
-        project.enabled_variants.each { |variant| variant.custom_fields << custom_field }
+        project.enabled_variants.each { |variant| variant.custom_field_ids |= [custom_field.id] }
       end
 
       it "offers it alongside the built-in attributes" do

@@ -30,8 +30,6 @@
 
 module Backlogs
   module CommonHelper
-    include PermittedParamsHelper
-
     def user_allowed?(permission, project: nil)
       current_user.allowed_in_project?(permission, project || self.project)
     end
@@ -61,7 +59,7 @@ module Backlogs
 
     def backlog_filters
       RequestStore.fetch(:backlog_filters) do
-        Backlogs::BacklogFilters.from_params(permitted_params.backlog_filters)
+        Backlogs::BacklogFilters.from_params(params.permit(:all, :filters, bucket_ids: [], sprint_ids: []))
       end
     end
 

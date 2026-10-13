@@ -384,7 +384,7 @@ zh-CN:
     include_workspaces:
       types:
         portfolio: 项目组合
-        program: 项目群
+        program: 计划
     inplace:
       btn_preview_disable: 禁用预览
       btn_preview_enable: 预览

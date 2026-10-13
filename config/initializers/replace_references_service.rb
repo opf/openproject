@@ -36,7 +36,6 @@ Rails.application.reloader.to_prepare do
       "Budget" => :author_id,
       "Changeset" => :user_id,
       "Comment" => :author_id,
-      "CostEntry" => %i[logged_by_id user_id],
       "PersistedQuery" => :principal_id,
       "PersistedView" => :principal_id,
       "::Doorkeeper::Application" => :owner_id,

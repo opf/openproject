@@ -30,6 +30,8 @@
 
 module Token
   class API < Named
+    include Expirable
+
     prefix :opapi
   end
 end

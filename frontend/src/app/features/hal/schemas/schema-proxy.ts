@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -50,16 +49,12 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     ) as ISchemaProxy;
   }
 
-  get(schema:SchemaResource, property:PropertyKey, receiver:any):any {
+  get(schema:SchemaResource, property:PropertyKey, receiver:unknown):unknown {
     switch (property) {
-      case 'ofProperty': {
-        return this.proxyMethod(this.ofProperty);
-      }
-      case 'isAttributeEditable': {
-        return this.proxyMethod(this.isAttributeEditable);
-      }
+      case 'ofProperty':
+      case 'isAttributeEditable':
       case 'mappedName': {
-        return this.proxyMethod(this.mappedName);
+        return this.proxyMethod(property);
       }
       case 'isEditable': {
         return this.isEditable;
@@ -81,7 +76,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
    * @param property the schema part is desired for
    */
   public ofProperty(property:string):IFieldSchema|null {
-    const propertySchema = this.schema[this.mappedName(property)];
+    const propertySchema = this.schema[this.mappedName(property)] as IFieldSchema|undefined;
 
     if (propertySchema) {
       return { ...propertySchema, writable: this.isEditable && propertySchema?.writable };
@@ -117,15 +112,7 @@ export class SchemaProxy implements ProxyHandler<SchemaResource> {
     return property;
   }
 
-  private proxyMethod(method:Function) {
-    const self = this;
-
-    // Returning a Proxy here so that the call is bound
-    // to the SchemaProxy instance.
-    return new Proxy(method, {
-      apply(_, __, argumentsList) {
-        return method.apply(self, [argumentsList[0]]);
-      },
-    });
+  private proxyMethod(name:'ofProperty'|'isAttributeEditable'|'mappedName') {
+    return (property:string) => this[name](property);
   }
 }

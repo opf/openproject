@@ -64,10 +64,11 @@ module StepWizard
     }
 
     renders_one :submit_button, lambda { |**submit_button_args|
+      label = submit_button_args.delete(:label) || I18n.t("button_complete")
       submit_button_args[:scheme] ||= :primary
       submit_button_args[:type] ||= :submit
 
-      Primer::Beta::Button.new(**submit_button_args).with_content(I18n.t("button_complete"))
+      Primer::Beta::Button.new(**submit_button_args).with_content(label)
     }
 
     def initialize(form_identifier:, total_steps:, current_step:)

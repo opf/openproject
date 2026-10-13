@@ -96,7 +96,7 @@ RSpec.describe "Delete work packages that have descendants", :js do
       wp_table.visit_query(query)
       wp_table.expect_work_package_listed(parent_a, parent_b)
 
-      find("body").send_keys [:control, "a"]
+      wp_table.select_all_work_packages
       context_menu.open_for(parent_a)
       context_menu.choose("Bulk delete")
 

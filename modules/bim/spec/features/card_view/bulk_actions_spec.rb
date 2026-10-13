@@ -44,7 +44,7 @@ RSpec.describe "Copy work packages through Rails view", :js, with_config: { edit
     loading_indicator_saveguard
 
     # Select all work packages
-    find("body").send_keys [:control, "a"]
+    Pages::WorkPackageCards.new(project).select_all_work_packages
   end
 
   describe "accessing the bulk duplicate from the card view" do

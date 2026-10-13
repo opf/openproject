@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -46,7 +45,6 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { StateService } from '@uirouter/angular';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -70,7 +68,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly wpTableColumns = inject(WorkPackageViewColumnsService);
   readonly ConfigurationService = inject(ConfigurationService);
-  readonly $state = inject(StateService);
 
   public text = {
     title: this.I18n.t('js.work_packages.table_configuration.modal_title'),

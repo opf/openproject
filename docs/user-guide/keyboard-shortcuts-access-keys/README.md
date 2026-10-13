@@ -90,3 +90,11 @@ To quickly save changes in a rich text editor (for example a work package descri
 | CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).
+
+## Clear a work package selection
+
+Escape clears every work package selection on the page, in tables and card views alike, wherever the focus is. An open menu, dialog or editable field receives the Escape first, so one keypress never both dismisses something and clears the selection.
+
+| Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                             |
+| -------------------------- | -------------- | -------------------------------------------------- |
+| ESC                        | ESC            | **Clear the selection** in every table and card view on the page. |

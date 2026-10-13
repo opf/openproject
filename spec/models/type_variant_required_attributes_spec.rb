@@ -31,8 +31,6 @@
 require "spec_helper"
 
 RSpec.describe TypeVariant, "required attributes" do
-  let(:aspect) { TypeVariant::FORM_CONFIGURATION }
-
   let(:field_a) { create(:integer_wp_custom_field) }
   let(:field_b) { create(:integer_wp_custom_field) }
 
@@ -65,24 +63,33 @@ RSpec.describe TypeVariant, "required attributes" do
     end
   end
 
-  describe "a variant linking its form configuration" do
-    let(:leaf) { create(:type_variant, type: owner.type) }
+  describe "a variant sharing its type's form" do
+    let(:leaf) { create(:type_variant, type: owner.type, form_configuration: owner.form_configuration) }
 
-    before { link_configuration(leaf, aspect:) }
+    it "keeps a list of its own" do
+      expect(leaf.required_attributes).to eq([])
+    end
 
-    it "inherits the source's required attributes" do
-      expect(leaf.required_attributes).to contain_exactly(field_a.attribute_name, field_b.attribute_name)
+    it "starts from the type's list when it is created as a variant of the type" do
+      created = WorkPackageTypes::CreateVariantService
+                  .new(user: create(:admin), type: owner.type)
+                  .call(variant_name: "Copy")
+                  .result
+
+      expect(created.reload.required_attributes)
+        .to contain_exactly(field_a.attribute_name, field_b.attribute_name)
     end
 
     it "drops what it excludes, because an absent field cannot be demanded" do
-      leaf.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+      leaf.update!(required_attributes: [field_a.attribute_name, field_b.attribute_name],
+                   form_configuration_excluded_elements: [field_a.attribute_name])
 
       expect(leaf.required_attributes).to contain_exactly(field_b.attribute_name)
       expect(leaf.required_custom_field_ids).to contain_exactly(field_b.id)
     end
 
-    it "leaves the source untouched" do
-      leaf.update!(form_configuration_excluded_elements: [field_a.attribute_name])
+    it "leaves the type untouched" do
+      leaf.update!(required_attributes: [], form_configuration_excluded_elements: [field_a.attribute_name])
 
       expect(owner.reload.required_attributes)
         .to contain_exactly(field_a.attribute_name, field_b.attribute_name)

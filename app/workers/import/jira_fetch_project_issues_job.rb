@@ -34,16 +34,19 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Fetch issues for project '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
-    def percentage
+    def progress
       jira_import = Import::JiraImport.find(arguments[0])
       cursor = jira_import.get_job_cursor(self)
       if cursor.present?
-        cursor["start_at"] * 100 / cursor["total"]
+        current = cursor["start_at"]
+        total = cursor["total"]
+        percentage = (current.to_f / total * 100).round(2)
+        { current:, total:, percentage: }
       else
-        0
+        { current: 0, total: 0, percentage: 0 }
       end
     end
 

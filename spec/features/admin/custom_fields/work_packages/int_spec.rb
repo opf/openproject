@@ -67,7 +67,7 @@ RSpec.describe "custom fields", :js do
       expect(custom_field.min_value).to eq(-5)
       expect(custom_field.max_value).to eq 0
 
-      visit edit_custom_field_path(custom_field)
+      visit edit_admin_settings_work_package_custom_field_path(custom_field)
 
       expect(page).to have_field("custom_field[min_value]", with: "-5")
       expect(page).to have_field("custom_field[max_value]", with: "0")

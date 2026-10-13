@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -32,6 +31,7 @@ import { SingleRowBuilder } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { States } from 'core-app/core/states/states.service';
 import {
+  ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass,
@@ -135,7 +135,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     index:number):[HTMLTableRowElement, boolean] {
     const workPackage = this.states.workPackages.get(ancestor.id!).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
-    tr.classList.add(additionalHierarchyRowClassName);
+    const identifier = ancestorClassIdentifier(ancestor.id!);
+    tr.classList.add(additionalHierarchyRowClassName, identifier, `${identifier}-table`);
+    tr.dataset.classIdentifier = identifier;
     return [tr, hidden];
   }
 

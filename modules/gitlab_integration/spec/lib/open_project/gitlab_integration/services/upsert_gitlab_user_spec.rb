@@ -49,9 +49,9 @@ RSpec.describe OpenProject::GitlabIntegration::Services::UpsertGitlabUser do
   it "stores the user" do
     expect { gitlab_user }.to change(GitlabUser, :count).by(1)
     expect(gitlab_user).to have_attributes(gitlab_id: 1,
-                                           gitlab_name: "Administrator",
-                                           gitlab_username: "root",
-                                           gitlab_avatar_url: "https://www.gravatar.com/avatar/1?s=80&d=identicon")
+                                           name: "Administrator",
+                                           username: "root",
+                                           avatar_url: "https://www.gravatar.com/avatar/1?s=80&d=identicon")
   end
 
   context "when the payload carries no email address" do

@@ -29,8 +29,6 @@
 #++
 
 FactoryBot.define do
-  # A custom field is activated per variant. `types:` is kept as an alias so the many call
-  # sites that name a type keep reading naturally: a type contributes its base variant.
   trait :activatable_on_types do
     transient do
       types { [] }
@@ -40,7 +38,7 @@ FactoryBot.define do
       next if evaluator.types.empty?
 
       variants = evaluator.types.map { |type| type.is_a?(TypeVariant) ? type : type.default_variant }
-      custom_field.type_variants = (custom_field.type_variants + variants).uniq
+      variants.each { |variant| variant.custom_field_ids |= [custom_field.id] }
     end
   end
 
@@ -119,6 +117,10 @@ FactoryBot.define do
 
     trait :date do
       field_format { "date" }
+    end
+
+    trait :datetime do
+      field_format { "datetime" }
     end
 
     trait :list do
@@ -269,16 +271,6 @@ FactoryBot.define do
       is_filter { true }
 
       activatable_on_types
-
-      transient do
-        projects { [] }
-      end
-
-      after(:create) do |custom_field, evaluator|
-        evaluator.projects.each do |project|
-          project.work_package_custom_fields << custom_field
-        end
-      end
 
       %w[
         boolean

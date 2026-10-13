@@ -1324,10 +1324,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
 
       before do
-        allow(work_package.project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return []
-
         setup
 
         original_cache_key
@@ -1424,7 +1420,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     shared_let(:base_variant) { family_root.default_variant }
     shared_let(:variant) do
       create(:type_variant, type: family_root, variant_name: "Variant").tap do |named|
-        TypeVariant::ASPECTS.each do |aspect|
+        [*TypeVariant::ASPECTS, TypeVariant::FORM_CONFIGURATION].each do |aspect|
           link_configuration(named, aspect:)
         end
       end

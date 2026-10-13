@@ -20,13 +20,11 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { StateService } from '@uirouter/core';
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -41,7 +39,6 @@ import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 @Injectable()
 export class WorkPackageService {
   private readonly http = inject(HttpClient);
-  private readonly $state = inject(StateService);
   private readonly PathHelper = inject(PathHelperService);
   private readonly UrlParamsHelper = inject(UrlParamsHelperService);
   private readonly toastService = inject(ToastService);
@@ -77,15 +74,8 @@ export class WorkPackageService {
           const numericId = routeWpId ? resolveNumericId(this.states, routeWpId) : undefined;
 
           if (numericId && ids.includes(numericId)) {
-            if (this.$state.current.name) {
-              const baseRoute = (this.$state.current.data as { baseRoute?:string } | undefined)?.baseRoute;
-              if (baseRoute) {
-                void this.$state.go(baseRoute, this.$state.params);
-              }
-            } else {
-              const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
-              Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
-            }
+            const basePath = window.location.pathname.replace(/\/details\/.*$/, '');
+            Turbo.visit(basePath + window.location.search, { frame: 'content-bodyRight', action: 'replace' });
           }
         })
         .catch(() => {
