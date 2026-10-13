@@ -111,7 +111,7 @@
           end
         end
 
-        if current_user.admin?
+        if current_user.admin_in_project?(project)
           menu.with_item(
             tag: :a,
             scheme: :danger,

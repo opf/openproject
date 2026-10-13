@@ -49,5 +49,40 @@ RSpec.describe "Journalized Objects" do
         it { is_expected.to be_falsey }
       end
     end
+
+    context "when the journable belongs to a project and the journal was written by someone else" do
+      let(:project) { create(:project) }
+      let(:budget) { create(:budget, project:, author: create(:user)) }
+      let(:admin) { create(:admin) }
+
+      subject { budget.journal_editable_by?(budget.journals.first, admin) }
+
+      context "for an admin" do
+        it { is_expected.to be true }
+      end
+
+      context "for an admin with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+        context "when not elevated in the project" do
+          it { is_expected.to be false }
+        end
+
+        context "when elevated in the project" do
+          before { admin.admin_elevation = Users::AdminElevation.in_projects([project.id]) }
+
+          it { is_expected.to be true }
+        end
+      end
+    end
+
+    context "when the journable does not belong to a project" do
+      let(:attachment) { create(:attachment, container: nil, author: create(:user)) }
+      let(:admin) { create(:admin) }
+
+      subject { attachment.journal_editable_by?(attachment.journals.first, admin) }
+
+      context "for an admin with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+        it { is_expected.to be true }
+      end
+    end
   end
 end

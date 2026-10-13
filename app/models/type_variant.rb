@@ -133,7 +133,11 @@ class TypeVariant < ApplicationRecord
   # Mirrors WorkPackageTypes::ConfiguredInScope: only a project-owned variant is addressable
   # through a project, and that project is the one the controllers authorize against.
   def configurable_by?(user)
-    user.admin? || (project_owned? && user.allowed_in_project?(:manage_project_variants, project))
+    if project_owned?
+      user.allowed_in_project?(:manage_project_variants, project)
+    else
+      user.admin?
+    end
   end
 
   # Full variant name, e.g., "Bug: Hardware"

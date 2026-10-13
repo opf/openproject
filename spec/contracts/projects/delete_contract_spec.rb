@@ -38,4 +38,24 @@ RSpec.describe Projects::DeleteContract do
   let(:contract) { described_class.new(project, current_user) }
 
   it_behaves_like "contract is valid for active admins and invalid for regular users"
+
+  context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+    let(:current_user) { build_stubbed(:admin) }
+
+    context "when the admin is not elevated in the project" do
+      it_behaves_like "contract user is unauthorized"
+    end
+
+    context "when the admin is elevated in the project" do
+      before { current_user.admin_elevation = Users::AdminElevation.in_projects([project.id]) }
+
+      include_examples "contract is valid"
+    end
+
+    context "when the project is archived" do
+      let(:project) { build_stubbed(:project, active: false) }
+
+      include_examples "contract is valid"
+    end
+  end
 end

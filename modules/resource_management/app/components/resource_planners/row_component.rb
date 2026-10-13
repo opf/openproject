@@ -149,7 +149,7 @@ module ResourcePlanners
     end
 
     def delete_allowed?
-      User.current.active_admin? || manage_allowed?
+      model.deletable_by?(User.current)
     end
 
     def manage_allowed?

@@ -212,6 +212,38 @@ RSpec.describe ResourcePlanner do
     end
   end
 
+  describe "#deletable_by?" do
+    let(:project) { create(:project) }
+    let(:owner) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+    let(:planner) { create(:resource_planner, project:, principal: owner) }
+    let(:global_planner) { create(:resource_planner, :global, principal: owner) }
+    let(:admin) { create(:admin) }
+
+    it "lets the owner delete the planner" do
+      expect(planner).to be_deletable_by(owner)
+    end
+
+    it "lets an admin delete any planner" do
+      expect(planner).to be_deletable_by(admin)
+    end
+
+    context "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+      it "refuses an admin not elevated in the planner's project" do
+        expect(planner).not_to be_deletable_by(admin)
+      end
+
+      it "lets an admin elevated in the planner's project delete it" do
+        admin.admin_elevation = Users::AdminElevation.in_projects([project.id])
+
+        expect(planner).to be_deletable_by(admin)
+      end
+
+      it "lets an admin delete a planner without a project" do
+        expect(global_planner).to be_deletable_by(admin)
+      end
+    end
+  end
+
   describe ".section_visible_to?" do
     shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
 

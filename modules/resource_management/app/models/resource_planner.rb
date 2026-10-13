@@ -116,6 +116,12 @@ class ResourcePlanner < PersistedView
     (principal == user && viewable_by?(user)) || (public? && public_manageable_by?(user))
   end
 
+  def deletable_by?(user)
+    admin = global? ? user.active_admin? : user.admin_in_project?(project)
+
+    admin || manageable_by?(user)
+  end
+
   def visible?(user)
     return false unless viewable_by?(user)
 

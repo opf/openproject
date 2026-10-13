@@ -256,7 +256,7 @@ module Reporting
 
     # Users with save_cost_reports implicitly have save_private_cost_reports too.
     def allowed_in_report?(action, report, user = User.current)
-      return true if user.admin?
+      return true if report.project ? user.admin_in_project?(report.project) : user.admin?
       return false if report.project.present? && report.project != @project
 
       permissions = permissions_for(action, report)

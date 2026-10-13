@@ -31,7 +31,7 @@
 module ResourcePlanners
   class DeleteContract < ::DeleteContract
     delete_permission(lambda do
-      user.active_admin? || model.manageable_by?(user)
+      model.deletable_by?(user)
     end)
   end
 end

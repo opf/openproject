@@ -118,6 +118,61 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     end
   end
 
+  describe "with admin privilege elevation required", with_flag: { admin_privilege_elevation: true } do
+    shared_let(:type) { create(:type_bug) }
+    shared_let(:source_project) { create(:project, types: [type]) }
+    shared_let(:work_package) { create(:work_package, project: source_project, type:) }
+    shared_let(:version) { create(:version, project: source_project) }
+    shared_let(:category) { create(:category, project: source_project) }
+    shared_let(:member) { create(:user, member_with_permissions: { source_project => %i[view_work_packages] }) }
+
+    let(:job_args) do
+      {
+        target_project_params: params,
+        associations_to_copy: %i[work_packages members versions categories]
+      }
+    end
+
+    before { admin.admin_elevation = Users::AdminElevation.in_projects([source_project.id]) }
+
+    after { admin.admin_elevation = nil }
+
+    it "copies the project with its contents for an admin elevated in the source project only", :aggregate_failures do
+      batch = User.execute_as(admin) do
+        GoodJob::Batch.enqueue(user: admin, source_project:) do
+          described_class.perform_later(**job_args)
+        end
+      end
+      GoodJob.perform_inline
+      batch.reload
+
+      copied_project = Project.find_by(identifier: params[:identifier])
+
+      expect(batch.properties[:errors]).to be_empty
+      expect(copied_project.work_packages.count).to eq(1)
+      expect(copied_project.versions.count).to eq(1)
+      expect(copied_project.categories.count).to eq(1)
+      expect(copied_project.members.map(&:principal)).to include(member)
+    end
+
+    context "when the admin is not elevated in the source project" do
+      before { admin.admin_elevation = Users::AdminElevation.none }
+
+      it "does not copy the project", :aggregate_failures do
+        batch = User.execute_as(admin) do
+          GoodJob::Batch.enqueue(user: admin, source_project:) do
+            described_class.perform_later(**job_args)
+          end
+        end
+        GoodJob.perform_inline
+        batch.reload
+
+        expect(batch.properties[:errors]).not_to be_empty
+        expect(Project.find_by(identifier: params[:identifier])).to be_nil
+      end
+    end
+  end
+
   describe "copy project succeeds with invalid custom fields" do
     let(:source_project) { create(:project, types: [type]) }
 

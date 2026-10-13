@@ -116,9 +116,13 @@ module Projects
     end
 
     def validate_templated_set_by_admin
-      if model.templated_changed? && !user.admin?
+      if model.templated_changed? && !admin_for_templates?
         errors.add :templated, :error_unauthorized
       end
+    end
+
+    def admin_for_templates?
+      model.new_record? ? user.admin? : user.admin_in_project?(model)
     end
 
     def manage_permission

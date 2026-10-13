@@ -134,7 +134,9 @@ module API
         end
 
         link :delete,
-             cache_if: -> { current_user.admin? } do
+             cache_if: -> {
+               represented.archived? ? current_user.active_admin? : current_user.admin_in_project?(represented)
+             } do
           {
             href: api_v3_paths.project(represented.id),
             method: :delete

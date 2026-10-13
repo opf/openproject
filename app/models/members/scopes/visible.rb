@@ -35,6 +35,8 @@ module Members::Scopes
     class_methods do
       # Find all members visible to the inquiring user
       def visible(user = User.current)
+        # Not checking the admin's elevation into projects: memberships are managed instance-wide in the
+        # administration (members list, user and placeholder user memberships), which needs to see them all.
         if user.active_admin?
           visible_for_admins
         else

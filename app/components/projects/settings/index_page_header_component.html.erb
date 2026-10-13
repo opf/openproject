@@ -73,7 +73,7 @@
           end
         end
 
-        if User.current.admin?
+        if User.current.admin_in_project?(@project)
           label = @project.templated ? "remove_from_templates" : "make_template"
           menu.with_item(
             tag: :a,
@@ -106,7 +106,7 @@
           end
         end
 
-        if User.current.admin?
+        if User.current.admin_in_project?(@project)
           menu.with_item(
             tag: :a,
             scheme: :danger,

@@ -63,12 +63,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
   end
 
   def where
-    if User.current.admin?
-      # Admins can always see all watchers
-      where_any_watcher
-    else
-      where_allowed_watchers
-    end
+    where_allowed_watchers
   end
 
   private
@@ -83,19 +78,6 @@ class Queries::WorkPackages::Filter::WatcherFilter <
     else
       User.current.allowed_in_any_project?(:view_work_package_watchers)
     end
-  end
-
-  def where_any_watcher
-    db_table = Watcher.table_name
-    db_field = "user_id"
-
-    <<-SQL
-      #{WorkPackage.table_name}.id #{operator == '=' ? 'IN' : 'NOT IN'}
-        (SELECT #{db_table}.watchable_id
-         FROM #{db_table}
-         WHERE #{db_table}.watchable_type='WorkPackage'
-           AND #{::Queries::Operators::Equals.sql_for_field values_replaced, db_table, db_field})
-    SQL
   end
 
   def where_allowed_watchers
