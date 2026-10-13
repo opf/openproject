@@ -35,6 +35,8 @@ module AI
     # finishes the run, so the dialog never waits for a run that will not finish.
     class Review
       MAX_FINDINGS = 15
+      # Low, so that one work package gives the same findings from run to run.
+      TEMPERATURE = 0.2
 
       attr_reader :run
 
@@ -60,7 +62,7 @@ module AI
         raise Llm::Errors::NotReady, "no model" unless model_id
 
         llm_call.ask(model_id:, system: run.skill.system_prompt(locale: run.locale),
-                     message: review.user_message, schema: review.schema)
+                     message: review.user_message, schema: review.schema, temperature: TEMPERATURE)
       end
 
       def store(review, raw_findings)

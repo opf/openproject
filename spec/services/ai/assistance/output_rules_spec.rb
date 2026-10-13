@@ -70,6 +70,7 @@ RSpec.describe AI::Assistance::OutputRules do
     it "talks about findings" do
       expect(rules).to include(%(Write the text of each finding in the language with the locale code "de".))
       expect(rules).to include("A finding can propose changes")
+      expect(rules).to include("Each change is only a proposal")
     end
   end
 end

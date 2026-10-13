@@ -43,15 +43,14 @@ module AI
       end
 
       # history: earlier turns as [role, content] pairs, oldest first.
-      def ask(model_id:, system:, message:, schema:, history: [])
+      # temperature: nil keeps the provider default.
+      def ask(model_id:, system:, message:, schema:, history: [], temperature: nil)
         log(:info, "asking model=#{model_id} system=#{system.size}c message=#{message.size}c turns=#{history.size}")
         log(:debug, "system prompt:\n#{system}\nmessage:\n#{message}")
-        record.log_event(:request, model: model_id, system:, message:)
+        record.log_event(:request, model: model_id, temperature:, system:, message:)
 
         started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
-        chat = Llm::Session.for(LlmConnection.active_connection).chat(model_id).with_instructions(system)
-        history.each { |role, content| chat.add_message(role:, content:) }
-        answer = chat.with_schema(schema).ask(message)
+        answer = build_chat(model_id:, system:, history:, temperature:).with_schema(schema).ask(message)
         seconds = (Process.clock_gettime(Process::CLOCK_MONOTONIC) - started).round(1)
 
         content = answer.respond_to?(:content) ? answer.content : answer
@@ -72,6 +71,15 @@ module AI
 
       def log(level, text)
         Rails.logger.tagged("AI Assistance", log_tag) { Rails.logger.public_send(level, text) }
+      end
+
+      private
+
+      def build_chat(model_id:, system:, history:, temperature:)
+        chat = Llm::Session.for(LlmConnection.active_connection).chat(model_id).with_instructions(system)
+        chat.with_temperature(temperature) unless temperature.nil?
+        history.each { |role, content| chat.add_message(role:, content:) }
+        chat
       end
     end
   end

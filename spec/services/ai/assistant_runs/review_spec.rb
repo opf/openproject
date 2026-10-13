@@ -56,6 +56,10 @@ RSpec.describe AI::AssistantRuns::Review do
       sent[:system] = text
       chat
     }
+    allow(chat).to receive(:with_temperature) { |value|
+      sent[:temperature] = value
+      chat
+    }
     allow(chat).to receive(:with_schema) { |schema|
       sent[:schema] = schema
       chat
@@ -99,6 +103,12 @@ RSpec.describe AI::AssistantRuns::Review do
     expect(sent[:user]).to include("Public note")
     expect(sent[:user]).not_to include("Secret note")
     expect(sent[:system]).to include(%(locale code "de"))
+  end
+
+  it "asks with a low temperature, so that the findings stay stable" do
+    call
+
+    expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
   end
 
   context "with a prompt set by an admin" do

@@ -91,8 +91,11 @@ module AI
           "Propose changes to this work package only when the user asks for them, or when a change clearly " \
             'follows from the conversation. Otherwise use an empty "changes" list.'
         else
-          "A finding can propose changes to this work package only. " \
-            'Use an empty "changes" list when no change is necessary.'
+          "A finding can propose changes to this work package only. Each change is only a proposal: " \
+            "the user sees it, and applies it or dismisses it. " \
+            'When a field in "change_options" can fix the finding, propose the most likely value, also when ' \
+            "a person must confirm it, and say so in the text. " \
+            'Use an empty "changes" list only when no field can fix the finding.'
         end
       end
     end
