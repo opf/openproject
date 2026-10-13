@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,22 +26,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-require_relative "base"
+class SetGridNameCollation < ActiveRecord::Migration[8.1]
+  def up
+    # It should probably be a string (varchar), but there is no difference for
+    # postgresql, so keeping it as is
+    change_column :grids, :name, :text, collation: "natural_sort_order"
+  end
 
-class Extensions::VersionNameCollation < Extensions::Base
-  creation_sql <<~SQL.squish
-    CREATE COLLATION IF NOT EXISTS versions_name (provider = icu, locale = "und-u-kn-true")
-  SQL
-  extension "encoding"
-  module_text <<~MESSAGE
-
-    \e[31mERROR:\e[0m Failed to create an ICU collation with current database encoding.
-    You need to change the database encoding before proceeding.
-
-    Please check the instructions on how to do it:
-    https://www.openproject.org/docs/installation-and-operations/misc/changing-database-encoding/
-
-  MESSAGE
+  def down
+    change_column :grids, :name, :text
+  end
 end
