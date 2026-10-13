@@ -100,10 +100,10 @@ en:
         description: "Description"
         label: "Label"
         output_rules: "Output rules"
-        proposal_scope: "Proposals"
-        template_ref: "Template"
-        skill_key: "Type"
         prompt: "Prompt"
+        proposal_scope: "Proposals"
+        skill_key: "Type"
+        template_ref: "Template"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1534,14 +1534,14 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
+        delete_confirm: "Delete this skill and every run of it?"
+        description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
+        empty: "This assistant has no skills."
+        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         no_prompt: "No prompt: rules only"
         no_prompt_not_offered: "No prompt: not offered"
         output_rules_caption: "Added after the instructions. Says how to answer: language, changes, what to do with user text. {{locale}} becomes the locale of the user who starts the run."
-        template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
-        description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
-        label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
-        delete_confirm: "Delete this skill and every run of it?"
-        empty: "This assistant has no skills."
+        prompt_caption: "What the model does. Without instructions, Refresh work package runs only its rules, and a custom prompt or a chat is not offered."
         proposal_scopes:
           changes: "Changes"
           changes_caption: "Proposes changes to attributes and comments. The model also gets the names of the users who can be assigned."
@@ -1549,7 +1549,7 @@ en:
           comment_only_caption: "Proposes comments only."
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
-        prompt_caption: "What the model does. Without instructions, Refresh work package runs only its rules, and a custom prompt or a chat is not offered."
+        template_ref_caption: "The template in the prompt registry that this skill was created from. For reference only."
         title: "Skills"
         type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
         types:
@@ -2392,8 +2392,14 @@ en:
           author: "Additional transitions available to the work package's author."
         menu_label: "Transitions shown"
       workflow_button: "Workflow"
+  ai:
+    text_transform:
+      errors:
+        connection_failed: "The AI service could not be reached."
+        not_available: "The AI assistant is not available."
+        timeout: "The AI service did not respond in time."
+        upstream_error: "The AI service returned an error."
   ai_assistance:
-    button: "AI Assistance"
     apply:
       button: "Apply changes"
       empty: "(empty)"
@@ -2421,6 +2427,7 @@ en:
       relations: "Relations"
       status: "Status"
       tree: "Hierarchy"
+    button: "AI Assistance"
     chat:
       copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
@@ -2464,6 +2471,27 @@ en:
         not_relevant: "Dismiss: not relevant"
         wrong: "Dismiss: wrong"
       dismissed: "Dismissed"
+    health_check:
+      and_more:
+        one: "and 1 more"
+        other: "and %{count} more"
+      last_activity: "Last activity on %{date}"
+      rules:
+        closed_descendant_with_open_below: "Descendant %{id} is closed, but a work package below it is still open."
+        closed_with_open_descendants:
+          one: "This work package is closed, but 1 descendant is still open."
+          other: "This work package is closed, but %{count} descendants are still open."
+        closed_with_open_prerequisites: "This work package is closed, but %{id} is still open (%{relation})."
+        closed_with_open_pull_request: "This work package is closed, but a linked pull request is still open."
+        merged_pull_request_default_status: "A linked pull request is merged, but the status is still the initial one."
+        open_duplicate_of_closed: "This work package duplicates %{id}, which is closed, but it is still open."
+        open_with_all_descendants_closed:
+          one: "The only descendant is closed, but this work package is still open."
+          other: "All %{count} descendants are closed, but this work package is still open."
+        stale_open_descendants:
+          one: "1 open descendant did not change for %{days} days."
+          other: "%{count} open descendants did not change for %{days} days."
+        stale_work_package: "This work package is open, but nothing changed for %{days} days."
     history:
       empty: "You did not use AI Assistance on this work package yet."
       findings:
@@ -2479,19 +2507,19 @@ en:
       failed: "The AI review failed. Only the rules were checked."
       no_llm_connection: "No LLM connection is available, so only the rules were checked."
       no_model: "No model is selected for this assistant, so only the rules were checked."
-      timed_out: "The AI review did not finish in time. Only the rules were checked."
-      no_prompt: "This skill has no prompt, so only the rules were checked."
       no_permission_github: "Linked GitHub pull requests: you do not have permission to see them."
       no_permission_gitlab: "Linked GitLab merge requests: you do not have permission to see them."
+      no_prompt: "This skill has no prompt, so only the rules were checked."
+      timed_out: "The AI review did not finish in time. Only the rules were checked."
       too_many_descendants: "Only the first 200 descendants were checked."
     run:
       no_findings: "No findings"
       no_findings_description: "Everything that was checked is consistent."
       no_findings_partly_checked: "Nothing was found, but some parts were not checked. See the list below."
+      not_checked: "Not checked"
       review_running: "The AI review is in progress. Its findings appear below the rule findings."
       review_running_description: "The rules found nothing. The AI findings appear here when the review is done."
       review_running_title: "Reviewing the work package…"
-      not_checked: "Not checked"
       run_again: "Run again"
       started_at: "Checked at %{time}. Only you can see this result."
     severities:
@@ -2499,43 +2527,15 @@ en:
       low: "Low"
       medium: "Medium"
     skills:
-      prompt:
-        label: "Custom prompt"
-        description: "Runs its instructions on this work package. You can ask follow-up questions."
       chat:
-        label: "Chat"
         description: "Ask questions about this work package. Only you see the chat."
+        label: "Chat"
       health_check:
-        label: "Refresh work package"
         description: "Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates."
-    health_check:
-      last_activity: "Last activity on %{date}"
-      and_more:
-        one: "and 1 more"
-        other: "and %{count} more"
-      rules:
-        closed_with_open_descendants:
-          one: "This work package is closed, but 1 descendant is still open."
-          other: "This work package is closed, but %{count} descendants are still open."
-        open_with_all_descendants_closed:
-          one: "The only descendant is closed, but this work package is still open."
-          other: "All %{count} descendants are closed, but this work package is still open."
-        closed_descendant_with_open_below: "Descendant %{id} is closed, but a work package below it is still open."
-        stale_open_descendants:
-          one: "1 open descendant did not change for %{days} days."
-          other: "%{count} open descendants did not change for %{days} days."
-        closed_with_open_prerequisites: "This work package is closed, but %{id} is still open (%{relation})."
-        open_duplicate_of_closed: "This work package duplicates %{id}, which is closed, but it is still open."
-        stale_work_package: "This work package is open, but nothing changed for %{days} days."
-        merged_pull_request_default_status: "A linked pull request is merged, but the status is still the initial one."
-        closed_with_open_pull_request: "This work package is closed, but a linked pull request is still open."
-  ai:
-    text_transform:
-      errors:
-        connection_failed: "The AI service could not be reached."
-        not_available: "The AI assistant is not available."
-        timeout: "The AI service did not respond in time."
-        upstream_error: "The AI service returned an error."
+        label: "Refresh work package"
+      prompt:
+        description: "Runs its instructions on this work package. You can ask follow-up questions."
+        label: "Custom prompt"
   announcements:
     content: "Content"
     is_active: currently displayed
@@ -3994,6 +3994,8 @@ en:
 
   journals:
     cause_descriptions:
+      assistant_chat: proposed in the chat and applied by the user
+      assistant_skill: proposed by %{assistant_name} and applied by the user
       budget_deleted: Budget has been deleted
       import:
         changed_with_diff: "%{field} changed (%{link})"
@@ -4038,8 +4040,6 @@ en:
         Work values of child work packages are ignored.
       total_percent_complete_mode_changed_to_work_weighted_average: >-
         Child work packages without Work are ignored.
-      assistant_chat: proposed in the chat and applied by the user
-      assistant_skill: proposed by %{assistant_name} and applied by the user
       unaccessable_work_package_changed: by changes to a related work package
       work_package_children_changed_times: by changes to child %{link}
       work_package_duplicate_closed: The status was automatically updated by the duplicated work package %{link}
@@ -5303,10 +5303,6 @@ en:
         logged: "Logged time only"
 
   my_account:
-    ai_assistants:
-      title: "AI assistants"
-      description: "Your own assistants. They show only in your AI Assistance menu on work packages, and they use the default model of the LLM connection."
-      empty_description: "Add an assistant, then add skills with your own instructions."
     access_tokens:
       access_tokens: "Access tokens"
       description: "Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them."
@@ -5370,6 +5366,10 @@ en:
         table_title: "RSS tokens"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         title: "RSS"
+    ai_assistants:
+      description: "Your own assistants. They show only in your AI Assistance menu on work packages, and they use the default model of the LLM connection."
+      empty_description: "Add an assistant, then add skills with your own instructions."
+      title: "AI assistants"
     email_reminders:
       daily_reminders:
         add_time: "Add time"
