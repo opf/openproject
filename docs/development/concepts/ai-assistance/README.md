@@ -7,7 +7,7 @@ keywords: AI, assistants, skills, refresh work package, health check, automation
 
 # Development concept: AI Assistance
 
-The "AI Assistance" menu on the work package page offers skills: presets such as "Refresh work package" or "Generate test cases", and a chat. A skill can propose a change set, and the user applies it or dismisses it. Every skill starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a change set.
+The "AI Assistance" menu on the work package page offers skills: presets such as "Refresh work package" or "Write a test plan", and a chat. A skill can propose a change set, and the user applies it or dismisses it. Every skill starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a change set.
 
 This document describes the design. It also shows how the first pull request is split into smaller pull requests for review.
 
@@ -15,7 +15,7 @@ This document describes the design. It also shows how the first pull request is 
 
 | Term | Meaning |
 |---|---|
-| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "QA assistance". |
+| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "OP assistant". |
 | **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. There are three: `health_check` (a preset with rules, shown as "Refresh work package"), `prompt` (a preset with instructions only) and `chat`. |
 | **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
 | **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
@@ -60,7 +60,7 @@ flowchart LR
 
 ## Prompts
 
-The prompt is data, not code: admins edit it on the skill page. The basic data seeder creates the "QA assistance" assistant with three skills and their prompts (`app/seeders/common.yml`): Refresh work package, Chat and "Generate test cases". Each skill stores:
+The prompt is data, not code: admins edit it on the skill page. The basic data seeder creates the global "OP assistant" with two skills and their prompts (`app/seeders/common.yml`): Refresh work package and Chat. Each skill stores:
 
 - **Instructions** (`prompt`): what the model does. Without instructions, Refresh work package runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
 - **Output rules** (`output_rules`): how the model answers, for example the language, the changes, and what to do with user text. `{{locale}}` becomes the locale of the user who starts the run.
@@ -79,7 +79,7 @@ The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An ad
 
 ## Custom prompt presets
 
-A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Generate test cases". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
+A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Write a test plan". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
 
 ## Owners
 
@@ -89,11 +89,10 @@ An assistant has an optional owner, `ai_assistants.principal_id`:
 - **A group:** only the group's direct members see it. An admin chooses the group when creating the assistant (Administration → AI → Assistants).
 - **A user:** a personal assistant (see below).
 
-The development data seeds one sample for each kind of owner (`DevelopmentData::AiAssistantsSeeder`, data in `app/seeders/standard.yml`):
+The development data seeds a sample for each owned kind (`DevelopmentData::AiAssistantsSeeder`, data in `app/seeders/standard.yml`). The global one is the basic data's OP assistant.
 
-- **PM assistant** (global, next to QA assistance): "Write a status update" and "Find risks".
-- **COMMS assistant** (the COMMS team, which builds the communication features; `DevelopmentData::TeamSeeder` seeds the team with the admin user as its member): "Write a test plan" and a chat.
-- **Tom's assistant** (personal, of the admin user): "My next steps" and a chat.
+- **COMMS assistant** (the COMMS team, which builds the communication features; `DevelopmentData::TeamSeeder` seeds the team with the admin user as its member): "Write a test plan".
+- **Tom's assistant** (personal, of the admin user): "My next steps".
 
 The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills, runs and chats.
 
@@ -152,7 +151,7 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | `ai_assistant_chats` | skill, user, work package |
 | `ai_assistant_chat_messages` | chat, role, content, status, locale, `change_set`, `base_lock_version`, state, `events` |
 
-Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "QA assistance" assistant with its three skills when there is no global assistant, also on an upgrade.
+Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "OP assistant" with its two skills when there is no global assistant, also on an upgrade.
 
 ## How to try it
 

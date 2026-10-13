@@ -31,7 +31,7 @@
 module AI
   module AssistantSkills
     module Prompt
-      # A preset with instructions only, for example "Generate test cases". One click starts
+      # A preset with instructions only, for example "Write a test plan". One click starts
       # a conversation with the instructions; the user can then ask follow-up questions.
       class Skill < AI::AssistantSkills::Base
         class << self

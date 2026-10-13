@@ -88,7 +88,7 @@ module AI
       label.presence || skill_type&.label || skill_key
     end
 
-    # "QA assistance · Refresh work package": the title of its dialogs and history entries.
+    # "OP assistant · Refresh work package": the title of its dialogs and history entries.
     def full_label
       "#{assistant.name} · #{display_label}"
     end

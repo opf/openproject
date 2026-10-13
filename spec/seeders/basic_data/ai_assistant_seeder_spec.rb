@@ -39,18 +39,16 @@ RSpec.describe BasicData::AiAssistantSeeder do
   let(:data_hash) do
     YAML.load <<~SEEDING_DATA_YAML
       ai_assistants:
-      - reference: :ai_assistant_qa
-        name: QA assistance
-        description: Checks work packages.
+      - reference: :ai_assistant_op
+        name: OP assistant
+        description: Keeps work packages consistent.
         icon: checklist
         position: 1
         skills:
           - skill_key: health_check
             prompt: Check it.
-          - skill_key: prompt
-            label: Generate test cases
-            proposal_scope: comment_only
           - skill_key: chat
+            proposal_scope: comment_only
     SEEDING_DATA_YAML
   end
 
@@ -59,13 +57,12 @@ RSpec.describe BasicData::AiAssistantSeeder do
   end
 
   it "creates the assistant with its skills" do
-    assistant = AI::Assistant.find_by!(name: "QA assistance")
+    assistant = AI::Assistant.find_by!(name: "OP assistant")
 
     expect(assistant).to have_attributes(icon: "checklist", active: true, position: 1)
-    expect(assistant.skills.order(:position).map(&:skill_key)).to eq(%w[health_check prompt chat])
+    expect(assistant.skills.order(:position).map(&:skill_key)).to eq(%w[health_check chat])
     expect(assistant.skills.find_by(skill_key: "health_check").prompt).to eq("Check it.")
-    expect(assistant.skills.find_by(skill_key: "prompt"))
-      .to have_attributes(label: "Generate test cases", proposal_scope: "comment_only")
+    expect(assistant.skills.find_by(skill_key: "chat")).to have_attributes(proposal_scope: "comment_only")
   end
 
   it "does not seed a second time" do
@@ -79,13 +76,13 @@ RSpec.describe BasicData::AiAssistantSeeder do
 
     before do
       AI::Assistant.destroy_all
-      create(:ai_assistant, name: "QA assistance", principal: owner)
+      create(:ai_assistant, name: "OP assistant", principal: owner)
     end
 
     it "seeds the global assistant" do
       described_class.new(basic_seed_data.merge(Source::SeedData.new(data_hash))).seed!
 
-      expect(AI::Assistant.global.find_by!(name: "QA assistance").skills.count).to eq(3)
+      expect(AI::Assistant.global.find_by!(name: "OP assistant").skills.count).to eq(2)
       expect(AI::Assistant.personal.count).to eq(1)
     end
   end
