@@ -29,8 +29,9 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
-RSpec.describe Search::SemanticResult do
+RSpec.describe Llm::WorkPackages::SemanticSearch do
   let(:connection) { create(:llm_connection, :with_models) }
   let(:session_double) { instance_double(Llm::Session) }
   let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [0.1, 0.2, 0.3]) }

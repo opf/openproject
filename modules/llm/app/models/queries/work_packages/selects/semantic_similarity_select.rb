@@ -27,22 +27,26 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class Queries::WorkPackages::Filter::SemanticSearchFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-  delegate :available?, to: "Search::SemanticResult"
+# Orders the work packages matched by the semantic search filter from most to least similar.
+# Sort it "asc": the value is the vector distance to the search query.
+class Queries::WorkPackages::Selects::SemanticSimilaritySelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  # A bare integer in ORDER BY would be read as a column position.
+  NO_SIMILARITY_SQL = "CASE WHEN 1 = 0 THEN 1 ELSE 0 END"
 
-  def type
-    :search
+  def self.instances(_context = nil)
+    new :semantic_similarity,
+        default_order: "asc",
+        displayable: false,
+        sortable: ->(query = nil) { similarity_order_sql(query) }
   end
 
-  def human_name
-    I18n.t("label_search_by_meaning")
-  end
+  def self.similarity_order_sql(query)
+    filter = query&.filters&.find { |f| f.field.to_s == "semantic_search" }
+    return NO_SIMILARITY_SQL unless filter
 
-  def where
-    vector = Search::SemanticResult.query_vector(values.first)
-    return "1=0" if vector.nil?
+    vector = Llm::WorkPackages::SemanticSearch.query_vector(filter.values.first)
+    return NO_SIMILARITY_SQL if vector.nil?
 
-    "#{WorkPackage.table_name}.id IN (#{Search::SemanticResult.matching_work_package_ids_sql(vector)})"
+    WorkPackageEmbedding.distance_to_work_package_sql(vector)
   end
 end

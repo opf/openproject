@@ -27,26 +27,39 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-# Orders the work packages matched by the semantic search filter from most to least similar.
-# Sort it "asc": the value is the vector distance to the search query.
-class Queries::WorkPackages::Selects::SemanticSimilaritySelect < Queries::WorkPackages::Selects::WorkPackageSelect
-  # A bare integer in ORDER BY would be read as a column position.
-  NO_SIMILARITY_SQL = "CASE WHEN 1 = 0 THEN 1 ELSE 0 END"
 
-  def self.instances(_context = nil)
-    new :semantic_similarity,
-        default_order: "asc",
-        displayable: false,
-        sortable: ->(query = nil) { similarity_order_sql(query) }
-  end
+module Llm
+  module WorkPackages
+    module SemanticSearch
+      def self.available?
+        active_binding&.locked? || false
+      end
 
-  def self.similarity_order_sql(query)
-    filter = query&.filters&.find { |f| f.field.to_s == "semantic_search" }
-    return NO_SIMILARITY_SQL unless filter
+      # Memoized per request: the query filter and the similarity sort both need it.
+      def self.query_vector(query)
+        RequestStore.fetch([:semantic_search_query_vector, query]) { fetch_query_vector(query) }
+      end
 
-    vector = Search::SemanticResult.query_vector(filter.values.first)
-    return NO_SIMILARITY_SQL if vector.nil?
+      private_class_method def self.fetch_query_vector(query)
+        binding = active_binding
+        return if query.blank? || !binding&.locked?
 
-    Search::SemanticResult.distance_sql(vector)
+        embed(query, binding)
+      end
+
+      private_class_method def self.active_binding
+        LlmConnection.active_connection
+                     &.feature_bindings
+                     &.find_by(feature_key: "semantic_search")
+      end
+
+      private_class_method def self.embed(query, binding)
+        session = Llm::Session.for(binding.llm_connection)
+        vector = session.embed(query, model: binding.resolved_model_id, dimensions: binding.dimensions).vectors
+        WorkPackageEmbedding.vector_literal(vector) if vector.present?
+      rescue Llm::Errors::Error
+        nil
+      end
+    end
   end
 end

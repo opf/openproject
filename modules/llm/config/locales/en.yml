@@ -205,6 +205,9 @@ en:
         success: "The model list has been refreshed."
       update:
         success: "%{model} has been updated."
+  attributes:
+    semantic_similarity: "Similarity"
+  label_search_by_meaning: "Search by meaning"
   llm:
     api_formats:
       anthropic: "Anthropic"

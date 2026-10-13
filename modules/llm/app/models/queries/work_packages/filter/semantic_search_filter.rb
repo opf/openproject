@@ -27,39 +27,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+class Queries::WorkPackages::Filter::SemanticSearchFilter <
+  Queries::WorkPackages::Filter::WorkPackageFilter
+  delegate :available?, to: "Llm::WorkPackages::SemanticSearch"
 
-require "spec_helper"
-
-RSpec.describe Queries::WorkPackages::Selects::SemanticSimilaritySelect do
-  shared_let(:admin) { create(:admin) }
-  shared_let(:first) { create(:work_package) }
-  shared_let(:second) { create(:work_package) }
-  shared_let(:third) { create(:work_package) }
-
-  shared_let(:embeddings) do
-    create(:work_package_embedding, work_package: third, embedding: [0.1, 0.2, 0.3])
-    create(:work_package_embedding, work_package: first, embedding: [0.2, 0.2, 0.2])
-    create(:work_package_embedding, work_package: second, embedding: [0.3, 0.2, 0.1])
+  def type
+    :search
   end
 
-  let(:query) do
-    build(:query, project: nil, user: admin).tap do |query|
-      query.sort_criteria = [%w[semantic_similarity asc], %w[id asc]]
-    end
+  def human_name
+    I18n.t("label_search_by_meaning")
   end
 
-  before do
-    allow(Search::SemanticResult).to receive_messages(available?: true, query_vector: "[0.1,0.2,0.3]")
-    login_as(admin)
-  end
+  def where
+    vector = Llm::WorkPackages::SemanticSearch.query_vector(values.first)
+    return "1=0" if vector.nil?
 
-  it "has a caption, which the API needs to render the sort criteria" do
-    expect(described_class.instances.caption).to eq("Similarity")
-  end
-
-  it "orders by vector distance when the semantic search filter is active" do
-    query.add_filter("semantic_search", "**", ["login problems"])
-
-    expect(query.results.work_packages.to_a).to eq([third, first, second])
+    "#{WorkPackage.table_name}.id IN (#{WorkPackageEmbedding.work_package_ids_within_search_distance_sql(vector)})"
   end
 end

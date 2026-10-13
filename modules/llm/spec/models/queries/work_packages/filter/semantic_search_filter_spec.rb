@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
   let(:instance) { described_class.create!(name: :semantic_search, operator: "**", values: ["login problems"]) }
@@ -47,15 +48,15 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
   end
 
   before do
-    allow(Search::SemanticResult).to receive(:query_vector).with("login problems").and_return("[0.1,0.2,0.3]")
+    allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector).with("login problems").and_return("[0.1,0.2,0.3]")
   end
 
   describe "#available?" do
     it "follows the availability of semantic search" do
-      allow(Search::SemanticResult).to receive(:available?).and_return(false)
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:available?).and_return(false)
       expect(instance).not_to be_available
 
-      allow(Search::SemanticResult).to receive(:available?).and_return(true)
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:available?).and_return(true)
       expect(instance).to be_available
     end
   end
@@ -66,7 +67,7 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
     end
 
     it "matches nothing when the query cannot be embedded" do
-      allow(Search::SemanticResult).to receive(:query_vector).and_return(nil)
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:query_vector).and_return(nil)
 
       expect(WorkPackage.where(instance.where)).to be_empty
     end
@@ -83,7 +84,7 @@ RSpec.describe Queries::WorkPackages::Filter::SemanticSearchFilter do
     end
 
     before do
-      allow(Search::SemanticResult).to receive(:available?).and_return(true)
+      allow(Llm::WorkPackages::SemanticSearch).to receive(:available?).and_return(true)
       login_as(admin)
     end
 

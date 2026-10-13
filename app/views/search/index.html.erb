@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
                               searchTerm: @question,
                               scope: search_params[:scope],
                               searchMode: search_params[:search_mode] == "semantic" ? "semantic" : "text",
-                              semanticAvailable: Search::SemanticResult.available?
+                              semanticAvailable: Llm::WorkPackages::SemanticSearch.available?
                             } %>
 
 <% else %>

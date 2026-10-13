@@ -77,7 +77,6 @@ module Queries::WorkPackages
     filter Filter::RequiredFilter
     filter Filter::DescriptionFilter
     filter Filter::SearchFilter
-    filter Filter::SemanticSearchFilter
     filter Filter::CommentFilter
     filter Filter::SubjectOrIdFilter
     filter Filter::ManualSortFilter
@@ -97,6 +96,5 @@ module Queries::WorkPackages
     select Selects::ManualSortingSelect
     select Selects::TypeaheadSelect
     select Selects::ExactMatchSelect
-    select Selects::SemanticSimilaritySelect
   end
 end
