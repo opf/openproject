@@ -51,7 +51,7 @@ vi:
       login_consequences:
         other: Tài khoản này sẽ ngay lập tức bị xóa khỏi hệ thống và người dùng sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
         self: Tài khoản của bạn sẽ ngay lập tức bị xóa khỏi hệ thống và bạn sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
-      title: Delete %{name}'s account
+      title: Xóa tài khoản của %{name}
     deletion_pending: Tài khoản đã được lên lịch xóa. Lưu ý rằng quá trình này diễn ra ở chế độ nền. Có thể mất vài phút cho đến khi người dùng bị xóa hoàn toàn.
     error_inactive_activation_by_mail: 'Tài khoản của bạn vẫn chưa được kích hoạt. Để kích hoạt tài khoản của bạn, hãy nhấp vào liên kết được gửi qua email cho bạn.
 

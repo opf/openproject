@@ -371,7 +371,7 @@ ar:
       clear_selection: Clear selection
       include_subprojects: Include all sub-projects
       no_results: No project matches your search criteria.
-      search_placeholder: Search projects...
+      search_placeholder: البحث في المشاريع...
       selected_filter:
         all: All projects
         selected: Only selected

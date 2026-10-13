@@ -273,7 +273,7 @@ nl:
         status_codes:
           at_risk: In gevaar
           discontinued: Stopgezet
-          finished: Afgewerkt
+          finished: Afgerond
           not_started: Nog niet gestart
           off_track: Buiten schema
           on_track: Op schema

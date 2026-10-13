@@ -116,7 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: URL de redirection supplémentaires autorisées pour la connexion
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -604,7 +604,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: Les lignes « %{invalid_lines} » ne constituent pas des URL HTTP ou HTTPS valides.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -1773,7 +1773,7 @@ fr:
               title: Create work packages
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Télécharger les pièces jointes
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -2263,7 +2263,7 @@ fr:
     work_package_id: Lot de travaux
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'N''utilisez cette option que si la connexion échoue parce que le fournisseur d''identité redirige le navigateur vers d''autres serveurs. Saisissez une URL par ligne, par exemple l''adresse que la console du navigateur indique comme étant bloquée. Lors de la connexion, OpenProject autorise les redirections vers les serveurs correspondant à ces URL.
 
         '
     login_and_registration: Connexion et inscription

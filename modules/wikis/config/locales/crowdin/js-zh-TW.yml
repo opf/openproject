@@ -25,8 +25,8 @@ zh-TW:
     editor:
       macro:
         wikis:
-          add_existing: Existing wiki page
-          create_new: New wiki page
+          add_existing: 現有的維基頁面
+          create_new: 新的維基頁面
     work_packages:
       tabs:
-        wikis: Wikis
+        wikis: 維基

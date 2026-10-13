@@ -13,7 +13,7 @@ ar:
         icon: أيقونة مُخصصة
         identifier: المعرّف
         idp_cert: مزود شهادات الهوية العامة
-        idp_entity_id: معرف كيان موفر الهوية
+        idp_entity_id: معرف كيان موفر الهُوِيَّة
         idp_slo_service_url: نقطة تسجيل الخروج لمزود الهوية
         idp_sso_service_url: نقطة تسجيل الدخول لمزود الهوية
         limit_self_registration: حد الإشتراك الذاتي
@@ -53,7 +53,7 @@ ar:
       allowed_clock_drift: 'Tolerance in seconds applied when validating the timestamps of the identity provider response. Fractions of a second are accepted. Use this only if the clocks of OpenProject and the identity provider are known to be out of sync, and keep the value as low as possible (Default: 0).
 
         '
-      authn_requests_signed: 'في حالة تحديد هذا الخيار، سيقوم OpenProject بالتوقيع على طلب المصادقة SAML [AuthnRequest]. وسيتعين عليك تقديم شهادة التوقيع والمفتاح الخاص باستخدام الحقول أدناه.
+      authn_requests_signed: 'في حالة تحديد هذا الخِيار، سيقوم OpenProject بالتوقيع على طلب المصادقة SAML [AuthnRequest]. وسيتعين عليك تقديم شهادة التوقيع والمفتاح الخاص باستخدام الحقول أدناه.
 
         '
       certificate: 'أدخل الشهادة بتنسيق X509 PEM التي يستخدمها OpenProject لتوقيع طلبات SAML.
@@ -74,7 +74,7 @@ ar:
       idp_cert: 'أدخل الشهادة العامة لمزود الهوية بتنسيق X509 PEM. يمكنك إدخال شهادات متعددة بفصلها بسطر جديد.
 
         '
-      idp_entity_id: 'اختياري: مفيد عندما يشير عنوان URL الخاص بالبيانات الوصفية إلى تجميع اتحاد يضم عددًا كبيرًا من الإدخالات. أدخل معرّف الكيان الخاص بمزود الهوية التابع لمؤسستك. اترك الحقل فارغًا في حالة عناوين URL الخاصة بالبيانات الوصفية ذات الكيان الواحد.
+      idp_entity_id: 'اختياري: مفيد عندما يشير عنوان URL الخاص بالبيانات الوصفية إلى تجميع اتحاد يضم عددًا كبيرًا من الإدخالات. أدخل معرّف الكيان الخاص بمزود الهُوِيَّة التابع لمؤسستك. اترك الحقل فارغًا في حالة عناوين URL الخاصة بالبيانات الوصفية ذات الكيان الواحد.
 
         '
       idp_slo_service_url: 'عنوان URL لنقطة تسجيل الخروج الخاصة بمزود الهوية.

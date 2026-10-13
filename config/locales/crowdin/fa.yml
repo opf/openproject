@@ -116,7 +116,7 @@ fa:
         caption: عنوان
         help_text: متن راهنما
       auth_provider:
-        additional_form_action_urls: Additional allowed login redirect URLs
+        additional_form_action_urls: نشانی‌های URL مجاز اضافی برای تغییرمسیر هنگام ورود
         scim_clients: کلاینت‌های SCIM
       calculated_value_error:
         customized_id: شناسه سفارشی
@@ -604,7 +604,7 @@ fa:
         unknown_property: ویژگی شناخته‌شده‌ای نیست.
         unknown_property_nested: مسیر ناشناخته '%{path}' دارد.
         unremovable: قابل حذف نیست.
-        url_list_invalid: Lines %{invalid_lines} are not valid HTTP or HTTPS URLs.
+        url_list_invalid: سطرهای %{invalid_lines} حاوی نشانی‌های URL معتبر HTTP یا HTTPS نیستند.
         url_not_secure_context: "«Secure Context» ارائه نمی‌کند. از HTTPS یا یک نشانی loopback مانند localhost استفاده کنید.\n"
         user_already_in_department: کاربر %{user_id} از قبل عضو واحد سازمانی %{department_id} است.
         user_in_ldap_managed_department: این کاربر به واحد سازمانی‌ای تعلق دارد که با همگام‌سازی LDAP مدیریت می‌شود و قابل انتقال نیست.
@@ -1536,41 +1536,41 @@ fa:
           description: در هر اجرای Import می‌توانید مجموعه متفاوتی از داده‌ها را وارد کنید. لغو Import بلافاصله در حالت بازبینی ممکن است، اما پس از نهایی‌سازی دیگر ممکن نیست.
         jobs:
           JiraCreateCustomFieldsJob:
-            title: Create custom fields
+            title: ایجاد فیلدهای سفارشی
           JiraCreateProjectJob:
-            title: Create project '%{jira_project_name}'
+            title: ایجاد پروژه «%{jira_project_name}»
           JiraCreateProjectRoleJob:
-            title: Create 'JiraMember' project role
+            title: ایجاد نقش پروژه «JiraMember»
           JiraCreateProjectVersionsJob:
-            title: Create versions for '%{jira_project_name}'
+            title: ایجاد نسخه‌ها برای «%{jira_project_name}»
           JiraCreateProjectWorkPackageAttachmentsJob:
-            title: Download work package attachments for '%{jira_project_name}'
+            title: دریافت پیوست‌های بسته‌های کاری «%{jira_project_name}»
           JiraCreateProjectWorkPackagesJob:
-            title: Create work packages for '%{jira_project_name}'
+            title: ایجاد بسته‌های کاری «%{jira_project_name}»
           JiraCreateUsersJob:
-            title: Create users
+            title: ایجاد کاربران
           JiraFetchCustomFieldJob:
-            title: Fetch custom fields
+            title: دریافت فیلدهای سفارشی
           JiraFetchIssueTypesJob:
-            title: Fetch issue types
+            title: دریافت انواع مسئله
           JiraFetchPrioritiesJob:
-            title: Fetch priorities
+            title: دریافت اولویت‌ها
           JiraFetchProjectIssuesJob:
-            title: Fetch issues for project '%{jira_project_name}'
+            title: دریافت مسائل پروژه «%{jira_project_name}»
           JiraFetchProjectVersionsJob:
-            title: Fetch versions for project '%{jira_project_name}'
+            title: دریافت نسخه‌های پروژه «%{jira_project_name}»
           JiraFetchProjectsJob:
-            title: Fetch projects
+            title: دریافت پروژه‌ها
           JiraFetchStatusesJob:
-            title: Fetch statuses
+            title: دریافت وضعیت‌ها
           JiraFetchUsersJob:
-            title: Fetch users
+            title: دریافت کاربران
           JiraInstanceMetaDataJob:
-            title: Fetching instance meta data
+            title: دریافت فراداده نمونه
           JiraProjectsMetaDataJob:
-            title: Fetching meta data about selected projects
+            title: دریافت فراداده پروژه‌های انتخاب‌شده
           JiraRevertImportJob:
-            title: Reverting this Jira import run
+            title: بازگرداندن تغییرات این اجرای واردسازی از Jira
         project_identifier_taken: 'در حال واردکردن پروژه‌ای با شناسه از قبل استفاده‌شده هستید: %{taken_identifier}. لطفاً شناسه پروژه را در Jira به‌روزرسانی کرده و سپس روی تلاش مجدد کلیک کنید.'
         remove_error: اجرای Import از Jira در حال اجرا قابل حذف نیست
         side_panel:
@@ -1599,17 +1599,17 @@ fa:
         step_not_available: این عملیات در وضعیت فعلی فرایند واردسازی در دسترس نیست.
         title: اجرای Import
         wizard:
-          application_trace: Application trace
+          application_trace: ردیابی اجرای برنامه
           button_abort: لغو
           button_retry: تلاش مجدد
-          copy_application_trace: Copy application trace
-          copy_full_trace: Copy full trace
+          copy_application_trace: کپی ردیابی اجرای برنامه
+          copy_full_trace: کپی گزارش کامل ردیابی
           finalize_dialog:
             confirm: می‌دانم که این اقدام قابل بازگشت نیست
             confirm_button: متوجه شدم
             description: پس از تأیید، این Import دیگر قابل بازگردانی نیست و همه داده‌های واردشده دائمی خواهند شد.
             title: این Import تأیید شود؟
-          full_trace: Full trace
+          full_trace: گزارش کامل ردیابی
           groups:
             configuration:
               title: پیکربندی Import
@@ -1627,8 +1627,8 @@ fa:
               one: ۱ Issue
               other: "%{count} Issue"
             jobs:
-              one: 1 job
-              other: "%{count} jobs"
+              one: ۱ کار
+              other: "%{count} کار"
             projects:
               one: ۱ پروژه
               other: "%{count} پروژه"
@@ -1718,7 +1718,7 @@ fa:
                 issues: Issueها
                 permissions: مجوزها
                 project_ids: شناسه‌های پروژه
-                project_versions: Project versions
+                project_versions: نسخه‌های پروژه
                 projects: پروژه‌ها
                 relations: روابط بین Issueها
                 schemes: Schemaها
@@ -1726,7 +1726,7 @@ fa:
                 users: کاربران و گروه‌های درگیر
                 workflows: گردش‌کارهای سطح پروژه
               label_coming_later: بعداً اضافه می‌شود
-              label_coming_soon: Coming soon
+              label_coming_soon: به‌زودی
               label_import: پروژه‌هایی را که می‌خواهید وارد کنید انتخاب کنید.
               label_info: توجه داشته باشید این ابزار Import در مرحله Beta است و نمی‌تواند همه انواع داده را وارد کند. در اینجا خلاصه‌ای از داده‌های قابل Import در نمونه میزبان Jira و مواردی که ابزار در حال حاضر قادر به واردکردن آن‌هاست آمده است.
               label_progress: در حال دریافت داده‌ها
@@ -1740,38 +1740,38 @@ fa:
             filter_projects: فیلتر بر اساس متن
             info: فقط پروژه‌هایی که مالک توکن Jira عضو آن‌هاست قابل انتخاب به‌عنوان دامنه Import هستند.
             title: انتخاب پروژه‌ها برای Import
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
-          stage_succeeded_label: Completed
+          stage_discarded_label: خطا
+          stage_in_progress_label: پیشرفت
+          stage_job_error: خطا
+          stage_succeeded_label: تکمیل‌شده
           stages:
             '1':
               rest_line_text: ''
-              title: Fetch Jira configuration
+              title: دریافت پیکربندی Jira
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: در حال دریافت مسائل و نسخه‌های %{projects_number} پروژه دیگر
+              title: دریافت مسائل و نسخه‌های پروژه‌ها
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: دریافت کاربران و فیلدهای سفارشی
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: ایجاد کاربران، گروه‌ها و عضویت‌ها
             '5':
               rest_line_text: ''
-              title: Create roles and custom fields
+              title: ایجاد نقش‌ها و فیلدهای سفارشی
             '6':
-              rest_line_text: Creating %{projects_number} more projects
-              title: Create projects
+              rest_line_text: در حال ایجاد %{projects_number} پروژه دیگر
+              title: ایجاد پروژه‌ها
             '7':
-              rest_line_text: Creating versions for %{projects_number} more projects
-              title: Create project versions
+              rest_line_text: در حال ایجاد نسخه‌ها برای %{projects_number} پروژه دیگر
+              title: ایجاد نسخه‌های پروژه
             '8':
-              rest_line_text: Creating work packages for %{projects_number} more projects
-              title: Create work packages
+              rest_line_text: در حال ایجاد بسته‌های کاری برای %{projects_number} پروژه دیگر
+              title: ایجاد بسته‌های کاری
             '9':
-              rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              rest_line_text: در حال دریافت پیوست‌های %{projects_number} پروژه دیگر
+              title: دریافت پیوست‌ها
       test:
         api_error: Jira API وضعیت خطای %{status} برگرداند. لطفاً نشانی نمونه Jira و توکن API را بررسی کنید.
         connection_error: 'خطای اتصال: %{message}'
@@ -2261,7 +2261,7 @@ fa:
     work_package_id: بسته کاری
   authentication:
     instructions:
-      additional_form_action_urls: 'Use this only if the login fails because the identity provider redirects the browser to other servers. Enter one URL per line, for example the address that the browser console shows as blocked. During the login, OpenProject allows redirects to the hosts of these URLs.
+      additional_form_action_urls: 'فقط زمانی از این گزینه استفاده کنید که ورود به سامانه به دلیل هدایت مرورگر توسط ارائه‌دهنده هویت به سرورهای دیگر ناموفق باشد. در هر سطر یک نشانی URL وارد کنید؛ مثلاً نشانی‌ای که در کنسول مرورگر به‌عنوان مسدودشده نمایش داده شده است. هنگام ورود، OpenProject تغییرمسیر به میزبان‌های این نشانی‌ها را مجاز می‌کند.
 
         '
     login_and_registration: ورود و ثبت‌نام
@@ -3032,7 +3032,7 @@ fa:
   error_no_default_work_package_status: هیچ وضعیت پیش‌فرضی برای بسته کاری تعریف نشده است. پیکربندی را بررسی کنید (به «مدیریت -> وضعیت‌های بسته کاری» بروید).
   error_no_type_in_project: هیچ نوعی به این پروژه مرتبط نیست. لطفاً تنظیمات پروژه را بررسی کنید.
   error_omniauth_invalid_auth: اطلاعات احراز هویت بازگشتی از ارائه‌دهنده هویت نامعتبر بود. برای کمک بیشتر با مدیر تماس بگیرید.
-  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
+  error_omniauth_provider_incomplete: در حال حاضر نمی‌توانید با %{provider} وارد شوید، زیرا پیکربندی این روش ورود کامل نشده است. لطفاً با مدیر سامانه تماس بگیرید.
   error_omniauth_registration_timed_out: ثبت‌نام از طریق ارائه‌دهنده احراز هویت خارجی Timeout شد. لطفاً دوباره تلاش کنید.
   error_password_change_failed: هنگام تغییر گذرواژه خطایی رخ داد.
   error_pdf_date_range_too_long: بازه تاریخ بسته کاری انتخاب‌شده از حد مجاز خروجی PDF بیشتر است. لطفاً بازه را حداکثر به %{years} سال کاهش دهید.

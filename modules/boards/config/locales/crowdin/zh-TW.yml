@@ -3,12 +3,12 @@ zh-TW:
   activerecord:
     models:
       boards/grid:
-        other: Boards
+        other: 看板
   boards:
     board_type_attributes:
       assignee: 執行者
       basic: 基本
-      status: Kanban
+      status: 看板
       subproject: 子專案
       subtasks: 主任務-子任務
       version: 版本
