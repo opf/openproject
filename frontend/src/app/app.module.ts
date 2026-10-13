@@ -236,8 +236,9 @@ export function initializeServices(injector:Injector) {
 
     keyboardShortcuts.register();
 
-    return injector.get(ConfigurationService).initialize()
-      .then(() => injector.get(AppBadgeService).initialize());
+    const configuration = injector.get(ConfigurationService).initialize();
+    void configuration.then(() => injector.get(AppBadgeService).initialize()).catch(() => undefined);
+    return configuration;
   };
 }
 
