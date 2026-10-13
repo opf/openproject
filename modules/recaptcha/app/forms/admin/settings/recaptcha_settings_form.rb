@@ -58,7 +58,6 @@ module Admin
           label: I18n.t("recaptcha.settings.secret_key"),
           caption: I18n.t("recaptcha.settings.secret_key_text"),
           value: Setting.plugin_openproject_recaptcha["secret_key"],
-          caption: I18n.t("recaptcha.settings.secret_key_text"),
           input_width: :medium
         )
 
@@ -68,7 +67,6 @@ module Admin
           label: I18n.t("recaptcha.settings.response_limit"),
           caption: I18n.t("recaptcha.settings.response_limit_text"),
           value: Setting.plugin_openproject_recaptcha["response_limit"],
-          caption: I18n.t("recaptcha.settings.response_limit_text"),
           input_width: :xsmall
         )
 
