@@ -40,6 +40,14 @@ module Users
       end
     end
 
+    def self.from_h(hash)
+      case hash["type"]
+      when "everywhere" then everywhere
+      when "in_projects" then in_projects(hash["project_ids"])
+      else none
+      end
+    end
+
     def self.everywhere
       Everywhere.new
     end

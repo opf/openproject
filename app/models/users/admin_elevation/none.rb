@@ -42,6 +42,10 @@ module Users
       def project_condition(_project_id_column)
         Arel::Nodes::False.new
       end
+
+      def to_h
+        { "type" => "none" }
+      end
     end
   end
 end
