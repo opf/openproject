@@ -24,7 +24,7 @@
       user_row_grid.with_area(:button, tag: :div, color: :subtle) do
         render(Shares::PermissionButtonComponent.new(share:,
                                                      strategy: strategy,
-                                                     data: { 'test-selector': 'op-share-dialog-update-role' }))
+                                                     test_selector: 'op-share-dialog-update-role'))
       end
 
       if share_editable?
