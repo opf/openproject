@@ -1,0 +1,85 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title do %>
+    <%= record.name %>
+    <% if record.marked_default? %>
+      <%= render(Primer::Beta::Label.new(ml: 2, test_selector: test_selector("default-label"))) do %>
+        <%= reference_translate("default.label") %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <% header.with_description { record.description } if record.description.present? %>
+  <% header.with_breadcrumbs(breadcrumbs) %>
+
+  <% header.with_action_menu(
+       menu_arguments: { anchor_align: :end },
+       button_arguments: {
+         icon: "kebab-horizontal",
+         "aria-label": t(:label_more),
+         data: { "test-selector": test_selector("actions") }
+       }
+     ) do |menu| %>
+    <% menu.with_item(
+         tag: :a,
+         label: t(:button_edit),
+         href: helpers.polymorphic_path([:edit_dialog, record]),
+         content_arguments: { data: { controller: "async-dialog" } },
+         test_selector: test_selector("edit-action")
+       ) do |item| %>
+      <% item.with_leading_visual_icon(icon: :pencil) %>
+    <% end %>
+
+    <% if mark_default? %>
+      <% menu.with_item(
+           label: reference_translate("default.mark"),
+           href: helpers.polymorphic_path([:mark_default, record]),
+           form_arguments: { method: :patch },
+           test_selector: test_selector("mark-default-action")
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :"north-star") %>
+      <% end %>
+    <% end %>
+
+    <% unless record.marked_default? %>
+      <% menu.with_divider %>
+
+      <% menu.with_item(
+           scheme: :danger,
+           label: t(:button_delete),
+           href: helpers.polymorphic_path(record),
+           form_arguments: { method: :delete, data: { turbo_confirm: t(:text_are_you_sure) } },
+           test_selector: test_selector("delete-action")
+         ) do |item| %>
+        <% item.with_leading_visual_icon(icon: :trash) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

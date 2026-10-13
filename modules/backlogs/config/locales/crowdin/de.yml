@@ -352,14 +352,14 @@ de:
         estimation_unit: Unit
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: Die Anzahl der Arbeitspakete wird in den Diagrammen als Standardeinheit verwendet. Einige Diagramme aus den Sprintberichten werden nicht angezeigt.
+            label: Keine
           story_points:
             caption: The cards and charts will display story points.
             label: Story points
           time:
             caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            label: Arbeitszeitschätzung
       backlog_sharing:
         options:
           no_sharing:

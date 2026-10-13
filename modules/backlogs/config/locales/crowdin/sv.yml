@@ -26,7 +26,7 @@ sv:
       project:
         allow_multiple_active_sprints: Tillåt flera aktiva sprintar
         backlog_excluded_types: Undantagna arbetspaketstyper
-        estimation_unit: Unit
+        estimation_unit: Enhet
         sprint_sharing: Delning av sprintar
         statuses_considered_closed: Statusar som betraktas som stängda
       sprint:
@@ -138,7 +138,7 @@ sv:
       show:
         blankslate_description: Ange start- och slutdatum för sprinten för att skapa ett burndown-diagram.
         blankslate_title: Inga burndown-data tillgängliga
-    estimation_unit: Units
+    estimation_unit: Enheter
     excluded_work_package_types_caption: 'Välj vilka arbetspaketstyper som ska döljas från backloggen. Objekt av de valda typerna visas inte automatiskt i backloggen, så att den kan fokusera på det arbete som är relevant för teamet. Till exempel kan typer som epics eller milstolpar, som hanteras på en högre nivå, döljas så att backloggen fokuserar på åtgärdbara objekt.
 
       '
@@ -186,7 +186,7 @@ sv:
     remaining_hours: Återstående arbete
     sharing: Delning av sprintar
     show_burndown_chart: Burndown-diagram
-    show_work_package_overview: Work packages within the sprint
+    show_work_package_overview: Arbetspaket i sprinten
     sprint_component:
       action_menu:
         add_existing_work_package: Lägg till befintligt arbetspaket
@@ -214,29 +214,29 @@ sv:
         title: Rapport för %{sprint}
       widgets:
         work_package_graph:
-          title: Work packages graph
+          title: Graf för arbetspaket
         work_package_overview:
           blankslate:
-            description: Set start and end date for the sprint to generate the work package overview.
-            heading: No sprint data available
+            description: Ange start- och slutdatum för sprinten för att skapa översikten över arbetspaket.
+            heading: Inga sprintdata tillgängliga
           blocks:
             changed_after_start:
               count_change_html: "+%{added} %{divider} -%{removed}"
-              heading: Scope change
-              story_points_change: "+%{added} / -%{removed} story points"
+              heading: Omfattningsändring
+              story_points_change: "+%{added} / -%{removed} berättelsepoäng"
             completed:
-              heading: Completed
+              heading: Slutförd
             initially_planned:
-              heading: Initially planned
+              heading: Ursprungligen planerat
             unfinished:
-              heading: Unfinished
+              heading: Inte slutfört
           breakdown_block:
             blocks:
-              show_all: View all
-          closed_work_packages: Closed work packages
+              show_all: Visa alla
+          closed_work_packages: Stängda arbetspaket
           resolved_summary:
-            one: "%{percentage}% (%{resolved} of %{total} work package)"
-            other: "%{percentage}% (%{resolved} of %{total} work packages)"
+            one: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
+            other: "%{percentage}% (%{resolved} av %{total} arbetspaket)"
     sprints:
       row_component:
         action_menu:
@@ -278,18 +278,18 @@ sv:
         invalid_target: Målet du försöker lägga till i är ogiltigt.
         target_not_found: Sprinten eller backloggen som du försöker lägga till i hittades inte.
       batch_update_service:
-        mixed_projects: All work packages of a batch must belong to the same project.
-        stale_batch: At least one work package changed while the move was being prepared. Please check the current positions and try again.
-        stale_predecessor: The work package to insert after has been moved elsewhere. Please check the current positions and try again.
-        unavailable_target: The destination list is no longer available. Please reload the page and try again.
-        unexpected_failure: The work packages could not be moved. Please try again.
+        mixed_projects: Alla arbetspaket i en grupp som flyttas samtidigt måste tillhöra samma projekt.
+        stale_batch: Minst ett arbetspaket ändrades medan flytten förbereddes. Kontrollera de aktuella positionerna och försök igen.
+        stale_predecessor: Arbetspaketet som de andra skulle infogas efter har flyttats någon annanstans. Kontrollera de aktuella positionerna och försök igen.
+        unavailable_target: Mållistan är inte längre tillgänglig. Läs in sidan på nytt och försök igen.
+        unexpected_failure: Det gick inte att flytta arbetspaketen. Försök igen.
       move:
         moved_announcement: "%{label} flyttades till %{list}, position %{position} av %{total}"
       move_collection:
-        invalid_ids: The list of work packages to move is invalid.
+        invalid_ids: Listan över arbetspaket som ska flyttas är ogiltig.
         member_failed: "%{work_package}: %{reason}"
-        too_many_work_packages: No more than %{max} work packages can be moved at once.
-        work_packages_not_found: At least one work package could not be found in this project.
+        too_many_work_packages: Högst %{max} arbetspaket kan flyttas samtidigt.
+        work_packages_not_found: Minst ett arbetspaket kunde inte hittas i det här projektet.
       update_service:
         invalid_target_type: 'list_type måste vara något av följande: backlog_bucket med ett list_id, sprint med ett list_id eller inbox utan ett list_id.'
         missing_target: list_type eller list_id måste anges.
@@ -326,10 +326,10 @@ sv:
   notice_unsuccessful_start: Sprinten kunde inte startas.
   notice_unsuccessful_start_with_reason: 'Sprinten kunde inte startas: %{reason}'
   notice_work_package_invisible_after_move:
-    one: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+    one: 'Arbetspaketet flyttades till %{backlog} men är inte synligt eftersom dess typ eller status är undantagen från backloggen.
 
       '
-    other: "%{count} work packages were moved to %{backlog} but are not visible because their type or status is excluded from the backlog.\n"
+    other: "%{count} arbetspaket flyttades till %{backlog} men visas inte eftersom deras typ eller status är undantagen från backloggen.\n"
   permission_create_sprints: Skapa sprintar
   permission_manage_sprint_items: Hantera sprintobjekt
   permission_select_backlog_types_and_statuses: Välj backloggtyper och statusar
@@ -349,17 +349,17 @@ sv:
       sprints: Sprintar
     settings:
       backlog_estimation_unit:
-        estimation_unit: Unit
+        estimation_unit: Enhet
         options:
           none:
-            caption: The number of work packages will be used as the default unit in charts. Some sprint report charts won't be displayed.
-            label: None
+            caption: Antalet arbetspaket används som standardenhet i diagram. Vissa diagram i sprintrapporter visas inte.
+            label: Ingen
           story_points:
-            caption: The cards and charts will display story points.
-            label: Story points
+            caption: Korten och diagrammen visar berättelsepoäng.
+            label: Berättelsepoäng
           time:
-            caption: The cards and charts will display work time estimates.
-            label: Work time estimate
+            caption: Korten och diagrammen visar uppskattad arbetstid.
+            label: Uppskattad arbetstid
       backlog_sharing:
         options:
           no_sharing:
@@ -381,8 +381,8 @@ sv:
         sprint_sharing: Dela sprintar
       backlogs:
         estimation_unit_form_component:
-          description: Select the default unit of measuring effort, velocity and capacity that matches the workflow of your agile team. They will be shown in the backlog and sprint reports.
-          heading: Default unit of velocity, effort and capacity
+          description: Välj en standardenhet för arbetsinsats, arbetstakt och kapacitet som passar det agila teamets arbetssätt. Enheten visas i backloggen och i sprintrapporterna.
+          heading: Standardenhet för arbetstakt, arbetsinsats och kapacitet
         multiple_active_sprints:
           description: Som standard kan endast en sprint åt gången vara aktiv per projekt. Du kan ändra detta så att flera sprintar kan vara aktiva parallellt i det här projektet.
           heading: Antal aktiva sprintar

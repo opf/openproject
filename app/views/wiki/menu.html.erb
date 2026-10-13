@@ -28,13 +28,32 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= turbo_frame_tag "wiki_main_menu" do %>
-  <%= render OpenProject::Sidemenu::FilterableTreeComponent.new(
-        src: url_for(
-          controller: "/wiki",
-          action: :menu_tree,
-          project_id: @project.identifier,
-          current_page_id: @page&.id
-        ),
-        test_selector: "wiki-sidemenu-tree"
-      ) %>
+  <div class="op-submenu" data-controller="filter--filter-list" data-test-selector="op-submenu">
+    <div class="op-submenu--body" data-test-selector="op-submenu--body">
+      <%= render OpenProject::Sidemenu::FilterableTreeComponent.new(
+            src: url_for(
+              controller: "/wiki",
+              action: :menu_tree,
+              project_id: @project.identifier,
+              current_page_id: @page&.id
+            ),
+            test_selector: "wiki-sidemenu-tree"
+          ) %>
+    </div>
+    <% if @show_create %>
+      <div class="op-submenu--footer">
+        <%= render Primer::Beta::Button.new(
+              scheme: :primary,
+              tag: :a,
+              aria: { label: t("wiki.index.no_results_content_text") },
+              href: url_for({ controller: "/wiki", action: "new_child", project_id: @project.identifier, id: @page }),
+              test_selector: "wiki-new-child-button",
+              classes: "op-submenu--footer-action"
+            ) do |button|
+              button.with_leading_visual_icon(icon: "plus")
+              t(:create_wiki_page_button)
+            end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

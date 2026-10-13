@@ -96,6 +96,36 @@ RSpec.describe Primer::OpenProject::Forms::DatePicker, type: :forms do
     end
   end
 
+  describe "single datetime picker" do
+    def render_form
+      render_in_view_context(model) do |model|
+        primer_form_with(url: "/foo", model:) do |f|
+          render_inline_form(f) do |form|
+            form.single_datetime_picker(
+              name: :some_datetime,
+              label: "Some datetime",
+              datepicker_options: { value: "2026-10-01T12:30:00Z" }
+            )
+          end
+        end
+      end
+    end
+
+    subject(:rendered_form) do
+      render_form
+      page
+    end
+
+    it "renders the single datetime picker angular component" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker"
+    end
+
+    it "passes the value as a data attribute" do
+      expect(rendered_form).to have_element "opce-basic-single-datetime-picker",
+                                            "data-value": "2026-10-01T12:30:00Z".to_json
+    end
+  end
+
   describe "range date picker" do
     def render_form
       render_in_view_context(model) do |model|

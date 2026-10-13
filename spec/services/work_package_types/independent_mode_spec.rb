@@ -32,9 +32,8 @@ require "spec_helper"
 
 RSpec.describe WorkPackageTypes::IndependentMode do
   describe ".available_for" do
-    it "offers copy and default for form configuration" do
-      expect(described_class.available_for(TypeVariant::FORM_CONFIGURATION))
-        .to eq([described_class::COPY, described_class::DEFAULT])
+    it "offers nothing for the form, which a variant references rather than inherits" do
+      expect(described_class.available_for(TypeVariant::FORM_CONFIGURATION)).to be_empty
     end
 
     it "offers copy and empty for patterns" do
@@ -59,7 +58,7 @@ RSpec.describe WorkPackageTypes::IndependentMode do
 
   describe ".available?" do
     it "is true for a mode the aspect offers" do
-      expect(described_class).to be_available(TypeVariant::FORM_CONFIGURATION, described_class::DEFAULT)
+      expect(described_class).to be_available(TypeVariant::PDF_EXPORT, described_class::DEFAULT)
     end
 
     it "is false for a mode the aspect does not offer" do

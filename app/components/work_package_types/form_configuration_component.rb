@@ -33,29 +33,16 @@ module WorkPackageTypes
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    ASPECT = TypeVariant::FORM_CONFIGURATION
-
-    def initialize(variant:, form_attributes:, no_filter_query:)
-      super(variant)
-      @variant = variant
+    def initialize(context:, form_attributes:, no_filter_query:)
+      super(context.form_configuration)
+      @context = context
       @form_attributes = form_attributes
       @no_filter_query = no_filter_query
     end
 
-    def readonly?
-      @variant.linked?(ASPECT)
-    end
+    delegate :readonly?, to: :@context
 
-    def source
-      @variant.owner_of(ASPECT)
-    end
-
-    # We memoize the exclusion state here to avoid an n+1 query
-    def exclusion_state
-      return @exclusion_state if defined?(@exclusion_state)
-
-      @exclusion_state = readonly? ? WorkPackageTypes::ExclusionState.for(@variant, ASPECT) : nil
-    end
+    def exclusion_state = @context.exclusions
 
     def ee_available?
       EnterpriseToken.allows_to?(:edit_attribute_groups)
@@ -65,12 +52,8 @@ module WorkPackageTypes
       @form_attributes[:inactives]
     end
 
-    # In read-only mode the visible configuration is the linked source's
     def active_groups
-      attributes = readonly? ? helpers.form_configuration_groups(source) : @form_attributes
-      groups = attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
-
-      readonly? ? without_source_exclusions(groups) : groups
+      @form_attributes[:actives].reject { |g| g[:key].to_s == "__empty" }
     end
 
     def wrapper_data
@@ -79,9 +62,7 @@ module WorkPackageTypes
       {
         controller: "admin--type-form-configuration--main admin--type-form-configuration--rows-drag-and-drop",
         "admin--type-form-configuration--main-no-filter-query-value": @no_filter_query,
-        "admin--type-form-configuration--main-add-group-url-value": add_group_type_form_configuration_group_path(
-          **@variant.path_args
-        ),
+        "admin--type-form-configuration--main-add-group-url-value": @context.group_path(:add_group),
         "admin--type-form-configuration--rows-drag-and-drop-handle-selector-value": ".attribute-handle"
       }
     end
@@ -98,53 +79,22 @@ module WorkPackageTypes
     end
 
     def main_content_component
-      groups_type = readonly? ? source : @variant
       groups = active_groups
       group_components = groups.map.with_index do |group, i|
         WorkPackageTypes::FormConfiguration::GroupComponent.new(
           group:,
-          variant: groups_type,
+          context: @context,
           ee_available: ee_available?,
           first: i == 0,
-          last: i == groups.length - 1,
-          readonly: readonly?,
-          exclusions: exclusion_state
+          last: i == groups.length - 1
         )
       end
 
       WorkPackageTypes::FormConfiguration::MainContentComponent.new(
-        variant: @variant,
+        context: @context,
         group_components:,
-        ee_available: ee_available?,
-        readonly: readonly?
+        ee_available: ee_available?
       )
-    end
-
-    private
-
-    def without_source_exclusions(groups)
-      return groups if exclusion_state.nil?
-
-      groups.filter_map do |group|
-        if group[:type].to_s == "query"
-          retained_query_group(group)
-        else
-          narrowed_attribute_group(group)
-        end
-      end
-    end
-
-    def narrowed_attribute_group(group)
-      attributes = group[:attributes].to_a
-      remaining = attributes.reject { |attribute| exclusion_state.excluded_by_source?(attribute[:key]) }
-      return if remaining.empty? && attributes.any?
-
-      group.merge(attributes: remaining)
-    end
-
-    # A query group is a single entry in the section, so a source exclusion drops the whole section.
-    def retained_query_group(group)
-      group unless group[:element_key].present? && exclusion_state.excluded_by_source?(group[:element_key])
     end
   end
 end

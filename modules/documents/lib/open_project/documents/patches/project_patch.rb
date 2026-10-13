@@ -37,5 +37,3 @@ module OpenProject::Documents::Patches
     end
   end
 end
-
-Project.include OpenProject::Documents::Patches::ProjectPatch

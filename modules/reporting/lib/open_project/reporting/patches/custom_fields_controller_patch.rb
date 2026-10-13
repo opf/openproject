@@ -28,41 +28,35 @@
 
 module OpenProject::Reporting::Patches
   module CustomFieldsControllerPatch
-    def self.included(base) # :nodoc:
-      base.prepend InstanceMethods
+    # A saved cost report may filter or group by the custom field being
+    # deleted, which would leave it referring to something that no longer
+    # exists.
+    def destroy
+      remove_custom_field_from_cost_reports(@custom_field.id)
+    rescue StandardError => e
+      Rails.logger.error "Failed to remove custom_field #{@custom_field.id} from cost reports. " \
+                         "#{e.class}: #{e.message}"
+    ensure
+      super
     end
 
-    module InstanceMethods
-      # A saved cost report may filter or group by the custom field being
-      # deleted, which would leave it referring to something that no longer
-      # exists.
-      def destroy
-        remove_custom_field_from_cost_reports(@custom_field.id)
-      rescue StandardError => e
-        Rails.logger.error "Failed to remove custom_field #{@custom_field.id} from cost reports. " \
-                           "#{e.class}: #{e.message}"
-      ensure
-        super
+    private
+
+    def remove_custom_field_from_cost_reports(id)
+      attribute = "cf_#{id}"
+
+      CostReport.includes(:query).find_each do |report|
+        remove_dimension_and_filter(report, attribute)
       end
+    end
 
-      private
+    def remove_dimension_and_filter(report, attribute)
+      return unless report.uses_dimension?(attribute) || report.query.uses_filter?(attribute)
 
-      def remove_custom_field_from_cost_reports(id)
-        attribute = "cf_#{id}"
-
-        CostReport.includes(:query).find_each do |report|
-          remove_dimension_and_filter(report, attribute)
-        end
-      end
-
-      def remove_dimension_and_filter(report, attribute)
-        return unless report.uses_dimension?(attribute) || report.query.uses_filter?(attribute)
-
-        report.remove_dimension(attribute)
-        report.query.remove_filter(attribute)
-        report.query.save!(validate: false)
-        report.save!(validate: false)
-      end
+      report.remove_dimension(attribute)
+      report.query.remove_filter(attribute)
+      report.query.save!(validate: false)
+      report.save!(validate: false)
     end
   end
 end

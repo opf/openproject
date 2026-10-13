@@ -39,6 +39,22 @@ FactoryBot.define do
     end
   end
 
+  factory :custom_style_with_logo_dark, class: "CustomStyle" do
+    logo_dark do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_light_high_contrast, class: "CustomStyle" do
+    logo_light_high_contrast do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
   factory :custom_style_with_export_logo, class: "CustomStyle" do
     export_logo do
       Rack::Test::UploadedFile.new(
@@ -113,6 +129,22 @@ FactoryBot.define do
 
   factory :custom_style_with_logo_mobile, class: "CustomStyle" do
     logo_mobile do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_mobile_dark, class: "CustomStyle" do
+    logo_mobile_dark do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
+      )
+    end
+  end
+
+  factory :custom_style_with_logo_mobile_light_high_contrast, class: "CustomStyle" do
+    logo_mobile_light_high_contrast do
       Rack::Test::UploadedFile.new(
         Rails.root.join("spec/support/custom_styles/logos/logo_image.png")
       )

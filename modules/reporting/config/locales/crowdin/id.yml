@@ -104,7 +104,6 @@ id:
   plugin_openproject_reporting:
     description: Plugin ini memungkinkan pembuatan laporan biaya kustom dengan fitur penyaringan dan pengelompokan yang dibuat oleh plugin Waktu dan Biaya OpenProject.
     name: Laporan OpenProject
-  project_module_reporting_module: Pelaporan biaya
   reporting:
     group_by:
       selected_columns: Kolom terpilih

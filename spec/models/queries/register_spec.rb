@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -31,51 +31,83 @@
 require "spec_helper"
 
 RSpec.describe Queries::Register do
-  describe "the registries" do
-    # A query class registering none of a given kind is normal - most notably
-    # group bys, which only a handful of queries declare - so the registries must
-    # never hand out nil.
-    %i[filters orders selects group_bys].each do |kind|
-      it "#{kind} is a hash, even before anything is registered" do
-        expect(described_class.public_send(kind)).to be_a(Hash)
-      end
+  let(:unregistered_query) { Class.new }
 
-      it "#{kind} returns an empty array for a query class that registered none" do
-        expect(described_class.public_send(kind)[Class.new]).to eq([])
-      end
+  describe "for a query that never registered anything" do
+    it "has no filters" do
+      expect(described_class.filters[unregistered_query]).to eq([])
     end
 
-    it "excluded_filters is an array" do
-      expect(described_class.excluded_filters).to be_an(Array)
+    it "has no excluded filters" do
+      expect(described_class.excluded_filters[unregistered_query]).to eq([])
+    end
+
+    it "has no orders" do
+      expect(described_class.orders[unregistered_query]).to eq([])
+    end
+
+    it "has no selects" do
+      expect(described_class.selects[unregistered_query]).to eq([])
+    end
+
+    it "has no group bys" do
+      expect(described_class.group_bys[unregistered_query]).to eq([])
     end
   end
 
-  describe "registering" do
-    let(:query_class) { Class.new }
+  describe ".register" do
+    let(:query) { Class.new }
     let(:filter_class) { Class.new }
+    let(:excluded_filter_class) { Class.new }
     let(:order_class) { Class.new }
     let(:select_class) { Class.new }
     let(:group_by_class) { Class.new }
 
-    it "collects the registered classes per query class" do
-      # Captured in locals because inside the block self is the Registration,
-      # where `filter` and friends are the DSL methods.
-      a_filter = filter_class
-      an_order = order_class
-      a_select = select_class
-      a_group_by = group_by_class
+    let!(:registration) do
+      # `register` instance_execs the block on a `Registration`, so the let helpers
+      # have to be captured as locals to be reachable from inside it.
+      filter = filter_class
+      excluded_filter = excluded_filter_class
+      order = order_class
+      select = select_class
+      group_by = group_by_class
 
-      described_class.register(query_class) do
-        filter a_filter
-        order an_order
-        select a_select
-        group_by a_group_by
+      described_class.register(query) do
+        filter filter
+        filter excluded_filter
+        exclude excluded_filter
+        order order
+        select select
+        group_by group_by
       end
+    end
 
-      expect(described_class.filters[query_class]).to eq([filter_class])
-      expect(described_class.orders[query_class]).to eq([order_class])
-      expect(described_class.selects[query_class]).to eq([select_class])
-      expect(described_class.group_bys[query_class]).to eq([group_by_class])
+    it "registers the filters" do
+      expect(described_class.filters[query]).to contain_exactly(filter_class, excluded_filter_class)
+    end
+
+    it "registers the excluded filter" do
+      expect(described_class.excluded_filters[query]).to contain_exactly(excluded_filter_class)
+    end
+
+    it "registers the order" do
+      expect(described_class.orders[query]).to contain_exactly(order_class)
+    end
+
+    it "registers the select" do
+      expect(described_class.selects[query]).to contain_exactly(select_class)
+    end
+
+    it "registers the group by" do
+      expect(described_class.group_bys[query]).to contain_exactly(group_by_class)
+    end
+
+    it "leaves the filters of another query untouched" do
+      expect(described_class.filters[unregistered_query]).to eq([])
+    end
+
+    it "leaves the excluded filters of another query untouched" do
+      expect(described_class.excluded_filters[unregistered_query]).to eq([])
     end
   end
 end

@@ -38,6 +38,7 @@ module LlmConnections
   class EnvironmentUpdateContract < BaseContract
     attribute :custom_headers
     attribute :env_provisioned_at
+    attribute :env_fingerprint
 
     def not_configured_from_env = nil
 

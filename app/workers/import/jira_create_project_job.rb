@@ -34,7 +34,7 @@ module Import
 
     def text
       jira_project_name = Import::JiraProject.find(arguments[1]).payload["name"]
-      "Create project '#{jira_project_name}'"
+      I18n.t(:"admin.jira.run.jobs.#{self.class.to_s.demodulize}.title", jira_project_name:)
     end
 
     def perform(jira_import_id, jira_project_id)

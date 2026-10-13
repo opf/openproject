@@ -110,7 +110,6 @@ uk:
   plugin_openproject_reporting:
     description: Цей плагін дає змогу створювати звіти про витрати з можливостями фільтрування й групування, створеними плагіном «Час і витрати» в OpenProject.
     name: Звіти OpenProject
-  project_module_reporting_module: Звіти про витрати
   reporting:
     group_by:
       selected_columns: Вибрані стовпці

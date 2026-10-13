@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -40,7 +39,7 @@ export interface TimelineButtonText extends ButtonControllerText {
 
 @Component({
   templateUrl: './wp-timeline-toggle-button.html',
-  styleUrls: ['./wp-timeline-toggle-button.sass'],
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-timeline-toggle-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
@@ -125,7 +124,7 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
     this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 
-  public performAction(event:Event) {
+  public performAction(_event:Event) {
     this.toggleTimeline();
   }
 

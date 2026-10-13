@@ -144,7 +144,6 @@ nl:
   button_add_time_entry: Gelogde tijd
   button_log_costs: Registreer kost per eenheid
   button_log_time: Registreer
-  button_stop_timer: Stop timer
   button_update_limits: Update limits
   button_update_start_finish_times: Update start and finish times
   caption_booked_on_project: Gereserveerd op project
@@ -214,7 +213,6 @@ nl:
   label_current: Current
   label_current_default_rate: Huidige standaard tarief
   label_date_on: op
-  label_day: Dag
   label_defaults_and_limits: Defaults and limits
   label_deleted_cost_types: Verwijderde kostentypen
   label_display_cost_entries: Kosten per eenheid weergeven
@@ -230,42 +228,28 @@ nl:
   label_less_or_equal: "<="
   label_list: Lijst
   label_log_costs: Registreer kosten per eenheid
-  label_month: Maand
-  label_my_time_tracking: Mijn tijdregistratie
   label_new_time_entry_activity: Nieuwe tijdregistratieactiviteit
-  label_next_day: Volgende dag
-  label_next_month: Volgende maand
-  label_next_week: Volgende week
-  label_next_workweek: Volgende werkweek
   label_no: Nee
   label_no_default_rate: No default rate set
   label_no_project_rate: No rate set for this project
-  label_no_time: Geen tijd geregistreerd
   label_option_plural: Opties
   label_overall_costs: Totale kosten
-  label_previous_day: Vorige dag
-  label_previous_month: Vorige maand
-  label_previous_week: Vorige week
-  label_previous_workweek: Vorige werkweek
   label_rate_plural: Tarieven
   label_show: Toon
   label_specific_day: Dag %{day}
   label_specific_month: Maand %{month}
-  label_stack: Stack
   label_start_and_finished: Start and finish times
   label_status_finished: Afgewerkt
   label_time: Tijd
   label_time_entry_activity_form_description: Wijzigingen in deze tijdregistratie activiteit worden weergegeven in alle projecten waar het is ingeschakeld.
+  label_time_entry_custom_field_plural: Time entry custom fields
   label_time_entry_restrictions: Limieten
-  label_timer_since: Begonnen op %{time}
   label_today_capitalized: Vandaag
   label_units: Kosten eenheden
   label_until: tot
   label_using_current_default_rate: Using current default rate
   label_valid_from: Geldig vanaf
-  label_view_mode_switcher: Weergave wijzigen
   label_work_package_filter_add: Werkpakket filter toevoegen
-  label_workweek: Werkweek
   label_yes: Ja
   notice_cost_logged_successfully: Kosten eenheid succesvol geregistreerd.
   notice_different_time_zones: Deze gebruiker heeft een andere tijdzone (%{tz}). De tijd wordt geregistreerd met hun tijdzone.

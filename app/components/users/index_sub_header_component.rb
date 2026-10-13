@@ -63,10 +63,6 @@ module Users
       "user-filters-form-clear-button"
     end
 
-    def collapsed_search?
-      filter_input_value.blank?
-    end
-
     def filters_expanded?
       params[:filters].present?
     end

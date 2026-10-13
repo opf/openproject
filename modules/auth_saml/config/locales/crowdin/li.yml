@@ -8,8 +8,8 @@ li:
         authn_requests_signed: Sign SAML AuthnRequests
         certificate: Certificate used by OpenProject for SAML requests
         digest_method: Digest algorithm
-        display_name: Name
-        format: Format
+        display_name: Naam
+        format: Formaat
         icon: Custom icon
         identifier: Identifier
         idp_cert: Public certificate of identity provider
@@ -20,7 +20,7 @@ li:
         metadata_url: Identity provider metadata URL
         name_identifier_format: Name identifier format
         private_key: Corresponding private key for OpenProject SAML requests
-        scope: Scope
+        scope: Reikwiedte
         secret: Secret
         signature_method: Signature algorithm
         sp_entity_id: Service entity ID
@@ -197,11 +197,11 @@ li:
         metadata_form_banner: 'Editing the metadata may override existing values in other sections. '
         requested_attributes: Define the set of attributes to be requested in the SAML request sent to your identity provider.
       seeded_from_env: This provider was seeded from the environment configuration. It cannot be edited.
-      singular: SAML identity provider
+      singular: SAML-identiteitsprovider
       upsell:
         description: Connect OpenProject to a SAML identity provider
         title: Single Sign-On (SSO) with SAML
     settings:
       metadata_none: I don't have metadata
-      metadata_url: Metadata URL
-      metadata_xml: Metadata XML
+      metadata_url: Metagegeaves URL
+      metadata_xml: Metagegeaves XML

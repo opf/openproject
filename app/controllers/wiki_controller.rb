@@ -100,10 +100,11 @@ class WikiController < ApplicationController
     end
 
     @editable = editable?
-    @show_create = show_create?
   end
 
-  def new; end
+  def new
+    render layout: "no_menu"
+  end
 
   def new_child
     find_existing_page
@@ -114,11 +115,12 @@ class WikiController < ApplicationController
     build_wiki_page
 
     @page.parent = old_page
-    render action: "new"
+    render action: "new", layout: "no_menu"
   end
 
   def menu
     @page = @wiki.pages.find_by(id: params[:current_page_id])
+    @show_create = show_create?
 
     render layout: nil
   end
@@ -141,16 +143,9 @@ class WikiController < ApplicationController
 
   # edit an existing page or a new one
   def edit
-    page = @wiki.find_or_new_page(wiki_page_title)
-    return render_403 unless editable?(page)
+    return render_403 unless load_page_for_edit
 
-    if page.new_record? && flash[:_related_wiki_page_id]
-      page.parent_id = flash[:_related_wiki_page_id]
-    end
-
-    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
-
-    @page = ::WikiPages::AtVersion.new(page, version)
+    render layout: "no_menu"
   end
 
   def create
@@ -358,7 +353,7 @@ class WikiController < ApplicationController
   end
 
   def show_create?
-    @editable && @page && User.current.allowed_in_project?(:edit_wiki_pages, @project)
+    @page && editable? && User.current.allowed_in_project?(:edit_wiki_pages, @project)
   end
 
   private
@@ -402,14 +397,30 @@ class WikiController < ApplicationController
     return unless @page.new_record?
 
     if User.current.allowed_in_project?(:edit_wiki_pages, @project) && editable?
-      edit
-      render action: :new
+      return render_403 unless load_page_for_edit
+
+      render action: :new, layout: "no_menu"
     elsif params[:id] == "wiki"
       flash[:info] = I18n.t("wiki.page_not_editable_index")
       redirect_to action: :index
     else
       render_404
     end
+  end
+
+  # Loads @page for the edit action and the new_child-like fallback in handle_new_wiki_page.
+  # Returns nil if the page turns out not to be editable, leaving the error handling to the caller.
+  def load_page_for_edit
+    page = @wiki.find_or_new_page(wiki_page_title)
+    return nil unless editable?(page)
+
+    if page.new_record? && flash[:_related_wiki_page_id]
+      page.parent_id = flash[:_related_wiki_page_id]
+    end
+
+    version = params[:version] if User.current.allowed_in_project?(:view_wiki_edits, @project)
+
+    @page = ::WikiPages::AtVersion.new(page, version)
   end
 
   # Finds the requested page and returns a 404 error if it doesn't exist

@@ -36,15 +36,17 @@ module WorkPackageTypes
     # advances. It reads "Finish" on the last step.
     class FooterComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       FORM_IDENTIFIER = "type-wizard-form"
 
-      def initialize(type:, current_step:, variant: nil, back_url: nil)
+      def initialize(type:, current_step:, variant: nil, back_url: nil, started_form_configuration_id: nil)
         super(type)
 
         @current_step = current_step
         @variant = variant
         @back_url = back_url
+        @started_form_configuration_id = started_form_configuration_id
       end
 
       private
@@ -61,15 +63,25 @@ module WorkPackageTypes
 
       def start_next_href
         if record_persisted?
-          type_creation_wizard_path(**variant_path_args, step: Steps::FIRST_EDITABLE, back_url:)
+          step_path(Steps::FIRST_EDITABLE, **back_url_params)
         else
-          new_creation_wizard_types_path(**new_wizard_scope, step: Steps::FIRST_EDITABLE)
+          new_wizard_path(step: Steps::FIRST_EDITABLE)
         end
       end
 
-      def new_wizard_scope
-        { in_project_id: helpers.variant_scope_project, type_id: (type.id if adding_variant?), back_url: }.compact
+      def step_path(step, **)
+        variant_creation_wizard_path(helpers.variant_scope_project, wizard_variant, step:, **)
       end
+
+      def new_wizard_path(**)
+        if adding_variant?
+          new_variant_creation_wizard_path(helpers.variant_scope_project, type, **back_url_params, **)
+        else
+          new_creation_wizard_types_path(**back_url_params, **)
+        end
+      end
+
+      def back_url_params = { back_url: }.compact
 
       def current_number = Steps.available_for(variant).index(current_step).to_i + 1
 
@@ -89,13 +101,17 @@ module WorkPackageTypes
         return unless previous_step
 
         if record_persisted?
-          type_creation_wizard_path(**variant_path_args, step: previous_step, back_url:)
+          step_path(previous_step, **carried_params)
         elsif previous_step == Steps.first
-          new_creation_wizard_types_path(**new_wizard_scope)
+          new_wizard_path
         end
       end
 
-      def variant_path_args = variant&.path_args || { type_id: type.id }
+      def carried_params
+        { back_url:, started_form_configuration_id: @started_form_configuration_id }.compact
+      end
+
+      def wizard_variant = variant.is_a?(TypeVariant) ? variant : type.default_variant
 
       def record_persisted? = variant ? variant.persisted? : type.persisted?
 
@@ -104,7 +120,7 @@ module WorkPackageTypes
         return back_url if back_url.present?
         return helpers.variant_scope_types_path if helpers.variant_scope_project || !type.persisted?
 
-        type_settings_path(type_id: type.id)
+        variant_settings_path(nil, type.default_variant)
       end
     end
   end

@@ -65,8 +65,7 @@ RSpec.describe 'Filter by date with "is empty"', :js, :selenium do
            name: "Date CF",
            is_filter: true,
            searchable: true) do |custom_field|
-      project.work_package_custom_fields << custom_field
-      work_package_with_custom_date.type.default_variant.custom_fields << custom_field
+      work_package_with_custom_date.type.default_variant.custom_field_ids |= [custom_field.id]
 
       create(:work_package_custom_value,
              custom_field:,

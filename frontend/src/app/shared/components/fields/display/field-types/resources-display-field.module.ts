@@ -20,14 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { take } from 'lodash-es';
 import { cssClassCustomOption, DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class ResourcesDisplayField extends DisplayField {
   public isEmpty():boolean {
@@ -35,7 +35,7 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   public get stringValue():string[] {
-    const cf = this.resource[this.name];
+    const cf = this.resource[this.name] as { elements?:HalResource[], map?:HalResource[]['map'], name?:string }|null|undefined;
     if (this.schema && cf) {
       if (cf.elements) {
         return cf.elements.map((e:any) => e.name);

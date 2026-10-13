@@ -143,6 +143,32 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(response.body).to include(llm_feature_bindings_path)
       end
 
+      context "without a stored connection" do
+        it "keeps the save button back until LLMs are enabled" do
+          get llm_connection_path
+
+          expect(page).to have_no_button("Save")
+          expect(page).to have_button("Save", visible: :hidden)
+          expect(page).to have_no_button("Connect", visible: :all)
+        end
+
+        it "shows the save button once LLMs are enabled", with_settings: { llm_features_enabled: true } do
+          get llm_connection_path
+
+          expect(page).to have_button("Save")
+        end
+      end
+
+      context "with a stored connection and LLMs switched off", with_settings: { llm_features_enabled: false } do
+        before { create(:llm_connection, base_url:) }
+
+        it "still offers to save, so the switch can be turned back on" do
+          get llm_connection_path
+
+          expect(page).to have_button("Save")
+        end
+      end
+
       context "when an API key is stored" do
         let!(:connection) { create(:llm_connection, base_url:, api_key: "sk-original") }
 
@@ -205,6 +231,25 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(response.body).not_to include("have not been applied yet")
         end
 
+        it "warns once the variables differ from the ones that were applied" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => "https://old.example/v1"))
+
+          get llm_connection_path
+
+          expect(response.body).to include("have changed since they were applied")
+          expect(page).to have_field("Host URL", disabled: true)
+        end
+
+        it "does not warn while the applied variables are still the current ones" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => base_url))
+
+          get llm_connection_path
+
+          expect(response.body).not_to include("have changed since they were applied")
+        end
+
         it "does not ask for a key that cannot be entered" do
           get llm_connection_path
 
@@ -223,7 +268,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           expect(response.body).to include("have not been applied yet")
           expect(response.body).not_to include("configured via environment variables")
           expect(page).to have_field("Enable LLMs for this instance", disabled: false)
-          expect(page).to have_button("Connect")
+          expect(page).to have_button("Save", visible: :all)
         end
       end
 
