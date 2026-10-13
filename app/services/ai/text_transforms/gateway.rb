@@ -35,7 +35,15 @@ module AI
         def ready? = ready
       end
 
-      def self.build = NullGateway.new
+      class << self
+        attr_accessor :factory
+
+        def build
+          return EchoGateway.new if EchoGateway.enabled?
+
+          factory&.call || NullGateway.new
+        end
+      end
     end
   end
 end
