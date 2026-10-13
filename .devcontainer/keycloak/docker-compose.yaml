@@ -1,0 +1,131 @@
+x-cacert: &cacert
+  volumes:
+    - cacert:/etc/ssl/certs:ro
+    - cacert:/etc/pki/tls/certs:ro
+  environment:
+    SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+    SSL_CERT_DIR: /etc/ssl/certs
+    REQUESTS_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+    NODE_EXTRA_CA_CERTS: /etc/ssl/certs/root_ca.crt
+    CURL_CA_BUNDLE: /etc/ssl/certs/ca-certificates.crt
+    GRPC_DEFAULT_SSL_ROOTS_FILE_PATH: /etc/ssl/certs/ca-certificates.crt
+    KC_TRUSTSTORE_PATHS: /etc/ssl/certs
+  depends_on:
+    ca-bundle:
+      condition: service_completed_successfully
+
+include:
+  - ../docker-compose.yaml
+services:
+  openproject:
+    extends:
+      file: ../docker-compose.yaml
+      service: openproject
+    environment:
+      OPENPROJECT_DEV_EXTRA_HOSTS: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_HTTPS: true
+      OPENPROJECT_CLI_PROXY: "https://openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
+      OPENPROJECT_DB_URL: postgres://openproject:openproject@postgresql:5432/openproject
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: Keycloak
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: openproject
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER: https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}/realms/master
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT: /realms/master/protocol/openid-connect/auth
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT: /realms/master/protocol/openid-connect/token
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT: /realms/master/protocol/openid-connect/userinfo
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT: https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}/realms/master/protocol/openid-connect/logout
+    depends_on:
+      postgresql:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      keycloak_client_setup:
+        condition: service_completed_successfully
+
+  keycloak_client_setup:
+    <<: *cacert
+    image: quay.io/keycloak/keycloak:26.8
+    depends_on:
+      keycloak:
+        condition: service_healthy
+    environment:
+      KEYCLOAK_URL: https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET: openproject
+      OPENPROJECT_OPENID__CONNECT_KEYCLOAK_REDIRECT_URI: https://openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}/auth/keycloak/callback
+    entrypoint: ["/usr/local/bin/keycloak-create-client.sh"]
+    volumes:
+      - ./keycloak-create-client.sh:/usr/local/bin/keycloak-create-client.sh:ro
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.8
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - sh
+        - -c
+        - >
+          exec 3<>/dev/tcp/127.0.0.1/9000 &&
+          printf 'GET /health/ready HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 &&
+          grep -q 'HTTP/1.1 200' <&3
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    command:
+      - start
+      - --http-enabled=true
+      - --health-enabled=true
+      - --metrics-enabled=true
+      - --hostname=https://keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      - --http-management-scheme=http
+      - --http-management-port=9000
+      - --proxy-headers=xforwarded
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.keycloak.rule=Host(`keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.keycloak.entrypoints=websecure"
+      - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+    environment:
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_ADMIN_PASSWORD:-admin}
+      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_ADMIN_USERNAME:-admin}
+      KC_HOSTNAME: keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: ${KC_HOSTNAME_BACKCHANNEL_DYNAMIC:-true}
+      KC_DB: postgres
+      KC_DB_PASSWORD: ${KC_DB_PASSWORD:-keycloak}
+      KC_DB_URL_DATABASE: ${KC_DB_DATABASE:-keycloak}
+      KC_DB_URL_HOST: ${KC_DB_HOST:-keycloak-db}
+      KC_DB_URL_PORT: ${KC_DB_PORT:-5432}
+      KC_DB_USERNAME: ${KC_DB_USERNAME:-keycloak}
+    depends_on:
+      keycloak-db:
+        condition: service_healthy
+
+  keycloak-db:
+    image: postgres:17.11
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+      POSTGRES_DB: keycloak
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  traefik:
+    extends:
+      file: ../docker-compose.yaml
+      service: traefik
+    networks:
+      default:
+        aliases:
+          - traefik.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}
+          - keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
