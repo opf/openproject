@@ -164,8 +164,8 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       return true;
     }
 
-    // A double click always selects the word under the cursor,
-    // so only a selection made in any other way should prevent activation.
+    // Selecting text shall not activate editing. However, a double click always selects the word under the cursor.
+    // Hence we need to ignore text selection if activation happened through a double click.
     if (event.type === 'dblclick') {
       window.getSelection()?.removeAllRanges();
     } else if (hasSelectionWithin(event.target as HTMLElement)) {
