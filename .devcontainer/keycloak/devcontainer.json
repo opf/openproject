@@ -1,0 +1,24 @@
+{
+  "name": "OpenProject with KeyCloak",
+  "dockerComposeFile": [
+    "docker-compose.yaml"
+  ],
+  "service": "openproject",
+  "workspaceFolder": "/home/dev/openproject",
+  "containerUser": "dev",
+  "updateRemoteUserUID": true,
+  "updateContentCommand": "/home/dev/openproject/.devcontainer/keycloak/update.sh",
+  "postStartCommand": "/home/dev/openproject/.devcontainer/keycloak/start.sh",
+  "forwardPorts": [
+    "3000/tcp",
+    "4200/tcp"
+  ],
+  "portsAttributes": {
+    "3000/tcp": {
+      "label": "Backend"
+    },
+    "4200/tcp": {
+      "label": "Frontend"
+    }
+  }
+}
