@@ -55,6 +55,15 @@ module Planner
            parent: :planner,
            partial: "planner/menus/menu",
            if: visible
+
+      menu :top_menu,
+           :planner,
+           { controller: "/planner/views", action: "show", view: "today" },
+           context: :my,
+           after: :my_page,
+           caption: :label_planner,
+           icon: "calendar",
+           if: visible
     end
 
     initializer "planner.feature_decisions" do
