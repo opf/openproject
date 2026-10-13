@@ -36,7 +36,7 @@
 <%= include_frontend_assets %>
 
 <%# Render CSS highlighting %>
-<%= stylesheet_link_tag "/highlighting/styles/#{highlight_css_version_tag}",
+<%= stylesheet_link_tag "/highlighting/styles/#{Highlighting::Registry.cache_key}",
                         media: :all,
                         skip_pipeline: true %>
 

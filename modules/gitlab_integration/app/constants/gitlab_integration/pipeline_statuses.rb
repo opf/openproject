@@ -30,28 +30,28 @@
 
 module GitlabIntegration
   module PipelineStatuses
-    SUCCESS = GitlabStatus.pipeline_status(code: :success, color: Color.new(hexcode: "#1A7F37"), icon: :"check-circle")
-    RUNNING = GitlabStatus.pipeline_status(code: :running, color: Color.new(hexcode: "#8250DF"), icon: :play)
-    FAILED = GitlabStatus.pipeline_status(code: :failed, color: Color.new(hexcode: "#CF222E"), icon: :"x-circle")
+    SUCCESS = GitlabStatus.pipeline_status(code: :success, hexcode: "#1A7F37", icon: :"check-circle")
+    RUNNING = GitlabStatus.pipeline_status(code: :running, hexcode: "#8250DF", icon: :play)
+    FAILED = GitlabStatus.pipeline_status(code: :failed, hexcode: "#CF222E", icon: :"x-circle")
     SCHEDULED = GitlabStatus.pipeline_status(code: :scheduled,
-                                             color: Color.new(hexcode: "#BF3989"),
+                                             hexcode: "#BF3989",
                                              icon: :"op-auto-date")
 
-    CREATED = GitlabStatus.pipeline_status(code: :created, color: Color.new(hexcode: "#1A67A3"), icon: :hourglass)
-    PREPARING = GitlabStatus.pipeline_status(code: :preparing, color: Color.new(hexcode: "#1A67A3"), icon: :hourglass)
-    PENDING = GitlabStatus.pipeline_status(code: :pending, color: Color.new(hexcode: "#1A67A3"), icon: :hourglass)
+    CREATED = GitlabStatus.pipeline_status(code: :created, hexcode: "#1A67A3", icon: :hourglass)
+    PREPARING = GitlabStatus.pipeline_status(code: :preparing, hexcode: "#1A67A3", icon: :hourglass)
+    PENDING = GitlabStatus.pipeline_status(code: :pending, hexcode: "#1A67A3", icon: :hourglass)
     WAITING_FOR_RESOURCE = GitlabStatus.pipeline_status(code: :waiting_for_resource,
-                                                        color: Color.new(hexcode: "#1A67A3"),
+                                                        hexcode: "#1A67A3",
                                                         icon: :hourglass)
     WAITING_FOR_CALLBACK = GitlabStatus.pipeline_status(code: :waiting_for_callback,
-                                                        color: Color.new(hexcode: "#1A67A3"),
+                                                        hexcode: "#1A67A3",
                                                         icon: :hourglass)
 
-    MANUAL = GitlabStatus.pipeline_status(code: :manual, color: Color.new(hexcode: "#1A67A3"), icon: :pencil)
-    SKIPPED = GitlabStatus.pipeline_status(code: :skipped, color: Color.new(hexcode: "#24292F"), icon: :tab)
-    CANCELLED = GitlabStatus.pipeline_status(code: :cancelled, color: Color.new(hexcode: "#24292F"), icon: :"x-circle")
+    MANUAL = GitlabStatus.pipeline_status(code: :manual, hexcode: "#1A67A3", icon: :pencil)
+    SKIPPED = GitlabStatus.pipeline_status(code: :skipped, hexcode: "#24292F", icon: :tab)
+    CANCELLED = GitlabStatus.pipeline_status(code: :cancelled, hexcode: "#24292F", icon: :"x-circle")
     CANCELLING = GitlabStatus.pipeline_status(code: :cancelling,
-                                              color: Color.new(hexcode: "#24292F"),
+                                              hexcode: "#24292F",
                                               icon: :"x-circle")
 
     AVAILABLE = [
