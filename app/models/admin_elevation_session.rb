@@ -33,7 +33,7 @@ class AdminElevationSession < ApplicationRecord
   belongs_to :project
 
   enum :confirmed_with,
-       { two_factor: "two_factor", password: "password", confirmation: "confirmation" },
+       { two_factor: "two_factor", password: "password", confirmation: "confirmation", project_creation: "project_creation" },
        prefix: true,
        validate: true
 
