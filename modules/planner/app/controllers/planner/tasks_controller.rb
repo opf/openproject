@@ -35,16 +35,21 @@ module Planner
 
     before_action :require_login
     before_action :require_planner
-    before_action :find_task, only: %i[update plan drop]
-    no_authorization_required! :new_dialog, :create, :update, :plan, :drop, :create_from_work_package
+    before_action :find_task, only: %i[update destroy plan drop]
+    no_authorization_required! :new_dialog, :create, :update, :destroy, :plan, :drop, :create_from_work_package
 
     def new_dialog
+      planner_project = (Planner::ProjectService.new(current_user).call.result if params[:kind] == "work_package")
+
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
                                                               day_part: params[:day_part],
-                                                              view: current_view)
+                                                              view: current_view,
+                                                              planner_project:)
     end
 
     def create
+      return create_for_work_package if task_params.key?(:work_package_id)
+
       call = Planner::CreateTaskService
                .new(user: current_user)
                .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date,
@@ -58,6 +63,12 @@ module Planner
       call = Planner::CompleteTaskService
                .new(user: current_user, work_package: @task)
                .call(done: ActiveModel::Type::Boolean.new.cast(params[:done]))
+
+      respond_with_view(call)
+    end
+
+    def destroy
+      call = WorkPackages::DeleteService.new(user: current_user, model: @task).call
 
       respond_with_view(call)
     end
@@ -105,7 +116,27 @@ module Planner
     end
 
     def task_params
-      params.expect(task: %i[subject day_part date description])
+      params.expect(task: %i[subject day_part date description work_package_id])
+    end
+
+    def create_for_work_package
+      work_package = WorkPackage.visible(current_user).find_by_display_id(task_params[:work_package_id].to_s)
+      return respond_with_view(ServiceResult.failure(message: t("planner.errors.work_package_not_found"))) unless work_package
+
+      call = plan_work_package(work_package)
+      confirm_planned(call) if call.success?
+      respond_with_view(call)
+    end
+
+    def plan_work_package(work_package)
+      Planner::AddWorkPackageService
+        .new(user: current_user)
+        .call(work_package:, date: task_date || current_user.today, day_part: task_params[:day_part])
+    end
+
+    def confirm_planned(call)
+      close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID)
+      render_success_flash_message_via_turbo_stream(message: call.message)
     end
 
     # Without a date the task is due today; an empty one leaves it undated.

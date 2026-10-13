@@ -34,7 +34,7 @@ Rails.application.routes.draw do
 
   namespace :planner do
     resource :menu, only: :show
-    resources :tasks, only: %i[create update] do
+    resources :tasks, only: %i[create update destroy] do
       patch :plan, on: :member
       put :drop, on: :member
       get :new_dialog, on: :collection

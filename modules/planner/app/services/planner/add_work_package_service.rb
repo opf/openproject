@@ -29,39 +29,45 @@
 #++
 
 module Planner
-  # Plans a work package for today: a task referencing it in the current day part, unless one of
-  # today's tasks already refers to it.
+  # Plans a work package: a task referencing it on the given day and in the given day part, by
+  # default today in the current day part, unless one of that day's tasks already refers to it.
   class AddWorkPackageService
     def initialize(user:)
       @user = user
     end
 
-    def call(work_package:)
-      today = Today.for(user)
-      return ServiceResult.failure(message: I18n.t("planner.errors.unavailable")) unless today
-      return ServiceResult.success(message: I18n.t("planner.already_planned")) if planned?(today, work_package)
+    def call(work_package:, date: user.today, day_part: nil)
+      project = ProjectService.new(user).call.result
+      return ServiceResult.failure(message: I18n.t("planner.errors.unavailable")) unless project
+      return ServiceResult.success(message: I18n.t("planner.already_planned")) if planned?(project, work_package, date)
 
-      day_part = today.current_day_part
-      CreateTaskService
-        .new(user:)
-        .call(subject: "##{work_package.display_id}", day_part:)
-        .tap { |call| call.message = added_message(day_part) if call.success? }
+      create_task(work_package, date, day_part.presence || Today.new(user:, project:).current_day_part)
     end
 
     private
 
     attr_reader :user
 
-    def planned?(today, work_package)
-      task_ids = today.work_packages.map(&:id)
+    def create_task(work_package, date, day_part)
+      CreateTaskService
+        .new(user:)
+        .call(subject: "##{work_package.display_id}", day_part:, date:)
+        .tap { |call| call.message = added_message(date, day_part) if call.success? }
+    end
+
+    def planned?(project, work_package, date)
+      task_ids = project.work_packages.where(due_date: date).pluck(:id)
 
       Relation.where(from_id: task_ids, to_id: work_package.id)
               .or(Relation.where(from_id: work_package.id, to_id: task_ids))
               .exists?
     end
 
-    def added_message(day_part)
-      I18n.t("planner.added_to", day_part: I18n.t("planner.day_part.#{day_part}"))
+    def added_message(date, day_part)
+      day_part_name = I18n.t("planner.day_part.#{day_part}")
+      return I18n.t("planner.added_to", day_part: day_part_name) if date == user.today
+
+      I18n.t("planner.added_to_date", day_part: day_part_name, date: I18n.l(date, format: :long))
     end
   end
 end

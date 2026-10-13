@@ -27,14 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: t("planner.add_todo"), position: :right, size: :large, data: { "keep-open-on-submit": true })) do |dialog| %>
+<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title:, position: :right, size: :large, data: { "keep-open-on-submit": true })) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
     <%= primer_form_with(url: planner_tasks_path, scope: :task, id: FORM_ID, data: { turbo_stream: true }) do |f| %>
       <% if view_param %>
         <%= hidden_field_tag :view, view_param, id: nil %>
       <% end %>
-      <%= render(Planner::TaskForm.new(f, date:, day_part:)) %>
+      <%= render(Planner::TaskForm.new(f, date:, day_part:, planner_project:)) %>
     <% end %>
   <% end %>
   <% dialog.with_footer do %>

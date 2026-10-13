@@ -81,6 +81,15 @@ module Planner
 
     def plan_form_arguments = { method: :patch, data: { turbo_stream: true } }
 
+    def delete_form_arguments = { method: :delete, data: { turbo_stream: true, turbo_confirm: delete_confirmation } }
+
+    # Deleting a planned work package's task leaves the work package itself untouched.
+    def delete_label = planned_work_package ? t("planner.remove_from_planner") : t(:button_delete)
+
+    def delete_confirmation
+      planned_work_package ? t("planner.remove_from_planner_confirmation") : t(:text_are_you_sure)
+    end
+
     # The subject as text, with each visible referenced work package in place of its reference.
     def subject_parts
       work_package.subject.split(References::PATTERN).each_with_index.map do |part, index|

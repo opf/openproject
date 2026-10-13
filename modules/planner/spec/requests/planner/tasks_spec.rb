@@ -38,7 +38,8 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
   let!(:role) do
     create(:project_role,
            permissions: ProjectRole::PERMISSIONS_FOR_PROJECT_CREATOR +
-             %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations])
+             %i[view_work_packages add_work_packages edit_work_packages delete_work_packages
+                manage_work_package_relations])
   end
   let!(:workflow) { create(:status_transition, type: task_type, role:, old_status: status, new_status: closed_status) }
   let(:user) { create(:user) }
@@ -80,6 +81,52 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
 
         expect(WorkPackage.last).to have_attributes(due_date: Date.new(2026, 10, 20), description: "Window seat")
         expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
+      end
+    end
+
+    describe "the Add work package dialog" do
+      let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+      let(:team_project) { create(:project) }
+      let(:work_package) { create(:work_package, project: team_project, subject: "Contact sponsoring partners") }
+
+      before do
+        create(:member, project: team_project, principal: user,
+                        roles: [create(:project_role, permissions: %i[view_work_packages manage_work_package_relations])])
+      end
+
+      it "searches open work packages outside My work" do
+        get(new_dialog_planner_tasks_path(kind: :work_package, date: "2026-10-20", day_part: :evening), headers:)
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include("Add work package")
+        expect(response.body).to include("planner-work-package-autocompleter")
+        expect(response.body).not_to include("augmented-text-area-description")
+        filters = JSON.parse(CGI.unescapeHTML(response.body[/data-filters="([^"]*)"/, 1]))
+        my_work = Planner::ProjectService.new(user).call.result
+        expect(filters).to contain_exactly({ "name" => "status", "operator" => "o", "values" => [] },
+                                           { "name" => "project", "operator" => "!", "values" => [my_work.id.to_s] })
+      end
+
+      it "plans the picked work package on the chosen day" do
+        post(planner_tasks_path,
+             params: { task: { work_package_id: work_package.id, date: "2026-10-20", day_part: "evening" } },
+             headers:)
+
+        task = WorkPackage.last
+        expect(task).to have_attributes(subject: "##{work_package.display_id}", due_date: Date.new(2026, 10, 20))
+        expect(Planner::DayPartField.find.day_part_of(task)).to eq(:evening)
+        expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
+        expect(response.body).to include("Added to Evening on")
+      end
+
+      it "refuses a work package the user cannot see" do
+        hidden = create(:work_package)
+
+        expect do
+          post(planner_tasks_path, params: { task: { work_package_id: hidden.id, date: "2026-10-20" } }, headers:)
+        end.not_to change(WorkPackage, :count)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body).to include("Pick a work package you can see.")
       end
     end
 
@@ -201,6 +248,55 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect(left_over.reload.due_date).to eq(user.today)
         expect(response.body).to include('target="planner-overdue-component"')
         expect(response.body).to include('target="planner_sidemenu"')
+      end
+    end
+  end
+
+  describe "deleting a task", with_flag: { planner: true } do
+    let!(:task) { Planner::CreateTaskService.new(user:).call(subject: "Book train", day_part: :morning).result }
+    let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
+
+    it "offers it in the task menu, after a confirmation" do
+      get planner_path
+
+      form = page.find("[data-test-selector='planner-delete-task'] form", visible: :all)
+      expect(form[:action]).to eq(planner_task_path(task))
+      expect(form["data-turbo-confirm"]).to eq("Are you sure?")
+      expect(form).to have_css("input[name='_method'][value='delete']", visible: :all)
+    end
+
+    context "when it plans a work package" do
+      let(:team_project) { create(:project) }
+      let(:work_package) { create(:work_package, project: team_project) }
+      let!(:task) do
+        create(:member, project: team_project, principal: user, roles: [role])
+        Planner::AddWorkPackageService.new(user:).call(work_package:).result
+      end
+
+      it "offers to remove it from the Planner, keeping the work package" do
+        get planner_path
+
+        item = page.find("[data-test-selector='planner-delete-task']", visible: :all)
+        expect(item.text(:all)).to include("Remove from Planner")
+        expect(item.find("form", visible: :all)["data-turbo-confirm"]).to include("It stays in its project.")
+
+        expect { delete(planner_task_path(task), headers:) }.to change(WorkPackage, :count).by(-1)
+        expect(work_package.reload).to be_present
+      end
+    end
+
+    it "deletes it and re-renders the view" do
+      expect { delete(planner_task_path(task, view: :upcoming), headers:) }.to change(WorkPackage, :count).by(-1)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('target="planner-upcoming-component"')
+    end
+
+    context "for a work package outside My work" do
+      let!(:other) { create(:work_package) }
+
+      it "is not found" do
+        expect { delete(planner_task_path(other), headers:) }.not_to change(WorkPackage, :count)
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

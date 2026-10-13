@@ -59,6 +59,23 @@ RSpec.describe Planner::AddWorkPackageService do
     expect(Relation.where(from: task, to: work_package)).to exist
   end
 
+  context "with a later day and a day part" do
+    subject { described_class.new(user:).call(work_package:, date: Date.new(2026, 10, 9), day_part: "evening") }
+
+    it "plans it there" do
+      expect(subject).to be_success, -> { subject.message }
+      expect(subject.message).to eq("Added to Evening on October 09, 2026 in the Planner.")
+      expect(subject.result.due_date).to eq(Date.new(2026, 10, 9))
+      expect(Planner::DayPartField.find.day_part_of(subject.result)).to eq(:evening)
+    end
+
+    it "still adds it when it is planned for another day" do
+      described_class.new(user:).call(work_package:)
+
+      expect { subject }.to change(WorkPackage, :count).by(1)
+    end
+  end
+
   context "when it is already planned for today" do
     before { described_class.new(user:).call(work_package:) }
 
