@@ -36,6 +36,8 @@ module Llm
     retry_on Llm::Errors::RateLimitedError, wait: :polynomially_longer, attempts: 10
 
     def perform(work_package_ids)
+      return unless OpenProject::FeatureDecisions.semantic_search_active?
+
       work_packages = WorkPackage.where(id: work_package_ids)
       Llm::WorkPackages::EmbedService.new(work_packages).call
     end

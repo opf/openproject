@@ -37,6 +37,8 @@ module Llm
     queue_with_priority :low
 
     def perform
+      return unless OpenProject::FeatureDecisions.semantic_search_active?
+
       WorkPackage.find_in_batches(batch_size: 100) do |batch|
         Llm::EmbedWorkPackagesJob.perform_later(batch.map(&:id))
       end

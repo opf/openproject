@@ -32,6 +32,8 @@ module Llm
   module WorkPackages
     module SemanticSearch
       def self.available?
+        return false unless OpenProject::FeatureDecisions.semantic_search_active?
+
         active_binding&.locked? || false
       end
 
@@ -41,8 +43,10 @@ module Llm
       end
 
       private_class_method def self.fetch_query_vector(query)
+        return if query.blank? || !OpenProject::FeatureDecisions.semantic_search_active?
+
         binding = active_binding
-        return if query.blank? || !binding&.locked?
+        return unless binding&.locked?
 
         embed(query, binding)
       end

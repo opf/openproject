@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Llm::EmbedWorkPackagesJob do
+RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } do
   let(:work_package) { create(:work_package) }
 
   it "calls EmbedService with the resolved work packages" do
@@ -44,5 +44,13 @@ RSpec.describe Llm::EmbedWorkPackagesJob do
       expect(wps.map(&:id)).to contain_exactly(work_package.id)
     end
     expect(service_double).to have_received(:call)
+  end
+
+  it "does nothing with the feature flag off", with_flag: { semantic_search: false } do
+    allow(Llm::WorkPackages::EmbedService).to receive(:new)
+
+    described_class.perform_now([work_package.id])
+
+    expect(Llm::WorkPackages::EmbedService).not_to have_received(:new)
   end
 end

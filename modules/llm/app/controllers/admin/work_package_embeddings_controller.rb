@@ -44,7 +44,8 @@ module Admin
     private
 
     def require_feature
-      render_404 unless OpenProject::FeatureDecisions.llm_connection_active?
+      render_404 unless OpenProject::FeatureDecisions.llm_connection_active? &&
+                        OpenProject::FeatureDecisions.semantic_search_active?
     end
   end
 end

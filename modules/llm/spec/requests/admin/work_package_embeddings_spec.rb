@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request,
-                                                            with_flag: { llm_connection: true } do
+                                                            with_flag: { llm_connection: true, semantic_search: true } do
   describe "POST /admin/work_package_embeddings/reindex" do
     context "as admin" do
       before { login_as create(:admin) }
@@ -60,6 +60,16 @@ RSpec.describe "Admin work package embeddings", :skip_csrf, type: :rails_request
     end
 
     context "with the feature flag off", with_flag: { llm_connection: false } do
+      before { login_as create(:admin) }
+
+      it "returns 404" do
+        post reindex_work_package_embeddings_path
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context "with the semantic search flag off", with_flag: { semantic_search: false } do
       before { login_as create(:admin) }
 
       it "returns 404" do

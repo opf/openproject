@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Llm::WorkPackages::SemanticSearch do
+RSpec.describe Llm::WorkPackages::SemanticSearch, with_flag: { semantic_search: true } do
   let(:connection) { create(:llm_connection, :with_models) }
   let(:session_double) { instance_double(Llm::Session) }
   let(:embedding_double) { instance_double(RubyLLM::Embedding, vectors: [0.1, 0.2, 0.3]) }
@@ -56,6 +56,12 @@ RSpec.describe Llm::WorkPackages::SemanticSearch do
       create_binding
 
       expect(described_class).to be_available
+    end
+
+    it "is false with the feature flag off", with_flag: { semantic_search: false } do
+      create_binding
+
+      expect(described_class).not_to be_available
     end
   end
 
@@ -87,6 +93,11 @@ RSpec.describe Llm::WorkPackages::SemanticSearch do
 
       it "returns nothing for a blank query" do
         expect(described_class.query_vector("")).to be_nil
+        expect(session_double).not_to have_received(:embed)
+      end
+
+      it "returns nothing without making a request when the feature flag is off", with_flag: { semantic_search: false } do
+        expect(described_class.query_vector("some query")).to be_nil
         expect(session_double).not_to have_received(:embed)
       end
 
