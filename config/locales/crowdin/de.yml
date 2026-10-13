@@ -399,6 +399,8 @@ de:
         ongoing: Fortlaufend
         spent_on: Datum
         type: Art
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalender
         ical_token_query_assignment: Zuordnung der Abfrage
@@ -1949,26 +1951,26 @@ de:
         connection: Verbindung
         models: Modelle
       update:
-        disabled: Saved. LLM features are switched off for this instance.
+        disabled: Gespeichert. Die LLM-Funktionen sind für diese Instanz deaktiviert.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
         success: Successfully connected to the LLM server.
     llm_models:
       create:
-        success: "%{model} has been added."
+        success: "%{model} wurde hinzugefügt."
       destroy:
-        description: The model will no longer be offered to AI features.
-        description_bound: This model is currently used by %{features}. Those features will stop working until another model is selected.
+        description: Das Modell wird nicht mehr für KI-Funktionen angeboten.
+        description_bound: Dieses Modell wird derzeit von %{features} verwendet. Diese Funktionen stehen nicht mehr zur Verfügung, bis ein anderes Modell ausgewählt wird.
         heading: "%{model} entfernen?"
         success: "%{model} wurde entfernt."
         title: Modell entfernen
       edit:
-        description: Edit how OpenProject uses this model.
+        description: Bearbeiten, wie OpenProject dieses Modell verwendet.
       form:
         context_window: Kontextfenster
-        context_window_caption: How many tokens this model accepts. Leave blank if you do not know.
-        context_window_known: Leave blank to use %{value}, %{source}.
+        context_window_caption: Wie viele Token dieses Modell akzeptiert. Leer lassen, wenn Sie es nicht wissen.
+        context_window_known: Leer lassen, um %{value}, %{source} zu verwenden.
         display_name_caption: An optional friendly name shown instead of the model id.
-        external_id_caption: The model name exactly as the server expects it.
+        external_id_caption: Der Modellname genau so, wie er vom Server erwartet wird.
         model_type: Modelltyp
         model_type_caption: Chat models answer requests. Embedding models turn text into vectors for search. [Read more](docs_url).
         model_type_chat: Chat-Modell
@@ -1982,7 +1984,7 @@ de:
         blank_description: The server reported no models. Refresh the list once the server is reachable, or add one by hand.
         blank_title: Keine Modelle verfügbar
         context_window: Kontextfenster
-        description: Reported by the server on %{fetched_at}.
+        description: Vom Server am %{fetched_at} gemeldet.
         description_unfetched: The server has not returned a model list yet. Refresh the models once it is reachable.
         filter_label: Modelle filtern
         identifier: Modell
@@ -1997,7 +1999,7 @@ de:
         source_withdrawn_description: Wird vom Server nicht mehr gemeldet
         stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
       new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
+        description: Nennen Sie ein Modell, das dieser Server verwenden kann, das er jedoch nicht bekannt gibt, und beschreiben Sie, wozu es in der Lage ist.
         title: Modell hinzufügen
       refresh:
         failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
@@ -3504,7 +3506,7 @@ de:
       projects_count:
         one: 1 Projekt
         other: "%{count} Projekte"
-      types_and_variants_count: "%{types} (including %{variants})"
+      types_and_variants_count: "%{types} (einschließlich %{variants})"
       types_count:
         one: 1 Typ
         other: "%{count} Typen"
@@ -4168,7 +4170,7 @@ de:
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
   label_my_security: Sicherheit
-  label_my_work: My work
+  label_my_work: Meine Arbeit
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -4937,6 +4939,13 @@ de:
           create_button: Anlegen
           dialog_body: Dieses Token ermöglicht es Anwendungen von Drittanbietern, mit Ihrer Instanz zu kommunizieren. Um das neue API-Token zu unterscheiden, geben Sie ihm bitte einen Namen.
           dialog_title: Einen API-Token erstellen
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Token-Name
       failed_to_create_token: 'Zugriffstoken konnte nicht erstellt werden: %{error}'
       failed_to_reset_token: 'Zusatztoken konnte nicht zurückgesetzt werden: %{error}'
@@ -4952,20 +4961,21 @@ de:
       title: Bestätigen Sie Ihr Passwort um fortzufahren
     work:
       actions:
-        assign_to_me: Assign work package to me
-        delete_time_entry: Delete time entry
-        edit_time_entry: Edit time entry
+        assign_to_me: Arbeitspaket mir zuweisen
+        delete_time_entry: Zeiteintrag löschen
+        edit_time_entry: Zeiteintrag bearbeiten
         log_time_from_allocation: Log time from allocation
-        open_project: Open project
-        open_work_package: Open work package
+        open_project: Projekt öffnen
+        open_work_package: Arbeitspaket öffnen
       entries_filter:
-        all: All entries
+        all: Alle Einträge
         allocated: Allocations only
-        logged: Logged time only
+        logged: Nur erfasste Zeit
   my_account:
     access_tokens:
       access_tokens: Zugriffstokens
       description: Provider-Tokens werden von OpenProject ausgestellt und ermöglichen anderen Anwendungen den Zugriff darauf. Client-Tokens werden von anderen Anwendungen ausgestellt und ermöglichen OpenProject den Zugriff auf sie.
+      expired_on: Expired on %{date}
       headers:
         action: Aktion
         expiration: Läuft aus
@@ -6539,7 +6549,7 @@ de:
         heading: Neue Phase
       no_gate: Kein Gate
       non_defined: Derzeit sind keine Phasen definiert.
-      order_changed: Order successfully changed.
+      order_changed: Reihenfolge erfolgreich geändert.
       phase_gates: Phasen Gates
       section_header: Phasen
       start_gate: Gate zum Beginn
@@ -6955,7 +6965,7 @@ de:
         inherit_title: Use the same settings as the type
         manual_description: You can configure this page freely as you wish or copy over configuration from another type.
         manual_title: Manuelle Konfiguration
-        reuse_heading: Reuse existing type configuration
+        reuse_heading: Vorhandene Typkonfiguration wiederverwenden
         reuse_inherit: For everything else, you can choose to automatically use the same settings as the type (%{type_name}) where you don't want any differences and only manually configure those pages where you want there to be a difference.
         reuse_intro: For each of the pages, you can decide on what relationship it has with the main type.
         reuse_named: For workflows and forms, you can use existing configurations to avoid defining a different one each time you create a new type or variant. If no existing configuration meets your needs, you can of course create a new one.
@@ -7258,10 +7268,10 @@ de:
       type_label: Typ
       variant_label: Variante
     migration:
-      variant_name: "%{type} without %{fields}"
+      variant_name: "%{type} ohne %{fields}"
       variant_name_truncated:
-        one: "%{type} without %{fields} and 1 more field"
-        other: "%{type} without %{fields} and %{count} more fields"
+        one: "%{type} ohne %{fields} und 1 weiteres Feld"
+        other: "%{type} ohne %{fields} und %{count} weitere Felder"
     milestone_indicator: Meilenstein
     patterns:
       formats:
@@ -7748,7 +7758,7 @@ de:
       csv:
         file:
           empty: Diese Datei ist leer.
-          expired: This file is no longer available. Upload it again.
+          expired: Diese Datei ist nicht mehr verfügbar. Laden Sie sie erneut hoch.
           expired_named: "%{filename} is no longer available. A checked file is kept for a few hours, so this one has to be uploaded again. It is checked once more before anything is created."
           invalid_encoding: Line %{line} contains bytes that are not valid UTF-8 or UTF-16. Save the file again as CSV (UTF-8/UTF-16) and upload that file instead.
           malformed: This file could not be read as CSV. Line %{line} opens a quote that is never closed.
@@ -7789,7 +7799,7 @@ de:
             two:
               description: The error appears after a failed password reset.
               subject: Fix the login error
-        view_name: CSV import on %{datetime}
+        view_name: CSV-Import um %{datetime}
       download_template: Vorlage herunterladen
       drop_or_click: Drop a CSV file here or click to select one.
       dry_run_caption: Every line is validated and reported, but nothing is created. Recommended for a file you have not imported before.
@@ -7800,16 +7810,16 @@ de:
         columns_html: "%{link} and fill it in. It carries the exact column headers that can be imported."
         limits_html: UTF-8/UTF-16 encoded <code>.csv</code>, up to %{lines} lines and %{size}.
         names_html: Type, Status, Priority, Category and Version are matched by name and must already exist. Assignee, Accountable and Author are matched by email address. See the %{link}.
-        title: Before you start
+        title: Bevor Sie beginnen
       import_file: Datei importieren
       importing_file: Importing %{filename}
       intro: Create many work packages at once from a CSV file. Existing work packages are not changed.
       menu_title: Work packages importer
       report:
         announcement:
-          checked: The file has been checked. The report is below.
+          checked: Die Datei wurde überprüft. Der Bericht ist unten aufgeführt.
           file_rejected: The file was not imported. The report says what is wrong with its column headers.
-          imported: The import has finished. The report is below.
+          imported: Der Import ist abgeschlossen. Der Bericht ist unten aufgeführt.
           rows_rejected: Nothing was imported. The report lists the problems.
         checked:
           heading: Bereit zum Importieren
@@ -7825,7 +7835,7 @@ de:
           line: Zeile 1 von %{filename}
           nothing: Nothing was imported. Correct the file and upload it again.
           text: Correct the headers in the file and upload it again.
-          title: The column headers could not be read
+          title: Die Spaltenüberschriften konnten nicht gelesen werden
         headline:
           accounts:
             label: Konten
@@ -7857,7 +7867,7 @@ de:
           heading: Probleme
         rows_rejected:
           text: Everything was rolled back. Correct the lines below and upload the file again.
-          title: 'Nothing was imported: %{problems} in %{lines}'
+          title: 'Es wurde nichts importiert: %{problems} in %{lines}'
         table:
           attribute: Spalte
           available: Verfügbare Werte
@@ -7959,7 +7969,7 @@ de:
         create: Workflow
         edit: Übergänge bearbeiten
         menu: Aktionen für %{name}
-        rename: Edit name and description
+        rename: Name und Beschreibung bearbeiten
       blank_slate:
         description: Create a workflow to define the status transitions a type or variant may use.
         filtered_description: No workflow matches the current filters.
@@ -8009,11 +8019,11 @@ de:
       label: Startpunkt
       scratch:
         caption: Start with a blank workflow and build it manually.
-        label: Start from scratch
+        label: Von Grund auf neu beginnen
       title: Configure a new workflow
     usage:
       dialog:
-        button: View dependent types
+        button: Abhängige Typen ansehen
         caption_html: The workflow %{name} is used in the following types and variants.
         title: Workflow used in types
         variant_of: Variante von %{type}

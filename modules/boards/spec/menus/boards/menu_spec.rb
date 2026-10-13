@@ -28,62 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  ##
-  # A select field to select a time zone from.
-  class TimeZoneSettingComponent < ::ApplicationComponent
-    options :form, :title
-    options container_class: "-wide"
-    options include_blank: true
+require "spec_helper"
 
-    # name of setting and tag
-    def name
-      model
-    end
+RSpec.describe Boards::Menu do
+  let(:project) { create(:project) }
+  let(:instance) { described_class.new(project:, params: {}) }
 
-    def render_select
-      if form.nil?
-        render_setting_select
-      else
-        render_form_select
+  describe "order" do
+    before do
+      [
+        "Board 10",
+        "Board 2",
+        "Board 1"
+      ].each do |name|
+        create(:board_grid, project:, name:)
       end
     end
 
-    def render_form_select
-      form.select(
-        name,
-        time_zone_entries,
-        include_blank:,
-        container_class:,
-        title:
-      )
-    end
-
-    def render_setting_select
-      helpers.setting_select(
-        name,
-        time_zone_entries,
-        include_blank:,
-        container_class:,
-        title:
-      )
-    end
-
-    def time_zone_entries
-      UserPreferences::UpdateContract
-        .assignable_time_zones
-        .group_by { |tz| tz.tzinfo.canonical_zone }
-        .map { |canonical_zone, included_zones| time_zone_option(canonical_zone, included_zones) }
-    end
-
-    private
-
-    def time_zone_option(canonical_zone, zones)
-      zone_names = zones.map(&:name).join(", ")
-      [
-        "(UTC#{ActiveSupport::TimeZone.seconds_to_utc_offset(canonical_zone.base_utc_offset)}) #{zone_names}",
-        canonical_zone.identifier
-      ]
+    it "orders boards by name with numbers naturally" do
+      expect(instance.global_queries)
+        .to match(["Board 1", "Board 2", "Board 10"].map { have_attributes(title: it) })
     end
   end
 end

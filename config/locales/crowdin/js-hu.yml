@@ -214,6 +214,7 @@ hu:
       ckeditor_error: 'Hiba történt a CKEditorban
 
         '
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'A dokumentum mentése a következő hiba miatt nem sikerült: %{error}'
       macro:
         attribute_reference:

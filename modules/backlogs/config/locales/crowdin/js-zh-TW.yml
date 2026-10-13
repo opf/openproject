@@ -24,31 +24,31 @@ zh-TW:
   js:
     backlogs:
       announcements:
-        batch_too_large: Cannot move %{count} work packages at once. Select no more than %{max}.
-        fallback_item_label: Work package
-        fallback_list_name: another list
-        move_failed_check_position: Move failed. Check the work package's current position.
+        batch_too_large: 無法一次移動 %{count} 的工作包。請選擇不超過 %{max} 個。
+        fallback_item_label: 工作項目
+        fallback_list_name: 另一份清單
+        move_failed_check_position: 移動失敗。請檢查工作項目的當前位置。
         move_failed_check_positions_batch:
-          other: Move failed. Check the work packages' current positions.
-        move_failed_rolled_back: Move failed. %{label} returned to its previous position.
+          other: 移動失敗。請檢查工作項目的當前位置。
+        move_failed_rolled_back: 移動失敗。 %{label} 已恢復至原先的位置。
         move_failed_rolled_back_batch:
-          other: Move failed. %{count} work packages returned to their previous positions.
-        moved: "%{label} moved to position %{position} of %{total}"
+          other: 移動失敗。 %{count} 工作項目已恢復至原先的位置。
+        moved: "%{label} 已移動至位置 %{position} 的 %{total}"
         moved_batch:
-          other: "%{count} work packages moved to positions %{first} through %{last} of %{total}"
+          other: "%{count} 已移至位置 %{first} 至 %{last} 的工作項目 %{total}"
         moved_batch_to_list:
-          other: "%{count} work packages moved to %{list}, positions %{first} through %{last} of %{total}"
-        moved_to_list: "%{label} moved to %{list}, position %{position} of %{total}"
+          other: "%{count} 已移至 %{list}的工作項目，以及 %{first} 至 %{last} 之間的職位 %{total}"
+        moved_to_list: "%{label} 已移至 %{list}，位置 %{position} 的 %{total}"
       selection:
-        card_state: Selected
-        cleared: Selection cleared.
-        not_selectable: Selection unchanged. This work package takes no part in this list's ordering.
-        range_blocked: Selection unchanged. That range contains a work package that takes no part in this list's ordering.
+        card_state: 已選取
+        cleared: 已清除選取項目。
+        not_selectable: 選項維持不變。此工作包不參與此清單的排序。
+        range_blocked: 選取範圍未變更。該範圍內包含一個工作包，該工作包不參與此清單的排序。
         range_restarted:
-          other: Could not extend the range. %{count} work packages selected.
-        range_unavailable: Selection unchanged. Expand this list to select that range.
+          other: 無法擴展範圍。已選取的工作包： %{count}。
+        range_unavailable: 選取範圍未變更。展開此清單以選取該範圍。
         selected:
-          other: "%{count} work packages selected."
+          other: "%{count} 已選定的工作項目。"
     burndown:
       day: 日
       points: 燃盡點

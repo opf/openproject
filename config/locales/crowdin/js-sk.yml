@@ -202,6 +202,7 @@ sk:
     description_subwork_package: 'Podradený pracovný balík #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Uloženie dokumentu zlyhalo s nasledujúcou chybou: %{error}'
       macro:
         attribute_reference:

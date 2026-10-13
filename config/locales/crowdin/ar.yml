@@ -399,6 +399,8 @@ ar:
         ongoing: Ongoing
         spent_on: التاريخ
         type: النّوع
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: التقويم
         ical_token_query_assignment: Query assignment
@@ -5594,6 +5596,17 @@ ar:
           create_button: إنشاء
           dialog_body: This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name.
           dialog_title: Create new API token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            zero: "%{count} days (%{date})"
+            one: 1 day (%{date})
+            two: "%{count} days (%{date})"
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
       failed_to_reset_token: 'Failed to reset access token: %{error}'
@@ -5623,6 +5636,7 @@ ar:
     access_tokens:
       access_tokens: Access tokens
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: الإجراء
         expiration: انتهاء الصلاحية

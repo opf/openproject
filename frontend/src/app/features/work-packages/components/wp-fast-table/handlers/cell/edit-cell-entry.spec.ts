@@ -62,6 +62,34 @@ describe('Edit cell entry', () => {
     });
   });
 
+  describe('when the user requires a double click', () => {
+    beforeEach(() => renderTable({ editing: {}, requireDoubleClickForInlineEdit: true }));
+
+    it('selects the row on a single click instead of opening the editor', async () => {
+      fireEvent.click(subjectField('1'));
+
+      await expect(waitFor(() => within(harness.row('1')).getByRole('textbox'), { timeout: 300 })).rejects.toThrow();
+      expect(harness.selection.getSelectedWorkPackageIds()).toEqual(['1']);
+      expect(harness.focus.focusedWorkPackage).toBe('1');
+    });
+
+    it('opens the editor on a double click without opening the work package', async () => {
+      const itemClicked = vi.fn();
+      harness.outputs.itemClicked.subscribe(itemClicked);
+
+      fireEvent.dblClick(subjectField('1'));
+
+      await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+      expect(itemClicked).not.toHaveBeenCalled();
+    });
+
+    it('opens the editor on Enter', async () => {
+      fireEvent.keyDown(subjectField('1'), { key: 'Enter' });
+
+      await waitFor(() => expect(within(harness.row('1')).getByRole('textbox')).toHaveFocus());
+    });
+  });
+
   describe('when the loaded form refuses the field', () => {
     beforeEach(() => renderTable({ editing: { formWritable: false } }));
 

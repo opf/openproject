@@ -399,6 +399,8 @@
         ongoing: Pågående
         spent_on: Dato
         type: Type
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalender
         ical_token_query_assignment: Query assignment
@@ -4940,6 +4942,13 @@
           create_button: Opprett
           dialog_body: Dette tokenet tillater tredjepartsprogrammer å kommunisere med forekomsten. For å differensiere den nye API-token, vennligst gi den et navn.
           dialog_title: Opprett nytt API-token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Tilgangsnøkkelen kunne ikke opprettes: %{error}'
       failed_to_reset_token: 'Tilgangstoken kunne ikke tilbakestilles: %{error}'
@@ -4969,6 +4978,7 @@
     access_tokens:
       access_tokens: Tilgangsnøkler
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Handling
         expiration: Utløper

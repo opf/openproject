@@ -28,17 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
-
-RSpec.describe Settings::TimeZoneSettingComponent, type: :component do
-  subject { render_inline(described_class.new("user_default_timezone")) }
-
-  it "renders the timezones as options, grouping cities with the same identifier" do
-    subject
-
-    expect(page).to have_css("option[value=\"America/Los_Angeles\"]",
-                             text: "(UTC-08:00) Pacific Time (US & Canada)")
-    expect(page).to have_css("option[value=\"Europe/Berlin\"]", text: "(UTC+01:00) Berlin, Copenhagen, Stockholm")
-    expect(page).to have_css("option[value=\"Asia/Shanghai\"]", text: "(UTC+08:00) Beijing, Chongqing")
+module Admin
+  module Settings
+    class UsersSettings::AccountForm < ApplicationForm
+      settings_form do |sf|
+        sf.fieldset_group(title: I18n.t(:"settings.user.account")) do |fg|
+          fg.check_box(name: :user_can_change_email)
+        end
+      end
+    end
   end
 end

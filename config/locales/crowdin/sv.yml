@@ -399,6 +399,8 @@ sv:
         ongoing: Pågående
         spent_on: Datum
         type: Typ
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalender
         ical_token_query_assignment: Tilldelning av fråga
@@ -4936,6 +4938,13 @@ sv:
           create_button: Skapa
           dialog_body: Denna token gör det möjligt för tredjepartsprogram att kommunicera med din instans. Ge den nya API-token ett namn så att du kan skilja den från andra.
           dialog_title: Skapa ny API-token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Namn på token
       failed_to_create_token: 'Det gick inte att skapa åtkomsttoken: %{error}'
       failed_to_reset_token: 'Misslyckades med att återställa åtkomst-token: %{error}'
@@ -4965,6 +4974,7 @@ sv:
     access_tokens:
       access_tokens: Åtkomstnycklar
       description: Leverantörstoken utfärdas av OpenProject och låter andra program komma åt OpenProject. Klienttoken utfärdas av andra program och låter OpenProject komma åt dem.
+      expired_on: Expired on %{date}
       headers:
         action: Åtgärd
         expiration: Upphör

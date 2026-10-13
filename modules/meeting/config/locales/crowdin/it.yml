@@ -484,6 +484,7 @@ it:
       no_items: Nessun punto all'ordine del giorno
       no_items_flash: Non ci sono punti all'ordine del giorno da presentare.
       previous: Precedente
+      slide_progress: Slide %{current}/%{total}
       title: Modalità Presentazione
       total_items: "%{current} di %{total}"
     types:
@@ -696,6 +697,7 @@ it:
   text_agenda_item_duplicate_in_next_meeting: Vuoi davvero aggiungere una copia di questo punto all'ordine del giorno della prossima riunione, il giorno %{date} alle ore %{time}? I risultati non verranno duplicati.
   text_agenda_item_duplicated_in_next_meeting: Punto all'ordine del giorno duplicato nella prossima riunione, il giorno %{date}
   text_agenda_item_move_next_meeting: Questo punto sarà spostato alla prossima riunione il giorno %{date} alle ore %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Punto all'ordine del giorno spostato alla prossima riunione, il giorno %{date}
   text_agenda_item_no_available_occurrence: Non sono disponibili occorrenze imminenti.
   text_agenda_item_no_notes: Nessuna nota fornita

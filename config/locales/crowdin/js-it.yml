@@ -202,6 +202,7 @@ it:
     description_subwork_package: 'Subordinata alla macro-attività #%{id}'
     editor:
       ckeditor_error: Si è verificato un errore all'interno di CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Il salvataggio del documento è fallito con il seguente errore: %{error}'
       macro:
         attribute_reference:

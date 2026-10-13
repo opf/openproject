@@ -202,6 +202,7 @@ zh-CN:
     description_subwork_package: '子工作包 #%{id}'
     editor:
       ckeditor_error: CKEditor 发生错误
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 保存文档失败，出现以下错误：%{error}
       macro:
         attribute_reference:

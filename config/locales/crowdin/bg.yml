@@ -399,6 +399,8 @@ bg:
         ongoing: Ongoing
         spent_on: Дата
         type: Тип
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Календар
         ical_token_query_assignment: Query assignment
@@ -4938,6 +4940,13 @@ bg:
           create_button: Създаване
           dialog_body: Този токен ще позволи на приложенията на трети страни да комуникират с вашата инстанция. За да разграничите новия API токен, дайте му име.
           dialog_title: Създайте нов API токен
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Неуспешно създаване на токен за достъп: %{error}'
       failed_to_reset_token: 'Неуспешно нулиране на токена за достъп: %{error}'
@@ -4967,6 +4976,7 @@ bg:
     access_tokens:
       access_tokens: Токени за достъп
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Действие
         expiration: Изтича на

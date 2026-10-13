@@ -508,6 +508,7 @@ uk:
       no_items: Не має плану зустрічі
       no_items_flash: Не доданий план зустрічі.
       previous: Попереднє
+      slide_progress: Slide %{current}/%{total}
       title: Режим презентації
       total_items: "%{current} з %{total}"
     types:
@@ -728,6 +729,7 @@ uk:
   text_agenda_item_duplicate_in_next_meeting: Справді додати копію цього пункту порядку денного в наступну нараду, що відбудеться %{date} о %{time}? Результати не дублюватимуться.
   text_agenda_item_duplicated_in_next_meeting: Пункт порядку денного продубльовано в нову нараду, що відбудеться %{date}
   text_agenda_item_move_next_meeting: Цей пункт буде перенесено на наступну нараду, що відбудеться %{date} о %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Пункт порядку денного переміщено в нову нараду, що відбудеться %{date}
   text_agenda_item_no_available_occurrence: Немає майбутніх подій.
   text_agenda_item_no_notes: Примітки не надано

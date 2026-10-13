@@ -28,17 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  ##
-  # A language switch and text area for updating a localized text setting.
-  class TextSettingComponent < ::ApplicationComponent
-    include OpenProject::FormTagHelper
-    include Settings::FormHelper
+class SetGridNameCollation < ActiveRecord::Migration[8.1]
+  def up
+    # It should probably be a string (varchar), but there is no difference for
+    # postgresql, so keeping it as is
+    change_column :grids, :name, :text, collation: "natural_sort_order"
+  end
 
-    options :name # name of setting and tag to differentiate between different language selects
-
-    def current_language
-      model
-    end
+  def down
+    change_column :grids, :name, :text
   end
 end

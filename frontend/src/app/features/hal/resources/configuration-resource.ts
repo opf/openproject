@@ -32,6 +32,7 @@ export interface ConfigurationUserPreferences {
   timeZone:string;
   commentSortDescending:boolean;
   disableKeyboardShortcuts:boolean;
+  requireDoubleClickForInlineEdit:boolean;
   warnOnLeavingUnsaved:boolean;
   autoHidePopups:boolean;
 }

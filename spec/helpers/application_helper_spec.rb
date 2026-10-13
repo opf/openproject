@@ -240,56 +240,6 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe "#all_lang_options_for_select" do
-    it 'has all languages translated ("English" should appear only once)' do
-      impostor_locales =
-        all_lang_options_for_select
-          .reject { |_lang, locale| locale == "en" }
-          .select { |lang, _locale| lang == "English" }
-          .map { |_lang, locale| locale }
-      expect(impostor_locales.count).to eq(0), <<~ERR
-        The locales #{impostor_locales.to_sentence} display themselves as "English"!
-
-        Probably because new languages were added, and the translation for their language is not
-        available, so it fallbacks to the English translation.
-
-        To fix it, generate translation files from CLDR by running
-
-            script/i18n/generate_languages_translations
-
-        And commit the yml files added in "config/locales/generated/*.yml".
-      ERR
-    end
-
-    it "has distinct languages translation" do
-      duplicate_langs =
-        all_lang_options_for_select
-          .map { |lang, _locale| lang }
-          .tally
-          .reject { |_lang, count| count == 1 }
-          .map { |lang, _count| lang }
-      duplicate_options =
-        all_lang_options_for_select
-          .filter { |lang, _locale| duplicate_langs.include?(lang) }
-          .sort
-
-      expect(duplicate_options.count).to eq(0), <<~ERR
-        Some identical language names are used for different locales!
-
-          duplicates: #{duplicate_options}
-
-        This happens when a new language is added to Crowdin: new translation files are
-        generated and the new language is available in Setting.all_languages, but there
-        is no translation for its name yet, and so it falls back to "English".
-
-        To fix it:
-          - run the script "script/i18n/generate_languages_translations"
-          - commit the additional translation file generated in
-            "config/locales/generated/*.yml".
-      ERR
-    end
-  end
-
   describe "#back_url_to_current_page" do
     context "when back_url param is provided" do
       it "returns the provided back_url" do

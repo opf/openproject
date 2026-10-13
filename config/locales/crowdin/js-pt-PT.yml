@@ -202,6 +202,7 @@ pt-PT:
     description_subwork_package: 'Filho de pacote de trabalho #%{id}'
     editor:
       ckeditor_error: Ocorreu um erro no CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'Ao guardar o documento, ocorreu o seguinte erro: %{error}'
       macro:
         attribute_reference:

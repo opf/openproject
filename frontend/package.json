@@ -6,6 +6,7 @@
   "private": true,
   "devDependencies": {
     "@angular-builders/custom-esbuild": "^22.0.0",
+    "@angular/build": "22.1.9",
     "@angular/language-service": "22.1.8",
     "@eslint/js": "^10.0.1",
     "@html-eslint/eslint-plugin": "^0.66.1",
@@ -203,16 +204,21 @@
     "typecheck:spec": "tsc --noEmit -p tsconfig.spec.json",
     "postinstall": "patch-package"
   },
+  "overrides": {
+    "@angular/build": {
+      ".": "$@angular/build",
+      "piscina": "5.3.2"
+    }
+  },
   "allowScripts": {
-    "esbuild@0.28.1": true,
-    "esbuild@0.27.7": true,
-    "@parcel/watcher@2.5.6": true,
-    "fsevents@2.3.3": true,
-    "fsevents@2.3.2": true,
-    "lmdb@3.5.4": true,
-    "msgpackr-extract@3.0.4": true,
-    "core-js": false,
+    "@parcel/watcher@2.6.0": true,
     "core-js-pure": false,
-    "es5-ext@0.10.64": true
+    "core-js": false,
+    "es5-ext@0.10.64": true,
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.2": true,
+    "fsevents@2.3.3": true,
+    "lmdb@3.5.6": true,
+    "msgpackr-extract@3.0.4": true
   }
 }

@@ -399,6 +399,8 @@ uk:
         ongoing: Триває
         spent_on: Дата
         type: Тип
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Календар
         ical_token_query_assignment: Призначення запиту
@@ -5267,6 +5269,15 @@ uk:
           create_button: Створити
           dialog_body: За допомогою цього маркера сторонні додатки зможуть взаємодіяти з вашим екземпляром. Призначте  новому інтерфейсу API ім’я, щоб ідентифікувати його.
           dialog_title: Створити новий маркер API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Ім’я маркера
       failed_to_create_token: 'Не вдалося створити маркер доступу: %{error}'
       failed_to_reset_token: 'Не вдалося відновити маркер доступу: %{error}'
@@ -5296,6 +5307,7 @@ uk:
     access_tokens:
       access_tokens: Маркери доступу
       description: Маркери постачальника послуг випускаються в OpenProject, що дає змогу іншим додаткам отримувати до них доступ. Клієнтські маркери випускаються іншими додатками, що дає змогу OpenProject отримати до них доступ.
+      expired_on: Expired on %{date}
       headers:
         action: Дія
         expiration: Закінчується

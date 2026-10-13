@@ -202,6 +202,7 @@ si:
     description_subwork_package: 'වැඩ පැකේජය දරුවා #%{id}'
     editor:
       ckeditor_error: An error occurred within CKEditor
+      ckeditor_error_reload: The editor stopped working. Your text is still here, but you cannot change it. Copy any text you want to keep, then reload the page.
       error_saving_failed: 'පහත දැක්වෙන දෝෂය සමඟ ලේඛනය සුරැකීම අසාර්ථක විය: %{error}'
       macro:
         attribute_reference:

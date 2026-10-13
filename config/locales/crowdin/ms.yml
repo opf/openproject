@@ -401,6 +401,8 @@ ms:
         ongoing: Sedang berlangsung
         spent_on: Tarikh
         type: Jenis
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Kalendar
         ical_token_query_assignment: Query assignment
@@ -4790,6 +4792,12 @@ ms:
           create_button: Cipta
           dialog_body: Token ini akan membenarkan aplikasi pihak ketiga berkomunikasi dengan contoh anda. Untuk membezakan token API baharu, sila beri nama.
           dialog_title: Cipta token API baharu
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Gagal membuat token akses: %{error}'
       failed_to_reset_token: 'Gagal untuk set semula token akses: %{error}'
@@ -4819,6 +4827,7 @@ ms:
     access_tokens:
       access_tokens: Token akses
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Tindakan
         expiration: Tamat tempoh

@@ -472,6 +472,7 @@ ko:
       no_items: 의제 항목 없음
       no_items_flash: 발표할 의제 항목이 없습니다.
       previous: 이전
+      slide_progress: Slide %{current}/%{total}
       title: 프레젠테이션 모드
       total_items: "%{current}/%{total}"
     types:
@@ -676,6 +677,7 @@ ko:
   text_agenda_item_duplicate_in_next_meeting: "%{date}, %{time}의 다음 미팅에 이 의제의 사본을 추가하시겠습니까? 결과는 복제되지 않습니다."
   text_agenda_item_duplicated_in_next_meeting: 의제 항목이 %{date}의 다음 미팅에서 복제되었습니다
   text_agenda_item_move_next_meeting: 이 항목은 %{date}, %{time}에 다음 미팅으로 이동됩니다.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: 의제 항목이 %{date}의 다음 미팅으로 이동되었습니다.
   text_agenda_item_no_available_occurrence: 향후 항목이 없습니다.
   text_agenda_item_no_notes: 제공된 메모 없음
