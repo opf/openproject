@@ -43,14 +43,14 @@ RSpec.describe "Work package type configuration source",
 
   describe "rendering the tabs" do
     it "renders a variant's PDF tab with the mode selector in manual mode" do
-      get edit_type_pdf_export_template_index_path(**variant.path_args)
+      get edit_type_variant_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Configure this page manually")
     end
 
     it "renders a variant's subject tab with the mode selector in manual mode" do
-      get edit_type_defaults_path(**variant.path_args)
+      get edit_type_variant_defaults_path(type_id: type.id, variant_id: variant.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Configure this page manually")
@@ -72,18 +72,18 @@ RSpec.describe "Work package type configuration source",
     it "links to the parent type in the inherit option when Linked" do
       link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-      get edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
+      get edit_type_variant_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
       expect(response.body).to include(type.default_variant.composite_name)
       expect(response.body).to include(
-        edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: type.default_variant.id)
+        edit_type_pdf_export_template_index_path(type_id: type.id)
       )
     end
 
     it "shows a read-only preview instead of the editable editor when Linked" do
       link_configuration(variant, aspect: TypeVariant::PDF_EXPORT)
 
-      get edit_type_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
+      get edit_type_variant_pdf_export_template_index_path(type_id: type.id, variant_id: variant.id)
 
       # the preview lists the templates but drops the editable enable/disable actions
       expect(response.body).to include("PDF Export templates")
@@ -96,19 +96,19 @@ RSpec.describe "Work package type configuration source",
       type.default_variant.update!(patterns: { subject: { blueprint: "PR-{{id}}", enabled: true } })
       link_configuration(variant, aspect: TypeVariant::DEFAULTS)
 
-      get edit_type_defaults_path(type_id: type.id, variant_id: variant.id)
+      get edit_type_variant_defaults_path(type_id: type.id, variant_id: variant.id)
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("PR-{{id}}")
       expect(response.body).to include(
-        edit_type_defaults_path(type_id: type.id, variant_id: type.default_variant.id)
+        edit_type_defaults_path(type_id: type.id)
       )
     end
   end
 
   describe "GET dialog" do
     it "renders the switch-to-inherited confirmation dialog" do
-      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
+      get type_variant_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
           as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -117,16 +117,16 @@ RSpec.describe "Work package type configuration source",
     end
 
     it "submits back to the switch action of the variant it was opened for" do
-      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
+      get type_variant_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect:),
           as: :turbo_stream
 
       expect(response.body).to include(
-        type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:)
+        type_variant_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:)
       )
     end
 
     it "is not found for an unknown aspect" do
-      get type_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect: "not_an_aspect"),
+      get type_variant_configuration_link_dialog_path(type_id: type.id, variant_id: variant.id, aspect: "not_an_aspect"),
           as: :turbo_stream
 
       expect(response).to have_http_status(:not_found)
@@ -135,7 +135,7 @@ RSpec.describe "Work package type configuration source",
 
   describe "POST switch" do
     it "links the aspect to the parent, closes the dialog and dispatches the reload event" do
-      post type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
+      post type_variant_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            as: :turbo_stream
 
       expect(response).to have_http_status(:ok)
@@ -159,7 +159,7 @@ RSpec.describe "Work package type configuration source",
     it "requires admin" do
       login_as create(:user)
 
-      post type_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
+      post type_variant_configuration_link_switch_path(type_id: type.id, variant_id: variant.id, aspect:),
            as: :turbo_stream
 
       expect(response).not_to be_successful

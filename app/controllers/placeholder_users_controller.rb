@@ -167,11 +167,15 @@ class PlaceholderUsersController < ApplicationController
   end
 
   def destroy
-    PlaceholderUsers::DeleteService
+    call = PlaceholderUsers::DeleteService
       .new(user: User.current, model: @placeholder_user)
       .call
 
-    flash[:info] = I18n.t(:notice_deletion_scheduled)
+    if call.success?
+      flash[:info] = I18n.t(:notice_deletion_scheduled)
+    else
+      flash[:error] = call.message
+    end
 
     respond_to do |format|
       format.html do

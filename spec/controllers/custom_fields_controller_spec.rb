@@ -31,79 +31,29 @@
 require "spec_helper"
 
 RSpec.describe CustomFieldsController do
+  render_views
+
   shared_let(:admin) { create(:admin) }
 
-  let(:custom_field) { build_stubbed(:custom_field) }
+  describe "GET index" do
+    it "requires admin" do
+      login_as create(:user)
+      get :index
 
-  before do
-    login_as admin
-  end
-
-  describe "POST edit" do
-    before do
-      allow(CustomField).to receive(:find).and_return(custom_field)
-      allow(custom_field).to receive(:save).and_return(true)
+      expect(response).to have_http_status(:forbidden)
     end
 
-    describe "WITH all ok params" do
-      let(:params) do
-        {
-          "custom_field" => { "name" => "Issue Field" }
-        }
-      end
+    it "renders the overview with pointers to the dedicated pages" do
+      login_as admin
+      get :index
 
-      before do
-        put :update, params: params.merge(id: custom_field.id)
-      end
-
-      it "works" do
-        expect(response).to be_redirect
-        expect(custom_field.name).to eq("Issue Field")
-      end
-    end
-  end
-
-  describe "POST new" do
-    describe "WITH empty name param" do
-      let(:params) do
-        {
-          "type" => "WorkPackageCustomField",
-          "custom_field" => {
-            "name" => "",
-            "field_format" => "string"
-          }
-        }
-      end
-
-      before do
-        post :create, params:
-      end
-
-      it "responds with error" do
-        expect(response).to render_template "new"
-        expect(assigns(:custom_field).errors.messages[:name].first).to eq("can't be blank.")
-      end
-    end
-
-    describe "WITH all ok params" do
-      let(:params) do
-        {
-          "type" => "WorkPackageCustomField",
-          "custom_field" => {
-            "name" => "field",
-            "field_format" => "string"
-          }
-        }
-      end
-
-      before do
-        post :create, params:
-      end
-
-      it "responds ok" do
-        expect(response).to be_redirect
-        expect(CustomField.last.name).to eq "field"
-      end
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(admin_settings_work_package_custom_fields_path)
+      expect(response.body).to include(admin_settings_version_custom_fields_path)
+      expect(response.body).to include(admin_settings_user_custom_fields_path)
+      expect(response.body).to include(admin_settings_time_entry_custom_fields_path)
+      expect(response.body).to include(admin_settings_group_custom_fields_path)
+      expect(response.body).to include(admin_settings_project_custom_fields_path)
     end
   end
 end

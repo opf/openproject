@@ -36,7 +36,7 @@ module Meetings
 
     DRAFT = RECORD.new(id: "draft", color: Color.new(hexcode: "#BF3989"))
     OPEN = RECORD.new(id: "open", color: Color.new(hexcode: "#006edb"))
-    IN_PROGRESS = RECORD.new(id: "in_progress", color: Color.new(hexcode: "#894ceb"))
+    IN_PROGRESS = RECORD.new(id: "in_progress", color: Color.new(hexcode: "#1F883D"))
     CLOSED = RECORD.new(id: "closed", color: Color.new(hexcode: "#25292e"))
 
     AVAILABLE = [

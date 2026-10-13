@@ -1,0 +1,66 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module GitlabIntegration
+  class CollapsibleItemsComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpPrimer::ComponentHelpers
+
+    attr_reader :heading, :container
+
+    alias_method :items, :model
+
+    def initialize(model = nil, container_id:, heading:, work_package:, empty_state: {}, **)
+      @container_id = container_id
+      @heading = heading
+      @work_package = work_package
+      @empty_state = empty_state
+
+      super(model, **)
+    end
+
+    private
+
+    def component_for(item)
+      case item
+      when GitlabBranch
+        BranchComponent.new(item)
+      when GitlabCommit
+        CommitComponent.new(item)
+      when GitlabIssue
+        IssueComponent.new(item)
+      when GitlabMergeRequest
+        MergeRequestComponent.new(item)
+      else
+        raise ArgumentError, "Items of type #{item.class} are not yet supported by #{self.class}"
+      end
+    end
+  end
+end

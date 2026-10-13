@@ -20,19 +20,16 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { Injector } from '@angular/core';
-import { StateService } from '@uirouter/core';
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { States } from 'core-app/core/states/states.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { displayClassName } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { activeFieldClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -43,11 +40,7 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class RowDoubleClickHandler implements TableEventHandler {
   // Injections
-  @LazyInject() public $state:StateService;
-
   @LazyInject() public states:States;
-
-  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 

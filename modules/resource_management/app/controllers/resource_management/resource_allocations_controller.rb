@@ -57,14 +57,18 @@ module ::ResourceManagement
     # make Turbo restore focus to the date input afterwards, reopening its
     # date picker. Uses the EmptyContract so in-progress input never surfaces
     # validation errors while the user types.
-    def refresh_form
-      allocation = set_attributes(allocation_params, contract_class: EmptyContract).result
+    def refresh_form # rubocop:disable Metrics/AbcSize
+      model = params[:id].present? ? find_resource_allocation : ResourceAllocation.new
+      allocation = set_attributes(allocation_params, contract_class: EmptyContract, model:).result
 
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ScheduleViolationBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::MissingWorkingHoursBannerComponent.new(allocation:)
+      )
+      replace_via_turbo_stream(
+        component: ResourceAllocations::AllocationStep::DeletedAssigneeBannerComponent.new(allocation:)
       )
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::ResourceFilterComponent.new(allocation:)
@@ -228,9 +232,9 @@ module ::ResourceManagement
       @availability ||= ResourceAllocations::Availability.new(user: allocation.principal)
     end
 
-    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract)
+    def set_attributes(attributes, contract_class: ResourceAllocations::CreateContract, model: ResourceAllocation.new)
       ResourceAllocations::SetAttributesService
-        .new(user: current_user, model: ResourceAllocation.new, contract_class:)
+        .new(user: current_user, model:, contract_class:)
         .call(attributes)
     end
 
@@ -410,9 +414,16 @@ module ::ResourceManagement
     # the mismatch by name, and the form warns about it while the dialog is open.
     def selected_placeholder_or_user(placeholder_or_user_id)
       return if placeholder_or_user_id.blank?
+      # The current assignee is kept even when no longer visible, such as a deleted user.
+      return @resource_allocation.principal if current_principal_id?(placeholder_or_user_id)
 
       User.visible(current_user).find_by(id: placeholder_or_user_id) ||
         PlaceholderUser.allocatable(current_user).find_by(id: placeholder_or_user_id)
+    end
+
+    def current_principal_id?(placeholder_or_user_id)
+      @resource_allocation&.principal_id.present? &&
+        @resource_allocation.principal_id.to_s == placeholder_or_user_id.to_s
     end
 
     def preselected_work_package

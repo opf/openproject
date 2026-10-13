@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,13 +29,10 @@ import { Injector } from '@angular/core';
 import { CardEventHandler } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { StateService } from '@uirouter/core';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardDblClickHandler implements CardEventHandler {
-  @LazyInject() $state:StateService;
-
   @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector,

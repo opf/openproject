@@ -84,7 +84,7 @@ RSpec.describe "Work package type projects tab", :js do
     visit edit_type_projects_path(type_id: type.id)
     expect_listed(on_base, on_hardware, on_firmware)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect_listed(on_hardware)
   end
 
@@ -181,7 +181,7 @@ RSpec.describe "Work package type projects tab", :js do
   end
 
   it "adds a parent with its sub-projects when one of them is already on the variant" do
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects_including_sub_items(parent)
 
@@ -221,7 +221,7 @@ RSpec.describe "Work package type projects tab", :js do
     outside = create(:project, name: "Shipyard")
     inside = create(:project, name: "Annex", parent: outside)
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
 
     add_projects(outside, include_sub_items: false)
 
@@ -240,7 +240,7 @@ RSpec.describe "Work package type projects tab", :js do
     visit edit_type_projects_path(type_id: type.id)
     expect(page).to have_test_selector("quick-filter-select-panel-button")
 
-    visit edit_type_projects_path(type_id: type.id, variant_id: hardware.id)
+    visit edit_type_variant_projects_path(type_id: type.id, variant_id: hardware.id)
     expect(page).to have_no_test_selector("quick-filter-select-panel-button")
     expect(page).to have_test_selector("type-projects-add-button")
   end

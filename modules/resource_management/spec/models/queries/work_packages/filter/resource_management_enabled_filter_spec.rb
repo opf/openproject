@@ -52,7 +52,7 @@ RSpec.describe Queries::WorkPackages::Filter::ResourceManagementEnabledFilter do
 
   it "is registered on the work package query but withheld from the filter picker" do
     expect(Queries::Register.filters[Query]).to include(described_class)
-    expect(Queries::Register.excluded_filters).to include(described_class)
+    expect(Queries::Register.excluded_filters[Query]).to include(described_class)
   end
 
   describe "filtering for true" do

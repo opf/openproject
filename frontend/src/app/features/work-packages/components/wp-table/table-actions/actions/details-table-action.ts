@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,6 @@
 import { contextColumnIcon, OpTableAction } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 
-import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -45,8 +43,7 @@ export class OpDetailsTableAction extends OpTableAction {
     this.injector.get(KeepTabService),
     this.injector.get(CurrentProjectService),
     this.injector.get(PathHelperService),
-    this.injector.get(UrlParamsService),
-    this.injector.get(StateService));
+    this.injector.get(UrlParamsService));
 
   private text = {
     button: this.I18n.t('js.button_open_details'),

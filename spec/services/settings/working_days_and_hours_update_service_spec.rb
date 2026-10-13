@@ -46,9 +46,9 @@ RSpec.describe Settings::WorkingDaysAndHoursUpdateService do
                     errors: instance_double(ActiveModel::Error))
   end
   let(:params_contract_success) { true }
-  let(:setting_name) { :a_setting_name }
-  let(:new_setting_value) { "a_new_setting_value" }
-  let(:previous_setting_value) { "the_previous_setting_value" }
+  let(:setting_name) { :hours_per_day }
+  let(:new_setting_value) { "7" }
+  let(:previous_setting_value) { 8 }
   let(:setting_params) { { setting_name => new_setting_value } }
   let(:non_working_days_params) { {} }
   let(:params) { setting_params.merge(non_working_days: non_working_days_params) }

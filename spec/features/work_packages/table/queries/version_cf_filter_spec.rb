@@ -42,8 +42,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
       :version_wp_custom_field,
       name: "Versions 1",
       multi_value: true,
-      types: [type],
-      projects: [project, inaccessible_project]
+      types: [type]
     )
   end
   shared_let(:version_cf2) do
@@ -51,8 +50,7 @@ RSpec.describe "Work package filtering by version custom field", :js do
       :version_wp_custom_field,
       name: "Versions 2",
       multi_value: true,
-      types: [type],
-      projects: [project, inaccessible_project]
+      types: [type]
     )
   end
   shared_let(:version1) { create(:version, project:, name: "Version 1") }

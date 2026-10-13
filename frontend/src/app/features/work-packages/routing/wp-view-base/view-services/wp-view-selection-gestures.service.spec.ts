@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -56,6 +55,7 @@ describe('WorkPackageViewSelectionGesturesService', () => {
     });
     gestures = TestBed.inject(WorkPackageViewSelectionGesturesService);
     selection = TestBed.inject(WorkPackageViewSelectionService);
+    TestBed.inject(IsolatedQuerySpace).tableRendered.putValue(rendered);
   });
 
   describe('#handleClick', () => {
@@ -90,16 +90,66 @@ describe('WorkPackageViewSelectionGesturesService', () => {
       expect(selected()).toEqual(['3']);
     });
 
-    it('ranges first and then toggles when shift and ctrl are both held', () => {
+    it('gives Shift precedence over toggle modifiers', () => {
       gestures.handleClick('1', rendered, {});
       gestures.handleClick('3', rendered, { shiftKey: true, ctrlKey: true });
 
-      expect(selected()).toEqual(['1', '2']);
+      expect(selected()).toEqual(['1', '2', '3']);
     });
   });
 
+  it('preserves independent picks while resizing a range', () => {
+    gestures.handleClick('1', rendered, {});
+    gestures.handleClick('3', rendered, { ctrlKey: true });
+    gestures.handleClick('4', rendered, { shiftKey: true });
+    expect(selected()).toEqual(['1', '3', '4']);
+    gestures.handleClick('3', rendered, { shiftKey: true });
+    expect(selected()).toEqual(['1', '3']);
+  });
+
+  it('follows the occurrence through reorder and clears a removed anchor', () => {
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    gestures.handleClick('2', rendered, {});
+    const reordered = [rendered[0], rendered[2], rendered[1], rendered[3]];
+    querySpace.tableRendered.putValue(reordered);
+    gestures.handleClick('4', reordered, { shiftKey: true });
+    expect(selected()).toEqual(['2', '4']);
+    const remaining = [rendered[0], rendered[2], rendered[3]];
+    querySpace.tableRendered.putValue(remaining);
+    gestures.handleClick('3', remaining, { shiftKey: true });
+    expect(selected()).toEqual(['3']);
+  });
+
+  it('retains the occurrence across transient query loading', () => {
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    gestures.handleClick('2', rendered, {});
+    querySpace.tableRendered.clear('loading');
+    querySpace.tableRendered.putValue(rendered);
+    gestures.handleClick('4', rendered, { shiftKey: true });
+    expect(selected()).toEqual(['2', '3', '4']);
+  });
+
+  it('clears the occurrence after a concrete empty rendered result', () => {
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    gestures.handleClick('2', rendered, {});
+    querySpace.tableRendered.putValue([]);
+    querySpace.tableRendered.putValue(rendered);
+    gestures.handleClick('4', rendered, { shiftKey: true });
+    expect(selected()).toEqual(['4']);
+  });
+
+  it('continues reconciling after table listeners are stopped', () => {
+    const querySpace = TestBed.inject(IsolatedQuerySpace);
+    querySpace.stopAllSubscriptions.next();
+    gestures.handleClick('2', rendered, {});
+    querySpace.tableRendered.putValue([]);
+    querySpace.tableRendered.putValue(rendered);
+    gestures.handleClick('4', rendered, { shiftKey: true });
+    expect(selected()).toEqual(['4']);
+  });
+
   describe('#handleContextMenu', () => {
-    it('keeps a selection that contains the right-clicked work package', () => {
+    it('keeps a selection that contains the work package', () => {
       gestures.handleClick('1', rendered, {});
       gestures.handleClick('3', rendered, { ctrlKey: true });
       gestures.handleContextMenu('3', rendered);

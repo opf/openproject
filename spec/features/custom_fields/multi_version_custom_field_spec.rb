@@ -28,8 +28,7 @@ RSpec.describe "multi version custom field", :js do
       :version_wp_custom_field,
       name: "Fix version",
       multi_value: true,
-      types: [type],
-      projects: [project]
+      types: [type]
     )
   end
 

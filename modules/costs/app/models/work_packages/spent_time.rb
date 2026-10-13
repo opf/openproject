@@ -29,6 +29,13 @@
 #++
 
 module WorkPackages::SpentTime
+  extend ActiveSupport::Concern
+
+  included do
+    scopes :allowed_to_log_time,
+           :include_spent_time
+  end
+
   # Returns the total number of hours spent on this work package and its descendants.
   # The result can be a subset of the actual spent time in cases where the user's permissions
   # are limited, i.e. he lacks the view_time_entries and/or view_work_packages permission.

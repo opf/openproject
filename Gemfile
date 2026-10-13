@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.7"
+gem "doorkeeper", "~> 5.9.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -126,7 +126,7 @@ gem "bcrypt", "~> 3.1.22"
 gem "multi_json", "~> 1.21.2"
 
 gem "daemons"
-gem "good_job", "~> 4.19.2" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.3" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -140,10 +140,10 @@ gem "rack-attack", "~> 6.8.0"
 gem "browser", "~> 6.2.0"
 
 # Providing health checks
-gem "okcomputer", "~> 1.19.1"
+gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.15.0"
+gem "lograge", "~> 0.15.1"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.5.0"
+gem "mcp", "~> 1.6.0"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -201,15 +201,15 @@ gem "nokogiri", "~> 1.19.4"
 gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
-gem "ssrf_filter", "~> 1.3"
+gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.229"
+gem "aws-sdk-s3", "~> 1.232"
 
 gem "openproject-token", "~> 8.13.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
@@ -239,7 +239,11 @@ gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
+gem "openproject-octicons", "~>19.37.0"
+gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-primer_view_components", "~>0.92.0"
 gem "view_component", "~> 4.15.0"
+
 # Lookbook
 gem "lookbook", "2.3.15"
 
@@ -304,7 +308,7 @@ group :test do
   gem "cuprite", "~> 0.18.0"
   gem "rspec-wait"
   gem "selenium-devtools"
-  gem "selenium-webdriver", "~> 4.48"
+  gem "selenium-webdriver", "~> 4.49"
 
   gem "fuubar", "~> 2.5.0", require: false
   gem "timecop", "~> 0.9.0"
@@ -371,7 +375,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.37.0"
+  gem "rubocop-rails", "~> 2.38"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -431,11 +435,4 @@ gemfiles.each do |file|
   # We use send to allow dependabot to function
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
-end
-
-# Set cooldown 0 for our own gems
-source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.37.0"
-  gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.4"
 end

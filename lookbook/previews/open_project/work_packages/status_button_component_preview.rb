@@ -37,7 +37,8 @@ module OpenProject::WorkPackages
     # @param size [Symbol] select [small, medium, large]
     def playground(readonly: true, size: :medium)
       user = FactoryBot.build_stubbed(:admin)
-      work_package = FactoryBot.build_stubbed(:work_package, status: Status.first)
+      status = FactoryBot.build_stubbed(:status)
+      work_package = FactoryBot.build_stubbed(:work_package, status:)
       render(WorkPackages::StatusButtonComponent.new(work_package:,
                                                      user:,
                                                      readonly:,

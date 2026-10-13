@@ -36,7 +36,7 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
-  include WorkPackage::CustomActioned
+  include WorkPackage::Automatable
   include WorkPackage::Hooks
   # Must stay above WorkPackage::Journalized: its after_save persists the
   # version rows that the journal snapshot then reads.
@@ -247,11 +247,6 @@ class WorkPackage < ApplicationRecord
   def blocked?
     blockers
       .exists?
-  end
-
-  def add_time_entry(attributes = {})
-    attributes.reverse_merge!(project:, entity: self)
-    time_entries.build(attributes)
   end
 
   def to_s = to_fs
@@ -514,8 +509,7 @@ class WorkPackage < ApplicationRecord
     type_variant_ids = type_variant_ids_by_pair(work_packages)
 
     custom_fields = available_custom_fields_from_db(work_packages)
-                    .select("array_agg(projects.id) available_project_ids",
-                            "array_agg(wp_variants.own_id) available_type_ids",
+                    .select("array_agg(wp_variants.own_id) available_type_ids",
                             "custom_fields.*")
                     .group("custom_fields.id")
 
@@ -523,15 +517,9 @@ class WorkPackage < ApplicationRecord
       type_variant_id = type_variant_ids[custom_field_pair(work_package)]
 
       RequestStore.store[available_custom_field_key(work_package)] =
-        custom_fields.select { |cf| available_for?(cf, work_package, type_variant_id) }
+        custom_fields.select { |cf| cf.available_type_ids.include?(type_variant_id) }
     end
   end
-
-  def self.available_for?(custom_field, work_package, type_variant_id)
-    (custom_field.available_project_ids.include?(work_package.project_id) || custom_field.is_for_all?) &&
-      custom_field.available_type_ids.include?(type_variant_id)
-  end
-  private_class_method :available_for?
 
   # A work package stores its type, while its project may apply a variant resulting in a different
   # form configuration. The fields available therefore depend on the (project, type) pair
@@ -564,11 +552,8 @@ class WorkPackage < ApplicationRecord
     type_ids = type_variant_ids_by_pair(work_packages).values.compact.uniq
     return WorkPackageCustomField.none if type_ids.empty?
 
-    project_ids = work_packages.map(&:project_id).uniq
-    type_join = form_configuration_custom_fields_join(type_ids)
-
-    custom_fields_activated_in(type_join, project_ids)
-      .or(custom_fields_for_all(type_join))
+    WorkPackageCustomField
+      .joins(form_configuration_custom_fields_join(type_ids))
       .distinct
   end
   private_class_method :available_custom_fields_from_db
@@ -590,18 +575,18 @@ class WorkPackage < ApplicationRecord
   end
   private_class_method :custom_fields_for_all
 
-  # Match custom fields on the variant that owns the form configuration, excluding the ones it hides.
+  # Match custom fields on the variant that owns the form configuration,
+  # excluding fields that are hidden somewhere in the source
   def self.form_configuration_custom_fields_join(variant_ids)
     values = variant_ids.map { |id| "(#{id})" }.join(", ")
     driving_table = "JOIN (VALUES #{values}) AS wp_variants(own_id) ON TRUE"
-    join, source_variant_id, excluded =
-      TypeVariant.effective_configuration_join("wp_variants.own_id", TypeVariant::FORM_CONFIGURATION)
+    join, form_configuration_id, excluded = TypeVariant.form_configuration_join("wp_variants.own_id")
     exclusion = TypeVariant.excluded_custom_field_condition("custom_fields.id", excluded)
 
     "#{driving_table} #{join} " \
-      "JOIN custom_fields_types cft " \
-      "ON cft.custom_field_id = custom_fields.id AND cft.type_variant_id = #{source_variant_id} " \
-      "AND #{exclusion}"
+      "JOIN form_configuration_attributes fca " \
+      "ON fca.custom_field_id = custom_fields.id AND fca.form_configuration_id = #{form_configuration_id} " \
+      "AND fca.form_configuration_group_id IS NOT NULL AND #{exclusion}"
   end
   private_class_method :form_configuration_custom_fields_join
 
@@ -642,15 +627,6 @@ class WorkPackage < ApplicationRecord
     @derived_progress_hints ||= {}
   end
 
-  def add_time_entry_for(user, attributes)
-    return if time_entry_blank?(attributes)
-
-    attributes.reverse_merge!(user:,
-                              spent_on: Time.zone.today)
-
-    time_entries.build(attributes)
-  end
-
   def convert_duration_to_hours(value)
     if value.is_a?(String)
       begin
@@ -667,24 +643,6 @@ class WorkPackage < ApplicationRecord
       value = PercentageConverter.parse(value)
     end
     value
-  end
-
-  ##
-  # Checks if the time entry defined by the given attributes is blank.
-  # A time entry counts as blank despite a selected activity if that activity
-  # is simply the default activity and all other attributes are blank.
-  def time_entry_blank?(attributes)
-    return true if attributes.nil?
-
-    key = "activity_id"
-    id = attributes[key]
-    default_id = if id.present?
-                   Enumeration.exists? id:, is_default: true, type: "TimeEntryActivity"
-                 else
-                   true
-                 end
-
-    default_id && attributes.except(key).values.all?(&:blank?)
   end
 
   # Default assignment based on category

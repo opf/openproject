@@ -104,8 +104,8 @@ RSpec.describe AdminController do
         expect(response).to be_successful
         expect(response).to render_template "plugins"
 
-        expect(response.body).to have_css("td span", text: "Foo")
-        expect(response.body).to have_css("td span", text: "Bar")
+        expect(response.body).to have_css(".Box-row", text: "Foo")
+        expect(response.body).to have_css(".Box-row", text: "Bar")
       end
     end
 
@@ -118,6 +118,9 @@ RSpec.describe AdminController do
         get :plugins
         expect(response).to be_successful
         expect(response).to render_template "plugins"
+
+        expect(response.body).to have_css(".blankslate-heading",
+                                          text: "There are currently no plugins installed.")
       end
     end
   end

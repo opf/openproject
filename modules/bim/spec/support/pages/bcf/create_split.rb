@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -51,7 +53,7 @@ module Pages
       end
 
       def path
-        bcf_project_frontend_path(project, "create_new")
+        bcf_project_new_split_path(project)
       end
 
       def expect_current_path

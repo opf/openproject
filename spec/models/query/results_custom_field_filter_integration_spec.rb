@@ -54,8 +54,7 @@ RSpec.describe Query::Results, "Filtering custom fields" do
   shared_let(:type) { create(:type_task, custom_fields: [custom_field]) }
   shared_let(:project) do
     create(:project,
-           types: [type],
-           work_package_custom_fields: [custom_field])
+           types: [type])
   end
 
   shared_let(:wp_a) do

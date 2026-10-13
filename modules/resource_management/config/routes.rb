@@ -86,9 +86,8 @@ Rails.application.routes.draw do
     resources :resource_allocations,
               controller: "resource_management/resource_allocations",
               only: %i[new create edit update destroy] do
-      collection do
-        post :refresh_form
-      end
+      post :refresh_form, on: :collection
+      post :refresh_form, on: :member
     end
 
     resources :work_packages, only: [] do

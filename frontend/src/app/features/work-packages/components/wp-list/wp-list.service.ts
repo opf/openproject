@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -29,7 +28,6 @@
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
@@ -56,6 +54,7 @@ import { WorkPackageStatesInitializationService } from './wp-states-initializati
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
@@ -69,7 +68,6 @@ export class WorkPackagesListService {
   readonly I18n = inject(I18nService);
   protected UrlParamsHelper = inject(UrlParamsHelperService);
   protected authorisationService = inject(AuthorisationService);
-  protected $state = inject(StateService);
   protected urlParams = inject(UrlParamsService);
   protected apiV3Service = inject(ApiV3Service);
   protected states = inject(States);
@@ -316,11 +314,7 @@ export class WorkPackagesListService {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
         const queryAccessibleByUser = query.public || query.user.id === this.currentUser.userId;
         if (queryAccessibleByUser) {
-          if (this.isOnNonRouterPage()) {
-            this.navigateToQueryOnNonRouterPage(query.id);
-          } else {
-            void this.$state.go('.', { query_id: query.id, query_props: null }, { reload: true });
-          }
+          this.navigateToQueryOnNonRouterPage(query.id);
           this.states.changes.queries.next(query.id);
           this.reloadSidemenu(query.id);
         } else {
@@ -371,8 +365,7 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (!currentForm || query.$links.update?.href !== currentForm.href) {
+    if (!currentForm || (query.$links.update as CallableHalLink|undefined)?.href !== currentForm.href) {
       return this.loadForm(query);
     }
 
@@ -442,47 +435,35 @@ export class WorkPackagesListService {
   }
 
   private navigateToDefaultQuery(query:QueryResource):void {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const sideMenuOptions = this.$state.$current.data?.sideMenuOptions as { hardReloadOnBaseRoute?:boolean, defaultQuery?:string };
-    const hardReloadOnBaseRoute = sideMenuOptions?.hardReloadOnBaseRoute;
+    const { pathname } = window.location;
 
-    if (hardReloadOnBaseRoute) {
+    // Calendars and team planners address the shown query by an :id path segment
+    // (e.g. /calendars/42), so deleting it needs a hard reload onto the 'new'
+    // pseudo-path (the default, unsaved view) rather than an in-place query swap.
+    if (pathname.includes('/calendars/') || pathname.includes('/team_planners/')) {
       const url = new URL(window.location.href);
-      const defaultQuery = sideMenuOptions.defaultQuery;
-
-      // If there is a default query passed, we replace the hard coded ids with the default query
-      // e.g. calendars/:id, team_planner/:id, ...
-      // Otherwise, we will just delete the search params
-      if (defaultQuery) {
-        url.pathname = url.pathname.replace(/\d+$/, defaultQuery);
-      }
-
+      url.pathname = pathname.replace(/\/[^/]+$/, '/new');
       url.search = '';
       window.location.href = url.href;
-    } else {
-      let projectId;
-      if (query.project.href) {
-        projectId = query.project.href.split('/').pop();
-      }
-
-      void this.loadDefaultQuery(projectId);
-
-      this.states.changes.queries.next(query.id);
-      this.reloadSidemenu(null);
+      return;
     }
-  }
 
-  private isOnNonRouterPage():boolean {
-    return !this.$state.current.name || !!this.getNonRouterSidemenuId();
+    let projectId;
+    if (query.project.href) {
+      projectId = query.project.href.split('/').pop();
+    }
+
+    void this.loadDefaultQuery(projectId);
+
+    this.states.changes.queries.next(query.id);
+    this.reloadSidemenu(null);
   }
 
   private navigateToQueryOnNonRouterPage(queryId:string|null):void {
-    if (!this.isOnNonRouterPage()) { return; }
-
     const url = new URL(window.location.href);
     const { pathname } = url;
 
-    if (pathname.includes('/work_packages') || pathname.includes('/gantt')) {
+    if (pathname.includes('/work_packages') || pathname.includes('/gantt') || pathname.includes('/bcf')) {
       // List-based pages: the query id lives in the query_id search param, the path itself
       // doesn't address a specific view (unlike calendars/:id, team_planners/:id below).
       if (queryId) {
@@ -502,15 +483,14 @@ export class WorkPackagesListService {
   }
 
   private reloadSidemenu(selectedQueryId:string|null):void {
-    const sidemenuId = this.isOnNonRouterPage() ? this.getNonRouterSidemenuId() : undefined;
-    this.submenuService.reloadSubmenu(selectedQueryId, sidemenuId);
+    this.submenuService.reloadSubmenu(selectedQueryId, this.getNonRouterSidemenuId());
   }
 
   private getNonRouterSidemenuId():string|undefined {
     const { pathname } = window.location;
     if (pathname.includes('/calendars')) return 'calendar_sidemenu';
     if (pathname.includes('/team_planners')) return 'team_planner_sidemenu';
-    if (pathname.includes('/ifc_models')) return 'bim_sidemenu';
+    if (pathname.includes('/ifc_models') || pathname.includes('/bcf')) return 'bim_sidemenu';
     if (pathname.includes('/gantt')) return 'gantt_menu';
     if (pathname.includes('/work_packages')) return 'work_packages_sidemenu';
     return undefined;
