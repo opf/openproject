@@ -295,10 +295,8 @@ en:
       report:
         checked_at: "Checked at"
         connection: "Connection"
-        setting: "Setting"
         settings: "Connection settings"
         title: "LLM connection health report"
-        value: "Value"
       server:
         credentials_accepted: "The server accepts the API key"
         header: "Server"

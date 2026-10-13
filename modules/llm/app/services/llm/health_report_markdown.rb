@@ -56,13 +56,9 @@ module Llm
     end
 
     def settings
-      rows = connection.non_confidential_configuration.map { |key, value| "| #{key} | #{cell(value)} |" }
+      rows = connection.non_confidential_configuration.map { |key, value| "- #{key}: #{literal(value)}" }
 
-      ["## #{t('report.settings')}",
-       "",
-       "| #{t('report.setting')} | #{t('report.value')} |",
-       "| --- | --- |",
-       *rows].join("\n")
+      ["## #{t('report.settings')}", "", *rows].join("\n")
     end
 
     def checks(group)
@@ -79,9 +75,6 @@ module Llm
     def status(result)
       I18n.t(STATUS.fetch(result.state), scope: "health_reports.result_component.status")
     end
-
-    # A table cell unescapes nothing but the pipe, so backslashes stay as they are.
-    def cell(value) = literal(value).gsub("|") { "\\|" }
 
     def literals(context) = context.to_h.symbolize_keys.transform_values { |value| literal(value) }
 
