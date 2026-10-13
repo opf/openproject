@@ -415,7 +415,7 @@ gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf
 gem "counter_culture", "~> 3.14"
 
 group :postgres do
-  gem "pg", "~> 1.6.2"
+  gem "pg", "~> 1.7.0"
 end
 
 # Support application loading when no database exists yet.
