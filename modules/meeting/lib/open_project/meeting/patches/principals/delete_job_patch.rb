@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,19 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  module AfterPerformHook
-    extend ActiveSupport::Concern
+module OpenProject::Meeting::Patches::Principals::DeleteJobPatch
+  def self.included(base)
+    base.prepend InstanceMethods
+  end
 
-    included do
-      def after_perform(call)
-        meeting_agenda_item = call.result
-        meeting = meeting_agenda_item.meeting
+  module InstanceMethods
+    private
 
-        meeting&.touch_and_save_journals
+    # Deleted users are removed from the participant history instead of being replaced by the DeletedUser:
+    # the unique constraints on participant journals allow only one DeletedUser per journal.
+    def delete_associated(principal)
+      super
 
-        call
-      end
+      Journal::MeetingParticipantJournal.where(user_id: principal.id).delete_all
     end
   end
 end

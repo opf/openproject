@@ -61,10 +61,10 @@ module RecurringMeetings
 
     def instantiate_in_context(start_time)
       in_context(recurring_meeting, send_notifications: false) do
-        result = instantiate(start_time)
-        move_interim_responses_to_participants(result.result) if result.success?
-
-        result
+        instantiate(start_time).on_success do |call|
+          move_interim_responses_to_participants(call.result)
+          call.result.save_journals
+        end
       end
     end
 
