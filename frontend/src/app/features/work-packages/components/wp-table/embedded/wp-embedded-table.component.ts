@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -52,6 +51,7 @@ import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outl
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-embedded-table',
   templateUrl: './wp-embedded-table.html',
   standalone: false,
@@ -70,9 +70,11 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   @Input() public externalHeight = false;
 
   /** Inform about loading errors */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onError = new EventEmitter<string>();
 
   /** Inform about loaded query */
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
   readonly apiv3Service = inject(ApiV3Service);

@@ -65,6 +65,36 @@ RSpec.describe LlmConnections::SelectableModelsQuery do
     expect(options.map(&:model_id)).to contain_exactly("qwen3.6-27b", "bge-m3")
   end
 
+  describe "#models_left_out?" do
+    subject(:query) { described_class.new(connection, feature, bound_model_id:) }
+
+    it "is false while nothing rules a model out" do
+      expect(query).not_to be_models_left_out
+    end
+
+    it "is true once a model lacks a required capability" do
+      record_verdict("qwen3.6-27b", "unsupported")
+
+      expect(query).to be_models_left_out
+    end
+
+    context "when the only ruled out model is the one the feature is bound to" do
+      let(:bound_model_id) { "qwen3.6-27b" }
+
+      it "is false, because that model stays listed" do
+        record_verdict("qwen3.6-27b", "unsupported")
+
+        expect(query).not_to be_models_left_out
+      end
+    end
+
+    it "is false when a capability merely could not be determined" do
+      record_verdict("qwen3.6-27b", "unknown")
+
+      expect(query).not_to be_models_left_out
+    end
+  end
+
   context "when the feature is bound to the ruled out model" do
     let(:bound_model_id) { "qwen3.6-27b" }
 

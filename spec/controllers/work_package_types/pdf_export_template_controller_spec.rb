@@ -80,8 +80,9 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
 
       it "reorder a template" do
         first = variant.pdf_export_templates.list.first
-        put_reload :drop, { id: first.id, position: 2 } # drop index starts at 1
-        variant.pdf_export_templates.list[1].id == first.id
+        second = variant.pdf_export_templates.list[1]
+        put_reload :move, { id: first.id, list_type: "pdf_export_templates", list_id: "", prev_id: second.id }
+        expect(variant.pdf_export_templates.list[1].id).to eq(first.id)
       end
 
       it "toggles enabled/disabled for a template" do
@@ -127,9 +128,14 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
         expect(response).to have_http_status(:forbidden)
       end
 
-      it "refuses drop with a forbidden turbo-stream flash" do
+      it "refuses move with a forbidden turbo-stream flash" do
         first = linked_variant.pdf_export_templates.list.first
-        expect { put_reload :drop, { variant_id: linked_variant.id, id: first.id, position: 2 } }.not_to raise_error
+        second = linked_variant.pdf_export_templates.list[1]
+        expect do
+          put_reload :move,
+                     { variant_id: linked_variant.id, id: first.id, list_type: "pdf_export_templates", list_id: "",
+                       prev_id: second.id }
+        end.not_to raise_error
         expect(response).to have_http_status(:forbidden)
       end
     end
@@ -272,7 +278,7 @@ RSpec.describe WorkPackageTypes::PdfExportTemplateController do
                           footer_text: "Attempted override" }
 
           expect(response).to redirect_to(
-            edit_type_pdf_export_template_index_path(type_id: wp_type.id, variant_id: linked_variant.id)
+            edit_type_variant_pdf_export_template_index_path(type_id: wp_type.id, variant_id: linked_variant.id)
           )
           expect(flash[:alert]).to eq(I18n.t("types.edit.export_configuration.templates.readonly_error"))
         end

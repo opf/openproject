@@ -43,7 +43,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
       .new(user: attachment.author, model: attachment, contract_options: derive_contract_options(allowlist))
       .call
       .on_failure do |call|
-      destroy_attachment_and_log_errors(attachment, call.errors)
+      destroy_attachment_and_log_errors(attachment, call.errors) if attachment.reload.prepared?
     end
   end
 

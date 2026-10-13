@@ -59,7 +59,7 @@ module WorkPackageTypes
       end
 
       def tab_path(params)
-        helpers.edit_type_projects_path(**@variant.path_args, **params)
+        helpers.edit_variant_projects_path(@variant, **params)
       end
     end
   end

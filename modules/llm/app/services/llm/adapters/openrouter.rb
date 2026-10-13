@@ -56,7 +56,7 @@ module Llm
       def embedding_cards
         cards(client.models(EMBEDDINGS_FILTER))
       rescue Llm::Client::Error => e
-        Rails.logger.info { "LLM embedding model discovery for #{connection.base_url} failed: #{e.class} #{e.message}" }
+        Rails.logger.info { "LLM embedding model discovery for connection #{connection.id} failed: #{e.class} #{e.message}" }
         []
       end
     end

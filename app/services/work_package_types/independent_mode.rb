@@ -43,7 +43,6 @@ module WorkPackageTypes
     EMPTY = "empty"
 
     AVAILABLE = {
-      TypeVariant::FORM_CONFIGURATION => [COPY, DEFAULT],
       TypeVariant::DEFAULTS => [COPY, EMPTY],
       TypeVariant::PDF_EXPORT => [COPY, DEFAULT],
       TypeVariant::PROJECT_ATTRIBUTES => [COPY, EMPTY]

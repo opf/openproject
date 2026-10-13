@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
       <tbody
         data-test-selector="dragula-container"
         data-admin--custom-fields-target="dragContainer">
-      <% custom_field.custom_options.each_with_index do |custom_option, i| %>
+      <% custom_field.custom_options.each do |custom_option| %>
         <%= f.fields_for :custom_options, custom_option do |co_f| %>
           <tr
             class="dragula-element custom-option-row"
@@ -132,7 +132,7 @@ See COPYRIGHT and LICENSE files for more details.
             </td>
             <td>
               <%= link_to "",
-                          delete_option_of_custom_field_path(id: custom_field.id || 0, option_id: custom_option.id || 0),
+                          delete_option_path(custom_field, custom_option),
                           data: {
                             turbo_method: :delete,
                             action: "admin--custom-fields#removeOption",

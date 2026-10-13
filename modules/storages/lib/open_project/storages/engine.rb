@@ -50,7 +50,6 @@ module OpenProject::Storages
     include OpenProject::Plugins::ActsAsOpEngine
 
     patches %i[WorkPackage]
-    patch_with_namespace :API, :V3, :WorkPackages, :WorkPackagePayloadRepresenter
 
     initializer "openproject_storages.feature_decisions" do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
@@ -299,16 +298,46 @@ module OpenProject::Storages
           filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
         end
       end
+    end
 
-      WorkPackages::SetAttributesService.include Storages::FileLinks::SetReplacements
+    include_module "Storages::FileLinks::SetReplacements", into: "WorkPackages::SetAttributesService"
+    include_module "Storages::FileLinks::ReplaceFileLinks", into: %w[WorkPackages::CreateService WorkPackages::UpdateService]
+    include_module "Storages::FileLinks::ValidateReplacements", into: %w[WorkPackages::CreateContract WorkPackages::UpdateContract]
 
-      WorkPackages::CreateService.include Storages::FileLinks::ReplaceFileLinks
-      WorkPackages::UpdateService.include Storages::FileLinks::ReplaceFileLinks
+    extend_api_response(:v3, :work_packages, :work_package) do
+      link :fileLinks, cache_if: -> { current_user.allowed_in_project?(:view_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id)
+        }
+      end
 
-      WorkPackages::CreateContract.include Storages::FileLinks::ValidateReplacements
-      WorkPackages::UpdateContract.include Storages::FileLinks::ValidateReplacements
+      link :addFileLink, cache_if: -> { current_user.allowed_in_project?(:manage_file_links, represented.project) } do
+        {
+          href: api_v3_paths.file_links(represented.id),
+          method: :post
+        }
+      end
+    end
 
-      API::V3::WorkPackages::WorkPackageRepresenter.include ::API::V3::FileLinks::FileLinkRelationRepresenter
+    extend_api_response(:v3, :work_packages, :work_package_payload) do
+      property :file_links,
+               exec_context: :decorator,
+               getter: ->(*) {},
+               setter: ->(fragment:, **) do
+                 next unless fragment.is_a?(Array)
+
+                 ids = fragment.map do |link|
+                   ::API::Utilities::ResourceLinkParser.parse_id link["href"],
+                                                                 property: :file_link,
+                                                                 expected_version: "3",
+                                                                 expected_namespace: :file_links
+                 end
+
+                 represented.file_links_ids = ids
+               end,
+               skip_render: ->(*) { true },
+               linked_resource: true,
+               uncacheable: true
     end
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)

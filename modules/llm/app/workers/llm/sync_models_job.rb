@@ -35,32 +35,64 @@ module Llm
   # -- an LLM server that has not finished starting.
   class SyncModelsJob < ApplicationJob
     class SyncFailed < StandardError; end
+    class NoModelsYet < StandardError; end
 
-    # The usual reason for a failure here is the startup race with the LLM
-    # sidecar this job exists for, so a failed sync retries with backoff rather
-    # than leaving the provisioned connection without its catalogue.
+    Failure = Data.define(:error, :reason)
+
+    # The tenth and last attempt starts roughly 4.5 hours after the first.
     retry_on SyncFailed, wait: :polynomially_longer, attempts: 10
 
-    def perform
-      failures = LlmConnection.find_each.filter_map { |connection| failure_for(connection) }
+    # An empty sync records last_synced_at like any other, so which connections
+    # had never synced is taken on the first attempt and carried through the
+    # retries.
+    def serialize
+      super.merge("never_synced_ids" => @never_synced_ids)
+    end
 
-      raise SyncFailed, failures.join("; ") if failures.any?
+    def deserialize(job_data)
+      super
+      @never_synced_ids = job_data["never_synced_ids"]
+    end
+
+    def perform
+      @never_synced_ids ||= LlmConnection.where(last_synced_at: nil).ids
+      failures = LlmConnection.find_each.filter_map { |connection| failure_for(connection) }
+      return if failures.empty?
+
+      reasons = failures.map(&:reason).join("; ")
+      raise SyncFailed, reasons if failures.any? { |failure| transient?(failure.error) }
+
+      Rails.logger.warn { "LLM model sync failed and will not be retried: #{reasons}" }
     end
 
     private
 
     # Every connection is attempted before anything is raised. One server still
     # starting, or one row carrying a format no adapter serves, must not leave
-    # the connections after it without a catalogue, and the retry this job relies
-    # on only needs to know that something failed.
+    # the connections after it without a catalogue.
     def failure_for(connection)
+      started_at = Time.current
       result = LlmConnections::SyncModelsService.new(connection).call
-      return if result.success?
+      return still_loading(connection, since: started_at) if result.success?
 
-      result.errors.to_s
+      Failure.new(error: result.result, reason: result.errors.to_s)
     rescue StandardError => e
       Rails.logger.error { "LLM model sync failed for connection #{connection.id}: #{e.class}" }
-      e.class.to_s
+      Failure.new(error: e, reason: e.class.to_s)
+    end
+
+    # An Ollama sidecar answers with an empty list while it still pulls its model.
+    def still_loading(connection, since:)
+      return unless @never_synced_ids.include?(connection.id) && connection.models.where(last_seen_at: since..).none?
+
+      Failure.new(error: NoModelsYet.new, reason: "No models listed yet")
+    end
+
+    def transient?(error)
+      case error
+      when NoModelsYet, ActiveRecord::ActiveRecordError then true
+      else Llm::Errors.transient?(error)
+      end
     end
   end
 end

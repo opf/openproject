@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -177,7 +176,7 @@ export class DragAndDropTransformer {
 
         const persistedOrder = await this.wpTableOrder.move([...order], wpId, rowIndex);
 
-        const el = locateTableRow(wpId);
+        const el = locateTableRow(wpId, this.table.tableAndTimelineContainer);
         await this.withRowAtTarget(el, targetId, edge, async () => {
           if (el) {
             await this.actionService.handleDrop(workPackage, el);
@@ -219,7 +218,7 @@ export class DragAndDropTransformer {
     }
 
     const { parentNode, nextSibling } = el;
-    const targetRow = targetId ? locateTableRow(targetId) : null;
+    const targetRow = targetId ? locateTableRow(targetId, this.table.tableAndTimelineContainer) : null;
 
     if (targetRow) {
       this.table.tbody.insertBefore(el, edge === 'top' ? targetRow : targetRow.nextSibling);
@@ -245,7 +244,7 @@ export class DragAndDropTransformer {
    */
   private resolveEffectiveTarget(intent:DragIntent):{ targetId:string|null; edge:Edge|null } {
     const siblingId = this.siblingIdFor(intent);
-    const siblingRow = siblingId ? locateTableRow(siblingId) : null;
+    const siblingRow = siblingId ? locateTableRow(siblingId, this.table.tableAndTimelineContainer) : null;
 
     if (!isInsideCollapsedGroup(siblingRow)) {
       return { targetId: intent.targetId, edge: intent.edge };

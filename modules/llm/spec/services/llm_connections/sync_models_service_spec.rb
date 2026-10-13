@@ -101,6 +101,30 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.feature_bindings).to be_empty
     end
 
+    it "keeps a locked binding, which records what an existing index was written with" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                                    dimensions: 1024, locked_at: Time.current)
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(binding.reload).to have_attributes(model_id: "bge-m3", dimensions: 1024)
+      expect(binding).to be_locked
+    end
+
+    it "leaves a kept binding dangling when the new server offers a model of the same name" do
+      binding = connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      binding.update_columns(locked_at: Time.current, locked_deployment_fingerprint: connection.connection_fingerprint)
+      mock_llm_models_response("https://elsewhere.example/v1")
+
+      service.call
+
+      expect(connection.reload.available_model_ids).to include("qwen3.6-27b")
+      expect(binding.reload).to be_dangling
+    end
+
     # on_delete: :nullify on the two default_*_model_id foreign keys.
     it "lets go of a connection default that named a model the previous server offered" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
@@ -232,7 +256,21 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     it "fails rather than raising when a card cannot be stored" do
       allow(connection.models).to receive(:find_or_initialize_by).and_raise(ActiveRecord::RecordNotUnique)
 
-      expect(described_class.new(connection).call).to be_failure
+      result = described_class.new(connection).call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(ActiveRecord::RecordNotUnique)
+    end
+  end
+
+  describe "a server refusing the model list" do
+    it "hands back the error, so a caller can tell whether trying again could help" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      result = service.call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(Llm::Errors::ApiError).and have_attributes(status: 404)
     end
   end
 
@@ -260,6 +298,17 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       llm_model = connection.models.find_by(external_id: "openai/gpt-4o")
       expect(llm_model.name).to eq("OpenAI: GPT-4o")
       expect(llm_model.context_window).to eq(128_000)
+    end
+
+    it "takes the window from max_model_len when the card also names a context_length" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "qwen3.6-27b", context_length: 262_144, max_model_len: 32_768 }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      expect(llm_model.context_window).to eq(32_768)
+      expect(llm_model.context_window_source).to eq(:server)
     end
 
     it "falls back to the registry for a server that lists bare ids" do

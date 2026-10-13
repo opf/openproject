@@ -40,7 +40,8 @@ module OpenProject::WorkPackages
     # @param wrap [Boolean]
     def playground(show_project: false, show_subject: false, show_status: true, font_size: :small, status_scheme: :default,
                    wrap: true)
-      render(WorkPackages::InfoLineComponent.new(work_package: WorkPackage.visible.first,
+      work_package = FactoryBot.build_stubbed(:work_package, subject: "Prepare the release notes")
+      render(WorkPackages::InfoLineComponent.new(work_package: work_package,
                                                  show_project:,
                                                  show_subject:,
                                                  show_status:,

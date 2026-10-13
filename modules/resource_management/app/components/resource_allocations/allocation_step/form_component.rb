@@ -72,6 +72,14 @@ module ResourceAllocations
         @allocation.persisted? ? :patch : :post
       end
 
+      def refresh_form_url
+        if @allocation.persisted?
+          refresh_form_allocation_path(@project, @allocation)
+        else
+          refresh_form_allocations_path(@project)
+        end
+      end
+
       # The URLs follow the page the dialog was opened from, but the pickers follow
       # the work package: on a global planner the allocation belongs to whichever
       # project that work package sits in, and its members are the candidates.

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -30,6 +29,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { WorkPackageCopyController } from 'core-app/features/work-packages/components/wp-copy/wp-copy.controller';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'wp-copy-full-view',
   host: { class: 'work-packages-page--ui-view' },
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -37,8 +37,6 @@ import { WorkPackageCopyController } from 'core-app/features/work-packages/compo
   standalone: false,
 })
 export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController {
-  public successState = 'work-packages.show';
-
   breadcrumbItems() {
     const items = [];
     if (this.currentProjectService?.identifier) {
@@ -52,7 +50,7 @@ export class WorkPackageCopyFullViewComponent extends WorkPackageCopyController 
         text: this.I18n.t('js.label_work_package_plural'),
       });
     items.push({
-        href: this.pathHelper.projectWorkPackagePath(this.currentProjectService.identifier!, this.stateParams.copiedFromWorkPackageId as string),
+        href: this.pathHelper.projectWorkPackagePath(this.currentProjectService.identifier!, this.stateParams.copiedFromWorkPackageId!),
         text: this.newWorkPackage.subject,
       });
     items.push(I18n.t('js.button_duplicate'));

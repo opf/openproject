@@ -6,7 +6,7 @@
 
 **Note:** The BorderBoxTable is based on the `Primer::Beta::BorderBox` with a CSS grid applied inside to align individual rows and make it look like a table.
 
-It [implements WAI-ARIA table semantics](https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/table/) to provide basic support for users of Assistive Technologies (AT). However, since it doesn't use a native HTML table element, there may be usability limitations (e.g., automatic column width adjustment) that developers should consider.
+It [implements WAI-ARIA table semantics](https://www.w3.org/WAI/ARIA/apg/patterns/table/examples/table/) to provide basic support for users of Assistive Technologies (AT), including `aria-rowcount` on the table and `aria-rowindex` on every row so positions are announced correctly across pages. However, since it doesn't use a native HTML table element, there may be usability limitations (e.g., automatic column width adjustment) that developers should consider.
 
 For full table functionality without these limitations, please use the [TableComponent docs](./tables)
 

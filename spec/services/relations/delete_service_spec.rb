@@ -45,8 +45,7 @@ RSpec.describe Relations::DeleteService do
   end
   shared_let(:project) do
     create(:project,
-           types: [type_task, type_with_mandatory_cf],
-           work_package_custom_fields: [mandatory_custom_field])
+           types: [type_task, type_with_mandatory_cf])
   end
   shared_let(:status) { create(:status) }
   shared_let(:user) { create(:user) }

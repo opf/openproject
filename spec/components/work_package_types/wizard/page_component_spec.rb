@@ -33,6 +33,8 @@ require "rails_helper"
 RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
   include Rails.application.routes.url_helpers
 
+  include_context "with variant scope"
+
   let(:type) { create(:type) }
 
   before { login_as(create(:admin)) }
@@ -124,10 +126,9 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
     end
 
     context "when the wizard is reached from a project's settings" do
-      before do
-        vc_test_controller.instance_variable_set(:@project, project)
-        render_inline(described_class.new(type: trail_type, current_step: :details))
-      end
+      let(:variant_scope_project) { project }
+
+      before { render_inline(described_class.new(type: trail_type, current_step: :details)) }
 
       it "leads back through the project" do
         expect(page).to have_link("Apollo", href: project_overview_path(project.id))
@@ -138,8 +139,6 @@ RSpec.describe WorkPackageTypes::Wizard::PageComponent, type: :component do
         expect(page).to have_no_link("Administration")
       end
 
-      # types_path would resolve to an administration URL carrying the project as a query
-      # parameter, which is a dead link for the caller.
       it "cancels back to the project's own list of types" do
         expect(page).to have_css("a[href='#{project_settings_work_packages_types_path(project)}']")
       end

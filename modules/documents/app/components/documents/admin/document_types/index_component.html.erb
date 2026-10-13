@@ -48,31 +48,7 @@
       end
 
       flex.with_row do
-        render(border_box_container(data: list_data)) do |component|
-          component.with_header(font_weight: :bold) do
-            grid_layout("op-documents-types-list--header", tag: :div, align_items: :center) do |grid|
-              grid.with_area(:name, tag: :div, mr: 3) do
-                render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("documents.index_page.type") }
-              end
-
-              grid.with_area(:"documents-count", tag: :div, hide: :sm) do
-                render(Primer::Beta::Text.new(font_weight: :semibold)) { I18n.t("label_documents") }
-              end
-            end
-          end
-
-          if document_types.empty?
-            component.with_row do
-              render(Primer::Beta::Text.new(color: :subtle)) { t(:no_results_title_text) }
-            end
-          else
-            document_types.each do |document_type|
-              component.with_row(test_selector: "document-type-row-#{document_type.id}", data: item_data(document_type)) do
-                render(item_component_class.new(enumeration: document_type))
-              end
-            end
-          end
-        end
+        render(::Documents::Admin::DocumentTypes::TableComponent.new(rows: document_types))
       end
     end
   end

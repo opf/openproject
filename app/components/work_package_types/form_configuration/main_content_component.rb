@@ -34,17 +34,14 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(variant:, group_components:, ee_available:, readonly: false)
+      def initialize(context:, group_components:, ee_available:)
         super
-        @variant = variant
+        @context = context
         @group_components = group_components
         @ee_available = ee_available
-        @readonly = readonly
       end
 
-      def readonly?
-        @readonly
-      end
+      delegate :readonly?, to: :@context
 
       private
 

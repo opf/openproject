@@ -38,7 +38,7 @@ module Llm
   # expired key, a withdrawn model, a binding that stopped resolving -- and the
   # billed round trip stays behind the administrator's "Run checks".
   class HealthCheckJob < ApplicationJob
-    CRON_JOB_KEY = :"Llm::HealthCheckJob"
+    CRON_JOB_KEY = name.to_sym
 
     queue_with_priority :low
 

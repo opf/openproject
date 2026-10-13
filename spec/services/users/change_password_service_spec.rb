@@ -93,4 +93,42 @@ RSpec.describe Users::ChangePasswordService do
       expect(Token::Recovery.where(user:)).to be_empty
     end
   end
+
+  context "with existing remember-me tokens", with_settings: { autologin: 1 } do
+    let!(:current_token) { create(:autologin_token, user:) }
+    let!(:other_token) { create(:autologin_token, user:) }
+    let!(:unrelated_token) { create(:autologin_token) }
+    let!(:current_session) { create(:user_session, user:, session_id: session.id.private_id) }
+    let!(:other_session) { create(:user_session, user:) }
+
+    before do
+      [[current_token, current_session], [other_token, other_session]].each do |token, user_session|
+        Sessions::AutologinSessionLink.create!(
+          token:,
+          session: Sessions::UserSession.find_by!(session_id: user_session.session_id)
+        )
+      end
+    end
+
+    it "revokes remember-me tokens and other sessions while preserving the current session" do
+      expect(result).to be_success
+
+      expect(Token::AutoLogin.where(user:)).to be_empty
+      expect(Sessions::AutologinSessionLink.where(token_id: [current_token.id, other_token.id])).to be_empty
+      expect(Sessions::UserSession.for_user(user).pluck(:session_id)).to eq([current_session.session_id])
+      expect(unrelated_token.reload).to be_persisted
+    end
+
+    context "when the password change fails" do
+      let(:new_password) { "" }
+
+      it "preserves remember-me tokens, links, and sessions" do
+        expect(result).not_to be_success
+
+        expect(Token::AutoLogin.where(user:).count).to eq(2)
+        expect(Sessions::AutologinSessionLink.where(token_id: [current_token.id, other_token.id]).count).to eq(2)
+        expect(Sessions::UserSession.for_user(user).count).to eq(2)
+      end
+    end
+  end
 end

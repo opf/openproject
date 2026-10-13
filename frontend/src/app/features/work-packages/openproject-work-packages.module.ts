@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -203,7 +202,6 @@ import {
 import {
   WorkPackageRelationQueryComponent,
 } from 'core-app/features/work-packages/components/wp-relations/embedded/relations/wp-relation-query.component';
-import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 import {
   WorkPackageSplitViewComponent,
 } from 'core-app/features/work-packages/routing/wp-split-view/wp-split-view.component';
@@ -257,7 +255,6 @@ import {
 import {
   WorkPackageSettingsButtonComponent,
 } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
-import { BackButtonComponent } from 'core-app/features/work-packages/components/back-routing/back-button.component';
 import { WorkPackagesTableComponent } from 'core-app/features/work-packages/components/wp-table/wp-table.component';
 import {
   WorkPackageGroupToggleDropdownMenuDirective,
@@ -488,7 +485,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
   ],
   declarations: [
     // Routing
-    WorkPackagesBaseComponent,
     PartitionedQuerySpacePageComponent,
     WorkPackageViewPageComponent,
     WorkPackageViewPageEntryComponent,
@@ -578,7 +574,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageChildrenQueryComponent,
     WorkPackageRelationQueryComponent,
     WorkPackageFormAttributeGroupComponent,
-    BackButtonComponent,
     WorkPackageTimerButtonComponent,
 
     // Activity Tab
@@ -692,7 +687,6 @@ import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work
     WorkPackageEditActionsBarComponent,
     WorkPackageSingleViewComponent,
     WorkPackageSplitViewComponent,
-    BackButtonComponent,
     OpWpDatePickerModalComponent,
 
     // Needed so boards can put its lists under a shared sortable root.

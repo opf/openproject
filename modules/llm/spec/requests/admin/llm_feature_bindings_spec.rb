@@ -138,6 +138,16 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
         expect(response.body).to include(llm_models_path)
       end
 
+      it "names the default model a feature inherits" do
+        default = connection.models.find_by!(external_id: "qwen3.6-27b")
+        default.update!(display_name: "Qwen 3.6")
+        connection.update!(default_chat_model: default)
+
+        get llm_feature_bindings_path
+
+        expect(response.body).to include("Use the default (Qwen 3.6)")
+      end
+
       # An unconfirmed capability is not a capability: offering such a model
       # invites a choice that fails much later, at index time.
       it "offers an embedding feature only models known to create embeddings" do
@@ -239,6 +249,20 @@ RSpec.describe "Admin AI feature configuration", :llm_server_helpers, :skip_csrf
       end
 
       after { OpenProject::Llm::Features.all.delete(feature_key) }
+
+      it "says that models were left out of the picker" do
+        get llm_feature_bindings_path
+
+        expect(response.body).to include(I18n.t("admin.llm_feature_bindings.form.model_caption_ruled_out"))
+      end
+
+      it "says nothing of the kind once no model is ruled out" do
+        verdict.destroy!
+
+        get llm_feature_bindings_path
+
+        expect(response.body).not_to include(I18n.t("admin.llm_feature_bindings.form.model_caption_ruled_out"))
+      end
 
       it "names the capability the verdict is about" do
         patch llm_feature_binding_path(feature_key), params: { llm_feature_binding: { model_id: "qwen3.6-27b" } }

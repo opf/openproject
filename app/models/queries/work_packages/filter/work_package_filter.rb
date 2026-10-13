@@ -43,11 +43,11 @@ class Queries::WorkPackages::Filter::WorkPackageFilter < Queries::Filters::Base
     nil
   end
 
-  def apply_to(_query_scope)
-    # We only return the WorkPackage base scope for now as most of the filters
+  def apply_to(query_scope)
+    # We only pass through the query_scope for now as most of the filters
     # (this one's subclasses) currently do not follow the base filter approach of using the scope.
-    # The intend is to have more and more wp filters use the scope method just like the
+    # The intent is to have more and more wp filters use the scope method just like the
     # rest of the queries (e.g. project)
-    WorkPackage.unscoped
+    query_scope
   end
 end

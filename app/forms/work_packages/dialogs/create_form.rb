@@ -32,15 +32,19 @@ module WorkPackages::Dialogs
   class CreateForm < ApplicationForm
     include CustomFields::CustomFieldRendering
 
-    attr_reader :work_package, :wrapper_id, :contract
+    attr_reader :work_package, :dialog_id, :contract
 
-    def initialize(work_package:, wrapper_id:)
+    def initialize(work_package:, dialog_id:)
       super()
 
       @work_package = work_package
       @schema = API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
-      @wrapper_id = wrapper_id
+      @dialog_id = dialog_id
       @contract = WorkPackages::CreateContract.new(work_package, User.current)
+    end
+
+    def wrapper_id
+      "##{dialog_id}"
     end
 
     form do |f|
@@ -103,7 +107,7 @@ module WorkPackages::Dialogs
     end
 
     def additional_custom_field_input_arguments
-      { wrapper_id:, required: true }
+      { wrapper_id:, dialog_id:, required: true }
     end
 
     def autofocus_subject?

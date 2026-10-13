@@ -32,6 +32,7 @@ module WorkPackageTypes
   module ConfigurationCopies
     class ConfirmDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
+      include WorkPackageTypes::VariantRoutes
 
       DIALOG_ID = "configuration-copy-confirm-dialog"
 
@@ -48,7 +49,7 @@ module WorkPackageTypes
       attr_reader :variant, :aspect, :source
 
       def copy_path
-        type_configuration_copy_copy_path(**variant.path_args, aspect:)
+        variant_configuration_copy_copy_path(helpers.variant_scope_project, variant, aspect)
       end
     end
   end

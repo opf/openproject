@@ -28,58 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Workflows::Filters::NameFilter < Queries::Workflows::Filters::WorkflowFilter
-  COLUMNS = ["workflows.name",
-             "COALESCE(workflows.description, '')"].freeze
-
-  def type
-    :string
-  end
-
-  def human_name
-    I18n.t("workflows.index.filters.name")
-  end
-
-  def self.key
-    :name
-  end
-
-  def where
-    case operator
-    when "~", "**"
-      where_contains
-    when "!~"
-      where_not(where_contains)
-    when "="
-      where_equal
-    when "!"
-      where_not(where_equal)
-    end
-  end
-
-  private
-
-  def where_contains
-    match(COLUMNS.map { |column| "LOWER(#{column}) LIKE ?" }) { |value| "%#{value.downcase}%" }
-  end
-
-  def where_equal
-    match(COLUMNS.map { |column| "LOWER(#{column}) = ?" }, &:downcase)
-  end
-
-  def match(conditions)
-    joined = []
-    assignments = []
-
-    values.each do |value|
-      joined << conditions.join(" OR ")
-      assignments += Array.new(conditions.size) { yield(value) }
-    end
-
-    ["(#{joined.join(') OR (')})", *assignments]
-  end
-
-  def where_not(condition)
-    ["NOT(#{condition.first})", *condition.drop(1)]
-  end
+class Queries::Workflows::Filters::NameFilter < Queries::NamedReferences::Filters::NameFilter
+  self.model = Workflow
 end

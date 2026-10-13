@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       flex_layout do |page|
         page.with_row do
           form_tag(variants_path, method: :get, data: filter_form_data) do
-            render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
+            render(Primer::OpenProject::SubHeader.new) do |subheader|
               subheader.with_filter_input(
                 name: "query",
                 value: query,

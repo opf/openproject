@@ -182,7 +182,7 @@ RSpec.describe "Cancel editing work package", :js, :selenium do
       expect(wp_page).not_to have_alert_dialog
 
       expect(page).to have_no_css("#wp-new-inline-edit--field-subject")
-      expect(page).to have_css(".work-packages--details--subject", text: work_package2.subject)
+      expect(page).to have_heading(work_package2.subject, level: 2, exact_text: true)
 
       # Moving somewhere else
       expect_active_edit(new_split_work_packages_path)

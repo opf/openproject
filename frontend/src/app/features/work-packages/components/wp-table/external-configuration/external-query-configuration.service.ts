@@ -20,15 +20,13 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
-import { TransitionService } from '@uirouter/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import {
   ExternalQueryConfigurationComponent,
@@ -42,7 +40,6 @@ export type Class = new(...args:any[]) => any;
 export class ExternalQueryConfigurationService {
   readonly FocusHelper = inject(FocusHelperService);
   private appRef = inject(ApplicationRef);
-  private $transitions = inject(TransitionService);
   private injector = inject(Injector);
 
   // Hold a reference to the DOM node we're using as a host

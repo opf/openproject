@@ -340,17 +340,17 @@ RSpec.describe Import::JiraRevertImportJob do
     end
   end
 
-  describe "#percentage" do
+  describe "#progress" do
     it "is 0 while no step has been completed" do
-      expect(job.percentage).to eq(0)
+      expect(job.progress).to eq({ current: 0, percentage: 0, total: 8 })
     end
 
     it "grows with every completed step" do
       jira_import.set_job_cursor(job, :delete_projects)
-      expect(job.percentage).to eq(12)
+      expect(job.progress).to eq({ current: 1, percentage: 12.5, total: 8 })
 
       jira_import.set_job_cursor(job, :delete_jira_objects)
-      expect(job.percentage).to eq(100)
+      expect(job.progress).to eq({ current: 8, percentage: 100, total: 8 })
     end
   end
 

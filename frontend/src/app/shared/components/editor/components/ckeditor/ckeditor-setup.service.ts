@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -146,7 +145,8 @@ export class CKEditorSetupService {
   private createConfig(context:ICKEditorContext, initialData:string|null) {
     const uiLocale = this.loadedLocale;
     const contentLanguage = context.options?.rtl ? 'ar' : 'en';
-    const resolvedContext:ICKEditorContext = { ...context, macros: this.resolveMacros(context.macros) };
+    const macros = this.resolveMacros(context.macros);
+    const resolvedContext:ICKEditorContext = { ...context, macros };
 
     const config = {
       openProject: this.createContext(resolvedContext),
@@ -163,10 +163,7 @@ export class CKEditorSetupService {
       },
       link: {},
       storageKey: context.storageKey,
-      // Constrained editors have no macro dropdown by default; add one when macros are present.
-      ...(context.type === 'constrained' && Array.isArray(resolvedContext.macros)
-        ? { toolbar: { items: this.constrainedToolbarWithMacroList() } }
-        : {}),
+      ...this.toolbarConfig(context, macros),
     };
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
@@ -235,17 +232,38 @@ export class CKEditorSetupService {
     };
   }
 
-  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
-  private constrainedToolbarWithMacroList():string[] {
-    const items = [...(window.OPConstrainedEditor.defaultConfig?.toolbar?.items ?? [])];
+  private toolbarConfig(context:ICKEditorContext, macros:ICKEditorResolvedMacros):{ toolbar?:{ items:string[] } } {
+    const additionalItems = context.additionalToolbarItems ?? [];
+    // Constrained editors have no macro dropdown by default; add one when macros are present.
+    const withMacroList = context.type === 'constrained' && Array.isArray(macros);
 
-    if (!items.includes('macroList')) {
-      const anchor = items.indexOf('blockQuote');
-      const insertAt = anchor === -1 ? items.length : anchor + 1;
-      items.splice(insertAt, 0, '|', 'macroList');
+    if (!withMacroList && additionalItems.length === 0) {
+      return {};
     }
 
-    return items;
+    const items = withMacroList ? this.constrainedToolbarWithMacroList() : this.defaultToolbarItems(context.type);
+
+    return { toolbar: { items: this.insertAfterBlockQuote(items, additionalItems) } };
+  }
+
+  private defaultToolbarItems(type:ICKEditorType):string[] {
+    const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
+
+    return [...(editorClass.defaultConfig?.toolbar?.items ?? [])];
+  }
+
+  // Splice `macroList` into the constrained editor's own toolbar (which omits it by default).
+  private constrainedToolbarWithMacroList():string[] {
+    const items = this.defaultToolbarItems('constrained');
+
+    return items.includes('macroList') ? items : this.insertAfterBlockQuote(items, ['|', 'macroList']);
+  }
+
+  private insertAfterBlockQuote(items:string[], newItems:string[]):string[] {
+    const anchor = items.indexOf('blockQuote');
+    const insertAt = anchor === -1 ? items.length : anchor + 1;
+
+    return [...items.slice(0, insertAt), ...newItems, ...items.slice(insertAt)];
   }
 
   // Expand macro tokens and add/withhold the wiki macros based on `wikisAvailable`.

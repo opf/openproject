@@ -32,6 +32,7 @@ module WorkPackageTypes
   module Wizard
     class ProjectAttributesStepComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
+      include WorkPackageTypes::VariantRoutes
 
       def initialize(variant:)
         super(variant)
@@ -44,7 +45,7 @@ module WorkPackageTypes
       end
 
       def reload_url
-        type_creation_wizard_path(**model.path_args, step: :project_attributes)
+        variant_creation_wizard_path(helpers.variant_scope_project, model, step: :project_attributes)
       end
     end
   end

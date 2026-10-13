@@ -60,6 +60,16 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   context "when the server rejects the credentials" do
     let!(:models_request) { mock_llm_models_response(base_url, response_code: 401) }
 
+    it "logs the failure by connection, without the URL it probed" do
+      logged = []
+      allow(Rails.logger).to receive(:info) { |*args, &block| logged << (block ? block.call : args.first) }
+
+      contract.validate
+
+      expect(logged.join).to include("connection #{connection.id}")
+      expect(logged.join).not_to include("example.com")
+    end
+
     include_examples "contract is invalid", api_key: :invalid_api_key
   end
 
@@ -251,6 +261,32 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
       expect(contract.validate).to be(true)
       expect(models_request).not_to have_been_made
     end
+  end
+
+  describe "the lock while the environment configures the connection" do
+    before { allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url }) }
+
+    context "when the environment has not written the connection yet" do
+      include_examples "contract is valid"
+    end
+
+    context "when the environment has written the connection" do
+      let(:connection) { create(:llm_connection, :provisioned_from_env, base_url: "https://previous.example/v1") }
+
+      include_examples "contract is invalid", base: :configured_via_env
+    end
+
+    context "when the environment wrote the connection after this save loaded it" do
+      before { LlmConnection.where(id: connection.id).update_all(env_provisioned_at: Time.current) }
+
+      include_examples "contract is invalid", base: :configured_via_env
+    end
+  end
+
+  context "when the save marks the connection as written by the environment" do
+    before { connection.env_provisioned_at = Time.current }
+
+    include_examples "contract is invalid", env_provisioned_at: :error_readonly
   end
 
   describe "default model selection" do

@@ -9,11 +9,11 @@ li:
         demo-project:
           meeting_series:
             item_0:
-              title: Weekly
+              title: Waekeliks
           meeting_agenda_items:
             item_0:
-              title: Good news
-              notes: What went well this week?
+              title: Good nies
+              notes: Wat ging d'r good dees waek?
             item_1:
               title: Team updates
               notes: News and focused topics for the upcoming week.
@@ -26,5 +26,5 @@ li:
               title: Core values feedback
               notes: Highlight employees who have lived the core values this week.
             item_5:
-              title: General topics
+              title: Algmeine onderwerpe
               notes: Solving or discussing topics together.

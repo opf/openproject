@@ -64,7 +64,7 @@ module WorkPackageTypes
     end
 
     def require_valid_aspect
-      render_404 unless TypeVariant::ASPECTS.include?(aspect)
+      render_404 unless TypeVariant::EXCLUDABLE_ASPECTS.include?(aspect)
     end
   end
 end

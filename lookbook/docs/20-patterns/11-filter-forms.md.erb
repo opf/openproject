@@ -32,24 +32,62 @@ to coordinate with co-located quick filter inputs.
 )) %>
 ```
 
-To restrict or reorder the advertised filters, subclass `Filter::FilterComponent`
-and override `allowed_filters`:
-
-```ruby
-class MyFiltersComponent < Filter::FilterComponent
-  def allowed_filters
-    super
-      .grep_v(SomeNoisyFilter)
-      .sort_by(&:human_name)
-  end
-end
-```
-
 `turbo_requests?` toggles whether changes auto-submit via a turbo stream or
 require an explicit Apply click. `lazy_loaded_path` defers the actual filter
 rendering until the dropdown is opened (a skeleton is shown in the meantime).
 
 <%= embed OpenProject::Filter::FiltersComponentPreview, :default, panels: %i[preview source] %>
+
+### Restricting the filters
+
+Some filters might be registered on the query but are only used internally.
+The autocompleter filter is a good example.
+Those should not be advertised to the user. They should not be available in
+the "Add filter" select and also not be rendered in the filter rows.
+
+There are three ways to do that:
+
+**The filter should never be offered for this query.** Typically one that only
+backs an autocompleter or an API use case. Mark it in the query's registration
+and every filter form over that query drops it, while the filter keeps working
+when set programmatically or from a stored query:
+
+```ruby
+::Queries::Register.register(::Query) do
+  filter Filter::SomeInternalFilter
+  exclude Filter::SomeInternalFilter
+end
+```
+
+A handful of names that recur across queries —
+`Filters::FilterFormComponent::NEVER_ADVERTISED_FILTER_NAMES` — are dropped
+without any registration.
+
+**The filter should not be offered in this one panel.** Because a dedicated
+picker owns it, or the surrounding context makes it meaningless. Set the
+`excluded_filters` option on the component — it takes filter *names*:
+
+```ruby
+class MyFiltersComponent < Filter::FilterComponent
+  options excluded_filters: %i[project_id member]
+end
+```
+
+`Filters::FilterFormComponent` takes the same list as a keyword argument.
+
+**You need an allowlist or a different order.** Only then override
+`allowed_filters`:
+
+```ruby
+class MyFiltersComponent < Filter::FilterComponent
+  def allowed_filters
+    super.sort_by(&:human_name)
+  end
+end
+```
+
+Note that `allowed_filters` runs *before* the exclusions above, so an override
+does not have to repeat them.
 
 ### Width
 
