@@ -138,7 +138,7 @@
                 href: projects_path(format: key, **helpers.projects_query_params.except(:page, :per_page)),
                 content_arguments: { data: { controller: "job-dialog" }, rel: "nofollow" }
               ) do |item|
-                item.with_leading_visual_icon(icon: "op-#{key == "csv" ? "file-csv" : key}")
+                item.with_leading_visual_icon(icon: "op-#{key == 'csv' ? 'file-csv' : key}")
               end
             end
           end

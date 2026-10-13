@@ -78,8 +78,10 @@
                     data: { "#{internal_comment_stimulus_controller}-target": "learnMoreLink" },
                     pb: 1
                   ) do
-                    helpers.static_link_to(:enterprise_features, :internal_comments,
-                                           label: I18n.t(:label_learn_more))
+                    helpers.static_link_to(
+                      :enterprise_features, :internal_comments,
+                      label: I18n.t(:label_learn_more)
+                    )
                   end
                 end
               end

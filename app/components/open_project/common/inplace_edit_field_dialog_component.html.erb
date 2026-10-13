@@ -8,8 +8,10 @@
     )
   ) do |d|
     d.with_header(variant: :large)
-    d.with_body(classes: "Overlay-body_autocomplete_height",
-                test_selector: "async-dialog-content") do
+    d.with_body(
+      classes: "Overlay-body_autocomplete_height",
+      test_selector: "async-dialog-content"
+    ) do
       render(edit_component)
     end
     d.with_footer do
@@ -21,13 +23,15 @@
         end
         if writable?
           footer_collection.with_component(
-            Primer::Beta::Button.new(scheme: :primary,
-                                     type: :submit,
-                                     form: form_id,
-                                     test_selector: "save-inplace-edit-field-button",
-                                     data: {
-                                       turbo: true
-                                     })
+            Primer::Beta::Button.new(
+              scheme: :primary,
+              type: :submit,
+              form: form_id,
+              test_selector: "save-inplace-edit-field-button",
+              data: {
+                turbo: true
+              }
+            )
           ) do
             t("button_save")
           end
