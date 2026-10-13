@@ -62,7 +62,7 @@ If you need a variant with a different structure, please contact the UX and Fron
 
 ### Used in
 
-The DangerDialog will replace the traditional Rails danger zone area in at least these places:
+The DangerDialog replaces the traditional Rails danger zone area in at least these places:
 
 - work_packages: bulk/destroyusers: deletion
 - repositories: destroy
@@ -76,10 +76,6 @@ The DangerDialog will replace the traditional Rails danger zone area in at least
 - saml/providers: destroy
 - custom_fields: destroy
 - Deleting a meeting series
-
-The DangerDialog should also be used where we are currently using browser dialogs or a non-Primer modal for high-risk operations, such as:
-
-- Bulk deleting work packages
 
 The Danger Warning dialog should replace the default browser native "Are you sure?" dialog if the action is destructive and non reversible, for example:
 
