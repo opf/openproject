@@ -46,7 +46,7 @@ module WorkPackageTypes
           "test-selector": "type-form-configuration-inactive-container",
           "admin--type-form-configuration--main-target": "inactiveContainer",
           "admin--type-form-configuration--rows-drag-and-drop-target": "container",
-          "target-container-accessor": "[data-test-selector='type-form-configuration-inactive-list']",
+          "target-container-accessor": ".type-form-configuration-page--inactive-list",
           "target-id": "inactive",
           "target-allowed-drag-type": "attribute"
         }
