@@ -358,6 +358,10 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     return this.query?.name;
   }
 
+  public get hasLargeHeader():boolean {
+    return !!this.actionService?.largeHeader();
+  }
+
   public showCardStatusButton() {
     return this.board.showStatusButton();
   }
