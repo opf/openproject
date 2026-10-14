@@ -55,14 +55,18 @@ module OpenProject::WebPush
 
     def probe_target(host)
       stored_host = stored_endpoint_host(host)
-      return ["https://#{stored_host}/", false] if stored_host
+      return [probe_url(stored_host), false] if stored_host
 
       sample_host = SAMPLE_HOSTS[host]
-      ["https://#{sample_host || host}/", sample_host.present?]
+      [probe_url(sample_host || host), sample_host.present?]
+    end
+
+    def probe_url(host)
+      URI::HTTPS.build(host:, path: "/").to_s
     end
 
     def stored_endpoint_host(host)
-      authority = "^https://([^/]+\\.)?#{host.gsub('.', '\\.')}/"
+      authority = "^https://([^/]+\\.)?#{Regexp.escape(host)}/"
       endpoint = PushSubscription.where("endpoint ~ ?", authority).order(:id).pick(:endpoint)
       URI(endpoint).host if endpoint
     end
