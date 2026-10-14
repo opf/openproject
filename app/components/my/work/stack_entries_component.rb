@@ -33,6 +33,7 @@ module My
     class StackEntriesComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include OpStimulus::ControllerData
       include ScheduledHours
 
       options time_entries: [],
@@ -43,20 +44,20 @@ module My
       private
 
       def wrapper_data # rubocop:disable Metrics/AbcSize
-        {
-          "controller" => "my--work-stack",
-          "my--work-stack-mode-value" => mode,
-          "my--work-stack-time-entries-value" => time_entries_json,
-          "my--work-stack-allocations-value" => allocation_events_json,
-          "my--work-stack-initial-date-value" => date.iso8601,
-          "my--work-stack-today-value" => User.current.today.iso8601,
-          "my--work-stack-can-create-value" => User.current.allowed_in_any_project?(:log_own_time),
-          "my--work-stack-locale-value" => I18n.locale,
-          "my--work-stack-start-of-week-value" => OpenProject::Internationalization::Date.first_day_of_week_index,
-          "my--work-stack-working-days-value" => working_days,
-          "my--work-stack-working-hours-value" => working_hours.to_json,
-          "my--work-stack-time-zone-value" => User.current.time_zone.name
-        }
+        stimulus_controller_data(
+          "my--work-stack",
+          allocations: allocation_events_json,
+          can_create: User.current.allowed_in_any_project?(:log_own_time),
+          initial_date: date.iso8601,
+          locale: I18n.locale,
+          mode:,
+          start_of_week: OpenProject::Internationalization::Date.first_day_of_week_index,
+          time_entries: time_entries_json,
+          time_zone: User.current.time_zone.name,
+          today: User.current.today.iso8601,
+          working_days:,
+          working_hours: working_hours.to_json
+        )
       end
 
       def time_entries_json
