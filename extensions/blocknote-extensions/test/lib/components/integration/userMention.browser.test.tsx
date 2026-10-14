@@ -4,6 +4,8 @@ import { renderEditor, renderEditorWithHandle } from '../../../helpers/renderEdi
 import { mentionContent, paragraphWith } from '../../../helpers/content';
 import { mentionsIn } from '../../../helpers/headlessEditor';
 import { withNavigationPrevented } from '../../../helpers/editorHelpers';
+import { editDocument } from '../../../helpers/documentContext';
+import { fenceMentionNotifications, recordMentionNotifications } from '../../../helpers/requestHelpers';
 
 const anna = mentionContent('7', 'Anna Kovalenko');
 
@@ -46,5 +48,18 @@ describe('User mention', () => {
     editor.setTextCursorPosition(editor.document[0], 'end');
     editor.pasteHTML('<p><mention class="mention" data-id="8" data-type="user" data-text="@Peter Lang">@Peter Lang</mention></p>');
     expect(mentionsIn(editor)).toEqual([{ userId: '8', name: 'Peter Lang' }]);
+  });
+
+  it('notifies a person pasted twice once', async () => {
+    editDocument(3);
+    const notifications = recordMentionNotifications();
+    const editor = await renderEditorWithHandle({ initialContent: [paragraphWith('Hello')] });
+    await expect.element(page.getByText('Hello')).toBeVisible();
+
+    const peterTag = '<mention class="mention" data-id="8" data-type="user" data-text="@Peter Lang">@Peter Lang</mention>';
+    editor.setTextCursorPosition(editor.document[0], 'end');
+    editor.pasteHTML(`<p>${peterTag} and ${peterTag}</p>`);
+
+    await expect.poll(notifications).toEqual(fenceMentionNotifications(editor, { documentId: 3, userIds: [8] }));
   });
 });

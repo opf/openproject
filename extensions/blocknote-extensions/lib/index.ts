@@ -10,6 +10,7 @@ export {
 } from './components';
 export type { CreateWorkPackageFromSelection } from './components';
 export { initializeOpBlockNoteExtensions } from './initialize';
+export { UserMentionNotificationExtension } from './plugins/userMentionNotificationExtension';
 export type { InlineWpSize, BlockWpSize, WpSize } from './components/WorkPackage/types';
 export { OpenProjectHashMenu, createHashWpMenuComponent, isHashWpQuery, useHashWpMenu, HASH_TRIGGER } from './components/HashMenu';
 export type { HashMenuItem } from './components/HashMenu';
