@@ -49,6 +49,24 @@ RSpec.describe Group do
     expect(new_group.save).to be true
   end
 
+  describe "#avatar_color=" do
+    it "normalizes a long hex form to uppercase" do
+      new_group.avatar_color = "#aabbcc"
+      expect(new_group.avatar_color).to eql "#AABBCC"
+    end
+
+    it "normalizes a short hex form to its long uppercase form" do
+      new_group.avatar_color = "#abc"
+      expect(new_group.avatar_color).to eql "#AABBCC"
+    end
+
+    it "clears the value when set to blank" do
+      new_group.avatar_color = "#aabbcc"
+      new_group.avatar_color = ""
+      expect(new_group.avatar_color).to be_nil
+    end
+  end
+
   describe "with long but allowed attributes" do
     it "is valid" do
       group.name = "a" * 256

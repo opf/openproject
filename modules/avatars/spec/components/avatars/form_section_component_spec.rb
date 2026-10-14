@@ -16,7 +16,7 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
   def render_section
     render_inline(
       described_class.new(
-        user:,
+        principal: user,
         target_avatar_path: "/users/1/avatar",
         avatar_color_path: "/users/1/avatar/update_color"
       )
@@ -81,6 +81,27 @@ RSpec.describe Avatars::FormSectionComponent, type: :component do
       render_section
 
       expect(page).to have_css("[data-test-selector='avatar-delete-link']")
+    end
+  end
+
+  context "when rendering for a group" do
+    let(:user) { build_stubbed(:group) }
+    let(:enable_gravatars) { true }
+    let(:enable_local_avatars) { true }
+
+    it "never shows the Gravatar hint, since groups have no email" do
+      render_section
+
+      expect(page).to have_no_link("gravatar.com")
+      expect(page).to have_css(".Subhead-description", text: I18n.t("avatars.text_avatar_local_only"))
+    end
+
+    it "reads and writes avatar_color directly on the group" do
+      user.avatar_color = "#AABBCC"
+
+      render_section
+
+      expect(page).to have_field("avatar_color", with: "#AABBCC")
     end
   end
 

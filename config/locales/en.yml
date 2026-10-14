@@ -211,11 +211,13 @@ en:
         row_count: "Number of rows"
         widgets: "Widgets"
       group:
+        avatar_color: "Fallback color"
         group_users: "Group users"
         identity_url: "Identity URL"
         organizational_unit: "Organizational unit"
         parent: "Parent group"
       group_detail:
+        avatar_color: "Fallback color"
         organizational_unit: "Organizational unit"
         parent: "Parent group"
       "import/jira":
@@ -473,7 +475,6 @@ en:
         auto_hide_popups_caption: "When enabled, the green success banners will automatically disappear after 5 seconds."
         avatar_color: "Fallback color"
         button_update_alerts: "Update alerts"
-        button_update_fallback_color: "Update fallback color"
         button_update_look_and_feel: "Update look and feel"
         button_update_user_information: "Update profile"
         comments_sorting: "Display work package activity sorted by"
@@ -3769,6 +3770,8 @@ en:
   groups:
     edit:
       synchronized_groups: "Synchronized groups"
+    form:
+      group_attributes: "Group attributes"
     index:
       description: By grouping users together, you can add them as members to the same projects or assign the same global roles to them.
     memberships:
