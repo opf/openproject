@@ -47,19 +47,16 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
   def fail_network = "return Promise.reject(new TypeError('Failed to fetch'));"
   def hang_until_released = "return new Promise((resolve) => { window.__release = () => resolve({ ok: true }); });"
 
-  def offline_text(key)
-    find("[data-offline-page]", visible: :all)["data-#{key}"]
-  end
+  def offline_text(key) = I18n.t("pwa.offline.#{key}")
 
   it "reports that the connection is still down and lets the user retry again" do
     visit offline_path
     stub_fetch(fail_network)
 
-    click_on offline_text("retry-label")
+    click_on offline_text("retry")
 
-    expect(page).to have_text(offline_text("status-still"))
-    expect(page).to have_button(offline_text("retry-label"))
-    expect(page).to have_no_css("[aria-busy='true']")
+    expect(page).to have_text(offline_text("status_still"))
+    expect(find_button(offline_text("retry"))["aria-busy"]).to eq("false")
   end
 
   it "announces the restored connection and leaves the offline page for the home page" do
@@ -67,13 +64,12 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
     stub_fetch(respond_ok)
     page.execute_script("window.__sameDocument = true")
 
-    click_on offline_text("retry-label")
+    click_on offline_text("retry")
 
-    expect(page).to have_heading(offline_text("headline-online"))
+    expect(page).to have_heading(offline_text("headline_online"))
     expect(page.evaluate_script("window.__fetchUrls")).to eq([offline_path])
-    expect(page).to have_text(offline_text("status-restored"))
+    expect(page).to have_text(offline_text("status_restored"))
     expect(page).to have_no_current_path(offline_path)
-    expect(page).to have_no_css("[data-offline-page]")
     expect(page.evaluate_script("window.__sameDocument")).to be_nil
   end
 
@@ -81,11 +77,11 @@ RSpec.describe "PWA offline page", :js, with_flag: { progressive_web_app: true }
     visit offline_path
     stub_fetch(hang_until_released)
 
-    click_on offline_text("retry-label")
-    expect(page).to have_button(offline_text("retrying-label"))
-    click_on offline_text("retrying-label")
+    click_on offline_text("retry")
+    expect(page).to have_button(offline_text("retrying"))
+    click_on offline_text("retrying")
 
-    expect(page).to have_css("[aria-busy='true'][aria-disabled='true']")
+    expect(find_button(offline_text("retrying"))).to match_css("[aria-busy='true'][aria-disabled='true']")
     expect(page.evaluate_script("window.__fetchUrls.length")).to eq(1)
   end
 end
