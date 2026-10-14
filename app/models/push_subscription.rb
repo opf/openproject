@@ -37,4 +37,6 @@ class PushSubscription < ApplicationRecord
   belongs_to :session, class_name: "Sessions::UserSession"
 
   validates :endpoint, presence: true, uniqueness: true
+
+  scope :under_host, ->(host) { where("endpoint ~ ?", "^https://([^/]+\\.)?#{Regexp.escape(host)}/") }
 end

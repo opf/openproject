@@ -68,8 +68,7 @@ module OpenProject::WebPush
     end
 
     def stored_endpoint_host(host)
-      authority = "^https://([^/]+\\.)?#{Regexp.escape(host)}/"
-      endpoint = PushSubscription.where("endpoint ~ ?", authority).order(:id).pick(:endpoint)
+      endpoint = PushSubscription.under_host(host).order(:id).pick(:endpoint)
       URI(endpoint).host if endpoint
     end
 

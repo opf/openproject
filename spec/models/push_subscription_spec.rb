@@ -60,6 +60,19 @@ RSpec.describe PushSubscription do
       .not_to change { described_class.exists?(subscription.id) }.from(true)
   end
 
+  describe ".under_host" do
+    let!(:apple) { create(:push_subscription, endpoint: "https://web.push.apple.com/abc") }
+    let!(:windows) { create(:push_subscription, endpoint: "https://wns2-db5p.notify.windows.com/w/?token=abc") }
+    let!(:lookalike) { create(:push_subscription, endpoint: "https://notify.windows.com.evil.example/w") }
+
+    it "matches the host itself and its subdomains, but not a look-alike suffix" do
+      expect(described_class.under_host("push.apple.com")).to contain_exactly(apple)
+      expect(described_class.under_host("notify.windows.com")).to contain_exactly(windows)
+      expect(described_class.under_host("fcm.googleapis.com")).to contain_exactly(subscription)
+      expect(described_class.under_host("evil.example")).to contain_exactly(lookalike)
+    end
+  end
+
   it "requires a unique endpoint" do
     duplicate = build(:push_subscription, user:, endpoint: subscription.endpoint)
 
