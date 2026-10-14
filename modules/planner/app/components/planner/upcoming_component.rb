@@ -30,18 +30,11 @@
 
 module Planner
   class UpcomingComponent < BaseComponent
-    def initialize(upcoming:, adding: nil, filter: View::FILTERS.first)
-      super(adding:, filter:)
-      @upcoming = upcoming
-    end
-
     def add_todo_defaults = { date: upcoming.days.first.date, day_part: :morning }
-
-    def filterable? = true
 
     private
 
-    attr_reader :upcoming
+    def upcoming = model
 
     def day_name(date)
       return t("planner.upcoming.tomorrow") if date == upcoming.user.today + 1

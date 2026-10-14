@@ -130,9 +130,6 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
         link = page.find("[data-test-selector='planner-create-meeting']")
         expect(link[:href]).to include("title=Wiki+permissions").and include("participant_ids%5B%5D=#{colleague.id}")
         expect(link["data-controller"]).to eq("async-dialog")
-        expect(page).to have_link("Add work package",
-                                  href: new_dialog_planner_tasks_path(view: :today, kind: :work_package, date: user.today,
-                                                                      day_part: :morning))
       end
     end
 
@@ -163,6 +160,7 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
       link = page.find_link("Add to-do", href: new_dialog_planner_tasks_path(view: :today, date: user.today, day_part: :morning),
                                          match: :first)
       expect(link["data-controller"]).to eq("async-dialog")
+      expect(page).to have_no_link("Add work package")
       %w[morning afternoon evening].each do |day_part|
         link = page.find("[data-test-selector='planner-add-todo-#{day_part}']")
         expect(link[:href]).to eq(planner_path(adding: day_part))

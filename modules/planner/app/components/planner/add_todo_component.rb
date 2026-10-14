@@ -44,11 +44,11 @@ module Planner
     attr_reader :group, :view
 
     # Rows of the sortable views start with a drag handle, which the link leaves room for.
-    def handle_space? = View.sortable?(view)
+    def handle_space? = Views.sortable?(view)
 
     def link_arguments
       {
-        href: Planner::Menu.path_for(view, adding: group),
+        href: Views.path_for(view, adding: group),
         scheme: :secondary,
         font_size: :small,
         display: :flex,

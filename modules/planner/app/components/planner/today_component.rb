@@ -30,18 +30,11 @@
 
 module Planner
   class TodayComponent < BaseComponent
-    def initialize(today:, adding: nil, filter: View::FILTERS.first)
-      super(adding:, filter:)
-      @today = today
-    end
-
     def add_todo_defaults = { date: today.date, day_part: today.current_day_part }
-
-    def filterable? = true
 
     private
 
-    attr_reader :today
+    def today = model
 
     def section_box_arguments(section)
       name = t("planner.day_part.#{section.day_part}")

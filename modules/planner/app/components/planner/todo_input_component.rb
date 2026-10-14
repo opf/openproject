@@ -45,11 +45,11 @@ module Planner
 
     attr_reader :group, :view, :task_fields
 
-    def view_param = View.param(view)
+    def view_param = Views.param(view)
 
-    def handle_space? = View.sortable?(view)
+    def handle_space? = Views.sortable?(view)
 
-    def cancel_path = Planner::Menu.path_for(view)
+    def cancel_path = Views.path_for(view)
 
     def subject_field_arguments
       {

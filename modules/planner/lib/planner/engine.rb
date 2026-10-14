@@ -68,7 +68,7 @@ module Planner
 
     initializer "planner.feature_decisions" do
       OpenProject::FeatureDecisions.add :planner,
-                                        description: "A personal Planner with Today, Upcoming, Overdue and Completed views."
+                                        description: "My planner: personal Today, Upcoming, Overdue and Completed views."
     end
   end
 end

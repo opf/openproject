@@ -51,7 +51,7 @@ RSpec.describe Planner::AddWorkPackageService do
 
   it "adds a task referencing it to the current day part" do
     expect(subject).to be_success, -> { subject.message }
-    expect(subject.message).to eq("Added to Afternoon in the Planner.")
+    expect(subject.message).to eq("Added to Afternoon in My planner.")
 
     task = subject.result
     expect(task.subject).to eq("##{work_package.display_id}")
@@ -64,7 +64,7 @@ RSpec.describe Planner::AddWorkPackageService do
 
     it "plans it there" do
       expect(subject).to be_success, -> { subject.message }
-      expect(subject.message).to eq("Added to Evening on October 09, 2026 in the Planner.")
+      expect(subject.message).to eq("Added to Evening on October 09, 2026 in My planner.")
       expect(subject.result.due_date).to eq(Date.new(2026, 10, 9))
       expect(Planner::DayPartField.find.day_part_of(subject.result)).to eq(:evening)
     end
@@ -109,7 +109,7 @@ RSpec.describe Planner::AddWorkPackageService do
         expect { subject }.to change(WorkPackage, :count).by(1)
         expect(subject.result).to have_attributes(subject: "Write Maya about the docs ##{work_package.display_id}",
                                                   description: "API docs")
-        expect(subject.message).to eq("Added to Afternoon in the Planner.")
+        expect(subject.message).to eq("Added to Afternoon in My planner.")
       end
     end
   end
