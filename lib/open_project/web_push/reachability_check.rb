@@ -43,10 +43,12 @@ module OpenProject::WebPush
     def self.call = new.call
 
     def call
-      OpenProject::WebPush.push_service_hosts
-        .map { |host| [host, *probe_target(host)] }
-        .map { |host, url, sample| Thread.new { probe(host, url, sample) } }
-        .map(&:value)
+      targets = OpenProject::WebPush.push_service_hosts.map { |host| [host, *probe_target(host)] }
+      threads = targets.map do |host, url, sample|
+        Thread.new { Rails.application.executor.wrap { probe(host, url, sample) } }
+      end
+
+      ActiveSupport::Dependencies.interlock.permit_concurrent_loads { threads.map(&:value) }
     end
 
     private
