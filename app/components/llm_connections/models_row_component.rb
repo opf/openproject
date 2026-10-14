@@ -76,8 +76,8 @@ module LlmConnections
     end
 
     def source_label
-      return %i[accent source_manual] if llm_model.manual?
       return %i[attention source_withdrawn] if llm_model.withdrawn?
+      return %i[accent source_manual] if llm_model.manual?
 
       %i[secondary source_discovered]
     end
