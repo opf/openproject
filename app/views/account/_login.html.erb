@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
   <%= render partial: "account/auth_providers" %>
-  <% if Setting::SelfRegistration.enabled? %>
+  <% if self_registration_possible? %>
     <%= render partial: "account/signup_prompt" %>
   <% end %>
 </div>

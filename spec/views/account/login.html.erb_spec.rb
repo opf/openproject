@@ -132,6 +132,20 @@ RSpec.describe "account/login" do
     end
   end
 
+  context "with self registration enabled but password login disabled" do
+    before do
+      allow(Setting).to receive_messages(
+        password_login: "none",
+        self_registration: Setting::SelfRegistration.value(key: :activation_by_email)
+      )
+      render
+    end
+
+    it "does not render the registration section, as registering is not possible" do
+      expect(rendered).to have_no_css(".account-prompt")
+    end
+  end
+
   context "with password login disabled on the internal login page" do
     before do
       allow(Setting).to receive(:password_login).and_return("none")
