@@ -1,6 +1,7 @@
 <% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
 const PUSH_URL = <%== pwa_push_notification_path.to_json %>;
 const PUSH_TAG = "openproject-unread";
+const PUSH_FETCH_TIMEOUT_MS = 10000;
 const PUSH_FALLBACK_TITLE = <%== I18n.t("pwa.push.fallback_title", locale: Setting.default_language).to_json %>;
 const PUSH_ALL_READ_TITLE = <%== I18n.t("pwa.push.all_read_title", locale: Setting.default_language).to_json %>;
 const PUSH_ICON = <%== image_path("pwa/icon-192.png").to_json %>;
@@ -20,6 +21,7 @@ const fetchUnread = async () => {
       credentials: "include",
       cache: "no-store",
       headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(PUSH_FETCH_TIMEOUT_MS),
     });
     return response.ok ? await response.json() : null;
   } catch {
