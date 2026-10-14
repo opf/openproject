@@ -46,8 +46,8 @@ RSpec.describe "Edit", :js do
 
   let!(:closed_sprint) do
     create(:sprint,
+           :completed,
            project:,
-           status: "completed",
            start_date: Date.new(2025, 8, 25),
            finish_date: Date.new(2025, 9, 4))
   end
@@ -157,7 +157,7 @@ RSpec.describe "Edit", :js do
 
       describe "validations" do
         context "when sprint status is active" do
-          before { first_sprint.update!(status: "active") }
+          before { first_sprint.update!(started_at: Time.zone.now) }
 
           it "validates required fields are present" do
             planning_page.click_in_sprint_menu(first_sprint, "Edit sprint")

@@ -61,7 +61,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
 
   describe "name link" do
     context "when sprint is in planning" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Planning sprint") }
+      let(:sprint) { build_stubbed(:sprint, project:, name: "Planning sprint") }
 
       it "links to the backlog filtered by sprint" do
         expect(rendered_component).to have_link("Planning sprint",
@@ -70,7 +70,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when sprint is active" do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :active, name: "Active sprint") }
+      let(:sprint) { build_stubbed(:sprint, :active, project:, name: "Active sprint") }
 
       context "and a board exists" do
         let(:board) { build_stubbed(:board_grid, project:, linked: sprint) }
@@ -96,7 +96,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     end
 
     context "when sprint is completed", with_settings: { work_package_list_default_columns: %i[id subject] } do
-      let(:sprint) { build_stubbed(:sprint, project:, status: :completed, name: "Completed sprint", id: 123) }
+      let(:sprint) { build_stubbed(:sprint, :completed, project:, name: "Completed sprint", id: 123) }
 
       it "links to work packages filtered by sprint" do
         query_props = {
@@ -114,7 +114,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
   end
 
   describe "action menu" do
-    let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Sprint 42") }
+    let(:sprint) { build_stubbed(:sprint, project:, name: "Sprint 42") }
 
     before do
       allow(user).to receive(:allowed_in_project?).and_return(false)
@@ -201,7 +201,6 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
     let(:sprint) do
       build_stubbed(:sprint,
                     project:,
-                    status: :in_planning,
                     name: "Sprint 42",
                     start_date: Date.new(2025, 9, 1),
                     finish_date: Date.new(2025, 9, 15))

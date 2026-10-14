@@ -40,6 +40,7 @@ RSpec.describe Backlogs::Sprints::UpdateContract do
                   project: sprint_project,
                   start_date: sprint_start_date,
                   finish_date: sprint_finish_date,
-                  status: sprint_status)
+                  started_at: sprint_started_at,
+                  completed_at: sprint_completed_at)
   end
 end

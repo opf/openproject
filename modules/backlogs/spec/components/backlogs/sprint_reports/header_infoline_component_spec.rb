@@ -33,7 +33,7 @@ require "rails_helper"
 RSpec.describe Backlogs::SprintReports::HeaderInfolineComponent, type: :component do
   let(:sprint) do
     build_stubbed(:sprint,
-                  status: :active,
+                  :active,
                   start_date: Date.new(2025, 1, 15),
                   finish_date: Date.new(2025, 1, 29))
   end

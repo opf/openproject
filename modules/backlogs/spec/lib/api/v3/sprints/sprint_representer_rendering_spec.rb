@@ -36,13 +36,11 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
   let(:workspace) { build_stubbed(:project) }
   let(:start_date) { Date.new(2024, 1, 1) }
   let(:finish_date) { Date.new(2024, 1, 10) }
-  let(:status) { "in_planning" }
   let(:started_at) { Time.zone.local(2024, 1, 1, 9, 0) }
   let(:completed_at) { Time.zone.local(2024, 1, 10, 17, 0) }
   let(:sprint) do
     build_stubbed(:sprint,
                   project: workspace,
-                  status:,
                   name: "Sprint 1",
                   start_date:,
                   finish_date:,
@@ -82,6 +80,9 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
       let(:link) { "status" }
 
       context "with in_planning value" do
+        let(:started_at) { nil }
+        let(:completed_at) { nil }
+
         it_behaves_like "has a titled link" do
           let(:href) { "urn:openproject-org:api:v3:sprints:status:in_planning" }
           let(:title) { I18n.t("activerecord.attributes.sprint.statuses.in_planning") }
@@ -89,7 +90,7 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
       end
 
       context "with active value" do
-        let(:status) { "active" }
+        let(:completed_at) { nil }
 
         it_behaves_like "has a titled link" do
           let(:href) { "urn:openproject-org:api:v3:sprints:status:active" }
@@ -98,8 +99,6 @@ RSpec.describe API::V3::Sprints::SprintRepresenter, "rendering" do
       end
 
       context "with completed value" do
-        let(:status) { "completed" }
-
         it_behaves_like "has a titled link" do
           let(:href) { "urn:openproject-org:api:v3:sprints:status:completed" }
           let(:title) { I18n.t("activerecord.attributes.sprint.statuses.completed") }

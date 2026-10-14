@@ -66,7 +66,7 @@ RSpec.describe Sprints::Scopes::NativeToSprintSource do
         end
 
         context "when the cross-project sprint is completed" do
-          let!(:completed_sprint) { create(:sprint, project: other_project, status: "completed") }
+          let!(:completed_sprint) { create(:sprint, :completed, project: other_project) }
           let!(:work_package) { create(:work_package, project:, sprint: completed_sprint) }
 
           it "returns only the project's own sprint" do

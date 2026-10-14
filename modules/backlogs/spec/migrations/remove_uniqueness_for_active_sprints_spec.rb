@@ -30,8 +30,19 @@
 
 require "spec_helper"
 require Rails.root.join("db/migrate/20260708203257_remove_uniqueness_for_active_sprints")
+require Rails.root.join("modules/backlogs/db/migrate/20261002090000_remove_status_from_sprints")
 
 RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
+  # In this test: RemoveStatusFromSprints has already run.
+  # In production: it runs after RemoveUniquenessForActiveSprints.
+  # The schema change is rolled back together with the example's transaction.
+  before do
+    ActiveRecord::Migration.suppress_messages { RemoveStatusFromSprints.migrate(:down) }
+    Sprint.reset_column_information
+  end
+
+  after { Sprint.reset_column_information }
+
   describe "#down" do
     subject(:migrate) do
       ActiveRecord::Migration.suppress_messages { described_class.migrate(:down) }
@@ -48,7 +59,7 @@ RSpec.describe RemoveUniquenessForActiveSprints, type: :model do
         create(:project, sprint_sharing: "no_sharing", allow_multiple_active_sprints: true)
       end
 
-      shared_let(:sprints) { create_list(:sprint, 2, project:, status: "active") }
+      shared_let(:sprints) { create_list(:sprint, 2, :active, project:) }
 
       it "raises an error describing which projects need cleanup" do
         expect { migrate }.to raise_error(RuntimeError, /Cannot roll back/)

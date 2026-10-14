@@ -242,8 +242,8 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
         let(:project) { create(:project, allow_multiple_active_sprints: true) }
 
         before do
-          create(:sprint, project:, status: "active")
-          create(:sprint, project:, status: "active")
+          create(:sprint, :active, project:)
+          create(:sprint, :active, project:)
           project.allow_multiple_active_sprints = false
         end
 
@@ -254,7 +254,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
         let(:project) { create(:project, allow_multiple_active_sprints: true) }
 
         before do
-          create(:sprint, project:, status: "active")
+          create(:sprint, :active, project:)
           project.allow_multiple_active_sprints = false
         end
 
@@ -266,7 +266,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       let(:project) { create(:project, sprint_sharing: Project::NO_SHARING) }
 
       context "when an active sprint of its own has a work package assigned" do
-        let(:active_sprint) { create(:sprint, project:, status: "active") }
+        let(:active_sprint) { create(:sprint, :active, project:) }
         let!(:work_package) { create(:work_package, project:, sprint: active_sprint) }
 
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
@@ -281,7 +281,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       end
 
       context "when an active sprint of its own has no work packages assigned" do
-        let!(:active_sprint) { create(:sprint, project:, status: "active") }
+        let!(:active_sprint) { create(:sprint, :active, project:) }
 
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
 
@@ -289,7 +289,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       end
 
       context "when the project has no active sprint of its own" do
-        let!(:in_planning_sprint) { create(:sprint, project:, status: "in_planning") }
+        let!(:in_planning_sprint) { create(:sprint, project:) }
 
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
 
@@ -297,7 +297,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       end
 
       context "when a non-active sprint of its own has a work package assigned" do
-        let(:in_planning_sprint) { create(:sprint, project:, status: "in_planning") }
+        let(:in_planning_sprint) { create(:sprint, project:) }
         let!(:work_package) { create(:work_package, project:, sprint: in_planning_sprint) }
 
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
@@ -307,7 +307,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
 
       context "when an active borrowed sprint has a work packages assigned" do
         let(:borrowed_active_sprint) do
-          create(:sprint, project: create(:project, sprint_sharing: Project::NO_SHARING), status: "active")
+          create(:sprint, :active, project: create(:project, sprint_sharing: Project::NO_SHARING))
         end
         let!(:work_package) { create(:work_package, project:, sprint: borrowed_active_sprint) }
 
@@ -318,7 +318,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
 
       context "when a non-active borrowed sprint has a work package assigned" do
         let(:borrowed_in_planning_sprint) do
-          create(:sprint, project: create(:project, sprint_sharing: Project::NO_SHARING), status: "in_planning")
+          create(:sprint, project: create(:project, sprint_sharing: Project::NO_SHARING))
         end
         let!(:work_package) { create(:work_package, project:, sprint: borrowed_in_planning_sprint) }
 
@@ -329,7 +329,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
 
       context "when a borrowed sprint from the sharer has a work package assigned" do
         let(:sharer) { create(:project, sprint_sharing: Project::SHARE_SUBPROJECTS) }
-        let(:borrowed_active_sprint) { create(:sprint, project: sharer, status: "active") }
+        let(:borrowed_active_sprint) { create(:sprint, :active, project: sharer) }
         let!(:work_package) { create(:work_package, project:, sprint: borrowed_active_sprint) }
 
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
@@ -344,7 +344,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
       end
 
       context "when sprint_sharing is unchanged" do
-        let(:active_sprint) { create(:sprint, project:, status: "active") }
+        let(:active_sprint) { create(:sprint, :active, project:) }
 
         before do
           create(:work_package, project:, sprint: active_sprint)
@@ -362,7 +362,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
 
       context "when the sharer has a sprint" do
         let(:sharer) { create(:project, sprint_sharing: Project::SHARE_SUBPROJECTS) }
-        let!(:sharer_sprint) { create(:sprint, project: sharer, status: "in_planning") }
+        let!(:sharer_sprint) { create(:sprint, project: sharer) }
 
         before { project.sprint_sharing = Project::NO_SHARING }
 
@@ -380,7 +380,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
           it_behaves_like "contract is invalid", sprint_sharing: :work_packages_still_linked_to_shared_sprints
 
           context "when the sharer's sprint is active" do
-            let(:sharer_sprint) { create(:sprint, project: sharer, status: "active") }
+            let(:sharer_sprint) { create(:sprint, :active, project: sharer) }
 
             it_behaves_like "contract is invalid", sprint_sharing: :work_packages_still_linked_to_shared_sprints
           end
@@ -404,7 +404,7 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
 
       context "when sprint_sharing stays receive_shared" do
         let(:sharer) { create(:project, sprint_sharing: Project::SHARE_SUBPROJECTS) }
-        let(:sharer_sprint) { create(:sprint, project: sharer, status: "active") }
+        let(:sharer_sprint) { create(:sprint, :active, project: sharer) }
         let!(:work_package) { create(:work_package, project:, sprint: sharer_sprint) }
 
         it_behaves_like "contract is valid"

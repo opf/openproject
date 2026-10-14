@@ -39,9 +39,11 @@ RSpec.describe Backlogs::Sprints::StartContract do
   let(:sprint) do
     create(:sprint,
            project:,
-           status: sprint_status)
+           started_at:,
+           completed_at:)
   end
-  let(:sprint_status) { "in_planning" }
+  let(:started_at) { nil }
+  let(:completed_at) { nil }
   let(:permissions) { [:start_complete_sprint] }
 
   subject(:contract) { described_class.new(sprint, user) }
@@ -64,32 +66,33 @@ RSpec.describe Backlogs::Sprints::StartContract do
     end
 
     context "when sprint is active" do
-      let(:sprint_status) { "active" }
+      let(:started_at) { Time.zone.now }
 
       it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when sprint is completed" do
-      let(:sprint_status) { "completed" }
+      let(:started_at) { 1.week.ago }
+      let(:completed_at) { Time.zone.now }
 
       it_behaves_like "contract is invalid", status: :must_be_in_planning
     end
 
     context "when the sprint has no start date" do
-      let(:sprint) { create(:sprint, project:, status: sprint_status, start_date: nil) }
+      let(:sprint) { create(:sprint, project:, start_date: nil) }
 
       it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when the sprint has no finish date" do
-      let(:sprint) { create(:sprint, project:, status: sprint_status, finish_date: nil) }
+      let(:sprint) { create(:sprint, project:, finish_date: nil) }
 
       it_behaves_like "contract is invalid", base: :dates_required
     end
 
     context "when another active sprint exists in the project" do
       before do
-        create(:sprint, project:, status: "active")
+        create(:sprint, :active, project:)
       end
 
       it_behaves_like "contract is invalid", status: :only_one_active_sprint_allowed
@@ -103,7 +106,7 @@ RSpec.describe Backlogs::Sprints::StartContract do
 
     context "when an active sprint exists in a different, unrelated project" do
       before do
-        create(:sprint, project: create(:project), status: "active")
+        create(:sprint, :active, project: create(:project))
       end
 
       it_behaves_like "contract is valid"
@@ -114,7 +117,7 @@ RSpec.describe Backlogs::Sprints::StartContract do
       let(:project) { create(:project, parent:, sprint_sharing: "receive_shared") }
 
       before do
-        create(:sprint, project: parent, status: "active")
+        create(:sprint, :active, project: parent)
       end
 
       it_behaves_like "contract is invalid",

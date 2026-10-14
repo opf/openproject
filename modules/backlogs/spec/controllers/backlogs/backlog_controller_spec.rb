@@ -163,7 +163,7 @@ RSpec.describe Backlogs::BacklogController do
           create(:work_package, project: receiving_project, type: type_feature, status:, sprint: shared_sprint)
         end
         let!(:invisible_active_sprint) do
-          create(:sprint, project: sharer_project, status: "active",
+          create(:sprint, :active, project: sharer_project,
                           start_date: Date.yesterday, finish_date: Date.tomorrow)
         end
 

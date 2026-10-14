@@ -39,7 +39,7 @@ RSpec.describe "API v3 Sprint resource on project", content_type: :json do
   shared_let(:other_project) { create(:project, public: false) }
   shared_let(:project_without_permission) { create(:project, public: false) }
   shared_let(:sprint) { create(:sprint, project:) }
-  shared_let(:finished_sprint) { create(:sprint, project:, status: :completed) }
+  shared_let(:finished_sprint) { create(:sprint, :completed, project:) }
   shared_let(:other_sprint) { create(:sprint, project: other_project) }
   shared_let(:sprint_without_permission) { create(:sprint, project: project_without_permission) }
 

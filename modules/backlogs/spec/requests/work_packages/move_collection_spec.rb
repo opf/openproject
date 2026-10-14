@@ -205,7 +205,7 @@ RSpec.describe "Backlogs collection move", :skip_csrf, type: :rails_request do
     end
 
     it "streams an error flash and a 422 for a same-list reorder into a completed sprint" do
-      sprint.update!(status: "completed")
+      sprint.update!(completed_at: Time.zone.now)
 
       move_collection(ids: [sprint_wp2.id], list_type: "sprint", list_id: sprint.id,
                       prev_id: sprint_wp3.id, optimistic: true)
