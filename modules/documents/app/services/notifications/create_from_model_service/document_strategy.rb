@@ -46,18 +46,19 @@ module Notifications::CreateFromModelService::DocumentStrategy
     :manage_documents
   end
 
-  # Mentions (created via the API) are displayed in the notification center
-  # while notifications for added documents are only sent out by mail.
-  def self.supports_ian?(reason)
-    reason.to_sym == :mentioned
+  # The notification center does not support documents yet. Hence, notifications
+  # for documents (both added documents and mentions created via the API) are only
+  # sent out by mail.
+  def self.supports_ian?(_reason)
+    false
   end
 
   def self.supports_mail_digest?(_reason)
     false
   end
 
-  def self.supports_mail?(reason)
-    reason.to_sym != :mentioned
+  def self.supports_mail?(_reason)
+    true
   end
 
   def self.subscribed_users(journal)

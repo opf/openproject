@@ -31,6 +31,24 @@
 module Notifications::MailService::DocumentStrategy
   class << self
     def send_mail(notification)
+      if notification.reason_mentioned?
+        send_mentioned_mail(notification)
+      else
+        send_document_added_mail(notification)
+      end
+    end
+
+    private
+
+    def send_mentioned_mail(notification)
+      return unless notification.recipient.pref.immediate_reminders[:mentioned]
+
+      DocumentsMailer
+        .mentioned(notification.recipient, notification)
+        .deliver_later
+    end
+
+    def send_document_added_mail(notification)
       return unless notification.journal&.initial?
 
       DocumentsMailer

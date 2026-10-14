@@ -29,6 +29,27 @@
 #++
 
 class DocumentsMailer < UserMailer
+  def mentioned(recipient, notification)
+    @user = recipient
+    @document = notification.resource
+    @author = notification.actor
+
+    User.execute_as @author do
+      open_project_headers "Project" => @document.project.identifier,
+                           "Type" => "Document"
+
+      message_id notification, recipient
+      references @document
+
+      send_localized_mail(recipient) do
+        I18n.t(:"documents.mail.mentioned.subject",
+               project_name: @document.project.name,
+               user_name: @author.name,
+               title: @document.title)
+      end
+    end
+  end
+
   def document_added(user, document)
     @document = document
 

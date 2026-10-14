@@ -34,12 +34,34 @@ RSpec.describe Notifications::MailService, type: :model do
   subject(:call) { instance.call }
 
   let(:recipient) do
-    build_stubbed(:user)
+    build_stubbed(:user,
+                  preferences: {
+                    immediate_reminders: {
+                      mentioned: immediate_reminders_mentioned
+                    }
+                  })
   end
+  let(:immediate_reminders_mentioned) { true }
   let(:actor) do
     build_stubbed(:user)
   end
   let(:instance) { described_class.new(notification) }
+  let(:read_ian) { nil }
+  let(:mail) do
+    mail = instance_double(ActionMailer::MessageDelivery)
+
+    allow(DocumentsMailer)
+      .to receive_messages(document_added: mail, mentioned: mail)
+
+    allow(mail)
+      .to receive(:deliver_later)
+
+    mail
+  end
+
+  before do
+    mail
+  end
 
   context "with a document journal notification" do
     let(:journal) do
@@ -50,35 +72,18 @@ RSpec.describe Notifications::MailService, type: :model do
                 .and_return(initial_journal)
       end
     end
-    let(:read_ian) { false }
     let(:notification) do
       build_stubbed(:notification,
                     journal:,
+                    reason: :subscribed,
                     resource: journal.journable,
                     recipient:,
                     actor:,
                     read_ian:)
     end
-    let(:notification_setting) { %w(document_added) }
-    let(:mail) do
-      mail = instance_double(ActionMailer::MessageDelivery)
-
-      allow(DocumentsMailer)
-        .to receive(:document_added)
-              .and_return(mail)
-
-      allow(mail)
-        .to receive(:deliver_later)
-
-      mail
-    end
     let(:initial_journal) { true }
 
-    before do
-      mail
-    end
-
-    it "sends a mail" do
+    it "sends a document added mail" do
       call
 
       expect(DocumentsMailer)
@@ -88,6 +93,9 @@ RSpec.describe Notifications::MailService, type: :model do
 
       expect(mail)
         .to have_received(:deliver_later)
+
+      expect(DocumentsMailer)
+        .not_to have_received(:mentioned)
     end
 
     context "with the notification read in app already" do
@@ -111,21 +119,42 @@ RSpec.describe Notifications::MailService, type: :model do
           .not_to have_received(:document_added)
       end
     end
+  end
 
-    context "with a mention notification without a journal" do
-      let(:notification) do
-        build_stubbed(:notification,
-                      journal: nil,
-                      reason: :mentioned,
-                      resource: build_stubbed(:document),
-                      recipient:,
-                      actor:,
-                      read_ian:)
-      end
+  context "with a mention notification without a journal" do
+    let(:document) { build_stubbed(:document) }
+    let(:notification) do
+      build_stubbed(:notification,
+                    journal: nil,
+                    reason: :mentioned,
+                    resource: document,
+                    recipient:,
+                    actor:,
+                    read_ian:)
+    end
+
+    it "sends a mentioned mail" do
+      call
+
+      expect(DocumentsMailer)
+        .to have_received(:mentioned)
+              .with(recipient, notification)
+
+      expect(mail)
+        .to have_received(:deliver_later)
+
+      expect(DocumentsMailer)
+        .not_to have_received(:document_added)
+    end
+
+    context "with the recipient having deactivated immediate mails for mentions" do
+      let(:immediate_reminders_mentioned) { false }
 
       it "sends no mail" do
         call
 
+        expect(DocumentsMailer)
+          .not_to have_received(:mentioned)
         expect(DocumentsMailer)
           .not_to have_received(:document_added)
       end
