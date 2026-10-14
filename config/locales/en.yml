@@ -413,6 +413,8 @@ en:
         ongoing: "Ongoing"
         spent_on: "Date"
         type: "Type"
+      token/api:
+        scopes: "Scopes"
       token/base:
         expires_on: "Expiration date"
       token/ical:
@@ -958,6 +960,11 @@ en:
           attributes:
             hours:
               day_limit: "is too high as a maximum of 24 hours can be logged per date."
+        token/api:
+          attributes:
+            scopes:
+              admin_elevation_requires_admin: "can only include admin elevation for administrators."
+              blank: "Please select at least one scope"
         token/named:
           attributes:
             token_name:

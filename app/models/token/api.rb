@@ -32,6 +32,28 @@ module Token
   class API < Named
     include Expirable
 
+    SCOPES = [
+      OpenProject::Authentication::Scope::API_V3.to_s,
+      OpenProject::Authentication::Scope::MCP_SCOPE.to_s,
+      "webhooks",
+      "admin_elevation"
+    ].freeze
+
     prefix :opapi
+
+    store_attribute :data, :scopes, :json, default: []
+
+    validates :scopes, presence: true
+    validate :validate_scopes_known
+
+    def includes_scope?(scope)
+      scopes.include?(scope.to_s)
+    end
+
+    private
+
+    def validate_scopes_known
+      errors.add(:scopes, :inclusion) if (scopes - SCOPES).any?
+    end
   end
 end

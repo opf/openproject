@@ -38,6 +38,7 @@ FactoryBot.define do
   factory :api_token, class: "::Token::API" do
     user
     token_name { "my token name" }
+    scopes { %w[api_v3 mcp webhooks] }
   end
 
   factory :rss_token, class: "::Token::RSS" do

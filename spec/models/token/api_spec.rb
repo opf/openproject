@@ -148,6 +148,39 @@ RSpec.describe Token::API do
     end
   end
 
+  describe "scopes validation" do
+    it "accepts known scopes" do
+      expect(build(:api_token, user:, scopes: %w[api_v3 admin_elevation])).to be_valid
+    end
+
+    it "rejects no scopes" do
+      token = build(:api_token, user:, scopes: [])
+
+      expect(token).not_to be_valid
+      expect(token.errors.symbols_for(:scopes)).to contain_exactly(:blank)
+    end
+
+    it "rejects unknown scopes" do
+      token = build(:api_token, user:, scopes: %w[api_v3 everything])
+
+      expect(token).not_to be_valid
+      expect(token.errors.symbols_for(:scopes)).to contain_exactly(:inclusion)
+    end
+  end
+
+  describe "#includes_scope?" do
+    subject(:token) { build(:api_token, user:, scopes: %w[api_v3]) }
+
+    it "is true for a granted scope, given as symbol or string" do
+      expect(token.includes_scope?(:api_v3)).to be(true)
+      expect(token.includes_scope?("api_v3")).to be(true)
+    end
+
+    it "is false for a scope that is not granted" do
+      expect(token.includes_scope?(:mcp)).to be(false)
+    end
+  end
+
   describe "expires_on validation" do
     it "accepts no expiry" do
       expect(build(:api_token, user:, expires_on: nil)).to be_valid
