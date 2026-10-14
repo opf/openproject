@@ -40,8 +40,8 @@ flowchart LR
 
 1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame, and so does every user while no LLM connection with a model is available.
 2. The menu frame renders one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
-3. A skill that answers at once posts to `ChatsController#start`: a new chat, with the skill's label as the first message. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
-4. `AI::AssistantChats::SendMessageService` stores the question and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
+3. A skill that answers at once posts to `ChatsController#start`: a new chat that starts with a start message (role `start`). `#rerun` adds another start to the same chat. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
+4. `AI::AssistantChats::SendMessageService` stores the question or the start and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
 5. The user applies a proposal or dismisses it, with an optional reason (`ChatsController#apply`, `#dismiss`).
 
 ## Decisions

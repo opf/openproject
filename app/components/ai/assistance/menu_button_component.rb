@@ -53,8 +53,7 @@ module AI
         url_helpers.history_work_package_ai_assistance_chat_path(work_package)
       end
 
-      # A skill without a first message opens its chat; any other starts a new conversation
-      # with that message.
+      # A chat skill opens its chat; any other starts a new conversation that it answers at once.
       def item_arguments(skill)
         if skill.chat?
           { href: url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id),

@@ -104,7 +104,7 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
 
     it "stores the findings with evidence and the plain proposals with a valid change" do
-      message = ask("Refresh work package")
+      message = ask("What is missing?")
 
       expect(message).to be_done
       expect(message.content).to eq("Zwei Befunde.")
@@ -117,17 +117,17 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
 
     it "sends the visible context in the system prompt, at a low temperature" do
-      ask("Refresh work package")
+      ask("What is missing?")
 
       expect(sent[:system]).to include("Context (JSON)", "Public note", AI::Assistance::OutputRules::PROPOSALS,
                                        %(locale code "de"))
       expect(sent[:system]).not_to include("Secret note")
-      expect(sent[:user]).to eq("Refresh work package")
+      expect(sent[:user]).to eq("What is missing?")
       expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
     end
 
     it "tells the model what it proposed before" do
-      ask("Refresh work package")
+      ask("What is missing?")
       ask("And now?")
 
       expect(sent[:history].last.last).to include("Proposals:", "- Der Kommentar ändert den Umfang. (open)")

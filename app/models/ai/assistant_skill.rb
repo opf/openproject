@@ -41,7 +41,7 @@ module AI
     validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
 
-    # Opening the skill sends its label as the first message, and it answers at once.
+    # Opening the skill starts a new chat, and the skill answers its instructions at once.
     # Without it, the skill opens an empty chat for the user's own questions.
     store_attribute :settings, :answers_at_once, :boolean, default: true
 
