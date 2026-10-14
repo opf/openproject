@@ -44,7 +44,7 @@ RSpec.describe AI::AssistantRuns::Review do
                               skill: create(:ai_assistant_skill, prompt: admin_prompt || "Check it."))
   end
   let(:admin_prompt) { nil }
-  let(:answer) { { findings: [] } }
+  let(:answer) { { answer: "", proposals: [] } }
   let(:chat) { instance_double(RubyLLM::Chat) }
   let(:session) { instance_double(Llm::Session, chat:) }
   let(:sent) { {} }
@@ -76,7 +76,7 @@ RSpec.describe AI::AssistantRuns::Review do
 
   context "with findings in the answer" do
     let(:answer) do
-      { findings: [
+      { answer: "Two findings.", proposals: [
         { severity: "medium", area: "content", text: "Der Kommentar ändert den Umfang.",
           evidence: ["Public note"], changes: [{ field: "description", value: "New text" }] },
         { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },

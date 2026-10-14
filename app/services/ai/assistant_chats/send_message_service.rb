@@ -45,6 +45,8 @@ module AI
       def call(content)
         content = content.to_s.strip
         return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.empty")) if content.empty?
+
+        chat.fail_stale_answers!
         return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.pending")) if chat.pending?
 
         answer = AI::AssistantChat.transaction do

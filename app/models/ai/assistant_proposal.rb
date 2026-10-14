@@ -52,8 +52,8 @@ module AI
 
     delegate :chat, to: :message
 
-    # A finding names what is wrong and shows why; a plain proposal is only a change.
-    def finding? = text.present?
+    # A finding has a severity and evidence; a plain proposal is only a change with a short text.
+    def finding? = severity.present?
 
     def proposal_work_package = chat.work_package
 

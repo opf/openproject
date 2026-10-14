@@ -47,8 +47,19 @@ module AI
       self.for(user, work_package).where(skill:).order(created_at: :desc, id: :desc).first
     end
 
+    # An answer that is still pending after this time has failed, for example after a crash.
+    ANSWER_TIMEOUT = 10.minutes
+
     def pending?
       messages.any?(&:pending?)
+    end
+
+    def fail_stale_answers!
+      stale = messages.where(status: "pending", created_at: ...ANSWER_TIMEOUT.ago)
+      return if stale.none?
+
+      stale.update_all(status: "failed", updated_at: Time.current)
+      messages.reset
     end
   end
 end

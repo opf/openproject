@@ -31,20 +31,21 @@
 module AI
   module AssistantSkills
     module HealthCheck
-      # The message the model gets for a health check, and how its answer becomes findings.
-      # The prompt itself is data on the skill (instructions and output rules), not code.
-      # It reads only what the user who started the run can see: the job runs as that user.
+      # The message the model gets for an answer with findings, and how its answer becomes
+      # findings. The prompt itself is data on the skill (instructions and output rules), not
+      # code. It reads only what the user can see: the job runs as that user.
       class Review
         AREAS = %w[content status relations tree pull_requests].freeze
+        SEVERITIES = %w[high medium low].freeze
 
-        attr_reader :run
+        attr_reader :skill, :work_package, :user, :rule_findings
 
-        def initialize(run)
-          @run = run
-        end
-
-        def work_package
-          run.work_package
+        # rule_findings: the texts of the findings that the rules already reported.
+        def initialize(skill:, work_package:, user:, rule_findings: [])
+          @skill = skill
+          @work_package = work_package
+          @user = user
+          @rule_findings = rule_findings
         end
 
         def lock_version
@@ -55,16 +56,17 @@ module AI
           {
             type: "object",
             additionalProperties: false,
-            required: %w[findings],
+            required: %w[answer proposals],
             properties: {
-              findings: {
+              answer: { type: "string" },
+              proposals: {
                 type: "array",
                 items: {
                   type: "object",
                   additionalProperties: false,
                   required: %w[severity area text evidence changes],
                   properties: {
-                    severity: { type: "string", enum: AI::AssistantRunFinding.severities.keys },
+                    severity: { type: "string", enum: SEVERITIES },
                     area: { type: "string", enum: AREAS },
                     text: { type: "string" },
                     evidence: { type: "array", items: { type: "string" } },
@@ -77,8 +79,8 @@ module AI
         end
 
         def user_message
-          AI::Assistance::WorkPackageContext.new(work_package:, user: run.user).to_h.merge(
-            rule_findings: run.findings.rule.map(&:text),
+          AI::Assistance::WorkPackageContext.new(work_package:, user:).to_h.merge(
+            rule_findings:,
             change_options: change_options.for_prompt
           ).to_json
         end
@@ -88,7 +90,7 @@ module AI
           raw = raw.to_h.stringify_keys
           evidence = Array(raw["evidence"]).filter_map { |text| text.to_s.strip.presence }
           return if evidence.empty? || raw["text"].to_s.strip.empty?
-          return unless AI::AssistantRunFinding.severities.key?(raw["severity"]) && AREAS.include?(raw["area"])
+          return unless SEVERITIES.include?(raw["severity"]) && AREAS.include?(raw["area"])
 
           {
             severity: raw["severity"],
@@ -102,7 +104,7 @@ module AI
         private
 
         def change_options
-          @change_options ||= AI::Assistance::ChangeOptions.new(keys: run.skill.changeable_attributes, work_package:, user: run.user)
+          @change_options ||= AI::Assistance::ChangeOptions.new(keys: skill.changeable_attributes, work_package:, user:)
         end
 
         def proposal_builder

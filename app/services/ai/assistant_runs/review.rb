@@ -45,8 +45,9 @@ module AI
       end
 
       def call
-        review = run.skill.skill_type.review_class.new(run)
-        raw_findings = Array(ask(review)[:findings])
+        review = run.skill.skill_type.review_class.new(skill: run.skill, work_package: run.work_package, user: run.user,
+                                                       rule_findings: run.findings.rule.map(&:text))
+        raw_findings = Array(ask(review)[:proposals])
         kept = store(review, raw_findings)
         run.log_event(:stored, findings: raw_findings.size, stored: kept, dropped: @dropped)
         run.update!(status: "finished")

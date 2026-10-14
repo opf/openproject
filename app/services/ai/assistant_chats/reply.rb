@@ -30,11 +30,16 @@
 
 module AI
   module AssistantChats
-    # Answers the latest question of a chat. The model gets the chat skill's prompt, the
-    # work package context of the user, the earlier turns, and the values it may propose.
-    # Any failure marks the answer as failed, so the dialog never waits forever.
+    # Answers the latest question of a conversation, as the conversation's user.
+    #
+    # The first answer of a skill with findings runs the built-in checks, then asks the model
+    # for findings with evidence. If the AI part cannot run or fails, the rule findings stay
+    # and "Not checked" says why. Every other answer is free text with 0..n proposals, and
+    # gets the earlier turns. Any other failure marks the answer as failed.
     class Reply
       MAX_TURNS = 20
+      MAX_PROPOSALS = 15
+      FINDINGS_TEMPERATURE = 0.2
 
       attr_reader :message
 
@@ -43,22 +48,12 @@ module AI
       end
 
       def call
-        answer = ask
-        change_set = proposal_builder.build(answer[:changes])
-        store(answer[:answer], change_set)
-        llm_call.log(:info, "answered#{' with a proposal' if change_set}")
+        findings_turn? ? answer_with_findings : answer_with_text
       rescue StandardError => e
         fail_reply(e)
       end
 
       private
-
-      def store(content, change_set)
-        AI::AssistantChatMessage.transaction do
-          message.proposals.create!(source: "ai", change_set:, base_lock_version: message.base_lock_version) if change_set
-          message.update!(content: content.to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"), status: "done")
-        end
-      end
 
       def chat = message.chat
 
@@ -68,22 +63,97 @@ module AI
 
       def skill = chat.skill
 
-      def ask
-        model_id = skill.assistant.effective_model_id
-        system = skill.system_prompt(locale: message.locale)
+      def findings_turn?
+        skill.findings? && chat.messages.where(role: "assistant").where(id: ...message.id).none?
+      end
+
+      # -- Findings ----------------------------------------------------------------------
+
+      def answer_with_findings
+        rule_texts = run_rules
+        blocker = review_blocker
+        if blocker
+          message.add_not_checked(:ai_review, blocker)
+          return finish(nil)
+        end
+
+        review = skill.skill_type.review_class.new(skill:, work_package:, user:, rule_findings: rule_texts)
+        answer = ask_for_findings(review)
+        store_findings(review, Array(answer[:proposals]))
+        finish(answer[:answer])
+      end
+
+      # The rule findings are stored at once, so the dialog shows them while the AI answers.
+      def run_rules
+        context = skill.skill_type.build_context(work_package:, user:)
+        findings = skill.rules.flat_map { |rule| rule.call(context) }
+        findings.each_with_index do |finding, index|
+          message.proposals.create!(finding.merge(position: index, base_lock_version: message.base_lock_version))
+        end
+        message.update!(not_checked: context.not_checked)
+        message.log_event(:rules, findings: findings.size, review: review_blocker ? "skipped" : "started")
+        findings.pluck(:text)
+      end
+
+      def review_blocker
+        if skill.prompt.blank? then :no_prompt
+        elsif !LlmConnection.available? then :no_llm_connection
+        elsif model_id.nil? then :no_model
+        end
+      end
+
+      def ask_for_findings(review)
+        llm_call.ask(model_id:, system: skill.system_prompt(locale: message.locale, format: "findings"),
+                     message: review.user_message, schema: review.schema, temperature: FINDINGS_TEMPERATURE)
+      rescue StandardError => e
+        llm_call.record_failure(e)
+        message.add_not_checked(:ai_review, :failed)
+        {}
+      end
+
+      def store_findings(review, raw_findings)
+        offset = message.proposals.count
+        kept, dropped = raw_findings.first(MAX_PROPOSALS).map { |raw| [raw, review.finding_attributes(raw)] }
+                                    .partition { |_raw, attributes| attributes }
+        kept.each_with_index do |(_raw, attributes), index|
+          message.proposals.create!(attributes.merge(source: "ai", position: offset + index,
+                                                     base_lock_version: message.base_lock_version))
+        end
+        return if raw_findings.empty?
+
+        message.log_event(:stored, findings: raw_findings.size, stored: kept.size, dropped: dropped.map { |raw, _| raw.to_h })
+      end
+
+      # -- Free text ---------------------------------------------------------------------
+
+      def answer_with_text
+        system = skill.system_prompt(locale: message.locale, format: "text")
         raise Llm::Errors::NotReady, "no chat prompt" if system.blank?
         raise Llm::Errors::NotReady, "no model" unless model_id
 
         history = earlier_turns
         question = history.pop
-        llm_call.ask(model_id:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
-                     message: question&.content.to_s, schema:,
-                     history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn.content] })
+        answer = llm_call.ask(model_id:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
+                              message: question&.content.to_s, schema: text_schema,
+                              history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn_text(turn)] })
+        store_text_proposals(Array(answer[:proposals]))
+        finish(answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"))
       end
 
       # The finished turns before this answer, oldest first, ending with the question.
       def earlier_turns
-        chat.messages.where(id: ...message.id).where(status: "done").last(MAX_TURNS).to_a
+        chat.messages.includes(:proposals).where(id: ...message.id).where(status: "done").last(MAX_TURNS).to_a
+      end
+
+      # An earlier answer with its proposals, so that the model knows what it proposed.
+      def turn_text(turn)
+        return turn.content.to_s if turn.from_user? || turn.proposals.empty?
+
+        lines = turn.proposals.map do |proposal|
+          summary = proposal.text.presence || proposal.change_actions.pluck("key").join(", ")
+          "- #{summary} (#{proposal.state})"
+        end
+        [turn.content.presence, "Proposals:\n#{lines.join("\n")}"].compact.join("\n\n")
       end
 
       def context_json
@@ -92,16 +162,47 @@ module AI
                                              .to_json
       end
 
-      def schema
+      def text_schema
         {
           type: "object",
           additionalProperties: false,
-          required: %w[answer changes],
+          required: %w[answer proposals],
           properties: {
             answer: { type: "string" },
-            changes: proposal_builder.schema
+            proposals: {
+              type: "array",
+              items: {
+                type: "object",
+                additionalProperties: false,
+                required: %w[text changes],
+                properties: { text: { type: "string" }, changes: proposal_builder.schema }
+              }
+            }
           }
         }
+      end
+
+      # A proposal without a valid change is not a proposal, and is dropped.
+      def store_text_proposals(raw_proposals)
+        raw_proposals.first(MAX_PROPOSALS).each_with_index do |raw, index|
+          raw = raw.to_h.stringify_keys
+          change_set = proposal_builder.build(raw["changes"])
+          next unless change_set
+
+          message.proposals.create!(source: "ai", position: index, text: raw["text"].to_s.strip.truncate(1_000).presence,
+                                    change_set:, base_lock_version: message.base_lock_version)
+        end
+      end
+
+      # -- Shared ------------------------------------------------------------------------
+
+      def finish(content)
+        message.update!(content: content.to_s.strip, status: "done")
+        llm_call.log(:info, "answered with #{message.proposals.count} proposals")
+      end
+
+      def model_id
+        @model_id ||= skill.assistant.effective_model_id
       end
 
       def change_options

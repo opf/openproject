@@ -65,6 +65,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   # Polled while an answer is pending. No content until it is done or failed.
   def poll
+    @chat&.fail_stale_answers!
     return head(:no_content) if @chat.nil? || @chat.pending?
 
     render turbo_stream: [chat_component, form_component].map { |c| c.render_as_turbo_stream(view_context:, action: :replace) }
