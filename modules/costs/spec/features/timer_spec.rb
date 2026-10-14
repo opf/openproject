@@ -54,6 +54,7 @@ RSpec.describe "Work Package timer", :js, :selenium do
       timer_button.expect_visible
       timer_button.start
       timer_button.expect_active
+      timer_button.expect_time(/\d{2}:\d{2}:\d{2}/)
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
       expect(active_time_entries.count).to eq 1
@@ -89,6 +90,7 @@ RSpec.describe "Work Package timer", :js, :selenium do
       timer_button.expect_active
 
       wp_view_b.visit!
+      expect(page).to have_css(".op-top-menu-user-avatar .op-principal--timer")
 
       # Clicking timer opens stop modal
       timer_button.expect_visible
