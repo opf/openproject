@@ -1,14 +1,10 @@
 name: "BlockNote extensions / Publish to npm"
 
-# Publishes extensions/op-blocknote-extensions to npm whenever its package.json
-# version changes on dev. Authentication uses npm trusted publishing (OIDC): the
-# package on npmjs.com must list this repository and workflow file as its trusted
-# publisher. No npm token is stored in the repository.
-
 on:
   push:
     branches:
       - dev
+      - code-maintenance/npm-publish-op-blocknote-extensions
     paths:
       - 'extensions/op-blocknote-extensions/package.json'
 
