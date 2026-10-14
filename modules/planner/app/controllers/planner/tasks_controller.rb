@@ -37,19 +37,19 @@ module Planner
     no_authorization_required! :new_dialog, :create, :update, :destroy, :plan, :drop
 
     def new_dialog
-      return new_dialog_for_work_package if params.key?(:work_package_id)
+      work_package = find_visible_work_package(params[:work_package_id]) if params.key?(:work_package_id)
+      return render_404 if params.key?(:work_package_id) && !work_package
 
-      respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
-                                                              day_part: params[:day_part],
-                                                              view: current_view,
-                                                              planner_project:)
+      respond_with_dialog add_todo_dialog(work_package)
     end
 
     def create
-      return create_for_work_package if task_params[:work_package_id].present?
+      call = task_params[:work_package_id].present? ? plan_work_package : create_todo
+      if call.success?
+        close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID)
+        render_success_flash_message_via_turbo_stream(message: call.message) if call.message
+      end
 
-      call = create_todo
-      close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID) if call.success?
       respond_with_view(call)
     end
 
@@ -95,26 +95,15 @@ module Planner
 
     def find_visible_work_package(id) = WorkPackage.visible(current_user).find_by_display_id(id.to_s)
 
-    def new_dialog_for_work_package
-      work_package = find_visible_work_package(params[:work_package_id])
-      return render_404 unless work_package
-
-      today = Planner::Today.new(user: current_user, project: planner_project)
-      respond_with_dialog Planner::AddTodoDialogComponent.new(date: today.date,
-                                                              day_part: today.current_day_part,
-                                                              view: current_view,
-                                                              planner_project:,
-                                                              work_package:)
+    def add_todo_dialog(work_package)
+      Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
+                                          day_part: params[:day_part] || current_day_part,
+                                          view: current_view,
+                                          planner_project:,
+                                          work_package:)
     end
 
-    def create_for_work_package
-      work_package = find_visible_work_package(task_params[:work_package_id])
-      return respond_with_view(ServiceResult.failure(message: t("planner.errors.work_package_not_found"))) unless work_package
-
-      call = plan_work_package(work_package)
-      confirm_planned(call) if call.success?
-      respond_with_view(call)
-    end
+    def current_day_part = Planner::Today.new(user: current_user, project: planner_project).current_day_part
 
     def create_todo
       Planner::CreateTaskService
@@ -123,16 +112,15 @@ module Planner
               description: task_params[:description])
     end
 
-    def plan_work_package(work_package)
+    def plan_work_package
+      attributes = task_params
+      work_package = find_visible_work_package(attributes[:work_package_id])
+      return ServiceResult.failure(message: t("planner.errors.work_package_not_found")) unless work_package
+
       Planner::AddWorkPackageService
         .new(user: current_user)
-        .call(work_package:, date: task_date || current_user.today, day_part: task_params[:day_part],
-              note: task_params[:subject], description: task_params[:description])
-    end
-
-    def confirm_planned(call)
-      close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID)
-      render_success_flash_message_via_turbo_stream(message: call.message)
+        .call(work_package:, date: task_date || current_user.today, day_part: attributes[:day_part],
+              note: attributes[:subject], description: attributes[:description])
     end
 
     # Without a date the task is due today; an empty one leaves it undated.

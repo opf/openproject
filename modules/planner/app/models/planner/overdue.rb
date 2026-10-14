@@ -32,18 +32,17 @@ module Planner
   # Undated tasks are listed too, so Overdue doubles as the user's backlog.
   class Overdue < View
     def work_packages
-      @work_packages ||= project
-                           .work_packages
-                           .with_status_open
-                           .where(left_over_or_undated)
+      @work_packages ||= scope
                            .includes(:type, :project, :custom_values)
                            .order(due_date.asc.nulls_last, id: :desc)
                            .to_a
     end
 
-    def count = work_packages.size
+    delegate :count, to: :scope
 
     private
+
+    def scope = project.work_packages.with_status_open.where(left_over_or_undated)
 
     def due_date = WorkPackage.arel_table[:due_date]
 

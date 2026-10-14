@@ -51,16 +51,12 @@ module Planner
       @task ||= Task.new(work_package, references:, user:)
     end
 
-    def today? = view.model == Today
-
     def overdue? = view.model == Overdue
 
     def completed? = view.model == Completed
 
-    def draggable? = view.sortable?
-
     def move_targets
-      targets = if today? then DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
+      targets = if day_part then DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
                 elsif overdue? then []
                 else %w[today]
                 end
@@ -95,21 +91,12 @@ module Planner
     end
 
     def notes
-      return if notes_text.blank?
-
-      render(Primer::Beta::Truncate.new(tag: :div, color: :muted, font_size: :small, mt: 1,
-                                        test_selector: "planner-task-notes")) { notes_text }
-    end
-
-    def notes_text
-      @notes_text ||= helpers.strip_tags(helpers.format_text(work_package, :description)).squish
+      @notes ||= helpers.strip_tags(helpers.format_text(work_package, :description)).squish
     end
 
     def new_meeting_path
       new_dialog_meetings_path(title: meeting_command.title, participant_ids: meeting_command.participants.map(&:id))
     end
-
-    def toggle_label = closed? ? t("planner.mark_open") : t("planner.mark_done")
 
     def toggle_button_arguments
       {
@@ -118,7 +105,7 @@ module Planner
         scheme: :invisible,
         size: :small,
         type: :submit,
-        aria: { label: toggle_label },
+        aria: { label: closed? ? t("planner.mark_open") : t("planner.mark_done") },
         test_selector: "planner-toggle"
       }
     end
