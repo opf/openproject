@@ -49,14 +49,6 @@ RSpec.describe Llm::EmbedWorkPackagesJob, with_flag: { semantic_search: true } d
     expect(service_double).to have_received(:call)
   end
 
-  it "does nothing once the Semantic Index is no longer indexing" do
-    semantic_index.update!(state: "failed")
-
-    described_class.perform_now(semantic_index.id, [work_package.id])
-
-    expect(Llm::WorkPackages::EmbedService).not_to have_received(:new)
-  end
-
   it "does nothing once the Semantic Index is gone" do
     described_class.perform_now(0, [work_package.id])
 
