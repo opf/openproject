@@ -184,15 +184,16 @@ module AllMeetings
       status = partstat(attendee_from_event)
 
       if status.present?
-        participant = meeting.participants.find_by!(user: user)
-        participant.update!(
-          participation_status: status,
-          comment: comment(attendee_from_event, event)
-        )
+        update_participant(meeting, participation_status: status, comment: comment(attendee_from_event, event))
       else
         Rails.logger.warn("[iCal Meeting Response] No attendee found for user #{user.mail} in " \
                           "event #{event.uid}#{" with recurrence ID #{event.recurrence_id.iso8601}" if event.recurrence_id}")
       end
+    end
+
+    def update_participant(meeting, attributes)
+      meeting.participants.find_by!(user:).update!(attributes)
+      User.execute_as(user) { meeting.save_journals }
     end
 
     def instantiated_scheduled_meetings_awaiting_responses(recurring_meeting)

@@ -59,11 +59,11 @@ export interface IHalMultipleError extends IHalErrorBase {
 }
 
 export class ErrorResource extends HalResource {
-  public errors:any[];
+  public errors:ErrorResource[];
 
   public message:string;
 
-  public details:any;
+  public details:{ attribute:string };
 
   public errorIdentifier:string;
 
@@ -96,21 +96,21 @@ export class ErrorResource extends HalResource {
     let columns:ErrorResource[] = [];
 
     if (this.details) {
-      columns = [{ details: this.details as { attribute:string } } as ErrorResource];
+      columns = [{ details: this.details } as ErrorResource];
     } else if (this.errors) {
-      columns = this.errors as ErrorResource[];
+      columns = this.errors;
     }
 
     return columns.map((resource:ErrorResource):string => {
       if (resource.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
         return this.extractMultiError(resource)[0];
       }
-      return (resource.details as { attribute:string }).attribute;
+      return resource.details.attribute;
     }).flat();
   }
 
   public getMessagesPerAttribute():Record<string, string[]> {
-    const perAttribute:any = {};
+    const perAttribute:Record<string, string[]> = {};
 
     if (this.details) {
       perAttribute[this.details.attribute] = [this.message];
@@ -118,7 +118,7 @@ export class ErrorResource extends HalResource {
       this.errors?.forEach((error:ErrorResource) => {
         if (error.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
           const [attribute, messages] = this.extractMultiError(error);
-          const current = perAttribute[attribute] || [];
+          const current = perAttribute[attribute] ?? [];
           perAttribute[attribute] = current.concat(messages);
         } else if (perAttribute[error.details.attribute]) {
           perAttribute[error.details.attribute].push(error.message);

@@ -87,11 +87,11 @@ module CustomFields
 
       def destroy
         begin
-          @custom_field.destroy
+          @custom_field.destroy!
         rescue StandardError
           flash[:error] = I18n.t(:error_can_not_delete_custom_field)
         end
-        redirect_to index_path(@custom_field, tab: @custom_field.class.name), status: :see_other
+        redirect_to index_path(@custom_field), status: :see_other
       end
 
       def delete_option

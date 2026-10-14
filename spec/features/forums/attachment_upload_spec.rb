@@ -56,8 +56,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
     create_page = index_page.click_create_message
     create_page.set_subject "A new message"
 
-    # adding an image
-    sleep 1
+    editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded on creation"
 
     editor.attachments_list.expect_attached("image.png")
@@ -72,13 +71,7 @@ RSpec.describe "Upload attachment to forum message", :js, :selenium do
 
     page.find_test_selector("message-edit-button").click
 
-    retry_block do
-      find(".op-uc-figure").click
-      find(".ck-widget__type-around__button_after").click
-    end
-
-    editor.type_slowly("A spacer text")
-
+    editor.wait_until_loaded
     editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
     editor.attachments_list.expect_attached("image.png", count: 2)

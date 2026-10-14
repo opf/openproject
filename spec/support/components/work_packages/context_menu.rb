@@ -42,18 +42,12 @@ module Components
         close_if_open
         sleep 0.5 unless using_cuprite?
 
-        retry_block do
-          if card_view
-            page.find(".op-wp-single-card-#{work_package.id}").right_click
-          else
-            page.find(".wp-row-#{work_package.id}-table").right_click
-          end
-
-          if check_if_open && !page.find(:menu, work_package_context_menu_label)
-            raise "Menu not open"
-          end
+        if card_view
+          page.find(".op-wp-single-card-#{work_package.id}", wait: 20).right_click
+        else
+          page.find(".wp-row-#{work_package.id}-table", wait: 20).right_click
         end
-      rescue StandardError
+
         expect_open if check_if_open
       end
 

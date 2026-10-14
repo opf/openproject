@@ -399,6 +399,8 @@ ro:
         ongoing: În desfășurare
         spent_on: Dată
         type: Tip
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Calendar
         ical_token_query_assignment: Query assignment
@@ -466,6 +468,8 @@ ro:
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
         mode_guideline: Some modes will overwrite custom theme colors for accessibility and legibility. Please select Light mode for full custom theme support.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Color mode
         time_zone: Fus orar
         warn_on_leaving_unsaved: Avertizează când părăsesc un pachet de lucru cu modificări nesalvate
@@ -5104,6 +5108,14 @@ ro:
           create_button: Creează
           dialog_body: This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name.
           dialog_title: Create new API token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
       failed_to_reset_token: 'Resetarea tokenului de acces nu a reușit: %{error}'
@@ -5133,6 +5145,7 @@ ro:
     access_tokens:
       access_tokens: Token-uri de acces
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Acțiune
         expiration: Expirare

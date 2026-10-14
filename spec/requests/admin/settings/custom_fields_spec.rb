@@ -42,6 +42,7 @@ RSpec.describe "Admin custom fields dedicated pages",
     let(:new_path) { url_helpers.public_send(:"new_#{route}_path", field_format: "string") }
     let(:edit_path) { ->(cf) { url_helpers.public_send(:"edit_#{route}_path", cf) } }
     let(:member_path) { ->(cf) { url_helpers.public_send(:"#{route}_path", cf) } }
+    let(:deletion_dialog_path) { ->(cf) { url_helpers.public_send(:"deletion_dialog_#{route}_path", cf) } }
     let!(:custom_field) { create(factory, name: "Existing field") }
 
     it "denies non-admins" do
@@ -105,6 +106,14 @@ RSpec.describe "Admin custom fields dedicated pages",
         expect do
           delete member_path.call(deletable)
         end.to change(model, :count).by(-1)
+      end
+
+      it "renders the deletion dialog as a turbo stream" do
+        get deletion_dialog_path.call(custom_field), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("Delete custom field Existing field")
       end
     end
   end

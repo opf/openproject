@@ -41,13 +41,7 @@ RSpec.shared_examples_for "group contract" do
   end
 
   shared_context "with real group users" do
-    # make sure users actually exist (not just stubbed) in this case
-    # so GroupUser validations checking for the existence of group and user don't fail
-    before do
-      group_users_user_ids.each do |id|
-        create(:user, id:)
-      end
-    end
+    let(:group_users_user_ids) { create_list(:user, 2).map(&:id) }
   end
 
   it_behaves_like "contract is valid for active admins and invalid for regular users" do

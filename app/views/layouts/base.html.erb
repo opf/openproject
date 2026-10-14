@@ -62,7 +62,8 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render partial: "layouts/flashes" %>
 <opce-modal-overlay></opce-modal-overlay>
 <live-region></live-region>
-<span id="open-blank-target-link-description" class="sr-only"><%= I18n.t("open_link_in_a_new_tab") %></span>
+<%# Styles inlined so the description stays hidden before the stylesheets load. %>
+<span id="open-blank-target-link-description" class="sr-only" style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip-path:rect(0 0 0 0);overflow-wrap:normal;border:0"><%= I18n.t("open_link_in_a_new_tab") %></span>
 <opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
 <div id="wrapper" class="<%= initial_classes %>">
   <%# Classic (non-module) so it runs before first paint on full loads and Turbo visits alike. %>

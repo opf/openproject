@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 require_relative "shared_context"
-require "features/work_packages/table/context_menu/context_menu_shared_examples"
 
 RSpec.describe "Work package table context menu",
                :js,
@@ -38,22 +39,17 @@ RSpec.describe "Work package table context menu",
     end
   end
 
-  it_behaves_like "provides a single WP context menu" do
-    let(:open_context_menu) do
-      -> {
-        team_planner.visit!
-        loading_indicator_saveguard
+  it "provides a context menu" do
+    menu.expect_closed
+    menu.open_for(work_package, card_view: true)
+    menu.expect_options "Open details view",
+                        "Log time",
+                        "Move to another project",
+                        "Duplicate",
+                        "Delete",
+                        "Create new child"
 
-        team_planner.add_assignee user
-
-        team_planner.within_lane(user) do
-          team_planner.expect_event work_package
-        end
-
-        # Open context menu
-        menu.expect_closed
-        menu.open_for(work_package, card_view: true)
-      }
-    end
+    menu.choose "Open details view"
+    Pages::SplitWorkPackage.new(work_package, project).expect_attributes Subject: work_package.subject
   end
 end

@@ -58,7 +58,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
-import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import { HalSource } from 'core-app/features/hal/interfaces';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
@@ -357,7 +357,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
         'Boolean',
         'String',
         'Text',
-        undefined].includes(schema.$source[attribute].type)) {
+        undefined].includes((schema.$source[attribute] as { type?:string }).type)) {
         links.push(attribute);
       }
     });
@@ -403,13 +403,13 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     wp.__initialized_at = Date.now();
 
     // Set update link to form
-    wp.update = wp.$links.update = form.$links.self;
+    wp.update = wp.$links.update = form.$links.self as CallableHalLink<FormResource<WorkPackageResource>>;
     // Use POST /work_packages for saving link
-    wp.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
-    wp.$links.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
+    wp.updateImmediately = ((data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data))) as CallableHalLink<WorkPackageResource>;
+    wp.$links.updateImmediately = ((data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data))) as CallableHalLink<WorkPackageResource>;
 
     if (form.schema.$links.attachments) {
-      wp.$links.attachments = { elements: [] } as unknown as AttachmentCollectionResource;
+      wp.$links.attachments = { elements: [] } as unknown as CallableHalLink;
     }
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine

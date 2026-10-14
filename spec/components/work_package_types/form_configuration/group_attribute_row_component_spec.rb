@@ -9,7 +9,7 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
   let(:variant) { type.default_variant }
   let(:attribute) do
     { key: "assignee", is_cf: false, required_globally: false, required_for_variant: false, translation: "Assignee",
-      field_format_label: "Built-in field" }
+      field_format_label: "Built-in" }
   end
 
   def editor_context(readonly: false, exclusions: nil)
@@ -34,10 +34,10 @@ RSpec.describe WorkPackageTypes::FormConfiguration::GroupAttributeRowComponent, 
     expect(page).to have_text("Assignee")
   end
 
-  it "renders built-in attributes as secondary labels" do
+  it "renders no type for built-in attributes" do
     render_inline(described_class.new(attribute:, context: editor_context(readonly: true), index: 0, total_count: 2))
 
-    expect(page).to have_css(".Label.Label--secondary", text: I18n.t("label_builtin"))
+    expect(page).to have_no_text(I18n.t("label_builtin"))
   end
 
   # The switch itself is covered by ExclusionToggleComponent; what matters here is that the row

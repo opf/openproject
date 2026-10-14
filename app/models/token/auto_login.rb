@@ -30,7 +30,7 @@
 
 module Token
   class AutoLogin < HashedToken
-    include ExpirableToken
+    include Ephemeral
 
     prefix :opal
 

@@ -107,6 +107,10 @@ module OpTurbo
       turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :before) }
     end
 
+    def add_after_via_turbo_stream(component:, target_component:)
+      turbo_streams << -> { target_component.insert_as_turbo_stream(component:, view_context:, action: :after) }
+    end
+
     def render_success_flash_message_via_turbo_stream(message:, **)
       render_flash_message_via_turbo_stream(message:, scheme: :success, **)
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -59,12 +61,10 @@ RSpec.describe "Delete viewpoint in model viewer", :js, :selenium, with_config: 
     # Delete but don't confirm alert
     bcf_details.delete_current_viewpoint confirm: false
 
-    sleep 1
     bcf_details.expect_viewpoint_count 1
 
     # Delete for real now
     bcf_details.delete_current_viewpoint confirm: true
-    sleep 1
     bcf_details.expect_viewpoint_count 0
 
     bcf.reload

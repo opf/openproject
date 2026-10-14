@@ -194,7 +194,7 @@ module OpenProject
             return "" unless writable? || @has_comment
 
             [
-              "click->inplace-edit#openDialog",
+              "#{activation_event}->inplace-edit#openDialog",
               "keydown.enter->inplace-edit#openDialog",
               "keydown.space->inplace-edit#openDialog",
               "inplace-edit:open-dialog->async-dialog#handleOpenDialog"
@@ -205,10 +205,14 @@ module OpenProject
             return "" unless writable?
 
             [
-              "click->inplace-edit#request",
+              "#{activation_event}->inplace-edit#request",
               "keydown.enter->inplace-edit#request",
               "keydown.space->inplace-edit#request"
             ].join(" ")
+          end
+
+          def activation_event
+            User.current.pref.require_double_click_for_inline_edit? ? "dblclick" : "click"
           end
         end
       end

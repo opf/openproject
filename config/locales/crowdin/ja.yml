@@ -399,6 +399,8 @@ ja:
         ongoing: 継続中
         spent_on: 日付
         type: タイプ
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: カレンダー
         ical_token_query_assignment: クエリの割り当て
@@ -468,6 +470,8 @@ ja:
         mode_guideline: |-
           いくつかのモードはアクセシビリティや読みやすさのために選択したテーマカラーを上書きします。
           完全なカスタムテーマを使用するにはライトモードを選択してください。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: カラーモード
         time_zone: タイムゾーン
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告
@@ -4778,6 +4782,12 @@ ja:
           create_button: 作成
           dialog_body: このトークンによって、サードパーティのアプリケーションがあなたのサイトと通信できるようになります。新しいAPIトークンを区別するために、名前を付けてください。
           dialog_title: 新しいAPIトークンを作成
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: トークン名
       failed_to_create_token: 'アクセストークンの作成に失敗しました: %{error}'
       failed_to_reset_token: 'アクセストークンをリセットできませんでした: %{error}'
@@ -4807,6 +4817,7 @@ ja:
     access_tokens:
       access_tokens: アクセストークン
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: 操作
         expiration: 有効期限

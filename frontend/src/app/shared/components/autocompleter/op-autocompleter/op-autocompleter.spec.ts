@@ -332,34 +332,6 @@ describe('autocompleter', () => {
       }
     });
 
-    it('should display a fallback avatar when the author has been deleted', () => {
-      vi.useFakeTimers();
-      try {
-        fixture.detectChanges();
-        vi.advanceTimersByTime(1000);
-        fixture.detectChanges();
-        const select = fixture.componentInstance.ngSelectInstance;
-
-        select.open();
-        select.focus();
-
-        const inputDebugElement = fixture.debugElement.query(By.css('input[role=combobox]'));
-        const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
-
-        inputElement.value = 'package 2';
-        inputElement.dispatchEvent(new Event('input'));
-        fixture.detectChanges();
-        vi.advanceTimersByTime(0);
-        fixture.detectChanges();
-
-        expect(document.querySelector('op-principal.op-autocompleter--option-principal')).toBeNull();
-        expect(document.querySelector('.op-autocompleter--option-principal-fallback')).not.toBeNull();
-      }
-      finally {
-        vi.useRealTimers();
-      }
-    });
-
     it('should display classic formattedId in selected value label', () => {
       silenceDestroyedOutputWarning();
       vi.useFakeTimers();

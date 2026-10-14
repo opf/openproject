@@ -29,6 +29,7 @@
 #++
 class MeetingOutcome < ApplicationRecord
   belongs_to :meeting_agenda_item, touch: true
+  has_one :meeting, through: :meeting_agenda_item
   belongs_to :work_package, optional: true
   belongs_to :author, class_name: "User", optional: true
 
