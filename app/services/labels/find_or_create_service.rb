@@ -66,6 +66,14 @@ module Labels
       expect(helper.pwa_cache_name).not_to eq(name)
     end
 
+    it "changes when the header colour changes" do
+      name = helper.pwa_cache_name
+
+      allow(helper).to receive(:header_bg_color).and_return("#123456")
+
+      expect(helper.pwa_cache_name).not_to eq(name)
+    end
+
     it "changes when the version changes" do
       name = helper.pwa_cache_name
 
