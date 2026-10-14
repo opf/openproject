@@ -27,37 +27,56 @@
 
 import { ApplicationController } from 'stimulus-use';
 
+// The highlight parameter names a setting, a form field like `type[color_id]`
+// or one of several inputs of a field like `role[permissions][]=edit_project`.
+const HIGHLIGHT_PATTERN = /^([\w[\]]+)(?:=([\w-]+))?$/;
+
 export default class HighlightSettingController extends ApplicationController {
   connect() {
     const url = new URL(window.location.href);
-    const name = url.searchParams.get('highlight');
-    if (!name || !/^\w+$/.test(name)) return;
+    const match = HIGHLIGHT_PATTERN.exec(url.searchParams.get('highlight') ?? '');
+    if (!match) return;
 
-    const container = this.findContainer(name);
-    if (!container) return;
+    const containers = this.findContainers(match[1], match[2]);
+    if (containers.length === 0) return;
 
-    container.classList.add('op-setting--highlighted');
-    setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'center' }), 25);
+    containers.forEach((container) => container.classList.add('op-setting--highlighted'));
+    // Wait for controllers revealing parts of the page, e.g. the permissions of a role's type.
+    setTimeout(() => {
+      const visible = containers.find((container) => container.offsetParent !== null) ?? containers[0];
+      visible.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 100);
 
     url.searchParams.delete('highlight');
     window.history.replaceState(window.history.state, '', url);
   }
 
-  private findContainer(name:string):HTMLElement|null {
+  private findContainers(name:string, value:string|undefined):HTMLElement[] {
     const marked = document.querySelector<HTMLElement>(`[data-setting-name="${name}"]`);
-    if (marked) {
-      return marked.closest<HTMLElement>('.FormControl-checkbox-wrap, .FormControl') ?? marked;
+    if (marked && !value) {
+      return [marked.closest<HTMLElement>('.FormControl-checkbox-wrap, .FormControl') ?? marked];
     }
+
+    const fields = this.findFields(name, value);
+    if (fields.length > 1 && !value) {
+      return [fields[0].closest<HTMLElement>('fieldset, .form--field') ?? fields[0]];
+    }
+
+    return fields.map((field) => field.closest<HTMLElement>('.FormControl-checkbox-wrap, .FormControl, .form--field') ?? field);
+  }
+
+  private findFields(name:string, value:string|undefined):HTMLElement[] {
+    const valueSelector = value ? `[value="${value}"]` : '';
+    const selectors = name.includes('[')
+      ? [`[name="${name}"]`]
+      : [`[name="settings[${name}]"]`, `[name^="settings[${name}]["]`];
 
     const fields = Array.from(document.querySelectorAll<HTMLElement>(
-      `[name="settings[${name}]"]:not([type="hidden"]), [name^="settings[${name}]["]:not([type="hidden"])`,
+      selectors.map((selector) => `${selector}${valueSelector}`).join(', '),
     ));
-    if (fields.length === 0) return null;
+    const visibleFields = fields.filter((field) => field.getAttribute('type') !== 'hidden');
 
-    if (fields.length > 1) {
-      return fields[0].closest<HTMLElement>('fieldset, .form--field') ?? fields[0];
-    }
-
-    return fields[0].closest<HTMLElement>('.FormControl-checkbox-wrap, .FormControl, .form--field') ?? fields[0];
+    // Custom inputs like the color select keep their value in a hidden field.
+    return visibleFields.length > 0 ? visibleFields : fields;
   }
 }
