@@ -1,380 +1,344 @@
 {
-  "type" : "object",
-  "title" : "Timesheet PDF",
-  "properties" : {
-    "page" : {
-      "$ref" : "#/$defs/page"
+  "type": "object",
+  "title": "Timesheet PDF",
+  "properties": {
+    "page": {
+      "$ref": "#/$defs/page"
     },
-    "page_logo" : {
-      "$ref" : "#/$defs/page_logo"
+    "page_logo": {
+      "$ref": "#/$defs/page_logo"
     },
-    "page_header" : {
-      "$ref" : "#/$defs/page_header"
+    "page_header": {
+      "$ref": "#/$defs/page_header"
     },
-    "page_footer" : {
-      "$ref" : "#/$defs/page_footer"
+    "page_footer": {
+      "$ref": "#/$defs/page_footer"
     },
-    "page_heading" : {
-      "$ref" : "#/$defs/page_heading"
+    "page_heading": {
+      "$ref": "#/$defs/page_heading"
     },
-    "cover" : {
-      "$ref" : "#/$defs/cover"
+    "cover": {
+      "$ref": "#/$defs/cover"
     }
   },
-  "required" : [],
-  "additionalProperties" : false,
-  "$defs" : {
-    "cover" : {
-      "title" : "Cover page",
-      "description" : "Styling for the cover page of the PDF report export",
-      "x-example" : {
-        "cover" : {
-          "header" : {},
-          "footer" : {},
-          "hero" : {}
+  "required": [],
+  "additionalProperties": false,
+  "$defs": {
+    "cover": {
+      "title": "Cover page",
+      "description": "Styling for the cover page of the PDF report export",
+      "x-example": {
+        "cover": {
+          "header": {},
+          "footer": {},
+          "hero": {}
         }
       },
-      "type" : "object",
-      "properties" : {
-        "header" : {
-          "title" : "Cover page header",
-          "description" : "Styling for the cover page header",
-          "$ref" : "#/$defs/cover_header"
+      "type": "object",
+      "properties": {
+        "header": {
+          "title": "Cover page header",
+          "description": "Styling for the cover page header",
+          "$ref": "#/$defs/cover_header"
         },
-        "footer" : {
-          "title" : "Cover page footer",
-          "description" : "Styling for the cover page footer",
-          "$ref" : "#/$defs/cover_footer"
+        "footer": {
+          "title": "Cover page footer",
+          "description": "Styling for the cover page footer",
+          "$ref": "#/$defs/cover_footer"
         },
-        "hero" : {
-          "title" : "Cover page hero",
-          "description" : "Styling for the hero banner at the bottom at the cover page",
-          "$ref" : "#/$defs/cover_hero"
+        "hero": {
+          "title": "Cover page hero",
+          "description": "Styling for the hero banner at the bottom at the cover page",
+          "$ref": "#/$defs/cover_hero"
         }
       }
     },
-    "cover_header" : {
-      "title" : "Cover page header",
-      "description" : "Styling for the cover page header of the PDF report export",
-      "x-example" : {
-        "header" : {
-          "logo_height" : 25,
-          "border" : {}
+    "cover_header": {
+      "title": "Cover page header",
+      "description": "Styling for the cover page header of the PDF report export",
+      "x-example": {
+        "header": {
+          "logo_height": 25,
+          "border": {}
         }
       },
-      "type" : "object",
-      "properties" : {
-        "spacing" : {
-          "title" : "Minimum spacing between logo and page header text",
-          "examples" : [
-            20
-          ],
-          "$ref" : "#/$defs/measurement"
+      "type": "object",
+      "properties": {
+        "spacing": {
+          "title": "Minimum spacing between logo and page header text",
+          "examples": [20],
+          "$ref": "#/$defs/measurement"
         },
-        "offset" : {
-          "title" : "Offset position from page top",
-          "examples" : [
-            6.5
-          ],
-          "$ref" : "#/$defs/measurement"
+        "offset": {
+          "title": "Offset position from page top",
+          "examples": [6.5],
+          "$ref": "#/$defs/measurement"
         },
-        "logo_height" : {
-          "title" : "Height of the logo in the page header",
-          "examples" : [
-            25
-          ],
-          "$ref" : "#/$defs/measurement"
+        "logo_height": {
+          "title": "Height of the logo in the page header",
+          "examples": [25],
+          "$ref": "#/$defs/measurement"
         },
-        "border" : {
-          "title" : "Cover page header",
-          "description" : "Styling for the cover page header",
-          "$ref" : "#/$defs/cover_header_border"
+        "border": {
+          "title": "Cover page header",
+          "description": "Styling for the cover page header",
+          "$ref": "#/$defs/cover_header_border"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         }
       ]
     },
-    "cover_hero" : {
-      "title" : "Cover page hero",
-      "description" : "Styling for the hero banner at the bottom at the cover page",
-      "x-example" : {
-        "header" : {
-          "padding_right" : 150,
-          "padding_top" : 120,
-          "title" : {},
-          "heading" : {},
-          "subheading" : {}
+    "cover_hero": {
+      "title": "Cover page hero",
+      "description": "Styling for the hero banner at the bottom at the cover page",
+      "x-example": {
+        "header": {
+          "padding_right": 150,
+          "padding_top": 120,
+          "title": {},
+          "heading": {},
+          "subheading": {}
         }
       },
-      "type" : "object",
-      "properties" : {
-        "padding_right" : {
-          "title" : "Padding right",
-          "description" : "Padding only on the right side of the hero banner",
-          "$ref" : "#/$defs/measurement"
+      "type": "object",
+      "properties": {
+        "padding_right": {
+          "title": "Padding right",
+          "description": "Padding only on the right side of the hero banner",
+          "$ref": "#/$defs/measurement"
         },
-        "padding_top" : {
-          "title" : "Padding top",
-          "description" : "Padding only on the top side of the hero banner",
-          "$ref" : "#/$defs/measurement"
+        "padding_top": {
+          "title": "Padding top",
+          "description": "Padding only on the top side of the hero banner",
+          "$ref": "#/$defs/measurement"
         },
-        "title" : {
-          "title" : "The first block in the hero",
-          "type" : "object",
-          "x-example" : {
-            "title" : {
-              "max_height" : 30,
-              "spacing" : 10,
-              "font" : "SpaceMono",
-              "size" : 10,
-              "color" : "414d5f"
+        "title": {
+          "title": "The first block in the hero",
+          "type": "object",
+          "x-example": {
+            "title": {
+              "max_height": 30,
+              "spacing": 10,
+              "font": "SpaceMono",
+              "size": 10,
+              "color": "414d5f"
             }
           },
-          "properties" : {
-            "spacing" : {
-              "title" : "Minimum spacing between title and heading",
-              "examples" : [
-                10
-              ],
-              "$ref" : "#/$defs/measurement"
+          "properties": {
+            "spacing": {
+              "title": "Minimum spacing between title and heading",
+              "examples": [10],
+              "$ref": "#/$defs/measurement"
             },
-            "max_height" : {
-              "title" : "Maximum height of the block",
-              "examples" : [
-                30
-              ],
-              "$ref" : "#/$defs/measurement"
+            "max_height": {
+              "title": "Maximum height of the block",
+              "examples": [30],
+              "$ref": "#/$defs/measurement"
             }
           },
-          "allOf" : [
+          "allOf": [
             {
-              "$ref" : "#/$defs/font"
+              "$ref": "#/$defs/font"
             }
           ]
         },
-        "heading" : {
-          "title" : "The main block in the hero",
-          "type" : "object",
-          "x-example" : {
-            "heading" : {
-              "spacing" : 10,
-              "size" : 32,
-              "color" : "414d5f",
-              "styles" : [
-                "bold"
-              ]
+        "heading": {
+          "title": "The main block in the hero",
+          "type": "object",
+          "x-example": {
+            "heading": {
+              "spacing": 10,
+              "size": 32,
+              "color": "414d5f",
+              "styles": ["bold"]
             }
           },
-          "properties" : {
-            "spacing" : {
-              "title" : "Minimum spacing between heading and subheading",
-              "examples" : [
-                10
-              ],
-              "$ref" : "#/$defs/measurement"
+          "properties": {
+            "spacing": {
+              "title": "Minimum spacing between heading and subheading",
+              "examples": [10],
+              "$ref": "#/$defs/measurement"
             }
           },
-          "allOf" : [
+          "allOf": [
             {
-              "$ref" : "#/$defs/font"
+              "$ref": "#/$defs/font"
             }
           ]
         },
-        "dates" : {
-          "title" : "The dates block in the hero",
-          "type" : "object",
-          "x-example" : {
-            "heading" : {
-              "spacing" : 10,
-              "max_height" : 20,
-              "size" : 32,
-              "color" : "414d5f",
-              "styles" : [
-                "bold"
-              ]
+        "dates": {
+          "title": "The dates block in the hero",
+          "type": "object",
+          "x-example": {
+            "heading": {
+              "spacing": 10,
+              "max_height": 20,
+              "size": 32,
+              "color": "414d5f",
+              "styles": ["bold"]
             }
           },
-          "properties" : {
-            "max_height" : {
-              "title" : "Maximum height of the block",
-              "examples" : [
-                30
-              ],
-              "$ref" : "#/$defs/measurement"
+          "properties": {
+            "max_height": {
+              "title": "Maximum height of the block",
+              "examples": [30],
+              "$ref": "#/$defs/measurement"
             },
-            "spacing" : {
-              "title" : "Minimum spacing between dates and subheading",
-              "examples" : [
-                10
-              ],
-              "$ref" : "#/$defs/measurement"
+            "spacing": {
+              "title": "Minimum spacing between dates and subheading",
+              "examples": [10],
+              "$ref": "#/$defs/measurement"
             }
           },
-          "allOf" : [
+          "allOf": [
             {
-              "$ref" : "#/$defs/font"
+              "$ref": "#/$defs/font"
             }
           ]
         },
-        "subheading" : {
-          "title" : "The last block in the hero",
-          "type" : "object",
-          "x-example" : {
-            "subheading" : {
-              "max_height" : 30,
-              "size" : 10,
-              "color" : "414d5f",
-              "styles" : [
-                "italic"
-              ]
+        "subheading": {
+          "title": "The last block in the hero",
+          "type": "object",
+          "x-example": {
+            "subheading": {
+              "max_height": 30,
+              "size": 10,
+              "color": "414d5f",
+              "styles": ["italic"]
             }
           },
-          "properties" : {
-            "max_height" : {
-              "title" : "Maximum height of the block",
-              "examples" : [
-                30
-              ],
-              "$ref" : "#/$defs/measurement"
+          "properties": {
+            "max_height": {
+              "title": "Maximum height of the block",
+              "examples": [30],
+              "$ref": "#/$defs/measurement"
             }
           },
-          "allOf" : [
+          "allOf": [
             {
-              "$ref" : "#/$defs/font"
+              "$ref": "#/$defs/font"
             }
           ]
         }
       }
     },
-    "cover_footer" : {
-      "title" : "Cover page footer",
-      "description" : "Styling for the cover page footer of the PDF report export",
-      "x-example" : {
-        "footer" : {
-          "offset" : 20,
-          "size" : 10,
-          "color" : "064e80"
+    "cover_footer": {
+      "title": "Cover page footer",
+      "description": "Styling for the cover page footer of the PDF report export",
+      "x-example": {
+        "footer": {
+          "offset": 20,
+          "size": 10,
+          "color": "064e80"
         }
       },
-      "type" : "object",
-      "properties" : {
-        "offset" : {
-          "title" : "Offset position from page bottom",
-          "examples" : [
-            30
-          ],
-          "$ref" : "#/$defs/measurement"
+      "type": "object",
+      "properties": {
+        "offset": {
+          "title": "Offset position from page bottom",
+          "examples": [30],
+          "$ref": "#/$defs/measurement"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         }
       ]
     },
-    "cover_header_border" : {
-      "title" : "Cover page header border",
-      "description" : "Styling for the cover page header border of the PDF report export",
-      "x-example" : {
-        "border" : {
-          "color" : "d3dee3",
-          "height" : 1,
-          "offset" : 6
+    "cover_header_border": {
+      "title": "Cover page header border",
+      "description": "Styling for the cover page header border of the PDF report export",
+      "x-example": {
+        "border": {
+          "color": "d3dee3",
+          "height": 1,
+          "offset": 6
         }
       },
-      "type" : "object",
-      "properties" : {
-        "spacing" : {
-          "title" : "Minimum spacing between logo and page header text",
-          "examples" : [
-            20
-          ],
-          "$ref" : "#/$defs/measurement"
+      "type": "object",
+      "properties": {
+        "spacing": {
+          "title": "Minimum spacing between logo and page header text",
+          "examples": [20],
+          "$ref": "#/$defs/measurement"
         },
-        "offset" : {
-          "title" : "Offset position from page top",
-          "examples" : [
-            6
-          ],
-          "$ref" : "#/$defs/measurement"
+        "offset": {
+          "title": "Offset position from page top",
+          "examples": [6],
+          "$ref": "#/$defs/measurement"
         },
-        "height" : {
-          "title" : "Line height of the border",
-          "examples" : [
-            25
-          ],
-          "$ref" : "#/$defs/measurement"
+        "height": {
+          "title": "Line height of the border",
+          "examples": [25],
+          "$ref": "#/$defs/measurement"
         },
-        "color" : {
-          "title" : "Line color of the border",
-          "$ref" : "#/$defs/color"
+        "color": {
+          "title": "Line color of the border",
+          "$ref": "#/$defs/color"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         }
       ]
     },
-    "color" : {
-      "type" : "string",
-      "title" : "Color",
-      "description" : "A color in RRGGBB format",
-      "examples" : [
-        "F0F0F0"
-      ],
-      "x-example" : {
-        "color" : "F0F0F0"
+    "color": {
+      "type": "string",
+      "title": "Color",
+      "description": "A color in RRGGBB format",
+      "examples": ["F0F0F0"],
+      "x-example": {
+        "color": "F0F0F0"
       },
-      "pattern" : "^(?:[0-9a-fA-F]{3}){1,2}$"
+      "pattern": "^(?:[0-9a-fA-F]{3}){1,2}$"
     },
-    "font" : {
-      "title" : "Font properties",
-      "description" : "Properties to set the font style",
-      "type" : "object",
-      "x-example" : {
-        "font" : "OpenSans",
-        "size" : 10,
-        "character_spacing" : 0,
-        "styles" : [],
-        "color" : "000000",
-        "leading" : 2
+    "font": {
+      "title": "Font properties",
+      "description": "Properties to set the font style",
+      "type": "object",
+      "x-example": {
+        "font": "OpenSans",
+        "size": 10,
+        "character_spacing": 0,
+        "styles": [],
+        "color": "000000",
+        "leading": 2
       },
-      "properties" : {
-        "font" : {
-          "type" : "string"
+      "properties": {
+        "font": {
+          "type": "string"
         },
-        "size" : {
-          "$ref" : "#/$defs/measurement"
+        "size": {
+          "$ref": "#/$defs/measurement"
         },
-        "character_spacing" : {
-          "$ref" : "#/$defs/measurement"
+        "character_spacing": {
+          "$ref": "#/$defs/measurement"
         },
-        "leading" : {
-          "$ref" : "#/$defs/measurement"
+        "leading": {
+          "$ref": "#/$defs/measurement"
         },
-        "color" : {
-          "$ref" : "#/$defs/color"
+        "color": {
+          "$ref": "#/$defs/color"
         },
-        "styles" : {
-          "type" : "array",
-          "items" : {
-            "$ref" : "#/$defs/font_style"
+        "styles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/font_style"
           }
         }
       }
     },
-    "font_style" : {
-      "type" : "string",
-      "title" : "Font Style",
-      "description" : "Style of the font to use",
-      "examples" : [
-        "bold"
-      ],
-      "enum" : [
+    "font_style": {
+      "type": "string",
+      "title": "Font Style",
+      "description": "Style of the font to use",
+      "examples": ["bold"],
+      "enum": [
         "bold",
         "italic",
         "underline",
@@ -383,47 +347,43 @@
         "subscript"
       ]
     },
-    "page" : {
-      "title" : "Page settings",
-      "description" : "Properties to set the basic page settings",
-      "type" : "object",
-      "x-example" : {
-        "page" : {
-          "page_size" : "EXECUTIVE",
-          "margin_top" : 60,
-          "margin_bottom" : 60,
-          "margin_left" : 36,
-          "margin_right" : 36,
-          "page_break_threshold" : 200,
-          "link_color" : "175A8E"
+    "page": {
+      "title": "Page settings",
+      "description": "Properties to set the basic page settings",
+      "type": "object",
+      "x-example": {
+        "page": {
+          "page_size": "EXECUTIVE",
+          "margin_top": 60,
+          "margin_bottom": 60,
+          "margin_left": 36,
+          "margin_right": 36,
+          "page_break_threshold": 200,
+          "link_color": "175A8E"
         }
       },
-      "properties" : {
-        "link_color" : {
-          "title" : "Link color",
-          "description" : "Set the color of clickable links",
-          "$ref" : "#/$defs/color"
+      "properties": {
+        "link_color": {
+          "title": "Link color",
+          "description": "Set the color of clickable links",
+          "$ref": "#/$defs/color"
         },
-        "page_layout" : {
-          "title" : "Page layout",
-          "description" : "The layout of a page",
-          "type" : "string",
-          "examples" : [
-            "portrait"
-          ],
-          "enum" : [
+        "page_layout": {
+          "title": "Page layout",
+          "description": "The layout of a page",
+          "type": "string",
+          "examples": ["portrait"],
+          "enum": [
             "portrait",
             "landscape"
           ]
         },
-        "page_size" : {
-          "type" : "string",
-          "title" : "Page size",
-          "description" : "The size of a page",
-          "examples" : [
-            "EXECUTIVE"
-          ],
-          "enum" : [
+        "page_size": {
+          "type": "string",
+          "title": "Page size",
+          "description": "The size of a page",
+          "examples": ["EXECUTIVE"],
+          "enum": [
             "EXECUTIVE",
             "TABLOID",
             "LETTER",
@@ -476,231 +436,219 @@
             "2A0"
           ]
         },
-        "page_break_threshold" : {
-          "title" : "Page break threshold",
-          "description" : "If there is a new section, start a new page if space less than the threshold is available",
-          "$ref" : "#/$defs/measurement"
+        "page_break_threshold": {
+          "title": "Page break threshold",
+          "description": "If there is a new section, start a new page if space less than the threshold is available",
+          "$ref": "#/$defs/measurement"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "title" : "Default font settings",
-          "$ref" : "#/$defs/font"
+          "title": "Default font settings",
+          "$ref": "#/$defs/font"
         },
         {
-          "title" : "Page margins",
-          "$ref" : "#/$defs/margin"
+          "title": "Page margins",
+          "$ref": "#/$defs/margin"
         }
       ]
     },
-    "page_heading" : {
-      "title" : "Page heading",
-      "description" : "The main page title heading",
-      "x-example" : {
-        "page_heading" : {
-          "size" : 14,
-          "styles" : [
-            "bold"
-          ],
-          "margin_bottom" : 10
+    "page_heading": {
+      "title": "Page heading",
+      "description": "The main page title heading",
+      "x-example": {
+        "page_heading": {
+          "size": 14,
+          "styles": ["bold"],
+          "margin_bottom": 10
         }
       },
-      "type" : "object",
-      "allOf" : [
+      "type": "object",
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         },
         {
-          "$ref" : "#/$defs/margin"
+          "$ref": "#/$defs/margin"
         }
       ]
     },
-    "page_footer" : {
-      "type" : "object",
-      "title" : "Page footers",
-      "x-example" : {
-        "page_footer" : {
-          "offset" : -30,
-          "size" : 8
+    "page_footer": {
+      "type": "object",
+      "title": "Page footers",
+      "x-example": {
+        "page_footer": {
+          "offset": -30,
+          "size": 8
         }
       },
-      "properties" : {
-        "offset" : {
-          "title" : "Offset position from page bottom",
-          "examples" : [
-            -30
-          ],
-          "$ref" : "#/$defs/measurement_signed"
+      "properties": {
+        "offset": {
+          "title": "Offset position from page bottom",
+          "examples": [-30],
+          "$ref": "#/$defs/measurement_signed"
         },
-        "spacing" : {
-          "title" : "Minimum spacing between different page footers",
-          "examples" : [
-            8
-          ],
-          "$ref" : "#/$defs/measurement"
+        "spacing": {
+          "title": "Minimum spacing between different page footers",
+          "examples": [8],
+          "$ref": "#/$defs/measurement"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         }
       ]
     },
-    "page_header" : {
-      "type" : "object",
-      "title" : "Page headers",
-      "x-example" : {
-        "page_header" : {
-          "align" : "left",
-          "offset" : 20,
-          "size" : 8
+    "page_header": {
+      "type": "object",
+      "title": "Page headers",
+      "x-example": {
+        "page_header": {
+          "align": "left",
+          "offset": 20,
+          "size": 8
         }
       },
-      "properties" : {
-        "align" : {
-          "$ref" : "#/$defs/alignment"
+      "properties": {
+        "align": {
+          "$ref": "#/$defs/alignment"
         },
-        "offset" : {
-          "title" : "Offset position from page top",
-          "examples" : [
-            -30
-          ],
-          "$ref" : "#/$defs/measurement_signed"
+        "offset": {
+          "title": "Offset position from page top",
+          "examples": [-30],
+          "$ref": "#/$defs/measurement_signed"
         }
       },
-      "allOf" : [
+      "allOf": [
         {
-          "$ref" : "#/$defs/font"
+          "$ref": "#/$defs/font"
         }
       ]
     },
-    "page_logo" : {
-      "title" : "Page logo",
-      "description" : "Styling for logo image in the page header.",
-      "type" : "object",
-      "x-example" : {
-        "page_logo" : {
-          "height" : 20,
-          "align" : "right"
+    "page_logo": {
+      "title": "Page logo",
+      "description": "Styling for logo image in the page header.",
+      "type": "object",
+      "x-example": {
+        "page_logo": {
+          "height": 20,
+          "align": "right"
         }
       },
-      "properties" : {
-        "height" : {
-          "$ref" : "#/$defs/measurement",
-          "title" : "Height of the image"
+      "properties": {
+        "height": {
+          "$ref": "#/$defs/measurement",
+          "title": "Height of the image"
         },
-        "align" : {
-          "$ref" : "#/$defs/alignment"
+        "align": {
+          "$ref": "#/$defs/alignment"
         },
-        "offset" : {
-          "title" : "Offset position from page top",
-          "examples" : [
-            -30
-          ],
-          "$ref" : "#/$defs/measurement_signed"
+        "offset": {
+          "title": "Offset position from page top",
+          "examples": [-30],
+          "$ref": "#/$defs/measurement_signed"
         }
       }
     },
-    "margin" : {
-      "title" : "Margin properties",
-      "description" : "Properties to set margins",
-      "type" : "object",
-      "x-example" : {
-        "margin" : "10mm",
-        "margin_top" : "15mm"
+    "margin": {
+      "title": "Margin properties",
+      "description": "Properties to set margins",
+      "type": "object",
+      "x-example": {
+        "margin": "10mm",
+        "margin_top": "15mm"
       },
-      "properties" : {
-        "margin" : {
-          "title" : "Margin",
-          "description" : "One value for margin on all sides",
-          "$ref" : "#/$defs/measurement"
+      "properties": {
+        "margin": {
+          "title": "Margin",
+          "description": "One value for margin on all sides",
+          "$ref": "#/$defs/measurement"
         },
-        "margin_left" : {
-          "title" : "Margin left",
-          "description" : "Margin only on the left side",
-          "$ref" : "#/$defs/measurement"
+        "margin_left": {
+          "title": "Margin left",
+          "description": "Margin only on the left side",
+          "$ref": "#/$defs/measurement"
         },
-        "margin_right" : {
-          "title" : "Margin right",
-          "description" : "Margin only on the right side",
-          "$ref" : "#/$defs/measurement"
+        "margin_right": {
+          "title": "Margin right",
+          "description": "Margin only on the right side",
+          "$ref": "#/$defs/measurement"
         },
-        "margin_top" : {
-          "title" : "Margin top",
-          "description" : "Margin only on the top side",
-          "$ref" : "#/$defs/measurement"
+        "margin_top": {
+          "title": "Margin top",
+          "description": "Margin only on the top side",
+          "$ref": "#/$defs/measurement"
         },
-        "margin_bottom" : {
-          "title" : "Margin bottom",
-          "description" : "Margin only on the bottom side",
-          "$ref" : "#/$defs/measurement"
+        "margin_bottom": {
+          "title": "Margin bottom",
+          "description": "Margin only on the bottom side",
+          "$ref": "#/$defs/measurement"
         }
       }
     },
-    "padding" : {
-      "title" : "Padding Properties",
-      "description" : "Properties to set paddings",
-      "type" : "object",
-      "x-example" : {
-        "padding" : "10mm",
-        "padding_top" : "15mm"
+    "padding": {
+      "title": "Padding Properties",
+      "description": "Properties to set paddings",
+      "type": "object",
+      "x-example": {
+        "padding": "10mm",
+        "padding_top": "15mm"
       },
-      "properties" : {
-        "padding" : {
-          "title" : "Padding",
-          "description" : "One value for padding on all sides",
-          "$ref" : "#/$defs/measurement"
+      "properties": {
+        "padding": {
+          "title": "Padding",
+          "description": "One value for padding on all sides",
+          "$ref": "#/$defs/measurement"
         },
-        "padding_left" : {
-          "title" : "Padding left",
-          "description" : "Padding only on the left side",
-          "$ref" : "#/$defs/measurement"
+        "padding_left": {
+          "title": "Padding left",
+          "description": "Padding only on the left side",
+          "$ref": "#/$defs/measurement"
         },
-        "padding_right" : {
-          "title" : "Padding right",
-          "description" : "Padding only on the right side",
-          "$ref" : "#/$defs/measurement"
+        "padding_right": {
+          "title": "Padding right",
+          "description": "Padding only on the right side",
+          "$ref": "#/$defs/measurement"
         },
-        "padding_top" : {
-          "title" : "Padding top",
-          "description" : "Padding only on the top side",
-          "$ref" : "#/$defs/measurement"
+        "padding_top": {
+          "title": "Padding top",
+          "description": "Padding only on the top side",
+          "$ref": "#/$defs/measurement"
         },
-        "padding_bottom" : {
-          "title" : "Padding bottom",
-          "description" : "Padding only on the bottom side",
-          "$ref" : "#/$defs/measurement"
+        "padding_bottom": {
+          "title": "Padding bottom",
+          "description": "Padding only on the bottom side",
+          "$ref": "#/$defs/measurement"
         }
       }
     },
-    "measurement" : {
-      "type" : [
+    "measurement": {
+      "type": [
         "number",
         "string"
       ],
-      "pattern" : "^([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
-      "description" : "A number >= 0 and an optional unit",
-      "examples" : [
+      "pattern": "^([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
+      "description": "A number >= 0 and an optional unit",
+      "examples": [
         "10mm",
         "10"
       ]
     },
-    "measurement_signed" : {
-      "type" : [
+    "measurement_signed": {
+      "type": [
         "number",
         "string"
       ],
-      "pattern" : "^-?([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
-      "description" : "A positive or negative number and an optional unit"
+      "pattern": "^-?([0-9\\.]+)(mm|cm|dm|m|in|ft|yr|pt)$",
+      "description": "A positive or negative number and an optional unit"
     },
-    "alignment" : {
-      "title" : "Alignment",
-      "description" : "How the element should be aligned",
-      "examples" : [
-        "center"
-      ],
-      "type" : "string",
-      "enum" : [
+    "alignment": {
+      "title": "Alignment",
+      "description": "How the element should be aligned",
+      "examples": ["center"],
+      "type": "string",
+      "enum": [
         "left",
         "center",
         "right"

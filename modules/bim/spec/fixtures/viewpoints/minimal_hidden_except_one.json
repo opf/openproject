@@ -28,11 +28,13 @@
         "space_boundaries_visible": false,
         "openings_visible": false
       },
-      "exceptions": [{
-        "ifc_guid": "0hOGUplITAJP95dJdkKB1Y",
-        "originating_system": "xeokit.io",
-        "authoring_tool_id": "xeokit.io"
-      }],
+      "exceptions": [
+        {
+          "ifc_guid": "0hOGUplITAJP95dJdkKB1Y",
+          "originating_system": "xeokit.io",
+          "authoring_tool_id": "xeokit.io"
+        }
+      ],
       "default_visibility": false
     },
     "selection": []
