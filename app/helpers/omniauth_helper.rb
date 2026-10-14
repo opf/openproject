@@ -47,7 +47,6 @@ module OmniauthHelper
     render(Primer::Beta::Button.new(tag: :a,
                                     href: omniauth_login_path(name, omniauth_login_path_options),
                                     block: true,
-                                    align_content: :center,
                                     classes: "auth-provider auth-provider-#{name}",
                                     data: { turbo: false })) do
       label = tag.span(provider_button_label(name, display_name), class: "auth-provider-name")
