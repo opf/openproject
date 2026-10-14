@@ -46,7 +46,7 @@ module API
                  .call(params, valid_subset:)
 
         if update.success?
-          representer = results_to_representer(params)
+          representer = results_to_representer(params, query.results)
 
           ServiceResult.success(result: representer)
         else
@@ -56,8 +56,10 @@ module API
 
       private
 
-      def results_to_representer(params)
-        results_scope = query.results.work_packages
+      # Query#results hands out a fresh Query::Results every time, so the one built in #call is
+      # threaded through rather than re-requested: everything it memoises would be thrown away.
+      def results_to_representer(params, results)
+        results_scope = results.work_packages
 
         if scope
           results_scope = results_scope.where(id: scope.select(:id))
@@ -66,8 +68,8 @@ module API
         collection_representer(results_scope,
                                params:,
                                project: query.project,
-                               groups: generate_groups,
-                               sums: generate_total_sums)
+                               groups: generate_groups(results),
+                               sums: generate_total_sums(results))
       end
 
       attr_accessor :query,
@@ -92,11 +94,10 @@ module API
           .to_h
       end
 
-      def generate_groups
+      def generate_groups(results)
         return unless query.grouped?
 
-        results = query.results
-        sums = generate_group_sums
+        sums = generate_group_sums(results)
 
         results.work_package_count_by_group.map do |group, count|
           ::API::V3::WorkPackages::WorkPackageAggregationGroup.new(
@@ -105,16 +106,16 @@ module API
         end
       end
 
-      def generate_total_sums
+      def generate_total_sums(results)
         return unless query.display_sums?
 
-        format_query_sums query.results.all_total_sums
+        format_query_sums results.all_total_sums
       end
 
-      def generate_group_sums
+      def generate_group_sums(results)
         return {} unless query.display_sums?
 
-        query.results.all_group_sums.transform_values do |v|
+        results.all_group_sums.transform_values do |v|
           format_query_sums(v)
         end
       end
