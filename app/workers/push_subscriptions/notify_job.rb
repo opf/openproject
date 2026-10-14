@@ -31,28 +31,22 @@
 class PushSubscriptions::NotifyJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Concurrency
 
-  class RetryableResponse < StandardError
-  end
-
   DEBOUNCE = 1.minute
+  MAX_ATTEMPTS = 4
   TOPIC = "op-unread"
 
   queue_with_priority :notification
 
   good_job_control_concurrency_with(
     enqueue_limit: 1,
-    key: -> { "#{self.class.name}-#{arguments.first}" }
+    key: -> { [self.class.name, *arguments].join("-") }
   )
 
   TRANSIENT_ERRORS = [
     Net::OpenTimeout, Net::ReadTimeout, Net::WriteTimeout,
     SsrfFilter::UnresolvedHostname, SystemCallError, SocketError, IOError,
-    OpenSSL::SSL::SSLError, Net::ProtocolError
+    OpenSSL::SSL::SSLError, Net::ProtocolError, Net::HTTPBadResponse
   ].freeze
-
-  retry_on RetryableResponse, wait: :polynomially_longer, attempts: 4 do |job, _error|
-    Rails.logger.warn("Giving up on push wake-up for user #{job.arguments.first} after repeated transient failures")
-  end
 
   def self.schedule_for(user_id)
     return unless OpenProject::WebPush.enabled? && PushSubscription.exists?(user_id:)
@@ -60,7 +54,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
     set(wait: DEBOUNCE).perform_later(user_id)
   end
 
-  def perform(user_id)
+  def perform(user_id, subscription_ids = nil, attempt = 1)
     return unless OpenProject::WebPush.enabled?
 
     user = User.find_by(id: user_id)
@@ -70,17 +64,27 @@ class PushSubscriptions::NotifyJob < ApplicationJob
       return
     end
 
-    deliver_all(user) if wakeable?(user)
+    deliver_all(user, subscription_ids, attempt) if wakeable?(user)
   rescue OpenProject::WebPush::UnreadableKey => e
-    Rails.logger.error("Browser push is paused: #{e.message}")
+    OpenProject.logger.error("Browser push is paused: #{e.message}")
   end
 
   private
 
-  def deliver_all(user)
-    outcomes = user.push_subscriptions.map { deliver(it) }
+  def deliver_all(user, subscription_ids, attempt)
+    subscriptions = user.push_subscriptions
+    subscriptions = subscriptions.where(id: subscription_ids) if subscription_ids
+    failed_ids = subscriptions.filter_map { it.id if deliver(it) == :retry }
 
-    raise RetryableResponse if outcomes.include?(:retry)
+    retry_later(user.id, failed_ids, attempt) if failed_ids.any?
+  end
+
+  def retry_later(user_id, subscription_ids, attempt)
+    if attempt >= MAX_ATTEMPTS
+      Rails.logger.warn("Giving up on push wake-up for user #{user_id} after repeated transient failures")
+    else
+      self.class.set(wait: ((attempt**4) + 2).seconds).perform_later(user_id, subscription_ids, attempt + 1)
+    end
   end
 
   def wakeable?(user)
@@ -101,15 +105,17 @@ class PushSubscriptions::NotifyJob < ApplicationJob
     :retry
   rescue SsrfFilter::Error => e
     Rails.logger.warn("Push subscription #{subscription.id} rejected: #{e.class}")
-    subscription.destroy!
   end
 
   def handle_response(subscription, code)
     case code
     when 200..299 then subscription.touch
+    when 404, 410 then subscription.destroy!
     when 429, 500..599 then :retry
-    when 400..499 then subscription.destroy!
-    else Rails.logger.warn("Push service answered #{code} for subscription #{subscription.id}")
+    else
+      Rails.logger.warn(
+        "Push service #{URI(subscription.endpoint).host} answered #{code} for subscription #{subscription.id}"
+      )
     end
   end
 

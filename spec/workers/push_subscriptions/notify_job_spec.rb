@@ -78,6 +78,13 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
     it "limits concurrent enqueues to one per user" do
       expect(described_class.good_job_concurrency_config[:enqueue_limit]).to eq(1)
     end
+
+    it "keys a retry apart from a fresh wake-up so a waiting retry does not block it" do
+      fresh = described_class.new(user.id)
+      retry_job = described_class.new(user.id, [1, 2], 2)
+
+      expect(retry_job.good_job_concurrency_key).not_to eq(fresh.good_job_concurrency_key)
+    end
   end
 
   describe "#perform" do
@@ -118,14 +125,14 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
     context "when the VAPID key is unreadable" do
       before do
         allow(OpenProject::WebPush).to receive(:vapid_key).and_raise(OpenProject::WebPush::UnreadableKey)
-        allow(Rails.logger).to receive(:error)
+        allow(OpenProject.logger).to receive(:error)
       end
 
       it "logs once, posts nothing and keeps the subscriptions" do
         expect { perform }.not_to raise_error
 
         expect_no_post
-        expect(Rails.logger).to have_received(:error).once
+        expect(OpenProject.logger).to have_received(:error).once
         expect(PushSubscription.where(user_id: user.id).count).to eq(2)
       end
     end
@@ -193,7 +200,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
     end
 
-    [400, 401, 403, 404, 410, 413].each do |code|
+    [404, 410].each do |code|
       context "when the push service answers #{code}" do
         let(:response_code) { code.to_s }
 
@@ -205,15 +212,72 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
     end
 
+    context "when the push service answers 401" do
+      let(:response_code) { "401" }
+
+      it "keeps the subscriptions and logs the vendor host without the endpoint" do
+        allow(Rails.logger).to receive(:warn)
+
+        expect { perform }.not_to have_enqueued_job(described_class)
+
+        expect(PushSubscription.where(user_id: user.id).count).to eq(2)
+        expect(Rails.logger).to have_received(:warn).with(a_string_including("fcm.googleapis.com", "401")).twice
+        expect(Rails.logger).not_to have_received(:warn).with(a_string_including(subscriptions.first.endpoint))
+      end
+    end
+
     [429, 503].each do |code|
-      context "when the push service answers #{code}" do
-        let(:response_code) { code.to_s }
+      context "when the push service answers #{code} for one subscription" do
+        let(:failing) { subscriptions.first }
+        let(:healthy) { subscriptions.second }
 
-        it "tries every subscription, then schedules a retry" do
-          expect { perform }.to have_enqueued_job(described_class).with(user.id)
+        before do
+          failing.update_columns(endpoint: "https://fcm.googleapis.com/failing")
+          healthy.update_columns(endpoint: "https://fcm.googleapis.com/ok", updated_at: 1.day.ago)
+          allow(OpenProject::SsrfProtection).to receive(:post) do |endpoint, **|
+            instance_double(Net::HTTPResponse, code: endpoint.end_with?("/failing") ? code.to_s : "201")
+          end
+        end
 
-          expect(OpenProject::SsrfProtection).to have_received(:post).twice
+        it "retries only the failing subscription with the next attempt number" do
+          expect { perform }
+            .to have_enqueued_job(described_class).with(user.id, [failing.id], 2)
+
+          expect(healthy.reload.updated_at).to be_within(1.minute).of(Time.current)
           expect(PushSubscription.where(user_id: user.id).count).to eq(2)
+        end
+      end
+    end
+
+    context "when performing a retry" do
+      def perform_retry(subscription_ids, attempt)
+        described_class.perform_now(user.id, subscription_ids, attempt)
+      end
+
+      it "posts only to the given subscriptions" do
+        perform_retry([subscriptions.first.id], 2)
+
+        expect(OpenProject::SsrfProtection).to have_received(:post).once
+      end
+
+      it "still posts nothing without unread notifications" do
+        notification.update_columns(read_ian: true)
+
+        perform_retry([subscriptions.first.id], 2)
+
+        expect_no_post
+      end
+
+      context "when the last attempt fails" do
+        let(:response_code) { "503" }
+
+        before { allow(Rails.logger).to receive(:warn) }
+
+        it "logs that it gives up and does not enqueue again" do
+          expect { perform_retry(subscriptions.map(&:id), described_class::MAX_ATTEMPTS) }
+            .not_to have_enqueued_job(described_class)
+
+          expect(Rails.logger).to have_received(:warn).with(a_string_matching(/giving up/i))
         end
       end
     end
@@ -250,7 +314,7 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
 
       it "still posts to the second subscription and schedules a retry" do
-        expect { perform }.to have_enqueued_job(described_class).with(user.id)
+        expect { perform }.to have_enqueued_job(described_class).with(user.id, [a_kind_of(Integer)], 2)
 
         expect(OpenProject::SsrfProtection).to have_received(:post).twice
         expect(PushSubscription.where(user_id: user.id).count).to eq(2)
@@ -278,19 +342,6 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
     end
 
-    context "when every attempt is retryable" do
-      let(:response_code) { "503" }
-
-      before { allow(Rails.logger).to receive(:warn) }
-
-      it "logs once retries are exhausted and does not raise" do
-        expect { perform_enqueued_jobs { described_class.perform_later(user.id) } }.not_to raise_error
-
-        expect(OpenProject::SsrfProtection).to have_received(:post).exactly(8).times
-        expect(Rails.logger).to have_received(:warn).with(a_string_matching(/giving up/i))
-      end
-    end
-
     context "when the endpoint resolves to a private address" do
       before do
         allow(OpenProject::SsrfProtection).to receive(:post).and_raise(SsrfFilter::PrivateIPAddress)
@@ -308,10 +359,10 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
         end
       end
 
-      it "destroys the subscriptions" do
-        perform
+      it "keeps the subscriptions and does not retry" do
+        expect { perform }.not_to have_enqueued_job(described_class)
 
-        expect(PushSubscription.where(user_id: user.id)).to be_empty
+        expect(PushSubscription.where(user_id: user.id).count).to eq(2)
       end
     end
 
@@ -321,7 +372,8 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
 
       it "schedules a retry and keeps the subscriptions" do
-        expect { perform }.to have_enqueued_job(described_class).with(user.id)
+        expect { perform }
+          .to have_enqueued_job(described_class).with(user.id, subscriptions.map(&:id), 2)
 
         expect(PushSubscription.where(user_id: user.id).count).to eq(2)
       end
@@ -333,9 +385,21 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
       end
 
       it "schedules a retry and keeps the subscriptions" do
-        expect { perform }.to have_enqueued_job(described_class).with(user.id)
+        expect { perform }
+          .to have_enqueued_job(described_class).with(user.id, subscriptions.map(&:id), 2)
 
         expect(PushSubscription.where(user_id: user.id).count).to eq(2)
+      end
+    end
+
+    context "when the push service sends a malformed response" do
+      before do
+        allow(OpenProject::SsrfProtection).to receive(:post).and_raise(Net::HTTPBadResponse)
+      end
+
+      it "retries every subscription instead of aborting the loop" do
+        expect { perform }
+          .to have_enqueued_job(described_class).with(user.id, subscriptions.map(&:id), 2)
       end
     end
 
