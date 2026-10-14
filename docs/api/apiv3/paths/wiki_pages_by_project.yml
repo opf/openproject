@@ -1,0 +1,120 @@
+# /api/v3/projects/{project_id}/wiki_pages
+---
+get:
+  summary: List Wiki Pages in Project
+  operationId: List_Wiki_Pages_In_Project
+  tags:
+    - Wiki Pages
+  description: |-
+    Returns all wiki pages belonging to the project's wiki, ordered by title.
+
+    **Required permission:** `view_wiki_pages` in the project.
+  parameters:
+    - name: project_id
+      in: path
+      required: true
+      description: Project identifier
+      schema:
+        type: integer
+      example: 12
+    - name: offset
+      in: query
+      required: false
+      description: Page number inside the requested collection.
+      schema:
+        type: integer
+        default: 1
+      example: 1
+    - name: pageSize
+      in: query
+      required: false
+      description: Number of elements to display per page.
+      schema:
+        type: integer
+      example: 25
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/list_of_wiki_pages_model.yml'
+    '403':
+      description: Returned if the user lacks `view_wiki_pages` in the project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to view this resource.
+    '404':
+      description: |-
+        Returned if the project does not exist or its wiki module is not enabled.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+
+post:
+  summary: Create Wiki Page in Project
+  operationId: Create_Wiki_Page_In_Project
+  tags:
+    - Wiki Pages
+  description: |-
+    Creates a new wiki page in the project's wiki.
+
+    **Required permission:** `edit_wiki_pages` in the project.
+
+    Body fields are flat (not HAL): see `Wiki_PageCreateModel`.
+  parameters:
+    - name: project_id
+      in: path
+      required: true
+      description: Project identifier
+      schema:
+        type: integer
+      example: 12
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/wiki_page_create_model.yml'
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      description: |-
+        Returned if the user lacks `edit_wiki_pages` in the project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the project does not exist or its wiki module is not enabled.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      description: Returned if a constraint for a property was violated (e.g. blank or duplicate title).
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: Title can't be blank.

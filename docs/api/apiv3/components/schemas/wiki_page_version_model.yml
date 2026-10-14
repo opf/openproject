@@ -1,0 +1,70 @@
+# Schema: Wiki_PageVersionModel
+---
+type: object
+properties:
+  _type:
+    type: string
+    enum: [WikiPageVersion]
+    readOnly: true
+  id:
+    type: integer
+    description: Journal id
+    readOnly: true
+  version:
+    type: integer
+    description: Sequential version number of the wiki page
+    readOnly: true
+  notes:
+    type: string
+    description: Optional notes the editor left when saving this version
+    readOnly: true
+  text:
+    allOf:
+      - $ref: "./formattable.yml"
+      - description: The page body as it was at this version
+  createdAt:
+    type: string
+    format: date-time
+    description: When this version was created
+    readOnly: true
+  _links:
+    type: object
+    properties:
+      self:
+        $ref: "./link.yml"
+      wikiPage:
+        allOf:
+          - $ref: "./link.yml"
+          - description: The wiki page this version belongs to
+      author:
+        allOf:
+          - $ref: "./link.yml"
+          - description: User that authored this version
+      restore:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Restore the page to this version (POST).
+
+              **Permission**: edit_wiki_pages
+example:
+  _type: WikiPageVersion
+  id: 901
+  version: 3
+  notes: "Reworded the intro"
+  text:
+    format: markdown
+    raw: "**Bold** text on a wiki page"
+    html: "<p><strong>Bold</strong> text on a wiki page</p>"
+  createdAt: '2026-04-02T08:13:05.123Z'
+  _links:
+    self:
+      href: "/api/v3/wiki_pages/72/versions/3"
+    wikiPage:
+      href: "/api/v3/wiki_pages/72"
+      title: A wiki page with a name
+    author:
+      href: "/api/v3/users/5"
+    restore:
+      href: "/api/v3/wiki_pages/72/versions/3/restore"
+      method: post

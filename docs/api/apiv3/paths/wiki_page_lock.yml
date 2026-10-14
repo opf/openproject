@@ -1,0 +1,41 @@
+# /api/v3/wiki_pages/{id}/lock
+---
+post:
+  summary: Lock Wiki Page
+  operationId: Lock_Wiki_Page
+  tags:
+    - Wiki Pages
+  description: |-
+    Marks the page as protected. Subsequent edits will require the
+    `manage_wiki` permission.
+
+    **Required permission:** `manage_wiki` in the page's project.
+
+    No request body is required.
+  parameters:
+    - name: id
+      in: path
+      required: true
+      description: Wiki page identifier
+      schema:
+        type: integer
+      example: 72
+  responses:
+    '200':
+      description: "OK — returns the updated wiki page with `locked: true`."
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/wiki_page_model.yml'
+    '403':
+      description: Returned if the user lacks `manage_wiki` in the page's project.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+    '404':
+      description: Returned if the page does not exist or is not visible to the user.
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
