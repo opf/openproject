@@ -36,7 +36,6 @@ module AI
 
     belongs_to :message, class_name: "AI::AssistantChatMessage", inverse_of: :proposals
 
-    enum :source, { rule: "rule", ai: "ai" }, validate: true
     enum :severity, { high: "high", medium: "medium", low: "low" }, validate: { allow_nil: true }
     enum :dismiss_reason, {
       wrong: "wrong",
@@ -44,10 +43,9 @@ module AI
       already_known: "already_known"
     }, validate: { allow_nil: true }, prefix: :dismissed_as
 
-    # Findings first, by severity; plain proposals last.
-    scope :by_severity, -> {
-      unscope(:order).order(Arel.sql("CASE severity WHEN 'high' THEN 0 WHEN 'medium' THEN 1 WHEN 'low' THEN 2 ELSE 3 END"),
-                            :position, :id)
+    # Findings first, by severity, then plain proposals, each in the answer's order.
+    scope :ordered, -> {
+      order(Arel.sql("CASE severity WHEN 'high' THEN 0 WHEN 'medium' THEN 1 WHEN 'low' THEN 2 ELSE 3 END"), :position, :id)
     }
 
     delegate :chat, to: :message

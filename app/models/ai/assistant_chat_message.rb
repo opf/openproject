@@ -35,7 +35,7 @@ module AI
     include AI::EventLog
 
     belongs_to :chat, class_name: "AI::AssistantChat", inverse_of: :messages
-    has_many :proposals, -> { order(:position, :id) },
+    has_many :proposals, -> { ordered },
              class_name: "AI::AssistantProposal", foreign_key: :message_id, inverse_of: :message, dependent: :delete_all
 
     enum :role, { user: "user", assistant: "assistant" }, validate: true, prefix: :from

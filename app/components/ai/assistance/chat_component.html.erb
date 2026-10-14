@@ -59,7 +59,7 @@
         <% end %>
         <% if message.proposals.any? %>
           <%= render(Primer::Beta::BorderBox.new(mt: 2, data: { test_selector: "ai-assistance-proposals" })) do |box| %>
-            <% message.proposals.sort_by { |proposal| proposal_order(proposal) }.each do |proposal| %>
+            <% message.proposals.each do |proposal| %>
               <% box.with_row { render(AI::Assistance::ProposalItemComponent.new(proposal:)) } %>
             <% end %>
           <% end %>

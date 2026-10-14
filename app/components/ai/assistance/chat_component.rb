@@ -59,12 +59,6 @@ module AI
         pending? ? poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)) : {}
       end
 
-      # Findings first, by severity, then plain proposals, in the answer's order.
-      def proposal_order(proposal)
-        [AI::Assistance::AnswerFormat::SEVERITIES.index(proposal.severity) || AI::Assistance::AnswerFormat::SEVERITIES.size,
-         proposal.position, proposal.id]
-      end
-
       def read_only?
         skill.scope_read_only?
       end

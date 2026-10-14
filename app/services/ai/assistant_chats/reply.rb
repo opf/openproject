@@ -103,8 +103,7 @@ module AI
         kept, dropped = raw_proposals.first(MAX_PROPOSALS).map { |raw| [raw, answer_format.proposal_attributes(raw)] }
                                      .partition { |_raw, attributes| attributes }
         kept.each_with_index do |(_raw, attributes), index|
-          message.proposals.create!(attributes.merge(source: "ai", position: index,
-                                                     base_lock_version: message.base_lock_version))
+          message.proposals.create!(attributes.merge(position: index, base_lock_version: message.base_lock_version))
         end
         return if raw_proposals.empty?
 

@@ -42,7 +42,7 @@ RSpec.describe AI::AssistantProposal do
     plain = create(:ai_assistant_proposal, message:)
     high = create(:ai_assistant_proposal, :finding, message:, severity: "high")
 
-    expect(message.proposals.by_severity).to eq([high, low, plain])
+    expect(message.reload.proposals).to eq([high, low, plain])
     expect(high).to be_finding
     expect(plain).not_to be_finding
   end

@@ -68,7 +68,6 @@ FactoryBot.define do
 
   factory :ai_assistant_proposal, class: "AI::AssistantProposal" do
     message { association :ai_assistant_chat_message }
-    source { "ai" }
     change_set { AI::Proposal.change_set_for({ "description" => "A better description" }) }
     base_lock_version { message.base_lock_version }
 

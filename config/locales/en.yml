@@ -2468,8 +2468,6 @@ en:
       question: "Question"
       send: "Send"
       thinking: "Thinking…"
-    errors:
-      unknown_skill: "This skill is not available."
     events:
       answer: "The model answered in %{seconds} s."
       dropped: "dropped proposals"
