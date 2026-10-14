@@ -174,7 +174,8 @@ RSpec.describe "Work package variants index", :js do
     expect(Type.exists?(name: I18n.t("types.index.duplicate_name", name: bug_type.name))).to be(true)
   end
 
-  it "reorders types via drag and drop" do
+  # Native HTML5 drag and drop needs CDP drag interception on Cuprite (AGILE-335)
+  it "reorders types via drag and drop", :selenium do
     visit types_path
 
     expect(bug_type.position).to be < feature_type.position
