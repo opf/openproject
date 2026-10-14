@@ -39,6 +39,8 @@ module Token
       "admin_elevation"
     ].freeze
 
+    DEFAULT_SCOPES = (SCOPES - ["admin_elevation"]).freeze
+
     prefix :opapi
 
     store_attribute :data, :scopes, :json, default: []
