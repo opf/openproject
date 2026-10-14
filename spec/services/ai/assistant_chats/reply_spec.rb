@@ -37,7 +37,6 @@ RSpec.describe AI::AssistantChats::Reply do
   shared_let(:user) do
     create(:user, language: "de", member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
   end
-  shared_let(:closed_status) { create(:closed_status) }
 
   let(:work_package) { create(:work_package, project:, subject: "Old subject", description: "Old text") }
   let(:skill) { create(:ai_assistant_skill, prompt: "Check it.") }
@@ -70,101 +69,63 @@ RSpec.describe AI::AssistantChats::Reply do
     end
   end
 
-  describe "the first answer of a skill with the built-in checks" do
-    before { create(:work_package, project:, parent: work_package, status: closed_status) }
-
+  describe "an answer with findings and plain proposals" do
     let(:answer) do
       { answer: "Zwei Befunde.", proposals: [
         { severity: "medium", area: "content", text: "Der Kommentar ändert den Umfang.",
           evidence: ["Public note"], changes: [{ field: "description", value: "New text" }] },
         { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
         { severity: "none", area: "none", text: "Neuer Betreff", evidence: [],
-          changes: [{ field: "subject", value: "New subject" }] }
-      ] }
-    end
-
-    it "stores the rule findings and the AI findings with evidence as proposals" do
-      message = ask("Refresh work package")
-
-      expect(message).to be_done
-      expect(message.content).to eq("Zwei Befunde.")
-      expect(message.proposals.rule.pluck(:rule_key)).to eq(%w[open_with_all_descendants_closed])
-      finding, plain = message.proposals.ai.to_a
-      expect(finding).to have_attributes(severity: "medium", base_lock_version: work_package.lock_version,
-                                         change_set: AI::Proposal.change_set_for({ "description" => "New text" }))
-      expect(plain).to have_attributes(severity: nil, text: "Neuer Betreff")
-      expect(message.events.pluck("kind")).to include("rules", "request", "answer", "stored")
-    end
-
-    it "sends the visible context and the rule findings, at a low temperature" do
-      ask("Refresh work package")
-
-      expect(sent[:user]).to include("Public note", "rule_findings")
-      expect(sent[:user]).not_to include("Secret note")
-      expect(sent[:system]).to include(AI::Assistance::OutputRules::PROPOSALS, %(locale code "de"))
-      expect(sent[:system]).not_to include("Context (JSON)")
-      expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
-    end
-
-    context "when the model fails" do
-      before { allow(llm).to receive(:ask).and_raise(Llm::Errors::TimeoutError, "slow") }
-
-      it "keeps the rule findings and lists the AI review as not checked" do
-        message = ask("Refresh work package")
-
-        expect(message).to be_done
-        expect(message.proposals.rule.count).to eq(1)
-        expect(message.not_checked).to include("area" => "ai_review", "reason" => "failed")
-      end
-    end
-
-    context "without a system prompt" do
-      let(:skill) { create(:ai_assistant_skill, prompt: "") }
-
-      it "answers with the rule findings only" do
-        message = ask("Refresh work package")
-
-        expect(message).to be_done
-        expect(message.proposals.rule.count).to eq(1)
-        expect(message.not_checked).to include("area" => "ai_review", "reason" => "no_prompt")
-        expect(llm).not_to have_received(:ask)
-      end
-    end
-  end
-
-  describe "a free answer" do
-    let(:skill) { create(:ai_assistant_skill, :chat, prompt: "Answer questions.") }
-    let(:answer) do
-      { answer: "Hier sind zwei Vorschläge.", proposals: [
-        { text: "Neuer Betreff", severity: "none", area: "none", evidence: [],
           changes: [{ field: "subject", value: "New subject" }] },
-        { text: "Keine gültige Änderung", severity: "none", area: "none", evidence: [],
+        { severity: "none", area: "none", text: "Keine gültige Änderung", evidence: [],
           changes: [{ field: "status", value: "No such status" }] }
       ] }
     end
 
-    it "stores each proposal with a valid change, and the context in the system prompt" do
-      message = ask("Make it clearer")
+    it "stores the findings with evidence and the plain proposals with a valid change" do
+      message = ask("Refresh work package")
 
-      expect(message.content).to eq("Hier sind zwei Vorschläge.")
-      expect(message.proposals.sole).to have_attributes(text: "Neuer Betreff", severity: nil, source: "ai")
-      expect(sent[:system]).to include("Context (JSON)", AI::Assistance::OutputRules::PROPOSALS)
+      expect(message).to be_done
+      expect(message.content).to eq("Zwei Befunde.")
+      finding, plain = message.proposals.to_a
+      expect(finding).to have_attributes(severity: "medium", base_lock_version: work_package.lock_version,
+                                         change_set: AI::Proposal.change_set_for({ "description" => "New text" }))
+      expect(plain).to have_attributes(severity: nil, text: "Neuer Betreff")
+      expect(message.proposals.size).to eq(2)
+      expect(message.events.pluck("kind")).to include("request", "answer", "stored")
+    end
+
+    it "sends the visible context in the system prompt, at a low temperature" do
+      ask("Refresh work package")
+
+      expect(sent[:system]).to include("Context (JSON)", "Public note", AI::Assistance::OutputRules::PROPOSALS,
+                                       %(locale code "de"))
+      expect(sent[:system]).not_to include("Secret note")
+      expect(sent[:user]).to eq("Refresh work package")
       expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
     end
 
     it "tells the model what it proposed before" do
-      ask("Make it clearer")
+      ask("Refresh work package")
       ask("And now?")
 
-      expect(sent[:history].last.last).to include("Proposals:", "- Neuer Betreff (open)")
+      expect(sent[:history].last.last).to include("Proposals:", "- Der Kommentar ändert den Umfang. (open)")
     end
+  end
 
-    context "without a model" do
-      before { allow(LlmConnection.active_connection).to receive(:default_chat_model).and_return(nil) }
+  context "when the model fails" do
+    before { allow(llm).to receive(:ask).and_raise(Llm::Errors::TimeoutError, "slow") }
 
-      it "fails the answer" do
-        expect(ask("Hello")).to be_failed
-      end
+    it "fails the answer" do
+      expect(ask("Hello")).to be_failed
+    end
+  end
+
+  context "without a model" do
+    before { allow(LlmConnection.active_connection).to receive(:default_chat_model).and_return(nil) }
+
+    it "fails the answer" do
+      expect(ask("Hello")).to be_failed
     end
   end
 end

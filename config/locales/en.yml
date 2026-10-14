@@ -99,7 +99,6 @@ en:
       ai/assistant_skill:
         active: "Active"
         answers_at_once: "Answer at once when opened"
-        checks: "Run the built-in consistency checks first"
         description: "Description"
         label: "Label"
         prompt: "System prompt"
@@ -1540,7 +1539,6 @@ en:
       skills:
         add: "Add skill"
         answers_at_once_caption: "Opening the skill sends its label as the first message, and it answers at once. Off opens an empty chat for the user's own questions."
-        checks_caption: "OpenProject's consistency rules run before the first answer, and their findings show at once. Such a skill is offered also without a system prompt."
         conditions:
           all: "All"
           caption: "The skill is offered only on work packages that match every list. An empty list matches all."
@@ -1565,9 +1563,8 @@ en:
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
-        no_prompt: "No system prompt: rules only"
         no_prompt_not_offered: "No system prompt: not offered"
-        prompt_caption: "What the model does in this skill. Without it, a skill with built-in checks runs only its rules, and any other skill is not offered."
+        prompt_caption: "What the model does in this skill. Without it, the skill is not offered."
         prompt_preview: "Show the full system prompt"
         prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type and its proposals. Shown as saved."
         proposal_scopes:
@@ -2475,23 +2472,23 @@ en:
       unknown_skill: "This skill is not available."
     events:
       answer: "The model answered in %{seconds} s."
-      dropped: "dropped findings"
+      dropped: "dropped proposals"
       error: "error message"
       failure: "The model call failed (%{error})."
       message: "message"
       raw_answer: "answer"
       request: "Asked the model %{model}: prompt %{system} characters, message %{message} characters."
-      review:
-        skipped: "skipped"
-        started: "started"
-      rules:
-        one: "The rules found 1 finding. AI review: %{review}."
-        other: "The rules found %{count} findings. AI review: %{review}."
       show: "Show %{what}"
-      stored: "Stored %{stored} of %{findings} findings; %{dropped} dropped because they had no evidence or did not fit."
+      stored: "Stored %{stored} of %{findings} proposals; %{dropped} dropped because they had no evidence or no valid change."
       system_prompt: "prompt"
       title: "Details"
-    finding:
+    history:
+      empty: "You did not use AI Assistance on this work package yet."
+      questions:
+        one: "1 question"
+        other: "%{count} questions"
+      title: "History"
+    proposal:
       applied: "Applied"
       dismiss: "Dismiss"
       dismiss_reasons:
@@ -2499,57 +2496,6 @@ en:
         not_relevant: "Dismiss: not relevant"
         wrong: "Dismiss: wrong"
       dismissed: "Dismissed"
-    health_check:
-      and_more:
-        one: "and 1 more"
-        other: "and %{count} more"
-      last_activity: "Last activity on %{date}"
-      rules:
-        closed_descendant_with_open_below: "Descendant %{id} is closed, but a work package below it is still open."
-        closed_with_open_descendants:
-          one: "This work package is closed, but 1 descendant is still open."
-          other: "This work package is closed, but %{count} descendants are still open."
-        closed_with_open_prerequisites: "This work package is closed, but %{id} is still open (%{relation})."
-        closed_with_open_pull_request: "This work package is closed, but a linked pull request is still open."
-        merged_pull_request_default_status: "A linked pull request is merged, but the status is still the initial one."
-        open_duplicate_of_closed: "This work package duplicates %{id}, which is closed, but it is still open."
-        open_with_all_descendants_closed:
-          one: "The only descendant is closed, but this work package is still open."
-          other: "All %{count} descendants are closed, but this work package is still open."
-        stale_open_descendants:
-          one: "1 open descendant did not change for %{days} days."
-          other: "%{count} open descendants did not change for %{days} days."
-        stale_work_package: "This work package is open, but nothing changed for %{days} days."
-    history:
-      empty: "You did not use AI Assistance on this work package yet."
-      findings:
-        one: "1 finding"
-        other: "%{count} findings"
-        zero: "No findings"
-      questions:
-        one: "1 question"
-        other: "%{count} questions"
-      title: "History"
-    not_checked:
-      default: "%{area} was not checked."
-      failed: "The AI review failed. Only the rules were checked."
-      no_llm_connection: "No LLM connection is available, so only the rules were checked."
-      no_model: "No model is selected for this assistant, so only the rules were checked."
-      no_permission_github: "Linked GitHub pull requests: you do not have permission to see them."
-      no_permission_gitlab: "Linked GitLab merge requests: you do not have permission to see them."
-      no_prompt: "This skill has no prompt, so only the rules were checked."
-      timed_out: "The AI review did not finish in time. Only the rules were checked."
-      too_many_descendants: "Only the first 200 descendants were checked."
-    run:
-      no_findings: "No findings"
-      no_findings_description: "Everything that was checked is consistent."
-      no_findings_partly_checked: "Nothing was found, but some parts were not checked. See the list below."
-      not_checked: "Not checked"
-      review_running: "The AI review is in progress. Its findings appear below the rule findings."
-      review_running_description: "The AI findings appear here when the review is done."
-      review_running_title: "Reviewing the work package…"
-      run_again: "Run again"
-      started_at: "Checked at %{time}. Only you can see this result."
     severities:
       high: "High"
       low: "Low"
@@ -2561,9 +2507,6 @@ en:
       preset:
         description: "Runs its instructions on this work package. You can ask follow-up questions."
         label: "Custom prompt"
-      review:
-        description: "Checks this work package and lists findings, with proposed updates."
-        label: "Review work package"
   announcements:
     content: "Content"
     is_active: currently displayed

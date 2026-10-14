@@ -29,40 +29,25 @@
 #++
 
 module AI
-  module AssistantSkills
-    module HealthCheck
-      module Rules
-        # A closed descendant that still has open work packages below it.
-        class ClosedDescendantWithOpenBelow < Rule
-          MAX_FINDINGS = 5
+  module Assistance
+    # A GitHub pull request or a GitLab merge request, reduced to what the model reads.
+    LinkedPullRequest = Data.define(:number, :title, :repository, :url, :merged, :open) do
+      def self.from_github(record)
+        new(number: record.number, title: record.title, repository: record.repository,
+            url: record.github_html_url, merged: record.merged == true,
+            open: record.open? && !record.draft)
+      end
 
-          def call
-            closed_ancestors_of_open_nodes
-              .first(MAX_FINDINGS)
-              .map do |closed|
-                finding(severity: :medium,
-                        area: :tree,
-                        evidence: [work_package_evidence(closed)],
-                        id: closed.formatted_id)
-              end
-          end
+      def self.from_gitlab(record)
+        new(number: record.number, title: record.title, repository: record.repository,
+            url: record.gitlab_html_url, merged: record.merged? || record.merged == true,
+            open: record.opened? && !record.draft)
+      end
 
-          private
-
-          def closed_ancestors_of_open_nodes
-            by_id = context.descendants.index_by(&:id)
-            found = {}
-
-            context.open_descendants.each do |node|
-              parent = by_id[node.parent_id]
-              while parent
-                found[parent.id] = parent if parent.closed?
-                parent = by_id[parent.parent_id]
-              end
-            end
-
-            found.values.sort_by(&:id)
-          end
+      def state
+        if merged then "merged"
+        elsif open then "open"
+        else "closed"
         end
       end
     end

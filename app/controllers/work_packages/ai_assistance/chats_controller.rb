@@ -36,6 +36,12 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   before_action :find_chat, only: %i[show send_message poll]
   before_action :find_proposal, only: %i[apply dismiss]
 
+  # The user's chats on this work package, newest first.
+  def history
+    chats = AI::AssistantChat.for(current_user, @work_package).includes(:messages, skill: :assistant)
+    respond_with_wp_dialog AI::Assistance::HistoryDialogComponent.new(work_package: @work_package, chats:)
+  end
+
   # Opens the user's latest chat of this skill about this work package, or an empty one.
   def show
     respond_with_wp_dialog chat_dialog
@@ -87,7 +93,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   private
 
   def find_skill
-    @skill = offered_skill(params[:skill_id], conversation: true)
+    @skill = offered_skill(params[:skill_id])
     render_404 unless @skill
   end
 
@@ -96,9 +102,9 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def find_chat
     if params[:chat_id].present?
       @chat = AI::AssistantChat.for(current_user, @work_package).find_by(id: params[:chat_id])
-      @skill = offered_skill(@chat&.skill_id, conversation: true)
+      @skill = offered_skill(@chat&.skill_id)
     else
-      @skill = offered_skill(params[:skill_id], conversation: true)
+      @skill = offered_skill(params[:skill_id])
       @chat = AI::AssistantChat.latest_for(current_user, @work_package, @skill) if @skill
     end
     render_404 unless @skill
@@ -113,7 +119,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
                                      .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
                                      .find(params.expect(:proposal_id))
     @chat = @proposal.chat
-    @skill = offered_skill(@chat.skill_id, conversation: true)
+    @skill = offered_skill(@chat.skill_id)
     render_404 unless @skill
   rescue ActiveRecord::RecordNotFound
     render_404

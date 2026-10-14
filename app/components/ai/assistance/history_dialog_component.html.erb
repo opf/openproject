@@ -39,7 +39,7 @@
     <% else %>
       <%= render(Primer::Beta::BorderBox.new) do |box| %>
         <% entries.each do |entry| %>
-          <% box.with_row(data: { test_selector: chat?(entry) ? "ai-assistance-history-chat" : "ai-assistance-history-run" }) do %>
+          <% box.with_row(data: { test_selector: "ai-assistance-history-chat" }) do %>
             <%= render(Primer::Beta::Octicon.new(icon: entry_icon(entry), color: :muted, mr: 1)) %>
             <%= render(Primer::Beta::Link.new(href: entry_path(entry), data: { controller: "async-dialog", turbo_stream: true })) { entry_label(entry) } %>
             <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, ml: 2)) do %>

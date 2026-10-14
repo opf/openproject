@@ -1279,18 +1279,9 @@ Rails.application.routes.draw do
       post :messages, action: :send_message
       post :start
       get :poll
+      get :history
       post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
       post "proposals/:proposal_id/dismiss", action: :dismiss, as: :dismiss_proposal
-    end
-    resources :ai_assistance_runs, path: "ai_assistance/runs", controller: "work_packages/ai_assistance/runs",
-                                   only: %i[index show] do
-      get :poll, on: :member
-      resources :findings, controller: "work_packages/ai_assistance/findings", only: [] do
-        member do
-          post :apply
-          post :dismiss
-        end
-      end
     end
 
     resources :hierarchy_relations, only: %i[new create destroy], controller: "work_package_hierarchy_relations"

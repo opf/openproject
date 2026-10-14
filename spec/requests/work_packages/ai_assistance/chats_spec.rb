@@ -100,6 +100,24 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
     end
   end
 
+  describe "GET history" do
+    let!(:own_chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
+    let!(:other_chat) { create(:ai_assistant_chat, skill:, work_package:) }
+
+    before do
+      create(:ai_assistant_chat_message, chat: own_chat, role: "user", content: "Mine")
+      create(:ai_assistant_chat_message, chat: other_chat, role: "user", content: "Theirs")
+    end
+
+    it "lists only the user's chats" do
+      get "#{base}/history", as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("chat_id=#{own_chat.id}")
+      expect(response.body).not_to include("chat_id=#{other_chat.id}")
+    end
+  end
+
   describe "a proposal" do
     let(:chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
     let(:message) { create(:ai_assistant_chat_message, chat:) }

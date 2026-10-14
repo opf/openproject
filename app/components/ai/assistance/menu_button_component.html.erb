@@ -57,7 +57,7 @@
       <% menu.with_divider %>
       <% menu.with_item(
            label: t("ai_assistance.history.title"),
-           href: runs_path,
+           href: history_path,
            content_arguments: { data: { controller: "async-dialog", turbo_stream: true } }
          ) do |item| %>
         <% item.with_leading_visual_icon(icon: :history) %>

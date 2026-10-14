@@ -490,23 +490,30 @@ ai_assistants:
       - skill_key: conversation
         t_label: Refresh work package
         t_description: Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates.
-        checks: true
         proposal_scope: changes
         prompt: |
           You check one work package of a project management tool for places where it is
           inconsistent with itself: its subject, its description, its comments, its status,
-          its relations and its descendants.
+          its relations, its descendants and its pull requests. Answer with findings.
 
           Look for:
           - comments that changed the scope, a decision or a deadline, which the description
             does not show yet;
           - meeting notes or outcomes about this work package that the description or the
             status does not show yet;
+          - comments or meeting outcomes that changed the assignee, the accountable person or
+            the priority;
           - a subject that no longer names what the work package is about;
           - a description that promises work which the descendants do not cover, or the opposite;
-          - a status that the comments contradict.
+          - a status that the comments contradict;
+          - a closed work package with open descendants, or an open one whose descendants are
+            all closed;
+          - a closed work package that follows or is blocked by an open one;
+          - an open work package that duplicates a closed one;
+          - a merged pull request while the status is still the default status, or a closed
+            work package with an open pull request;
+          - open work, here or in a descendant, with no activity for 60 days.
 
-          The rule findings are already reported. Do not repeat or dispute them.
           Report only what you can show with evidence: quote the comment, or name the field.
           Report nothing rather than a guess.
       - skill_key: conversation

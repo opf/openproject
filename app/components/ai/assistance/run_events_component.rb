@@ -34,12 +34,11 @@ module AI
     # to and received from the model. Only the user it belongs to sees it. Error
     # messages can name servers, so only admins see them.
     class RunEventsComponent < ApplicationComponent
-      ICONS = { "rules" => :checklist, "request" => :"arrow-up", "answer" => :"arrow-down",
-                "stored" => :check, "failure" => :alert }.freeze
+      ICONS = { "request" => :"arrow-up", "answer" => :"arrow-down", "stored" => :check, "failure" => :alert }.freeze
 
       attr_reader :events
 
-      # events: the entries of a run or of a chat answer ({at, kind, data}).
+      # events: the entries of a chat answer ({at, kind, data}).
       def initialize(events:)
         super
         @events = Array(events)
@@ -62,10 +61,6 @@ module AI
       def summary(event)
         data = event["data"]
         case event["kind"]
-        when "rules"
-          I18n.t("ai_assistance.events.rules", count: data["findings"],
-                                               review: I18n.t("ai_assistance.events.review.#{data['review']}",
-                                                              default: data["review"].to_s))
         when "request"
           I18n.t("ai_assistance.events.request", model: data["model"],
                                                  system: data["system"].to_s.size, message: data["message"].to_s.size)

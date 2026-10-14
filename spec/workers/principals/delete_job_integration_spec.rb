@@ -573,18 +573,16 @@ RSpec.describe Principals::DeleteJob, type: :model do
       describe "AI assistance" do
         let!(:global_skill) { create(:ai_assistant_skill) }
         let!(:personal_skill) { create(:ai_assistant_skill, assistant: create(:ai_assistant, principal:)) }
-        let!(:run) { create(:ai_assistant_run, user: principal, skill: global_skill) }
-        let!(:finding) { create(:ai_assistant_run_finding, run:) }
-        let!(:chat) { AI::AssistantChat.create!(skill: global_skill, user: principal, work_package: run.work_package) }
-        let!(:message) { chat.messages.create!(role: "user", content: "Hi") }
+        let!(:chat) { create(:ai_assistant_chat, skill: global_skill, user: principal) }
+        let!(:message) { create(:ai_assistant_chat_message, chat:) }
+        let!(:proposal) { create(:ai_assistant_proposal, message:) }
 
         before { job }
 
-        it "removes the runs, chats and personal assistants of the user" do
-          expect(AI::AssistantRun.exists?(run.id)).to be(false)
-          expect(AI::AssistantRunFinding.exists?(finding.id)).to be(false)
+        it "removes the chats and personal assistants of the user" do
           expect(AI::AssistantChat.exists?(chat.id)).to be(false)
           expect(AI::AssistantChatMessage.exists?(message.id)).to be(false)
+          expect(AI::AssistantProposal.exists?(proposal.id)).to be(false)
           expect(AI::Assistant.exists?(personal_skill.assistant_id)).to be(false)
           expect(AI::AssistantSkill.exists?(personal_skill.id)).to be(false)
           expect(AI::AssistantSkill.exists?(global_skill.id)).to be(true)

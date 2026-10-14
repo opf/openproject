@@ -29,8 +29,8 @@
 #++
 
 # Shared by the AI Assistance controllers: the feature flag, the work package and the
-# permission. Every run and chat is looked up through the current user, so nobody sees
-# another user's runs or chats.
+# permission. Every chat is looked up through the current user, so nobody sees another
+# user's chats.
 module WorkPackages::AIAssistance::Scoped
   extend ActiveSupport::Concern
   include AIAssistance::RequireFeature
@@ -49,16 +49,6 @@ module WorkPackages::AIAssistance::Scoped
     render_404
   end
 
-  def runs
-    AI::AssistantRun.for(current_user, @work_package)
-  end
-
-  def find_run
-    @run = runs.find(params[:ai_assistance_run_id] || params[:id])
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def available_skills
     @available_skills ||= AI::AssistantSkill
       .active
@@ -69,9 +59,9 @@ module WorkPackages::AIAssistance::Scoped
       .select { |skill| skill.ready? && skill.conditions_fulfilled?(@work_package, current_user) }
   end
 
-  # The offered skill with this id: a conversation (chat, custom prompt) or a run skill.
-  def offered_skill(id, conversation:)
-    available_skills.find { |skill| skill.conversation? == conversation && skill.id.to_s == id.to_s }
+  # The offered skill with this id.
+  def offered_skill(id)
+    available_skills.find { |skill| skill.id.to_s == id.to_s }
   end
 
   # A plain page request (a link opened in a new tab) goes back to the work package.
@@ -86,7 +76,7 @@ module WorkPackages::AIAssistance::Scoped
     respond_with_turbo_streams(status: :unprocessable_entity)
   end
 
-  # Applies a finding or a chat answer. On success, the toolbar reloads the work package.
+  # Applies a proposal of an answer. On success, the toolbar reloads the work package.
   def apply_proposal(proposal)
     AI::Assistance::ApplyProposalService.new(proposal:, user: current_user).call.tap do |call|
       next unless call.success?

@@ -51,9 +51,6 @@ module AI
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
 
-        g.check_box(name: :checks, label: AI::AssistantSkill.human_attribute_name(:checks),
-                    caption: I18n.t("admin.ai_assistants.skills.checks_caption"))
-
         g.html_content { prompt_preview }
       end
 

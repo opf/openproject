@@ -31,35 +31,12 @@
 module AI
   module AssistantSkills
     module Conversation
-      # The one skill type in core. A skill's settings decide how it starts and what its
-      # answers hold (AI::AssistantSkill); the instructions decide what it is for.
+      # The one skill type in core: a conversation about one work package. What a skill does
+      # is in its instructions; whether it answers at once is a setting (AI::AssistantSkill).
       class Skill < AI::AssistantSkills::Base
         class << self
           def key
             "conversation"
-          end
-
-          def build_context(work_package:, user:)
-            HealthCheck::Context.new(work_package:, user:)
-          end
-
-          def review_class
-            HealthCheck::Review
-          end
-
-          # The built-in consistency checks, for skills that answer with findings.
-          def rules
-            [
-              HealthCheck::Rules::ClosedWithOpenDescendants,
-              HealthCheck::Rules::OpenWithAllDescendantsClosed,
-              HealthCheck::Rules::ClosedDescendantWithOpenBelow,
-              HealthCheck::Rules::StaleOpenDescendants,
-              HealthCheck::Rules::ClosedWithOpenPrerequisites,
-              HealthCheck::Rules::OpenDuplicateOfClosed,
-              HealthCheck::Rules::StaleWorkPackage,
-              HealthCheck::Rules::MergedPullRequestDefaultStatus,
-              HealthCheck::Rules::ClosedWithOpenPullRequest
-            ]
           end
         end
       end

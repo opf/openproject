@@ -54,6 +54,7 @@ module AI
           work_package: work_package_data,
           descendants: descendants_data,
           relations: relations_data,
+          pull_requests: pull_requests_data,
           comments: comments_data,
           meetings: meetings_data
         }
@@ -62,7 +63,7 @@ module AI
       private
 
       def visibility
-        @visibility ||= AI::AssistantSkills::HealthCheck::Context.new(work_package:, user:)
+        @visibility ||= AI::Assistance::Visibility.new(work_package:, user:)
       end
 
       def work_package_data
@@ -77,20 +78,30 @@ module AI
           due_date: work_package.due_date,
           priority: work_package.priority&.name,
           assignee: work_package.assigned_to&.name,
-          responsible: work_package.responsible&.name
+          responsible: work_package.responsible&.name,
+          default_status: work_package.status&.is_default? || false,
+          last_activity_at: visibility.last_activity_at&.iso8601
         }
       end
 
       def descendants_data
         visibility.descendants.map do |descendant|
-          { id: descendant.formatted_id, subject: descendant.subject,
-            status: descendant.status&.name, closed: descendant.closed? }
+          { id: descendant.formatted_id, subject: descendant.subject, parent_id: descendant.parent&.formatted_id,
+            status: descendant.status&.name, closed: descendant.closed?, updated_at: descendant.updated_at&.iso8601 }
         end
       end
 
       def relations_data
         visibility.relations.map do |type, other|
-          { relation: type, id: other.formatted_id, subject: other.subject, status: other.status&.name }
+          { relation: type, id: other.formatted_id, subject: other.subject, status: other.status&.name,
+            closed: other.closed? }
+        end
+      end
+
+      def pull_requests_data
+        visibility.linked_pull_requests.map do |pull_request|
+          { repository: pull_request.repository, number: pull_request.number, title: pull_request.title,
+            state: pull_request.state }
         end
       end
 

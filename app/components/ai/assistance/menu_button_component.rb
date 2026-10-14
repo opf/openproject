@@ -49,8 +49,8 @@ module AI
 
       def compact? = @compact
 
-      def runs_path
-        url_helpers.work_package_ai_assistance_runs_path(work_package)
+      def history_path
+        url_helpers.history_work_package_ai_assistance_chat_path(work_package)
       end
 
       # A skill without a first message opens its chat; any other starts a new conversation

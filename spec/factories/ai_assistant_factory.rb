@@ -40,47 +40,15 @@ FactoryBot.define do
     assistant { association :ai_assistant }
     skill_key { "conversation" }
     answers_at_once { true }
-    checks { true }
     prompt { "Check the work package for contradictions." }
     sequence(:position)
 
     trait :chat do
       answers_at_once { false }
-      checks { false }
     end
 
     trait :preset do
       answers_at_once { true }
-      checks { false }
-    end
-  end
-
-  factory :ai_assistant_run, class: "AI::AssistantRun" do
-    skill { association :ai_assistant_skill }
-    user
-    work_package
-    work_package_lock_version { work_package.lock_version }
-    locale { "en" }
-
-    trait :finished do
-      status { "finished" }
-    end
-  end
-
-  factory :ai_assistant_run_finding, class: "AI::AssistantRunFinding" do
-    run { association :ai_assistant_run }
-    source { "rule" }
-    rule_key { "closed_with_open_descendants" }
-    severity { "high" }
-    area { "tree" }
-    text { "This work package is closed, but 1 descendant is still open." }
-    evidence { [{ "text" => "#1", "work_package_id" => 1 }] }
-
-    trait :with_change_set do
-      source { "ai" }
-      rule_key { nil }
-      change_set { AI::Proposal.change_set_for({ "description" => "A better description" }) }
-      base_lock_version { run.work_package_lock_version }
     end
   end
 

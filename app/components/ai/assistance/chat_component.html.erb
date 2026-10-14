@@ -63,18 +63,6 @@
               <% box.with_row { render(AI::Assistance::ProposalItemComponent.new(proposal:)) } %>
             <% end %>
           <% end %>
-        <% elsif message.done? && message.content.blank? %>
-          <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, data: { test_selector: "ai-assistance-no-findings" })) do %>
-            <%= t("ai_assistance.run.no_findings") %>
-          <% end %>
-        <% end %>
-        <% if message.not_checked.any? %>
-          <%= render(Primer::Beta::Heading.new(tag: :h4, font_size: :normal, mt: 3, mb: 1)) { t("ai_assistance.run.not_checked") } %>
-          <ul class="mb-0 pl-3" data-test-selector="ai-assistance-not-checked">
-            <% not_checked(message).each do |line| %>
-              <li><%= render(Primer::Beta::Text.new(color: :muted)) { line } %></li>
-            <% end %>
-          </ul>
         <% end %>
         <% if message.pending? %>
           <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2)) do %>

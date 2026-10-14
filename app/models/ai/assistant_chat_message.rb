@@ -42,10 +42,5 @@ module AI
     enum :status, { pending: "pending", done: "done", failed: "failed" }, default: "done", validate: true
 
     validates :content, presence: true, if: :from_user?
-
-    def add_not_checked(area, reason)
-      entry = { "area" => area.to_s, "reason" => reason.to_s }
-      self.not_checked = not_checked + [entry] unless not_checked.include?(entry)
-    end
   end
 end

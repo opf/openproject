@@ -57,18 +57,18 @@ See COPYRIGHT and LICENSE files for more details.
         <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu| %>
           <% menu.with_show_button(size: :small, scheme: :invisible, data: { test_selector: "ai-assistance-dismiss" }) do |button| %>
             <% button.with_trailing_action_icon(icon: :"triangle-down") %>
-            <%= t("ai_assistance.finding.dismiss") %>
+            <%= t("ai_assistance.proposal.dismiss") %>
           <% end %>
-          <% menu.with_item(label: t("ai_assistance.finding.dismiss"), href: dismiss_path, form_arguments: { method: :post }) %>
+          <% menu.with_item(label: t("ai_assistance.proposal.dismiss"), href: dismiss_path, form_arguments: { method: :post }) %>
           <% menu.with_divider %>
           <% dismiss_reasons.each do |reason| %>
-            <% menu.with_item(label: t("ai_assistance.finding.dismiss_reasons.#{reason}"), href: dismiss_path(reason), form_arguments: { method: :post }) %>
+            <% menu.with_item(label: t("ai_assistance.proposal.dismiss_reasons.#{reason}"), href: dismiss_path(reason), form_arguments: { method: :post }) %>
           <% end %>
         <% end %>
       <% elsif proposal.dismissed? %>
-        <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("ai_assistance.finding.dismissed") } %>
+        <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("ai_assistance.proposal.dismissed") } %>
       <% elsif proposal.applied? %>
-        <%= render(Primer::Beta::Label.new(scheme: :success)) { t("ai_assistance.finding.applied") } %>
+        <%= render(Primer::Beta::Label.new(scheme: :success)) { t("ai_assistance.proposal.applied") } %>
       <% end %>
     <% end %>
   <% end %>

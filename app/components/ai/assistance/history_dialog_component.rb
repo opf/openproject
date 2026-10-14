@@ -30,7 +30,7 @@
 
 module AI
   module Assistance
-    # The user's skill runs and chats on this work package, newest first.
+    # The user's chats on this work package, newest first.
     class HistoryDialogComponent < ApplicationComponent
       include OpTurbo::Streamable
 
@@ -38,46 +38,33 @@ module AI
 
       attr_reader :work_package
 
-      def initialize(work_package:, runs:, chats:)
+      def initialize(work_package:, chats:)
         super
         @work_package = work_package
-        @runs = runs.to_a
         @chats = chats.to_a.select { |chat| chat.messages.any? }
       end
 
       def entries
-        (@runs + @chats).sort_by(&:created_at).reverse
+        @chats.sort_by(&:created_at).reverse
       end
 
-      def chat?(entry)
-        entry.is_a?(AI::AssistantChat)
+      def entry_path(chat)
+        url_helpers.work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)
       end
 
-      def entry_path(entry)
-        if chat?(entry)
-          url_helpers.work_package_ai_assistance_chat_path(work_package, chat_id: entry.id)
-        else
-          url_helpers.work_package_ai_assistance_run_path(work_package, entry)
-        end
+      # A chat also shows its first question. A skill that answers at once asks its own label.
+      def entry_label(chat)
+        return chat.skill.full_label unless chat.skill.chat?
+
+        "#{chat.skill.full_label} · #{chat.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
       end
 
-      # A chat also shows its first question. A preset's first question is its own label.
-      def entry_label(entry)
-        return entry.skill.full_label unless entry.skill.chat?
-
-        "#{entry.skill.full_label} · #{entry.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
+      def entry_detail(chat)
+        I18n.t("ai_assistance.history.questions", count: chat.messages.count(&:from_user?))
       end
 
-      def entry_detail(entry)
-        if chat?(entry)
-          I18n.t("ai_assistance.history.questions", count: entry.messages.count(&:from_user?))
-        else
-          I18n.t("ai_assistance.history.findings", count: entry.findings.size)
-        end
-      end
-
-      def entry_icon(entry)
-        entry.skill.icon
+      def entry_icon(chat)
+        chat.skill.icon
       end
     end
   end

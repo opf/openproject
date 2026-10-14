@@ -31,11 +31,6 @@
 module AI
   class AssistantSkill < ApplicationRecord
     belongs_to :assistant, class_name: "AI::Assistant", inverse_of: :skills
-    has_many :runs,
-             class_name: "AI::AssistantRun",
-             foreign_key: :skill_id,
-             inverse_of: :skill,
-             dependent: :destroy
     has_many :chats,
              class_name: "AI::AssistantChat",
              foreign_key: :skill_id,
@@ -49,8 +44,6 @@ module AI
     # Opening the skill sends its label as the first message, and it answers at once.
     # Without it, the skill opens an empty chat for the user's own questions.
     store_attribute :settings, :answers_at_once, :boolean, default: true
-    # The built-in consistency checks (rules), which run before the first answer.
-    store_attribute :settings, :checks, :boolean, default: false
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -91,50 +84,22 @@ module AI
       !answers_at_once
     end
 
-    # Every skill answers in a conversation.
-    def conversation?
-      true
-    end
-
-    # review, chat or preset: the default label, the description and the icon.
+    # chat or preset: the default label, the description and the icon.
     def variant
-      if checks then "review"
-      elsif chat? then "chat"
-      else "preset"
-      end
+      chat? ? "chat" : "preset"
     end
 
     def icon
-      { "review" => "pulse", "chat" => "comment-discussion", "preset" => "light-bulb" }.fetch(variant)
+      chat? ? "comment-discussion" : "light-bulb"
     end
 
     def default_label
       I18n.t("ai_assistance.skills.#{variant}.label")
     end
 
-    # The built-in consistency checks that run before the AI answers.
-    def rules
-      checks && skill_type ? skill_type.rules : []
-    end
-
-    # Why the AI part cannot answer now, or nil.
-    def ai_review_blocker
-      if prompt.blank? then :no_prompt
-      elsif !LlmConnection.available? then :no_llm_connection
-      elsif assistant.effective_model_id.nil? then :no_model
-      end
-    end
-
-    # A skill without instructions is offered only when its checks run alone.
-    def prompt_required?
-      !checks
-    end
-
-    # Offered in the menu: every skill needs an LLM connection and a model, and a skill
-    # that needs instructions also needs them set.
+    # Offered in the menu: every skill needs its instructions, an LLM connection and a model.
     def ready?
-      return false if skill_type.nil?
-      return false if prompt_required? && prompt.blank?
+      return false if skill_type.nil? || prompt.blank?
       return false unless assistant.usable?
 
       LlmConnection.available? && assistant.effective_model_id.present?

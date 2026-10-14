@@ -47,7 +47,6 @@ RSpec.describe BasicData::AiAssistantSeeder do
         skills:
           - skill_key: conversation
             label: Refresh work package
-            checks: true
             prompt: Check it.
           - skill_key: conversation
             answers_at_once: false
@@ -63,9 +62,9 @@ RSpec.describe BasicData::AiAssistantSeeder do
     assistant = AI::Assistant.find_by!(name: "OP assistant")
 
     expect(assistant).to have_attributes(icon: "checklist", active: true, position: 1)
-    review, chat = assistant.skills.order(:position).to_a
+    refresh, chat = assistant.skills.order(:position).to_a
 
-    expect(review).to have_attributes(variant: "review", checks: true, prompt: "Check it.", label: "Refresh work package")
+    expect(refresh).to have_attributes(variant: "preset", prompt: "Check it.", label: "Refresh work package")
     expect(chat).to have_attributes(variant: "chat", proposal_scope: "comment_only")
   end
 

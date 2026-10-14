@@ -88,7 +88,7 @@
           <% end %>
           <% if skill.prompt.blank? %>
             <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 2)) do %>
-              <%= skill.prompt_required? ? t("admin.ai_assistants.skills.no_prompt_not_offered") : t("admin.ai_assistants.skills.no_prompt") %>
+              <%= t("admin.ai_assistants.skills.no_prompt_not_offered") %>
             <% end %>
           <% end %>
           <% if skill.conditions.present? %>

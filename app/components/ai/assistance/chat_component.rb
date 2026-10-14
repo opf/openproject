@@ -65,13 +65,6 @@ module AI
          proposal.position, proposal.id]
       end
 
-      def not_checked(message)
-        message.not_checked.map do |entry|
-          I18n.t("ai_assistance.not_checked.#{entry['reason']}",
-                 default: I18n.t("ai_assistance.not_checked.default", area: entry["area"]))
-        end
-      end
-
       def read_only?
         skill.scope_read_only?
       end

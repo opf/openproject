@@ -28,27 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AI
-  module AssistantChats
-    # Runs the built-in checks for the first answer of a skill that has them, and stores the
-    # rule findings on that answer at once, so the dialog shows them while the AI answers.
-    class RunChecks
-      attr_reader :message
+# Every skill answers in a conversation, and the built-in rules are gone: runs, their
+# findings, "Not checked" and the checks setting are no longer used. The data is dropped,
+# because the feature was never released.
+class RemoveAIAssistantRuns < ActiveRecord::Migration[8.1]
+  def up
+    drop_table :ai_assistant_run_findings
+    drop_table :ai_assistant_runs
+    remove_column :ai_assistant_chat_messages, :not_checked
+    execute "UPDATE ai_assistant_skills SET settings = settings - 'checks'"
+  end
 
-      def initialize(message)
-        @message = message
-      end
-
-      def call
-        skill = message.chat.skill
-        context = skill.skill_type.build_context(work_package: message.chat.work_package, user: message.chat.user)
-        findings = skill.rules.flat_map { |rule| rule.call(context) }
-        findings.each_with_index do |finding, index|
-          message.proposals.create!(finding.merge(position: index, base_lock_version: message.base_lock_version))
-        end
-        message.update!(not_checked: context.not_checked)
-        message.log_event(:rules, findings: findings.size, review: skill.ai_review_blocker ? "skipped" : "started")
-      end
-    end
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end
