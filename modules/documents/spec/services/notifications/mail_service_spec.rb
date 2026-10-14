@@ -110,5 +110,24 @@ RSpec.describe Notifications::MailService, type: :model do
           .not_to have_received(:document_added)
       end
     end
+
+    context "with a mention notification without a journal" do
+      let(:notification) do
+        build_stubbed(:notification,
+                      journal: nil,
+                      reason: :mentioned,
+                      resource: build_stubbed(:document),
+                      recipient:,
+                      actor:,
+                      read_ian:)
+      end
+
+      it "sends no mail" do
+        call
+
+        expect(DocumentsMailer)
+          .not_to have_received(:document_added)
+      end
+    end
   end
 end

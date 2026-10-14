@@ -30,7 +30,7 @@
 module Notifications::MailService::DocumentStrategy
   class << self
     def send_mail(notification)
-      return unless notification.journal.initial?
+      return unless notification.journal&.initial?
 
       DocumentsMailer
         .document_added(
