@@ -28,6 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Wakes a user's installed browsers when they gain unread notifications.
+#
+# The push carries no content. It is an empty, VAPID-signed POST to each
+# device's push service endpoint; the service worker then fetches the unread
+# count over the user's own session and shows the notification itself.
+#
+# == Flow
+#
+# 1. A notification becoming unread schedules the job one debounce window out.
+#    Further events for the same user inside that window are dropped, so a burst
+#    yields one wake-up.
+# 2. At delivery the job re-checks the user: push enabled, account active,
+#    reminders not paused today, something still unread. A user who read the
+#    notification in the meantime gets no wake-up.
+# 3. Each subscription is posted to once. The push service collapses undelivered
+#    wake-ups per topic while a device is offline.
+#
+# == Response handling
+#
+# * 2xx        the subscription is kept and touched
+# * 404, 410   the endpoint is gone; the subscription is deleted
+# * 429, 5xx, timeouts, DNS or socket errors
+#              transient; the failed subscriptions are retried with polynomial
+#              backoff, up to MAX_ATTEMPTS, as a separate job that does not block
+#              the next debounce window
+# * other 4xx  logged and left alone; the user can re-subscribe from My account
+#
+# Deactivated and deleted users lose their subscriptions here as well as through
+# the model callbacks, so a job that outlives the account cleans up after it.
 class PushSubscriptions::NotifyJob < ApplicationJob
   include GoodJob::ActiveJobExtensions::Concurrency
 
