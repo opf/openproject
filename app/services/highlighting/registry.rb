@@ -65,7 +65,7 @@ module Highlighting
       # responding to `id` and returning a `Color` on `color`.
       def register_static(key:, values:)
         if entries.has_key?(key)
-          Rails.logger.warn "Key already exists. Registration attempt rejected for key '#{key}'."
+          warn "Key already exists. Registration attempt rejected for key '#{key}'."
           return
         end
 
@@ -73,7 +73,7 @@ module Highlighting
           static_data << values
           entries[key.to_s] = -> { values }
         else
-          Rails.logger.warn(
+          warn(
             "Values registered for key '#{key}' do not respond to necessary properties. Registration attempt rejected."
           )
         end
