@@ -30,8 +30,6 @@
 
 module Planner
   class Task
-    attr_reader :work_package, :references, :user
-
     delegate :closed?, to: :work_package
 
     def initialize(work_package, references:, user:)
@@ -58,5 +56,9 @@ module Planner
 
       @meeting_command = (MeetingCommand.for(work_package, user) unless closed?)
     end
+
+    private
+
+    attr_reader :work_package, :references, :user
   end
 end

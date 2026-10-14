@@ -36,8 +36,6 @@ module Planner
     MENTION = /(?<![\w@])@([\w.-]+)/
     TOPIC = /\babout\s+(.+)\z/i
 
-    attr_reader :subject, :user
-
     def self.for(work_package, user)
       new(work_package.subject, user) if work_package.subject.match?(COMMAND)
     end
@@ -58,5 +56,9 @@ module Planner
 
       subject.gsub(COMMAND, "").squish.upcase_first
     end
+
+    private
+
+    attr_reader :subject, :user
   end
 end

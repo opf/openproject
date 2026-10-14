@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout(align_items: :center) do |row| %>
-  <% if draggable? %>
+  <% if view.sortable? %>
     <% row.with_column(mr: 2, flex_shrink: 0, display: :flex) do %>
       <%= render(Primer::OpenProject::DragHandle.new(data: { sortable_lists__item_target: "handle" })) %>
     <% end %>
@@ -42,8 +42,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
     <% end %>
   <% end %>
-  <% if planned_work_package %>
-    <% row.with_column(mr: 2, classes: "min-width-0") do %>
+  <% row.with_column(mr: 2, classes: "min-width-0") do %>
+    <% if planned_work_package %>
       <%= flex_layout(align_items: :center, bg: :subtle, border: true, border_color: :muted, border_radius: 2, px: 2, py: 1, test_selector: "planner-planned-box") do |box| %>
         <% box.with_column(mr: 2, classes: "min-width-0") do %>
           <%= render(Primer::Beta::Truncate.new) do |truncate| %>
@@ -56,10 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render(WorkPackages::InfoLineComponent.new(work_package: planned_work_package, wrap: false)) %>
         <% end %>
       <% end %>
-      <%= notes %>
-    <% end %>
-  <% else %>
-    <% row.with_column(mr: 2, classes: "min-width-0") do %>
+    <% else %>
       <%= render(Primer::Beta::Truncate.new) do |truncate| %>
         <% truncate.with_item do %>
           <% subject_parts.each do |part| %>
@@ -75,7 +72,9 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
         <% end %>
       <% end %>
-      <%= notes %>
+    <% end %>
+    <% if notes.present? %>
+      <%= render(Primer::Beta::Truncate.new(tag: :div, color: :muted, font_size: :small, mt: 1, test_selector: "planner-task-notes")) { notes } %>
     <% end %>
   <% end %>
   <% row.with_column(flex: 1) %>
