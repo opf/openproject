@@ -1,0 +1,309 @@
+#!/usr/bin/env bash
+#
+# Aggregate flaky specs reported on PRs over a recent time window.
+#
+# The CI "Report flaky specs" step posts a PR comment (an issue comment) for
+# every run that had to retry failed feature specs. Those comments are the only
+# durable record of flakiness, so this script reads them back: it lists every
+# issue comment in the repo since a cutoff, keeps the flaky-spec ones, extracts
+# the rspec identifiers, and ranks them by how often they recurred.
+#
+# By default this makes a single (paginated) API call and prints raw recurrence
+# counts, which is cheap. Pass --freshness for an optional, heavier pass that
+# classifies each occurrence against dev (one PR/compare lookup per occurrence)
+# so you can tell flakes on current branches from ones on stale ones.
+#
+# Usage:
+#   script/flaky_specs_report [options] [HOURS] [REPO]
+#
+#   HOURS  Look-back window in hours (default: 24; e.g. 24, 48, 72)
+#   REPO   owner/name (default: opf/openproject)
+#
+# Requires: gh (authenticated), jq, and a date(1) that supports the flags below.
+#
+set -euo pipefail
+
+HOURS="24"
+REPO="opf/openproject"
+FRESHNESS_COMMITS="50"
+FRESHNESS="false"
+INCLUDE_STALE="false"
+
+usage() {
+  cat <<'USAGE'
+Usage:
+  script/flaky_specs_report [options] [HOURS] [REPO]
+
+By default, prints raw recurrence counts from a single API call (cheap).
+
+Options:
+  --freshness            Classify occurrences against dev (extra PR/compare
+                         lookups per occurrence; slower, more API calls)
+  --freshness-commits N  Treat runs within N commits of dev as fresh
+                         (default: 50; implies --freshness)
+  --include-stale        Rank by total count while still showing the freshness
+                         split (implies --freshness)
+  -h, --help             Print this help
+USAGE
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --freshness)
+      FRESHNESS="true"
+      shift
+      ;;
+    --freshness-commits)
+      FRESHNESS_COMMITS="${2:?Missing value for --freshness-commits}"
+      FRESHNESS="true"
+      shift 2
+      ;;
+    --include-stale)
+      INCLUDE_STALE="true"
+      FRESHNESS="true"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --*)
+      echo "Unknown option: $1" >&2
+      usage >&2
+      exit 1
+      ;;
+    *)
+      POSITIONAL+=("$1")
+      shift
+      ;;
+  esac
+done
+
+if [[ ${#POSITIONAL[@]} -gt 0 ]]; then
+  HOURS="${POSITIONAL[0]}"
+fi
+if [[ ${#POSITIONAL[@]} -gt 1 ]]; then
+  REPO="${POSITIONAL[1]}"
+fi
+if [[ ${#POSITIONAL[@]} -gt 2 ]]; then
+  echo "Too many positional arguments" >&2
+  usage >&2
+  exit 1
+fi
+
+# Compute the ISO-8601 cutoff. BSD date (macOS) uses -v; GNU date uses -d.
+if date -u -v-1H >/dev/null 2>&1; then
+  SINCE="$(date -u -v-"${HOURS}"H +%Y-%m-%dT%H:%M:%SZ)"   # BSD/macOS
+else
+  SINCE="$(date -u -d "${HOURS} hours ago" +%Y-%m-%dT%H:%M:%SZ)"  # GNU/Linux
+fi
+
+require_command() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "Missing required command: $1" >&2
+    exit 1
+  fi
+}
+
+fetch_comments() {
+  gh api -X GET "repos/${REPO}/issues/comments" \
+    -f since="${SINCE}" -f per_page=100 --paginate
+}
+
+extract_occurrences() {
+  jq -r '
+    def pr_number:
+      .issue_url | split("/") | last;
+
+    def visible_flaky_block:
+      .body | split("<details>")[0];
+
+    def metadata_commit:
+      (
+        .body
+        | capture("<!-- openproject-flaky-specs:\\r?\\ncommit=(?<commit>[A-Fa-f0-9]{7,40})\\r?\\nrun_url=(?<run_url>[^\\r\\n]+)\\r?\\nrun_id=(?<run_id>[0-9]+)\\r?\\n-->"; "m")?
+      ).commit // "-";
+
+    .[]
+    | select(.body | test("(?m)^> Flaky specs$"))
+    | . as $comment
+    | (visible_flaky_block | match("`rspec (?<spec>(?:\\./|modules)[^`]+)`"; "g").captures[0].string) as $spec
+    | [($comment | pr_number), ($comment | metadata_commit), $spec]
+    | @tsv
+  '
+}
+
+print_raw_report() {
+  local occurrences_file="$1"
+
+  if [[ ! -s "${occurrences_file}" ]]; then
+    echo "No flaky specs found"
+    return
+  fi
+
+  cut -f3 "${occurrences_file}" \
+    | sort \
+    | uniq -c \
+    | sort -rn \
+    | awk '{ printf "%4d  %s\n", $1, $2 }'
+}
+
+lookup_tsv() {
+  local file="$1"
+  local key="$2"
+
+  awk -F '\t' -v key="${key}" '$1 == key { print $2; found = 1; exit } END { exit found ? 0 : 1 }' "${file}"
+}
+
+fetch_dev_sha() {
+  gh api "repos/${REPO}/branches/dev" | jq -r '.commit.sha'
+}
+
+fetch_pr_head() {
+  local pr="$1"
+
+  gh api "repos/${REPO}/pulls/${pr}" | jq -r '.head.sha'
+}
+
+fetch_behind_by() {
+  local dev_sha="$1"
+  local occurrence_sha="$2"
+
+  gh api "repos/${REPO}/compare/${dev_sha}...${occurrence_sha}" | jq -r '.behind_by'
+}
+
+resolve_occurrence_shas() {
+  local occurrences_file="$1"
+  local pr_heads_file="$2"
+  local resolved_file="$3"
+  local pr
+  local sha
+  local metadata_sha
+  local spec
+
+  awk -F '\t' '$2 == "-" { print $1 }' "${occurrences_file}" | sort -u | while read -r pr; do
+    [[ -z "${pr}" ]] && continue
+
+    if sha="$(fetch_pr_head "${pr}" 2>/dev/null)" && [[ -n "${sha}" && "${sha}" != "null" ]]; then
+      printf "%s\t%s\n" "${pr}" "${sha}" >> "${pr_heads_file}"
+    fi
+  done
+
+  while IFS=$'\t' read -r pr metadata_sha spec; do
+    if [[ "${metadata_sha}" != "-" ]]; then
+      printf "%s\t%s\texact\t%s\n" "${pr}" "${metadata_sha}" "${spec}" >> "${resolved_file}"
+    elif sha="$(lookup_tsv "${pr_heads_file}" "${pr}" 2>/dev/null)"; then
+      printf "%s\t%s\tapprox\t%s\n" "${pr}" "${sha}" "${spec}" >> "${resolved_file}"
+    else
+      printf "%s\t-\tunknown\t%s\n" "${pr}" "${spec}" >> "${resolved_file}"
+    fi
+  done < "${occurrences_file}"
+}
+
+classify_shas() {
+  local resolved_file="$1"
+  local comparisons_file="$2"
+  local dev_sha
+  local sha
+  local behind_by
+
+  if ! dev_sha="$(fetch_dev_sha 2>/dev/null)" || [[ -z "${dev_sha}" || "${dev_sha}" == "null" ]]; then
+    return 1
+  fi
+
+  awk -F '\t' '$2 != "" && $2 != "-" { print $2 }' "${resolved_file}" | sort -u | while read -r sha; do
+    if behind_by="$(fetch_behind_by "${dev_sha}" "${sha}" 2>/dev/null)" && [[ "${behind_by}" =~ ^[0-9]+$ ]]; then
+      if [[ "${behind_by}" -le "${FRESHNESS_COMMITS}" ]]; then
+        printf "%s\tfresh\t%s\n" "${sha}" "${behind_by}" >> "${comparisons_file}"
+      else
+        printf "%s\tstale\t%s\n" "${sha}" "${behind_by}" >> "${comparisons_file}"
+      fi
+    fi
+  done
+
+  echo "${dev_sha}"
+}
+
+print_freshness_report() {
+  local classified_file="$1"
+
+  if [[ ! -s "${classified_file}" ]]; then
+    echo "No flaky specs found"
+    return
+  fi
+
+  printf "%4s  %5s  %5s  %5s  %7s  %6s  %s\n" "count" "total" "fresh" "stale" "unknown" "approx" "spec"
+
+  awk -F '\t' -v include_stale="${INCLUDE_STALE}" '
+    {
+      spec = $4
+      status = $5
+      source = $3
+
+      total[spec]++
+      if (status == "fresh") fresh[spec]++
+      else if (status == "stale") stale[spec]++
+      else unknown[spec]++
+
+      if (source == "approx") approx[spec]++
+    }
+    END {
+      for (spec in total) {
+        primary = include_stale == "true" ? total[spec] : fresh[spec]
+        printf "%08d\t%08d\t%08d\t%08d\t%08d\t%08d\t%s\n",
+          primary, total[spec], fresh[spec], stale[spec], unknown[spec], approx[spec], spec
+      }
+    }
+  ' "${classified_file}" \
+    | sort -t $'\t' -k1,1rn -k2,2rn -k7,7 \
+    | awk -F '\t' '{ printf "%4d  %5d  %5d  %5d  %7d  %6d  %s\n", $1 + 0, $2 + 0, $3 + 0, $4 + 0, $5 + 0, $6 + 0, $7 }'
+}
+
+require_command gh
+require_command jq
+
+COMMENTS_FILE="$(mktemp)"
+OCCURRENCES_FILE="$(mktemp)"
+trap 'rm -f "${COMMENTS_FILE}" "${OCCURRENCES_FILE}"' EXIT
+
+fetch_comments > "${COMMENTS_FILE}"
+extract_occurrences < "${COMMENTS_FILE}" > "${OCCURRENCES_FILE}"
+
+echo "Flaky specs on ${REPO} since ${SINCE} (last ${HOURS}h)" >&2
+echo >&2
+
+if [[ "${FRESHNESS}" != "true" ]]; then
+  print_raw_report "${OCCURRENCES_FILE}"
+  exit 0
+fi
+
+if [[ ! -s "${OCCURRENCES_FILE}" ]]; then
+  echo "No flaky specs found"
+  exit 0
+fi
+
+PR_HEADS_FILE="$(mktemp)"
+RESOLVED_FILE="$(mktemp)"
+COMPARISONS_FILE="$(mktemp)"
+CLASSIFIED_FILE="$(mktemp)"
+trap 'rm -f "${COMMENTS_FILE}" "${OCCURRENCES_FILE}" "${PR_HEADS_FILE}" "${RESOLVED_FILE}" "${COMPARISONS_FILE}" "${CLASSIFIED_FILE}"' EXIT
+
+resolve_occurrence_shas "${OCCURRENCES_FILE}" "${PR_HEADS_FILE}" "${RESOLVED_FILE}"
+
+if dev_sha="$(classify_shas "${RESOLVED_FILE}" "${COMPARISONS_FILE}")"; then
+  echo "Freshness: dev=${dev_sha:0:12}, threshold=${FRESHNESS_COMMITS} commits" >&2
+else
+  echo "Freshness: dev lookup failed; treating all occurrences as unknown" >&2
+fi
+echo >&2
+
+while IFS=$'\t' read -r pr sha source spec; do
+  if [[ -n "${sha}" && "${sha}" != "-" ]] && status="$(lookup_tsv "${COMPARISONS_FILE}" "${sha}" 2>/dev/null)"; then
+    printf "%s\t%s\t%s\t%s\t%s\n" "${pr}" "${sha}" "${source}" "${spec}" "${status}" >> "${CLASSIFIED_FILE}"
+  else
+    printf "%s\t%s\t%s\t%s\tunknown\n" "${pr}" "${sha}" "${source}" "${spec}" >> "${CLASSIFIED_FILE}"
+  fi
+done < "${RESOLVED_FILE}"
+
+print_freshness_report "${CLASSIFIED_FILE}"
