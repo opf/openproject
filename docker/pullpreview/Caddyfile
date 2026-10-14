@@ -1,5 +1,5 @@
 {$PULLPREVIEW_PUBLIC_DNS} {
 	# Websocket proxy for hocuspocus
-	reverse_proxy /hocuspocus hocuspocus:1234
+	reverse_proxy /hocuspocus* hocuspocus:1234
 	reverse_proxy web:8080
 }

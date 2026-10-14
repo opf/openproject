@@ -73,3 +73,17 @@ export async function decryptAndValidateToken(
     tokenExpiresAt: expires_at,
   };
 }
+
+/**
+ * Validates a packed auth token presented to the HTTP API, where the token itself names the resource.
+ */
+export async function validateRequestToken(encryptedToken: string): Promise<TokenValidationResult & { resourceUrl: string }> {
+  const { resource_url: resourceUrl } = decryptToken(encryptedToken);
+  const result = await decryptAndValidateToken(encryptedToken, resourceUrl);
+
+  if (new Date(result.tokenExpiresAt) <= new Date()) {
+    throw new Error("Unauthorized: Token already expired.");
+  }
+
+  return { ...result, resourceUrl };
+}

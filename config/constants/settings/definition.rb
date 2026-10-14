@@ -665,6 +665,14 @@ module Settings
         description: "The secret used for generating access tokens to access documents on hocuspocus server.",
         secret: true
       },
+      collaborative_editing_hocuspocus_api_url: {
+        format: :string,
+        default: nil,
+        description: "The base URL under which OpenProject reaches the HTTP API of the hocuspocus server, " \
+                     "used to read and edit document content on behalf of MCP clients. " \
+                     "Only needed if hocuspocus is reachable from OpenProject under a different URL than from browsers. " \
+                     "Defaults to the hocuspocus URL with its websocket scheme replaced by the matching HTTP scheme."
+      },
       hours_per_day: {
         description: "This will define what is considered a “day” when displaying duration in a more natural way " \
                      "(for example, if a day is 8 hours, 32 hours would be 4 days).",

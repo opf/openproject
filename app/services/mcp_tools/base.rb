@@ -39,6 +39,11 @@ module McpTools
         "tools/#{name}"
       end
 
+      # Tools depending on optional parts of the installation can override this to stay hidden from MCP clients.
+      def available?
+        true
+      end
+
       def page_size
         40
       end

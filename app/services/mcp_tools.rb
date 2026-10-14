@@ -40,7 +40,8 @@ module McpTools
 
     def enabled_mcp_tools
       McpConfiguration.where(enabled: true).filter_map do |config|
-        tools_by_name[config.identifier]&.tool(title: config.title, description: config.description)
+        tool = tools_by_name[config.identifier]
+        tool.tool(title: config.title, description: config.description) if tool&.available?
       end
     end
 

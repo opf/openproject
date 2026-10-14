@@ -74,6 +74,30 @@ https redirects.
 OPENPROJECT_HTTPS=true
 ```
 
+### HTTP API
+
+Besides websocket connections for the editor, the server offers an HTTP API that OpenProject uses to read and edit
+document content on behalf of MCP clients. Edits are applied to the live document, so they reach every connected editor
+immediately.
+
+Requests to the content endpoints authenticate with the same encrypted token the editor uses, sent as
+`Authorization: Bearer <token>`. The token determines the document.
+
+| Request                           | Description                                                                                       |
+|-----------------------------------|---------------------------------------------------------------------------------------------------|
+| `GET /api/v1/documents/schema`    | JSON schema of the BlockNote blocks OpenProject documents consist of. Requires no authentication. |
+| `GET /api/v1/documents/content`   | Returns `{ revision, blocks }` with the current content of the document.                          |
+| `PUT /api/v1/documents/content`   | Takes `{ revision, blocks }` and replaces the content of the document with the given blocks.      |
+
+A `PUT` validates the blocks against the schema (`422` otherwise). The edit is then turned into a Yjs update relative
+to the state of the given `revision`, exactly like the update an editor makes on that state, and applied to the live
+document. Changes others made since that revision are merged by Yjs, as with any other editor; edits are never rejected
+because of concurrent changes. Submitting again with the same revision only applies what changed since the previous
+submission. Revisions are kept in memory for an hour; an unknown or expired revision is rejected with `409`.
+
+If the stored document cannot be loaded from OpenProject, loading is retried with backoff. If it still fails, the
+document is not opened at all, instead of continuing with an empty document that would overwrite the stored content.
+
 ### Starting the Server
 
 ```bash
