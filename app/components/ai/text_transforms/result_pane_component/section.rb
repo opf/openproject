@@ -30,29 +30,22 @@
 
 module AI
   module TextTransforms
-    class ResultPaneSectionComponent < ApplicationComponent
-      include OpTurbo::Streamable
-      include OpPrimer::ComponentHelpers
-      include ResultPaneHelpers
+    class ResultPaneComponent
+      class Section < ApplicationComponent
+        include OpTurbo::Streamable
+        include OpPrimer::ComponentHelpers
+        include ResultPaneHelpers
 
-      def initialize(section:, pane:)
-        super()
-        @section = section
-        @pane = pane
-      end
+        def initialize(pane:)
+          super()
+          @pane = pane
+        end
 
-      def wrapper_uniq_by
-        section
-      end
+        private
 
-      private
+        attr_reader :pane
 
-      attr_reader :section, :pane
-
-      delegate :state, to: :pane
-
-      def output
-        helpers.format_text(pane.text, object: pane.work_package)
+        delegate :state, to: :pane
       end
     end
   end

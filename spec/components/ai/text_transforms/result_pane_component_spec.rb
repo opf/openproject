@@ -60,7 +60,7 @@ RSpec.describe AI::TextTransforms::ResultPaneComponent, type: :component do
 
   it "renders each section in its own streamable wrapper" do
     %w[title body footer].each do |section|
-      expect(subject).to have_css("#ai-text-transforms-result-pane-section-component-#{section}")
+      expect(subject).to have_css("#ai-text-transforms-result-pane-component-#{section}")
     end
   end
 

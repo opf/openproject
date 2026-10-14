@@ -50,10 +50,6 @@ module AI
       private
 
       attr_reader :pane
-
-      def section(name)
-        render(ResultPaneSectionComponent.new(section: name, pane:))
-      end
     end
   end
 end

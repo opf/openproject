@@ -45,14 +45,14 @@ See COPYRIGHT and LICENSE files for more details.
           render(Primer::Beta::BorderBox.new(flex: 1, overflow: :hidden, display: :flex, direction: :column, box_shadow: :extra_large)) do |box|
             box.with_header(classes: "op-ai-result-pane--handle") do
               flex_layout(align_items: :center, justify_content: :space_between) do |header|
-                header.with_column { section(:title) }
+                header.with_column { render(Title.new(pane:)) }
                 header.with_column do
                   render(Primer::Beta::CloseButton.new("aria-label": label(:close)))
                 end
               end
             end
-            box.with_body(flex: 1, overflow: :auto) { section(:body) }
-            box.with_footer(bg: :subtle) { section(:footer) }
+            box.with_body(flex: 1, overflow: :auto) { render(Body.new(pane:)) }
+            box.with_footer(bg: :subtle) { render(Footer.new(pane:)) }
           end,
           *RESIZE_HANDLES.map do |edge, icon|
             render(
