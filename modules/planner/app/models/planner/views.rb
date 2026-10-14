@@ -29,8 +29,7 @@
 #++
 
 module Planner
-  # The Planner's views, in the order of its menu. Today is the default view, so its paths and forms
-  # go without one.
+  # The default view's paths and forms go without a view name.
   module Views
     Definition = Data.define(:name, :model, :component, :icon, :sortable, :filterable) do
       def title = I18n.t("planner.views.#{name}")
@@ -49,7 +48,7 @@ module Planner
       end
 
       def build_component(user:, project:, adding: nil, filter: View::FILTERS.first)
-        component.new(model.new(user:, project:), adding:, filter:)
+        component.new(model.new(user:, project:), view: self, adding:, filter:)
       end
     end
 
@@ -68,13 +67,6 @@ module Planner
 
     def self.names = ALL.map(&:name)
 
-    # Unknown names fall back to the default view.
     def self.fetch(name) = ALL.find { it.name == name.to_s } || default
-
-    def self.path_for(name, **query) = fetch(name).path(**query)
-
-    def self.param(name) = fetch(name).param
-
-    def self.sortable?(name) = fetch(name).sortable?
   end
 end

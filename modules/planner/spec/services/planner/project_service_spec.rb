@@ -69,6 +69,16 @@ RSpec.describe Planner::ProjectService do
     expect(user.reload.pref.planner_project_id).to eq(project.id)
   end
 
+  context "when the instance already has a field named Day part" do
+    let!(:own_field) { create(:list_wp_custom_field, name: "Day part") }
+
+    it "creates its own field next to it" do
+      expect(subject).to be_success, -> { subject.errors.full_messages.to_sentence }
+      expect(day_part).not_to eq(own_field)
+      expect(day_part.name).to eq("Day part (My planner)")
+    end
+  end
+
   context "when called again" do
     let!(:first_project) { described_class.new(user).call.result }
 

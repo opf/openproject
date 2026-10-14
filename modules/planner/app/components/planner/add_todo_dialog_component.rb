@@ -36,8 +36,6 @@ module Planner
     DIALOG_ID = "planner-add-todo-dialog"
     FORM_ID = "planner-add-todo-form"
 
-    # The user's "My work" project keeps its own to-dos out of the work package search. With a work
-    # package, the dialog adds a to-do about that work package.
     def initialize(date:, day_part:, view:, planner_project:, work_package: nil)
       super()
       @date = date
@@ -52,7 +50,5 @@ module Planner
     attr_reader :date, :day_part, :view, :planner_project, :work_package
 
     def title = work_package ? t("planner.add_to_planner") : t("planner.add_todo")
-
-    def view_param = Views.param(view)
   end
 end

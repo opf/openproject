@@ -103,9 +103,9 @@ en:
       one: "1 meeting"
       other: "%{count} meetings"
     time_range:
-      morning: "Until 12:00"
-      afternoon: "12:00 to 18:00"
-      evening: "After 18:00"
+      morning: "Until %{afternoon}"
+      afternoon: "%{afternoon} to %{evening}"
+      evening: "After %{evening}"
     project_name: "My work"
     variant_name: "My work"
     form_name: "My work"

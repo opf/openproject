@@ -235,7 +235,7 @@ RSpec.describe "Planner views", type: :rails_request, with_settings: { working_d
         expect(page).to have_test_selector("planner-upcoming")
         expect(page).to have_test_selector("planner-upcoming-day", count: 7)
         expect(page).to have_test_selector("planner-upcoming-day", text: "Tomorrow")
-        expect(page).to have_test_selector("planner-upcoming-day", text: /Saturday 10th\s+Non-working day/)
+        expect(page).to have_test_selector("planner-upcoming-day", text: /Saturday, Oct 10\s+Non-working day/)
         expect(page).to have_test_selector("planner-upcoming-task", text: "Book train to the offsite")
         expect(page).to have_test_selector("planner-upcoming-meeting", text: "One-time meeting")
       end

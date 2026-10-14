@@ -29,15 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= form_with(url: planner_tasks_path, scope: :task, method: :post, data: { test_selector: "planner-todo-input-#{group}" }) do %>
   <%= hidden_field_tag :adding, group, id: nil %>
-  <% if view_param %>
-    <%= hidden_field_tag :view, view_param, id: nil %>
+  <% if view.param %>
+    <%= hidden_field_tag :view, view.param, id: nil %>
   <% end %>
   <% task_fields.each do |name, value| %>
     <%= hidden_field_tag "task[#{name}]", value, id: nil %>
   <% end %>
   <%= flex_layout(align_items: :center) do |row| %>
     <% if handle_space? %>
-      <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, style: "visibility: hidden") do %>
+      <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, classes: "v-hidden") do %>
         <%= render(Primer::Beta::Octicon.new(:grabber)) %>
       <% end %>
     <% end %>

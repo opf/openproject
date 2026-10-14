@@ -29,9 +29,6 @@
 #++
 
 module Planner
-  # A to-do in the Planner: a work package of the user's "My work" project, read through its
-  # subject. `references` holds the work packages the user can see, by every id they may be written
-  # with (see References).
   class Task
     attr_reader :work_package, :references, :user
 
@@ -50,14 +47,12 @@ module Planner
       end
     end
 
-    # The work package the task stands for, if its subject is nothing but a visible reference.
     def planned_work_package
       return @planned_work_package if defined?(@planned_work_package)
 
       @planned_work_package = References.planned_id(work_package.subject)&.then { references[it] }
     end
 
-    # The meeting an open task asks to set up with "/meeting".
     def meeting_command
       return @meeting_command if defined?(@meeting_command)
 

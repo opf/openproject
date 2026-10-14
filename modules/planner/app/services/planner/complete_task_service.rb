@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # Ticks a task off by moving it to the first closed status the workflow allows, or opens it again,
-  # preferring the default status.
   class CompleteTaskService
     def initialize(user:, work_package:)
       @user = user

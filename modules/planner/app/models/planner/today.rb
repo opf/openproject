@@ -29,9 +29,6 @@
 #++
 
 module Planner
-  # What the user has planned for today: their "My work" tasks due today and the meetings they take
-  # part in, including occurrences of recurring series not created yet, split into day parts. Tasks
-  # without a day part count as morning.
   class Today < View
     AFTERNOON_FROM = 12
     EVENING_FROM = 18

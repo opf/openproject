@@ -29,9 +29,8 @@
 #++
 
 module Planner
-  # What the Planner's controllers share: the feature flag, the user's "My work" project, the view
-  # and its filter. The filter is kept in the session, so that it stays while switching views and
-  # while the views refresh themselves.
+  # The filter is kept in the session, so that it stays while switching views and while the views
+  # refresh themselves.
   module RequestContext
     extend ActiveSupport::Concern
 

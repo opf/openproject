@@ -30,8 +30,6 @@
 
 module Planner
   class FilterMenuComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
     ICONS = { "all" => :checklist, "todos" => :"check-circle", "meetings" => :"comment-discussion" }.freeze
 
     def initialize(view:, filter:)
@@ -44,6 +42,6 @@ module Planner
 
     attr_reader :view, :filter
 
-    def path(filter) = Views.path_for(view, filter:)
+    def path(filter) = view.path(filter:)
   end
 end

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: { test_selector: "planner-upcoming", **sortable_root_data(:upcoming) }) do %>
+<%= component_wrapper(data: { test_selector: "planner-upcoming", **sortable_root_data }) do %>
   <% upcoming.days.each do |day| %>
     <% group = day.date.iso8601 %>
     <%= render(Primer::Beta::BorderBox.new(**day_box_arguments(day))) do |box| %>
@@ -43,18 +43,18 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% shown_work_packages(day).each do |work_package| %>
         <% box.with_row(test_selector: "planner-upcoming-task", data: sortable_item_data(work_package)) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, references: upcoming.references, view: :upcoming)) %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references: upcoming.references, user: upcoming.user, view:)) %>
         <% end %>
       <% end %>
 
       <% if todos_shown? %>
         <% if adding?(group) %>
           <% box.with_row do %>
-            <%= render(Planner::TodoInputComponent.new(group:, view: :upcoming, task_fields: { date: group })) %>
+            <%= render(Planner::TodoInputComponent.new(group:, view:, task_fields: { date: group })) %>
           <% end %>
         <% end %>
         <% box.with_row do %>
-          <%= render(Planner::AddTodoComponent.new(group:, view: :upcoming)) %>
+          <%= render(Planner::AddTodoComponent.new(group:, view:)) %>
         <% end %>
       <% end %>
     <% end %>

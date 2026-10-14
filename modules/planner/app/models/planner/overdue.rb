@@ -29,8 +29,7 @@
 #++
 
 module Planner
-  # The user's personal backlog: open "My work" tasks that are not planned for today or later,
-  # either left over from an earlier day or never planned.
+  # Undated tasks are listed too, so Overdue doubles as the user's backlog.
   class Overdue < View
     def work_packages
       @work_packages ||= project

@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Primer::Beta::Link.new(**link_arguments)) do %>
   <% if handle_space? %>
-    <%= render(Primer::Beta::Octicon.new(:grabber, mr: 2, style: "visibility: hidden")) %>
+    <%= render(Primer::Beta::Octicon.new(:grabber, mr: 2, classes: "v-hidden")) %>
   <% end %>
   <%= render(Primer::BaseComponent.new(tag: :span, mr: 1, display: :flex, justify_content: :center, style: "width: var(--control-small-size)")) do %>
     <%= render(Primer::Beta::Octicon.new(:plus)) %>

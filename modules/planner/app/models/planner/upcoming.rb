@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # The user's next days after today: their "My work" tasks planned for each day and the meetings
-  # they take part in, including occurrences of recurring series not created yet.
   class Upcoming < View
     DAYS_AHEAD = 7
 

@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # Plans a work package: a task referencing it on the given day and in the given day part, by
-  # default today in the current day part, unless one of that day's tasks already stands for it.
   class AddWorkPackageService
     def initialize(user:)
       @user = user

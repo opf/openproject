@@ -101,6 +101,18 @@ RSpec.describe Planner::CreateTaskService do
     end
   end
 
+  context "when the Day part field was deleted" do
+    before do
+      Planner::ProjectService.new(user).call
+      WorkPackageCustomField.for_semantic_key(:day_part).destroy
+    end
+
+    it "still creates the task, in the morning" do
+      expect(subject).to be_success, -> { subject.message }
+      expect(day_part_field.day_part_of(task)).to eq(:morning)
+    end
+  end
+
   context "when the subject is blank" do
     let(:subject_text) { "   " }
 

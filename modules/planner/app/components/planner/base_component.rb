@@ -29,16 +29,16 @@
 #++
 
 module Planner
-  # Shared by the Planner views, which refresh themselves via Turbo Streams. A view keeps the "Add
-  # to-do" form of the group named by `adding` open, so that to-dos can be added one after another.
+  # A view keeps the input row of the group named by `adding` open, so that to-dos can be added one
+  # after another.
   class BaseComponent < ApplicationComponent
     include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
 
     DRAG_TYPE = "todo"
 
-    def initialize(model, adding: nil, filter: View::FILTERS.first)
+    def initialize(model, view:, adding: nil, filter: View::FILTERS.first)
       super(model)
+      @view = view
       @adding = adding
       @filter = filter
     end
@@ -50,7 +50,7 @@ module Planner
 
     private
 
-    attr_reader :adding
+    attr_reader :view, :adding
 
     def todos_shown? = filter != "meetings"
 
@@ -62,11 +62,10 @@ module Planner
 
     def adding?(group) = adding.to_s == group.to_s
 
-    # Today and Upcoming are sortable lists: dropping a to-do on another day part or day plans it there.
-    def sortable_root_data(view)
+    def sortable_root_data
       {
         controller: "sortable-lists",
-        sortable_lists_move_url_templates_value: { DRAG_TYPE => drop_url_template(view) }.to_json,
+        sortable_lists_move_url_templates_value: { DRAG_TYPE => drop_url_template }.to_json,
         sortable_lists_sortable_lists__list_outlet: "##{wrapper_key} [data-controller~='sortable-lists--list']",
         sortable_lists_sortable_lists__item_outlet: "##{wrapper_key} [data-controller~='sortable-lists--item']"
       }
@@ -92,11 +91,11 @@ module Planner
     end
 
     # Built with a sentinel so that relative URL roots are kept; the controller expands {id}.
-    def drop_url_template(view)
-      drop_planner_task_path("__id__", view: Views.param(view)).sub("__id__", "{id}")
+    def drop_url_template
+      drop_planner_task_path("__id__", view: view.param).sub("__id__", "{id}")
     end
 
-    def weekday_and_day(date) = "#{I18n.l(date, format: '%A')} #{date.day.ordinalize}"
+    def weekday_and_day(date) = "#{I18n.l(date, format: '%A')}, #{I18n.l(date, format: :short)}"
 
     def counts(group)
       meetings = shown_meetings(group)
