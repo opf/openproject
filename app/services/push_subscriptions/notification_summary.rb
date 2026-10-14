@@ -67,7 +67,7 @@ module PushSubscriptions
         count:,
         title: I18n.t("pwa.push.title", count:),
         body: "#{headline}: #{work_package.display_id} #{work_package.subject}",
-        url: url_helpers.notifications_center_path(script_name:)
+        url: url_helpers.notifications_center_path
       }
     end
 
@@ -88,15 +88,11 @@ module PushSubscriptions
     end
 
     def work_package_path
-      url_helpers.work_package_path(work_package, script_name:)
-    end
-
-    def script_name
-      OpenProject::Configuration.rails_relative_url_root
+      url_helpers.work_package_path(work_package)
     end
 
     def url_helpers
-      Rails.application.routes.url_helpers
+      OpenProject::StaticRouting::StaticUrlHelpers.new
     end
   end
 end
