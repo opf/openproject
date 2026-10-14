@@ -537,6 +537,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{storage_id}/files/{file_id}":
+    "$ref": "./paths/storage_file.yml"
   "/api/v3/storages/{id}/files/prepare_upload":
     "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/folders":
@@ -611,12 +613,6 @@ paths:
     "$ref": "./paths/wiki_page_attachments_prepare.yml"
   "/api/v3/work_packages":
     "$ref": "./paths/work_packages.yml"
-  "/api/v3/work_packages/form":
-    "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas":
-    "$ref": "./paths/work_packages_schemas.yml"
-  "/api/v3/work_packages/schemas/{identifier}":
-    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/work_packages/{id}":
     "$ref": "./paths/work_package.yml"
   "/api/v3/work_packages/{id}/activities":
@@ -645,12 +641,18 @@ paths:
     "$ref": "./paths/work_package_revisions.yml"
   "/api/v3/work_packages/{id}/relations":
     "$ref": "./paths/work_package_relations.yml"
-  "/api/v3/work_packages/{work_package_id}/reminders":
+  "/api/v3/work_packages/{id}/reminders":
     "$ref": "./paths/work_package_reminders.yml"
   "/api/v3/work_packages/{id}/watchers":
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
+  "/api/v3/work_packages/form":
+    "$ref": "./paths/work_packages_form.yml"
+  "/api/v3/work_packages/schemas":
+    "$ref": "./paths/work_packages_schemas.yml"
+  "/api/v3/work_packages/schemas/{identifier}":
+    "$ref": "./paths/work_packages_schemas_{identifier}.yml"
   "/api/v3/workspaces":
     "$ref": "./paths/workspaces.yml"
   "/api/v3/workspaces/{id}/available_assignees":
@@ -768,6 +770,8 @@ components:
       $ref: "./components/examples/storage-nextcloud-response.yml"
     StorageCreateFolderRequestBody:
       $ref: "./components/examples/storage-create-folder-request-body.yml"
+    StorageNextcloudFileResponse:
+      $ref: "./components/examples/storage-nextcloud-file-response.yml"
     StorageNextcloudResponseForCreation:
       $ref: "./components/examples/storage-nextcloud-response-for-creation.yml"
     StorageNextcloudUnauthorizedResponse:
