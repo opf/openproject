@@ -71,7 +71,8 @@ const sameOriginUrl = (url) => {
 
 const openOrFocus = async (requestedUrl) => {
   const url = sameOriginUrl(requestedUrl);
-  const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+  const clients = windows.filter((candidate) => candidate.url.startsWith(self.registration.scope));
   const client =
     clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
   if (!client) return self.clients.openWindow(url);
