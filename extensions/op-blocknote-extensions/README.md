@@ -20,13 +20,11 @@ This repo is split into two parts:
 
 ### Installation
 
-Include the following entry to your _package.json_.
+The package is published to npm as [`@openproject/op-blocknote-extensions`](https://www.npmjs.com/package/@openproject/op-blocknote-extensions).
 
-```json
-"op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/<VERSION>/op-blocknote-extensions-<VERSION>.tgz"
+```sh
+npm install @openproject/op-blocknote-extensions
 ```
-
-(please note: at the time being, you need to replace the version in two places of the url.)
 
 ### Implementation
 
@@ -175,15 +173,17 @@ To develop with OpenProject locally
 ```sh
 npm run build
 npm pack
-cp op-blocknote-extensions-*.tgz ../../frontend
+cp openproject-op-blocknote-extensions-*.tgz ../../frontend
 cd ../../frontend
-npm i -S op-blocknote-extensions-*.tgz
+npm i -S op-blocknote-extensions@file:openproject-op-blocknote-extensions-<VERSION>.tgz
 ```
 
 This should make sure that the package is available for OpenProject even if running on a container.
 
 ### Releases
 
-This package used to live in https://github.com/opf/op-blocknote-extensions, which published the releases referenced above. New versions are no longer released from there.
+Bump `version` in _package.json_ and merge to `dev`. The
+[publish workflow](../../.github/workflows/op-blocknote-extensions-publish.yml)
+publishes every version that is not yet on npm.
 
-For existing releases, see https://github.com/opf/op-blocknote-extensions/releases/.
+Versions up to 0.3.1 were released as tarballs from https://github.com/opf/op-blocknote-extensions/releases/.

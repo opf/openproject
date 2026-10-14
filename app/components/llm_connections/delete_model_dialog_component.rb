@@ -41,11 +41,17 @@ module LlmConnections
       { action: url_helpers.llm_model_path(llm_model), method: :delete }
     end
 
-    # Named so the message says what is actually at stake. The connection
-    # defaults count as bindings here -- deleting their model breaks every
-    # feature that inherits them.
+    # Named so the message says what is actually at stake: features bound to this
+    # model stop resolving, rather than silently falling back to another one.
+    # The connection defaults count as bindings here -- deleting their model
+    # breaks every feature that inherits them.
     def bound_features
-      affected_defaults
+      bindings = llm_model.llm_connection
+                          .feature_bindings
+                          .where(model_id: llm_model.external_id)
+                          .filter_map { |binding| binding.feature&.label }
+
+      bindings + affected_defaults
     end
 
     def affected_defaults
