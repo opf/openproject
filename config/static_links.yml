@@ -255,6 +255,9 @@ user_guide:
     import:
       columns:
         href: https://www.openproject.org/docs/user-guide/work-packages/importing/#column-reference
+wcag_contrast_minimum:
+  href: https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html
+  label: colors.contrast.wcag_rule
 webinar_videos:
   href: https://www.youtube.com/watch?v=un6zCm8_FT4
 website:

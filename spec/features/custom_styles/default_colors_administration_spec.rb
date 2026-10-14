@@ -51,6 +51,47 @@ RSpec.describe "default colors administration", :js do
     end
   end
 
+  describe "contrast previews" do
+    it "checks unsaved colors, replaces outdated results, and allows saving failed contrast" do
+      click_link accessible_name: "New color"
+      fill_in "Name", with: "Preview color"
+      fill_in "Hex code", with: "#fff"
+      click_on "Check contrast"
+
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_css("[data-color-contrast-target='sample']", count: 4)
+      expect(page).to have_text("Fail")
+      expect(page).to have_text("Used as foreground", count: 2)
+      expect(page).to have_css("[data-color-contrast-target='sample']", text: "Sample text", count: 4)
+      expect(Color.where(name: "Preview color")).not_to exist
+
+      click_on "Check contrast"
+      expect(page).to have_text(/^Background$/, count: 4)
+      page.execute_script("document.body.dataset.colorMode = 'light'")
+
+      fill_in "Hex code", with: "invalid"
+      expect(page).to have_text("These results are outdated")
+      click_on "Check contrast"
+      expect(page).to have_text("Enter a valid hexadecimal color code.")
+      expect(page).to have_no_heading "Contrast preview"
+
+      fill_in "Hex code", with: "#fff"
+      click_on "Check contrast"
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_no_text("These results are outdated")
+      click_on "Save"
+      wait_for_reload
+      expect_and_dismiss_flash type: :success, message: "Successful creation."
+
+      within_test_selector "default-colors-list" do
+        click_on "Preview color"
+      end
+      click_on "Check contrast"
+      expect(page).to have_heading "Contrast preview"
+      expect(page).to have_css("[data-color-contrast-target='sample']", count: 4)
+    end
+  end
+
   describe "creating colors" do
     it "creates a color" do
       click_link accessible_name: "New color"

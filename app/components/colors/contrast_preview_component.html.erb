@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render Primer::Beta::Text.new(tag: :p, id: "color-contrast-error", hidden: true, color: :danger, role: :alert, data: { color_contrast_target: "error" }) do %>
+  <%= t("colors.contrast.invalid") %>
+<% end %>
+<%= render Primer::Box.new(tag: :section, hidden: true, aria: { live: :polite }, data: { color_contrast_target: "preview" }) do %>
+  <%= render Primer::Beta::Subhead.new(mt: 0, mb: 3) do |subhead| %>
+    <% subhead.with_heading(tag: :h3, size: :medium) { t("colors.contrast.title") } %>
+    <% subhead.with_actions do %>
+      <%= render Primer::Beta::Text.new(color: :muted, data: { color_contrast_target: "summary", template: t("colors.contrast.summary", count: "{{count}}") }) %>
+    <% end %>
+  <% end %>
+  <%= render Primer::Beta::Text.new(tag: :p, hidden: true, color: :muted, mb: 3, data: { color_contrast_target: "outdated" }) do %>
+    <%= t("colors.contrast.outdated") %>
+  <% end %>
+  <%= flex_layout(direction: [:column, nil, :row], align_items: :stretch, classes: "gap-3") do |modes| %>
+    <% %w[light dark].each do |mode| %>
+      <% modes.with_column(flex: 1) do %>
+        <%= render OpenProject::Common::BorderBoxListComponent.new(container: "contrast-preview-#{mode}") do |list| %>
+          <% list.with_header(title_tag: :h4) do |header| %>
+            <% header.with_title do %>
+              <%= render Primer::Beta::Octicon.new(icon: mode == "light" ? :sun : :moon, mr: 2) %>
+              <%= t("colors.contrast.#{mode}") %>
+            <% end %>
+          <% end %>
+          <% %w[foreground background].each do |usage| %>
+            <% list.with_item(data: { color_contrast_target: "card" }) do %>
+              <%= render Colors::ContrastPreviewRowComponent.new(mode:, usage:) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <%= render Primer::Beta::Text.new(tag: :p, color: :muted, mt: 3, mb: 0) do %>
+    <%= t("colors.contrast.caption") %>
+    <%= helpers.static_link_to :wcag_contrast_minimum, ml: 1 %>
+  <% end %>
+<% end %>

@@ -41,6 +41,6 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<%= settings_primer_form_with(model: @color, url: colors_url, method: :post) do |form| %>
+<%= settings_primer_form_with(model: @color, url: colors_url, method: :post, data: { controller: "color-contrast" }) do |form| %>
   <%= render(Admin::Settings::ColorForm.new(form)) %>
 <% end %>
