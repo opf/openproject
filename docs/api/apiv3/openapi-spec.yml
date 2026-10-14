@@ -517,6 +517,10 @@ paths:
     "$ref": "./paths/roles.yml"
   "/api/v3/roles/{id}":
     "$ref": "./paths/role.yml"
+  "/api/v3/spec.json":
+    "$ref": "./paths/spec-json.yml"
+  "/api/v3/spec.yml":
+    "$ref": "./paths/spec.yml"
   "/api/v3/sprints":
     "$ref": "./paths/sprints.yml"
   "/api/v3/sprints/{id}":
@@ -1120,6 +1124,8 @@ components:
       "$ref": "./components/schemas/schema_for_global_queries_model.yml"
     Schema_For_Workspace_QueriesModel:
       "$ref": "./components/schemas/schema_for_workspace_queries_model.yml"
+    SpecificationModel:
+      "$ref": "./components/schemas/spec_model.yml"
     SprintCollectionModel:
       "$ref": "./components/schemas/sprint_collection_model.yml"
     SprintModel:
