@@ -165,7 +165,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         expect(json).to eq("count" => 1,
                            "title" => "Ada Lovelace mentioned you",
-                           "body" => "#{work_package.display_id}: Fix the build",
+                           "body" => "##{work_package.id}: Fix the build",
                            "url" => "/work_packages/#{work_package.id}")
       end
 
@@ -178,7 +178,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
         expect(json).to eq("count" => 3,
                            "title" => "3 unread notifications",
-                           "body" => "Ada Lovelace mentioned you: #{work_package.display_id} Fix the build",
+                           "body" => "Ada Lovelace mentioned you: ##{work_package.id} Fix the build",
                            "url" => "/notifications")
       end
 

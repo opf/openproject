@@ -59,14 +59,14 @@ module PushSubscriptions
     end
 
     def single
-      { count:, title: headline, body: "#{work_package.display_id}: #{work_package.subject}", url: work_package_path }
+      { count:, title: headline, body: "#{work_package.formatted_id}: #{work_package.subject}", url: work_package_path }
     end
 
     def summary
       {
         count:,
         title: I18n.t("pwa.push.title", count:),
-        body: "#{headline}: #{work_package.display_id} #{work_package.subject}",
+        body: "#{headline}: #{work_package.formatted_id} #{work_package.subject}",
         url: url_helpers.notifications_center_path
       }
     end
