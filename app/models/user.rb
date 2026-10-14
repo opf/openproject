@@ -197,7 +197,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
-  after_commit -> { push_subscriptions.delete_all }, if: -> { saved_change_to_status? && !active? && !previously_new_record? }
+  after_commit :drop_push_subscriptions, if: :deactivated?
 
   scope :admin, -> { where(admin: true) }
 
@@ -728,6 +728,14 @@ class User < Principal
   end
 
   private
+
+  def deactivated?
+    saved_change_to_status? && !active? && !previously_new_record?
+  end
+
+  def drop_push_subscriptions
+    push_subscriptions.delete_all
+  end
 
   def system_non_working_dates_for_year(year)
     NonWorkingDay.for_year(year).pluck(:date).to_set
