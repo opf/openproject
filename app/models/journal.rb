@@ -98,6 +98,7 @@ class Journal < ApplicationRecord
                    assistant_name
                    chat_id
                    message_id
+                   proposal_id
                  ],
                  prefix: true
 

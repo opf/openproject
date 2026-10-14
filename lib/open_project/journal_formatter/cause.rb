@@ -104,7 +104,7 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
     when "assistant_skill"
       assistant_skill_message
     when "assistant_chat"
-      I18n.t("journals.cause_descriptions.assistant_chat")
+      cause["assistant_name"].present? ? assistant_skill_message : I18n.t("journals.cause_descriptions.assistant_chat")
     else
       related_work_package_changed_message
     end

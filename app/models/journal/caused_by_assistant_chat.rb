@@ -28,14 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A change applied from a proposal in the AI Assistance chat.
+# A change applied from a proposal in an AI Assistance conversation.
 class Journal::CausedByAssistantChat < CauseOfChange::Base
-  def initialize(message:, depth: 0)
+  def initialize(proposal:, depth: 0)
+    message = proposal.message
+    skill = message.chat.skill
     additional = {
       "source" => "assistant_chat",
       "depth" => depth,
       "chat_id" => message.chat_id,
-      "message_id" => message.id
+      "message_id" => message.id,
+      "proposal_id" => proposal.id,
+      "skill_key" => skill.skill_key,
+      "assistant_name" => skill.assistant.name
     }
     super("assistant_chat", additional)
   end

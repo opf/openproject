@@ -60,9 +60,11 @@
                                                            aria: { label: t("ai_assistance.chat.copy") },
                                                            scheme: :invisible, size: :small,
                                                            data: { test_selector: "ai-assistance-chat-copy" })) %>
-          <%= render(AI::Assistance::ProposalComponent.new(proposal: message, apply_path: apply_path(message))) %>
-          <% if message.applied? %>
-            <%= render(Primer::Beta::Label.new(scheme: :success, mt: 1)) { t("ai_assistance.finding.applied") } %>
+          <% message.proposals.each do |proposal| %>
+            <%= render(AI::Assistance::ProposalComponent.new(proposal:, apply_path: apply_path(proposal))) %>
+            <% if proposal.applied? %>
+              <%= render(Primer::Beta::Label.new(scheme: :success, mt: 1)) { t("ai_assistance.finding.applied") } %>
+            <% end %>
           <% end %>
         <% end %>
         <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>

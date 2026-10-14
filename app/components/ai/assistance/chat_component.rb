@@ -48,7 +48,7 @@ module AI
       def self.wrapper_key = "ai-assistance-chat"
 
       def messages
-        chat ? chat.messages.to_a : []
+        chat ? chat.messages.includes(:proposals).to_a : []
       end
 
       def pending?
@@ -59,8 +59,8 @@ module AI
         pending? ? poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)) : {}
       end
 
-      def apply_path(message)
-        url_helpers.apply_message_work_package_ai_assistance_chat_path(work_package, message_id: message.id)
+      def apply_path(proposal)
+        url_helpers.apply_proposal_work_package_ai_assistance_chat_path(work_package, proposal_id: proposal.id)
       end
 
       def read_only?

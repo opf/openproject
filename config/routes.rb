@@ -1279,7 +1279,7 @@ Rails.application.routes.draw do
       post :messages, action: :send_message
       post :start
       get :poll
-      post "messages/:message_id/apply", action: :apply, as: :apply_message
+      post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal
     end
     resources :ai_assistance_runs, path: "ai_assistance/runs", controller: "work_packages/ai_assistance/runs",
                                    only: %i[index show create] do

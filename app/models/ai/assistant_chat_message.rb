@@ -29,27 +29,18 @@
 #++
 
 module AI
-  # A question of the user, or an answer of the model. An answer can carry a proposed
-  # change, applied like the change set of a finding.
+  # A question of the user, or an answer of the model. An answer can carry proposals
+  # (AI::AssistantProposal), each applied or dismissed on its own.
   class AssistantChatMessage < ApplicationRecord
-    include AI::Proposal
     include AI::EventLog
 
     belongs_to :chat, class_name: "AI::AssistantChat", inverse_of: :messages
+    has_many :proposals, -> { order(:position, :id) },
+             class_name: "AI::AssistantProposal", foreign_key: :message_id, inverse_of: :message, dependent: :delete_all
 
     enum :role, { user: "user", assistant: "assistant" }, validate: true, prefix: :from
     enum :status, { pending: "pending", done: "done", failed: "failed" }, default: "done", validate: true
 
     validates :content, presence: true, if: :from_user?
-
-    def proposal_work_package = chat.work_package
-
-    def proposal_user = chat.user
-
-    def proposal_changeable_attributes = chat.skill.changeable_attributes
-
-    def proposal_journal_cause = Journal::CausedByAssistantChat.new(message: self)
-
-    def proposal_siblings = AI::AssistantChatMessage.where(chat:).open
   end
 end

@@ -44,15 +44,21 @@ module AI
 
       def call
         answer = ask
-        message.update!(content: answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"),
-                        change_set: proposal_builder.build(answer[:changes]),
-                        status: "done")
-        llm_call.log(:info, "answered#{' with a proposal' if message.change_set?}")
+        change_set = proposal_builder.build(answer[:changes])
+        store(answer[:answer], change_set)
+        llm_call.log(:info, "answered#{' with a proposal' if change_set}")
       rescue StandardError => e
         fail_reply(e)
       end
 
       private
+
+      def store(content, change_set)
+        AI::AssistantChatMessage.transaction do
+          message.proposals.create!(source: "ai", change_set:, base_lock_version: message.base_lock_version) if change_set
+          message.update!(content: content.to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"), status: "done")
+        end
+      end
 
       def chat = message.chat
 

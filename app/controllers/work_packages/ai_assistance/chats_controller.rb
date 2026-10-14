@@ -34,7 +34,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   before_action :find_skill, only: %i[create start]
   before_action :find_chat, only: %i[show send_message poll]
-  before_action :find_message, only: %i[apply]
+  before_action :find_proposal, only: %i[apply]
 
   # Opens the user's latest chat of this skill about this work package, or an empty one.
   def show
@@ -71,7 +71,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   end
 
   def apply
-    call = apply_proposal(@message)
+    call = apply_proposal(@proposal)
     render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
     replace_chat
   end
@@ -100,11 +100,11 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     AI::AssistantChat.create!(skill: @skill, user: current_user, work_package: @work_package)
   end
 
-  def find_message
-    @message = AI::AssistantChatMessage.joins(:chat)
-                                       .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
-                                       .find(params[:message_id])
-    @chat = @message.chat
+  def find_proposal
+    @proposal = AI::AssistantProposal.joins(message: :chat)
+                                     .where(ai_assistant_chats: { user_id: current_user.id, work_package_id: @work_package.id })
+                                     .find(params.expect(:proposal_id))
+    @chat = @proposal.chat
     @skill = offered_skill(@chat.skill_id, conversation: true)
     render_404 unless @skill
   rescue ActiveRecord::RecordNotFound

@@ -71,4 +71,32 @@ FactoryBot.define do
       base_lock_version { run.work_package_lock_version }
     end
   end
+
+  factory :ai_assistant_chat, class: "AI::AssistantChat" do
+    skill { association :ai_assistant_skill, skill_key: "chat" }
+    user
+    work_package
+  end
+
+  factory :ai_assistant_chat_message, class: "AI::AssistantChatMessage" do
+    chat { association :ai_assistant_chat }
+    role { "assistant" }
+    content { "An answer." }
+    locale { "en" }
+    base_lock_version { chat.work_package.lock_version }
+  end
+
+  factory :ai_assistant_proposal, class: "AI::AssistantProposal" do
+    message { association :ai_assistant_chat_message }
+    source { "ai" }
+    change_set { AI::Proposal.change_set_for({ "description" => "A better description" }) }
+    base_lock_version { message.base_lock_version }
+
+    trait :finding do
+      severity { "medium" }
+      area { "content" }
+      text { "The description misses the latest decision." }
+      evidence { [{ "text" => "A comment" }] }
+    end
+  end
 end
