@@ -38,6 +38,7 @@ module API
       end
 
       def initialize(models, self_link:, current_user:, query_params: {}, page: nil, per_page: nil, groups: nil)
+        @current_user = current_user
         @self_link_base = self_link
         @query_params = query_params
         @page = page.to_i > 0 ? page.to_i : 1
