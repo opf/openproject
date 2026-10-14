@@ -197,7 +197,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
-  after_commit :drop_push_subscriptions, if: :deactivated?
+  after_commit :drop_push_subscriptions, if: :became_inactive?
 
   scope :admin, -> { where(admin: true) }
 
@@ -729,8 +729,8 @@ class User < Principal
 
   private
 
-  def deactivated?
-    saved_change_to_status? && !active? && !previously_new_record?
+  def became_inactive?
+    saved_change_to_status?(from: "active")
   end
 
   def drop_push_subscriptions
