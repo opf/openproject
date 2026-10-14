@@ -1499,8 +1499,8 @@ en:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_fields:
       delete_dialog_component:
-        title: "Delete custom field %{name}"
         heading: "Do you want to delete the custom field %{name}?"
+        title: "Delete custom field %{name}"
     custom_styles:
       branding:
         desktop:
