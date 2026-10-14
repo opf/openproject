@@ -267,7 +267,7 @@ module MeetingAgendaItems
       menu.with_item(label: t("meeting.copy.to_clipboard"),
                      tag: :"clipboard-copy",
                      content_arguments: { value: url }) do |item|
-        item.with_leading_visual_icon(icon: :copy)
+        item.with_leading_visual_icon(icon: :paste)
       end
     end
 

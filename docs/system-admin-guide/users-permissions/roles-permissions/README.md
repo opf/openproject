@@ -98,7 +98,7 @@ The **Copy projects** permission allows users to create a new project by copying
 > [!NOTE]
 > A user copying a project is assigned the configured **New role for users that create projects** in the new project. This role may grant additional permissions compared to the user's role in the source project.
 
-To access the **Copy** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
+To access the **Duplicate** action from a project's settings, users must also be able to open the project settings (typically by having the **Edit project** permission). Alternatively, users can create a new project from a project template, if available.
 
 ### Project identifier visibility
 
