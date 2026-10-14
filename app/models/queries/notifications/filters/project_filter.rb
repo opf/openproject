@@ -31,14 +31,22 @@
 class Queries::Notifications::Filters::ProjectFilter < Queries::Notifications::Filters::NotificationFilter
   include Queries::Filters::Shared::ProjectFilter::Optional
 
-  # This is currently work package specific same as all the other parts of the NotificationQuery
-  self.model = WorkPackage
+  # Notifications are matched if their resource (e.g. a work package or a document)
+  # matches the filter on its project. The condition is evaluated per resource type
+  # within a subquery so that each operator (including the negating ones) is applied
+  # only to the resource the notification is about.
+  def where
+    conditions = Queries::Notifications::ResourceProject.resource_classes.map do |klass|
+      <<~SQL.squish
+        (#{Notification.table_name}.resource_type = '#{klass.name}'
+        AND #{Notification.table_name}.resource_id IN (
+          SELECT #{klass.table_name}.id
+          FROM #{klass.table_name}
+          WHERE #{operator_strategy.sql_for_field(values, klass.table_name, :project_id)}
+        ))
+      SQL
+    end
 
-  def joins
-    <<~SQL.squish
-      JOIN #{WorkPackage.table_name}
-      ON #{WorkPackage.table_name}.id = #{Notification.table_name}.resource_id
-      AND #{Notification.table_name}.resource_type = 'WorkPackage'
-    SQL
+    "(#{conditions.join(' OR ')})"
   end
 end

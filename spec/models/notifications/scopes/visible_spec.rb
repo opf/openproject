@@ -76,5 +76,90 @@ RSpec.describe Notifications::Scopes::Visible do
 
       it_behaves_like "is empty"
     end
+
+    context "for a document notification" do
+      let(:project) { create(:project, enabled_module_names: %w[work_package_tracking documents]) }
+      let(:document) { create(:document, project:) }
+      let(:notification) do
+        create(:notification,
+               resource: document,
+               journal: nil,
+               recipient: notification_recipient)
+      end
+      let(:permissions) { %i[view_documents] }
+
+      context "with the user being recipient and being allowed to see the document" do
+        it "returns the notification" do
+          expect(scope)
+            .to contain_exactly(notification)
+        end
+      end
+
+      context "with the user being recipient and not being allowed to see the document" do
+        let(:permissions) { %i[view_work_packages] }
+
+        it_behaves_like "is empty"
+      end
+
+      context "with the user being recipient and the documents module being disabled" do
+        let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+
+        it_behaves_like "is empty"
+      end
+
+      context "with the user not being recipient but being allowed to see the document" do
+        let(:notification_recipient) { create(:user, member_with_permissions: { project => permissions }) }
+
+        it_behaves_like "is empty"
+      end
+    end
+
+    context "with work package and document notifications" do
+      let(:project) { create(:project, enabled_module_names: %w[work_package_tracking documents]) }
+      let(:permissions) { %i[view_work_packages view_documents] }
+      let(:document) { create(:document, project:) }
+      let(:document_notification) do
+        create(:notification,
+               resource: document,
+               journal: nil,
+               recipient: user)
+      end
+      let(:other_project) { create(:project, enabled_module_names: %w[work_package_tracking documents]) }
+      let(:invisible_work_package_notification) do
+        create(:notification,
+               resource: create(:work_package, project: other_project),
+               recipient: user)
+      end
+      let(:invisible_document_notification) do
+        create(:notification,
+               resource: create(:document, project: other_project),
+               journal: nil,
+               recipient: user)
+      end
+      let(:other_recipient_document_notification) do
+        create(:notification,
+               resource: document,
+               journal: nil,
+               recipient: create(:user, member_with_permissions: { project => permissions }))
+      end
+
+      let!(:notifications) do
+        [notification,
+         document_notification,
+         invisible_work_package_notification,
+         invisible_document_notification,
+         other_recipient_document_notification]
+      end
+
+      it "returns the notifications of the recipient for visible resources only" do
+        expect(scope)
+          .to contain_exactly(notification, document_notification)
+      end
+
+      it "returns the same when chained onto another scope" do
+        expect(Notification.where(read_ian: false).visible(user))
+          .to contain_exactly(notification, document_notification)
+      end
+    end
   end
 end

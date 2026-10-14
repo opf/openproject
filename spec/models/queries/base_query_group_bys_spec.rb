@@ -52,13 +52,13 @@ RSpec.describe Queries::BaseQuery, "group bys" do
     it "sets several group bys, keeping their order" do
       instance.group(:reason, :project)
 
-      expect(instance.group_bys.map(&:name)).to eq(%i[reason project_id])
+      expect(instance.group_bys.map { |group_by| group_by.class.key }).to eq(%i[reason project])
     end
 
     it "replaces previously set group bys rather than appending" do
       instance.group(:reason).group(:project)
 
-      expect(instance.group_bys.map(&:name)).to eq([:project_id])
+      expect(instance.group_bys.map { |group_by| group_by.class.key }).to eq([:project])
     end
 
     it "returns the query to allow chaining" do
@@ -106,7 +106,8 @@ RSpec.describe Queries::BaseQuery, "group bys" do
     it "selects every group by and a count for several group bys" do
       instance.group(:reason, :project)
 
-      expect(instance.groups.to_sql).to include('"notifications"."reason", "project_id", COUNT(*)')
+      expect(instance.groups.to_sql)
+        .to include(%("notifications"."reason", #{Queries::Notifications::ResourceProject.project_id_sql}, COUNT(*)))
     end
 
     it "applies the joins of every group by" do

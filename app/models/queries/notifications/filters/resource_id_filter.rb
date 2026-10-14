@@ -30,9 +30,11 @@
 
 class Queries::Notifications::Filters::ResourceIdFilter < Queries::Notifications::Filters::NotificationFilter
   def allowed_values
-    WorkPackage
-      .visible(User.current)
-      .pluck(:id, :id)
+    Notification
+      .visible_resource_scopes(User.current)
+      .values
+      .flat_map { |scope| scope.pluck(:id, :id) }
+      .uniq
   end
 
   def type

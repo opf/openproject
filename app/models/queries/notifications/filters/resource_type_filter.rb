@@ -30,7 +30,7 @@
 
 class Queries::Notifications::Filters::ResourceTypeFilter < Queries::Notifications::Filters::NotificationFilter
   def allowed_values
-    [[WorkPackage.name, WorkPackage.name]]
+    Notification.visible_resource_scopes(User.current).keys.map { |resource_type| [resource_type, resource_type] }
   end
 
   def type
