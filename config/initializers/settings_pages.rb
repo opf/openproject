@@ -135,6 +135,10 @@ Settings::Pages.draw do
     setting :work_packages_identifier, label: :"settings.work_packages.work_package_identifier"
   end
 
+  page :versions_and_categories, menu_item: :versions_and_categories do
+    setting :work_package_multiple_versions, form_field: false, if: -> { !Setting.work_package_multiple_versions? }
+  end
+
   page :progress_tracking, menu_item: :progress_tracking do
     setting :work_package_done_ratio
     setting :total_percent_complete_mode
@@ -287,6 +291,17 @@ Settings::Pages.draw do
             caption: -> { t("text_hint_disable_with_0") }
     setting :brute_force_block_minutes,
             caption: -> { t("text_hint_disable_with_0") }
+  end
+
+  page :llm_connection, menu_item: :llm_connection do
+    setting :llm_features_enabled,
+            form_field: false,
+            label: -> { LlmConnection.human_attribute_name(:llm_features_enabled) },
+            caption: :"admin.llm_connections.form.llm_features_enabled_caption"
+  end
+
+  page :text_transform_actions, menu_item: :text_transform_actions do
+    setting :ai_text_transform_actions_enabled, form_field: false
   end
 
   page :attachments, menu_item: :attachments, label: :"settings.general" do
