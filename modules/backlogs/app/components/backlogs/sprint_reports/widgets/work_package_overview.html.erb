@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%= widget_wrapper do |container| %>
+<%= widget_wrapper(classes: "op-sprint-reports--wp-overview-widget") do |container| %>
   <% if show_widget_content? %>
     <%
       container.with_header(title:) do |header|
@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% container.with_body do %>
       <%=
-        flex_layout(align_items: :center) do |flex|
+        flex_layout(classes: "op-wp-overview--progress", align_items: :center) do |flex|
           flex.with_column(flex: 1, mr: 3) do
             render(
               Primer::Beta::ProgressBar.new(

@@ -36,4 +36,5 @@ See COPYRIGHT and LICENSE files for more details.
   <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageOverview, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::WorkPackageGraph, @sprint, @project) %>
   <% grid.with_widget(Backlogs::SprintReports::Widgets::BurndownChart, @sprint, @project) %>
+  <% grid.with_widget(Backlogs::SprintReports::Widgets::EpicProgress, @sprint, @project) %>
 <% end %>
