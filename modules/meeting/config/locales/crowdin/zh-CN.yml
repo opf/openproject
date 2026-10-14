@@ -143,6 +143,10 @@ zh-CN:
     meeting_agenda_opened: 会议议程已开启
     meeting_minutes: 会议记录已编辑
     meeting_minutes_created: 会议记录已建立
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: 添加到会议
   label_add_work_package_to_meeting_dialog_title: 选择会议
   label_add_work_package_to_meeting_section_label: 节
@@ -151,6 +155,8 @@ zh-CN:
   label_agenda_backlog_clear_title: 清除议程待办事项？
   label_agenda_item_actions: 议程项目行动
   label_agenda_item_add: 添加议程项
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: 添加备注
   label_agenda_item_add_outcome: 添加成果
   label_agenda_item_convert_to_work_package: 转换为工作包
@@ -472,6 +478,7 @@ zh-CN:
       no_items: 无议程条目
       no_items_flash: 没有要演示的议程条目。
       previous: 上一页
+      slide_progress: Slide %{current}/%{total}
       title: 演示模式
       total_items: "%{current}/%{total}"
     types:
@@ -684,6 +691,7 @@ zh-CN:
   text_agenda_item_duplicate_in_next_meeting: 确定要将此议程条目的副本添加到 %{date} %{time} 的下一个会议吗？结果不会复制。
   text_agenda_item_duplicated_in_next_meeting: 在 %{date}的下一个会议中复制的议程条目
   text_agenda_item_move_next_meeting: 此条目将被移至 %{date} %{time} 召开的下一次会议。
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: 议程项目移至下次会议，日期 %{date}
   text_agenda_item_no_available_occurrence: 没有即将发生的事件。
   text_agenda_item_no_notes: 未提供备注

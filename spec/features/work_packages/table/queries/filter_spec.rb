@@ -558,7 +558,7 @@ RSpec.describe "filter work packages", :js do
     end
   end
 
-  describe "datetime filters" do
+  describe "datetime filters", with_settings: { date_format: "%Y-%m-%d", time_format: "%H:%M" } do
     shared_let(:business_day_at_noon) { Time.find_zone!("Europe/Kyiv").local(2025, 1, 8, 12, 0, 0) }
 
     before do
@@ -637,7 +637,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.add_filter_by "Updated",
                             "between",
-                            [4.days.ago.to_date.iso8601, 2.days.ago.to_date.iso8601],
+                            ["#{4.days.ago.to_date.iso8601} 00:00", "#{2.days.ago.to_date.iso8601} 23:59"],
                             "updatedAt"
 
       wait_for_network_idle
@@ -657,11 +657,9 @@ RSpec.describe "filter work packages", :js do
       last_query = Query.where(name: "Some query name").first
       date_filter = last_query.filters.last
 
-      # The frontend sends the date as a datetime string in utc where both bounds have the local offset deduced
-      # e.g. ["2023-05-31T22:00:00Z", "2023-06-03T21:59:59Z"]
       Time.use_zone(user.time_zone) do
         expect(date_filter.values)
-          .to eq [4.days.ago.beginning_of_day.utc.iso8601, 2.days.ago.end_of_day.utc.iso8601]
+          .to eq [4.days.ago.beginning_of_day.utc.iso8601, 2.days.ago.end_of_day.change(sec: 0).utc.iso8601]
       end
 
       wp_table.visit_query(last_query)
@@ -675,7 +673,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.expect_filter_by "Updated on",
                                "between",
-                               [4.days.ago.to_date.iso8601, 2.days.ago.to_date.iso8601],
+                               ["#{4.days.ago.to_date.iso8601} 00:00", "#{2.days.ago.to_date.iso8601} 23:59"],
                                "updatedAt"
     end
 
@@ -688,7 +686,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.add_filter_by "Updated",
                             "between",
-                            [3.days.ago.to_date.iso8601],
+                            ["#{3.days.ago.to_date.iso8601} 00:00"],
                             "updatedAt"
 
       loading_indicator_saveguard
@@ -705,7 +703,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.add_filter_by "Updated",
                             "between",
-                            [6.days.ago.to_date.iso8601],
+                            ["#{6.days.ago.to_date.iso8601} 00:00"],
                             "updatedAt"
 
       loading_indicator_saveguard
@@ -728,7 +726,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.expect_filter_by "Updated on",
                                "between",
-                               [3.days.ago.to_date.iso8601, ""],
+                               ["#{3.days.ago.to_date.iso8601} 00:00", ""],
                                "updatedAt"
     end
 
@@ -741,7 +739,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.add_filter_by "Updated",
                             "between",
-                            [nil, 4.days.ago.to_date.iso8601],
+                            [nil, "#{4.days.ago.to_date.iso8601} 23:59"],
                             "updatedAt"
 
       loading_indicator_saveguard
@@ -758,7 +756,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.add_filter_by "Updated",
                             "between",
-                            [nil, 6.days.ago.to_date.iso8601],
+                            [nil, "#{6.days.ago.to_date.iso8601} 23:59"],
                             "updatedAt"
 
       loading_indicator_saveguard
@@ -768,7 +766,7 @@ RSpec.describe "filter work packages", :js do
       date_filter = last_query.filters.last
       Time.use_zone(user.time_zone) do
         expect(date_filter.values)
-          .to eq ["", 4.days.ago.end_of_day.utc.iso8601]
+          .to eq ["", 4.days.ago.end_of_day.change(sec: 0).utc.iso8601]
       end
 
       wp_table.visit_query(last_query)
@@ -781,7 +779,7 @@ RSpec.describe "filter work packages", :js do
 
       filters.expect_filter_by "Updated on",
                                "between",
-                               ["", 4.days.ago.to_date.iso8601],
+                               ["", "#{4.days.ago.to_date.iso8601} 23:59"],
                                "updatedAt"
     end
   end

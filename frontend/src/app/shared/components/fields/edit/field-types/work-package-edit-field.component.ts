@@ -27,6 +27,7 @@
 
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 import {
   DebouncedRequestSwitchmap,
   errorNotificationHandler,
@@ -71,11 +72,10 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
   protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
     if (this.name === 'parent') {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-      return this.schema.allowedValues.$link.$fetch({
+      return (this.schema.allowedValues as CallableHalLink).$link.$fetch<CollectionResource>({
         query,
         sortBy: '[["exactMatch","desc"],["updatedAt","desc"]]',
-      }) as Promise<CollectionResource>;
+      });
     }
 
     return super.fetchAllowedValueQuery(query);

@@ -7,6 +7,7 @@
           meeting.project,
           meeting,
           meeting_agenda_item_id: current_item.id,
+          slide: current_slide,
           started_at: started_at_param
         ),
         poll_for_changes_interval_value: check_for_updates_interval
@@ -27,6 +28,7 @@
             container:,
             meeting_agenda_item: current_item,
             presentation_mode: true,
+            slide: current_slide,
             started_at: @started_at
           ) %>
     <% end %>
@@ -36,6 +38,7 @@
         meeting: meeting,
         sorted_agenda_item_ids: @agenda_item_ids,
         current_item: current_item,
+        current_slide: current_slide,
         started_at: @started_at
       ) %>
 <% end %>

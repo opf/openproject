@@ -84,7 +84,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
       .form
       .post({})
       .subscribe((form:FormResource) => {
-        this.availableTypes = form.schema.type.allowedValues;
+        this.availableTypes = form.schema.type!.allowedValues as TypeResource[];
         this.cdRef.detectChanges();
       });
   }

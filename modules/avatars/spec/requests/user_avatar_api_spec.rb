@@ -54,15 +54,6 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       get api_v3_paths.user(other_user.id) + "/avatar"
     end
 
-    context "with neither enabled" do
-      let(:gravatars) { false }
-      let(:local_avatars) { false }
-
-      it "renders a 404" do
-        expect(response).to have_http_status :not_found
-      end
-    end
-
     shared_examples_for "cache headers set to 24 hours" do
       it "has the cache headers set to 24 hours" do
         expect(response.headers["Cache-Control"]).to eq "public, max-age=86400"
@@ -75,6 +66,19 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       end
     end
 
+    context "with neither enabled" do
+      let(:gravatars) { false }
+      let(:local_avatars) { false }
+
+      it "renders a generated initials SVG instead of a 404" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include("<svg")
+      end
+
+      it_behaves_like "cache headers set to 24 hours"
+    end
+
     context "when gravatar enabled" do
       let(:gravatars) { true }
       let(:local_avatars) { false }
@@ -82,6 +86,28 @@ RSpec.describe "API v3 User avatar resource", content_type: :json do
       it "redirects to gravatar" do
         expect(response).to have_http_status :found
         expect(response.location).to match /gravatar\.com/
+      end
+
+      it_behaves_like "cache headers set to 24 hours"
+    end
+
+    context "with fallback=true" do
+      let(:gravatars) { true }
+      let(:local_avatars) { true }
+      let(:other_user) do
+        u = create(:user)
+        u.attachments = [build(:avatar_attachment, author: u)]
+        u
+      end
+
+      before do
+        get "#{api_v3_paths.user(other_user.id)}/avatar?fallback=true"
+      end
+
+      it "renders the generated initials SVG directly, skipping the local avatar and gravatar" do
+        expect(response).to have_http_status :ok
+        expect(response.content_type).to eq "image/svg+xml"
+        expect(response.body).to include("<svg")
       end
 
       it_behaves_like "cache headers set to 24 hours"

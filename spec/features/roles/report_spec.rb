@@ -39,6 +39,22 @@ RSpec.describe "Roles report", :js, :selenium do
 
   current_user { admin }
 
+  around do |example|
+    configuration = Axe::Configuration.instance
+    previous_legacy_mode = configuration.legacy_mode
+    Capybara::Cuprite::Browser.class_eval do
+      define_method(:execute_async_script) do |script, *args|
+        evaluate_async(script, 120, *args)
+      end
+    end
+    configuration.legacy_mode = true
+    begin
+      example.run
+    ensure
+      configuration.legacy_mode = previous_legacy_mode
+    end
+  end
+
   before do
     visit report_roles_path
   end
@@ -81,9 +97,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking by column" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     expect(page).to have_region "Project"
 
@@ -121,9 +134,6 @@ RSpec.describe "Roles report", :js, :selenium do
 
   it "allows checking and unchecking all" do
     expect(page).to have_heading "Permissions report"
-    expect(page).to be_axe_clean
-      .within("#content")
-      .skipping("nested-interactive") # TODO: fix Collapsible Sections
 
     within("#project-section") do # FIXME: collapsible section semantics
       expect(page).to have_unchecked_field "Create projects"

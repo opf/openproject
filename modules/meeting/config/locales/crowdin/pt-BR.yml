@@ -152,6 +152,10 @@ pt-BR:
     meeting_agenda_opened: Agenda da reunião aberta
     meeting_minutes: Ata da reunião editada
     meeting_minutes_created: Ata da reunião criada
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Adicionar à reunião
   label_add_work_package_to_meeting_dialog_title: Selecionar reunião
   label_add_work_package_to_meeting_section_label: Seção
@@ -160,6 +164,8 @@ pt-BR:
   label_agenda_backlog_clear_title: Limpar backlog da agenda?
   label_agenda_item_actions: Ações dos itens da agenda
   label_agenda_item_add: Adicionar item da agenda
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Adicionar anotações
   label_agenda_item_add_outcome: Adicionar resultado
   label_agenda_item_convert_to_work_package: Converter para pacote de trabalho
@@ -486,6 +492,7 @@ pt-BR:
       no_items: Sem itens na pauta
       no_items_flash: Não há itens na pauta para apresentar.
       previous: Anterior
+      slide_progress: Slide %{current}/%{total}
       title: Modo de apresentação
       total_items: "%{current} de %{total}"
     types:
@@ -698,6 +705,7 @@ pt-BR:
   text_agenda_item_duplicate_in_next_meeting: Tem certeza de que deseja adicionar uma cópia deste item da pauta à próxima reunião, em %{date} às %{time}? Os resultados não serão duplicados.
   text_agenda_item_duplicated_in_next_meeting: Item da pauta duplicado na próxima reunião, em %{date}
   text_agenda_item_move_next_meeting: Este item será transferido para a próxima reunião em %{date} às %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Item da pauta movido para a próxima reunião em %{date}
   text_agenda_item_no_available_occurrence: Não há ocorrências futuras disponíveis.
   text_agenda_item_no_notes: Nenhum comentário foi feito

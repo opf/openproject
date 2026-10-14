@@ -32,7 +32,13 @@ import * as path from 'node:path';
 const customConfigPlugin:Plugin = {
   name: 'custom-config',
   setup({ initialOptions: options }) {
-    if (options.chunkNames === '[name]-[hash]') { // named chunks
+    if (options.minifySyntax) {
+      // Primer elements use Catalyst which gets their tag names from their class names.
+      // Minification changes the class names and will break those imports.
+      options.keepNames = true;
+    } else if (options.chunkNames === '[name]-[hash]') {
+      // Do not use subdirectories in minified builds. The Angular chunk optimizer
+      // moves the chunks to the output root. Then their relative imports fail.
       options.chunkNames = '[dir]/[name]-[hash]';
     }
   },

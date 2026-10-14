@@ -55,13 +55,14 @@ module Pages::Messages
     end
 
     def reply(text)
+      previous_message_id = Message.maximum(:id)
       find(".ck-content").base.send_keys text
 
       click_button "Submit"
 
       expect(page).to have_css(".forum-message--comments", text:)
 
-      Message.last
+      latest_message_after(previous_message_id)
     end
 
     def quote(content:, quoted_message: nil, subject: nil)
@@ -73,7 +74,8 @@ module Pages::Messages
         page.find_test_selector("message-quote-button").click
       end
 
-      sleep 1
+      quoted_text = (quoted_message || Message.first).content
+      expect(page).to have_css("#reply .ck-content blockquote", text: quoted_text, wait: 20)
 
       scroll_to_element find(".ck-content")
       fill_in "reply_subject", with: subject if subject
@@ -84,13 +86,13 @@ module Pages::Messages
       # For some reason, capybara will click on
       # the button to add another attachment when being told to click on "Submit".
       # Therefor, submitting by enter key.
+      previous_message_id = Message.maximum(:id)
       subject_field = find_by_id("reply_subject")
       subject_field.native.send_keys(:return)
 
-      text = (quoted_message || Message.first).content
-      expect(page).to have_css(".forum-message--comments blockquote", text:)
+      expect(page).to have_css(".forum-message--comments blockquote", text: quoted_text)
 
-      Message.last
+      latest_message_after(previous_message_id)
     end
 
     def expect_reply(subject:, content:, reply: nil)
@@ -110,6 +112,12 @@ module Pages::Messages
 
     def click_save
       click_button "Save"
+    end
+
+    def latest_message_after(message_id)
+      page.document.synchronize(10) do
+        Message.where("id > ?", message_id).order(:id).last || raise(Capybara::ElementNotFound)
+      end
     end
 
     def path

@@ -399,6 +399,8 @@ uk:
         ongoing: Триває
         spent_on: Дата
         type: Тип
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Календар
         ical_token_query_assignment: Призначення запиту
@@ -466,6 +468,8 @@ uk:
         increase_contrast_caption: Вмикає високу контрастність для вибраного колірного режиму.
         increase_theme_contrast: Збільшити контрастність теми
         mode_guideline: Деякі режими перезаписують користувацькі кольори теми, щоб поліпшити доступність і читабельність. Виберіть світлий режим, якщо потрібна повна підтримка користувацької теми.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Колірний режим
         time_zone: Часовий пояс
         warn_on_leaving_unsaved: Попереджати мене, коли залишив робочий пакет із незбереженими змінами
@@ -5267,6 +5271,15 @@ uk:
           create_button: Створити
           dialog_body: За допомогою цього маркера сторонні додатки зможуть взаємодіяти з вашим екземпляром. Призначте  новому інтерфейсу API ім’я, щоб ідентифікувати його.
           dialog_title: Створити новий маркер API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            few: "%{count} days (%{date})"
+            many: "%{count} days (%{date})"
+            other: "%{count} days (%{date})"
           name_label: Ім’я маркера
       failed_to_create_token: 'Не вдалося створити маркер доступу: %{error}'
       failed_to_reset_token: 'Не вдалося відновити маркер доступу: %{error}'
@@ -5296,6 +5309,7 @@ uk:
     access_tokens:
       access_tokens: Маркери доступу
       description: Маркери постачальника послуг випускаються в OpenProject, що дає змогу іншим додаткам отримувати до них доступ. Клієнтські маркери випускаються іншими додатками, що дає змогу OpenProject отримати до них доступ.
+      expired_on: Expired on %{date}
       headers:
         action: Дія
         expiration: Закінчується

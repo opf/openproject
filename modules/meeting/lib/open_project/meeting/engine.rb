@@ -49,6 +49,7 @@ module OpenProject::Meeting
                                   presentation generate_pdf_dialog history project_items],
                      "meetings/filters": %i[show],
                      "meetings/menus": %i[show],
+                     meeting_agenda_item_votes: %i[create],
                      work_package_meetings_tab: %i[index count],
                      recurring_meetings: %i[index show new create download_ics]
                    },
@@ -69,7 +70,8 @@ module OpenProject::Meeting
         permission :edit_meetings,
                    {
                      meetings: %i[edit cancel_edit update update_title change_state change_sharing toggle_notifications_dialog
-                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode],
+                                  details_dialog update_details toggle_notifications exit_draft_mode_dialog exit_draft_mode
+                                  agenda_sorting_dialog update_agenda_sorting],
                      recurring_meetings: %i[edit cancel_edit update update_title details_dialog update_details
                                             notify end_series end_series_dialog],
                      work_package_meetings_tab: %i[add_work_package_to_meeting_dialog add_work_package_to_meeting refresh_form],
@@ -177,7 +179,8 @@ module OpenProject::Meeting
 
     activity_provider :meetings, class_name: "Activities::MeetingActivityProvider", default: false
 
-    patches %i[Project Journal]
+    patches %i[Project Journal WorkPackage]
+    patch_with_namespace :Principals, :DeleteJob
 
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],
@@ -207,6 +210,14 @@ module OpenProject::Meeting
 
       Journals::CreateService::Association.register(:AgendaItemable)
       Journals::CreateService::Association.register(:Participatable)
+      Journals::CreateService::Association.register(:Sectionable)
+      Journals::CreateService::Association.register(:Outcomable)
+    end
+
+    initializer "meetings.resource_colors" do
+      Rails.application.reloader.to_prepare do
+        ::Highlighting::Registry.register_static(key: "meeting_status", values: ::Meetings::Statuses::AVAILABLE)
+      end
     end
 
     add_api_path :meetings do
@@ -267,6 +278,14 @@ module OpenProject::Meeting
 
     add_api_path :meeting_agenda_item_outcomes do |agenda_item_id, meeting_id: nil|
       "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
+    end
+
+    add_api_path :meeting_agenda_item_upvote do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/upvote"
+    end
+
+    add_api_path :meeting_agenda_item_downvote do |id, meeting_id: nil|
+      "#{meeting_agenda_item(id, meeting_id:)}/downvote"
     end
 
     add_api_path :meeting_outcomes do
