@@ -92,7 +92,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
   describe "a skill with conditions" do
     let!(:bug_skill) do
       create(:ai_assistant_skill, :preset, assistant:, label: "Reproduce the bug", prompt: "Try it.",
-                                  conditions: { type_ids: [create(:type).id] })
+                                           conditions: { type_ids: [create(:type).id] })
     end
 
     it "is not listed on a work package that does not match" do
@@ -114,7 +114,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     let(:group) { create(:group) }
     let!(:group_skill) do
       create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "Team helper", principal: group),
-                                  first_message: "Summarize it.", checks: false, prompt: "Summarize it.")
+                                  checks: false, prompt: "Summarize it.")
     end
 
     it "is listed for the members of the group" do
@@ -139,7 +139,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
     let!(:personal_skill) do
       create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "My helper", principal: owner),
-                                  first_message: "Summarize it.", checks: false, prompt: "Summarize it.")
+                                  checks: false, prompt: "Summarize it.")
     end
 
     context "for its owner" do

@@ -48,23 +48,37 @@
       <% end %>
     <% else %>
       <%= render(Primer::Box.new(mb: 3, data: { test_selector: "ai-assistance-chat-answer", controller: (last ? "scroll-into-view" : nil) })) do %>
-        <% if message.pending? %>
-          <%= render(Primer::Beta::Text.new(color: :muted)) do %>
-            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= t("ai_assistance.chat.thinking") %>
-          <% end %>
-        <% elsif message.failed? %>
+        <% if message.failed? %>
           <%= render(Primer::Alpha::Banner.new(scheme: :danger)) { t("ai_assistance.chat.failed") } %>
-        <% else %>
+        <% elsif message.done? && message.content.present? %>
           <div class="op-uc-container"><%= helpers.format_text(message.content) %></div>
           <%= render(Primer::Beta::ClipboardCopyButton.new(id: "ai-assistance-copy-#{message.id}", value: message.content,
                                                            aria: { label: t("ai_assistance.chat.copy") },
                                                            scheme: :invisible, size: :small,
                                                            data: { test_selector: "ai-assistance-chat-copy" })) %>
-          <% message.proposals.each do |proposal| %>
-            <%= render(AI::Assistance::ProposalComponent.new(proposal:, apply_path: apply_path(proposal))) %>
-            <% if proposal.applied? %>
-              <%= render(Primer::Beta::Label.new(scheme: :success, mt: 1)) { t("ai_assistance.finding.applied") } %>
+        <% end %>
+        <% if message.proposals.any? %>
+          <%= render(Primer::Beta::BorderBox.new(mt: 2, data: { test_selector: "ai-assistance-proposals" })) do |box| %>
+            <% message.proposals.sort_by { |proposal| proposal_order(proposal) }.each do |proposal| %>
+              <% box.with_row { render(AI::Assistance::ProposalItemComponent.new(proposal:)) } %>
             <% end %>
+          <% end %>
+        <% elsif message.done? && message.content.blank? %>
+          <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, data: { test_selector: "ai-assistance-no-findings" })) do %>
+            <%= t("ai_assistance.run.no_findings") %>
+          <% end %>
+        <% end %>
+        <% if message.not_checked.any? %>
+          <%= render(Primer::Beta::Heading.new(tag: :h4, font_size: :normal, mt: 3, mb: 1)) { t("ai_assistance.run.not_checked") } %>
+          <ul class="mb-0 pl-3" data-test-selector="ai-assistance-not-checked">
+            <% not_checked(message).each do |line| %>
+              <li><%= render(Primer::Beta::Text.new(color: :muted)) { line } %></li>
+            <% end %>
+          </ul>
+        <% end %>
+        <% if message.pending? %>
+          <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2)) do %>
+            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= t("ai_assistance.chat.thinking") %>
           <% end %>
         <% end %>
         <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>

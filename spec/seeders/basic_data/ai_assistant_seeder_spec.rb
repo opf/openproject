@@ -47,10 +47,10 @@ RSpec.describe BasicData::AiAssistantSeeder do
         skills:
           - skill_key: conversation
             label: Refresh work package
-            first_message: Refresh it.
             checks: true
             prompt: Check it.
           - skill_key: conversation
+            answers_at_once: false
             proposal_scope: comment_only
     SEEDING_DATA_YAML
   end

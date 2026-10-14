@@ -46,12 +46,11 @@ module AI
     validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
 
-    # Sent when the user opens the skill. Without it, the skill opens an empty chat.
-    store_attribute :settings, :first_message, :string
+    # Opening the skill sends its label as the first message, and it answers at once.
+    # Without it, the skill opens an empty chat for the user's own questions.
+    store_attribute :settings, :answers_at_once, :boolean, default: true
     # The built-in consistency checks (rules), which run before the first answer.
     store_attribute :settings, :checks, :boolean, default: false
-
-    validates :first_message, length: { maximum: 2_000 }
 
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
@@ -87,14 +86,14 @@ module AI
       AI::AssistantSkills::Registry.fetch(skill_key)
     end
 
-    # Opens an empty chat instead of sending its first message.
+    # Opens an empty chat instead of answering at once.
     def chat?
-      first_message.blank?
+      !answers_at_once
     end
 
-    # Answered in a conversation. A skill with the built-in checks still answers in a run for now.
+    # Every skill answers in a conversation.
     def conversation?
-      !checks
+      true
     end
 
     # review, chat or preset: the default label, the description and the icon.
@@ -116,6 +115,14 @@ module AI
     # The built-in consistency checks that run before the AI answers.
     def rules
       checks && skill_type ? skill_type.rules : []
+    end
+
+    # Why the AI part cannot answer now, or nil.
+    def ai_review_blocker
+      if prompt.blank? then :no_prompt
+      elsif !LlmConnection.available? then :no_llm_connection
+      elsif assistant.effective_model_id.nil? then :no_model
+      end
     end
 
     # A skill without instructions is offered only when its checks run alone.

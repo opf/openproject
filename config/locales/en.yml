@@ -98,9 +98,9 @@ en:
         name: "Name"
       ai/assistant_skill:
         active: "Active"
+        answers_at_once: "Answer at once when opened"
         checks: "Run the built-in consistency checks first"
         description: "Description"
-        first_message: "First message"
         label: "Label"
         prompt: "System prompt"
         proposal_scope: "Proposals"
@@ -1539,6 +1539,7 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
+        answers_at_once_caption: "Opening the skill sends its label as the first message, and it answers at once. Off opens an empty chat for the user's own questions."
         checks_caption: "OpenProject's consistency rules run before the first answer, and their findings show at once. Such a skill is offered also without a system prompt."
         conditions:
           all: "All"
@@ -1563,7 +1564,6 @@ en:
         delete_confirm: "Delete this skill and every run of it?"
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
-        first_message_caption: "Sent when the user opens the skill, so it answers at once. Empty opens an empty chat for the user's own questions."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         no_prompt: "No system prompt: rules only"
         no_prompt_not_offered: "No system prompt: not offered"

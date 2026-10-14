@@ -39,18 +39,18 @@ FactoryBot.define do
   factory :ai_assistant_skill, class: "AI::AssistantSkill" do
     assistant { association :ai_assistant }
     skill_key { "conversation" }
-    first_message { "Refresh this work package." }
+    answers_at_once { true }
     checks { true }
     prompt { "Check the work package for contradictions." }
     sequence(:position)
 
     trait :chat do
-      first_message { nil }
+      answers_at_once { false }
       checks { false }
     end
 
     trait :preset do
-      first_message { "Write a test plan." }
+      answers_at_once { true }
       checks { false }
     end
   end

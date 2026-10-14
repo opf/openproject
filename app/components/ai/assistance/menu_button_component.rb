@@ -53,13 +53,14 @@ module AI
         url_helpers.work_package_ai_assistance_runs_path(work_package)
       end
 
-      # A chat opens its dialog; a custom prompt starts a conversation; other skills start a run.
+      # A skill without a first message opens its chat; any other starts a new conversation
+      # with that message.
       def item_arguments(skill)
         if skill.chat?
           { href: url_helpers.work_package_ai_assistance_chat_path(work_package, skill_id: skill.id),
             content_arguments: { data: { controller: "async-dialog", turbo_stream: true } } }
         else
-          { href: skill.conversation? ? url_helpers.start_work_package_ai_assistance_chat_path(work_package) : runs_path,
+          { href: url_helpers.start_work_package_ai_assistance_chat_path(work_package),
             form_arguments: { method: :post, inputs: [{ name: "skill_id", value: skill.id }] } }
         end
       end

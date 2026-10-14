@@ -49,10 +49,13 @@ module AI
         chat.fail_stale_answers!
         return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.pending")) if chat.pending?
 
+        first_answer = chat.messages.none?
         answer = AI::AssistantChat.transaction do
           chat.messages.create!(role: "user", content: content.truncate(MAX_LENGTH))
           chat.messages.create!(role: "assistant", status: "pending", locale: I18n.locale.to_s,
-                                base_lock_version: chat.work_package.reload.lock_version)
+                                base_lock_version: chat.work_package.reload.lock_version).tap do |message|
+            RunChecks.new(message).call if first_answer && chat.skill.checks
+          end
         end
         ReplyJob.perform_later(answer.id)
         ServiceResult.success(result: answer)

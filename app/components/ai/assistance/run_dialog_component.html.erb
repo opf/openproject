@@ -42,13 +42,6 @@
       <% button.with_leading_visual_icon(icon: :history) %>
       <%= t("ai_assistance.history.title") %>
     <% end %>
-    <%= primer_form_with(url: runs_path, method: :post) do %>
-      <%= hidden_field_tag :skill_id, run.skill_id %>
-      <%= render(Primer::Beta::Button.new(type: :submit, data: { test_selector: "ai-assistance-run-again" })) do |button| %>
-        <% button.with_leading_visual_icon(icon: :sync) %>
-        <%= t("ai_assistance.run.run_again") %>
-      <% end %>
-    <% end %>
     <%= render(Primer::Beta::Button.new(data: { close_dialog_id: DIALOG_ID })) { t(:button_close) } %>
   <% end %>
 <% end %>

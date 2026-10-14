@@ -33,8 +33,8 @@ module AI
     # Answers the latest message of a conversation, as the conversation's user. Every answer
     # is text with 0..n proposals (AI::Assistance::AnswerFormat).
     #
-    # The first answer of a skill with the built-in checks runs the rules first, and the
-    # model gets the rule findings instead of the earlier turns. If its AI part cannot run or
+    # The first answer of a skill with the built-in checks already holds the rule findings
+    # (RunChecks), and the model gets them instead of the earlier turns. If its AI part cannot run or
     # fails, the rule findings stay and "Not checked" says why. Any other failure marks the
     # answer as failed.
     class Reply
@@ -69,11 +69,11 @@ module AI
         skill.checks && chat.messages.where(role: "assistant").where(id: ...message.id).none?
       end
 
-      # -- The first answer with the built-in checks ----------------------------------------
+      # -- The first answer with the built-in checks -----------------------------------------
 
       def answer_with_checks
-        rule_texts = run_rules
-        blocker = review_blocker
+        rule_texts = message.proposals.select(&:rule?).map(&:text)
+        blocker = skill.ai_review_blocker
         return finish(nil, not_checked: blocker) if blocker
 
         answer = ask_with_rule_findings(rule_texts)
@@ -90,25 +90,6 @@ module AI
       rescue StandardError => e
         llm_call.record_failure(e)
         nil
-      end
-
-      # The rule findings are stored at once, so the dialog shows them while the AI answers.
-      def run_rules
-        context = skill.skill_type.build_context(work_package:, user:)
-        findings = skill.rules.flat_map { |rule| rule.call(context) }
-        findings.each_with_index do |finding, index|
-          message.proposals.create!(finding.merge(position: index, base_lock_version: message.base_lock_version))
-        end
-        message.update!(not_checked: context.not_checked)
-        message.log_event(:rules, findings: findings.size, review: review_blocker ? "skipped" : "started")
-        findings.pluck(:text)
-      end
-
-      def review_blocker
-        if skill.prompt.blank? then :no_prompt
-        elsif !LlmConnection.available? then :no_llm_connection
-        elsif model_id.nil? then :no_model
-        end
       end
 
       # -- Every other answer ---------------------------------------------------------------

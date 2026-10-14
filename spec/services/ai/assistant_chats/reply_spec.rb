@@ -61,11 +61,13 @@ RSpec.describe AI::AssistantChats::Reply do
   end
 
   def ask(content)
-    chat.messages.create!(role: "user", content:)
-    answer_message = chat.messages.create!(role: "assistant", status: "pending", locale: "de",
-                                           base_lock_version: work_package.reload.lock_version)
-    User.execute_as(user) { described_class.new(answer_message).call }
-    answer_message.reload
+    User.execute_as(user) do
+      I18n.with_locale(:de) do
+        answer_message = AI::AssistantChats::SendMessageService.new(chat: chat.reload, user:).call(content).result
+        described_class.new(answer_message).call
+        answer_message.reload
+      end
+    end
   end
 
   describe "the first answer of a skill with the built-in checks" do

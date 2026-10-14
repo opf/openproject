@@ -53,14 +53,4 @@ class WorkPackages::AIAssistance::RunsController < ApplicationController
     render turbo_stream: AI::Assistance::RunComponent.new(run: @run)
                                                       .render_as_turbo_stream(view_context:, action: :replace)
   end
-
-  def create
-    skill = offered_skill(params[:skill_id], conversation: false)
-    return render_404 unless skill
-
-    call = AI::AssistantRuns::RunService.new(skill:, work_package: @work_package, user: current_user).call
-    return respond_with_failure(call) if call.failure?
-
-    respond_with_wp_dialog AI::Assistance::RunDialogComponent.new(run: call.result)
-  end
 end

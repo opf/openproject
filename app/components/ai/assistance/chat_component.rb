@@ -59,8 +59,17 @@ module AI
         pending? ? poll_data(url_helpers.poll_work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)) : {}
       end
 
-      def apply_path(proposal)
-        url_helpers.apply_proposal_work_package_ai_assistance_chat_path(work_package, proposal_id: proposal.id)
+      # Findings first, by severity, then plain proposals, in the answer's order.
+      def proposal_order(proposal)
+        [AI::Assistance::AnswerFormat::SEVERITIES.index(proposal.severity) || AI::Assistance::AnswerFormat::SEVERITIES.size,
+         proposal.position, proposal.id]
+      end
+
+      def not_checked(message)
+        message.not_checked.map do |entry|
+          I18n.t("ai_assistance.not_checked.#{entry['reason']}",
+                 default: I18n.t("ai_assistance.not_checked.default", area: entry["area"]))
+        end
       end
 
       def read_only?

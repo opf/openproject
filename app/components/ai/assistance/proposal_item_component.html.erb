@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(data: { test_selector: "ai-assistance-proposal" }) do %>
+  <%= flex_layout(align_items: :flex_start) do |row| %>
+    <% row.with_column(flex: 1) do %>
+      <% if proposal.finding? %>
+        <%= render(Primer::Beta::Label.new(scheme: severity_scheme, mr: 2)) { severity_label } %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { area_label } %>
+      <% end %>
+      <% if proposal.text.present? %>
+        <%= render(Primer::Beta::Text.new(tag: :p, mt: proposal.finding? ? 1 : 0, mb: 1, color: text_color)) { proposal.text } %>
+      <% end %>
+      <% if proposal.evidence.any? %>
+        <ul class="mb-0 pl-3" data-test-selector="ai-assistance-evidence">
+          <% proposal.evidence.each do |item| %>
+            <li>
+              <% if evidence_href(item) %>
+                <%= render(Primer::Beta::Link.new(**evidence_link_arguments(item))) { item["text"] } %>
+              <% else %>
+                <%= render(Primer::Beta::Text.new(color: :muted)) { item["text"] } %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+      <%= render(AI::Assistance::ProposalComponent.new(proposal:, apply_path:)) %>
+    <% end %>
+    <% row.with_column do %>
+      <% if proposal.open? %>
+        <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu| %>
+          <% menu.with_show_button(size: :small, scheme: :invisible, data: { test_selector: "ai-assistance-dismiss" }) do |button| %>
+            <% button.with_trailing_action_icon(icon: :"triangle-down") %>
+            <%= t("ai_assistance.finding.dismiss") %>
+          <% end %>
+          <% menu.with_item(label: t("ai_assistance.finding.dismiss"), href: dismiss_path, form_arguments: { method: :post }) %>
+          <% menu.with_divider %>
+          <% dismiss_reasons.each do |reason| %>
+            <% menu.with_item(label: t("ai_assistance.finding.dismiss_reasons.#{reason}"), href: dismiss_path(reason), form_arguments: { method: :post }) %>
+          <% end %>
+        <% end %>
+      <% elsif proposal.dismissed? %>
+        <%= render(Primer::Beta::Label.new(scheme: :secondary)) { t("ai_assistance.finding.dismissed") } %>
+      <% elsif proposal.applied? %>
+        <%= render(Primer::Beta::Label.new(scheme: :success)) { t("ai_assistance.finding.applied") } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

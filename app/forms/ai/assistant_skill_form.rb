@@ -41,8 +41,8 @@ module AI
                     caption: I18n.t("admin.ai_assistants.skills.description_caption"),
                     placeholder: model.display_description)
 
-        g.text_field(name: :first_message, label: AI::AssistantSkill.human_attribute_name(:first_message),
-                     input_width: :large, caption: I18n.t("admin.ai_assistants.skills.first_message_caption"))
+        g.check_box(name: :answers_at_once, label: AI::AssistantSkill.human_attribute_name(:answers_at_once),
+                    caption: I18n.t("admin.ai_assistants.skills.answers_at_once_caption"))
 
         g.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))
       end

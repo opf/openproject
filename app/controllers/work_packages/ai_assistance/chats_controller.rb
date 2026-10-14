@@ -34,7 +34,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
 
   before_action :find_skill, only: %i[create start]
   before_action :find_chat, only: %i[show send_message poll]
-  before_action :find_proposal, only: %i[apply]
+  before_action :find_proposal, only: %i[apply dismiss]
 
   # Opens the user's latest chat of this skill about this work package, or an empty one.
   def show
@@ -47,10 +47,10 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     replace_chat
   end
 
-  # A new conversation that starts with the skill's first message.
+  # A new conversation whose first message is the skill's label, answered at once.
   def start
     @chat = new_chat
-    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.first_message)
+    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
     return respond_with_failure(call) if call.failure?
 
     respond_with_wp_dialog chat_dialog
@@ -74,6 +74,13 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   def apply
     call = apply_proposal(@proposal)
     render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+    replace_chat
+  end
+
+  # With an optional reason: wrong, not relevant or already known.
+  def dismiss
+    reason = params.fetch(:reason, nil).presence_in(AI::AssistantProposal.dismiss_reasons.keys)
+    @proposal.update!(state: "dismissed", dismiss_reason: reason) if @proposal.open?
     replace_chat
   end
 
