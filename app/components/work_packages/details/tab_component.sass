@@ -1,21 +1,48 @@
+@property --tab-component-fade-left-size
+  syntax: "<length>"
+  inherits: false
+  initial-value: 0px
+
+@property --tab-component-fade-right-size
+  syntax: "<length>"
+  inherits: false
+  initial-value: 0px
+
+@keyframes tab-component-fade-left
+  from
+    --tab-component-fade-left-size: 0px
+  to
+    --tab-component-fade-left-size: var(--tab-component-fade-max-size)
+
+@keyframes tab-component-fade-right
+  from
+    --tab-component-fade-right-size: var(--tab-component-fade-max-size)
+  to
+    --tab-component-fade-right-size: 0px
+
 .op-work-package-details-tab-component
-  --tab-component-gradient-color: #fff
-  --tab-component-gradient-width: 12px
+  --tab-component-fade-max-size: 50px
 
   align-items: flex-start
 
   &--tabs
     overflow: hidden
-    margin-inline: calc(-1 * var(--tab-component-gradient-width))
 
-    > *
-      padding-inline: var(--tab-component-gradient-width)
+    @supports (animation-timeline: scroll())
+      // This is breaking the encapsulation of the UnderlinedNav component
+      // Ideally, this CSS would be applied to a variant of that component
+      // that we render in the view. Then remove the CSS from here.
+      border-block-end: 1px solid var(--borderColor-muted)
+
+      > *
+        margin-block-end: -1px
+        mask-image: linear-gradient(to right, transparent,#000 var(--tab-component-fade-left-size),#000 calc(100% - var(--tab-component-fade-right-size)), transparent)
+        animation: tab-component-fade-left linear both, tab-component-fade-right linear both
+        animation-timeline: scroll(self inline), scroll(self inline)
+        animation-range: 0 var(var(--tab-component-fade-max-size)), calc(100% - var(var(--tab-component-fade-max-size))) 100%
 
   &--action
     padding-block-start: 8px
-    position: relative
-    z-index: 20
-    background: var(--tab-component-gradient-color)
 
     // This is one of the ugliest hacks I ever had to write. Please remove that as soon as the actions are part of the Splitscreen header
     padding-block-end: 7px
@@ -23,10 +50,6 @@
 
     &:first-of-type
       padding-inline-start: 5px
-      background: linear-gradient(to right, var(--tab-component-gradient-color) 0%, var(--tab-component-gradient-color) calc(100% - var(--tab-component-gradient-width)), transparent 100%)
-
-    &:nth-of-type(3)
-      background: linear-gradient(to right, transparent 0%, var(--tab-component-gradient-color) var(--tab-component-gradient-width), var(--tab-component-gradient-color) 100%)
 
     &:last-of-type
       padding-inline-end: 10px
