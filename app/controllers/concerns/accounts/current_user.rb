@@ -52,15 +52,12 @@ module Accounts::CurrentUser
     return if performed?
     return unless current_user.admin?
 
-    current_user.admin_elevation =
-      if session_authenticated_admin?
-        Users::AdminElevation.for_session(current_user, session.id.private_id)
-      else
-        # Admins authenticated in any other way (API key, RSS key) are elevated everywhere for now,
-        # so that integrations keep working. This will be handled once tokens can carry their own
-        # elevation, e.g. through a sudo scope.
-        Users::AdminElevation.everywhere
-      end
+    # Authentication other than the session sets the elevation on the user it authenticates.
+    if session_authenticated_admin?
+      current_user.admin_elevation = Users::AdminElevation.for_session(current_user, session.id.private_id)
+    end
+
+    RequestStore[:admin_elevations] = { current_user.id => current_user.admin_elevation }
   end
 
   def record_admin_elevation_usage
@@ -135,20 +132,29 @@ module Accounts::CurrentUser
   def current_rss_key_user
     if params[:format] == "atom" && params[:key] && accept_rss_key_auth_actions.include?(action_name)
       # RSS key authentication does not start a session
-      User.find_by_rss_key(params[:key])
+      Users::Authentication.find_user_by_rss_key(params[:key])
     end
   end
 
   def current_api_key_user
+<<<<<<< HEAD
     return unless Setting.api_tokens_enabled? && api_key_auth_format?
+||||||| parent of b6fdb26ab2 (Enforce scopes and correctly assign elevation)
+    return unless Setting.api_tokens_enabled? && api_request?
+=======
+    return unless api_request?
+>>>>>>> b6fdb26ab2 (Enforce scopes and correctly assign elevation)
 
     key = api_key_from_request
+<<<<<<< HEAD
     return unless key && accept_api_key_auth_actions.include?(action_name)
+||||||| parent of b6fdb26ab2 (Enforce scopes and correctly assign elevation)
+=======
+    scope = api_key_auth_scopes[action_name]
+    return unless key && scope
+>>>>>>> b6fdb26ab2 (Enforce scopes and correctly assign elevation)
 
-    if key && accept_api_key_auth_actions.include?(action_name)
-      # Use API key
-      User.find_by_api_key(key)
-    end
+    Users::Authentication.find_user_by_api_key(key, scope:)
   end
 
   # Sets the logged in user
