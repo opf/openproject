@@ -1,11 +1,12 @@
-<% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
 const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
+
+<% if OpenProject::FeatureDecisions.progressive_web_app_active? %>
 const CACHE_NAME = <%== pwa_cache_name.to_json %>;
 const OFFLINE_URL = <%== pwa_offline_path.to_json %>;
 
 // A failed install keeps the previous worker, so a gateway answering with its own page never gets cached.
 const precacheOfflinePage = async () => {
-  const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit" }));
+  const response = await fetch(new Request(OFFLINE_URL, { credentials: "omit", cache: "reload" }));
   if (!response.ok || response.redirected) throw new Error("Offline page unavailable");
 
   const cache = await caches.open(CACHE_NAME);
@@ -49,8 +50,6 @@ self.addEventListener("fetch", (event) => {
   );
 });
 <% else %>
-const CACHE_PREFIX = <%== pwa_cache_prefix.to_json %>;
-
 self.addEventListener("install", (event) => {
   event.waitUntil(self.skipWaiting());
 });
