@@ -70,6 +70,7 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
 
   context "with credentials other than a session", with_settings: { web_push_enabled: true } do
     let(:password) { "Sup3rS3cret!pass" }
+    let(:json_headers) { { "Accept" => "application/json" } }
     let(:password_user) { create(:user, password:, password_confirmation: password) }
 
     it "answers 401 for a valid API key" do
@@ -84,6 +85,35 @@ RSpec.describe "PWA push notification", type: :rails_request, with_flag: { progr
     it "answers 401 for HTTP Basic user credentials" do
       get "/push-notification",
           headers: { "Authorization" => ActionController::HttpAuthentication::Basic.encode_credentials(password_user.login, password) }
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+
+  context "with a signed-in browser session", :skip_csrf,
+          with_settings: { web_push_enabled: true, session_ttl_enabled?: true, session_ttl: "120" } do
+    let(:password) { "Sup3rS3cret!pass" }
+    let(:password_user) { create(:user, password:, password_confirmation: password) }
+    let(:json_headers) { { "Accept" => "application/json" } }
+
+    before do
+      host! Setting.host_name
+      post "/login", params: { username: password_user.login, password: }
+      follow_redirect! while response.redirect?
+      get "/push-notification", headers: json_headers
+    end
+
+    it "does not extend the session on wake-ups" do
+      last_seen = request.session[:updated_at]
+
+      travel_to(10.minutes.from_now) { get "/push-notification", headers: json_headers }
+
+      expect(response).to have_http_status(:ok)
+      expect(request.session[:updated_at]).to eq(last_seen)
+    end
+
+    it "answers 401 instead of redirecting once the session has idled past its lifetime" do
+      travel_to(3.hours.from_now) { get "/push-notification", headers: json_headers }
 
       expect(response).to have_http_status(:unauthorized)
     end

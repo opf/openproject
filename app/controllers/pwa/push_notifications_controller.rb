@@ -41,6 +41,13 @@ module Pwa
 
     private
 
+    def check_session_lifetime
+      return unless current_user.logged? && session_ttl_expired?
+
+      self.logged_user = nil
+      head :unauthorized
+    end
+
     def require_web_push
       render_404 unless OpenProject::WebPush.enabled?
     end
