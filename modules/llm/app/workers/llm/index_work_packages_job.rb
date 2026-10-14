@@ -29,18 +29,33 @@
 #++
 
 module Llm
-  # Enqueues EmbedWorkPackagesJob for every work package in the instance.
-  #
-  # Triggered from the admin UI (not a cron). Also used for re-indexing after
-  # a model change: clear LlmFeatureBinding#locked_at first, then run this job.
   class IndexWorkPackagesJob < ApplicationJob
+    include GoodJob::ActiveJobExtensions::Batches
+
+    BATCH_DESCRIPTION = name
+
     queue_with_priority :low
+
+    def self.enqueue_batch
+      GoodJob::Batch.enqueue(description: BATCH_DESCRIPTION) { perform_later }
+    end
+
+    def self.latest_batch
+      GoodJob::BatchRecord.where(description: BATCH_DESCRIPTION).order(created_at: :desc).first
+    end
+
+    def self.running?
+      batch = latest_batch
+      batch.present? && !batch.finished?
+    end
 
     def perform
       return unless OpenProject::FeatureDecisions.semantic_search_active?
 
-      WorkPackage.find_in_batches(batch_size: 100) do |batch|
-        Llm::EmbedWorkPackagesJob.perform_later(batch.map(&:id))
+      batch.add do
+        WorkPackage.find_in_batches(batch_size: 100) do |work_packages|
+          Llm::EmbedWorkPackagesJob.perform_later(work_packages.map(&:id))
+        end
       end
     end
   end

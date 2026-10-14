@@ -62,6 +62,7 @@ Rails.application.routes.draw do
     resources :work_package_embeddings, only: [], controller: "admin/work_package_embeddings" do
       collection do
         post :reindex
+        get :status
       end
     end
   end

@@ -129,8 +129,17 @@ en:
         success: "The model for %{feature} has been saved."
     work_package_embeddings:
       reindex:
+        already_running: "A re-index is already running. Wait for it to finish before starting another one."
         button: "Re-index work packages"
         enqueued: "Work package indexing has been enqueued. Embeddings will be updated in the background."
+      status:
+        failed:
+          one: "1 request failed."
+          other: "%{count} requests failed."
+        state:
+          failed: "Re-index failed"
+          running: "Re-index running"
+          succeeded: "Re-index finished"
     llm_health_status:
       create:
         success: "The checks have run: %{passed} passed, %{warnings} warnings, %{failures} failed."

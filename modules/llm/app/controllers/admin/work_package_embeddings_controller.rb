@@ -30,15 +30,27 @@
 
 module Admin
   class WorkPackageEmbeddingsController < ApplicationController
+    include OpTurbo::ComponentStream
+
     layout "admin"
 
     before_action :require_admin
     before_action :require_feature
 
     def reindex
-      Llm::IndexWorkPackagesJob.perform_later
-      flash[:notice] = t("admin.work_package_embeddings.reindex.enqueued")
+      if Llm::IndexWorkPackagesJob.running?
+        flash[:warning] = t(".already_running")
+      else
+        Llm::IndexWorkPackagesJob.enqueue_batch
+        flash[:notice] = t(".enqueued")
+      end
+
       redirect_to llm_feature_bindings_path, status: :see_other
+    end
+
+    def status
+      replace_via_turbo_stream(component: LlmConnections::IndexingStatusComponent.new)
+      respond_with_turbo_streams
     end
 
     private
