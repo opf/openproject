@@ -37,7 +37,7 @@ RSpec.describe "Authentication with an API key",
   let(:token) { create(:api_token, user:) }
   let(:api_key) { token.plain_value }
 
-  shared_examples "an API key authentication path" do |required_scope:|
+  shared_examples "an API key authentication path" do |required_scope:, missing_scope_status: :unauthorized|
     it "authenticates with a valid API key" do
       send_request
 
@@ -57,7 +57,7 @@ RSpec.describe "Authentication with an API key",
 
       send_request
 
-      expect(last_response).to have_http_status(:unauthorized)
+      expect(last_response).to have_http_status(missing_scope_status)
     end
 
     it "rejects an API key of a locked user" do
@@ -86,7 +86,7 @@ RSpec.describe "Authentication with an API key",
         get "/api/v3/users/me"
       end
 
-      it_behaves_like "an API key authentication path", required_scope: "api_v3"
+      it_behaves_like "an API key authentication path", required_scope: "api_v3", missing_scope_status: :forbidden
     end
 
     context "with the API key via Basic auth" do
