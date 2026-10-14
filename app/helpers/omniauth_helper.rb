@@ -51,10 +51,19 @@ module OmniauthHelper
                                     classes: "auth-provider auth-provider-#{name}",
                                     data: { turbo: false })) do
       label = tag.span(provider_button_label(name, display_name), class: "auth-provider-name")
-      parts = icon.present? ? [image_tag(icon, alt: "", class: "auth-provider-icon"), label] : [label]
+      parts = [provider_icon_tag(name, icon), label].compact
 
       render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center, gap: :condensed)) { safe_join(parts) }
     end
+  end
+
+  def provider_icon_tag(name, icon)
+    return if icon.blank?
+
+    image_tag(icon, alt: "", class: "auth-provider-icon")
+  rescue Sprockets::Rails::Helper::AssetNotFound
+    Rails.logger.warn { "Skipping unresolvable icon #{icon.inspect} of omniauth provider #{name}." }
+    nil
   end
 
   ##

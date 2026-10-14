@@ -64,6 +64,21 @@ RSpec.describe "rendering the login buttons for all providers" do
     expect(rendered).to have_link(href: "/login/omniauth/mock_auth")
   end
 
+  context "with an icon that cannot be resolved" do
+    let(:providers) do
+      [
+        { name: "mock_auth" },
+        { name: "foob_auth", display_name: "Foobar", icon: "there-is-no-such-asset.png" }
+      ]
+    end
+
+    it "still renders every provider button, without the icon" do
+      expect(rendered).to have_link(text: "Continue with Foobar")
+      expect(rendered).to have_link(text: "Continue with mock_auth")
+      expect(rendered).to have_no_css("img")
+    end
+  end
+
   context "with relative url root", with_config: { rails_relative_url_root: "/foobar" } do
     it "renders correctly" do
       expect(rendered).to include "/foobar/login/omniauth/mock_auth"
