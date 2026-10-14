@@ -53,7 +53,10 @@ module OmniauthHelper
       label = tag.span(provider_button_label(name, display_name), class: "auth-provider-name")
       parts = [provider_icon_tag(name, icon), label].compact
 
-      render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center, gap: :condensed)) { safe_join(parts) }
+      render(Primer::Alpha::Stack.new(tag: :span,
+                                      direction: :horizontal,
+                                      align: :center,
+                                      gap: :condensed)) { safe_join(parts) }
     end
   end
 

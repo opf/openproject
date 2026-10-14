@@ -60,6 +60,10 @@ RSpec.describe "rendering the login buttons for all providers" do
     expect(rendered).to have_no_css("a.auth-provider-mock_auth img")
   end
 
+  it "keeps the button content free of block level elements" do
+    expect(rendered).to have_no_css("a.auth-provider div")
+  end
+
   it "links to the OmniAuth start form" do
     expect(rendered).to have_link(href: "/login/omniauth/mock_auth")
   end
