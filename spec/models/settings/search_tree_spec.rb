@@ -35,8 +35,11 @@ RSpec.describe Settings::SearchTree do
   shared_let(:admin) { create(:admin) }
 
   let(:hidden_menu_items) { [] }
+  let(:query) { nil }
 
-  subject(:tree) { described_class.new(vc_test_controller.view_context, hidden_menu_items:) }
+  subject(:tree) { described_class.new(vc_test_controller.view_context, query:, hidden_menu_items:) }
+
+  def leaf_labels(nodes) = nodes.flat_map { it.children.empty? ? [it.label] : leaf_labels(it.children) }
 
   def find_node(nodes, *labels)
     labels.reduce(nil) do |node, label|
@@ -93,6 +96,46 @@ RSpec.describe Settings::SearchTree do
         node = find_node(tree.nodes, "Work packages", "Versions and categories", "Multiple target versions")
 
         expect(node.href).to eq "/admin/settings/versions_and_categories?highlight=work_package_multiple_versions"
+      end
+    end
+
+    context "with a query" do
+      let(:query) { "registration self" }
+
+      it "keeps only matching settings regardless of word order and punctuation" do
+        expect(leaf_labels(tree.nodes)).to eq ["Self-registration"]
+      end
+    end
+
+    context "with a query matching a tab" do
+      let(:query) { "passwords" }
+
+      it "keeps all settings below it" do
+        expect(leaf_labels(tree.nodes)).to include("Minimum length", "Enable password reset")
+      end
+    end
+
+    context "with a query matching a tab and a setting" do
+      let(:query) { "passwords minimum" }
+
+      it "keeps only that setting" do
+        expect(leaf_labels(tree.nodes)).to eq ["Minimum length"]
+      end
+    end
+
+    context "with a query matching a description" do
+      let(:query) { "comma separated" }
+
+      it "keeps the described settings" do
+        expect(leaf_labels(tree.nodes)).to include("Objects per page options")
+      end
+    end
+
+    context "with a query matching nothing" do
+      let(:query) { "xyzzy" }
+
+      it "is empty" do
+        expect(tree.nodes).to be_empty
       end
     end
 

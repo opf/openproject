@@ -2186,6 +2186,10 @@ en:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         success_banner: Successfully updated work package identifier format.
+    settings_search:
+      filter_placeholder: "Search by name or description"
+      no_results: "No settings found"
+      title: "Search settings"
     text_transform_actions:
       delete_dialog_component:
         description: "Users will no longer be able to run this action in the rich text editor."
