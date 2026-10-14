@@ -20,7 +20,7 @@ Unauthenticated:
 - OAuth 2 provider (Doorkeeper): `config/initializers/doorkeeper.rb`, `app/controllers/oauth/`.
 - Incoming webhooks: `modules/webhooks/app/controllers/webhooks/incoming/`, with signature checks in
   `modules/github_integration/` and `modules/gitlab_integration/`.
-- Token feeds: iCal (`modules/calendar/`, `modules/meeting/`) and Atom with `?key=` (`accept_key_auth` in
+- Token feeds: iCal (`modules/calendar/`, `modules/meeting/`) and Atom with `?key=` (`accept_rss_key_auth` in
   `app/controllers/application_controller.rb`).
 - SCM system API: `app/controllers/sys_controller.rb`.
 - Incoming email: `app/services/incoming_emails/`.
