@@ -177,6 +177,47 @@ RSpec.describe API::V3::Notifications::NotificationRepresenter, "rendering" do
                 .at_path("_embedded/resource/_type")
       end
     end
+
+    context "for a document" do
+      let(:resource) { build_stubbed(:document, project:) }
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "resource" }
+        let(:title) { resource.title }
+        let(:href) { api_v3_paths.document resource.id }
+      end
+
+      it_behaves_like "has a titled link" do
+        let(:link) { "project" }
+        let(:href) { api_v3_paths.project project.id }
+        let(:title) { project.name }
+      end
+
+      it_behaves_like "has no link" do
+        let(:link) { "activity" }
+      end
+
+      context "when embedding is true" do
+        let(:embed_links) { true }
+
+        it_behaves_like "has a titled link" do
+          let(:link) { "resource" }
+          let(:title) { resource.title }
+          let(:href) { api_v3_paths.document resource.id }
+        end
+
+        it "does not embed the resource" do
+          expect(generated)
+            .not_to have_json_path("_embedded/resource")
+        end
+
+        it "embeds the project" do
+          expect(generated)
+            .to be_json_eql(project.name.to_json)
+                  .at_path("_embedded/project/name")
+        end
+      end
+    end
   end
 
   describe "actor" do

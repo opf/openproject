@@ -29,7 +29,10 @@
 module API
   module Decorators
     module PolymorphicResource
-      # Dynamically derive a linked resource from the given polymorphic resource
+      # Dynamically derive a linked resource from the given polymorphic resource.
+      #
+      # The `link_title_attribute` is either the name of the attribute providing the link's title
+      # or a callable returning that name for the resource at hand.
       def polymorphic_resource(name,
                                as: nil,
                                skip_render: ->(*) { false },
@@ -88,7 +91,7 @@ module API
             .new(represented,
                  path: path_name,
                  property_name: name,
-                 title_attribute:,
+                 title_attribute: title_attribute.respond_to?(:call) ? title_attribute.call(resource) : title_attribute,
                  getter: :"#{name}_id")
             .to_hash
         end
