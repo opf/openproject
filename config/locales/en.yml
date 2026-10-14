@@ -6312,6 +6312,7 @@ en:
     Protocols %{http_code}, %{https_code}, and %{mailto_code} are always allowed.
   setting_antivirus_scan_action: "Infected file action"
   setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_target: "ClamAV socket or host"
   setting_api_tokens_enabled: "Enable API tokens"
   setting_api_tokens_enabled_caption: >
     Decide whether users can create personal API tokens in their account settings. These tokens can be used to access the different
