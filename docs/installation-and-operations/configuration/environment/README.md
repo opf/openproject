@@ -283,6 +283,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_LDAP__GROUPS__DISABLE__SYNC__JOB` | `false` | Deactivate regular synchronization job for groups in case scheduled as a separate cronjob |
 | `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB` | `false` | Deactivate user attributes synchronization from LDAP |
 | `OPENPROJECT_LDAP__USERS__SYNC__STATUS` | `false` | Enable user status (locked/unlocked) synchronization from LDAP |
+| `OPENPROJECT_LLM__CONNECTION` | `{}` | Configure the connection to an OpenAI-API-compatible LLM server through environment variables |
 | `OPENPROJECT_LLM__FEATURES__ENABLED` | `false` | Enable the AI features backed by the configured LLM connection |
 | `OPENPROJECT_LOG__LEVEL` | `"info"` | Set the OpenProject logger level |
 | `OPENPROJECT_LOG__REQUESTING__USER` | `false` | Log user login, name, and mail address for all requests |

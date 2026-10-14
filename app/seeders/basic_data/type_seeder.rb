@@ -46,5 +46,11 @@ module BasicData
         position: type_data["position"]
       }
     end
+
+    def create_model!(type_data)
+      super.tap do |type|
+        type.default_variant.update!(enabled_in_new_projects: true) if true?(type_data["enabled_in_new_projects"])
+      end
+    end
   end
 end

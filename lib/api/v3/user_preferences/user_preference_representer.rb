@@ -58,6 +58,8 @@ module API
 
         property :disable_keyboard_shortcuts
 
+        property :require_double_click_for_inline_edit
+
         property :warn_on_leaving_unsaved
         property :comments_in_reverse_order,
                  as: :commentSortDescending

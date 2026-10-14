@@ -91,6 +91,39 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
       expect(connection.models.manual.pluck(:external_id)).to eq(["hand-typed"])
     end
 
+    it "lets go of a feature bound to a model the previous server offered" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(connection.feature_bindings).to be_empty
+    end
+
+    it "keeps a locked binding, which records what an existing index was written with" do
+      connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                             state: "supported", source: "probe", checked_at: Time.current)
+      binding = connection.feature_bindings.create!(feature_key: "semantic_search", model_id: "bge-m3",
+                                                    dimensions: 1024, locked_at: Time.current)
+      mock_llm_models_response("https://elsewhere.example/v1", response_code: 405)
+
+      service.call
+
+      expect(binding.reload).to have_attributes(model_id: "bge-m3", dimensions: 1024)
+      expect(binding).to be_locked
+    end
+
+    it "leaves a kept binding dangling when the new server offers a model of the same name" do
+      binding = connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+      binding.update_columns(locked_at: Time.current, locked_deployment_fingerprint: connection.connection_fingerprint)
+      mock_llm_models_response("https://elsewhere.example/v1")
+
+      service.call
+
+      expect(connection.reload.available_model_ids).to include("qwen3.6-27b")
+      expect(binding.reload).to be_dangling
+    end
+
     # on_delete: :nullify on the two default_*_model_id foreign keys.
     it "lets go of a connection default that named a model the previous server offered" do
       connection.update!(default_chat_model: connection.models.find_by(external_id: "qwen3.6-27b"))
@@ -222,7 +255,126 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     it "fails rather than raising when a card cannot be stored" do
       allow(connection.models).to receive(:find_or_initialize_by).and_raise(ActiveRecord::RecordNotUnique)
 
-      expect(described_class.new(connection).call).to be_failure
+      result = described_class.new(connection).call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(ActiveRecord::RecordNotUnique)
+    end
+  end
+
+  describe "a server refusing the model list" do
+    it "hands back the error, so a caller can tell whether trying again could help" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      result = service.call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(Llm::Errors::ApiError).and have_attributes(status: 404)
+    end
+  end
+
+  describe "the capability detection that follows" do
+    it "asks for it after a successful sync, whichever caller asked for the list" do
+      expect { service.call }.to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+
+    it "asks for nothing when the server does not answer with a list" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      expect { service.call }.not_to have_enqueued_job(Llm::DetectCapabilitiesJob)
+    end
+  end
+
+  describe "naming a model and sizing its context window" do
+    let(:connection) { create(:llm_connection, base_url:, api_key: "sk-test") }
+
+    it "reads both off a card that names them in the gateway's own vocabulary" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "openai/gpt-4o", name: "OpenAI: GPT-4o", context_length: 128_000 }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "openai/gpt-4o")
+      expect(llm_model.name).to eq("OpenAI: GPT-4o")
+      expect(llm_model.context_window).to eq(128_000)
+    end
+
+    it "takes the window from max_model_len when the card also names a context_length" do
+      mock_llm_models_response(base_url,
+                               models: [{ id: "qwen3.6-27b", context_length: 262_144, max_model_len: 32_768 }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      expect(llm_model.context_window).to eq(32_768)
+      expect(llm_model.context_window_source).to eq(:server)
+    end
+
+    it "falls back to the registry for a server that lists bare ids" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "gpt-4o")
+      expect(llm_model.name).to eq("GPT-4o")
+      expect(llm_model.context_window).to eq(128_000)
+    end
+
+    it "keeps the published window under an administrator's override" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+      service.call
+      llm_model = connection.models.find_by(external_id: "gpt-4o")
+      llm_model.update!(admin_context_window: 8_000)
+
+      described_class.new(connection).call
+
+      expect(llm_model.reload.context_window).to eq(8_000)
+
+      llm_model.update!(admin_context_window: nil)
+
+      expect(llm_model.reload.context_window).to eq(128_000)
+    end
+
+    it "keeps an administrator's display name over the one the registry publishes" do
+      mock_llm_models_response(base_url, models: [{ id: "gpt-4o", object: "model" }])
+      service.call
+      connection.models.find_by(external_id: "gpt-4o").update!(display_name: "The house model")
+
+      described_class.new(connection).call
+
+      expect(connection.models.find_by(external_id: "gpt-4o").display_name).to eq("The house model")
+    end
+  end
+
+  describe "a gateway that serves its embedding models separately" do
+    let(:base_url) { "https://openrouter.ai/api/v1" }
+    let(:connection) { create(:llm_connection, base_url:, api_format: "openrouter", api_key: "sk-test") }
+
+    before { mock_llm_embedding_models_response(base_url) }
+
+    it "stores the models the unfiltered catalogue leaves out" do
+      service.call
+
+      expect(connection.models.active.pluck(:external_id))
+        .to contain_exactly("qwen3.6-27b", "bge-m3", "voyageai/voyage-4")
+    end
+
+    it "keeps the embedding models when the catalogue outgrows the cap" do
+      stub_const("#{described_class}::MAX_CARDS", 2)
+
+      service.call
+
+      expect(connection.models.active.pluck(:external_id)).to include("voyageai/voyage-4")
+    end
+
+    it "types a model the card declares an embedding one without spending a probe" do
+      service.call
+
+      llm_model = connection.models.find_by(external_id: "voyageai/voyage-4")
+      verdict = connection.capability_verdicts.find_by(model_id: "voyageai/voyage-4", capability: "embeddings")
+
+      expect(llm_model).to be_embedding
+      expect(verdict.source).to eq("metadata")
     end
   end
 end

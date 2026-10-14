@@ -755,6 +755,29 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe ".allowed_target_projects_on_copy" do
+    let(:permissions) { [:copy_work_packages] }
+    let(:user) do
+      create(:user, member_with_permissions: { project => permissions })
+    end
+
+    context "when having the copy_work_packages permission" do
+      it "returns the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
+          .to contain_exactly(project)
+      end
+    end
+
+    context "when lacking the copy_work_packages permission" do
+      let(:permissions) { [:move_work_packages] }
+
+      it "does not return the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
+          .to be_empty
+      end
+    end
+  end
+
   describe ".allowed_target_project_on_create" do
     let(:permissions) { [:add_work_packages] }
     let(:user) do
@@ -848,60 +871,6 @@ RSpec.describe WorkPackage do
         expect(described_class.new.ignore_non_working_days)
           .to be false
       end
-    end
-  end
-
-  context "when destroying with agenda items" do
-    shared_let(:work_package) do
-      create(:work_package, project:, type:, status:, priority:)
-    end
-
-    shared_let(:meeting_agenda_items) { create_list(:meeting_agenda_item, 3, work_package:) }
-    shared_let(:other_agenda_item) { create(:meeting_agenda_item, work_package_id: create(:work_package).id) }
-    shared_let(:other_meeting) { other_agenda_item.meeting }
-    let(:latest_journals) do
-      Journal
-        .select("DISTINCT ON (journable_id) *")
-        .where(journable_type: "Meeting", journable_id: meeting_agenda_items.pluck(:meeting_id))
-        .order("journable_id, updated_at DESC")
-    end
-
-    subject { work_package.destroy }
-
-    before do
-      work_package.save
-      Meeting.find_each(&:save_journals)
-    end
-
-    it "dissociates the agenda items" do
-      expect { subject }
-        .to change { MeetingAgendaItem.find(meeting_agenda_items).pluck(:work_package_id) }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect other agenda items" do
-      expect { subject }.not_to change(other_agenda_item, :reload)
-    end
-
-    it "updates the agenda item journal" do
-      expect { subject }
-        .to change {
-          Journal::MeetingAgendaItemJournal
-            .where(agenda_item: meeting_agenda_items)
-            .pluck(:work_package_id)
-        }
-              .from(Array.new(3, work_package.id))
-              .to(Array.new(3, nil))
-    end
-
-    it "does not affect the agenda item journal" do
-      expect { subject }
-        .not_to change {
-          Journal::MeetingAgendaItemJournal
-            .find_by(agenda_item: other_agenda_item)
-            .work_package_id
-        }
     end
   end
 

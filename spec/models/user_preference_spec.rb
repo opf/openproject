@@ -83,6 +83,16 @@ RSpec.describe UserPreference do
                     :warn_on_leaving_unsaved?
   end
 
+  describe "require double click for inline edit" do
+    it_behaves_like "accepts real and false booleans",
+                    :require_double_click_for_inline_edit=,
+                    :require_double_click_for_inline_edit?
+
+    it "is disabled without a value being stored" do
+      expect(subject.require_double_click_for_inline_edit).to be false
+    end
+  end
+
   describe "auto hide popups" do
     it_behaves_like "accepts real and false booleans",
                     :auto_hide_popups=,
@@ -334,6 +344,24 @@ RSpec.describe UserPreference do
         expect(subject).not_to be_a_light_high_contrast_theme
         expect(subject).not_to be_a_dark_high_contrast_theme
       end
+    end
+  end
+
+  describe "#avatar_color=" do
+    it "normalizes a long hex form to uppercase" do
+      subject.avatar_color = "#aabbcc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "normalizes a short hex form to its long uppercase form" do
+      subject.avatar_color = "#abc"
+      expect(subject.avatar_color).to eql "#AABBCC"
+    end
+
+    it "clears the value when set to blank" do
+      subject.avatar_color = "#aabbcc"
+      subject.avatar_color = ""
+      expect(subject.avatar_color).to be_nil
     end
   end
 

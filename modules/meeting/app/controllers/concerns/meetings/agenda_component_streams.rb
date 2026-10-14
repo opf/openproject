@@ -36,10 +36,7 @@ module Meetings
       helper_method :sorted_agenda_item_ids
 
       def sorted_agenda_item_ids(meeting = @meeting)
-        meeting.sections
-               .includes(:agenda_items)
-               .order(:position)
-               .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
+        meeting.ordered_agenda_items.map(&:id)
       end
 
       def replace_presentation_show_via_turbo_stream(current_id:)
@@ -144,7 +141,7 @@ module Meetings
       end
 
       def update_show_items_of_section_via_turbo_stream(current_occurrence:, meeting_section: @meeting_section)
-        agenda_items = meeting_section.agenda_items.with_includes_to_render
+        agenda_items = meeting_section.ordered_agenda_items.with_includes_to_render
         first_and_last = [agenda_items.first, agenda_items.last]
 
         agenda_items.each do |meeting_agenda_item|
@@ -200,6 +197,81 @@ module Meetings
         end
 
         update_new_button_via_turbo_stream(disabled: true) unless meeting_section == meeting.backlog
+      end
+
+      def render_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:, current_occurrence:,
+                                                            type: :simple)
+        remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+
+        new_component = MeetingAgendaItems::NewComponent.new(
+          meeting: relative_to.meeting,
+          meeting_section: relative_to.meeting_section,
+          hidden: false,
+          type:,
+          current_occurrence:,
+          relative_to:,
+          insert_position:
+        )
+        target_component = MeetingAgendaItems::ItemComponent.new(
+          meeting_agenda_item: relative_to,
+          current_occurrence:
+        )
+
+        if insert_position == "above"
+          add_before_via_turbo_stream(component: new_component, target_component:)
+        else
+          add_after_via_turbo_stream(component: new_component, target_component:)
+        end
+      end
+
+      def add_relative_item_via_turbo_stream(relative_to:, insert_position:, current_occurrence:,
+                                             meeting_agenda_item: @meeting_agenda_item)
+        remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+
+        item_component = MeetingAgendaItems::ItemComponent.new(
+          state: :show,
+          meeting_agenda_item:,
+          current_occurrence:
+        )
+        target_component = MeetingAgendaItems::ItemComponent.new(
+          meeting_agenda_item: relative_to,
+          current_occurrence:
+        )
+
+        if insert_position == "above"
+          add_before_via_turbo_stream(component: item_component, target_component:)
+        else
+          add_after_via_turbo_stream(component: item_component, target_component:)
+        end
+
+        update_show_items_via_turbo_stream(current_occurrence:)
+      end
+
+      def update_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:, meeting_agenda_item:,
+                                                            type: :simple, current_occurrence: nil)
+        update_via_turbo_stream(
+          component: MeetingAgendaItems::NewComponent.new(
+            meeting: relative_to.meeting,
+            meeting_section: relative_to.meeting_section,
+            meeting_agenda_item:,
+            hidden: false,
+            type:,
+            current_occurrence:,
+            relative_to:,
+            insert_position:
+          )
+        )
+      end
+
+      def remove_relative_agenda_item_form_via_turbo_stream(relative_to:, insert_position:)
+        remove_via_turbo_stream(
+          component: MeetingAgendaItems::NewComponent.new(
+            meeting: relative_to.meeting,
+            meeting_section: relative_to.meeting_section,
+            relative_to:,
+            insert_position:
+          )
+        )
       end
 
       def render_agenda_item_form_for_empty_meeting_via_turbo_stream(type: :simple)
@@ -258,6 +330,11 @@ module Meetings
       end
 
       def add_item_via_turbo_stream(current_occurrence:, meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize
+        if meeting_agenda_item.vote_based_ordering?
+          update_list_via_turbo_stream
+          return
+        end
+
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         elsif meeting_agenda_item.meeting.agenda_items.one? && meeting_agenda_item.meeting.sections.present?

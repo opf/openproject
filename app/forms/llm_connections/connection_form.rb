@@ -35,6 +35,7 @@ module LlmConnections
         name: :llm_features_enabled,
         label: LlmConnection.human_attribute_name(:llm_features_enabled),
         caption: I18n.t("admin.llm_connections.form.llm_features_enabled_caption"),
+        disabled: read_only? || !Setting.llm_features_enabled_writable?,
         data: { target_name: "llm_features_enabled", show_when_checked_target: "cause" }
       )
 
@@ -55,6 +56,7 @@ module LlmConnections
           caption: I18n.t("admin.llm_connections.form.api_format_caption"),
           include_blank: false,
           input_width: :medium,
+          disabled: read_only?,
           data: { target_name: "llm_connection_api_format", show_when_value_selected_target: "cause" }
         ) do |select|
           supported_formats.each do |format|
@@ -69,7 +71,8 @@ module LlmConnections
           placeholder: "https://example.com/v1",
           required: true,
           type: :url,
-          input_width: :large
+          input_width: :large,
+          disabled: read_only?
         )
 
         fg.group(layout: :horizontal) do |row|
@@ -88,10 +91,11 @@ module LlmConnections
             type: :password,
             autocomplete: "off",
             input_width: :large,
+            disabled: read_only?,
             data: { "admin--llm-connection-form-target": "secretInput" }
           )
 
-          if model.api_key_stored?
+          if model.api_key_stored? && !read_only?
             row.button(
               name: :remove_api_key,
               tag: :a,
@@ -106,15 +110,21 @@ module LlmConnections
         end
       end
 
-      f.submit(
-        name: :submit,
-        label: submit_label,
-        scheme: :primary,
-        data: { "admin--llm-connection-form-target": "submitButton" }
-      )
+      unless read_only?
+        f.submit(
+          name: :submit,
+          label: I18n.t(:button_save),
+          scheme: :primary,
+          **submit_visibility
+        )
+      end
     end
 
     private
+
+    def read_only?
+      model.configured_from_env?
+    end
 
     # Only formats a request can actually be sent in. The contract rejects the
     # rest as a backstop, but they should not be offered in the first place.
@@ -145,11 +155,22 @@ module LlmConnections
       )
     end
 
-    def submit_label
-      model.persisted? ? I18n.t(:button_save) : I18n.t("admin.llm_connections.form.button_connect")
+    # A stored connection always offers to save, so the switch can be turned back
+    # on. Without one there is nothing to submit until the switch reveals the
+    # server fields.
+    def submit_visibility
+      data = { "admin--llm-connection-form-target": "submitButton" }
+      return { data: } if model.persisted?
+
+      # Primer hides an input through a wrapper the toggle cannot reach, so the
+      # button carries the class itself.
+      { classes: ("d-none" unless model.llm_features_enabled),
+        data: data.merge(target_name: "llm_features_enabled", show_when_checked_target: "effect", show_when: "checked",
+                         visibility_class: "d-none") }
     end
 
     def api_key_caption
+      return I18n.t("admin.llm_connections.form.api_key_caption_env") if read_only?
       return I18n.t("admin.llm_connections.form.api_key_caption_discarded") if model.api_key_changed?
 
       I18n.t("admin.llm_connections.form.api_key_caption#{'_stored' if model.api_key_stored?}")

@@ -38,9 +38,8 @@ module FormFields
       end
 
       def expect_error(string = nil)
-        sleep 2 # quick fix for stale element error
-        expect(field_container).to have_css(".FormControl-inlineValidation")
-        expect(field_container).to have_content(string) if string
+        expect(field_container).to have_css(".FormControl-inlineValidation", wait: 20)
+        expect(field_container).to have_text(string) if string
       end
     end
   end

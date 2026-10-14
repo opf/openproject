@@ -40,7 +40,10 @@ describe('PrincipalRendererService', () => {
         PrincipalRendererService,
         ColorsService,
         { provide: PathHelperService, useValue: {} },
-        { provide: ApiV3Service, useValue: {} },
+        {
+          provide: ApiV3Service,
+          useValue: { users: { id: (id:string) => ({ avatar: { toString: () => `/api/v3/users/${id}/avatar` } }) } },
+        },
       ],
     });
 
@@ -80,6 +83,49 @@ describe('PrincipalRendererService', () => {
 
     it('keeps emoji-only names as complete code points', () => {
       expect(renderFallback('🤖')).toBe('🤖');
+    });
+  });
+
+  describe('user avatar', () => {
+    const renderUser = ():HTMLElement => {
+      const container = document.createElement('div');
+
+      service.render(
+        container,
+        { id: '1', name: 'John Doe', href: '/api/v3/users/1' },
+        { hide: true, link: false },
+        { hide: false, size: 'default' },
+        { isActivated: false },
+      );
+
+      return container;
+    };
+
+    it('renders an <img> pointed at the backend avatar endpoint', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      expect(image?.tagName).toBe('IMG');
+      expect(image?.getAttribute('src')).toBe('/api/v3/users/1/avatar');
+      expect(image).toHaveClass('op-avatar_user');
+    });
+
+    it('retries once with fallback=true when the image fails to load', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      image?.dispatchEvent(new Event('error'));
+
+      expect(image?.getAttribute('src')).toBe('/api/v3/users/1/avatar?fallback=true');
+    });
+
+    it('clears the error handler after the first retry so a second failure does not trigger another request', () => {
+      const container = renderUser();
+      const image = container.querySelector<HTMLImageElement>('.op-principal--avatar');
+
+      image?.dispatchEvent(new Event('error'));
+
+      expect(image?.onerror).toBeNull();
     });
   });
 });

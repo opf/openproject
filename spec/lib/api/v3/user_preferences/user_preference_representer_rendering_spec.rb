@@ -59,6 +59,7 @@ RSpec.describe API::V3::UserPreferences::UserPreferenceRepresenter,
   it { expect(subject).to have_json_path("disableKeyboardShortcuts") }
   it { expect(subject).to have_json_path("warnOnLeavingUnsaved") }
   it { expect(subject).to have_json_path("autoHidePopups") }
+  it { expect(subject).to have_json_path("requireDoubleClickForInlineEdit") }
 
   describe "timeZone" do
     context "without a timezone set" do

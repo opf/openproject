@@ -36,7 +36,7 @@ RSpec.describe "highlighting styles", type: :rails_request do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
 
-  let(:version_tag) { Class.new { include HighlightingHelper }.new.highlight_css_version_tag }
+  let(:version_tag) { Highlighting::Registry.cache_key }
 
   def get_styles(user:)
     login_as user

@@ -42,11 +42,7 @@ module My
     private
 
     def find_active_timer
-      query = Queries::TimeEntries::TimeEntryQuery.new(user: current_user)
-      query.where "ongoing", "=", ["t"]
-      query.where "user_id", "=", [current_user.id]
-
-      @timer = query.results.first
+      @timer = TimeEntry.visible_ongoing(current_user).first
     end
   end
 end

@@ -231,6 +231,14 @@ export abstract class BoardActionService {
   }
 
   /**
+   * Whether this board type's header needs extra vertical space,
+   * e.g. to display a multi-line title
+   */
+  largeHeader():boolean {
+    return false;
+  }
+
+  /**
    * Get icon and text to show on the add button when it is disabled
    * @returns {the icon class or nothing}
    */

@@ -42,7 +42,7 @@ module MeetingSections
 
       @meeting = meeting_section.meeting
       @meeting_section = meeting_section
-      @meeting_agenda_items = meeting_section.agenda_items
+      @meeting_agenda_items = meeting_section.ordered_agenda_items.includes(:emoji_reactions)
       @first_and_last = first_and_last
       @form_hidden = form_hidden
       @form_type = form_type

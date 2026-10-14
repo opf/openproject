@@ -399,6 +399,8 @@ pt-PT:
         ongoing: Em curso
         spent_on: Data
         type: Tipo
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Calendário
         ical_token_query_assignment: Atribuição de consultas
@@ -466,6 +468,8 @@ pt-PT:
         increase_contrast_caption: Ativa o modo de alto contraste para o modo de cor escolhido.
         increase_theme_contrast: Aumentar contraste do tema
         mode_guideline: Alguns modos substituirão as cores personalizadas do tema para acessibilidade e legibilidade. Selecione o modo Ligeiro para ter suporte total para temas personalizados.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Modo de cor
         time_zone: Fuso horário
         warn_on_leaving_unsaved: Alertar-me quando sair de um pacote de trabalho sem guardar as alterações
@@ -4938,6 +4942,13 @@ pt-PT:
           create_button: Criar
           dialog_body: Este token irá permitir que aplicações de terceiros comuniquem com a sua instância. Para diferenciar o novo token de API, dê-lhe um nome.
           dialog_title: Criar novo token de API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Nome do token
       failed_to_create_token: 'Não foi possível criar o token de acesso: %{error}'
       failed_to_reset_token: 'Não foi possível reiniciar o token de acesso: %{error}'
@@ -4967,6 +4978,7 @@ pt-PT:
     access_tokens:
       access_tokens: Tokens de acesso
       description: Os tokens de fornecedor são emitidos pelo OpenProject e permitem o acesso de outras aplicações. Os tokens de cliente são emitidos por outras aplicações e permitem que o OpenProject lhes aceda.
+      expired_on: Expired on %{date}
       headers:
         action: Ação
         expiration: Expira

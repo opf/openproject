@@ -31,6 +31,7 @@ en:
   activerecord:
     attributes:
       meeting:
+        agenda_sorting_mode: "Sorting mode"
         duration: "Duration"
         end_time: "End time"
         location: "Location"
@@ -98,6 +99,7 @@ en:
         meeting_agenda_item:
           section_not_belong_to_meeting: "Section does not belong to the same meeting."
           user_invalid: "is not a valid participant."
+          vote_based_sorting_required: "Voting requires vote-based agenda sorting."
         meeting_participant:
           user_invalid: "is not a valid participant."
         recurring_meeting:
@@ -165,6 +167,12 @@ en:
     meeting_agenda_opened: Meeting agenda opened
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: >-
+          Meeting history automatically synchronized with the current state of the meeting. Agenda sections and
+          outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: "Add to meeting"
   label_add_work_package_to_meeting_dialog_title: "Select meeting"
 
@@ -175,7 +183,8 @@ en:
   label_agenda_backlog_clear_title: "Clear agenda backlog?"
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_add: "Add agenda item"
-
+  label_agenda_item_add_above: "Add item above"
+  label_agenda_item_add_below: "Add item below"
   label_agenda_item_add_notes: "Add notes"
   label_agenda_item_add_outcome: "Add outcome"
   label_agenda_item_convert_to_work_package: "Convert to work package"
@@ -335,6 +344,21 @@ en:
   label_view_meeting_series: "View meeting series"
   label_write_outcome: "Write outcome"
   meeting:
+    agenda_sorting:
+      change: "Change sorting mode"
+      invalid_reaction: "Only upvotes and downvotes are allowed on agenda items."
+      manual: "Manual"
+      manual_description: "Arrange agenda items yourself. Switching back restores the manual order."
+      manual_order_disabled: "Agenda items are ordered by votes. Switch to manual sorting to reorder them."
+      remove_thumbs_down: "Remove downvote"
+      remove_thumbs_up: "Remove upvote"
+      sorted_by_votes: "Agenda sorted by votes."
+      thumbs_down: "Downvote"
+      thumbs_up: "Upvote"
+      title: "Sorting mode"
+      vote_based: "Vote-based"
+      vote_based_description: "Order agenda items by upvotes minus downvotes within each section. Sections remain manually sorted."
+      votes: "Votes: %{count}"
     attachments:
       onetime_template: "These attached files will be included in all future meetings using this template."
       series_template: "These attached files will be included in all future meetings in the series."

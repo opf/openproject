@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  content_tag(:div, class: "op-meeting-agenda-item-vote-score mb-1") do
+    flex_layout(align_items: :center) do |score|
+      score.with_column do
+        render(Primer::Beta::Text.new(color: :subtle, font_size: :small, test_selector: "agenda-item-vote-score")) do
+          t("meeting.agenda_sorting.votes", count: @meeting_agenda_item.vote_score)
+        end
+      end
+
+      if @voting_enabled
+        score.with_column(ml: 1, classes: "op-meeting-agenda-item-vote-score--actions hide-when-print") do
+          flex_layout do |actions|
+            MeetingAgendaItem.allowed_emoji_reactions.each do |reaction|
+              actions.with_column(mr: 1) do
+                form_with(url: project_meeting_agenda_item_vote_path(@meeting.project, @meeting, @meeting_agenda_item, reaction:), method: :post) do
+                  render(
+                    Primer::Beta::Button.new(
+                      type: :submit,
+                      size: :small,
+                      scheme: vote_selected?(reaction) ? :default : :invisible,
+                      aria: { label: vote_label(reaction), pressed: vote_selected?(reaction) },
+                      test_selector: "agenda-item-score-vote-#{reaction}"
+                    )
+                  ) do
+                    vote_icon(reaction)
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+%>

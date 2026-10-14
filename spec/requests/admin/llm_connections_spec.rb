@@ -38,6 +38,15 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
   let(:api_key_field) { "#llm_connection_api_key" }
   let(:remove_api_key) { "[data-test-selector='llm-connection--remove-api-key']" }
 
+  # A seed that commits once the request has loaded the connection.
+  def apply_environment_after_the_connection_loads
+    allow(LlmConnection).to receive(:active_connection).and_wrap_original do |original|
+      original.call.tap do |loaded|
+        LlmConnection.where(id: loaded.id).update_all(api_key: "sk-from-env", env_provisioned_at: Time.current)
+      end
+    end
+  end
+
   describe "with the feature flag off", with_flag: { llm_connection: false } do
     before { login_as admin }
 
@@ -123,7 +132,7 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
         expect(page).to have_css("a[href='#{llm_models_path}']", text: "Models")
       end
 
-      it "offers the Models tab once the features are on",
+      it "offers the Models and Feature configuration tabs once the features are on",
          with_settings: { llm_features_enabled: true } do
         create(:llm_connection, base_url:)
 
@@ -131,6 +140,34 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
 
         expect(response.body).to include("llm-settings--tabs")
         expect(response.body).to include(llm_models_path)
+        expect(response.body).to include(llm_feature_bindings_path)
+      end
+
+      context "without a stored connection" do
+        it "keeps the save button back until LLMs are enabled" do
+          get llm_connection_path
+
+          expect(page).to have_css("button.d-none[data-visibility-class='d-none']", text: "Save")
+          expect(page).to have_no_css(".d-none button, button[hidden]", visible: :all)
+          expect(page).to have_no_button("Connect", visible: :all)
+        end
+
+        it "shows the save button once LLMs are enabled", with_settings: { llm_features_enabled: true } do
+          get llm_connection_path
+
+          expect(page).to have_button("Save")
+          expect(page).to have_no_button(class: "d-none", visible: :all)
+        end
+      end
+
+      context "with a stored connection and LLMs switched off", with_settings: { llm_features_enabled: false } do
+        before { create(:llm_connection, base_url:) }
+
+        it "still offers to save, so the switch can be turned back on" do
+          get llm_connection_path
+
+          expect(page).to have_button("Save")
+        end
       end
 
       context "when an API key is stored" do
@@ -154,6 +191,139 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
           get llm_connection_path
 
           expect(page).to have_css(remove_api_key, text: "Remove key", visible: :all)
+        end
+      end
+
+      context "with a connection that is switched on", with_settings: { llm_features_enabled: true } do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "offers the health checks next to the form" do
+          get llm_connection_path
+
+          expect(page).to have_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      # Nothing checks a connection no feature may use, and the scheduled check
+      # is switched off with it.
+      context "with a connection that is switched off" do
+        let!(:connection) { create(:llm_connection, base_url:) }
+
+        it "leaves the health checks out" do
+          get llm_connection_path
+
+          expect(page).to have_no_css("[data-test-selector='llm-connection--run-health-checks']")
+        end
+      end
+
+      it "renders the features switch disabled while the environment sets it" do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+        create(:llm_connection, base_url:)
+
+        get llm_connection_path
+
+        expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+        expect(page).to have_field("Host URL", disabled: false)
+        expect(page).to have_button("Save")
+      end
+
+      context "when the connection comes from the environment" do
+        let!(:connection) { create(:llm_connection, :provisioned_from_env, base_url:, api_key: "sk-original") }
+
+        before do
+          # Provisioning from the environment switches the features on, and the
+          # server settings are only rendered once they are.
+          allow(Setting).to receive_messages(llm_connection: { "base_url" => base_url },
+                                             llm_features_enabled?: true)
+        end
+
+        it "renders the server settings read-only, with a banner saying why" do
+          get llm_connection_path
+
+          expect(response.body).to include("configured via environment variables")
+          expect(page).to have_field("Host URL", disabled: true)
+          expect(page).to have_field("API format", disabled: true)
+          expect(page).to have_field("Enable LLMs for this instance", disabled: true)
+          expect(page).to have_no_button("Save")
+        end
+
+        it "says when the environment applied the values" do
+          get llm_connection_path
+
+          expect(response.body).to include("Applied from the environment on")
+          expect(response.body).not_to include("have not been applied yet")
+        end
+
+        it "warns once the variables differ from the ones that were applied" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => "https://old.example/v1"))
+
+          get llm_connection_path
+
+          expect(response.body).to include("have changed since they were applied")
+          expect(page).to have_field("Host URL", disabled: true)
+        end
+
+        it "does not warn while the applied variables are still the current ones" do
+          LlmConnection.active_connection
+                       .update_columns(env_fingerprint: LlmConnection.env_fingerprint("base_url" => base_url))
+
+          get llm_connection_path
+
+          expect(response.body).not_to include("have changed since they were applied")
+        end
+
+        it "does not ask for a key that cannot be entered" do
+          get llm_connection_path
+
+          expect(response.body).to include("The key comes from the environment")
+          expect(response.body).not_to include("A key is stored")
+          expect(page).to have_no_css(remove_api_key, visible: :all)
+        end
+      end
+
+      context "when the environment configures a connection that was never seeded" do
+        before { allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url }) }
+
+        it "stays editable and says the variables have not been applied yet" do
+          get llm_connection_path
+
+          expect(response.body).to include("have not been applied yet")
+          expect(response.body).not_to include("configured via environment variables")
+          expect(page).to have_field("Enable LLMs for this instance", disabled: false)
+          expect(page).to have_button("Save", visible: :all)
+        end
+      end
+
+      context "when the environment configures a connection an administrator saved" do
+        before do
+          create(:llm_connection, base_url: "https://admin.example/v1")
+          allow(Setting).to receive_messages(llm_connection: { "base_url" => base_url },
+                                             llm_features_enabled?: true)
+        end
+
+        it "stays editable and warns that the next seed replaces the values" do
+          get llm_connection_path
+
+          expect(response.body).to include("have not been applied yet")
+          expect(page).to have_field("Host URL", disabled: false, with: "https://admin.example/v1")
+          expect(page).to have_button("Save")
+        end
+      end
+
+      context "when the environment no longer configures a connection it wrote" do
+        before do
+          create(:llm_connection, :provisioned_from_env, base_url:)
+          allow(Setting).to receive(:llm_features_enabled?).and_return(true)
+        end
+
+        it "is editable again" do
+          get llm_connection_path
+
+          expect(response.body).not_to include("configured via environment variables")
+          expect(response.body).not_to include("have not been applied yet")
+          expect(page).to have_field("Host URL", disabled: false)
+          expect(page).to have_button("Save")
         end
       end
     end
@@ -266,6 +436,90 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       end
     end
 
+    context "when the features switch is set through the environment" do
+      let!(:models_request) { mock_llm_models_response(base_url) }
+
+      before do
+        allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+      end
+
+      it "stores the connection and leaves the switch to the environment" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        expect(LlmConnection.first.base_url).to eq(base_url)
+        expect(Setting.llm_features_enabled?).to be(true)
+      end
+
+      it "still schedules the health check" do
+        allow(Llm::HealthCheckJob).to receive(:toggle_cron_job)
+
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(Llm::HealthCheckJob).to have_received(:toggle_cron_job)
+      end
+    end
+
+    # The form renders no Save button in this state, so only a hand-crafted
+    # request gets here.
+    context "when the connection comes from the environment" do
+      let!(:connection) { create(:llm_connection, :provisioned_from_env, base_url:, api_key: "sk-original") }
+      let(:elsewhere) { "https://elsewhere.example/v1" }
+
+      before do
+        mock_llm_models_response(elsewhere)
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+      end
+
+      it "refuses the change and keeps the stored record" do
+        patch llm_connection_path,
+              params: { llm_connection: { base_url: elsewhere, api_key: "sk-crafted" } },
+              headers: { "Accept" => "text/html" }
+
+        expect(response.body).to include("configured via environment variables")
+        connection.reload
+        expect(connection.base_url).to eq(base_url)
+        expect(connection.api_key).to eq("sk-original")
+        expect(connection).to be_configured_from_env
+      end
+    end
+
+    # Before the first seed the page is editable, and connecting by hand must not
+    # put the administrator's own values under the environment's lock.
+    context "when the environment configures a connection that was never seeded" do
+      before do
+        mock_llm_models_response(base_url)
+        allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+      end
+
+      it "stores the connection without locking it" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-test" } }
+
+        expect(response).to have_http_status(:see_other)
+        connection = LlmConnection.first
+        expect(connection.env_provisioned_at).to be_nil
+        expect(connection).not_to be_configured_from_env
+
+        get llm_connection_path
+
+        expect(page).to have_button("Save")
+      end
+    end
+
+    context "when the environment no longer configures a connection it wrote" do
+      let!(:connection) { create(:llm_connection, :provisioned_from_env, base_url:, api_key: "sk-original") }
+
+      before { mock_llm_models_response(base_url) }
+
+      it "saves the change and lets go of the environment's mark" do
+        patch llm_connection_path, params: { llm_connection: { base_url:, api_key: "sk-rotated" } }
+
+        connection.reload
+        expect(connection.api_key).to eq("sk-rotated")
+        expect(connection.env_provisioned_at).to be_nil
+      end
+    end
+
     context "with an unreachable server" do
       let!(:models_request) { mock_llm_models_response(base_url, timeout: true) }
 
@@ -368,6 +622,42 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(page).to have_no_css(remove_api_key, visible: :all)
     end
 
+    # update! bypasses the contract, so without the explicit guard a
+    # hand-crafted request could wipe a key the environment owns.
+    it "refuses when the connection comes from the environment" do
+      connection = create(:llm_connection, :provisioned_from_env, base_url:, api_key: "sk-original")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+
+      delete api_key_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.delete_api_key.configured_from_env"))
+      expect(connection.reload.api_key).to eq("sk-original")
+    end
+
+    it "refuses when a seed applies the environment's values after the request loaded the connection" do
+      connection = create(:llm_connection, base_url:, api_key: "sk-original")
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url })
+      apply_environment_after_the_connection_loads
+
+      delete api_key_llm_connection_path
+
+      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.delete_api_key.configured_from_env"))
+      connection.reload
+      expect(connection.api_key).to eq("sk-from-env")
+      expect(connection.env_provisioned_at).to be_present
+    end
+
+    it "lets go of the environment's mark once the environment no longer configures the connection" do
+      connection = create(:llm_connection, :provisioned_from_env, base_url:, api_key: "sk-original")
+
+      delete api_key_llm_connection_path
+
+      connection.reload
+      expect(connection.api_key).to be_nil
+      expect(connection.env_provisioned_at).to be_nil
+    end
+
     it "is refused to a non-admin" do
       connection = create(:llm_connection, base_url:, api_key: "sk-original")
       login_as create(:user)
@@ -433,14 +723,19 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
     end
 
     it "offers the confirmation, naming what is kept" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       get disconnect_dialog_llm_connection_path,
           headers: { "Accept" => "text/vnd.turbo-stream.html" }
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to include("Disconnect from the LLM server?")
+      expect(response.body).to include("Description assistant")
     end
 
     it "clears the credential and switches the connection off, keeping everything else" do
+      connection.feature_bindings.create!(feature_key: "description_assistant", model_id: "qwen3.6-27b")
+
       post disconnect_llm_connection_path
 
       connection.reload
@@ -448,6 +743,59 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(Setting.llm_features_enabled?).to be(false)
       expect(connection.base_url).to eq("https://example.com/v1")
       expect(connection.models.count).to eq(2)
+      expect(connection.feature_bindings.first.model_id).to eq("qwen3.6-27b")
+    end
+
+    it "refuses when the connection comes from the environment" do
+      connection.update_columns(env_provisioned_at: Time.current)
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
+      expect(connection.reload.api_key).to eq("sk-test")
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+
+    it "refuses when a seed applies the environment's values after the request loaded the connection" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+      apply_environment_after_the_connection_loads
+
+      post disconnect_llm_connection_path
+
+      expect(flash[:error]).to eq(I18n.t("admin.llm_connections.disconnect.configured_from_env"))
+      connection.reload
+      expect(connection.api_key).to eq("sk-from-env")
+      expect(connection.env_provisioned_at).to be_present
+      expect(Setting.llm_features_enabled?).to be(true)
+    end
+
+    it "disconnects a connection the environment has not written yet" do
+      allow(Setting).to receive(:llm_connection).and_return({ "base_url" => "https://example.com/v1" })
+
+      post disconnect_llm_connection_path
+
+      expect(flash[:notice]).to eq(I18n.t("admin.llm_connections.disconnect.success"))
+      expect(connection.reload.api_key).to be_blank
+    end
+
+    it "lets go of the environment's mark once the environment no longer configures the connection" do
+      connection.update_columns(env_provisioned_at: Time.current)
+
+      post disconnect_llm_connection_path
+
+      connection.reload
+      expect(connection.api_key).to be_blank
+      expect(connection.env_provisioned_at).to be_nil
+    end
+
+    it "clears the credential when the features switch is set through the environment" do
+      allow(Settings::Definition[:llm_features_enabled]).to receive_messages(writable?: false, value: true)
+
+      post disconnect_llm_connection_path
+
+      expect(response).to have_http_status(:see_other)
+      expect(connection.reload.api_key).to be_blank
     end
 
     it "is refused to a non-admin" do
@@ -485,6 +833,21 @@ RSpec.describe "Admin LLM connection", :llm_server_helpers, :skip_csrf, :webmock
       expect(response).to have_http_status(:see_other)
       expect(connection.reload.api_key).to be_nil
       expect(Setting.llm_features_enabled?).to be(false)
+    end
+  end
+
+  describe "the default models" do
+    let!(:connection) { create(:llm_connection, :with_models, base_url: "https://example.com/v1") }
+
+    before { login_as admin }
+
+    it "are chosen on the Models tab, not here" do
+      patch llm_connection_path, params: { llm_connection: { default_chat_model_id: "qwen3.6-27b",
+                                                             default_embedding_model_id: "bge-m3" } }
+
+      connection.reload
+      expect(connection.default_chat_model_id).to be_nil
+      expect(connection.default_embedding_model_id).to be_nil
     end
   end
 end

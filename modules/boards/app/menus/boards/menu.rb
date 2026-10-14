@@ -40,9 +40,9 @@ module Boards
       Boards::Grid.includes(:project)
                   .references(:project)
                   .where(project: @project)
+                  .order(:name)
                   .pluck(:id, :name)
                   .map { |id, name| menu_item(title: name, query_params: query_params(id)) }
-                  .sort_by { |item| item.title.downcase }
     end
 
     def starred_queries

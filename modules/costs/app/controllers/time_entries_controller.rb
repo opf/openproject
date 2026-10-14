@@ -90,6 +90,7 @@ class TimeEntriesController < ApplicationController
 
     if call.success?
       close_dialog_via_turbo_stream("time-entry-dialog", additional: { spent_on: @time_entry.spent_on })
+      dispatch_timer_changed
     else
       form_component = TimeEntries::TimeEntryFormComponent.new(time_entry: @time_entry, **form_config_options)
       update_via_turbo_stream(component: form_component, status: :bad_request)
@@ -104,6 +105,7 @@ class TimeEntriesController < ApplicationController
       .call(permitted_params.time_entries)
 
     @time_entry = call.result
+    dispatch_timer_changed if call.success?
 
     if call.success?
       if request_from_dialog?
@@ -126,6 +128,7 @@ class TimeEntriesController < ApplicationController
     call = TimeEntries::DeleteService.new(user: current_user, model: @time_entry).call
 
     @time_entry = call.result
+    dispatch_timer_changed if call.success?
 
     if request_from_dialog?
       if call.success?
@@ -145,6 +148,12 @@ class TimeEntriesController < ApplicationController
   end
 
   private
+
+  def dispatch_timer_changed
+    return unless @time_entry.ongoing? || @time_entry.saved_change_to_ongoing?
+
+    dispatch_event_via_turbo_stream(My::Timer::MenuSectionComponent::CHANGED_EVENT)
+  end
 
   def request_from_dialog?
     !ActiveModel::Type::Boolean.new.cast(params[:no_dialog])

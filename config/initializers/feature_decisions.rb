@@ -75,3 +75,7 @@ OpenProject::FeatureDecisions.add :ai_assistance,
 OpenProject::FeatureDecisions.add :llm_connection,
                                   description: "Enables the administration page connecting OpenProject to an " \
                                                "OpenAI-API-compatible LLM server, and the AI features built on it."
+
+OpenProject::FeatureDecisions.add :semantic_search,
+                                  description: "Enables the semantic search AI feature, which indexes work packages " \
+                                               "as embeddings so they can be found by meaning rather than by keyword."

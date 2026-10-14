@@ -213,6 +213,7 @@ RSpec.describe "Authentication Stages" do
       fill_in "user_lastname", with: "Last"
 
       click_on I18n.t(:button_create)
+      expect_flash(message: "Successful creation.")
 
       # Get invitation token and log in as that user
       visit signout_path
