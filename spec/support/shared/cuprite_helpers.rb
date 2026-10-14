@@ -84,6 +84,22 @@ def send_keys_without_click(element, *keys)
   page.driver.browser.keyboard.type(*keys)
 end
 
+def wait_for_request(url_pattern, method: "GET", wait: Capybara.default_max_wait_time)
+  return yield unless using_cuprite?
+
+  page.driver.clear_network_traffic
+  result = yield
+
+  page.document.synchronize(wait) do
+    requested = page.driver.network_traffic.any? do |exchange|
+      exchange.finished? && exchange.request&.method == method && exchange.request.url.match?(url_pattern)
+    end
+    raise Capybara::ExpectationNotMet, "Expected a finished #{method} request to #{url_pattern.inspect}" unless requested
+  end
+
+  result
+end
+
 # Waits for CKEditor to be fully initialized.
 #
 # CKEditor is an Angular component (`opce-ckeditor-augmented-textarea`)

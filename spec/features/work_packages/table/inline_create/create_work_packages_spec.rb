@@ -44,14 +44,17 @@ RSpec.describe "inline create work package", :js do
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value "Some subject"
-        subject_field.save!
 
-        # Callback for adjustments
-        callback.call
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
 
-        wp_table.expect_toast(
-          message: "Successful creation."
-        )
+          # Callback for adjustments
+          callback.call
+
+          wp_table.expect_toast(
+            message: "Successful creation."
+          )
+        end
 
         # Expect new create row to exist
         expect(page).to have_css(".wp--row", count: 2)
@@ -62,10 +65,13 @@ RSpec.describe "inline create work package", :js do
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
         subject_field.set_value "Another subject"
-        subject_field.save!
 
-        # Callback for adjustments
-        callback.call
+        wait_for_request(%r{/queries/default\?}) do
+          subject_field.save!
+
+          # Callback for adjustments
+          callback.call
+        end
 
         expect(page).to have_css(".wp--row .subject", text: "Some subject")
         expect(page).to have_css(".wp--row .subject", text: "Another subject")
