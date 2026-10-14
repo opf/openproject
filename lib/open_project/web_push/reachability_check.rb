@@ -48,6 +48,8 @@ module OpenProject::WebPush
         Thread.new { Rails.application.executor.wrap { probe(host, url, sample) } }
       end
 
+      # Waiting on the probes while holding the load interlock would block a code reload,
+      # and the reload would in turn block the probes from starting.
       ActiveSupport::Dependencies.interlock.permit_concurrent_loads { threads.map(&:value) }
     end
 
