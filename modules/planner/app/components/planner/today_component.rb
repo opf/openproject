@@ -54,8 +54,8 @@ module Planner
     end
 
     def hour(hour)
-      time = today.date.in_time_zone(today.user.time_zone).change(hour:)
-      helpers.format_time(time, include_date: false, time_zone: today.user.time_zone)
+      time = today.date.in_time_zone(user.time_zone).change(hour:)
+      helpers.format_time(time, include_date: false, time_zone: user.time_zone)
     end
 
     def todo_input(day_part)

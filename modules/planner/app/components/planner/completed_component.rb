@@ -36,8 +36,8 @@ module Planner
 
     def day_name(date)
       case date
-      when completed.user.today then t("planner.today")
-      when completed.user.today - 1 then t("planner.completed.yesterday")
+      when user.today then t("planner.today")
+      when user.today - 1 then t("planner.completed.yesterday")
       else weekday_and_day(date)
       end
     end

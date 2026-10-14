@@ -32,7 +32,7 @@ module Planner
   class OverdueComponent < BaseComponent
     GROUP = "overdue"
 
-    def add_todo_defaults = { date: overdue.user.today, day_part: :morning }
+    def add_todo_defaults = { date: user.today, day_part: :morning }
 
     private
 

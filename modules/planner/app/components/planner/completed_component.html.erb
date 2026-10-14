@@ -44,7 +44,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% day.work_packages.each do |work_package| %>
         <% box.with_row(test_selector: "planner-completed-task") do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, references: completed.references, user: completed.user, view:)) %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references:, user:, view:)) %>
         <% end %>
       <% end %>
     <% end %>

@@ -36,13 +36,13 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% shown_meetings(section).each do |occurrence| %>
         <% box.with_row(test_selector: "planner-meeting-#{section.day_part}") do %>
-          <%= render(Planner::MeetingRowComponent.new(occurrence:, user: today.user)) %>
+          <%= render(Planner::MeetingRowComponent.new(occurrence:, user:)) %>
         <% end %>
       <% end %>
 
       <% shown_work_packages(section).each do |work_package| %>
         <% box.with_row(test_selector: "planner-task-#{section.day_part}", data: sortable_item_data(work_package)) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, references: today.references, user: today.user, view:, day_part: section.day_part)) %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references:, user:, view:, day_part: section.day_part)) %>
         <% end %>
       <% end %>
 

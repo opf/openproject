@@ -37,7 +37,7 @@ module Planner
     def upcoming = model
 
     def day_name(date)
-      return t("planner.upcoming.tomorrow") if date == upcoming.user.today + 1
+      return t("planner.upcoming.tomorrow") if date == user.today + 1
 
       weekday_and_day(date)
     end
