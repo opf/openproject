@@ -1,11 +1,11 @@
 .op-ai-result-pane
-  top: calc(var(--header-height) + 8px)
-  right: 16px
+  top: calc(var(--header-height) + var(--base-size-8))
+  right: var(--base-size-16)
   z-index: 600
-  width: min(640px, calc(100vw - 32px))
+  width: min(640px, calc(100vw - 2 * var(--base-size-16)))
   min-width: 320px
-  max-width: calc(100vw - 32px)
-  max-height: calc(100vh - var(--header-height) - 32px)
+  max-width: calc(100vw - 2 * var(--base-size-16))
+  max-height: calc(100vh - var(--header-height) - var(--base-size-8) - var(--base-size-24))
 
   &--handle,
   &--grip
