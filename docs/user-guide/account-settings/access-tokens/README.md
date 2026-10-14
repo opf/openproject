@@ -43,6 +43,7 @@ To create a new API token:
 2. Enter a descriptive name for the token to help you identify its purpose later.
 3. Select an expiration period.
 4. Click **Create**.
+To create a new API Token, click the **+ API Token**, name the token in the form that opens, choose an expiration and scopes and click _Create_ button.
 
 ![Name and create a new API token in OpenProject](openproject_account_settings_access_tokens_api_create_new.png)
 
@@ -65,6 +66,19 @@ Once you create an API token, OpenProject generates and displays it.
 If you lose a token, you will need to delete it and create a new one.
 
 ![Newly generated API token in OpenProject](openproject_account_settings_access_tokens_api_generated.png)
+Under **Scopes** you choose what the token can be used for. A token needs at least one scope:
+
+- **API v3**: access the [REST API](../../../api/).
+- **MCP**: access the [MCP server](../../../system-admin-guide/integrations/mcp-server/), e.g. from AI assistants.
+- **Webhooks**: deliver incoming webhooks, e.g. from the [GitHub](../../../system-admin-guide/integrations/github-integration/) or [GitLab](../../../system-admin-guide/integrations/gitlab-integration/) integration.
+- **Admin elevation**: only available to administrators when administrators are required to elevate their privileges. Without this scope, the token only has the permissions of your project memberships. With it, the token acts with full administrator permissions in every project.
+
+API v3, MCP and Webhooks are preselected. Requests using a token for something outside its scopes are rejected. The list of API tokens shows the scopes of each token.
+
+> [!TIP]
+> Only select the scopes an application really needs. For example, a token used in a webhook URL only needs the **Webhooks** scope, so it cannot be used to access the API if it is ever leaked.
+
+A new API token will be generated and displayed. Please keep in mind that each token will only be displayed once when it is created, so it's important to copy and safely save it. Should you lose this information, you CAN delete old tokens and generate new ones.
 
 > [!TIP]
 > **Use a separate token for each application or purpose.**
