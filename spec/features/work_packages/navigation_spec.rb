@@ -107,7 +107,8 @@ RSpec.describe "Work package navigation", :js do
     project_html_title.expect_first_segment "My fancy query | Work Packages"
 
     # Go back to work packages without query
-    page.execute_script("window.history.back()")
+    page.go_back
+    expect(page).to have_no_css("html[aria-busy]")
     project_work_packages.expect_work_package_listed(work_package)
     project_html_title.expect_first_segment "All open | Work Packages"
 
