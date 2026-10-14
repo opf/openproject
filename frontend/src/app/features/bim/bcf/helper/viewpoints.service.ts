@@ -136,7 +136,7 @@ export class ViewpointsService {
 
   private createBcfTopic$(workPackage:WorkPackageResource):Observable<string> {
     const wpProjectId = idFromLink(workPackage.project.href);
-    const wpPayload = workPackage.convertBCF.payload;
+    const wpPayload = (workPackage.convertBCF as HalResource).payload;
 
     return this.bcfApi
       .projects.id(wpProjectId)

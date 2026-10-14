@@ -63,7 +63,8 @@ module Settings
         rich_text_options: {
           turboMode: true,
           showAttachments: false
-        }
+        },
+        data: { admin__multi_lang_text_setting_target: "textArea" }
       )
     end
   end

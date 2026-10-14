@@ -30,7 +30,7 @@
 
 module Token
   class Recovery < Base
-    include ExpirableToken
+    include Ephemeral
 
     def self.validity_time
       1.day

@@ -141,15 +141,7 @@ See COPYRIGHT and LICENSE files for more details.
               <td><%= reorder_links("custom_field", { action: "update", id: custom_field, back_url: index_path }, method: :put) %></td>
             <% end %>
             <td class="buttons">
-              <%= link_to(
-                    op_icon("icon icon-delete"),
-                    member_path(custom_field),
-                    data: {
-                      turbo_method: :delete,
-                      turbo_confirm: I18n.t(:text_are_you_sure)
-                    },
-                    title: t(:button_delete)
-                  ) %>
+              <%= render(Admin::CustomFields::DeleteButtonComponent.new(custom_field:)) %>
             </td>
           </tr>
         <% end %>

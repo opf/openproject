@@ -44,6 +44,12 @@ module BecomeMember
       become_member_with_permissions(project, user, [])
     end
 
+    def grant_global_permissions(user, permissions)
+      role = create(:global_role, permissions: Array(permissions))
+
+      create(:global_member, principal: user, roles: [role])
+    end
+
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)
       role ||= create(:existing_project_role, permissions: Array(permissions))
       create(:member, principal: user, project:, roles: [role])

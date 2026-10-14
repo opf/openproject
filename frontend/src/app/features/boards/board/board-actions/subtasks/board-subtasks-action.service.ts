@@ -62,6 +62,10 @@ export class BoardSubtasksActionService extends BoardActionService {
     return SubtasksBoardHeaderComponent;
   }
 
+  public largeHeader():boolean {
+    return true;
+  }
+
   public canMove(workPackage:WorkPackageResource):boolean {
     return !!workPackage.changeParent;
   }

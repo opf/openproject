@@ -167,8 +167,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   public isFilterAvailable(filter:QueryFilterResource):boolean {
     return (this.wpTableFilters.availableFilters.some((availableFilter) => availableFilter.id === filter.id)
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      && !(this.wpTableFilters.hidden.includes(filter.id) || filter.isTemplated()));
+      && !(this.wpTableFilters.hidden.includes(filter.id) || (filter as QueryFilterResource & { isTemplated():boolean }).isTemplated()));
   }
 
   public onOpen() {

@@ -30,5 +30,6 @@
 
 module MeetingOutcomes
   class DeleteService < ::BaseServices::Delete
+    include Meetings::JournalAfterPerform
   end
 end

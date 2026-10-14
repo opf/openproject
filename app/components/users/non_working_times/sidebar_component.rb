@@ -77,11 +77,7 @@ module Users
       end
 
       def format_date_range(first, last)
-        if first.year == last.year
-          "#{I18n.l(first, format: :short)} - #{I18n.l(last, format: :short)}, #{first.year}"
-        else
-          "#{I18n.l(first, format: :long)} - #{I18n.l(last, format: :long)}"
-        end
+        "#{I18n.l(first, format: :short)} - #{I18n.l(last, format: :short)}, #{first.year}"
       end
     end
   end

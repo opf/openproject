@@ -30,7 +30,6 @@
 
 module MeetingAgendaItems
   class DropService < ::BaseServices::BaseCallable
-    include AfterPerformHook
     include JournalizeWorkPackageActivity
 
     attr_reader :user
@@ -47,10 +46,14 @@ module MeetingAgendaItems
       service_call = validate_permission
       service_call = validate_meeting_existence if service_call.success?
       service_call = validate_meeting_agenda_item_editable if service_call.success?
+      service_call = validate_manual_ordering if service_call.success?
 
       service_call = perform_drop(service_call, params) if service_call.success?
 
-      journalize_move if service_call.success?
+      if service_call.success?
+        journalize_move_on_work_package
+        journalize_meetings
+      end
 
       # after_perform(service_call) if service_call.success? # TODO properly integrate after_perform_hook
 
@@ -98,7 +101,20 @@ module MeetingAgendaItems
 
     private
 
-    def journalize_move
+    def validate_manual_ordering
+      if @meeting_agenda_item.vote_based_ordering? && params[:target_id].to_i == @meeting_agenda_item.meeting_section_id
+        @meeting_agenda_item.errors.add :base, I18n.t("meeting.agenda_sorting.manual_order_disabled")
+        ServiceResult.failure(result: @meeting_agenda_item, errors: @meeting_agenda_item.errors)
+      else
+        ServiceResult.success
+      end
+    end
+
+    def journalize_meetings
+      [@old_section.meeting, @meeting_agenda_item.meeting].uniq.each(&:save_journals)
+    end
+
+    def journalize_move_on_work_package
       return if @old_section.meeting_id == @meeting_agenda_item.meeting_id
 
       destination = @meeting_agenda_item.meeting
@@ -129,6 +145,8 @@ module MeetingAgendaItems
     end
 
     def update_position(new_position)
+      return if @meeting_agenda_item.vote_based_ordering?
+
       @meeting_agenda_item.insert_at(new_position)
     end
 

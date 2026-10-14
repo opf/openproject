@@ -56,14 +56,19 @@ module Meetings
     protected
 
     def create(meeting, attribute_overrides, send_notifications:, copy_agenda:, copy_attachments:)
-      Meetings::CreateService
-        .new(user:, contract_class:)
-        .call(**copied_attributes(meeting, attribute_overrides).merge(send_notifications:).symbolize_keys)
-        .on_success do |call|
-        copy_meeting_agenda(call.result) if copy_agenda
-        copy_meeting_attachment(call.result) if copy_attachments
-        journalize_copied_agenda(call.result) if copy_agenda
+      in_user_context(send_notifications:) do
+        Meetings::CreateService
+          .new(user:, contract_class:)
+          .call(**copied_attributes(meeting, attribute_overrides).merge(send_notifications:).symbolize_keys)
+          .on_success { |call| copy_contents(call.result, copy_agenda:, copy_attachments:) }
       end
+    end
+
+    def copy_contents(copy, copy_agenda:, copy_attachments:)
+      copy_meeting_agenda(copy) if copy_agenda
+      copy_meeting_attachment(copy) if copy_attachments
+      copy.save_journals
+      journalize_copied_agenda(copy) if copy_agenda
     end
 
     def build(meeting, attribute_overrides)

@@ -79,6 +79,12 @@ RSpec.describe RootSeeder,
       expect(DocumentType.count).to be >= 3 # at least the 3 default types
     end
 
+    it "starts new projects with the task, milestone and summary task types" do
+      expected_variants = %i[default_type_task default_type_milestone default_type_summary_task]
+        .map { root_seeder.seed_data.find_reference(it).default_variant }
+      expect(TypeVariant.enabled_in_new_projects).to match_array(expected_variants)
+    end
+
     it "dates the versions like their release milestones" do
       monday = Date.current.monday
 
@@ -534,8 +540,8 @@ RSpec.describe RootSeeder,
     end
 
     it "creates 1 project with custom fields" do
-      # 13 development work package custom fields + 4 development user custom fields
-      expect(CustomField.count).to eq 17
+      # 14 development work package custom fields + 4 development user custom fields
+      expect(CustomField.count).to eq 18
     end
 
     include_examples "creates the company staff and the demo data referencing it"

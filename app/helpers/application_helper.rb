@@ -267,12 +267,6 @@ module ApplicationHelper
     options
   end
 
-  def all_lang_options_for_select
-    all_languages
-      .map { |lang| translate_language(lang) }
-      .sort_by(&:first)
-  end
-
   def blank_select_option
     content_tag(:option,
                 "--- #{t(:actionview_instancetag_blank_option)} ---",

@@ -54,11 +54,7 @@ export interface HalResourceLinks {
 export type HalResourceEmbedded = Record<string, unknown>;
 
 export class HalResource {
-  // TODO this is the source of many issues in the frontend
-  // because it no longer properly type checks stuff
-  // Since 2019-10-21 I'm documenting what bugs this caused:
-  // https://community.openproject.com/wp/31462
-  [attribute:string]:any;
+  [attribute:string]:unknown;
 
   // The API type reported from API
   public _type:string;
@@ -236,7 +232,7 @@ export class HalResource {
 
   public previewPath():string|undefined {
     if (isNewResource(this) && this.project) {
-      return this.project.href;
+      return (this.project as { href:string }).href;
     }
 
     return undefined;

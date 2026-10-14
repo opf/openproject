@@ -44,6 +44,18 @@ module API
 
         self_link title_getter: ->(*) { represented.title }
 
+        link :upvote, uncacheable: true do
+          next unless represented.votable?(current_user)
+
+          { href: api_v3_paths.meeting_agenda_item_upvote(represented.id), method: :post }
+        end
+
+        link :downvote, uncacheable: true do
+          next unless represented.votable?(current_user)
+
+          { href: api_v3_paths.meeting_agenda_item_downvote(represented.id), method: :post }
+        end
+
         property :id
 
         property :title
@@ -51,6 +63,8 @@ module API
         formattable_property :notes
 
         property :position
+
+        property :vote_score, writeable: false, uncacheable: true
 
         property :duration_in_minutes
 

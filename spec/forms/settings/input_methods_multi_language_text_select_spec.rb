@@ -31,28 +31,52 @@
 require "rails_helper"
 
 RSpec.describe Settings::InputMethods, "#multi_language_text_select", :aggregate_failures, :settings_reset,
-               type: :forms do
+               type: :forms, with_settings: { available_languages: %w[en de] } do
   include_context "with rendered inline settings form"
   include_context "with locale for testing"
 
-  let(:translations) { { setting_registration_footer: "Registration footer" } }
+  let(:translations) { { setting_ultimate_answer: "Ultimate answer" } }
+  let(:name) { "ultimate_answer" }
+  let(:stimulus_target) { :"data-admin--multi-lang-text-setting-target" }
+  let(:form_arguments) { { url: "/foo", scope: :settings } }
+
+  before do
+    Settings::Definition.add(name, default: {}, format: :hash)
+    Setting[name] = { "en" => "Forty-two", "de" => "Zweiundvierzig" }
+  end
 
   subject(:rendered_form) do
     vc_render_inline_settings_form do |settings_form|
-      settings_form.multi_language_text_select(name: :registration_footer, current_language: "en")
+      settings_form.multi_language_text_select(name: :ultimate_answer, current_language: "en")
     end
 
     page
   end
 
-  it "wires up the language switcher so other languages can be edited and saved" do
-    expect(rendered_form).to have_css("[data-controller='admin--multi-lang-text-setting']")
-    expect(rendered_form).to have_css("select[data-admin--multi-lang-text-setting-target='select']")
-    expect(rendered_form).to have_css(
-      "input[type=hidden][data-admin--multi-lang-text-setting-target='langFor'][data-lang='de']",
-      visible: :all
-    )
-    expect(rendered_form).to have_css("textarea[data-admin--multi-lang-text-setting-target='textArea']",
-                                      visible: :all)
+  it "renders a language select with the current language selected" do
+    expect(rendered_form).to have_select "Ultimate answer", selected: "English" do |select|
+      expect(select["name"]).to eq "settings[ultimate_answer_lang]"
+    end
+  end
+
+  it "renders the text of the current language in the editor and every language in hidden fields" do
+    expect(rendered_form).to have_field "settings[ultimate_answer][en]", type: :textarea, with: "Forty-two", visible: :all
+    expect(rendered_form).to have_field "settings[ultimate_answer][en]", type: :hidden, with: "Forty-two"
+    expect(rendered_form).to have_field "settings[ultimate_answer][de]", type: :hidden, with: "Zweiundvierzig"
+  end
+
+  it "wires the inputs to the multi language text setting controller" do
+    expect(rendered_form).to have_element :div, "data-controller": "admin--multi-lang-text-setting" do |wrapper|
+      expect(wrapper).to have_element :select, id: "lang-for-ultimate_answer", stimulus_target => "select"
+
+      expect(wrapper).to have_element :input, type: "hidden", name: "settings[ultimate_answer][en]",
+                                              stimulus_target => "langFor", "data-lang": "en", visible: :all
+      expect(wrapper).to have_element :input, type: "hidden", name: "settings[ultimate_answer][de]",
+                                              stimulus_target => "langFor", "data-lang": "de", visible: :all
+
+      expect(wrapper).to have_element :textarea, id: "settings_ultimate_answer_en", stimulus_target => "textArea", visible: :all
+      expect(wrapper).to have_element "opce-ckeditor-augmented-textarea",
+                                      "data-text-area-id": '"settings_ultimate_answer_en"'
+    end
   end
 end

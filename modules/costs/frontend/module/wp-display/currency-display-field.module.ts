@@ -31,7 +31,7 @@ export class CurrencyDisplayField extends DisplayField {
 
   public isEmpty():boolean {
     return !this.value ||
-            !parseFloat(this.value.match(/\d+/g)[0]);
+            !parseFloat((this.value as string).match(/\d+/g)![0]);
   }
 }
 
