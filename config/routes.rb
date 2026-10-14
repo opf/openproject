@@ -658,8 +658,6 @@ Rails.application.routes.draw do
 
     resources :work_packages, only: %i[index show] do
       collection do
-        get "/report/:detail" => "work_packages/reports#report_details"
-        get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
       end
