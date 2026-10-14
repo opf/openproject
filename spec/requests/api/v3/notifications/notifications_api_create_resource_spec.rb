@@ -112,9 +112,37 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                                               actor: caller_user,
                                               reason: "mentioned",
                                               journal: nil,
-                                              read_ian: false,
-                                              mail_alert_sent: nil,
+                                              read_ian: nil,
+                                              mail_alert_sent: true,
                                               mail_reminder_sent: nil)
+    end
+
+    it "sends a mention mail to the recipient" do
+      perform_enqueued_jobs { send_request }
+
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
+
+      mail = ActionMailer::Base.deliveries.first
+      expect(mail.to).to eq([recipient.mail])
+      expect(mail.subject).to eq("[#{project.name}] #{caller_user.name} mentioned you in #{document.title}")
+      expect(mail.text_part.body.to_s).to include("/documents/#{document.id}")
+    end
+  end
+
+  context "when the recipient has disabled immediate mails for mentions" do
+    let(:recipient_without_mention_mails) do
+      create(:user,
+             member_with_permissions: { project => %i[view_documents] },
+             preferences: { immediate_reminders: { mentioned: false } })
+    end
+    let(:recipient_href) { api_v3_paths.user(recipient_without_mention_mails.id) }
+
+    it "creates the notification but sends no mail" do
+      expect { perform_enqueued_jobs { send_request } }.to change(Notification, :count).by(1)
+
+      expect(last_response).to have_http_status(:created)
+      expect(Notification.last.mail_alert_sent).to be_nil
+      expect(ActionMailer::Base.deliveries).to be_empty
     end
   end
 
