@@ -35,8 +35,15 @@ module APITokens
 
     validates :token_name, presence: true
     validate :token_name_is_unique, unless: :token_name_is_blank?
+    validate :admin_elevation_only_for_admins, if: -> { model.is_a?(Token::API) }
 
     private
+
+    def admin_elevation_only_for_admins
+      if model.includes_scope?(:admin_elevation) && !model.user.admin?
+        errors.add(:scopes, :admin_elevation_requires_admin)
+      end
+    end
 
     def token_name_is_blank?
       token_name.blank?
