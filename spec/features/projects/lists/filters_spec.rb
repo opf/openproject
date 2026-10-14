@@ -340,7 +340,8 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       load_and_open_filters admin
     end
 
-    specify "filters projects matching on when they were created" do
+    specify "filters projects matching on when they were created",
+            with_settings: { date_format: "%Y-%m-%d", time_format: "%H:%M" } do
       # created on 'today' shows projects that were created today
       projects_page.set_filter("created_at",
                                "Created on",
@@ -458,7 +459,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       expect(page).to have_no_current_path(/created_at/)
 
       projects_page.within_filter("created_at") do
-        projects_page.set_datetime_filter("created_at", "between", ["2017-11-10", "2017-11-12"])
+        projects_page.set_datetime_filter("created_at", "between", ["2017-11-10 00:00", "2017-11-12 23:59"])
       end
 
       projects_page.expect_projects_not_listed(project_created_on_today)

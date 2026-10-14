@@ -29,9 +29,6 @@ jobs:
           echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
-    permissions:
-      contents: write # for git push
-
     runs-on: ubuntu-latest
     needs: setup
     timeout-minutes: 60
@@ -46,6 +43,7 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
       - uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
         with:
           bundler-cache: true

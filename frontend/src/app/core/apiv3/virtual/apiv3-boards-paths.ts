@@ -135,7 +135,7 @@ export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
         switchMap((form) => this
           .apiRoot
           .grids
-          .post(form.payload.$source)),
+          .post(form.payload.$source as unknown as GridResource)),
       );
   }
 }

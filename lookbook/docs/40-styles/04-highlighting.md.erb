@@ -183,7 +183,12 @@ In `hsl(from …)` the `s` and `l` channels resolve as 0..100 numbers, so `calc(
 
 ## Adding a highlightable resource
 
-1. Register it in `app/views/highlighting/styles.css.erb`. The scope needs to respond to `id` and `color`; `Color` records are accepted as their own color, and plain `Struct`/`Data` constants work too, which is how `Meetings::Statuses::AVAILABLE` is handled.
-2. Add the model to `highlight_css_updated_at` in `HighlightingHelper` so the version tag changes when it does. Skipping this serves stale CSS for up to a year.
-3. Use the helpers at the call sites. Nothing new is needed in `_colors.sass` unless the resource wants a treatment that does not exist yet.
+1. Register it via `Highlighting::Registry.register_model` if it is a record referencing a `Color` - or use
+   `Highlighting::Registry.register_static` if it is a plain `Struct`/`Data` constant. Constants need to reply to `id`
+   and `color`.
+2. If the resource should get registered with an initializer, use the `to_prepare` initialization hook. In a module
+   engine this is usually wrapped in `Rails.application.reloader.to_prepare` block. If the resource is initialized
+   together with the core app, the registration should be added to the `initializers/resource_colors.rb`.
+3. Use the helpers at the call sites. Nothing new is needed in `_colors.sass` unless the resource wants a treatment that
+   does not exist yet.
 4. If the color reads as text and the resource can arrive through `inlineClass`, add it to `FOREGROUND_PROPERTIES`.

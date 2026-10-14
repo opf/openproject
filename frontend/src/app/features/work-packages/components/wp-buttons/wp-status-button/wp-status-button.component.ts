@@ -72,7 +72,7 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
         this.workPackage = wp;
 
         if (this.workPackage.status) {
-          this.workPackage.status.$load();
+          void this.workPackage.status.$load();
         }
 
         this.cdRef.detectChanges();

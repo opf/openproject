@@ -30,12 +30,14 @@
 
 module Queries::Filters::Strategies
   class Date < Queries::Filters::Strategies::Integer
-    self.supported_operators = ["<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-", "=d", "<>d", "!*"]
+    self.supported_operators = ["<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-", "=d", "<>d", ">d", "<d", "!*"]
     self.default_operator = "t"
 
     def validate
-      if operator == Queries::Operators::OnDate ||
-         operator == Queries::Operators::BetweenDate
+      if [Queries::Operators::OnDate,
+          Queries::Operators::BetweenDate,
+          Queries::Operators::GreaterOrEqualDate,
+          Queries::Operators::LessOrEqualDate].include?(operator)
         validate_values_all_date
       else
         super

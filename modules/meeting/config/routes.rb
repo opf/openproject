@@ -79,6 +79,8 @@ Rails.application.routes.draw do
         put :update_title
         get :details_dialog
         put :update_details
+        get :agenda_sorting_dialog
+        put :update_agenda_sorting
         put :change_state
         put :change_sharing
         post :notify
@@ -92,6 +94,8 @@ Rails.application.routes.draw do
       end
 
       resources :agenda_items, controller: "meeting_agenda_items" do
+        resource :vote, only: :create, controller: "meeting_agenda_item_votes"
+
         collection do
           get :cancel_new
         end

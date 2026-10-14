@@ -28,7 +28,7 @@
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { Injectable, Injector, inject } from '@angular/core';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -51,9 +51,9 @@ export class HalResourceNotificationService {
   protected readonly schemaCache = inject(SchemaCacheService);
 
   public showSave(resource:HalResource, isCreate = false) {
-    const message:any = {
+    const message = {
       message: this.I18n.t(`js.notice_successful_${isCreate ? 'create' : 'update'}`),
-    };
+    } as IToast;
 
     this.ToastService.addSuccess(message);
   }
@@ -114,10 +114,10 @@ export class HalResourceNotificationService {
     return this.I18n.t('js.error.internal');
   }
 
-  public retrieveError(response:unknown):ErrorResource|unknown {
+  public retrieveError(response:unknown):unknown {
     // we try to detect what we got, this may either be an HttpErrorResponse,
     // some older XHR response object or a string
-    let errorBody:any = response;
+    let errorBody:unknown = response;
 
     // Angular http response have an error body attribute
     if (response instanceof HttpErrorResponse) {
@@ -126,19 +126,19 @@ export class HalResourceNotificationService {
 
     // Some older response may have a data attribute
     if ((response as { data?:{ _type?:string } } | null)?.data?._type === 'Error') {
-      errorBody = (response as any).data;
+      errorBody = (response as { data:unknown }).data;
     }
 
-    if (errorBody?._type === 'Error') {
+    if ((errorBody as { _type?:string }|null|undefined)?._type === 'Error') {
       return this.halResourceService.createHalResourceOfClass(ErrorResource, errorBody);
     }
 
     return errorBody;
   }
 
-  protected handleErrorResponse(errorResource:any, resource?:HalResource) {
+  protected handleErrorResponse(errorResource:unknown, resource?:HalResource) {
     if (errorResource instanceof HalError && resource) {
-      return this.showError(errorResource.resource, resource);
+      return this.showError(errorResource.resource!, resource);
     }
 
     if (!(errorResource instanceof ErrorResource)) {
@@ -152,7 +152,7 @@ export class HalResourceNotificationService {
     return this.showApiErrorMessages(errorResource);
   }
 
-  public showError(errorResource:any, resource:HalResource) {
+  public showError(errorResource:ErrorResource, resource:HalResource) {
     this.showCustomError(errorResource, resource) || this.showApiErrorMessages(errorResource);
   }
 
@@ -160,7 +160,7 @@ export class HalResourceNotificationService {
     let error = this.I18n.t('js.error.internal');
 
     if (typeof (message) === 'string' || (message != null && Object.hasOwn(message, 'toString'))) {
-      error += ` ${(message as any).toString()}`;
+      error += ` ${(message as { toString():string }).toString()}`;
     }
 
     this.ToastService.addError(error);
@@ -173,7 +173,7 @@ export class HalResourceNotificationService {
     ));
   }
 
-  protected showCustomError(errorResource:any, resource:HalResource) {
+  protected showCustomError(errorResource:ErrorResource, resource:HalResource) {
     if (errorResource.errorIdentifier === 'urn:openproject-org:api:v3:errors:PropertyFormatError') {
       const schema = this.schemaCache.of(resource).ofProperty(errorResource.details.attribute);
       const attributeName = schema.name;
@@ -192,7 +192,7 @@ export class HalResourceNotificationService {
     return false;
   }
 
-  protected showApiErrorMessages(errorResource:any) {
+  protected showApiErrorMessages(errorResource:ErrorResource) {
     const messages = errorResource.errorMessages;
 
     if (messages.length > 1) {

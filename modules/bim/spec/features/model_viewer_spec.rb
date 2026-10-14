@@ -86,8 +86,12 @@ RSpec.describe "model viewer",
         show_model_page.visit_and_wait_until_finished_loading!
 
         model_tree.select_model_menu_item(model.title, "Delete")
-        show_model_page.finished_loading
-        expect(page).to have_text(I18n.t("js.ifc_models.empty_warning"))
+        expect(page).to have_css(
+          ".op-toast.-info",
+          text: I18n.t("js.ifc_models.empty_warning"),
+          visible: :all,
+          wait: 30
+        )
       end
     end
 

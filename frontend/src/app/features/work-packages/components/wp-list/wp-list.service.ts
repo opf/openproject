@@ -54,6 +54,7 @@ import { WorkPackageStatesInitializationService } from './wp-states-initializati
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import { SubmenuService } from 'core-app/core/main-menu/submenu.service';
+import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
@@ -83,9 +84,6 @@ export class WorkPackagesListService {
 
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();
-
-  // The form request currently in flight, so concurrent callers join it instead of issuing their own
-  private formLoading:{ href:string|undefined, promise:Promise<QueryFormResource> }|undefined;
 
   // This mapped observable requests the latest query automatically.
   private queryLoading = this.queryRequests
@@ -367,28 +365,11 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const updateHref = query.$links.update?.href as string|undefined;
-
-    if (currentForm && updateHref === currentForm.href) {
-      return Promise.resolve(currentForm);
+    if (!currentForm || (query.$links.update as CallableHalLink|undefined)?.href !== currentForm.href) {
+      return this.loadForm(query);
     }
 
-    if (this.formLoading && this.formLoading.href === updateHref) {
-      return this.formLoading.promise;
-    }
-
-    const promise = this
-      .loadForm(query)
-      .finally(() => {
-        if (this.formLoading?.promise === promise) {
-          this.formLoading = undefined;
-        }
-      });
-
-    this.formLoading = { href: updateHref, promise };
-
-    return promise;
+    return Promise.resolve(currentForm);
   }
 
   public get currentQuery() {

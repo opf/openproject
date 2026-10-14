@@ -38,7 +38,27 @@ module ::Avatars
       end
     end
 
+    def update_color
+      result = update_color_request
+
+      if result.success?
+        flash[:notice] = t("avatars.message_avatar_color_updated") # rubocop:disable Rails/ActionControllerFlashBeforeRender
+      else
+        flash[:error] = result.errors.full_messages.join(", ") # rubocop:disable Rails/ActionControllerFlashBeforeRender
+      end
+
+      # A full reload is needed so every already-rendered avatar on the page
+      # (not just the one in the avatar section) picks up the new color.
+      render turbo_stream: turbo_stream.reload
+    end
+
     private
+
+    def update_color_request
+      ::Users::UpdateService
+        .new(model: @user, user: current_user)
+        .call(pref: { avatar_color: params[:avatar_color] })
+    end
 
     def redirect_path
       raise SubclassResponsibilityError

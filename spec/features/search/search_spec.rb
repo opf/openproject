@@ -100,6 +100,11 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
   end
 
+  def search_in_global_scope(query)
+    global_search.search(query)
+    global_search.submit_in_global_scope
+  end
+
   before do
     project.reload
 
@@ -180,15 +185,11 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     end
 
     it "announces the number of items via aria-live" do
-      input = page.find(".top-menu-search--input")
-      input.set "Subject"
+      global_search.search("Subject")
 
-      live_region = page.find(
-        "live-region",
-        visible: :all
-      )
-
-      expect(live_region).to have_text(/\d+ items available/, wait: 5)
+      wait_for do
+        page.evaluate_script("document.querySelector('live-region').shadowRoot.textContent")
+      end.to match(/\d+ items available/)
     end
   end
 
@@ -200,10 +201,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:searchable) { false }
 
         it "does not find WP via custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.ensure_work_package_not_listed!(work_packages[1])
@@ -214,20 +212,14 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:is_filter) { false }
 
         it "finds WP global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "string",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("string")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
         end
 
         it "finds WP non global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[1])
           table.expect_work_package_subject(work_packages[0].subject)
@@ -236,20 +228,14 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
 
       context "when custom fields are searchable" do
         it "finds WP global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "string",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("string")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[0])
           table.expect_work_package_subject(work_packages[1].subject)
         end
 
         it "finds WP non global custom fields" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "text",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("text")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(work_packages[1])
           table.expect_work_package_subject(work_packages[0].subject)
@@ -260,10 +246,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         let(:work_package) { work_packages.last }
 
         it "loads the WP results table with the correct WP" do
-          select_autocomplete(page.find(".top-menu-search--input"),
-                              query: "##{work_package.id}",
-                              select_text: "In all projects ↵",
-                              wait_dropdown_open: false)
+          search_in_global_scope("##{work_package.id}")
           table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
           table.ensure_work_package_not_listed!(*work_packages[0...-1])
           table.expect_work_package_subject(work_package.subject)
@@ -415,10 +398,8 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         top_menu.search_and_select subproject.name
         top_menu.expect_current_project subproject.name
 
-        select_autocomplete(page.find(".top-menu-search--input"),
-                            query:,
-                            select_text: "In this project ↵",
-                            wait_dropdown_open: false)
+        global_search.search(query)
+        global_search.submit_in_current_project
 
         filters.expect_closed
         page.find(".advanced-filters--toggle").click
@@ -524,10 +505,9 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
     let!(:other_project) { create(:project, name: "Other project") }
 
     subject do
-      select_autocomplete(page.find(".top-menu-search--input"),
-                          query:,
-                          select_text: "In all projects ↵",
-                          wait_dropdown_open: false)
+      search_in_global_scope(query)
+      page.find("body").send_keys(:escape)
+      expect(page).to have_no_css(".global-search .ng-dropdown-panel", visible: :visible)
 
       within_test_selector("search-tabs") do
         click_on "Projects"

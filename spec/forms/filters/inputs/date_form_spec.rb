@@ -74,6 +74,13 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
       days_input = rendered_form.find(:element, "data-filter--filters-form-target": "days", visible: :all)
       expect(days_input["hidden"]).to eq("hidden")
     end
+
+    it "passes the filter name on to both date pickers" do
+      expected_attributes = { "data-filter--filters-form-target" => "singleDay", "data-filter-name" => filter.name.to_s }
+      expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                            "data-input-attributes": expected_attributes.to_json,
+                                            visible: :all
+    end
   end
 
   context "with a between-dates operator (<>d)" do
@@ -90,6 +97,24 @@ RSpec.describe Filters::Inputs::DateForm, type: :forms do
       days_input = rendered_form.find(:element, "data-filter--filters-form-target": "days", visible: :all)
       expect(days_input["hidden"]).to eq("hidden")
     end
+  end
+
+  context "with a greater or equal operator (>d)" do
+    let(:operator) { ">d" }
+    let(:values) { ["2026-07-01"] }
+
+    it "uses the single date picker" do
+      expect(rendered_form).to have_element "opce-basic-single-date-picker",
+                                            "data-value": '"2026-07-01"',
+                                            visible: :all
+      expect(rendered_form).to have_no_element "opce-basic-single-datetime-picker", visible: :all
+    end
+  end
+
+  it "announces the field of each operator to the filters form" do
+    expect(rendered_form).to have_element "data-filter--filters-form-target": /filterValueContainer/,
+                                          "data-value-fields": described_class::VALUE_FIELDS.to_json,
+                                          visible: :all
   end
 
   # `inDialog` reaches the angular picker as a JSON-encoded data attribute.

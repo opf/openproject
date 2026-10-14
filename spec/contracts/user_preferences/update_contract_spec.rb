@@ -52,6 +52,7 @@ RSpec.describe UserPreferences::UpdateContract do
       time_zone: "America/Sao_Paulo",
       warn_on_leaving_unsaved: true,
       disable_keyboard_shortcuts: true,
+      require_double_click_for_inline_edit: true,
       workdays: [1, 2, 4, 6]
     }
   end
@@ -248,6 +249,26 @@ RSpec.describe UserPreferences::UpdateContract do
       end
 
       it_behaves_like "contract is invalid", time_zone: :inclusion
+    end
+
+    context "with a valid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "#AABBCC"
+        }
+      end
+
+      it_behaves_like "contract is valid"
+    end
+
+    context "with an invalid avatar_color" do
+      let(:settings) do
+        {
+          avatar_color: "red"
+        }
+      end
+
+      it_behaves_like "contract is invalid", avatar_color: :invalid
     end
 
     context "with duplicate workday entries" do
