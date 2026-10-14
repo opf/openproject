@@ -59,7 +59,6 @@ module Settings
         label: setting_label(name),
         disabled: setting_disabled?(name),
         visually_hide_label: true,
-        data: { admin__multi_lang_text_setting_target: "textArea" },
         rich_text_options: {
           turboMode: true,
           showAttachments: false
