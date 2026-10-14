@@ -53,11 +53,11 @@ function assertOk(response:{ ok:boolean; statusCode:number }):void {
  *
  * The server is the source of truth, and both directions are reconciled. A
  * browser push subscription only counts when its endpoint is in the list the
- * server rendered into this element; one the server does not know is dropped,
- * because a revoke from another device, a logout or a key rotation has already
- * invalidated it. A server row for this device without a browser subscription
- * (the browser deactivates it when notification permission is revoked) is
- * revoked.
+ * server rendered into this element and it is bound to the current VAPID key;
+ * otherwise it is dropped, because a revoke from another device, a logout or a
+ * key rotation has already invalidated it. A server row for this device without
+ * a browser subscription (the browser deactivates it when notification
+ * permission is revoked) is revoked.
  *
  * Flow
  *
@@ -174,7 +174,7 @@ export default class PushSubscriptionController extends Controller {
     const subscription = await registration.pushManager.getSubscription();
     if (!isCurrent()) return;
 
-    if (this.knownToServer(subscription)) {
+    if (subscription && this.knownToServer(subscription) && this.boundToCurrentKey(subscription)) {
       this.render('enabled', true);
       return;
     }
@@ -242,6 +242,15 @@ export default class PushSubscriptionController extends Controller {
 
   private knownToServer(subscription:PushSubscription|null|undefined):KnownSubscription|undefined {
     return this.subscriptionsValue.find((entry) => entry.endpoint === subscription?.endpoint);
+  }
+
+  private boundToCurrentKey(subscription:PushSubscription):boolean {
+    const bound = subscription.options.applicationServerKey;
+    if (!bound) return true;
+
+    const current = decodeBase64Url(this.vapidPublicKeyValue);
+    const boundBytes = new Uint8Array(bound);
+    return boundBytes.length === current.length && boundBytes.every((byte, index) => byte === current[index]);
   }
 
   private permissionBlocked():boolean {
