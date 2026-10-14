@@ -255,12 +255,10 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :pdf_export_template, only: %i[],
-                                    controller: "pdf_export_template",
-                                    path: "pdf_export" do
+    resources :pdf_export_template, only: %i[], controller: "pdf_export_template", path: "pdf_export" do
       member do
         post :toggle
-        put :drop
+        put :move
         get :edit_settings
         patch :update_settings
       end
@@ -277,14 +275,13 @@ Rails.application.routes.draw do
 
   resources :types, module: "work_package_types", only: %i[index destroy] do
     collection do
-      post "move/:id", action: "move", as: :move
       get :workflow_summary, to: "/workflows/summaries#show"
     end
 
     member do
       get :menu
       get :deletion_dialog
-      put :drop
+      put :move
       post :duplicate
     end
   end
@@ -435,33 +432,17 @@ Rails.application.routes.draw do
   get "highlighting/styles(/:version_tag)" => "highlighting#styles",
       as: "highlighting_css_styles"
 
-  resources :custom_fields, except: :show do
-    member do
-      delete "options/:option_id", to: "custom_fields#delete_option", as: :delete_option_of
-
-      post :reorder_alphabetical
-
-      get :attribute_help_text
-      put :update_attribute_help_text
-
-      get :list_items
-    end
-
-    scope module: :admin do
-      scope module: :custom_fields do
-        resources :projects, controller: "/admin/custom_fields/custom_field_projects", only: %i[index new create]
-        resource :project, controller: "/admin/custom_fields/custom_field_projects", only: :destroy
-        resources :items, controller: "/admin/custom_fields/hierarchy/items" do
-          member do
-            get :change_parent, action: :change_parent_dialog
-            post :change_parent, action: :change_parent
-            get :delete, action: :deletion_dialog
-            get :item_actions
-            post :move
-            get :new_child, action: :new
-            post :new_child, action: :create
-          end
-        end
+  resources :custom_fields, only: :index
+  scope "admin/settings/work_package_custom_fields/:custom_field_id", as: :custom_field, module: "admin/custom_fields" do
+    resources :items, controller: "hierarchy/items" do
+      member do
+        get :change_parent, action: :change_parent_dialog
+        post :change_parent, action: :change_parent
+        get :delete, action: :deletion_dialog
+        get :item_actions
+        post :move
+        get :new_child, action: :new
+        post :new_child, action: :create
       end
     end
   end
@@ -515,6 +496,7 @@ Rails.application.routes.draw do
     resources :projects, only: :index do
       collection do
         get :frame
+        get :children
       end
     end
   end
@@ -571,7 +553,6 @@ Rails.application.routes.draw do
         resource :versions, only: %i[show]
         resource :storage, only: %i[show], controller: "storage"
         get :types, to: redirect("projects/%{project_id}/settings/work_packages/types")
-        get :custom_fields, to: redirect("projects/%{project_id}/settings/work_packages/custom_fields")
         get :categories, to: redirect("projects/%{project_id}/settings/work_packages/categories")
         resource :work_packages, only: %i[show]
         namespace :work_packages do
@@ -581,7 +562,6 @@ Rails.application.routes.draw do
               resource :impact, only: :create, controller: "types/switches/impacts"
             end
           end
-          resource :custom_fields, only: %i[show update]
           resource :categories, only: %i[show update]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
@@ -888,12 +868,17 @@ Rails.application.routes.draw do
         get :disconnect_dialog
         post :disconnect
       end
+
+      resource :health_status_report, only: %i[show create], controller: "admin/llm_health_status" do
+        post :create_health_status_report
+      end
     end
 
     resources :llm_models, only: %i[index new create edit update destroy], controller: "admin/llm_models" do
       collection do
         get :search, defaults: { format: :turbo_stream }
         post :refresh
+        patch :defaults, action: :update_defaults
       end
 
       member do
@@ -901,13 +886,17 @@ Rails.application.routes.draw do
       end
     end
 
+    # Keyed by feature key rather than by record id: the binding is an attribute
+    # of a registered feature, and a feature may not have a row yet.
+    resources :llm_feature_bindings, only: %i[index update], controller: "admin/llm_feature_bindings"
+
     resources :mcp_configurations, only: %i[index update], controller: "admin/mcp_configurations" do
       collection do
         post :multi_update
       end
     end
 
-    resources :custom_actions, except: :show
+    resources :automations, except: :show
 
     namespace :oauth do
       resources :applications do
@@ -964,8 +953,7 @@ Rails.application.routes.draw do
                 controller: "/admin/settings/project_phase_definitions",
                 except: :show do
         member do
-          patch :move
-          put :drop # should be patch, but requires passing method to generic-drag-and-drop controller
+          put :move
         end
       end
       resources :project_custom_fields, controller: "/admin/settings/project_custom_fields" do
@@ -988,6 +976,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/project_custom_fields/hierarchy/items" do
@@ -1029,6 +1019,8 @@ Rails.application.routes.draw do
           put :update_attribute_help_text
 
           get :list_items
+
+          get :deletion_dialog
         end
 
         resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do
@@ -1061,6 +1053,48 @@ Rails.application.routes.draw do
             put :move
             put :drop
           end
+        end
+      end
+
+      resources :work_package_custom_fields, controller: "/admin/settings/work_package_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
+        end
+      end
+
+      resources :version_custom_fields, controller: "/admin/settings/version_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
+        end
+      end
+
+      resources :group_custom_fields, controller: "/admin/settings/group_custom_fields" do
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+
+          get :deletion_dialog
         end
       end
 
@@ -1222,6 +1256,8 @@ Rails.application.routes.draw do
 
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member
+
+    post "assign_to_me" => "work_packages#assign_to_me", on: :member
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
@@ -1441,6 +1477,21 @@ Rails.application.routes.draw do
       delete :revoke_ical_token
       delete :revoke_ical_meeting_token
     end
+
+    get "/work/(:mode-:view_mode)(/:date)" => "work#index",
+        as: :work,
+        constraints: {
+          mode: /day|week|workweek|month/,
+          view_mode: /list|calendar|stack/,
+          date: /(\d{4}-\d{2}-\d{2}|today)/
+        }
+    get "/work/refresh" => "work#refresh",
+        as: :work_refresh
+
+    get "/time-tracking(/)" => redirect("#{rails_relative_url_root}/my/work")
+    get "/time-tracking/*rest" => redirect { |params, _req|
+      "#{rails_relative_url_root}/my/work/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
+    }
   end
 
   scope controller: "my" do

@@ -32,6 +32,10 @@ de:
         labels: Bezeichnung
       gitlab_pipeline:
         ci_details: CI Details
+      gitlab_user:
+        avatar_url: Avatar-URL
+        name: Name
+        username: Benutzername
     errors:
       models:
         gitlab_issue:
@@ -61,23 +65,20 @@ de:
   attributes:
     commit: Commit
     gitlab: GitLab Kennung
-    gitlab_avatar_url: Avatar-URL
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Merge Request
-    gitlab_name: GitLab Name
     gitlab_updated_at: Aktualisiert am
     gitlab_user_avatar_url: GitLab Avatar URL
-    gitlab_username: GitLab Benutzername
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name
       create_merge_request: Create merge request
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+      updated_at: Aktualisiert am %{date_time}.
+      updated_by: Zuletzt aktualisiert von %{name}.
     commit_component:
       authored_at: Authored on %{date_time}.
-      copy_sha: Copy SHA to clipboard
-      created_by: Created by %{name}.
+      copy_sha: SHA in die Zwischenablage kopieren
+      created_by: Erstellt von %{name}.
       empty_message: "<empty commit message>"
     git_snippets_dialog_component:
       branch_name: Branch name
@@ -90,35 +91,35 @@ de:
     issue_closed_referenced_comment: "**Ticket geschlossen:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     issue_component:
       states:
-        closed: Closed
-        opened: Open
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+        closed: Geschlossen
+        opened: Offen
+      updated_at: Aktualisiert am %{date_time}.
+      updated_by: Zuletzt aktualisiert von %{name}.
     issue_opened_referenced_comment: "**Ticket erstellt:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) erstellt.\n"
     issue_reopened_referenced_comment: "**Wiedereröffnetes Ticket:** %{issue_number} [%{issue_title}](%{issue_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.\n"
     merge_request_closed_comment: "**MR geschlossen:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) geschlossen.\n"
     merge_request_component:
       pipeline_statuses:
-        canceled: Canceled
+        canceled: Abgebrochen
         canceling: Canceling
-        created: Created
-        failed: Failed
-        manual: Manual
-        pending: Pending
+        created: Erstellt
+        failed: Fehlgeschlagen
+        manual: Manuell
+        pending: Ausstehend
         preparing: Preparing
-        running: Running
-        scheduled: Scheduled
-        skipped: Skipped
-        success: Success
+        running: Läuft
+        scheduled: Geplant
+        skipped: Übersprungen
+        success: Erfolg
         waiting_for_callback: Waiting for callback
         waiting_for_resource: Waiting for resource
       states:
-        closed: Closed
-        locked: Locked
-        merged: Merged
-        opened: Open
-      updated_at: Updated on %{date_time}.
-      updated_by: Last updated by %{name}.
+        closed: Geschlossen
+        locked: Gesperrt
+        merged: Zusammengeführt
+        opened: Offen
+      updated_at: Aktualisiert am %{date_time}.
+      updated_by: Zuletzt aktualisiert von %{name}.
     merge_request_merged_comment: "**MR Zusammengeführt:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) zusammengeführt.\n"
     merge_request_opened_comment: "**MR eröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) eröffnet.\n"
     merge_request_reopened_comment: "**MR Wiedereröffnet:** Der Merge Request %{mr_number} [%{mr_title}](%{mr_url}) für [%{repository}](%{repository_url}) wurde von [%{gitlab_user}](%{gitlab_user_url}) wiedereröffnet.\n"
@@ -135,7 +136,7 @@ de:
       blank_slates:
         branches:
           description_html: Link a branch by naming the branch, so that it starts with %{code} or only %{identifier}.
-          title: No branches
+          title: Keine Zweige
         commits:
           description_html: Link a commit by adding the code %{code} or the %{url} to the commit message.
           title: No commits
@@ -145,7 +146,7 @@ de:
         merge_requests:
           description_html: Link a merge request by adding the code %{code} to the title or description.
           title: No merge requests
-      branches: Branches
+      branches: Zweige
       commits: Commits
       description_html: Link an existing GitLab element by adding the code %{code} to the title or description.
       git_snippets: Git snippets

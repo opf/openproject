@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -171,17 +170,21 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
       .id(this.workPackage)
       .requireAndStream()
       .pipe(this.untilDestroyed())
-      .subscribe(async (wp) => {
-        this.workPackage = wp;
-
-        if (!this.projectId) {
-          await this.initialize(this.workPackage);
-        }
-
-        if (wp.bcfViewpoints) {
-          this.refreshViewpoints(wp.bcfViewpoints);
-        }
+      .subscribe((wp) => {
+        void this.onWorkPackageChange(wp);
       });
+  }
+
+  private async onWorkPackageChange(wp:WorkPackageResource) {
+    this.workPackage = wp;
+
+    if (!this.projectId) {
+      await this.initialize(this.workPackage);
+    }
+
+    if (wp.bcfViewpoints) {
+      this.refreshViewpoints(wp.bcfViewpoints as unknown as HalLink[]);
+    }
   }
 
   async initialize(workPackage:WorkPackageResource) {

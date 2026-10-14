@@ -36,14 +36,15 @@ module WorkPackageTypes
     layout "admin"
 
     before_action :require_admin
-    before_action :find_type, only: %i[move destroy drop duplicate menu deletion_dialog]
+    before_action :find_type, only: %i[move destroy duplicate menu deletion_dialog]
 
     current_menu_item do
       :types
     end
 
     def index
-      @expanded_type_id = params[:expand].presence&.to_i
+      @expanded_type_id = expanded_type_id
+      @page_args = page_args
       @types = types_for_index
     end
 
@@ -52,12 +53,11 @@ module WorkPackageTypes
     end
 
     def move
-      if @type.update(permitted_params.type_move)
-        flash[:notice] = I18n.t(:notice_successful_update)
+      if params.key?(:move_to)
+        render_ordering_result(move_in_direction, error_message: I18n.t(:error_type_could_not_be_saved))
       else
-        flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
+        render_ordering_result(move_after_anchor, error_message: I18n.t(:error_invalid_list_move_anchor))
       end
-      redirect_to types_path
     end
 
     def destroy
@@ -92,23 +92,14 @@ module WorkPackageTypes
       redirect_to types_path, status: :see_other
     end
 
-    def drop
-      unless @type.update(params.permit(:position))
-        render_error_flash_message_via_turbo_stream(message: @type.errors.full_messages.to_sentence)
-      end
-
-      update_via_turbo_stream(component: Types::GroupedListComponent.new(types: types_for_index))
-      respond_to_with_turbo_streams
-    end
-
     def menu
-      render Types::TypeActionsComponent.new(type: @type), layout: false
+      render Types::TypeActionsComponent.new(type: @type, page_args:, expanded_type_id:), layout: false
     end
 
     protected
 
     def find_type
-      @type = ::Type.find(params[:id])
+      @type = ::Type.find(params.expect(:id))
     end
 
     def types_for_index
@@ -157,6 +148,76 @@ module WorkPackageTypes
 
     def archived_projects
       @archived_projects ||= @type.projects.archived
+    end
+
+    private
+
+    def page_args
+      { page: page_param, per_page: per_page_param }
+    end
+
+    def expanded_type_id
+      Integer(params[:expand].to_s, exception: false)
+    end
+
+    def ordering_component
+      Types::GroupedListComponent.new(types: types_for_index, page_args:, expanded_type_id:)
+    end
+
+    def render_ordering_result(moved, error_message:)
+      if moved
+        update_via_turbo_stream(component: ordering_component, method: :morph)
+        render_success_flash_message_via_turbo_stream(message: I18n.t(:notice_successful_update))
+      else
+        render_error_flash_message_via_turbo_stream(message: error_message)
+      end
+      respond_with_turbo_streams(status: moved ? :ok : :unprocessable_entity)
+    end
+
+    def move_in_direction
+      direction = params[:move_to]
+      return false unless direction.in?(%w[highest higher lower lowest])
+
+      @type.update(move_to: direction)
+    end
+
+    def move_after_anchor
+      return false unless valid_drop_request?
+
+      predecessor = drop_params[:prev_id]
+      if predecessor.nil? || predecessor == ""
+        move_to_page_start
+      else
+        @type.move_after_anchor(predecessor, scope: ::Type.all)
+      end
+    end
+
+    def move_to_page_start
+      current_page = ::Type.page(page_param).per_page(per_page_param)
+      return false if current_page.empty?
+
+      predecessor = ::Type.offset(current_page.offset - 1).pick(:id) if current_page.offset.positive?
+      @type.move_after_anchor(predecessor, scope: ::Type.all)
+    end
+
+    def valid_drop_request?
+      drop_params[:list_type] == sortable_list_type &&
+        unscoped_list_id? &&
+        drop_params.key?(:prev_id)
+    end
+
+    # The type list carries no list id. The raw param is checked because
+    # permit cannot tell an absent value from a filtered-out array or hash.
+    def unscoped_list_id?
+      params[:list_id].nil? || params[:list_id] == ""
+    end
+
+    def drop_params
+      @drop_params ||= params.permit(:list_type, :list_id, :prev_id)
+    end
+
+    def sortable_list_type
+      ::Type.model_name.param_key
     end
   end
 end

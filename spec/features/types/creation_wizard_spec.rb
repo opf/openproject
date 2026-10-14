@@ -102,15 +102,21 @@ RSpec.describe "Type creation wizard", :js do
     expect_step_saved(:defaults)
 
     expect(page).to have_heading("Form")
-    expect(page).to have_css("[data-test-selector='form_configuration-choice-new']:checked", visible: :all)
+    expect(page).to have_css("[data-test-selector='form_configuration-choice-existing']:checked", visible: :all)
     click_on I18n.t(:button_continue)
+    within_dialog I18n.t("form_configurations.form.edit_title") do
+      expect(page).to have_field("Form name", with: "Incident form")
+      fill_in "Form name", with: "Incident intake"
+      click_on I18n.t(:button_save)
+    end
+
     expect_step_saved(:form_configuration)
 
     expect(page).to have_heading("Project attributes")
     click_on I18n.t(:button_continue)
     expect_step_saved(:project_attributes)
 
-    expect(page).to have_heading("Workflows")
+    expect(page).to have_heading("Workflow")
     expect(page).to have_text(I18n.t("admin.workflows.tabs.always"))
     click_on I18n.t(:button_continue)
     within_dialog I18n.t("workflows.form.edit_title") do
@@ -129,6 +135,7 @@ RSpec.describe "Type creation wizard", :js do
     expect_flash(message: I18n.t("types.creation_wizard.success"))
     expect(page).to have_current_path(types_path)
     expect(type.reload.name).to eq("Incident")
+    expect(type.default_variant.form_configuration.name).to eq("Incident intake")
   end
 
   it "creates a type with the core settings editable" do

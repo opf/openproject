@@ -69,21 +69,6 @@ module API
                  name_source: :done_ratio,
                  required: false,
                  writable: false
-
-          schema :overall_costs,
-                 type: "String",
-                 required: false,
-                 writable: false
-
-          schema :labor_costs,
-                 type: "String",
-                 required: false,
-                 writable: false
-
-          schema :material_costs,
-                 type: "String",
-                 required: false,
-                 writable: false
         end
       end
     end

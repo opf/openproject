@@ -58,6 +58,7 @@ jobs:
         with:
           target: ${{ matrix.target }}
           version: ${{ steps.setup.outputs.version }}
+          pkgr_version: acc46f88dd24241e118139cb0e1f38ea948bb8c5
           debug: true
           cache_prefix: ${{ github.ref_name }}
           env: |

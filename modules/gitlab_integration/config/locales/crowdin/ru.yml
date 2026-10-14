@@ -32,6 +32,10 @@ ru:
         labels: Метки
       gitlab_pipeline:
         ci_details: Подробности CI
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -71,13 +75,10 @@ ru:
   attributes:
     commit: Коммит
     gitlab: Идентификатор GitLab
-    gitlab_avatar_url: URL на аватар
     gitlab_html_url: GitLab HTML URL
     gitlab_merge_request: Запрос на слияние
-    gitlab_name: Имя GitLab
     gitlab_updated_at: Обновлено
     gitlab_user_avatar_url: URL аватара GitLab
-    gitlab_username: Имя пользователя GitLab
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

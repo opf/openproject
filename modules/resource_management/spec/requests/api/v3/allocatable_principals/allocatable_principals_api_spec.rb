@@ -125,6 +125,19 @@ RSpec.describe API::V3::AllocatablePrincipals::AllocatablePrincipalsAPI,
         expect(returned_ids).to contain_exactly(user.id, member.id, with_criteria.id)
       end
     end
+
+    context "when filtering for the candidates of a placeholder" do
+      let(:send_request) do
+        get api_v3_paths.path_for(:allocatable_principals,
+                                  filters: [{ candidate_of_placeholder: { operator: "=",
+                                                                          values: [with_criteria.id.to_s] } }])
+      end
+
+      it "returns only the users matching the placeholder's criteria" do
+        expect(last_response).to have_http_status(:ok)
+        expect(returned_ids).to contain_exactly(member.id)
+      end
+    end
   end
 
   context "for a user who may not allocate" do

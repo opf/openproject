@@ -22,7 +22,7 @@
         end
 
         modal_body.with_row do
-          render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, wrapper_id: "#create-work-package-dialog"))
+          render(WorkPackages::Dialogs::CreateForm.new(f, work_package:, dialog_id: WorkPackages::Dialogs::CreateDialogComponent::DIALOG_ID))
         end
 
         modal_body.with_row do

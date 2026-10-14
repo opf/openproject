@@ -36,17 +36,11 @@ class PlaceholderUser < Principal
   validates :name, length: { maximum: 256 }
 
   include ::Associations::Groupable
-  include ::Costs::HasRates
 
   has_details_table(foreign_key: :principal_id) do
     # Deferred: loading UserQuery reads the schema, which fails during db:create.
     serialize :user_filter, coder: Queries::Serialization::Filters.new(-> { UserQuery })
   end
-
-  has_many :resource_allocations,
-           class_name: "ResourceAllocation",
-           dependent: :restrict_with_error,
-           inverse_of: :placeholder_user
 
   scopes :visible
 

@@ -170,6 +170,10 @@ cs:
     meeting_agenda_opened: Agenda schůzky otevřena
     meeting_minutes: Zápis ze zasedání byl upraven
     meeting_minutes_created: Zápisy ze zasedání byly vytvořeny
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Přidat do schůzky
   label_add_work_package_to_meeting_dialog_title: Zvolte schůzku
   label_add_work_package_to_meeting_section_label: Sekce
@@ -178,6 +182,8 @@ cs:
   label_agenda_backlog_clear_title: Vyčistit backlog programu?
   label_agenda_item_actions: volby pro body schůzky
   label_agenda_item_add: Přidat položku programu
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Přidat poznámky
   label_agenda_item_add_outcome: Přidat výsledek
   label_agenda_item_convert_to_work_package: Zkonvertovat na pracovní balíček
@@ -512,6 +518,7 @@ cs:
       no_items: Žádné body programu
       no_items_flash: Na programu nejsou žádné body.
       previous: Předchozí
+      slide_progress: Slide %{current}/%{total}
       title: Prezentační mód
       total_items: "%{current} z %{total}"
     types:
@@ -734,6 +741,7 @@ cs:
   text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_agenda_item_move_next_meeting: Tento bod bude přesunut na příští schůzi v %{date} %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Bod programu přesunut na příští schůzi %{date}
   text_agenda_item_no_available_occurrence: Nejsou k dispozici žádné nadcházející výskyty událostí.
   text_agenda_item_no_notes: Nebyly poskytnuty žádné poznámky

@@ -40,6 +40,15 @@ module Pages
       def item_selector = :row
 
       def actions_label = I18n.t("documents.document_type_actions")
+
+      def expect_order(*names)
+        within_list do
+          expect(page).to have_selector(item_selector, count: names.size)
+          names.each.with_index(2) do |name, rowindex|
+            expect(page).to have_selector(item_selector, name, rowindex:)
+          end
+        end
+      end
     end
   end
 end

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -58,8 +57,7 @@ export interface TimeEntryEvent {
 // EventApi rather than the payload has only these to hand the card.
 export type TimeEntryCard = Pick<
   TimeEntryEvent,
-  'id'|'hours'|'timeRange'|'ongoing'|'workPackageId'|'workPackageFormattedId'
-  |'workPackageSubject'|'projectIdentifier'|'projectName'
+  'id'|'hours'|'timeRange'|'ongoing'|'workPackageFormattedId'|'workPackageSubject'|'projectName'
 >;
 
 // Goes on the element the card is rendered into, which each view names for itself.
@@ -91,14 +89,9 @@ export function renderTimeEntryCard(
         ${entry.timeRange ? html`<span class="te-entry-card--times">${entry.timeRange}</span>` : nothing}
       </div>
       <div class="te-entry-card--subject" title="${entry.workPackageSubject}">
-        <a class="Link--primary Link"
-           href="${pathHelperService.workPackageShortPath(entry.workPackageId)}">${entry.workPackageFormattedId}</a>:
-        ${entry.workPackageSubject}
+        ${entry.workPackageFormattedId}: ${entry.workPackageSubject}
       </div>
-      <div class="te-entry-card--project" title="${entry.projectName}">
-        <a class="Link--secondary Link"
-           href="${pathHelperService.projectPath(entry.projectIdentifier)}">${entry.projectName}</a>
-      </div>
+      <div class="te-entry-card--project" title="${entry.projectName}">${entry.projectName}</div>
       <div class="te-entry-card--icon">${unsafeHTML(clock)}</div>
     </div>`;
 }

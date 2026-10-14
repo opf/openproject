@@ -38,6 +38,8 @@ module Costs
 
     register "costs", author_url: "https://www.openproject.org", bundled: true, settings: { menu_item: :costs_settings } do
       project_module :costs do
+        enabled_by_default!
+
         permission :view_time_entries,
                    {},
                    permissible_on: :project,
@@ -163,15 +165,12 @@ module Costs
            parent: :admin_costs,
            caption: :enumeration_activities
 
-      menu :global_menu,
-           :my_time_tracking,
-           { controller: "/my/time_tracking", action: "index", date: "today" },
-           after: :my_page,
-           caption: :label_my_time_tracking,
-           if: ->(*) do
-             User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
-           end,
-           icon: :stopwatch
+      menu :admin_menu,
+           :time_entry_custom_fields,
+           { controller: "/admin/settings/time_entry_custom_fields", action: :index },
+           if: ->(*) { User.current.admin? },
+           parent: :admin_costs,
+           caption: :label_time_entry_custom_field_plural
 
       menu :my_menu,
            :hourly_rates,
@@ -180,17 +179,6 @@ module Costs
            caption: ->(*) { HourlyRate.model_name.human(count: 2) },
            if: ->(*) { ::My::HourlyRatesController.rates_visible?(User.current) },
            icon: "credit-card"
-
-      menu :top_menu,
-           :my_time_tracking,
-           { controller: "/my/time_tracking", action: "index" },
-           after: :my_page,
-           context: :my,
-           caption: :label_my_time_tracking,
-           if: ->(*) do
-             User.current.allowed_in_any_project?(:log_own_time) || User.current.allowed_in_any_project?(:log_time)
-           end,
-           icon: :stopwatch
     end
 
     initializer "costs.settings" do
@@ -208,12 +196,14 @@ module Costs
 
     activity_provider :time_entries, class_name: "Activities::TimeEntryActivityProvider", default: false
 
+    replace_principal_references "CostEntry" => %i[logged_by_id user_id]
+
+    include_module "Costs::HasRates", into: %w[User PlaceholderUser]
     include_module "Projects::Costs", into: "Project"
     include_module "PermittedParams::Costs", into: "PermittedParams"
     include_module "WorkPackages::Costs", into: "WorkPackage"
     include_module "WorkPackages::SpentTime", into: "WorkPackage"
 
-    prepend_module "BasicData::EnableCostsModuleByDefault", into: "BasicData::SettingSeeder"
     prepend_module "Costs::ConfiguredCurrency", into: "ActiveSupport::NumberHelper::NumberToCurrencyConverter"
     prepend_module "Members::TableCurrentUser", into: "MembersController"
     prepend_module "Members::CurrentRateColumn", into: "Members::TableComponent"
@@ -435,6 +425,45 @@ module Costs
              writable: false
     end
 
+    extend_api_response(:v3, :work_packages, :work_package_sums) do
+      include ActionView::Helpers::NumberHelper
+
+      property :overall_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.overall_costs)
+               }
+
+      property :labor_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.labor_costs)
+               }
+
+      property :material_costs,
+               exec_context: :decorator,
+               getter: ->(*) {
+                 number_to_currency(represented.material_costs)
+               }
+    end
+
+    extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
+      schema :overall_costs,
+             type: "String",
+             required: false,
+             writable: false
+
+      schema :labor_costs,
+             type: "String",
+             required: false,
+             writable: false
+
+      schema :material_costs,
+             type: "String",
+             required: false,
+             writable: false
+    end
+
     config.to_prepare do
       # Load Enumeration descendants due to STI
       TimeEntryActivity
@@ -465,6 +494,12 @@ module Costs
 
       ::Queries::Register.register(::Query) do
         select Costs::QueryCurrencySelect
+      end
+
+      ::Exports::Register.register do
+        formatter WorkPackage, WorkPackage::Exports::Formatters::SpentUnits
+        formatter WorkPackage, WorkPackage::Exports::Formatters::XLS::Costs
+        formatter WorkPackage, WorkPackage::Exports::Formatters::PDF::Currency
       end
 
       ::Queries::Register.register(::ProjectQuery) do

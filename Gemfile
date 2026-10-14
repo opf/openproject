@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.7"
+gem "doorkeeper", "~> 5.9.9"
 gem "omniauth", "~> 2.1"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
 gem "request_store", "~> 1.7.0"
@@ -74,7 +74,7 @@ gem "rubytree", "~> 2.2.2"
 gem "addressable", "~> 2.9.0"
 
 # Remove whitespace from model input
-gem "auto_strip_attributes", "~> 2.5"
+gem "auto_strip_attributes", "~> 3.0"
 
 # Provide timezone info for TZInfo used by AR
 gem "tzinfo-data", "~> 1.2026.4"
@@ -143,7 +143,7 @@ gem "browser", "~> 6.2.0"
 gem "okcomputer", "~> 1.20.0"
 
 # Lograge to provide sane and non-verbose logging
-gem "lograge", "~> 0.15.0"
+gem "lograge", "~> 0.15.1"
 
 # Structured warnings to selectively disable them in production
 gem "structured_warnings", "~> 0.5.0"
@@ -160,7 +160,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 1.5.0"
+gem "mcp", "~> 1.6.1"
 
 gem "meta-tags", "~> 2.24.0"
 
@@ -182,7 +182,7 @@ gem "ice_cube", "~> 0.17.0"
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.6+
-  gem "dalli", "~> 5.1.0"
+  gem "dalli", "~> 5.1.2"
   gem "redis", "~> 6.0.0"
 end
 
@@ -205,11 +205,11 @@ gem "ssrf_filter", "~> 1.6"
 
 gem "aws-sdk-core", "~> 3.254"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.229"
+gem "aws-sdk-s3", "~> 1.232"
 
 gem "openproject-token", "~> 8.13.0"
 
-gem "plaintext", "~> 0.3.7"
+gem "plaintext", "~> 0.4.0"
 
 gem "ruby-progressbar", "~> 1.13.0", require: false
 
@@ -226,7 +226,7 @@ gem "dry-validation"
 gem "store_attribute", "~> 2.2"
 
 # Appsignal integration
-gem "appsignal", "~> 4.10", require: false
+gem "appsignal", "~> 5.0", require: false
 
 # Yabeda integration
 gem "yabeda-activerecord"
@@ -236,10 +236,14 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.36.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.96.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.97.0", require: false
 gem "opentelemetry-sdk", "~> 1.13", require: false
 
+gem "openproject-octicons", "~>19.37.0"
+gem "openproject-octicons_helper", "~>19.37.0"
+gem "openproject-primer_view_components", "~>0.93.0"
 gem "view_component", "~> 4.15.0"
+
 # Lookbook
 gem "lookbook", "2.3.15"
 
@@ -276,6 +280,7 @@ group :test do
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
+  gem "simplecov", "~> 1.1.1", require: false
   # also add to development group, so 'spec' rake task gets loaded
   gem "rspec-rails", "~> 8.0.4", group: :development
 
@@ -380,13 +385,13 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.6"
+  gem "brakeman", "~> 8.1.0"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false
 
   # Active Record Doctor helps to keep the database in good shape.
-  gem "active_record_doctor", "~> 2.0.1"
+  gem "active_record_doctor", "~> 2.1.0"
 end
 
 # API gems
@@ -411,7 +416,7 @@ gem "dentaku", "~> 3.5", git: "https://github.com/opf/dentaku", ref: "78eece45bf
 gem "counter_culture", "~> 3.14"
 
 group :postgres do
-  gem "pg", "~> 1.6.2"
+  gem "pg", "~> 1.7.0"
 end
 
 # Support application loading when no database exists yet.
@@ -431,11 +436,4 @@ gemfiles.each do |file|
   # We use send to allow dependabot to function
   # don't use eval_gemfile(file) here as it will break dependabot!
   send(:eval_gemfile, file) if File.readable?(file)
-end
-
-# Set cooldown 0 for our own gems
-source "https://rubygems.org", cooldown: 0 do
-  gem "openproject-octicons", "~>19.37.0"
-  gem "openproject-octicons_helper", "~>19.37.0"
-  gem "openproject-primer_view_components", "~>0.91.4"
 end

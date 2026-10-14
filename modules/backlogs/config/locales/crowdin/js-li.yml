@@ -52,7 +52,7 @@ li:
           one: 1 work package selected.
           other: "%{count} work packages selected."
     burndown:
-      day: Dag
+      day: Daag
       points: Punte
     work_packages:
       properties:

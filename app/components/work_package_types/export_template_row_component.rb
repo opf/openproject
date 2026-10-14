@@ -34,6 +34,7 @@ module WorkPackageTypes
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include WorkPackageTypes::VariantRoutes
+    include SortableLists::MoveMenu
 
     def initialize(variant:, template:, readonly: false)
       super

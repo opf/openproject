@@ -46,15 +46,11 @@ RSpec.describe Query::Results, "sums" do
   shared_let(:project) do
     create(:project) do |p|
       p.project_types.create!(type:)
-      p.work_package_custom_fields << int_cf
-      p.work_package_custom_fields << float_cf
     end
   end
   shared_let(:other_project) do
     create(:project) do |p|
       p.project_types.create!(type:)
-      p.work_package_custom_fields << int_cf
-      p.work_package_custom_fields << float_cf
     end
   end
   shared_let(:current_user) do

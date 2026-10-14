@@ -74,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
     container.with_row do
       render(Primer::Beta::Text.new(color: :muted)) do
         [
-          t(".updated_by", name: issue.gitlab_user.gitlab_name),
+          t(".updated_by", name: issue.gitlab_user.name),
           t(".updated_at", date_time: format_time(issue.gitlab_updated_at))
         ].join(" ")
       end

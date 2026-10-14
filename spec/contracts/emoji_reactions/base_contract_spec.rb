@@ -92,7 +92,7 @@ RSpec.describe EmojiReactions::BaseContract do
     context "when reactable is blank" do
       before { emoji_reaction.reactable = nil }
 
-      it_behaves_like "contract is invalid", reactable: :not_found
+      it_behaves_like "contract is invalid", reactable: :blank
     end
 
     context "when reactable is a work package" do

@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -39,6 +38,7 @@ import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
 export class RowClickHandler implements TableEventHandler {
@@ -52,6 +52,8 @@ export class RowClickHandler implements TableEventHandler {
   @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
   @LazyInject() public urlParams:UrlParamsService;
+
+  @LazyInject() public configurationService:ConfigurationService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -78,7 +80,7 @@ export class RowClickHandler implements TableEventHandler {
 
     // Shortcut to any clicks within a cell
     // We don't want to handle these.
-    if (target.classList.contains(`${displayClassName}`) || target.classList.contains(`${activeFieldClassName}`)) {
+    if (this.clickActivatesCell(target) || target.classList.contains(`${activeFieldClassName}`)) {
       debugLog('Skipping click on inner cell');
       return true;
     }
@@ -105,6 +107,11 @@ export class RowClickHandler implements TableEventHandler {
     this.switchOpenSplitViewTo(wpId);
 
     return false;
+  }
+
+  private clickActivatesCell(target:HTMLElement):boolean {
+    return target.classList.contains(displayClassName)
+      && !this.configurationService.requireDoubleClickForInlineEdit();
   }
 
   /**

@@ -47,11 +47,11 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabUserRepresenter do
     end
 
     it_behaves_like "property", :login do
-      let(:value) { gitlab_user.gitlab_name }
+      let(:value) { gitlab_user.name }
     end
 
     it_behaves_like "property", :avatarUrl do
-      let(:value) { gitlab_user.gitlab_avatar_url }
+      let(:value) { gitlab_user.avatar_url }
     end
   end
 

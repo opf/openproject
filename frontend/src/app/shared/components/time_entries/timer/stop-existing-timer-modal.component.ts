@@ -20,15 +20,14 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
 import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
+import { OngoingTimer } from 'core-app/shared/components/time_entries/services/ongoing-timer';
 import {
   Observable,
   timer,
@@ -53,7 +52,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
 
   @HostBinding('class.op-timer-stop-modal') className = true;
 
-  public active:TimeEntryResource;
+  public active:OngoingTimer;
 
   public confirmed = false;
 
@@ -61,7 +60,7 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     .pipe(
       map(() => this.active),
       filter((timeEntry) => timeEntry !== null),
-      map((timeEntry:TimeEntryResource) => formatElapsedTime(timeEntry.createdAt as string)),
+      map((timeEntry:OngoingTimer) => formatElapsedTime(timeEntry.createdAt)),
     );
 
   public text = {
@@ -72,13 +71,9 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     tracking_time: this.I18n.t('js.timer.tracking_time'),
   };
 
-  get entityName():string {
-    return formatTimeEntryEntityName(this.active.entity);
-  }
-
   ngOnInit() {
     super.ngOnInit();
-    this.active = this.locals.timer as TimeEntryResource;
+    this.active = this.locals.timer as OngoingTimer;
   }
 
   saveAndClose():void {

@@ -65,9 +65,10 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     set_factory_default(:priority, priority)
     set_factory_default(:project_with_types, project)
     set_factory_default(:status, status)
-    set_factory_default(:type, type)
     set_factory_default(:user, user)
   end
+  before { set_factory_default(:type, type) }
+
   let(:work_package) do
     create(:work_package,
            subject: "work_package")
@@ -1333,15 +1334,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
     context "with work packages having automatically generated subjects, " \
             "when the work package is automatically scheduled, has a child and no dates" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         hierarchy              | MTWTFSS        | scheduling mode | predecessors
@@ -1397,15 +1390,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     end
 
     context "with work packages having automatically generated subjects" do
-      # rubocop:disable RSpec/BeforeAfterAll
-      before_all do
-        set_factory_default(:type, autosubject_type)
-      end
-
-      after(:all) do
-        set_factory_default(:type, type)
-      end
-      # rubocop:enable RSpec/BeforeAfterAll
+      before { set_factory_default(:type, autosubject_type) }
 
       let_work_packages(<<~TABLE)
         | hierarchy      | MTWTFSS | scheduling mode
@@ -2066,7 +2051,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let!(:custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
         project.enabled_variants.first.custom_field_ids |= [cf.id]
-        project.work_package_custom_fields << cf
       end
     end
     let!(:sibling) do
@@ -2139,7 +2123,6 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let(:mandatory_custom_field) do
       create(:integer_wp_custom_field, is_required: true, is_for_all: true, default_value: nil) do |cf|
         project.enabled_variants.first.custom_field_ids |= [cf.id]
-        project.work_package_custom_fields << cf
       end
     end
     let(:attributes) { { subject: "A new subject" } }
@@ -2178,13 +2161,11 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let!(:custom_field_of_current_type) do
       create(:integer_wp_custom_field, default_value: nil) do |cf|
         type.default_variant.custom_field_ids |= [cf.id]
-        project.work_package_custom_fields << cf
       end
     end
     let!(:custom_field_of_new_type) do
       create(:integer_wp_custom_field, default_value: 8) do |cf|
         new_type.default_variant.custom_field_ids |= [cf.id]
-        project.work_package_custom_fields << cf
       end
     end
     let(:attributes) do

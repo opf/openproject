@@ -4,14 +4,14 @@ li:
   export:
     format:
       xls: XLS
-      xls_with_descriptions: XLS with descriptions
-      xls_with_relations: XLS with relations
-  export_to_excel: Export XLS
+      xls_with_descriptions: XLS mit beschrievinge
+      xls_with_relations: XLS mit relaties
+  export_to_excel: Exporteer XLS
   plugin_openproject_xls_export:
     description: Export issuelies as Excel werkmap (.xls).
     name: OpenProject XLS Export
   print_with_description: Print preview with description
-  sentence_separator_or: or
+  sentence_separator_or: of
   xls_export:
-    child_of: child of
-    parent_of: parent of
+    child_of: onderliggende van
+    parent_of: baoveliggende van

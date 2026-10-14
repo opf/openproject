@@ -106,7 +106,6 @@ el:
   plugin_openproject_reporting:
     description: Αυτό το πρόσθετο επιτρέπει τη δημιουργία προσαρμοσμένων αναφορών κόστους με φιλτράρισμα και ομαδοποίηση που δημιουργούνται από το πρόσθετο OpenProject Χρόνου και Κόστους.
     name: Αναφορές OpenProject
-  project_module_reporting_module: Αναφορές κόστους
   reporting:
     group_by:
       selected_columns: Επιλεγμένες στήλες

@@ -29,18 +29,8 @@
 #++
 
 class Authorization::UserGlobalRolesQuery < Authorization::UserRolesQuery
-  transformations.register roles_member_roles_join,
-                           :builtin_role do |statement, user|
-    builtin_role = if user.logged?
-                     Role::BUILTIN_NON_MEMBER
-                   else
-                     Role::BUILTIN_ANONYMOUS
-                   end
-
-    builtin_roles = [builtin_role, Role::BUILTIN_STANDARD_GLOBAL]
-    builtin_role_condition = roles_table[:builtin].in(builtin_roles)
-
-    statement.or(builtin_role_condition)
+  transformations.register roles_member_roles_join, :standard_global_role do |statement, _|
+    statement.or(roles_table[:builtin].eq(Role::BUILTIN_STANDARD_GLOBAL))
   end
 
   transformations.register :all, :global_group_where_projection do |statement, user|
@@ -48,8 +38,9 @@ class Authorization::UserGlobalRolesQuery < Authorization::UserRolesQuery
              .where(users_table[:id].eq(user.id))
   end
 
-  transformations.register users_members_join, :entity_restriction do |statement, _|
+  transformations.register users_members_join, :global_membership_restriction do |statement, _|
     statement
+      .and(members_table[:project_id].eq(nil))
       .and(members_table[:entity_type].eq(nil))
       .and(members_table[:entity_id].eq(nil))
   end

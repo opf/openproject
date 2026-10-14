@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -294,6 +293,10 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
   @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
+
+  // Exposed so other autocompleter consumers (e.g. global search) can render
+  // work package results with the exact same markup/styling.
+  @ViewChild('workPackageOption') public workPackageOption:TemplateRef<Element>;
 
   @ContentChild(OpAutocompleterOptionTemplateDirective, { read: TemplateRef })
   projectedOptionTemplate:TemplateRef<Element>;

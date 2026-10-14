@@ -116,6 +116,7 @@ fr:
         caption: Légende
         help_text: Texte d'aide
       auth_provider:
+        additional_form_action_urls: URL de redirection supplémentaires autorisées pour la connexion
         scim_clients: Clients SCIM
       calculated_value_error:
         customized_id: ID personnalisé
@@ -179,20 +180,20 @@ fr:
       favorite:
         favorited: Élément
       form_configuration:
-        attribute_groups: Form
+        attribute_groups: Formulaire
         description: Description
-        name: Name
-        type_variants: Types and variants using this form
+        name: Nom
+        type_variants: Types et variantes utilisant ce formulaire
       form_configuration_attribute:
-        attribute_key: Attribute
-        custom_field: Custom field
-        group: Group
+        attribute_key: Attribut
+        custom_field: Champ personnalisé
+        group: Groupe
         position: Position
       form_configuration_group:
-        default_key: Default group
-        kind: Kind
-        label: Label
-        query: Query
+        default_key: Groupe par défaut
+        kind: Nature
+        label: Libellé
+        query: Requête
       grids/grid:
         column_count: Nombre de colonnes
         page: Page
@@ -232,20 +233,20 @@ fr:
         port: Port
         tls_certificate_string: Certificat SSL du serveur LDAP
       llm_capability_verdict:
-        capability: Capability
-        model_id: Model
-        state: State
+        capability: Capacité
+        model_id: Modèle
+        state: État
       llm_connection:
-        api_format: API format
-        api_key: API key
-        base_url: Host URL
-        default_chat_model: Default chat model
-        default_embedding_model: Default embedding model
-        llm_features_enabled: Enable LLMs for this instance
+        api_format: Format d'API
+        api_key: Clé API
+        base_url: URL de l'hôte
+        default_chat_model: Modèle de chat par défaut
+        default_embedding_model: Modèle d'intégration par défaut
+        llm_features_enabled: Activer les LLMs pour cette instance
       llm_model:
-        admin_context_window: Context window
-        display_name: Display name
-        external: Model name
+        admin_context_window: Fenêtre de contexte
+        display_name: Nom d'affichage
+        external: Nom du modèle
       mcp_configuration:
         description: Description
         enabled: Activé
@@ -398,6 +399,8 @@ fr:
         ongoing: En cours
         spent_on: date
         type: Type
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Calendrier
         ical_token_query_assignment: Affectation d'une requête
@@ -421,7 +424,7 @@ fr:
         project_types: Projets utilisant cette variante
         variant: Variante
         variant_name: Nom
-        workflow: Workflow
+        workflow: Flux de travail
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
@@ -465,6 +468,8 @@ fr:
         increase_contrast_caption: Active le mode de contraste élevé pour le mode de couleur choisi.
         increase_theme_contrast: Augmenter le contraste du thème
         mode_guideline: Certains modes écrasent les couleurs des thèmes personnalisés pour des raisons d'accessibilité et de lisibilité. Veuillez sélectionner le mode Clair pour une prise en charge complète des thèmes personnalisés.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Mode de couleur
         time_zone: Fuseau horaire
         warn_on_leaving_unsaved: M'avertir lorsque je quitte un lot de travaux contenant des modifications non enregistrées
@@ -526,7 +531,7 @@ fr:
           title: Jours ouvrés
           true: Inclure les jours non ouvrés
         journal_internal: Journal interne
-        labels: Labels
+        labels: Étiquettes
         notify: Notifier
         observed_in_versions: Constaté dans les versions
         parent: Parent
@@ -557,8 +562,8 @@ fr:
         kind: Type
       workflow:
         description: Description
-        name: Name
-        type_variants: Types and variants using this workflow
+        name: Nom
+        type_variants: Types et variantes utilisant ce formulaire
     errors:
       messages:
         accepted: doi(ven)t être accepté(e)(s).
@@ -644,6 +649,7 @@ fr:
         unknown_property: n'est pas une propriété connue.
         unknown_property_nested: a le chemin inconnu« '%{path} ».
         unremovable: ne peut pas être supprimé.
+        url_list_invalid: Les lignes « %{invalid_lines} » ne constituent pas des URL HTTP ou HTTPS valides.
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
@@ -654,7 +660,7 @@ fr:
         ai/text_transform_run:
           attributes:
             base:
-              not_available: This action is not available.
+              not_available: Cette action n'est pas disponible.
         attachment:
           attributes:
             content_type:
@@ -718,13 +724,13 @@ fr:
         form_configuration:
           attributes:
             attribute_groups:
-              attribute_unknown: Invalid work package attribute used.
-              attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
-              duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
-              group_without_name: Group name can't be blank.
-              query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
+              attribute_unknown: Un attribut de lot de travaux non valide est utilisé.
+              attribute_unknown_name: 'Un attribut de lot de travaux non valide est utilisé : %{attribute}'
+              duplicate_group: Le nom de groupe « %{group} » est utilisé plus d'une fois. Les noms de groupe doivent être uniques.
+              group_without_name: Le nom du groupe ne peut pas être vide.
+              query_invalid: 'La requête intégrée « %{group} » est invalide : %{details}'
             base:
-              default_undeletable: The default form cannot be deleted. Mark another form as default first.
+              default_undeletable: Le formulaire par défaut ne peut pas être supprimé. Veuillez d'abord définir un autre formulaire comme formulaire par défaut.
         grids/grid:
           end_before_start: la valeur finale doit être supérieure à la valeur de départ.
           outside: est hors de la grille.
@@ -745,10 +751,10 @@ fr:
         label:
           attributes:
             name:
-              blank: Name cannot be empty.
+              blank: Le nom ne peut pas être vide.
               format: "%{message}"
-              taken: A label with this name already exists. Please use another one.
-              too_long: Name is too long (maximum is %{count} characters).
+              taken: Une étiquette portant ce nom existe déjà. Veuillez en choisir une autre.
+              too_long: Le nom est trop long (le nombre maximal de caractères est de %{count}).
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -757,22 +763,22 @@ fr:
         llm_connection:
           attributes:
             api_format:
-              not_supported: needs credentials that OpenProject cannot store, such as a separate secret key or region.
+              not_supported: nécessite des informations de connexion qu'OpenProject ne peut pas stocker, comme une clé secrète distincte ou un identifiant de région.
             api_key:
-              invalid_api_key: was rejected by the LLM server.
+              invalid_api_key: a été rejeté par le serveur LLM.
             base:
-              singleton: Only one LLM connection can be active.
+              singleton: Une seule connexion LLM peut être active.
             base_url:
-              cannot_be_connected_to: could not be reached. Please ensure the LLM server is running and reachable from OpenProject.
-              models_endpoint_missing: has no model list at this address, so the API key could not be verified either. Please check the URL, in particular that it includes the API version segment (for example https://example.com/v1).
-              not_openai_compatible: did not return a valid model list. Please ensure the URL points at an OpenAI-API-compatible endpoint, including the API version segment (for example https://example.com/v1).
-              request_timed_out: did not respond in time. Please ensure the LLM server is reachable and not overloaded.
-              ssl_error: could not be reached over a secure connection. Please check the LLM server's TLS certificate, or use an http:// URL if the server does not offer TLS.
-              ssrf_filtered: resolves to a blocked address. If the LLM server runs on an internal network, allow its IP via the %{env_name} environment variable.
+              cannot_be_connected_to: n'a pas pu être atteint. Veuillez vous assurer que le serveur LLM est en cours d'exécution et accessible depuis OpenProject.
+              models_endpoint_missing: n'a pas de liste de modèles à cette adresse, donc la clé API n'a pas pu être vérifiée non plus. Veuillez vérifier l'URL, en particulier qu'il inclut le segment de version de l'API (par exemple https://example.com/v1).
+              not_openai_compatible: n'a pas retourné de liste de modèles valide. Veuillez vous assurer que les points d'URL d'un point de terminaison compatible avec OpenAI-API, y compris le segment de version de l'API (par exemple https://example.com/v1).
+              request_timed_out: n'a pas répondu à temps. Veuillez vous assurer que le serveur LLM est accessible et qu'il n'est pas surchargé.
+              ssl_error: n'a pas pu être atteint par une connexion sécurisée. Veuillez vérifier le certificat TLS du serveur LLM, ou utiliser une URL http:// si le serveur n'offre pas TLS.
+              ssrf_filtered: abouti sur une adresse bloquée. Si le serveur LLM fonctionne sur un réseau interne, autorisez son IP via la variable d'environnement %{env_name}.
             custom_headers:
-              invalid: must map header names to plain text values.
+              invalid: doit associer les noms des en-têtes à des valeurs en texte brut.
             llm_features_enabled:
-              requires_connection: cannot be turned on before a connection has been configured.
+              requires_connection: ne peut pas être activé avant qu'une connexion ait été configurée.
         llm_model:
           attributes:
             external_id:
@@ -1186,8 +1192,8 @@ fr:
         one: Paramètre d'exportation
         other: Paramètres d'exportation
       form_configuration:
-        one: Form
-        other: Forms
+        one: Formulaire
+        other: Formulaires
       forum:
         one: Forum
         other: Forums
@@ -1473,17 +1479,17 @@ fr:
     custom_styles:
       branding:
         desktop:
-          description: By default the OpenProject logos are used, but if you upload new logos the theme will automatically be changed to Custom theme. For better results, we recommend a transparent logo.
-          title: Custom desktop logos
+          description: Par défaut, ce sont les logos d'OpenProject qui sont utilisés, mais si vous importez de nouveaux logos, le thème passera automatiquement au thème « Personnalisé ». Pour un meilleur rendu, nous vous recommandons d'utiliser un logo transparent.
+          title: Logos personnalisés pour le bureau
         mobile:
-          description: By default the OpenProject logos are used for the mobile browser version, the native mobile app will not be updated by this change. For better results, we recommend a transparent logo.
-          title: Custom mobile logos
+          description: Par défaut, ce sont les logos OpenProject qui sont utilisés pour la version mobile accessible via un navigateur ; l'application mobile native ne sera pas concernée par cette modification. Pour un rendu optimal, nous vous recommandons d'utiliser un logo transparent.
+          title: Logos personnalisés pour mobiles
         modes:
           dark:
-            description: The app header will be black. We recommend a white logo on transparent background.
-            name: Dark mode logo
+            description: L'en-tête de l'application sera noir. Nous vous recommandons d'utiliser un logo blanc sur fond transparent.
+            name: Logo du mode sombre
           light:
-            description: Make sure to upload a logo that has enough contrast with the app header colour selected.
+            description: Veillez à télécharger un logo présentant un contraste suffisant avec la couleur choisie pour l'en-tête de l'application.
             name: Light mode logo
           light_high_contrast:
             description: The app header will be grey. We recommend a black logo on transparent background.
@@ -1818,7 +1824,7 @@ fr:
                 users: Utilisateurs et groupes concernés
                 workflows: Flux de travail au niveau du projet
               label_coming_later: À venir
-              label_coming_soon: Coming soon
+              label_coming_soon: Arrive bientôt
               label_import: Sélectionnez les projets que vous souhaitez importer.
               label_info: Veuillez noter que cet outil d'importation est en version bêta et qu'il ne peut pas importer tous les types de données. Voici un résumé de ce que l'instance Jira hôte offre pour l'importation et de ce que cet outil est capable d'importer pour le moment.
               label_progress: Récupération des données
@@ -1832,28 +1838,28 @@ fr:
             filter_projects: Filtrer par texte
             info: Seuls les projets dont le titulaire du jeton Jira est membre peuvent être sélectionnés dans le périmètre d'importation.
             title: Sélectionner les projets à importer
-          stage_discarded_label: Error
-          stage_in_progress_label: Progress
-          stage_job_error: Error
+          stage_discarded_label: Erreur
+          stage_in_progress_label: Progression
+          stage_job_error: Erreur
           stage_succeeded_label: Completed
           stages:
             '1':
               rest_line_text: ''
-              title: Fetch Jira configuration
+              title: Récupérer la configuration de Jira
             '2':
-              rest_line_text: Fetching issues and versions for %{projects_number} more projects
-              title: Fetch project issues and versions
+              rest_line_text: Récupération les tickets et les versions pour %{projects_number} projets supplémentaires
+              title: Récupérer les tickets et les versions du projet
             '3':
               rest_line_text: ''
-              title: Fetch users and custom fields
+              title: Récupérer les utilisateurs et les champs personnalisés
             '4':
               rest_line_text: ''
-              title: Create users, groups and memberships
+              title: Créer les utilisateurs, les groupes et les appartenances
             '5':
               rest_line_text: ''
-              title: Create roles and custom fields
+              title: Créer les rôles et les champs personnalisés
             '6':
-              rest_line_text: Creating %{projects_number} more projects
+              rest_line_text: Créer %{projects_number} autres projets
               title: Create projects
             '7':
               rest_line_text: Creating versions for %{projects_number} more projects
@@ -1863,7 +1869,7 @@ fr:
               title: Create work packages
             '9':
               rest_line_text: Downloading attachments for %{projects_number} more projects
-              title: Download attachments
+              title: Télécharger les pièces jointes
       test:
         api_error: L'API Jira a renvoyé le statut d'erreur %{status}. Veuillez vérifier l'URL de votre instance Jira et le jeton d'API.
         connection_error: 'Erreur de connexion : %{message}'
@@ -1884,23 +1890,23 @@ fr:
         '
     labels:
       delete_dialog_component:
-        confirmation: I understand that this action is not reversible
-        description_html: This will remove the label <strong>%{name}</strong> from all work packages in all projects.
-        heading: Delete this label?
-        title: Delete this label?
+        confirmation: Je comprends que cette action n'est pas réversible
+        description_html: Cela supprimera l'étiquette <strong>%{name}</strong> de tous les lots de travail de tous les projets.
+        heading: Supprimer ce libellé ?
+        title: Supprimer ce libellé ?
       dialog_component:
-        create_title: Create label
-        rename_title: Rename "%{name}"
+        create_title: Créer un label
+        rename_title: Renommer «%{name}»
       index:
-        description: All users able to edit work packages can freely tag work packages with either existing labels or create new ones instantly. This includes all labels created by users across all projects.
+        description: Tous les utilisateurs habilités à modifier les lots de travail peuvent librement attribuer à ces derniers des étiquettes existantes ou en créer de nouvelles instantanément. Cela inclut toutes les étiquettes créées par les utilisateurs, tous projets confondus.
       row_component:
         used_in_work_packages:
-          one: "%{count} work package"
-          other: "%{count} work packages"
+          one: "%{count} lot de travaux"
+          other: Lots de travaux %{count}
       sub_header_component:
-        button_add: Label
-        label_add: Add label
-        search_placeholder: Type here to search
+        button_add: Étiquette
+        label_add: Ajouter un libellé
+        search_placeholder: Tapez ici pour rechercher
       table_component:
         blank_slate:
           description: Labels created by users on work packages will appear here.
@@ -1909,14 +1915,14 @@ fr:
           name: Label
           usage: Used in
         no_matches:
-          description: Try a different search term.
+          description: Essayez un autre terme de recherche.
           title: No labels match your search
     llm_connections:
       delete_api_key:
-        description: OpenProject will stop sending an API key with its requests. Features will keep working only if the server requires no authentication. You can enter a new key at any time.
-        heading: Remove the stored API key?
-        menu_label: Remove API key
-        success: The API key has been removed.
+        description: OpenProject cessera d'envoyer une clé API avec ses requêtes. Les fonctionnalités continueront de fonctionner uniquement si le serveur ne nécessite aucune authentification. Vous pouvez saisir une nouvelle clé à tout moment.
+        heading: Supprimer la clé API enregistrée ?
+        menu_label: Supprime la clé API
+        success: La clé API a été supprimée.
         title: Remove API key
       disabled_notice: LLM features are switched off for this instance. Switch them on here first.
       disconnect:
@@ -1925,27 +1931,27 @@ fr:
         keeps_models: The model list, including any models you added manually, is kept.
         keeps_settings: The endpoint and API format are kept. Only the stored API key is removed.
         menu_label: Disconnect
-        success: OpenProject has disconnected from the LLM server.
-        title: Disconnect
+        success: OpenProject s'est déconnecté du serveur LLM.
+        title: Déconnecter
       form:
         api_format_caption: Which API the server speaks. Choose OpenAI for most gateways and self-hosted servers.
         api_key_caption: The key OpenProject authenticates with. Leave blank if the server requires no authentication.
         api_key_caption_discarded: The key you entered was not saved and is not shown again. Enter it once more to save it, or leave blank to keep the stored key.
         api_key_caption_stored: A key is stored. Leave blank to keep the current key, or enter a new one to replace it.
-        api_key_placeholder_stored: API key stored
-        api_key_remove: Remove key
+        api_key_placeholder_stored: Clé API stockée
+        api_key_remove: Supprimer la clé
         base_url_caption: The base URL of the server, for example https://example.com/v1.
-        button_connect: Connect
+        button_connect: Connecter
         label_connecting: Contacting the LLM server…
-        llm_features_enabled_caption: When turned off, all LLM-backed AI features stop working. The connection settings are kept.
-        server_description: Connect OpenProject to a server that speaks the %{api_format} API, so AI features can use it. The host URL below decides which server that is.
-        server_group: Server
+        llm_features_enabled_caption: Une fois désactivées, toutes les fonctionnalités d'IA basées sur le LLM cessent de fonctionner. Les paramètres de connexion sont conservés.
+        server_description: Connectez OpenProject à un serveur prenant en charge l'API « %{api_format} », afin que les fonctionnalités d'IA puissent l'utiliser. L'URL de l'hôte ci-dessous permet de déterminer de quel serveur il s'agit.
+        server_group: Serveur
       show:
-        description: Connect OpenProject to an LLM server so that AI features can use it.
-        description_enabled: Once connected, review the models offered by the server on the [Models](models_url) tab.
+        description: Connectez OpenProject à un serveur LLM afin que les fonctionnalités d'IA puissent l'utiliser.
+        description_enabled: Une fois connecté, consultez les modèles proposés par le serveur dans l'onglet [Modèles](models_url).
       tabs:
-        connection: Connection
-        models: Models
+        connection: Connexion
+        models: Modèles
       update:
         disabled: Saved. LLM features are switched off for this instance.
         no_models: Saved, but no models are stored yet. Either the server offers no model list, or the endpoint is missing its API version segment (for example /v1). Refresh the list on the Models tab.
@@ -1985,23 +1991,23 @@ fr:
         filter_label: Filter models
         identifier: Model
         kind: Type
-        refresh: Refresh models
+        refresh: Actualiser les modèles
         source: Source
-        source_discovered: Server
-        source_discovered_description: Reported by the server
-        source_manual: Manual
-        source_manual_description: Added manually by an administrator
-        source_withdrawn: Withdrawn
-        source_withdrawn_description: No longer reported by the server
-        stale_warning: The connection settings changed after the model list was last refreshed, so the list may be out of date. Refresh the models to be sure.
+        source_discovered: Serveur
+        source_discovered_description: Signalé par le serveur
+        source_manual: Manuel
+        source_manual_description: Ajouté manuellement par un administrateur
+        source_withdrawn: Retiré
+        source_withdrawn_description: N'est plus signalé par le serveur
+        stale_warning: Les paramètres de connexion ont été modifiés depuis la dernière actualisation de la liste des modèles ; il se peut donc que celle-ci ne soit plus à jour. Veuillez actualiser la liste des modèles pour vous en assurer.
       new:
-        description: Name a model this server can use but does not advertise, and describe what it can do.
-        title: Add a model
+        description: Citez un modèle que ce serveur peut utiliser mais qu'il ne diffuse pas, et décrivez ce qu'il permet de faire.
+        title: Ajouter un modèle
       refresh:
-        failure: The model list could not be refreshed. Please check that the LLM server is still reachable.
-        success: The model list has been refreshed.
+        failure: La liste des modèles n'a pas pu être actualisée. Veuillez vérifier que le serveur LLM est toujours accessible.
+        success: La liste des modèles a été mise à jour.
       update:
-        success: "%{model} has been updated."
+        success: "%{model} a été mis à jour."
     mcp_configurations:
       index:
         description: Le protocole de contexte de modèle permet aux agents d'IA de fournir à leurs utilisateurs les outils et les ressources exposés par cette instance d'OpenProject. Cette fonctionnalité est encore en version bêta.
@@ -2257,8 +2263,8 @@ fr:
         save: Enregistrer les modifications et continuer
         title: Enregistrer les modifications avant de continuer ?
       read_only:
-        edit_action: Edit workflow
-        text_html: 'You are using an existing workflow. To make changes, either edit the original workflow or click on <b>+ %{action}</b> above to create a new one.
+        edit_action: Modifier le flux de travail
+        text_html: 'Vous utilisez actuellement un workflow existant. Pour y apporter des modifications, vous pouvez soit modifier le workflow d''origine, soit cliquer sur <b> « + %{action}» </b> ci-dessus pour en créer un nouveau.
 
           '
       role_selector:
@@ -2290,7 +2296,7 @@ fr:
           assignee: Transitions supplémentaires disponibles pour la personne assignée au lot de travaux.
           author: Transitions supplémentaires mises à la disposition de l'auteur du lot de travaux.
         menu_label: Transitions affichées
-      workflow_button: Workflow
+      workflow_button: Flux de travail
   ai:
     text_transform:
       errors:
@@ -2299,7 +2305,7 @@ fr:
         timeout: Le service d'IA n'a pas répondu à temps.
         upstream_error: Le service d'IA a renvoyé une erreur.
   announcements:
-    content: Content
+    content: Contenu
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
     show_until: Afficher jusqu'à
@@ -2431,6 +2437,7 @@ fr:
     groups: Groupes
     hexcode: Code hexadécimal
     id: ID
+    inexistent: Inexistent
     is_default: Valeur par défaut
     is_for_all: Pour tous les projets
     issue: Lot de travaux
@@ -2490,7 +2497,34 @@ fr:
     work_package: Lot de travaux
     work_package_id: Lot de travaux
   authentication:
+    instructions:
+      additional_form_action_urls: 'N''utilisez cette option que si la connexion échoue parce que le fournisseur d''identité redirige le navigateur vers d''autres serveurs. Saisissez une URL par ligne, par exemple l''adresse que la console du navigateur indique comme étant bloquée. Lors de la connexion, OpenProject autorise les redirections vers les serveurs correspondant à ces URL.
+
+        '
     login_and_registration: Connexion et inscription
+  automations:
+    actions:
+      add: Add action
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+      name: Actions
+    conditions: Conditions
+    edit: Edit automation %{name}
+    new: New automation
+    plural: Automations
+    summary:
+      if: If
+      none: None
+      then: Then
+      title: Summary
+      when: When
+    trigger: Trigger
+    triggers:
+      button:
+        button_label: Button label
+        label: Button press
+      more_coming: OpenProject will add more trigger types soon.
+      name: Triggers
   background_jobs:
     status:
       cancelled_due_to: 'La tâche a été annulée en raison d''une erreur : %{message}'
@@ -2617,6 +2651,7 @@ fr:
   button_set_reminder: Définir un rappel
   button_show: Afficher
   button_sort: Trier
+  button_stop_timer: Arrêter le suivi du temps
   button_submit: Envoyer
   button_test: Tester
   button_unarchive: Désarchiver
@@ -2723,10 +2758,6 @@ fr:
     plural: Actions personnalisées
   custom_fields:
     admin:
-      custom_field_projects:
-        is_for_all_blank_slate:
-          description: Ce champ personnalisé est activé dans tous les projets, car l'option « Pour tous les projets » est cochée. Il ne peut pas être désactivé pour les projets individuels.
-          heading: Pour tous les projets
       hierarchy:
         subitems:
           one: 1 sous-élément
@@ -2750,7 +2781,7 @@ fr:
           short: Nom abrégé
           weight: Poids
       notice:
-        remember_items_and_projects: N'oubliez pas de définir les éléments et les projets dans les onglets respectifs de ce champ personnalisé.
+        remember_items_and_projects: Remember to set items for this custom field, and to make sure it is used in at least one project.
       role_assignment:
         description: Vous pouvez automatiquement accorder un rôle donné dans le projet à tout utilisateur associé à cet attribut de projet, quel que soit son rôle initial dans ce projet.
         dialog:
@@ -2815,16 +2846,17 @@ fr:
     is_enabled_globally: Est activé globalement
     multi_value_more:
       other: et %{count} autres
+    no_results_title_text: There are currently no custom fields.
     no_role_assigment: Aucune attribution de rôle
+    overview:
+      description: 'In OpenProject, you can add custom fields to work packages, user profiles and even time log entries. These settings have been moved to their respective sections:'
+      heading: Settings moved
     placeholder_version_select: La sélection d'un lot de travaux ou d'un projet est requise en premier lieu
     reorder_alphabetical: Réorganiser les valeurs par ordre alphabétique
     reorder_confirmation: 'Attention : l''ordre actuel des valeurs disponibles ainsi que toutes les valeurs non enregistrées seront perdus. Voulez-vous vraiment continuer ?'
     semantic_keys:
       job_title: Intitulé du poste
       none: Aucun
-    tab:
-      no_results_content_text: Créer un nouveau champ personnalisé
-      no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -3258,6 +3290,7 @@ fr:
   error_no_default_work_package_status: Aucun statut de lot de travaux par défaut n'est défini. Veuillez vérifier votre configuration (Allez dans "Administration -> Statuts des lots de travaux").
   error_no_type_in_project: Aucun type n'est associé à ce projet. Veuillez vérifier les réglages du projet.
   error_omniauth_invalid_auth: Les informations d'authentification retournées par le fournisseur d'identité n'étaient pas valides. Veuillez contacter votre administrateur pour plus d'aide.
+  error_omniauth_provider_incomplete: You cannot log in with %{provider} at this time, because this login method is not set up completely. Please contact your administrator.
   error_omniauth_registration_timed_out: L'inscription via un fournisseur d'authentification externe a expiré. Veuillez essayer de nouveau.
   error_password_change_failed: Une erreur s'est produite en essayant de changer le mot de passe.
   error_pdf_date_range_too_long: La plage de dates du lot de travaux sélectionné dépasse la limite d'exportation PDF autorisée. Veuillez réduire la plage à un maximum de %{years} ans.
@@ -3503,10 +3536,10 @@ fr:
       title: Configure a new form
     tab:
       read_only:
-        edit_action: Edit form
-        text_html: 'The form <b>%{name}</b> is edited on its own page. Here you can hide its fields and mark custom fields as required.
+        banner_html: 'You are using an existing form. To make changes, either edit the original form or click on <strong>+ Form</strong> above to create a new one.
 
           '
+        edit_action: Edit form
     usage:
       dialog:
         button: View dependent types
@@ -3908,6 +3941,7 @@ fr:
   label_date_from_to: De %{start} à %{end}
   label_date_to: À
   label_dates: Dates
+  label_day: Jour
   label_day_plural: jours
   label_default: défaut
   label_defaults: Valeurs par défaut
@@ -4007,6 +4041,7 @@ fr:
   label_go_forward: Ouvrir le sous-menu %{module}
   label_greater_or_equal: ">="
   label_group: Groupe
+  label_group_attributes_plural: Group attributes
   label_group_by: Grouper par
   label_group_named: Groupe %{name}
   label_group_new: Nouveau groupe
@@ -4123,6 +4158,7 @@ fr:
   label_module_plural: Modules
   label_modules: Modules
   label_modules_and_plugins: Modules et plugins
+  label_month: Mois
   label_months_from: mois de
   label_more: Plus
   label_more_information: Plus d'informations
@@ -4136,6 +4172,7 @@ fr:
   label_my_avatar: Mon avatar
   label_my_queries: Mes requêtes personnalisées
   label_my_security: Sécurité
+  label_my_work: My work
   label_name: Nom
   label_never: Jamais
   label_new: Nouveau
@@ -4150,7 +4187,10 @@ fr:
   label_news_singular: Actualités
   label_news_view_all: Afficher toutes les actualités
   label_next: Suivante
+  label_next_day: Jour suivant
+  label_next_month: Mois suivant
   label_next_week: Semaine suivante
+  label_next_workweek: Prochaine semaine de travail
   label_next_year: Année suivante
   label_no_change_option: "(Aucun changement)"
   label_no_data: Aucune donnée à afficher
@@ -4158,6 +4198,7 @@ fr:
   label_no_parent_group: "(Aucun groupe parent)"
   label_no_parent_page: Aucune page parente
   label_no_start_date: pas de date de début
+  label_no_time: Aucun temps saisi
   label_nobody: personne
   label_non_working_days: Calendrier des disponibilités
   label_non_working_days_summary: Résumé
@@ -4224,7 +4265,10 @@ fr:
   label_preview: Aperçu
   label_preview_not_available: Aperçu indisponible.
   label_previous: Précédent
+  label_previous_day: Jour précédent
+  label_previous_month: Mois précédent
   label_previous_week: Semaine précédente
+  label_previous_workweek: Semaine de travail précédente
   label_previous_year: Année précédente
   label_principal_invite_via_email: " ou inviter de nouveaux utilisateurs par e-mail"
   label_principal_search: Ajouter des utilisateurs ou groupes existant
@@ -4343,6 +4387,7 @@ fr:
   label_sort_lowest: Déplacer en bas
   label_sorted_by: trié par %{value}
   label_spent_time: Temps passé
+  label_stack: Stack
   label_start_to_end: du début à la fin
   label_start_to_start: de début à début
   label_starts_with: commence par
@@ -4376,6 +4421,7 @@ fr:
   label_time: Heure 
   label_time_entry_activity_plural: Activités du temps passé
   label_time_entry_plural: Temps passé
+  label_timer_since: Commencé à %{time}
   label_title: Titre
   label_today: aujourd'hui
   label_today_as_date: Sélectionnez la date d'aujourd'hui comme date.
@@ -4412,6 +4458,7 @@ fr:
   label_user_settings: Paramètres de l'utilisateur
   label_users_settings: Paramètres des utilisateurs
   label_value_x: 'Valeur : %{x}'
+  label_version_custom_field_plural: Version custom fields
   label_version_edit: Modifier la version
   label_version_new: Nouvelle version
   label_version_plural: Versions
@@ -4424,6 +4471,7 @@ fr:
   label_videos: Vidéos
   label_view_all_revisions: Afficher toutes les révisions
   label_view_diff: Afficher les différences
+  label_view_mode_switcher: Changer la vue
   label_view_revisions: Afficher les révisions
   label_view_x: 'Voir : %{x}'
   label_watched_work_packages: Lots de travaux suivis
@@ -4471,6 +4519,7 @@ fr:
   label_working_days: Jours ouvrés
   label_working_days_and_hours: Jours et heures travaillés
   label_working_hours: Horaire de travail
+  label_workweek: Semaine de travail
   label_x_closed_work_packages_abbr:
     one: 1 fermée
     other: "%{count} fermées"
@@ -4893,6 +4942,13 @@ fr:
           create_button: Créer
           dialog_body: Ce jeton permettra aux applications tierces de communiquer avec votre instance. Pour différencier le nouveau jeton API, veuillez lui donner un nom.
           dialog_title: Créer un nouveau jeton d'API
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Nom du jeton
       failed_to_create_token: 'Impossible de créer le jeton d''accès : %{error}'
       failed_to_reset_token: 'Impossible de réinitialiser le jeton d''accès : %{error}'
@@ -4906,10 +4962,23 @@ fr:
     password_confirmation_dialog:
       confirmation_required: Vous devez saisir le mot de passe de votre compte pour confirmer cette modification.
       title: Confirmez votre mot de passe pour continuer
+    work:
+      actions:
+        assign_to_me: Assign work package to me
+        delete_time_entry: Delete time entry
+        edit_time_entry: Edit time entry
+        log_time_from_allocation: Log time from allocation
+        open_project: Open project
+        open_work_package: Open work package
+      entries_filter:
+        all: All entries
+        allocated: Allocations only
+        logged: Logged time only
   my_account:
     access_tokens:
       access_tokens: Jetons d'accès
       description: Les jetons de fournisseur sont émis par OpenProject, ce qui permet à d'autres applications d'y accéder. Les jetons clients sont émis par d'autres applications, permettant à OpenProject d'y accéder.
+      expired_on: Expired on %{date}
       headers:
         action: Action
         expiration: Expiration
@@ -5111,7 +5180,6 @@ fr:
   notice_password_confirmation_failed: Le mot de passe saisi est incorrect.
   notice_principals_found_multiple: Il y a %{number} résultats trouvés. Tabulation pour sélectionner le premier résultat.
   notice_principals_found_single: Il y a un seul résultat. Tabulation pour le sélectionner.
-  notice_project_cannot_update_custom_fields: 'Vous ne pouvez pas mettre à jour les champs personnalisés disponibles du projet. Le projet n''est pas valide : %{errors}'
   notice_project_not_deleted: Le projet n'a pas été supprimé.
   notice_project_not_found: Projet introuvable.
   notice_requires_enterprise_token: Le jeton Enterprise est manquant ou n'autorise pas l'accès à cette page.
@@ -5121,9 +5189,6 @@ fr:
   notice_successful_create: Création réussie.
   notice_successful_delete: Suppression réussie.
   notice_successful_update: Mise à jour réussie.
-  notice_successful_update_custom_fields_added_to_project: |
-    Mise à jour réussie. Les champs personnalisés des types activés sont automatiquement activés
-    sur le formulaire du lot de travaux. <a href="%{url}" target="_blank">Voir plus</a>.
   notice_to_many_principals_to_display: |-
     Il y a trop de résultats.
     Limitez la recherche en tapant le nom du nouveau membre (ou groupe).
@@ -5476,6 +5541,9 @@ fr:
   permission_manage_dashboards: Gestion des tableaux de bord
   permission_manage_forums: Gérer les forums
   permission_manage_members: Gérer les membres
+  permission_manage_members_explanation: 'Caution: Users with this permission can assign any project role to any member, including roles with permissions that they themselves don''t have. This includes changing their own roles, allowing users to give themselves more permissions on the project.
+
+    '
   permission_manage_news: Gérer les actualités
   permission_manage_own_reminders: Créer des rappels personnalisés
   permission_manage_own_working_times: Gérer son propre temps de travail
@@ -5504,7 +5572,6 @@ fr:
   permission_save_bcf_queries: Enregistrer les requêtes BCF
   permission_save_queries: Enregistrer les vues
   permission_search_project: Rechercher un projet
-  permission_select_custom_fields: Sélectionner les champs personnalisés
   permission_select_project_custom_fields: Sélectionner les attributs du projet
   permission_select_project_modules: Sélectionner modules de projet
   permission_select_project_phases: Sélectionner les phases du projet
@@ -6335,6 +6402,7 @@ fr:
         '
       title: Analyse de virus
     attachments:
+      attachment_max_size_env_caption: This value is set via environment variables and cannot be changed here. Edit environment variables directly to change it.
       show_work_package_attachments: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes.
 
         '
@@ -6480,6 +6548,7 @@ fr:
         heading: Nouvelle phase
       no_gate: Aucune porte
       non_defined: Aucune phase n'est actuellement définie.
+      order_changed: Order successfully changed.
       phase_gates: Portes de phase
       section_header: Phases
       start_gate: Porte de début
@@ -6918,7 +6987,7 @@ fr:
         project_attributes: Attributs du projet
         projects: Projets
         start: Start
-        workflows: Flux de travail
+        workflows: Workflow
       success: Création réussie.
     edit:
       breadcrumb_variant: 'Variante : %{name}'
@@ -6972,6 +7041,7 @@ fr:
             label_enable_all: Activer tout
             label_toggle_template: Activer/désactiver %{template}
           label: Modèles d'exportation PDF
+          order_changed: Order successfully changed.
         tab: Générer un fichier PDF
         templates:
           readonly_error: Ne peut pas être modifié tant qu'il est lié à un type source.
@@ -6986,10 +7056,10 @@ fr:
         blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
         blankslate_title: Aucun groupe pour le moment
         confirm_delete_group: Voulez-vous vraiment supprimer cette section ? Cette action ne peut pas être annulée automatiquement.
-        defaults_not_generated:
-          already_configured: This form already has groups or attributes.
         confirm_reset: Voulez-vous vraiment réinitialiser le formulaire ?
         custom_field: Champ personnalisé
+        defaults_not_generated:
+          already_configured: This form already has groups or attributes.
         delete_group: Supprimer la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
         drag_to_reorder: Faire glisser
@@ -7151,7 +7221,7 @@ fr:
           description: Ces variantes ne sont disponibles que dans les projets au sein desquels elles ont été créées.
           title: Variantes spécifiques à un projet
       workflow:
-        tab: Flux de travail
+        tab: Workflow
     index:
       add_variant: Ajouter une variante à %{name}
       add_variant_action: Ajouter une variante
@@ -7194,6 +7264,11 @@ fr:
       remove_default_notice: "%{name} n'est plus activé dans les nouveaux projets."
       type_label: Type
       variant_label: Variante
+    migration:
+      variant_name: "%{type} without %{fields}"
+      variant_name_truncated:
+        one: "%{type} without %{fields} and 1 more field"
+        other: "%{type} without %{fields} and %{count} more fields"
     milestone_indicator: Jalon
     patterns:
       formats:
@@ -7563,6 +7638,8 @@ fr:
       required_description: Marque ce lot de travaux comme étant une exigence pour le lot de travaux correspondant
       requires_description: Marque le lot de travaux lié comme obligatoire pour celui-ci
   work_packages:
+    assign_to_me:
+      success: "%{work_package} is now assigned to you."
     bulk:
       copy_failed: Les lots de travaux n'ont pas pu être copiés.
       could_not_be_deleted: 'Les lots de travaux suivants n''ont pas pu être supprimés :'

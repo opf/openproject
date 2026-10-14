@@ -106,7 +106,6 @@ it:
   plugin_openproject_reporting:
     description: Questo plugin consente di creare report di costo personalizzati con filtraggio e raggruppamento creato dal plugin OpenProject Time and costs.
     name: Reportistica OpenProject
-  project_module_reporting_module: Report costi
   reporting:
     group_by:
       selected_columns: Colonne selezionate

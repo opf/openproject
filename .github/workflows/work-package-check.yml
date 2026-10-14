@@ -29,7 +29,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@e8944e80fb94b20106697132f8c20c665fab29e9 # v1
+        uses: ruby/setup-ruby@14594264cd68ce8a2345dd349bc3d138a4ef85c8 # v1
 
       - name: Verify work package fields are set (linked version matches core version and Enterprise field is set)
         id: work-package-check

@@ -225,8 +225,7 @@ RSpec.describe "Select work package row", :js, :selenium do
     end
 
     it do
-      expect(page).to have_css(".work-packages--details--subject",
-                               text: work_package_1.subject)
+      expect(page).to have_heading(work_package_1.subject, level: 2, exact_text: true)
     end
   end
 

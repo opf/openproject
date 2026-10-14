@@ -72,7 +72,8 @@ RSpec.describe "my access tokens", :js do
 
         # create API token
         fill_in "token_api[token_name]", with: "Testing Token"
-        find_test_selector("create-api-token-button").click
+        user.reload
+        wait_for_turbo_stream { find_test_selector("create-api-token-button").click }
 
         within("dialog#api-created-dialog") do
           expect(page).to have_content "The API token has been generated"
@@ -266,6 +267,7 @@ RSpec.describe "my access tokens", :js do
 
         # create iCal meeting token
         fill_in "token_ical_meeting[token_name]", with: "Testing Token"
+        user.reload
         find_test_selector("create-api-token-button").click
 
         within("dialog#ical_meeting-created-dialog") do

@@ -98,7 +98,9 @@ RSpec.shared_examples_for "available principals" do |principals, work_package_sc
           end
 
           context "with permissions to view user email" do
-            let(:permissions) { base_permissions + assignable_permissions + [:view_user_email] }
+            current_user do
+              create(:user, member_with_roles: { project => role }, global_permissions: [:view_user_email])
+            end
 
             it "returns email key for other users" do
               expect(json_response["_embedded"]["elements"])

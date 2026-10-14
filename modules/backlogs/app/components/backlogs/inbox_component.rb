@@ -64,7 +64,7 @@ module Backlogs
     end
 
     def show_more_id
-      dom_target(:inbox, project, :show_more)
+      dom_target(Backlogs::Target::Inbox, project, :show_more)
     end
 
     def show_more_label

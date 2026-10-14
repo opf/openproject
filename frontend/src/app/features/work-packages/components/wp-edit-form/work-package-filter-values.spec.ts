@@ -20,8 +20,7 @@
 // GNU General Public License for more details.
 //
 // You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+// along with this program. If not, see <https://www.gnu.org/licenses/>.
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
@@ -99,7 +98,7 @@ describe('WorkPackageFilterValues', () => {
     injector = TestBed.inject(Injector);
     halResourceService = injector.get(HalResourceService);
 
-    resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true);
+    resource = halResourceService.createHalResourceOfClass(WorkPackageResource, source, true) as unknown as WorkPackageResource;
     changeset = new WorkPackageChangeset(resource);
 
     const type1 = halResourceService.createHalResourceOfClass(TypeResource, { _type: 'Type', id: '1', _links: { self: { href: '/api/v3/types/1', name: 'Task' } } });
@@ -121,7 +120,7 @@ describe('WorkPackageFilterValues', () => {
       const version = halResourceService.createHalResourceOfClass(
         HalResource,
         { _type: 'Version', id: '42', _links: { self: { href: '/api/v3/versions/42', name: 'v1.0' } } },
-      ) as HalResource;
+      );
 
       filters.push({
         id: 'version',

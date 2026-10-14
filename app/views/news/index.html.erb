@@ -29,9 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_news_plural) %>
 
-<%
-  managable = User.current.allowed_in_project?(:manage_news, @project)
-%>
+<% managable = User.current.allowed_in_project?(:manage_news, @project) %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|

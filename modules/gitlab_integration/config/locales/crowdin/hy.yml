@@ -32,6 +32,10 @@ hy:
         labels: Պիտակներ
       gitlab_pipeline:
         ci_details: CI-ի մանրամասներ
+      gitlab_user:
+        avatar_url: Avatar URL
+        name: Name
+        username: Username
     errors:
       models:
         gitlab_issue:
@@ -61,13 +65,10 @@ hy:
   attributes:
     commit: Կոմիտ
     gitlab: GitLab-ի նույնացուցիչ
-    gitlab_avatar_url: Ավատարի URL
     gitlab_html_url: GitLab-ի HTML URL
     gitlab_merge_request: Միաձուլման հարցում
-    gitlab_name: GitLab-ի անուն
     gitlab_updated_at: Թարմացվել է
     gitlab_user_avatar_url: GitLab-ի ավատարի URL
-    gitlab_username: GitLab-ի օգտանուն
   gitlab_integration:
     branch_component:
       copy_name: Copy branch name

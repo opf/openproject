@@ -32,6 +32,10 @@ fa:
         labels: برچسب‌ها
       gitlab_pipeline:
         ci_details: جزئیات CI
+      gitlab_user:
+        avatar_url: نشانی URL تصویر نمایه
+        name: نام
+        username: نام کاربری
     errors:
       models:
         gitlab_issue:
@@ -61,19 +65,16 @@ fa:
   attributes:
     commit: Commit
     gitlab: شناسهٔ GitLab
-    gitlab_avatar_url: URL آواتار
     gitlab_html_url: URL HTML در GitLab
     gitlab_merge_request: درخواست ادغام
-    gitlab_name: نام GitLab
     gitlab_updated_at: به‌روزرسانی در
     gitlab_user_avatar_url: URL آواتار GitLab
-    gitlab_username: نام کاربری GitLab
   gitlab_integration:
     branch_component:
       copy_name: کپی نام شاخه
       create_merge_request: ایجاد merge request
       updated_at: به‌روزرسانی‌شده در %{date_time}.
-      updated_by: Last updated by %{name}.
+      updated_by: آخرین به‌روزرسانی توسط %{name}.
     commit_component:
       authored_at: ثبت‌شده در %{date_time}.
       copy_sha: کپی SHA در کلیپ‌بورد
@@ -93,7 +94,7 @@ fa:
         closed: بسته
         opened: باز
       updated_at: به‌روزرسانی‌شده در %{date_time}.
-      updated_by: Last updated by %{name}.
+      updated_by: آخرین به‌روزرسانی توسط %{name}.
     issue_opened_referenced_comment: "**Issue باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
     issue_reopened_referenced_comment: "**Issue دوباره باز شد:** Issue شماره %{issue_number} با عنوان [%{issue_title}](%{issue_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"
     merge_request_closed_comment: "**MR بسته شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) بسته شد.\n"
@@ -118,7 +119,7 @@ fa:
         merged: ادغام‌شده
         opened: باز
       updated_at: به‌روزرسانی‌شده در %{date_time}.
-      updated_by: Last updated by %{name}.
+      updated_by: آخرین به‌روزرسانی توسط %{name}.
     merge_request_merged_comment: "**MR ادغام شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) ادغام شد.\n"
     merge_request_opened_comment: "**MR باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) باز شد.\n"
     merge_request_reopened_comment: "**MR دوباره باز شد:** Merge Request شماره %{mr_number} با عنوان [%{mr_title}](%{mr_url}) برای [%{repository}](%{repository_url}) توسط [%{gitlab_user}](%{gitlab_user_url}) دوباره باز شد.\n"

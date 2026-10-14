@@ -35,6 +35,7 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "new", over
     options.add_argument("--enable-unsafe-swiftshader")
     # Disable "Select your search engine screen"
     options.add_argument("--disable-search-engine-choice-screen")
+    options.add_argument("--disable-component-update")
 
     # Disable timers being throttled in background pages/tabs. Useful for
     # parallel test runs.
@@ -61,7 +62,7 @@ def register_chrome(language, name: :"chrome_#{language}", headless: "new", over
     # axe-core audits and Capybara's own hint gathering run as scripts over the
     # full DOM. On large pages (permissions matrix, Gantt header) the 30s W3C
     # default is not enough on a loaded CI machine.
-    options.timeouts = { script: 60_000 }
+    options.timeouts = { script: 120_000 }
 
     yield(options) if block_given?
 

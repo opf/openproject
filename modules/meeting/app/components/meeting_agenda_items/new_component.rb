@@ -33,7 +33,8 @@ module MeetingAgendaItems
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
-    def initialize(meeting:, meeting_section: nil, meeting_agenda_item: nil, hidden: true, type: :simple, current_occurrence: nil)
+    def initialize(meeting:, meeting_section: nil, meeting_agenda_item: nil, hidden: true, type: :simple,
+                   current_occurrence: nil, relative_to: nil, insert_position: nil)
       super
 
       @meeting = meeting
@@ -42,12 +43,22 @@ module MeetingAgendaItems
       @hidden = hidden
       @type = type
       @current_occurrence = current_occurrence
+      @relative_to = relative_to
+      @insert_position = insert_position
     end
 
     private
 
+    def relative?
+      @relative_to.present?
+    end
+
+    def relative_key
+      "relative-#{@relative_to.id}-#{@insert_position}" if relative?
+    end
+
     def wrapper_uniq_by
-      @meeting_section&.id
+      relative_key || @meeting_section&.id
     end
 
     def build_agenda_item

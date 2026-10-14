@@ -282,11 +282,11 @@ module WorkPackageTypes
                     id: template_id)
     end
 
-    def drop_variant_pdf_export_template_path(project, variant, template_id)
+    def move_variant_pdf_export_template_path(project, variant, template_id)
       variant_route(project, variant,
-                    base: :drop_type_pdf_export_template_path,
-                    named: :drop_type_variant_pdf_export_template_path,
-                    project_scoped: :drop_project_type_variant_pdf_export_template_path,
+                    base: :move_type_pdf_export_template_path,
+                    named: :move_type_variant_pdf_export_template_path,
+                    project_scoped: :move_project_type_variant_pdf_export_template_path,
                     id: template_id)
     end
 

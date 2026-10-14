@@ -31,7 +31,7 @@
 require "rails_helper"
 
 RSpec.describe SortableLists::MoveMenu, type: :component do
-  def harness_class_calling(builder)
+  def harness_class_calling(builder, system_arguments: {})
     Class.new(ApplicationComponent) do
       include SortableLists::MoveMenu
 
@@ -42,7 +42,7 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
       define_method(:call) do
         render(Primer::Alpha::ActionMenu.new) do |menu|
           menu.with_show_button { "Actions" }
-          send(builder, menu)
+          send(builder, menu, **system_arguments)
         end
       end
     end
@@ -87,7 +87,8 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
   end
 
   describe "#with_move_submenu" do
-    let(:harness_class) { harness_class_calling(:with_move_submenu) }
+    let(:system_arguments) { {} }
+    let(:harness_class) { harness_class_calling(:with_move_submenu, system_arguments:) }
 
     it "renders a Move item with the incoming-arrow icon that opens a submenu", :aggregate_failures do
       expect(page).to have_selector(:menuitem, "Move", exact: true, count: 1) do |item|
@@ -108,6 +109,24 @@ RSpec.describe SortableLists::MoveMenu, type: :component do
       expect(page).to have_selector(:menu, id: move_item["aria-controls"]) do |submenu|
         expect(submenu.all(:menuitem).map { it.text.squish })
           .to eq(["Move to top", "Move up", "Move down", "Move to bottom"])
+      end
+    end
+
+    context "with caller-supplied additional arguments" do
+      let(:system_arguments) do
+        {
+          classes: "additional-class",
+          data: { projects__settings__border_box_filter_target: "hideWhenFiltering" }
+        }
+      end
+
+      it "merges the caller's data with the moveMenu target data and keeps other system arguments",
+         :aggregate_failures do
+        expect(page).to have_element(:li, "data-sortable-lists--item-target": "moveMenu", count: 1) do |item|
+          expect(item["data-projects--settings--border-box-filter-target"]).to eq("hideWhenFiltering")
+          expect(item[:class]).to include("additional-class")
+          expect(item).to have_selector(:menuitem, "Move", exact: true)
+        end
       end
     end
   end

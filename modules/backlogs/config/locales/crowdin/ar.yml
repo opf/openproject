@@ -51,7 +51,7 @@ ar:
         story_points: نقاط القصة
     errors:
       messages:
-        cannot_start_while_receiving_shared_sprints: cannot be started while the project is receiving shared sprints.
+        cannot_start_while_receiving_shared_sprints: لا يمكن بَدْء المشروع في أثناء تلقيه سباقات مشتركة.
         dates_required: يجب تحديد تواريخ البدء والانتهاء لبدء السبرينت.
         must_be_in_planning: يجب أن يكون في مرحلة التخطيط للبدء.
         only_one_active_sprint_allowed: يُسمح بوجود سباق واحد نشط فقط لكل مشروع.
