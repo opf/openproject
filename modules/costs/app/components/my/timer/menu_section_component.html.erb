@@ -3,7 +3,7 @@
      data-my--timers-start-value="<%= time_entry.created_at.iso8601 %>"
      data-ongoing-timer="<%= ongoing_timer_payload %>">
   <span class="op-timer-account-menu--timer">
-    <%= t("my.timer.tracking") %>:&nbsp;<span data-my--timers-target="elapsedTime"></span>
+    <%= t("my.timer.tracking") %>:&nbsp;<span class="op-timer-account-menu--elapsed" data-my--timers-target="elapsedTime"></span>
     <%= link_to dialog_time_entry_path(time_entry, onlyMe: true),
                 class: "op-timer-account-menu--timer-icon",
                 title: t(:button_stop_timer),

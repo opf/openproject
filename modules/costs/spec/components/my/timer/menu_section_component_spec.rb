@@ -61,6 +61,9 @@ RSpec.describe My::Timer::MenuSectionComponent, type: :component do
       expect(rendered_component).to have_css(
         "[data-controller='my--timers'][data-my--timers-start-value='#{created_at.iso8601}']"
       )
+      expect(rendered_component).to have_css(
+        "span.op-timer-account-menu--elapsed[data-my--timers-target='elapsedTime']"
+      )
     end
 
     it "links to the work package" do
