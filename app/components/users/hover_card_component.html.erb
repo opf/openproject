@@ -70,9 +70,25 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
+    if @user.job_title
+      flex.with_row do
+        flex_layout(classes: "op-user-hover-card--item") do |f|
+          f.with_column do
+            render(Primer::Beta::Octicon.new(icon: :person, color: :muted))
+          end
+
+          f.with_column do
+            render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-job-title" })) do
+              @user.job_title
+            end
+          end
+        end
+      end
+    end
+
     if @user.department
       flex.with_row do
-        flex_layout(classes: "op-user-hover-card--department") do |f|
+        flex_layout(classes: "op-user-hover-card--item") do |f|
           f.with_column do
             render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted))
           end
@@ -87,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     flex.with_row do
-      flex_layout(classes: "op-user-hover-card--group-list") do |f|
+      flex_layout(classes: "op-user-hover-card--item") do |f|
         f.with_column do
           render(Primer::Beta::Octicon.new(icon: :people, color: :muted))
         end
