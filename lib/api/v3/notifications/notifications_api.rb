@@ -103,7 +103,8 @@ module API
           # Creates a notification for the recipient being mentioned by the current user
           # in the referenced resource. Only resource types whose
           # Notifications::CreateFromModelService strategy opts in via `api_mention_permission`
-          # are supported. As the notification belongs to the recipient, only its id is returned.
+          # are supported. As the notification belongs to the recipient, only a reduced
+          # representation (id, resource and recipient links) is returned with 201.
           # If the recipient is not to be notified (e.g. because of their notification settings),
           # no notification is created and 204 is returned.
           post do
@@ -119,8 +120,8 @@ module API
             fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
 
             if call.result
-              status 200
-              { _type: "Notification", id: call.result.id }
+              status 201
+              NotificationCreatedRepresenter.create(call.result, current_user:, embed_links: false)
             else
               status 204
             end

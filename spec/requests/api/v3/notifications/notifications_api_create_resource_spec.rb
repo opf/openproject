@@ -91,13 +91,21 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
   end
 
   context "when mentioning a user in a document" do
-    it "creates a mention notification and responds with its id only" do
+    it "creates a mention notification and responds with a reduced representation" do
       expect { send_request }.to change(Notification, :count).by(1)
 
-      expect(last_response).to have_http_status(:ok)
+      expect(last_response).to have_http_status(:created)
 
       notification = Notification.last
-      expect(parsed_response).to eq("_type" => "Notification", "id" => notification.id)
+      expect(parsed_response)
+        .to eq("_type" => "Notification",
+               "id" => notification.id,
+               "_links" => {
+                 "resource" => { "href" => api_v3_paths.document(document.id), "title" => document.title },
+                 "recipient" => { "href" => api_v3_paths.user(recipient.id), "title" => recipient.name }
+               })
+      expect(parsed_response).not_to have_key("_embedded")
+      expect(parsed_response["_links"]).not_to include("self", "readIAN", "unreadIAN")
 
       expect(notification).to have_attributes(recipient:,
                                               resource: document,
@@ -135,7 +143,7 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     it "creates a notification" do
       expect { send_request }.to change(Notification, :count).by(1)
 
-      expect(last_response).to have_http_status(:ok)
+      expect(last_response).to have_http_status(:created)
     end
   end
 
