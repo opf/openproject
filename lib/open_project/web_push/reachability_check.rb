@@ -30,12 +30,7 @@
 
 module OpenProject::WebPush
   class ReachabilityCheck
-    PROBES = {
-      "fcm.googleapis.com" => "https://fcm.googleapis.com/",
-      "updates.push.services.mozilla.com" => "https://updates.push.services.mozilla.com/",
-      "*.push.apple.com" => "https://web.push.apple.com/",
-      "*.notify.windows.com" => "https://wns2-par02p.notify.windows.com/"
-    }.freeze
+    SAMPLE_HOSTS = { "notify.windows.com" => "wns2-par02p.notify.windows.com" }.freeze
     TIMEOUT = 3
 
     Result = Data.define(:host, :reachable, :reason, :code) do
@@ -45,52 +40,52 @@ module OpenProject::WebPush
     def self.call = new.call
 
     def call
-      OpenProject::WebPush.push_service_host_patterns
-        .map { |pattern| [pattern, *probe_target(pattern)] }
-        .map { |pattern, url, sample| Thread.new { probe(pattern, url, sample) } }
+      OpenProject::WebPush.push_service_hosts
+        .map { |host| [host, *probe_target(host)] }
+        .map { |host, url, sample| Thread.new { probe(host, url, sample) } }
         .map(&:value)
     end
 
     private
 
-    def probe_target(pattern)
-      sample_url = PROBES.fetch(pattern)
-      return [sample_url, false] unless pattern.start_with?("*.")
+    def probe_target(host)
+      stored_host = stored_endpoint_host(host)
+      return ["https://#{stored_host}/", false] if stored_host
 
-      stored_host = stored_endpoint_host(pattern.delete_prefix("*"))
-      stored_host ? ["https://#{stored_host}/", false] : [sample_url, true]
+      sample_host = SAMPLE_HOSTS[host]
+      ["https://#{sample_host || host}/", sample_host.present?]
     end
 
-    def stored_endpoint_host(suffix)
-      like = "%#{PushSubscription.sanitize_sql_like(suffix)}/%"
-      endpoint = PushSubscription.where("endpoint LIKE ?", like).pick(:endpoint)
+    def stored_endpoint_host(host)
+      authority = "^https://([^/]+\\.)?#{host.gsub('.', '\\.')}/"
+      endpoint = PushSubscription.where("endpoint ~ ?", authority).order(:id).pick(:endpoint)
       URI(endpoint).host if endpoint
     end
 
-    def probe(pattern, url, sample)
+    def probe(host, url, sample)
       response = OpenProject::SsrfProtection.head(
         url,
         max_redirects: 0,
         allow_unfollowed_redirects: true,
         http_options: { open_timeout: TIMEOUT, read_timeout: TIMEOUT, write_timeout: TIMEOUT }
       )
-      Result.new(host: pattern, reachable: true, reason: nil, code: response.code)
+      Result.new(host:, reachable: true, reason: nil, code: response.code)
     rescue Timeout::Error
-      unreachable(pattern, :timeout)
+      unreachable(host, :timeout)
     rescue SsrfFilter::UnresolvedHostname
-      unreachable(pattern, sample ? :sample_unresolved : :unresolved)
+      unreachable(host, sample ? :sample_unresolved : :unresolved)
     rescue SsrfFilter::PrivateIPAddress
-      unreachable(pattern, :private_address)
+      unreachable(host, :private_address)
     rescue SsrfFilter::Error
-      unreachable(pattern, :filtered)
+      unreachable(host, :filtered)
     rescue OpenSSL::SSL::SSLError
-      unreachable(pattern, :tls)
+      unreachable(host, :tls)
     rescue SystemCallError, SocketError, IOError, Net::ProtocolError, Net::HTTPBadResponse
-      unreachable(pattern, :connection)
+      unreachable(host, :connection)
     end
 
-    def unreachable(pattern, reason)
-      Result.new(host: pattern, reachable: false, reason:, code: nil)
+    def unreachable(host, reason)
+      Result.new(host:, reachable: false, reason:, code: nil)
     end
   end
 end

@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 4)) { t("admin.settings.push_notifications.what_is_sent") } %>
 <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.hosts_intro") } %>
 <ul class="color-fg-muted pl-4">
-  <% OpenProject::WebPush.push_service_host_patterns.each do |host| %>
+  <% OpenProject::WebPush.push_service_hosts.each do |host| %>
     <% result = @reachability&.find { |candidate| candidate.host == host } %>
     <li>
       <code><%= host %></code>

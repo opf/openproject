@@ -35,24 +35,39 @@ RSpec.describe OpenProject::WebPush do
     Setting.find_by!(name: "web_push_vapid_private_key").value
   end
 
-  describe ".push_service_host_patterns" do
-    it "lists exact hosts, then wildcard entries for host suffixes" do
-      expect(described_class.push_service_host_patterns)
-        .to eq(%w[fcm.googleapis.com updates.push.services.mozilla.com *.notify.windows.com *.push.apple.com])
+  describe ".push_service_host?" do
+    {
+      "fcm.googleapis.com" => true,
+      "web.push.apple.com" => true,
+      "WEB.PUSH.APPLE.COM" => true,
+      "x.notify.windows.com" => true,
+      ".push.apple.com" => false,
+      "notify.windows.com.evil.example" => false,
+      "evil.example.com" => false,
+      "" => false,
+      nil => false
+    }.each do |host, expected|
+      it "is #{expected} for #{host.inspect}" do
+        expect(described_class.push_service_host?(host)).to be(expected)
+      end
+    end
+
+    it "counts operator-added hosts and their subdomains",
+       with_settings: { web_push_service_hosts: %w[push.example.com] } do
+      expect(described_class.push_service_host?("a.push.example.com")).to be(true)
+      expect(described_class.push_service_host?("fcm.googleapis.com")).to be(false)
     end
   end
 
-  describe ".push_service_host?" do
-    it "accepts exact hosts and subdomains of suffixes only" do
-      expect(described_class.push_service_host?("fcm.googleapis.com")).to be(true)
-      expect(described_class.push_service_host?("x.push.apple.com")).to be(true)
-      expect(described_class.push_service_host?(".push.apple.com")).to be(false)
-      expect(described_class.push_service_host?("evil.example.com")).to be(false)
+  describe ".push_service_hosts" do
+    it "normalises a comma or whitespace separated string",
+       with_settings: { web_push_service_hosts: " A.example.com,b.example.com  c.example.com " } do
+      expect(described_class.push_service_hosts).to eq(%w[a.example.com b.example.com c.example.com])
     end
 
-    it "rejects nil and blank hosts" do
-      expect(described_class.push_service_host?(nil)).to be(false)
-      expect(described_class.push_service_host?("")).to be(false)
+    it "drops invalid entries and a trailing dot",
+       with_settings: { web_push_service_hosts: ["Push.Example.com.", ".bad", "a|b", " "] } do
+      expect(described_class.push_service_hosts).to eq(%w[push.example.com])
     end
   end
 

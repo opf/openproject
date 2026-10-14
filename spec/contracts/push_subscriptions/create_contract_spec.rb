@@ -54,6 +54,13 @@ RSpec.describe PushSubscriptions::CreateContract do
     end
   end
 
+  context "with a subdomain of an operator-added host",
+          with_settings: { web_push_service_hosts: %w[push.example.com] } do
+    let(:endpoint) { "https://eu.push.example.com/abc" }
+
+    it_behaves_like "contract is valid"
+  end
+
   context "with an endpoint of exactly the maximum length" do
     let(:endpoint) { "https://fcm.googleapis.com/".ljust(described_class::MAX_ENDPOINT_LENGTH, "a") }
 

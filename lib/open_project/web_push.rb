@@ -30,9 +30,7 @@
 
 module OpenProject::WebPush
   VAPID_CURVE = "prime256v1"
-
-  PUSH_SERVICE_HOSTS = %w[fcm.googleapis.com updates.push.services.mozilla.com].freeze
-  PUSH_SERVICE_HOST_SUFFIXES = %w[.notify.windows.com .push.apple.com].freeze
+  HOST_PATTERN = /\A[a-z0-9-]+(\.[a-z0-9-]+)*\z/
 
   class UnreadableKey < StandardError
     MESSAGE = "The stored web_push_vapid_private_key setting could not be read. " \
@@ -45,15 +43,21 @@ module OpenProject::WebPush
 
   module_function
 
-  def push_service_host?(host)
-    return false if host.blank?
+  def push_service_hosts
+    list = Setting.web_push_service_hosts
+    list = list.split(/[\s,]+/) if list.is_a?(String)
 
-    PUSH_SERVICE_HOSTS.include?(host) ||
-      PUSH_SERVICE_HOST_SUFFIXES.any? { host.end_with?(it) && host.length > it.length }
+    Array(list).filter_map do |entry|
+      host = entry.to_s.strip.downcase.delete_suffix(".")
+      host if host.match?(HOST_PATTERN)
+    end
   end
 
-  def push_service_host_patterns
-    PUSH_SERVICE_HOSTS + PUSH_SERVICE_HOST_SUFFIXES.map { "*#{it}" }
+  def push_service_host?(host)
+    host = host.to_s.downcase
+    return false if host.blank? || host.start_with?(".")
+
+    push_service_hosts.any? { |service| host == service || host.end_with?(".#{service}") }
   end
 
   def enabled?

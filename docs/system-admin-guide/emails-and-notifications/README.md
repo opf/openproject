@@ -91,9 +91,11 @@ The vendor push services (Google, Mozilla, Microsoft, Apple) do see the followin
 The instance must be able to reach the following hosts over HTTPS:
 
 - `fcm.googleapis.com`
-- `*.notify.windows.com`
+- `notify.windows.com`
 - `updates.push.services.mozilla.com`
-- `*.push.apple.com`
+- `web.push.apple.com`
+
+Subdomains of these hosts are included. Operators can extend the list with the `OPENPROJECT_WEB__PUSH__SERVICE__HOSTS` environment variable, as a comma separated list of hosts.
 
 Click **Check reachability** to test this from the instance. The results show **Reachable** or **Unreachable** for each host, with a reason for every host that cannot be reached.
 

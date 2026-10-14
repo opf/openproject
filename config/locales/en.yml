@@ -2177,7 +2177,7 @@ en:
       push_notifications:
         check_reachability: "Check reachability"
         checking: "Checking…"
-        hosts_intro: "This instance must reach these hosts over HTTPS. Entries with * cover all subdomains:"
+        hosts_intro: "This instance must reach these hosts over HTTPS. They come from the web_push_service_hosts setting, and subdomains are included:"
         http_status: "HTTP %{code}"
         key_managed_by_environment: "The VAPID key is managed through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To rotate it, change the variable."
         key_regenerated: "The VAPID key was regenerated. Every device needs to enable push again."
