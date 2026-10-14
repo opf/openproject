@@ -30,7 +30,7 @@ require "json"
 module Webhooks
   module Incoming
     class HooksController < ApplicationController
-      accept_api_key_auth :handle_hook
+      accept_api_key_auth :handle_hook, scope: :webhooks
 
       # Disable CSRF detection since we openly welcome POSTs here!
       skip_before_action :verify_authenticity_token
@@ -55,11 +55,17 @@ module Webhooks
         hook = OpenProject::Webhooks.find(params.require("hook_name"))
 
         if hook
-          code = hook.handle(request, params, find_current_user)
+          code = hook.handle(request, params, authenticated_user)
           head code.is_a?(Integer) ? code : 200
         else
           head :not_found
         end
+      end
+
+      private
+
+      def authenticated_user
+        current_user if current_user.logged?
       end
     end
   end
