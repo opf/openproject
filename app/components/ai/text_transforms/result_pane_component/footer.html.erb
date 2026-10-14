@@ -47,10 +47,7 @@ See COPYRIGHT and LICENSE files for more details.
         when "done"
           flex_layout(align_items: :center) do |footer|
             footer.with_column(flex: 1) do
-              render(Primer::Beta::Button.new(scheme: :invisible)) do |button|
-                button.with_leading_visual_icon(icon: :copy)
-                label(:copy)
-              end
+              render(Primer::Beta::Button.new(scheme: :invisible)) { label(:copy) }
             end
             footer.with_column(mr: 2) do
               render(Primer::Beta::Button.new) { label(:discard) }
@@ -63,10 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
           flex_layout(align_items: :center, justify_content: :flex_end) do |footer|
             if pane.run
               footer.with_column(mr: 2) do
-                render(Primer::Beta::Button.new) do |button|
-                  button.with_leading_visual_icon(icon: :sync)
-                  label(:try_again)
-                end
+                render(Primer::Beta::Button.new) { label(:try_again) }
               end
             end
             footer.with_column do
