@@ -100,4 +100,30 @@ RSpec.describe "Searching settings in the administration", :js do
       expect(page).to have_no_link "Application title"
     end
   end
+
+  context "with entities" do
+    shared_let(:feature) { create(:type, name: "Feature") }
+    shared_let(:role) { create(:project_role, name: "Developer") }
+
+    it "finds an attribute of an entity by its name and highlights the field" do
+      search_for "feature color"
+
+      within_test_selector("op-admin-settings-search") do
+        expect(page).to have_link "Feature"
+        click_on "Color"
+      end
+
+      expect(page).to have_current_path edit_type_details_path(feature), wait: 20
+      expect(page).to have_css(".op-setting--highlighted", text: "Color")
+    end
+
+    it "finds a permission of a role and highlights its check box" do
+      search_for "developer edit work packages"
+
+      within_test_selector("op-admin-settings-search") { click_on "Edit work packages" }
+
+      expect(page).to have_current_path edit_role_path(role), wait: 20
+      expect(page).to have_css(".op-setting--highlighted", text: "Edit work packages")
+    end
+  end
 end
