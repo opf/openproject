@@ -1,30 +1,15 @@
-<%= flex_layout do |list| %>
+<%= render(Primer::Alpha::TreeView.new(node_variant: :anchor, expanded: true)) do |tree| %>
   <% steps.each do |step| %>
-    <% list.with_row(mb: 2, test_selector: "wizard-step-#{step}") do %>
-      <%= flex_layout(align_items: :center) do |row| %>
-        <% row.with_column(mr: 2) do %>
-          <%= render(Primer::Beta::Octicon.new(icon: leading_icon(step), color: current?(step) ? :accent : :muted)) %>
-        <% end %>
-
-        <% row.with_column(flex: 1) do %>
-          <% if (href = href_for(step)) %>
-            <%= render(Primer::Beta::Link.new(href:, color: current?(step) ? :accent : :default, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
-          <% else %>
-            <%= render(Primer::Beta::Text.new(color: current?(step) ? :accent : :muted, font_weight: current?(step) ? :bold : :normal)) { title(step) } %>
-          <% end %>
-        <% end %>
-
-        <% if status_step?(step) %>
-          <% row.with_column(ml: 2) do %>
-            <% if completed?(step) %>
-              <%= render(Primer::Beta::Octicon.new(icon: :"check-circle-fill", color: :success)) %>
-            <% elsif current?(step) %>
-              <%= render(Primer::Beta::Octicon.new(icon: :"issue-draft", color: :muted)) %>
-            <% else %>
-              <%= render(Primer::Beta::Octicon.new(icon: :circle, color: :muted)) %>
-            <% end %>
-          <% end %>
-        <% end %>
+    <% tree.with_leaf(
+         label: title(step),
+         href: href_for(step),
+         current: current?(step),
+         data: { turbo_frame: "_top" },
+         test_selector: "wizard-step-#{step}"
+       ) do |leaf| %>
+      <% leaf.with_leading_visual_icon(icon: leading_icon(step), color: current?(step) ? :accent : :muted) %>
+      <% if (status = status_icon(step)) %>
+        <% leaf.with_trailing_visual_icon(icon: status.fetch(:icon), color: status.fetch(:color)) %>
       <% end %>
     <% end %>
   <% end %>

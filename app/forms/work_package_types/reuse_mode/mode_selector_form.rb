@@ -43,7 +43,7 @@ module WorkPackageTypes
       end
 
       form do |mode_form|
-        mode_form.advanced_radio_button_group(name: :mode, data: @group_data) do |group|
+        mode_form.advanced_radio_button_group(name: :mode, class: "op-fluid-radio-group", data: @group_data) do |group|
           group.radio_button(**@inherited)
           group.radio_button(**@manual)
         end
