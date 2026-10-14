@@ -60,6 +60,16 @@ initializeOpBlockNoteExtensions({
 });
 ```
 
+Optionally, you can pass a `documentId`: the id of the edited document. Every user mention inserted in the editor, whether picked, pasted or duplicated, then notifies the mentioned user through the OpenProject API. Moved mentions and mentions inserted by collaborators notify nobody. This needs `UserMentionNotificationExtension` registered on the editor (see below).
+
+```js
+initializeOpBlockNoteExtensions({
+  baseUrl: 'https://my.openproject.url',
+  locale: 'en',
+  documentId: 5,
+});
+```
+
 Then set up a BlockNote schema extending it with the block and inline specs:
 
 ```tsx
@@ -75,10 +85,10 @@ const schema = BlockNoteSchema.create().extend({
 type EditorType = typeof schema.BlockNoteEditor;
 ```
 
-Create the editor:
+Create the editor with `UserMentionNotificationExtension`, which BlockNote does not pick up from the inline content specs:
 
 ```tsx
-const editor = useCreateBlockNote({ schema });
+const editor = useCreateBlockNote({ schema, extensions: [UserMentionNotificationExtension] });
 ```
 
 Build the slash menu:
