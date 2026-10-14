@@ -86,7 +86,7 @@ async function readError(response:Response):Promise<ApiError> {
   return { message: statusLine, attributeErrors: {} };
 }
 
-async function post<T>(endpoint:string, body:unknown):Promise<T> {
+async function postRequest(endpoint:string, body:unknown):Promise<Response> {
   const response = await fetch(`${proxyUrl}${endpoint}`, {
     method: 'POST',
     headers: {
@@ -100,6 +100,11 @@ async function post<T>(endpoint:string, body:unknown):Promise<T> {
     const { message, attributeErrors } = await readError(response);
     throw new OpenProjectApiError(message, response.status, attributeErrors);
   }
+  return response;
+}
+
+async function post<T>(endpoint:string, body:unknown):Promise<T> {
+  const response = await postRequest(endpoint, body);
   return response.json() as Promise<T>;
 }
 
@@ -119,6 +124,10 @@ export function linkToUser(userId:string | number):string {
 
 export function userApiPath(userId:string | number):string {
   return `/api/v3/users/${encodeURIComponent(String(userId))}`;
+}
+
+function documentApiPath(documentId:string | number):string {
+  return `/api/v3/documents/${encodeURIComponent(String(documentId))}`;
 }
 
 const USER_HREF = /^\/api\/v3\/users\/\d+$/;
@@ -354,4 +363,15 @@ export async function searchMentionableUsers(query:string):Promise<Principal[]> 
 
   const data = await get<HalCollection<Principal>>(`/api/v3/principals?${params.toString()}`);
   return (data._embedded?.elements ?? []).map(({ id, name }) => ({ id, name }));
+}
+
+/** The API may answer 204 without a body, e.g. for a self-mention. */
+export async function notifyMentionedUser(documentId:string | number, userId:string | number):Promise<void> {
+  await postRequest('/api/v3/notifications', {
+    reason: 'mentioned',
+    _links: {
+      resource: { href: documentApiPath(documentId) },
+      recipient: { href: userApiPath(userId) },
+    },
+  });
 }

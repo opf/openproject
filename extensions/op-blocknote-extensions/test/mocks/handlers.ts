@@ -273,6 +273,10 @@ export const handlers = [
       : new HttpResponse(null, { status: 404 })
   ),
 
+  http.post('http://localhost:3000/api/v3/notifications', () =>
+    HttpResponse.json({ _type: 'Notification', id: 1 }, { status: 201 })
+  ),
+
   http.post('http://localhost:3000/api/v3/work_packages/form', async ({ request }) =>
     HttpResponse.json(createFormFor(await request.json() as FormRequestBody))
   ),

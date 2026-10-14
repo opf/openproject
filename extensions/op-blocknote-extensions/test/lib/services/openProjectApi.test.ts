@@ -14,6 +14,7 @@ import {
   linkToNewWorkPackage,
   linkToUser,
   linkToWorkPackage,
+  notifyMentionedUser,
   OpenProjectApiError,
   parseWorkPackageUrl,
   searchMentionableUsers,
@@ -754,6 +755,61 @@ describe('openProjectApi', () => {
       expect(avatarUrlOf('/api/v3/groups/3')).toBeUndefined();
       expect(avatarUrlOf('/api/v3/placeholder_users/3')).toBeUndefined();
       expect(avatarUrlOf(undefined)).toBeUndefined();
+    });
+  });
+
+  describe('notifyMentionedUser', () => {
+    function stubFetch(response:Partial<Response>) {
+      return vi.spyOn(globalThis, 'fetch').mockResolvedValue(mockResponse(response));
+    }
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it('posts a mention of the user in the document', async () => {
+      initOpenProjectApi({ baseUrl: 'https://example.com', proxyUrl: 'https://proxy.example.com' });
+      const fetchSpy = stubFetch({ ok: true, status: 201, json: async () => ({ _type: 'Notification' }) });
+
+      await notifyMentionedUser(5, '13');
+
+      expect(calledUrl(fetchSpy.mock.calls)).toBe('https://proxy.example.com/api/v3/notifications');
+      const options = fetchSpy.mock.calls[0][1]!;
+      expect(options.method).toBe('POST');
+      expect(options.headers).toEqual({
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest',
+      });
+      expect(JSON.parse(options.body as string)).toEqual({
+        reason: 'mentioned',
+        _links: {
+          resource: { href: '/api/v3/documents/5' },
+          recipient: { href: '/api/v3/users/13' },
+        },
+      });
+    });
+
+    it('resolves when no notification is created and nothing comes back', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      stubFetch({ ok: true, status: 204, json: async () => { throw new SyntaxError('Unexpected end of JSON input'); } });
+
+      await expect(notifyMentionedUser('5', '13')).resolves.toBeUndefined();
+    });
+
+    it('rejects with the error the API answers', async () => {
+      initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
+      stubFetch({
+        ok: false,
+        status: 403,
+        statusText: 'Forbidden',
+        json: async () => ({ message: 'You are not authorized to access this resource.' }),
+      });
+
+      const failure = notifyMentionedUser('5', '13');
+
+      await expect(failure).rejects.toBeInstanceOf(OpenProjectApiError);
+      await expect(failure).rejects.toMatchObject({
+        message: 'You are not authorized to access this resource.',
+        responseStatus: 403,
+      });
     });
   });
 
