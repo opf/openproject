@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= flex_layout(align_items: :center) do |row| %>
-  <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, style: "visibility: hidden", aria: { hidden: true }) do %>
+  <% row.with_column(mr: 2, flex_shrink: 0, display: :flex, classes: "v-hidden", aria: { hidden: true }) do %>
     <%= render(Primer::Beta::Octicon.new(:grabber)) %>
   <% end %>
   <% row.with_column(mr: 1, flex_shrink: 0, display: :flex, justify_content: :center, style: "width: var(--control-small-size)") do %>

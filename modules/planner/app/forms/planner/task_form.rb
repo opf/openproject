@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # The fields of the "Add to-do" dialog. A to-do can be about a work package, picked below its text
-  # or given; with a work package, the text is optional and an empty one plans the work package itself.
   class TaskForm < ApplicationForm
     form do |f|
       f.hidden(name: :work_package_id, value: @work_package.id) if @work_package

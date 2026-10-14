@@ -36,8 +36,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% row.with_column(mr: 1, flex_shrink: 0) do %>
     <%= form_with(url: planner_task_path(work_package), method: :patch) do %>
       <%= hidden_field_tag :done, !closed?, id: nil %>
-      <% if view_param %>
-        <%= hidden_field_tag :view, view_param, id: nil %>
+      <% if view.param %>
+        <%= hidden_field_tag :view, view.param, id: nil %>
       <% end %>
       <%= render(Primer::Beta::IconButton.new(**toggle_button_arguments)) %>
     <% end %>
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% box.with_column(mr: 2, classes: "min-width-0") do %>
           <%= render(Primer::Beta::Truncate.new) do |truncate| %>
             <% truncate.with_item do %>
-              <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { planned_work_package.subject } %>
+              <%= render(Primer::Beta::Link.new(**subject_link_arguments, test_selector: "planner-planned")) { subject_text(planned_work_package.subject) } %>
             <% end %>
           <% end %>
         <% end %>
@@ -70,7 +70,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= render(Primer::Beta::Text.new(color: :default)) { part.subject } %>
               <% end %>
             <% elsif part.present? %>
-              <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { part } %>
+              <%= render(Primer::Beta::Link.new(**subject_link_arguments)) { subject_text(part) } %>
             <% end %>
           <% end %>
         <% end %>
@@ -113,7 +113,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% unless overdue? %>
           <% menu.with_item(label: t("planner.move_to.remove"), href: plan_path(:remove), form_arguments: plan_form_arguments) %>
         <% end %>
-        <% menu.with_item(label: delete_label, scheme: :danger, href: planner_task_path(work_package, view: view_param), form_arguments: delete_form_arguments, test_selector: "planner-delete-task") do |item| %>
+        <% menu.with_item(label: delete_label, scheme: :danger, href: planner_task_path(work_package, view: view.param), form_arguments: delete_form_arguments, test_selector: "planner-delete-task") do |item| %>
           <% item.with_leading_visual_icon(icon: :trash) %>
         <% end %>
       <% end %>

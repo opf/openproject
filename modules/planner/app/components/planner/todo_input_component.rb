@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # The input row a group shows while to-dos are added to it, with the group's task fields, such as
-  # its day part or date. It stays after adding, so that to-dos can be added one after another.
   class TodoInputComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
@@ -45,11 +43,9 @@ module Planner
 
     attr_reader :group, :view, :task_fields
 
-    def view_param = Views.param(view)
+    def handle_space? = view.sortable?
 
-    def handle_space? = Views.sortable?(view)
-
-    def cancel_path = Views.path_for(view)
+    def cancel_path = view.path
 
     def subject_field_arguments
       {

@@ -41,17 +41,17 @@ See COPYRIGHT and LICENSE files for more details.
 
     <% overdue.work_packages.each do |work_package| %>
       <% box.with_row(test_selector: "planner-overdue-task") do %>
-        <%= render(Planner::TaskRowComponent.new(work_package:, references: overdue.references, view: :overdue)) %>
+        <%= render(Planner::TaskRowComponent.new(work_package:, references: overdue.references, user: overdue.user, view:)) %>
       <% end %>
     <% end %>
 
     <% if adding?(GROUP) %>
       <% box.with_row do %>
-        <%= render(Planner::TodoInputComponent.new(group: GROUP, view: :overdue, task_fields: { date: "" })) %>
+        <%= render(Planner::TodoInputComponent.new(group: GROUP, view:, task_fields: { date: "" })) %>
       <% end %>
     <% end %>
     <% box.with_row do %>
-      <%= render(Planner::AddTodoComponent.new(group: GROUP, view: :overdue)) %>
+      <%= render(Planner::AddTodoComponent.new(group: GROUP, view:)) %>
     <% end %>
   <% end %>
 <% end %>

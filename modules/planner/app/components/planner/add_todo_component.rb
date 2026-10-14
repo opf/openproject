@@ -29,10 +29,7 @@
 #++
 
 module Planner
-  # The "+ Add to-do" row of a group. It asks for the group to be shown with a to-do input row.
   class AddTodoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-
     def initialize(group:, view:)
       super()
       @group = group
@@ -44,11 +41,11 @@ module Planner
     attr_reader :group, :view
 
     # Rows of the sortable views start with a drag handle, which the link leaves room for.
-    def handle_space? = Views.sortable?(view)
+    def handle_space? = view.sortable?
 
     def link_arguments
       {
-        href: Views.path_for(view, adding: group),
+        href: view.path(adding: group),
         scheme: :secondary,
         font_size: :small,
         display: :flex,

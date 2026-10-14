@@ -29,9 +29,8 @@
 #++
 
 module Planner
-  # Instance-wide pieces every user's "My work" project shares: the "Day part" field and a variant
-  # of the first non-milestone type whose form shows it. The field is the anchor: the variant is
-  # found through it, so renaming any of these in the administration keeps the Planner working.
+  # The variant is found through the field, so renaming either in the administration keeps the
+  # Planner working.
   class SetupService
     def call
       OpenProject::Mutex.with_advisory_lock(TypeVariant, "planner_setup") do
@@ -73,11 +72,19 @@ module Planner
 
     def create_day_part_field
       WorkPackageCustomField.create!(
-        name: I18n.t("planner.day_part.name"),
+        name: day_part_field_name,
         field_format: "list",
         possible_values: DayPartField::DAY_PARTS.map { I18n.t("planner.day_part.#{it}") },
         semantic_key: :day_part
       )
+    end
+
+    # Field names are unique, and the instance may already have a "Day part" field of its own.
+    def day_part_field_name
+      name = I18n.t("planner.day_part.name")
+      return name unless WorkPackageCustomField.exists?(["LOWER(name) = LOWER(?)", name])
+
+      "#{name} (#{I18n.t(:label_planner)})"
     end
   end
 end

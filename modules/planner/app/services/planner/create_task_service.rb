@@ -29,9 +29,6 @@
 #++
 
 module Planner
-  # Creates a task in the user's "My work" project, due on the given day in the given day part, or
-  # without a date. Work packages referenced as #123 or ##PROJ-42 get a "relates to" link the user is
-  # allowed to add.
   class CreateTaskService
     def initialize(user:)
       @user = user

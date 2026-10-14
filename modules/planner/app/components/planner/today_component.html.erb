@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(data: { test_selector: "planner-today", **sortable_root_data(:today) }) do %>
+<%= component_wrapper(data: { test_selector: "planner-today", **sortable_root_data }) do %>
   <% today.sections.each do |section| %>
     <%= render(Primer::Beta::BorderBox.new(**section_box_arguments(section))) do |box| %>
       <% box.with_header(px: 3, py: 3) do %>
@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% shown_work_packages(section).each do |work_package| %>
         <% box.with_row(test_selector: "planner-task-#{section.day_part}", data: sortable_item_data(work_package)) do %>
-          <%= render(Planner::TaskRowComponent.new(work_package:, references: today.references, day_part: section.day_part)) %>
+          <%= render(Planner::TaskRowComponent.new(work_package:, references: today.references, user: today.user, view:, day_part: section.day_part)) %>
         <% end %>
       <% end %>
 
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
         <% end %>
         <% box.with_row do %>
-          <%= render(Planner::AddTodoComponent.new(group: section.day_part, view: :today)) %>
+          <%= render(Planner::AddTodoComponent.new(group: section.day_part, view:)) %>
         <% end %>
       <% end %>
     <% end %>

@@ -70,5 +70,13 @@ module Planner
       OpenProject::FeatureDecisions.add :planner,
                                         description: "My planner: personal Today, Upcoming, Overdue and Completed views."
     end
+
+    initializer "planner.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::MEMBER_DESTROYED) do |payload|
+          Planner::OrphanedProjectService.new(payload[:member]).call
+        end
+      end
+    end
   end
 end

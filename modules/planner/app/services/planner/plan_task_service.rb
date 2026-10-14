@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # Moves a task within the user's days: to a day part today, to today, tomorrow or a later date
-  # (given as an ISO 8601 date) keeping its day part, or out of the plan by clearing its dates.
   class PlanTaskService
     DAY_PARTS = DayPartField::DAY_PARTS.map(&:to_s).freeze
 

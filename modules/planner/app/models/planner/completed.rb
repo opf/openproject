@@ -29,7 +29,6 @@
 #++
 
 module Planner
-  # The user's "My work" tasks completed in the last days, by the day they were completed.
   class Completed < View
     DAYS_BACK = 7
 

@@ -30,11 +30,10 @@
 
 module Planner
   # Maps the "Day part" field's options to day parts by position, so renamed or translated options
-  # keep their meaning.
+  # keep their meaning. Without the field, as after an administrator deleted it, every task is in
+  # the morning.
   class DayPartField
     DAY_PARTS = %i[morning afternoon evening].freeze
-
-    attr_reader :custom_field
 
     def self.find
       new(WorkPackageCustomField.for_semantic_key(:day_part))
@@ -45,17 +44,22 @@ module Planner
     end
 
     def day_part_of(work_package)
+      return DAY_PARTS.first unless custom_field
+
       option_id = work_package.custom_value_for(custom_field)&.value.to_i
 
       DAY_PARTS[option_ids.index(option_id) || 0]
     end
 
-    # Work package attributes that put a task into the given day part.
     def attributes_for(day_part)
+      return {} unless custom_field
+
       { "custom_field_#{custom_field.id}": option_ids[DAY_PARTS.index(day_part&.to_sym) || 0] }
     end
 
     private
+
+    attr_reader :custom_field
 
     def option_ids
       @option_ids ||= custom_field.custom_options.order(:position).pluck(:id)

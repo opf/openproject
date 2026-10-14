@@ -29,8 +29,6 @@
 #++
 
 module Planner
-  # A meeting as the Planner lists it: an existing meeting, or a scheduled occurrence of a series that
-  # is not created yet.
   Occurrence = Data.define(:title, :start_time, :end_time, :project, :meeting, :series) do
     def self.for(meeting)
       new(title: meeting.title, start_time: meeting.start_time, end_time: meeting.end_time, project: meeting.project,

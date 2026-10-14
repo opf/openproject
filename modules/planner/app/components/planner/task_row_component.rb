@@ -32,39 +32,39 @@ module Planner
   class TaskRowComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
 
-    def initialize(work_package:, references:, view: :today, day_part: nil)
+    def initialize(work_package:, references:, user:, view:, day_part: nil)
       super()
       @work_package = work_package
       @references = references
+      @user = user
       @view = view
       @day_part = day_part
     end
 
     private
 
-    attr_reader :work_package, :references, :view, :day_part
+    attr_reader :work_package, :references, :user, :view, :day_part
 
     delegate :subject_parts, :planned_work_package, :meeting_command, :closed?, to: :task, private: true
 
     def task
-      @task ||= Task.new(work_package, references:, user: User.current)
+      @task ||= Task.new(work_package, references:, user:)
     end
 
-    def overdue? = view == :overdue
+    def today? = view.model == Today
 
-    def completed? = view == :completed
+    def overdue? = view.model == Overdue
 
-    def draggable? = Views.sortable?(view)
+    def completed? = view.model == Completed
 
-    # Where the Move menu can send the task: the other day parts when it is planned for today,
-    # otherwise into today; and tomorrow, unless that is already its day.
+    def draggable? = view.sortable?
+
     def move_targets
-      targets = case view
-                when :today then DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
-                when :overdue then []
+      targets = if today? then DayPartField::DAY_PARTS.map(&:to_s) - [day_part.to_s]
+                elsif overdue? then []
                 else %w[today]
                 end
-      targets << "tomorrow" unless work_package.due_date == User.current.today + 1
+      targets << "tomorrow" unless work_package.due_date == user.today + 1
 
       targets.map { [it, t("planner.move_to.#{it}")] }
     end
@@ -75,15 +75,13 @@ module Planner
       overdue? ? work_package.due_date : planned_work_package&.due_date
     end
 
-    def date_color = overdue? || shown_date < User.current.today ? :severe : :muted
+    def date_color = overdue? || shown_date < user.today ? :severe : :muted
 
     def date_title
       t("planner.planned_for", date: helpers.format_date(shown_date)) if overdue?
     end
 
-    def view_param = Views.param(view)
-
-    def plan_path(to) = plan_planner_task_path(work_package, to:, view: view_param)
+    def plan_path(to) = plan_planner_task_path(work_package, to:, view: view.param)
 
     def plan_form_arguments = { method: :patch, data: { turbo_stream: true } }
 
@@ -130,9 +128,10 @@ module Planner
         href: work_package_path(planned_work_package || work_package),
         target: "_blank",
         scheme: closed? ? :secondary : :primary,
-        font_weight: :semibold,
-        style: ("text-decoration: line-through" if closed?)
+        font_weight: :semibold
       }
     end
+
+    def subject_text(text) = closed? ? helpers.content_tag(:s, text) : text
   end
 end

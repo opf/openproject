@@ -45,12 +45,21 @@ module Planner
 
     def section_header(section)
       SectionHeaderComponent.new(title: t("planner.day_part.#{section.day_part}"),
-                                 subtitle: t("planner.time_range.#{section.day_part}"),
+                                 subtitle: time_range(section.day_part),
                                  counts: counts(section))
     end
 
+    def time_range(day_part)
+      t("planner.time_range.#{day_part}", afternoon: hour(Today::AFTERNOON_FROM), evening: hour(Today::EVENING_FROM))
+    end
+
+    def hour(hour)
+      time = today.date.in_time_zone(today.user.time_zone).change(hour:)
+      helpers.format_time(time, include_date: false, time_zone: today.user.time_zone)
+    end
+
     def todo_input(day_part)
-      TodoInputComponent.new(group: day_part, view: :today, task_fields: { day_part: })
+      TodoInputComponent.new(group: day_part, view:, task_fields: { day_part: })
     end
   end
 end

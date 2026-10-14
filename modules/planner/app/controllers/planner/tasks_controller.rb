@@ -41,7 +41,7 @@ module Planner
 
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
                                                               day_part: params[:day_part],
-                                                              view: current_view.name,
+                                                              view: current_view,
                                                               planner_project:)
     end
 
@@ -68,20 +68,20 @@ module Planner
     end
 
     def plan
-      call = Planner::PlanTaskService.new(user: current_user, work_package: @task).call(to: params[:to])
-
-      respond_with_view(call)
+      plan_task(params[:to])
     end
 
-    # Dropping a task on a day part or a day of the sortable lists plans it there. Its place within
-    # the list is not kept, as tasks have no order of their own.
+    # The sortable lists send the list a task was dropped on. The position within it is ignored:
+    # tasks have no order of their own.
     def drop
-      call = Planner::PlanTaskService.new(user: current_user, work_package: @task).call(to: params[:list_id])
-
-      respond_with_view(call)
+      plan_task(params[:list_id])
     end
 
     private
+
+    def plan_task(to)
+      respond_with_view(Planner::PlanTaskService.new(user: current_user, work_package: @task).call(to:))
+    end
 
     def find_task
       @task = planner_project.work_packages.find_by_display_id(params[:id])
@@ -102,7 +102,7 @@ module Planner
       today = Planner::Today.new(user: current_user, project: planner_project)
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: today.date,
                                                               day_part: today.current_day_part,
-                                                              view: current_view.name,
+                                                              view: current_view,
                                                               planner_project:,
                                                               work_package:)
     end

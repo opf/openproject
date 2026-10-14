@@ -29,9 +29,7 @@
 #++
 
 module Planner
-  # A view of the user's "My work" project: Today, Upcoming, Overdue or Completed.
   class View
-    # What Today and Upcoming list: everything, only to-dos or only meetings.
     FILTERS = %w[all todos meetings].freeze
 
     attr_reader :user, :project
