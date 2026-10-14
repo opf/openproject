@@ -72,7 +72,7 @@ class PushSubscriptions::NotifyJob < ApplicationJob
   private
 
   def deliver_all(user, subscription_ids, attempt)
-    subscriptions = user.push_subscriptions
+    subscriptions = user.push_subscriptions.order(:id)
     subscriptions = subscriptions.where(id: subscription_ids) if subscription_ids
     failed_ids = subscriptions.filter_map { it.id if deliver(it) == :retry }
 
