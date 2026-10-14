@@ -153,4 +153,28 @@ RSpec.describe Meetings::HeaderComponent, type: :component do
       end
     end
   end
+
+  describe "#check_for_updates_event" do
+    subject(:event) { described_class.new(meeting:).check_for_updates_event }
+
+    before do
+      allow(OpenProject::LiveUpdates).to receive(:enabled?).and_return(live_updates)
+    end
+
+    context "with live updates enabled" do
+      let(:live_updates) { true }
+
+      it "listens for the meeting changed event instead of polling" do
+        expect(event).to eq("op-dispatched:meeting-changed")
+      end
+    end
+
+    context "with live updates disabled" do
+      let(:live_updates) { false }
+
+      it "keeps polling" do
+        expect(event).to be_nil
+      end
+    end
+  end
 end

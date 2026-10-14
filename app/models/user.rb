@@ -196,6 +196,7 @@ class User < Principal
   validate :password_meets_requirements
 
   after_save :update_password
+  after_update_commit -> { OpenProject::Notifications.send(OpenProject::Events::USER_UPDATED, user: self) }
 
   scope :admin, -> { where(admin: true) }
 

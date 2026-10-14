@@ -222,6 +222,7 @@ Install code dependencies, link plugin modules and export translation files.
 - gem dependencies (If you get errors here, you're likely missing a development dependency for your distribution)
 - node_modules
 - link plugin frontend modules
+- the AnyCable server for live updates (`bin/dist/anycable-go`)
 - and export frontend localization files
 
 ```shell
@@ -262,6 +263,11 @@ echo "OVERMIND_IGNORED_PROCESSES=worker" >> .overmind.env
 
 For more information refer to the great Overmind
 documentation [usage section](https://github.com/DarthSim/overmind/tree/v2.4.0#usage).
+
+`bin/dev` also starts the AnyCable server (`ws` process) on port 8080, which pushes live updates such as changes to a
+meeting agenda. Rails forwards `/cable` and `/events` to it, so it is reachable on the same origin as the application.
+Both sides share the development secret from `config/anycable.yml` and `anycable.toml`. To use another one, set
+`ANYCABLE_SECRET` in your `.env`, which applies to both processes.
 
 You can access the application with the admin-account having the following credentials:
 

@@ -78,3 +78,9 @@ declare global {
 }
 
 export {};
+
+// Export Turbo's fetch missing from @types/hotwired__turbo:
+// It adds an X-Turbo-Request-Id and records requests in Turbo's recentRequests.
+declare module '@hotwired/turbo' {
+  export function fetch(url:string|URL, options?:RequestInit):Promise<Response>;
+}

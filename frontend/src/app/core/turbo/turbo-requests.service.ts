@@ -26,7 +26,7 @@
 //++
 
 import { Injectable, inject } from '@angular/core';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { fetch as turboFetch, renderStreamMessage } from '@hotwired/turbo';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { TurboHelpers } from 'core-turbo/helpers';
@@ -68,7 +68,9 @@ export class TurboRequestsService {
       ...init.headers,
     };
 
-    return fetch(url, init)
+    // Use Turbo's fetch instead of window.fetch because it sends an X-Turbo-Request-Id header,
+    // and it records the request in the recentRequests which is the convention for turbo requests.
+    return turboFetch(url, init)
       .then((response) => {
         return response.text().then((html) => ({
           html,

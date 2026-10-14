@@ -63,6 +63,10 @@ module Meetings
       10_000
     end
 
+    def check_for_updates_event
+      OpenProject::LiveUpdates.changed_event(Meeting) if OpenProject::LiveUpdates.enabled?
+    end
+
     def ics_download_path
       if @series
         download_ics_project_recurring_meeting_path(@series.project, @series, occurrence_id: @meeting.id)
