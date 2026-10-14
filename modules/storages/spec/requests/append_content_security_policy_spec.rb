@@ -48,6 +48,26 @@ RSpec.describe "Appendix of default CSP for external file storage hosts" do
         csp = parse_csp(last_response.headers["Content-Security-Policy"])
         expect(csp["connect-src"]).to include(storage.host.chomp("/"))
       end
+
+      context "when doing a turbo frame request" do
+        it "does not append host to connect-src CSP" do
+          header("Turbo-Frame", "abc")
+          get "/"
+
+          csp = parse_csp(last_response.headers["Content-Security-Policy"])
+          expect(csp["connect-src"]).not_to include(storage.host.chomp("/"))
+        end
+      end
+
+      context "when doing a turbo stream request" do
+        it "does not append host to connect-src CSP" do
+          header("Accept", "text/vnd.turbo-stream.html")
+          get new_project_settings_project_storage_path(project)
+
+          csp = parse_csp(last_response.headers["Content-Security-Policy"])
+          expect(csp["connect-src"]).not_to include(storage.host.chomp("/"))
+        end
+      end
     end
 
     context "when not logged in" do

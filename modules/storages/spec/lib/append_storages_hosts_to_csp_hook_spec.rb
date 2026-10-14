@@ -39,6 +39,11 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
   let(:storage) { create(:nextcloud_storage) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:controller) { instance_double(ApplicationController) }
+  let(:request) do
+    instance_double(ActionDispatch::Request,
+                    headers: {},
+                    accept: [])
+  end
 
   before do
     storage
@@ -49,7 +54,7 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
 
   def trigger_application_controller_before_action_hook
     hook_listener = described_class.instance
-    hook_listener.application_controller_before_action(controller:)
+    hook_listener.application_controller_before_action(controller:, request:)
   end
 
   shared_examples "content security policy directives" do
