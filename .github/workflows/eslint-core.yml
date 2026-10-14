@@ -9,6 +9,7 @@ on:
       - '**.html'
       - '**.js'
       - '**.mjs'
+      - '**.json'
       - '**.ts'
       - 'COPYRIGHT_short'
 
@@ -31,7 +32,9 @@ jobs:
           node-version: '24.18.0'
           package-manager-cache: false
           cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          cache-dependency-path: |
+            package-lock.json
+            frontend/package-lock.json
       - name: Run ESLint
         uses: reviewdog/action-eslint@b6303df522851d0e9abaea654da0222037d97e75 # v1
         with:
@@ -39,3 +42,9 @@ jobs:
           fail_level: any
           workdir: 'frontend/'
           eslint_flags: 'src/'
+      - name: Run ESLint for JSON files
+        uses: reviewdog/action-eslint@b6303df522851d0e9abaea654da0222037d97e75 # v1
+        with:
+          reporter: github-pr-annotations
+          fail_level: any
+          eslint_flags: '**/*.json'
