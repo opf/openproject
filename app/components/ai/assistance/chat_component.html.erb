@@ -42,7 +42,16 @@
 
   <% messages.each_with_index do |message, index| %>
     <% last = index == messages.size - 1 %>
-    <% if message.from_user? %>
+    <% if message.from_start? %>
+      <%= render(Primer::Box.new(display: :flex, align_items: :center, my: 3, data: { test_selector: "ai-assistance-chat-start" })) do %>
+        <%= render(Primer::Box.new(flex: 1, border: :top)) %>
+        <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small, text_align: :center, px: 2)) do %>
+          <%= start_text %><br>
+          <%= helpers.format_time(message.created_at) %>
+        <% end %>
+        <%= render(Primer::Box.new(flex: 1, border: :top)) %>
+      <% end %>
+    <% elsif message.from_user? %>
       <%= render(Primer::Box.new(display: :flex, justify_content: :flex_end, mb: 2)) do %>
         <%= render(Primer::Box.new(bg: :accent, border_radius: 2, p: 2, style: "max-width: 85%; white-space: pre-wrap;", data: { test_selector: "ai-assistance-chat-question" })) { message.content } %>
       <% end %>
@@ -66,7 +75,7 @@
         <% end %>
         <% if message.pending? %>
           <%= render(Primer::Beta::Text.new(tag: :p, color: :muted, mt: 2)) do %>
-            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= t("ai_assistance.chat.thinking") %>
+            <%= render(Primer::Beta::Spinner.new(size: :small, mr: 1)) %><%= pending_text(index.positive? ? messages[index - 1] : nil) %>
           <% end %>
         <% end %>
         <%= render(AI::Assistance::RunEventsComponent.new(events: message.events)) %>

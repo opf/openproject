@@ -44,6 +44,13 @@
         <% button.with_leading_visual_icon(icon: :plus) %>
         <%= t("ai_assistance.chat.new") %>
       <% end %>
+      <% if rerun? %>
+        <%= render(Primer::Beta::Button.new(type: :submit, scheme: :invisible, formaction: rerun_path, formnovalidate: true,
+                                            disabled: pending?, data: { test_selector: "ai-assistance-rerun" })) do |button| %>
+          <% button.with_leading_visual_icon(icon: :sync) %>
+          <%= t("ai_assistance.chat.rerun") %>
+        <% end %>
+      <% end %>
       <%= render(Primer::Box.new(flex: 1)) %>
       <%= render(Primer::Beta::Button.new(type: :button, mr: 2, data: { close_dialog_id: dialog_id })) { t(:button_close) } %>
       <%= render(Primer::Beta::Button.new(type: :submit, scheme: :primary, disabled: pending?, data: { test_selector: "ai-assistance-chat-send" })) do |button| %>

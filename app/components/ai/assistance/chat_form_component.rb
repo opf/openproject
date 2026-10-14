@@ -58,6 +58,14 @@ module AI
       def new_chat_path
         url_helpers.work_package_ai_assistance_chat_path(work_package)
       end
+
+      def rerun?
+        chat.present? && !skill.chat?
+      end
+
+      def rerun_path
+        url_helpers.rerun_work_package_ai_assistance_chat_path(work_package)
+      end
     end
   end
 end

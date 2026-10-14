@@ -69,6 +69,27 @@ RSpec.describe AI::AssistantChats::Reply, with_flag: { ai_assistance: true } do
     end
   end
 
+  def start
+    User.execute_as(user) do
+      I18n.with_locale(:de) do
+        answer_message = AI::AssistantChats::SendMessageService.new(chat: chat.reload, user:).start.result
+        described_class.new(answer_message).call
+        answer_message.reload
+      end
+    end
+  end
+
+  describe "a start of the skill" do
+    it "sends the fixed request in the answer's locale, as a user turn" do
+      start
+      start
+
+      request = I18n.t("ai_assistance.chat.start_request", locale: :de)
+      expect(sent[:user]).to eq(request)
+      expect(sent[:history].first).to eq([:user, request])
+    end
+  end
+
   describe "an answer with findings and plain proposals" do
     let(:answer) do
       { answer: "Zwei Befunde.", proposals: [

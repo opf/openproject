@@ -1566,7 +1566,7 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
-        answers_at_once_caption: "Opening the skill sends its label as the first message, and it answers at once. Off opens an empty chat for the user's own questions."
+        answers_at_once_caption: "Opening the skill starts a new chat, and the skill answers its instructions at once. Off opens an empty chat for the user's own questions."
         conditions:
           all: "All"
           caption: "The skill is offered only on work packages that match every list. An empty list matches all."
@@ -2533,6 +2533,7 @@ en:
       tree: "Hierarchy"
     button: "AI Assistance"
     chat:
+      answering: "%{assistant} is writing an answer…"
       copy: "Copy the answer"
       empty_answer: "(The model gave no answer.)"
       empty_description: "Ask about this work package. The answer can propose changes, and you decide whether to apply them."
@@ -2545,8 +2546,11 @@ en:
       new: "New chat"
       placeholder: "Ask something about %{id}…"
       question: "Question"
+      rerun: "Run again"
       send: "Send"
-      thinking: "Thinking…"
+      start_request: "Apply your instructions to this work package, as it is now."
+      started: "%{user} started %{skill}"
+      working_on: "%{assistant} is working on %{id}…"
     events:
       answer: "The model answered in %{seconds} s."
       dropped: "dropped proposals"
@@ -2561,9 +2565,9 @@ en:
       title: "Details"
     history:
       empty: "You did not use AI Assistance on this work package yet."
-      questions:
-        one: "1 question"
-        other: "%{count} questions"
+      answers:
+        one: "1 answer"
+        other: "%{count} answers"
       title: "History"
     proposal:
       applied: "Applied"

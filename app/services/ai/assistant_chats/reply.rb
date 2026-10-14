@@ -74,8 +74,8 @@ module AI
         history = earlier_turns
         question = history.pop
         llm_call.ask(llm:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
-                     message: question&.content.to_s, schema: answer_format.schema, temperature: TEMPERATURE,
-                     history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn_text(turn)] })
+                     message: question ? turn_text(question) : "", schema: answer_format.schema, temperature: TEMPERATURE,
+                     history: history.map { |turn| [turn.from_assistant? ? :assistant : :user, turn_text(turn)] })
       end
 
       # The finished turns before this answer, oldest first, ending with the question.
@@ -83,8 +83,10 @@ module AI
         chat.messages.includes(:proposals).where(id: ...message.id).where(status: "done").last(MAX_TURNS).to_a
       end
 
-      # An earlier answer with its proposals, so that the model knows what it proposed.
+      # A start is a fixed request. An earlier answer comes with its proposals, so that the
+      # model knows what it proposed.
       def turn_text(turn)
+        return I18n.t("ai_assistance.chat.start_request", locale: message.locale) if turn.from_start?
         return turn.content.to_s if turn.from_user? || turn.proposals.empty?
 
         lines = turn.proposals.map do |proposal|

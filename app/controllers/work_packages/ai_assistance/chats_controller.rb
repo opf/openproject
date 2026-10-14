@@ -33,7 +33,7 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
   include WorkPackages::AIAssistance::Scoped
 
   before_action :find_skill, only: %i[create start]
-  before_action :find_chat, only: %i[show send_message poll]
+  before_action :find_chat, only: %i[show send_message poll rerun]
   before_action :find_proposal, only: %i[apply dismiss]
 
   # The user's chats on this work package, newest first.
@@ -53,13 +53,22 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     replace_chat
   end
 
-  # A new conversation whose first message is the skill's label, answered at once.
+  # A new conversation that the skill answers at once.
   def start
     @chat = new_chat
-    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
+    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).start
     return respond_with_failure(call) if call.failure?
 
     respond_with_wp_dialog chat_dialog
+  end
+
+  # Starts the skill again in the same chat, on the current work package.
+  def rerun
+    return render_404 if @chat.nil? || @skill.chat?
+
+    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).start
+    render_error_flash_message_via_turbo_stream(message: call.message) if call.failure?
+    replace_chat
   end
 
   def send_message

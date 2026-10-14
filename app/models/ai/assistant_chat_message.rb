@@ -29,8 +29,8 @@
 #++
 
 module AI
-  # A question of the user, or an answer of the model. An answer can carry proposals
-  # (AI::AssistantProposal), each applied or dismissed on its own.
+  # A question of the user, a start of the skill by the user, or an answer of the model.
+  # An answer can carry proposals (AI::AssistantProposal), each applied or dismissed on its own.
   class AssistantChatMessage < ApplicationRecord
     include AI::EventLog
 
@@ -38,7 +38,7 @@ module AI
     has_many :proposals, -> { ordered },
              class_name: "AI::AssistantProposal", foreign_key: :message_id, inverse_of: :message, dependent: :delete_all
 
-    enum :role, { user: "user", assistant: "assistant" }, validate: true, prefix: :from
+    enum :role, { user: "user", start: "start", assistant: "assistant" }, validate: true, prefix: :from
     enum :status, { pending: "pending", done: "done", failed: "failed" }, default: "done", validate: true
 
     validates :content, presence: true, if: :from_user?

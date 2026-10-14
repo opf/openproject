@@ -30,8 +30,8 @@
 
 module AI
   module AssistantChats
-    # Stores the user's question and a pending answer, and starts the reply job. One
-    # answer at a time: a question while an answer is pending is refused.
+    # Stores the user's question, or a start of the skill, and a pending answer, and starts
+    # the reply job. One answer at a time: a question while an answer is pending is refused.
     class SendMessageService
       MAX_LENGTH = 10_000
 
@@ -46,11 +46,22 @@ module AI
         content = content.to_s.strip
         return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.empty")) if content.empty?
 
+        ask(role: "user", content: content.truncate(MAX_LENGTH))
+      end
+
+      # The skill answers its own instructions. The chat shows a start line, not a question.
+      def start
+        ask(role: "start")
+      end
+
+      private
+
+      def ask(role:, content: "")
         chat.fail_stale_answers!
         return ServiceResult.failure(message: I18n.t("ai_assistance.chat.errors.pending")) if chat.pending?
 
         answer = AI::AssistantChat.transaction do
-          chat.messages.create!(role: "user", content: content.truncate(MAX_LENGTH))
+          chat.messages.create!(role:, content:)
           chat.messages.create!(role: "assistant", status: "pending", locale: I18n.locale.to_s,
                                 base_lock_version: chat.work_package.reload.lock_version)
         end

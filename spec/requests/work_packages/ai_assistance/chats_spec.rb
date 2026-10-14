@@ -46,14 +46,13 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
   describe "POST start" do
     subject(:request) { post "#{base}/start", params: { skill_id: skill.id }, as: :turbo_stream }
 
-    it "starts a conversation with the skill's label and opens the chat dialog" do
+    it "starts a conversation without a question and opens the chat dialog" do
       expect { request }.to have_enqueued_job(AI::AssistantChats::ReplyJob)
 
       expect(response).to have_http_status(:ok)
       expect(response).to have_turbo_stream(action: "dialog")
       chat = AI::AssistantChat.for(user, work_package).sole
-      expect(chat.messages.map(&:role)).to eq(%w[user assistant])
-      expect(chat.messages.first.content).to eq(skill.display_label)
+      expect(chat.messages.map(&:role)).to eq(%w[start assistant])
     end
 
     context "without the permission" do
@@ -96,6 +95,33 @@ RSpec.describe "AI Assistance chats", :skip_csrf, type: :rails_request, with_fla
         request
 
         expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "POST rerun" do
+    let(:chat) { create(:ai_assistant_chat, skill:, user:, work_package:) }
+
+    before do
+      create(:ai_assistant_chat_message, chat:, role: "start", content: "")
+      create(:ai_assistant_chat_message, chat:)
+    end
+
+    it "starts the skill again in the same chat" do
+      expect { post "#{base}/rerun", params: { chat_id: chat.id }, as: :turbo_stream }
+        .to have_enqueued_job(AI::AssistantChats::ReplyJob)
+
+      expect(chat.messages.reload.map(&:role)).to eq(%w[start assistant start assistant])
+    end
+
+    context "with a chat skill" do
+      let(:chat) { create(:ai_assistant_chat, skill: create(:ai_assistant_skill, :chat), user:, work_package:) }
+
+      it "responds with not found" do
+        post "#{base}/rerun", params: { chat_id: chat.id }, as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+        expect(chat.messages.count).to eq(2)
       end
     end
   end

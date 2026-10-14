@@ -62,6 +62,15 @@ module AI
       def read_only?
         skill.scope_read_only?
       end
+
+      def start_text
+        I18n.t("ai_assistance.chat.started", user: chat.user.name, skill: skill.display_label)
+      end
+
+      def pending_text(previous)
+        key = previous&.from_start? ? "working_on" : "answering"
+        I18n.t("ai_assistance.chat.#{key}", assistant: skill.assistant.name, id: work_package.formatted_id)
+      end
     end
   end
 end

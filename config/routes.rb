@@ -1297,6 +1297,7 @@ Rails.application.routes.draw do
                                   only: %i[show create] do
       post :messages, action: :send_message
       post :start
+      post :rerun
       get :poll
       get :history
       post "proposals/:proposal_id/apply", action: :apply, as: :apply_proposal

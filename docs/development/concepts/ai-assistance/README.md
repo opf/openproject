@@ -74,7 +74,7 @@ The skill page shows the full system prompt, as saved, under the prompt field. T
 
 A skill has one behavior setting, **"Answer at once when opened"** (on by default):
 
-- **On:** opening the skill starts a new chat. The skill's label is the first message, and the skill answers at once. The user can ask follow-up questions. Examples: Refresh work package, Write a test plan.
+- **On:** opening the skill starts a new chat, and the skill answers at once. The chat shows a start line ("Tom started Refresh work package"), not a question. The LLM gets a fixed, translated request (`ai_assistance.chat.start_request`) as the user turn. "Run again" starts the skill again in the same chat, on the current work package. The user can ask follow-up questions. Examples: Refresh work package, Write a test plan.
 - **Off:** opening the skill shows the user's latest chat of this skill, or an empty one, and the user writes the first question. Example: Chat.
 
 "New chat" starts an empty conversation. An assistant can have several skills, each with its own label, prompt, scope and conditions.

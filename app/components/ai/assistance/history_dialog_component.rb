@@ -52,15 +52,20 @@ module AI
         url_helpers.work_package_ai_assistance_chat_path(work_package, chat_id: chat.id)
       end
 
-      # A chat also shows its first question. A skill that answers at once asks its own label.
+      # A chat also shows its first question. A skill that answers at once shows the start
+      # of its first answer.
       def entry_label(chat)
-        return chat.skill.full_label unless chat.skill.chat?
-
-        "#{chat.skill.full_label} · #{chat.messages.find(&:from_user?)&.content.to_s.truncate(60)}"
+        summary = chat.skill.chat? ? chat.messages.find(&:from_user?)&.content : first_answer_line(chat)
+        [chat.skill.full_label, summary.to_s.truncate(60).presence].compact.join(" · ")
       end
 
       def entry_detail(chat)
-        I18n.t("ai_assistance.history.questions", count: chat.messages.count(&:from_user?))
+        I18n.t("ai_assistance.history.answers", count: chat.messages.count { |message| message.from_assistant? && message.done? })
+      end
+
+      def first_answer_line(chat)
+        answer = chat.messages.find { |message| message.from_assistant? && message.done? }
+        answer&.content.to_s.lines.map { |line| line.strip.sub(/\A[#*>\-\s]+/, "") }.find(&:present?)
       end
 
       def entry_icon(chat)
