@@ -48,7 +48,8 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
         name: PM assistant
         position: 2
         skills:
-          - skill_key: prompt
+          - skill_key: conversation
+            answer_format: text
             label: Find risks
             prompt: List them.
       - reference: :ai_assistant_comms
@@ -57,16 +58,21 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
         icon: megaphone
         position: 1
         skills:
-          - skill_key: prompt
+          - skill_key: conversation
+            answer_format: text
             label: Write a test plan
             prompt: Draft it.
-          - skill_key: chat
+          - skill_key: conversation
+            answer_format: text
+            start: empty
       - reference: :ai_assistant_tom
         principal: :openproject_admin
         name: Tom's assistant
         position: 1
         skills:
-          - skill_key: chat
+          - skill_key: conversation
+            answer_format: text
+            start: empty
     SEEDING_DATA_YAML
   end
 
@@ -76,7 +82,7 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
     expect(AI::Assistant.global.sole).to have_attributes(name: "PM assistant", position: 2)
     expect(AI::Assistant.for_groups.sole).to have_attributes(name: "COMMS assistant", principal: group)
     expect(AI::Assistant.personal.sole).to have_attributes(name: "Tom's assistant", principal: admin)
-    expect(AI::Assistant.for_groups.sole.skills.map(&:skill_key)).to eq(%w[prompt chat])
+    expect(AI::Assistant.for_groups.sole.skills.order(:position).map(&:variant)).to eq(%w[preset chat])
   end
 
   it "does not seed a second time" do

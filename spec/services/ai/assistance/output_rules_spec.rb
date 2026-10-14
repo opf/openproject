@@ -33,8 +33,8 @@ require "spec_helper"
 RSpec.describe AI::Assistance::OutputRules do
   subject(:rules) { described_class.new(skill, locale: "de").to_s }
 
-  let(:skill) { build(:ai_assistant_skill, skill_key:, proposal_scope:) }
-  let(:skill_key) { "chat" }
+  let(:skill) { build(:ai_assistant_skill, answer_format:, proposal_scope:) }
+  let(:answer_format) { "text" }
   let(:proposal_scope) { "changes" }
 
   it "sets the answer language and guards against instructions in the context" do
@@ -65,7 +65,7 @@ RSpec.describe AI::Assistance::OutputRules do
   end
 
   context "with a run skill" do
-    let(:skill_key) { "health_check" }
+    let(:answer_format) { "findings" }
 
     it "talks about findings" do
       expect(rules).to include(%(Write the text of each finding in the language with the locale code "de".))

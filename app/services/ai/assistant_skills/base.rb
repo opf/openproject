@@ -30,53 +30,18 @@
 
 module AI
   module AssistantSkills
+    # A skill type: where a skill runs and what it can do. Core has one type,
+    # Conversation; an external agent can be another one later.
     class Base
       class << self
         def key
           raise SubclassResponsibilityError
         end
 
-        def icon
-          raise SubclassResponsibilityError
-        end
-
-        def label
-          I18n.t("ai_assistance.skills.#{key}.label")
-        end
-
-        def description
-          I18n.t("ai_assistance.skills.#{key}.description")
-        end
-
         # The work package attributes this skill type can propose changes to, as Automations
         # action keys. The skill's proposal scope can narrow them (AI::AssistantSkill).
         def changeable_attributes
           AI::Assistance::ChangeOptions::ATTRIBUTE_KEYS
-        end
-
-        # A chat: the user writes the questions.
-        def chat?
-          false
-        end
-
-        # Answered in a conversation (AI::AssistantChat) instead of a run with findings.
-        # A run skill type also defines rules, build_context and review_class.
-        def conversation?
-          false
-        end
-
-        # Preset: one click, fixed instructions. Chat: questions in free form.
-        def kind
-          chat? ? "chat" : "preset"
-        end
-
-        def kind_label
-          I18n.t("admin.ai_assistants.skills.types.#{kind}")
-        end
-
-        # Whether the skill is offered only when an admin set its instructions.
-        def prompt_required?
-          false
         end
       end
     end

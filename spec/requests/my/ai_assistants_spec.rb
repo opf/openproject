@@ -105,7 +105,7 @@ RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: 
 
     it "cannot get a skill added" do
       post my_ai_assistant_skills_path(other_assistant),
-           params: { ai_assistant_skill: { skill_key: "prompt", prompt: "Hi" } }
+           params: { ai_assistant_skill: { answer_format: "text", prompt: "Hi" } }
 
       expect(response).to have_http_status(:not_found)
       expect(other_assistant.skills.count).to eq(0)
@@ -115,10 +115,10 @@ RSpec.describe "My AI assistants", :skip_csrf, type: :rails_request, with_flag: 
   describe "POST /my/ai_assistants/:id/skills" do
     it "creates a skill" do
       post my_ai_assistant_skills_path(own_assistant),
-           params: { ai_assistant_skill: { skill_key: "prompt", prompt: "Summarize it." } }
+           params: { ai_assistant_skill: { answer_format: "text", start: "preset", prompt: "Summarize it." } }
 
       skill = own_assistant.skills.sole
-      expect(skill).to have_attributes(skill_key: "prompt", prompt: "Summarize it.")
+      expect(skill).to have_attributes(skill_key: "conversation", variant: "preset", prompt: "Summarize it.")
       expect(response).to redirect_to(edit_my_ai_assistant_path(own_assistant))
     end
   end

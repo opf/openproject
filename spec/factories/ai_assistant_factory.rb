@@ -38,9 +38,24 @@ FactoryBot.define do
 
   factory :ai_assistant_skill, class: "AI::AssistantSkill" do
     assistant { association :ai_assistant }
-    skill_key { "health_check" }
+    skill_key { "conversation" }
+    answer_format { "findings" }
+    start { "preset" }
+    checks { true }
     prompt { "Check the work package for contradictions." }
     sequence(:position)
+
+    trait :chat do
+      answer_format { "text" }
+      start { "empty" }
+      checks { false }
+    end
+
+    trait :preset do
+      answer_format { "text" }
+      start { "preset" }
+      checks { false }
+    end
   end
 
   factory :ai_assistant_run, class: "AI::AssistantRun" do
@@ -73,7 +88,7 @@ FactoryBot.define do
   end
 
   factory :ai_assistant_chat, class: "AI::AssistantChat" do
-    skill { association :ai_assistant_skill, skill_key: "chat" }
+    skill { association :ai_assistant_skill, :chat }
     user
     work_package
   end

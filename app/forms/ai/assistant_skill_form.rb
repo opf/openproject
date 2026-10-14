@@ -33,25 +33,24 @@ module AI
     form do |f|
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.menu"),
                        description: I18n.t("admin.ai_assistants.skills.sections.menu_description")) do |g|
-        if model.new_record?
-          g.select_list(name: :skill_key, label: AI::AssistantSkill.human_attribute_name(:skill_key),
-                        caption: I18n.t("admin.ai_assistants.skills.type_caption"),
-                        include_blank: false, input_width: :large) do |select|
-            AI::AssistantSkills::Registry.skills.each do |type|
-              select.option(value: type.key, label: type_option_label(type))
-            end
-          end
-        end
-
         g.text_field(name: :label, label: AI::AssistantSkill.human_attribute_name(:label), input_width: :large,
                      caption: I18n.t("admin.ai_assistants.skills.label_caption"),
-                     placeholder: model.skill_type&.label)
+                     placeholder: model.default_label)
 
         g.text_area(name: :description, label: AI::AssistantSkill.human_attribute_name(:description), rows: 2,
                     caption: I18n.t("admin.ai_assistants.skills.description_caption"),
-                    placeholder: model.skill_type&.description)
+                    placeholder: model.display_description)
 
         g.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))
+      end
+
+      f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.behavior")) do |g|
+        g.group(layout: :horizontal) do |row|
+          setting_radios(row, :start, AI::AssistantSkill::STARTS)
+          setting_radios(row, :answer_format, AI::AssistantSkill::ANSWER_FORMATS)
+        end
+        g.check_box(name: :checks, label: AI::AssistantSkill.human_attribute_name(:checks),
+                    caption: I18n.t("admin.ai_assistants.skills.checks_caption"))
       end
 
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.instructions")) do |g|
@@ -129,10 +128,13 @@ module AI
              .order(:name).pluck(:id, :name)
     end
 
-    # "Preset" or "Chat"; with several types of one kind, the type's name is added.
-    def type_option_label(type)
-      same_kind = AI::AssistantSkills::Registry.skills.count { |other| other.kind == type.kind }
-      same_kind > 1 ? "#{type.kind_label}: #{type.label}" : type.kind_label
+    def setting_radios(form, name, values)
+      form.radio_button_group(name:, label: AI::AssistantSkill.human_attribute_name(name)) do |group|
+        values.each do |value|
+          group.radio_button(value:, label: I18n.t("admin.ai_assistants.skills.#{name.to_s.pluralize}.#{value}"),
+                             caption: I18n.t("admin.ai_assistants.skills.#{name.to_s.pluralize}.#{value}_caption"))
+        end
+      end
     end
   end
 end

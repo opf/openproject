@@ -45,9 +45,14 @@ RSpec.describe BasicData::AiAssistantSeeder do
         icon: checklist
         position: 1
         skills:
-          - skill_key: health_check
+          - skill_key: conversation
+            label: Refresh work package
+            answer_format: findings
+            checks: true
             prompt: Check it.
-          - skill_key: chat
+          - skill_key: conversation
+            answer_format: text
+            start: empty
             proposal_scope: comment_only
     SEEDING_DATA_YAML
   end
@@ -60,9 +65,10 @@ RSpec.describe BasicData::AiAssistantSeeder do
     assistant = AI::Assistant.find_by!(name: "OP assistant")
 
     expect(assistant).to have_attributes(icon: "checklist", active: true, position: 1)
-    expect(assistant.skills.order(:position).map(&:skill_key)).to eq(%w[health_check chat])
-    expect(assistant.skills.find_by(skill_key: "health_check").prompt).to eq("Check it.")
-    expect(assistant.skills.find_by(skill_key: "chat")).to have_attributes(proposal_scope: "comment_only")
+    review, chat = assistant.skills.order(:position).to_a
+
+    expect(review).to have_attributes(variant: "review", checks: true, prompt: "Check it.", label: "Refresh work package")
+    expect(chat).to have_attributes(variant: "chat", proposal_scope: "comment_only")
   end
 
   it "does not seed a second time" do

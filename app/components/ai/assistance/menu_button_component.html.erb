@@ -45,9 +45,9 @@
         <% menu.with_item(
              label: skill.display_label,
              **item_arguments(skill),
-             data: { test_selector: "wp-ai-assistance-skill-#{skill.skill_key}" }
+             data: { test_selector: "wp-ai-assistance-skill-#{skill.variant}" }
            ) do |item| %>
-          <% item.with_leading_visual_icon(icon: skill.skill_type.icon) %>
+          <% item.with_leading_visual_icon(icon: skill.icon) %>
           <% item.with_trailing_visual_label(scheme: :secondary) { skill.assistant.name } %>
           <% if skill.display_description.present? %>
             <% item.with_description { skill.display_description } %>

@@ -82,7 +82,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
       get "/work_packages/#{work_package.id}/ai_assistance/menu"
 
       expect(response).to have_http_status(:ok)
-      expect(response.body).to include("Refresh work package")
+      expect(response.body).to include("Review work package")
       expect(response.body).to include("QA assistance")
       expect(response.body).to include(%(name="skill_id" value="#{skill.id}"))
       expect(response.body).to include("History")
@@ -91,7 +91,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
 
   describe "a skill with conditions" do
     let!(:bug_skill) do
-      create(:ai_assistant_skill, assistant:, skill_key: "prompt", label: "Reproduce the bug", prompt: "Try it.",
+      create(:ai_assistant_skill, :preset, assistant:, label: "Reproduce the bug", prompt: "Try it.",
                                   conditions: { type_ids: [create(:type).id] })
     end
 
@@ -114,7 +114,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     let(:group) { create(:group) }
     let!(:group_skill) do
       create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "Team helper", principal: group),
-                                  skill_key: "prompt", prompt: "Summarize it.")
+                                  answer_format: "text", start: "preset", prompt: "Summarize it.")
     end
 
     it "is listed for the members of the group" do
@@ -139,7 +139,7 @@ RSpec.describe "AI Assistance menu", type: :rails_request, with_flag: { ai_assis
     end
     let!(:personal_skill) do
       create(:ai_assistant_skill, assistant: create(:ai_assistant, name: "My helper", principal: owner),
-                                  skill_key: "prompt", prompt: "Summarize it.")
+                                  answer_format: "text", start: "preset", prompt: "Summarize it.")
     end
 
     context "for its owner" do

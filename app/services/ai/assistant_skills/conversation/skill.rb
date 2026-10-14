@@ -30,25 +30,36 @@
 
 module AI
   module AssistantSkills
-    module Prompt
-      # A preset with instructions only, for example "Write a test plan". One click starts
-      # a conversation with the instructions; the user can then ask follow-up questions.
+    module Conversation
+      # The one skill type in core. A skill's settings decide how it starts and what its
+      # answers hold (AI::AssistantSkill); the instructions decide what it is for.
       class Skill < AI::AssistantSkills::Base
         class << self
           def key
-            "prompt"
+            "conversation"
           end
 
-          def icon
-            "light-bulb"
+          def build_context(work_package:, user:)
+            HealthCheck::Context.new(work_package:, user:)
           end
 
-          def conversation?
-            true
+          def review_class
+            HealthCheck::Review
           end
 
-          def prompt_required?
-            true
+          # The built-in consistency checks, for skills that answer with findings.
+          def rules
+            [
+              HealthCheck::Rules::ClosedWithOpenDescendants,
+              HealthCheck::Rules::OpenWithAllDescendantsClosed,
+              HealthCheck::Rules::ClosedDescendantWithOpenBelow,
+              HealthCheck::Rules::StaleOpenDescendants,
+              HealthCheck::Rules::ClosedWithOpenPrerequisites,
+              HealthCheck::Rules::OpenDuplicateOfClosed,
+              HealthCheck::Rules::StaleWorkPackage,
+              HealthCheck::Rules::MergedPullRequestDefaultStatus,
+              HealthCheck::Rules::ClosedWithOpenPullRequest
+            ]
           end
         end
       end

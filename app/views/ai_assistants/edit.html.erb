@@ -83,12 +83,12 @@
       <%= flex_layout(align_items: :center) do |row| %>
         <% row.with_column(flex: 1) do %>
           <%= render(Primer::Beta::Link.new(href: pages.edit_skill_path(@assistant, skill))) { skill.display_label } %>
-          <% if skill.skill_type && skill.skill_type.kind_label != skill.display_label %>
-            <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { skill.skill_type.kind_label } %>
+          <% if skill.default_label != skill.display_label %>
+            <%= render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { skill.default_label } %>
           <% end %>
           <% if skill.prompt.blank? %>
             <%= render(Primer::Beta::Label.new(scheme: :attention, ml: 2)) do %>
-              <%= skill.skill_type&.prompt_required? ? t("admin.ai_assistants.skills.no_prompt_not_offered") : t("admin.ai_assistants.skills.no_prompt") %>
+              <%= skill.prompt_required? ? t("admin.ai_assistants.skills.no_prompt_not_offered") : t("admin.ai_assistants.skills.no_prompt") %>
             <% end %>
           <% end %>
           <% if skill.conditions.present? %>

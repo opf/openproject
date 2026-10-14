@@ -46,6 +46,19 @@ module AI
     validates :label, length: { maximum: 255 }
     validates :prompt, length: { maximum: 20_000 }
 
+    # How the skill starts: with its label as the first request, or with an empty chat.
+    STARTS = %w[preset empty].freeze
+    # What its first answer holds: findings with evidence, or free text.
+    ANSWER_FORMATS = %w[findings text].freeze
+
+    store_attribute :settings, :start, :string, default: "preset"
+    store_attribute :settings, :answer_format, :string, default: "text"
+    # The built-in consistency checks (rules), for a skill that answers with findings.
+    store_attribute :settings, :checks, :boolean, default: false
+
+    validates :start, inclusion: { in: STARTS }
+    validates :answer_format, inclusion: { in: ANSWER_FORMATS }
+
     # What the skill may propose: attribute changes and comments, comments only, or nothing.
     enum :proposal_scope, { changes: "changes", comment_only: "comment_only", read_only: "read_only" },
          default: "changes", validate: true, prefix: :scope
@@ -80,19 +93,51 @@ module AI
       AI::AssistantSkills::Registry.fetch(skill_key)
     end
 
-    def chat?
-      skill_type&.chat? || false
+    def findings?
+      answer_format == "findings"
     end
 
+    # Opens an empty chat instead of starting with a request.
+    def chat?
+      !findings? && start == "empty"
+    end
+
+    # Answered in a conversation. A skill with findings still answers in a run for now.
     def conversation?
-      skill_type&.conversation? || false
+      !findings?
+    end
+
+    # review, chat or preset: the default label, the description and the icon.
+    def variant
+      if findings? then "review"
+      elsif chat? then "chat"
+      else "preset"
+      end
+    end
+
+    def icon
+      { "review" => "pulse", "chat" => "comment-discussion", "preset" => "light-bulb" }.fetch(variant)
+    end
+
+    def default_label
+      I18n.t("ai_assistance.skills.#{variant}.label")
+    end
+
+    # The built-in consistency checks that run before the AI answers.
+    def rules
+      findings? && checks && skill_type ? skill_type.rules : []
+    end
+
+    # A skill without instructions is offered only when its checks run alone.
+    def prompt_required?
+      !(findings? && checks)
     end
 
     # Offered in the menu: every skill needs an LLM connection and a model, and a skill
     # that needs instructions also needs them set.
     def ready?
       return false if skill_type.nil?
-      return false if skill_type.prompt_required? && prompt.blank?
+      return false if prompt_required? && prompt.blank?
       return false unless assistant.usable?
 
       LlmConnection.available? && assistant.effective_model_id.present?
@@ -107,9 +152,9 @@ module AI
       skill_type.changeable_attributes + %w[comment]
     end
 
-    # The admin's label or description, else the text of the skill type.
+    # The admin's label or description, else the text of the skill's variant.
     def display_label
-      label.presence || skill_type&.label || skill_key
+      label.presence || default_label
     end
 
     # "OP assistant · Refresh work package": the title of its dialogs and history entries.
@@ -118,7 +163,7 @@ module AI
     end
 
     def display_description
-      description.presence || skill_type&.description
+      description.presence || I18n.t("ai_assistance.skills.#{variant}.description")
     end
 
     # The system prompt for a run, or nil when the skill has no prompt: the assistant's

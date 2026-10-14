@@ -98,11 +98,14 @@ en:
         name: "Name"
       ai/assistant_skill:
         active: "Active"
+        answer_format: "Answer"
+        checks: "Built-in consistency checks"
         description: "Description"
         label: "Label"
         prompt: "System prompt"
         proposal_scope: "Proposals"
         skill_key: "Type"
+        start: "Start"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1537,6 +1540,12 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
+        answer_formats:
+          findings: "Findings"
+          findings_caption: "A list of findings, each with evidence and an optional proposed change."
+          text: "Free answer"
+          text_caption: "An answer in text, with proposed changes when they follow from it."
+        checks_caption: "Runs OpenProject's consistency rules before the AI answers, for skills that answer with findings. Such a skill is offered also without a system prompt."
         conditions:
           all: "All"
           caption: "The skill is offered only on work packages that match every list. An empty list matches all."
@@ -1563,7 +1572,7 @@ en:
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         no_prompt: "No system prompt: rules only"
         no_prompt_not_offered: "No system prompt: not offered"
-        prompt_caption: "What the model does in this skill. Without it, Refresh work package runs only its rules, and a custom prompt or a chat is not offered."
+        prompt_caption: "What the model does in this skill. Without it, a skill with built-in checks runs only its rules, and any other skill is not offered."
         prompt_preview: "Show the full system prompt"
         prompt_preview_caption: "The assistant's instructions, this system prompt, and the output rules that OpenProject adds for the skill type and its proposals. Shown as saved."
         proposal_scopes:
@@ -1574,15 +1583,17 @@ en:
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
         sections:
+          behavior: "How it works"
           conditions: "Where it is offered"
           instructions: "Instructions"
           menu: "Menu entry"
           menu_description: "How the skill shows in the AI Assistance menu on work packages."
+        starts:
+          empty: "Empty chat"
+          empty_caption: "The user writes the first question."
+          preset: "One click"
+          preset_caption: "The label is the first request, and the skill answers at once."
         title: "Skills"
-        type_caption: "Preset: one click runs fixed instructions and shows findings, with proposed changes. Chat: the user writes questions in free form and gets answers, with proposed changes."
-        types:
-          chat: "Chat"
-          preset: "Preset"
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."
     custom_styles:
@@ -2558,12 +2569,12 @@ en:
       chat:
         description: "Ask questions about this work package. Only you see the chat."
         label: "Chat"
-      health_check:
-        description: "Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates."
-        label: "Refresh work package"
-      prompt:
+      preset:
         description: "Runs its instructions on this work package. You can ask follow-up questions."
         label: "Custom prompt"
+      review:
+        description: "Checks this work package and lists findings, with proposed updates."
+        label: "Review work package"
   announcements:
     content: "Content"
     is_active: currently displayed

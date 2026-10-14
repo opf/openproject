@@ -58,7 +58,7 @@ module AI
 
       def run_rules
         context = skill_type.build_context(work_package: run.work_package, user: run.user)
-        skill_type.rules.flat_map { |rule| rule.call(context) }.each do |finding|
+        run.skill.rules.flat_map { |rule| rule.call(context) }.each do |finding|
           run.findings.create!(finding.merge(base_lock_version: run.work_package_lock_version))
         end
         run.not_checked = context.not_checked

@@ -34,11 +34,7 @@ module AI
     module Registry
       class << self
         def skills
-          [
-            AI::AssistantSkills::HealthCheck::Skill,
-            AI::AssistantSkills::Prompt::Skill,
-            AI::AssistantSkills::Chat::Skill
-          ]
+          [AI::AssistantSkills::Conversation::Skill]
         end
 
         def keys

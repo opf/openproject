@@ -43,7 +43,7 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def new
-    @skill = @assistant.skills.build(skill_key: AI::AssistantSkills::Registry.keys.first)
+    @skill = @assistant.skills.build(skill_key: AI::AssistantSkills::Conversation::Skill.key)
     render "ai_assistant_skills/new"
   end
 
@@ -52,7 +52,7 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def create
-    @skill = @assistant.skills.build(skill_attributes.merge(skill_key: params.dig(:ai_assistant_skill, :skill_key),
+    @skill = @assistant.skills.build(skill_attributes.merge(skill_key: AI::AssistantSkills::Conversation::Skill.key,
                                                             position: next_position))
 
     if @skill.save
@@ -94,7 +94,7 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def skill_params
-    params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active])
+    params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active answer_format start checks])
   end
 
   # The condition inputs are outside the model scope: each posts a list of ids, and a

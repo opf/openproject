@@ -77,7 +77,7 @@ module AI
       end
 
       def entry_icon(entry)
-        entry.skill.skill_type&.icon || :pulse
+        entry.skill.icon
       end
     end
   end

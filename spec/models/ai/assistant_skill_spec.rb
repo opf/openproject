@@ -99,7 +99,7 @@ RSpec.describe AI::AssistantSkill do
 
   describe "#system_prompt" do
     let(:assistant) { build(:ai_assistant, instructions: "You help the COMMS team.") }
-    let(:skill) { build(:ai_assistant_skill, assistant:, skill_key: "prompt", prompt: "Write a test plan.") }
+    let(:skill) { build(:ai_assistant_skill, :preset, assistant:, prompt: "Write a test plan.") }
 
     it "joins the assistant's instructions, the prompt and the generated output rules" do
       expect(skill.system_prompt(locale: "en")).to eq(

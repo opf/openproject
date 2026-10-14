@@ -31,22 +31,15 @@
 require "spec_helper"
 
 RSpec.describe AI::AssistantSkills::Registry do
-  it "lists Refresh work package (health_check), the custom prompt and the chat" do
-    expect(described_class.keys).to eq(%w[health_check prompt chat])
+  it "lists the conversation as the one core skill type" do
+    expect(described_class.keys).to eq(%w[conversation])
   end
 
-  it "fetches a skill by key" do
-    expect(described_class.fetch(:health_check)).to eq(AI::AssistantSkills::HealthCheck::Skill)
+  it "fetches a skill type by key" do
+    expect(described_class.fetch(:conversation)).to eq(AI::AssistantSkills::Conversation::Skill)
   end
 
   it "returns nil for an unknown key" do
     expect(described_class.fetch("unknown")).to be_nil
-  end
-
-  it "has a label and an icon for each skill" do
-    described_class.skills.each do |skill|
-      expect(skill.label).not_to include("translation missing")
-      expect(skill.icon).to be_present
-    end
   end
 end

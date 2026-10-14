@@ -28,42 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AI
-  module AssistantSkills
-    module HealthCheck
-      class Skill < AI::AssistantSkills::Base
-        class << self
-          def key
-            "health_check"
-          end
+# One skill type with settings, instead of a type for each use case: Refresh work package,
+# Chat and Custom prompt become presets of a conversation.
+class AddSettingsToAIAssistantSkills < ActiveRecord::Migration[8.1]
+  PRESETS = {
+    "health_check" => { answer_format: "findings", start: "preset", checks: true },
+    "chat" => { answer_format: "text", start: "empty", checks: false },
+    "prompt" => { answer_format: "text", start: "preset", checks: false }
+  }.freeze
 
-          def icon
-            "pulse"
-          end
+  def up
+    add_column :ai_assistant_skills, :settings, :jsonb, null: false, default: {}
 
-          def build_context(work_package:, user:)
-            Context.new(work_package:, user:)
-          end
-
-          def review_class
-            Review
-          end
-
-          def rules
-            [
-              Rules::ClosedWithOpenDescendants,
-              Rules::OpenWithAllDescendantsClosed,
-              Rules::ClosedDescendantWithOpenBelow,
-              Rules::StaleOpenDescendants,
-              Rules::ClosedWithOpenPrerequisites,
-              Rules::OpenDuplicateOfClosed,
-              Rules::StaleWorkPackage,
-              Rules::MergedPullRequestDefaultStatus,
-              Rules::ClosedWithOpenPullRequest
-            ]
-          end
-        end
-      end
+    PRESETS.each do |key, settings|
+      execute <<~SQL.squish
+        UPDATE ai_assistant_skills
+        SET skill_key = 'conversation', settings = #{connection.quote(settings.to_json)}::jsonb
+        WHERE skill_key = #{connection.quote(key)}
+      SQL
     end
+  end
+
+  def down
+    PRESETS.each do |key, settings|
+      execute <<~SQL.squish
+        UPDATE ai_assistant_skills SET skill_key = #{connection.quote(key)}
+        WHERE skill_key = 'conversation'
+          AND settings->>'answer_format' = #{connection.quote(settings[:answer_format])}
+          AND settings->>'start' = #{connection.quote(settings[:start])}
+      SQL
+    end
+
+    remove_column :ai_assistant_skills, :settings
   end
 end

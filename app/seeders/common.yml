@@ -487,7 +487,12 @@ ai_assistants:
     icon: checklist
     position: 1
     skills:
-      - skill_key: health_check
+      - skill_key: conversation
+        t_label: Refresh work package
+        t_description: Finds where this work package no longer matches its comments, descendants, relations and pull requests, and proposes updates.
+        answer_format: findings
+        start: preset
+        checks: true
         proposal_scope: changes
         prompt: |
           You check one work package of a project management tool for places where it is
@@ -506,7 +511,9 @@ ai_assistants:
           The rule findings are already reported. Do not repeat or dispute them.
           Report only what you can show with evidence: quote the comment, or name the field.
           Report nothing rather than a guess.
-      - skill_key: chat
+      - skill_key: conversation
+        answer_format: text
+        start: empty
         proposal_scope: comment_only
         prompt: |-
           Answer the user's questions about this work package: its subject, description, status, dates, comments, relations and descendants.
