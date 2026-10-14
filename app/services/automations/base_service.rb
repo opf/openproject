@@ -60,45 +60,35 @@ class Automations::BaseService
   end
 
   def set_actions(automation, actions_attributes)
-    existing_action_keys = automation.actions.map(&:key)
+    existing_by_key = automation.actions.index_by(&:key)
+    incoming_keys = actions_attributes.keys.map(&:to_sym)
 
-    remove_actions(automation, existing_action_keys - actions_attributes.keys)
-    update_actions(automation, actions_attributes.slice(*existing_action_keys))
-    add_actions(automation, actions_attributes.slice(*(actions_attributes.keys - existing_action_keys)))
-  end
+    (existing_by_key.keys - incoming_keys).each do |key|
+      existing_by_key[key].mark_for_destruction
+    end
 
-  def remove_actions(automation, keys)
-    keys.each { |key| remove_action(automation, key) }
-  end
-
-  def update_actions(automation, key_values)
-    key_values.each { |key, values| update_action(automation, key, values) }
-  end
-
-  def add_actions(automation, key_values)
-    key_values.each { |key, values| add_action(automation, key, values) }
-  end
-
-  def update_action(automation, key, values)
-    automation.actions.detect { |a| a.key == key }.values = values
+    actions_attributes.each do |key, values|
+      key = key.to_sym
+      if (existing = existing_by_key[key])
+        existing.values = values
+      else
+        add_action(automation, key, values)
+      end
+    end
   end
 
   def add_action(automation, key, values)
-    automation.actions << available_action_for(automation, key).new(values)
-  end
+    template = automation.available_actions.detect { |a| a.key == key } ||
+               Automations::Actions::Inexistent.new
 
-  def remove_action(automation, key)
-    automation.actions.reject! { |a| a.key == key }
+    new_action = automation.actions.build(template.attributes.except("id"))
+    new_action.values = values
   end
 
   def set_conditions(automation, conditions_attributes)
     automation.conditions = conditions_attributes.map do |key, values|
       available_condition_for(automation, key).new(values)
     end
-  end
-
-  def available_action_for(automation, key)
-    automation.available_actions.detect { |a| a.key == key } || Automations::Actions::Inexistent
   end
 
   def available_condition_for(automation, key)

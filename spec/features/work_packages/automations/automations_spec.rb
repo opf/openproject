@@ -577,7 +577,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
 
     before do
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::AssignedTo.new(value: nil)],
+             actions: [Automations::Actions::AssignedTo.new],
              name: "Unassign")
     end
 
@@ -617,7 +617,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
           with_settings: { work_packages_identifier: "semantic" } do
     let!(:unassign_ca) do
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::AssignedTo.new(nil)],
+             actions: [Automations::Actions::AssignedTo.new],
              name: "Unassign")
     end
 
@@ -627,7 +627,7 @@ RSpec.describe "Automations", :js, with_ee: %i[custom_actions] do
              project: project,
              roles: [role])
       create(:automation, :with_button_trigger,
-             actions: [Automations::Actions::Responsible.new("current_user")],
+             actions: [Automations::Actions::Responsible.new(values: ["current_user"])],
              name: "Be responsible")
     end
 

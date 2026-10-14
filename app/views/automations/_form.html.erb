@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% active_section_keys = @automation.actions.map(&:key) %>
+<% active_section_keys = @automation.actions.reject(&:marked_for_destruction?).map(&:key) %>
 <% trigger = @automation.button_trigger || @automation.triggers.build(type: "Automations::Triggers::Button") %>
 <% trigger_options = @automation.available_triggers.map { |klass| [klass.human_name, klass.name] } %>
 

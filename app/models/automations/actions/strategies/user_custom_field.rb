@@ -44,6 +44,8 @@ module Automations::Actions::Strategies::UserCustomField
   # implementation. This could have been solved by swapping the module includes, however then the
   # transformed_value method would get an incorrect implementation.
   def apply(work_package)
+    return if custom_field.nil?
+
     if work_package.respond_to?(custom_field.attribute_setter)
       set_custom_field_value(work_package)
       validate_custom_field(work_package)
