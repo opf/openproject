@@ -470,26 +470,6 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
-  def self.find_by_rss_key(key)
-    return nil unless Setting.feeds_enabled?
-
-    token = Token::RSS.find_by(value: key)
-
-    if token&.user&.active?
-      token.user
-    end
-  end
-
-  def self.find_by_api_key(key)
-    return nil unless Setting.api_tokens_enabled?
-
-    token = Token::API.find_by_plaintext_value(key)
-
-    if token&.user&.active?
-      token.user
-    end
-  end
-
   ##
   # Finds all users with the mail address matching the given mail
   # Includes searching for suffixes from +Setting.mail_suffix_separtors+.
