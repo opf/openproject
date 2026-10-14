@@ -30,7 +30,7 @@
 
 module Token
   class Invitation < Base
-    include ExpirableToken
+    include Ephemeral
 
     ##
     # Invitation tokens are valid for a configurable amount of days

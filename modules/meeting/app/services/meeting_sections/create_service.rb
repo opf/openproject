@@ -29,5 +29,6 @@
 
 module MeetingSections
   class CreateService < ::BaseServices::Create
+    include Meetings::JournalAfterPerform
   end
 end

@@ -52,6 +52,7 @@ RSpec.describe "Notification center navigation", :js do
       expect(page).to have_current_path "/projects/#{project.identifier}/work_packages/#{work_package.id}/relations"
 
       page.execute_script("window.history.back()")
+      split_screen.expect_open
       expect(page).to have_current_path "/notifications/details/#{work_package.id}/relations"
 
       # Close the split screen

@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
                                      action: "keyup->costs--budget-subform#valueChanged"
                                    } %>
         </div>
-        <span class="budget-item--unit-name" id="<%= "#{id_prefix}_unit_name" %>">
+        <span class="budget-item--unit-name" id="<%= id_prefix %>_unit_name">
           <%= h material_budget_item.cost_type.unit_plural if material_budget_item.cost_type %>
         </span>
       </div>

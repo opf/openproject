@@ -75,6 +75,7 @@ RSpec.describe CustomFields::CustomFieldRendering do
           "weighted_item_list" => CustomFields::Inputs::SingleSelectList,
           "list" => CustomFields::Inputs::SingleSelectList,
           "date" => CustomFields::Inputs::Date,
+          "datetime" => CustomFields::Inputs::DateTime,
           "bool" => CustomFields::Inputs::Bool,
           "user" => CustomFields::Inputs::SingleUserSelectList,
           "version" => CustomFields::Inputs::SingleVersionSelectList,

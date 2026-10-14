@@ -401,6 +401,8 @@ hu:
         ongoing: Ongoing
         spent_on: dátum
         type: Típus
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: Naptár
         ical_token_query_assignment: Query assignment
@@ -468,6 +470,8 @@ hu:
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
         mode_guideline: Egyes üzemmódok a hozzáférhetőség és az olvashatóság érdekében felülírják az egyéni téma színeit. A teljes körű egyéni téma-támogatáshoz kérjük, válassza a „Világos” üzemmódot.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Színes mód engedélyezése
         time_zone: Idő zóna
         warn_on_leaving_unsaved: Figyelmeztess, ha úgy hagyom el a munkacsomagot, hogy nem mentett változások vannak rajta
@@ -5018,6 +5022,13 @@ hu:
           create_button: Létrehoz
           dialog_body: This token will allow third-party applications to communicate with your instance. To differentiate the new API token, please give it a name.
           dialog_title: Create new API token
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            one: 1 day (%{date})
+            other: "%{count} days (%{date})"
           name_label: Token name
       failed_to_create_token: 'Failed to create access token: %{error}'
       failed_to_reset_token: 'Hozzáférési token helyreállítása sikertelen: %{error}'
@@ -5047,6 +5058,7 @@ hu:
     access_tokens:
       access_tokens: Hozzáférési token
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
+      expired_on: Expired on %{date}
       headers:
         action: Művelet
         expiration: Lejár

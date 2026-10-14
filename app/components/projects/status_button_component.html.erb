@@ -36,7 +36,7 @@
         container.with_row do
           render(
             OpenProject::Common::AttributeHelpTextCaptionComponent.new(
-              help_text: helpers.help_text_for(@project, :status, current_user: helpers.current_user)
+              help_text: helpers.help_text_for(@project, :status, current_user: user)
             )
           )
         end

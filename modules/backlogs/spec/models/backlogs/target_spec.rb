@@ -37,6 +37,24 @@ RSpec.describe Backlogs::Target do
     it "has the inbox label as name" do
       expect(subject.name).to eq(I18n.t(:label_inbox))
     end
+
+    describe "as a dom_target argument" do
+      include ActionView::RecordIdentifier
+
+      it "returns inbox" do
+        expect(dom_target(subject)).to eq("inbox")
+      end
+
+      it "concatenates with more arguments" do
+        expect(dom_target(subject, :foo, :bar)).to eq("inbox_foo_bar")
+      end
+
+      it "doesn't conflict with name method" do
+        I18n.with_locale(:de) do
+          expect(dom_target(subject)).to eq("inbox")
+        end
+      end
+    end
   end
 
   describe "SprintId" do

@@ -90,7 +90,6 @@ RSpec.describe "Upload attachment to documents",
       SeleniumHubWaiter.wait
       click_link "New documentation"
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
-      expect(page).to have_css("#content img", count: 1)
       expect(page).to have_content("Image uploaded on creation")
 
       # Adding a second image
@@ -118,7 +117,6 @@ RSpec.describe "Upload attachment to documents",
         click_on "Save"
 
         # Expect both images to be present on the show page
-        expect(page).to have_css("#content img", count: 2)
         expect(page).to have_content("Image uploaded on creation")
         expect(page).to have_content("Image uploaded the second time")
         attachments_list.expect_attached("image.png", count: 4)

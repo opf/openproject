@@ -399,6 +399,8 @@ zh-TW:
         ongoing: 開啟中
         spent_on: 日期
         type: 類型
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: 行事曆
         ical_token_query_assignment: 指派查詢
@@ -466,6 +468,8 @@ zh-TW:
         increase_contrast_caption: 啟用所選色彩模式的高對比模式。
         increase_theme_contrast: 增加主題對比
         mode_guideline: 某些模式會覆蓋自訂主題的顏色，以提高可訪問性和可存取性。請選擇「Light」模式，以獲得完整的自訂主題支援。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 色彩模式
         time_zone: 時區
         warn_on_leaving_unsaved: 離開尚未儲存的工作套件時提示我
@@ -4781,6 +4785,12 @@ zh-TW:
           create_button: 建立
           dialog_body: 此令牌(Token)將允許第三方應用程式與您的實例進行通訊。為了區分新的 API 令牌，請為它命名。
           dialog_title: 產生新 API 令牌(Token)
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: 令牌名稱
       failed_to_create_token: '無法建立訪問令牌(Token): %{error}'
       failed_to_reset_token: '無法重置訪問令牌(Token): %{error}'
@@ -4810,6 +4820,7 @@ zh-TW:
     access_tokens:
       access_tokens: 存取令牌(Token)
       description: 提供者令牌由 OpenProject 發行，允許其他應用程式存取。用戶端識別碼由其他應用程式發行，允許 OpenProject 存取它們。
+      expired_on: Expired on %{date}
       headers:
         action: 動作
         expiration: 過期

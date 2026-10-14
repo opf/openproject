@@ -58,7 +58,7 @@ export class GroupSumsBuilder extends SingleRowBuilder {
   public renderColumns(sums:Record<string, any>, tr:HTMLTableRowElement) {
     this.augmentedColumns.forEach((column, i:number) => {
       const td = document.createElement('td');
-      const div = this.renderContent(sums, column.id, this.sumsSchema[column.id]);
+      const div = this.renderContent(sums, column.id, this.sumsSchema[column.id] as IFieldSchema);
 
       if (i === 0) {
         this.appendFirstLabel(div);

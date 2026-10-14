@@ -169,6 +169,7 @@ RSpec.describe "Portfolios", "index", :js, with_ee: :portfolio_management do # T
   end
 
   it "keeps the archived filter when searching by name (regression #SPPM-292)" do
+    Components::Submenu.new.expect_item("Archived portfolios")
     click_on "Archived portfolios"
     portfolios_page.expect_title("Archived portfolios")
 

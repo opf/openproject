@@ -105,14 +105,13 @@ RSpec.describe "inline create work package", :js, :selenium do
         filters.open
         filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
 
-        sleep(0.3)
-
         columns.open_modal
         columns.add(cf_list.name, save_changes: true)
 
         wp_table.click_inline_create
 
         callback.call
+        wp_table.expect_toast(type: :error, message: "Subject can't be blank.") unless wp_table.project
 
         type_field = wp_table.edit_field(nil, :type)
         type_field.activate!

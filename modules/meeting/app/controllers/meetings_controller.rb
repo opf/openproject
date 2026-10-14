@@ -269,6 +269,24 @@ class MeetingsController < ApplicationController
 
   def details_dialog; end
 
+  def agenda_sorting_dialog
+    respond_with_dialog Meetings::AgendaSortingDialogComponent.new(meeting: @meeting)
+  end
+
+  def update_agenda_sorting
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(params.expect(meeting: %i[agenda_sorting_mode lock_version]))
+
+    if call.success?
+      update_all_via_turbo_stream
+    else
+      update_via_turbo_stream(component: Meetings::AgendaSortingFormComponent.new(meeting: @meeting), status: :bad_request)
+    end
+
+    respond_with_turbo_streams
+  end
+
   def update_title
     @meeting.update(title: meeting_params[:title])
 

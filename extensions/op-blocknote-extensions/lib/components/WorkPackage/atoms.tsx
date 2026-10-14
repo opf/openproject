@@ -1,0 +1,144 @@
+import type { MouseEvent } from 'react';
+import styled, { css } from 'styled-components';
+import {
+  defaultColorStyles,
+  metaTextColor,
+  typeTextColor,
+} from '../../services/colors';
+import { linkToWorkPackage } from '../../services/openProjectApi';
+
+/* lets a line break between two meta parts that are each kept unbroken  */
+export const WRAP_OPPORTUNITY = '\u200B';
+
+export const defaultWpVariables = css`
+  --spacer-s: 4px;
+  --spacer-m: 8px;
+  --spacer-l: 12px;
+  --spacer-xl: 16px;
+  --spacer-xxl: 20px;
+
+  /* BlockNote's node-selection outline color; not exposed by BlockNote as a variable, so defined here */
+  --blocknote-focus-color: rgb(100, 160, 255);
+
+  --lightness-threshold: 0.453;
+  --background-alpha: 0.18;
+
+  --op-chip-bg: var(--bgColor-muted, #f6f8fa);
+  --op-item-hover-bg: var(--bn-colors-highlights-gray-background, #f0f0f0);
+  --op-wp-meta-color: ${metaTextColor};
+
+  [data-color-scheme="dark"] & {
+    --lightness-threshold: 0.6;
+    --background-alpha: 0.10;
+    --op-chip-bg: var(--bgColor-muted, #151b23);
+    --op-item-hover-bg: rgba(255, 255, 255, 0.12);
+  }
+`;
+
+export const menuSurfaceStyles = css`
+  background-color: var(--bn-colors-menu-background, #fff);
+  color: var(--bn-colors-menu-text, #3f3f3f);
+`;
+
+// The -webkit- prefix is not redundant: Safari (including iOS) implements only the prefixed
+// property and styled-components v6 no longer auto-prefixes, so unprefixed alone leaves the
+// chip text selectable there. Belongs on the container only: `user-select` is not inherited,
+// but `auto` on a descendant resolves to `none` under a non-selectable parent.
+export const nonSelectableStyles = css`
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+`;
+
+export const WorkPackageId = styled.span.attrs({
+  className: 'op-bn-work-package--id',
+})<{ $compact?:boolean }>`
+  color: var(--op-wp-meta-color) !important;
+  white-space: nowrap;
+
+  ${({ $compact }) =>
+    $compact &&
+    css`
+      font-size: 12px;
+      font-weight: 400;
+    `}
+`;
+
+export const WorkPackageType = styled.span.attrs({
+  className: 'op-bn-work-package--type',
+  'data-testid': 'op-bn-work-package--type',
+})<{ $color:string; $compact?:boolean }>`
+  ${({ $color }) => defaultColorStyles($color)}
+  font-weight: ${({ $compact }) => ($compact ? 600 : 500)};
+  text-transform: uppercase;
+  color: ${typeTextColor} !important;
+  overflow-wrap: anywhere;
+
+  ${({ $compact }) =>
+    $compact &&
+    css`
+      font-size: 12px;
+    `}
+`;
+
+export const WorkPackageStatus = styled.span.attrs({
+  className: 'op-bn-work-package--status',
+})<{
+  $baseColor:string;
+  $borderColor?:string;
+  $textColor?:string;
+  $bgColor?:string;
+  $compact?:boolean;
+}>`
+  ${({ $baseColor }) => defaultColorStyles($baseColor)}
+  font-size: 0.95em;
+  border-radius: 100px;
+  border: 1px solid ${({ $borderColor }) => $borderColor ?? 'transparent'};
+  padding: 0 7px;
+  color: ${({ $textColor }) => $textColor} !important;
+  background-color: ${({ $bgColor }) => $bgColor};
+  white-space: nowrap;
+
+  ${({ $compact }) =>
+    $compact &&
+    css`
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+    `}
+`;
+
+export const WorkPackageTitle = styled.span.attrs({
+  className: 'op-bn-work-package--title',
+})`
+  color: var(--bn-colors-editor-text);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+`;
+
+export const workPackageLinkProps = (displayId:string) => ({
+  href: linkToWorkPackage(displayId),
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
+  /*  keep link clicks from toggling the surrounding chip/card popover  */
+  onClick: (e:MouseEvent) => e.stopPropagation(),
+});
+
+export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--bn-colors-highlights-blue-text);
+  overflow-wrap: anywhere;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  ${({ $compact }) =>
+    $compact &&
+    css`
+      font-size: 14px;
+      font-weight: 600;
+    `}
+`;

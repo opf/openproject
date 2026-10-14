@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
       <tbody
         data-test-selector="dragula-container"
         data-admin--custom-fields-target="dragContainer">
-      <% custom_field.custom_options.each_with_index do |custom_option, i| %>
+      <% custom_field.custom_options.each do |custom_option| %>
         <%= f.fields_for :custom_options, custom_option do |co_f| %>
           <tr
             class="dragula-element custom-option-row"
