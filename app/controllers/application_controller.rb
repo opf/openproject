@@ -36,7 +36,7 @@ require "doorkeeper/dashboard_helper"
 class ApplicationController < ActionController::Base
   class_attribute :_model_scope
   class_attribute :accept_rss_key_auth_actions
-  class_attribute :accept_api_key_auth_actions
+  class_attribute :api_key_auth_scopes, default: {}
 
   helper_method :render_to_string
   helper_method :gon
@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
     self.accept_rss_key_auth_actions = actions.flatten.map(&:to_s)
   end
 
-  def self.accept_api_key_auth(*actions)
-    self.accept_api_key_auth_actions = actions.flatten.map(&:to_s)
+  def self.accept_api_key_auth(*actions, scope:)
+    self.api_key_auth_scopes = api_key_auth_scopes.merge(actions.flatten.to_h { [it.to_s, scope] })
   end
 
   protected
@@ -333,10 +333,6 @@ class ApplicationController < ActionController::Base
 
   def accept_rss_key_auth_actions
     self.class.accept_rss_key_auth_actions || []
-  end
-
-  def accept_api_key_auth_actions
-    self.class.accept_api_key_auth_actions || []
   end
 
   # Returns a string that can be used as filename value in Content-Disposition header
