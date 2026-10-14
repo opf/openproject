@@ -1,9 +1,13 @@
 import { BlockNoteEditor, BlockNoteSchema } from '@blocknote/core';
+import { withCollaboration } from '@blocknote/core/yjs';
 import { NodeSelection, TextSelection } from 'prosemirror-state';
+import { onTestFinished } from 'vitest';
+import * as Y from 'yjs';
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageInlineSpec,
   openProjectUserMentionSpec,
+  UserMentionNotificationExtension,
 } from '../../lib';
 import type { AnyEditor } from '../../lib/editorTypes';
 import { INLINE_WP_TYPE, USER_MENTION_TYPE } from '../../lib/utils/nodeTypes';
@@ -24,8 +28,37 @@ export interface InlineNode {
   props?:Record<string, unknown>;
 }
 
+const extensions = [UserMentionNotificationExtension];
+
 export function createHeadlessEditorWithBlocks(blocks:unknown[]) {
-  return BlockNoteEditor.create({ schema, initialContent: blocks as never });
+  return BlockNoteEditor.create({ schema, extensions, initialContent: blocks as never });
+}
+
+// Plugin views only exist once the editor is mounted.
+export function mountHeadlessEditor<Editor extends AnyEditor>(editor:Editor):Editor {
+  editor.mount(document.createElement('div'));
+  onTestFinished(() => editor.unmount());
+  return editor;
+}
+
+// Two editors whose Y.Docs only exchange changes on `sync()`.
+export function createCollaborativeHeadlessEditors() {
+  const yDocuments = [new Y.Doc(), new Y.Doc()];
+  const editors = yDocuments.map((yDocument) => {
+    const editor = BlockNoteEditor.create(withCollaboration({
+      schema,
+      extensions,
+      collaboration: { fragment: yDocument.getXmlFragment('document-store'), user: { name: 'Collaborator', color: '#000000' } },
+    }));
+    return mountHeadlessEditor(editor);
+  });
+
+  const sync = () => {
+    Y.applyUpdate(yDocuments[1], Y.encodeStateAsUpdate(yDocuments[0]));
+    Y.applyUpdate(yDocuments[0], Y.encodeStateAsUpdate(yDocuments[1]));
+  };
+
+  return { editors, sync };
 }
 
 export function createHeadlessEditor(content:unknown[] | string) {

@@ -17,6 +17,7 @@ import {
   OpenProjectHashMenu,
   OpenProjectMentionMenu,
   ShadowDomWrapper,
+  UserMentionNotificationExtension,
 } from '../../lib';
 import type { AnyEditor } from '../../lib/editorTypes';
 
@@ -46,6 +47,7 @@ interface EditorOptions {
 function Editor({ onEditor, schema, editable = true, initialContent }:EditorOptions) {
   const editor = useCreateBlockNote({
     schema: schema ?? defaultSchema,
+    extensions: [UserMentionNotificationExtension],
     ...(initialContent ? { initialContent } : {}),
   });
   onEditor?.(editor);

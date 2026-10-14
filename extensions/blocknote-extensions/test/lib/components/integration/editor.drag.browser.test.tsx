@@ -5,7 +5,12 @@ import { mentionContent, paragraphWith } from '../../../helpers/content';
 import { mentionsIn } from '../../../helpers/headlessEditor';
 import { insertInlineWorkPackageViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
 import { worker } from '../../../mocks/browser';
-import { requestsDuring } from '../../../helpers/requestHelpers';
+import { editDocument } from '../../../helpers/documentContext';
+import {
+  fenceMentionNotifications,
+  recordMentionNotifications,
+  requestsDuring,
+} from '../../../helpers/requestHelpers';
 
 describe('Drag and drop - inline chip', () => {
   afterEach(() => worker.resetHandlers());
@@ -169,5 +174,15 @@ describe('Drag and drop - user mention', () => {
 
     await expect.poll(blockTextOfMention).toContain('First');
     expect(mentionsIn(editor)).toEqual([peter.props]);
+  });
+
+  it('does not notify the person of a dragged mention', async () => {
+    editDocument(3);
+    const notifications = recordMentionNotifications();
+    const editor = await renderMentionBetweenLines();
+
+    await userEvent.dragAndDrop(document.querySelector('.op-bn-user-mention')!, page.getByText('Last line'));
+    await expect.poll(blockTextOfMention).toContain('Last');
+    await expect.poll(notifications).toEqual(fenceMentionNotifications(editor, { documentId: 3, userIds: [] }));
   });
 });

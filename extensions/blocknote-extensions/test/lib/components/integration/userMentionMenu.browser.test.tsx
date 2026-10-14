@@ -6,6 +6,8 @@ import { renderEditor, renderEditorWithHandle } from '../../../helpers/renderEdi
 import { openEditorAndType } from '../../../helpers/editorHelpers';
 import { mentionContent, textContent } from '../../../helpers/content';
 import { blockContent } from '../../../helpers/headlessEditor';
+import { editDocument } from '../../../helpers/documentContext';
+import { fenceMentionNotifications, recordMentionNotifications } from '../../../helpers/requestHelpers';
 
 const mentionMenu = () => page.getByTestId('mention-menu');
 
@@ -31,6 +33,17 @@ describe('@ mention menu', () => {
       mentionContent('8', 'Peter Lang'),
       textContent(' there'),
     ]);
+  });
+
+  it('notifies the picked person once', async () => {
+    editDocument(3);
+    const notifications = recordMentionNotifications();
+    const editor = await renderEditorWithHandle();
+    await openEditorAndType('Hi @pet');
+    await userEvent.click(mentionMenu().getByText('Peter Lang'));
+    await userEvent.keyboard('there');
+
+    await expect.poll(notifications).toEqual(fenceMentionNotifications(editor, { documentId: 3, userIds: [8] }));
   });
 
   it('picks with the keyboard', async () => {
