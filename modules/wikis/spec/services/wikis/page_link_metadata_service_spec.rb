@@ -36,6 +36,7 @@ module Wikis
     let(:relation) { PageLink.limit(30) }
     let(:query_double) { instance_double(Adapters::Providers::Internal::Queries::PageInfo) }
     let(:query_class_double) { class_double(Adapters::Providers::Internal::Queries::PageInfo) }
+    let(:not_found) { Failure(SimpleError.new(source: query_class_double, code: :not_found)) }
 
     shared_let(:provider) { create(:internal_wiki_provider) }
     shared_let(:page_links) { create_list(:relation_wiki_page_link, 3, provider:) }
@@ -113,6 +114,43 @@ module Wikis
           else
             expect(page_link.title).to eq("Wikis, now with more cheese! Part #{page_link.identifier}")
           end
+        end
+      end
+    end
+
+    context "when no page info can be resolved for any page link" do
+      before do
+        build_inputs.each do |input|
+          allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything).and_return(not_found)
+        end
+      end
+
+      it "returns every page link with a blank title instead of raising" do
+        service_result = service.call
+
+        expect(service_result).to be_success
+        page_links = service_result.result
+        expect(page_links.length).to eq(3)
+        expect(page_links.map(&:title)).to all(be_nil)
+      end
+    end
+
+    context "when page info can be resolved for only some page links" do
+      let(:unresolvable_page_link) { page_links.first }
+
+      before do
+        input = Adapters::Input::PageInfo.build(identifier: unresolvable_page_link.identifier).value_or(nil)
+        allow(query_double).to receive(:call).with(input_data: input, auth_strategy: anything).and_return(not_found)
+      end
+
+      it "leaves the title blank only for the unresolvable page link" do
+        service_result = service.call
+
+        expect(service_result).to be_success
+        page_links_by_id = service_result.result.index_by(&:id)
+        expect(page_links_by_id.fetch(unresolvable_page_link.id).title).to be_nil
+        (page_links - [unresolvable_page_link]).each do |page_link|
+          expect(page_links_by_id.fetch(page_link.id).title).to eq("Wikis, now with more cheese! Part #{page_link.identifier}")
         end
       end
     end
