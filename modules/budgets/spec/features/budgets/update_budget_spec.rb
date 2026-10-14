@@ -58,7 +58,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.add_unit_costs! 3, comment: "Stimpak", expected_costs: "150.00 EUR"
       budget_page.add_labor_costs! 5, user_name: user.name, comment: "treatment", expected_costs: "125.00 EUR"
 
-      click_on "Submit"
+      click_on "Save"
       expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "150.00 EUR")
@@ -119,7 +119,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.expect_planned_costs! type: :material, row: 1, expected: "250.00 EUR"
       budget_page.expect_planned_costs! type: :labor, row: 1, expected: "75.00 EUR"
 
-      click_on "Submit"
+      click_on "Save"
       expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "250.00 EUR")
@@ -149,6 +149,20 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
                amount: 1000.0)
       end
 
+      it "shows and keeps the base amount in the locale's format" do
+        budget.update!(base_amount: 1000.5)
+        budget_page.visit!
+        click_on I18n.t(:button_update)
+
+        expect(page).to have_field Budget.human_attribute_name(:base_amount), with: "1.000,50"
+
+        budget_page.expect_user_autocompleters_loaded!
+        click_on I18n.t(:button_save)
+        expect(budget_page).to have_text(I18n.t(:notice_successful_update))
+
+        expect(budget.reload.base_amount).to eq 1000.5
+      end
+
       it "retains the overridden budget when opening, but not editing (Regression #32822)" do
         material_budget_item2
         budget_page.visit!
@@ -159,10 +173,11 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
         budget_page.expect_planned_costs! type: :labor, row: 1, expected: "125,00 EUR"
 
         # Open first item
+        budget_page.expect_user_autocompleters_loaded!
         budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
-        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_amount")
+        expect(page).to have_field("budget_existing_material_budget_item_attributes_#{material_budget_item.id}_cost_override")
 
-        click_on "OK"
+        click_on I18n.t(:button_save)
         expect(budget_page).to have_content(I18n.t(:notice_successful_update))
 
         expect(page).to have_css("tbody td.currency", text: "150,00 EUR")
@@ -242,6 +257,45 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
           expect(material_budget_item_2.costs).to eq(543.0)
         end
       end
+    end
+
+    it "removes a saved override when it is cancelled" do
+      budget_page.visit!
+      click_on "Update"
+
+      budget_page.edit_planned_costs! material_budget_item.id, type: :material, costs: 123
+      expect_and_dismiss_flash(message: "Successful update")
+      expect(page).to have_css("tbody td.currency", text: "123.00 EUR")
+
+      click_on "Update"
+
+      budget_page.cancel_planned_costs! material_budget_item.id, type: :material
+      budget_page.submit_form!
+
+      expect(budget_page).to have_text("Successful update")
+      expect(page).to have_css("tbody td.currency", text: "150.00 EUR")
+      expect(page).to have_no_css("tbody td.currency", text: "123.00 EUR")
+    end
+
+    it "keeps a typed override when the units change" do
+      budget_page.visit!
+      click_on "Update"
+
+      budget_page.open_edit_planned_costs! material_budget_item.id, type: :material
+
+      editor_id = "budget_existing_material_budget_item_attributes_#{material_budget_item.id}_cost_override"
+      fill_in editor_id, with: "321"
+
+      budget_page.edit_unit_costs! material_budget_item.id, units: 7
+      # The refreshed calculated cost proves that the row was updated.
+      expect(page).to have_css("#budget_existing_material_budget_item_attributes_#{material_budget_item.id}_cost_value",
+                               text: "350", visible: :all)
+      expect(page).to have_field(editor_id, with: "321")
+
+      budget_page.submit_form!
+
+      expect(budget_page).to have_text("Successful update")
+      expect(page).to have_css("tbody td.currency", text: "321.00 EUR")
     end
 
     context "with two labor budget items" do
@@ -325,9 +379,46 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       page.find("#budget_existing_labor_budget_item_attributes_#{labor_budget_item.id}")
         .click_on accessible_name: "Delete"
 
-      click_on "Submit"
+      click_on "Save"
 
       expect(budget_page.labor_costs_at(1)).to have_no_content "125.00 EUR"
+    end
+  end
+
+  describe "without permission to view cost rates" do
+    let(:user) { create(:user) }
+    let(:project) do
+      create(:project_with_types,
+             enabled_module_names: %i[budgets costs work_package_tracking],
+             members: { user => create(:project_role, permissions: %i[view_budgets edit_budgets]) })
+    end
+    let(:cost_type) { create(:cost_type, name: "Post-war", unit: "cap", unit_plural: "caps") }
+    let(:budget_page) { Pages::EditBudget.new budget.id }
+
+    let!(:material_budget_item) do
+      create(:material_budget_item, units: 3, cost_type:, budget:, amount: 500.0)
+    end
+
+    before do
+      create(:cost_rate, cost_type:, rate: 50.0)
+    end
+
+    it "keeps a saved override when the budget is saved" do
+      budget_page.visit!
+      click_on "Update"
+
+      budget_page.expect_subject(budget.subject)
+      expect(page).to have_columnheader("Units")
+      expect(page).to have_no_columnheader("Budget")
+
+      fill_in "Subject", with: "Renamed budget"
+      budget_page.submit_form!
+
+      expect(budget_page).to have_text("Successful update")
+      expect(page).to have_text("Renamed budget")
+
+      # This user cannot see the override, so it is verified on the record instead of in the UI.
+      expect(material_budget_item.reload.amount).to eq(500.0)
     end
   end
 
@@ -346,7 +437,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.add_labor_costs! 5, user_name: user.name, comment: "individual work", expected_costs: "125.00 EUR"
       budget_page.add_labor_costs! 10, user_name: group.name, comment: "team work"
 
-      click_on "Submit"
+      click_on "Save"
       expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css(".labor_budget_items tbody td", text: group.name)

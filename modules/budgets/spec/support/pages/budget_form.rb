@@ -65,36 +65,46 @@ module Pages
         fill_in("#{prefix}_units", with: units, **options) if units.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
     def open_edit_planned_costs!(id, type:)
-      row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
-
-      page.within row_id do
-        find(".costs--edit-planned-costs-btn").click
-      end
+      find("#budget_existing_#{type}_budget_item_attributes_#{id} #{test_selector('edit_inline_cost')}").click
     end
 
+    ##
+    # Overrides the planned costs of a row and saves. A row that already has an
+    # override is rendered with the override input open.
     def edit_planned_costs!(id, costs:, type:)
-      open_edit_planned_costs!(id, type:)
+      editor_id = "budget_existing_#{type}_budget_item_attributes_#{id}_cost_override"
 
-      row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
-      editor_name = "budget_existing_#{type}_budget_item_attributes_#{id}_amount"
+      open_edit_planned_costs!(id, type:) unless page.has_field?(editor_id, wait: 0)
 
-      page.within row_id do
-        fill_in editor_name, with: costs
-      end
+      fill_in editor_id, with: costs, fill_options: { clear: :backspace }
 
       submit_form!
     end
 
+    ##
+    # Removes the override of a row, without saving.
+    def cancel_planned_costs!(id, type:)
+      find("#budget_existing_#{type}_budget_item_attributes_#{id} #{test_selector('cancel_inline_cost_edit')}").click
+    end
+
+    ##
+    # The user autocompleters fill their hidden inputs once they are initialised.
+    # A labor row submitted before that carries no user and is dropped on save.
+    def expect_user_autocompleters_loaded!
+      rows = "#labor_budget_items tbody tr[id^=budget_existing_labor]"
+
+      expect(page).to have_css("#{rows} opce-user-autocompleter .ng-value", count: page.all(rows).size)
+    end
+
     # Submit the costs form
     def submit_form!
-      find_by_id("budget-table--submit-button").click
+      expect_user_autocompleters_loaded!
+      find_test_selector("budgets-save-button").click
     end
 
     ##
@@ -106,13 +116,11 @@ module Pages
       options = { fill_options: { clear: :backspace } }
 
       retry_block do
-        fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
         select_labor_costs_user!(prefix, user_name) if user_name.present?
+        fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
@@ -140,9 +148,17 @@ module Pages
       raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
 
       within(:region, Budget.human_attribute_name(:"#{type}_budget")) do
-        container = find("tbody tr:nth-of-type(#{row}) td.currency.budget-table--fields")
-        expect(container).to have_text(expected, exact: true),
-                             "Expected planned costs to be #{expected.inspect}, was #{container.text.inspect}"
+        container = find("tbody tr:nth-of-type(#{row}) td.currency")
+
+        if container.has_field?(wait: 0)
+          # A saved override is shown in the open override input, only the currency remains as text.
+          amount = expected[/[\d.,]+/]
+
+          expect(container).to have_field(with: amount)
+          expect(container).to have_text(expected.sub(amount, "").strip)
+        else
+          expect(container).to have_text(expected, normalize_ws: true)
+        end
       end
     end
 

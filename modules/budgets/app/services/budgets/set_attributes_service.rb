@@ -34,6 +34,7 @@ module Budgets
 
     def set_attributes(params)
       set_fixed_date(params)
+      set_project(params)
       unset_items(params)
 
       super
@@ -48,6 +49,11 @@ module Budgets
     # fixed_date must be set before material_budget_items and labor_budget_items
     def set_fixed_date(params)
       model.fixed_date = params.delete(:fixed_date) || Date.today
+    end
+
+    # project must be set before material_budget_items and labor_budget_items
+    def set_project(params)
+      model.project = params.delete(:project) if params.key?(:project)
     end
 
     def unset_items(params)

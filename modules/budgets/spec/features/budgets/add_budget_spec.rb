@@ -202,12 +202,34 @@ RSpec.describe "adding a new budget", :js do
       expect(new_budget_page.overall_labor_costs).to have_text "175.00 €"
     end
 
+    it "shows the form again with its unit costs when the budget is invalid" do
+      new_budget_page.visit!
+
+      new_budget_page.add_unit_costs! 3, comment: "RadAway"
+
+      click_on "Create"
+
+      expect(page).to have_text "Subject can't be blank"
+      expect(page).to have_field "Units", with: "3.00"
+    end
+
+    it "reports an invalid cost item" do
+      new_budget_page.visit!
+
+      fill_in "Subject", with: "First Aid"
+      new_budget_page.add_unit_costs! 3, comment: "a" * 256
+
+      click_on "Create"
+
+      expect_flash(type: :error, message: "Planned unit costs is invalid")
+    end
+
     it "renders a single user autocompleter per added labor row" do
       new_budget_page.visit!
 
       new_budget_page.add_labor_costs_row!
 
-      rows = page.all("#labor_budget_items_body tr.cost_entry")
+      rows = page.all("#labor_budget_items tbody tr.cost_entry")
       expect(rows.size).to eq(2)
 
       expect(rows).to all(have_css("opce-user-autocompleter", count: 1))

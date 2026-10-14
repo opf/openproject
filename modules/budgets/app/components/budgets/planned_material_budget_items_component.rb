@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Budgets::PlannedMaterialBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::PlannedMaterialBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def item_units(item)

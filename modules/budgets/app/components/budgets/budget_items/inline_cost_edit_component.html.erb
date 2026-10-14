@@ -1,0 +1,73 @@
+<%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
+  <% if editable? %>
+    <%= render(Primer::BaseComponent.new(tag: :div, display: :flex)) do %>
+      <%= render(Primer::Beta::IconButton.new(**@edit_button_arguments)) %>
+      <%= render(Primer::Beta::IconButton.new(**@cancel_button_arguments)) %>
+      <%= render(
+            Primer::BaseComponent.new(
+              tag: :div,
+              classes: "FormControl width-full FormControl--fullWidth rounded-left-0"
+            )
+          ) do %>
+        <%= render(
+              Primer::BaseComponent.new(
+                tag: :div,
+                classes: "FormControl-input-wrap FormControl-input-wrap--trailingVisual FormControl-input-width--auto"
+              )
+            ) do %>
+          <%= render(
+                Primer::BaseComponent.new(
+                  tag: :input,
+                  type: :text,
+                  name: input_name,
+                  id: input_id,
+                  value: input_value,
+                  classes: "FormControl-inset FormControl-input FormControl-medium rounded-left-0",
+                  hidden: !overridden?,
+                  # Avoid a number field due to chrome bug (OP#32232)
+                  # but show the appearance of a decimal field on mobile
+                  inputmode: "decimal",
+                  placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+                  data: { **target("input"), action: "keydown.enter->#{CONTROLLER}#keepValue" },
+                  aria: { label:, describedby: described_by }
+                )
+              ) %>
+          <%= render(
+                Primer::BaseComponent.new(
+                  tag: :div,
+                  id: control_id,
+                  classes: "FormControl-inset FormControl-input FormControl-medium rounded-left-0",
+                  hidden: overridden?,
+                  data: { **target("display"), action: "click->#{CONTROLLER}#edit" }
+                )
+              ) { display_text } %>
+          <%= render(
+                Primer::BaseComponent.new(
+                  tag: :div,
+                  classes: "FormControl-input-trailingVisualWrap",
+                  hidden: !overridden?,
+                  data: target("currency")
+                )
+              ) do %>
+            <%= render(Primer::Beta::Text.new(id: cost_currency_id, classes: "FormControl-input-trailingVisualText")) { cost_currency } %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <%= render(Primer::BaseComponent.new(tag: :span, id: calculated_id, hidden: true, data: target("calculated"))) { calculated_text } %>
+    <% unless hint.nil? %>
+      <%= render(
+            Primer::Beta::Text.new(
+              id: hint_id,
+              color: :attention,
+              font_size: :small,
+              display: :block,
+              hidden: overridden?,
+              data: target("hint")
+            )
+          ) { hint } %>
+    <% end %>
+  <% else %>
+    <%= render(Primer::BaseComponent.new(tag: :div, id: control_id)) %>
+  <% end %>
+<% end %>
