@@ -145,7 +145,10 @@ module Accounts::CurrentUser
     key = api_key_from_request
     return unless key && accept_api_key_auth_actions.include?(action_name)
 
-    User.find_by_api_key(key)
+    if key && accept_api_key_auth_actions.include?(action_name)
+      # Use API key
+      User.find_by_api_key(key)
+    end
   end
 
   # Sets the logged in user

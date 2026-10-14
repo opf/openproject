@@ -169,7 +169,7 @@ class WorkPackagesController < ApplicationController
     send_data(export.content, type: export.mime_type, filename: export.title)
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
-    redirect_back(fallback_location: work_package_path(work_package))
+    redirect_back_or_to(work_package_path(work_package))
   end
 
   def work_package_exporter
@@ -236,7 +236,7 @@ class WorkPackagesController < ApplicationController
     send_data(export.content, type: export.mime_type, filename: export.title)
   rescue ::Exports::ExportError => e
     flash[:error] = e.message
-    redirect_back(fallback_location: work_package_path(work_package))
+    redirect_back_or_to(work_package_path(work_package))
   end
 
   def render_markdown_export
