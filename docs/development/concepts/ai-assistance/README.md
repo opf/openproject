@@ -7,7 +7,7 @@ keywords: AI, assistants, skills, refresh work package, health check, automation
 
 # Development concept: AI Assistance
 
-The "AI Assistance" menu on the work package page offers skills: presets such as "Refresh work package" or "Write a test plan", and a chat. A skill can propose a change set, and the user applies it or dismisses it. Every skill starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a change set.
+The "AI Assistance" menu on the work package page offers skills, for example "Refresh work package", "Write a test plan" or a chat. Every skill opens a conversation. An answer is text with proposals, and the user applies or dismisses each proposal. Every skill starts with a click, uses the permissions of the user who clicked, and writes nothing until that user applies a proposal.
 
 This document describes the design. It also shows how the first pull request is split into smaller pull requests for review.
 
@@ -15,47 +15,47 @@ This document describes the design. It also shows how the first pull request is 
 
 | Term | Meaning |
 |---|---|
-| **Assistant** | A record (`AI::Assistant`): a name, an icon and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "OP assistant". |
-| **Skill type** | Code that defines what a skill does: its rules, the message its AI review sends, and the answer schema. It is registered in `AI::AssistantSkills::Registry`. There are three: `health_check` (a preset with rules, shown as "Refresh work package"), `prompt` (a preset with instructions only) and `chat`. |
-| **Skill** | A record (`AI::AssistantSkill`) that attaches a skill type to an assistant, with its label, its prompt (instructions and output rules) and its proposal scope. |
-| **Run** | One execution of a skill on one work package for one user (`AI::AssistantRun`). Only that user sees it. |
-| **Finding** | One problem that a run found (`AI::AssistantRunFinding`). It has a severity, an area, a text, evidence, and an optional change set. |
-| **Change set** | A proposed change in the Automations action vocabulary: a target (only `self` for now) and a list of actions with values, for example `{"target": "self", "actions": [{"key": "description", "values": ["…"]}]}`. Which action keys a change set may use depends on the skill type and its proposal scope (see "Proposal scope and changeable attributes"). The user applies the change set through the Automations services. |
+| **Assistant** | A record (`AI::Assistant`): a name, an icon, instructions and an optional model. An admin configures global and group assistants, and a user can create personal ones (see "Owners"). It is not a user. In the menu, its name is the label next to each of its skills, for example "OP assistant". |
+| **Skill** | A record (`AI::AssistantSkill`) on an assistant: a label, a system prompt, a proposal scope, conditions, and the setting "Answer at once when opened". What it does is in its prompt. |
+| **Skill type** | Where a skill runs (`AI::AssistantSkills::Registry`). Core has one, `conversation`. An external agent can be a second one later (see "Core skills and agent skills"). |
+| **Chat** | One conversation of a user with a skill about one work package (`AI::AssistantChat`), with its messages (`AI::AssistantChatMessage`). Only that user sees it. |
+| **Proposal** | One proposed change in an answer (`AI::AssistantProposal`). A **finding** has a severity, an area and evidence, and an optional change set. A **plain proposal** has a short text and a change set. |
+| **Change set** | A proposed change in the Automations action vocabulary: a target (only `self` for now) and a list of actions with values, for example `{"target": "self", "actions": [{"key": "description", "values": ["…"]}]}`. Which action keys it may use depends on the skill's proposal scope (see "Proposal scope and changeable attributes"). The user applies it through the Automations services. |
 
 ## Flow
 
 ```mermaid
 flowchart LR
   U([User]) -->|click| M["AI Assistance menu<br/>(Primer ActionMenu)"]
-  M -->|POST runs| RS["RunService"]
-  RS -->|in the request| R["Rules<br/>(tree, relations, PRs, staleness)"]
-  RS -->|LLM available| J["ReviewJob<br/>(as the user)"]
+  M -->|answers at once: POST start| S["SendMessageService"]
+  M -->|empty chat: GET show| D
+  S --> J["ReplyJob<br/>(as the user)"]
   J --> LLM["LlmConnection<br/>(structured output)"]
-  R --> F[("Findings")]
-  J --> F
-  F --> D["Run dialog<br/>(polls while the job runs)"]
-  D -->|Apply changes| A["ApplyProposalService"]
+  LLM --> P[("Answer + proposals")]
+  P --> D["Chat dialog<br/>(polls while the job runs)"]
+  D -->|Apply| A["ApplyProposalService"]
   A -->|strict, lockVersion| AU["Automations::UpdateWorkPackageService"]
   AU --> WP["Work package<br/>+ journal cause"]
 ```
 
 1. The Angular toolbar (full view and split view) loads `WorkPackages::AIAssistance::MenusController#show` into a turbo frame. A user without the permission gets an empty frame, and so does every user while no LLM connection with a model is available.
-2. The menu frame renders the items with the button. There is one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
-3. A Refresh work package item posts to `RunsController#create`. `AI::AssistantRuns::RunService` stores the run, runs the rules in the user's locale, and opens the run dialog. A chat item opens `ChatsController#show`, and a custom prompt item posts to `ChatsController#start` (see "Chat" and "Custom prompt presets").
-4. If `LlmConnection.available?` and a model is set, the run gets the status `ai_running` and `AI::AssistantRuns::ReviewJob` starts. The dialog polls `#poll` until the run is finished.
-5. The user applies a change set (`FindingsController#apply`) or dismisses a finding, with an optional reason.
+2. The menu frame renders one flat item for each skill that is ready (`AI::AssistantSkill#ready?`) of each active assistant, and a "History" item at the end.
+3. A skill that answers at once posts to `ChatsController#start`: a new chat, with the skill's label as the first message. Any other skill opens `ChatsController#show`, an empty chat for the user's own question.
+4. `AI::AssistantChats::SendMessageService` stores the question and a pending answer, and `ReplyJob` answers as the user. The dialog polls `#poll` until the answer is done or failed.
+5. The user applies a proposal or dismisses it, with an optional reason (`ChatsController#apply`, `#dismiss`).
 
 ## Decisions
 
-- **Assistants are records, not users.** A run always acts with the permissions of the user who started it. The job runs in `User.execute_as(run.user)`.
-- **Rules and AI are separate.** The rules are deterministic and always run. The menu is offered only when an LLM connection with a model is available, but Refresh work package without instructions runs only its rules. If the AI review fails, the run lists it under "Not checked", and the rule findings stay.
-- **What the AI reads.** It reads only what the user can see (`AI::Assistance::WorkPackageContext`): the project name, the work package, visible descendants and relations, comments filtered by `journals.internal_visible`, and the agendas of the newest 10 visible meetings that have the work package on the agenda or in an outcome. Internal comments are included only when the user may see them. The prompt tells the model that this text is user data, not instructions.
-- **Evidence is required.** An AI finding without evidence is dropped. Findings and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
+- **Assistants are records, not users.** An answer always acts with the permissions of the user who asked. The job runs in `User.execute_as(chat.user)`.
+- **One runtime, one answer format.** Every skill answers in a conversation, and every answer is text with 0..n proposals (`AI::Assistance::AnswerFormat`). Whether a skill lists findings is up to its prompt. There are no built-in rules: the seeded "Refresh work package" asks the model for what rules used to check.
+- **What the AI reads.** It reads only what the user can see (`AI::Assistance::WorkPackageContext`, with `AI::Assistance::Visibility`): the project name; the work package, with its default-status flag and last activity; visible descendants, with their parent, status and update time; visible relations, with their status; linked pull requests that the user may read; comments filtered by `journals.internal_visible`; and the agendas of the newest 10 visible meetings that have the work package on the agenda or in an outcome. The prompt tells the model that this text is user data, not instructions.
+- **Evidence is required for findings.** A finding without evidence is dropped, and so is a plain proposal without a valid change. Text and evidence are shown as escaped text. Only `http(s)` URLs and work package ids become links.
+- **Stable answers.** Every call uses temperature 0.2, so one work package gives similar answers from run to run.
 - **Change sets are Automations actions.** `AI::Assistance::ApplyProposalService` looks up each action key in `Automations::Register`. It refuses actions that `ChangeOptions#allowed?` does not allow now: keys outside the skill's proposal scope, and values that are not valid now. It calls `Automations::UpdateWorkPackageService` with `strict: true`, so an invalid action fails the call instead of being dropped.
-- **Conflicts use a strict `lockVersion`.** Each finding stores the work package version from which it was made (`base_lock_version`). If the work package changed after that, the apply fails and the user runs the check again. After a successful apply, the other open findings of the same run move to the new version, so a second change set from the same run can apply.
+- **Conflicts use a strict `lockVersion`.** Each proposal stores the work package version from which it was made (`base_lock_version`). If the work package changed after that, the apply fails and the user asks again. After a successful apply, the other open proposals of the same chat move to the new version, so a second proposal can apply.
 - **Content guard.** A description change that removes an attachment reference, a mention or a macro cannot be applied (`AI::Assistance::ContentGuard`).
-- **One AI job at a time** for each user, work package and skill. A second click opens the run that is in progress. An AI review that runs for more than 10 minutes is marked as timed out.
-- **Journal cause.** A change set from a run writes `Journal::CausedByAssistantSkill`, and one from a chat or a custom prompt writes `Journal::CausedByAssistantChat`. Both carry `source` and `depth` for the loop protection of a later trigger model.
+- **One answer at a time** in each chat. An answer that is still pending after 10 minutes fails.
+- **Journal cause.** An applied proposal writes `Journal::CausedByAssistantChat` with the assistant's name, so the activity tab says which assistant proposed the change. It carries `source` and `depth` for the loop protection of a later trigger model. Older journals with the cause `assistant_skill` still render.
 - **Automations stay the write layer.** Existing Automations do not change. The only change that admins can see is three new action types: Subject, Description and Comment.
 
 ## Prompts
@@ -63,25 +63,21 @@ flowchart LR
 The system prompt of a skill has three parts (`AI::AssistantSkill#system_prompt`):
 
 1. **The assistant's instructions** (`ai_assistants.instructions`, optional): what every skill of the assistant shares, for example who it helps and the domain. Edited on the assistant page.
-2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, Refresh work package runs only its rules and lists the AI review as "Not checked", and a chat or a custom prompt is not offered.
-3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, the changes that the skill's type and proposal scope allow, and the guard against instructions in the context. Admins and users do not edit them, so an assistant cannot break the contract with the code.
+2. **The skill's system prompt** (`prompt`): what the model does in this skill. Edited on the skill page. Without it, the skill is not offered.
+3. **The output rules**, which the code generates (`AI::Assistance::OutputRules`): the answer format and language, findings and plain proposals, the changes that the proposal scope allows, and the guard against instructions in the context. Admins and users do not edit them, so a skill cannot break the contract with the code.
 
-The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each run and answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
+The work package context (JSON) follows the system prompt. The message is the user's question, with the last 20 turns before it. An earlier answer is sent with a short list of its proposals and their state, so the model knows what it proposed.
 
-The code keeps what is a contract between OpenProject and the model: the message (`HealthCheck::Review#user_message`), the answer schema, the output rules, and the checks on the answer.
+The skill page shows the full system prompt, as saved, under the prompt field. The "Details" timeline of each answer shows the prompt that was sent. The basic data seeder creates the global "OP assistant" with its instructions and two skills (`app/seeders/common.yml`): Refresh work package and Chat.
 
-## Chat
+## Skills
 
-The chat is a skill type (`AI::AssistantSkills::Chat::Skill`, key `chat`). An admin adds it to an assistant like any other skill, and the menu shows it among the skills. It opens a private conversation for each user, work package and skill (`ai_assistant_chats.skill_id`, `ai_assistant_chat_messages`), not a run. "New chat" starts an empty one.
+A skill has one behavior setting, **"Answer at once when opened"** (on by default):
 
-- **Prompt:** the skill's instructions, output rules and proposal scope. The model is the assistant's model. Without instructions, the chat is not offered.
-- **What the model gets:** the instructions and output rules, the same work package context as Refresh work package (`AI::Assistance::WorkPackageContext`) with `change_options`, and the last 20 turns.
-- **Answer:** structured output with `answer` (Markdown, rendered with the normal text formatting) and `changes`. The changes become a proposal in the same shape as a finding's change set (`AI::Proposal`), shown with the same view and applied by the same `ApplyProposalService`. The journal cause is `Journal::CausedByAssistantChat`.
-- **Execution:** `SendMessageService` stores the question and a pending answer; `AI::AssistantChats::ReplyJob` answers as the user. The dialog polls until the answer is done or failed. Each answer has its own Details timeline.
+- **On:** opening the skill starts a new chat. The skill's label is the first message, and the skill answers at once. The user can ask follow-up questions. Examples: Refresh work package, Write a test plan.
+- **Off:** opening the skill shows the user's latest chat of this skill, or an empty one, and the user writes the first question. Example: Chat.
 
-## Custom prompt presets
-
-A **Custom prompt** skill (`AI::AssistantSkills::Prompt::Skill`, key `prompt`) is a preset with instructions only, for example "Write a test plan". One click starts a new conversation with the skill's label as the first question, and the answer uses the skill's instructions. The user can then ask follow-up questions. It uses the chat tables and `AI::AssistantChats::Reply`, so it has no findings. Without instructions, it is not offered.
+"New chat" starts an empty conversation. An assistant can have several skills, each with its own label, prompt, scope and conditions.
 
 ## Owners
 
@@ -96,7 +92,7 @@ The development data seeds a sample for each owned kind (`DevelopmentData::AiAss
 - **COMMS assistant** (the COMMS team, which builds the communication features; `DevelopmentData::TeamSeeder` seeds the team with the admin user as its member): "Write a test plan".
 - **Tom's assistant** (personal, of the admin user): "My next steps".
 
-The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills, runs and chats.
+The owner never changes (`attr_readonly`). Other principal types can be added later (`AI::Assistant::OWNER_TYPES`). The menu shows global assistants first, then owned ones (`AI::Assistant.visible_to`, `.ordered`). Owned assistants are deleted with their principal, together with their skills and chats.
 
 ### Personal assistants
 
@@ -110,7 +106,7 @@ A user can create their own assistants with their own skills at **My account →
 
 ## Skill conditions
 
-A skill can be limited to work packages of some types, statuses and projects, and to users with some roles in the work package's project (`ai_assistant_skills.conditions`, a jsonb hash of id lists). An empty list matches all. The menu, and so the runs and chats controllers, offer only skills whose conditions match (`AI::AssistantSkill#conditions_fulfilled?`). The skill page edits them under "Where it is offered".
+A skill can be limited to work packages of some types, statuses and projects, and to users with some roles in the work package's project (`ai_assistant_skills.conditions`, a jsonb hash of id lists). An empty list matches all. The menu, and so the chats controller, offer only skills whose conditions match (`AI::AssistantSkill#conditions_fulfilled?`). The skill page edits them under "Where it is offered".
 
 The rules are the same as the conditions of Automations, but the code is separate for now: Automations store them in join tables and filter in SQL. A deleted type, status, project or role stays in the list until the skill is saved again; it then matches nothing.
 
@@ -118,17 +114,15 @@ The rules are the same as the conditions of Automations, but the code is separat
 
 A skill's proposal scope (`ai_assistant_skills.proposal_scope`) is **Changes** (attribute changes and comments), **Comment only** or **Read-only** (nothing). A comment is the Automations action `Comment`, and it needs only the permission to comment. There is no list of attributes to maintain in the UI: with custom fields, such a list would grow without limit.
 
-| Layer | Set by | Refresh work package |
+| Layer | Set by | Example: Refresh work package |
 |---|---|---|
-| What the skill type can change (`changeable_attributes`, `ChangeOptions::ATTRIBUTE_KEYS`) | Code | `subject`, `description`, `status`, `priority`, `assigned_to`, `responsible`, `start_date`, `due_date`, and a `comment` |
+| What a skill can change (`changeable_attributes`, `ChangeOptions::ATTRIBUTE_KEYS`) | Code | `subject`, `description`, `status`, `priority`, `assigned_to`, `responsible`, `start_date`, `due_date`, and a `comment` |
 | The proposal scope | Admin, on the skill page | Changes |
 | Which values are valid now (`AI::Assistance::ChangeOptions`) | The workflow and the user's permissions | `assignable_statuses`, `assignable_priorities`, `assignable_assignees`, `assignable_responsibles` of `WorkPackages::UpdateContract` |
 
-The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who narrows a skill's scope after a run also blocks its open proposals.
+The model gets the valid values as `change_options`, with names, not ids. `ChangeOptions#resolve` maps each answer to an id or an ISO date, and drops anything else. `ApplyProposalService` checks every action again with `ChangeOptions#allowed?` before it applies a proposal, so an admin who narrows a skill's scope after an answer also blocks its open proposals.
 
 The dialog shows text changes as a diff, and other changes as "old → new".
-
-An assistant can have several skills of the same type, for example "Refresh work package" and "Check scope against comments", each with its own label and prompt.
 
 ## Core skills and agent skills
 
@@ -136,7 +130,7 @@ Some skills run in OpenProject (core skills), and some run in an external agent 
 
 - **Core skill:** it reads one work package, makes one LLM call through the LLM connection, and proposes changes to that work package in the Automations vocabulary. Refresh work package, Chat and Custom prompt are core skills.
 - **Agent skill:** it creates or links several objects, uses tools in a loop, runs for minutes, or reaches systems outside OpenProject. Break down into tasks and the coding agent are agent skills. See [Agent integration](./2026-10-14-agents.md).
-- **Neither:** a feature with one correct result, for example PDF generation or the health check rules, stays deterministic code.
+- **Neither:** a feature with one correct result, for example PDF generation, stays deterministic code.
 
 **One user experience.** Both kinds are entries in the same menu, use the same dialog, show their proposals on the same cards, and are listed in the same History. Every change in the activity tab names the user and the assistant or agent that proposed it.
 
@@ -155,16 +149,16 @@ The model and the user never decide it.
 The code does not have triggers, but it uses the shapes that a trigger model needs:
 
 - **Change set in the action vocabulary.** The same shape can serve an AI proposal, an automation step and the answer of an external service.
-- **`Automations::Actions::Base#after_success`.** It is called after a successful save. It is the extension point for actions with an effect outside the work package: run a skill, call a webhook, create a work package.
-- **A run records its trigger** (`menu` now; `automation` and `schedule` later) and an optional `automation_id`.
-- **Run creation and execution are separate.** `RunService` creates and starts a run; `Execution` runs the rules and starts the AI review, so a job can execute a run without a request.
-- **The run's user is the only actor.** Skills, rules, the AI review and apply never read `User.current`. A run that a schedule starts can act as a service account.
+- **`Automations::Actions::Base#after_success`.** It is called after a successful save. It is the extension point for actions with an effect outside the work package: start a skill, call a webhook, create a work package.
+- **Sending and answering are separate.** `SendMessageService` stores the question and the pending answer; `ReplyJob` answers it. A job can start a conversation without a request.
+- **The chat's user is the only actor.** The reply and apply never read `User.current`. A conversation that a schedule starts can act as a service account.
 - **The journal cause carries `source` and `depth`.**
+- **Not done yet:** a chat does not record its trigger. A trigger model adds `trigger` (`menu`, `automation`, `schedule`) and `automation_id` to `ai_assistant_chats`.
 
 ## Gating
 
-- The feature flag `ai_assistance` (off by default in production). The AI part also needs the `llm_connection` flag, the `llm_features_enabled` setting and a configured connection.
-- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Personal assistants also need the global permission `manage_own_ai_assistants`. Applying a change set also needs `edit_work_packages`, or only `add_work_package_comments` for a comment.
+- The feature flag `ai_assistance` (off by default in production). Skills also need the `llm_connection` flag, the `llm_features_enabled` setting and a configured connection with a model.
+- The project permission `use_ai_assistance` (view level). The seeded Member role gets it. Personal assistants also need the global permission `manage_own_ai_assistants`. Applying a proposal also needs `edit_work_packages`, or only `add_work_package_comments` for a comment.
 - There is no enterprise gate yet. See "Follow-ups".
 
 ## Data model
@@ -172,20 +166,19 @@ The code does not have triggers, but it uses the shapes that a trigger model nee
 | Table | Holds |
 |---|---|
 | `ai_assistants` | name (unique for each owner), description, `instructions`, icon, `model_id` (a string: syncing models replaces `llm_models` rows), position, active, `principal_id` (the owner: a user or a group) |
-| `ai_assistant_skills` | `assistant_id`, `skill_key`, label, description, `prompt`, `proposal_scope`, `conditions`, position, active |
-| `ai_assistant_runs` | skill, user, work package, `work_package_lock_version`, `trigger`, `automation_id`, status, locale, `not_checked`, `events` |
-| `ai_assistant_run_findings` | run, source (`rule`/`ai`), `rule_key`, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
+| `ai_assistant_skills` | `assistant_id`, `skill_key` (`conversation`), label, description, `prompt`, `proposal_scope`, `conditions`, `settings` (`answers_at_once`), position, active |
 | `ai_assistant_chats` | skill, user, work package |
-| `ai_assistant_chat_messages` | chat, role, content, status, locale, `change_set`, `base_lock_version`, state, `events` |
+| `ai_assistant_chat_messages` | chat, role, content, status, locale, `base_lock_version`, `events` |
+| `ai_assistant_proposals` | message, position, source, severity, area, text, `evidence`, `change_set`, `base_lock_version`, state, `dismiss_reason` |
 
-Runs, chats and their rows are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "OP assistant" with its two skills when there is no global assistant, also on an upgrade.
+Chats, messages and proposals are deleted with their user, their work package or their skill (foreign keys with `on_delete: :cascade`). The basic data seeder creates the "OP assistant" with its two skills when there is no global assistant, also on an upgrade.
 
 ## How to try it
 
 1. Enable `ai_assistance` at `/admin/settings/experimental`.
 2. Give "Use AI assistance" to a role, or use the seeded Member role.
-3. Open a closed work package with an open child, and use **AI Assistance → Refresh work package**.
-4. For the AI part, configure an LLM connection with a default chat model, then run the check again. To see a change set, add a comment that changes the scope.
+3. Configure an LLM connection with a default chat model.
+4. Open a work package, and use **AI Assistance → Refresh work package**. To see proposals, add a comment that changes the scope, or close the work package while a child is still open.
 5. Configure assistants at **Administration → Artificial Intelligence (AI) → Assistants**.
 6. For personal assistants, add "Manage own AI assistants" to a global role, then open **My account → AI assistants**.
 
@@ -215,14 +208,22 @@ This change comes as one pull request so that it can be tried end to end. Each c
 | 18 | Let a group own an AI assistant | `principal_id` owner, group choice in admin, menu for group members | 17 |
 | 19 | Offer skills only where their conditions match | `conditions` on skills, the menu filter, the skill form in sections | 11 |
 | 20 | Generate the output rules, and share instructions across an assistant's skills | `AI::Assistance::OutputRules`, `instructions` on assistants, the prompt preview, the assistant form in sections | 11 |
+| 21 | Store the proposals of a conversation answer as their own records | `ai_assistant_proposals`, several proposals for each answer, the journal cause names the assistant | 12 |
+| 22 | Replace the AI skill types with one conversation type and settings | One `conversation` type, `settings` on skills, the skill form | 21 |
+| 23 | Answer with findings in the conversation, and with several proposals | Findings in the chat reply, the answer timeout | 22 |
+| 24 | Give AI skills a first message instead of start and answer settings | One answer format (`AnswerFormat`), simpler settings | 23 |
+| 25 | Open every AI skill in the conversation, with its proposals as cards | "Answer at once when opened", `ProposalItemComponent`, dismiss in the chat | 24 |
+| 26 | Remove AI runs and the built-in rules, and check consistency with the LLM | Runs, findings and rules removed; the context gets pull requests, the default status and activity times; the seeded prompt | 25 |
 
-Steps 1 and 2 are useful on their own and can merge first. After step 8, the feature works end to end with rules only.
+Steps 21–26 replace runs with conversations. For review, they are best folded into the steps they change (7, 9, 10, 12 and 13), so that runs, rules and the three skill types never appear. This table is updated when that is done.
+
+Steps 1 and 2 are useful on their own and can merge first.
 
 ## Follow-ups
 
 - **Agent skills.** Start an external agent (opilot first) from the menu: Break down into tasks, then the coding agent. The OpenProject work is in [Agent integration](./2026-10-14-agents.md).
-- **Enterprise gate.** Gate the menu, the runs and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
-- **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10–16 need specs, and the toolbar needs browser specs (full view and split view).
-- **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the triggers of Automations. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
+- **Enterprise gate.** Gate the menu, the chats and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
+- **Specs.** Model, service, request and component specs cover the chat, the proposals and the admin pages. The toolbar and the chat dialog need browser specs (full view and split view).
+- **Automations can start a skill.** A "Run assistant skill" action type that uses `after_success` and starts a conversation with `trigger: "automation"`, and notifies the user. It gives skills the triggers of Automations. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
 - **Edit before apply.** Open a proposed description in the description editor.
-- **Retention.** Runs are kept without a limit. A cleanup job can come when usage shows the need.
+- **Retention.** Chats are kept without a limit. A cleanup job can come when usage shows the need.
