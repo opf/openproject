@@ -1,6 +1,7 @@
 <div class="op-widget-box--header"
      [ngClass]="{ '-editable': isRenameable }">
-  <h3 class="op-widget-box--header-title-wrapper"
+  <h3 [id]="headingId"
+    class="op-widget-box--header-title-wrapper"
     data-test-selector="op-widget-box--header">
     @if (drag.isDraggable) {
       <svg

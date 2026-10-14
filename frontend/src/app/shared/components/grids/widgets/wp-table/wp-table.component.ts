@@ -52,6 +52,8 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
   standalone: false,
 })
 export class WidgetWpTableComponent extends AbstractWidgetComponent implements OnInit {
+  protected override readonly hasWidgetHeading = true;
+
   public queryId:string|null;
 
   private queryForm:QueryFormResource;

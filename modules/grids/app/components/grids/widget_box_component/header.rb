@@ -64,14 +64,13 @@ module Grids
         @title = title
         @attribute_label_args = attribute_label
         @system_arguments = system_arguments
+        @id = @system_arguments.delete(:id) || self.class.generate_id
         @system_arguments[:tag] = :header
-        @system_arguments[:id] ||= self.class.generate_id
         @system_arguments[:test_selector] = "op-widget-box--header"
         @system_arguments[:classes] = class_names(
           @system_arguments[:classes],
           "op-widget-box--header"
         )
-        @id = @system_arguments[:id]
       end
 
       def render?
