@@ -119,6 +119,9 @@ module API
                  }
         property :state
 
+        property :agenda_sorting_mode,
+                 setter: ->(fragment:, **) { self.agenda_sorting_mode = fragment.is_a?(String) ? fragment : nil }
+
         property :sharing
 
         property :template

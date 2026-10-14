@@ -725,6 +725,7 @@ ar:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: انقر لإضافة وصف لهذه العلاقة
       selection: من فضلك اختر
       subject: Enter subject here

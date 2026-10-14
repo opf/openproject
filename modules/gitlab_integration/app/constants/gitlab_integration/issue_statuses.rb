@@ -30,8 +30,8 @@
 
 module GitlabIntegration
   module IssueStatuses
-    OPEN = GitlabStatus.issue_status(code: :open, color: Color.new(hexcode: "#1A7F37"), icon: :"issue-opened")
-    CLOSED = GitlabStatus.issue_status(code: :closed, color: Color.new(hexcode: "#24292F"), icon: :"issue-closed")
+    OPEN = GitlabStatus.issue_status(code: :open, hexcode: "#1A7F37", icon: :"issue-opened")
+    CLOSED = GitlabStatus.issue_status(code: :closed, hexcode: "#24292F", icon: :"issue-closed")
 
     AVAILABLE = [OPEN, CLOSED].freeze
   end

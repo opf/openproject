@@ -149,7 +149,7 @@ RSpec.describe "Assignee action board",
 
       # Expect to have changed the avatar
       within_test_selector("op-wp-single-card--content-assignee") do
-        expect(page).to have_css(".op-avatar_mini", text: "FB", wait: 10)
+        expect(page).to have_css("img.op-avatar_mini[title='Foo Bar']", wait: 10)
       end
 
       work_package.reload

@@ -470,6 +470,8 @@ hu:
         increase_contrast_caption: Enables high-contrast mode for the chosen colour mode.
         increase_theme_contrast: Increase theme contrast
         mode_guideline: Egyes üzemmódok a hozzáférhetőség és az olvashatóság érdekében felülírják az egyéni téma színeit. A teljes körű egyéni téma-támogatáshoz kérjük, válassza a „Világos” üzemmódot.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Színes mód engedélyezése
         time_zone: Idő zóna
         warn_on_leaving_unsaved: Figyelmeztess, ha úgy hagyom el a munkacsomagot, hogy nem mentett változások vannak rajta

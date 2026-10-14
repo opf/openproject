@@ -36,11 +36,18 @@ RSpec.describe "LLM connection administration",
                :js, :llm_server_helpers, :selenium, :webmock,
                driver: :firefox_de,
                with_flag: { llm_connection: true } do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   let(:base_url) { "https://example.com/v1" }
 
   current_user { admin }
+
+  def default_chat_model_picker
+    find("[data-test-selector='llm-connection--defaults-form'] " \
+         "opce-autocompleter[data-input-name*='default_chat_model_id']")
+  end
 
   # The kebab is a Primer ActionMenu: clicking it before its behaviour is
   # attached silently does nothing, so wait for the page to settle first and
@@ -72,7 +79,7 @@ RSpec.describe "LLM connection administration",
       expect(page).to have_field("Host URL")
     end
 
-    it "offers the models tab only once the connection is enabled" do
+    it "offers the models and feature tabs only once the connection is enabled" do
       mock_llm_models_response(base_url)
 
       visit llm_connection_path
@@ -81,13 +88,17 @@ RSpec.describe "LLM connection administration",
 
       check "Enable LLMs for this instance"
       fill_in "Host URL", with: base_url
-      click_on "Connect"
+      click_on "Save"
 
       expect(page).to have_test_selector("llm-settings--tabs")
 
       within_test_selector("llm-settings--tabs") { click_on "Models" }
 
       expect(page).to have_current_path(llm_models_path)
+
+      within_test_selector("llm-settings--tabs") { click_on "Feature configuration" }
+
+      expect(page).to have_current_path(llm_feature_bindings_path)
     end
 
     it "describes the server the selected API format expects" do
@@ -145,7 +156,19 @@ RSpec.describe "LLM connection administration",
 
       expect(page).to have_test_selector("llm-model--refresh-button")
       expect(page).to have_text(connection.models.first.external_id)
+      expect(page).to have_test_selector("llm-model--edit-#{connection.models.first.id}")
       expect(page).to be_axe_clean.within("#content")
+    end
+
+    it "picks and saves the default chat model" do
+      visit llm_models_path
+
+      select_autocomplete(default_chat_model_picker, query: "qwen", select_text: "qwen3.6-27b")
+      within_test_selector("llm-connection--defaults-form") { click_on "Save" }
+
+      expect(page).to have_text(I18n.t("admin.llm_models.defaults.success"))
+      expect(connection.reload.default_chat_model.external_id).to eq("qwen3.6-27b")
+      expect_current_autocompleter_value(default_chat_model_picker, "qwen3.6-27b")
     end
 
     # The chat capabilities are hidden client-side, so only a browser shows that
@@ -204,6 +227,48 @@ RSpec.describe "LLM connection administration",
       expect(connection.reload.api_key).to be_blank
       # The point of disconnecting rather than deleting.
       expect(connection.models.count).to eq(2)
+    end
+
+    describe "the health report" do
+      before { mock_llm_chat_response(base_url) }
+
+      it "runs the checks and renders the report accessibly" do
+        visit llm_connection_path
+
+        find_test_selector("llm-connection--run-health-checks").click
+
+        expect(page).to have_text("The checks have run.")
+        wait_for { connection.health_reports.count }.to eq(1)
+
+        find_test_selector("llm-connection--open-health-report").click
+
+        expect(page).to have_current_path(llm_connection_health_status_report_path)
+        expect(page).to have_text("Configuration")
+        expect(page).to be_axe_clean.within("#content")
+
+        find_test_selector("llm-connection--rerun-health-checks").click
+
+        expect(page).to have_text(/The checks have run: \d+ passed/)
+        expect(connection.health_reports.count).to eq(2)
+      end
+    end
+  end
+
+  describe "the Feature configuration tab", with_flag: { llm_connection: true, semantic_search: true } do
+    let!(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    before do
+      Setting.llm_features_enabled = true
+      mock_llm_embeddings_response(base_url)
+    end
+
+    it "offers the vector settings only for features that embed" do
+      visit llm_feature_bindings_path
+
+      expect(page).to have_test_selector("llm-settings--tabs")
+      expect(page).to have_test_selector("llm-feature-binding--dimensions-semantic_search")
+      expect(page).to have_no_test_selector("llm-feature-binding--dimensions-description_assistant")
+      expect(page).to be_axe_clean.within("#content")
     end
   end
 end

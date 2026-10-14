@@ -468,6 +468,8 @@ fa:
         increase_contrast_caption: حالت کنتراست بالا را برای حالت رنگ انتخاب‌شده فعال می‌کند.
         increase_theme_contrast: افزایش کنتراست پوسته
         mode_guideline: برخی حالت‌ها برای دسترس‌پذیری و خوانایی، رنگ‌های سفارشی پوسته را بازنویسی می‌کنند. برای پشتیبانی کامل از پوسته سفارشی، حالت روشن را انتخاب کنید.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: حالت رنگ
         time_zone: منطقه زمانی
         warn_on_leaving_unsaved: هنگام ترک بسته کاری با تغییرات ذخیره‌نشده به من هشدار بده

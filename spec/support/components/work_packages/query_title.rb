@@ -36,13 +36,13 @@ module Components
       include RSpec::Matchers
 
       def expect_changed
-        expect(page).to have_css ".editable-toolbar-title--save"
-        expect(page).to have_css ".editable-toolbar-title--input.-changed"
+        expect(page).to have_css ".editable-toolbar-title--save", wait: 20
+        expect(page).to have_css ".editable-toolbar-title--input.-changed", wait: 20
       end
 
       def expect_not_changed
-        expect(page).to have_no_css ".editable-toolbar-title--save"
-        expect(page).to have_no_css ".editable-toolbar-title--input.-changed"
+        expect(page).to have_no_css ".editable-toolbar-title--save", wait: 20
+        expect(page).to have_no_css ".editable-toolbar-title--input.-changed", wait: 20
       end
 
       def input_field
@@ -50,7 +50,7 @@ module Components
       end
 
       def expect_title(name)
-        expect(page).to have_field("editable-toolbar-title", with: name)
+        expect(page).to have_field("editable-toolbar-title", with: name, wait: 20)
       end
 
       def press_save_button

@@ -107,6 +107,13 @@ RSpec.describe MeetingAgendaItems::ConvertToWorkPackageService do
         expect(meeting_agenda_item.title).to be_nil
         expect(meeting_agenda_item.notes).to eq("workPackageValue:#{call.result.id}:description")
       end
+
+      it "journals the meeting with the converted agenda item" do
+        call = service.call(meeting_agenda_item:, work_package_params:)
+
+        expect(meeting.journals.last.agenda_item_journals.find_by(agenda_item_id: meeting_agenda_item.id))
+          .to have_attributes(item_type: "work_package", work_package_id: call.result.id, title: nil)
+      end
     end
 
     context "when the work package cannot be created" do

@@ -152,6 +152,10 @@ sv:
     meeting_agenda_opened: Mötets agenda öppnat
     meeting_minutes: Mötesprotokoll redigerat
     meeting_minutes_created: Mötesprotokoll skapat
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Lägg till i möte
   label_add_work_package_to_meeting_dialog_title: Välj möte
   label_add_work_package_to_meeting_section_label: Sektion
@@ -160,6 +164,8 @@ sv:
   label_agenda_backlog_clear_title: Rensa dagordningens backlog?
   label_agenda_item_actions: Åtgärder enligt dagordningspunkter
   label_agenda_item_add: Lägg till punkt på dagordningen
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Lägg till anteckningar
   label_agenda_item_add_outcome: Lägg till resultat
   label_agenda_item_convert_to_work_package: Konvertera till arbetspaket
@@ -484,7 +490,7 @@ sv:
       no_items: Inga punkter på dagordningen
       no_items_flash: Det finns inga punkter på dagordningen att presentera.
       previous: Föregående
-      slide_progress: Slide %{current}/%{total}
+      slide_progress: Bild %{current}/%{total}
       title: Presentationsläge
       total_items: "%{current} av %{total}"
     types:

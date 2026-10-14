@@ -720,6 +720,7 @@ id:
     placeholders:
       default: Hapus nilai
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: Silakan pilih
       subject: Masukkan subjek di sini

@@ -721,6 +721,7 @@ hy:
     placeholders:
       default: "-"
       description: Նկարագրություն՝ սեղմեք խմբագրելու համար...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Սեղմեք՝ այս կապի նկարագրությունն ավելացնելու համար
       selection: Ընտրեք
       subject: Մուտքագրեք վերնագիրն այստեղ

@@ -42,9 +42,9 @@ class TextEditorField < EditField
   end
 
   def submit_by_click
-    target = field_container.find(control_link, wait: 10)
-    scroll_to_element(target)
-    target.click
+    selector = "#{@selector} #{control_link}"
+    expect(context).to have_css(selector, wait: 20)
+    scroll_to_and_click { context.find(selector, wait: 0) }
   end
 
   def submit_by_keyboard
@@ -56,9 +56,9 @@ class TextEditorField < EditField
   end
 
   def cancel_by_click
-    target = field_container.find(control_link(:cancel), wait: 10)
-    scroll_to_element(target)
-    target.click
+    selector = "#{@selector} #{control_link(:cancel)}"
+    expect(context).to have_css(selector, wait: 20)
+    scroll_to_and_click { context.find(selector, wait: 0) }
   end
 
   def field_type

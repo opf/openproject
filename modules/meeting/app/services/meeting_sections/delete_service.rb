@@ -30,6 +30,7 @@
 module MeetingSections
   class DeleteService < ::BaseServices::Delete
     include ::MeetingAgendaItems::JournalizeWorkPackageActivity
+    include Meetings::JournalAfterPerform
 
     def before_perform(params)
       @meeting = model.meeting

@@ -468,6 +468,8 @@ pl:
         increase_contrast_caption: Włącza tryb wysokiego kontrastu dla wybranego trybu kolorów.
         increase_theme_contrast: Zwiększ kontrast motywu
         mode_guideline: Niektóre tryby zastąpią niestandardowe kolory motywów w celu zapewnienia dostępności i czytelności. W celu pełnej obsługi motywów niestandardowych wybierz tryb Jasny.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Tryb kolorów
         time_zone: Strefa czasowa
         warn_on_leaving_unsaved: Ostrzegaj mnie, gdy opuszczam zadanie z niezapisanymi zmianami

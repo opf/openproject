@@ -470,6 +470,8 @@ ja:
         mode_guideline: |-
           いくつかのモードはアクセシビリティや読みやすさのために選択したテーマカラーを上書きします。
           完全なカスタムテーマを使用するにはライトモードを選択してください。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: カラーモード
         time_zone: タイムゾーン
         warn_on_leaving_unsaved: 変更を保存せずにワークパッケージから移動するときに警告

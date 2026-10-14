@@ -28,16 +28,23 @@
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type FiltersFormControllerType from './filters-form.controller';
 
-function dateFilterRow(type:string, operator:string, singleDay:string, dateRange:string) {
+const dateValueFields = { '=d': 'singleDay', '>d': 'singleDay', '<>d': 'dateRange' };
+const datetimeValueFields = { '=d': 'singleDay', '>d': 'singleDatetime', '<>d': 'datetimeRange' };
+
+function dateFilterRow(type:string, operator:string, values:Record<string, string>) {
+  const valueFields = type === 'date' ? dateValueFields : datetimeValueFields;
+  const inputs = Object.entries(values)
+    .map(([target, value]) => `<input data-filter-name="created_at" data-filter--filters-form-target="${target}" value="${value}">`)
+    .join('');
+
   return `
     <div data-filter-name="created_at" data-filter-type="${type}" data-filter--filters-form-target="filter">
       <select data-filter-name="created_at" data-filter--filters-form-target="operator">
-        <option value="=d" ${operator === '=d' ? 'selected' : ''}>on</option>
-        <option value="<>d" ${operator === '<>d' ? 'selected' : ''}>between</option>
+        <option value="${operator}" selected>${operator}</option>
       </select>
-      <div data-filter-name="created_at" data-filter--filters-form-target="filterValueContainer">
-        <input id="view_created_at" data-filter-name="created_at" data-filter--filters-form-target="singleDay" value="${singleDay}">
-        <input id="view_created_at" data-filter-name="created_at" data-filter--filters-form-target="dateRange" value="${dateRange}">
+      <div data-filter-name="created_at" data-filter--filters-form-target="filterValueContainer"
+           data-value-fields='${JSON.stringify(valueFields)}'>
+        ${inputs}
       </div>
     </div>
   `;
@@ -82,32 +89,54 @@ describe('Filters form controller - date filter values', () => {
     return JSON.parse(filtersInput.value) as unknown;
   }
 
-  it('sends the day boundaries of a datetime range in the user time zone as UTC', async () => {
-    const filters = await submittedFilters(dateFilterRow('datetime', '<>d', '', '2026-01-01 - 2026-10-30'));
+  it('sends both datetimes of a datetime range unchanged', async () => {
+    const filters = await submittedFilters(dateFilterRow('datetime', '<>d', {
+      datetimeFrom: '2026-01-01T08:30:00Z',
+      datetimeTo: '2026-10-30T17:00:00Z',
+    }));
 
     expect(filters).toEqual([
-      { created_at: { operator: '<>d', values: ['2025-12-31T23:00:00Z', '2026-10-30T22:59:59Z'] } },
+      { created_at: { operator: '<>d', values: ['2026-01-01T08:30:00Z', '2026-10-30T17:00:00Z'] } },
+    ]);
+  });
+
+  it('keeps an open end of a datetime range empty', async () => {
+    const filters = await submittedFilters(dateFilterRow('datetime', '<>d', {
+      datetimeFrom: '2026-01-01T08:30:00Z',
+      datetimeTo: '',
+    }));
+
+    expect(filters).toEqual([
+      { created_at: { operator: '<>d', values: ['2026-01-01T08:30:00Z', ''] } },
     ]);
   });
 
   it('sends the start of the day for an on-date datetime filter', async () => {
-    const filters = await submittedFilters(dateFilterRow('datetime_past', '=d', '2026-07-01', '-'));
+    const filters = await submittedFilters(dateFilterRow('datetime_past', '=d', { singleDay: '2026-07-01' }));
 
     expect(filters).toEqual([
       { created_at: { operator: '=d', values: ['2026-06-30T22:00:00Z'] } },
     ]);
   });
 
-  it('keeps an open end of a datetime range empty', async () => {
-    const filters = await submittedFilters(dateFilterRow('datetime', '<>d', '', '2026-01-01 - '));
+  it('sends the datetime unchanged for a greater or equal datetime filter', async () => {
+    const filters = await submittedFilters(dateFilterRow('datetime_past', '>d', { singleDatetime: '2026-07-01T08:30:00Z' }));
 
     expect(filters).toEqual([
-      { created_at: { operator: '<>d', values: ['2025-12-31T23:00:00Z', ''] } },
+      { created_at: { operator: '>d', values: ['2026-07-01T08:30:00Z'] } },
+    ]);
+  });
+
+  it('sends a plain date for a greater or equal date filter', async () => {
+    const filters = await submittedFilters(dateFilterRow('date', '>d', { singleDay: '2026-07-01' }));
+
+    expect(filters).toEqual([
+      { created_at: { operator: '>d', values: ['2026-07-01'] } },
     ]);
   });
 
   it('sends plain dates for a date filter', async () => {
-    const filters = await submittedFilters(dateFilterRow('date', '<>d', '', '2026-01-01 - 2026-10-30'));
+    const filters = await submittedFilters(dateFilterRow('date', '<>d', { dateRange: '2026-01-01 - 2026-10-30' }));
 
     expect(filters).toEqual([
       { created_at: { operator: '<>d', values: ['2026-01-01', '2026-10-30'] } },

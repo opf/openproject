@@ -60,6 +60,8 @@ class LlmCapabilityVerdict < ApplicationRecord
   # their deployment that we could not determine.
   scope :sticky, -> { where(source: "admin") }
 
+  scope :blocking, ->(capabilities) { unsupported.where(capability: capabilities.map(&:to_s)) }
+
   def blocking?
     unsupported?
   end

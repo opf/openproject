@@ -100,7 +100,7 @@ module Components
         elsif kind == :autocomplete
           set_autocomplete_filter(values, filter_name: name)
         elsif name == "created_at"
-          within_filter(name) { set_datetime_filter(name, human_operator, values, send_keys:) }
+          within_filter(name) { set_datetime_filter(name, human_operator, values, send_keys:, kind:) }
         elsif kind == :date && human_operator == "on"
           within_filter(name) { set_date_filter(values, send_keys) }
         end
@@ -149,6 +149,8 @@ module Components
         else
           page.find("#{filter_selector(name)} .advanced-filters--remove-filter").click
         end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
       end
 
       def set_toggle_filter(values)
@@ -171,32 +173,55 @@ module Components
         end
       end
 
-      def set_datetime_filter(filter_name, human_operator, values, send_keys: false)
+      def set_datetime_filter(filter_name, human_operator, values, send_keys: false, kind: :datetime_past)
         case human_operator
         when "on", "less than days ago", "more than days ago", "days ago"
           if send_keys
-            find_field(filter_name).send_keys values.first
+            field = find_field(filter_name)
+            clear_input_field_contents(field)
+            field.send_keys values.first
           else
             fill_in filter_name, with: values.first
           end
         when "between"
-          if send_keys
-            value = values.join(" - ")
-            find_field(filter_name).send_keys value
+          if kind == :date
+            set_date_range(filter_name, values, send_keys:)
           else
-            find_field(filter_name).click
-            datepicker = ::Components::RangeDatepicker.new
-            datepicker.set_date values.first
-            datepicker.set_date values.last
+            set_datetime_range(filter_name, values)
           end
         end
+
+        wait_for_network_idle(duration: 0.3) if using_cuprite?
+      end
+
+      def set_date_range(filter_name, values, send_keys:)
+        if send_keys
+          field = find_field(filter_name)
+          clear_input_field_contents(field)
+          field.send_keys values.join(" - ")
+        else
+          find_field(filter_name).click
+          datepicker = ::Components::RangeDatepicker.new
+          datepicker.set_date values.first
+          datepicker.set_date values.last
+        end
+      end
+
+      def set_datetime_range(filter_name, values)
+        from_value, to_value = values
+
+        fill_in "#{filter_name}_datetimeFrom", with: from_value
+        find_field("#{filter_name}_datetimeFrom").send_keys(:enter)
+
+        fill_in "#{filter_name}_datetimeTo", with: to_value
+        find_field("#{filter_name}_datetimeTo").send_keys(:enter)
       end
 
       def set_autocomplete_filter(values, filter_name:, clear: true)
         ng_select_clear(autocomplete_element(filter_name), raise_on_missing: false) if clear
 
         Array(values).each do |query|
-          select_autocomplete autocomplete_element(filter_name),
+          select_autocomplete -> { autocomplete_element(filter_name) },
                               query:,
                               results_selector: "body"
         end

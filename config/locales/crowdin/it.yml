@@ -468,6 +468,8 @@ it:
         increase_contrast_caption: Attiva la modalità ad alto contrasto per la modalità colore scelta.
         increase_theme_contrast: Aumenta il contrasto del tema
         mode_guideline: Alcune modalità sovrascriveranno i colori personalizzati del tema per l'accessibilità e la leggibilità. Seleziona la modalità Chiara per il supporto completo del tema personalizzato.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Modalità colore
         time_zone: Fuso orario
         warn_on_leaving_unsaved: Avvisami quando sto lasciando una macro-attività non salvata

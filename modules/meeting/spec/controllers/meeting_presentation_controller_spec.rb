@@ -155,5 +155,26 @@ RSpec.describe MeetingPresentationController do
         it_behaves_like "presents", item: :agenda_item, slide: 2
       end
     end
+
+    context "with vote-based sorting" do
+      let(:meeting) { create(:meeting, project:, agenda_sorting_mode: :vote_based) }
+      let!(:second_item) do
+        item = create(:meeting_agenda_item, meeting:, notes: "Four\n\n---\n\nFive")
+        item.emoji_reactions.create!(user:, reaction: :thumbs_up)
+        item
+      end
+
+      context "when moving next from the last slide of the highest-ranked item" do
+        let(:navigation_params) { { current_id: second_item.id, slide: 2, action_type: "next" } }
+
+        it_behaves_like "presents", item: :agenda_item, slide: 1
+      end
+
+      context "when moving previous from the first slide of the lower-ranked item" do
+        let(:navigation_params) { { current_id: agenda_item.id, slide: 1, action_type: "previous" } }
+
+        it_behaves_like "presents", item: :second_item, slide: 2
+      end
+    end
   end
 end

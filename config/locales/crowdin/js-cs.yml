@@ -727,6 +727,7 @@ cs:
     placeholders:
       default: "-"
       description: 'Popis: Klikněte pro úpravu...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknutím přidáte popis pro tento vztah
       selection: Zvolte prosím
       subject: Zde zadejte předmět

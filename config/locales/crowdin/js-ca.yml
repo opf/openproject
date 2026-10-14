@@ -721,6 +721,7 @@ ca:
     placeholders:
       default: "-"
       description: 'Descripció: Fes clic per editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Fes clic per afegir una descripció per aquesta relació
       selection: Si us plau, selecciona
       subject: Introdueixi l'assumpte aquí

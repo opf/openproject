@@ -723,6 +723,7 @@ uk:
     placeholders:
       default: "-"
       description: Опис. Натисніть, щоб змінити…
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Будь ласка, виберіть
       subject: Введіть тему тут

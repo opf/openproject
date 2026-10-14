@@ -468,6 +468,8 @@ tr:
         increase_contrast_caption: Seçilen renk modu için yüksek kontrast modunu etkinleştirir.
         increase_theme_contrast: Tema kontrastını artırın
         mode_guideline: Bazı modlar, erişilebilirlik ve okunabilirlik için özel tema renklerinin üzerine yazacaktır. Tam özel tema desteği için lütfen Aydınlık modunu seçin.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Renk modu
         time_zone: Zaman dilimi
         warn_on_leaving_unsaved: İş paketlerinden ayrılırken kaydedilmemiş değişiklik olduğunda beni uyar

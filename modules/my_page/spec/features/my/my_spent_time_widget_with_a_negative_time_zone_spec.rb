@@ -36,7 +36,7 @@ RSpec.describe "My spent time widget with a negative time zone", :js,
                with_settings: { start_of_week: 1 } do
   let(:beginning_of_week) { monday }
   let(:end_of_week) { sunday }
-  let(:monday) { Date.current.beginning_of_week(:monday) }
+  let(:monday) { Time.current.in_time_zone(time_zone).to_date.beginning_of_week(:monday) }
   let(:tuesday) { beginning_of_week + 1.day }
   let(:thursday) { beginning_of_week + 3.days }
   let(:sunday) { beginning_of_week + 6.days }

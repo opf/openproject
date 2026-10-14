@@ -152,6 +152,10 @@
     meeting_agenda_opened: Saksliste opprettet
     meeting_minutes: Møtereferater endret
     meeting_minutes_created: Møtereferater opprettet
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Legg til i møte
   label_add_work_package_to_meeting_dialog_title: Select meeting
   label_add_work_package_to_meeting_section_label: Seksjon
@@ -160,6 +164,8 @@
   label_agenda_backlog_clear_title: Clear agenda backlog?
   label_agenda_item_actions: Tiltak på punkter i dagsorden
   label_agenda_item_add: Legg til punkt på dagsorden
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Legg til notater
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package

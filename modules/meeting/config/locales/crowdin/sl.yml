@@ -170,6 +170,10 @@ sl:
     meeting_agenda_opened: Dnevni red odprt
     meeting_minutes: Zapisnik sestanka je bil spremenjen
     meeting_minutes_created: Zapisnik sestanka je ustvarjen
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_add_work_package_to_meeting_dialog_title: Select meeting
   label_add_work_package_to_meeting_section_label: Section
@@ -178,6 +182,8 @@ sl:
   label_agenda_backlog_clear_title: Clear agenda backlog?
   label_agenda_item_actions: Agenda items actions
   label_agenda_item_add: Add agenda item
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Dodaj zapiske
   label_agenda_item_add_outcome: Add outcome
   label_agenda_item_convert_to_work_package: Convert to work package

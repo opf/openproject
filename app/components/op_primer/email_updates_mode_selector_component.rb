@@ -29,27 +29,19 @@
 #++
 
 module OpPrimer
-  class EmailUpdatesModeSelectorComponent < Primer::Component
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-
+  class EmailUpdatesModeSelectorComponent < ModeSelectorComponent
     def initialize(enabled:, path:, title:, enabled_description:, disabled_description:, alt_text: nil, show_button: true,
                    method: :get)
-      super()
-
       if !show_button && alt_text.blank?
         raise ArgumentError, "alt_text must be provided when the button is shown conditionally"
 
       end
 
       @enabled = enabled
-      @path = path
-      @title = title
       @enabled_description = enabled_description
       @disabled_description = disabled_description
-      @alt_text = alt_text
-      @show_button = show_button
-      @method = method
+      super(title:, state:, description:, path:, button_label:, button_icon:, alt_text:, show_button:, method:,
+            test_selector: "email-updates-mode-selector")
     end
 
     private
