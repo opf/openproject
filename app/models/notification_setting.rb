@@ -103,7 +103,8 @@ class NotificationSetting < ApplicationRecord
   belongs_to :user
 
   include Scopes::Scoped
-  scopes :applicable
+  scopes :applicable,
+         :enabled_for
 
   # rubocop:disable Naming/PredicateMethod
   def start_date_active

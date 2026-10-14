@@ -53,6 +53,20 @@ RSpec.describe Document do
   describe "Associations" do
     it { is_expected.to belong_to(:project) }
     it { is_expected.to belong_to(:type).class_name("DocumentType").optional }
+    it { is_expected.to have_many(:notifications).dependent(:delete_all) }
+  end
+
+  describe "destroying" do
+    let(:document) { create(:document, project:) }
+    let!(:notification) { create(:notification, resource: document, journal: nil, reason: :mentioned) }
+    let!(:other_notification) { create(:notification, resource: create(:document, project:), journal: nil) }
+
+    it "deletes the notifications of the document" do
+      document.destroy
+
+      expect(Notification).not_to exist(id: notification.id)
+      expect(Notification).to exist(id: other_notification.id)
+    end
   end
 
   describe "title normalization" do

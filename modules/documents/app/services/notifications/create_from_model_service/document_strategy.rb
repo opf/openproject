@@ -33,20 +33,31 @@ module Notifications::CreateFromModelService::DocumentStrategy
     %i(subscribed)
   end
 
+  # The permission the recipient needs in order to
+  # receive the notification.
   def self.permission(*)
     :view_documents
   end
 
-  def self.supports_ian?(_reason)
-    false
+  # Opts documents in to having mention notifications created via
+  # POST /api/v3/notifications. The returned permission is the one
+  # the mentioning user needs in the document's project.
+  def self.api_mention_permission
+    :manage_documents
+  end
+
+  # Mentions (created via the API) are displayed in the notification center
+  # while notifications for added documents are only sent out by mail.
+  def self.supports_ian?(reason)
+    reason.to_sym == :mentioned
   end
 
   def self.supports_mail_digest?(_reason)
     false
   end
 
-  def self.supports_mail?(_reason)
-    true
+  def self.supports_mail?(reason)
+    reason.to_sym != :mentioned
   end
 
   def self.subscribed_users(journal)

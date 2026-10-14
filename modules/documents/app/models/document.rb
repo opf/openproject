@@ -36,6 +36,9 @@ class Document < ApplicationRecord
 
   belongs_to :project
   belongs_to :type, class_name: "DocumentType", optional: true, counter_cache: :documents_count
+  # Notifications created via the API (e.g. mentions) have no journal and would
+  # thus not be removed together with the document's journals.
+  has_many :notifications, as: :resource, dependent: :delete_all
 
   acts_as_attachable delete_permission: :manage_documents,
                      add_permission: :manage_documents

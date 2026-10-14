@@ -58,6 +58,15 @@ class Notifications::CreateFromModelService
   QUOTED_LINES_PATTERN = /^ ?> .*$/
   MENTION_PATTERN = Regexp.new(COMBINED_MENTION_PATTERN)
 
+  def self.strategy_for(resource_class_name)
+    # The resource_class_name can come from the API, so only plain class names are accepted
+    return unless resource_class_name.to_s.match?(/\A[A-Z]\w*\z/)
+
+    strategy_name = :"#{resource_class_name}Strategy"
+
+    const_get(strategy_name, false) if const_defined?(strategy_name, false)
+  end
+
   def initialize(model)
     self.model = model
   end
@@ -136,8 +145,11 @@ class Notifications::CreateFromModelService
   end
 
   def delete_outdated_notifications(current_recipient_ids)
+    # Scoping by resource is necessary as for models without journals (e.g. comments)
+    # journal is nil which would otherwise match all notifications without a journal,
+    # e.g. date alerts or mentions created via the API.
     Notification
-      .where(journal:)
+      .where(resource:, journal:)
       .where.not(recipient_id: current_recipient_ids)
       .destroy_all
   end
@@ -240,14 +252,19 @@ class Notifications::CreateFromModelService
   end
 
   def project_applicable_settings(user_scope, project, reason)
-    settings_for_allowed_users(user_scope, reason)
-      .applicable(project)
+    NotificationSetting
+      .enabled_for(reason, project)
+      .where(user: allowed_users(user_scope, reason))
   end
 
   def settings_for_allowed_users(user_scope, reason)
     NotificationSetting
       .where(reason => true)
-      .where(user: user_scope.where(id: User.allowed(strategy.permission(journal, reason), project)))
+      .where(user: allowed_users(user_scope, reason))
+  end
+
+  def allowed_users(user_scope, reason)
+    user_scope.where(id: User.allowed(strategy.permission(journal, reason), project))
   end
 
   # Returns the text of the model (currently suited to work package description and subject) eligible
@@ -355,9 +372,7 @@ class Notifications::CreateFromModelService
   end
 
   def strategy
-    @strategy ||= if self.class.const_defined?(:"#{resource.class}Strategy")
-                    "#{self.class}::#{resource.class}Strategy".constantize
-                  end
+    @strategy ||= self.class.strategy_for(resource.class)
   end
 
   def supported?

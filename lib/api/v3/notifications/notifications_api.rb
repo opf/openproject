@@ -50,6 +50,40 @@ module API
                 .order(id: :desc)
             end
 
+            def mention_request_body
+              request_body.is_a?(Hash) ? request_body : {}
+            end
+
+            def mention_link_href(name)
+              links = mention_request_body["_links"]
+              link = links.is_a?(Hash) ? links[name] : nil
+              link["href"] if link.is_a?(Hash)
+            end
+
+            # Returns the class name (e.g. "Document") and the id of the resource
+            # referenced by the href (e.g. "/api/v3/documents/5").
+            def mention_resource_type_and_id
+              href = mention_link_href("resource")
+
+              return [nil, nil] if href.nil?
+
+              id = ::API::Utilities::ResourceLinkParser.parse_id(href, property: "resource", expected_version: "3")
+              namespace = ::API::Utilities::ResourceLinkParser.parse(href)[:namespace]
+
+              [namespace.singularize.camelize, id]
+            end
+
+            def mention_recipient_id
+              href = mention_link_href("recipient")
+
+              return if href.nil?
+
+              ::API::Utilities::ResourceLinkParser.parse_id(href,
+                                                            property: "recipient",
+                                                            expected_version: "3",
+                                                            expected_namespace: "users")
+            end
+
             def bulk_update_status(attributes)
               if notification_query.valid?
                 notification_query.results.update_all({ updated_at: Time.zone.now }.merge(attributes))
@@ -65,6 +99,32 @@ module API
           get &::API::V3::Utilities::Endpoints::SqlFallbackedIndex
             .new(model: Notification, scope: -> { Notification.where.not(read_ian: nil) })
             .mount
+
+          # Creates a notification for the recipient being mentioned by the current user
+          # in the referenced resource. Only resource types whose
+          # Notifications::CreateFromModelService strategy opts in via `api_mention_permission`
+          # are supported. As the notification belongs to the recipient, only its id is returned.
+          # If the recipient is not to be notified (e.g. because of their notification settings),
+          # no notification is created and 204 is returned.
+          post do
+            resource_type, resource_id = mention_resource_type_and_id
+
+            call = ::Notifications::CreateFromApiService
+                     .new(user: current_user)
+                     .call(reason: mention_request_body["reason"],
+                           resource_type:,
+                           resource_id:,
+                           recipient_id: mention_recipient_id)
+
+            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors) if call.failure?
+
+            if call.result
+              status 200
+              { _type: "Notification", id: call.result.id }
+            else
+              status 204
+            end
+          end
 
           post :read_ian do
             bulk_update_status(read_ian: true)
