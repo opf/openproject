@@ -3,18 +3,19 @@ import { LinkIcon, PlusIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { findPendingInlineChip } from '../utils/inlineChipActions';
+import { findPendingInlineChip, removePendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { canBlockWorkPackageReplaceCurrentBlock } from '../utils/blockContent.ts';
 import { canCreateWorkPackages } from '../services/openProjectApi.ts';
 import type { AnyEditor } from '../editorTypes';
 import type { PendingMode } from './WorkPackage/types';
+import type { WorkPackage } from '../openProjectTypes';
 
 function buildOnSelect(
   editor:AnyEditor,
   pendingWpid:string
-):(wpid:number, displayId:string) => void {
-  return (wpid:number, displayId:string) => {
+):(workPackage:WorkPackage) => void {
+  return (workPackage:WorkPackage) => {
     // Resolve the placeholder chip to its real work package by updating the node's
     // props in place. We use a ProseMirror `setNodeMarkup` transaction rather than
     // `editor.updateBlock` because updateBlock rebuilds the block and moves the
@@ -31,7 +32,11 @@ function buildOnSelect(
 
     editor.focus();
     editor.transact((tr) => {
-      tr.setNodeMarkup(found.position, undefined, { ...found.node.attrs, wpid: String(wpid), displayId });
+      tr.setNodeMarkup(found.position, undefined, {
+        ...found.node.attrs,
+        wpid: String(workPackage.id),
+        displayId: workPackage.displayId,
+      });
     });
   };
 }
@@ -41,13 +46,8 @@ function buildOnCancel(
   pendingWpid:string
 ):() => void {
   return () => {
-    const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
-    if (found) {
-      editor.focus();
-      editor.transact((tr) => {
-        tr.delete(found.position, found.position + found.node.nodeSize);
-      });
-    }
+    editor.focus();
+    removePendingInlineChip(editor, pendingWpid);
     clearInlineWpCallbacks(pendingWpid);
   };
 }
@@ -74,7 +74,7 @@ function insertInlineWorkPackage(editor:AnyEditor, mode:PendingMode):void {
   const onSelect = buildOnSelect(editor, pendingWpid);
   const onCancel = buildOnCancel(editor, pendingWpid);
 
-  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel, mode);
+  registerInlineWpCallbacks(pendingWpid, onSelect, onCancel, { mode });
 
   try {
     (editor.insertInlineContent as (content:unknown[]) => void)([

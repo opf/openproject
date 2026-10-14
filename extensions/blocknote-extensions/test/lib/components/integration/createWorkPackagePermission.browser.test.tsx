@@ -1,9 +1,9 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import { http, HttpResponse } from 'msw';
-import { page } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { worker } from '../../../mocks/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { openEditorAndType, typeAndSelect } from '../../../helpers/editorHelpers';
+import { openBlockWorkPackageSearch, openEditorAndType, typeAndSelect } from '../../../helpers/editorHelpers';
 import { probeCreateWorkPackagePermission } from '../../../../lib/services/openProjectApi';
 
 async function withoutCreatePermission() {
@@ -59,5 +59,26 @@ describe('Create work package entry points', () => {
     await typeAndSelect('Redesign the landing page');
 
     await expect.element(page.getByRole('button', { name: 'Create work package' })).toBeVisible();
+  });
+
+  it('offers no creation at the end of the work package search without the permission', async () => {
+    await withoutCreatePermission();
+    renderEditor();
+
+    const searchInput = await openBlockWorkPackageSearch();
+    await userEvent.type(searchInput, 'Fix');
+
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-option')).not.toBeInTheDocument();
+  });
+
+  it('offers no creation at the end of the hash menu without the permission', async () => {
+    await withoutCreatePermission();
+    renderEditor();
+
+    await openEditorAndType('#Fix');
+
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByTestId('create-wp-option')).not.toBeInTheDocument();
   });
 });
