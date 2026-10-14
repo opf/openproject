@@ -52,6 +52,8 @@ module Planner
 
     attr_reader :view, :adding
 
+    delegate :user, :references, to: :model, private: true
+
     def todos_shown? = filter != "meetings"
 
     def meetings_shown? = filter != "todos"
