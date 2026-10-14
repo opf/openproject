@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package navigation", :js, :selenium do
+RSpec.describe "Work package navigation", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: "Some project", enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }

@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-RSpec.describe "inline create work package", :js, :selenium do
+RSpec.describe "inline create work package", :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 

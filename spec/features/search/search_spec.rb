@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" } do
+RSpec.describe "Search", :js, with_settings: { per_page_options: "5" } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   create_shared_association_defaults_for_work_package_factory

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Work package show page", :selenium do
+RSpec.describe "Work package show page" do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:grand_parent) do
