@@ -44,7 +44,10 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
     allocation = build_stubbed(:resource_allocation, entity: work_package, principal: user)
     ResourceAllocations::ScheduledEntry.new(allocation:, work_package:, allocated_on: date, minutes: allocation_minutes)
   end
-  let(:allocations) { instance_double(ResourceAllocations::AllocatedTimeFor, items: [scheduled_entry], visible?: true) }
+  let(:allocation_visible) { true }
+  let(:allocations) do
+    instance_double(ResourceAllocations::AllocatedTimeFor, items: [scheduled_entry], visible?: allocation_visible)
+  end
   let(:event_id) { FullCalendar::ResourceAllocationEvent.id_for(scheduled_entry) }
 
   current_user { user }
@@ -53,12 +56,20 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
     render_inline(described_class.new(time_entries:, allocations:))
   end
 
-  it "renders the menu of each time entry under the id of its calendar event" do
-    expect(rendered_component).to have_css("[data-my-work-menu-for='#{time_entries.first.id}'] action-menu")
+  it "renders the menu of each time entry under the id of its calendar event, loading its items on demand" do
+    expect(rendered_component).to have_css(
+      "[data-my-work-menu-for='#{time_entries.first.id}'] action-menu " \
+      "include-fragment[src='/my/work/entry_menus/time_entries/#{time_entries.first.id}']",
+      visible: :all
+    )
   end
 
-  it "renders the menu of each allocation under the id of its calendar event" do
-    expect(rendered_component).to have_css("[data-my-work-menu-for='#{event_id}'] action-menu")
+  it "renders the menu of each allocation under the id of its calendar event, loading its items on demand" do
+    expect(rendered_component).to have_css(
+      "[data-my-work-menu-for='#{event_id}'] action-menu " \
+      "include-fragment[src='/my/work/entry_menus/allocations/#{scheduled_entry.allocation.id}/2026-10-05']",
+      visible: :all
+    )
   end
 
   it "keeps the menus out of sight without hiding them" do
@@ -66,8 +77,12 @@ RSpec.describe My::Work::EntryMenusComponent, type: :component do
     expect(rendered_component).to have_no_css("[data-my-work-menus][hidden]")
   end
 
-  it "offers the links to the work package and project" do
-    expect(rendered_component).to have_link("Open work package", visible: :all, count: 2)
+  context "when the user cannot see the work package of the allocation" do
+    let(:allocation_visible) { false }
+
+    it "renders no menu for it" do
+      expect(rendered_component).to have_no_css("[data-my-work-menu-for='#{event_id}']")
+    end
   end
 
   context "when the allocation was logged in full" do
