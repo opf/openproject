@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - dev
-      - blp/maint/bne-116-ci-publish-op-blocknote-extensions
     paths:
       - 'extensions/op-blocknote-extensions/package.json'
 
