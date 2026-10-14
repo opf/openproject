@@ -215,10 +215,16 @@ RSpec.describe OpenProject::WebPush do
   end
 
   describe "request log filtering" do
-    it "masks push subscription endpoints" do
-      filter = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
+    let(:filter) { ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters) }
 
-      expect(filter.filter(endpoint: "https://fcm.googleapis.com/fcm/send/abc")).to eq(endpoint: "[FILTERED]")
+    it "masks the push endpoint parameter" do
+      expect(filter.filter(push_endpoint: "https://fcm.googleapis.com/fcm/send/abc"))
+        .to eq(push_endpoint: "[FILTERED]")
+    end
+
+    it "leaves other endpoint parameters readable" do
+      expect(filter.filter(authorization_endpoint: "https://idp.example/authorize"))
+        .to eq(authorization_endpoint: "https://idp.example/authorize")
     end
   end
 
