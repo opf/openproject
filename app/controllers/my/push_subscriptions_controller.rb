@@ -66,12 +66,25 @@ module My
 
       begin
         attempts += 1
+        subscription = PushSubscription.find_or_initialize_by(endpoint:)
+        return takeover_refused_result(subscription) if held_by_another_user?(subscription)
+
         ::PushSubscriptions::CreateService
-          .new(user: current_user, model: PushSubscription.find_or_initialize_by(endpoint:))
+          .new(user: current_user, model: subscription)
           .call(user: current_user, session_id: current_session_row_id)
       rescue ActiveRecord::RecordNotUnique
         retry if attempts < 2
         raise
+      end
+    end
+
+    def held_by_another_user?(subscription)
+      subscription.persisted? && subscription.user_id != current_user.id
+    end
+
+    def takeover_refused_result(subscription)
+      ServiceResult.failure(result: subscription).tap do |result|
+        result.errors.add(:endpoint, :taken)
       end
     end
 

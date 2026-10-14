@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,7 +26,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "spec_helper"
 
@@ -78,12 +78,14 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(PushSubscription.sole).to have_attributes(user:, endpoint:, session: current_session_row)
       end
 
-      it "moves an endpoint stored for another user to the current user and session" do
+      it "refuses an endpoint held by another user" do
         existing = create(:push_subscription, endpoint:)
 
-        expect { subscribe(endpoint) }.not_to change(PushSubscription, :count)
+        subscribe(endpoint)
 
-        expect(existing.reload).to have_attributes(user:, session: current_session_row)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body["errors"]).to be_present
+        expect(existing.reload.user).not_to eq(user)
       end
 
       it "moves an endpoint stored for an older session of the same user to the current session" do
@@ -96,7 +98,7 @@ RSpec.describe "My::PushSubscriptionsController",
       end
 
       it "retries once when a concurrent request stored the endpoint first" do
-        existing = create(:push_subscription, endpoint:)
+        existing = create(:push_subscription, user:, endpoint:)
         calls = 0
         allow(PushSubscriptions::CreateService).to receive(:new).and_wrap_original do |original, **args|
           original.call(**args).tap do |service|
@@ -128,7 +130,7 @@ RSpec.describe "My::PushSubscriptionsController",
         ["blank", ""],
         ["an array", ["https://fcm.googleapis.com/fcm/send/abc"]],
         ["a hash", { "url" => "https://fcm.googleapis.com/fcm/send/abc" }],
-        ["longer than 4096 characters", "https://fcm.googleapis.com/#{'a' * 4096}"]
+        ["longer than the maximum length", "https://fcm.googleapis.com/#{'a' * PushSubscriptions::BaseContract::MAX_ENDPOINT_LENGTH}"]
       ].each do |description, value|
         it "rejects an endpoint that is #{description} with a JSON error" do
           subscribe(value)
