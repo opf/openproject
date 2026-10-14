@@ -94,7 +94,7 @@ module AIAssistance::AssistantSkillsActions
   end
 
   def skill_params
-    params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active answer_format start checks])
+    params.expect(ai_assistant_skill: %i[label description prompt proposal_scope active first_message checks])
   end
 
   # The condition inputs are outside the model scope: each posts a list of ids, and a

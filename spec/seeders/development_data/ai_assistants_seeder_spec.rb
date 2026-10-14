@@ -49,7 +49,7 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
         position: 2
         skills:
           - skill_key: conversation
-            answer_format: text
+            first_message: Do it.
             label: Find risks
             prompt: List them.
       - reference: :ai_assistant_comms
@@ -59,20 +59,16 @@ RSpec.describe DevelopmentData::AiAssistantsSeeder do
         position: 1
         skills:
           - skill_key: conversation
-            answer_format: text
+            first_message: Do it.
             label: Write a test plan
             prompt: Draft it.
           - skill_key: conversation
-            answer_format: text
-            start: empty
       - reference: :ai_assistant_tom
         principal: :openproject_admin
         name: Tom's assistant
         position: 1
         skills:
           - skill_key: conversation
-            answer_format: text
-            start: empty
     SEEDING_DATA_YAML
   end
 

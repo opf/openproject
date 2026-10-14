@@ -68,14 +68,16 @@ RSpec.describe AI::AssistantChats::Reply do
     answer_message.reload
   end
 
-  describe "the first answer of a skill with findings" do
+  describe "the first answer of a skill with the built-in checks" do
     before { create(:work_package, project:, parent: work_package, status: closed_status) }
 
     let(:answer) do
       { answer: "Zwei Befunde.", proposals: [
         { severity: "medium", area: "content", text: "Der Kommentar ändert den Umfang.",
           evidence: ["Public note"], changes: [{ field: "description", value: "New text" }] },
-        { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] }
+        { severity: "low", area: "content", text: "Ohne Beleg.", evidence: [], changes: [] },
+        { severity: "none", area: "none", text: "Neuer Betreff", evidence: [],
+          changes: [{ field: "subject", value: "New subject" }] }
       ] }
     end
 
@@ -85,9 +87,10 @@ RSpec.describe AI::AssistantChats::Reply do
       expect(message).to be_done
       expect(message.content).to eq("Zwei Befunde.")
       expect(message.proposals.rule.pluck(:rule_key)).to eq(%w[open_with_all_descendants_closed])
-      ai = message.proposals.ai.sole
-      expect(ai).to have_attributes(severity: "medium", change_set: AI::Proposal.change_set_for({ "description" => "New text" }),
-                                    base_lock_version: work_package.lock_version)
+      finding, plain = message.proposals.ai.to_a
+      expect(finding).to have_attributes(severity: "medium", base_lock_version: work_package.lock_version,
+                                         change_set: AI::Proposal.change_set_for({ "description" => "New text" }))
+      expect(plain).to have_attributes(severity: nil, text: "Neuer Betreff")
       expect(message.events.pluck("kind")).to include("rules", "request", "answer", "stored")
     end
 
@@ -96,8 +99,9 @@ RSpec.describe AI::AssistantChats::Reply do
 
       expect(sent[:user]).to include("Public note", "rule_findings")
       expect(sent[:user]).not_to include("Secret note")
-      expect(sent[:system]).to include("sum up the findings", %(locale code "de"))
-      expect(sent[:temperature]).to eq(described_class::FINDINGS_TEMPERATURE)
+      expect(sent[:system]).to include(AI::Assistance::OutputRules::PROPOSALS, %(locale code "de"))
+      expect(sent[:system]).not_to include("Context (JSON)")
+      expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
     end
 
     context "when the model fails" do
@@ -130,8 +134,10 @@ RSpec.describe AI::AssistantChats::Reply do
     let(:skill) { create(:ai_assistant_skill, :chat, prompt: "Answer questions.") }
     let(:answer) do
       { answer: "Hier sind zwei Vorschläge.", proposals: [
-        { text: "Neuer Betreff", changes: [{ field: "subject", value: "New subject" }] },
-        { text: "Keine gültige Änderung", changes: [{ field: "status", value: "No such status" }] }
+        { text: "Neuer Betreff", severity: "none", area: "none", evidence: [],
+          changes: [{ field: "subject", value: "New subject" }] },
+        { text: "Keine gültige Änderung", severity: "none", area: "none", evidence: [],
+          changes: [{ field: "status", value: "No such status" }] }
       ] }
     end
 
@@ -140,8 +146,8 @@ RSpec.describe AI::AssistantChats::Reply do
 
       expect(message.content).to eq("Hier sind zwei Vorschläge.")
       expect(message.proposals.sole).to have_attributes(text: "Neuer Betreff", severity: nil, source: "ai")
-      expect(sent[:system]).to include("Context (JSON)", %(Put proposed changes in "proposals"))
-      expect(sent[:temperature]).to be_nil
+      expect(sent[:system]).to include("Context (JSON)", AI::Assistance::OutputRules::PROPOSALS)
+      expect(sent[:temperature]).to eq(described_class::TEMPERATURE)
     end
 
     it "tells the model what it proposed before" do

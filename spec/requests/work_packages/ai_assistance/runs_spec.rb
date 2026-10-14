@@ -69,7 +69,7 @@ RSpec.describe "AI Assistance runs", :skip_csrf, type: :rails_request, with_flag
     context "with a personal skill of another user" do
       let(:owner) { create(:user, global_permissions: %i[manage_own_ai_assistants]) }
       let(:personal_skill) do
-        create(:ai_assistant_skill, assistant: create(:ai_assistant, principal: owner), answer_format: "text", start: "preset", prompt: "Hi")
+        create(:ai_assistant_skill, assistant: create(:ai_assistant, principal: owner), first_message: "Hi", checks: false, prompt: "Hi")
       end
 
       it "responds with not found and stores nothing" do

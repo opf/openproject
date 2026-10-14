@@ -33,24 +33,24 @@ require "spec_helper"
 RSpec.describe AI::Assistance::OutputRules do
   subject(:rules) { described_class.new(skill, locale: "de").to_s }
 
-  let(:skill) { build(:ai_assistant_skill, answer_format:, proposal_scope:) }
-  let(:answer_format) { "text" }
+  let(:skill) { build(:ai_assistant_skill, proposal_scope:) }
   let(:proposal_scope) { "changes" }
 
-  it "sets the answer language and guards against instructions in the context" do
-    expect(rules).to include(%(Write "answer" in Markdown, in the language with the locale code "de".))
+  it "sets the answer language, explains proposals, and guards against instructions in the context" do
+    expect(rules).to include(%(Write "answer" in Markdown, and the "text" of each proposal, in the language), %(locale code "de"))
+    expect(rules).to include(described_class::PROPOSALS)
     expect(rules).to end_with(described_class::GUARD)
   end
 
   it "explains the change fields for a skill that may propose changes" do
-    expect(rules).to include(described_class::FIELDS, described_class::FORMATTING)
+    expect(rules).to include(described_class::CHANGES, described_class::FIELDS, described_class::FORMATTING)
   end
 
   context "with the comment-only scope" do
     let(:proposal_scope) { "comment_only" }
 
     it "allows a comment only" do
-      expect(rules).to include(%(Propose a "comment" only))
+      expect(rules).to include(%(A proposal can add a "comment" only.))
       expect(rules).not_to include(described_class::FIELDS)
     end
   end
@@ -58,30 +58,9 @@ RSpec.describe AI::Assistance::OutputRules do
   context "with the read-only scope" do
     let(:proposal_scope) { "read_only" }
 
-    it "allows no changes" do
-      expect(rules).to include(%(Use an empty "proposals" list.))
+    it "allows no changes, but still findings" do
+      expect(rules).to include(%(Use an empty "changes" list in every proposal.), described_class::PROPOSALS)
       expect(rules).not_to include(described_class::FIELDS)
-    end
-  end
-
-  context "with a run skill" do
-    let(:answer_format) { "findings" }
-
-    it "talks about findings" do
-      expect(rules).to include(%(sum up the findings, and the text of each finding, in the language with the locale code "de".))
-      expect(rules).to include("A finding can propose changes")
-      expect(rules).to include("Each change is only a proposal")
-    end
-  end
-
-  context "with a skill with findings, in a follow-up turn" do
-    subject(:rules) { described_class.new(skill, locale: "de", format: "text").to_s }
-
-    let(:answer_format) { "findings" }
-
-    it "uses the rules of a free answer" do
-      expect(rules).to include(%(Write "answer" in Markdown), %(Put proposed changes in "proposals"))
-      expect(rules).not_to include("finding")
     end
   end
 end

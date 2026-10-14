@@ -31,13 +31,11 @@
 module AI
   module AssistantSkills
     module HealthCheck
-      # The message the model gets for an answer with findings, and how its answer becomes
-      # findings. The prompt itself is data on the skill (instructions and output rules), not
-      # code. It reads only what the user can see: the job runs as that user.
+      # The message for the first answer of a skill with the built-in checks: the work
+      # package context, the rule findings and the values the model may propose. The prompt
+      # itself is data on the skill (instructions and output rules), not code. It reads only
+      # what the user can see: the job runs as that user.
       class Review
-        AREAS = %w[content status relations tree pull_requests].freeze
-        SEVERITIES = %w[high medium low].freeze
-
         attr_reader :skill, :work_package, :user, :rule_findings
 
         # rule_findings: the texts of the findings that the rules already reported.
@@ -52,31 +50,7 @@ module AI
           @lock_version ||= work_package.reload.lock_version
         end
 
-        def schema
-          {
-            type: "object",
-            additionalProperties: false,
-            required: %w[answer proposals],
-            properties: {
-              answer: { type: "string" },
-              proposals: {
-                type: "array",
-                items: {
-                  type: "object",
-                  additionalProperties: false,
-                  required: %w[severity area text evidence changes],
-                  properties: {
-                    severity: { type: "string", enum: SEVERITIES },
-                    area: { type: "string", enum: AREAS },
-                    text: { type: "string" },
-                    evidence: { type: "array", items: { type: "string" } },
-                    changes: proposal_builder.schema
-                  }
-                }
-              }
-            }
-          }
-        end
+        delegate :schema, to: :answer_format
 
         def user_message
           AI::Assistance::WorkPackageContext.new(work_package:, user:).to_h.merge(
@@ -85,30 +59,20 @@ module AI
           ).to_json
         end
 
-        # Attributes for an AI finding, or nil when the answer does not qualify.
+        # Attributes for a finding, or nil when the answer does not qualify. A run stores
+        # findings only.
         def finding_attributes(raw)
-          raw = raw.to_h.stringify_keys
-          evidence = Array(raw["evidence"]).filter_map { |text| text.to_s.strip.presence }
-          return if evidence.empty? || raw["text"].to_s.strip.empty?
-          return unless SEVERITIES.include?(raw["severity"]) && AREAS.include?(raw["area"])
+          answer_format.proposal_attributes(raw)&.then { |attributes| attributes if attributes[:severity] }
+        end
 
-          {
-            severity: raw["severity"],
-            area: raw["area"],
-            text: raw["text"].to_s.strip.truncate(1_000),
-            evidence: evidence.first(5).map { |text| { "text" => text.truncate(500) } },
-            change_set: proposal_builder.build(raw["changes"])
-          }
+        def answer_format
+          @answer_format ||= AI::Assistance::AnswerFormat.new(AI::Assistance::ProposalBuilder.new(change_options))
         end
 
         private
 
         def change_options
           @change_options ||= AI::Assistance::ChangeOptions.new(keys: skill.changeable_attributes, work_package:, user:)
-        end
-
-        def proposal_builder
-          @proposal_builder ||= AI::Assistance::ProposalBuilder.new(change_options)
         end
       end
     end

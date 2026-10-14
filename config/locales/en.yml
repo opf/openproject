@@ -98,14 +98,13 @@ en:
         name: "Name"
       ai/assistant_skill:
         active: "Active"
-        answer_format: "Answer"
-        checks: "Built-in consistency checks"
+        checks: "Run the built-in consistency checks first"
         description: "Description"
+        first_message: "First message"
         label: "Label"
         prompt: "System prompt"
         proposal_scope: "Proposals"
         skill_key: "Type"
-        start: "Start"
       ai/text_transform_action:
         active: "Active"
         injects_type_template: "Insert work package type template"
@@ -1540,12 +1539,7 @@ en:
         title: "New assistant"
       skills:
         add: "Add skill"
-        answer_formats:
-          findings: "Findings"
-          findings_caption: "A list of findings, each with evidence and an optional proposed change."
-          text: "Free answer"
-          text_caption: "An answer in text, with proposed changes when they follow from it."
-        checks_caption: "Runs OpenProject's consistency rules before the AI answers, for skills that answer with findings. Such a skill is offered also without a system prompt."
+        checks_caption: "OpenProject's consistency rules run before the first answer, and their findings show at once. Such a skill is offered also without a system prompt."
         conditions:
           all: "All"
           caption: "The skill is offered only on work packages that match every list. An empty list matches all."
@@ -1569,6 +1563,7 @@ en:
         delete_confirm: "Delete this skill and every run of it?"
         description_caption: "Shown under the label in the AI Assistance menu. Empty uses the built-in text, shown here as a placeholder."
         empty: "This assistant has no skills."
+        first_message_caption: "Sent when the user opens the skill, so it answers at once. Empty opens an empty chat for the user's own questions."
         label_caption: "The name of the action in the AI Assistance menu. Empty uses the built-in name, shown here as a placeholder."
         no_prompt: "No system prompt: rules only"
         no_prompt_not_offered: "No system prompt: not offered"
@@ -1583,16 +1578,10 @@ en:
           read_only: "Read-only"
           read_only_caption: "Proposes nothing."
         sections:
-          behavior: "How it works"
           conditions: "Where it is offered"
           instructions: "Instructions"
           menu: "Menu entry"
           menu_description: "How the skill shows in the AI Assistance menu on work packages."
-        starts:
-          empty: "Empty chat"
-          empty_caption: "The user writes the first question."
-          preset: "One click"
-          preset_caption: "The label is the first request, and the skill answers at once."
         title: "Skills"
     banners:
       environment_configured_readonly: "These values are configured via environment variables and cannot be edited here."

@@ -41,21 +41,18 @@ module AI
                     caption: I18n.t("admin.ai_assistants.skills.description_caption"),
                     placeholder: model.display_description)
 
-        g.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))
-      end
+        g.text_field(name: :first_message, label: AI::AssistantSkill.human_attribute_name(:first_message),
+                     input_width: :large, caption: I18n.t("admin.ai_assistants.skills.first_message_caption"))
 
-      f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.behavior")) do |g|
-        g.group(layout: :horizontal) do |row|
-          setting_radios(row, :start, AI::AssistantSkill::STARTS)
-          setting_radios(row, :answer_format, AI::AssistantSkill::ANSWER_FORMATS)
-        end
-        g.check_box(name: :checks, label: AI::AssistantSkill.human_attribute_name(:checks),
-                    caption: I18n.t("admin.ai_assistants.skills.checks_caption"))
+        g.check_box(name: :active, label: AI::AssistantSkill.human_attribute_name(:active))
       end
 
       f.fieldset_group(title: I18n.t("admin.ai_assistants.skills.sections.instructions")) do |g|
         g.text_area(name: :prompt, label: AI::AssistantSkill.human_attribute_name(:prompt), rows: 8,
                     caption: I18n.t("admin.ai_assistants.skills.prompt_caption"))
+
+        g.check_box(name: :checks, label: AI::AssistantSkill.human_attribute_name(:checks),
+                    caption: I18n.t("admin.ai_assistants.skills.checks_caption"))
 
         g.html_content { prompt_preview }
       end
@@ -126,15 +123,6 @@ module AI
     def condition_projects
       Project.visible(User.current).or(Project.where(id: model.condition_ids(:project_ids)))
              .order(:name).pluck(:id, :name)
-    end
-
-    def setting_radios(form, name, values)
-      form.radio_button_group(name:, label: AI::AssistantSkill.human_attribute_name(name)) do |group|
-        values.each do |value|
-          group.radio_button(value:, label: I18n.t("admin.ai_assistants.skills.#{name.to_s.pluralize}.#{value}"),
-                             caption: I18n.t("admin.ai_assistants.skills.#{name.to_s.pluralize}.#{value}_caption"))
-        end
-      end
     end
   end
 end

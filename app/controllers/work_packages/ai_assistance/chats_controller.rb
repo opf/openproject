@@ -47,10 +47,10 @@ class WorkPackages::AIAssistance::ChatsController < ApplicationController
     replace_chat
   end
 
-  # A preset: a new conversation whose first question runs the skill's instructions.
+  # A new conversation that starts with the skill's first message.
   def start
     @chat = new_chat
-    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.display_label)
+    call = AI::AssistantChats::SendMessageService.new(chat: @chat, user: current_user).call(@skill.first_message)
     return respond_with_failure(call) if call.failure?
 
     respond_with_wp_dialog chat_dialog

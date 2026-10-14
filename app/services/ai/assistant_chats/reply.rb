@@ -30,16 +30,18 @@
 
 module AI
   module AssistantChats
-    # Answers the latest question of a conversation, as the conversation's user.
+    # Answers the latest message of a conversation, as the conversation's user. Every answer
+    # is text with 0..n proposals (AI::Assistance::AnswerFormat).
     #
-    # The first answer of a skill with findings runs the built-in checks, then asks the model
-    # for findings with evidence. If the AI part cannot run or fails, the rule findings stay
-    # and "Not checked" says why. Every other answer is free text with 0..n proposals, and
-    # gets the earlier turns. Any other failure marks the answer as failed.
+    # The first answer of a skill with the built-in checks runs the rules first, and the
+    # model gets the rule findings instead of the earlier turns. If its AI part cannot run or
+    # fails, the rule findings stay and "Not checked" says why. Any other failure marks the
+    # answer as failed.
     class Reply
       MAX_TURNS = 20
       MAX_PROPOSALS = 15
-      FINDINGS_TEMPERATURE = 0.2
+      # Low, so that one work package gives the same answer from run to run.
+      TEMPERATURE = 0.2
 
       attr_reader :message
 
@@ -48,7 +50,7 @@ module AI
       end
 
       def call
-        findings_turn? ? answer_with_findings : answer_with_text
+        first_with_checks? ? answer_with_checks : answer_freely
       rescue StandardError => e
         fail_reply(e)
       end
@@ -63,24 +65,31 @@ module AI
 
       def skill = chat.skill
 
-      def findings_turn?
-        skill.findings? && chat.messages.where(role: "assistant").where(id: ...message.id).none?
+      def first_with_checks?
+        skill.checks && chat.messages.where(role: "assistant").where(id: ...message.id).none?
       end
 
-      # -- Findings ----------------------------------------------------------------------
+      # -- The first answer with the built-in checks ----------------------------------------
 
-      def answer_with_findings
+      def answer_with_checks
         rule_texts = run_rules
         blocker = review_blocker
-        if blocker
-          message.add_not_checked(:ai_review, blocker)
-          return finish(nil)
-        end
+        return finish(nil, not_checked: blocker) if blocker
 
-        review = skill.skill_type.review_class.new(skill:, work_package:, user:, rule_findings: rule_texts)
-        answer = ask_for_findings(review)
-        store_findings(review, Array(answer[:proposals]))
+        answer = ask_with_rule_findings(rule_texts)
+        return finish(nil, not_checked: :failed) unless answer
+
+        store_proposals(Array(answer[:proposals]))
         finish(answer[:answer])
+      end
+
+      # The answer, or nil when the AI part failed.
+      def ask_with_rule_findings(rule_texts)
+        review = skill.skill_type.review_class.new(skill:, work_package:, user:, rule_findings: rule_texts)
+        ask(text: review.user_message)
+      rescue StandardError => e
+        llm_call.record_failure(e)
+        nil
       end
 
       # The rule findings are stored at once, so the dialog shows them while the AI answers.
@@ -102,41 +111,17 @@ module AI
         end
       end
 
-      def ask_for_findings(review)
-        llm_call.ask(model_id:, system: skill.system_prompt(locale: message.locale, format: "findings"),
-                     message: review.user_message, schema: review.schema, temperature: FINDINGS_TEMPERATURE)
-      rescue StandardError => e
-        llm_call.record_failure(e)
-        message.add_not_checked(:ai_review, :failed)
-        {}
-      end
+      # -- Every other answer ---------------------------------------------------------------
 
-      def store_findings(review, raw_findings)
-        offset = message.proposals.count
-        kept, dropped = raw_findings.first(MAX_PROPOSALS).map { |raw| [raw, review.finding_attributes(raw)] }
-                                    .partition { |_raw, attributes| attributes }
-        kept.each_with_index do |(_raw, attributes), index|
-          message.proposals.create!(attributes.merge(source: "ai", position: offset + index,
-                                                     base_lock_version: message.base_lock_version))
-        end
-        return if raw_findings.empty?
-
-        message.log_event(:stored, findings: raw_findings.size, stored: kept.size, dropped: dropped.map { |raw, _| raw.to_h })
-      end
-
-      # -- Free text ---------------------------------------------------------------------
-
-      def answer_with_text
-        system = skill.system_prompt(locale: message.locale, format: "text")
-        raise Llm::Errors::NotReady, "no chat prompt" if system.blank?
+      def answer_freely
+        raise Llm::Errors::NotReady, "no system prompt" if skill.prompt.blank?
         raise Llm::Errors::NotReady, "no model" unless model_id
 
         history = earlier_turns
         question = history.pop
-        answer = llm_call.ask(model_id:, system: "#{system}\n\nContext (JSON):\n#{context_json}",
-                              message: question&.content.to_s, schema: text_schema,
-                              history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn_text(turn)] })
-        store_text_proposals(Array(answer[:proposals]))
+        answer = ask(text: question&.content.to_s, context: true,
+                     history: history.map { |turn| [turn.from_user? ? :user : :assistant, turn_text(turn)] })
+        store_proposals(Array(answer[:proposals]))
         finish(answer[:answer].to_s.strip.presence || I18n.t("ai_assistance.chat.empty_answer"))
       end
 
@@ -150,8 +135,7 @@ module AI
         return turn.content.to_s if turn.from_user? || turn.proposals.empty?
 
         lines = turn.proposals.map do |proposal|
-          summary = proposal.text.presence || proposal.change_actions.pluck("key").join(", ")
-          "- #{summary} (#{proposal.state})"
+          "- #{proposal.text.presence || proposal.change_actions.pluck('key').join(', ')} (#{proposal.state})"
         end
         [turn.content.presence, "Proposals:\n#{lines.join("\n")}"].compact.join("\n\n")
       end
@@ -162,41 +146,29 @@ module AI
                                              .to_json
       end
 
-      def text_schema
-        {
-          type: "object",
-          additionalProperties: false,
-          required: %w[answer proposals],
-          properties: {
-            answer: { type: "string" },
-            proposals: {
-              type: "array",
-              items: {
-                type: "object",
-                additionalProperties: false,
-                required: %w[text changes],
-                properties: { text: { type: "string" }, changes: proposal_builder.schema }
-              }
-            }
-          }
-        }
+      # -- Shared ---------------------------------------------------------------------------
+
+      def ask(text:, context: false, history: [])
+        system = skill.system_prompt(locale: message.locale)
+        system = "#{system}\n\nContext (JSON):\n#{context_json}" if context
+        llm_call.ask(model_id:, system:, message: text, schema: answer_format.schema, history:, temperature: TEMPERATURE)
       end
 
-      # A proposal without a valid change is not a proposal, and is dropped.
-      def store_text_proposals(raw_proposals)
-        raw_proposals.first(MAX_PROPOSALS).each_with_index do |raw, index|
-          raw = raw.to_h.stringify_keys
-          change_set = proposal_builder.build(raw["changes"])
-          next unless change_set
-
-          message.proposals.create!(source: "ai", position: index, text: raw["text"].to_s.strip.truncate(1_000).presence,
-                                    change_set:, base_lock_version: message.base_lock_version)
+      def store_proposals(raw_proposals)
+        offset = message.proposals.count
+        kept, dropped = raw_proposals.first(MAX_PROPOSALS).map { |raw| [raw, answer_format.proposal_attributes(raw)] }
+                                     .partition { |_raw, attributes| attributes }
+        kept.each_with_index do |(_raw, attributes), index|
+          message.proposals.create!(attributes.merge(source: "ai", position: offset + index,
+                                                     base_lock_version: message.base_lock_version))
         end
+        return if raw_proposals.empty?
+
+        message.log_event(:stored, findings: raw_proposals.size, stored: kept.size, dropped: dropped.map { |raw, _| raw.to_h })
       end
 
-      # -- Shared ------------------------------------------------------------------------
-
-      def finish(content)
+      def finish(content, not_checked: nil)
+        message.add_not_checked(:ai_review, not_checked) if not_checked
         message.update!(content: content.to_s.strip, status: "done")
         llm_call.log(:info, "answered with #{message.proposals.count} proposals")
       end
@@ -209,8 +181,8 @@ module AI
         @change_options ||= AI::Assistance::ChangeOptions.new(keys: skill.changeable_attributes, work_package:, user:)
       end
 
-      def proposal_builder
-        @proposal_builder ||= AI::Assistance::ProposalBuilder.new(change_options)
+      def answer_format
+        @answer_format ||= AI::Assistance::AnswerFormat.new(AI::Assistance::ProposalBuilder.new(change_options))
       end
 
       def fail_reply(error)
