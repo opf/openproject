@@ -30,7 +30,7 @@
 
 module Admin::Settings
   class PushNotificationsSettingsController < ::Admin::SettingsController
-    before_action :require_feature
+    guard_feature_flag :progressive_web_app
 
     current_menu_item [:show, :check] do
       :push_notifications
@@ -57,12 +57,6 @@ module Admin::Settings
       end
 
       redirect_to admin_settings_push_notifications_path, status: :see_other
-    end
-
-    private
-
-    def require_feature
-      render_404 unless OpenProject::FeatureDecisions.progressive_web_app_active?
     end
   end
 end

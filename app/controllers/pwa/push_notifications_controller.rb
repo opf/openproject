@@ -31,6 +31,7 @@
 module Pwa
   class PushNotificationsController < ApplicationController
     before_action :require_login
+    guard_feature_flag :progressive_web_app
     before_action :require_web_push
     no_authorization_required! :show
     before_action :prevent_response_caching
@@ -49,7 +50,7 @@ module Pwa
     end
 
     def require_web_push
-      render_404 unless OpenProject::WebPush.enabled?
+      render_404 unless Setting.web_push_enabled?
     end
   end
 end
