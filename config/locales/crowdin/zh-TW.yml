@@ -468,6 +468,8 @@ zh-TW:
         increase_contrast_caption: 啟用所選色彩模式的高對比模式。
         increase_theme_contrast: 增加主題對比
         mode_guideline: 某些模式會覆蓋自訂主題的顏色，以提高可訪問性和可存取性。請選擇「Light」模式，以獲得完整的自訂主題支援。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 色彩模式
         time_zone: 時區
         warn_on_leaving_unsaved: 離開尚未儲存的工作套件時提示我

@@ -721,6 +721,7 @@
     placeholders:
       default: "-"
       description: 'Beskrivelse: Klikk for å redigere...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klikk for å legge til beskrivelse for denne relasjonen
       selection: Vennligst velg
       subject: Angi emne her

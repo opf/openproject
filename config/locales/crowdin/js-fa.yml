@@ -721,6 +721,7 @@ fa:
     placeholders:
       default: "-"
       description: 'توضیحات: برای ویرایش کلیک کنید...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: برای افزودن توضیح به این رابطه کلیک کنید
       selection: لطفاً انتخاب کنید
       subject: موضوع را اینجا وارد کنید

@@ -757,6 +757,7 @@ hu:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kapcsolat leírásának hozzáadása ide kattintva
       selection: Kérem válasszon
       subject: Itt adja meg a témát

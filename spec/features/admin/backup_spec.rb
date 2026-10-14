@@ -117,9 +117,9 @@ RSpec.describe "backup", :js, :selenium do
 
     expect(page).to have_content /#{I18n.t('js.backup.title')}/i
 
-    click_on I18n.t("backup.label_delete_token")
-
-    page.driver.browser.switch_to.alert.accept
+    accept_confirm do
+      click_on I18n.t("backup.label_delete_token")
+    end
 
     expect(page).to have_content I18n.t("backup.text_token_deleted")
 

@@ -721,6 +721,7 @@ eo:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klaki por aldoni priskribon al tiu ĉi rilato
       selection: Bonvolu elekti
       subject: Enter subject here

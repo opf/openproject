@@ -143,6 +143,10 @@ vi:
     meeting_agenda_opened: Đã mở chương trình họp
     meeting_minutes: Biên bản họp đã được chỉnh sửa
     meeting_minutes_created: Đã tạo biên bản cuộc họp
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
   label_add_work_package_to_meeting_dialog_title: Chọn cuộc họp
   label_add_work_package_to_meeting_section_label: phần
@@ -151,6 +155,8 @@ vi:
   label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
   label_agenda_item_actions: Hành động của mục chương trình nghị sự
   label_agenda_item_add: Thêm mục chương trình nghị sự
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Thêm ghi chú
   label_agenda_item_add_outcome: Thêm kết quả
   label_agenda_item_convert_to_work_package: Convert to work package

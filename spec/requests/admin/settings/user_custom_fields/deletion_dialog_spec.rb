@@ -28,12 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module HighlightingHelper
-  def highlight_css_version_tag(max_updated_at = highlight_css_updated_at)
-    OpenProject::Cache::CacheKey.expand [max_updated_at, Meetings::Statuses::AVAILABLE]
+require "spec_helper"
+
+RSpec.describe "Admin user custom field deletion dialog", :skip_csrf, type: :rails_request do
+  shared_let(:admin) { create(:admin) }
+  shared_let(:non_admin) { create(:user) }
+
+  let(:custom_field) { create(:user_custom_field, name: "Existing field") }
+  let(:deletion_dialog_path) { deletion_dialog_admin_settings_user_custom_field_path(custom_field) }
+
+  it "denies non-admins" do
+    login_as non_admin
+    get deletion_dialog_path
+    expect(response).to have_http_status(:forbidden)
   end
 
-  def highlight_css_updated_at
-    ApplicationRecord.most_recently_changed Status, IssuePriority, Type, Color, Project::PhaseDefinition
+  describe "GET deletion_dialog" do
+    context "as an admin" do
+      before { login_as(admin) }
+
+      it "renders the deletion dialog as a turbo stream" do
+        get deletion_dialog_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("Delete custom field Existing field")
+      end
+    end
   end
 end

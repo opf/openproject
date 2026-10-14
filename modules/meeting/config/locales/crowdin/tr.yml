@@ -152,6 +152,10 @@ tr:
     meeting_agenda_opened: Toplantı gündemi açıldı
     meeting_minutes: Toplantı dakikaları düzenlendi
     meeting_minutes_created: Toplantı tutanakları oluşturuldu
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Toplantıya ekle
   label_add_work_package_to_meeting_dialog_title: Toplantı seç
   label_add_work_package_to_meeting_section_label: Bölüm
@@ -160,6 +164,8 @@ tr:
   label_agenda_backlog_clear_title: Gündemdeki birikmiş iş listesi temizlensin mi?
   label_agenda_item_actions: Gündem maddeleri için eylemler
   label_agenda_item_add: Gündem maddesi ekle
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Not ekle
   label_agenda_item_add_outcome: Sonuç ekle
   label_agenda_item_convert_to_work_package: Convert to work package

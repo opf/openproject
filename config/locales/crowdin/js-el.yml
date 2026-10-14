@@ -721,6 +721,7 @@ el:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Κάντε κλικ για να προσθέσετε περιγραφή για αυτή την σχέση
       selection: Παρακαλώ επιλέξτε
       subject: Εισάγετε θέμα εδώ

@@ -22,13 +22,23 @@ RSpec.describe "Watcher tab", :js, :selenium do
   let!(:user) { create(:user, member_with_roles: { project => role }) }
   let!(:other_user) { create(:user, firstname: "Other", member_with_roles: { project => role }) }
 
-  let(:watch_button) { find_by_id "watch-button" }
   let(:watchers_tab) { find(".op-tab-row--link_selected", text: "WATCHERS") }
+
+  def toggle_watching(watched:)
+    current_button = watched ? "#watch-button" : "#unwatch-button"
+    expected_button = watched ? "#unwatch-button" : "#watch-button"
+    find(current_button, wait: 20).click
+
+    page.document.synchronize(30) do
+      persisted = work_package.reload.watched_by?(user) == watched
+      raise Capybara::ElementNotFound unless persisted && page.has_css?(expected_button, wait: 0)
+    end
+  end
 
   def expect_button_is_watching
     title = I18n.t("js.label_unwatch_work_package")
-    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 10)
-    expect(page).to have_css("#unwatch-button .button--icon[eye-icon]", wait: 10)
+    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 30)
+    expect(page).to have_css("#unwatch-button .button--icon[eye-icon]")
   end
 
   def expect_button_is_not_watching
@@ -42,14 +52,14 @@ RSpec.describe "Watcher tab", :js, :selenium do
       # Expect WP watch button is in not-watched state
       expect_button_is_not_watching
       expect(page).not_to have_test_selector("op-wp-watcher-name")
-      watch_button.click
+      toggle_watching(watched: true)
 
       # Expect WP watch button causes watcher list to add user
       expect_button_is_watching
       expect(page).to have_test_selector("op-wp-watcher-name", count: 1, text: user.name)
 
       # Expect WP unwatch button causes watcher list to remove user
-      watch_button.click
+      toggle_watching(watched: false)
       expect_button_is_not_watching
       expect(page).not_to have_test_selector("op-wp-watcher-name")
     end

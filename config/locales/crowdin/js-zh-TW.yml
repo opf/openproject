@@ -720,6 +720,7 @@ zh-TW:
     placeholders:
       default: "-"
       description: 描述：點選可編輯
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 按一下以便為此關係添加描述
       selection: 請選擇
       subject: 在此輸入名稱

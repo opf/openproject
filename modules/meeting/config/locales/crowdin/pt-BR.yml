@@ -152,6 +152,10 @@ pt-BR:
     meeting_agenda_opened: Agenda da reunião aberta
     meeting_minutes: Ata da reunião editada
     meeting_minutes_created: Ata da reunião criada
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Adicionar à reunião
   label_add_work_package_to_meeting_dialog_title: Selecionar reunião
   label_add_work_package_to_meeting_section_label: Seção
@@ -160,6 +164,8 @@ pt-BR:
   label_agenda_backlog_clear_title: Limpar backlog da agenda?
   label_agenda_item_actions: Ações dos itens da agenda
   label_agenda_item_add: Adicionar item da agenda
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Adicionar anotações
   label_agenda_item_add_outcome: Adicionar resultado
   label_agenda_item_convert_to_work_package: Converter para pacote de trabalho

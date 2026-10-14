@@ -1,7 +1,17 @@
 {
-  "name": "op-blocknote-extensions",
-  "private": true,
-  "version": "0.3.1",
+  "name": "@openproject/op-blocknote-extensions",
+  "version": "0.3.2",
+  "description": "Extensions for BlockNote for integrating with OpenProject",
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opf/openproject.git",
+    "directory": "extensions/op-blocknote-extensions"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "type": "module",
   "module": "./dist/op-blocknote-extensions.es.js",
   "types": "./dist/index.d.ts",
@@ -69,7 +79,7 @@
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.70.1",
+    "typescript-eslint": "^8.71.0",
     "vite": "^8.3.1",
     "vitest": "^4.1.10",
     "vitest-browser-react": "^2.3.0"

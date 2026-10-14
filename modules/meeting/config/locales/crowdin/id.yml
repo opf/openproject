@@ -143,6 +143,10 @@ id:
     meeting_agenda_opened: Agenda rapat dibuka
     meeting_minutes: Laporan rapat diedit
     meeting_minutes_created: Laporan rapat dibuat
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Tambahkan ke rapat
   label_add_work_package_to_meeting_dialog_title: Pilih rapat
   label_add_work_package_to_meeting_section_label: Bagian
@@ -151,6 +155,8 @@ id:
   label_agenda_backlog_clear_title: Hapus backlog agenda?
   label_agenda_item_actions: Tindakan item agenda
   label_agenda_item_add: Tambahkan item agenda
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Tambahkan catatan
   label_agenda_item_add_outcome: Tambahkan hasil
   label_agenda_item_convert_to_work_package: Convert to work package

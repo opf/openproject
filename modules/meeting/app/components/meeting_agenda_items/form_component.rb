@@ -35,7 +35,7 @@ module MeetingAgendaItems
     include OpPrimer::ComponentHelpers
 
     def initialize(meeting:, meeting_section:, meeting_agenda_item:, method:, submit_path:, cancel_path:, type: :simple,
-                   display_notes_input: nil)
+                   display_notes_input: nil, key: nil)
       super
       @meeting = meeting
       @meeting_section = meeting_section
@@ -45,11 +45,12 @@ module MeetingAgendaItems
       @cancel_path = cancel_path
       @type = type
       @display_notes_input = display_notes_input
+      @key = key
       @autofocus = display_notes_input.blank?
     end
 
     def wrapper_uniq_by
-      @meeting_agenda_item.persisted? ? @meeting_agenda_item.id : "new"
+      @key || (@meeting_agenda_item.persisted? ? @meeting_agenda_item.id : "new")
     end
 
     def render?

@@ -38,7 +38,6 @@ module EmojiReactions
     validate :manage_emoji_reactions_permission?
     validate :validate_user_exists
     validate :validate_acting_user
-    validate :validate_reactable_exists
 
     def self.model = EmojiReaction
 
@@ -50,10 +49,6 @@ module EmojiReactions
 
     def validate_acting_user
       errors.add :user, :invalid unless model.user_id == user.id
-    end
-
-    def validate_reactable_exists
-      errors.add :reactable, :not_found if model.reactable.blank?
     end
 
     def manage_emoji_reactions_permission?

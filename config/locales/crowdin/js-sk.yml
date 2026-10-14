@@ -723,6 +723,7 @@ sk:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknutím pridáte popis tohto vzťahu
       selection: Prosím, vyberte
       subject: Sem zadajte predmet

@@ -162,6 +162,16 @@ RSpec.describe MeetingAgendaItems::ItemComponent::ShowComponent, type: :componen
         expect(rendered_component).to have_no_text("First slide")
         expect(rendered_component).to have_no_css("hr")
       end
+
+      context "with vote-based sorting" do
+        before { meeting.update!(agenda_sorting_mode: :vote_based) }
+
+        it "renders only the current slide alongside the vote count" do
+          expect(rendered_component).to have_text("Second slide")
+          expect(rendered_component).to have_no_text("First slide")
+          expect(rendered_component).to have_css('[data-test-selector="agenda-item-vote-score"]')
+        end
+      end
     end
 
     context "when not in presentation mode" do

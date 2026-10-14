@@ -468,6 +468,8 @@ ko:
         increase_contrast_caption: 선택한 색상 모드에 대한 고대비 모드를 활성화합니다.
         increase_theme_contrast: 테마 대비 증가
         mode_guideline: 일부 모드에서는 접근성과 가독성을 위해 사용자 지정 테마 색상을 덮어씁니다. 전체 사용자 지정 테마 지원을 위해서는 라이트 모드를 선택하세요.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 색상 모드
         time_zone: 표준 시간대
         warn_on_leaving_unsaved: 저장하지 않고 작업 패키지를 벗어날 때 알려주세요.

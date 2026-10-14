@@ -170,6 +170,10 @@ ru:
     meeting_agenda_opened: Повестка совещания открыта
     meeting_minutes: Править  протокол заседания
     meeting_minutes_created: Создан протокол заседания
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Добавить в совещание
   label_add_work_package_to_meeting_dialog_title: Выберите совещание
   label_add_work_package_to_meeting_section_label: Раздел
@@ -178,6 +182,8 @@ ru:
   label_agenda_backlog_clear_title: Очистить бэклог по повестке дня?
   label_agenda_item_actions: Действия по пунктам повестки
   label_agenda_item_add: Добавить пункт повестки
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Добавить заметки
   label_agenda_item_add_outcome: Добавить итог
   label_agenda_item_convert_to_work_package: Преобразовать в пакет работ

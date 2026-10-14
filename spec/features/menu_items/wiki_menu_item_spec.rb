@@ -89,11 +89,13 @@ RSpec.describe "Wiki menu items", :js do
 
     # creating the menu item with the pages name for the menu item
     page.find_test_selector("wiki-more-dropdown-menu").click
-    page.find_test_selector("wiki-configure-menu-action-menu-item").click
+    wait_for_turbo do
+      page.find_test_selector("wiki-configure-menu-action-menu-item").click
+    end
 
     choose "Show as menu item in project navigation"
 
-    click_link_or_button "Save"
+    wait_for_turbo { click_link_or_button "Save" }
 
     expect(page)
       .to have_css(".main-menu--children-menu-header", text: wiki_page.title)
@@ -111,13 +113,13 @@ RSpec.describe "Wiki menu items", :js do
     # modifying the menu item to a different name
 
     page.find_test_selector("wiki-more-dropdown-menu").click
-    page.find_test_selector("wiki-configure-menu-action-menu-item").click
-    wait_for_network_idle
+    wait_for_turbo do
+      page.find_test_selector("wiki-configure-menu-action-menu-item").click
+    end
 
     fill_in "Name of menu item", with: "Custom page name"
 
-    click_link_or_button "Save"
-    wait_for_network_idle
+    wait_for_turbo { click_link_or_button "Save" }
 
     # the custom name is used as the main heading
     expect(page)

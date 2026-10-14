@@ -72,6 +72,10 @@ module CustomFields
       op_routes.public_send(:"update_attribute_help_text_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
     end
 
+    def deletion_dialog_path(custom_field, *, **)
+      op_routes.public_send(:"deletion_dialog_admin_settings_#{cf_singular(custom_field)}_path", custom_field)
+    end
+
     private
 
     def cf_singular(subject)

@@ -170,6 +170,10 @@ uk:
     meeting_agenda_opened: Порядок зустрічей був відкритий
     meeting_minutes: Відредаговані хвилини наради
     meeting_minutes_created: Створено протокол зустрічей
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Додати до наради
   label_add_work_package_to_meeting_dialog_title: Вибрати нараду
   label_add_work_package_to_meeting_section_label: Розділ
@@ -178,6 +182,8 @@ uk:
   label_agenda_backlog_clear_title: Очистити чергу завдань порядку денного?
   label_agenda_item_actions: Дії з пунктами порядку денного
   label_agenda_item_add: Додати пункт порядку денного
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Додати примітки
   label_agenda_item_add_outcome: Додати результат
   label_agenda_item_convert_to_work_package: Перетворити в пакет робіт

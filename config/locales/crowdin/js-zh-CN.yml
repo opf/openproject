@@ -720,6 +720,7 @@ zh-CN:
     placeholders:
       default: "-"
       description: 描述：点击以编辑…
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 点击为此关系添加描述
       selection: 请选择
       subject: 在此处输入标题

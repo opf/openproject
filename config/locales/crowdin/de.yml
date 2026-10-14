@@ -468,6 +468,8 @@ de:
         increase_contrast_caption: Aktiviere hohen Kontrast für den gewählten Farbmodus.
         increase_theme_contrast: Kontrast erhöhen
         mode_guideline: Einige Modi überschreiben benutzerdefinierte Theme-Farben zur Verbesserung von Barrierefreiheit und Lesbarkeit. Bitte wählen Sie den Hellmodus für die vollständige Unterstützung Ihres benutzerdefinierten Themes.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Farbmodus
         time_zone: Zeitzone
         warn_on_leaving_unsaved: Beim Verlassen einer Arbeitspaket-Seite mit ungespeichertem Text warnen

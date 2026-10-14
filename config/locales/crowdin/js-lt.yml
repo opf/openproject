@@ -723,6 +723,7 @@ lt:
     placeholders:
       default: "-"
       description: 'Aprašymas: spauskite, kad keistumėte...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Paspauskite, kad pridėtumėte šio ryšio aprašymą
       selection: Prašome pasirinkti
       subject: Įveskite temą čia

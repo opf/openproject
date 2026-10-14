@@ -4,6 +4,7 @@ module Components
   class GlobalSearch
     include Capybara::DSL
     include Capybara::RSpecMatchers
+    include Components::Autocompleter::NgSelectAutocompleteHelpers
     include RSpec::Matchers
 
     def container
@@ -63,15 +64,15 @@ module Components
     end
 
     def submit_in_project_and_subproject_scope
-      page.find('.global-search--project-scope[title="current_project_and_all_descendants"]', wait: 10).click
+      submit_in_scope("current_project_and_all_descendants")
     end
 
     def submit_in_current_project
-      page.find('.global-search--project-scope[title="current_project"]', wait: 10).click
+      submit_in_scope("current_project")
     end
 
     def submit_in_global_scope
-      page.find('.global-search--project-scope[title="all_projects"]', wait: 10).click
+      submit_in_scope("all_projects")
     end
 
     def expect_global_scope_marked
@@ -89,32 +90,40 @@ module Components
         .to have_css(".global-search--project-scope", text:, wait: 10)
     end
 
-    def expect_work_package_marked(wp)
+    def expect_work_package_marked(work_package)
       expect(page)
-        .to have_css(".ng-option-marked", text: wp.subject.to_s, wait: 10)
+        .to have_css(".ng-option-marked", text: work_package.subject.to_s, wait: 10)
     end
 
-    def expect_work_package_option(wp)
+    def expect_work_package_option(work_package)
       expect(page)
-        .to have_css(".global-search .ng-option", text: wp.subject.to_s, wait: 10)
+        .to have_css(".global-search .ng-option", text: work_package.subject.to_s, wait: 20)
     end
 
-    def expect_no_work_package_option(wp)
+    def expect_no_work_package_option(work_package)
       expect(page)
-        .to have_no_css(".global-search .ng-option", text: wp.subject.to_s)
+        .to have_no_css(".global-search .ng-option", text: work_package.subject.to_s)
     end
 
-    def click_work_package(wp)
-      find_work_package(wp).click
+    def click_work_package(work_package)
+      find_work_package(work_package).click
     end
 
-    def find_work_package(wp)
-      find_option wp.subject.to_s
+    def submit_in_scope(scope)
+      scope_selector = ".global-search--project-scope[title=\"#{scope}\"]"
+
+      page.document.synchronize(20) do
+        page.find(scope_selector, wait: 0).ancestor("a").click if page.has_css?(scope_selector, wait: 0)
+        raise Capybara::ElementNotFound if page.has_css?(".global-search .ng-dropdown-panel", visible: :visible, wait: 0)
+      end
+    end
+
+    def find_work_package(work_package)
+      find_option work_package.subject.to_s
     end
 
     def find_option(text)
-      expect(page).to have_css(".global-search .op-autocompleter--wp-subject", text:, wait: 10)
-      find(".global-search .op-autocompleter--wp-subject", text:)
+      find(".global-search .op-autocompleter--wp-subject", text:, wait: 10)
     end
 
     def cancel

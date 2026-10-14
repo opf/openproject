@@ -87,14 +87,20 @@ module RecurringMeetings
         clear_existing_content
         copy_agenda_from_template
         copy_participants_from_template
-        meeting.update!(
-          { title: template.title, location: template.location, duration: template.duration }
-            .merge(extra_params)
-        )
+        meeting.update!(reset_template_params)
         journalize_copied_agenda(meeting)
       end
 
       true
+    end
+
+    def reset_template_params
+      {
+        title: template.title,
+        location: template.location,
+        duration: template.duration,
+        agenda_sorting_mode: template.agenda_sorting_mode
+      }.merge(extra_params)
     end
 
     def clear_existing_content

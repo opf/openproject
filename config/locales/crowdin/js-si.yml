@@ -721,6 +721,7 @@ si:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: මෙම සම්බන්ධයෙන් විස්තර එකතු කිරීමට ක්ලික් කරන්න
       selection: කරුණාකර තෝරන්න
       subject: මෙහි විෂය ඇතුලත් කරන්න

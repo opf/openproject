@@ -468,6 +468,8 @@ zh-CN:
         increase_contrast_caption: 为选定的颜色模式启用高对比度模式。
         increase_theme_contrast: 增加主题对比度
         mode_guideline: 某些模式将覆盖自定义主题颜色，以提升无障碍性和可读性。请选择“浅色”模式，以实现对自定义主题的全面支持。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 颜色模式
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我

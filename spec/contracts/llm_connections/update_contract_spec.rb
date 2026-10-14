@@ -59,6 +59,16 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
   context "when the server rejects the credentials" do
     let!(:models_request) { mock_llm_models_response(base_url, response_code: 401) }
 
+    it "logs the failure by connection, without the URL it probed" do
+      logged = []
+      allow(Rails.logger).to receive(:info) { |*args, &block| logged << (block ? block.call : args.first) }
+
+      contract.validate
+
+      expect(logged.join).to include("connection #{connection.id}")
+      expect(logged.join).not_to include("example.com")
+    end
+
     include_examples "contract is invalid", api_key: :invalid_api_key
   end
 
@@ -249,6 +259,87 @@ RSpec.describe LlmConnections::UpdateContract, :check_errors_i18n, :llm_server_h
 
       expect(contract.validate).to be(true)
       expect(models_request).not_to have_been_made
+    end
+  end
+
+  describe "the lock while the environment configures the connection" do
+    before { allow(Setting).to receive(:llm_connection).and_return({ "base_url" => base_url }) }
+
+    context "when the environment has not written the connection yet" do
+      include_examples "contract is valid"
+    end
+
+    context "when the environment has written the connection" do
+      let(:connection) { create(:llm_connection, :provisioned_from_env, base_url: "https://previous.example/v1") }
+
+      include_examples "contract is invalid", base: :configured_via_env
+    end
+
+    context "when the environment wrote the connection after this save loaded it" do
+      before { LlmConnection.where(id: connection.id).update_all(env_provisioned_at: Time.current) }
+
+      include_examples "contract is invalid", base: :configured_via_env
+    end
+  end
+
+  context "when the save marks the connection as written by the environment" do
+    before { connection.env_provisioned_at = Time.current }
+
+    include_examples "contract is invalid", env_provisioned_at: :error_readonly
+  end
+
+  describe "default model selection" do
+    let(:connection) { create(:llm_connection, :with_models, base_url:) }
+
+    context "with a model the server offers" do
+      before { connection.default_chat_model = connection.models.find_by(external_id: "bge-m3") }
+
+      include_examples "contract is valid"
+    end
+
+    context "with a model the server does not offer" do
+      before { connection.default_chat_model_id = LlmModel.maximum(:id).to_i + 1 }
+
+      include_examples "contract is invalid", default_chat_model_id: :not_available
+    end
+
+    context "with a model the server says is an embedding model" do
+      before do
+        connection.capability_verdicts.create!(model_id: "bge-m3", capability: "embeddings",
+                                               state: "supported", source: "probe", checked_at: Time.current)
+        connection.default_chat_model = connection.models.find_by(external_id: "bge-m3")
+      end
+
+      include_examples "contract is invalid", default_chat_model_id: :cannot_chat
+    end
+
+    context "with an embedding model the server has ruled out" do
+      before do
+        connection.capability_verdicts.create!(model_id: "qwen3.6-27b", capability: "embeddings",
+                                               state: "unsupported", source: "probe", checked_at: Time.current)
+        connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b")
+      end
+
+      include_examples "contract is invalid", default_embedding_model_id: :cannot_embed
+    end
+
+    context "with an embedding model nothing has ruled out" do
+      before { connection.default_embedding_model = connection.models.find_by(external_id: "qwen3.6-27b") }
+
+      include_examples "contract is valid"
+    end
+
+    context "with a stored default the server has since withdrawn" do
+      before do
+        withdrawn_model = create(:llm_model, :withdrawn, llm_connection: connection)
+        connection.update_columns(default_chat_model_id: withdrawn_model.id)
+        connection.llm_features_enabled = true
+      end
+
+      it "still accepts an unrelated change" do
+        expect(connection.changed).not_to include("default_chat_model_id")
+        expect_contract_valid
+      end
     end
   end
 end

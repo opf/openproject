@@ -143,6 +143,10 @@ zh-CN:
     meeting_agenda_opened: 会议议程已开启
     meeting_minutes: 会议记录已编辑
     meeting_minutes_created: 会议记录已建立
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: 添加到会议
   label_add_work_package_to_meeting_dialog_title: 选择会议
   label_add_work_package_to_meeting_section_label: 节
@@ -151,6 +155,8 @@ zh-CN:
   label_agenda_backlog_clear_title: 清除议程待办事项？
   label_agenda_item_actions: 议程项目行动
   label_agenda_item_add: 添加议程项
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: 添加备注
   label_agenda_item_add_outcome: 添加成果
   label_agenda_item_convert_to_work_package: 转换为工作包

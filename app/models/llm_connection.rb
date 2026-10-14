@@ -53,6 +53,8 @@ class LlmConnection < ApplicationRecord
   belongs_to :default_chat_model, class_name: "LlmModel", optional: true
   belongs_to :default_embedding_model, class_name: "LlmModel", optional: true
   has_many :capability_verdicts, class_name: "LlmCapabilityVerdict", dependent: :delete_all
+  has_many :feature_bindings, class_name: "LlmFeatureBinding", dependent: :delete_all
+
   validates :base_url, presence: true
   validate :base_url_is_absolute_http, if: -> { base_url.present? }
   # The column is NOT NULL and +active_connection+ hands back an unsaved record
@@ -70,6 +72,28 @@ class LlmConnection < ApplicationRecord
     # Identifying attributes are left unset here and filled in by
     # LlmConnections::SetAttributesService as system changes, so that they do not
     # register as user-made changes to non-writable attributes.
+    # Keyed, so the stored value gives away nothing about the API key it covers.
+    def env_fingerprint(config = Setting.llm_connection)
+      key = Rails.application.key_generator.generate_key("llm connection environment")
+
+      OpenSSL::HMAC.hexdigest("SHA256", key, canonical_env(config).to_json)
+    end
+
+    # The same headers can reach the setting as a hash or as a JSON string, in
+    # any order.
+    def canonical_env(config)
+      env = config.to_h.transform_keys(&:to_s)
+      env["custom_headers"] = LlmConnections::EnvSyncService.custom_headers(env["custom_headers"])
+
+      sorted_deeply(env)
+    end
+
+    def sorted_deeply(value)
+      return value unless value.is_a?(Hash)
+
+      value.transform_keys(&:to_s).sort.to_h { |key, nested| [key, sorted_deeply(nested)] }
+    end
+
     def active_connection
       active.first || new(active: true)
     end
@@ -90,6 +114,27 @@ class LlmConnection < ApplicationRecord
   # from the environment is never probed, and must still count as configured.
   def configured?
     base_url.present?
+  end
+
+  def configured_from_env?
+    Setting.llm_connection.present? && provisioned_from_env?
+  end
+
+  # Reads the stored marker: SetAttributesService clears the attribute before the
+  # contract asks, which must not let a crafted save unlock the record.
+  def provisioned_from_env? = persisted? && env_provisioned_at_in_database.present?
+
+  def env_pending? = Setting.llm_connection.present? && !provisioned_from_env?
+
+  def env_changed_since_applied?
+    applied = env_fingerprint_in_database
+
+    configured_from_env? && applied.present? && applied != self.class.env_fingerprint
+  end
+
+  def env_named_default?(llm_model)
+    configured_from_env? &&
+      LlmModel::CONNECTION_DEFAULTS.any? { attribute_in_database(it) == llm_model.id }
   end
 
   # Every model that can be addressed today: discovered and still offered, plus
@@ -114,11 +159,72 @@ class LlmConnection < ApplicationRecord
     connection_fingerprint.present? && connection_fingerprint != settings_fingerprint
   end
 
+  def available_models
+    models.active.by_identifier
+  end
+
+  def chat_models
+    available_models.where(external_id: chat_model_ids)
+  end
+
+  def embedding_models
+    available_models.where(external_id: embedding_model_ids)
+  end
+
+  def embedding_capable_model_ids
+    capability_verdicts.for_capability(:embeddings).where(state: "supported").pluck(:model_id)
+  end
+
+  def embedding_model_ids = available_model_ids & embedding_capable_model_ids
+
+  def chat_model_ids = available_model_ids - embedding_model_ids
+
+  def default_model_for(feature) = feature.embedding? ? default_embedding_model : default_chat_model
+
   def server_flavour
     options["server_flavour"].presence&.to_sym
   end
 
+  # Whether a health check run may spend a real completion.
+  #
+  # Not a column: it describes the run, not the connection. An administrator
+  # asking to test the connection wants it; the scheduled re-check leaves it off
+  # so that a connection to a paid provider is not billed four times a day.
+  attr_accessor :deep_health_check
+
+  def deep_health_check? = ActiveModel::Type::Boolean.new.cast(deep_health_check).present?
+
+  def latest_health_report
+    health_reports.order(created_at: :asc).last
+  end
+
+  # Feeds the downloadable health report. Deliberately excludes api_key *and*
+  # custom_headers: a gateway header routinely carries a second credential, as
+  # can the userinfo or query string of base_url.
+  def non_confidential_configuration
+    {
+      base_url: base_url_without_credentials,
+      api_format:,
+      llm_features_enabled: Setting.llm_features_enabled?,
+      server_flavour: server_flavour&.to_s,
+      last_synced_at: last_synced_at&.utc&.iso8601,
+      last_connected_at: last_connected_at&.utc&.iso8601,
+      model_count: models.count,
+      manual_model_count: models.where(manual: true).count
+    }
+  end
+
   private
+
+  def base_url_without_credentials
+    uri = URI.parse(base_url)
+    uri.user = nil
+    uri.query = nil
+    uri.fragment = nil
+    uri.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
 
   def base_url_is_absolute_http
     uri = URI.parse(base_url)

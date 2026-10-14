@@ -152,6 +152,10 @@ fa:
     meeting_agenda_opened: دستور جلسه باز شد
     meeting_minutes: صورت‌جلسه ویرایش شد
     meeting_minutes_created: صورت‌جلسه ایجاد شد
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: افزودن به جلسه
   label_add_work_package_to_meeting_dialog_title: انتخاب جلسه
   label_add_work_package_to_meeting_section_label: بخش
@@ -160,6 +164,8 @@ fa:
   label_agenda_backlog_clear_title: بک‌لاگ دستور جلسه پاک شود؟
   label_agenda_item_actions: اقدامات موارد دستور جلسه
   label_agenda_item_add: افزودن مورد دستور جلسه
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: افزودن یادداشت
   label_agenda_item_add_outcome: افزودن نتیجه
   label_agenda_item_convert_to_work_package: تبدیل به بسته کاری

@@ -720,6 +720,7 @@ vi:
     placeholders:
       default: "-"
       description: 'Mô tả: Click để chỉnh sửa...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Nhấp để thêm mô tả cho mối quan hệ này
       selection: Vui lòng chọn
       subject: Nhập chủ đề vào đây

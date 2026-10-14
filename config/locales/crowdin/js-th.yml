@@ -720,6 +720,7 @@ th:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Click to add description for this relation
       selection: โปรดเลือก
       subject: Enter subject here

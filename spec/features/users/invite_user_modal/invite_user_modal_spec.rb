@@ -203,8 +203,10 @@ RSpec.describe "Invite user modal", :js do
     describe "through the assignee field" do
       let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
       let(:assignee_field) { wp_page.edit_field :assignee }
+      let(:additional_projects) { [] }
 
       before do
+        additional_projects
         wp_page.visit!
         retry_block do
           assignee_field.activate!
@@ -236,18 +238,19 @@ RSpec.describe "Invite user modal", :js do
           # target and the project asserted to be absent have to be ones the
           # current user is a member of. The modal preselects `project`, which
           # would therefore be missing from the dropdown either way.
-          let!(:target_project) do
+          let(:target_project) do
             create(:project,
                    name: "Alpha Initiative",
                    identifier: "zulu-target",
                    members: { current_user => role })
           end
-          let!(:other_project) do
+          let(:other_project) do
             create(:project,
                    name: "Beta Initiative",
                    identifier: "yankee-other",
                    members: { current_user => role })
           end
+          let(:additional_projects) { [target_project, other_project] }
 
           it_behaves_like "a project picker searchable by identifier" do
             let(:control_project) { other_project }

@@ -400,6 +400,10 @@ class WorkPackage < ApplicationRecord
     Project.allowed_to(user, :move_work_packages)
   end
 
+  def self.allowed_target_projects_on_copy(user)
+    Project.allowed_to(user, :copy_work_packages)
+  end
+
   # Returns a scope for the projects
   # the user is create a work package in
   def self.allowed_target_projects_on_create(user)
