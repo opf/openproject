@@ -130,6 +130,26 @@ The dialog shows text changes as a diff, and other changes as "old → new".
 
 An assistant can have several skills of the same type, for example "Refresh work package" and "Check scope against comments", each with its own label and prompt.
 
+## Core skills and agent skills
+
+Some skills run in OpenProject (core skills), and some run in an external agent (agent skills). The user does not see the difference.
+
+- **Core skill:** it reads one work package, makes one LLM call through the LLM connection, and proposes changes to that work package in the Automations vocabulary. Refresh work package, Chat and Custom prompt are core skills.
+- **Agent skill:** it creates or links several objects, uses tools in a loop, runs for minutes, or reaches systems outside OpenProject. Break down into tasks and the coding agent are agent skills. See [Agent integration](./2026-10-14-agents.md).
+- **Neither:** a feature with one correct result, for example PDF generation or the health check rules, stays deterministic code.
+
+**One user experience.** Both kinds are entries in the same menu, use the same dialog, show their proposals on the same cards, and are listed in the same History. Every change in the activity tab names the user and the assistant or agent that proposed it.
+
+**Who decides where something runs:**
+
+1. **The skill type** (admin time): a core skill type runs in core; an agent skill type runs in the agent connection that the admin selects.
+2. **The operation** (answer time): a field change or a comment is applied by core through `ApplyProposalService`. Creating work packages and relations is done by the agent after the user confirms.
+3. **The apply step** (apply time): core checks the user's permissions before anything runs, also for the agent.
+
+The model and the user never decide it.
+
+**Why not everything in the agent:** every instance would need a running agent, even for a summary; the agent would depend on the MCP server, which is an Enterprise add-on; one LLM call is faster and cheaper than an agent run; and the contract between core and the agent must stay compatible across releases.
+
 ## Prepared for an Automations trigger model
 
 The code does not have triggers, but it uses the shapes that a trigger model needs:
@@ -200,7 +220,7 @@ Steps 1 and 2 are useful on their own and can merge first. After step 8, the fea
 
 ## Follow-ups
 
-- **Coding agent.** Start an external coding agent (opilot) from the menu. The OpenProject work is in [Coding agent integration](./coding-agent.md).
+- **Agent skills.** Start an external agent (opilot first) from the menu: Break down into tasks, then the coding agent. The OpenProject work is in [Agent integration](./2026-10-14-agents.md).
 - **Enterprise gate.** Gate the menu, the runs and the admin pages behind the existing `custom_actions` enterprise feature, as the last step.
 - **Specs.** The model, rule, service, request and component specs cover steps 1–9. Steps 10–16 need specs, and the toolbar needs browser specs (full view and split view).
 - **Automations can run a skill.** A "Run assistant skill" action type that uses `after_success` and starts a run with `trigger: "automation"`. It gives skills the triggers of Automations. The result is still a proposal. The action offers only the skills of global assistants: a personal skill must not run for other users.
