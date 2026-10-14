@@ -1,7 +1,7 @@
 # /api/v3/spec.yml
 ---
 get:
-  summary: Get specification
+  summary: Get specification (YAML)
   operationId: get_spec
   tags:
     - OpenAPI
