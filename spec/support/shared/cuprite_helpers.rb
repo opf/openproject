@@ -77,6 +77,13 @@ def clear_input_field_contents(input_element)
   input_element.native.node.type(*backspaces)
 end
 
+def send_keys_without_click(element, *keys)
+  return element.send_keys(*keys) unless using_cuprite?
+
+  element.native.node.focus
+  page.driver.browser.keyboard.type(*keys)
+end
+
 # Waits for CKEditor to be fully initialized.
 #
 # CKEditor is an Angular component (`opce-ckeditor-augmented-textarea`)
