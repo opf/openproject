@@ -34,7 +34,7 @@ class Tables::PushSubscriptions < Tables::Base
   def self.table(migration)
     create_unlogged_table migration do |t|
       t.references :user, null: false, foreign_key: { on_delete: :cascade }
-      t.references :session, null: false, foreign_key: { on_delete: :cascade }
+      t.references :session, null: false, index: { unique: true }, foreign_key: { on_delete: :cascade }
       t.text :endpoint, null: false
 
       t.timestamps

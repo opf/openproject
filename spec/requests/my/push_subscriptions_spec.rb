@@ -97,6 +97,15 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(existing.reload.session).to eq(current_session_row)
       end
 
+      it "replaces this session's subscription when the browser posts a new endpoint" do
+        stale = create(:push_subscription, user:, session: current_session_row)
+
+        subscribe(endpoint)
+
+        expect(PushSubscription.where(session: current_session_row)).to contain_exactly(have_attributes(endpoint:))
+        expect(PushSubscription.exists?(stale.id)).to be(false)
+      end
+
       it "retries once when a concurrent request stored the endpoint first" do
         existing = create(:push_subscription, user:, endpoint:)
         calls = 0
@@ -116,6 +125,15 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(response).to have_http_status(:ok)
         expect(calls).to eq(2)
         expect(existing.reload.user).to eq(user)
+      end
+
+      it "keeps this session's subscription when the new endpoint is rejected" do
+        stale = create(:push_subscription, user:, session: current_session_row)
+
+        subscribe("https://evil.example/x")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(PushSubscription.exists?(stale.id)).to be(true)
       end
 
       it "rejects an endpoint that is not a push service" do
@@ -197,6 +215,15 @@ RSpec.describe "My::PushSubscriptionsController",
         expect(response).to have_http_status(:ok)
         assert_select "turbo-stream[action=replace][target=my-push-subscriptions]"
         assert_select "turbo-stream[action=flash] template", text: /#{Regexp.escape(revoked_message)}/
+        expect(PushSubscription.exists?(subscription.id)).to be(false)
+      end
+
+      it "answers a silent turbo stream request without the flash" do
+        delete "/my/push_subscriptions/#{subscription.id}", params: { silent: true }, headers: turbo_headers
+
+        expect(response).to have_http_status(:ok)
+        assert_select "turbo-stream[action=replace][target=my-push-subscriptions]"
+        assert_select "turbo-stream[action=flash]", count: 0
         expect(PushSubscription.exists?(subscription.id)).to be(false)
       end
 

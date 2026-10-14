@@ -70,13 +70,26 @@ module My
         subscription = PushSubscription.find_or_initialize_by(endpoint:)
         return takeover_refused_result(subscription) if held_by_another_user?(subscription)
 
-        ::PushSubscriptions::CreateService
-          .new(user: current_user, model: subscription)
-          .call(user: current_user, session_id: current_session_row_id)
+        replace_session_subscription(subscription)
       rescue ActiveRecord::RecordNotUnique
         retry if attempts < 2
         raise
       end
+    end
+
+    def replace_session_subscription(subscription)
+      session_id = current_session_row_id
+      result = nil
+
+      PushSubscription.transaction do
+        PushSubscription.where(session_id:).where.not(endpoint: subscription.endpoint).delete_all
+        result = ::PushSubscriptions::CreateService
+          .new(user: current_user, model: subscription)
+          .call(user: current_user, session_id:)
+        raise ActiveRecord::Rollback if result.failure?
+      end
+
+      result
     end
 
     def held_by_another_user?(subscription)
@@ -96,12 +109,16 @@ module My
 
     def render_destroy_streams(result)
       if result.success?
-        render_success_flash_message_via_turbo_stream(message: I18n.t("my_account.push_notifications.revoked"))
+        render_revoked_flash unless params[:silent]
       else
         render_error_flash_message_via_turbo_stream(message: result.errors.full_messages.to_sentence)
       end
 
       render_devices
+    end
+
+    def render_revoked_flash
+      render_success_flash_message_via_turbo_stream(message: I18n.t("my_account.push_notifications.revoked"))
     end
 
     def redirect_after_destroy(result)

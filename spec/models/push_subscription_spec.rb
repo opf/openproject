@@ -79,4 +79,9 @@ RSpec.describe PushSubscription do
     expect(duplicate).not_to be_valid
     expect(duplicate.errors).to be_added(:endpoint, :taken, value: subscription.endpoint)
   end
+
+  it "allows only one subscription per session at the database level" do
+    expect { create(:push_subscription, user:, session: subscription.session) }
+      .to raise_error(ActiveRecord::RecordNotUnique)
+  end
 end
