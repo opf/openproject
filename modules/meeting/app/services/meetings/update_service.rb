@@ -65,7 +65,7 @@ module Meetings
       return unless meeting.notify?
       return if invited_user_ids.sort == @invited_user_ids_before.sort
 
-      meeting.touch_and_save_journals
+      meeting.save_journals
       Meetings::NotificationDebounceJob.debounce(meeting, since_invited_ids: @invited_user_ids_before)
     end
 

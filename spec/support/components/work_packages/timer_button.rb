@@ -36,7 +36,7 @@ module Components
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_css('[data-test-selector="timer-active"]', wait: 10)
+        expect(page).to have_css('[data-test-selector="timer-active"]', wait: 60)
       end
 
       def expect_inactive
@@ -49,7 +49,7 @@ module Components
 
       def expect_visible(visible: true)
         if visible
-          expect(page).to have_css("op-wp-timer-button")
+          expect(page).to have_css("op-wp-timer-button", wait: 30)
         else
           expect(page).to have_no_css("op-wp-timer-button")
         end

@@ -35,7 +35,7 @@ require "support/permission_specs"
 RSpec.describe ProjectsController, "add_project permission", type: :controller do
   include PermissionSpecs
 
-  check_permission_required_for("projects#new", :add_project)
-  check_permission_required_for("projects#create", :add_project)
+  check_global_permission_required_for("projects#new", :add_project)
+  check_global_permission_required_for("projects#create", :add_project)
 end
 # rubocop:enable RSpec/EmptyExampleGroup,RSpec/SpecFilePathFormat

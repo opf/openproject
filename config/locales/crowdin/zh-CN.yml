@@ -399,6 +399,8 @@ zh-CN:
         ongoing: 正在进行的
         spent_on: 日期
         type: 类型
+      token/base:
+        expires_on: Expiration date
       token/ical:
         calendar: 日历
         ical_token_query_assignment: 查询任务
@@ -466,6 +468,8 @@ zh-CN:
         increase_contrast_caption: 为选定的颜色模式启用高对比度模式。
         increase_theme_contrast: 增加主题对比度
         mode_guideline: 某些模式将覆盖自定义主题颜色，以提升无障碍性和可读性。请选择“浅色”模式，以实现对自定义主题的全面支持。
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: 颜色模式
         time_zone: 时区
         warn_on_leaving_unsaved: 离开未保存更改的工作包时提示我
@@ -4772,6 +4776,12 @@ zh-CN:
           create_button: 创建
           dialog_body: 此令牌将允许第三方应用程序与您的实例通信。为了区分新的 API 令牌，请为其命名。
           dialog_title: 创建新的 API 令牌
+          expires_on_caption: The token stays valid until the end of the selected day.
+          expiry_custom: Custom date
+          expiry_label: Expiration
+          expiry_never: No expiration
+          expiry_preset:
+            other: "%{count} days (%{date})"
           name_label: 令牌名称
       failed_to_create_token: 创建访问令牌失败： %{error}
       failed_to_reset_token: '无法重置访问令牌: %{error}'
@@ -4801,6 +4811,7 @@ zh-CN:
     access_tokens:
       access_tokens: 访问令牌
       description: 提供商令牌由 OpenProject 签发，允许其他应用程序访问。客户端令牌由其他应用程序签发，允许 OpenProject 对其进行访问。
+      expired_on: Expired on %{date}
       headers:
         action: 操作
         expiration: 过期

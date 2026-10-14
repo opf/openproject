@@ -46,6 +46,16 @@ module CustomFieldsHelper
     case field_format.try(:edit_as)
     when "date"
       angular_component_tag "opce-basic-single-date-picker",
+                            class: "form--text-field-container",
+                            inputs: {
+                              required: custom_field.required?,
+                              id: field_id,
+                              name: field_name,
+                              value:
+                            }
+    when "datetime"
+      angular_component_tag "opce-basic-single-datetime-picker",
+                            class: "form--text-field-container",
                             inputs: {
                               required: custom_field.required?,
                               id: field_id,

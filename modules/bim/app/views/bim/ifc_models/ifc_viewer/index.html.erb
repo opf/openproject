@@ -33,8 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
           name: "openproject_ifc_models",
           data: {
             models: ifc_model_data_object(@ifc_models, @shown_model_ids).to_json
-          }
-  %>
+          } %>
 <% end %>
 <% unconverted = @shown_ifc_models.reject(&:converted?) %>
 

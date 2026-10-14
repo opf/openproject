@@ -121,6 +121,8 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
     click_on "Delete"
     expect(page).to have_test_selector("op-custom-fields--delete-item-dialog")
     check "I understand that this deletion cannot be reversed.", allow_label_click: true
+    expect(page).to have_checked_field("I understand that this deletion cannot be reversed.")
+    expect(page).to have_button("Delete permanently", disabled: false)
     click_on "Delete permanently"
     expect(page).not_to have_test_selector("op-custom-fields--delete-item-dialog")
     expect(page).to have_test_selector("op-custom-fields--hierarchy-item", count: 1)

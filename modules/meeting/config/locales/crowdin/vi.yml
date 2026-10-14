@@ -143,6 +143,10 @@ vi:
     meeting_agenda_opened: Đã mở chương trình họp
     meeting_minutes: Biên bản họp đã được chỉnh sửa
     meeting_minutes_created: Đã tạo biên bản cuộc họp
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
   label_add_work_package_to_meeting_dialog_title: Chọn cuộc họp
   label_add_work_package_to_meeting_section_label: phần
@@ -151,6 +155,8 @@ vi:
   label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
   label_agenda_item_actions: Hành động của mục chương trình nghị sự
   label_agenda_item_add: Thêm mục chương trình nghị sự
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Thêm ghi chú
   label_agenda_item_add_outcome: Thêm kết quả
   label_agenda_item_convert_to_work_package: Convert to work package
@@ -472,6 +478,7 @@ vi:
       no_items: Không có mục chương trình nghị sự
       no_items_flash: Không có mục chương trình nghị sự để trình bày.
       previous: trước đó
+      slide_progress: Slide %{current}/%{total}
       title: Chế độ trình bày
       total_items: "%{current} trong số %{total}"
     types:
@@ -680,6 +687,7 @@ vi:
   text_agenda_item_duplicate_in_next_meeting: Bạn có chắc chắn muốn thêm bản sao của mục chương trình này vào cuộc họp tiếp theo, vào %{date} lúc %{time} không? Kết quả sẽ không bị trùng lặp.
   text_agenda_item_duplicated_in_next_meeting: Mục chương trình nghị sự được sao chép trong cuộc họp tiếp theo, vào ngày %{date}
   text_agenda_item_move_next_meeting: Mục này sẽ được chuyển sang cuộc họp tiếp theo vào %{date} lúc %{time}.
+  text_agenda_item_moved_to_backlog: Agenda item moved to the backlog
   text_agenda_item_moved_to_next_meeting: Mục chương trình nghị sự đã được chuyển sang cuộc họp tiếp theo, vào %{date}
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
   text_agenda_item_no_notes: Không có ghi chú nào được cung cấp

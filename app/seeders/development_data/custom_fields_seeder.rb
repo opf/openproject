@@ -39,7 +39,7 @@ module DevelopmentData
     end
 
     def all_cfs
-      %w(string text date list multilist int intrange float floatrange bool user version)
+      %w(string text date datetime list multilist int intrange float floatrange bool user version)
     end
 
     def create_types!(cfs)

@@ -33,6 +33,7 @@ module My
     class ListComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include OpStimulus::ControllerData
       include My::WorkHelper
 
       options time_entries: [],
@@ -44,12 +45,12 @@ module My
       private
 
       def wrapper_data
-        {
-          "controller" => "my--work",
-          "my--work-mode-value" => mode,
-          "my--work-view-mode-value" => "list",
-          "my--work-entries-value" => entries
-        }
+        stimulus_controller_data(
+          "my--work",
+          entries:,
+          mode:,
+          view_mode: "list"
+        )
       end
 
       def range

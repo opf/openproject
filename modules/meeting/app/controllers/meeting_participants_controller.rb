@@ -55,6 +55,7 @@ class MeetingParticipantsController < ApplicationController
     @meeting.participants.each do |participant|
       participant.update!(attended: true)
     end
+    @meeting.save_journals
 
     update_participants_via_turbo_stream
 
@@ -63,6 +64,7 @@ class MeetingParticipantsController < ApplicationController
 
   def toggle_attendance
     @participant.toggle!(:attended)
+    @meeting.save_journals
 
     update_box_row_component_via_turbo_stream(participant: @participant)
     update_sidebar_participants_component_via_turbo_stream(meeting: @meeting)

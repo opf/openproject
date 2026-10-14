@@ -77,6 +77,10 @@ class My::LookAndFeelForm < ApplicationForm
                    label: attribute_name(:disable_keyboard_shortcuts),
                    caption: disable_keyboard_shortcuts_caption
 
+      fg.check_box name: :require_double_click_for_inline_edit,
+                   label: attribute_name(:require_double_click_for_inline_edit),
+                   caption: attribute_name(:require_double_click_for_inline_edit_caption)
+
       fg.submit(name: :submit,
                 label: attribute_name(:button_update_look_and_feel),
                 scheme: :default)
