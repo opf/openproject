@@ -222,7 +222,21 @@ RSpec.describe LlmConnections::SyncModelsService, :llm_server_helpers, :webmock 
     it "fails rather than raising when a card cannot be stored" do
       allow(connection.models).to receive(:find_or_initialize_by).and_raise(ActiveRecord::RecordNotUnique)
 
-      expect(described_class.new(connection).call).to be_failure
+      result = described_class.new(connection).call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(ActiveRecord::RecordNotUnique)
+    end
+  end
+
+  describe "a server refusing the model list" do
+    it "hands back the error, so a caller can tell whether trying again could help" do
+      mock_llm_models_response(base_url, response_code: 404)
+
+      result = service.call
+
+      expect(result).to be_failure
+      expect(result.result).to be_a(Llm::Errors::ApiError).and have_attributes(status: 404)
     end
   end
 

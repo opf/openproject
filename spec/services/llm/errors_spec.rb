@@ -147,6 +147,45 @@ RSpec.describe Llm::Errors do
     end
   end
 
+  describe ".transient?" do
+    def self.api_error(status) = Llm::Errors::ApiError.new("Server responded with #{status || 'an error'}", status:)
+
+    {
+      "a refused connection" => Llm::Errors::ConnectionError.new("Errno::ECONNREFUSED"),
+      "a timeout" => Llm::Errors::TimeoutError.new("Request timed out"),
+      "a failed TLS handshake" => Llm::Errors::SslError.new("OpenSSL::SSL::SSLError"),
+      "a response without a status" => api_error(nil),
+      "a request timeout" => api_error(408),
+      "throttling" => Llm::Errors::RateLimitedError.new("Server is rate limiting requests", status: 429),
+      "a server error" => api_error(500),
+      "a bad gateway" => api_error(502),
+      "an unavailable server" => api_error(503),
+      "a gateway timeout" => api_error(504)
+    }.each do |failure, error|
+      it "holds for #{failure}" do
+        expect(described_class.transient?(error)).to be(true)
+      end
+    end
+
+    {
+      "a host blocked by the SSRF policy" => Llm::Errors::SsrfError.new("Host resolves to a blocked address"),
+      "a URL that does not parse" => Llm::Errors::InvalidUrlError.new("Invalid URL"),
+      "rejected credentials" => Llm::Errors::AuthenticationError.new("Server rejected the API key (401)"),
+      "an unreadable answer" => Llm::Errors::ParseError.new("Response is not valid JSON"),
+      "an unusable configuration" => Llm::Errors::ConfigurationError.new("The connection is not usable as configured"),
+      "an api_format no adapter serves" => Llm::Adapters::UnsupportedFormat.new("unknown"),
+      "a bad request" => api_error(400),
+      "a missing endpoint" => api_error(404),
+      "a refused method" => api_error(405),
+      "an unimplemented endpoint" => api_error(501),
+      "an error outside the taxonomy" => RuntimeError.new("unexpected")
+    }.each do |failure, error|
+      it "does not hold for #{failure}" do
+        expect(described_class.transient?(error)).to be(false)
+      end
+    end
+  end
+
   describe "the Llm::Client aliases" do
     it "resolve to the same classes, so existing rescues keep working" do
       expect(Llm::Client::Error).to be(Llm::Errors::Error)

@@ -33,6 +33,11 @@ FactoryBot.define do
     sequence(:identifier) { |n| n == 1 ? LlmConnection::DEFAULT_IDENTIFIER : "connection-#{n}" }
     base_url { "https://example.com/v1" }
     api_key { "sk-test-key" }
+
+    trait :provisioned_from_env do
+      env_provisioned_at { Time.current }
+    end
+
     trait :with_models do
       last_synced_at { Time.current }
       last_connected_at { Time.current }
