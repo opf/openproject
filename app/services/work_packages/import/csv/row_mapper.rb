@@ -202,15 +202,11 @@ module WorkPackages
         end
 
         def date(raw)
-          Date.iso8601(raw.strip)
-        rescue Date::Error
-          unresolvable(:invalid_date)
+          DateParser.date(raw) || unresolvable(:invalid_date)
         end
 
         def timestamp(raw)
-          Time.iso8601(raw.strip)
-        rescue ArgumentError
-          unresolvable(:invalid_timestamp)
+          DateParser.timestamp(raw) || unresolvable(:invalid_timestamp)
         end
 
         def percentage(raw)

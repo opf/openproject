@@ -54,6 +54,10 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     mapper.call(row(values, **))
   end
 
+  def unreadable_timestamp
+    "must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."
+  end
+
   describe "attributes" do
     it "passes text through unchanged" do
       result = map(subject: "  Write the docs  ", description: "Line one")
@@ -258,7 +262,18 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
                                              due_date: Date.new(2026, 1, 9))
     end
 
-    it "rejects a date written the way a spreadsheet exports it" do
+    it "reads the date out of a cell a spreadsheet wrote with a time beside it" do
+      result = map(start_date: "2026-01-05 00:00:00", due_date: "2026-01-09T12:30")
+
+      expect(result.result.attributes).to eq(start_date: Date.new(2026, 1, 5),
+                                             due_date: Date.new(2026, 1, 9))
+    end
+
+    it "reads a date written with slashes, the way a spreadsheet exports it" do
+      expect(map(start_date: "2026/01/25").result.attributes).to eq(start_date: Date.new(2026, 1, 25))
+    end
+
+    it "rejects a date written in any other order, rather than guessing at which half is the month" do
       result = map(start_date: "01/05/2026")
 
       expect(result.result.first.message).to eq("must be a date written as YYYY-MM-DD.")
@@ -321,14 +336,25 @@ RSpec.describe WorkPackages::Import::CSV::RowMapper do
     it "says nothing about the order when one of the two could not be read" do
       result = map(created_at: "2024-05-06T11:15:00Z", updated_at: "last Tuesday")
 
-      expect(result.result.map(&:message)).to eq(["must be a date and time written as YYYY-MM-DDTHH:MM:SSZ."])
+      expect(result.result.map(&:message)).to eq([unreadable_timestamp])
     end
 
-    it "rejects a timestamp that is not ISO 8601" do
-      result = map(created_at: "2026-01-04 09:00")
+    it "reads a timestamp whichever of its shapes the file writes" do
+      expect(map(created_at: "2026-01-04 09:00").result.columns)
+        .to eq(created_at: Time.utc(2026, 1, 4, 9))
+      expect(map(created_at: "2026-01-04T09:00:30").result.columns)
+        .to eq(created_at: Time.utc(2026, 1, 4, 9, 0, 30))
+      expect(map(created_at: "2026-01-04").result.columns)
+        .to eq(created_at: Time.utc(2026, 1, 4))
+      expect(map(created_at: "2026/01/25 09:00 AM").result.columns)
+        .to eq(created_at: Time.utc(2026, 1, 25, 9))
+      expect(map(created_at: "2026-01-25 09:00 UTC").result.columns)
+        .to eq(created_at: Time.utc(2026, 1, 25, 9))
+    end
 
-      expect(result.result.first.message)
-        .to eq("must be a date and time written as YYYY-MM-DDTHH:MM:SSZ.")
+    it "rejects a timestamp it cannot read" do
+      expect(map(created_at: "January the fourth").result.first.message).to eq(unreadable_timestamp)
+      expect(map(created_at: "2026-01-04 09:00 NOWHERE").result.first.message).to eq(unreadable_timestamp)
     end
   end
 

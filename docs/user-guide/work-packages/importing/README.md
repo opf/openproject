@@ -97,6 +97,23 @@ a finish date before the start date, a type that has no such status in its workf
 An empty cell means "not given", and the work package is created with whatever the project and the type would give it.
 There is no way to say "explicitly empty" in a CSV file, so a value that is set by default cannot be cleared by leaving its cell blank.
 
+### How dates are read
+
+`YYYY-MM-DD` for a date and `YYYY-MM-DDTHH:MM:SSZ` for a date and time are the forms to write, and the
+ones the template hands you. The shapes a spreadsheet exports are read as well:
+
+- The `T` between the date and the time may be a space, as in `2026-09-26 08:09:52Z`.
+- The seconds, and any fraction of a second, may be left off, as in `2026-09-26T08:09Z`.
+- The time may be written on a 12-hour clock, as in `2026-09-26 10:40 AM`.
+- The time zone may be written as an offset such as `+02:00`, or as a name such as `UTC` or `CET`.
+  A cell without one is read in the time zone of your own account.
+- The dashes in the date may be slashes, as in `2026/09/26`.
+- A `Start date` or `Finish date` that also carries a time keeps its date and drops the time.
+
+The date is always written year first, then month, then day. A date written in another order, as in `09/29/2026` or
+`29-09-2026`, is reported rather than read, because `03/04` is the 4th of March to one reader and the
+3rd of April to another, and nothing in the file says which was meant.
+
 ## Limits
 
 A file can hold up to 5000 lines and can be up to 5 MB by default.

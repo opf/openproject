@@ -67,7 +67,7 @@ class Projects::Settings::WorkPackagesImportController < Projects::SettingsContr
   end
 
   def template
-    send_data ::WorkPackages::Import::CSV::Template.call(project: @project),
+    send_data ::WorkPackages::Import::CSV::Template.call(project: @project, user: current_user),
               filename: ::WorkPackages::Import::CSV::Template::FILENAME,
               type: "text/csv; charset=utf-8"
   end
