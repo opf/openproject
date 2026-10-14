@@ -172,13 +172,13 @@ describe('turbo-cable-stream-source', () => {
     expect(FakeEventSource.instances).toHaveLength(0);
   });
 
-  it('decodes SSE broadcasts before handing them to Turbo', () => {
+  it('hands SSE broadcasts to Turbo as they arrive', () => {
     sessionStorage.setItem(TRANSPORT_STORAGE_KEY, 'sse');
     attach();
     const listener = vi.fn();
     element.addEventListener('message', listener);
 
-    FakeEventSource.instances[0].dispatchEvent(new MessageEvent('message', { data: JSON.stringify('<turbo-stream>') }));
+    FakeEventSource.instances[0].dispatchEvent(new MessageEvent('message', { data: '<turbo-stream>' }));
 
     expect((listener.mock.calls[0][0] as MessageEvent).data).toBe('<turbo-stream>');
   });
