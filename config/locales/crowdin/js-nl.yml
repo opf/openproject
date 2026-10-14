@@ -721,6 +721,7 @@ nl:
     placeholders:
       default: "-"
       description: 'Beschrijving: Klik om te bewerken...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klik om een beschrijving voor deze relatie toe te voegen
       selection: Gelieve te selecteren
       subject: Onderwerp hier invoeren

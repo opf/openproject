@@ -722,6 +722,7 @@ ro:
     placeholders:
       default: "-"
       description: 'Descriere: Clic pentru editare ...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clic pentru a adăuga o descriere pentru această relație
       selection: Te rog selectează
       subject: Introdu subiectul aici

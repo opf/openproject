@@ -468,6 +468,8 @@ fr:
         increase_contrast_caption: Active le mode de contraste élevé pour le mode de couleur choisi.
         increase_theme_contrast: Augmenter le contraste du thème
         mode_guideline: Certains modes écrasent les couleurs des thèmes personnalisés pour des raisons d'accessibilité et de lisibilité. Veuillez sélectionner le mode Clair pour une prise en charge complète des thèmes personnalisés.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Mode de couleur
         time_zone: Fuseau horaire
         warn_on_leaving_unsaved: M'avertir lorsque je quitte un lot de travaux contenant des modifications non enregistrées
@@ -1902,7 +1904,7 @@ fr:
           one: "%{count} lot de travaux"
           other: Lots de travaux %{count}
       sub_header_component:
-        button_add: Libellé
+        button_add: Étiquette
         label_add: Ajouter un libellé
         search_placeholder: Tapez ici pour rechercher
       table_component:

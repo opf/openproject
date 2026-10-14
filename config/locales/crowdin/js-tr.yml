@@ -721,6 +721,7 @@ tr:
     placeholders:
       default: "-"
       description: 'Açıklama: Düzenlemek için tıklayın...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Bu ilişkiye açıklama eklemek için tıklayın
       selection: Lütfen seçin
       subject: Buraya konuyu girin

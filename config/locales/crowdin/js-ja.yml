@@ -720,6 +720,7 @@ ja:
     placeholders:
       default: "-"
       description: 説明クリックして編集...
+      description_double_click: 'Description: Double click to edit...'
       relation_description: クリックしてこの関係に説明を追加
       selection: 選択してください
       subject: ここにタイトルを入力します

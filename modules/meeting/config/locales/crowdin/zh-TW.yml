@@ -143,6 +143,10 @@ zh-TW:
     meeting_agenda_opened: 會議大綱開啟
     meeting_minutes: 會議記錄已編輯
     meeting_minutes_created: 會議記錄已建立
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: 增加到會議
   label_add_work_package_to_meeting_dialog_title: 選擇會議
   label_add_work_package_to_meeting_section_label: 區段
@@ -151,6 +155,8 @@ zh-TW:
   label_agenda_backlog_clear_title: 清除議程待辦清單？
   label_agenda_item_actions: 議程項目行動
   label_agenda_item_add: 新增議程項目
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: 新增註記
   label_agenda_item_add_outcome: 新增結果
   label_agenda_item_convert_to_work_package: 轉換為工作項目

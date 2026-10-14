@@ -468,6 +468,8 @@ ru:
         increase_contrast_caption: Включает режим высокой контрастности для выбранного цветового режима.
         increase_theme_contrast: Увеличить контрастность темы
         mode_guideline: Некоторые режимы перезаписывают цвета пользовательских тем для обеспечения доступности и читаемости. Пожалуйста, выберите светлый режим для полной поддержки пользовательских тем.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Цветовой режим
         time_zone: Часовой пояс
         warn_on_leaving_unsaved: При покидании рабочего пакета предупреждать о не сохраненных изменениях

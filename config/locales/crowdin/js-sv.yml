@@ -721,6 +721,7 @@ sv:
     placeholders:
       default: "-"
       description: 'Beskrivning: Klicka för att redigera...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Klicka för att ange beskrivning för denna relation
       selection: Välj
       subject: Ange ämne här

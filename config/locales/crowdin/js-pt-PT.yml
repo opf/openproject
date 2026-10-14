@@ -721,6 +721,7 @@ pt-PT:
     placeholders:
       default: "-"
       description: 'Descrição: Clique para editar...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Clique para adicionar a descrição desta relação
       selection: Selecione
       subject: Introduza aqui o assunto

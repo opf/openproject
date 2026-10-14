@@ -720,6 +720,7 @@ ko:
     placeholders:
       default: "-"
       description: '설명: 클릭하여 편집...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: 이 관계에 대한 설명을 추가하려면 클릭
       selection: 선택하십시오
       subject: 여기에 제목 입력

@@ -180,9 +180,9 @@ sv:
       favorite:
         favorited: Objekt
       form_configuration:
-        attribute_groups: Form
-        description: Description
-        name: Name
+        attribute_groups: Formulär
+        description: Beskrivning
+        name: Namn
         type_variants: Types and variants using this form
       form_configuration_attribute:
         attribute_key: Attribute
@@ -468,6 +468,8 @@ sv:
         increase_contrast_caption: Aktiverar högkontrastläge för det valda färgläget.
         increase_theme_contrast: Öka temats kontrast
         mode_guideline: I vissa lägen skrivs anpassade temafärger över av tillgänglighets- och läsbarhetsskäl. Välj Light-läge för fullt stöd för anpassade teman.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Färgläge
         time_zone: Tidszon
         warn_on_leaving_unsaved: Varna mig när jag lämnar ett arbetspaket med osparade ändringar

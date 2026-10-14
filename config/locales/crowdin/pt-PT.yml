@@ -468,6 +468,8 @@ pt-PT:
         increase_contrast_caption: Ativa o modo de alto contraste para o modo de cor escolhido.
         increase_theme_contrast: Aumentar contraste do tema
         mode_guideline: Alguns modos substituirão as cores personalizadas do tema para acessibilidade e legibilidade. Selecione o modo Ligeiro para ter suporte total para temas personalizados.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Modo de cor
         time_zone: Fuso horário
         warn_on_leaving_unsaved: Alertar-me quando sair de um pacote de trabalho sem guardar as alterações

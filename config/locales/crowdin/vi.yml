@@ -468,6 +468,8 @@ vi:
         increase_contrast_caption: Bật chế độ tương phản cao cho chế độ màu đã chọn.
         increase_theme_contrast: Tăng độ tương phản chủ đề
         mode_guideline: Một số chế độ sẽ ghi đè màu chủ đề tùy chỉnh để đảm bảo khả năng truy cập và mức độ dễ đọc. Vui lòng chọn Chế độ ánh sáng để được hỗ trợ chủ đề tùy chỉnh đầy đủ.
+        require_double_click_for_inline_edit: Require double click to edit fields
+        require_double_click_for_inline_edit_caption: When enabled, a single click no longer opens a field for editing. This makes it easier to select and copy text, e.g. in a work package description.
         theme: Chế độ màu
         time_zone: Múi giờ
         warn_on_leaving_unsaved: Cảnh báo tôi khi rời khỏi gói công việc có những thay đổi chưa được lưu

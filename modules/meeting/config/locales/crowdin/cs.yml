@@ -170,6 +170,10 @@ cs:
     meeting_agenda_opened: Agenda schůzky otevřena
     meeting_minutes: Zápis ze zasedání byl upraven
     meeting_minutes_created: Zápisy ze zasedání byly vytvořeny
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Přidat do schůzky
   label_add_work_package_to_meeting_dialog_title: Zvolte schůzku
   label_add_work_package_to_meeting_section_label: Sekce
@@ -178,6 +182,8 @@ cs:
   label_agenda_backlog_clear_title: Vyčistit backlog programu?
   label_agenda_item_actions: volby pro body schůzky
   label_agenda_item_add: Přidat položku programu
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Přidat poznámky
   label_agenda_item_add_outcome: Přidat výsledek
   label_agenda_item_convert_to_work_package: Zkonvertovat na pracovní balíček

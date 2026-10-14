@@ -143,6 +143,10 @@ ko:
     meeting_agenda_opened: 미팅 의제 열림
     meeting_minutes: 미팅 의제 편집됨
     meeting_minutes_created: 미팅 의제 생성됨
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: 미팅에 추가
   label_add_work_package_to_meeting_dialog_title: 미팅 선택
   label_add_work_package_to_meeting_section_label: 섹션
@@ -151,6 +155,8 @@ ko:
   label_agenda_backlog_clear_title: 의제 백로그를 지우시겠습니까?
   label_agenda_item_actions: 의제 항목 작업
   label_agenda_item_add: 의제 항목 추가
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: 메모 추가
   label_agenda_item_add_outcome: 결과 추가
   label_agenda_item_convert_to_work_package: 작업 패키지로 전환

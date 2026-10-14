@@ -725,6 +725,7 @@ sl:
     placeholders:
       default: "-"
       description: 'Description: Click to edit...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Kliknite, da dodate opis za to povezavo
       selection: Prosimo izberite
       subject: Vnesite temo tukaj

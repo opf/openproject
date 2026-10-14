@@ -152,6 +152,10 @@ hy:
     meeting_agenda_opened: Հանդիպման օրակարգը բացվել է
     meeting_minutes: Հանդիպման արձանագրությունը խմբագրվել է
     meeting_minutes_created: Հանդիպման արձանագրությունը ստեղծվել է
+  journals:
+    cause_descriptions:
+      system_update:
+        meeting_journal_sync: Meeting history automatically synchronized with the current state of the meeting. Agenda sections and outcomes are part of the history from now on.
   label_add_work_package_to_meeting_dialog_button: Ավելացնել հանդիպմանը
   label_add_work_package_to_meeting_dialog_title: Ընտրեք հանդիպումը
   label_add_work_package_to_meeting_section_label: Բաժին
@@ -160,6 +164,8 @@ hy:
   label_agenda_backlog_clear_title: Մաքրե՞լ օրակարգի բեքլոգը։
   label_agenda_item_actions: Օրակարգի կետերի գործողություններ
   label_agenda_item_add: Ավելացնել օրակարգի կետ
+  label_agenda_item_add_above: Add item above
+  label_agenda_item_add_below: Add item below
   label_agenda_item_add_notes: Ավելացնել նշումներ
   label_agenda_item_add_outcome: Ավելացնել արդյունք
   label_agenda_item_convert_to_work_package: Փոխարկել աշխատանքային փաթեթի

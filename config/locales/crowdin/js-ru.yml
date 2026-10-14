@@ -725,6 +725,7 @@ ru:
     placeholders:
       default: "-"
       description: 'Описание: Нажмите для редактирования...'
+      description_double_click: 'Description: Double click to edit...'
       relation_description: Нажмите, чтобы добавить описание для этой связи
       selection: Пожалуйста, выберите
       subject: Введите тему здесь
