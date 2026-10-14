@@ -48,6 +48,15 @@ RSpec.describe My::AccessToken::API::TableComponent, type: :component do
     end
   end
 
+  context "with an API token with scopes" do
+    let(:token) { create(:api_token, user:, scopes: %w[api_v3 webhooks]) }
+
+    it "shows the scopes" do
+      expect(rendered).to have_text("Scopes")
+      expect(rendered).to have_text("API v3, Webhooks")
+    end
+  end
+
   context "with an API token expiring in the future", with_settings: { date_format: "%Y-%m-%d" } do
     let(:expiry_date) { berlin.today + 7.days }
     let(:token) { create(:api_token, user:, expires_on_date: expiry_date) }
@@ -74,6 +83,10 @@ RSpec.describe My::AccessToken::API::TableComponent, type: :component do
 
     it "shows that it never expires" do
       expect(rendered).to have_text("Never")
+    end
+
+    it "does not show a scopes column" do
+      expect(rendered).to have_no_text("Scopes")
     end
   end
 end

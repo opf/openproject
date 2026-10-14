@@ -44,6 +44,10 @@ module My
           end
         end
 
+        def scopes
+          api_token.scopes.map { I18n.t(:label, scope: [:my, :access_token, :scopes, it]) }.join(", ")
+        end
+
         def created_at
           helpers.format_time(api_token.created_at)
         end

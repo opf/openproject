@@ -5111,6 +5111,19 @@ en:
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      scopes:
+        admin_elevation:
+          caption: "Grants full administrator permissions in every project. Without it, the token only has the permissions of your project memberships."
+          label: "Admin elevation"
+        api_v3:
+          caption: "Access the REST API."
+          label: "API v3"
+        mcp:
+          caption: "Access the MCP server, e.g. from AI assistants."
+          label: "MCP"
+        webhooks:
+          caption: "Deliver incoming webhooks, e.g. from GitHub or GitLab."
+          label: "Webhooks"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
     password_confirmation_dialog:
       confirmation_required: "You need to enter your account password to confirm this change."

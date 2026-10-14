@@ -85,9 +85,29 @@ module My
             )
           end
         end
+
+        if model.is_a?(Token::API)
+          new_access_token_form.check_box_group(name: :scopes, label: attribute_name(:scopes)) do |group|
+            available_scopes.each do |scope|
+              group.check_box(
+                value: scope,
+                label: I18n.t(:label, scope: [:my, :access_token, :scopes, scope]),
+                caption: I18n.t(:caption, scope: [:my, :access_token, :scopes, scope])
+              )
+            end
+          end
+        end
       end
 
       private
+
+      def available_scopes
+        if model.user.admin? && OpenProject::FeatureDecisions.admin_privilege_elevation_active?
+          Token::API::SCOPES
+        else
+          Token::API::SCOPES - ["admin_elevation"]
+        end
+      end
 
       def selected_expiry
         return CUSTOM_EXPIRY if model.errors.include?(:expires_on)

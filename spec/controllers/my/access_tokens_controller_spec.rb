@@ -74,7 +74,9 @@ RSpec.describe My::AccessTokensController do
       it "creates a key" do
         expect(user.api_tokens).to be_empty
 
-        post :generate_api_key, params: { token_api: { token_name: "One heck of a token" } }, format: :turbo_stream
+        post :generate_api_key,
+             params: { token_api: { token_name: "One heck of a token", scopes: %w[api_v3] } },
+             format: :turbo_stream
         new_token = user.reload.api_tokens.last
         expect(new_token).to be_present
 
@@ -83,13 +85,44 @@ RSpec.describe My::AccessTokensController do
       end
     end
 
+    describe "scopes" do
+      def generate(scopes)
+        post :generate_api_key,
+             params: { token_api: { token_name: "Scoped token", scopes: } },
+             format: :turbo_stream
+      end
+
+      it "stores the selected scopes" do
+        generate(["", "api_v3", "mcp"])
+
+        expect(user.api_tokens.last.scopes).to eq(%w[api_v3 mcp])
+      end
+
+      it "re-renders the form with an error without any scope" do
+        generate([""])
+
+        expect(response).to have_http_status(:bad_request)
+        expect(user.api_tokens).to be_empty
+        expect(response.body).to include("Please select at least one scope")
+      end
+
+      it "re-renders the form with an error for the admin_elevation scope of a non-admin" do
+        generate(%w[api_v3 admin_elevation])
+
+        expect(response).to have_http_status(:bad_request)
+        expect(user.api_tokens).to be_empty
+      end
+    end
+
     context "with existing key" do
-      let!(:key) { Token::API.create(user:, data: { name: "One heck of a token" }) }
+      let!(:key) { create(:api_token, user:, token_name: "One heck of a token") }
 
       it "must add the new key" do
         expect(user.reload.api_tokens.last).to eq(key)
 
-        post :generate_api_key, params: { token_api: { token_name: "Two heck of a token" } }, format: :turbo_stream
+        post :generate_api_key,
+             params: { token_api: { token_name: "Two heck of a token", scopes: %w[api_v3] } },
+             format: :turbo_stream
 
         new_token = user.reload.api_tokens.last
         expect(new_token).not_to eq(key)
@@ -107,7 +140,7 @@ RSpec.describe My::AccessTokensController do
 
       def generate(expiry_params)
         post :generate_api_key,
-             params: { token_api: { token_name: "Expiring token", **expiry_params } },
+             params: { token_api: { token_name: "Expiring token", scopes: %w[api_v3], **expiry_params } },
              format: :turbo_stream
       end
 
