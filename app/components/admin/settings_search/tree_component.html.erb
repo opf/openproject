@@ -27,24 +27,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= helpers.turbo_frame_tag Admin::SettingsSearchComponent::FRAME_ID, class: "op-admin-settings-search--frame" do %>
-  <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-search--tree", data: { controller: "admin--settings-search" })) do %>
-    <%= render(
-          Primer::OpenProject::FilterableTreeView.new(
-            show_search_highlighting: true,
-            tree_view_arguments: { node_variant: :anchor },
-            include_sub_items_check_box_arguments: { hidden: true },
-            filter_mode_control_arguments: { hidden: true },
-            filter_input_arguments: {
-              autofocus: true,
-              autocomplete: "off",
-              placeholder: t("admin.settings_search.filter_placeholder"),
-              data: { test_selector: "op-admin-settings-search--filter" }
-            },
-            no_results_node_arguments: { label: t("admin.settings_search.no_results") }
-          )
-        ) do |tree_view| %>
-      <% @tree.nodes.each { add_node(tree_view, it) } %>
-    <% end %>
+<%= render(
+      Primer::Alpha::TreeView.new(
+        node_variant: :anchor,
+        data: { target: "filterable-tree-view.treeViewList" }
+      )
+    ) do |tree_view| %>
+  <% if @tree.nodes.empty? %>
+    <% tree_view.with_leaf(label: t("admin.settings_search.no_results"), disabled: true) %>
+  <% else %>
+    <% @tree.nodes.each { add_node(tree_view, it) } %>
   <% end %>
 <% end %>

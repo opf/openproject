@@ -39,7 +39,8 @@ RSpec.describe Admin::SettingsSearch::TreeComponent, type: :component do
                ])
     ]
   end
-  let(:tree) { instance_double(Settings::SearchTree, nodes:) }
+  let(:query_words) { [] }
+  let(:tree) { instance_double(Settings::SearchTree, nodes:, query_words:) }
 
   subject(:rendered_component) do
     render_inline(described_class.new(tree:))
@@ -52,11 +53,20 @@ RSpec.describe Admin::SettingsSearch::TreeComponent, type: :component do
                                                                  visible: :all
   end
 
-  it "includes the description as searchable, visually hidden text" do
-    expect(rendered_component).to have_css(".sr-only", text: "Shown in the header", visible: :all)
+  context "when searching" do
+    let(:query_words) { ["title"] }
+
+    it "highlights the query and expands the hierarchy", :aggregate_failures do
+      expect(rendered_component).to have_css(".op-search-highlight", text: "title")
+      expect(rendered_component).to have_css("[aria-expanded='true']", text: "System settings")
+    end
   end
 
-  it "renders a filter input" do
-    expect(rendered_component).to have_field placeholder: "Search by name or description"
+  context "without any nodes" do
+    let(:nodes) { [] }
+
+    it "says so" do
+      expect(rendered_component).to have_text "No settings found"
+    end
   end
 end

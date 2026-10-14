@@ -33,7 +33,12 @@ module Admin
     before_action :require_admin
 
     def show
-      render Admin::SettingsSearch::TreeComponent.new(tree: ::Settings::SearchTree.new(view_context)), layout: false
+      render Admin::SettingsSearch::FilterComponent.new, layout: false
+    end
+
+    def tree
+      render Admin::SettingsSearch::TreeComponent.new(tree: ::Settings::SearchTree.new(view_context, query: params[:query])),
+             layout: false
     end
   end
 end

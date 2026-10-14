@@ -31,6 +31,8 @@
 module Admin
   module SettingsSearch
     class TreeComponent < ApplicationComponent
+      include SearchHighlightingHelper
+
       def initialize(tree:)
         super()
         @tree = tree
@@ -40,18 +42,21 @@ module Admin
 
       def add_node(parent, node)
         if node.children.any?
-          parent.with_sub_tree(label: node.label, href: node.href, select_variant: :none, data: node_data(node)) do |sub_tree|
+          parent.with_sub_tree(label: label(node), href: node.href, expanded: searching?, select_variant: :none,
+                               data: node_data(node)) do |sub_tree|
             node.children.each { add_node(sub_tree, it) }
           end
         else
-          parent.with_leaf(label: leaf_label(node), href: node.href, select_variant: :none, data: node_data(node))
+          parent.with_leaf(label: label(node), href: node.href, select_variant: :none, data: node_data(node))
         end
       end
 
-      def leaf_label(node)
-        return node.label if node.description.blank?
+      def label(node)
+        searching? ? highlight_text_by_terms(node.label, @tree.query_words) : node.label
+      end
 
-        safe_join([node.label, tag.span(node.description, class: "sr-only")])
+      def searching?
+        @tree.query_words.any?
       end
 
       def node_data(node)

@@ -29,26 +29,37 @@
 
 require "spec_helper"
 
-RSpec.describe "Admin settings search tree", type: :rails_request do
-  before do
-    login_as(user)
-    get admin_settings_search_path
-  end
+RSpec.describe "Admin settings search", type: :rails_request do
+  before { login_as(user) }
 
   context "as an admin" do
     let(:user) { create(:admin) }
 
-    it "renders the settings tree in its turbo frame", :aggregate_failures do
+    it "renders the filterable tree in its turbo frame, loading the tree from the server", :aggregate_failures do
+      get admin_settings_search_path
+
       expect(response).to have_http_status(:ok)
-      expect(response.parsed_body.at_css("turbo-frame##{Admin::SettingsSearchComponent::FRAME_ID}")).to be_present
+      frame = response.parsed_body.at_css("turbo-frame##{Admin::SettingsSearchComponent::FRAME_ID}")
+      expect(frame.at_css("filterable-tree-view")["src"]).to eq tree_admin_settings_search_path
+    end
+
+    it "renders the tree filtered by the query", :aggregate_failures do
+      get tree_admin_settings_search_path, params: { query: "application title" }
+
+      expect(response).to have_http_status(:ok)
       expect(response.body).to include("/admin/settings/general?highlight=app_title")
+      expect(response.body).not_to include("highlight=host_name")
     end
   end
 
   context "as a regular user" do
     let(:user) { create(:user) }
 
-    it "is forbidden" do
+    it "is forbidden", :aggregate_failures do
+      get admin_settings_search_path
+      expect(response).to have_http_status(:forbidden)
+
+      get tree_admin_settings_search_path
       expect(response).to have_http_status(:forbidden)
     end
   end
