@@ -35,7 +35,9 @@ module AI
     # guard against instructions in the context. Admins and users do not edit it.
     class OutputRules
       PROPOSALS = <<~TEXT.squish
-        Put findings and proposed changes in "proposals". A finding names a problem in the work
+        Put findings and proposed changes in "proposals", and do not repeat them in "answer": the
+        user sees each proposal on its own. When there are proposals, keep "answer" to one or two
+        sentences that sum them up. A finding names a problem in the work
         package: give it a "severity", an "area", and "evidence" that quotes the comment or names
         the field. A finding without evidence is dropped. A plain proposal is a change without a
         problem behind it, for example one that the user asked for: use the severity "none" and
