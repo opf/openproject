@@ -38,6 +38,8 @@ describe('PushSubscriptionController', () => {
   let subscribe:AsyncSpy;
   let getSubscription:ReturnType<typeof vi.fn>;
   let getRegistration:ReturnType<typeof vi.fn>;
+  let serviceWorker:{ getRegistration:ReturnType<typeof vi.fn>; ready:Promise<unknown> };
+  let registration:{ active?:object; pushManager:{ getSubscription:ReturnType<typeof vi.fn>; subscribe:AsyncSpy } };
 
   const known = { endpoint: 'https://push.example/known', revokeUrl: '/my/push_subscriptions/1' };
 
@@ -75,7 +77,9 @@ describe('PushSubscriptionController', () => {
     unsubscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue(true);
     subscribe = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockResolvedValue({ endpoint: 'https://push.example/new', unsubscribe });
     getSubscription = vi.fn().mockResolvedValue(null);
-    getRegistration = vi.fn().mockResolvedValue({ pushManager: { getSubscription, subscribe } });
+    registration = { active: {}, pushManager: { getSubscription, subscribe } };
+    getRegistration = vi.fn().mockResolvedValue(registration);
+    serviceWorker = { getRegistration, ready: Promise.resolve(registration) };
     fetchMock = vi.fn<(...args:unknown[]) => Promise<unknown>>().mockImplementation(() => Promise.resolve(new Response('', { status: 200 })));
 
     vi.stubGlobal('I18n', { t: vi.fn((key:string) => key) });
@@ -84,13 +88,14 @@ describe('PushSubscriptionController', () => {
     vi.stubGlobal('Notification', { permission: 'default' });
     vi.stubGlobal('fetch', fetchMock);
     Object.defineProperty(navigator, 'serviceWorker', {
-      value: { getRegistration },
+      value: serviceWorker,
       configurable: true,
     });
   });
 
   afterEach(() => {
     ctx.dispose();
+    vi.useRealTimers();
     vi.unstubAllGlobals();
     delete (navigator as { serviceWorker?:unknown }).serviceWorker;
   });
@@ -105,13 +110,40 @@ describe('PushSubscriptionController', () => {
     expect(disableButton().hidden).toBe(true);
   });
 
-  it('reports unsupported when no service worker is registered', async () => {
+  it('reports unsupported when no service worker becomes ready in time', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
     getRegistration.mockResolvedValue(undefined);
-    await mount();
+    serviceWorker.ready = new Promise(() => undefined);
+    await mount({ settle: false });
+    await vi.advanceTimersByTimeAsync(5001);
+    await settled();
 
     expect(status()).toBe('js.push_subscription.unsupported');
     expect(enableButton().hidden).toBe(true);
     expect(disableButton().hidden).toBe(true);
+  });
+
+  it('waits for a registration that is still installing and shows its subscription', async () => {
+    getRegistration.mockResolvedValue(undefined);
+    getSubscription.mockResolvedValue({ endpoint: known.endpoint, unsubscribe });
+    await mount();
+
+    expect(status()).toBe('js.push_subscription.enabled');
+    expect(disableButton().hidden).toBe(false);
+  });
+
+  it('waits for the worker to become active before subscribing on enable', async () => {
+    await mount();
+    const pending = deferred<unknown>();
+    getRegistration.mockResolvedValue({ pushManager: registration.pushManager });
+    serviceWorker.ready = pending.promise;
+    enableButton().click();
+    await ctx.nextFrame();
+
+    expect(subscribe).not.toHaveBeenCalled();
+
+    pending.resolve(registration);
+    await vi.waitFor(() => expect(subscribe).toHaveBeenCalledTimes(1));
   });
 
   it('reports blocked notifications when permission is denied', async () => {

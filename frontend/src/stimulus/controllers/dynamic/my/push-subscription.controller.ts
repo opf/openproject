@@ -43,6 +43,8 @@ const STATUS_KEYS:Record<State, string> = {
   error: 'js.push_subscription.error',
 };
 
+const REGISTRATION_TIMEOUT_MS = 5000;
+
 function decodeBase64Url(value:string):Uint8Array<ArrayBuffer> {
   const base64 = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
   return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
@@ -87,7 +89,7 @@ export default class PushSubscriptionController extends Controller {
         return;
       }
 
-      const registration = await navigator.serviceWorker.getRegistration();
+      const registration = await this.registration();
       if (!current()) return;
 
       if (!registration) {
@@ -120,7 +122,7 @@ export default class PushSubscriptionController extends Controller {
     let subscription:PushSubscription|undefined;
 
     try {
-      const registration = await navigator.serviceWorker.getRegistration();
+      const registration = await this.registration();
       if (!registration) {
         this.render('unsupported');
         return;
@@ -168,6 +170,22 @@ export default class PushSubscriptionController extends Controller {
       this.render('error', true);
     } finally {
       this.setBusy(false);
+    }
+  }
+
+  private async registration():Promise<ServiceWorkerRegistration|undefined> {
+    const existing = await navigator.serviceWorker.getRegistration();
+    if (existing?.active) return existing;
+
+    let timer:ReturnType<typeof setTimeout>|undefined;
+    const timeout = new Promise<undefined>((resolve) => {
+      timer = setTimeout(resolve, REGISTRATION_TIMEOUT_MS);
+    });
+
+    try {
+      return await Promise.race([navigator.serviceWorker.ready, timeout]);
+    } finally {
+      clearTimeout(timer);
     }
   }
 
