@@ -30,14 +30,9 @@
 
 module Planner
   class CompletedComponent < BaseComponent
-    def initialize(completed:)
-      super()
-      @completed = completed
-    end
-
     private
 
-    attr_reader :completed
+    def completed = model
 
     def day_name(date)
       case date

@@ -32,15 +32,10 @@ module Planner
   class OverdueComponent < BaseComponent
     GROUP = "overdue"
 
-    def initialize(overdue:, adding: nil)
-      super(adding:)
-      @overdue = overdue
-    end
-
     def add_todo_defaults = { date: overdue.user.today, day_part: :morning }
 
     private
 
-    attr_reader :overdue
+    def overdue = model
   end
 end

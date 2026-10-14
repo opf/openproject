@@ -28,7 +28,7 @@
 
 ---
 en:
-  label_planner: "Planner"
+  label_planner: "My planner"
   planner:
     today: "Today"
     views:
@@ -38,8 +38,7 @@ en:
       completed: "Completed"
     description: "Add your personal tasks as to-dos to your planner. Meetings you take part in are added to the view automatically."
     add_todo: "Add to-do"
-    add_work_package: "Add work package"
-    add_to_planner: "Add to Planner"
+    add_to_planner: "Add to My planner"
     filter:
       all: "All entries"
       todos: "To-dos only"
@@ -72,17 +71,17 @@ en:
       today: "To Today"
       tomorrow: "To Tomorrow"
       remove: "Unschedule"
-    remove_from_planner: "Remove from Planner"
-    remove_from_planner_confirmation: "Remove this work package from the Planner? It stays in its project."
+    remove_from_planner: "Remove from My planner"
+    remove_from_planner_confirmation: "Remove this work package from My planner? It stays in its project."
     mark_done: "Mark as done"
     mark_open: "Mark as not done"
-    added_to: "Added to %{day_part} in the Planner."
-    added_to_date: "Added to %{day_part} on %{date} in the Planner."
+    added_to: "Added to %{day_part} in My planner."
+    added_to_date: "Added to %{day_part} on %{date} in My planner."
     already_planned: "This work package is already planned for that day."
     errors:
       unknown_target: "This task can't be moved there."
       work_package_not_found: "Pick a work package you can see."
-      unavailable: "The Planner is not available for you."
+      unavailable: "My planner is not available for you."
       cannot_close: "The workflow doesn't allow closing this task."
       cannot_reopen: "The workflow doesn't allow reopening this task."
     task_form:
@@ -94,6 +93,7 @@ en:
       placeholder: "Add a text description or use # to link work packages"
       note_placeholder: "For example: Write Maya about the docs"
       note_caption: "Leave it empty to plan the work package itself."
+      work_package_caption: "Optional. The to-do links to it, or stands for it when the to-do is left empty."
     quick_add:
       label: "New to-do"
       submit: "Add"

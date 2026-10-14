@@ -58,7 +58,7 @@ module Planner
       @planner_project = call.result if call.success?
     end
 
-    def current_view = params.fetch(:view, nil).presence_in(View::NAMES) || View::NAMES.first
+    def current_view = Views.fetch(params.fetch(:view, nil))
 
     def planner_filter
       requested = params.fetch(:filter, nil)

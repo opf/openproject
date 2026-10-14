@@ -84,7 +84,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
       end
     end
 
-    describe "the Add work package dialog" do
+    describe "a to-do about a work package" do
       let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
       let(:team_project) { create(:project) }
       let(:work_package) { create(:work_package, project: team_project, subject: "Contact sponsoring partners") }
@@ -94,22 +94,22 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
                         roles: [create(:project_role, permissions: %i[view_work_packages manage_work_package_relations])])
       end
 
-      it "searches open work packages outside My work" do
-        get(new_dialog_planner_tasks_path(kind: :work_package, date: "2026-10-20", day_part: :evening), headers:)
+      it "offers to search open work packages outside My work, below the to-do's text" do
+        get(new_dialog_planner_tasks_path(date: "2026-10-20", day_part: :evening), headers:)
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Add work package")
-        expect(response.body).to include("planner-work-package-autocompleter")
-        expect(response.body).not_to include("augmented-text-area-description")
-        filters = JSON.parse(CGI.unescapeHTML(response.body[/data-filters="([^"]*)"/, 1]))
+        body = response.body
+        expect(body.index('name="task[subject]"')).to be < body.index("planner-work-package-autocompleter")
+        expect(body.index("planner-work-package-autocompleter")).to be < body.index("augmented-text-area-description")
+        filters = JSON.parse(CGI.unescapeHTML(body[/data-filters="([^"]*)"/, 1]))
         my_work = Planner::ProjectService.new(user).call.result
         expect(filters).to contain_exactly({ "name" => "status", "operator" => "o", "values" => [] },
                                            { "name" => "project", "operator" => "!", "values" => [my_work.id.to_s] })
       end
 
-      it "plans the picked work package on the chosen day" do
+      it "plans the picked work package itself when the to-do's text is left empty" do
         post(planner_tasks_path,
-             params: { task: { work_package_id: work_package.id, date: "2026-10-20", day_part: "evening" } },
+             params: { task: { subject: "", work_package_id: work_package.id, date: "2026-10-20", day_part: "evening" } },
              headers:)
 
         task = WorkPackage.last
@@ -117,6 +117,22 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         expect(Planner::DayPartField.find.day_part_of(task)).to eq(:evening)
         expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
         expect(response.body).to include("Added to Evening on")
+      end
+
+      it "references the picked work package in the to-do's text" do
+        post(planner_tasks_path,
+             params: { task: { subject: "Ask Maya", work_package_id: work_package.id, date: "2026-10-20" } },
+             headers:)
+
+        expect(WorkPackage.last.subject).to eq("Ask Maya ##{work_package.display_id}")
+        expect(Relation.where(from: WorkPackage.last, to: work_package)).to exist
+      end
+
+      it "adds a plain to-do when no work package is picked" do
+        post(planner_tasks_path, params: { task: { subject: "Book train", work_package_id: "", date: "2026-10-20" } }, headers:)
+
+        expect(WorkPackage.last.subject).to eq("Book train")
+        expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
       end
 
       it "refuses a work package the user cannot see" do
@@ -280,11 +296,11 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         Planner::AddWorkPackageService.new(user:).call(work_package:).result
       end
 
-      it "offers to remove it from the Planner, keeping the work package" do
+      it "offers to remove it from My planner, keeping the work package" do
         get planner_path
 
         item = page.find("[data-test-selector='planner-delete-task']", visible: :all)
-        expect(item.text(:all)).to include("Remove from Planner")
+        expect(item.text(:all)).to include("Remove from My planner")
         expect(item.find("form", visible: :all)["data-turbo-confirm"]).to include("It stays in its project.")
 
         expect { delete(planner_task_path(task), headers:) }.to change(WorkPackage, :count).by(-1)
@@ -308,7 +324,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
     end
   end
 
-  describe "adding to the Planner from a work package", with_flag: { planner: true } do
+  describe "adding to My planner from a work package", with_flag: { planner: true } do
     let(:team_project) { create(:project) }
     let!(:work_package) { create(:work_package, project: team_project, subject: "Contact sponsoring partners") }
     let(:headers) { { "Accept" => "text/vnd.turbo-stream.html" } }
@@ -322,7 +338,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
         end
 
         expect(response).to have_http_status(:ok)
-        expect(response.body).to include("Add to Planner")
+        expect(response.body).to include("Add to My planner")
         expect(response.body).to include("planner-add-todo-work-package").and include("Contact sponsoring partners")
         expect(response.body).to match(/value="#{work_package.id}"[^>]*type="hidden" name="task\[work_package_id\]"/)
         expect(response.body).to match(/name="task\[day_part\]"[^>]*value="evening"|value="evening"[^>]*name="task\[day_part\]"/)
@@ -341,7 +357,7 @@ RSpec.describe "Planner tasks", :skip_csrf, type: :rails_request do
                                         description: "Docs for the API")
         expect(Relation.where(from: task, to: work_package)).to exist
         expect(response.body).to include(%(action="closeDialog" target="#{Planner::AddTodoDialogComponent::DIALOG_ID}"))
-        expect(response.body).to include("Added to Afternoon in the Planner.")
+        expect(response.body).to include("Added to Afternoon in My planner.")
       end
     end
 

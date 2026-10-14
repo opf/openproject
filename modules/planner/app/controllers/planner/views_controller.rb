@@ -40,8 +40,8 @@ module Planner
 
     def show
       @view = current_view
-      @component = Planner::BaseComponent.for(@view, user: current_user, project: planner_project,
-                                                     adding: params[:adding], filter: planner_filter)
+      @component = @view.build_component(user: current_user, project: planner_project,
+                                         adding: params[:adding], filter: planner_filter)
 
       # The "Add to-do" links open and close a group's input row by refreshing the view in place.
       if request.format.turbo_stream?

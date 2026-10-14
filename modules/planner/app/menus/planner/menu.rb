@@ -30,8 +30,6 @@
 
 module Planner
   class Menu < Submenu
-    ICONS = { today: :sun, upcoming: :calendar, overdue: :alert, completed: :"check-circle" }.freeze
-
     def initialize(params:, user:, project:)
       super(view_type: nil, params:)
       @user = user
@@ -39,26 +37,21 @@ module Planner
     end
 
     def menu_items
-      [menu_group(header: nil, children: ICONS.map { |view, icon| view_item(view, icon) })]
-    end
-
-    def self.path_for(view, **query)
-      url_helpers = Rails.application.routes.url_helpers
-      view.to_s == "today" ? url_helpers.planner_path(**query) : url_helpers.planner_view_path(view, **query)
+      [menu_group(header: nil, children: Views::ALL.map { view_item(it) })]
     end
 
     private
 
     attr_reader :user, :project
 
-    def view_item(view, icon)
-      href = self.class.path_for(view)
+    def view_item(view)
+      href = view.path
 
-      OpenProject::Menu::MenuItem.new(title: I18n.t("planner.views.#{view}"),
+      OpenProject::Menu::MenuItem.new(title: view.title,
                                       href:,
-                                      icon:,
+                                      icon: view.icon,
                                       selected: params[:current_href] == href,
-                                      count: (overdue_count if view == :overdue))
+                                      count: (overdue_count if view.model == Overdue))
     end
 
     def overdue_count

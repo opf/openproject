@@ -44,6 +44,6 @@ module Planner
 
     attr_reader :view, :filter
 
-    def path(filter) = Planner::Menu.path_for(view, filter:)
+    def path(filter) = Views.path_for(view, filter:)
   end
 end

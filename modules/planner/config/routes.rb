@@ -30,7 +30,10 @@
 
 Rails.application.routes.draw do
   get "planner", to: "planner/views#show", defaults: { view: "today" }, as: :planner
-  get "planner/:view", to: "planner/views#show", constraints: { view: /upcoming|overdue|completed/ }, as: :planner_view
+  get "planner/:view",
+      to: "planner/views#show",
+      constraints: { view: Regexp.union(Planner::Views.names - [Planner::Views.default.name]) },
+      as: :planner_view
 
   namespace :planner do
     resource :menu, only: :show

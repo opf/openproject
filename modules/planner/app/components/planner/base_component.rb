@@ -37,17 +37,8 @@ module Planner
 
     DRAG_TYPE = "todo"
 
-    def self.for(view, user:, project:, adding: nil, filter: View::FILTERS.first)
-      case view.to_s
-      when "upcoming" then UpcomingComponent.new(upcoming: Upcoming.new(user:, project:), adding:, filter:)
-      when "overdue" then OverdueComponent.new(overdue: Overdue.new(user:, project:), adding:)
-      when "completed" then CompletedComponent.new(completed: Completed.new(user:, project:))
-      else TodayComponent.new(today: Today.new(user:, project:), adding:, filter:)
-      end
-    end
-
-    def initialize(adding: nil, filter: View::FILTERS.first)
-      super()
+    def initialize(model, adding: nil, filter: View::FILTERS.first)
+      super(model)
       @adding = adding
       @filter = filter
     end
@@ -56,8 +47,6 @@ module Planner
 
     # The date and day part the "Add to-do" dialog starts with, if the view takes to-dos.
     def add_todo_defaults = nil
-
-    def filterable? = false
 
     private
 
@@ -104,7 +93,7 @@ module Planner
 
     # Built with a sentinel so that relative URL roots are kept; the controller expands {id}.
     def drop_url_template(view)
-      drop_planner_task_path("__id__", view: View.param(view)).sub("__id__", "{id}")
+      drop_planner_task_path("__id__", view: Views.param(view)).sub("__id__", "{id}")
     end
 
     def weekday_and_day(date) = "#{I18n.l(date, format: '%A')} #{date.day.ordinalize}"

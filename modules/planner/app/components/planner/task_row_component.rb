@@ -44,11 +44,17 @@ module Planner
 
     attr_reader :work_package, :references, :view, :day_part
 
+    delegate :subject_parts, :planned_work_package, :meeting_command, :closed?, to: :task, private: true
+
+    def task
+      @task ||= Task.new(work_package, references:, user: User.current)
+    end
+
     def overdue? = view == :overdue
 
     def completed? = view == :completed
 
-    def draggable? = View.sortable?(view)
+    def draggable? = Views.sortable?(view)
 
     # Where the Move menu can send the task: the other day parts when it is planned for today,
     # otherwise into today; and tomorrow, unless that is already its day.
@@ -75,7 +81,7 @@ module Planner
       t("planner.planned_for", date: helpers.format_date(shown_date)) if overdue?
     end
 
-    def view_param = View.param(view)
+    def view_param = Views.param(view)
 
     def plan_path(to) = plan_planner_task_path(work_package, to:, view: view_param)
 
@@ -90,22 +96,6 @@ module Planner
       planned_work_package ? t("planner.remove_from_planner_confirmation") : t(:text_are_you_sure)
     end
 
-    # The subject as text, with each visible referenced work package in place of its reference.
-    def subject_parts
-      work_package.subject.split(References::PATTERN).each_with_index.map do |part, index|
-        index.even? ? part : references.fetch(part) { "##{part}" }
-      end
-    end
-
-    # The row shows the work package a task stands for instead of the reference.
-    def planned_work_package
-      return @planned_work_package if defined?(@planned_work_package)
-
-      @planned_work_package = References.planned_id(work_package.subject)&.then { references[it] }
-    end
-
-    def closed? = work_package.closed?
-
     def notes
       return if notes_text.blank?
 
@@ -115,12 +105,6 @@ module Planner
 
     def notes_text
       @notes_text ||= helpers.strip_tags(helpers.format_text(work_package, :description)).squish
-    end
-
-    def meeting_command
-      return @meeting_command if defined?(@meeting_command)
-
-      @meeting_command = (MeetingCommand.for(work_package, User.current) unless closed?)
     end
 
     def new_meeting_path

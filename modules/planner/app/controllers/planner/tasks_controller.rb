@@ -41,18 +41,14 @@ module Planner
 
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: date_param(params[:date]) || current_user.today,
                                                               day_part: params[:day_part],
-                                                              view: current_view,
-                                                              planner_project: work_package_search_project)
+                                                              view: current_view.name,
+                                                              planner_project:)
     end
 
     def create
-      return create_for_work_package if task_params.key?(:work_package_id)
+      return create_for_work_package if task_params[:work_package_id].present?
 
-      call = Planner::CreateTaskService
-               .new(user: current_user)
-               .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date,
-                     description: task_params[:description])
-
+      call = create_todo
       close_dialog_via_turbo_stream(Planner::AddTodoDialogComponent::DIALOG_ID) if call.success?
       respond_with_view(call)
     end
@@ -97,8 +93,6 @@ module Planner
       params.expect(task: %i[subject day_part date description work_package_id])
     end
 
-    def work_package_search_project = (planner_project if params[:kind] == "work_package")
-
     def find_visible_work_package(id) = WorkPackage.visible(current_user).find_by_display_id(id.to_s)
 
     def new_dialog_for_work_package
@@ -108,7 +102,8 @@ module Planner
       today = Planner::Today.new(user: current_user, project: planner_project)
       respond_with_dialog Planner::AddTodoDialogComponent.new(date: today.date,
                                                               day_part: today.current_day_part,
-                                                              view: current_view,
+                                                              view: current_view.name,
+                                                              planner_project:,
                                                               work_package:)
     end
 
@@ -119,6 +114,13 @@ module Planner
       call = plan_work_package(work_package)
       confirm_planned(call) if call.success?
       respond_with_view(call)
+    end
+
+    def create_todo
+      Planner::CreateTaskService
+        .new(user: current_user)
+        .call(subject: task_params[:subject], day_part: task_params[:day_part], date: task_date,
+              description: task_params[:description])
     end
 
     def plan_work_package(work_package)
@@ -156,23 +158,22 @@ module Planner
       respond_with_turbo_streams(status: call) do |format|
         format.html do
           flash[:error] = call.message if call.failure?
-          redirect_to Planner::Menu.path_for(current_view), status: :see_other
+          redirect_to current_view.path, status: :see_other
         end
       end
     end
 
     def refresh_view_via_turbo_stream
       replace_via_turbo_stream(
-        component: Planner::BaseComponent.for(current_view, user: current_user, project: planner_project,
-                                                            adding: params[:adding], filter: planner_filter)
+        component: current_view.build_component(user: current_user, project: planner_project,
+                                                adding: params[:adding], filter: planner_filter)
       )
       turbo_streams << turbo_stream.update("planner_sidemenu", submenu.render_in(view_context))
     end
 
     # The submenu carries the Overdue count, which most changes to the plan affect.
     def submenu
-      menu = Planner::Menu.new(params: { current_href: Planner::Menu.path_for(current_view) }, user: current_user,
-                               project: planner_project)
+      menu = Planner::Menu.new(params: { current_href: current_view.path }, user: current_user, project: planner_project)
       OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: menu.menu_items)
     end
   end

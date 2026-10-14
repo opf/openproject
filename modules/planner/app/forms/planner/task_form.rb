@@ -29,27 +29,11 @@
 #++
 
 module Planner
-  # The fields of the "Add to-do" dialog. To plan a work package it asks for the work package instead
-  # of the to-do's text and notes. For a given work package, the text is optional.
+  # The fields of the "Add to-do" dialog. A to-do can be about a work package, picked below its text
+  # or given; with a work package, the text is optional and an empty one plans the work package itself.
   class TaskForm < ApplicationForm
     form do |f|
       f.hidden(name: :work_package_id, value: @work_package.id) if @work_package
-
-      if work_package_search?
-        f.work_package_autocompleter(
-          name: :work_package_id,
-          label: I18n.t("planner.task_form.work_package"),
-          required: true,
-          autocomplete_options: {
-            focusDirectly: true,
-            openDirectly: true,
-            dropdownPosition: "bottom",
-            appendTo: "##{AddTodoDialogComponent::DIALOG_ID}",
-            filters: work_package_filters,
-            data: { test_selector: "planner-work-package-autocompleter" }
-          }
-        )
-      end
 
       f.single_date_picker(
         name: :date,
@@ -67,24 +51,37 @@ module Planner
         items: DayPartField::DAY_PARTS.map { { value: it.to_s, label: I18n.t("planner.day_part.#{it}") } }
       )
 
-      unless work_package_search?
-        f.text_field(
-          name: :subject,
-          label: I18n.t("planner.task_form.subject"),
-          **subject_hints,
-          autocomplete: "off",
-          autofocus: true
-        )
+      f.text_field(
+        name: :subject,
+        label: I18n.t("planner.task_form.subject"),
+        **subject_hints,
+        autocomplete: "off",
+        autofocus: true
+      )
 
-        f.rich_text_area(
-          name: :description,
-          label: I18n.t("planner.task_form.description"),
-          rich_text_options: { showAttachments: false, primerized: true }
+      unless @work_package
+        f.work_package_autocompleter(
+          name: :work_package_id,
+          label: I18n.t("planner.task_form.work_package"),
+          caption: I18n.t("planner.task_form.work_package_caption"),
+          autocomplete_options: {
+            focusDirectly: false,
+            dropdownPosition: "bottom",
+            appendTo: "##{AddTodoDialogComponent::DIALOG_ID}",
+            filters: work_package_filters,
+            data: { test_selector: "planner-work-package-autocompleter" }
+          }
         )
       end
+
+      f.rich_text_area(
+        name: :description,
+        label: I18n.t("planner.task_form.description"),
+        rich_text_options: { showAttachments: false, primerized: true }
+      )
     end
 
-    def initialize(date:, day_part:, planner_project: nil, work_package: nil)
+    def initialize(date:, day_part:, planner_project:, work_package: nil)
       super()
       @date = date
       @day_part = day_part
@@ -94,13 +91,11 @@ module Planner
 
     private
 
-    def work_package_search? = @planner_project.present?
-
     def subject_hints
       if @work_package
         { placeholder: I18n.t("planner.task_form.note_placeholder"), caption: I18n.t("planner.task_form.note_caption") }
       else
-        { placeholder: I18n.t("planner.task_form.placeholder"), required: true }
+        { placeholder: I18n.t("planner.task_form.placeholder") }
       end
     end
 

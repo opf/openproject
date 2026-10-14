@@ -31,20 +31,10 @@
 module Planner
   # A view of the user's "My work" project: Today, Upcoming, Overdue or Completed.
   class View
-    NAMES = %w[today upcoming overdue completed].freeze
-
-    # Lists that to-dos can be dropped on to plan them there.
-    SORTABLE = %w[today upcoming].freeze
-
     # What Today and Upcoming list: everything, only to-dos or only meetings.
     FILTERS = %w[all todos meetings].freeze
 
     attr_reader :user, :project
-
-    # Today is the default view, so its paths and forms go without one.
-    def self.param(name) = (name unless name.to_s == "today")
-
-    def self.sortable?(name) = name.to_s.in?(SORTABLE)
 
     def initialize(user:, project:)
       @user = user
