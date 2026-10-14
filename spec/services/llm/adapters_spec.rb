@@ -38,7 +38,11 @@ RSpec.describe Llm::Adapters do
   describe ".for" do
     it "queries the server of a format that lists models in the OpenAI shape" do
       expect(adapter_for("openai")).to be_a(Llm::Adapters::Openai)
-      expect(adapter_for("openrouter")).to be_a(Llm::Adapters::Openai)
+      expect(adapter_for("ollama")).to be_a(Llm::Adapters::Openai)
+    end
+
+    it "asks OpenRouter for the part of its catalogue it does not serve by default" do
+      expect(adapter_for("openrouter")).to be_a(Llm::Adapters::Openrouter)
     end
 
     it "reads the registry for a format that lists models its own way" do

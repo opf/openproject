@@ -56,10 +56,17 @@ module LlmConnections
 
     def enrich(llm_model)
       published = Llm::Capabilities.published_for(llm_model.external_id)
-      return if published.nil?
+      declared = Llm::Capabilities.declared_for(llm_model.raw_metadata)
+      return if published.nil? && declared.empty?
 
-      apply_metadata(llm_model, published)
-      published[:states].each { |capability, state| record(llm_model.external_id, capability, state) }
+      apply_metadata(llm_model, published) if published
+      states(published, declared).each { |capability, state| record(llm_model.external_id, capability, state) }
+    end
+
+    # The card describes the model as this server offers it, the registry
+    # describes it as some other vendor deploys it, so a declaration wins.
+    def states(published, declared)
+      published.to_h.fetch(:states, {}).merge(declared)
     end
 
     # Everything written here is metadata. display_name is the administrator's
