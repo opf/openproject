@@ -31,6 +31,8 @@
 class PushSubscription < ApplicationRecord
   MAX_PER_USER = 10
 
+  self.filter_attributes += [:endpoint]
+
   belongs_to :user
   belongs_to :session, class_name: "Sessions::UserSession"
 

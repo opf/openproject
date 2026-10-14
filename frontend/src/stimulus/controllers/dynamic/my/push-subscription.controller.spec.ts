@@ -216,7 +216,7 @@ describe('PushSubscriptionController', () => {
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe('/my/push_subscriptions');
     expect(init.method?.toLowerCase()).toBe('post');
-    expect(JSON.parse(init.body as string)).toEqual({ endpoint: 'https://push.example/new' });
+    expect(JSON.parse(init.body as string)).toEqual({ push_endpoint: 'https://push.example/new' });
     expect(new Headers(init.headers).get('Accept')).toContain('text/vnd.turbo-stream.html');
   });
 

@@ -38,7 +38,7 @@ module My
     no_authorization_required! :create, :destroy
 
     def create
-      result = subscribe(params[:endpoint].to_s)
+      result = subscribe(params[:push_endpoint].to_s)
 
       if result.success?
         render_devices

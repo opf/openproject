@@ -133,7 +133,7 @@ export default class PushSubscriptionController extends Controller {
         applicationServerKey: decodeBase64Url(this.vapidPublicKeyValue),
       });
       const response = await post(this.createUrlValue, {
-        body: JSON.stringify({ endpoint: subscription.endpoint }),
+        body: JSON.stringify({ push_endpoint: subscription.endpoint }),
         contentType: 'application/json',
         responseKind: 'turbo-stream',
       });

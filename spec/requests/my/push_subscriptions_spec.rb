@@ -54,7 +54,7 @@ RSpec.describe "My::PushSubscriptionsController",
   end
 
   def subscribe(value)
-    post "/my/push_subscriptions", params: { endpoint: value }.to_json, headers: json_headers
+    post "/my/push_subscriptions", params: { push_endpoint: value }.to_json, headers: json_headers
   end
 
   describe "POST /my/push_subscriptions" do
