@@ -38,6 +38,9 @@ module Notifications
   # but the recipient is not to be notified, because the recipient mentioned themselves
   # or has disabled notifications for being mentioned, a successful result without a
   # notification is returned.
+  #
+  # If the resource's strategy supports mails for the reason, the mail is sent right away,
+  # just like Notifications::WorkflowJob does for mentions in journals.
   class CreateFromApiService
     attr_reader :user
 
@@ -60,6 +63,7 @@ module Notifications
       Notifications::CreateService
         .new(user:, model: notification)
         .call
+        .tap { |result| send_mail(result.result) if result.success? }
     end
 
     private
@@ -79,9 +83,18 @@ module Notifications
         actor: user,
         journal: nil,
         read_ian: strategy&.supports_ian?(reason) ? false : nil,
-        mail_alert_sent: nil,
+        mail_alert_sent: strategy&.supports_mail?(reason) ? false : nil,
         mail_reminder_sent: nil
       )
+    end
+
+    def send_mail(notification)
+      return unless notification.mail_alert_sent == false
+
+      # Enqueue mail asynchronously (not waiting for delivery)
+      Notifications::MailService
+        .new(notification)
+        .call
     end
 
     def skip_notification?(notification)

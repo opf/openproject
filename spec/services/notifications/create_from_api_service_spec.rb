@@ -49,7 +49,7 @@ RSpec.describe Notifications::CreateFromApiService do
     instance.call(reason:, resource_type:, resource_id: document.id, recipient_id:)
   end
 
-  it "creates a mention notification without journal and mail" do
+  it "creates a mention notification without journal, only to be sent out by mail" do
     expect(service_call).to be_success
     expect(service_call.result)
       .to be_persisted
@@ -58,13 +58,34 @@ RSpec.describe Notifications::CreateFromApiService do
                            actor: user,
                            reason: "mentioned",
                            journal: nil,
-                           read_ian: false,
-                           mail_alert_sent: nil,
+                           read_ian: nil,
                            mail_reminder_sent: nil)
   end
 
-  it "does not send any mail" do
-    expect { service_call }.not_to have_enqueued_mail
+  it "sends the mention mail immediately and marks the notification accordingly" do
+    expect { service_call }
+      .to have_enqueued_mail(DocumentsMailer, :mentioned)
+            .with(recipient, instance_of(Notification))
+
+    expect(service_call.result.reload.mail_alert_sent).to be(true)
+  end
+
+  context "when the recipient disabled immediate mails for mentions" do
+    let(:recipient_without_mention_mails) do
+      create(:user,
+             member_with_permissions: { project => %i[view_documents] },
+             preferences: { immediate_reminders: { mentioned: false } })
+    end
+    let(:recipient_id) { recipient_without_mention_mails.id }
+
+    it "creates the notification without sending a mail" do
+      expect { service_call }.not_to have_enqueued_mail
+
+      expect(service_call.result)
+        .to be_persisted
+        .and have_attributes(recipient: recipient_without_mention_mails, read_ian: nil)
+      expect(service_call.result.reload.mail_alert_sent).to be_nil
+    end
   end
 
   context "when the recipient is the user" do

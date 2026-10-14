@@ -61,6 +61,70 @@ RSpec.describe DocumentsMailer do
     end
   end
 
+  describe "#mentioned", with_settings: { host_name: "my.openproject.com" } do
+    let(:actor) { create(:user, firstname: "Mentioning", lastname: "Actor") }
+    let(:notification) do
+      build_stubbed(:notification,
+                    reason: :mentioned,
+                    resource: document,
+                    journal: nil,
+                    recipient: user,
+                    actor:)
+    end
+    let(:mail) { described_class.mentioned(user, notification) }
+    let(:document_url) { "http://my.openproject.com/documents/#{document.id}" }
+
+    it "renders the subject" do
+      expect(mail.subject).to eq "[TestProject] Mentioning Actor mentioned you in Test Title"
+    end
+
+    it "is sent to the recipient" do
+      expect(mail.to).to eq [user.mail]
+    end
+
+    it "sets the OpenProject headers" do
+      expect(mail["X-OpenProject-Project"].value).to eq project.identifier
+      expect(mail["X-OpenProject-Type"].value).to eq "Document"
+    end
+
+    it "uses the notification for the Message-ID and references the document" do
+      expect(mail["Message-ID"].value)
+        .to match(/\A<op\.notification-#{notification.id}\.\d{14}\.#{user.id}@[^>]+>\z/)
+      expect(mail["References"].value).to match(/\A<op\.document-#{document.id}@[^>]+>\z/)
+    end
+
+    context "with two mentions of the same recipient in the same document at the same time" do
+      let(:other_notification) do
+        build_stubbed(:notification,
+                      reason: :mentioned,
+                      resource: document,
+                      journal: nil,
+                      recipient: user,
+                      actor:)
+      end
+      let(:other_mail) { described_class.mentioned(user, other_notification) }
+
+      it "uses distinct Message-IDs but the same References", :freeze_time do
+        expect(mail["Message-ID"].value).not_to eq other_mail["Message-ID"].value
+        expect(mail["References"].value).to eq other_mail["References"].value
+      end
+    end
+
+    it "renders the actor, the project, the document title and link in every format" do
+      expect(mail.parts.map { |part| part.body.to_s })
+        .to all include("Mentioning Actor mentioned you in a document")
+        .and include("TestProject")
+        .and include("Test Title")
+        .and include(document_url)
+    end
+
+    it "links the button to the document" do
+      expect(mail.html_part.body.to_s)
+        .to include(%(href="#{document_url}"))
+        .and include("Open document")
+    end
+  end
+
   describe "document description referencing a work package",
            with_settings: { host_name: "my.openproject.com" } do
     shared_let(:persisted_project) { create(:project, identifier: "docsproj") }
