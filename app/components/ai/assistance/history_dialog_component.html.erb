@@ -29,7 +29,7 @@
   ++#
 %>
 
-<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: t("ai_assistance.history.title"), size: :medium, data: { test_selector: "ai-assistance-history-dialog" })) do |dialog| %>
+<%= render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: t("ai_assistance.history.title"), size: :xlarge, data: { test_selector: "ai-assistance-history-dialog" })) do |dialog| %>
   <% dialog.with_header(variant: :large) %>
   <% dialog.with_body do %>
     <% if entries.empty? %>

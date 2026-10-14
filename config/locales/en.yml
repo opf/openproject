@@ -2546,7 +2546,7 @@ en:
       no_findings_partly_checked: "Nothing was found, but some parts were not checked. See the list below."
       not_checked: "Not checked"
       review_running: "The AI review is in progress. Its findings appear below the rule findings."
-      review_running_description: "The rules found nothing. The AI findings appear here when the review is done."
+      review_running_description: "The AI findings appear here when the review is done."
       review_running_title: "Reviewing the work package…"
       run_again: "Run again"
       started_at: "Checked at %{time}. Only you can see this result."

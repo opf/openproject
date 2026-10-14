@@ -76,7 +76,8 @@ module AI
           start_date: work_package.start_date,
           due_date: work_package.due_date,
           priority: work_package.priority&.name,
-          assignee: work_package.assigned_to&.name
+          assignee: work_package.assigned_to&.name,
+          responsible: work_package.responsible&.name
         }
       end
 

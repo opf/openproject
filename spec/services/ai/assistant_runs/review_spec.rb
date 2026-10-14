@@ -102,6 +102,7 @@ RSpec.describe AI::AssistantRuns::Review do
 
     expect(sent[:user]).to include("Public note")
     expect(sent[:user]).not_to include("Secret note")
+    expect(JSON.parse(sent[:user])["work_package"]).to include("assignee", "responsible")
     expect(sent[:system]).to include(%(locale code "de"))
   end
 
