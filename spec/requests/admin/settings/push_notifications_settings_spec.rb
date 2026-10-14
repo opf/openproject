@@ -61,6 +61,21 @@ RSpec.describe "Push Notifications Settings",
         expect(page).to have_css("form[data-turbo-confirm='#{confirmation}']")
       end
 
+      context "when the key is managed through the environment",
+              :settings_reset,
+              with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => Base64.strict_encode64(
+                OpenSSL::PKey::EC.generate("prime256v1").private_to_der
+              ) } do
+        before { reset(:web_push_vapid_private_key) }
+
+        it "explains the rotation instead of offering to regenerate" do
+          get "/admin/settings/push_notifications"
+
+          expect(page).to have_text(I18n.t("admin.settings.push_notifications.key_managed_by_environment"))
+          expect(page).to have_no_button(I18n.t("admin.settings.push_notifications.regenerate_key"))
+        end
+      end
+
       context "when the key is unreadable" do
         before { allow(OpenProject::WebPush).to receive(:key_readable?).and_return(false) }
 
@@ -154,6 +169,22 @@ RSpec.describe "Push Notifications Settings",
         expect(flash[:notice]).to eq(I18n.t("admin.settings.push_notifications.key_regenerated"))
         expect(PushSubscription.count).to eq(0)
         expect(OpenProject::WebPush.public_key).not_to eq(old_public_key)
+      end
+
+      context "when the key is managed through the environment",
+              :settings_reset,
+              with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => Base64.strict_encode64(
+                OpenSSL::PKey::EC.generate("prime256v1").private_to_der
+              ) } do
+        before { reset(:web_push_vapid_private_key) }
+
+        it "redirects with an error and keeps the subscriptions" do
+          post "/admin/settings/push_notifications/regenerate_key"
+
+          expect(response).to redirect_to("/admin/settings/push_notifications")
+          expect(flash[:error]).to eq(I18n.t("admin.settings.push_notifications.key_managed_by_environment"))
+          expect(PushSubscription.count).to eq(1)
+        end
       end
 
       context "when logged in as a non-admin" do

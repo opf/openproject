@@ -123,6 +123,28 @@ RSpec.describe OpenProject::WebPush do
         expect(described_class.public_key).to eq(expected.public_key)
       end
     end
+
+    {
+      "is not base64" => "not base64!",
+      "is base64 of something other than a key" => Base64.strict_encode64("garbage"),
+      "holds only a public key" => Base64.strict_encode64(
+        OpenSSL::PKey::EC.generate("prime256v1").public_to_der
+      ),
+      "is on another curve" => Base64.strict_encode64(
+        OpenSSL::PKey::EC.generate("secp384r1").private_to_der
+      )
+    }.each do |description, value|
+      context "when the environment value #{description}",
+              :settings_reset,
+              with_env: { "OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY" => value } do
+        before { reset(:web_push_vapid_private_key) }
+
+        it "raises an unreadable key error and reports the key as unreadable" do
+          expect { described_class.public_key }.to raise_error(described_class::UnreadableKey)
+          expect(described_class).not_to be_key_readable
+        end
+      end
+    end
   end
 
   describe ".regenerate_key!" do

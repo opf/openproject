@@ -424,7 +424,7 @@ For reference, here is an overview of the latest stable version's environment va
 | `OPENPROJECT_USERS__DELETABLE__BY__SELF` | `false` | Users allowed to delete their accounts |
 | `OPENPROJECT_WEB` | `{"workers" => 2, "timeout" => 120, "wait_timeout" => 30, "min_threads" => 4, "max_threads" => 16, "term_on_timeout" => 1}` | Web worker count and threads configuration |
 | `OPENPROJECT_WEB__PUSH__ENABLED` | `true` | Browser push notifications |
-| `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` | `<randomly generated>` | VAPID private key for browser push, base64 PKCS#8 DER. Generated on first use and stored encrypted. Changing this invalidates every browser push subscription. |
+| `OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY` | `<randomly generated>` | VAPID private key for browser push: the plaintext base64 DER (PKCS#8) encoding of a prime256v1 key. When unset, a key is generated on first use and stored encrypted. When set, it is used as is and cannot be regenerated from the administration page. Changing it invalidates every browser push subscription. |
 | `OPENPROJECT_WELCOME__ON__HOMESCREEN` | `false` | Display welcome block on homescreen |
 | `OPENPROJECT_WELCOME__TEXT` | `nil` | Welcome block text |
 | `OPENPROJECT_WELCOME__TITLE` | `nil` | Welcome block title |

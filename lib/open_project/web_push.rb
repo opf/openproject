@@ -29,6 +29,8 @@
 #++
 
 module OpenProject::WebPush
+  VAPID_CURVE = "prime256v1"
+
   PUSH_SERVICE_HOSTS = %w[fcm.googleapis.com updates.push.services.mozilla.com].freeze
   PUSH_SERVICE_HOST_SUFFIXES = %w[.notify.windows.com .push.apple.com].freeze
 
@@ -67,18 +69,27 @@ module OpenProject::WebPush
   end
 
   def vapid_key
-    ::WebPush::VapidKey.new(OpenSSL::PKey::EC.new(Base64.strict_decode64(private_key_der_b64)))
+    key = OpenSSL::PKey::EC.new(Base64.strict_decode64(private_key_der_b64))
+    raise UnreadableKey unless key.private? && key.group.curve_name == VAPID_CURVE
+
+    ::WebPush::VapidKey.new(key)
+  rescue ArgumentError, OpenSSL::PKey::PKeyError
+    raise UnreadableKey
   end
 
   def generate_encrypted_private_key
-    der = OpenSSL::PKey::EC.generate("prime256v1").private_to_der
+    der = OpenSSL::PKey::EC.generate(VAPID_CURVE).private_to_der
 
     encryptor.encrypt_and_sign(Base64.strict_encode64(der))
   end
 
+  def key_managed_by_environment?
+    !Settings::Definition[:web_push_vapid_private_key].writable?
+  end
+
   def private_key_der_b64
     value = Setting.web_push_vapid_private_key
-    return value unless Settings::Definition[:web_push_vapid_private_key].writable?
+    return value if key_managed_by_environment?
 
     decrypt(value)
   end

@@ -87,10 +87,14 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <%= render(Primer::Beta::Heading.new(tag: :h3, font_size: 4, mt: 4, mb: 2)) { t("admin.settings.push_notifications.key_section") } %>
-<%= primer_form_with(
-      url: regenerate_key_admin_settings_push_notifications_path,
-      method: :post,
-      data: { turbo_confirm: t("admin.settings.push_notifications.regenerate_key_confirm") }
-    ) do %>
-  <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger)) { t("admin.settings.push_notifications.regenerate_key") } %>
+<% if OpenProject::WebPush.key_managed_by_environment? %>
+  <%= render(Primer::Beta::Text.new(tag: :p, color: :muted)) { t("admin.settings.push_notifications.key_managed_by_environment") } %>
+<% else %>
+  <%= primer_form_with(
+        url: regenerate_key_admin_settings_push_notifications_path,
+        method: :post,
+        data: { turbo_confirm: t("admin.settings.push_notifications.regenerate_key_confirm") }
+      ) do %>
+    <%= render(Primer::Beta::Button.new(type: :submit, scheme: :danger)) { t("admin.settings.push_notifications.regenerate_key") } %>
+  <% end %>
 <% end %>

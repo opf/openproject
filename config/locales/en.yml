@@ -2179,6 +2179,7 @@ en:
         checking: "Checking…"
         hosts_intro: "This instance must reach these hosts over HTTPS. Entries with * cover all subdomains:"
         http_status: "HTTP %{code}"
+        key_managed_by_environment: "The VAPID key is managed through the OPENPROJECT_WEB__PUSH__VAPID__PRIVATE__KEY environment variable. To rotate it, change the variable."
         key_regenerated: "The VAPID key was regenerated. Every device needs to enable push again."
         key_section: "Key"
         key_unreadable: "The VAPID key could not be read. Regenerate it to restore browser push; every device will need to enable push again."
