@@ -178,6 +178,10 @@ class UserPreference < ApplicationRecord
     settings["time_zone"].present?
   end
 
+  def avatar_color=(value)
+    settings["avatar_color"] = value.present? ? ::Colors::HexColor::Normalizer.call(value) : nil
+  end
+
   def daily_reminders
     super.presence || { enabled: true, times: ["08:00:00+00:00"] }.with_indifferent_access
   end

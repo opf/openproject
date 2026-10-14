@@ -13,6 +13,8 @@ keywords: my account, account settings, avatar
 
 To change your profile picture in OpenProject, navigate to **Account settings** and select **Account** from the left-hand menu.
 
+If you have no avatar uploaded, an image will be generated automatically based on your initials. The color for that fallback can be chosen here as well.
+
 If your OpenProject administrator has enabled Gravatar, OpenProject can display your Gravatar if you have registered one with the same email address at [gravatar.com](https://documentation.openproject-edge.com/external_redirect?url=https%3A%2F%2Fgravatar.com%2F). If no Gravatar image is available, Gravatar displays its configured default avatar.
 
 To use a different profile picture, click your current avatar to upload a custom image. A custom avatar overrides your Gravatar.

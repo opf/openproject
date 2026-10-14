@@ -463,7 +463,9 @@ en:
       user_preference:
         auto_hide_popups: "Automatically hide success banners"
         auto_hide_popups_caption: "When enabled, the green success banners will automatically disappear after 5 seconds."
+        avatar_color: "Fallback color"
         button_update_alerts: "Update alerts"
+        button_update_fallback_color: "Update fallback color"
         button_update_look_and_feel: "Update look and feel"
         button_update_user_information: "Update profile"
         comments_sorting: "Display work package activity sorted by"

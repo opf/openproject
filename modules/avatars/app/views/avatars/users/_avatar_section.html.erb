@@ -1,3 +1,9 @@
 <% if User.current.admin? %>
-  <%= render(Avatars::FormSectionComponent.new(user:, target_avatar_path: edit_user_avatar_path(user))) %>
+  <%= render(
+        Avatars::FormSectionComponent.new(
+          user:,
+          target_avatar_path: edit_user_avatar_path(user),
+          avatar_color_path: update_color_edit_user_avatar_path(user)
+        )
+      ) %>
 <% end %>
