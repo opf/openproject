@@ -100,20 +100,43 @@ RSpec.describe "API v3 admin privilege elevation",
     end
   end
 
-  context "when authenticated by an API key", with_settings: { api_tokens_enabled: true } do
-    let(:token) { create(:api_token, user: admin) }
+  context "when authenticated by an API key",
+          with_config: { apiv3_enable_basic_auth: true },
+          with_settings: { api_tokens_enabled: true } do
+    let(:scopes) { %w[api_v3] }
+    let(:token) { create(:api_token, user: admin, scopes:) }
+    let(:bearer_headers) { { "Authorization" => "Bearer #{token.plain_value}" } }
+    let(:basic_auth_headers) do
+      { "Authorization" => ActionController::HttpAuthentication::Basic.encode_credentials("apikey", token.plain_value) }
+    end
 
     before { browser.host! Setting.host_name }
 
-    it "returns the work package without an elevation" do
-      expect(get_work_package(headers: { "Authorization" => "Bearer #{token.plain_value}" }))
-        .to have_http_status(:ok)
+    context "without the admin_elevation scope" do
+      it "does not find the work package as Bearer token" do
+        expect(get_work_package(headers: bearer_headers)).to have_http_status(:not_found)
+      end
+
+      it "does not find the work package via Basic auth" do
+        expect(get_work_package(headers: basic_auth_headers)).to have_http_status(:not_found)
+      end
+    end
+
+    context "with the admin_elevation scope" do
+      let(:scopes) { %w[api_v3 admin_elevation] }
+
+      it "returns the work package as Bearer token" do
+        expect(get_work_package(headers: bearer_headers)).to have_http_status(:ok)
+      end
+
+      it "returns the work package via Basic auth" do
+        expect(get_work_package(headers: basic_auth_headers)).to have_http_status(:ok)
+      end
     end
 
     context "with the feature flag inactive", with_flag: { admin_privilege_elevation: false } do
-      it "returns the work package without an elevation" do
-        expect(get_work_package(headers: { "Authorization" => "Bearer #{token.plain_value}" }))
-          .to have_http_status(:ok)
+      it "returns the work package without the admin_elevation scope" do
+        expect(get_work_package(headers: bearer_headers)).to have_http_status(:ok)
       end
     end
   end
