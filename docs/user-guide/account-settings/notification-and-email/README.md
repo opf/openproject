@@ -56,6 +56,8 @@ If the tab shows **Browser push is temporarily unavailable on this instance**, b
 
 Click **Enable on this device** and accept the browser prompt asking for permission to show notifications. The list on this tab shows each device on which you have enabled browser push, each with a **Revoke** button.
 
+If pushes stop arriving on a device (browsers rotate push endpoints from time to time), turn browser push off and on again on that device.
+
 When you have unread notifications, the application shows a notification for the latest one. The operating system notification shows who triggered it and the work package subject.
 
 Pausing your email reminders also pauses browser push. Signing out removes the device from the list.

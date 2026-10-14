@@ -50,7 +50,7 @@ const showUnread = async () => {
     return navigator.clearAppBadge?.().catch(() => undefined);
   }
 
-  await navigator.setAppBadge?.(Math.min(data.count, 99)).catch(() => undefined);
+  await navigator.setAppBadge?.(data.count).catch(() => undefined);
   return self.registration.showNotification(data.title, {
     body: data.body,
     tag: PUSH_TAG,
@@ -64,18 +64,25 @@ self.addEventListener("push", (event) => {
   event.waitUntil(showUnread());
 });
 
-const openOrFocus = async (url) => {
-  const clients = await self.clients.matchAll({ type: "window" });
+const sameOriginUrl = (url) => {
+  const resolved = new URL(url, self.location.href);
+  return resolved.origin === self.location.origin ? resolved.href : HOME_URL;
+};
+
+const openOrFocus = async (requestedUrl) => {
+  const url = sameOriginUrl(requestedUrl);
+  const clients = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
   const client =
     clients.find((candidate) => candidate.visibilityState === "visible" || candidate.focused) || clients[0];
   if (!client) return self.clients.openWindow(url);
 
+  let navigated;
   try {
-    await client.focus();
-    return await client.navigate(url);
+    navigated = await client.navigate(url);
   } catch {
     return self.clients.openWindow(url);
   }
+  return navigated?.focus();
 };
 
 self.addEventListener("notificationclick", (event) => {
