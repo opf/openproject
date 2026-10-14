@@ -42,9 +42,7 @@ module WorkPackageTypes
     # What a list says about the variant in use here. Takes markup: one list uses an icon.
     renders_one :state
 
-    # A right-aligned label, for supplementary status rather than an affordance. Mirrors the
-    # surrounding BorderBoxListComponent header's own.
-    renders_one :status_label, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
+    renders_many :status_labels, ->(**system_arguments) { Primer::Beta::Label.new(**system_arguments) }
 
     # @param linked [Boolean] whether the name leads to the variant's configuration. Pass false
     #   where the reader may not open it.

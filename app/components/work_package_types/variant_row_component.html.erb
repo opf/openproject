@@ -42,9 +42,15 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
   <% end %>
 
-  <% if status_label? %>
+  <% if status_labels.any? %>
     <% row.with_column(mr: 3) do %>
-      <%= status_label %>
+      <%= flex_layout(align_items: :center, classes: "gap-2") do |labels| %>
+        <% status_labels.each do |label| %>
+          <% labels.with_column do %>
+            <%= label %>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

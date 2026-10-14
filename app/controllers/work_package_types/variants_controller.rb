@@ -41,7 +41,8 @@ module WorkPackageTypes
     def index
       return unless turbo_frame_request?
 
-      render VariantsListComponent.new(type: @type, query: params[:query]), layout: false
+      render VariantsListComponent.new(type: @type, query: params[:query], created_by_migration: params[:created_by_migration]),
+             layout: false
     end
 
     def comparison

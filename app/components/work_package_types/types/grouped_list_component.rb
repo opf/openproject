@@ -35,19 +35,24 @@ module WorkPackageTypes
       include OpTurbo::Streamable
       include WorkPackageTypes::VariantRoutes
 
-      def initialize(types:, expanded_type_id: nil, page_args: {})
+      FRAME_ID = "admin-types-list"
+
+      def initialize(types:, expanded_type_id: nil, page_args: {}, query: nil)
         super()
 
         @types = types
         @expanded_type_id = expanded_type_id
         @page_args = page_args.presence || { page: types.current_page, per_page: types.per_page }
+        @query = query.presence
       end
 
       private
 
-      attr_reader :types, :expanded_type_id, :page_args
+      attr_reader :types, :expanded_type_id, :page_args, :query
 
       def collapsed?(root)
+        return false if query
+
         root.id != expanded_type_id
       end
 

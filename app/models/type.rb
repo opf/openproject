@@ -66,6 +66,14 @@ class Type < ApplicationRecord
     end
   }
 
+  scope :with_name_like, ->(query) {
+    where("types.name ILIKE :query", query: "%#{sanitize_sql_like(query.to_s.strip)}%")
+  }
+
+  scope :with_own_or_variant_name_like, ->(query) {
+    with_name_like(query).or(where(id: TypeVariant.with_name_like(query).select(:type_id)))
+  }
+
   delegate :to_s, to: :name
 
   # Read from the collection rather than through an association of its own, so a base variant

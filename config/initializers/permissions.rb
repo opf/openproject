@@ -241,7 +241,8 @@ Rails.application.reloader.to_prepare do
       map.permission :manage_types,
                      {
                        "projects/settings/work_packages": %i[show],
-                       "projects/settings/work_packages/types": %i[index new create destroy]
+                       "projects/settings/work_packages/types": %i[index new create destroy],
+                       "projects/settings/work_packages/custom_fields": %i[show]
                      },
                      permissible_on: :project,
                      require: :member
@@ -252,6 +253,7 @@ Rails.application.reloader.to_prepare do
                      {
                        "projects/settings/work_packages": %i[show],
                        "projects/settings/work_packages/types": %i[index],
+                       "projects/settings/work_packages/custom_fields": %i[show],
                        "projects/settings/work_packages/types/switches": %i[new create],
                        "projects/settings/work_packages/types/switches/impacts": %i[create],
                        "work_package_types/settings_tab": %i[index],

@@ -33,39 +33,77 @@ See COPYRIGHT and LICENSE files for more details.
       flex_layout do |page|
         page.with_row do
           form_tag(variants_path, method: :get, data: filter_form_data) do
-            render(Primer::OpenProject::SubHeader.new) do |subheader|
-              subheader.with_filter_input(
-                name: "query",
-                value: query,
-                label: I18n.t("types.edit.variants.filter"),
-                placeholder: I18n.t("types.edit.variants.filter"),
-                leading_visual: { icon: :search, size: :small },
-                data: { action: "input->auto-submit#submit" }
-              )
+            concat(
+              render(Primer::OpenProject::SubHeader.new) do |subheader|
+                subheader.with_filter_input(
+                  name: "query",
+                  value: query,
+                  label: I18n.t("types.edit.variants.filter"),
+                  placeholder: I18n.t("types.edit.variants.filter"),
+                  leading_visual: { icon: :search, size: :small },
+                  data: { action: "input->auto-submit#submit" }
+                )
 
-              subheader.with_action_button(
-                scheme: :primary,
-                leading_icon: :plus,
-                label: I18n.t("types.index.add_variant_action"),
-                tag: :a,
-                href: add_variant_path,
-                test_selector: "add-type-variant"
-              ) do
-                I18n.t("types.index.variant_label")
-              end
+                subheader.with_quick_filter(
+                  data: {
+                    controller: "filter--segmented-control",
+                    action: "itemActivated->filter--segmented-control#activate"
+                  }
+                ) do
+                  concat hidden_field_tag(
+                    :created_by_migration, created_by_migration,
+                    data: { "filter--segmented-control-target": "field", action: "change->auto-submit#submit" }
+                  )
+                  concat(
+                    render(
+                      Primer::Alpha::SegmentedControl.new(
+                        "aria-label": I18n.t(:label_filter_plural),
+                        full_width: false,
+                        test_selector: "type-variants-migration-filter"
+                      )
+                    ) do |control|
+                      control.with_item(
+                        label: I18n.t("types.edit.variants.created_by_migration_filter.all"),
+                        selected: !migration_filter?,
+                        data: { value: "" }
+                      )
+                      control.with_item(
+                        label: I18n.t("types.edit.variants.created_by_migration_filter.migrated"),
+                        selected: migration_filter?,
+                        data: { value: "t" }
+                      )
+                    end
+                  )
+                end
 
-              subheader.with_action_button(
-                scheme: :default,
-                leading_icon: :"git-compare",
-                label: I18n.t("types.comparison.action"),
-                tag: :a,
-                href: comparison_path,
-                test_selector: "compare-type-variants"
-              ) do
-                I18n.t("types.comparison.action")
+                subheader.with_action_button(
+                  scheme: :primary,
+                  leading_icon: :plus,
+                  label: I18n.t("types.index.add_variant_action"),
+                  tag: :a,
+                  href: add_variant_path,
+                  test_selector: "add-type-variant"
+                ) do
+                  I18n.t("types.index.variant_label")
+                end
+
+                subheader.with_action_button(
+                  scheme: :default,
+                  leading_icon: :"git-compare",
+                  label: I18n.t("types.comparison.action"),
+                  tag: :a,
+                  href: comparison_path,
+                  test_selector: "compare-type-variants"
+                ) do
+                  I18n.t("types.comparison.action")
+                end
               end
-            end
+            )
           end
+        end
+
+        page.with_row do
+          render(WorkPackageTypes::MigratedVariantsBannerComponent.new(variants: type.variants))
         end
 
         page.with_row do
@@ -102,6 +140,9 @@ See COPYRIGHT and LICENSE files for more details.
 
                         render(WorkPackageTypes::VariantRowComponent.new(variant:)) do |row|
                           row.with_caption { created_in(variant.project) } if variant.project_owned?
+                          if variant.created_by_migration?
+                            row.with_status_label(scheme: :attention) { t("types.index.created_by_migration") }
+                          end
                           if variant.enabled_in_new_projects?
                             row.with_status_label { t("types.index.enabled_in_new_projects") }
                           end

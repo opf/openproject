@@ -218,4 +218,65 @@ RSpec.describe "Work package variants index", :js do
       expect(project.project_types.find_by(type: bug_type).variant).to eq(alfa_variant)
     end
   end
+
+  it "filters the listed types by name" do
+    visit types_path
+
+    expect(page).to have_text(bug_type.name)
+
+    fill_in "query", with: "Feature"
+
+    expect(page).to have_text(feature_type.name)
+    expect(page).to have_no_text(bug_type.name)
+  end
+
+  it "says so when the name filter matches no type" do
+    visit types_path
+
+    fill_in "query", with: "Nothing by this name"
+
+    expect(page).to have_text(I18n.t("types.index.filter_no_results"))
+  end
+
+  it "labels a variant a migration created" do
+    converted = create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path(expand: bug_type.id)
+
+    within(".Box-row", text: converted.variant_name) do
+      expect(page).to have_css(".Label--attention", text: I18n.t("types.index.created_by_migration"))
+    end
+
+    within(".Box-row", text: alfa_variant.variant_name) do
+      expect(page).to have_no_css(".Label--attention")
+    end
+  end
+
+  it "finds a type by one of its variant names, and opens it on the match" do
+    visit types_path
+
+    fill_in "query", with: zeta_variant.variant_name
+
+    expect(page).to have_text(bug_type.name)
+    expect(page).to have_no_text(feature_type.name)
+    expect(page).to have_link(
+      zeta_variant.variant_name,
+      href: type_variant_settings_path(type_id: bug_type.id, variant_id: zeta_variant.id)
+    )
+  end
+
+  it "explains on a banner what the migrated variants are" do
+    create(:type_variant, type: bug_type, variant_name: "Converted", created_by_migration: true)
+
+    visit types_path
+
+    expect(page).to have_test_selector("migrated-variants-banner",
+                                       text: I18n.t("types.index.migrated_variants_banner.cleanup").strip)
+  end
+
+  it "leaves the banner out when no variant came from a migration" do
+    visit types_path
+
+    expect(page).to have_no_test_selector("migrated-variants-banner")
+  end
 end

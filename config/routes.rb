@@ -563,6 +563,7 @@ Rails.application.routes.draw do
             end
           end
           resource :categories, only: %i[show update]
+          resource :custom_fields, only: %i[show]
         end
         resource :work_packages_import, only: %i[show create], controller: "work_packages_import" do
           member do

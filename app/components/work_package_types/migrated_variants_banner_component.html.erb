@@ -1,0 +1,9 @@
+<%= render(
+      Primer::Alpha::Banner.new(
+        scheme: :warning, icon: :alert, mb: 3,
+        test_selector: "migrated-variants-banner"
+      )
+    ) do %>
+  <%= t("types.index.migrated_variants_banner.text", label:) %>
+  <%= t("types.index.migrated_variants_banner.cleanup") %>
+<% end %>
