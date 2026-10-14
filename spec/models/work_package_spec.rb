@@ -755,6 +755,29 @@ RSpec.describe WorkPackage do
     end
   end
 
+  describe ".allowed_target_projects_on_copy" do
+    let(:permissions) { [:copy_work_packages] }
+    let(:user) do
+      create(:user, member_with_permissions: { project => permissions })
+    end
+
+    context "when having the copy_work_packages permission" do
+      it "returns the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
+          .to contain_exactly(project)
+      end
+    end
+
+    context "when lacking the copy_work_packages permission" do
+      let(:permissions) { [:move_work_packages] }
+
+      it "does not return the project" do
+        expect(described_class.allowed_target_projects_on_copy(user))
+          .to be_empty
+      end
+    end
+  end
+
   describe ".allowed_target_project_on_create" do
     let(:permissions) { [:add_work_packages] }
     let(:user) do

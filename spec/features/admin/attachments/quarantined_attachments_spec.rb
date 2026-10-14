@@ -59,11 +59,10 @@ RSpec.describe "Quarantined attachments", :js do
       accept_confirm do
         click_link I18n.t("antivirus_scan.quarantined_attachments.delete")
       end
-
-      expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    expect(page).to have_no_text "other-1.txt"
+    expect(page).to have_no_css("#quarantined_attachment_#{quarantined_attachment.id}")
+    expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     expect(page).to have_text "other-2.txt"
   end
 end

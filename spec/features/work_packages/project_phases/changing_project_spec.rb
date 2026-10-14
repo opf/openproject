@@ -79,8 +79,10 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
       wait_for_network_idle
 
       click_on "Move and follow"
-
-      work_package_page.expect_and_dismiss_flash(message: "Successful update.")
+      page.document.synchronize(30) do
+        moved = work_package.reload.project == target_project
+        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")
+      end
 
       work_package_page.expect_attributes(project_phase: phase_definition_active_in_both_projects.name)
     end
@@ -104,8 +106,10 @@ RSpec.describe "Linked projects phases and work packages when changing the proje
       wait_for_network_idle
 
       click_on "Move and follow"
-
-      work_package_page.expect_and_dismiss_flash(message: "Successful update.")
+      page.document.synchronize(30) do
+        moved = work_package.reload.project == target_project
+        raise Capybara::ElementNotFound unless moved && page.current_path.include?("/work_packages/#{work_package.id}")
+      end
 
       work_package_page.expect_attributes(project_phase: nil)
     end
