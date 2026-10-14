@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe SprintWorkPackageBreakdown do
+RSpec.describe Sprints::WorkPackageBreakdown do
   # Backdates a journalized attribute change, mirroring the helper in burndown_spec.rb
   def set_attribute_journalized(work_package, attribute, value, changed_at)
     work_package.reload
@@ -66,76 +66,18 @@ RSpec.describe SprintWorkPackageBreakdown do
   end
 
   describe "#reference_start and #reference_finish" do
-    context "when the sprint has been started but not completed, before the scheduled finish" do
-      let(:sprint) do
-        create(:sprint, project:,
-                        start_date: Time.zone.today - 10.days,
-                        finish_date: Time.zone.today + 4.days,
-                        started_at: 10.days.ago)
-      end
-
-      it "keeps reference_start at the actual start timestamp" do
-        expect(breakdown.reference_start).to eq(Timestamp.new(sprint.started_at))
-      end
-
-      it "keeps reference_finish at the scheduled finish date" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.finish_date.in_time_zone.end_of_day))
-      end
+    let(:sprint) do
+      create(:sprint, project:,
+                      start_date: 10.days.ago.to_date,
+                      finish_date: 4.days.from_now.to_date,
+                      started_at: 7.days.ago)
     end
 
-    context "when the sprint has been started but not completed, after the scheduled finish has passed" do
-      let(:sprint) do
-        create(:sprint, project:,
-                        start_date: Time.zone.today - 20.days,
-                        finish_date: Time.zone.today - 5.days,
-                        started_at: 20.days.ago)
-      end
+    it "wraps the sprint's timeframe as timestamps" do
+      timeframe = Sprints::Timeframe.new(sprint)
 
-      it "clips reference_finish to the current time rather than the stale planned finish date" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(Time.zone.now))
-      end
-    end
-
-    context "when the sprint was completed before its finish date" do
-      let(:sprint) do
-        create(:sprint, project:,
-                        start_date: Time.zone.today - 20.days,
-                        finish_date: Time.zone.today + 5.days,
-                        started_at: 20.days.ago,
-                        completed_at: 1.day.ago)
-      end
-
-      it "keeps reference_finish at the sprint completion timestamp rather than current time" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.completed_at))
-      end
-    end
-
-    context "when the sprint was completed after its finish date" do
-      let(:sprint) do
-        create(:sprint, project:,
-                        start_date: Time.zone.today - 20.days,
-                        finish_date: Time.zone.today - 5.days,
-                        started_at: 20.days.ago,
-                        completed_at: 1.day.ago)
-      end
-
-      it "keeps reference_finish at the sprint completion timestamp rather than current time" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.completed_at))
-      end
-    end
-
-    context "when the sprint has not started yet" do
-      let(:sprint) do
-        create(:sprint, project:, start_date: Time.zone.today + 3.days, finish_date: Time.zone.today + 10.days)
-      end
-
-      it "falls back to the beginning of the planned start date for reference_start" do
-        expect(breakdown.reference_start).to eq(Timestamp.new(sprint.start_date.in_time_zone.beginning_of_day))
-      end
-
-      it "falls back to the end of the planned finish date for reference_finish" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.finish_date.in_time_zone.end_of_day))
-      end
+      expect(breakdown.reference_start).to eq Timestamp.new(timeframe.effective_start)
+      expect(breakdown.reference_finish).to eq Timestamp.new(timeframe.effective_finish)
     end
   end
 

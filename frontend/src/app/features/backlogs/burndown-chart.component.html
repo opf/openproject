@@ -1,5 +1,5 @@
 @if (hasChartData()) {
-  <div class="position-relative mx-auto" style="height:60vh">
+  <div class="position-relative mx-auto op-burndown-chart--canvas">
     <canvas baseChart
       [data]="lineChartData()"
       [options]="lineChartOptions()"
@@ -7,16 +7,4 @@
   </div>
 } @else {
   <op-no-results />
-}
-
-@if (isDevMode) {
-  <hr/>
-
-  <details>
-    <summary>Debug</summary>
-    <code>
-      <pre>{{maxValue() }}</pre>
-      <pre>{{lineChartData() | json}}</pre>
-    </code>
-  </details>
 }
