@@ -2,6 +2,7 @@ const root = document.querySelector("[data-offline-page]");
 
 const MIN_RETRYING_MS = 600;
 const RELOAD_DELAY_MS = 1000;
+const PROBE_TIMEOUT_MS = 10000;
 const BACKOFF_MS = [5000, 10000, 20000, 40000, 60000];
 
 const part = (name) => root.querySelector(`[data-offline-target="${name}"]`);
@@ -41,7 +42,7 @@ async function retry() {
   render("retrying", { text: "retryingLabel", status: "statusChecking" });
 
   const [reachable] = await Promise.all([
-    fetch(root.dataset.probeUrl, { method: "HEAD", cache: "no-store" }).then((response) => response.ok, () => false),
+    fetch(root.dataset.probeUrl, { method: "HEAD", cache: "no-store", signal: AbortSignal.timeout(PROBE_TIMEOUT_MS) }).then((response) => response.ok, () => false),
     pause(MIN_RETRYING_MS),
   ]);
 
