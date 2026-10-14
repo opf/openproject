@@ -29,21 +29,35 @@
 #++
 
 module Settings
+  # The settings shown in the settings search, structured like the admin menu.
+  #
+  # With a query, only nodes whose words, together with those of their
+  # ancestors, contain every word of the query are kept, including everything
+  # below them. Words are compared case insensitively and regardless of
+  # punctuation, so "self registration" finds "Self-registration".
   class SearchTree
     Node = Data.define(:key, :label, :description, :href, :children)
 
+    def self.words(text)
+      text.to_s.downcase.split(/[^\p{L}\p{N}]+/).compact_blank
+    end
+
     def initialize(view_context,
+                   query: nil,
                    pages: Settings::Pages.all,
                    menu: Settings::Pages.admin_menu,
                    hidden_menu_items: OpenProject::Configuration.hidden_menu_items["admin_menu"] || [])
       @view_context = view_context
+      @query_words = self.class.words(query)
       @pages_by_menu_item = pages.group_by(&:menu_item)
       @menu = menu
       @hidden_menu_items = hidden_menu_items.map(&:to_s)
     end
 
+    attr_reader :query_words
+
     def nodes
-      @nodes ||= build(@menu)
+      @nodes ||= filter(build(@menu), [])
     end
 
     private
@@ -85,6 +99,22 @@ module Settings
                  href: view_context.url_for(page.url(@menu).merge(highlight: entry.name)),
                  children: [])
       end
+    end
+
+    def filter(nodes, ancestor_words)
+      return nodes if query_words.empty?
+
+      nodes.filter_map do |node|
+        path_words = [*ancestor_words, *self.class.words(node.label)]
+        next node if matches?([*path_words, *self.class.words(node.description)])
+
+        children = filter(node.children, path_words)
+        node.with(children:) if children.any?
+      end
+    end
+
+    def matches?(words)
+      query_words.all? { |query_word| words.any? { it.include?(query_word) } }
     end
 
     def plain_text(html)
