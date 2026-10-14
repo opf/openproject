@@ -32,16 +32,20 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
   def change
     create_assistants
     create_skills
-    create_runs
-    create_findings
+    create_chats
+    create_messages
+    create_proposals
   end
 
   private
 
   def create_assistants
     create_table :ai_assistants do |t|
-      t.string :name, null: false, index: { unique: true }
+      # None for a global assistant, else the user or group that owns it.
+      t.references :principal, foreign_key: { to_table: :users, on_delete: :cascade }, index: false
+      t.string :name, null: false
       t.text :description
+      t.text :instructions
       t.string :icon
       # Not a foreign key: syncing the models of an LLM connection replaces the llm_models rows.
       t.string :model_id
@@ -49,6 +53,9 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       t.boolean :active, null: false, default: true
 
       t.timestamps
+
+      t.index :name, unique: true, where: "principal_id IS NULL", name: "index_ai_assistants_on_global_name"
+      t.index %i[principal_id name], unique: true, where: "principal_id IS NOT NULL"
     end
   end
 
@@ -59,39 +66,26 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
       # Shown in the menu; empty uses the text of the skill type.
       t.string :label
       t.text :description
-      # The prompt is data, not code: the instructions and the output rules. Templates for
-      # them come from a registry outside OpenProject; template_ref names the one a
-      # skill was created from.
       t.text :prompt
-      t.text :output_rules
-      t.string :template_ref
       # changes, comment_only or read_only: what the skill may propose.
       t.string :proposal_scope, null: false, default: "changes"
+      t.jsonb :conditions, null: false, default: {}
+      t.jsonb :settings, null: false, default: {}
       t.integer :position
       t.boolean :active, null: false, default: true
 
       t.timestamps
 
-      # Not unique: one assistant can have several variants of a skill type, each with
-      # its own label, prompt and attributes.
+      # Not unique: one assistant can have several variants of a skill type.
       t.index %i[assistant_id skill_key]
     end
   end
 
-  def create_runs
-    create_table :ai_assistant_runs do |t|
+  def create_chats
+    create_table :ai_assistant_chats do |t|
       t.references :skill, null: false, foreign_key: { to_table: :ai_assistant_skills, on_delete: :cascade }
       t.references :user, null: false, foreign_key: { on_delete: :cascade }, index: false
       t.references :work_package, null: false, foreign_key: { on_delete: :cascade }
-      t.integer :work_package_lock_version, null: false
-      # Why the run started: "menu" now; "automation" and "schedule" once Automations can run skills.
-      t.string :trigger, null: false, default: "menu"
-      t.references :automation, foreign_key: { on_delete: :nullify }, index: false
-      t.string :status, null: false, default: "running"
-      t.string :locale, null: false
-      t.jsonb :not_checked, null: false, default: []
-      # What happened during the run, shown in the run dialog: [{at, kind, data}].
-      t.jsonb :events, null: false, default: []
 
       t.timestamps
 
@@ -99,14 +93,31 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
     end
   end
 
-  def create_findings
-    create_table :ai_assistant_run_findings do |t|
-      t.references :run, null: false, foreign_key: { to_table: :ai_assistant_runs, on_delete: :cascade }, index: false
-      t.string :source, null: false
-      t.string :rule_key
-      t.string :severity, null: false
-      t.string :area, null: false
-      t.text :text, null: false
+  def create_messages
+    create_table :ai_assistant_chat_messages do |t|
+      t.references :chat, null: false, foreign_key: { to_table: :ai_assistant_chats, on_delete: :cascade }, index: false
+      t.string :role, null: false
+      t.text :content, null: false, default: ""
+      # pending while the reply job runs; done or failed after it.
+      t.string :status, null: false, default: "done"
+      t.string :locale
+      t.integer :base_lock_version
+      t.jsonb :events, null: false, default: []
+
+      t.timestamps
+
+      t.index %i[chat_id id]
+    end
+  end
+
+  def create_proposals
+    create_table :ai_assistant_proposals do |t|
+      t.references :message, null: false, index: false,
+                             foreign_key: { to_table: :ai_assistant_chat_messages, on_delete: :cascade }
+      t.integer :position, null: false, default: 0
+      t.string :severity
+      t.string :area
+      t.text :text
       t.jsonb :evidence, null: false, default: []
       t.jsonb :change_set
       t.integer :base_lock_version
@@ -115,7 +126,7 @@ class CreateAIAssistants < ActiveRecord::Migration[8.1]
 
       t.timestamps
 
-      t.index %i[run_id id]
+      t.index %i[message_id position]
     end
   end
 end
