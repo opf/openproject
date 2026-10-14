@@ -155,7 +155,6 @@ import {
   StorageLoginButtonComponent,
 } from 'core-app/shared/components/storages/storage-login-button/storage-login-button.component';
 import { OpCustomModalOverlayComponent } from 'core-app/shared/components/modal/custom-modal-overlay.component';
-import { TimerAccountMenuComponent } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 import {
   RemoteFieldUpdaterComponent,
 } from 'core-app/shared/components/remote-field-updater/remote-field-updater.component';
@@ -394,7 +393,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-work-packages-view', WorkPackageViewPageEntryComponent, { injector });
     registerCustomElement('opce-wp-full-create', WorkPackageFullCreateEntryComponent, { injector });
     registerCustomElement('opce-wp-full-copy', WorkPackageFullCopyEntryComponent, { injector });
-    registerCustomElement('opce-timer-account-menu', TimerAccountMenuComponent, { injector });
     registerCustomElement('opce-remote-field-updater', RemoteFieldUpdaterComponent, { injector });
     registerCustomElement('opce-wp-date-picker-instance', OpWpDatePickerInstanceComponent, { injector });
     registerCustomElement('opce-spot-drop-modal-portal', SpotDropModalPortalComponent, { injector });
