@@ -81,14 +81,6 @@ namespace :copyright do
       **/node_modules/**/*
       tmp/**/*
       modules/gitlab_integration/**/*
-    ] + build_output_globs
-  end
-
-  # Generated output. Writing a header into a built bundle changes it out from under the
-  # digest that references it, so these have to be skipped even though they are gitignored
-  # and therefore invisible to `git status`.
-  def build_output_globs
-    %w[
       app/assets/javascripts/editor/**/*
       app/assets/javascripts/locales/**/*
       frontend/dist/**/*
