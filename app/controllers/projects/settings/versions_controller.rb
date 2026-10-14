@@ -33,7 +33,9 @@ class Projects::Settings::VersionsController < Projects::SettingsController
 
   def show
     @query = build_query
-    @versions = @query.results.merge(@project.shared_versions)
+    @versions = @query.results
+                      .merge(@project.shared_versions)
+                      .ordered_by_status_and_date
 
     render layout: !turbo_frame_request?
   end

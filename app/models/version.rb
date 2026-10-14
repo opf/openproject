@@ -83,6 +83,22 @@ class Version < ApplicationRecord
     where(status: "open")
   end
 
+  # Orders versions by status (open -> locked -> closed) and then by effective_date DESC.
+  # Within each status group: latest effective_date first, NULL dates last.
+  scope :ordered_by_status_and_date, -> {
+    order(
+      Arel.sql(<<~SQL.squish)
+        CASE status
+          WHEN 'open' THEN 0
+          WHEN 'locked' THEN 1
+          WHEN 'closed' THEN 2
+          ELSE 3
+        END,
+        effective_date DESC NULLS LAST
+      SQL
+    )
+  }
+
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)
     systemwide? ||
