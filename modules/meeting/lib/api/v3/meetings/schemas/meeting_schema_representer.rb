@@ -64,6 +64,11 @@ module API
                                                   Meeting.states.keys
                                                 }
 
+          schema_with_allowed_string_collection :agenda_sorting_mode,
+                                                type: "String",
+                                                has_default: true,
+                                                values_callback: -> { Meeting.agenda_sorting_modes.keys }
+
           schema_with_allowed_string_collection :sharing,
                                                 type: "String",
                                                 required: false,

@@ -67,6 +67,16 @@
                             classes: "hide-when-print",
                             test_selector: "op-meetings-header-action-trigger" }
       ) do |menu|
+        if @meeting.editable?
+          menu.with_item(
+            label: t("meeting.agenda_sorting.title"),
+            href: agenda_sorting_dialog_project_meeting_path(@project, @meeting),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :"sort-desc")
+          end
+        end
+
         if @meeting.editable? && !@series
           menu.with_item(
             label: edit_label,

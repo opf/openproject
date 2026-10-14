@@ -19,6 +19,7 @@ Recurring meetings are helpful to schedule and organize meetings that happen reg
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Create and edit recurring meetings](#create-and-edit-recurring-meetings) | How to create and edit recurring meetings in OpenProject.    |
 | [Edit recurring meetings template](#edit-recurring-meetings-template) | How to edit a template for recurring meeting series.         |
+| [Sorting mode and voting](#sorting-mode-and-voting)          | How sorting modes and votes work across meeting occurrences. |
 | [Edit recurring meeting series](#edit-recurring-meeting-series) | How to edit  recurring meeting series in OpenProject.        |
 | [Edit a recurring meeting occurrence](#edit-a-recurring-meeting-occurrence) | How to edit a single meeting within recurring meeting series. |
 | [Meeting backlogs for recurring meetings](#meeting-backlogs-for-recurring-meetings) | How to edit backlogs for recurring meetings in OpenProject.  |
@@ -106,6 +107,16 @@ You can always adjust the template at a later date by selecting the meeting seri
 
 ![Edit template button for recurring meetings in OpenProject](openproject_userguide_meetings_recurring_meeting_edit_template_button.png)
 
+### Sorting mode and voting
+
+Set the template's **Sorting mode** to **Manual** or **Vote-based** using **Change sorting mode** in the sidebar or **Sorting mode** in the template's **More** (three dots) menu. This requires the **Edit meetings** permission in the project.
+
+When a planned occurrence is opened and its agenda is created from the template, it inherits the template's sorting mode. In vote-based mode, each agenda item starts at **Votes: 0**. Participants vote in the individual occurrence, not in the template; votes are independent for each occurrence.
+
+Changing the template's sorting mode affects future occurrences created from it, not meetings that have already been opened. You can also change the mode for an individual occurrence without changing the template or other occurrences.
+
+See [Sort agenda items and vote](../one-time-meetings/#sort-agenda-items-and-vote) for voting controls, sorting rules and permissions. The series backlog remains manually sorted and does not support voting.
+
 ## Edit recurring meetings
 
 ### Edit recurring meeting series
@@ -164,6 +175,8 @@ Clicking this option will display a confirmation dialog. From there, choose wher
 
 Confirming will move the agenda item and outcomes (if any exist) into the next immediate meeting occurrence. 
 
+Votes are not carried over to the next meeting. The moved item starts without votes and follows the destination meeting's sorting mode.
+
 ### Duplicate an agenda item to next meeting
 
 If you don’t want to move an agenda item to the next meeting (and remove it from the current one), but instead keep it in the current meeting protocol and still discuss it again next time, you can duplicate it to the next occurrence.
@@ -179,6 +192,8 @@ Clicking this option will display a confirmation dialog. You will then need to s
 ![A confirmation dialogue for duplicating an agenda item into the the next meeting occurrence in OpenProject](openproject_userguide_meetings_recurring_duplicate_agenda_item_confirmation_dialog.png)
 
 Confirming will create a copy of the agenda item in the next immediate meeting occurrence. The original agenda item will remain in the current meeting, keeping the protocol intact.
+
+The copied item starts without votes and follows the destination meeting's sorting mode. Votes on the original item remain unchanged.
 
 > [!NOTE]
 > Meeting outcomes will not be duplicated if a meeting agenda item is duplicated. The outcomes will only be copied if a meeting agenda item is moved.

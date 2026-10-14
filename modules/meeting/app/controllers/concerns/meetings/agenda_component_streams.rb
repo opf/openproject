@@ -36,10 +36,7 @@ module Meetings
       helper_method :sorted_agenda_item_ids
 
       def sorted_agenda_item_ids(meeting = @meeting)
-        meeting.sections
-               .includes(:agenda_items)
-               .order(:position)
-               .flat_map { |section| section.agenda_items.order(:position).pluck(:id) }
+        meeting.ordered_agenda_items.map(&:id)
       end
 
       def replace_presentation_show_via_turbo_stream(current_id:)
@@ -144,7 +141,7 @@ module Meetings
       end
 
       def update_show_items_of_section_via_turbo_stream(current_occurrence:, meeting_section: @meeting_section)
-        agenda_items = meeting_section.agenda_items.with_includes_to_render
+        agenda_items = meeting_section.ordered_agenda_items.with_includes_to_render
         first_and_last = [agenda_items.first, agenda_items.last]
 
         agenda_items.each do |meeting_agenda_item|
@@ -333,6 +330,11 @@ module Meetings
       end
 
       def add_item_via_turbo_stream(current_occurrence:, meeting_agenda_item: @meeting_agenda_item, clear_slate: false) # rubocop:disable Metrics/AbcSize
+        if meeting_agenda_item.vote_based_ordering?
+          update_list_via_turbo_stream
+          return
+        end
+
         if clear_slate
           update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
         elsif meeting_agenda_item.meeting.agenda_items.one? && meeting_agenda_item.meeting.sections.present?

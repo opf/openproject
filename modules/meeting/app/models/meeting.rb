@@ -157,6 +157,11 @@ class Meeting < ApplicationRecord
     system: "system"
   }, prefix: :sharing, validate: { allow_nil: true }
 
+  enum :agenda_sorting_mode, {
+    manual: "manual",
+    vote_based: "vote_based"
+  }, prefix: :agenda_sorting, validate: true
+
   # Debounce meeting emails by one minute
   # this is currently hard coded
   def self.journal_aggregation_time_minutes
@@ -201,6 +206,17 @@ class Meeting < ApplicationRecord
     parts << lock_version
 
     OpenProject::Cache::CacheKey.expand(parts)
+  end
+
+  def ordered_agenda_items
+    items = agenda_items.joins(:meeting_section).where(meeting_sections: { backlog: false })
+    items = items.with_vote_score if agenda_sorting_vote_based?
+
+    ordering = ["meeting_sections.position ASC"]
+    ordering << "vote_score DESC" if agenda_sorting_vote_based?
+    ordering.push("meeting_agenda_items.position ASC", "meeting_agenda_items.id ASC")
+
+    items.reorder(Arel.sql(ordering.join(", ")))
   end
 
   def start_month
@@ -352,7 +368,9 @@ class Meeting < ApplicationRecord
   def changed_hash_aggregates
     tables = [MeetingAgendaItem, MeetingSection, MeetingOutcome].map(&:arel_table)
 
-    tables.map { it[:updated_at].maximum } + tables.map { it[:id].count(true) }
+    tables.map { it[:updated_at].maximum } +
+      tables.map { it[:id].count(true) } +
+      [MeetingAgendaItem.arel_table[:reactions_changed_at].maximum]
   end
 
   def add_new_participants_as_watcher
