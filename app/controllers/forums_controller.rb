@@ -36,7 +36,7 @@ class ForumsController < ApplicationController
 
   before_action :authorize
 
-  accept_key_auth :show
+  accept_rss_key_auth :show
 
   include SortHelper
   include PaginationHelper
