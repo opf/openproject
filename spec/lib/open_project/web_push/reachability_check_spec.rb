@@ -47,6 +47,8 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
     expect(OpenProject::SsrfProtection).to have_received(:head).with("https://fcm.googleapis.com/", any_args)
     expect(OpenProject::SsrfProtection).to have_received(:head).with("https://wns2-par02p.notify.windows.com/", any_args)
     expect(OpenProject::SsrfProtection).not_to have_received(:head).with("https://notify.windows.com/", any_args)
+    expect(OpenProject::SsrfProtection).to have_received(:head).with("https://web.push.apple.com/", any_args)
+    expect(OpenProject::SsrfProtection).not_to have_received(:head).with("https://push.apple.com/", any_args)
   end
 
   it "reports an HTTP response as reachable with its status code and no reason" do
@@ -104,7 +106,7 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reachable?] })
         .to eq("fcm.googleapis.com" => true,
                "updates.push.services.mozilla.com" => true,
-               "web.push.apple.com" => false,
+               "push.apple.com" => false,
                "notify.windows.com" => true)
     end
   end
@@ -145,7 +147,7 @@ RSpec.describe OpenProject::WebPush::ReachabilityCheck do
       expect(results.to_h { [it.host, it.reason] })
         .to eq("fcm.googleapis.com" => :unresolved,
                "updates.push.services.mozilla.com" => :unresolved,
-               "web.push.apple.com" => :unresolved,
+               "push.apple.com" => :sample_unresolved,
                "notify.windows.com" => :sample_unresolved)
     end
   end

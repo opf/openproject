@@ -638,7 +638,7 @@ module Settings
                      "Every host must be reachable over HTTPS from the instance.",
         format: :array,
         writable: false,
-        default: %w[fcm.googleapis.com updates.push.services.mozilla.com web.push.apple.com notify.windows.com]
+        default: %w[fcm.googleapis.com updates.push.services.mozilla.com push.apple.com notify.windows.com]
       },
       web_push_vapid_private_key: {
         description: "VAPID private key for browser push: the plaintext base64 DER (PKCS#8) encoding of a " \

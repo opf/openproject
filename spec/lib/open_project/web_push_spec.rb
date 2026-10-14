@@ -38,6 +38,7 @@ RSpec.describe OpenProject::WebPush do
   describe ".push_service_host?" do
     {
       "fcm.googleapis.com" => true,
+      "push.apple.com" => true,
       "web.push.apple.com" => true,
       "WEB.PUSH.APPLE.COM" => true,
       "x.notify.windows.com" => true,

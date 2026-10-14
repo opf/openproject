@@ -112,7 +112,7 @@ RSpec.describe "Push Notifications Settings",
       [
         OpenProject::WebPush::ReachabilityCheck::Result.new(host: "fcm.googleapis.com", reachable: true,
                                                             reason: nil, code: "404"),
-        OpenProject::WebPush::ReachabilityCheck::Result.new(host: "web.push.apple.com", reachable: false,
+        OpenProject::WebPush::ReachabilityCheck::Result.new(host: "push.apple.com", reachable: false,
                                                             reason: :unresolved, code: nil)
       ]
     end

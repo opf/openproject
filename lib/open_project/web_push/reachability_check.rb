@@ -30,7 +30,10 @@
 
 module OpenProject::WebPush
   class ReachabilityCheck
-    SAMPLE_HOSTS = { "notify.windows.com" => "wns2-par02p.notify.windows.com" }.freeze
+    SAMPLE_HOSTS = {
+      "push.apple.com" => "web.push.apple.com",
+      "notify.windows.com" => "wns2-par02p.notify.windows.com"
+    }.freeze
     TIMEOUT = 3
 
     Result = Data.define(:host, :reachable, :reason, :code) do
