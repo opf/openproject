@@ -363,6 +363,8 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/openapi.json":
+    "$ref": "./paths/openapi.yml"
   "/api/v3/placeholder_users":
     "$ref": "./paths/placeholder_users.yml"
   "/api/v3/placeholder_users/{id}":
