@@ -42,6 +42,7 @@ module Redmine
         # * :date_column - name of the datetime column (default to created_at)
         # * :order_column - name of the column used to sort results (default to :date_column or created_at)
         # * :permission - permission required to search the model (default to :view_"objects")
+        # * :rank_by_similarity - whether to rank results by similarity score (default false, uses date ordering)
         def acts_as_searchable(options = {})
           return if included_modules.include?(Redmine::Acts::Searchable::InstanceMethods)
 
@@ -82,6 +83,11 @@ module Redmine
         module AddClassMethods
           # Searches the model for the given tokens
           # projects argument can be either nil (will search all projects), a project or an array of projects
+          # Options:
+          #   :limit - maximum number of results
+          #   :offset - pagination offset (datetime)
+          #   :before - whether to search before or after offset
+          #   :rank_by_similarity - override default to rank by similarity score
           # Returns the results and the results count
           def search(tokens, projects = nil, options = {})
             tokens = Array(tokens)
@@ -96,7 +102,7 @@ module Redmine
                 "#{searchable_options[:project_key]} IN (#{projects.flatten.map(&:id).join(',')})"
             end
 
-            fetch_results(find_conditions, project_conditions, options)
+            fetch_results(find_conditions, project_conditions, tokens, options)
           end
 
           private
@@ -125,7 +131,9 @@ module Redmine
           def searchable_column_conditions
             searchable_options[:columns].map do |column|
               name, scope = column.is_a?(Hash) ? column.values_at(:name, :scope) : column
-              match_condition = "(#{Arel.sql(name)} ILIKE ?)"
+              # Use word_similarity (%>) for fuzzy matching (matches query against words in text),
+              # with ILIKE fallback for exact substring matches
+              match_condition = "((#{Arel.sql(name)} %> :token) OR (#{Arel.sql(name)} ILIKE :token_like))"
 
               if scope
                 subquery_condition(scope, match_condition)
@@ -147,11 +155,19 @@ module Redmine
 
           def substitute_named_tokens(tokens, conditions)
             sql = Array.new(tokens.size) do |index|
-              "(#{conditions.join(' OR ').gsub('?', ":token_#{index}")})"
+              condition_sql = conditions.join(" OR ")
+              # Replace placeholders with indexed named parameters
+              # Use word boundary to avoid partial matches (e.g., :token matching inside :token_like)
+              condition_sql = condition_sql.gsub(/\:token_like\b/, ":token_like_#{index}")
+              condition_sql = condition_sql.gsub(/\:token\b/, ":token_#{index}")
+              "(#{condition_sql})"
             end.join(" AND ")
 
             named_tokens = tokens.each_with_object({}).with_index do |(token, acc), index|
-              acc[:"token_#{index}"] = "%#{sanitize_sql_like(token.downcase)}%"
+              # Token for trigram similarity (raw, lowercased)
+              acc[:"token_#{index}"] = token.downcase
+              # Token for ILIKE fallback (with wildcards)
+              acc[:"token_like_#{index}"] = "%#{sanitize_sql_like(token.downcase)}%"
             end
 
             [sql, named_tokens]
@@ -196,7 +212,8 @@ module Redmine
               SQL
               .where(customized_type: name, custom_field_id: custom_field_ids)
               .where("customized_id=#{table_name}.id")
-              .where("(custom_values.value ILIKE ?) OR (custom_options.value ILIKE ?)")
+              .where("(custom_values.value %> :token OR custom_values.value ILIKE :token_like) " \
+                     "OR (custom_options.value %> :token OR custom_options.value ILIKE :token_like)")
           end
 
           def add_project_custom_field_enabled_condition(scope)
@@ -222,28 +239,68 @@ module Redmine
             "#{searchable_options[:order_column]} #{desc ? 'DESC' : 'ASC'}"
           end
 
-          def fetch_results(find_conditions, project_conditions, options) # rubocop:disable Metrics/AbcSize
+          def rank_by_similarity?(options)
+            if options.key?(:rank_by_similarity)
+              options[:rank_by_similarity]
+            else
+              searchable_options[:rank_by_similarity]
+            end
+          end
+
+          def similarity_score_sql(tokens)
+            # Get searchable columns (excluding scoped columns which are in subqueries)
+            columns = searchable_options[:columns].filter_map do |column|
+              column.is_a?(Hash) ? nil : column
+            end
+
+            return nil if columns.empty?
+
+            # Calculate maximum word_similarity across all searchable columns and tokens
+            # word_similarity compares query against individual words in the text,
+            # which works better for multi-word fields like "Project Management"
+            similarity_expressions = tokens.flat_map do |token|
+              escaped_token = connection.quote(token.downcase)
+              # Note: word_similarity(query, text) - query comes first
+              columns.map { |col| "COALESCE(word_similarity(#{escaped_token}, LOWER(#{col})), 0)" }
+            end
+
+            "GREATEST(#{similarity_expressions.join(', ')})"
+          end
+
+          def fetch_results(find_conditions, project_conditions, tokens, options) # rubocop:disable Metrics/AbcSize
             results = []
             results_count = 0
 
-            where(project_conditions.join(" AND ")).scoping do
-              where(find_conditions)
-                .includes(searchable_options[:include])
-                .references(searchable_options[:references])
-                .order(find_order(options[:before]))
-                .scoping do
-                  results_count = count
-                  results       = all
+            use_similarity_ranking = rank_by_similarity?(options)
+            similarity_sql = use_similarity_ranking ? similarity_score_sql(tokens) : nil
 
-                  if options[:offset]
-                    results = results.where(
-                      "(#{searchable_options[:date_column]} " +
-                      (options[:before] ? "<" : ">") +
-                      "'#{connection.quoted_date(options[:offset])}')"
-                    )
-                  end
-                  results = results.limit(options[:limit]) if options[:limit]
+            where(project_conditions.join(" AND ")).scoping do
+              base_scope = where(find_conditions)
+                             .includes(searchable_options[:include])
+                             .references(searchable_options[:references])
+
+              # Add similarity score and order by it if enabled
+              if use_similarity_ranking && similarity_sql
+                base_scope = base_scope
+                               .select("#{table_name}.*, #{similarity_sql} AS search_similarity_score")
+                               .order(Arel.sql("#{similarity_sql} DESC"))
+              else
+                base_scope = base_scope.order(find_order(options[:before]))
+              end
+
+              base_scope.scoping do
+                results_count = count
+                results       = all
+
+                if options[:offset] && !use_similarity_ranking
+                  results = results.where(
+                    "(#{searchable_options[:date_column]} " +
+                    (options[:before] ? "<" : ">") +
+                    "'#{connection.quoted_date(options[:offset])}')"
+                  )
                 end
+                results = results.limit(options[:limit]) if options[:limit]
+              end
             end
 
             [results, results_count]
