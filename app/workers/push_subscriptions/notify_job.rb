@@ -83,7 +83,8 @@ class PushSubscriptions::NotifyJob < ApplicationJob
     if attempt >= MAX_ATTEMPTS
       Rails.logger.warn("Giving up on push wake-up for user #{user_id} after repeated transient failures")
     else
-      self.class.set(wait: ((attempt**4) + 2).seconds).perform_later(user_id, subscription_ids, attempt + 1)
+      wait = determine_delay(seconds_or_duration_or_algorithm: :polynomially_longer, executions: attempt)
+      self.class.set(wait: wait.seconds).perform_later(user_id, subscription_ids, attempt + 1)
     end
   end
 

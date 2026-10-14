@@ -246,6 +246,15 @@ RSpec.describe PushSubscriptions::NotifyJob, with_flag: { progressive_web_app: t
           expect(healthy.reload.updated_at).to be_within(1.minute).of(Time.current)
           expect(PushSubscription.where(user_id: user.id).count).to eq(2)
         end
+
+        it "schedules the retry with the polynomial backoff and jitter" do
+          freeze_time do
+            perform
+
+            scheduled_at = ActiveJob::Base.queue_adapter.enqueued_jobs.last[:at]
+            expect(scheduled_at).to be_between(3.seconds.from_now.to_f, 3.15.seconds.from_now.to_f)
+          end
+        end
       end
     end
 
