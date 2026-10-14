@@ -1,0 +1,26 @@
+name: Label contributions
+
+# Uses pull_request_target rather than pull_request so that the job has a
+# writable token on pull requests from forks. Nothing from the pull request is
+# checked out or executed.
+on:
+  pull_request_target: # zizmor: ignore[dangerous-triggers] needed for a writable token on fork PRs
+    types:
+      - opened
+      - reopened
+
+permissions: {}
+
+jobs:
+  label-contribution:
+    if: github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write # to add the label
+    steps:
+      - name: Add the contribution label
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr edit "$PR_URL" --add-label contribution
