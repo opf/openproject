@@ -39,6 +39,8 @@ RSpec.describe Settings::SearchTree do
 
   subject(:tree) { described_class.new(vc_test_controller.view_context, query:, hidden_menu_items:) }
 
+  def url_helpers = Rails.application.routes.url_helpers
+
   def leaf_labels(nodes) = nodes.flat_map { it.children.empty? ? [it.label] : leaf_labels(it.children) }
 
   def find_node(nodes, *labels)
@@ -136,6 +138,67 @@ RSpec.describe Settings::SearchTree do
 
       it "is empty" do
         expect(tree.nodes).to be_empty
+      end
+    end
+
+    context "with entities" do
+      shared_let(:bug) { create(:type, name: "Bug", position: 1) }
+      shared_let(:feature) { create(:type, name: "Feature", position: 2) }
+
+      it "lists the attributes of a kind, leading to the first entity" do
+        node = find_node(tree.nodes, "Work packages", "Types", "Color")
+
+        expect(node.href).to eq "#{url_helpers.edit_type_details_path(bug)}?highlight=type%5Bcolor_id%5D"
+      end
+
+      it "does not list the entities themselves" do
+        expect(find_node(tree.nodes, "Work packages", "Types").children.map(&:label)).not_to include("Bug", "Feature")
+      end
+
+      context "with a query matching an entity and an attribute" do
+        let(:query) { "feature color" }
+
+        it "lists the entity with the matching attribute only" do
+          node = find_node(tree.nodes, "Work packages", "Types", "Feature", "Color")
+
+          expect(node.href).to eq "#{url_helpers.edit_type_details_path(feature)}?highlight=type%5Bcolor_id%5D"
+          expect(leaf_labels(tree.nodes)).to eq ["Color"]
+        end
+      end
+
+      context "with a query matching an entity only" do
+        let(:query) { "feature" }
+
+        it "lists all of its attributes" do
+          expect(find_node(tree.nodes, "Work packages", "Types", "Feature").children.map(&:label))
+            .to include("Name", "Color", "Is milestone")
+        end
+      end
+
+      context "with more matching entities than listed" do
+        let(:query) { "type" }
+
+        before { (Settings::EntityKinds::MATCH_LIMIT + 1).times { create(:type, name: "Some type #{it}") } }
+
+        it "lists only a limited number" do
+          types = find_node(tree.nodes, "Work packages", "Types").children.select { it.label.start_with?("Some type") }
+
+          expect(types.size).to eq Settings::EntityKinds::MATCH_LIMIT
+        end
+      end
+    end
+
+    context "with roles" do
+      shared_let(:role) { create(:project_role, name: "Developer") }
+
+      let(:query) { "developer edit work packages" }
+
+      it "groups the permissions of a role" do
+        node = find_node(tree.nodes, "Users and permissions", "Roles and permissions", "Developer", "Permissions",
+                         "Edit work packages")
+
+        expect(node.href)
+          .to eq "#{url_helpers.edit_role_path(role)}?highlight=role%5Bpermissions%5D%5B%5D%3Dedit_work_packages"
       end
     end
 
