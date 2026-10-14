@@ -30,7 +30,8 @@
 
 module PushSubscriptions
   class BaseContract < ::ModelContract
-    MAX_ENDPOINT_LENGTH = 4096
+    # Keeps every endpoint below the PostgreSQL btree entry limit the unique index on it has to respect.
+    MAX_ENDPOINT_LENGTH = 2048
 
     attribute :user_id
     attribute :session_id

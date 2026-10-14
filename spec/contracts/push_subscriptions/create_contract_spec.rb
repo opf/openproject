@@ -54,13 +54,19 @@ RSpec.describe PushSubscriptions::CreateContract do
     end
   end
 
+  context "with an endpoint of exactly the maximum length" do
+    let(:endpoint) { "https://fcm.googleapis.com/".ljust(described_class::MAX_ENDPOINT_LENGTH, "a") }
+
+    it_behaves_like "contract is valid"
+  end
+
   [
     "http://fcm.googleapis.com/x",
     "https://fcm.googleapis.com:8443/x",
     "https://user@fcm.googleapis.com/x",
     "https://fcm.googleapis.com.evil.example/x",
     "https://evil.example/?x=fcm.googleapis.com",
-    "https://fcm.googleapis.com/#{'a' * 4096}",
+    "https://fcm.googleapis.com/#{'a' * described_class::MAX_ENDPOINT_LENGTH}",
     "https://.push.apple.com/x",
     "https://.notify.windows.com/x",
     "not a url",
