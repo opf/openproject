@@ -237,5 +237,43 @@ RSpec.describe Projects::SprintSettings do
         expect(project.reload.estimation_unit).to eq("story_points")
       end
     end
+
+    describe "predicate methods" do
+      context "with feature flag enabled", with_flag: :project_settings_estimation_unit do
+        it "#estimation_unit_none? returns true if none is selected" do
+          project.estimation_unit = "none"
+          expect(project).to be_estimation_unit_none
+        end
+
+        it "#estimation_unit_time? returns true if time is selected" do
+          project.estimation_unit = "time"
+          expect(project).to be_estimation_unit_time
+        end
+
+        it "#estimation_unit_story_points? returns true if story_points is selected" do
+          project.estimation_unit = "story_points"
+          expect(project).to be_estimation_unit_story_points
+        end
+      end
+
+      context "without feature flag enabled" do
+        it "#estimation_unit_none? returns false if none is selected" do
+          project.estimation_unit = "none"
+          expect(project).not_to be_estimation_unit_none
+          expect(project).to be_estimation_unit_story_points
+        end
+
+        it "#estimation_unit_time? returns false if time is selected" do
+          project.estimation_unit = "time"
+          expect(project).not_to be_estimation_unit_time
+          expect(project).to be_estimation_unit_story_points
+        end
+
+        it "#estimation_unit_story_points? returns true if story_points is selected" do
+          project.estimation_unit = "story_points"
+          expect(project).to be_estimation_unit_story_points
+        end
+      end
+    end
   end
 end

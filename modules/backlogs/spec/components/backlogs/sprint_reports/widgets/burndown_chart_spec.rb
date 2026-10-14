@@ -73,4 +73,12 @@ RSpec.describe Backlogs::SprintReports::Widgets::BurndownChart, type: :component
       expect(rendered_component).to have_text("No burndown data available")
     end
   end
+
+  context "when the project has no estimation unit set", with_flag: { project_settings_estimation_unit: true } do
+    before { project.estimation_unit = "none" }
+
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
+    end
+  end
 end

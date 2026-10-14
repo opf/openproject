@@ -47,21 +47,96 @@ module Backlogs
         def show_widget_content? = sprint.date_range_set?
 
         def resolved_percentage
-          return 0 if total_work_packages_count.zero?
+          return 0 if progress_denominator.zero?
 
-          (resolved_work_packages_count.to_f / total_work_packages_count * 100).round
+          (progress_numerator.to_f / progress_denominator * 100).round
+        end
+
+        def show_secondary_metric?
+          !project.estimation_unit_none?
+        end
+
+        def secondary_metric_text(block)
+          if project.estimation_unit_time?
+            DurationConverter.output(block.estimated_hours)
+          else
+            t("backlogs.story_points", count: block.story_points)
+          end
+        end
+
+        def secondary_metric_change_text
+          if project.estimation_unit_time?
+            hours_change_text
+          else
+            story_points_change_text
+          end
         end
 
         private
 
-        def resolved_summary_text
+        def hours_change_text
           t(
-            ".resolved_summary",
-            percentage: resolved_percentage,
-            resolved: resolved_work_packages_count,
-            total: total_work_packages_count,
-            count: total_work_packages_count
+            ".blocks.changed_after_start.change_html",
+            added: DurationConverter.output(breakdown.changed_after_start.added_estimated_hours),
+            removed: DurationConverter.output(breakdown.changed_after_start.removed_estimated_hours),
+            divider: divider_text
           )
+        end
+
+        def story_points_change_text
+          t(
+            ".blocks.changed_after_start.story_points_change",
+            added: breakdown.changed_after_start.added_story_points,
+            removed: breakdown.changed_after_start.removed_story_points
+          )
+        end
+
+        def progress_numerator
+          metric_value(breakdown.completed)
+        end
+
+        def progress_denominator
+          metric_value(breakdown.completed) + metric_value(breakdown.unfinished)
+        end
+
+        def metric_value(block)
+          case active_metric
+          when :time
+            block.estimated_hours
+          when :story_points
+            block.story_points
+          else
+            block.work_package_count
+          end
+        end
+
+        def resolved_summary_text
+          if active_metric == :time
+            t(
+              ".resolved_summary.time",
+              percentage: resolved_percentage,
+              resolved: DurationConverter.output(progress_numerator),
+              total: DurationConverter.output(progress_denominator)
+            )
+          else
+            t(
+              ".resolved_summary.#{active_metric}",
+              percentage: resolved_percentage,
+              resolved: progress_numerator,
+              total: progress_denominator,
+              count: progress_denominator
+            )
+          end
+        end
+
+        def active_metric
+          if project.estimation_unit_time?
+            :time
+          elsif project.estimation_unit_story_points?
+            :story_points
+          else
+            :work_packages
+          end
         end
 
         def resolved_work_packages_count
@@ -73,7 +148,16 @@ module Backlogs
         end
 
         def breakdown
-          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:)
+          @breakdown ||= SprintWorkPackageBreakdown.new(sprint:, project:, metric: breakdown_metric)
+        end
+
+        def breakdown_metric
+          case active_metric
+          when :time
+            :estimated_hours
+          when :story_points
+            :story_points
+          end
         end
 
         def divider_text

@@ -72,7 +72,9 @@ See COPYRIGHT and LICENSE files for more details.
             )
           ) do |block|
             block.with_count { breakdown.initially_planned.work_package_count.to_s }
-            block.with_story_points { t("backlogs.story_points", count: breakdown.initially_planned.story_points) }
+            if show_secondary_metric?
+              block.with_secondary_metric { secondary_metric_text(breakdown.initially_planned) }
+            end
           end
         %>
 
@@ -85,15 +87,12 @@ See COPYRIGHT and LICENSE files for more details.
           ) do |block|
             block.with_count do
               t(
-                ".blocks.changed_after_start.count_change_html",
+                ".blocks.changed_after_start.change_html",
                 added: breakdown.changed_after_start.added_count, removed: breakdown.changed_after_start.removed_count, divider: divider_text
               )
             end
-            block.with_story_points do
-              t(
-                ".blocks.changed_after_start.story_points_change",
-                added: breakdown.changed_after_start.added_story_points, removed: breakdown.changed_after_start.removed_story_points
-              )
+            if show_secondary_metric?
+              block.with_secondary_metric { secondary_metric_change_text }
             end
           end
         %>
@@ -110,7 +109,9 @@ See COPYRIGHT and LICENSE files for more details.
             )
           ) do |block|
             block.with_count { breakdown.completed.work_package_count.to_s }
-            block.with_story_points { t("backlogs.story_points", count: breakdown.completed.story_points) }
+            if show_secondary_metric?
+              block.with_secondary_metric { secondary_metric_text(breakdown.completed) }
+            end
           end
         %>
 
@@ -126,7 +127,9 @@ See COPYRIGHT and LICENSE files for more details.
             )
           ) do |block|
             block.with_count { breakdown.unfinished.work_package_count.to_s }
-            block.with_story_points { t("backlogs.story_points", count: breakdown.unfinished.story_points) }
+            if show_secondary_metric?
+              block.with_secondary_metric { secondary_metric_text(breakdown.unfinished) }
+            end
           end
         %>
       <% end %>

@@ -44,25 +44,27 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
   context "when the sprint has started" do
     current_user { build_stubbed(:user) }
 
+    let(:metric) { :story_points }
     let(:breakdown) { instance_double(SprintWorkPackageBreakdown) }
     let(:planned) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13)
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 5, story_points: 13, estimated_hours: 20)
     end
     let(:changed) do
       SprintWorkPackageBreakdown::ChangeBlock.new(added_count: 4, removed_count: 1, added_story_points: 6,
-                                                  removed_story_points: 2)
+                                                  removed_story_points: 2, added_estimated_hours: 10,
+                                                  removed_estimated_hours: 4)
     end
     let(:completed) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8)
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 3, story_points: 8, estimated_hours: 12)
     end
     let(:unfinished) do
-      SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5)
+      SprintWorkPackageBreakdown::Block.new(work_package_count: 2, story_points: 5, estimated_hours: 28)
     end
 
     before do
       mock_permissions_for(current_user) { |mock| mock.allow_in_project(:view_sprints, project:) }
 
-      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:).and_return(breakdown)
+      allow(SprintWorkPackageBreakdown).to receive(:new).with(sprint:, project:, metric:).and_return(breakdown)
       allow(breakdown).to receive_messages(
         initially_planned: planned,
         changed_after_start: changed,
@@ -118,6 +120,67 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
         expect(rendered_component).to have_no_text("View all")
       end
     end
+
+    it "bases the progress bar on the sums of story points" do
+      expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 62%")
+    end
+
+    it "summarizes the progress in story points next to the bar" do
+      expect(rendered_component).to have_text("62% (8 of 13 story points)")
+    end
+
+    context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+      let(:metric) { :estimated_hours }
+
+      before { project.estimation_unit = "time" }
+
+      it "shows estimated time instead of story points for each block" do
+        expect(rendered_component).to have_no_text("story points")
+        expect(rendered_component).to have_text(DurationConverter.output(20))
+        expect(rendered_component).to have_text(DurationConverter.output(12))
+        expect(rendered_component).to have_text(DurationConverter.output(28))
+        expect(rendered_component).to have_text(
+          "+#{DurationConverter.output(10)} / -#{DurationConverter.output(4)}", normalize_ws: true
+        )
+      end
+
+      it "bases the progress bar on the sums of estimated hours" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 30%")
+      end
+
+      it "summarizes the progress using the formatted duration next to the bar" do
+        expect(rendered_component).to have_text(
+          "30% (#{DurationConverter.output(12)} of #{DurationConverter.output(40)})"
+        )
+      end
+
+      context "when the duration format is set to days and hours", with_settings: { duration_format: "days_and_hours" } do
+        it "summarizes the progress in days and hours rather than a plain hour count" do
+          expect(rendered_component).to have_text("30% (1d 4h of 5d 0h)")
+        end
+      end
+    end
+
+    context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+      let(:metric) { nil }
+
+      before { project.estimation_unit = "none" }
+
+      it "shows only the work package counts, without story points or estimated time" do
+        expect(rendered_component).to have_no_text("story points")
+        expect(rendered_component).to have_text("5")
+        expect(rendered_component).to have_text("3")
+        expect(rendered_component).to have_text("2")
+      end
+
+      it "bases the progress bar on the work package counts" do
+        expect(rendered_component.css(".Progress-item").first["style"]).to include("width: 60%")
+      end
+
+      it "summarizes the progress in work packages next to the bar" do
+        expect(rendered_component).to have_text("60% (3 of 5 work packages)")
+      end
+    end
   end
 
   describe "visibility" do
@@ -158,8 +221,8 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
 
       current_user { create(:user, member_with_roles: { project => role }) }
 
-      it "counts the work package in the progress bar" do
-        expect(rendered_component).to have_text("0 of 1 work package")
+      it "counts the work package's story points in the progress bar" do
+        expect(rendered_component).to have_text("0 of 5 story points")
       end
 
       it "counts the work package in the initially planned and unfinished boxes" do
@@ -182,7 +245,7 @@ RSpec.describe Backlogs::SprintReports::Widgets::WorkPackageOverview, type: :com
       current_user { create(:user, member_with_roles: { project => role }) }
 
       it "excludes the work package from the progress bar" do
-        expect(rendered_component).to have_text("0 of 0 work packages")
+        expect(rendered_component).to have_text("0 of 0 story points")
       end
 
       it "excludes the work package from every breakdown box" do

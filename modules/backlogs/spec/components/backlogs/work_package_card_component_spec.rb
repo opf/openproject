@@ -44,7 +44,7 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   subject(:rendered_component) do
-    render_inline(described_class.new(work_package:, menu_src:))
+    render_inline(described_class.new(work_package:, project:, menu_src:))
   end
 
   it "renders the common work package card" do
@@ -57,8 +57,63 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")
   end
 
+  it "never dereferences work_package.project, relying on the caller-supplied project instead" do
+    unloaded_work_package = WorkPackage.find(work_package.id)
+    expect(unloaded_work_package.association(:project).loaded?).to be false
+
+    render_inline(described_class.new(work_package: unloaded_work_package, project:, menu_src:))
+
+    expect(unloaded_work_package.association(:project).loaded?).to be false
+  end
+
+  context "when the project's estimation unit is time", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "time") }
+
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type: type_feature,
+             story_points: 5,
+             estimated_hours: 8,
+             subject: "Backlogs card")
+    end
+
+    it "renders the estimated hours as the card metric instead of story points" do
+      expect(rendered_component).to have_no_css(".sr-only", text: "5 story points")
+      expect(rendered_component).to have_css(".sr-only", text: "Work")
+    end
+
+    context "when estimated_hours is blank" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: nil, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+
+    context "when estimated_hours is zero" do
+      let(:work_package) do
+        create(:work_package, project:, type: type_feature, story_points: 5, estimated_hours: 0, subject: "Backlogs card")
+      end
+
+      it "shows no metric at all" do
+        expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+      end
+    end
+  end
+
+  context "when the project's estimation unit is none", with_flag: { project_settings_estimation_unit: true } do
+    before { project.update!(estimation_unit: "none") }
+
+    it "shows no metric at all" do
+      expect(rendered_component).to have_no_css(".op-work-package-card_with-metric")
+    end
+  end
+
   it "supports caller-provided metric content" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_metric { "Custom metric" }
     end
 
@@ -72,13 +127,15 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
   end
 
   it "forwards extra system arguments to the common card root" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:, data: { controller: "backlogs--work-package" }))
+    rendered = render_inline(
+      described_class.new(work_package:, project:, menu_src:, data: { controller: "backlogs--work-package" })
+    )
 
     expect(rendered).to have_css("article[data-controller='backlogs--work-package']")
   end
 
   it "supports inline menu items through the menu slot" do
-    rendered = render_inline(described_class.new(work_package:, menu_src:)) do |card|
+    rendered = render_inline(described_class.new(work_package:, project:, menu_src:)) do |card|
       card.with_menu(button_aria_label: "Backlogs card actions") do |menu|
         menu.with_item(label: "Open", href: "/work_packages/#{work_package.id}")
       end
