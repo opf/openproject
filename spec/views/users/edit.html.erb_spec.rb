@@ -175,7 +175,7 @@ RSpec.describe "users/edit" do
           render
 
           expect(rendered).to have_no_css("label", text: "Password")
-          expect(rendered).to have_no_css("label", text: "Confirmation")
+          expect(rendered).to have_no_css("label", text: "Password confirmation")
         end
       end
     end

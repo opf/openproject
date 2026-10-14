@@ -48,8 +48,9 @@ RSpec.describe "user self registration", :js do
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
         fill_in "Email", with: "heidi@heidiland.com"
-        fill_in "Password", with: "test123=321test"
-        fill_in "Confirmation", with: "test123=321test"
+        # Addressed by id: the "Password" label is a prefix of "Password confirmation"
+        fill_in "user_password", with: "test123=321test"
+        fill_in "Password confirmation", with: "test123=321test"
 
         click_button "Create"
       end
@@ -73,8 +74,8 @@ RSpec.describe "user self registration", :js do
           fill_in "First name", with: "Heidi"
           fill_in "Last name", with: "Switzerland"
           fill_in "Email", with: "heidi@heidiland.com"
-          fill_in "Password", with: "test123=321test"
-          fill_in "Confirmation", with: "test123=321test"
+          fill_in "user_password", with: "test123=321test"
+          fill_in "Password confirmation", with: "test123=321test"
 
           click_button "Create"
         end
@@ -101,8 +102,8 @@ RSpec.describe "user self registration", :js do
         fill_in "First name", with: "Heidi"
         fill_in "Last name", with: "Switzerland"
         fill_in "Email", with: "heidi@heidiland.com"
-        fill_in "Password", with: "test123=321test"
-        fill_in "Confirmation", with: "something different"
+        fill_in "user_password", with: "test123=321test"
+        fill_in "Password confirmation", with: "something different"
 
         click_button "Create"
       end
@@ -112,10 +113,8 @@ RSpec.describe "user self registration", :js do
 
       # correcting password
       within_test_selector("registration-form") do
-        # Cannot use 'Password' here as the error message on 'Confirmation' is part of the label
-        # and contains the string 'Password' as well
         fill_in "user_password", with: "test123=321test"
-        fill_in "Confirmation", with: "test123=321test"
+        fill_in "Password confirmation", with: "test123=321test"
 
         click_button "Create"
       end
