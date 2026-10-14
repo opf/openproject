@@ -78,8 +78,8 @@ RSpec.describe SprintWorkPackageBreakdown do
         expect(breakdown.reference_start).to eq(Timestamp.new(sprint.started_at))
       end
 
-      it "keeps reference_finish at the scheduled finish date" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(sprint.finish_date.in_time_zone.end_of_day))
+      it "uses current timestamp rather than using finish date in the future" do
+        expect(breakdown.reference_finish).to eq(Timestamp.now)
       end
     end
 
@@ -91,8 +91,12 @@ RSpec.describe SprintWorkPackageBreakdown do
                         started_at: 20.days.ago)
       end
 
-      it "clips reference_finish to the current time rather than the stale planned finish date" do
-        expect(breakdown.reference_finish).to eq(Timestamp.new(Time.zone.now))
+      it "keeps reference_start at the actual start timestamp" do
+        expect(breakdown.reference_start).to eq(Timestamp.new(sprint.started_at))
+      end
+
+      it "uses current timestamp rather than using finish date in the past" do
+        expect(breakdown.reference_finish).to eq(Timestamp.now)
       end
     end
 
